@@ -1,0 +1,12 @@
+diff -ur polarssl-1.1.3/library/ssl_tls.c polarssl-1.1.3.jy/library/ssl_tls.c
+--- polarssl-1.1.3/library/ssl_tls.c	2012-04-20 07:33:14.000000000 -0600
++++ polarssl-1.1.3.jy/library/ssl_tls.c	2012-05-29 09:12:11.687371794 -0600
+@@ -785,7 +785,7 @@
+     /*
+      * Always compute the MAC (RFC4346, CBCTIME).
+      */
+-    if( ssl->in_msglen <= ssl->maclen + padlen )
++    if( ssl->in_msglen < ssl->maclen + padlen )
+     {
+         SSL_DEBUG_MSG( 1, ( "msglen (%d) < maclen (%d) + padlen (%d)",
+                     ssl->in_msglen, ssl->maclen, padlen ) );

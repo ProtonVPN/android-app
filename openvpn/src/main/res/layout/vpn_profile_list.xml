@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/stdpadding"
+        android:paddingRight="@dimen/stdpadding">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:descendantFocusability="afterDescendants" />
+
+        <LinearLayout
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_vpn_profiles_defined"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12sp" />
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:text="@string/openvpn_is_no_free_vpn" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12sp" />
+
+
+            <TextView
+                android:id="@+id/add_new_vpn_hint"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="SelectableText" />
+
+            <TextView
+                android:id="@+id/import_vpn_hint"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="SelectableText" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/faq_hint" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+     <!-- <include layout="@layout/profile_list_fabs" /> -->
+
+</FrameLayout>

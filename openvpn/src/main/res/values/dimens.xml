@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+    <dimen name="paddingItemsSidebarLog">20dp</dimen>
+    <dimen name="stdpadding">8dp</dimen>
+    <bool name="logSildersAlwaysVisible">false</bool>
+
+    <dimen name="diameter">48dp</dimen>
+    <dimen name="elevation_low">1dp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
+    <dimen name="add_button_margin">16dp</dimen>
+    <dimen name="add_button_margin_topfab">96dp</dimen>
+    <dimen name="round_button_diameter">56dp</dimen>
+    <dimen name="switchbar_pad">16dp</dimen>
+    <dimen name="vpn_setting_padding">16dp</dimen>
+</resources>

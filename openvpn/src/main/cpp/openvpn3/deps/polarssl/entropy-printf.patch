@@ -1,0 +1,12 @@
+diff -ur polarssl-1.3.8.orig/library/entropy.c polarssl-1.3.8/library/entropy.c
+--- polarssl-1.3.8.orig/library/entropy.c	2014-07-09 03:34:48.000000000 -0600
++++ polarssl-1.3.8/library/entropy.c	2014-07-09 16:27:06.000000000 -0600
+@@ -34,7 +34,7 @@
+ #include "polarssl/entropy.h"
+ #include "polarssl/entropy_poll.h"
+ 
+-#if defined(POLARSSL_FS_IO)
++#if defined(POLARSSL_FS_IO) || defined(POLARSSL_SELF_TEST)
+ #include <stdio.h>
+ #endif
+ 

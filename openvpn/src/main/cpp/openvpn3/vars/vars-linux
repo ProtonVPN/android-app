@@ -1,0 +1,13 @@
+export JAVA_DIR=/usr/lib/jvm/java-7-openjdk-amd64
+[ -z "$DEP_DIR" ] && export DEP_DIR=$HOME/linux
+export PLATFORM=linux
+export DEBUG_BUILD=0
+LTO_FLAGS="-flto=4 -Wl,--no-as-needed" # add to OTHER_COMPILER_FLAGS for LTO
+export OTHER_COMPILER_FLAGS="$LTO_FLAGS -Wno-unused-local-typedefs -Wno-unused-variable -Wno-shift-count-overflow -pthread"
+export CXX_COMPILER_FLAGS="-std=c++14"
+export LIB_OPT_LEVEL="-O3"
+export LIB_FPIC="-fPIC"
+export GPP_CMD=g++
+export GCC_CMD=gcc
+export AR_CMD=gcc-ar
+export RANLIB_CMD=gcc-ranlib

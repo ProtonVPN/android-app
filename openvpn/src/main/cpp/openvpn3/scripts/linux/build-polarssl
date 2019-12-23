@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to ovpn3 dependency tree
+    exit 1
+fi
+cd $DEP_DIR
+rm -rf polarssl
+mkdir polarssl
+if [ "$LINK_MODE" = "shared" ]; then
+    SHARED=1
+else
+    SHARED=0
+fi
+VERBOSE=1 TARGET=linux ENABLE_SERVER=1 SHARED=$SHARED $O3/core/deps/polarssl/build-polarssl
+mv polarssl-linux polarssl
+exit 0

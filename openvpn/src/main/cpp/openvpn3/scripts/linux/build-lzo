@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to ovpn3 dependency tree
+    exit 1
+fi
+cd $DEP_DIR
+rm -rf lzo
+mkdir lzo
+TARGET=linux $O3/core/deps/lzo/build-lzo
+exit 0

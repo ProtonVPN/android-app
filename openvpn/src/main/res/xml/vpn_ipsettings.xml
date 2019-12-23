@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SwitchPreference
+        android:disableDependentsState="true"
+        android:key="usePull"
+        android:summaryOff="@string/pull_off_summary"
+        android:summaryOn="@string/pull_on_summary"
+        android:title="@string/use_pull" />
+
+    <PreferenceCategory android:title="IP" >
+        <EditTextPreference
+            android:dependency="usePull"
+            android:dialogMessage="@string/ipv4_dialog_title"
+            android:key="ipv4_address"
+            android:title="@string/ipv4_address" />
+        <EditTextPreference
+            android:dependency="usePull"
+            android:dialogMessage="@string/ipv6_dialog_tile"
+            android:key="ipv6_address"
+            android:title="@string/ipv6_address" />
+
+        <CheckBoxPreference
+            android:key="nobind"
+            android:persistent="false"
+            android:summary="@string/nobind_summary"
+            android:title="@string/no_bind" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/dns" >
+        <CheckBoxPreference
+            android:key="overrideDNS"
+            android:summary="@string/dns_override_summary"
+            android:title="@string/override_dns" />
+
+        <EditTextPreference
+            android:key="searchdomain"
+            android:title="@string/searchdomain" />
+        <EditTextPreference
+            android:dialogMessage="@string/dns1_summary"
+            android:key="dns1"
+            android:title="@string/dns_server" />
+        <EditTextPreference
+            android:dialogMessage="@string/secondary_dns_message"
+            android:key="dns2"
+            android:title="@string/backup_dns" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

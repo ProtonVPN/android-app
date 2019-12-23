@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to dependency build folder
+    exit 1
+fi
+if [ -z "$DL" ]; then
+    echo DL var must point to the download folder
+    exit 1
+fi
+
+if [ -z "$TARGET" ]; then
+    echo TARGET var must be defined
+    exit 1
+fi
+
+# source vars
+. $O3/core/vars/vars-${TARGET}
+. $O3/core/deps/lib-versions
+
+# source helper functions
+. $O3/core/deps/functions.sh
+
+FNAME=${LZ4_VERSION}.tar.gz
+PN=${LZ4_VERSION#*-}
+URL=https://github.com/lz4/lz4/archive/v${PN}.tar.gz
+CSUM=${LZ4_CSUM}
+
+download
+
+CC=cc
+LD=ld
+AR=ar
+RANLIB=ranlib
+[ "$GCC_CMD" ] && CC=$GCC_CMD
+[ "$LD_CMD" ] && LD=$LD_CMD
+[ "$AR_CMD" ] && AR=$AR_CMD
+[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
+
+if [ "$NO_WIPE" != "1" ]; then
+    rm -rf $LZ4_VERSION
+    tar xfz $DL/$LZ4_VERSION.tar.gz
+fi
+
+if [ "x$NO_BUILD" == x1 ]; then
+   echo "Not building"
+   exit
+fi
+
+DIST=$(pwd)/lz4/lz4-$PLATFORM
+rm -rf $DIST
+mkdir -p $DIST/include
+mkdir $DIST/lib
+cd $LZ4_VERSION/lib
+CMD="$CC $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c lz4.c"
+echo $CMD
+$CMD
+$AR rc $DIST/lib/liblz4.a lz4.o
+$RANLIB $DIST/lib/liblz4.a
+cp lz4.h $DIST/include/
+exit 0

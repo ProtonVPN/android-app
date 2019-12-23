@@ -1,0 +1,53 @@
+# ProtonVPN for Android
+
+Copyright (c) 2019 Proton Technologies AG
+
+## Build instructions
+- Install sdk, ndk, cmake, swig
+- Clone this repository
+- `./gradlew assembleProdDebug` or open and build in Android Studio
+
+### Build release
+To complete a release build signing keys need to be provided:
+./gradlew assembleProdRelease -PkeyStoreFilePath=<keystore> -PkeyStoreKeyAlias=<alias> -PkeyStorePassword=<pass> -PkeyStoreKeyPassword=<key-pass>` 
+
+### Rebuild strongswan
+This project is using native libraries from [open-source project Strongswan](https://www.strongswan.org/).
+To simplify the build process we include prebuilt copies of those libraries [here](app/src/main/jniLibs). To rebuild them follow these steps:
+- `git submodule init` followed by `git submodule update` in the main directory (we include original Strongswan repository as a git submodule)
+- `cd strongswan` and follow [build instructions](https://wiki.strongswan.org/projects/strongswan/wiki/AndroidVPNClientBuild) from Strongswan to rebuild native libraries
+- after a successful build, run `cp -r strongswan/src/frontends/android/app/src/main/libs/* app/src/main/jniLibs` in our main directory to copy the prebuilt libraries and rebuild the ProtonVPN client
+
+## Code style
+Project uses agreed code style ProtonStyle.xml for java. Import it in Android studio via ```File>>Settings>>Editor>>Code style>>Import Scheme```
+For kotlin's code style we use ktlint with default rules
+
+## Contributing
+If you would like to contribute, please keep in mind the following rules:
+- Try to stick to the project's existing code style and naming conventions
+- The code base is mostly written in Java, but we are transitioning to Kotlin, so new code should be written in Kotlin where possible
+- Our preferred tech stack is Kotlin, MVVM, data-binding and coroutines, so any new features or large refactors should conform to this preferred tech stack
+- After adding/updating open source dependencies run `gradlew updateLicensesJson` to update attributions.
+
+Internally our CI automatically checks all pull requests for code style issues, and runs our tests. However you can run those locally as well.
+```bash
+gradlew checkstyle
+gradlew ktlint
+gradlew test
+gradlew androidTest
+```
+
+By making a contribution to this project you agree to the following:
+
+1. I assign any and all copyright related to the contribution to Proton Technologies AG;
+2. I certify that the contribution was created in whole by me;
+3. I understand and agree that this project and the contribution are public and that a record of the contribution (including all personal information I submit with it) is maintained indefinitely and may be redistributed with this project or the open source license(s) involved.
+
+## Versioning
+- Version matches format: `[major][minor][patch]`
+
+## License
+
+The code and datafiles in this distribution are licensed under the terms of the GPLv3 as published by the Free Software Foundation. See <https://www.gnu.org/licenses/> for a copy of this license.
+
+Copyright (c) 2019 Proton Technologies AG

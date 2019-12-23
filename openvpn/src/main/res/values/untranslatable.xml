@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+
+    <string name="copyright_blinktgui" translatable="false">Copyright 2012–2018 Arne Schwabe &lt;arne@rfc2549.org>
+    </string>
+    <string name="copyright_logo" translatable="false">App Logo design by Helen Beierling
+        &lt;helbeierling@t-online.de>
+    </string>
+
+    <string name="opevpn_copyright" translatable="false">Copyright © 2002–2010 OpenVPN Technologies, Inc. &lt;sales@openvpn.net>\n
+
+        "OpenVPN" is a trademark of OpenVPN Technologies, Inc.\n
+    </string>
+    <string name="defaultserver" translatable="false">openvpn.uni-paderborn.de</string>
+    <string name="defaultport" translatable="false">1194</string>
+    <string name="copyright_file_dialog" translatable="false">File Dialog based on work by Alexander Ponomarev</string>
+    <string name="lzo_copyright" translatable="false">Copyright © 1996 – 2011 Markus Franz Xaver Johannes Oberhumer
+    </string>
+    <string name="copyright_openssl" translatable="false">This product includes software developed by the OpenSSL
+        Project for use in the OpenSSL Toolkit\n
+        Copyright © 1998-2008 The OpenSSL Project. All rights reserved.\n\n
+        This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)\n
+        Copyright © 1995-1998 Eric Young (eay@cryptsoft.com) All rights reserved.
+    </string>
+    <string name="openvpn" translatable="false">OpenVPN</string>
+    <string name="file_dialog" translatable="false">File Dialog</string>
+    <string name="lzo" translatable="false">LZO</string>
+    <string name="openssl" translatable="false">OpenSSL</string>
+    <string name="unknown_state" translatable="false">Unknown state</string>
+    <string name="permission_description">Allows another app to control OpenVPN</string>
+    <string name="bouncy_castle" translatable="false">Bouncy Castle Crypto APIs</string>
+    <string name="copyright_bouncycastle" translatable="false">Copyright © 2000–2012 The Legion Of The Bouncy Castle
+        (http://www.bouncycastle.org)
+    </string>
+
+    <string-array name="tls_directions_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item></item>
+        <item>tls-crypt</item>
+        <item>tls-crypt-v2</item>
+    </string-array>
+    <string-array name="crm_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>50</item>
+        <item>-1</item>
+    </string-array>
+    <string name="crash_toast_text">OpenVPN for Android crashed, crash reported</string>
+
+    <!-- These strings should not be visible to the user -->
+    <string name="state_user_vpn_permission" translatable="false">Waiting for user permission to use VPN API</string>
+    <string name="state_user_vpn_password" translatable="false">Waiting for user VPN password</string>
+    <string name="state_user_vpn_password_cancelled" translatable="false">VPN password input dialog cancelled</string>
+    <string name="state_user_vpn_permission_cancelled" translatable="false">VPN API permission dialog cancelled</string>
+    <string name="default_cipherlist_test" translatable="false">aes-256-gcm bf-cbc sha1</string>
+
+    <!-- APP restriction strings -->
+    <string name="apprest_uuid_desc">Unique UUID that identifies the profile (example:
+        0E910C15–9A85-4DD9-AE0D-E6862392E638). Generate using uuidgen or similar tools
+    </string>
+    <string name="apprest_uuid">UUID</string>
+    <string name="apprest_ovpn_desc">Content of the OpenVPN configuration file. These files are usually have the extension .ovpn (sometimes also .conf) and are plain text multi line configuration files. If your MDM does not support multiline configuration entries, you can also use a base64 encoded string here. A text file can be converted to base64 using openssl base64 -A -in</string>
+    <string name="apprest_ovpn">Config</string>
+    <string name="apprest_name_desc">Name of the VPN profile</string>
+    <string name="apprest_name">Name</string>
+    <string name="apprest_vpnlist">List of VPN configurations</string>
+    <string name="apprest_vpnconf">VPN configuration</string>
+    <string name="apprest_ver">Version of the managed configuration schema</string>
+
+</resources>

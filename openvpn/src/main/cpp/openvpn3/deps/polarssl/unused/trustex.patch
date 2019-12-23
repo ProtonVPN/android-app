@@ -1,0 +1,44 @@
+Patch to 1.1.4 to allow X509 v3 trust extensions.
+--------------------------------------------------
+Index: x509parse.c
+===================================================================
+--- x509parse.c (revision 1322)
++++ x509parse.c (working copy)
+@@ -1134,7 +1134,7 @@
+ {
+     int ret;
+     size_t len;
+-    unsigned char *p, *end;
++    unsigned char *p, *end, *crt_end;
+
+     /*
+      * Check for valid input
+@@ -1168,13 +1168,14 @@
+         return( POLARSSL_ERR_X509_CERT_INVALID_FORMAT );
+     }
+
+-    if( len != (size_t) ( end - p ) )
++    if( len > (size_t) ( end - p ) )
+     {
+         x509_free( crt );
+         return( POLARSSL_ERR_X509_CERT_INVALID_FORMAT +
+                 POLARSSL_ERR_ASN1_LENGTH_MISMATCH );
+     }
+-
++    crt_end = p + len;
++
+     /*
+      * TBSCertificate  ::=  SEQUENCE  {
+      */
+@@ -1344,7 +1345,7 @@
+                 POLARSSL_ERR_ASN1_LENGTH_MISMATCH );
+     }
+
+-    end = crt->raw.p + crt->raw.len;
++    end = crt_end;
+
+     /*
+      *  signatureAlgorithm   AlgorithmIdentifier,
+
+----------------------------------------------------
+End of patch file

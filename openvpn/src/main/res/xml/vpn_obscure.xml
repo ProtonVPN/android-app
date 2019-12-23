@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/advanced_settings">
+    <PreferenceCategory android:title="@string/client_behaviour">
+
+        <CheckBoxPreference
+            android:key="usePersistTun"
+            android:persistent="false"
+            android:summary="@string/persisttun_summary"
+            android:title="@string/persistent_tun_title" />
+
+        <CheckBoxPreference
+            android:key="peerInfo"
+            android:summary="@string/pushpeerinfosummary"
+            android:title="@string/pushpeerinfo" />
+    </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:key="useRandomHostname"
+        android:persistent="false"
+        android:summary="@string/random_host_summary"
+        android:title="@string/random_host_prefix" />
+    <CheckBoxPreference
+        android:key="useFloat"
+        android:persistent="false"
+        android:summary="@string/float_summary"
+        android:title="@string/float_title" />
+
+    <PreferenceCategory android:title="@string/payload_options">
+        <CheckBoxPreference
+            android:key="mssFix"
+            android:persistent="false"
+            android:title="@string/mssfix_checkbox" />
+        <EditTextPreference
+            android:dependency="mssFix"
+            android:dialogMessage="@string/mssfix_value_dialog"
+            android:key="mssFixValue"
+            android:persistent="false"
+            android:title="@string/mssfix_dialogtitle" />
+        <EditTextPreference
+            android:key="tunmtu"
+            android:persistent="false"
+            android:title="Tunnel MTU (tun-mtu)"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/custom_config_title">
+        <CheckBoxPreference
+            android:key="enableCustomOptions"
+            android:persistent="false"
+            android:summary="@string/custom_config_summary"
+            android:title="@string/custom_config_title" />
+
+        <EditTextPreference
+            android:dependency="enableCustomOptions"
+            android:dialogMessage="@string/custom_option_warning"
+            android:key="customOptions"
+            android:persistent="false"
+            android:title="@string/custom_options_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/reconnection_settings">
+        <ListPreference
+            android:entries="@array/crm_entries"
+            android:entryValues="@array/crm_values"
+            android:key="connectretrymax"
+            android:persistent="false"
+            android:title="@string/connection_retries" />
+
+        <EditTextPreference
+            android:dialogMessage="@string/connectretrymessage"
+            android:key="connectretry"
+            android:persistent="false"
+            android:title="@string/connectretrywait" />
+
+        <EditTextPreference
+            android:dialogMessage="@string/connectretrymaxmessage"
+            android:key="connectretrymaxtime"
+            android:persistent="false"
+            android:title="@string/connectretrymaxtitle" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

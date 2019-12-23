@@ -1,0 +1,32 @@
+--- aes-armv4.pl.orig	2012-09-03 00:16:20.000000000 -0600
++++ aes-armv4.pl	2012-09-03 00:17:22.000000000 -0600
+@@ -171,7 +170,8 @@
+ 	stmdb   sp!,{r1,r4-r12,lr}
+ 	mov	$rounds,r0		@ inp
+ 	mov	$key,r2
+-	sub	$tbl,r3,#AES_encrypt-AES_Te	@ Te
++ad1=AES_encrypt-AES_Te
++	sub	$tbl,r3,#ad1	@ Te
+ #if __ARM_ARCH__<7
+ 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
+ 	ldrb	$t1,[$rounds,#2]	@ manner...
+@@ -426,7 +426,8 @@
+ 	bne	.Labrt
+ 
+ .Lok:	stmdb   sp!,{r4-r12,lr}
+-	sub	$tbl,r3,#_armv4_AES_set_encrypt_key-AES_Te-1024	@ Te4
++ad2=_armv4_AES_set_encrypt_key-AES_Te-1024
++	sub	$tbl,r3,#ad2	@ Te4
+ 
+ 	mov	$rounds,r0		@ inp
+ 	mov	lr,r1			@ bits
+@@ -887,7 +888,8 @@
+ 	stmdb   sp!,{r1,r4-r12,lr}
+ 	mov	$rounds,r0		@ inp
+ 	mov	$key,r2
+-	sub	$tbl,r3,#AES_decrypt-AES_Td		@ Td
++ad3=AES_decrypt-AES_Td
++	sub	$tbl,r3,#ad3		@ Td
+ #if __ARM_ARCH__<7
+ 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
+ 	ldrb	$t1,[$rounds,#2]	@ manner...

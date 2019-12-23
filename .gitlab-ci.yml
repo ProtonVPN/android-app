@@ -1,0 +1,177 @@
+image: gitlab.protontech.ch:4567/protonvpn/android/android-app:protonish5
+variables:
+  ANDROID_COMPILE_SDK: "28"
+  ANDROID_BUILD_TOOLS: "28.0.3"
+  ANDROID_SDK_TOOLS: "26.1.1"
+
+before_script:
+  - if [[ -n "$http_proxy" ]]; then export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$( echo ${http_proxy##http://} | cut -d':' -f1 ) -Dhttp.proxyPort=$( echo ${http_proxy##http://} | cut -d':' -f2 ) -Dhttps.proxyHost=$( echo ${https_proxy##http://} | cut -d':' -f1 ) -Dhttps.proxyPort=$( echo ${https_proxy##http://} | cut -d':' -f2 ) -Dhttp.nonProxyHosts=\"$( echo $no_proxy | tr ',' '|' )\""; fi
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+  - chmod +x ./gradlew
+  - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
+  - md5sum app/protonkey.jks
+  - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
+
+stages:
+  - analyze
+  - build
+  - test
+  - report
+
+cache:
+  key: gradle
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+java style:
+  stage: analyze
+  tags: 
+    - android
+  script:
+    - ./gradlew checkstyle
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/reports/checkstyle
+    
+kotlin style:
+  stage: analyze
+  tags: 
+    - android
+  script:
+    - ./gradlew ktlint
+  artifacts:
+    reports:
+        codequality: app/build/ktquality.json
+    
+build debug:
+  stage: build
+  tags: 
+    - android
+  script:
+    - ./gradlew assembleProdDebug
+    - ./gradlew assembleProdDebugAndroidTest
+  cache:
+    key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    paths:
+      - app/build/
+      - openvpn/build/
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/outputs/apk
+
+build blue:
+  stage: build
+  tags: 
+    - android  
+  script:
+    - ./gradlew assembleBlueRelease
+  when: manual
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/outputs/apk
+
+build release:
+  stage: build
+  tags: 
+    - android  
+  script:
+    - ./gradlew openvpn:assemble
+    - ./gradlew assembleProdRelease -PabiSplit
+  when: manual
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/outputs/apk
+
+unit tests:
+  stage: test
+  tags: 
+    - android  
+  script:
+    - ./gradlew test
+
+.tests_preparation_script: &tests_preparation_script
+  stage: test
+  tags: 
+    - android  
+  script:
+  - chmod +x gradlew
+  - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+  - echo ${ARCHIVES_BASE_NAME}
+  - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+  - mkdir -p /opt
+  - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /opt
+  - /opt/google-cloud-sdk/install.sh --quiet
+  - source /opt/google-cloud-sdk/path.bash.inc
+
+  - gcloud components update
+  - echo $CLOUD_PROJECT_ID
+  - gcloud config set project $CLOUD_PROJECT_ID
+  - echo $SERVICE_ACCOUNT > /tmp/service-account.json
+  - gcloud auth activate-service-account --key-file /tmp/service-account.json
+  - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
+  - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
+  - echo $APP
+  - echo $TEST_APP
+  - echo $PWD
+  - gcloud firebase test android run firebase-device-config.yml:${TESTS_TYPE} --app "$APP" --test "$TEST_APP"  --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"  --directories-to-pull /sdcard
+  - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
+  - gsutil cp $coverageFile app/build/outputs/apk | true
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/outputs/apk
+
+firebase quick tests:
+  <<: *tests_preparation_script
+  variables:
+    TESTS_TYPE: quickTest
+    APP_LOCATION: "app/build/outputs/apk/prod/debug/"
+    APP_TYPE: "prod-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/prod/debug/"
+    TEST_APP_TYPE: "prod-debug-androidTest.apk"
+  only:
+  - branches
+  except:
+  - master
+  - development
+
+firebase full tests:
+  <<: *tests_preparation_script
+  variables:
+    TESTS_TYPE: fullTest
+    APP_LOCATION: "app/build/outputs/apk/prod/debug/"
+    APP_TYPE: "prod-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/prod/debug/"
+    TEST_APP_TYPE: "prod-debug-androidTest.apk"
+  only:
+  - master
+  - development
+
+coverage report:
+  stage: report
+  tags: 
+    - android  
+  script:
+    - ./gradlew coverageReport
+  allow_failure: true
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/reports
+
+owasp check:
+  stage: report
+  tags:
+    - android
+  script:
+    - ./gradlew dependencyCheckAggregate
+  when: manual
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build/reports

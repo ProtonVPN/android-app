@@ -1,0 +1,55 @@
+From 0554efae4e27b6a764def80f600394519ef1addb Mon Sep 17 00:00:00 2001
+From: Antonio Quartulli <antonio@openvpn.net>
+Date: Tue, 20 Mar 2018 09:35:47 +0800
+Subject: [PATCH 1/2] relax x509 date format check
+
+Signed-off-by: Antonio Quartulli <antonio@openvpn.net>
+---
+ library/x509.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/library/x509.c b/library/x509.c
+index 264c7fb0c..9372bcb92 100644
+--- a/library/x509.c
++++ b/library/x509.c
+@@ -556,13 +556,20 @@ static int x509_parse_time( unsigned char **p, size_t len, size_t yearlen,
+     /*
+      * Parse seconds if present
+      */
+-    if ( len >= 2 )
++    if ( len >= 2 && **p >= '0' && **p <= '9' )
+     {
+         CHECK( x509_parse_int( p, 2, &tm->sec ) );
+         len -= 2;
+     }
+     else
++    {
++#if defined(MBEDTLS_RELAXED_X509_DATE)
++	/* if relaxed mode, allow seconds to be absent */
++	tm->sec = 0;
++#else
+         return ( MBEDTLS_ERR_X509_INVALID_DATE );
++#endif
++    }
+ 
+     /*
+      * Parse trailing 'Z' if present
+@@ -572,6 +579,15 @@ static int x509_parse_time( unsigned char **p, size_t len, size_t yearlen,
+         (*p)++;
+         len--;
+     }
++#if defined(MBEDTLS_RELAXED_X509_DATE)
++    else if ( len == 5 && **p == '+' )
++    {
++	int tz; /* throwaway timezone */
++	(*p)++;
++	CHECK( x509_parse_int( p, 4, &tz ) );
++	return 0;
++    }
++#endif
+ 
+     /*
+      * We should have parsed all characters at this point
+-- 
+2.18.0
+

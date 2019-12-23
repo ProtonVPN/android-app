@@ -1,0 +1,117 @@
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dimmedGrey"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <View style="@style/Divider.Small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="18dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageCountry"
+                    android:layout_width="24dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    app:riv_corner_radius="2dip" />
+
+                <ImageView
+                    android:id="@+id/imageDoubleArrows"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_double_right" />
+
+                <TextView
+                    android:id="@+id/textCountry"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    tools:text="Germany" />
+
+                <TextView
+                    android:id="@+id/textConnected"
+                    style="@style/TextView.Connected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/badgeP2P"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:foreground="@drawable/bg_circle_ripple_selector"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_rounded_p2p" />
+
+                <ImageView
+                    android:id="@+id/badgeTor"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:foreground="@drawable/bg_circle_ripple_selector"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_rounded_tor" />
+
+                <ImageView
+                    android:id="@+id/buttonCross"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_up_white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.protonvpn.android.components.TriangledTextView
+            android:id="@+id/buttonUpgrade"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="32dp"
+            android:paddingEnd="20dp"
+            android:text="@string/upgrade"
+            android:textColor="@color/white" />
+    </FrameLayout>
+</layout>

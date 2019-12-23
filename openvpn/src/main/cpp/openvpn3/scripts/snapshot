@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Create a tarball from a git checkout.
+#
+# DEP_DIR : dependency directory
+# NAME : basename of git root directory in dependency directory
+# DL : download directory, where to build tarball, defaults to ~/Downloads
+
+# Note: this script gives priority to $NAME-yyyymmdd as source location,
+# so for Asio, make sure to delete such directories if you want to
+# favor straight "asio" directory.
+
+set -e
+if [ -z "$NAME" ]; then
+    echo "NAME var must exist"
+    exit 1
+fi
+[ -z "$DL" ] && DL=~/Downloads
+if ! [ -d "$DL" ]; then
+    echo $DL directory must exist
+    exit 1
+fi
+[ "$DEP_DIR" ] && cd $DEP_DIR
+NAMETS=$(ls -dt ${NAME}-* 2>/dev/null | head -n1)
+if [ -z "$NAMETS" ]; then
+    cd $NAME
+    NAMETS=${NAME}-$(git log -1 --date=short --pretty=format:%cd | tr -d '-')
+    cd ..
+    mv $NAME $NAMETS
+fi
+NAMEVER=$(echo $NAME | awk '{print toupper($0)}')_VERSION
+TGZ=$DL/$NAMETS.tar.gz
+echo "creating $TGZ"
+tar cfz $TGZ $NAMETS
+echo 'Add to $O3/core/deps/lib-versions :'
+echo "export $NAMEVER=$NAMETS"

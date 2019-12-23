@@ -1,0 +1,1418 @@
+dnl  OpenVPN -- An application to securely tunnel IP networks
+dnl             over a single UDP port, with support for SSL/TLS-based
+dnl             session authentication and key exchange,
+dnl             packet encryption, packet authentication, and
+dnl             packet compression.
+dnl
+dnl  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+dnl  Copyright (C) 2006-2012 Alon Bar-Lev <alon.barlev@gmail.com>
+dnl
+dnl  This program is free software; you can redistribute it and/or modify
+dnl  it under the terms of the GNU General Public License as published by
+dnl  the Free Software Foundation; either version 2 of the License, or
+dnl  (at your option) any later version.
+dnl
+dnl  This program is distributed in the hope that it will be useful,
+dnl  but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl  GNU General Public License for more details.
+dnl
+dnl  You should have received a copy of the GNU General Public License along
+dnl  with this program; if not, write to the Free Software Foundation, Inc.,
+dnl  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+dnl Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.59)
+
+m4_include(version.m4)
+AC_INIT([PRODUCT_NAME], [PRODUCT_VERSION], [PRODUCT_BUGREPORT], [PRODUCT_TARNAME])
+m4_include(compat.m4)
+AC_DEFINE([OPENVPN_VERSION_RESOURCE], [PRODUCT_VERSION_RESOURCE], [Version in windows resource format])
+AC_SUBST([OPENVPN_VERSION_MAJOR], [PRODUCT_VERSION_MAJOR], [OpenVPN major version])
+AC_SUBST([OPENVPN_VERSION_MINOR], [PRODUCT_VERSION_MINOR], [OpenVPN minor version])
+AC_SUBST([OPENVPN_VERSION_PATCH], [PRODUCT_VERSION_PATCH], [OpenVPN patch level - may be a string or integer])
+AC_DEFINE([OPENVPN_VERSION_MAJOR], [PRODUCT_VERSION_MAJOR], [OpenVPN major version - integer])
+AC_DEFINE([OPENVPN_VERSION_MINOR], [PRODUCT_VERSION_MINOR], [OpenVPN minor version - integer])
+AC_DEFINE([OPENVPN_VERSION_PATCH], ["PRODUCT_VERSION_PATCH"], [OpenVPN patch level - may be a string or integer])
+
+AC_CONFIG_AUX_DIR([.])
+AC_CONFIG_HEADERS([config.h include/openvpn-plugin.h])
+AC_CONFIG_SRCDIR([src/openvpn/syshead.h])
+AC_CONFIG_MACRO_DIR([m4])
+
+dnl Initialize automake.  automake < 1.12 didn't have serial-tests and
+dnl gives an error if it sees this, but for automake >= 1.13
+dnl serial-tests is required so we have to include it.  Solution is to
+dnl test for the version of automake (by running an external command)
+dnl and provide it if necessary.  Note we have to do this entirely using
+dnl m4 macros since automake queries this macro by running
+dnl 'autoconf --trace ...'.
+m4_define([serial_tests], [
+    m4_esyscmd([automake --version |
+                head -1 |
+                awk '{split ($NF,a,"."); if (a[1] == 1 && a[2] >= 12) { print "serial-tests" }}'
+    ])
+])
+AM_INIT_AUTOMAKE(foreign serial_tests) dnl NB: Do not [quote] this parameter.
+AC_CANONICAL_HOST
+AC_USE_SYSTEM_EXTENSIONS
+
+AC_ARG_ENABLE(
+	[lzo],
+	[AS_HELP_STRING([--disable-lzo], [disable LZO compression support @<:@default=yes@:>@])],
+	,
+	[enable_lzo="yes"]
+)
+
+AC_ARG_ENABLE(lz4,
+	[  --disable-lz4           Disable LZ4 compression support],
+	[enable_lz4="$enableval"],
+	[enable_lz4="yes"]
+)
+
+AC_ARG_ENABLE(comp-stub,
+	[  --enable-comp-stub      Don't compile compression support but still allow limited interoperability with compression-enabled peers],
+	[enable_comp_stub="$enableval"],
+	[enable_comp_stub="no"]
+)
+
+AC_ARG_ENABLE(
+	[ofb-cfb],
+	[AS_HELP_STRING([--disable-ofb-cfb], [disable support for OFB and CFB cipher modes @<:@default=yes@:>@])],
+	,
+	[enable_crypto_ofb_cfb="yes"]
+)
+
+AC_ARG_ENABLE(
+	[x509-alt-username],
+	[AS_HELP_STRING([--enable-x509-alt-username], [enable the --x509-username-field feature @<:@default=no@:>@])],
+	,
+	[enable_x509_alt_username="no"]
+)
+
+AC_ARG_ENABLE(
+	[server],
+	[AS_HELP_STRING([--disable-server], [disable server support only (but retain client support) @<:@default=yes@:>@])],
+	,
+	[enable_server="yes"]
+)
+
+AC_ARG_ENABLE(
+	[plugins],
+	[AS_HELP_STRING([--disable-plugins], [disable plug-in support @<:@default=yes@:>@])],
+	,
+	[enable_plugins="yes"]
+)
+
+AC_ARG_ENABLE(
+	[management],
+	[AS_HELP_STRING([--disable-management], [disable management server support @<:@default=yes@:>@])],
+	,
+	[enable_management="yes"]
+)
+
+AC_ARG_ENABLE(
+	[pkcs11],
+	[AS_HELP_STRING([--enable-pkcs11], [enable pkcs11 support @<:@default=no@:>@])],
+	,
+	[enable_pkcs11="no"]
+)
+
+AC_ARG_ENABLE(
+	[fragment],
+	[AS_HELP_STRING([--disable-fragment], [disable internal fragmentation support (--fragment) @<:@default=yes@:>@])],
+	,
+	[enable_fragment="yes"]
+)
+
+AC_ARG_ENABLE(
+	[multihome],
+	[AS_HELP_STRING([--disable-multihome], [disable multi-homed UDP server support (--multihome) @<:@default=yes@:>@])],
+	,
+	[enable_multihome="yes"]
+)
+
+AC_ARG_ENABLE(
+	[port-share],
+	[AS_HELP_STRING([--disable-port-share], [disable TCP server port-share support (--port-share) @<:@default=yes@:>@])],
+	,
+	[enable_port_share="yes"]
+)
+
+AC_ARG_ENABLE(
+	[debug],
+	[AS_HELP_STRING([--disable-debug], [disable debugging support (disable gremlin and verb 7+ messages) @<:@default=yes@:>@])],
+	,
+	[enable_debug="yes"]
+)
+
+AC_ARG_ENABLE(
+	[small],
+	[AS_HELP_STRING([--enable-small], [enable smaller executable size (disable OCC, usage message, and verb 4 parm list) @<:@default=no@:>@])],
+	,
+	[enable_small="no"]
+)
+
+AC_ARG_ENABLE(
+	[iproute2],
+	[AS_HELP_STRING([--enable-iproute2], [enable support for iproute2 @<:@default=no@:>@])],
+	,
+	[enable_iproute2="no"]
+)
+
+AC_ARG_ENABLE(
+	[def-auth],
+	[AS_HELP_STRING([--disable-def-auth], [disable deferred authentication @<:@default=yes@:>@])],
+	,
+	[enable_def_auth="yes"]
+)
+
+AC_ARG_ENABLE(
+	[pf],
+	[AS_HELP_STRING([--disable-pf], [disable internal packet filter @<:@default=yes@:>@])],
+	,
+	[enable_pf="yes"]
+)
+
+AC_ARG_ENABLE(
+	[plugin-auth-pam],
+	[AS_HELP_STRING([--disable-plugin-auth-pam], [disable auth-pam plugin @<:@default=platform specific@:>@])],
+	,
+	[
+		case "$host" in
+			*-*-openbsd*) enable_plugin_auth_pam="no";;
+			*-mingw*) enable_plugin_auth_pam="no";;
+			*) enable_plugin_auth_pam="yes";;
+		esac
+	]
+)
+
+AC_ARG_ENABLE(
+	[plugin-down-root],
+	[AS_HELP_STRING([--disable-plugin-down-root], [disable down-root plugin @<:@default=platform specific@:>@])],
+	,
+	[
+		case "$host" in
+			*-mingw*) enable_plugin_down_root="no";;
+			*) enable_plugin_down_root="yes";;
+		esac
+	]
+)
+
+AC_ARG_ENABLE(
+	[pam-dlopen],
+	[AS_HELP_STRING([--enable-pam-dlopen], [dlopen libpam @<:@default=no@:>@])],
+	,
+	[enable_pam_dlopen="no"]
+)
+
+AC_ARG_ENABLE(
+	[strict],
+	[AS_HELP_STRING([--enable-strict], [enable strict compiler warnings (debugging option) @<:@default=no@:>@])],
+	,
+	[enable_strict="no"]
+)
+
+AC_ARG_ENABLE(
+	[pedantic],
+	[AS_HELP_STRING([--enable-pedantic], [enable pedantic compiler warnings, will not generate a working executable (debugging option) @<:@default=no@:>@])],
+	,
+	[enable_pedantic="no"]
+)
+
+AC_ARG_ENABLE(
+	[werror],
+	[AS_HELP_STRING([--enable-werror], [promote compiler warnings to errors, will cause builds to fail if the compiler issues warnings (debugging option) @<:@default=no@:>@])],
+	,
+	[enable_werror="no"]
+)
+
+AC_ARG_ENABLE(
+	[strict-options],
+	[AS_HELP_STRING([--enable-strict-options], [enable strict options check between peers (debugging option) @<:@default=no@:>@])],
+	,
+	[enable_strict_options="no"]
+)
+
+AC_ARG_ENABLE(
+	[selinux],
+	[AS_HELP_STRING([--enable-selinux], [enable SELinux support @<:@default=no@:>@])],
+	,
+	[enable_selinux="no"]
+)
+
+AC_ARG_ENABLE(
+	[systemd],
+	[AS_HELP_STRING([--enable-systemd], [enable systemd support @<:@default=no@:>@])],
+	,
+	[enable_systemd="no"]
+)
+
+AC_ARG_ENABLE(
+	[async-push],
+	[AS_HELP_STRING([--enable-async-push], [enable async-push support for plugins providing deferred authentication @<:@default=no@:>@])],
+	,
+	[enable_async_push="no"]
+)
+
+AC_ARG_WITH(
+	[special-build],
+	[AS_HELP_STRING([--with-special-build=STRING], [specify special build string])],
+	[test -n "${withval}" && AC_DEFINE_UNQUOTED([CONFIGURE_SPECIAL_BUILD], ["${withval}"], [special build string])]
+)
+
+AC_ARG_WITH(
+	[mem-check],
+	[AS_HELP_STRING([--with-mem-check=TYPE], [build with debug memory checking, TYPE=no|dmalloc|valgrind|ssl @<:@default=no@:>@])],
+	[
+		case "${withval}" in
+			dmalloc|valgrind|ssl|no) ;;
+			*) AC_MSG_ERROR([bad value ${withval} for --mem-check]) ;;
+		esac
+	],
+	[with_mem_check="no"]
+)
+
+AC_ARG_WITH(
+	[crypto-library],
+	[AS_HELP_STRING([--with-crypto-library=library], [build with the given crypto library, TYPE=openssl|mbedtls @<:@default=openssl@:>@])],
+	[
+		case "${withval}" in
+			openssl|mbedtls) ;;
+			*) AC_MSG_ERROR([bad value ${withval} for --with-crypto-library]) ;;
+		esac
+	],
+	[with_crypto_library="openssl"]
+)
+
+AC_ARG_VAR([PLUGINDIR], [Path of plug-in directory @<:@default=LIBDIR/openvpn/plugins@:>@])
+if test -n "${PLUGINDIR}"; then
+	plugindir="${PLUGINDIR}"
+else
+	plugindir="\${libdir}/openvpn/plugins"
+fi
+
+AC_DEFINE_UNQUOTED([TARGET_ALIAS], ["${host}"], [A string representing our host])
+case "$host" in
+	*-*-linux*)
+		AC_DEFINE([TARGET_LINUX], [1], [Are we running on Linux?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["L"], [Target prefix])
+		;;
+	*-*-solaris*)
+		AC_DEFINE([TARGET_SOLARIS], [1], [Are we running on Solaris?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["S"], [Target prefix])
+		CPPFLAGS="$CPPFLAGS -D_XPG4_2"
+		;;
+	*-*-openbsd*)
+		AC_DEFINE([TARGET_OPENBSD], [1], [Are we running on OpenBSD?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["O"], [Target prefix])
+		;;
+	*-*-freebsd*)
+		AC_DEFINE([TARGET_FREEBSD], [1], [Are we running on FreeBSD?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["F"], [Target prefix])
+		;;
+	*-*-netbsd*)
+		AC_DEFINE([TARGET_NETBSD], [1], [Are we running NetBSD?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["N"], [Target prefix])
+		;;
+	*-*-darwin*)
+		AC_DEFINE([TARGET_DARWIN], [1], [Are we running on Mac OS X?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["M"], [Target prefix])
+		have_tap_header="yes"
+		dnl some Mac OS X tendering (we use vararg macros...)
+		CPPFLAGS="$CPPFLAGS -no-cpp-precomp"
+		ac_cv_type_struct_in_pktinfo=no
+		;;
+	*-mingw*)
+		AC_DEFINE([TARGET_WIN32], [1], [Are we running WIN32?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["W"], [Target prefix])
+		CPPFLAGS="${CPPFLAGS} -DWIN32_LEAN_AND_MEAN"
+		CPPFLAGS="${CPPFLAGS} -DNTDDI_VERSION=NTDDI_VISTA -D_WIN32_WINNT=_WIN32_WINNT_VISTA"
+		WIN32=yes
+		;;
+	*-*-dragonfly*)
+		AC_DEFINE([TARGET_DRAGONFLY], [1], [Are we running on DragonFlyBSD?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["D"], [Target prefix])
+		;;
+	*-aix*)
+		AC_DEFINE([TARGET_AIX], [1], [Are we running AIX?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["A"], [Target prefix])
+		ROUTE="/usr/sbin/route"
+		have_tap_header="yes"
+		ac_cv_header_net_if_h="no"	# exists, but breaks things
+		;;
+	*)
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["X"], [Target prefix])
+		have_tap_header="yes"
+		;;
+esac
+
+PKG_PROG_PKG_CONFIG
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_SED
+AC_PROG_MAKE_SET
+
+AC_ARG_VAR([IFCONFIG], [full path to ipconfig utility])
+AC_ARG_VAR([ROUTE], [full path to route utility])
+AC_ARG_VAR([IPROUTE], [full path to ip utility])
+AC_ARG_VAR([NETSTAT], [path to netstat utility]) # tests
+AC_ARG_VAR([MAN2HTML], [path to man2html utility])
+AC_ARG_VAR([GIT], [path to git utility])
+AC_ARG_VAR([SYSTEMD_ASK_PASSWORD], [path to systemd-ask-password utility])
+AC_ARG_VAR([SYSTEMD_UNIT_DIR], [Path of systemd unit directory @<:@default=LIBDIR/systemd/system@:>@])
+AC_ARG_VAR([TMPFILES_DIR], [Path of tmpfiles directory @<:@default=LIBDIR/tmpfiles.d@:>@])
+AC_PATH_PROGS([IFCONFIG], [ifconfig],, [$PATH:/usr/local/sbin:/usr/sbin:/sbin])
+AC_PATH_PROGS([ROUTE], [route],, [$PATH:/usr/local/sbin:/usr/sbin:/sbin])
+AC_PATH_PROGS([IPROUTE], [ip],, [$PATH:/usr/local/sbin:/usr/sbin:/sbin])
+AC_PATH_PROGS([SYSTEMD_ASK_PASSWORD], [systemd-ask-password],, [$PATH:/usr/local/bin:/usr/bin:/bin])
+AC_CHECK_PROGS([NETSTAT], [netstat], [netstat], [$PATH:/usr/local/sbin:/usr/sbin:/sbin:/etc]) # tests
+AC_CHECK_PROGS([MAN2HTML], [man2html])
+AC_CHECK_PROGS([GIT], [git]) # optional
+AC_DEFINE_UNQUOTED([IFCONFIG_PATH], ["$IFCONFIG"], [Path to ifconfig tool])
+AC_DEFINE_UNQUOTED([IPROUTE_PATH], ["$IPROUTE"], [Path to iproute tool])
+AC_DEFINE_UNQUOTED([ROUTE_PATH], ["$ROUTE"], [Path to route tool])
+AC_DEFINE_UNQUOTED([SYSTEMD_ASK_PASSWORD_PATH], ["$SYSTEMD_ASK_PASSWORD"], [Path to systemd-ask-password tool])
+
+# Set -std=c99 unless user already specified a -std=
+case "${CFLAGS}" in
+  *-std=*) ;;
+  *)       CFLAGS="${CFLAGS} -std=c99" ;;
+esac
+
+#
+# Libtool
+#
+ifdef(
+	[LT_INIT],
+	[
+		LT_INIT([win32-dll])
+		LT_LANG([Windows Resource])
+	],
+	[
+		AC_LIBTOOL_WIN32_DLL
+		AC_LIBTOOL_RC
+		AC_PROG_LIBTOOL
+	]
+)
+
+AC_C_CONST
+AC_C_INLINE
+AC_C_VOLATILE
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_UID_T
+AC_TYPE_INT8_T
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
+AC_TYPE_UINT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+AC_TYPE_SIGNAL
+AX_CPP_VARARG_MACRO_ISO
+AX_CPP_VARARG_MACRO_GCC
+AX_TYPE_SOCKLEN_T
+AX_EMPTY_ARRAY
+AC_CHECK_SIZEOF([unsigned int])
+AC_CHECK_SIZEOF([unsigned long])
+AC_CHECK_HEADERS([ \
+	stdio.h stdarg.h limits.h \
+	time.h errno.h fcntl.h io.h direct.h \
+	ctype.h sys/types.h sys/socket.h \
+	signal.h unistd.h dlfcn.h \
+	netinet/in.h netinet/in_systm.h \
+	netinet/tcp.h arpa/inet.h netdb.h \
+	windows.h winsock2.h ws2tcpip.h \
+	versionhelpers.h \
+])
+AC_CHECK_HEADERS([ \
+	sys/time.h sys/ioctl.h sys/stat.h \
+	sys/mman.h sys/file.h sys/wait.h \
+	unistd.h signal.h libgen.h stropts.h \
+	syslog.h pwd.h grp.h \
+	sys/sockio.h sys/uio.h linux/sockios.h \
+	linux/types.h sys/poll.h sys/epoll.h err.h \
+])
+
+SOCKET_INCLUDES="
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
+#ifdef HAVE_NETINET_IN_SYSTM_H
+#include <netinet/in_systm.h>
+#endif
+#ifdef HAVE_NETINET_IP_H
+#include <netinet/ip.h>
+#endif
+"
+
+AC_CHECK_HEADERS(
+	[net/if.h netinet/ip.h resolv.h sys/un.h net/if_utun.h sys/kern_control.h],
+	,
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+
+AC_CHECK_TYPES(
+	[in_addr_t],
+	,
+	[AC_DEFINE([in_addr_t], [uint32_t], [Workaround missing in_addr_t])],
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPES(
+	[in_port_t],
+	,
+	[AC_DEFINE([in_port_t], [uint16_t], [Workaround missing in_port_t])],
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct iphdr],
+	[AC_DEFINE([HAVE_IPHDR], [1], [struct iphdr needed for IPv6 support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct sock_extended_err],
+	[AC_DEFINE([HAVE_SOCK_EXTENDED_ERR], [1], [struct sock_extended_err needed for extended socket error support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct msghdr],
+	[AC_DEFINE([HAVE_MSGHDR], [1], [struct msghdr needed for extended socket error support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct cmsghdr],
+	[AC_DEFINE([HAVE_CMSGHDR], [1], [struct cmsghdr needed for extended socket error support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct in_pktinfo],
+	[AC_DEFINE([HAVE_IN_PKTINFO], [1], [struct in_pktinfo needed for IP_PKTINFO support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+        [sa_family_t],
+        [AC_DEFINE([HAVE_SA_FAMILY_T], [1], [sa_family_t, needed to hold AF_* info])],
+        ,
+        [[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_MEMBER(
+	[struct in_pktinfo.ipi_spec_dst],
+	[AC_DEFINE([HAVE_IPI_SPEC_DST], [1], [struct in_pktinfo.ipi_spec_dst needed for IP_PKTINFO support])],
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_TYPE(
+	[struct sockaddr_in6],
+	,
+	[AC_MSG_ERROR([struct sockaddr_in6 not found, needed for ipv6 transport support.])],
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECK_DECLS(
+	[SO_MARK],
+	,
+	,
+	[[${SOCKET_INCLUDES}]]
+)
+AC_CHECKING([anonymous union support])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[
+			struct mystruct {
+			  union {
+			    int m1;
+			    char m2;
+			  };
+			};
+		]],
+		[[
+			struct mystruct s;
+			s.m1 = 1; s.m2 = 2;
+		]]
+	)],
+	[
+		AC_MSG_RESULT([yes])
+		AC_DEFINE([HAVE_ANONYMOUS_UNION_SUPPORT], [], [Compiler supports anonymous unions])
+	],
+	[AC_MSG_RESULT([no])]
+)
+
+saved_LDFLAGS="$LDFLAGS"
+LDFLAGS="$LDFLAGS -Wl,--wrap=exit"
+AC_MSG_CHECKING([linker supports --wrap])
+AC_LINK_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[
+			void exit(int);
+			void __real_exit(int);
+			void __wrap_exit(int i) {
+				__real_exit(i);
+			}
+		]],
+		[[
+			exit(0);
+		]]
+	)],
+	[
+		AC_MSG_RESULT([yes])
+		have_ld_wrap_support=yes
+	],
+	[AC_MSG_RESULT([no])],
+)
+LDFLAGS="$saved_LDFLAGS"
+
+dnl We emulate signals in Windows
+AC_CHECK_DECLS(
+	[SIGHUP],
+	,
+	[AC_DEFINE([SIGHUP], [1], [SIGHUP replacement])],
+	[[
+		#ifdef HAVE_SIGNAL_H
+		#include <signal.h>
+		#endif
+	]]
+)
+AC_CHECK_DECLS(
+	[SIGINT],
+	,
+	[AC_DEFINE([SIGINT], [2], [SIGINT replacement])],
+	[[
+		#ifdef HAVE_SIGNAL_H
+		#include <signal.h>
+		#endif
+	]]
+)
+AC_CHECK_DECLS(
+	[SIGUSR1],
+	,
+	[AC_DEFINE([SIGUSR1], [10], [SIGUSR1 replacement])],
+	[[
+		#ifdef HAVE_SIGNAL_H
+		#include <signal.h>
+		#endif
+	]]
+)
+AC_CHECK_DECLS(
+	[SIGUSR2],
+	,
+	[AC_DEFINE([SIGUSR2], [12], [SIGUSR2 replacement])],
+	[[
+		#ifdef HAVE_SIGNAL_H
+		#include <signal.h>
+		#endif
+	]]
+)
+AC_CHECK_DECLS(
+	[SIGTERM],
+	,
+	[AC_DEFINE([SIGTERM], [15], [SIGTERM replacement])],
+	[[
+		#ifdef HAVE_SIGNAL_H
+		#include <signal.h>
+		#endif
+	]]
+)
+
+AC_FUNC_FORK
+
+AC_CHECK_FUNCS([ \
+	daemon chroot getpwnam setuid nice system getpid dup dup2 \
+	getpass syslog openlog mlockall getgrnam setgid \
+	setgroups stat flock readv writev time gettimeofday \
+	ctime memset vsnprintf strdup \
+	setsid chdir putenv getpeername unlink \
+	chsize ftruncate execve getpeereid umask basename dirname access \
+	epoll_create \
+])
+
+AC_CHECK_LIB(
+	[dl],
+	[dlopen],
+	[DL_LIBS="-ldl"]
+)
+AC_SUBST([DL_LIBS])
+
+AC_CHECK_LIB(
+	[nsl],
+	[inet_ntoa],
+	[SOCKETS_LIBS="${SOCKETS_LIBS} -lnsl"]
+)
+AC_CHECK_LIB(
+	[socket],
+	[socket],
+	[SOCKETS_LIBS="${SOCKETS_LIBS} -lsocket"]
+)
+AC_CHECK_LIB(
+	[resolv],
+	[gethostbyname],
+	[SOCKETS_LIBS="${SOCKETS_LIBS} -lresolv"]
+)
+AC_SUBST([SOCKETS_LIBS])
+
+old_LIBS="${LIBS}"
+LIBS="${LIBS} ${SOCKETS_LIBS}"
+AC_CHECK_FUNCS([sendmsg recvmsg])
+# Windows use stdcall for winsock so we cannot auto detect these
+m4_define(
+	[SOCKET_FUNCS],
+[socket recv recvfrom send sendto listen dnl
+accept connect bind select gethostbyname inet_ntoa]dnl
+)
+m4_define(
+	[SOCKET_OPT_FUNCS],
+	[setsockopt getsockopt getsockname poll]dnl
+)
+if test "${WIN32}" = "yes"; then
+# normal autoconf function checking does not find inet_ntop/inet_pton
+# because they need to include the actual header file and link ws2_32.dll
+	LIBS="${LIBS} -lws2_32"
+	AC_MSG_CHECKING([for MinGW inet_ntop()/inet_pton()])
+	AC_LINK_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[
+#include <ws2tcpip.h>
+			]],
+			[[
+int r = (int) inet_ntop (0, NULL, NULL, 0);
+    r += inet_pton(AF_INET, NULL, NULL);
+return r;
+			]]
+		)],
+		[AC_MSG_RESULT([OK])
+		 AC_DEFINE([HAVE_INET_NTOP],[1],[MinGW inet_ntop])
+		 AC_DEFINE([HAVE_INET_PTON],[1],[MinGW inet_pton])
+		],
+		[AC_MSG_RESULT([not found])]
+	)
+	m4_foreach(
+		[F],
+		m4_split(SOCKET_FUNCS SOCKET_OPT_FUNCS),
+			m4_define([UF], [[m4_join([_], [HAVE], m4_toupper(F))]])
+			AC_DEFINE([UF], [1], [Win32 builtin])
+	)
+else
+	AC_CHECK_FUNCS([inet_ntop inet_pton])
+	AC_CHECK_FUNCS(
+		SOCKET_FUNCS,
+		,
+		[AC_MSG_ERROR([Required library function not found])]
+	)
+	AC_CHECK_FUNCS(SOCKET_OPT_FUNCS)
+fi
+LIBS="${old_LIBS}"
+
+# we assume res_init() always exist, but need to find out *where*...
+AC_SEARCH_LIBS(__res_init, resolv bind, ,
+    AC_SEARCH_LIBS(res_9_init, resolv bind, ,
+	AC_SEARCH_LIBS(res_init, resolv bind, , )))
+
+AC_ARG_VAR([TAP_CFLAGS], [C compiler flags for tap])
+old_CFLAGS="${CFLAGS}"
+CFLAGS="${CFLAGS} ${TAP_CFLAGS}"
+AC_CHECK_HEADERS(
+	[ \
+		net/if_tun.h net/tun/if_tun.h \
+		linux/if_tun.h \
+		tap-windows.h \
+	],
+	[have_tap_header="yes"]
+)
+AC_CHECK_DECLS(
+	[TUNSETPERSIST],
+	[AC_DEFINE([ENABLE_FEATURE_TUN_PERSIST], [1], [We have persist tun capability])],
+	,
+	[[
+		#ifdef HAVE_LINUX_IF_TUN_H
+		#include <linux/if_tun.h>
+		#endif
+	]]
+)
+CFLAGS="${old_CFLAGS}"
+test "${have_tap_header}" = "yes" || AC_MSG_ERROR([no tap header could be found])
+
+AC_CHECK_LIB(
+	[selinux],
+	[setcon],
+	[SELINUX_LIBS="-lselinux"]
+)
+AC_SUBST([SELINUX_LIBS])
+
+AC_ARG_VAR([LIBPAM_CFLAGS], [C compiler flags for libpam])
+AC_ARG_VAR([LIBPAM_LIBS], [linker flags for libpam])
+if test -z "${LIBPAM_LIBS}"; then
+	AC_CHECK_LIB(
+		[pam],
+		[pam_start],
+		[LIBPAM_LIBS="-lpam"]
+	)
+fi
+
+case "${with_mem_check}" in
+	valgrind)
+		AC_CHECK_HEADERS(
+			[valgrind/memcheck.h],
+			[
+				CFLAGS="${CFLAGS} -g -fno-inline"
+				AC_DEFINE(
+					[USE_VALGRIND],
+					[1],
+					[Use valgrind memory debugging library]
+				)
+			],
+			[AC_MSG_ERROR([valgrind headers not found.])]
+		)
+		;;
+	dmalloc)
+		AC_CHECK_HEADERS(
+			[dmalloc.h],
+			[AC_CHECK_LIB(
+				[dmalloc],
+				[malloc],
+				[
+					LIBS="${LIBS} -ldmalloc"
+					AC_DEFINE(
+						[DMALLOC],
+						[1],
+						[Use dmalloc memory debugging library]
+					)
+				],
+				[AC_MSG_ERROR([dmalloc library not found.])]
+			)],
+			[AC_MSG_ERROR([dmalloc headers not found.])]
+		)
+		;;
+	ssl)
+		AC_CHECK_LIB(
+			[ssl],
+			[CRYPTO_mem_ctrl],
+			[
+				AC_DEFINE(
+					[CRYPTO_MDEBUG],
+					[1],
+					[Use memory debugging function in OpenSSL]
+				)
+				AC_MSG_NOTICE([NOTE: OpenSSL library must be compiled with CRYPTO_MDEBUG])
+			],
+			[AC_MSG_ERROR([Memory Debugging function in OpenSSL library not found.])]
+		)
+		;;
+esac
+
+PKG_CHECK_MODULES(
+	[PKCS11_HELPER],
+	[libpkcs11-helper-1 >= 1.11],
+	[have_pkcs11_helper="yes"],
+	[]
+)
+
+if test "${with_crypto_library}" = "openssl"; then
+	AC_ARG_VAR([OPENSSL_CFLAGS], [C compiler flags for OpenSSL])
+	AC_ARG_VAR([OPENSSL_LIBS], [linker flags for OpenSSL])
+
+	if test -z "${OPENSSL_CFLAGS}" -a -z "${OPENSSL_LIBS}"; then
+		# if the user did not explicitly specify flags, try to autodetect
+		PKG_CHECK_MODULES(
+			[OPENSSL],
+			[openssl >= 1.0.2],
+			[have_openssl="yes"],
+			[] # If this fails, we will do another test next
+		)
+		OPENSSL_LIBS=${OPENSSL_LIBS:--lssl -lcrypto}
+	fi
+
+	saved_CFLAGS="${CFLAGS}"
+	saved_LIBS="${LIBS}"
+	CFLAGS="${CFLAGS} ${OPENSSL_CFLAGS}"
+	LIBS="${LIBS} ${OPENSSL_LIBS}"
+
+	# If pkgconfig check failed or OPENSSL_CFLAGS/OPENSSL_LIBS env vars
+	# are used, check the version directly in the OpenSSL include file
+	if test "${have_openssl}" != "yes"; then
+		AC_MSG_CHECKING([additionally if OpenSSL is available and version >= 1.0.2])
+		AC_COMPILE_IFELSE(
+			[AC_LANG_PROGRAM(
+				[[
+#include <openssl/opensslv.h>
+				]],
+				[[
+/*	     Version encoding: MNNFFPPS - see opensslv.h for details */
+#if OPENSSL_VERSION_NUMBER < 0x10002000L
+#error OpenSSL too old
+#endif
+				]]
+			)],
+			[AC_MSG_RESULT([ok])],
+			[AC_MSG_ERROR([OpenSSL version too old])]
+		)
+	fi
+
+	AC_CHECK_FUNCS([SSL_CTX_new EVP_CIPHER_CTX_set_key_length],
+				   ,
+				   [AC_MSG_ERROR([openssl check failed])]
+	)
+
+	have_openssl_engine="yes"
+	AC_CHECK_FUNCS(
+		[ \
+			ENGINE_load_builtin_engines \
+			ENGINE_register_all_complete \
+			ENGINE_cleanup \
+		],
+		,
+		[have_openssl_engine="no"; break]
+	)
+	if test "${have_openssl_engine}" = "no"; then
+		AC_CHECK_DECL( [ENGINE_cleanup], [have_openssl_engine="yes"],,
+			[[
+				#include <openssl/engine.h>
+			]]
+		)
+	fi
+	if test "${have_openssl_engine}" = "yes"; then
+		AC_DEFINE([HAVE_OPENSSL_ENGINE], [1], [OpenSSL engine support available])
+	fi
+
+	have_crypto_aead_modes="yes"
+	AC_CHECK_FUNCS(
+		[EVP_aes_256_gcm],
+		,
+		[have_crypto_aead_modes="no"; break]
+	)
+
+	AC_CHECK_FUNCS(
+		[ \
+			HMAC_CTX_new \
+			HMAC_CTX_free \
+			HMAC_CTX_reset \
+			EVP_MD_CTX_new \
+			EVP_MD_CTX_free \
+			EVP_MD_CTX_reset \
+			OpenSSL_version \
+			SSL_CTX_get_default_passwd_cb \
+			SSL_CTX_get_default_passwd_cb_userdata \
+			SSL_CTX_set_security_level \
+			X509_get0_pubkey \
+			X509_STORE_get0_objects \
+			X509_OBJECT_free \
+			X509_OBJECT_get_type \
+			EVP_PKEY_id \
+			EVP_PKEY_get0_RSA \
+			EVP_PKEY_get0_DSA \
+			EVP_PKEY_get0_EC_KEY \
+			RSA_set_flags \
+			RSA_bits \
+			RSA_get0_key \
+			RSA_set0_key \
+			DSA_get0_pqg \
+			DSA_bits \
+			RSA_meth_new \
+			RSA_meth_free \
+			RSA_meth_set_pub_enc \
+			RSA_meth_set_pub_dec \
+			RSA_meth_set_priv_enc \
+			RSA_meth_set_priv_dec \
+			RSA_meth_set_init \
+			RSA_meth_set_sign \
+			RSA_meth_set_finish \
+			RSA_meth_set0_app_data \
+			RSA_meth_get0_app_data \
+			EC_GROUP_order_bits
+		]
+	)
+
+	CFLAGS="${saved_CFLAGS}"
+	LIBS="${saved_LIBS}"
+
+	AC_DEFINE([ENABLE_CRYPTO_OPENSSL], [1], [Use OpenSSL library])
+	CRYPTO_CFLAGS="${OPENSSL_CFLAGS}"
+	CRYPTO_LIBS="${OPENSSL_LIBS}"
+elif test "${with_crypto_library}" = "mbedtls"; then
+	AC_ARG_VAR([MBEDTLS_CFLAGS], [C compiler flags for mbedtls])
+	AC_ARG_VAR([MBEDTLS_LIBS], [linker flags for mbedtls])
+
+	saved_CFLAGS="${CFLAGS}"
+	saved_LIBS="${LIBS}"
+
+	if test -z "${MBEDTLS_CFLAGS}" -a -z "${MBEDTLS_LIBS}"; then
+		# if the user did not explicitly specify flags, try to autodetect
+		LIBS="${LIBS} -lmbedtls -lmbedx509 -lmbedcrypto"
+		AC_CHECK_LIB(
+			[mbedtls],
+			[mbedtls_ssl_init],
+			[MBEDTLS_LIBS="-lmbedtls -lmbedx509 -lmbedcrypto"],
+			[AC_MSG_ERROR([Could not find mbed TLS.])],
+			[${PKCS11_HELPER_LIBS}]
+		)
+	fi
+
+	CFLAGS="${MBEDTLS_CFLAGS} ${PKCS11_HELPER_CFLAGS} ${CFLAGS}"
+	LIBS="${MBEDTLS_LIBS} ${PKCS11_HELPER_LIBS} ${LIBS}"
+
+	AC_MSG_CHECKING([mbedtls version])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[
+#include <mbedtls/version.h>
+			]],
+			[[
+#if MBEDTLS_VERSION_NUMBER < 0x02000000 || MBEDTLS_VERSION_NUMBER >= 0x03000000
+#error invalid version
+#endif
+			]]
+		)],
+		[AC_MSG_RESULT([ok])],
+		[AC_MSG_ERROR([mbed TLS 2.y.z required])]
+	)
+
+	have_crypto_aead_modes="yes"
+	AC_CHECK_FUNCS(
+		[ \
+			mbedtls_cipher_write_tag \
+			mbedtls_cipher_check_tag \
+		],
+		,
+		[have_crypto_aead_modes="no"; break]
+	)
+
+	CFLAGS="${saved_CFLAGS}"
+	LIBS="${saved_LIBS}"
+	AC_DEFINE([ENABLE_CRYPTO_MBEDTLS], [1], [Use mbed TLS library])
+	CRYPTO_CFLAGS="${MBEDTLS_CFLAGS}"
+	CRYPTO_LIBS="${MBEDTLS_LIBS}"
+else
+	AC_MSG_ERROR([Invalid crypto library: ${with_crypto_library}])
+fi
+
+AC_ARG_VAR([LZO_CFLAGS], [C compiler flags for lzo])
+AC_ARG_VAR([LZO_LIBS], [linker flags for lzo])
+have_lzo="yes"
+if test -z "${LZO_LIBS}"; then
+	AC_CHECK_LIB(
+		[lzo2],
+		[lzo1x_1_15_compress],
+		[LZO_LIBS="-llzo2"],
+		[AC_CHECK_LIB(
+			[lzo],
+			[lzo1x_1_15_compress],
+			[LZO_LIBS="-llzo"],
+			[have_lzo="no"]
+		)]
+	)
+fi
+if test "${have_lzo}" = "yes"; then
+	saved_CFLAGS="${CFLAGS}"
+	CFLAGS="${CFLAGS} ${LZO_CFLAGS}"
+	AC_CHECK_HEADERS(
+		[lzo/lzoutil.h],
+		,
+		[AC_CHECK_HEADERS(
+			[lzoutil.h],
+			,
+			[AC_MSG_ERROR([lzoutil.h is missing])]
+		)]
+	)
+	AC_CHECK_HEADERS(
+		[lzo/lzo1x.h],
+		,
+		[AC_CHECK_HEADERS(
+			[lzo1x.h],
+			,
+			[AC_MSG_ERROR([lzo1x.h is missing])]
+		)]
+	)
+	CFLAGS="${saved_CFLAGS}"
+fi
+
+dnl
+dnl check for LZ4 library
+dnl
+
+AC_ARG_VAR([LZ4_CFLAGS], [C compiler flags for lz4])
+AC_ARG_VAR([LZ4_LIBS], [linker flags for lz4])
+if test "$enable_lz4" = "yes" && test "$enable_comp_stub" = "no"; then
+    if test -z "${LZ4_CFLAGS}" -a -z "${LZ4_LIBS}"; then
+	# if the user did not explicitly specify flags, try to autodetect
+	PKG_CHECK_MODULES([LZ4],
+			  [liblz4 >= 1.7.1 liblz4 < 100],
+			  [have_lz4="yes"],
+			  [LZ4_LIBS="-llz4"] # If this fails, we will do another test next.
+					     # We also add set LZ4_LIBS otherwise the
+					     # linker will not know about the lz4 library
+	)
+    fi
+
+    saved_CFLAGS="${CFLAGS}"
+    saved_LIBS="${LIBS}"
+    CFLAGS="${CFLAGS} ${LZ4_CFLAGS}"
+    LIBS="${LIBS} ${LZ4_LIBS}"
+
+    # If pkgconfig check failed or LZ4_CFLAGS/LZ4_LIBS env vars
+    # are used, check the version directly in the LZ4 include file
+    if test "${have_lz4}" != "yes"; then
+	AC_CHECK_HEADERS([lz4.h],
+			 [have_lz4h="yes"],
+			 [])
+
+	if test "${have_lz4h}" = "yes" ; then
+	    AC_MSG_CHECKING([additionally if system LZ4 version >= 1.7.1])
+	    AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([[
+#include <lz4.h>
+				 ]],
+				 [[
+/* Version encoding: MMNNPP (Major miNor Patch) - see lz4.h for details */
+#if LZ4_VERSION_NUMBER < 10701L
+#error LZ4 is too old
+#endif
+				 ]]
+				)],
+		[
+		    AC_MSG_RESULT([ok])
+		    have_lz4="yes"
+		],
+		[AC_MSG_RESULT([system LZ4 library is too old])]
+	    )
+	fi
+    fi
+
+    # Double check we have a few needed functions
+    if test "${have_lz4}" = "yes" ; then
+	AC_CHECK_LIB([lz4],
+		     [LZ4_compress_default],
+		     [],
+		     [have_lz4="no"])
+	AC_CHECK_LIB([lz4],
+		     [LZ4_decompress_safe],
+		     [],
+		     [have_lz4="no"])
+    fi
+
+    if test "${have_lz4}" != "yes" ; then
+	AC_MSG_RESULT([		usable LZ4 library or header not found, using version in src/compat/compat-lz4.*])
+	AC_DEFINE([NEED_COMPAT_LZ4], [1], [use copy of LZ4 source in compat/])
+	LZ4_LIBS=""
+    fi
+    OPTIONAL_LZ4_CFLAGS="${LZ4_CFLAGS}"
+    OPTIONAL_LZ4_LIBS="${LZ4_LIBS}"
+    AC_DEFINE(ENABLE_LZ4, [1], [Enable LZ4 compression library])
+    CFLAGS="${saved_CFLAGS}"
+    LIBS="${saved_LIBS}"
+fi
+
+
+dnl
+dnl Check for systemd
+dnl
+AM_CONDITIONAL([ENABLE_SYSTEMD], [test "${enable_systemd}" = "yes"])
+if test "$enable_systemd" = "yes" ; then
+    PKG_CHECK_MODULES([libsystemd], [systemd libsystemd],
+                      [],
+                      [PKG_CHECK_MODULES([libsystemd], [libsystemd-daemon])]
+                      )
+
+    PKG_CHECK_EXISTS( [libsystemd > 216],
+                     [AC_DEFINE([SYSTEMD_NEWER_THAN_216], [1],
+                           [systemd is newer than v216])]
+                    )
+
+    AC_CHECK_HEADERS(systemd/sd-daemon.h,
+       ,
+       [
+	   AC_MSG_ERROR([systemd development headers not found.])
+       ])
+
+    saved_LIBS="${LIBS}"
+    LIBS="${LIBS} ${libsystemd_LIBS}"
+    AC_CHECK_FUNCS([sd_booted], [], [AC_MSG_ERROR([systemd library is missing sd_booted()])])
+    OPTIONAL_SYSTEMD_LIBS="${libsystemd_LIBS}"
+    AC_DEFINE(ENABLE_SYSTEMD, 1, [Enable systemd integration])
+    LIBS="${saved_LIBS}"
+
+    if test -n "${SYSTEMD_UNIT_DIR}"; then
+        systemdunitdir="${SYSTEMD_UNIT_DIR}"
+    else
+        systemdunitdir="\${libdir}/systemd/system"
+    fi
+
+    if test -n "${TMPFILES_DIR}"; then
+        tmpfilesdir="${TMPFILES_DIR}"
+    else
+        tmpfilesdir="\${libdir}/tmpfiles.d"
+    fi
+fi
+
+
+AC_MSG_CHECKING([git checkout])
+GIT_CHECKOUT="no"
+if test -n "${GIT}" -a -d "${srcdir}/.git"; then
+	AC_DEFINE([HAVE_CONFIG_VERSION_H], [1], [extra version available in config-version.h])
+	GIT_CHECKOUT="yes"
+fi
+AC_MSG_RESULT([${GIT_CHECKOUT}])
+
+if test -n "${SP_PLATFORM_WINDOWS}"; then
+	AC_DEFINE_UNQUOTED([PATH_SEPARATOR], ['\\\\'], [Path separator]) #"
+	AC_DEFINE_UNQUOTED([PATH_SEPARATOR_STR], ["\\\\"], [Path separator]) #"
+else
+	AC_DEFINE_UNQUOTED([PATH_SEPARATOR], ['/'], [Path separator])
+	AC_DEFINE_UNQUOTED([PATH_SEPARATOR_STR], ["/"], [Path separator])
+fi
+
+dnl enable --x509-username-field feature if requested
+if test "${enable_x509_alt_username}" = "yes"; then
+	if test "${with_crypto_library}" = "mbedtls" ; then
+		AC_MSG_ERROR([mbed TLS does not support the --x509-username-field feature])
+	fi
+
+	AC_DEFINE([ENABLE_X509ALTUSERNAME], [1], [Enable --x509-username-field feature])
+fi
+
+test "${ac_cv_header_sys_uio_h}" = "yes" && AC_DEFINE([HAVE_IOVEC], [1], [struct iovec needed for IPv6 support])
+test "${enable_server}" = "no" && AC_DEFINE([ENABLE_CLIENT_ONLY], [1], [Enable client capability only])
+test "${enable_management}" = "yes" && AC_DEFINE([ENABLE_MANAGEMENT], [1], [Enable management server capability])
+test "${enable_multihome}" = "yes" && AC_DEFINE([ENABLE_MULTIHOME], [1], [Enable multi-homed UDP server capability])
+test "${enable_debug}" = "yes" && AC_DEFINE([ENABLE_DEBUG], [1], [Enable debugging support])
+test "${enable_small}" = "yes" && AC_DEFINE([ENABLE_SMALL], [1], [Enable smaller executable size])
+test "${enable_fragment}" = "yes" && AC_DEFINE([ENABLE_FRAGMENT], [1], [Enable internal fragmentation support])
+test "${enable_port_share}" = "yes" && AC_DEFINE([ENABLE_PORT_SHARE], [1], [Enable TCP Server port sharing])
+test "${enable_def_auth}" = "yes" && AC_DEFINE([ENABLE_DEF_AUTH], [1], [Enable deferred authentication])
+test "${enable_pf}" = "yes" && AC_DEFINE([ENABLE_PF], [1], [Enable internal packet filter])
+test "${enable_strict_options}" = "yes" && AC_DEFINE([ENABLE_STRICT_OPTIONS_CHECK], [1], [Enable strict options check between peers])
+
+test "${enable_crypto_ofb_cfb}" = "yes" && AC_DEFINE([ENABLE_OFB_CFB_MODE], [1], [Enable OFB and CFB cipher modes])
+test "${have_crypto_aead_modes}" = "yes" && AC_DEFINE([HAVE_AEAD_CIPHER_MODES], [1], [Use crypto library])
+OPTIONAL_CRYPTO_CFLAGS="${OPTIONAL_CRYPTO_CFLAGS} ${CRYPTO_CFLAGS}"
+OPTIONAL_CRYPTO_LIBS="${OPTIONAL_CRYPTO_LIBS} ${CRYPTO_LIBS}"
+
+if test "${enable_plugins}" = "yes"; then
+	OPTIONAL_DL_LIBS="${DL_LIBS}"
+	AC_DEFINE([ENABLE_PLUGIN], [1], [Enable plug-in support])
+else
+	enable_plugin_auth_pam="no"
+	enable_plugin_down_root="no"
+fi
+
+if test "${enable_iproute2}" = "yes"; then
+	test -z "${IPROUTE}" && AC_MSG_ERROR([ip utility is required but missing])
+	AC_DEFINE([ENABLE_IPROUTE], [1], [enable iproute2 support])
+else
+	if test "${WIN32}" != "yes"; then
+		test -z "${ROUTE}" && AC_MSG_ERROR([route utility is required but missing])
+		test -z "${IFCONFIG}" && AC_MSG_ERROR([ifconfig utility is required but missing])
+	fi
+fi
+
+if test "${enable_selinux}" = "yes"; then
+	test -z "${SELINUX_LIBS}" && AC_MSG_ERROR([libselinux required but missing])
+	OPTIONAL_SELINUX_LIBS="${SELINUX_LIBS}"
+	AC_DEFINE([ENABLE_SELINUX], [1], [SELinux support])
+fi
+
+if test "${enable_lzo}" = "yes"; then
+	test "${have_lzo}" != "yes" && AC_MSG_ERROR([lzo enabled but missing])
+	OPTIONAL_LZO_CFLAGS="${LZO_CFLAGS}"
+	OPTIONAL_LZO_LIBS="${LZO_LIBS}"
+	AC_DEFINE([ENABLE_LZO], [1], [Enable LZO compression library])
+fi
+if test "${enable_comp_stub}" = "yes"; then
+	test "${enable_lzo}" = "yes" && AC_MSG_ERROR([Cannot have both comp stub and lzo enabled (use --disable-lzo)])
+	test "${enable_lz4}" = "yes" && AC_MSG_ERROR([Cannot have both comp stub and LZ4 enabled (use --disable-lz4)])
+	AC_DEFINE([ENABLE_COMP_STUB], [1], [Enable compression stub capability])
+fi
+
+if test "${enable_pkcs11}" = "yes"; then
+	test "${have_pkcs11_helper}" != "yes" && AC_MSG_ERROR([PKCS11 enabled but libpkcs11-helper is missing])
+	OPTIONAL_PKCS11_HELPER_CFLAGS="${PKCS11_HELPER_CFLAGS}"
+	OPTIONAL_PKCS11_HELPER_LIBS="${PKCS11_HELPER_LIBS}"
+	AC_DEFINE([ENABLE_PKCS11], [1], [Enable PKCS11])
+	PKG_CHECK_MODULES(
+		[P11KIT],
+		[p11-kit-1],
+		[proxy_module="`$PKG_CONFIG --variable=proxy_module p11-kit-1`"
+		 AC_DEFINE_UNQUOTED([DEFAULT_PKCS11_MODULE], "${proxy_module}", [p11-kit proxy])],
+		[]
+	)
+fi
+
+AC_DEFUN([ACL_CHECK_ADD_COMPILE_FLAGS], [
+    old_cflags="$CFLAGS"
+    CFLAGS="$1 $CFLAGS"
+    AC_MSG_CHECKING([whether the compiler acceppts $1])
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM()], [AC_MSG_RESULT([yes])],
+        [AC_MSG_RESULT([no]); CFLAGS="$old_cflags"])]
+)
+
+ACL_CHECK_ADD_COMPILE_FLAGS([-Wno-unused-function])
+ACL_CHECK_ADD_COMPILE_FLAGS([-Wno-unused-parameter])
+ACL_CHECK_ADD_COMPILE_FLAGS([-Wall])
+
+if test "${enable_pedantic}" = "yes"; then
+	enable_strict="yes"
+	CFLAGS="${CFLAGS} -pedantic"
+	AC_DEFINE([PEDANTIC], [1], [Enable pedantic mode])
+fi
+if test "${enable_strict}" = "yes"; then
+	CFLAGS="${CFLAGS} -Wsign-compare -Wuninitialized"
+fi
+if test "${enable_werror}" = "yes"; then
+	CFLAGS="${CFLAGS} -Werror"
+fi
+
+if test "${WIN32}" = "yes"; then
+	test -z "${MAN2HTML}" && AC_MSG_ERROR([man2html is required for win32])
+fi
+
+if test "${enable_plugin_auth_pam}" = "yes"; then
+	PLUGIN_AUTH_PAM_CFLAGS="${LIBPAM_CFLAGS}"
+	if test "${enable_pam_dlopen}" = "yes"; then
+		AC_DEFINE([USE_PAM_DLOPEN], [1], [dlopen libpam])
+		PLUGIN_AUTH_PAM_LIBS="${DL_LIBS}"
+	else
+		test -z "${LIBPAM_LIBS}" && AC_MSG_ERROR([libpam required but missing])
+		PLUGIN_AUTH_PAM_LIBS="${LIBPAM_LIBS}"
+	fi
+fi
+
+if test "${enable_async_push}" = "yes"; then
+	AC_CHECK_HEADERS(
+		[sys/inotify.h],
+		AC_DEFINE([ENABLE_ASYNC_PUSH], [1], [Enable async push]),
+		AC_MSG_ERROR([inotify.h not found.])
+	)
+fi
+
+CONFIGURE_DEFINES="`set | grep '^enable_.*=' ; set | grep '^with_.*='`"
+AC_DEFINE_UNQUOTED([CONFIGURE_DEFINES], ["`echo ${CONFIGURE_DEFINES}`"], [Configuration settings])
+
+TAP_WIN_COMPONENT_ID="PRODUCT_TAP_WIN_COMPONENT_ID"
+TAP_WIN_MIN_MAJOR="PRODUCT_TAP_WIN_MIN_MAJOR"
+TAP_WIN_MIN_MINOR="PRODUCT_TAP_WIN_MIN_MINOR"
+AC_DEFINE_UNQUOTED([TAP_WIN_COMPONENT_ID], ["${TAP_WIN_COMPONENT_ID}"], [The tap-windows id])
+AC_DEFINE_UNQUOTED([TAP_WIN_MIN_MAJOR], [${TAP_WIN_MIN_MAJOR}], [The tap-windows version number is required for OpenVPN])
+AC_DEFINE_UNQUOTED([TAP_WIN_MIN_MINOR], [${TAP_WIN_MIN_MINOR}], [The tap-windows version number is required for OpenVPN])
+AC_SUBST([TAP_WIN_COMPONENT_ID])
+AC_SUBST([TAP_WIN_MIN_MAJOR])
+AC_SUBST([TAP_WIN_MIN_MINOR])
+
+AC_SUBST([OPTIONAL_DL_LIBS])
+AC_SUBST([OPTIONAL_SELINUX_LIBS])
+AC_SUBST([OPTIONAL_CRYPTO_CFLAGS])
+AC_SUBST([OPTIONAL_CRYPTO_LIBS])
+AC_SUBST([OPTIONAL_LZO_CFLAGS])
+AC_SUBST([OPTIONAL_LZO_LIBS])
+AC_SUBST([OPTIONAL_LZ4_CFLAGS])
+AC_SUBST([OPTIONAL_LZ4_LIBS])
+AC_SUBST([OPTIONAL_SYSTEMD_LIBS])
+AC_SUBST([OPTIONAL_PKCS11_HELPER_CFLAGS])
+AC_SUBST([OPTIONAL_PKCS11_HELPER_LIBS])
+
+AC_SUBST([PLUGIN_AUTH_PAM_CFLAGS])
+AC_SUBST([PLUGIN_AUTH_PAM_LIBS])
+
+AM_CONDITIONAL([WIN32], [test "${WIN32}" = "yes"])
+AM_CONDITIONAL([GIT_CHECKOUT], [test "${GIT_CHECKOUT}" = "yes"])
+AM_CONDITIONAL([ENABLE_PLUGIN_AUTH_PAM], [test "${enable_plugin_auth_pam}" = "yes"])
+AM_CONDITIONAL([ENABLE_PLUGIN_DOWN_ROOT], [test "${enable_plugin_down_root}" = "yes"])
+AM_CONDITIONAL([HAVE_LD_WRAP_SUPPORT], [test "${have_ld_wrap_support}" = "yes"])
+
+sampledir="\$(docdir)/sample"
+AC_SUBST([plugindir])
+AC_SUBST([sampledir])
+
+AC_SUBST([systemdunitdir])
+AC_SUBST([tmpfilesdir])
+
+VENDOR_SRC_ROOT="\$(abs_top_srcdir)/vendor/"
+VENDOR_DIST_ROOT="\$(abs_top_builddir)/vendor/dist"
+VENDOR_BUILD_ROOT="\$(abs_top_builddir)/vendor/.build"
+AC_SUBST([VENDOR_SRC_ROOT])
+AC_SUBST([VENDOR_BUILD_ROOT])
+AC_SUBST([VENDOR_DIST_ROOT])
+
+TEST_LDFLAGS="${OPTIONAL_CRYPTO_LIBS} ${OPTIONAL_PKCS11_LIBS} -lcmocka -L\$(abs_top_builddir)/vendor/dist/lib -Wl,-rpath,\$(abs_top_builddir)/vendor/dist/lib"
+TEST_CFLAGS="${OPTIONAL_CRYPTO_CFLAGS} ${OPTIONAL_PKCS11_CFLAGS} -I\$(top_srcdir)/include -I\$(abs_top_builddir)/vendor/dist/include"
+
+AC_SUBST([TEST_LDFLAGS])
+AC_SUBST([TEST_CFLAGS])
+
+# Check if cmake is available and cmocka git submodule is initialized,
+# needed for unit testing
+AC_CHECK_PROGS([CMAKE], [cmake])
+if test -n "${CMAKE}"; then
+   if test -f "${srcdir}/vendor/cmocka/CMakeLists.txt"; then
+      AM_CONDITIONAL([CMOCKA_INITIALIZED], [true])
+   else
+      AM_CONDITIONAL([CMOCKA_INITIALIZED], [false])
+      AC_MSG_RESULT([!! WARNING !! The cmoka git submodule has not been initialized or updated.  Unit testing cannot be performed.])
+   fi
+else
+   AC_MSG_RESULT([!! WARNING !! CMake is NOT available.  Unit testing cannot be performed.])
+   AM_CONDITIONAL([CMOCKA_INITIALIZED], [false])
+fi
+
+
+AC_CONFIG_FILES([
+	version.sh
+	Makefile
+	build/Makefile
+	build/msvc/Makefile
+	build/msvc/msvc-generate/Makefile
+	distro/Makefile
+	distro/rpm/Makefile
+	distro/rpm/openvpn.spec
+	distro/systemd/Makefile
+	doc/Makefile
+	doc/doxygen/Makefile
+	doc/doxygen/openvpn.doxyfile
+	include/Makefile
+	src/Makefile
+	src/compat/Makefile
+	src/openvpn/Makefile
+	src/openvpnmsica/Makefile
+	src/openvpnserv/Makefile
+	src/plugins/Makefile
+	src/plugins/auth-pam/Makefile
+	src/plugins/down-root/Makefile
+	src/tapctl/Makefile
+	tests/Makefile
+        tests/unit_tests/Makefile
+        tests/unit_tests/example_test/Makefile
+        tests/unit_tests/openvpn/Makefile
+        tests/unit_tests/plugins/Makefile
+        tests/unit_tests/plugins/auth-pam/Makefile
+        vendor/Makefile
+	sample/Makefile
+])
+AC_CONFIG_FILES([tests/t_client.sh], [chmod +x tests/t_client.sh])
+AC_OUTPUT

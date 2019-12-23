@@ -1,0 +1,37 @@
+Make the ciphersuites array argument to ssl_set_ciphersuites const.
+This should be done to assure callers that PolarSSL doesn't intend
+to modify this array (which it apparently doesn't).
+
+diff -ur polarssl-1.1.1/include/polarssl/ssl.h polarssl-1.1.1.new/include/polarssl/ssl.h
+--- polarssl-1.1.1/include/polarssl/ssl.h	2012-01-23 02:57:38.000000000 -0700
++++ polarssl-1.1.1.new/include/polarssl/ssl.h	2012-03-14 02:46:30.315215130 -0600
+@@ -306,7 +306,7 @@
+     sha1_context fin_sha1;              /*!<  Finished SHA-1 checksum */
+ 
+     int do_crypt;                       /*!<  en(de)cryption flag     */
+-    int *ciphersuites;                  /*!<  allowed ciphersuites    */
++    const int *ciphersuites;            /*!<  allowed ciphersuites    */
+     size_t pmslen;                      /*!<  premaster length        */
+     unsigned int keylen;                /*!<  symmetric key length    */
+     size_t minlen;                      /*!<  min. ciphertext length  */
+@@ -495,7 +495,7 @@
+  * \param ssl           SSL context
+  * \param ciphersuites  0-terminated list of allowed ciphersuites
+  */
+-void ssl_set_ciphersuites( ssl_context *ssl, int *ciphersuites );
++void ssl_set_ciphersuites( ssl_context *ssl, const int *ciphersuites );
+ 
+ /**
+  * \brief          Set the data required to verify peer certificate
+diff -ur polarssl-1.1.1/library/ssl_tls.c polarssl-1.1.1.new/library/ssl_tls.c
+--- polarssl-1.1.1/library/ssl_tls.c	2012-01-23 02:57:38.000000000 -0700
++++ polarssl-1.1.1.new/library/ssl_tls.c	2012-03-14 02:47:10.830001668 -0600
+@@ -1838,7 +1838,7 @@
+     ssl->session    = session;
+ }
+ 
+-void ssl_set_ciphersuites( ssl_context *ssl, int *ciphersuites )
++void ssl_set_ciphersuites( ssl_context *ssl, const int *ciphersuites )
+ {
+     ssl->ciphersuites    = ciphersuites;
+ }

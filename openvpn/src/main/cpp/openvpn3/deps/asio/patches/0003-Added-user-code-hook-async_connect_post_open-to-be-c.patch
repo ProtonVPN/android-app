@@ -1,0 +1,38 @@
+From 69a6d6aec54b41f4ceac3ac2ba14465a36bf1984 Mon Sep 17 00:00:00 2001
+From: James Yonan <james@openvpn.net>
+Date: Mon, 27 Feb 2017 13:01:26 -0700
+Subject: [PATCH] Added user code hook async_connect_post_open() to be called
+ immediately after socket open in async_connect.
+
+---
+ asio/include/asio/basic_socket.hpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/asio/include/asio/basic_socket.hpp b/asio/include/asio/basic_socket.hpp
+index 43430161..0d1b0d28 100644
+--- a/asio/include/asio/basic_socket.hpp
++++ b/asio/include/asio/basic_socket.hpp
+@@ -865,6 +865,8 @@ public:
+       asio::error_code ec;
+       const protocol_type protocol = peer_endpoint.protocol();
+       this->get_service().open(this->get_implementation(), protocol, ec);
++      if (!ec)
++	async_connect_post_open(protocol, ec);
+       if (ec)
+       {
+         async_completion<ConnectHandler,
+@@ -1741,6 +1743,11 @@ protected:
+   }
+ 
+ private:
++  // optional user code hook immediately after socket open in async_connect
++  virtual void async_connect_post_open(const protocol_type& protocol, asio::error_code& ec)
++  {
++  }
++
+   // Disallow copying and assignment.
+   basic_socket(const basic_socket&) ASIO_DELETED;
+   basic_socket& operator=(const basic_socket&) ASIO_DELETED;
+-- 
+2.16.2
+

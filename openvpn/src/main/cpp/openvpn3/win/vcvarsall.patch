@@ -1,0 +1,27 @@
+--- vcvarsall.bat.orig	Mon Apr  4 02:58:07 2016
++++ vcvarsall.bat	Mon Apr  4 15:55:42 2016
+@@ -20,6 +20,7 @@
+ 
+ :check_platform
+ if /i %1 == x86       goto x86
++if /i %1 == x86_xp    goto x86_xp
+ if /i %1 == amd64     goto amd64
+ if /i %1 == x64       goto amd64
+ if /i %1 == arm       goto arm
+@@ -32,6 +33,16 @@
+ :x86
+ if not exist "%~dp0bin\vcvars32.bat" goto missing
+ call "%~dp0bin\vcvars32.bat" %2 %3
++goto :SetVisualStudioVersion
++
++:x86_xp
++if not exist "%~dp0bin\vcvars32.bat" goto missing
++call "%~dp0bin\vcvars32.bat" %2 %3
++set INCLUDE=%ProgramFiles(x86)%\Microsoft SDKs\Windows\7.1A\Include;%INCLUDE%
++set PATH=%ProgramFiles(x86)%\Microsoft SDKs\Windows\7.1A\Bin;%PATH%
++set LIB=%ProgramFiles(x86)%\Microsoft SDKs\Windows\7.1A\Lib;%LIB%
++set CL=/D_USING_V110_SDK71_;%CL%
++set LINK=/SUBSYSTEM:CONSOLE,5.01 %LINK%
+ goto :SetVisualStudioVersion
+ 
+ :amd64

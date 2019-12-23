@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Drop Shadow Stack -->
+    <item>
+        <shape>
+            <padding
+                android:left="1px"
+                android:right="1px"
+                android:top="1px" />
+            <solid android:color="#e7e7e7" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:left="1px"
+                android:right="1px"
+                android:top="1px" />
+            <solid android:color="#d6d6d6" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:bottom="1px" />
+            <solid android:color="#ebebeb" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:bottom="1px" />
+            <solid android:color="#dddddd" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:bottom="1px" />
+            <solid android:color="#c8c8c8" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:bottom="1px" />
+            <solid android:color="#b9b9b9" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:bottom="1px" />
+            <solid android:color="#b0b0b0" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+
+    <!-- White Top color -->
+    <item>
+        <shape>
+            <solid android:color="@color/white" />
+            <padding
+                android:bottom="4dp"
+                android:left="16dp"
+                android:right="16dp"
+                android:top="4dp" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+</layer-list>

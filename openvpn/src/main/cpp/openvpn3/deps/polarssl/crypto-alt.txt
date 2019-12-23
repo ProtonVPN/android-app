@@ -1,0 +1,16 @@
+This patch (against PolarSSL 1.2.7) allows alternative crypto
+implementations to be compiled, without actually defining
+such implementations.
+
+* define POLARSSL_AES_ALT to include alternative AES implementation
+  from polarssl/aes_alt.h
+
+* define POLARSSL_SHA1_ALT to include alternative SHA1 implementation
+  from polarssl/sha1_alt.h
+
+* define POLARSSL_SHA2_ALT to include alternative SHA2 implementation
+  from polarssl/sha2_alt.h
+
+* define POLARSSL_SHA4_ALT to include alternative SHA4 implementation
+  from polarssl/sha4_alt.h
+

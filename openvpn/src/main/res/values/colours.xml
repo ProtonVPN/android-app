@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+    <!-- Indigo -->
+    <!-- OpenVPN colours #203155, #C66D0D -->
+    <color name="primary">#3F51B5</color>      <!--500-->
+    <color name="primary_dark">#303F9F</color> <!--700-->
+    <color name="accent">#FFA726</color>       <!-- Orange 400 -->
+    <color name="gelb">#ffff00</color>
+    <color name="rot">#ff0000</color>
+
+    <color name="switchbar">@android:color/darker_gray</color>
+
+
+    <color name="background_tab_pressed">#1AFFFFFF</color>
+
+
+    <color name="dataIn">#ff0000</color>
+    <color name="dataOut">#0000ff</color>
+</resources>

@@ -1,0 +1,269 @@
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string translatable="false" name="app_name">ProtonVPN 2.0</string>
+    <string translatable="false" name="toolbar_app_title"><![CDATA[ProtonVPN <small>v2.0</small>]]></string>
+
+    <!-- Strings related to login -->
+    <string name="hintUsername">Username</string>
+    <string name="hintPassword">Password</string>
+    <string name="splitTunnellingSwitch">Split tunneling switch</string>
+    <string name="login">Login</string>
+    <string name="hamburgerMenu">Hamburger Menu</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="title_activity_home">@string/app_name</string>
+    <string name="menuActionLogout">Logout</string>
+    <string name="loginSlogan">Secure internet anywhere</string>
+    <string name="loginRememberMe">Remember me on this device</string>
+    <string name="loginStartWithDevice">Start with device</string>
+    <string name="loginCreateAccount">Create new account</string>
+    <string name="loginNeedHelp">Need help?</string>
+
+    <string name="helpResetPassword">Reset password</string>
+    <string name="helpForgotUser">Forgot Username?</string>
+    <string name="helpCommonProblems">Common login problems</string>
+    <string name="helpGetSupport">Get support</string>
+
+    <string name="mapCalloutConnect">Connect</string>
+    <string name="mapCalloutDisconnect">Disconnect</string>
+    <string name="mapSwitchSecureCore">Use Secure Core</string>
+
+    <string name="warning">Warning</string>
+
+    <string name="secureCoreSwitchOn">You are trying to connect to Secure Core server. This will enable Secure Core mode%1$s Continue?</string>
+    <string name="secureCoreSwitchOff">You are trying to connect to a non Secure Core server. This will disable Secure Core mode%1$s Continue?</string>
+    <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>drop your current connection</b>.]]></string>
+    <string name="disconnectDialogDescription">This action will disconnect you from current session. Are you sure you want to continue?</string>
+    <string name="logoutDescription">Logging out will disconnect your device from the VPN server.</string>
+    <string name="showAllProfiles">Show all profiles</string>
+
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+
+    <string name="secureCoreConnectVia">via %1$s</string>
+    <string name="secureCoreConnectingVia">%1$s Via %2$s</string>
+    <string name="connected">Connected</string>
+    <string name="buttonConnect">Connect</string>
+    <string name="loaderInitializing">Initializing connection&#8230;</string>
+    <string name="loaderConnectingTo">Connecting to %1$s</string>
+    <string name="loaderNotConnected">Not connected (Unprotected)</string>
+    <string name="loaderConnectedTo">Connected to %1$s</string>
+    <string name="loaderDisconnecting">Disconnecting</string>
+    <string name="loaderReconnecting">Reconnecting</string>
+    <string name="loaderReconnectNoNetwork">Waiting for usable network</string>
+    <string name="loaderCheckingAvailability">Checking server availability</string>
+    <string name="loaderCancel">Cancel connection</string>
+    <string name="clickBackAgainLogout">Click back again to minimize</string>
+    <string name="quickConnect">Quick connect</string>
+    <string name="countryFastestConnection">Fastest server</string>
+    <string name="notConnectedCurrentIp">Current IP: %1$s</string>
+    <string name="internetSpeed">%1$s/s</string>
+    <string name="serverLoad">%1$s%%</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+
+    <string name="drawerCountries">Countries</string>
+    <string name="drawerMap">Map</string>
+    <string name="drawerProfiles">Profiles</string>
+    <string name="drawerSettings">Settings</string>
+    <string name="drawerAccount">Account</string>
+    <string name="drawerHelp">Help</string>
+    <string name="drawerShowLog">Show log</string>
+    <string name="drawerReportBug">Report bug</string>
+    <string name="drawerLogout">@string/menuActionLogout</string>
+    <string name="drawerAppVersion">v%1$s</string>
+
+    <string name="accountDetails">Account details</string>
+    <string name="accountSubscription">Subscription</string>
+    <string name="accountUser">User:</string>
+    <string name="accountType">Account type:</string>
+    <string name="accountTier">Active subscription:</string>
+    <string name="accountTrialExpires"><![CDATA[Your trial ends in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+    <string name="accountVersion">Version:</string>
+    <string name="accountSubscriptionDetails">To manage your subscription, you have to go to the <font fgcolor='#59B268'>protonvpn.com</font> webpanel.</string>
+    <string name="accountButtonManage">Manage account</string>
+    <string name="accountTrial">ProtonVPN Plus Trial</string>
+    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountBasic"><font fgcolor='#FB7554'>ProtonVPN Basic</font></string>
+    <string name="accountPlus"><font fgcolor='#59B268'>ProtonVPN Plus</font></string>
+    <string name="accountVisionary"><font fgcolor='#32b3dd'>Proton Visionary</font></string>
+    <string name="freeTrialExpired">"Your 7 day free trial of ProtonVPN Plus has expired. You can continue to use ProtonVPN Free, but if you would like to support the project and have higher speeds and more features, please upgrade to a paid plan."</string>
+    <string name="activityProfileTitle">Profile</string>
+    <string name="activityAccountTitle">Account</string>
+    <string name="activitySettingsTitle">Settings</string>
+    <string name="connectingToRestrictedServer">"You are trying to connect to restricted server"</string>
+    <string name="settingsStartOptions">Start options</string>
+    <string name="settingsSecurityOptions">Security options</string>
+    <string name="settingsAutoStartTitle">Start with Android</string>
+    <string name="settingsShowIconTitle">Status icon</string>
+    <string name="settingsShowIconDescription">Show an icon in the status tray to indicate VPN status</string>
+    <string name="settingsAutoStartDescription">ProtonVPN will start automatically with each system start</string>
+    <string name="settingsAlwaysOnDescription">Setup ProtonVPN to connect automatically</string>
+    <string name="settingsAlwaysOnTitle">Always On</string>
+    <string name="settingsBypassLocalTitle">Allow LAN connections</string>
+    <string name="settingsBypassLocalDetails">This will allow you to bypass the VPN and connect to devices on your local network, like your printer. These connections are not encrypted</string>
+    <string name="settingsDnsLeakTitle">DNS Leak</string>
+    <string name="settingsDnsLeakDescription">Prevent leaking DNS query details to third parties (always on)</string>
+    <string name="settingsDefaultProtocol">Protocol</string>
+    <string name="settingsTransmissionProtocol">Transmission protocol</string>
+    <string name="settingsDefaultMtu">1375</string>
+    <string name="settingsMtuSizeTitle">MTU size</string>
+    <string name="settingsMtuDescription">In case the default value is unsuitable for a particular network, enter a value within 1280–1500 range. Change it only when you know what you are doing.</string>
+    <string name="settingsMtuRangeInvalid">MTU value must be in 1280–1500 range</string>
+    <string name="settingsDefaultConnectionTitle">Quick Connect</string>
+    <string name="settingsDefaultConnectionDescription">Quick connect button connects you to the selected profile</string>
+
+    <string name="restrictedMaintenanceTitle">Under maintenance</string>
+
+    <string name="restrictedMaintenanceDescription">Server you are currently trying to connect is under maintenance. Please try another server.</string>
+    <string name="restrictedBasicTitle">Paid Server</string>
+    <string name="restrictedPlusTitle">Plus Server</string>
+    <string name="restrictedSecureCoreTitle">Secure Core Server</string>
+    <string name="restrictedBasic">You are trying to connect to a server which requires a paid subscription.\nTo access high speed servers in all countries, please upgrade your subscription. </string>
+    <string name="restrictedPlus">You are trying to connect to a server which requires a ProtonVPN Plus subscription or higher.\nTo access more servers in all countries, please upgrade your subscription.</string>
+    <string name="restrictedSecureCore">Secure Core is a premium feature which requires ProtonVPN Plus or higher. Secure Core adds advanced protection against VPN server monitoring.\nTo access Secure Core, check out our other subscription plans which include this feature.</string>
+    <string name="errorUserDelinquent">Your account currently has an overdue invoice.Please pay all unpaid invoices at&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
+    <string name="errorMaxSessions">You have hit the maximum number of simultaneous connections allowed for your account. Please upgrade your ProtonVPN plan to get more connections.</string>
+    <string name="errorEmptyName">Profile name field cannot be empty</string>
+    <string name="errorEmptyCountry">Country field cannot be empty</string>
+    <string name="errorEmptyServer">Server field cannot be empty</string>
+    <string name="errorEmptyEntryCountry">Entry country field cannot be empty</string>
+    <string name="errorEmptyExitCountry">Exit country field cannot be empty</string>
+
+    <string name="onboardingDialogMapView">Use the Map View to connect and virtually see where the VPN server is.</string>
+    <string name="onboardingDialogProfiles">Create profiles for your favourite servers and have an easy access to them. Also, a long tap on ProtonVPN icon at the bottom screen will show you all your profiles. A tap on one of profiles will connect you to VPN.</string>
+    <string name="onboardingDialogSecureCoreDescription">Use this paid feature and connect to the most secure servers on the planet. You can see them in both Countries tab and Map View.</string>
+    <string name="onboardingDialogSecureCoreTitle">Secure core</string>
+    <string name="onboardingListDescription">In this list you can choose a country and server you would like to connect to</string>
+    <string name="onboardingStartSlideTitle">Welcome to a better internet</string>
+    <string name="onboardingStartSlideDescription">From the scientists and engineers that created ProtonMail, welcome to a more secure and private Internet.</string>
+    <string name="onboardingMiddleSlideTitle">We believe internet should be free</string>
+    <string name="onboardingMiddleSlideDescription">Beat censorship and regional restrictions. We have no ads, no bandwidth limits, and don\'t sell your data.</string>
+    <string name="onboardingEndingSlideTitle">Your security is our priority</string>
+    <string name="onboardingEndingSlideDescription">We are a security company. Whether it is our secure core architecture or advanced encryption, security always comes first.</string>
+    <string name="onboardingFAB">Quick connect / Profiles</string>
+    <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>
+    <string name="onboardingSignup">Sign up</string>
+    <string name="onboardingSkip">SKIP</string>
+    <string name="onboardingNext">NEXT</string>
+
+    <string name="listItemMaintenance">Under maintenance</string>
+    <string name="listItemUpgrade">Upgrade</string>
+    <string name="countryWithTOR">Country with TOR servers</string>
+    <string name="countryWithP2P">Country with P2P servers</string>
+    <string name="listFreeCountries">Free countries</string>
+    <string name="listPremiumCountries">Premium countries</string>
+    <string name="listFastestServer">Fastest server</string>
+    <string name="listFreeServers">Free servers</string>
+    <string name="listBasicServers">Basic servers</string>
+    <string name="listPlusServers">Plus servers</string>
+    <string name="premium">Premium</string>
+    <string name="insufficientPermissionsTitle">Insufficient permissions</string>
+    <string name="insufficientPermissionsDetails">Please manually connect one time to fix permissions</string>
+    <string name="profileErrorDuplicate">Profile: %1$s is already using this server</string>
+
+    <string name="tabsCountries">Countries</string>
+    <string name="tabsMap">Map View</string>
+    <string name="tabsProfiles">Profiles</string>
+
+    <string name="log_title">Log</string>
+    <string name="state_label">Status:</string>
+    <string name="profile_label">Profile:</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="state_connecting">Connecting&#8230;</string>
+    <string name="state_connected">Connected</string>
+    <string name="state_disconnecting">Disconnecting&#8230;</string>
+    <string name="state_disabled">No active VPN</string>
+    <string name="state_error">Error</string>
+    <string name="show_remediation_instructions">View remediation instructions</string>
+
+    <string name="errorTroubleshoot">Get Help</string>
+    <string name="error_introduction">Failed to establish VPN:</string>
+    <string name="error_lookup_failed">Gateway address lookup failed.</string>
+    <string name="error_unreachable">Gateway is unreachable.</string>
+    <string name="errorSessionUnavailable">The server you are trying to connect to is unavailable. Please select another server.</string>
+    <string name="error_peer_auth_failed">Verifying gateway authentication failed.</string>
+    <string name="error_auth_failed">User authentication failed.</string>
+    <string name="error_assessment_failed">Security assessment failed.</string>
+    <string name="error_generic">Unspecified failure while connecting.</string>
+    <string name="vpn_connected">VPN connected</string>
+    <string name="vpn_profile_connected">This VPN profile is currently connected!</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="connect_profile_question">Connect %1$s?</string>
+    <string name="replaces_active_connection">This will replace your active VPN connection!</string>
+    <string name="connect">Connect</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="retry">Retry</string>
+    <plurals name="retry_in">
+        <item quantity="zero">Reconnecting</item>
+        <item quantity="one">Reconnection in %1$d second</item>
+        <item quantity="other">Reconnection in %1$d seconds</item>
+    </plurals>
+    <string name="cancel_retry">Cancel retry</string>
+    <string name="connection_failed">Connection failed</string>
+    <string name="support_page">Support page</string>
+    <string name="create_new_profile">CREATE NEW PROFILE</string>
+    <string name="excludeAppsTitle">Exclude Apps</string>
+    <string name="excludeAppsDescription">Add apps you want to exclude from your VPN traffic.</string>
+    <string name="profile_name">Profile name</string>
+    <string name="profile_color">Profile color</string>
+    <string name="secure_core">Secure Core</string>
+    <string name="attachments">Attachments</string>
+    <string name="report_message">Report message</string>
+    <string name="contact_email">Contact email</string>
+    <string name="your_message">Your message…</string>
+    <string name="send_report">Send report</string>
+    <string name="excludeIpTitle">Exclude IP Addresses</string>
+    <string name="discardChanges">There are unsaved changes. Are you sure you want to discard them?</string>
+    <string name="discard">Discard</string>
+    <string name="selectedProfileColor">Please select color for your profile</string>
+    <string name="excludeIpDescription">Add IP addresses you want to exclude from the VPN traffic.</string>
+    <string name="done">DONE</string>
+    <string name="add">ADD</string>
+    <string name="the_list_is_empty">The list is empty</string>
+    <string name="got_it">Got it</string>
+    <string name="onboardingWelcome">Welcome on board</string>
+    <string name="proton_log">Proton Log</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="try_again">Try again</string>
+    <string name="manage">Manage</string>
+    <string name="delete">Delete</string>
+    <string name="deleteProfile">Are you sure you want to delete this profile?</string>
+    <string name="exitCountry">Exit country</string>
+    <string name="entryCountry">Exit country</string>
+    <string name="country">Country</string>
+    <string name="serverSelection">Server</string>
+    <string name="protocol">Protocol:</string>
+    <string name="ip">IP:</string>
+    <string name="server">Server:</string>
+    <string name="session_time">Session time:</string>
+    <string name="download_volume">Volume:</string>
+    <string name="upload_volume">Upload volume:</string>
+    <string name="download_speed">Speed:</string>
+    <string name="upload_speed">Upload speed:</string>
+    <string name="save_to_profile">Save to profile</string>
+    <string name="notConnected">You are not connected \n to a server</string>
+    <string name="activityLicensesTitle">Third party licenses</string>
+    <string name="stateFragmentUnknownIp">Unknown</string>
+    <string name="successful_migration_message">Welcome to ProtonVPN 2.0! All your settings and profiles have been migrated and you can now safely uninstall the old app.</string>
+    <string name="successful_migration_uninstall">Uninstall now</string>
+</resources>

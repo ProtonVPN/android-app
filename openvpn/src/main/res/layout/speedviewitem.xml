@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2012-2017 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/ciphername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:minWidth="100sp"
+        android:textAlignment="textEnd"
+        tools:text="aes-256-gcm" />
+
+    <TextView
+        android:id="@+id/blocksize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ciphername"
+        android:gravity="end"
+        android:minWidth="100sp"
+        android:textAlignment="textEnd"
+        tools:text="1024 kB" />
+
+
+    <TextView
+        android:id="@+id/blocksintime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginStart="20sp"
+        android:layout_toEndOf="@id/ciphername"
+        android:layout_toRightOf="@id/ciphername"
+        tools:text="12345 blocks in 5s" />
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blocksintime"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="2sp"
+        android:layout_toEndOf="@id/ciphername"
+        android:layout_toRightOf="@id/ciphername"
+        tools:text="772 MB/s" />
+
+
+</RelativeLayout>

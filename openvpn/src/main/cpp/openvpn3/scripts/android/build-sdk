@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to the dependency build directory
+    exit 1
+fi
+
+[ -z "$SDK" ] && export SDK=$DEP_DIR/android-sdk
+
+if [ -d "$SDK" ]; then
+    echo "Android SDK already exists at $SDK. Doing only update"
+else
+    . $O3/core/deps/functions.sh
+
+    FNAME=sdk-tools-linux-3859397.zip
+    URL=https://dl.google.com/android/repository/${FNAME}
+    CSUM=444e22ce8ca0f67353bda4b85175ed3731cae3ffa695ca18119cbacef1c1bea0
+
+    download
+
+    cd $DEP_DIR
+    rm -rf android-sdk
+    mkdir android-sdk
+
+    . $O3/core/vars/android-sdk-path
+
+    cd $SDK
+    unzip $DL/$FNAME
+fi
+
+yes | $SDK/tools/bin/sdkmanager --licenses
+$SDK/tools/bin/sdkmanager --update
+$SDK/tools/bin/sdkmanager --install 'build-tools;26.0.2' \
+        'ndk-bundle' \
+        'extras;android;m2repository' \
+        'patcher;v4' \
+        'platform-tools' \
+        'platforms;android-26' \
+        'tools'
+
+exit 0

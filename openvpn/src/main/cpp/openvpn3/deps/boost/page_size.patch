@@ -1,0 +1,16 @@
+diff -ur boost_1_57_0/boost/thread/pthread/thread_data.hpp boost_1_57_0.new/boost/thread/pthread/thread_data.hpp
+--- boost_1_57_0/boost/thread/pthread/thread_data.hpp	2014-10-24 10:43:26.000000000 -0600
++++ boost_1_57_0.new/boost/thread/pthread/thread_data.hpp	2015-02-26 00:43:26.000000000 -0700
+@@ -24,8 +24,10 @@
+ #include <vector>
+ #include <utility>
+ 
+-#if defined(__ANDROID__)
+-#include <asm/page.h> // http://code.google.com/p/android/issues/detail?id=39983
++// JY modified
++#if defined(__ANDROID__) && !defined(PAGE_SIZE)
++#define PAGE_SIZE 4096
++//#include <asm/page.h> // http://code.google.com/p/android/issues/detail?id=39983
+ #endif
+ 
+ #include <pthread.h>

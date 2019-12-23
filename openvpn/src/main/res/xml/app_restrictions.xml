@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2018 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<restrictions xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+              tools:targetApi="lollipop">
+
+    <restriction
+
+            android:key="version"
+            android:title="@string/apprest_ver"
+            android:restrictionType="hidden"
+            android:defaultValue="1"
+    />
+
+    <restriction
+            android:key="vpn_configuration_list"
+            android:title="@string/apprest_vpnlist"
+            android:restrictionType="bundle_array">
+
+        <restriction
+                android:title="@string/apprest_vpnconf"
+                android:key="vpn_configuration"
+                android:restrictionType="bundle">
+
+            <restriction
+                    android:key="uuid"
+                    android:restrictionType="string"
+                    android:description="@string/apprest_uuid_desc"
+                    android:title="@string/apprest_uuid"
+            />
+
+            <restriction
+                    android:key="name"
+                    android:restrictionType="string"
+                    android:title="@string/apprest_name"
+                    android:description="@string/apprest_name_desc"
+
+            />
+
+            <restriction
+                    android:key="ovpn"
+                    android:title="@string/apprest_ovpn"
+                    android:description="@string/apprest_ovpn_desc"
+                    android:restrictionType="string"/>
+
+            <!--
+            <restriction
+                    android:key="ovpn_list"
+                    android:title="@string/apprest_ovpn_list"
+                    android:describition="@string/apprest_ovpn_list_esc"
+                    android:restrictionType="bundle_array">
+                <restriction
+                        android:key="ovpn_configline"
+                        android:title="@string/apprest_ovpn"
+                        android:description="@string/apprest_ovpn_desc"
+                        android:restrictionType="string"/>
+            </restriction>
+            -->
+        </restriction>
+    </restriction>
+</restrictions>

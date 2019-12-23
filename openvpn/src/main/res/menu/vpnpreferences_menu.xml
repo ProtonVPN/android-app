@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/remove_vpn"
+        android:alphabeticShortcut="d"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="ifRoom"
+        android:title="@string/remove_vpn"/>
+
+    <item
+        android:id="@+id/duplicate_vpn"
+        android:alphabeticShortcut="c"
+        android:icon="@drawable/ic_menu_copy"
+        android:showAsAction="ifRoom"
+        android:title="Duplicate VPN" />
+
+</menu>

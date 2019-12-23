@@ -1,0 +1,9 @@
+coverity_assert_model.c:
+
+This file is a Coverity Modeling file for projects using CMocka for unit
+testing. The assert functiions could create false positives, to avoid that you
+can load this modeling file in the Coverity web interface.
+
+coverity_internal_model.c:
+
+This file is for the CMocka source code itself.

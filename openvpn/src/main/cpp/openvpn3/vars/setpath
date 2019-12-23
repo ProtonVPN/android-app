@@ -1,0 +1,1 @@
+export PATH="$O3/core/scripts:$PATH"

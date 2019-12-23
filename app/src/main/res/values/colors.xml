@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <color name="colorPrimary">#4B4B57</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="colorAccent">#59B268</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="transparentWhite">#55FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dimmedRed">#F06D70</color>
+    <color name="cyan">#66D2D8</color>
+    <color name="greenBright">#B2DF45</color>
+    <color name="yellow">#FFFF00</color>
+
+    <color name="slogan">#8e8e93</color>
+    <color name="backgroundLauncher">#56B366</color>
+    <color name="red">#e52424</color>
+    <color name="bgStatusBar">#2c2c31</color>
+    <color name="darkGrey">#27272c</color>
+    <color name="loginBackground">#2a2a2e</color>
+    <color name="grey">#2D2C32</color>
+    <color name="dimmedGrey">#2e2e34</color>
+    <color name="lightGrey">#97979a</color>
+    <color name="transparent">#00000000</color>
+    <color name="bgDrawer">@color/grey</color>
+    <color name="bgMap">#2e2e34</color>
+    <color name="accountTitles">#4b4b56</color>
+
+    <color name="pickerColor1">#E01623</color>
+    <color name="pickerColor2">#BD6566</color>
+    <color name="pickerColor3">#D21BB5</color>
+    <color name="pickerColor4">#B14FA3</color>
+    <color name="pickerColor5">#9F49DA</color>
+    <color name="pickerColor6">#9369B1</color>
+    <color name="pickerColor7">#6071DA</color>
+    <color name="pickerColor8">#6871A5</color>
+    <color name="pickerColor9">#39C5CA</color>
+    <color name="pickerColor10">#579191</color>
+    <color name="pickerColor11">#3DB965</color>
+    <color name="pickerColor12">#5C946F</color>
+    <color name="pickerColor13">#9DBF3A</color>
+    <color name="pickerColor14">#909F66</color>
+    <color name="pickerColor15">#E9C652</color>
+    <color name="pickerColor16">#A39364</color>
+    <color name="pickerColor17">#D77124</color>
+    <color name="pickerColor18">#A97D57</color>
+
+    <color name="brightCyan">#32b3dd</color>
+    <color name="blackOverlay">#80000000</color>
+    <color name="white70">#B3FFFFFF</color>
+    <color name="white50">#80FFFFFF</color>
+    <color name="white30">#4dFFFFFF</color>
+</resources>

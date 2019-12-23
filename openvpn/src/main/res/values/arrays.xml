@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+	<!--  Keep the order the same as the TYPE_ constants in VPNProfile -->
+    <string-array name="vpn_types">
+        <item>Certificates</item>
+        <item>PKCS12 File</item>
+        <item>Android Certificate</item>
+        <item>Username/Password</item>
+        <item>Static Keys</item>
+        <item>User/PW + Certificates</item>
+        <item>User/PW + PKCS12 </item>
+        <item>User/PW + Android</item>
+        <item>External Auth Provider</item>
+    </string-array>
+    <string-array name="tls_directions_entries">
+        <item translatable="false">0</item>
+        <item translatable="false">1</item>
+        <item>Unspecified</item>
+        <item>Encryption (--tls-crypt)</item>
+        <item>TLS Crypt V2</item>
+    </string-array>
+    <string-array name="crm_entries">
+        <item>No reconnection retries</item>
+        <item>One reconnection retry</item>
+        <item>Five reconnection retries</item>
+        <item>Fifty reconnection retries</item>
+        <item>Unlimited reconnection retries</item>
+    </string-array>
+    <string-array name="auth_retry_type">
+        <item>Disconnect, forget password</item>
+        <item>Disconnect, keep password</item>
+        <item>Ignore, retry</item>
+    </string-array>
+</resources>

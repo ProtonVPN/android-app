@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2019 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat"
+    android:layout_marginTop="10dp">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:background="@drawable/bg_switchbar"
+            android:paddingStart="@dimen/switchbar_pad"
+            android:elevation="1dp"
+            android:paddingEnd="@dimen/switchbar_pad"
+    >
+
+        <Switch
+                android:id="@+id/default_allow"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+        />
+        <TextView
+                android:id="@+id/default_allow_text"
+                style="@android:style/TextAppearance.Medium.Inverse"
+                tools:text="@string/vpn_disallow_radio"
+                android:layout_toStartOf="@id/default_allow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:background="@drawable/bg_switchbar"
+            android:paddingStart="@dimen/switchbar_pad"
+            android:elevation="1dp"
+            android:paddingEnd="@dimen/switchbar_pad"
+    >
+
+        <Switch
+                android:id="@+id/allow_bypass"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+        />
+        <TextView
+                style="@android:style/TextAppearance.Medium.Inverse"
+                android:text="@string/vpn_allow_bypass"
+                android:layout_toStartOf="@id/allow_bypass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

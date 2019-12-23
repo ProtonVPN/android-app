@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to ovpn3 dependency tree
+    exit 1
+fi
+cd $DEP_DIR
+. $O3/core/deps/lib-versions
+. $O3/core/vars/android-sdk-path
+[ -z "$DL" ] && DL=~/Downloads
+rm -rf openssl
+mkdir openssl
+for TARGET in android-a8a android-a8a-dbg android-a7a android-a7a-dbg android-dbg android ; do
+    . $O3/core/vars/vars-$TARGET
+    export OPENSSL=$OPENSSL_VERSION
+    export DIST=$(pwd)/openssl-$PLATFORM
+    export BIN=$TC/bin
+    rm -rf $DIST
+    rm -rf $OPENSSL
+    tar xfz $DL/$OPENSSL.tar.gz
+    pushd $OPENSSL
+    OSSL_FLAGS="no-shared threads no-idea no-mdc2 no-rc5 no-engine no-comp no-hw no-ssl2 no-ssl3 no-zlib no-rc2 no-cast no-md2 no-ripemd no-camellia no-seed no-krb5 no-socks no-ecdsa no-ec no-ecdh no-md2 no-whirlpool no-dsa no-cms no-jpake no-gost"
+    #OSSL_FLAGS="no-shared threads no-comp no-zlib"
+    ./Configure linux-armv4 $OSSL_FLAGS --prefix=$DIST
+    sed -i "" -e "s|-O3|$LIB_OPT_LEVEL $LIB_FPIC $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS|" Makefile
+    sed -i "" -e "s|ERR_load_COMP_strings()|//ERR_load_COMP_strings()|" crypto/err/err_all.c
+    make -j 4 build_libs
+    touch apps/openssl
+    touch openssl.pc
+    touch libcrypto.pc
+    touch libssl.pc
+    make install_sw
+    popd
+    mv $DIST openssl
+done
+exit 0

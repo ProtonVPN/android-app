@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# Parameters:
+#   SDK_PATH_SCRIPT -- optional script to set SDK path
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$TARGETS" ]; then
+    echo TARGETS var must be defined
+    exit 1
+fi
+
+# NOTE: in Boost 1.55 and earlier, set BCONF=tools/build/v2
+BCONF=tools/build/src
+
+. $O3/core/deps/lib-versions
+[ -z "$DL" ] && DL=~/Downloads
+[ -z "$GPP_CMD" ] && export GPP_CMD=g++
+[ -z "$GCC_CMD" ] && export GCC_CMD=gcc
+if [ "$NO_WIPE" != "1" ]; then
+    echo WIPE and reunzip source
+    rm -rf boost $BOOST_VERSION
+    mkdir boost
+    tar xfz $DL/$BOOST_VERSION.tar.gz
+    cd $BOOST_VERSION
+    #patch -p1 <$DL/asio-engine.patch
+    #patch -p0 <$O3/core/deps/boost/atomic-1.55.0.patch
+    patch -p1 <$O3/core/deps/boost/intrusive_ptr.patch
+    patch -p1 <$O3/core/deps/boost/page_size.patch
+
+    ./bootstrap.sh
+
+    for T in $TARGETS ; do
+	TS="${T//-/}"
+	. $O3/core/vars/vars-$T
+	cat >>$BCONF/user-config.jam <<EOF
+using $GCC_CMD : $TS : $GPP_CMD
+            :
+                <compileflags>"-Wno-unused-function $PLATFORM_FLAGS $CXX_COMPILER_FLAGS $OTHER_COMPILER_FLAGS $LIB_FPIC $LIB_OPT_LEVEL"
+            ;
+EOF
+    done
+    echo '********** BOOST CONFIG'
+    tail -30 $BCONF/user-config.jam
+    echo '********** END BOOST CONFIG'
+else
+    echo RETAIN existing source
+    cd $BOOST_VERSION
+    for T in $TARGETS ; do
+	TS="${T//-/}"
+	. $O3/core/vars/vars-$T
+    done
+fi
+[ "$SDK_PATH_SCRIPT" ] && . $SDK_PATH_SCRIPT
+for T in $TARGETS ; do
+    . $O3/core/vars/vars-$T
+    target="${T//-/}"
+    stage=stage-$T
+    if [ "${target:(-3)}" == "dbg" ]; then
+	variant=debug
+    else
+	variant=release
+    fi
+    [ -z "$LINK_MODE" ] && LINK_MODE=static
+    echo "************************ $target $variant $stage"
+    cmd="./bjam -d2 toolset=${GCC_CMD}-${target} --stagedir=$stage --with-system --with-thread --with-atomic variant=$variant link=$LINK_MODE threading=multi runtime-link=$LINK_MODE"
+    echo $cmd
+    $cmd
+done
+mv stage-* ../boost/
+cp -a boost ../boost/
+exit 0

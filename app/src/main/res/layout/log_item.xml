@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    tools:background="@color/darkGrey"
+    android:layout_height="wrap_content">
+    <TextView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/logLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="9sp"
+        android:typeface="monospace"
+        app:fontFamily="monospace"
+        tools:text="Simple test log item"/>
+</LinearLayout>

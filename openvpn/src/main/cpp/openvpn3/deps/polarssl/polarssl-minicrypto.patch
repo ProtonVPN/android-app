@@ -1,0 +1,446 @@
+diff -uNr polarssl-1.2.7/include/polarssl/aes_alt.h polarssl.new/include/polarssl/aes_alt.h
+--- polarssl-1.2.7/include/polarssl/aes_alt.h	1969-12-31 17:00:00.000000000 -0700
++++ polarssl.new/include/polarssl/aes_alt.h	2013-06-07 18:18:37.000000000 -0600
+@@ -0,0 +1,183 @@
++/*
++ * Use OpenSSL implementation of AES methods to get asm and hardware acceleration.
++ * Don't include this file directly, it is included by aes.h when
++ * POLARSSL_AES_ALT is defined.
++ */
++
++#ifdef _MSC_VER
++#include <basetsd.h>
++typedef UINT32 uint32_t;
++#else
++#include <inttypes.h>
++#endif
++
++#define OPENSSL_AES_BLOCK_SIZE 16
++#define OPENSSL_AES_MAXNR 14
++
++/**
++ * \brief          AES context structure
++ */
++typedef struct
++{
++  uint32_t rd_key[4 * (OPENSSL_AES_MAXNR + 1)];
++  int rounds;
++}
++aes_context;
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++#if defined(POLARSSL_USE_OPENSSL_AES_NI)
++
++int aesni_set_encrypt_key(const unsigned char *userKey, const int bits,
++			  aes_context *key);
++int aesni_set_decrypt_key(const unsigned char *userKey, const int bits,
++			  aes_context *key);
++void aesni_ecb_encrypt(const unsigned char *in, unsigned char *out,
++		       size_t length, const aes_context *key, const int enc);
++void aesni_cbc_encrypt(const unsigned char *in, unsigned char *out,
++		       size_t length, const aes_context *key,
++		       unsigned char *ivec, const int enc);
++
++#define OPENSSL_AES_SET_ENCRYPT_KEY(k,b,c)    aesni_set_encrypt_key(k,b,c)
++#define OPENSSL_AES_SET_DECRYPT_KEY(k,b,c)    aesni_set_decrypt_key(k,b,c)
++#define OPENSSL_AES_ECB_ENCRYPT(i,o,k)        aesni_ecb_encrypt(i,o,16,k,AES_ENCRYPT)
++#define OPENSSL_AES_ECB_DECRYPT(i,o,k)        aesni_ecb_encrypt(i,o,16,k,AES_DECRYPT)
++#define OPENSSL_AES_CBC_ENCRYPT(i,o,l,k,iv,e) aesni_cbc_encrypt(i,o,l,k,iv,e)
++
++#else
++
++int AES_set_encrypt_key(const unsigned char *userKey, const int bits,
++			aes_context *key);
++int AES_set_decrypt_key(const unsigned char *userKey, const int bits,
++			aes_context *key);
++
++void AES_encrypt(const unsigned char *in, unsigned char *out, const aes_context *key);
++void AES_decrypt(const unsigned char *in, unsigned char *out, const aes_context *key);
++
++
++#define OPENSSL_AES_SET_ENCRYPT_KEY(k,b,c)    AES_set_encrypt_key(k,b,c)
++#define OPENSSL_AES_SET_DECRYPT_KEY(k,b,c)    AES_set_decrypt_key(k,b,c)
++#define OPENSSL_AES_ECB_ENCRYPT(i,o,k)        AES_encrypt(i,o,k)
++#define OPENSSL_AES_ECB_DECRYPT(i,o,k)        AES_decrypt(i,o,k)
++
++#endif
++
++/**
++ * \brief          AES key schedule (encryption)
++ *
++ * \param ctx      AES context to be initialized
++ * \param key      encryption key
++ * \param keysize  must be 128, 192 or 256
++ *
++ * \return         0 if successful, or POLARSSL_ERR_AES_INVALID_KEY_LENGTH
++ */
++static inline int aes_setkey_enc( aes_context *ctx, const unsigned char *key, const unsigned int keysize )
++{
++  const int status = OPENSSL_AES_SET_ENCRYPT_KEY(key, keysize, ctx);
++  return status ? POLARSSL_ERR_AES_INVALID_KEY_LENGTH : 0;
++}
++
++/**
++ * \brief          AES key schedule (decryption)
++ *
++ * \param ctx      AES context to be initialized
++ * \param key      decryption key
++ * \param keysize  must be 128, 192 or 256
++ *
++ * \return         0 if successful, or POLARSSL_ERR_AES_INVALID_KEY_LENGTH
++ */
++static inline int aes_setkey_dec( aes_context *ctx, const unsigned char *key, const unsigned int keysize )
++{
++  const int status = OPENSSL_AES_SET_DECRYPT_KEY(key, keysize, ctx);
++  return status ? POLARSSL_ERR_AES_INVALID_KEY_LENGTH : 0;
++}
++
++/**
++ * \brief          AES-ECB block encryption/decryption
++ *
++ * \param ctx      AES context
++ * \param mode     AES_ENCRYPT or AES_DECRYPT
++ * \param input    16-byte input block
++ * \param output   16-byte output block
++ *
++ * \return         0 if successful
++ */
++static inline int aes_crypt_ecb( aes_context *ctx,
++				 const int mode,
++				 const unsigned char input[16],
++				 unsigned char output[16] )
++{
++  if (mode == AES_DECRYPT)
++    OPENSSL_AES_ECB_DECRYPT(input, output, ctx);
++  else
++    OPENSSL_AES_ECB_ENCRYPT(input, output, ctx);
++  return 0;
++}
++
++/**
++ * \brief          AES-CBC buffer encryption/decryption
++ *                 Length should be a multiple of the block
++ *                 size (16 bytes)
++ *
++ * \param ctx      AES context
++ * \param mode     AES_ENCRYPT or AES_DECRYPT
++ * \param length   length of the input data
++ * \param iv       initialization vector (updated after use)
++ * \param input    buffer holding the input data
++ * \param output   buffer holding the output data
++ *
++ * \return         0 if successful, or POLARSSL_ERR_AES_INVALID_INPUT_LENGTH
++ */
++static inline int aes_crypt_cbc( aes_context *ctx,
++				 const int mode,
++				 size_t length,
++				 unsigned char iv[16],
++				 const unsigned char *input,
++				 unsigned char *output )
++{
++#ifdef OPENSSL_AES_CBC_ENCRYPT
++  if (length & (OPENSSL_AES_BLOCK_SIZE-1))
++    return POLARSSL_ERR_AES_INVALID_INPUT_LENGTH;
++  OPENSSL_AES_CBC_ENCRYPT(input, output, length, ctx, iv, mode);
++  return 0;
++#else
++    int i;
++    unsigned char temp[16];
++    if (length & (OPENSSL_AES_BLOCK_SIZE-1))
++      return POLARSSL_ERR_AES_INVALID_INPUT_LENGTH;
++    if( mode == AES_DECRYPT )
++    {
++        while( length > 0 )
++        {
++            memcpy( temp, input, 16 );
++	    OPENSSL_AES_ECB_DECRYPT(input, output, ctx);
++            for( i = 0; i < 16; i++ )
++                output[i] = (unsigned char)( output[i] ^ iv[i] );
++            memcpy( iv, temp, 16 );
++            input  += 16;
++            output += 16;
++            length -= 16;
++        }
++    }
++    else
++    {
++        while( length > 0 )
++        {
++            for( i = 0; i < 16; i++ )
++                output[i] = (unsigned char)( input[i] ^ iv[i] );
++	    OPENSSL_AES_ECB_ENCRYPT(output, output, ctx);
++            memcpy( iv, output, 16 );
++            input  += 16;
++            output += 16;
++            length -= 16;
++        }
++    }
++    return( 0 );
++#endif
++}
++
++#ifdef __cplusplus
++}
++#endif
+diff -uNr polarssl-1.2.7/include/polarssl/sha1_alt.h polarssl.new/include/polarssl/sha1_alt.h
+--- polarssl-1.2.7/include/polarssl/sha1_alt.h	1969-12-31 17:00:00.000000000 -0700
++++ polarssl.new/include/polarssl/sha1_alt.h	2013-06-07 17:43:56.000000000 -0600
+@@ -0,0 +1,56 @@
++/*
++ * Use OpenSSL implementation of SHA1 methods to get asm and hardware acceleration.
++ * Don't include this file directly, it is included by sha1.h when
++ * POLARSSL_SHA1_ALT is defined.
++ */
++
++#include "polarssl/sha_openssl.h"
++
++struct openssl_sha_context {
++  SHA_LONG h0,h1,h2,h3,h4;
++  SHA_LONG Nl,Nh;
++  SHA_LONG data[SHA_LBLOCK];
++  unsigned int num;
++};
++
++typedef struct
++{
++  struct openssl_sha_context octx;
++
++  unsigned char ipad[64];     /*!< HMAC: inner padding        */
++  unsigned char opad[64];     /*!< HMAC: outer padding        */
++}
++sha1_context;
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++int SHA1_Init(struct openssl_sha_context *c);
++int SHA1_Update(struct openssl_sha_context *c, const void *data, size_t len);
++int SHA1_Final(unsigned char *md, struct openssl_sha_context *c);
++void sha1_block_data_order(struct openssl_sha_context *c, const void *p, size_t num);
++
++static inline void sha1_starts( sha1_context *ctx )
++{
++  SHA1_Init(&ctx->octx);
++}
++
++static inline void sha1_update( sha1_context *ctx, const unsigned char *input, size_t ilen )
++{
++  SHA1_Update(&ctx->octx, input, ilen);
++}
++
++static inline void sha1_finish( sha1_context *ctx, unsigned char output[20] )
++{
++  SHA1_Final(output, &ctx->octx);
++}
++
++static inline void sha1_process( sha1_context *ctx, const unsigned char data[64] )
++{
++  sha1_block_data_order(&ctx->octx, data, 1);
++}
++
++#ifdef __cplusplus
++}
++#endif
+diff -uNr polarssl-1.2.7/include/polarssl/sha256_alt.h polarssl.new/include/polarssl/sha256_alt.h
+--- polarssl-1.2.7/include/polarssl/sha256_alt.h	1969-12-31 17:00:00.000000000 -0700
++++ polarssl.new/include/polarssl/sha256_alt.h	2013-06-07 17:43:56.000000000 -0600
+@@ -0,0 +1,71 @@
++/*
++ * Use OpenSSL implementation of SHA256 methods to get asm and hardware acceleration.
++ * Don't include this file directly, it is included by sha256.h when
++ * POLARSSL_SHA256_ALT is defined.
++ */
++
++#include "polarssl/sha_openssl.h"
++
++struct openssl_sha256_context {
++  SHA_LONG h[8];
++  SHA_LONG Nl,Nh;
++  SHA_LONG data[SHA_LBLOCK];
++  unsigned int num,md_len;
++};
++
++typedef struct
++{
++  struct openssl_sha256_context octx;
++
++  unsigned char ipad[64];     /*!< HMAC: inner padding        */
++  unsigned char opad[64];     /*!< HMAC: outer padding        */
++  int is224;                  /*!< 0 => SHA-256, else SHA-224 */
++}
++sha256_context;
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++int SHA224_Init(struct openssl_sha256_context *c);
++int SHA224_Update(struct openssl_sha256_context *c, const void *data, size_t len);
++int SHA224_Final(unsigned char *md, struct openssl_sha256_context *c);
++
++int SHA256_Init(struct openssl_sha256_context *c);
++int SHA256_Update(struct openssl_sha256_context *c, const void *data, size_t len);
++int SHA256_Final(unsigned char *md, struct openssl_sha256_context *c);
++
++void sha256_block_data_order(struct openssl_sha256_context *c, const void *p, size_t num);
++
++static inline void sha256_starts( sha256_context *ctx, int is224 )
++{
++  if ((ctx->is224 = is224))
++    SHA224_Init(&ctx->octx);
++  else
++    SHA256_Init(&ctx->octx);
++}
++
++static inline void sha256_update( sha256_context *ctx, const unsigned char *input, size_t ilen )
++{
++  if (ctx->is224)
++    SHA224_Update(&ctx->octx, input, ilen);
++  else
++    SHA256_Update(&ctx->octx, input, ilen);
++}
++
++static inline void sha256_finish( sha256_context *ctx, unsigned char output[32] )
++{
++  if (ctx->is224)
++    SHA224_Final(output, &ctx->octx);
++  else
++    SHA256_Final(output, &ctx->octx);
++}
++
++static inline void sha256_process( sha256_context *ctx, const unsigned char data[64] )
++{
++  sha256_block_data_order(&ctx->octx, data, 1);
++}
++
++#ifdef __cplusplus
++}
++#endif
+diff -uNr polarssl-1.2.7/include/polarssl/sha512_alt.h polarssl.new/include/polarssl/sha512_alt.h
+--- polarssl-1.2.7/include/polarssl/sha512_alt.h	1969-12-31 17:00:00.000000000 -0700
++++ polarssl.new/include/polarssl/sha512_alt.h	2013-06-07 17:43:56.000000000 -0600
+@@ -0,0 +1,74 @@
++/*
++ * Use OpenSSL implementation of SHA512 methods to get asm and hardware acceleration.
++ * Don't include this file directly, it is included by sha512.h when
++ * POLARSSL_SHA512_ALT is defined.
++ */
++
++#include "polarssl/sha_openssl.h"
++
++struct openssl_sha512_context {
++  SHA_LONG64 h[8];
++  SHA_LONG64 Nl,Nh;
++  union {
++    SHA_LONG64 d[SHA_LBLOCK];
++    unsigned char p[SHA512_CBLOCK];
++  } u;
++  unsigned int num,md_len;
++};
++
++typedef struct
++{
++  struct openssl_sha512_context octx;
++
++  unsigned char ipad[128];    /*!< HMAC: inner padding        */
++  unsigned char opad[128];    /*!< HMAC: outer padding        */
++  int is384;                  /*!< 0 => SHA-512, else SHA-384 */
++}
++sha512_context;
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++int SHA384_Init(struct openssl_sha512_context *c);
++int SHA384_Update(struct openssl_sha512_context *c, const void *data, size_t len);
++int SHA384_Final(unsigned char *md, struct openssl_sha512_context *c);
++
++int SHA512_Init(struct openssl_sha512_context *c);
++int SHA512_Update(struct openssl_sha512_context *c, const void *data, size_t len);
++int SHA512_Final(unsigned char *md, struct openssl_sha512_context *c);
++
++void sha512_block_data_order(struct openssl_sha512_context *c, const void *p, size_t num);
++
++static inline void sha512_starts( sha512_context *ctx, int is384 )
++{
++  if ((ctx->is384 = is384))
++    SHA384_Init(&ctx->octx);
++  else
++    SHA512_Init(&ctx->octx);
++}
++
++static inline void sha512_update( sha512_context *ctx, const unsigned char *input, size_t ilen )
++{
++  if (ctx->is384)
++    SHA384_Update(&ctx->octx, input, ilen);
++  else
++    SHA512_Update(&ctx->octx, input, ilen);
++}
++
++static inline void sha512_finish( sha512_context *ctx, unsigned char output[64] )
++{
++  if (ctx->is384)
++    SHA384_Final(output, &ctx->octx);
++  else
++    SHA512_Final(output, &ctx->octx);
++}
++
++static inline void sha512_process( sha512_context *ctx, const unsigned char data[128] )
++{
++  sha512_block_data_order(&ctx->octx, data, 1);
++}
++
++#ifdef __cplusplus
++}
++#endif
+diff -uNr polarssl-1.2.7/include/polarssl/sha_openssl.h polarssl.new/include/polarssl/sha_openssl.h
+--- polarssl-1.2.7/include/polarssl/sha_openssl.h	1969-12-31 17:00:00.000000000 -0700
++++ polarssl.new/include/polarssl/sha_openssl.h	2013-06-07 17:43:56.000000000 -0600
+@@ -0,0 +1,42 @@
++/*
++ * Common header file for all OpenSSL-imported SHA methods
++ */
++
++#ifndef POLARSSL_SHA_OPENSSL_H
++#define POLARSSL_SHA_OPENSSL_H
++
++/*
++ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
++ * ! SHA_LONG has to be at least 32 bits wide. If it's wider, then !
++ * ! SHA_LONG_LOG2 has to be defined along.                        !
++ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
++ */
++
++#if defined(__LP32__)
++#define SHA_LONG unsigned long
++#elif defined(OPENSSL_SYS_CRAY) || defined(__ILP64__)
++#define SHA_LONG unsigned long
++#define SHA_LONG_LOG2 3
++#else
++#define SHA_LONG unsigned int
++#endif
++
++#define SHA_LBLOCK	16
++
++/*
++ * Unlike 32-bit digest algorithms, SHA-512 *relies* on SHA_LONG64
++ * being exactly 64-bit wide. See Implementation Notes in sha512.c
++ * for further details.
++ */
++#define SHA512_CBLOCK	(SHA_LBLOCK*8)	/* SHA-512 treats input data as a
++					 * contiguous array of 64 bit
++					 * wide big-endian values. */
++#if (defined(_WIN32) || defined(_WIN64)) && !defined(__MINGW32__)
++#define SHA_LONG64 unsigned __int64
++#elif defined(__arch64__)
++#define SHA_LONG64 unsigned long
++#else
++#define SHA_LONG64 unsigned long long
++#endif
++
++#endif

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:padding="20dp"
+              tools:context=".LogWindow">
+
+
+    <LinearLayout
+        android:background="@drawable/white_rect"
+        android:elevation="1dp"
+            android:minWidth="300dp"
+
+            android:orientation="vertical"
+            android:layout_width="400dp"
+            android:layout_height="match_parent">
+
+        <include layout="@layout/log_silders"/>
+
+        <include layout="@layout/vpnstatus"/>
+    </LinearLayout>
+
+    <ListView
+        android:minWidth="400dp"
+        android:layout_weight="4"
+            android:id="@android:id/list"
+            android:transcriptMode="normal"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$TARGET" ]; then
+    echo TARGET var must be defined
+    exit 1
+fi
+
+[ -z "$DL" ] && DL=~/Downloads
+
+. $O3/core/vars/vars-$TARGET
+. $O3/core/deps/lib-versions
+
+# Build ASM files with clang 3.0
+if [ "$APPLE_FAMILY" = "1" ]; then
+    GCC_AS_CMD=$HOME/clang3/clang
+    if ! [ -f "$GCC_AS_CMD" ]; then
+	echo "clang 3.0 binary must be present in $GCC_AS_CMD to assemble ARM crypto algorithms"
+	exit 1
+    fi
+fi
+
+DEST=minicrypto/minicrypto-$PLATFORM
+
+GLOBAL_COMPILE_FLAGS="$PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -DSHA1_ASM -DBF_PTR -DOPENSSL_VERSION_PTEXT= -D__LP32__"
+
+[ -z "$GCC_CMD" ] && GCC_CMD=gcc
+[ -z "$GCC_AS_CMD" ] && GCC_AS_CMD="$GCC_CMD"
+[ -z "$AR_CMD" ] && AR_CMD=ar
+# the directory where this script lives
+H=$O3/core/deps/minicrypto
+
+if [ "$NO_WIPE" != "1" ]; then
+    # unzip OpenSSL
+    rm -rf $OPENSSL_VERSION
+    tar xfz $DL/$OPENSSL_VERSION.tar.gz
+fi
+
+OPENSSL_DIR=$(pwd)/$OPENSSL_VERSION
+
+# make build directory
+mkdir -p minicrypto
+rm -rf minicrypto/minicrypto-$PLATFORM
+mkdir -p minicrypto/minicrypto-$PLATFORM/build.tmp
+cd minicrypto/minicrypto-$PLATFORM/build.tmp
+mkdir openssl
+
+# copy files from OpenSSL tree
+
+# ARM
+cp $OPENSSL_DIR/crypto/arm_arch.h .
+
+# SHA general
+cp $OPENSSL_DIR/crypto/md32_common.h .
+cp $OPENSSL_DIR/crypto/sha/sha.h openssl
+
+# AES
+cp $OPENSSL_DIR/crypto/aes/asm/aes-armv4.pl .
+
+# SHA1
+cp $OPENSSL_DIR/crypto/sha/asm/sha1-armv4-large.pl .
+cp $OPENSSL_DIR/crypto/sha/sha_locl.h .
+cp $OPENSSL_DIR/crypto/sha/sha1dgst.c .
+
+# SHA2
+cp $OPENSSL_DIR/crypto/sha/sha256.c .
+cp $OPENSSL_DIR/crypto/sha/asm/sha256-armv4.pl .
+
+# SHA4
+cp $OPENSSL_DIR/crypto/sha/sha512.c .
+cp $OPENSSL_DIR/crypto/sha/asm/sha512-armv4.pl .
+
+# note that OPENSSL_cleanse is not used by any
+# of the functions we are interested in
+cat >openssl/crypto.h <<EOF
+#define fips_md_init(alg) fips_md_init_ctx(alg, alg)
+#define fips_md_init_ctx(alg, cx) int alg##_Init(cx##_CTX *c)
+#define OPENSSL_cleanse(ptr, len) memset((ptr), 0, (len))
+EOF
+
+# irrelevant headers
+touch openssl/e_os2.h
+touch openssl/opensslconf.h
+touch openssl/opensslv.h
+touch aes_locl.h
+touch cryptlib.h
+touch crypto.h
+
+# patches
+patch <$H/aes-armv4.pl.patch
+patch <$H/sha512-armv4.pl.patch
+perl -pi -e 's/private_//g' aes-armv4.pl
+for f in aes-armv4.pl sha256-armv4.pl sha512-armv4.pl ; do # armv4cpuid.pre
+    perl -pi -e 's/^(\.code.*)$/\/* \1 *\//' $f
+done
+
+# build C files
+for f in *.c ; do
+    COMPILE_FLAGS="-Wno-unused-value"
+    CMD="$GCC_CMD $GLOBAL_COMPILE_FLAGS $COMPILE_FLAGS -I. -c $f"
+    echo $CMD
+    $CMD
+done
+
+# build armv4cpuid.S
+#$O3/core/deps/minicrypto/arm-as-to-ios <armv4cpuid.pre >armv4cpuid.S
+#CMD="$GCC_AS_CMD $GLOBAL_COMPILE_FLAGS -DSYS_macosx -DNO_THUMB -c armv4cpuid.S"
+#echo $CMD
+#$CMD
+
+# build the ASM files given as perl source
+for f in *.pl ; do
+    bn=${f%%.pl}
+    S=$bn.S
+    COMPILE_FLAGS=""
+    CVT_FLAGS=""
+    if [ "$APPLE_FAMILY" = "1" ]; then
+	COMPILE_FLAGS="$COMPILE_FLAGS -DNO_THUMB"
+	[ "$bn" = "aes-armv4" ] && CVT_FLAGS="$CVT_FLAGS --global=!ad1,!ad2,!ad3"
+	[ "$bn" = "sha512-armv4" ] && CVT_FLAGS="$CVT_FLAGS --global=!HI,!LO"
+	perl $f | $O3/core/deps/minicrypto/arm-as-to-ios --stdin $CVT_FLAGS >$S
+    else
+	perl $f >$S	
+    fi
+    CMD="$GCC_AS_CMD $GLOBAL_COMPILE_FLAGS $COMPILE_FLAGS -DSYS_macosx -c $S"
+    echo $CMD
+    $CMD
+done
+
+CMD="$AR_CMD crs ../libminicrypto.a *.o"
+echo $CMD
+$CMD
+exit 0
