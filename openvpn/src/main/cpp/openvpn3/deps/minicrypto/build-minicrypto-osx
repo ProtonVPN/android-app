@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$TARGET" ]; then
+    echo TARGET var must be defined
+    exit 1
+fi
+if [ -z "$ARCH" ]; then
+    echo "ARCH var must be defined (x86_64|i386)"
+    exit 1
+fi
+
+[ -z "$DL" ] && DL=~/Downloads
+
+. $O3/core/vars-$TARGET
+. $O3/core/deps/lib-versions
+
+DEST=minicrypto/minicrypto-$PLATFORM
+
+GLOBAL_COMPILE_FLAGS="$MIN_DEPLOY_TARGET $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC"
+
+[ -z "$GCC_CMD" ] && GCC_CMD=gcc
+[ -z "$GCC_AS_CMD" ] && GCC_AS_CMD="$GCC_CMD"
+[ -z "$AR_CMD" ] && AR_CMD=ar
+
+# the directory where this script lives
+H=$O3/core/deps/minicrypto
+
+if [ "$NO_WIPE" != "1" ]; then
+    # unzip OpenSSL
+    rm -rf $OPENSSL_VERSION
+    tar xfz $DL/$OPENSSL_VERSION.tar.gz
+fi
+
+OPENSSL_DIR=$(pwd)/$OPENSSL_VERSION
+
+# make build directory
+mkdir -p minicrypto
+rm -rf minicrypto/minicrypto-$PLATFORM/$ARCH
+mkdir -p minicrypto/minicrypto-$PLATFORM/$ARCH/build.tmp
+cd minicrypto/minicrypto-$PLATFORM/$ARCH/build.tmp
+mkdir openssl
+
+# copy files from OpenSSL tree
+
+# AES (not necessary now that PolarSSL has AES optimizations)
+#cp $OPENSSL_DIR/crypto/aes/asm/aesni-x86_64.pl .
+
+if [ "$ARCH" = "x86_64" ]; then
+    # General
+    cp $O3/core/deps/polarssl/intel_cpu.c .
+    cp $OPENSSL_DIR/crypto/perlasm/x86_64-xlate.pl .
+    cp $OPENSSL_DIR/crypto/x86_64cpuid.pl .
+
+    # SHA general
+    cp $OPENSSL_DIR/crypto/md32_common.h .
+    cp $OPENSSL_DIR/crypto/sha/sha.h openssl
+
+    # SHA1
+    cp $OPENSSL_DIR/crypto/sha/sha_locl.h .
+    cp $OPENSSL_DIR/crypto/sha/sha1dgst.c .
+    cp $OPENSSL_DIR/crypto/sha/asm/sha1-x86_64.pl .
+
+    # SHA256
+    cp $OPENSSL_DIR/crypto/sha/sha256.c .
+
+    # SHA512
+    cp $OPENSSL_DIR/crypto/sha/sha512.c .
+    cp $OPENSSL_DIR/crypto/sha/asm/sha512-x86_64.pl .
+
+    # convert perl ASM to .s
+    for f in x86_64cpuid sha1-x86_64 ; do
+	perl $f.pl macosx >$f.s
+    done
+    perl sha512-x86_64.pl macosx sha512-x86_64.s
+    perl sha512-x86_64.pl macosx sha256-x86_64.s
+elif [ "$ARCH" = "i386" ]; then
+    # General
+    cp $O3/core/deps/polarssl/intel_cpu.c .
+    cp $OPENSSL_DIR/crypto/perlasm/x86asm.pl .
+    cp $OPENSSL_DIR/crypto/perlasm/x86gas.pl .
+    cp $OPENSSL_DIR/crypto/x86cpuid.pl .
+
+    # SHA general
+    cp $OPENSSL_DIR/crypto/md32_common.h .
+    cp $OPENSSL_DIR/crypto/sha/sha.h openssl
+
+    # SHA1
+    cp $OPENSSL_DIR/crypto/sha/sha_locl.h .
+    cp $OPENSSL_DIR/crypto/sha/sha1dgst.c .
+    cp $OPENSSL_DIR/crypto/sha/asm/sha1-586.pl .
+
+    # SHA256
+    cp $OPENSSL_DIR/crypto/sha/sha256.c .
+    cp $OPENSSL_DIR/crypto/sha/asm/sha256-586.pl .
+
+    # SHA512
+    cp $OPENSSL_DIR/crypto/sha/sha512.c .
+    cp $OPENSSL_DIR/crypto/sha/asm/sha512-586.pl .
+
+    # convert perl ASM to .s
+    for f in x86cpuid sha1-586 sha256-586 sha512-586 ; do
+	perl $f.pl macosx >$f.s
+    done
+fi
+
+cat >openssl/crypto.h <<EOF
+#define fips_md_init(alg) fips_md_init_ctx(alg, alg)
+#define fips_md_init_ctx(alg, cx) int alg##_Init(cx##_CTX *c)
+void OPENSSL_cleanse(void *ptr, unsigned long len);
+#define OPENSSL_VERSION_PTEXT " minicrypto"
+EOF
+
+# irrelevant headers
+touch openssl/e_os2.h
+touch openssl/opensslconf.h
+touch openssl/opensslv.h
+touch aes_locl.h
+touch cryptlib.h
+touch crypto.h
+
+# build C/ASM files
+for f in *.c *.s ; do
+    COMPILE_FLAGS="-arch $ARCH -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM"
+    CMD="$GCC_CMD $GLOBAL_COMPILE_FLAGS $COMPILE_FLAGS -I. -c $f"
+    echo $CMD
+    $CMD
+done
+
+CMD="$AR_CMD crs ../libminicrypto.a *.o"
+echo $CMD
+$CMD
+echo SYMBOLS
+nm ../libminicrypto.a
+exit 0

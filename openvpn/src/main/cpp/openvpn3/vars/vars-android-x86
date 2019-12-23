@@ -1,0 +1,15 @@
+[ -z "$DEP_DIR" ] && export DEP_DIR=$HOME/src/android
+export PLATFORM=android-x86
+export ABI=x86
+export DEBUG_BUILD=0
+export OTHER_COMPILER_FLAGS=""
+export CXX_COMPILER_FLAGS="-std=c++1y"
+export LIB_OPT_LEVEL="-O3"
+export LIB_FPIC="-fPIC"
+export TC=$DEP_DIR/tc-x86
+export PLATFORM_FLAGS="-D__LP32__ -march=i686 -fomit-frame-pointer --sysroot=$TC/sysroot"
+export GPP_CMD="$TC/bin/i686-linux-android-g++"
+export GCC_CMD="$TC/bin/i686-linux-android-gcc"
+
+[ -z "$VARS_SAVE_PATH" ] && VARS_SAVE_PATH="$PATH"
+export PATH="$TC/bin:$TC/i686-linux-android/bin:$VARS_SAVE_PATH"

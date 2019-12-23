@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2012-2017 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0"
+        android:strokeColor="#00000000"
+        android:fillColor="#F5F5F5"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M24.65,22C23.83,19.67 21.61,18 19,18C15.69,18 13,20.69 13,24C13,27.31 15.69,30 19,30C21.61,30 23.83,28.33 24.65,26L29,26L29,30L33,30L33,26L35,26L35,22L24.65,22L24.65,22ZM19,26C17.9,26 17,25.1 17,24C17,22.9 17.9,22 19,22C20.1,22 21,22.9 21,24C21,25.1 20.1,26 19,26L19,26Z"
+        android:strokeColor="#00000000"
+        android:fillColor="#3F51B5"
+        android:strokeWidth="1"/>
+</vector>

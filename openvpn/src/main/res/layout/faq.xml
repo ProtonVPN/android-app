@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/faq_recycler_view"
+    android:paddingLeft="@dimen/stdpadding"
+    android:paddingRight="@dimen/stdpadding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:verticalSpacing="@dimen/stdpadding"
+    android:horizontalSpacing="@dimen/stdpadding"
+    />

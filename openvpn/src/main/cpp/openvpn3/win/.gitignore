@@ -1,0 +1,12 @@
+*.pyc
+cli.exe
+cli.obj
+*.pdb
+.vs
+parms_local.py
+Debug
+x64
+PropertySheet.props
+*.VC.db
+*.VC.opendb
+*.vcxproj.user

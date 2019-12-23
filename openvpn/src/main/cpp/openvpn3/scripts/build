@@ -1,0 +1,352 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+
+enum_build_extras()
+{
+    ls -d $(echo $O3/*/scripts/build-extras/*) | sort
+}
+
+if [ -z "$1" ]; then
+    echo "usage: ./build target"
+    echo "options:"
+    echo " PROF=<platform> -- source vars/vars-<platform> before running"
+    echo " DPROF=1 -- when PROF is specified, use the debugging variant"
+    echo " CLANG=1 -- use clang instead of gcc"
+    echo " DEBUG=1 -- enable debug symbols"
+    echo " CO=1 -- compile only"
+    echo " OBJC=1 -- top-level source file is Obj-C"
+    echo ' ECHO=1 -- show commands'
+    echo ' OUTBIN=name -- write binary to name'
+    echo " STRIP=1 -- strip binary"
+    echo " STRICT=1 -- more warnings"
+    echo " LTO=1 -- build with LTO"
+    echo " GPROF=1 -- build for gprof profiling"
+    echo " PGEN=1 -- generate data for profile-guided optimization"
+    echo " PUSE=1 -- use data from previous run of PGEN=1 build"
+    echo " ASIO=1 -- build with ASIO"
+    echo " ASIO_DIR=<dir> -- specify ASIO tree"
+    echo " MTLS=1 -- include mbedTLS"
+    echo " MTLS_SYS=1 -- use system mbedTLS"
+    echo " MTLS_PATH=path -- use user specified mbedTLS source folder"
+    echo " MTLS_LIBS=ldflags -- user specific mbedTLS LDFLAGS"
+    echo " MA_HYBRID=1 -- use mbedTLS/AppleCrypto hybrid"
+    echo " NOSSL=1 -- don't include OpenSSL"
+    echo " OPENSSL_SYS=1 -- include system OpenSSL"
+    echo " MINI=1 -- link with OpenSSL mini crypto lib"
+    echo " OSSL=1 -- include OpenSSL"
+    echo " SSL_BOTH=1 -- include OpenSSL and Apple SSL on Mac"
+    echo " NOTHREADS=1 -- disable threads"
+    echo ' GCC_EXTRA="-DITER=5" -- add build flags'
+    echo " LZO=1 -- build with LZO compression library"
+    echo " LZ4=1 -- build with LZ4 compression library"
+    echo " LZ4_SYS=1 -- build with system LZ4 compression library"
+    echo " SNAP=1 -- build with Snappy compression library"
+    echo " CITY=1 -- build with Cityhash hash library"
+    echo " VAL=1 -- build with valgrind run-time extensions"
+    echo " JAVA=1 -- build with JVM"
+    echo ' EXTRA_CPP="foo1.cpp foo2.cpp" -- add extra .cpp files'
+    echo " GTEST_DIR=<dir> -- specify googletest tree, required for building unit tests"
+    for s in $(enum_build_extras) ; do
+	. $s args
+    done
+    exit 1
+fi
+
+# source vars file
+if [ "$PROF" ]; then
+    suffix=""
+    [ "$DPROF" = "1" ] && suffix="-dbg"
+    pfn="$O3/core/vars/vars-$PROF$suffix"
+    if ! [ -f "$pfn" ]; then
+	pfn="$PROF"
+    fi
+    . $pfn || exit 1
+fi
+
+# remove previous build
+[ -z "$OUTBIN" ] && OUTBIN="$(basename $1)"
+rm -f $OUTBIN
+
+# build options
+CPPFLAGS=""
+LIBS=""
+LIBDIRS=""
+EXTRA_SRC_OBJ=""
+
+# MbedTLS/AppleCrypto hybrid
+if [ "$MA_HYBRID" = "1" ]; then
+    MTLS=1
+fi
+
+# building on Mac OS X for osx, ios, or iossim?
+if [ "$APPLE_FAMILY" = "1" ]; then
+    [ -z "$CLANG" ] && CLANG=1
+fi
+
+# clang support
+if [ "$CLANG" = "1" ]; then
+    [ -z "$GPP_CMD" ] && GPP_CMD=clang++
+fi
+
+# building on Linux, use system OpenSSL
+if [ "$PLATFORM" = "linux" ] && [ "$OSSL" = "1" ] && [ "$NOSSL" != "1" ] && [ -z "$OPENSSL_SYS" ]; then
+    OSSL=0
+    OPENSSL_SYS=1
+fi
+
+# building on Linux, use system LZ4
+if [ "$PLATFORM" = "linux" ] && [ "$LZ4" = "1" ] && [ -z "$LZ4_SYS" ]; then
+    LZ4_SYS=1
+fi
+
+# default commands
+[ -z "$STRIP_CMD" ] && STRIP_CMD=strip
+[ -z "$GPP_CMD" ] && GPP_CMD=g++
+
+# build flags
+FLAGS="-Wall"
+[ "$STRICT" = "1" ] && FLAGS="$FLAGS -Wextra"
+[ "$CLANG" = "1" ] && FLAGS="$FLAGS -Wno-tautological-compare -Wno-unused-private-field -Wno-c++1y-extensions"
+FLAGS="$FLAGS -Wno-sign-compare -Wno-unused-parameter"
+
+# The Mac OS X tun/tap driver doesn't play with with kqueue.
+# utun devices, however, work fine with kqueue.
+#if [ "$PLATFORM" = "osx" ]; then
+#    CPPFLAGS="$CPPFLAGS -DBOOST_ASIO_DISABLE_KQUEUE"
+#fi
+
+# MbedTLS
+if [ "$MTLS_SYS" = "1" ]; then
+    CPPFLAGS="$CPPFLAGS -DUSE_MBEDTLS"
+    LIBS="$LIBS -lmbedtls -lmbedx509 -lmbedcrypto"
+elif [ "$MTLS" = "1" ]; then
+    LIBS="$LIBS -lmbedtls $MTLS_LIBS"
+    if [ "$MA_HYBRID" = "1" ]; then
+	CPPFLAGS="$CPPFLAGS -DUSE_MBEDTLS_APPLE_HYBRID"
+    else
+	CPPFLAGS="$CPPFLAGS -DUSE_MBEDTLS"
+    fi
+    if [ -n "$MTLS_PATH" ]; then
+	CPPFLAGS="$CPPFLAGS -I$MTLS_PATH/include"
+	LIBDIRS="$LIBDIRS -L$MTLS_PATH/library"
+    else
+	CPPFLAGS="$CPPFLAGS -I$DEP_DIR/mbedtls/mbedtls-$PLATFORM/include"
+	LIBDIRS="$LIBDIRS -L$DEP_DIR/mbedtls/mbedtls-$PLATFORM/library"
+    fi
+    if [ "$MINI" = "1" ]; then
+	LIBS="$LIBS -lminicrypto"
+	LIBDIRS="$LIBDIRS -L$DEP_DIR/minicrypto/minicrypto-$PLATFORM"
+	CPPFLAGS="$CPPFLAGS -DUSE_MINICRYPTO"
+	NOSSL=1
+    fi
+fi
+
+# OpenSSL
+if [ "$APPLE_FAMILY" = "1" ]; then
+    # On Mac, only link with OpenSSL if OSSL is defined.
+    # On other platforms, usually link with OpenSSL.
+    if [ "$OPENSSL_SYS" == "1" ]; then
+	NO_DEPRECATE="-Wno-deprecated-declarations"
+    else
+	NO_DEPRECATE=""
+    fi
+    if [ "$OPENSSL_LINK" = "1" ]; then
+	LIBS="$LIBS -lcrypto -lssl"
+    elif [ "$OSSL" = "1" ]; then
+	CPPFLAGS="$CPPFLAGS -DUSE_OPENSSL"
+	LIBS="$LIBS -lcrypto -lssl"
+	[ "$CLANG" = "1" ] && [ "$NO_DEPRECATE" ] && FLAGS="$FLAGS $NO_DEPRECATE"
+    elif [ "$SSL_BOTH" = "1" ]; then
+	CPPFLAGS="$CPPFLAGS -DUSE_APPLE_SSL -DUSE_OPENSSL"
+	LIBS="$LIBS -lcrypto -lssl"
+	[ "$CLANG" = "1" ] && [ "$NO_DEPRECATE" ] && FLAGS="$FLAGS $NO_DEPRECATE"
+    elif [ "$MTLS" = "1" ]; then
+	NOSSL=1
+    else
+	NOSSL=1
+	CPPFLAGS="$CPPFLAGS -DUSE_APPLE_SSL"
+    fi
+    LIBS="$LIBS -framework Security"
+else
+    if [ "$OPENSSL_LINK" = "1" ]; then
+	LIBS="$LIBS -lcrypto -lssl"
+    elif [ "$NOSSL" != "1" ]; then
+	CPPFLAGS="$CPPFLAGS -DUSE_OPENSSL"
+	LIBS="$LIBS -lssl -lcrypto -ldl"
+    fi
+fi
+if [ "$OPENSSL_SYS" != "1" ] && [ "$OPENSSL_LINK" != "1" ] && [ "$NOSSL" != "1" ]; then
+    CPPFLAGS="$CPPFLAGS -I$DEP_DIR/openssl/openssl-$PLATFORM/include"
+    LIBDIRS="$LIBDIRS -L$DEP_DIR/openssl/openssl-$PLATFORM/lib"
+fi
+
+# Apple libs
+if [ "$APPLE_FAMILY" = "1" ]; then
+    LIBS="$LIBS -framework CoreFoundation -framework SystemConfiguration -framework IOKit -framework ApplicationServices"
+fi
+
+# boost
+#CPPFLAGS="$CPPFLAGS -I$DEP_DIR/boost"
+#LIBS="$LIBS -lboost_system"
+#LIBDIRS="$LIBDIRS -L$DEP_DIR/boost/stage-$PLATFORM/lib"
+#if [ "$NOTHREADS" = "1" ]; then
+#    CPPFLAGS="$CPPFLAGS -DBOOST_DISABLE_THREADS"
+#else
+#    #LIBS="$LIBS -lboost_thread" # no longer needed because we use std::thread now
+#    [ "$PLATFORM" != "android" ] && FLAGS="$FLAGS -pthread"
+#fi
+
+# asio
+if [ "$ASIO" = "1" ] || [ "$ASIO_DIR" ]; then
+    [ -z "$ASIO_DIR" ] && ASIO_DIR="$DEP_DIR/asio"
+    CPPFLAGS="$CPPFLAGS -DUSE_ASIO -DASIO_STANDALONE -DASIO_NO_DEPRECATED -I$ASIO_DIR/asio/include"
+fi
+
+# gtest
+if [ "$GTEST_DIR" ]; then
+    CPPFLAGS="$CPPFLAGS -I$GTEST_DIR/googletest/include"
+    LIBDIRS="$LIBDIRS -L$GTEST_DIR/googlemock/gtest"
+    LIBS="$LIBS -lgtest"
+fi
+
+# LZO compression
+if [ "$LZO" = "1" ]; then
+    LIBDIRS="$LIBDIRS -L$DEP_DIR/lzo/lzo-$PLATFORM/lib"
+    CPPFLAGS="$CPPFLAGS -I$DEP_DIR/lzo/lzo-$PLATFORM/include"
+    LIBS="$LIBS -llzo2"
+    CPPFLAGS="$CPPFLAGS -DHAVE_LZO"
+fi
+
+# LZ4 compression
+if [ "$LZ4_SYS" = "1" ]; then
+    CPPFLAGS="$CPPFLAGS -DHAVE_LZ4"
+    LIBS="$LIBS -llz4"
+elif [ "$LZ4" = "1" ]; then
+    EXTRA_SRC_OBJ="$EXTRA_SRC_OBJ $DEP_DIR/lz4/lz4-$PLATFORM/lib/liblz4.a"
+    CPPFLAGS="$CPPFLAGS -I$DEP_DIR/lz4/lz4-$PLATFORM/include -DHAVE_LZ4"
+fi
+
+# Snappy compression
+if [ "$SNAP" = "1" ]; then
+    LIBDIRS="$LIBDIRS -L$DEP_DIR/snappy/snappy-$PLATFORM/lib"
+    CPPFLAGS="$CPPFLAGS -I$DEP_DIR/snappy/snappy-$PLATFORM/include"
+    LIBS="$LIBS -lsnappy"
+    CPPFLAGS="$CPPFLAGS -DHAVE_SNAPPY"
+fi
+
+# Cityhash
+if [ "$CITY" = "1" ]; then
+    if [ -d "$DEP_DIR/cityhash/cityhash-$PLATFORM/lib" ]; then
+	LIBDIRS="$LIBDIRS -L$DEP_DIR/cityhash/cityhash-$PLATFORM/lib"
+    fi
+    if [ -d "$DEP_DIR/cityhash/cityhash-$PLATFORM/include" ]; then
+	CPPFLAGS="$CPPFLAGS -I$DEP_DIR/cityhash/cityhash-$PLATFORM/include"
+    fi
+    LIBS="$LIBS -lcityhash"
+    CPPFLAGS="$CPPFLAGS -DHAVE_CITYHASH"
+fi
+
+# Valgrind
+if [ "$VAL" = "1" ]; then
+    CPPFLAGS="$CPPFLAGS -DHAVE_VALGRIND"
+fi
+
+# JVM
+if [ "$JAVA" = "1" ]; then
+    if [ -z "$JAVA_HOME" ]; then
+	echo JAVA_HOME not defined
+	exit 1
+    fi
+    LIBDIRS="$LIBDIRS -L$JAVA_HOME/jre/lib/amd64/server"
+    CPPFLAGS="$CPPFLAGS -I$JAVA_HOME/include -I$JAVA_HOME/include/linux"
+    LIBS="$LIBS -ljvm"
+fi
+
+# other environments
+for s in $(enum_build_extras) ; do
+    . $s deps
+done
+
+# Android NDK
+if [ "$PLATFORM" = "android" ]; then
+    CPPFLAGS="$CPPFLAGS -D__GLIBC__"
+    CPPFLAGS="$CPPFLAGS -D_GLIBCXX_HAVE_FENV_H=1"
+#   CPPFLAGS="$CPPFLAGS -DBOOST_NO_INTRINSIC_WCHAR_T"
+fi
+
+# Special platform flags
+if [ "$PLATFORM_FLAGS" ]; then
+    FLAGS="$FLAGS $PLATFORM_FLAGS"
+fi
+
+# C++ compiler flags
+if [ "$CXX_COMPILER_FLAGS" ]; then
+    FLAGS="$FLAGS $CXX_COMPILER_FLAGS"
+fi
+
+# Other compiler flags
+if [ "$OTHER_COMPILER_FLAGS" ]; then
+    FLAGS="$FLAGS $OTHER_COMPILER_FLAGS"
+fi
+
+# ovpn3
+CPPFLAGS="$CPPFLAGS -I$O3/core"
+
+# profile-guided optimization
+if [ "$PGEN" = "1" ]; then
+    FLAGS="$FLAGS -fprofile-generate"
+elif [ "$PUSE" = "1" ]; then
+    FLAGS="$FLAGS -fprofile-use"
+fi
+
+# compiler flags
+FLAGS="$LIB_OPT_LEVEL $FLAGS"
+
+# whole-program
+if [ "$CLANG" != "1" ] && [ "$DEBUG_BUILD" != "1" ] && [ -z "$EXTRA_CPP" ] && [ "$CO" != "1" ]; then
+    FLAGS="-fwhole-program $FLAGS"
+fi
+
+# compile only
+if [ "$CO" == "1" ]; then
+    OUTPUT="-c"
+    LIBDIRS=""
+    LIBS=""
+    EXTRA_SRC_OBJ=""
+else
+    OUTPUT="-o $OUTBIN"
+fi
+
+# release/debug builds
+if [ "$DEBUG" = "1" ]; then
+    # debug build
+    FLAGS="-g $FLAGS"
+else
+    # release build
+    [ "$LTO" = "1" ] && [ "$CLANG" != "1" ] && FLAGS="$FLAGS -flto=4 -Wl,--no-as-needed"
+    [ "$GPROF" = "1" ] && FLAGS="$FLAGS -pg"
+fi
+
+# Construct command
+if [ "$OBJC" == "1" ]; then
+    FLAGS="$FLAGS -fobjc-arc"
+    LIBS="-framework Foundation $LIBS"
+    SRC="$1.mm"
+    CMD="$GPP_CMD $FLAGS $GCC_EXTRA $CPPFLAGS $LIBDIRS $SRC $EXTRA_CPP $EXTRA_SRC_OBJ $OUTPUT $LIBS"
+else
+    CMD="$GPP_CMD $FLAGS $GCC_EXTRA $CPPFLAGS $LIBDIRS $1.cpp $EXTRA_CPP $EXTRA_SRC_OBJ $OUTPUT $LIBS"
+fi
+
+# execute CMD
+[ "$ECHO" = "1" ] && echo $CMD
+$CMD
+
+# maybe strip
+[ "$STRIP" = "1" ] && $STRIP_CMD $OUTBIN
+exit 0

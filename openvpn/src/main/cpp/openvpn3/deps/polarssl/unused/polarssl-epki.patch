@@ -1,0 +1,181 @@
+This patch allows the caller to create a proxy object that can be used
+in place of a private key.  The proxy object must define sign and
+decrypt methods.  This functionality is similar to that provided by
+POLARSSL_PKCS11_C except that it can accomodate any arbitrary
+implementation of external private keys, not only that provided by
+the PKCS#11 helper library.
+
+This is necessary to allow PolarSSL to interact with certificate/key
+stores on many different platforms that don't natively support
+PKCS#11 such as Mac (uses Keychain API), Windows (uses CryptoAPI),
+and Android (android.security.KeyChain).
+
+In the basic usage model, the library is built with POLARSSL_PKCS11_C
+and POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY.  Doing this causes the
+pkcs11_context object to become an interface to any arbitrary
+external private key implementation that defines sign and decrypt
+methods.  Note that in this configuration, the PKCS#11 helper library
+(libpkcs11-helper) is not used.
+
+When POLARSSL_PKCS11_C is defined in the absence of
+POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY, the pkcs11_context object
+reverts to its previous implementation, where it becomes a
+connector to a certificate/private-key context in the PKCS#11 helper
+library.
+
+diff -ur polarssl-1.1.1.orig/include/polarssl/config.h polarssl-1.1.1/include/polarssl/config.h
+--- polarssl-1.1.1.orig/include/polarssl/config.h	2011-12-22 03:06:27.000000000 -0700
++++ polarssl-1.1.1/include/polarssl/config.h	2012-03-14 02:31:04.000000000 -0600
+@@ -531,10 +531,26 @@
+  *
+  * This module is required for SSL/TLS PKCS #11 smartcard support.
+  * Requires the presence of the PKCS#11 helper library (libpkcs11-helper)
++ * unless POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY is also defined.
++ *
+ #define POLARSSL_PKCS11_C
+  */
+ 
+ /**
++ * \def POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY
++ *
++ * Enable support for generic external private key implementations.
++ *
++ * Module:  library/ssl_srv.c
++ * Caller:  library/ssl_cli.c
++ *          library/ssl_srv.c
++ *
++ * Requires: POLARSSL_PKCS11_C
++ *
++#define POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY
++ */
++
++/**
+  * \def POLARSSL_RSA_C
+  *
+  * Enable the RSA public-key cryptosystem.
+diff -ur polarssl-1.1.1.orig/include/polarssl/pkcs11.h polarssl-1.1.1/include/polarssl/pkcs11.h
+--- polarssl-1.1.1.orig/include/polarssl/pkcs11.h	2011-11-18 07:26:47.000000000 -0700
++++ polarssl-1.1.1/include/polarssl/pkcs11.h	2012-03-14 02:28:34.000000000 -0600
+@@ -35,6 +35,95 @@
+ 
+ #include "x509.h"
+ 
++#if defined(POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY)
++
++/* inline preamble */
++#if defined(_MSC_VER) && !defined(inline)
++#define inline _inline
++#else
++#if defined(__ARMCC_VERSION) && !defined(inline)
++#define inline __inline
++#endif /* __ARMCC_VERSION */
++#endif /*_MSC_VER */
++
++/**
++ * This object is a reference to an external private key,
++ * and can be used in place of a concrete private key.
++ */
++typedef struct _pkcs11_context {
++  void *parameter; /** user-defined parameter */
++  int len;         /** private key length in bytes */
++
++  /** user-defined decrypt method, see pkcs11_decrypt doc below */
++  int (*f_decrypt)( struct _pkcs11_context *ctx,
++		    int mode, size_t *olen,
++		    const unsigned char *input,
++		    unsigned char *output,
++		    unsigned int output_max_len );
++
++  /** user-defined sign method, see pkcs11_sign doc below */
++  int (*f_sign)( struct _pkcs11_context *ctx,
++		 int mode,
++		 int hash_id,
++		 unsigned int hashlen,
++		 const unsigned char *hash,
++		 unsigned char *sig );
++
++} pkcs11_context;
++
++/**
++ * \brief          Do an RSA private key decrypt, then remove the message padding
++ *
++ * \param ctx      PKCS #11 context
++ * \param mode     must be RSA_PRIVATE, for compatibility with rsa.c's signature
++ * \param input    buffer holding the encrypted data
++ * \param output   buffer that will hold the plaintext
++ * \param olen     will contain the plaintext length
++ * \param output_max_len    maximum length of the output buffer
++ *
++ * \return         0 if successful, or an POLARSSL_ERR_RSA_XXX error code
++ *
++ * \note           The output buffer must be as large as the size
++ *                 of ctx->N (eg. 128 bytes if RSA-1024 is used) otherwise
++ *                 an error is thrown.
++ */
++static inline int pkcs11_decrypt( pkcs11_context *ctx,
++				  int mode, size_t *olen,
++				  const unsigned char *input,
++				  unsigned char *output,
++				  unsigned int output_max_len )
++{
++  return (*ctx->f_decrypt)(ctx, mode, olen, input, output, output_max_len);
++}
++
++/**
++ * \brief          Do a private RSA to sign a message digest
++ *
++ * \param ctx      PKCS #11 context
++ * \param mode     must be RSA_PRIVATE, for compatibility with rsa.c's signature
++ * \param hash_id  SIG_RSA_RAW, SIG_RSA_MD{2,4,5} or SIG_RSA_SHA{1,224,256,384,512}
++ * \param hashlen  message digest length (for SIG_RSA_RAW only)
++ * \param hash     buffer holding the message digest
++ * \param sig      buffer that will hold the ciphertext
++ *
++ * \return         0 if the signing operation was successful,
++ *                 or an POLARSSL_ERR_RSA_XXX error code
++ *
++ * \note           The "sig" buffer must be as large as the size
++ *                 of ctx->N (eg. 128 bytes if RSA-1024 is used).
++ */
++static inline int pkcs11_sign( pkcs11_context *ctx,
++			       int mode,
++			       int hash_id,
++			       unsigned int hashlen,
++			       const unsigned char *hash,
++			       unsigned char *sig )
++{
++  return (*ctx->f_sign)(ctx, mode, hash_id, hashlen, hash, sig);
++}
++
++#else
++
+ #include <pkcs11-helper-1.0/pkcs11h-certificate.h>
+ 
+ /**
+@@ -121,6 +210,8 @@
+                     const unsigned char *hash,
+                     unsigned char *sig );
+ 
++#endif /* POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY */
++
+ #endif /* POLARSSL_PKCS11_C */
+ 
+ #endif /* POLARSSL_PKCS11_H */
+diff -ur polarssl-1.1.1.orig/library/pkcs11.c polarssl-1.1.1/library/pkcs11.c
+--- polarssl-1.1.1.orig/library/pkcs11.c	2011-04-24 02:57:21.000000000 -0600
++++ polarssl-1.1.1/library/pkcs11.c	2012-03-14 02:28:22.000000000 -0600
+@@ -29,7 +29,7 @@
+ 
+ #include "polarssl/pkcs11.h"
+ 
+-#if defined(POLARSSL_PKCS11_C)
++#if defined(POLARSSL_PKCS11_C) && !defined(POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY)
+ 
+ #include <stdlib.h>
+ 
+@@ -235,4 +235,4 @@
+     return( 0 );
+ }
+ 
+-#endif /* defined(POLARSSL_PKCS11_C) */
++#endif /* defined(POLARSSL_PKCS11_C) && !defined(POLARSSL_GENERIC_EXTERNAL_PRIVATE_KEY) */

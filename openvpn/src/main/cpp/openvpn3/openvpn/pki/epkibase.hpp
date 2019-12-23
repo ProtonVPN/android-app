@@ -1,0 +1,47 @@
+//    OpenVPN -- An application to securely tunnel IP networks
+//               over a single port, with support for SSL/TLS-based
+//               session authentication and key exchange,
+//               packet encryption, packet authentication, and
+//               packet compression.
+//
+//    Copyright (C) 2012-2017 OpenVPN Inc.
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Affero General Public License Version 3
+//    as published by the Free Software Foundation.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Affero General Public License for more details.
+//
+//    You should have received a copy of the GNU Affero General Public License
+//    along with this program in the COPYING file.
+//    If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef OPENVPN_PKI_EPKIBASE_H
+#define OPENVPN_PKI_EPKIBASE_H
+
+#include <string>
+
+namespace openvpn {
+  /* The algorithms that might be used in the algorithm parameter of the
+   * sign method */
+
+  constexpr const char *OVPN_RSA_PKCS1_PADDING = "RSA_PKCS1_PADDING";
+  constexpr const char *OVPN_RSA_NO_PADDING = "RSA_NO_PADDING";
+
+  // Abstract base class used to provide an interface where core SSL implementation
+  // can use an external private key.
+  class ExternalPKIBase
+  {
+  public:
+    // Sign data (base64) and return signature as sig (base64).
+    // Return true on success or false on error.
+    virtual bool sign(const std::string& data, std::string& sig, const std::string& padding) = 0;
+
+    virtual ~ExternalPKIBase() {}
+  };
+}
+
+#endif

@@ -1,0 +1,102 @@
+#!/bin/bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to dependency build folder
+    exit 1
+fi
+if [ -z "$DL" ]; then
+    echo DL var must point to the download folder
+    exit 1
+fi
+
+if [ -z "$TARGET" ]; then
+    echo TARGET var must be defined
+    exit 1
+fi
+
+# source vars
+. $O3/core/vars/vars-${TARGET}
+. $O3/core/deps/lib-versions
+
+# source helper functions
+. $O3/core/deps/functions.sh
+
+FNAME=${MBEDTLS_VERSION}-apache.tgz
+PN=${MBEDTLS_VERSION#*-}
+URL=https://tls.mbed.org/download/$MBEDTLS_VERSION-apache.tgz
+CSUM=${MBEDTLS_CSUM}
+
+download
+
+# put build targets here
+DIST=$(pwd)/mbedtls/mbedtls-$PLATFORM
+rm -rf $DIST
+mkdir -p $DIST
+
+if [ "$NO_WIPE" = "1" ]; then
+    echo RETAIN existing source
+    cd $MBEDTLS_VERSION
+else
+    echo WIPE and reunzip source
+    rm -rf $MBEDTLS_VERSION
+    [ -z "$DL" ] && DL=~/Downloads
+    tar xfz $DL/$MBEDTLS_VERSION-apache.tgz
+    cd $MBEDTLS_VERSION
+
+    # enable MD4 (needed for NTLM auth)
+    perl -pi -e 's/^\/\/// if /#define MBEDTLS_MD4_C/' include/mbedtls/config.h
+
+    apply_patches "mbedtls"
+fi
+
+if [ "x$NO_BUILD" == x1 ]; then
+   echo "Not building"
+   exit 0
+fi
+
+if [[ "x$TARGET" == xlinux* || "x$TARGET" == xosx* ]]; then
+    # run unit tests and then clean
+    echo RUNNING CHECK
+    make check
+    echo CLEANING
+    make clean
+fi
+
+echo BUILDING
+
+# compiler vars
+CC=cc
+LD=ld
+AR=ar
+RANLIB=ranlib
+[ "$GCC_CMD" ] && CC=$GCC_CMD
+[ "$LD_CMD" ] && LD=$LD_CMD
+[ "$AR_CMD" ] && AR=$AR_CMD
+[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
+
+# build it
+SRC=$(pwd)
+cd library
+rm -f *.o
+for c in *.c ; do
+    CMD="$CC -I../include -DMBEDTLS_RELAXED_X509_DATE \
+         $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c $c"
+    echo $CMD
+    $CMD
+done
+
+# create archive
+cd $DIST
+mkdir library
+$AR rc library/libmbedtls.a $SRC/library/*.o
+$RANLIB library/libmbedtls.a 2>&1 | grep -v "has no symbols" || true
+
+# copy headers
+mkdir -p include/mbedtls
+cp $SRC/include/mbedtls/*.h include/mbedtls/
+exit 0

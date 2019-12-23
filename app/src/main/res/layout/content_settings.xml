@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<androidx.core.widget.NestedScrollView android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dimmedGrey"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        tools:context="com.protonvpn.android.ui.drawer.SettingsActivity"
+        tools:showIn="@layout/activity_settings">
+
+        <TextView
+            android:id="@+id/textStartOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settingsStartOptions"
+            android:textAllCaps="true"
+            android:textColor="@color/accountTitles"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchAutoStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDefaultConnectionDescription"
+            app:textDescription="@string/settingsAutoStartDescription"
+            app:textTitle="@string/settingsAutoStartTitle" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/buttonAlwaysOn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:isButton="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchAutoStart"
+            app:textDescription="@string/settingsAlwaysOnDescription"
+            app:textTitle="@string/settingsAlwaysOnTitle" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchShowIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/buttonAlwaysOn"
+            app:layout_constraintTop_toBottomOf="@+id/buttonAlwaysOn"
+            app:textDescription="@string/settingsShowIconDescription"
+            app:textTitle="@string/settingsShowIconTitle" />
+
+        <TextView
+            android:id="@+id/textDefaultConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settingsDefaultConnectionTitle"
+            android:textColor="@color/lightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textStartOptions" />
+
+        <com.protonvpn.android.components.ProtonSpinner
+            android:id="@+id/spinnerDefaultConnection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:theme="@style/TextLabel"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDefaultConnection" />
+
+        <TextView
+            android:id="@+id/textDefaultConnectionDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/settingsDefaultConnectionDescription"
+            android:textColor="@color/white50"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerDefaultConnection"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerDefaultConnection" />
+
+        <include
+            android:id="@+id/protocolSelection"
+            layout="@layout/item_protocol_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchDnsLeak" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchBypassLocal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/protocolSelection"
+            app:textDescription="@string/settingsBypassLocalDetails"
+            app:textTitle="@string/settingsBypassLocalTitle" />
+
+        <TextView
+            android:id="@+id/textSecurityOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settingsSecurityOptions"
+            android:textAllCaps="true"
+            android:textColor="@color/accountTitles"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchShowIcon" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchDnsLeak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textSecurityOptions"
+            app:switchEditable="false"
+            app:switchValue="true"
+            app:textDescription="@string/settingsDnsLeakDescription"
+            app:textTitle="@string/settingsDnsLeakTitle" />
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settingsMtuSizeTitle"
+            android:textColor="@color/lightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchBypassLocal" />
+
+
+        <br.com.sapereaude.maskedEditText.MaskedEditText
+            android:id="@+id/textMTU"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:hint="@string/settingsDefaultMtu"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white50"
+            app:allowed_chars="1234567890"
+            app:backgroundTint="@color/lightGrey"
+            app:char_representation="#"
+            app:keep_hint="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle"
+            app:mask="####" />
+
+        <TextView
+            android:id="@+id/textMTUDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/settingsMtuDescription"
+            android:textColor="@color/white50"
+            app:layout_constraintEnd_toEndOf="@+id/textMTU"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textMTU" />
+
+        <View
+            android:id="@+id/divider"
+            style="@style/Divider.Small"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textMTUDescription" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchShowSplitTunnel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:textDescription="Split tunneling allows certain apps or IPs to be excluded from the VPN traffic."
+            app:textTitle="Split Tunneling" />
+
+        <LinearLayout
+            android:id="@+id/splitTunnelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/switchShowSplitTunnel">
+
+            <com.protonvpn.android.components.SplitTunnelButton
+                android:id="@+id/splitTunnelIPs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:description=" IP Addresses excluded"
+                app:shouldHandleApps="false"
+                app:title="Exclude IP Addresses" />
+
+            <com.protonvpn.android.components.SplitTunnelButton
+                android:id="@+id/splitTunnelApps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:description=" Apps excluded"
+                app:shouldHandleApps="true"
+                app:title="Exclude Apps" />
+
+        </LinearLayout>
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/buttonLicenses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:isButton="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/splitTunnelLayout"
+            app:textTitle="@string/activityLicensesTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to ovpn3 dependency tree
+    exit 1
+fi
+cd $DEP_DIR
+
+. $O3/core/vars/android-sdk-path
+
+# disable minicrypto for now
+mini=0
+
+rm -rf polarssl
+mkdir polarssl
+
+for target in android-a8a android-a8a-dbg android-a7a android-a7a-dbg ; do
+    echo '***************' TARGET $target
+    VERBOSE=1 TARGET=$target CMAKE_TARGET=android USE_MINICRYPTO=$mini MINICRYPTO_DIR=$(pwd)/minicrypto/minicrypto-$target $O3/core/deps/polarssl/build-polarssl
+    mv polarssl-$target polarssl/
+    [ "$ANDROID_DBG_ONLY" = "1" ] && exit
+done
+exit 0

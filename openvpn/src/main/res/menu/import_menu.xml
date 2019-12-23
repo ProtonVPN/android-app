@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/cancel"
+        android:icon="@drawable/ic_menu_close_clear_cancel"
+        android:showAsAction="ifRoom"
+        android:title="@android:string/cancel"
+        android:titleCondensed="@string/cancel"/>
+    
+    <item
+        android:id="@+id/ok"
+        android:icon="@drawable/ic_menu_save"
+        android:showAsAction="ifRoom"
+        android:title="@string/add_profile"
+        android:titleCondensed="@string/import_vpn"/>
+
+
+</menu>

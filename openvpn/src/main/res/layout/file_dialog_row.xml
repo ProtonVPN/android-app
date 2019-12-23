@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/fdrowimage"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        tools:background="@drawable/ic_root_folder_am"
+        android:paddingLeft="3dp"
+        android:paddingRight="5dp" android:contentDescription="@string/file_icon"/>
+
+    <TextView
+        android:id="@+id/fdrowtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        tools:text="foo, die datei,"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+</LinearLayout>

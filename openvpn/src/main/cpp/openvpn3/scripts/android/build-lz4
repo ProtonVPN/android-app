@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to the dependency build directory
+    exit 1
+fi
+
+. $O3/core/vars/android-sdk-path
+
+cd $DEP_DIR
+rm -rf lz4
+mkdir lz4
+
+TARGETS=${TARGETS:-android-a7a android-a8a android-x86}
+
+for target in $TARGETS; do
+    echo '***************' TARGET $target
+    TARGET=$target $O3/core/deps/lz4/build-lz4
+done
+exit 0

@@ -1,0 +1,12 @@
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".LogWindow"
+             tools:ignore="MergeRootFrame" />

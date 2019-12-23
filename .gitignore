@@ -1,0 +1,13 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+strongswan-android-complete/build/**
+openvpn/build/**
+/captures
+.externalNativeBuild
+openvpn/src/main/cpp/asio/asio/src/doc/
+openvpn/.cxx/
+pmcrypto/build/

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<com.google.android.material.navigation.NavigationView android:id="@+id/navigationDrawer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/loginBackground">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="192dp">
+
+                <LinearLayout
+                    android:id="@+id/debugLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/ic_proton" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/app_name"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/textVersion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_weight="1"
+                        android:gravity="end|center_vertical"
+                        android:textColor="@color/white"
+                        tools:text="v1.0.0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutUserInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="8dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textTier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_square_rounded_white"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="SmallSp"
+                        tools:text="PLUS" />
+
+                    <TextView
+                        android:id="@+id/textUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        tools:text="demouser@protonvpn.com" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonSettings"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerSettings"
+                app:drawableStart="@drawable/ic_drawer_gear" />
+
+            <View style="@style/Divider.Small" />
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonAccount"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerAccount"
+                app:drawableStart="@drawable/ic_drawer_account" />
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonShowLog"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerShowLog"
+                app:drawableStart="@drawable/ic_log" />
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonReportBug"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerReportBug"
+                app:drawableStart="@drawable/ic_bug" />
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonHelp"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerHelp"
+                app:drawableStart="@drawable/ic_drawer_support" />
+
+            <com.protonvpn.android.components.ProtonCompatTextView
+                android:id="@+id/drawerButtonLogout"
+                style="@style/TextView.Drawer"
+                android:text="@string/drawerLogout"
+                app:drawableStart="@drawable/ic_drawer_logout" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</com.google.android.material.navigation.NavigationView>

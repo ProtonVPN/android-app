@@ -1,0 +1,15 @@
+This fixes an issue where the cipher.h header doesn't compile when included
+by C++ code, as C++ is more strict than C about implicit enum casts.
+
+diff -ur polarssl-1.1.1/include/polarssl/cipher.h /home/james/polarssl-1.1.1/include/polarssl/cipher.h
+--- polarssl-1.1.1/include/polarssl/cipher.h    2011-11-15 08:38:45.000000000 -0700
++++ /home/james/polarssl-1.1.1/include/polarssl/cipher.h        2012-03-12 17:31:12.279631469 -0600
+@@ -313,7 +313,7 @@
+ static inline cipher_type_t cipher_get_type( const cipher_context_t *ctx )
+ {
+     if( NULL == ctx || NULL == ctx->cipher_info )
+-        return 0;
++        return POLARSSL_CIPHER_NONE;
+ 
+     return ctx->cipher_info->type;
+ }

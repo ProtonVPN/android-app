@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+            android:id="@+id/toggle_time"
+            android:alphabeticShortcut="t"
+            android:icon="@drawable/ic_menu_view"
+            android:showAsAction="ifRoom"
+            android:title="@string/logview_options" />
+
+    <item
+            android:id="@+id/clearlog"
+            android:icon="@drawable/ic_menu_delete"
+            android:showAsAction="ifRoom"
+            android:title="@string/clear_log"
+            android:titleCondensed="@string/clear"/>
+    <item
+            android:id="@+id/send"
+            android:icon="@drawable/ic_menu_share"
+            android:showAsAction="ifRoom"
+            android:title="@string/send_logfile"
+            android:titleCondensed="@string/send"/>
+
+    <item
+            android:id="@+id/cancel"
+            android:icon="@drawable/ic_menu_close_clear_cancel"
+            android:showAsAction="ifRoom"
+            android:title="@string/cancel_connection_long"
+            android:titleCondensed="@string/cancel_connection"/>
+    <item
+            android:id="@+id/edit_vpn"
+            android:alphabeticShortcut="e"
+            android:icon="@drawable/ic_menu_edit"
+            android:showAsAction="ifRoom"
+            android:title="@string/edit_vpn"/>
+</menu>

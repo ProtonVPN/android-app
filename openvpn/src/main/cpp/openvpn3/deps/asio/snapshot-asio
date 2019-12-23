@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export NAME=asio
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+$DIR/../../scripts/snapshot

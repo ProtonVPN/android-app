@@ -1,0 +1,462 @@
+/*
+ * Copyright (c) 2017 Proton Technologies AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+apply plugin: 'com.jaredsburrows.license'
+
+jacoco {
+    toolVersion = '0.8.4'
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/app_classes/prodDebug/bundleProdDebugClasses", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "**/*.exec",
+            "**/*.ec"
+    ])
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: '**/ch/protonmail/**')
+        })
+    }
+}
+task coverageReport() {
+    dependsOn jacocoTestReport
+
+    def reportFile = project.file("build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
+    inputs.file(reportFile)
+
+    doLast {
+        def slurper = new XmlSlurper()
+        slurper.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+        slurper.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        def xml = slurper.parse(reportFile)
+        def counter = xml.counter.find {
+            node -> node.@type == 'INSTRUCTION'
+        }
+        def missed = counter.@missed.toDouble()
+        def covered = counter.@covered.toDouble()
+        def total = missed + covered
+        def percentage = covered / total * 100
+
+        printf "Missed %.0f branches%n", missed
+        printf "Covered %.0f branches%n", covered
+        printf "Total %.0f%%%n", percentage
+    }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+task updateLicensesJson(dependsOn: 'licenseProdReleaseReport') {
+    doLast {
+        File json = new File("$project.projectDir/build/reports/licenses/licenseProdReleaseReport.json")
+        File out = new File("$project.projectDir/src/main/assets/open_source_licenses.js")
+        out.text = 'dependencies = ' + json.text
+    }
+}
+
+licenseReport {
+    generateHtmlReport = false
+    generateJsonReport = true
+    copyHtmlReportToAssets = false
+    copyJsonReportToAssets = false
+}
+
+def productionServer = "\"api.protonvpn.ch\""
+def testingServer = project.hasProperty('testingServerUrl') ? testingServerUrl : productionServer
+def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "protonkey.jks"
+def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
+def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
+def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
+def sentryDns = project.hasProperty('sentryDns') ? sentryDns : "\"SentryDNS\""
+def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
+def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
+def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
+
+android {
+    def helpers = new Helpers()
+
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    useLibrary 'org.apache.http.legacy'
+    flavorDimensions "default"
+    signingConfigs {
+        release {
+            storeFile file(storeFilePath)
+            storePassword storePass
+            keyAlias storeKeyAlias
+            keyPassword storeKeyPass
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+        incremental true
+        preDexLibraries true
+    }
+    defaultConfig {
+        applicationId appId
+        minSdkVersion 21
+        targetSdkVersion 28
+        multiDexEnabled true
+        versionName helpers.versionName
+        versionCode helpers.getVersionCode(0)
+        archivesBaseName = helpers.archivesBaseName
+        testInstrumentationRunner "com.protonvpn.TestsRunner"
+        vectorDrawables.useSupportLibrary = true
+        javaCompileOptions.annotationProcessorOptions {
+            arguments['dagger.android.experimentalUseStringKeys'] = 'true'
+        }
+        buildConfigField "String", "Sentry_DSN",  sentryDns
+        buildConfigField "String", "PREF_SALT",  preferencesSalt
+        buildConfigField "String", "PREF_KEY",  preferencesKey
+    }
+    dataBinding {
+        enabled = true
+    }
+    productFlavors {
+        dev {
+            versionNameSuffix "-dev"
+            applicationIdSuffix '.dev'
+            resConfigs "en", "xxhdpi"
+            buildConfigField "String", "API_DOMAIN", productionServer
+        }
+
+        blue {
+            versionNameSuffix "-blue"
+            buildConfigField "String", "API_DOMAIN", testingServer
+        }
+
+        prod {
+            buildConfigField "String", "API_DOMAIN", productionServer
+        }
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            ext.alwaysUpdateBuildId = false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        animationsDisabled true
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    sourceSets {
+        main.res.srcDirs += 'src/main/res_flags'
+        main {
+           assets.srcDirs = ['src/main/assets', 'assets', 'ovpnlibs/assets', '../openvpn/build/ovpnassets']
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    splits {
+        abi {
+            enable project.hasProperty('abiSplit')
+            reset()
+            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            universalApk true
+        }
+    }
+}
+
+ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
+
+import com.android.build.OutputFile
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def abiCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
+        if (abiCode != null) {
+            output.versionCodeOverride = Helpers.getVersionCode(abiCode)
+        }
+    }
+}
+
+class Helpers {
+
+    // Versioning:
+    //  Version name: M.m.P
+    //  Version code: AAMMMmmPP as decimal integer
+    //  where: A - abi, M - major, m - minor, P - patch
+    static int getVersionCode(def abiCode) {
+        println "Directory for versionCode: " + System.getProperty("user.dir")
+        def name = getVersionName()
+        def versions = name.split("\\.")
+        def major = versions[0].toInteger()
+        def minor = versions[1].toInteger()
+        def patch = versions[2].toInteger()
+        // Max version code allowed by android is 2_000_000_000
+        assert major < 1000 && minor < 100 && patch < 100
+
+        def versionCode = abiCode * 10_000_000 + major * 10_000 + minor * 100 + patch
+        return versionCode
+    }
+
+    static String getVersionName() {
+        println "Directory for versionName: " + System.getProperty("user.dir")
+        return exec('git describe --abbrev=0 --tags').trim()
+    }
+
+    static String getArchivesBaseName() {
+        return "ProtonVPN-" + versionName + "(" + getVersionCode(0) + ")"
+    }
+
+    static String exec(String cmd) {
+        def out = new StringBuffer()
+        def err = new StringBuffer()
+        def proc = cmd.execute()
+        proc.waitForProcessOutput(out, err)
+        if (err) {
+            throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+        }
+        return out.toString()
+    }
+
+}
+
+kapt {
+    arguments {
+        arg('dagger.android.experimentalUseStringKeys')
+    }
+}
+
+tasks.register("getArchivesName"){
+    doLast {
+        println archivesBaseName
+    }
+}
+
+kapt {
+    arguments {
+        arg('dagger.android.experimentalUseStringKeys')
+    }
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile = file("${rootDir}/app/config/checkstyle/checkstyle.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+    ignoreFailures = false
+}
+
+ext.jacksonVersion = "2.10.0"
+ext.daggerVersion = "2.24"
+
+repositories {
+    maven { url "https://clojars.org/repo/" }
+    google()
+    mavenCentral()
+}
+configurations {
+    ktlint
+}
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "--reporter=gitlab-quality", "--reporter=gitlab-quality,output=${buildDir}/ktquality.json"
+    ignoreExitValue true
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt"
+}
+apply plugin: 'checkstyle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+    debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
+        exclude module: 'support-annotations'
+    }
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
+
+    ktlint 'pm.algirdas.ktlint:reporter:0.2.1'
+    ktlint "com.pinterest:ktlint:0.34.2"
+
+    implementation project(':pmcrypto')
+    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'com.qozix:tileview:2.2.7'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.core:core:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc03'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+    implementation 'com.squareup:otto:1.3.8'
+    implementation 'io.sentry:sentry-android:1.7.27'
+    implementation 'org.slf4j:slf4j-nop:1.7.28'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.github.shts:TriangleLabelView:1.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
+    implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'com.scottyab:aes-crypto:0.0.5'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'net.danlew:android.joda:2.10.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.6.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.getkeepsafe.relinker:relinker:1.3.1'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
+    implementation 'ru.egslava:MaskedEditText:1.0.5'
+    implementation 'com.evernote:android-state:1.4.1'
+    implementation "org.mockito:mockito-core:2.23.4"
+    implementation "org.mockito:mockito-android:2.23.4"
+    implementation "androidx.work:work-runtime:2.2.0"
+    implementation 'com.github.akarnokd:rxjava2-extensions:0.20.10'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
+    implementation "com.datatheorem.android.trustkit:trustkit:1.1.2"
+    implementation 'com.xwray:groupie:2.7.2'
+    implementation 'com.xwray:groupie-databinding:2.7.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+
+    // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
+    implementation 'com.github.pengrad:jdk9-deps:1.0'
+
+    // Dagger dependencies
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
+    kapt 'com.evernote:android-state-processor:1.4.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Test dependencies
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    testImplementation 'joda-time:joda-time:2.10.3'
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.1.0') {
+        exclude module: 'support-annotations'
+    }
+    androidTestImplementation 'com.azimolabs.conditionwatcher:conditionwatcher:0.2'
+
+    // Core library
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    testImplementation "androidx.arch.core:core-testing:2.0.1"
+    androidTestImplementation "androidx.arch.core:core-testing:2.0.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'com.google.truth:truth:1.0'
+
+    // Espresso dependencies
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.2.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    implementation project(path: ':openvpn')
+}

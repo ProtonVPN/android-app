@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+    <drawable name="ic_menu_close_clear_cancel">@android:drawable/ic_menu_close_clear_cancel</drawable>
+    <drawable name="ic_menu_play">@android:drawable/ic_media_play</drawable>
+    <drawable name="ic_menu_pause">@android:drawable/ic_media_pause</drawable>
+    <drawable name="ic_menu_share">@android:drawable/ic_menu_share </drawable>
+    <drawable name="ic_menu_save">@android:drawable/ic_menu_save</drawable>
+    <drawable name="ic_menu_view">@android:drawable/ic_menu_view</drawable>
+    <drawable name="ic_menu_delete">@android:drawable/ic_menu_delete</drawable>
+    <drawable name="ic_menu_edit">@android:drawable/ic_menu_edit</drawable>
+    <drawable name="ic_menu_import">@drawable/ic_menu_archive</drawable>
+    <drawable name="vpn_item_edit">@drawable/vpn_item_settings </drawable>
+    <drawable name="ic_menu_add">@android:drawable/ic_menu_add</drawable>
+    <drawable name="ic_dialog_alert">@android:drawable/ic_dialog_alert</drawable>
+    <drawable name="ic_menu_add_grey">@android:drawable/ic_menu_add</drawable>
+    <drawable name="ic_menu_import_grey">@drawable/ic_menu_archive</drawable>
+    <drawable name="ic_menu_delete_grey">@android:drawable/ic_menu_delete</drawable>
+    <drawable name="ic_menu_copy">@drawable/ic_menu_copy_holo_light</drawable>
+    <drawable name="ic_receipt">@drawable/ic_menu_log</drawable>
+    <drawable name="ic_sort">@android:drawable/ic_menu_sort_by_size</drawable>
+
+</resources>

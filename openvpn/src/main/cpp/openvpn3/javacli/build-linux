@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+# Build OpenVPN 3 core on Linux as a callable module from Java:
+#
+# ./build-linux
+# java -Djava.library.path=. Main profile.ovpn
+
+set -e
+
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+
+TARGET=linux
+JINC="-I/usr/local/java/jdk1.7.0_55/include -I/usr/local/java/jdk1.7.0_55/include/linux"
+
+cd $O3/core/javacli
+git clean -q -fXd .
+git clean -q -fd .
+
+if [ "$DEBUG_BUILD" = "1" ]; then
+    . $O3/core/vars/vars-${TARGET}-dbg
+    vis1=""
+    vis2=""
+    opt2="$pkg_id_def $LIB_OPT_LEVEL"
+else
+    . $O3/core/vars/vars-${TARGET}
+    vis1="-fvisibility=hidden"
+    vis2='-DSWIGEXPORT=__attribute__((visibility("default")))'
+    opt2="$pkg_id_def -Os"
+fi
+
+if [ "$OPENSSL" = "1" ]; then
+    ssl_def="-DUSE_OPENSSL"
+    ssl_inc="-I$DEP_DIR/openssl/openssl-$PLATFORM/include"
+    ssl_lib="-lssl -lcrypto"
+    ssl_libdir="-L$DEP_DIR/openssl/openssl-$PLATFORM/lib"
+else
+    ssl_def="-DUSE_MBEDTLS"
+    ssl_inc="-I$DEP_DIR/mbedtls/mbedtls-$PLATFORM/include"
+    ssl_lib="-lmbedtls"
+    ssl_libdir="-L$DEP_DIR/mbedtls/mbedtls-$PLATFORM/library"
+fi
+
+echo SWIG
+swig -c++ -java -I$O3/core/client -I$O3/core ovpncli.i
+
+echo JAVA
+javac *.java
+
+echo CORE
+g++ \
+    $CXX_COMPILER_FLAGS \
+    $PLATFORM_FLAGS \
+    $LIB_OPT_LEVEL $LIB_FPIC \
+    -Wall -Werror -Wno-sign-compare -Wno-unused-parameter \
+    -Wno-unused-local-typedefs \
+    $vis1 \
+    $ssl_def \
+    -DUSE_ASIO \
+    -DASIO_STANDALONE \
+    -DASIO_NO_DEPRECATED \
+    -DHAVE_LZ4 \
+    -I$O3/core/client \
+    -I$O3/core \
+    -I$DEP_DIR/asio/asio/include \
+    $ssl_inc \
+    -I$DEP_DIR/lz4/lz4-$PLATFORM/include \
+    -c $O3/core/client/ovpncli.cpp
+
+echo WRAP
+g++ \
+    $CXX_COMPILER_FLAGS \
+    $PLATFORM_FLAGS \
+    $opt2 $LIB_FPIC \
+    -fno-strict-aliasing \
+    -Wall -Werror \
+    $vis1 $vis2 \
+    -I$O3/core/client \
+    -I$O3/core \
+    $JINC \
+    $ssl_libdir \
+    -L$DEP_DIR/lz4/lz4-$PLATFORM/lib \
+    ovpncli_wrap.cxx \
+    ovpncli.o \
+    -o libovpncli.so \
+    -shared -Wl,-soname,libovpncli.so \
+    $ssl_lib \
+    -llz4
+
+if [ "$DEBUG_BUILD" != "1" ]; then
+    echo STRIP $ABI
+    strip libovpncli.so
+fi

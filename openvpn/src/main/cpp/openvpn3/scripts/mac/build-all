@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+export DEP_DIR=${DEP_DIR:-$HOME/src/mac}
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+cd $DEP_DIR
+rm -rf asio* boost* lz4* lzo* minicrypto openssl* polarssl* mbedtls* snappy*
+echo "******* ASIO"
+$O3/core/deps/asio/build-asio
+echo "******* MBEDTLS"
+# consider OSX_SERVER=0
+$O3/core/scripts/mac/build-mbedtls
+echo "******* LZ4"
+$O3/core/scripts/mac/build-lz4
+
+#echo "******* MINICRYPTO"
+#$O3/core/scripts/mac/build-minicrypto
+#echo "******* SNAPPY"
+#$O3/core/scripts/mac/build-snappy

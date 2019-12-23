@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Build the Android toolchain (run first)
+#set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree ; exit 1
+fi
+export DEP_DIR=${DEP_DIR:-$HOME/src/android}
+export NO_MOD_PATH=1
+. $O3/core/vars/android-sdk-path
+
+# 64 bit
+cd $DEP_DIR
+DEST=$(pwd)/tc-arm64
+rm -rf $DEST
+ABI=aarch64-linux-android
+ABI_VER=4.9
+$NDK/build/tools/make-standalone-toolchain.sh \
+    --verbose \
+    --toolchain=$ABI-$ABI_VER \
+    --stl=gnustl \
+    --arch=arm64 \
+    --platform=android-21 \
+    --install-dir=$DEST
+cd $DEST/$ABI/bin
+ln -s ../../bin/$ABI-gcc cc
+ln -s ../../bin/$ABI-gcc gcc
+ln -s ../../bin/$ABI-g++ g++
+ln -s ../../libexec/gcc/$ABI/$ABI_VER.x/cc1 cc1
+ln -s ../../libexec/gcc/$ABI/$ABI_VER.x/cc1plus cc1plus
+
+# 32 bit
+cd $DEP_DIR
+DEST=$(pwd)/tc-arm
+rm -rf $DEST
+ABI=arm-linux-androideabi
+ABI_VER=4.9
+$NDK/build/tools/make-standalone-toolchain.sh \
+    --verbose \
+    --toolchain=$ABI-$ABI_VER \
+    --stl=gnustl \
+    --arch=arm \
+    --platform=android-16 \
+    --install-dir=$DEST
+cd $DEST/$ABI/bin
+ln -s ../../bin/$ABI-gcc cc
+ln -s ../../libexec/gcc/$ABI/$ABI_VER.x/cc1 cc1
+ln -s ../../libexec/gcc/$ABI/$ABI_VER.x/cc1plus cc1plus
+
+# 32 bit x86 for Android emulator
+cd $DEP_DIR
+DEST=$(pwd)/tc-x86
+rm -rf $DEST
+ABI=x86-linux-android
+SUB=i686-linux-android
+ABI_VER=4.9
+$NDK/build/tools/make-standalone-toolchain.sh \
+    --verbose \
+    --toolchain=$ABI-$ABI_VER \
+    --stl=gnustl \
+    --arch=x86 \
+    --platform=android-16 \
+    --install-dir=$DEST
+cd $DEST/$SUB/bin
+ln -s ../../bin/$SUB-gcc cc
+ln -s ../../libexec/gcc/$SUB/$ABI_VER.x/cc1 cc1
+ln -s ../../libexec/gcc/$SUB/$ABI_VER.x/cc1plus cc1plus

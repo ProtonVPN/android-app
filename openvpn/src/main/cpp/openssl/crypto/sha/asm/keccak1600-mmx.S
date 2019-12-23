@@ -1,0 +1,490 @@
+.text
+.type	_KeccakF1600,@function
+.align	16
+_KeccakF1600:
+	movq	60(%esi),%mm0
+	movq	68(%esi),%mm1
+	movq	76(%esi),%mm2
+	movq	84(%esi),%mm3
+	movq	92(%esi),%mm4
+	movl	$24,%ecx
+	jmp	.L000loop
+.align	16
+.L000loop:
+	pxor	-100(%esi),%mm0
+	pxor	-92(%esi),%mm1
+	pxor	-84(%esi),%mm2
+	pxor	-76(%esi),%mm3
+	pxor	-68(%esi),%mm4
+	pxor	-60(%esi),%mm0
+	pxor	-52(%esi),%mm1
+	pxor	-44(%esi),%mm2
+	pxor	-36(%esi),%mm3
+	pxor	-28(%esi),%mm4
+	pxor	-20(%esi),%mm0
+	pxor	-12(%esi),%mm1
+	pxor	-4(%esi),%mm2
+	pxor	4(%esi),%mm3
+	pxor	12(%esi),%mm4
+	pxor	36(%esi),%mm2
+	pxor	20(%esi),%mm0
+	pxor	28(%esi),%mm1
+	pxor	44(%esi),%mm3
+	movq	%mm2,%mm5
+	pxor	52(%esi),%mm4
+	movq	%mm2,%mm7
+	psrlq	$63,%mm5
+	movq	%mm0,%mm6
+	psllq	$1,%mm7
+	pxor	%mm0,%mm5
+	psrlq	$63,%mm0
+	pxor	%mm7,%mm5
+	psllq	$1,%mm6
+	movq	%mm1,%mm7
+	movq	%mm5,12(%esp)
+	pxor	%mm0,%mm6
+	psrlq	$63,%mm7
+	pxor	%mm3,%mm6
+	movq	%mm1,%mm0
+	movq	%mm6,36(%esp)
+	psllq	$1,%mm0
+	pxor	%mm4,%mm7
+	pxor	%mm7,%mm0
+	movq	%mm3,%mm7
+	psrlq	$63,%mm3
+	movq	%mm0,4(%esp)
+	psllq	$1,%mm7
+	movq	%mm4,%mm5
+	psrlq	$63,%mm4
+	pxor	%mm3,%mm1
+	psllq	$1,%mm5
+	pxor	%mm7,%mm1
+	pxor	%mm4,%mm2
+	movq	%mm1,20(%esp)
+	pxor	%mm5,%mm2
+	movq	44(%esi),%mm3
+	movq	%mm2,28(%esp)
+	pxor	%mm2,%mm3
+	movq	92(%esi),%mm4
+	movq	%mm3,%mm7
+	psrlq	$43,%mm3
+	pxor	%mm6,%mm4
+	psllq	$21,%mm7
+	movq	%mm4,%mm6
+	psrlq	$50,%mm4
+	por	%mm7,%mm3
+	psllq	$14,%mm6
+	movq	-4(%esi),%mm2
+	por	%mm6,%mm4
+	pxor	%mm1,%mm2
+	movq	-52(%esi),%mm1
+	movq	%mm2,%mm6
+	psrlq	$21,%mm2
+	pxor	12(%esp),%mm1
+	psllq	$43,%mm6
+	movq	%mm1,%mm7
+	psrlq	$20,%mm1
+	por	%mm6,%mm2
+	psllq	$44,%mm7
+	pxor	-100(%esi),%mm0
+	por	%mm7,%mm1
+	movq	%mm1,%mm5
+	movq	%mm2,%mm6
+	pandn	%mm2,%mm5
+	pandn	%mm3,%mm2
+	pxor	%mm0,%mm5
+	pxor	%mm1,%mm2
+	pxor	(%ebx),%mm5
+	leal	8(%ebx),%ebx
+	movq	%mm3,%mm7
+	movq	%mm5,-100(%edi)
+	movq	%mm4,%mm5
+	pandn	%mm4,%mm3
+	pandn	%mm0,%mm4
+	pxor	%mm6,%mm3
+	movq	%mm2,-92(%edi)
+	pxor	%mm7,%mm4
+	movq	-76(%esi),%mm7
+	movq	%mm3,-84(%edi)
+	pandn	%mm1,%mm0
+	movq	%mm4,-76(%edi)
+	pxor	%mm5,%mm0
+	pxor	28(%esp),%mm7
+	movq	%mm0,-68(%edi)
+	movq	%mm7,%mm0
+	psrlq	$36,%mm7
+	movq	-28(%esi),%mm1
+	psllq	$28,%mm0
+	pxor	36(%esp),%mm1
+	por	%mm7,%mm0
+	movq	%mm1,%mm6
+	psrlq	$44,%mm1
+	movq	-20(%esi),%mm2
+	psllq	$20,%mm6
+	pxor	4(%esp),%mm2
+	por	%mm6,%mm1
+	movq	%mm2,%mm7
+	psrlq	$61,%mm2
+	movq	28(%esi),%mm3
+	psllq	$3,%mm7
+	pxor	12(%esp),%mm3
+	por	%mm7,%mm2
+	movq	%mm3,%mm5
+	psrlq	$19,%mm3
+	movq	76(%esi),%mm4
+	psllq	$45,%mm5
+	pxor	20(%esp),%mm4
+	por	%mm5,%mm3
+	movq	%mm4,%mm6
+	psrlq	$3,%mm4
+	psllq	$61,%mm6
+	por	%mm6,%mm4
+	movq	%mm1,%mm5
+	movq	%mm2,%mm6
+	pandn	%mm2,%mm5
+	pandn	%mm3,%mm2
+	pxor	%mm0,%mm5
+	pxor	%mm1,%mm2
+	movq	%mm3,%mm7
+	movq	%mm5,-60(%edi)
+	movq	%mm4,%mm5
+	pandn	%mm4,%mm3
+	pandn	%mm0,%mm4
+	pxor	%mm6,%mm3
+	movq	%mm2,-52(%edi)
+	pxor	%mm7,%mm4
+	movq	-92(%esi),%mm7
+	movq	%mm3,-44(%edi)
+	pandn	%mm1,%mm0
+	movq	%mm4,-36(%edi)
+	pxor	%mm5,%mm0
+	pxor	12(%esp),%mm7
+	movq	%mm0,-28(%edi)
+	movq	%mm7,%mm0
+	psrlq	$63,%mm7
+	movq	-44(%esi),%mm1
+	psllq	$1,%mm0
+	pxor	20(%esp),%mm1
+	por	%mm7,%mm0
+	movq	%mm1,%mm6
+	psrlq	$58,%mm1
+	movq	4(%esi),%mm2
+	psllq	$6,%mm6
+	pxor	28(%esp),%mm2
+	por	%mm6,%mm1
+	movq	%mm2,%mm7
+	psrlq	$39,%mm2
+	movq	52(%esi),%mm3
+	psllq	$25,%mm7
+	pxor	36(%esp),%mm3
+	por	%mm7,%mm2
+	movq	%mm3,%mm5
+	psrlq	$56,%mm3
+	movq	60(%esi),%mm4
+	psllq	$8,%mm5
+	pxor	4(%esp),%mm4
+	por	%mm5,%mm3
+	movq	%mm4,%mm6
+	psrlq	$46,%mm4
+	psllq	$18,%mm6
+	por	%mm6,%mm4
+	movq	%mm1,%mm5
+	movq	%mm2,%mm6
+	pandn	%mm2,%mm5
+	pandn	%mm3,%mm2
+	pxor	%mm0,%mm5
+	pxor	%mm1,%mm2
+	movq	%mm3,%mm7
+	movq	%mm5,-20(%edi)
+	movq	%mm4,%mm5
+	pandn	%mm4,%mm3
+	pandn	%mm0,%mm4
+	pxor	%mm6,%mm3
+	movq	%mm2,-12(%edi)
+	pxor	%mm7,%mm4
+	movq	-68(%esi),%mm7
+	movq	%mm3,-4(%edi)
+	pandn	%mm1,%mm0
+	movq	%mm4,4(%edi)
+	pxor	%mm5,%mm0
+	pxor	36(%esp),%mm7
+	movq	%mm0,12(%edi)
+	movq	%mm7,%mm0
+	psrlq	$37,%mm7
+	movq	-60(%esi),%mm1
+	psllq	$27,%mm0
+	pxor	4(%esp),%mm1
+	por	%mm7,%mm0
+	movq	%mm1,%mm6
+	psrlq	$28,%mm1
+	movq	-12(%esi),%mm2
+	psllq	$36,%mm6
+	pxor	12(%esp),%mm2
+	por	%mm6,%mm1
+	movq	%mm2,%mm7
+	psrlq	$54,%mm2
+	movq	36(%esi),%mm3
+	psllq	$10,%mm7
+	pxor	20(%esp),%mm3
+	por	%mm7,%mm2
+	movq	%mm3,%mm5
+	psrlq	$49,%mm3
+	movq	84(%esi),%mm4
+	psllq	$15,%mm5
+	pxor	28(%esp),%mm4
+	por	%mm5,%mm3
+	movq	%mm4,%mm6
+	psrlq	$8,%mm4
+	psllq	$56,%mm6
+	por	%mm6,%mm4
+	movq	%mm1,%mm5
+	movq	%mm2,%mm6
+	pandn	%mm2,%mm5
+	pandn	%mm3,%mm2
+	pxor	%mm0,%mm5
+	pxor	%mm1,%mm2
+	movq	%mm3,%mm7
+	movq	%mm5,20(%edi)
+	movq	%mm4,%mm5
+	pandn	%mm4,%mm3
+	pandn	%mm0,%mm4
+	pxor	%mm6,%mm3
+	movq	%mm2,28(%edi)
+	pxor	%mm7,%mm4
+	movq	-84(%esi),%mm7
+	movq	%mm3,36(%edi)
+	pandn	%mm1,%mm0
+	movq	%mm4,44(%edi)
+	pxor	%mm5,%mm0
+	pxor	20(%esp),%mm7
+	movq	%mm0,52(%edi)
+	movq	%mm7,%mm0
+	psrlq	$2,%mm7
+	movq	-36(%esi),%mm1
+	psllq	$62,%mm0
+	pxor	28(%esp),%mm1
+	por	%mm7,%mm0
+	movq	%mm1,%mm6
+	psrlq	$9,%mm1
+	movq	12(%esi),%mm2
+	psllq	$55,%mm6
+	pxor	36(%esp),%mm2
+	por	%mm6,%mm1
+	movq	%mm2,%mm7
+	psrlq	$25,%mm2
+	movq	20(%esi),%mm3
+	psllq	$39,%mm7
+	pxor	4(%esp),%mm3
+	por	%mm7,%mm2
+	movq	%mm3,%mm5
+	psrlq	$23,%mm3
+	movq	68(%esi),%mm4
+	psllq	$41,%mm5
+	pxor	12(%esp),%mm4
+	por	%mm5,%mm3
+	movq	%mm4,%mm6
+	psrlq	$62,%mm4
+	psllq	$2,%mm6
+	por	%mm6,%mm4
+	movq	%mm0,%mm5
+	xorl	%esi,%edi
+	movq	%mm1,12(%esp)
+	xorl	%edi,%esi
+	xorl	%esi,%edi
+	movq	%mm1,%mm6
+	movq	%mm2,%mm7
+	pandn	%mm2,%mm6
+	pandn	%mm3,%mm7
+	pxor	%mm6,%mm0
+	pxor	%mm7,%mm1
+	movq	%mm3,%mm6
+	movq	%mm0,60(%esi)
+	pandn	%mm4,%mm6
+	movq	%mm1,68(%esi)
+	pxor	%mm6,%mm2
+	movq	%mm4,%mm7
+	movq	%mm2,76(%esi)
+	pandn	%mm5,%mm7
+	pandn	12(%esp),%mm5
+	pxor	%mm7,%mm3
+	pxor	%mm5,%mm4
+	movq	%mm3,84(%esi)
+	subl	$1,%ecx
+	movq	%mm4,92(%esi)
+	jnz	.L000loop
+	leal	-192(%ebx),%ebx
+	ret
+.size	_KeccakF1600,.-_KeccakF1600
+.globl	KeccakF1600
+.type	KeccakF1600,@function
+.align	16
+KeccakF1600:
+.L_KeccakF1600_begin:
+	pushl	%ebp
+	pushl	%ebx
+	pushl	%esi
+	pushl	%edi
+	movl	20(%esp),%esi
+	movl	%esp,%ebp
+	subl	$240,%esp
+	call	.L001pic_point
+.L001pic_point:
+	popl	%ebx
+	leal	.Liotas-.L001pic_point(%ebx),%ebx
+	andl	$-8,%esp
+	leal	100(%esi),%esi
+	leal	140(%esp),%edi
+	call	_KeccakF1600
+	movl	%ebp,%esp
+	emms
+	popl	%edi
+	popl	%esi
+	popl	%ebx
+	popl	%ebp
+	ret
+.size	KeccakF1600,.-.L_KeccakF1600_begin
+.globl	SHA3_absorb
+.type	SHA3_absorb,@function
+.align	16
+SHA3_absorb:
+.L_SHA3_absorb_begin:
+	pushl	%ebp
+	pushl	%ebx
+	pushl	%esi
+	pushl	%edi
+	movl	20(%esp),%esi
+	movl	24(%esp),%eax
+	movl	28(%esp),%ecx
+	movl	32(%esp),%edx
+	movl	%esp,%ebp
+	subl	$248,%esp
+	call	.L002pic_point
+.L002pic_point:
+	popl	%ebx
+	leal	.Liotas-.L002pic_point(%ebx),%ebx
+	andl	$-8,%esp
+	movl	%esi,%edi
+	leal	100(%esi),%esi
+	movl	%edx,-4(%ebp)
+	jmp	.L003loop
+.align	16
+.L003loop:
+	cmpl	%edx,%ecx
+	jc	.L004absorbed
+	shrl	$3,%edx
+.L005block:
+	movq	(%eax),%mm0
+	leal	8(%eax),%eax
+	pxor	(%edi),%mm0
+	leal	8(%edi),%edi
+	subl	$8,%ecx
+	movq	%mm0,-8(%edi)
+	decl	%edx
+	jnz	.L005block
+	leal	140(%esp),%edi
+	movl	%ecx,-8(%ebp)
+	call	_KeccakF1600
+	movl	-8(%ebp),%ecx
+	movl	-4(%ebp),%edx
+	leal	-100(%esi),%edi
+	jmp	.L003loop
+.align	16
+.L004absorbed:
+	movl	%ecx,%eax
+	movl	%ebp,%esp
+	emms
+	popl	%edi
+	popl	%esi
+	popl	%ebx
+	popl	%ebp
+	ret
+.size	SHA3_absorb,.-.L_SHA3_absorb_begin
+.globl	SHA3_squeeze
+.type	SHA3_squeeze,@function
+.align	16
+SHA3_squeeze:
+.L_SHA3_squeeze_begin:
+	pushl	%ebp
+	pushl	%ebx
+	pushl	%esi
+	pushl	%edi
+	movl	20(%esp),%esi
+	movl	24(%esp),%eax
+	movl	28(%esp),%ecx
+	movl	32(%esp),%edx
+	movl	%esp,%ebp
+	subl	$248,%esp
+	call	.L006pic_point
+.L006pic_point:
+	popl	%ebx
+	leal	.Liotas-.L006pic_point(%ebx),%ebx
+	andl	$-8,%esp
+	shrl	$3,%edx
+	movl	%esi,%edi
+	leal	100(%esi),%esi
+	movl	%edx,-4(%ebp)
+	jmp	.L007loop
+.align	16
+.L007loop:
+	cmpl	$8,%ecx
+	jc	.L008tail
+	movq	(%edi),%mm0
+	leal	8(%edi),%edi
+	movq	%mm0,(%eax)
+	leal	8(%eax),%eax
+	subl	$8,%ecx
+	jz	.L009done
+	decl	%edx
+	jnz	.L007loop
+	leal	140(%esp),%edi
+	movl	%ecx,-8(%ebp)
+	call	_KeccakF1600
+	movl	-8(%ebp),%ecx
+	movl	-4(%ebp),%edx
+	leal	-100(%esi),%edi
+	jmp	.L007loop
+.align	16
+.L008tail:
+	movl	%edi,%esi
+	movl	%eax,%edi
+.long	0xA4F39066
+.L009done:
+	movl	%ebp,%esp
+	emms
+	popl	%edi
+	popl	%esi
+	popl	%ebx
+	popl	%ebp
+	ret
+.size	SHA3_squeeze,.-.L_SHA3_squeeze_begin
+.align	32
+.Liotas:
+.long	1,0
+.long	32898,0
+.long	32906,2147483648
+.long	2147516416,2147483648
+.long	32907,0
+.long	2147483649,0
+.long	2147516545,2147483648
+.long	32777,2147483648
+.long	138,0
+.long	136,0
+.long	2147516425,0
+.long	2147483658,0
+.long	2147516555,0
+.long	139,2147483648
+.long	32905,2147483648
+.long	32771,2147483648
+.long	32770,2147483648
+.long	128,2147483648
+.long	32778,0
+.long	2147483658,2147483648
+.long	2147516545,2147483648
+.long	32896,2147483648
+.long	2147483649,0
+.long	2147516424,2147483648
+.byte	75,101,99,99,97,107,45,49,54,48,48,32,97,98,115,111
+.byte	114,98,32,97,110,100,32,115,113,117,101,101,122,101,32,102
+.byte	111,114,32,77,77,88,44,32,67,82,89,80,84,79,71,65
+.byte	77,83,32,98,121,32,60,97,112,112,114,111,64,111,112,101
+.byte	110,115,115,108,46,111,114,103,62,0

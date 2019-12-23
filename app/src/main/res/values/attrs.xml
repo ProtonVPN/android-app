@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <declare-styleable name="ProtonColorCircle">
+        <attr name="circleColor" format="color" />
+        <attr name="defaultColor" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SplitTunnelButton">
+        <attr name="title" format="string" />
+        <attr name="description" format="string" />
+        <attr name="shouldHandleApps" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ProtonCompatTextView">
+        <attr name="drawableStart" format="reference" />
+        <attr name="drawableTop" format="reference" />
+        <attr name="drawableEnd" format="reference" />
+        <attr name="drawableBottom" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="ProtonSwitch">
+        <attr name="textTitle" format="string" />
+        <attr name="textDescription" format="string" />
+        <attr name="dividerHidden" format="boolean" />
+        <attr name="switchValue" format="boolean" />
+        <attr name="isButton" format="boolean" />
+        <attr name="switchEditable" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="NetworkFrameLayout">
+        <attr name="textLoading" format="string" />
+    </declare-styleable>
+</resources>

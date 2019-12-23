@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<manifest package="com.protonvpn.android"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:name=".ProtonApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:launchMode="singleTop"
+            android:resizeableActivity="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".vpn.LogActivity"
+            android:label="@string/log_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".utils.DeepLinkActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="protonvpn" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="org.strongswan.android.logic.VpnStateService"
+            android:exported="false" />
+
+        <service
+            android:name="org.strongswan.android.logic.CharonVpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".vpn.OpenVPNWrapperService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".components.QuickTileService"
+            android:icon="@drawable/ic_proton"
+            android:label="Quick connect"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".components.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".migration.MigrateReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity
+            android:name=".ui.home.profiles.ProfileActivity"
+            android:label="@string/activityProfileTitle"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.protonvpn.android.ui.home.HomeActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ui.drawer.AccountActivity"
+            android:label="@string/activityAccountTitle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.drawer.OssLicensesActivity"
+            android:label="@string/activityLicensesTitle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.drawer.SettingsActivity"
+            android:label="@string/activitySettingsTitle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.drawer.ReportBugActivity"
+            android:label="@string/drawerReportBug"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.onboarding.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
+    </application>
+
+</manifest>

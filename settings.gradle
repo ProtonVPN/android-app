@@ -1,0 +1,1 @@
+include ':app', ':strongswan-android-complete', ":pmcrypto", ':openvpn'

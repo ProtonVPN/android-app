@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+    <module name="SuppressWarningsFilter" />
+
+    <!-- Checks whether files end with a new line.                        -->
+    <!-- See http://checkstyle.sourceforge.net/config_misc.html#NewlineAtEndOfFile -->
+    <module name="NewlineAtEndOfFile">
+        <property name="severity" value="ignore" />
+    </module>
+
+    <!-- Checks that property files contain the same keys.         -->
+    <!-- See http://checkstyle.sourceforge.net/config_misc.html#Translation -->
+    <module name="Translation" />
+
+    <!-- Checks for Size Violations.                    -->
+    <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
+    <module name="FileLength">
+        <property name="severity" value="ignore" />
+    </module>
+
+    <!-- Checks for whitespace                               -->
+    <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->
+    <module name="FileTabCharacter" />
+
+    <!-- Miscellaneous other checks.                   -->
+    <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$" />
+        <property name="minimum" value="0" />
+        <property name="maximum" value="0" />
+        <property name="message" value="Line has trailing spaces." />
+        <property name="severity" value="info" />
+    </module>
+
+    <module name="TreeWalker">
+        <module name="SuppressWarningsHolder" />
+
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
+        <module name="JavadocMethod">
+            <property name="scope" value="package" />
+            <property name="allowMissingParamTags" value="true" />
+            <property name="allowMissingThrowsTags" value="true" />
+            <property name="allowMissingReturnTag" value="true" />
+            <property name="allowThrowsTagsForSubclasses" value="true" />
+            <property name="allowUndeclaredRTE" value="true" />
+            <property name="allowMissingPropertyJavadoc" value="true" />
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="JavadocType">
+            <property name="scope" value="package" />
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="JavadocVariable">
+            <property name="scope" value="package" />
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="JavadocStyle">
+            <property name="checkEmptyJavadoc" value="true" />
+            <property name="severity" value="ignore" />
+        </module>
+
+        <!-- Checks for Naming Conventions.                  -->
+        <!-- See http://checkstyle.sourceforge.net/config_naming.html -->
+        <module name="ConstantName" />
+        <module name="LocalFinalVariableName" />
+        <module name="LocalVariableName" />
+        <module name="MemberName" />
+        <module name="MethodName">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="PackageName" />
+        <module name="ParameterName">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="StaticVariableName">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="TypeName" />
+
+        <module name="AvoidStarImport" />
+        <module name="IllegalImport" />
+        <!-- defaults to sun.* packages -->
+        <module name="RedundantImport" />
+        <module name="UnusedImports" />
+
+
+        <module name="LineLength">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="MethodLength" />
+
+        <module name="LeftCurly">
+            <property name="option" value="eol" />
+            <property name="tokens" value="CLASS_DEF,INTERFACE_DEF,METHOD_DEF" />
+            <property name="tokens" value="LITERAL_CATCH" />
+            <property name="tokens" value="LITERAL_ELSE" />
+            <property name="tokens" value="LITERAL_FINALLY" />
+            <property name="tokens" value="LITERAL_IF" />
+            <property name="tokens" value="LITERAL_TRY" />
+        </module>
+
+        <module name="RightCurly">
+            <property name="option" value="alone" />
+        </module>
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->
+        <module name="EmptyForIteratorPad" />
+        <module name="GenericWhitespace">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="MethodParamPad" />
+        <module name="NoWhitespaceAfter">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="NoWhitespaceBefore">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="ParenPad" />
+        <module name="TypecastParenPad" />
+        <module name="WhitespaceAfter">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="WhitespaceAround">
+            <property name="severity" value="ignore" />
+        </module>
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.sourceforge.net/config_modifiers.html -->
+        <module name="ModifierOrder">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="RedundantModifier">
+            <property name="severity" value="ignore" />
+        </module>
+
+
+        <module name="AvoidNestedBlocks" />
+        <module name="EmptyBlock">
+            <property name="option" value="text" />
+        </module>
+        <module name="LeftCurly">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="NeedBraces">
+            <!-- cannot initialize module TreeWalker - Property 'allowSingleLineIf' in module NeedBraces does not exist, please check the documentation -->
+            <!-- u wot m8 -->
+            <!--<property name="allowSingleLineIf" value="TRUE" />-->
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="RightCurly">
+            <property name="severity" value="ignore" />
+        </module>
+
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html -->
+        <module name="EmptyStatement" />
+        <module name="HiddenField">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="IllegalInstantiation" />
+        <module name="InnerAssignment" />
+        <module name="MagicNumber">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="MissingSwitchDefault">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="SimplifyBooleanExpression" />
+        <module name="SimplifyBooleanReturn" />
+
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.sourceforge.net/config_design.html -->
+        <module name="FinalClass" />
+        <module name="InterfaceIsType">
+            <property name="severity" value="ignore" />
+        </module>
+        <module name="VisibilityModifier">
+            <property name="severity" value="ignore" />
+        </module>
+
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
+        <module name="ArrayTypeStyle" />
+        <module name="UpperEll" />
+    </module>
+
+</module>

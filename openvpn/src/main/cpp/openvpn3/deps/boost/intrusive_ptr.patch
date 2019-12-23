@@ -1,0 +1,29 @@
+diff -ur boost_1_56_0.orig/boost/smart_ptr/intrusive_ptr.hpp boost_1_56_0/boost/smart_ptr/intrusive_ptr.hpp
+--- boost_1_56_0.orig/boost/smart_ptr/intrusive_ptr.hpp	2014-07-26 00:44:34.000000000 -0600
++++ boost_1_56_0/boost/smart_ptr/intrusive_ptr.hpp	2014-08-15 19:51:11.000000000 -0600
+@@ -63,7 +63,7 @@
+     {
+     }
+ 
+-    intrusive_ptr( T * p, bool add_ref = true ): px( p )
++    intrusive_ptr( T * p, bool add_ref = true ) BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR(intrusive_ptr_add_ref(static_cast<T*>(nullptr)))) : px( p )
+     {
+         if( px != 0 && add_ref ) intrusive_ptr_add_ref( px );
+     }
+@@ -80,14 +80,14 @@
+     intrusive_ptr( intrusive_ptr<U> const & rhs )
+ 
+ #endif
+-    : px( rhs.get() )
++    BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR(intrusive_ptr_add_ref(static_cast<T*>(nullptr)))) : px( rhs.get() )
+     {
+         if( px != 0 ) intrusive_ptr_add_ref( px );
+     }
+ 
+ #endif
+ 
+-    intrusive_ptr(intrusive_ptr const & rhs): px( rhs.px )
++    intrusive_ptr(intrusive_ptr const & rhs) BOOST_NOEXCEPT_IF(BOOST_NOEXCEPT_EXPR(intrusive_ptr_add_ref(static_cast<T*>(nullptr)))) : px( rhs.px )
+     {
+         if( px != 0 ) intrusive_ptr_add_ref( px );
+     }

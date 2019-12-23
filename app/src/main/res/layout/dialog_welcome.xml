@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+ 
+ This file is part of ProtonVPN.
+ 
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="@drawable/background_onboarding_welcome"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/onboardingWelcome"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="212dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/onboarding_welcome" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="Thanks for joining ever growning ProtonVPN community." />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal|top"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/white70"
+        android:textSize="16sp"
+        tools:text="Use your newly created credentials to login" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonGotIt"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/button_rounded"
+        android:text="@string/got_it"
+        android:textColor="@color/white70" />
+
+</LinearLayout>

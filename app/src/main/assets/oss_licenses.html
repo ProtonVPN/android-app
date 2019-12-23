@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2019 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+    <style>
+        body {
+            background: black;
+            color: white;
+            margin: 0px;
+        }
+
+        .container {
+            background: #4B4B57;
+            font-weight: bold;
+            margin: 15px 5px;
+            padding: 10px;
+            word-wrap: break-word;
+        }
+
+        .version {
+            font-size: small;
+            color: lightgrey;
+        }
+
+        .by {
+            font-size: small;
+            color: lightgrey;
+        }
+
+        .licenses {
+            font-size: small;
+            margin-top: 10px;
+        }
+
+        a {
+            color: #66D2D8;
+            font-size: small;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="open_source_licenses.js"></script>
+    <script src="extra_licenses.js"></script>
+
+    <script>
+        fixes = {
+            "circleprogress": {
+                "url": "https://github.com/lzyzsd/CircleProgress",
+                "licenses": [
+                    {
+                        "license": "https://github.com/lzyzsd/CircleProgress/blob/master/README.md",
+                        "license_url": "https://github.com/lzyzsd/CircleProgress/blob/master/README.md"
+                    }
+                ]
+            },
+            "core": {
+                "url": "https://github.com/afollestad/material-dialogs",
+                "licenses": [
+                    {
+                        "license": "Apache License 2.0",
+                        "license_url": "https://github.com/afollestad/material-dialogs/blob/master/LICENSE.md"
+                    }
+                ]
+            },
+            "jdk9-deps": { // No license, compile-time dependency
+                "url": "https://github.com/pengrad/jdk9-deps"
+            },
+            "keyboardvisibilityevent": {
+                "url": "https://github.com/yshrsmz/KeyboardVisibilityEvent",
+                "licenses": [
+                    {
+                        "license": "Apache License 2.0",
+                        "license_url": "https://github.com/yshrsmz/KeyboardVisibilityEvent/blob/master/LICENSE"
+                    }
+                ]
+            },
+            "MPAndroidChart": {
+                "url": "https://github.com/PhilJay/MPAndroidChart",
+                "licenses": [
+                    {
+                        "license": "Apache License 2.0",
+                        "license_url": "https://github.com/PhilJay/MPAndroidChart/blob/master/LICENSE"
+                    }
+                ]
+            },
+            "RxActivityResult": {
+                "url": "https://github.com/VictorAlbertos/RxActivityResult",
+                "licenses": [
+                    {
+                        "license": "Apache License 2.0",
+                        "license_url": "https://github.com/VictorAlbertos/RxActivityResult/blob/2.x/LICENSE.txt"
+                    }
+                ]
+            },
+            "shts/TriangleLabelView": {
+                "licenses": [
+                    {
+                        "license": "Apache License 2.0",
+                        "license_url": "https://github.com/shts/TriangleLabelView#license"
+                    }
+                ]
+            },
+            "tileview": {
+                "url": "https://github.com/moagrius/TileView",
+                "licenses": [
+                    {
+                        "license": "MIT License",
+                        "license_url": "https://github.com/moagrius/TileView/blob/master/LICENSE"
+                    }
+                ]
+            },
+        };
+
+        function applyFixes(dependencies) {
+            for (var i in dependencies) {
+                var dependency = dependencies[i];
+
+                if (dependency.url === null) {
+                    if (dependency.project in fixes && "url" in fixes[dependency.project])
+                        dependency.url = fixes[dependency.project].url;
+                }
+
+                if (dependency.licenses.length == 0) {
+                    if (dependency.project in fixes && "licenses" in fixes[dependency.project])
+                        dependency.licenses = fixes[dependency.project].licenses;
+                }
+            }
+        }
+
+        function processDependencies(dependencies) {
+            for (var i in dependencies) {
+                var dependency = dependencies[i];
+                var elem = document.createElement('div');
+                elem.className = 'container';
+                elem.innerText = dependency.project
+
+                if (dependency.url !== null) {
+                    var url = document.createElement('a');
+                    url.href = dependency.url;
+                    url.innerText = dependency.url;
+                    elem.appendChild(url);
+                }
+
+                if (dependency.version !== null) {
+                    var version = document.createElement('div');
+                    version.className = 'version';
+                    version.innerText = 'version: ' + dependency.version
+                    elem.appendChild(version);
+                }
+
+                if (dependency.developers.length > 0) {
+                    var devs = document.createElement('div');
+                    devs.className = 'by'
+                    devs.innerText = 'by: ' + dependency.developers.join(', ');
+                    elem.appendChild(devs);
+                }
+
+                if (dependency.licenses.length > 0) {
+                    var licensesBlock = document.createElement('div');
+                    licensesBlock.className = 'licenses';
+                    licensesBlock.innerText = 'licenses:'
+                    for (j in dependency.licenses) {
+                        var license = dependency.licenses[j];
+                        var licenseElem = document.createElement('a');
+                        licenseElem.href = license.license_url;
+                        licenseElem.innerText = license.license;
+                        licensesBlock.appendChild(licenseElem);
+                    }
+                    elem.appendChild(licensesBlock);
+                }
+                
+                document.body.appendChild(elem);
+            }
+        }
+
+        applyFixes(dependencies);
+        processDependencies(dependencies);
+        processDependencies(extraDependencies);
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+    <drawable name="ic_menu_close_clear_cancel">@drawable/ic_close_white_24dp</drawable>
+    <drawable name="ic_menu_play">@drawable/ic_play_arrow_white_24dp</drawable>
+    <drawable name="ic_menu_pause">@drawable/ic_pause_white_24dp</drawable>
+    <drawable name="ic_menu_share">@drawable/ic_share_white_24dp </drawable>
+    <drawable name="ic_menu_save">@drawable/ic_check_white_24dp</drawable>
+    <drawable name="ic_menu_view">@drawable/ic_filter_list_white_24dp</drawable>
+    <drawable name="ic_menu_delete">@drawable/ic_delete_white_24dp</drawable>
+    <drawable name="ic_menu_copy">@drawable/ic_content_copy_white_24dp</drawable>
+    <drawable name="ic_menu_delete_grey">@drawable/ic_delete_grey600_24dp</drawable>
+
+    <drawable name="ic_menu_edit">@drawable/ic_edit_white_24dp</drawable>
+    <drawable name="ic_menu_import">@drawable/ic_archive_white_24dp</drawable>
+    <drawable name="vpn_item_edit">@drawable/ic_edit_grey600_24dp</drawable>
+    <drawable name="ic_menu_add">@drawable/ic_add_circle_outline_white_24dp</drawable>
+    <drawable name="ic_dialog_alert">@drawable/ic_warning_black_36dp</drawable>
+    <drawable name="ic_menu_add_grey">@drawable/ic_add_circle_outline_grey600_24dp</drawable>
+    <drawable name="ic_menu_import_grey">@drawable/ic_archive_grey600_24dp</drawable>
+    <drawable name="ic_receipt">@drawable/ic_receipt_white_24dp</drawable>
+    <drawable name="ic_sort">@drawable/ic_sort_white_24dp</drawable>
+</resources>
