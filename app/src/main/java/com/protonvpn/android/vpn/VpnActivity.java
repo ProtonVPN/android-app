@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,8 +34,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.VpnService;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -44,6 +47,7 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 
@@ -62,6 +66,7 @@ public abstract class VpnActivity extends BaseActivity {
 
     private static final int PREPARE_VPN_SERVICE = 0;
     private static final String DIALOG_TAG = "Dialog";
+    private static final String URL_SUPPORT_PERMISSIONS = "https://protonvpn.com/support/android-vpn-permissions-problem";
     private Profile server;
     private VpnStateService mService;
     @Inject ServerManager serverManager;
@@ -205,10 +210,23 @@ public abstract class VpnActivity extends BaseActivity {
                 if (resultCode == RESULT_OK && server != null) {
                     vpnStateMonitor.connect(server);
                 }
+                else if (resultCode == RESULT_CANCELED && Build.VERSION.SDK_INT >= 24) {
+                    showNoVpnPermissionDialog();
+                }
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @TargetApi(24)
+    private void showNoVpnPermissionDialog() {
+        new MaterialDialog.Builder(this).theme(Theme.DARK)
+                .title(R.string.error_prepare_vpn_title)
+                .content(HtmlTools.fromHtml(getString(R.string.error_prepare_vpn_description, URL_SUPPORT_PERMISSIONS)))
+                .positiveText(R.string.error_prepare_vpn_settings)
+                .onPositive((dialog, which) -> startActivity(new Intent(Settings.ACTION_VPN_SETTINGS)))
+                .show();
     }
 
     public void onVpnProfileSelected(Profile profile) {
