@@ -3,6 +3,7 @@ variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.3"
   ANDROID_SDK_TOOLS: "26.1.1"
+  PUBLIC_REPO_URL: git@github.com:ProtonVPN/android-app.git
 
 before_script:
   - if [[ -n "$http_proxy" ]]; then export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$( echo ${http_proxy##http://} | cut -d':' -f1 ) -Dhttp.proxyPort=$( echo ${http_proxy##http://} | cut -d':' -f2 ) -Dhttps.proxyHost=$( echo ${https_proxy##http://} | cut -d':' -f1 ) -Dhttps.proxyPort=$( echo ${https_proxy##http://} | cut -d':' -f2 ) -Dhttp.nonProxyHosts=\"$( echo $no_proxy | tr ',' '|' )\""; fi
@@ -11,12 +12,38 @@ before_script:
   - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
   - md5sum app/protonkey.jks
   - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
+  - apt-get -y update
+  - apt-get install -y connect-proxy git
+  - 'which ssh-agent || apt-get -y install openssh-client'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - git config --global user.email $GIT_CI_EMAIL
+  - git config --global user.name $GIT_CI_USERNAME
+  - git config --global url."https://".insteadOf git://
+  - mkdir ~/.ssh 2> /dev/null
+  - |
+    cat <<EOF > ~/.ssh/config
+    Host github.com
+        Hostname ssh.github.com
+        User git
+        Port 443
+        ProxyCommand connect-proxy -H $http_proxy %h %p
+    EOF
+  - ssh-keyscan -t rsa ${CI_SERVER_HOST} > ~/.ssh/known_hosts
+  ## ssh-keyscan doesn't support proxies so we can't fetch the fingerprint online
+  - |
+    cat <<EOF >> ~/.ssh/known_hosts
+    # ssh.github.com:443 SSH-2.0-babeld-2e9d163d
+    [ssh.github.com]:443 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+    EOF
+  - cat ~/.ssh/config
 
 stages:
   - analyze
   - build
   - test
   - report
+  - mirror
 
 cache:
   key: gradle
@@ -175,3 +202,20 @@ owasp check:
     expire_in: 1 week
     paths:
       - build/reports
+
+sync-app:
+  cache: {}
+  stage: mirror
+  only:
+    refs:
+      - tags
+      - master
+
+  script:
+    # Clone instead of using the current CI as it creates the error (shallow update not allowed)
+    - git clone "$CI_REPOSITORY_URL" --branch master _APP_CLONE;
+    - cd _APP_CLONE
+    - git remote add public $PUBLIC_REPO_URL
+    - git push public master
+    # Push the latest tag we can find
+    - git push public "$(git describe --abbrev=0)"
