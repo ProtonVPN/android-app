@@ -28,12 +28,14 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStateMonitor.State.*
 
 object NotificationHelper {
 
-    val CHANNEL_ID = "com.protonvpn.android"
+    const val CHANNEL_ID = "com.protonvpn.android"
+    const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
 
     fun initNotificationChannel(context: Context) {
         val channelOneName = "ProtonChannel"
@@ -49,24 +51,38 @@ object NotificationHelper {
         }
     }
 
-    fun buildNotificationWithTraffic(vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?): Notification {
+    fun buildNotification(vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?): Notification {
+
+        val context = ProtonApplication.getAppContext()
+        val disconnectIntent = Intent(DISCONNECT_ACTION)
+        val disconnectPendingIntent: PendingIntent =
+                PendingIntent.getBroadcast(context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val builder =
-                NotificationCompat.Builder(ProtonApplication.getAppContext(), CHANNEL_ID)
+                NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(getIconForState(vpnState.state))
                         .setContentTitle(getStringFromState(vpnState))
                         .setContentText(trafficUpdate?.notificationString)
                         .setStyle(NotificationCompat.BigTextStyle())
+                        .setOngoing(true)
+                        .setOnlyAlertOnce(true)
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
-        val intent = Intent(ProtonApplication.getAppContext(), HomeActivity::class.java)
+
+        if (vpnState.state == CONNECTED || vpnState.state == CONNECTING) {
+            builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp, context.getString(R.string.disconnect),
+                    disconnectPendingIntent))
+        }
+
+        val intent = Intent(context, HomeActivity::class.java)
         intent.putExtra("OpenStatus", true)
         val pending =
-                PendingIntent.getActivity(ProtonApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pending)
         return builder.build()
     }
 
     fun buildNotification(vpnState: VpnStateMonitor.VpnState): Notification {
-        return buildNotificationWithTraffic(vpnState, null)
+        return buildNotification(vpnState, null)
     }
 
     private fun getIconForState(state: VpnStateMonitor.State): Int {

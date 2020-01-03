@@ -18,8 +18,10 @@
  */
 package com.protonvpn.android.utils
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -51,6 +53,16 @@ object AndroidUtils {
             } catch (e: PackageManager.NameNotFoundException) {
                 false
             }
+
+    fun Context.registerBroadcastReceiver(intentFilter: IntentFilter, onReceive: (intent: Intent?) -> Unit): BroadcastReceiver {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent?) {
+                onReceive(intent)
+            }
+        }
+        this.registerReceiver(receiver, intentFilter)
+        return receiver
+    }
 
     fun playMarketIntentFor(appId: String) =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appId"))
