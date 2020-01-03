@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn
 
 import android.app.Notification
+import android.content.IntentFilter
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,15 +30,31 @@ import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.components.NotificationHelper.DISCONNECT_ACTION
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.*
+import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils.debugAssert
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.*
-import com.protonvpn.android.vpn.VpnStateMonitor.State.*
+import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.TrafficCallback
+import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.utils.eagerMapNotNull
+import com.protonvpn.android.utils.implies
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.AUTH_FAILED
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.AUTH_FAILED_INTERNAL
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.MAX_SESSIONS
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.NO_ERROR
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CHECKING_AVAILABILITY
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTED
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
+import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
+import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlinx.coroutines.*
@@ -133,6 +150,14 @@ open class VpnStateMonitor(
     val retryIn get() = backendProvider.retryIn
 
     init {
+        Log.i("create state monitor")
+        bindTrafficMonitor()
+        ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
+            when (intent?.action) {
+                DISCONNECT_ACTION -> disconnect()
+            }
+        }
+
         stateInternal.observeForever {
             Storage.saveString(STORAGE_KEY_STATE, state.name)
 
@@ -157,11 +182,6 @@ open class VpnStateMonitor(
             }
             updateNotification()
         }
-    }
-
-    init {
-        Log.e("create state monitor")
-        bindTrafficMonitor()
     }
 
     private fun bindTrafficMonitor() {
@@ -266,7 +286,7 @@ open class VpnStateMonitor(
                 notify(Constants.NOTIFICATION_ID, buildNotification())
                 cancel(Constants.NOTIFICATION_ID)
             } else {
-                val notification = NotificationHelper.buildNotificationWithTraffic(
+                val notification = NotificationHelper.buildNotification(
                         vpnState.value!!, trafficUpdate)
                 notify(Constants.NOTIFICATION_ID, notification)
             }

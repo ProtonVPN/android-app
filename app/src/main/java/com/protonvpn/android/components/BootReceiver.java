@@ -68,7 +68,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (intent != null) {
             NotificationHelper.INSTANCE.initNotificationChannel(context);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
-                NotificationHelper.INSTANCE.getCHANNEL_ID()).setSmallIcon(
+                NotificationHelper.CHANNEL_ID).setSmallIcon(
                 R.drawable.ic_notification_disconnected)
                 .setContentTitle(context.getString(R.string.insufficientPermissionsTitle))
                 .setContentText(context.getString(R.string.insufficientPermissionsDetails));
