@@ -24,13 +24,21 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.VpnStateMonitor.State.*
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CHECKING_AVAILABILITY
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTED
+import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
+import com.protonvpn.android.vpn.VpnStateMonitor.State.DISCONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
+import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.WAITING_FOR_NETWORK
 
 object NotificationHelper {
 
@@ -68,9 +76,15 @@ object NotificationHelper {
                         .setOnlyAlertOnce(true)
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
 
-        if (vpnState.state == CONNECTED || vpnState.state == CONNECTING) {
-            builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp, context.getString(R.string.disconnect),
-                    disconnectPendingIntent))
+        when (vpnState.state) {
+            DISABLED, CHECKING_AVAILABILITY, WAITING_FOR_NETWORK, RECONNECTING, DISCONNECTING -> builder.color =
+                    ContextCompat.getColor(context, R.color.orange)
+            CONNECTING, CONNECTED -> {
+                builder.color = ContextCompat.getColor(context, R.color.greenBright)
+                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp, context.getString(R.string.disconnect),
+                        disconnectPendingIntent))
+            }
+            ERROR -> builder.color = ContextCompat.getColor(context, R.color.red)
         }
 
         val intent = Intent(context, HomeActivity::class.java)
