@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.utils
 
-import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
+import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
 
-public class TimeUtils {
+object TimeUtils {
 
-    public static String getFormattedTimeFromSeconds(int seconds) {
-
-        PeriodFormatter myFormat = new PeriodFormatterBuilder().minimumPrintedDigits(2)
+    private val periodFormatter = PeriodFormatterBuilder()
+            .minimumPrintedDigits(1)
             .appendHours()
-            .appendSeparator("h ")
+            .appendSuffix("h")
             .minimumPrintedDigits(1)
+            .appendSeparator(" ")
             .appendMinutes()
-            .appendSeparator("m ")
+            .appendSuffix("m")
             .minimumPrintedDigits(1)
+            .appendSeparator(" ")
             .appendSeconds()
-            .printZeroAlways()
-            .appendLiteral("s")
-            .toFormatter();
+            .appendSuffix("s")
+            .minimumPrintedDigits(1)
+            .toFormatter()
 
-        Period period = Period.seconds(seconds).normalizedStandard();
-        return myFormat.print(period);
-    }
+    @JvmStatic
+    fun getFormattedTimeFromSeconds(seconds: Int): String =
+            periodFormatter.print(Period.seconds(seconds).normalizedStandard())
 }
