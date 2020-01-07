@@ -18,12 +18,16 @@
  */
 package com.protonvpn.di;
 
+import android.os.SystemClock;
+
 import com.google.gson.Gson;
+import com.protonvpn.android.ProtonApplication;
 import com.protonvpn.android.api.ProtonApiRetroFit;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.mocks.MockVpnBackendProvider;
 
@@ -38,6 +42,9 @@ import kotlinx.coroutines.GlobalScope;
 @Module
 public class MockAppModule {
 
+    private CoroutineContext coroutineContext =
+            GlobalScope.INSTANCE.getCoroutineContext().plus(Dispatchers.getMain());
+
     @Singleton
     @Provides
     public ServerManager provideServerManager(UserData userData) {
@@ -48,8 +55,6 @@ public class MockAppModule {
     @Provides
     public ServerListUpdater provideServerListUpdater(ProtonApiRetroFit api, ServerManager serverManager,
                                                       UserData userData) {
-        CoroutineContext coroutineContext =
-            GlobalScope.INSTANCE.getCoroutineContext().plus(Dispatchers.getMain());
         return new ServerListUpdater(coroutineContext, api, serverManager, userData);
     }
 
@@ -75,13 +80,21 @@ public class MockAppModule {
     @Provides
     public VpnStateMonitor provideVpnStateMonitor(UserData userData, ProtonApiRetroFit api,
                                                   MockVpnBackendProvider backendManager,
-                                                  ServerListUpdater serverListUpdater) {
-        return new MockVpnStateMonitor(userData, api, backendManager, serverListUpdater);
+                                                  ServerListUpdater serverListUpdater,
+                                                  TrafficMonitor trafficMonitor) {
+        return new MockVpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor);
     }
 
     @Singleton
     @Provides
     public MockVpnBackendProvider provideVpnBackendManager() {
         return new MockVpnBackendProvider();
+    }
+
+    @Singleton
+    @Provides
+    public TrafficMonitor provideTrafficMonitor() {
+        return new TrafficMonitor(ProtonApplication.getAppContext(), coroutineContext,
+                SystemClock::elapsedRealtime);
     }
 }

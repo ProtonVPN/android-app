@@ -18,9 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
-import android.app.Notification
 import android.content.IntentFilter
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -37,11 +35,9 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.TrafficCallback
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
@@ -64,8 +60,9 @@ open class VpnStateMonitor(
     private val userData: UserData,
     private val api: ProtonApiRetroFit,
     private val backendProvider: VpnBackendProvider,
-    private val serverListUpdater: ServerListUpdater
-) : TrafficCallback {
+    private val serverListUpdater: ServerListUpdater,
+    private val trafficMonitor: TrafficMonitor
+) {
 
     enum class State {
         DISABLED, CHECKING_AVAILABILITY, WAITING_FOR_NETWORK, CONNECTING, CONNECTED, RECONNECTING,
@@ -180,14 +177,14 @@ open class VpnStateMonitor(
                 }
                 else -> Log.d("Current state: $it")
             }
-            updateNotification()
+            updateNotification(null)
         }
     }
 
     private fun bindTrafficMonitor() {
-        TrafficMonitor.instance.bindTrafficMonitor(this)
-        TrafficMonitor.instance.trafficStatus.observeForever {
-            onTrafficUpdate(it)
+        trafficMonitor.init(vpnState)
+        trafficMonitor.trafficStatus.observeForever {
+            updateNotification(it)
         }
     }
 
@@ -280,32 +277,11 @@ open class VpnStateMonitor(
         activeBackend?.reconnect()
     }
 
-    override fun onTrafficUpdate(trafficUpdate: TrafficUpdate) {
-        with(NotificationManagerCompat.from(ProtonApplication.getAppContext())) {
-            if (state == DISABLED || connectionInfo == null) {
-                notify(Constants.NOTIFICATION_ID, buildNotification())
-                cancel(Constants.NOTIFICATION_ID)
-            } else {
-                val notification = NotificationHelper.buildNotification(
-                        vpnState.value!!, trafficUpdate)
-                notify(Constants.NOTIFICATION_ID, notification)
-            }
-        }
-    }
+    fun buildNotification() =
+        NotificationHelper.buildNotification(vpnState.value!!, null)
 
-    private fun updateNotification() {
-        with(NotificationManagerCompat.from(ProtonApplication.getAppContext())) {
-            // First update the notification even when disabled. If foreground service is
-            // still running, notification will stay after cancel() - let's at least show correct
-            // "not connected" notification.
-            notify(Constants.NOTIFICATION_ID, buildNotification())
-            if (state == DISABLED) {
-                cancel(Constants.NOTIFICATION_ID)
-            }
-        }
-    }
-
-    fun buildNotification(): Notification {
-        return NotificationHelper.buildNotification(vpnState.value!!)
+    private fun updateNotification(trafficUpdate: TrafficUpdate?) {
+        NotificationHelper.updateNotification(
+                ProtonApplication.getAppContext(), vpnState.value!!, trafficUpdate)
     }
 }
