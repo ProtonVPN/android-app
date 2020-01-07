@@ -18,12 +18,16 @@
  */
 package com.protonvpn.android.di;
 
+import android.os.SystemClock;
+
 import com.google.gson.Gson;
+import com.protonvpn.android.ProtonApplication;
 import com.protonvpn.android.api.ProtonApiRetroFit;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider;
 import com.protonvpn.android.vpn.VpnBackendProvider;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -39,6 +43,9 @@ import kotlinx.coroutines.GlobalScope;
 @Module
 public class AppModule {
 
+    private CoroutineContext coroutineContext =
+            GlobalScope.INSTANCE.getCoroutineContext().plus(Dispatchers.getMain());
+
     @Singleton
     @Provides
     public ServerManager provideServerManager(UserData userData) {
@@ -49,8 +56,6 @@ public class AppModule {
     @Provides
     public ServerListUpdater provideServerListUpdater(ProtonApiRetroFit api, ServerManager serverManager,
                                                       UserData userData) {
-        CoroutineContext coroutineContext =
-            GlobalScope.INSTANCE.getCoroutineContext().plus(Dispatchers.getMain());
         return new ServerListUpdater(coroutineContext, api, serverManager, userData);
     }
 
@@ -76,13 +81,21 @@ public class AppModule {
     @Provides
     public VpnStateMonitor provideVpnStateMonitor(UserData userData, ProtonApiRetroFit api,
                                                   VpnBackendProvider backendManager,
-                                                  ServerListUpdater serverListUpdater) {
-        return new VpnStateMonitor(userData, api, backendManager, serverListUpdater);
+                                                  ServerListUpdater serverListUpdater,
+                                                  TrafficMonitor trafficMonitor) {
+        return new VpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor);
     }
 
     @Singleton
     @Provides
     public VpnBackendProvider provideVpnBackendManager() {
         return new ProtonVpnBackendProvider();
+    }
+
+    @Singleton
+    @Provides
+    public TrafficMonitor provideTrafficMonitor() {
+        return new TrafficMonitor(ProtonApplication.getAppContext(), coroutineContext,
+                SystemClock::elapsedRealtime);
     }
 }

@@ -117,6 +117,7 @@ public class VpnStateFragment extends BaseFragment {
     @Inject UserData userData;
     @Inject VpnStateMonitor stateMonitor;
     @Inject ServerListUpdater serverListUpdater;
+    @Inject TrafficMonitor trafficMonitor;
     private BottomSheetBehavior bottomSheetBehavior;
     private long errorConnectionID;
     private long dismissedConnectionID;
@@ -189,7 +190,7 @@ public class VpnStateFragment extends BaseFragment {
 
         initChart();
         stateMonitor.getVpnState().observe(getViewLifecycleOwner(), state -> updateView(false, state));
-        TrafficMonitor.Companion.getInstance()
+        trafficMonitor
             .getTrafficStatus()
             .observe(getViewLifecycleOwner(), this::onTrafficUpdate);
     }
@@ -316,16 +317,14 @@ public class VpnStateFragment extends BaseFragment {
         }
     }
 
-    private void onTrafficUpdate(final @NonNull TrafficUpdate update) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                addEntry(update.getDownloadSpeed(), update.getUploadSpeed());
-                textSessionTime.setText(TimeUtils.getFormattedTimeFromSeconds(update.getSessionTime()));
-                textUploadSpeed.setText(update.getUploadSpeedString());
-                textDownloadSpeed.setText(update.getDownloadSpeedString());
-                textUploadVolume.setText(ConnectionTools.bytesToSize(update.getSessionUpload()));
-                textDownloadVolume.setText(ConnectionTools.bytesToSize(update.getSessionDownload()));
-            });
+    private void onTrafficUpdate(final @Nullable TrafficUpdate update) {
+        if (getActivity() != null && update != null) {
+            addEntry(update.getDownloadSpeed(), update.getUploadSpeed());
+            textSessionTime.setText(TimeUtils.getFormattedTimeFromSeconds(update.getSessionTimeSeconds()));
+            textUploadSpeed.setText(update.getUploadSpeedString());
+            textDownloadSpeed.setText(update.getDownloadSpeedString());
+            textUploadVolume.setText(ConnectionTools.bytesToSize(update.getSessionUpload()));
+            textDownloadVolume.setText(ConnectionTools.bytesToSize(update.getSessionDownload()));
         }
     }
 

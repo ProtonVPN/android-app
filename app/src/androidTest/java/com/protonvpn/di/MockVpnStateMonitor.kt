@@ -22,6 +22,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -29,8 +30,9 @@ class MockVpnStateMonitor(
     userData: UserData,
     api: ProtonApiRetroFit,
     vpnBackendProvider: VpnBackendProvider,
-    serverListUpdater: ServerListUpdater
-) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater) {
+    serverListUpdater: ServerListUpdater,
+    trafficMonitor: TrafficMonitor
+) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor) {
 
     override suspend fun getSession(): SessionListResponse =
             SessionListResponse(0, arrayListOf())

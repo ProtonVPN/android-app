@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
@@ -60,7 +61,6 @@ object NotificationHelper {
     }
 
     fun buildNotification(vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?): Notification {
-
         val context = ProtonApplication.getAppContext()
         val disconnectIntent = Intent(DISCONNECT_ACTION)
         val disconnectPendingIntent: PendingIntent =
@@ -95,8 +95,16 @@ object NotificationHelper {
         return builder.build()
     }
 
-    fun buildNotification(vpnState: VpnStateMonitor.VpnState): Notification {
-        return buildNotification(vpnState, null)
+    fun updateNotification(context: Context, vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?) {
+        with(NotificationManagerCompat.from(context)) {
+            // First update the notification even when disabled. If foreground service is
+            // still running, notification will stay after cancel() - let's at least show correct
+            // "not connected" notification.
+            notify(Constants.NOTIFICATION_ID, buildNotification(vpnState, trafficUpdate))
+            if (vpnState.state == DISABLED) {
+                cancel(Constants.NOTIFICATION_ID)
+            }
+        }
     }
 
     private fun getIconForState(state: VpnStateMonitor.State): Int {
