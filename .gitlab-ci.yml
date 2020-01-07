@@ -107,7 +107,7 @@ build blue:
   tags:
     - android
   script:
-    - ./gradlew assembleBlueRelease
+    - ./gradlew assembleBlueDebug
   when: manual
   artifacts:
     expire_in: 1 week
