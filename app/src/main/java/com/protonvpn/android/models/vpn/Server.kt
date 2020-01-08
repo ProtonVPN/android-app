@@ -319,7 +319,8 @@ class Server(
         profileToConnect.mUseTLSAuth = true
         profileToConnect.mTunMtu = userData.mtuSize
         profileToConnect.mExpectTLSCert = true
-        profileToConnect.mCheckRemoteCN = false
+        profileToConnect.mCheckRemoteCN = true
+        profileToConnect.mRemoteCN = connectingDomain.entryDomain
         profileToConnect.mAllowLocalLAN = userData.bypassLocalTraffic()
         val conn = Connection()
 
