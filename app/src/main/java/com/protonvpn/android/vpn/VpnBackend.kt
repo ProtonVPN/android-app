@@ -22,16 +22,17 @@ import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 
+data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
+
 interface VpnBackendProvider {
     fun getFor(userData: UserData, profile: Profile? = null): VpnBackend
-    val retryTimeout: Int
-    val retryIn: Int
 }
 
 abstract class VpnBackend(val name: String) {
     abstract suspend fun connect()
     abstract suspend fun disconnect()
-    abstract fun reconnect()
+    abstract suspend fun reconnect()
+    abstract val retryInfo: RetryInfo?
 
     fun setState(newState: VpnStateMonitor.State) {
         stateObservable.value = newState

@@ -41,10 +41,6 @@ class ProtonVpnBackendProvider : VpnBackendProvider {
     private val openVpn = OpenVpnBackend()
     private val strongSwan = StrongSwanBackend()
 
-    // TODO: this shouldn't be bound to strongswan?
-    override val retryTimeout get() = strongSwan.getRetryTimeout()
-    override val retryIn get() = strongSwan.getRetryIn()
-
     override fun getFor(userData: UserData, profile: Profile?) =
             if (profile?.isOpenVPNSelected(userData) ?: userData.isOpenVPNSelected)
                 openVpn else strongSwan
@@ -76,17 +72,12 @@ class StrongSwanBackend : VpnBackend("StrongSwan"), VpnStateService.VpnStateList
         }
     }
 
-    override fun reconnect() {
+    override suspend fun reconnect() {
         vpnService?.reconnect()
     }
 
-    fun getRetryIn(): Int {
-        return vpnService!!.retryIn
-    }
-
-    fun getRetryTimeout(): Int {
-        return vpnService!!.retryTimeout
-    }
+    override val retryInfo: RetryInfo?
+        get() = RetryInfo(vpnService!!.retryTimeout, vpnService!!.retryIn)
 
     private fun bindCharonMonitor() = mainScope.launch {
         val context = ProtonApplication.getAppContext()
@@ -164,9 +155,13 @@ class OpenVpnBackend : VpnBackend("OpenVpn"), VpnStatus.StateListener {
         } while (state != VpnStateMonitor.State.DISABLED)
     }
 
-    override fun reconnect() {
-        startOpenVPN(OpenVPNWrapperService.RESUME_VPN)
+    override suspend fun reconnect() {
+        disconnect()
+        startOpenVPN(null)
     }
+
+    // No retry info available for open vpn
+    override val retryInfo: RetryInfo? get() = null
 
     private fun startOpenVPN(action: String?) {
         val ovpnService =
@@ -181,9 +176,20 @@ class OpenVpnBackend : VpnBackend("OpenVpn"), VpnStatus.StateListener {
     }
 
     override fun updateState(state: String, logmessage: String, localizedResId: Int, level: ConnectionStatus) {
-        Log.e("state: $state $level")
         var errorState = VpnStateMonitor.ErrorState.NO_ERROR
-        val translatedState = if (state == "RECONNECTING") {
+
+        if (level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET && error.errorState == VpnStateMonitor.ErrorState.PEER_AUTH_FAILED) {
+            // On tls-error OpenVPN will send a single RECONNECTING state update with tls-error in
+            // logmessage followed by LEVEL_CONNECTING_NO_SERVER_REPLY_YET updates without info
+            // about tls-error. Let's stay in PEER_AUTH_FAILED for the rest of this connection
+            // attempt.
+            return
+        }
+
+        val translatedState = if (state == "RECONNECTING" && logmessage.startsWith("tls-error")) {
+            errorState = VpnStateMonitor.ErrorState.PEER_AUTH_FAILED
+            VpnStateMonitor.State.ERROR
+        } else if (state == "RECONNECTING") {
             VpnStateMonitor.State.RECONNECTING
         } else when (level) {
             ConnectionStatus.LEVEL_CONNECTED ->

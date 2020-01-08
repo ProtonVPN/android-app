@@ -82,7 +82,8 @@ public class MockAppModule {
                                                   MockVpnBackendProvider backendManager,
                                                   ServerListUpdater serverListUpdater,
                                                   TrafficMonitor trafficMonitor) {
-        return new MockVpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor);
+        return new MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
+                trafficMonitor, coroutineContext);
     }
 
     @Singleton

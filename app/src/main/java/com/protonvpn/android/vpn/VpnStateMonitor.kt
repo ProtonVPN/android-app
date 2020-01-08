@@ -52,6 +52,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
 import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlinx.coroutines.*
 
@@ -61,7 +62,8 @@ open class VpnStateMonitor(
     private val api: ProtonApiRetroFit,
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
-    private val trafficMonitor: TrafficMonitor
+    private val trafficMonitor: TrafficMonitor,
+    coroutineContext: CoroutineContext
 ) {
 
     enum class State {
@@ -93,6 +95,7 @@ open class VpnStateMonitor(
         private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
     }
 
+    private val scope = CoroutineScope(coroutineContext)
     private var ongoingConnect: Job? = null
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
@@ -109,7 +112,7 @@ open class VpnStateMonitor(
         if (newState == ERROR && error?.errorState == AUTH_FAILED_INTERNAL) {
             newState = CHECKING_AVAILABILITY
             debugAssert { ongoingConnect == null }
-            ongoingConnect = GlobalScope.launch(context = Dispatchers.Main) {
+            ongoingConnect = scope.launch {
                 checkAuthFailedReason()
             }
         }
@@ -143,8 +146,7 @@ open class VpnStateMonitor(
                 connectingToDomain in servers.asSequence().map { it.domain }
             } == true
 
-    val retryTimeout get() = backendProvider.retryTimeout
-    val retryIn get() = backendProvider.retryIn
+    val retryInfo get() = activeBackend?.retryInfo
 
     init {
         Log.i("create state monitor")
@@ -250,7 +252,7 @@ open class VpnStateMonitor(
 
     fun connect(profile: Profile) {
         clearOngoingConnection()
-        ongoingConnect = GlobalScope.launch(context = Dispatchers.Main) {
+        ongoingConnect = scope.launch {
             coroutineConnect(profile)
         }
     }
@@ -265,13 +267,13 @@ open class VpnStateMonitor(
 
     open fun disconnect() {
         clearOngoingConnection()
-        GlobalScope.launch(context = Dispatchers.Main) {
+        scope.launch {
             disconnectBlocking()
             serverListUpdater.onDisconnectedByUser()
         }
     }
 
-    fun reconnect() {
+    fun reconnect() = scope.launch {
         clearOngoingConnection()
         activateBackend()
         activeBackend?.reconnect()
