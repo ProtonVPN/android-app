@@ -25,7 +25,7 @@ public class LoginInfoResponse {
     private final int code;
     private final String modulus;
     private final String serverEphemeral;
-    private final int version;
+    private final Integer version;
     private final String salt;
     private final String srpSession;
 
@@ -55,8 +55,8 @@ public class LoginInfoResponse {
         return serverEphemeral;
     }
 
-    public int getVersion() {
-        return version;
+    public Long getVersion() {
+        return version.longValue();
     }
 
     public String getSalt() {

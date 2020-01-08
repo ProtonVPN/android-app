@@ -20,13 +20,11 @@ package com.protonvpn.android.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Rect
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Base64
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -41,6 +39,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import butterknife.BindView
 import butterknife.OnCheckedChanged
 import butterknife.OnClick
@@ -48,7 +47,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.evernote.android.state.State
 import com.google.android.material.textfield.TextInputLayout
-import com.proton.pmcrypto.armor.Armor
+import com.proton.pmcrypto.srp.Auth
+import com.proton.pmcrypto.srp.Proofs
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -65,10 +65,11 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.DeepLinkActivity
-import com.protonvpn.android.utils.PasswordUtils
-import com.protonvpn.android.utils.SRPClient
 import com.protonvpn.android.utils.Storage
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
@@ -246,27 +247,23 @@ class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, Keyb
             downloadStarted = true
             api.postLoginInfo(this, userPrefs.user) { result ->
                 loadingContainer.switchToLoading()
-                parseLoginInfoResponse(result)
+                lifecycleScope.launch { parseLoginInfoResponse(result) }
             }
         }
     }
 
-    private fun parseLoginInfoResponse(result: LoginInfoResponse) {
-        AsyncTask.execute {
-            val proofs = srpProofsForInfo(userPrefs.user, editPassword.text.toString(), result)
-            runOnUiThread {
-                if (proofs != null) {
-                    val body = LoginBody(userPrefs.user, result.srpSession,
-                            ConstantTime.encodeBase64(proofs.clientEphemeral, true),
-                            ConstantTime.encodeBase64(proofs.clientProof, true), "")
-                    postLogin(body)
-                } else {
-                    networkFrameLayout.switchToEmpty()
-                    Toast.makeText(this@LoginActivity,
-                            "Unable to login due to unsupported auth version. Please contact support",
-                            Toast.LENGTH_LONG).show()
-                }
-            }
+    private suspend fun parseLoginInfoResponse(result: LoginInfoResponse) {
+        val proofs = getProofs(userPrefs.user, editPassword.text.toString(), result)
+        if (proofs != null) {
+            val body = LoginBody(userPrefs.user, result.srpSession,
+                    ConstantTime.encodeBase64(proofs.clientEphemeral, true),
+                    ConstantTime.encodeBase64(proofs.clientProof, true), "")
+            postLogin(body)
+        } else {
+            networkFrameLayout.switchToEmpty()
+            Toast.makeText(this@LoginActivity,
+                    "Unable to login due to unsupported auth version. Please contact support",
+                    Toast.LENGTH_LONG).show()
         }
     }
 
@@ -295,31 +292,13 @@ class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, Keyb
         }
     }
 
-    private fun srpProofsForInfo(
+    private suspend fun getProofs(
         username: String,
         password: String,
         infoResponse: LoginInfoResponse
-    ): SRPClient.Proofs? {
-        var authVersion = infoResponse.version
-        if (authVersion == 0) {
-            authVersion = 2
-        }
-
-        if (authVersion <= 2) {
-            return null
-        }
-
-        val modulus =
-                Base64.decode(Armor.readClearSignedMessage(infoResponse.modulus), Base64.DEFAULT)
-        val hashedPassword = PasswordUtils.hashPassword(authVersion, password, username,
-                Base64.decode(infoResponse.salt, Base64.DEFAULT), modulus)
-
-        return try {
-            SRPClient.generateProofs(2048, modulus,
-                    Base64.decode(infoResponse.serverEphemeral, Base64.DEFAULT), hashedPassword)
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            null
-        }
+    ): Proofs? = withContext(Dispatchers.Default) {
+        val auth =
+                Auth(infoResponse.version, username, password, infoResponse.salt, infoResponse.modulus, infoResponse.serverEphemeral)
+        auth.generateProofs(2048)
     }
 }
