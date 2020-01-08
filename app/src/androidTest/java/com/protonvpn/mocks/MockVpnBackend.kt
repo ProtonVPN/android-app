@@ -20,14 +20,12 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class MockVpnBackendProvider : VpnBackendProvider {
-    override val retryIn get() = 10
-    override val retryTimeout get() = 10
-
     val backend = MockVpnBackend()
 
     override fun getFor(userData: UserData, profile: Profile?) = backend
@@ -47,11 +45,13 @@ class MockVpnBackend : VpnBackend("MockVpnBackend") {
         stateObservable.value = VpnStateMonitor.State.DISABLED
     }
 
-    override fun reconnect() {
+    override suspend fun reconnect() {
         error.errorState = errorOnConnect
         stateObservable.value = VpnStateMonitor.State.CONNECTING
         stateObservable.value = stateOnConnect
     }
+
+    override val retryInfo get() = RetryInfo(10, 10)
 
     var errorOnConnect = VpnStateMonitor.ErrorState.NO_ERROR
     var stateOnConnect = VpnStateMonitor.State.CONNECTED

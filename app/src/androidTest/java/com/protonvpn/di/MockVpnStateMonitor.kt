@@ -25,14 +25,16 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlin.coroutines.CoroutineContext
 
 class MockVpnStateMonitor(
     userData: UserData,
     api: ProtonApiRetroFit,
     vpnBackendProvider: VpnBackendProvider,
     serverListUpdater: ServerListUpdater,
-    trafficMonitor: TrafficMonitor
-) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor) {
+    trafficMonitor: TrafficMonitor,
+    coroutineContext: CoroutineContext
+) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor, coroutineContext) {
 
     override suspend fun getSession(): SessionListResponse =
             SessionListResponse(0, arrayListOf())

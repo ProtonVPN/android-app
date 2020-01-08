@@ -83,7 +83,8 @@ public class AppModule {
                                                   VpnBackendProvider backendManager,
                                                   ServerListUpdater serverListUpdater,
                                                   TrafficMonitor trafficMonitor) {
-        return new VpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor);
+        return new VpnStateMonitor(userData, api, backendManager, serverListUpdater,
+                trafficMonitor, coroutineContext);
     }
 
     @Singleton

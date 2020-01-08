@@ -531,13 +531,19 @@ public class VpnStateFragment extends BaseFragment {
         layoutConnecting.setVisibility(View.GONE);
         layoutError.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        int retry = stateMonitor.getRetryIn();
         textError.setText(textId);
-        progressBarError.setMax(stateMonitor.getRetryTimeout());
-        progressBarError.setProgress(retry);
-        textConnectingTo.setText(
-            retry != 0 ? getResources().getQuantityString(R.plurals.retry_in, retry, retry) :
-                getString(R.string.loaderReconnecting));
+
+        RetryInfo retryInfo = stateMonitor.getRetryInfo();
+        progressBarError.setVisibility(retryInfo != null ? View.VISIBLE : View.INVISIBLE);
+        if (retryInfo != null) {
+            progressBarError.setMax(retryInfo.getTimeoutSeconds());
+            progressBarError.setProgress(retryInfo.getRetryInSeconds());
+            int retryIn = retryInfo.getRetryInSeconds();
+            textConnectingTo.setText(getResources().getQuantityString(R.plurals.retry_in, retryIn, retryIn));
+        }
+        else {
+            textConnectingTo.setText(R.string.loaderReconnecting);
+        }
         boolean showSupportLink = textId == R.string.error_lookup_failed;
 
         textSupport.setPaintFlags(textSupport.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
