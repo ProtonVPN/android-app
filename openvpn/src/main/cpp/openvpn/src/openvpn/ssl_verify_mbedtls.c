@@ -550,4 +550,15 @@ tls_verify_crl_missing(const struct tls_options *opt)
     return false;
 }
 
+bool
+x509v3_is_host_in_alternative_names(mbedtls_x509_crt *cert, const char *host, bool *has_alt_names)
+{
+    msg(M_WARN, "Missing support for subject alternative names in mbedtls.");
+    if (has_alt_names != NULL)
+    {
+        *has_alt_names = false;
+    }
+    return false;
+}
+
 #endif /* #if defined(ENABLE_CRYPTO_MBEDTLS) */
