@@ -97,6 +97,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         @BindView(R.id.radioServer) RadioButton radioServer;
         @BindView(R.id.buttonConnect) TriangledTextView buttonConnect;
         @BindView(R.id.textConnected) TextView textConnected;
+        @BindView(R.id.textServerNotSet) TextView textServerNotSet;
         @BindView(R.id.imageCountry) ImageView imageCountry;
         @BindView(R.id.layoutProfileColor) View layoutProfileColor;
         @BindView(R.id.imageEdit) ImageView imageEdit;
@@ -130,6 +131,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
             buttonConnect.setClickable(false);
             buttonConnect.setText(userData.hasAccessToServer(server) ? R.string.connect : R.string.upgrade);
             initConnectedStatus();
+            textServerNotSet.setVisibility(server != null ? View.GONE : View.VISIBLE);
             imageEdit.setVisibility(profile.isPreBakedProfile() ? View.INVISIBLE : View.VISIBLE);
             layoutProfileColor.setBackgroundColor(Color.parseColor(object.getColor()));
 
@@ -176,7 +178,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
         @Override
         public void onClick(View v) {
-            if (!stateMonitor.isConnectedTo(server)) {
+            if (!stateMonitor.isConnectedTo(server) && server != null) {
                 markAsSelected(!radioServer.isChecked());
                 EventBus.post(new ServerSelected(server));
             }

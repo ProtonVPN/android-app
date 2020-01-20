@@ -23,6 +23,8 @@ import com.protonvpn.android.models.vpn.Server;
 
 import java.io.Serializable;
 
+import androidx.annotation.Nullable;
+
 public final class ServerWrapper implements Listable, Serializable {
 
     public ProfileType type;
@@ -46,7 +48,7 @@ public final class ServerWrapper implements Listable, Serializable {
                 return "Fastest" + upgradeLabel(deliver.getServer(this));
             case DIRECT:
                 Server server = deliver.getServer(this);
-                return server.getLabel() + upgradeLabel(server);
+                return server != null ? server.getLabel() + upgradeLabel(server) : "";
         }
         throw new RuntimeException("Label not found for: " + type);
     }
@@ -55,9 +57,9 @@ public final class ServerWrapper implements Listable, Serializable {
         this.deliver = deliverer;
     }
 
-    private String upgradeLabel(Server server) {
-        return server.isOnline() ? (deliver.hasAccessToServer(server) ? "" : " (Upgrade)") :
-            " Under maintenance";
+    private String upgradeLabel(@Nullable Server server) {
+        return server != null ? server.isOnline() ? (deliver.hasAccessToServer(server) ? "" : " (Upgrade)") :
+            " Under maintenance" : "";
     }
 
     public void setSecureCoreCountry(boolean secureCoreCountry) {
@@ -115,6 +117,7 @@ public final class ServerWrapper implements Listable, Serializable {
         return secureCoreCountry;
     }
 
+    @Nullable
     public Server getServer() {
         return deliver.getServer(this);
     }

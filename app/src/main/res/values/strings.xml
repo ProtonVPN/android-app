@@ -269,4 +269,5 @@
     <string name="error_prepare_vpn_description"><![CDATA[Please disable Always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents ProtonVPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Go to Android VPN settings</string>
     <string name="error_prepare_vpn_title">Error: VPN permission problem</string>
+    <string name="error_server_not_set">Server no longer available</string>
 </resources>
