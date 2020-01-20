@@ -20,13 +20,14 @@ package com.protonvpn.android.ui.drawer
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityLicensesBinding
 
 @ContentLayout(R.layout.activity_licenses)
-class OssLicensesActivity : BaseActivityV2<ActivityLicensesBinding>() {
+class OssLicensesActivity : BaseActivityV2<ActivityLicensesBinding, ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,5 +40,8 @@ class OssLicensesActivity : BaseActivityV2<ActivityLicensesBinding>() {
         setBackgroundColor(0)
         settings.javaScriptEnabled = true
         loadUrl("file:///android_asset/oss_licenses.html")
+    }
+
+    override fun initViewModel() {
     }
 }
