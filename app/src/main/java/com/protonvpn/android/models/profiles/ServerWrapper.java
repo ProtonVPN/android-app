@@ -57,7 +57,7 @@ public final class ServerWrapper implements Listable, Serializable {
 
     private String upgradeLabel(Server server) {
         return server.isOnline() ? (deliver.hasAccessToServer(server) ? "" : " (Upgrade)") :
-            "Under maintenance";
+            " Under maintenance";
     }
 
     public void setSecureCoreCountry(boolean secureCoreCountry) {

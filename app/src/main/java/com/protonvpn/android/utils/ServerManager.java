@@ -313,7 +313,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
                 if (bestScore == null) {
                     bestScore = countryBestServer;
                 }
-                else if (bestScore.getScore() > countryBestServer.getScore()) {
+                else if (countryBestServer != null && (bestScore.getScore() > countryBestServer.getScore())) {
                     bestScore = countryBestServer;
                 }
             }

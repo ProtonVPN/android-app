@@ -74,7 +74,7 @@ class VpnCountry(val flag: String, serverList: List<Server>, deliverer: ServerDe
     }
 
     fun hasAccessibleServer(userData: UserData): Boolean {
-        return serverList.any { userData.hasAccessToServer(it) }
+        return serverList.any { userData.hasAccessToServer(it) && it.isOnline }
     }
 
     fun isUnderMaintenance(): Boolean {
