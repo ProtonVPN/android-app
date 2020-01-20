@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2019 Proton Technologies AG
 
  This file is part of ProtonVPN.
@@ -17,67 +16,70 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    tools:background="@color/dimmedGrey">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/settingsDefaultProtocol"
-        android:textColor="@color/lightGrey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.protonvpn.android.components.ProtonSpinner
-        android:id="@+id/spinnerDefaultProtocol"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:inputType="textNoSuggestions"
-        android:textColor="@color/white"
-        android:theme="@style/TextLabel"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <LinearLayout
-        android:id="@+id/layoutTransmissionProtocol"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerDefaultProtocol">
+        tools:background="@color/dimmedGrey">
 
         <TextView
-            android:id="@+id/textTransmissionProtocol"
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="@string/settingsTransmissionProtocol"
+            android:layout_marginTop="11dp"
+            android:text="@string/settingsDefaultProtocol"
             android:textColor="@color/lightGrey"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDefaultProtocol" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.protonvpn.android.components.ProtonSpinner
-            android:id="@+id/spinnerTransmissionProtocol"
-            android:layout_width="match_parent"
+            android:id="@+id/spinnerDefaultProtocol"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:inputType="textNoSuggestions"
             android:textColor="@color/white"
-            android:theme="@style/TextLabel" />
+            android:theme="@style/TextLabel"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutTransmissionProtocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerDefaultProtocol">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textTransmissionProtocol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/settingsTransmissionProtocol"
+                android:textColor="@color/lightGrey"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerDefaultProtocol" />
+
+            <com.protonvpn.android.components.ProtonSpinner
+                android:id="@+id/spinnerTransmissionProtocol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:inputType="textNoSuggestions"
+                android:textColor="@color/white"
+                android:theme="@style/TextLabel" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

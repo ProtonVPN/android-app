@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -17,117 +16,119 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dimmedGrey"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dimmedGrey"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
-        tools:showIn="@layout/activity_profile">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:theme="@style/TextLabel">
+            android:layout_height="match_parent"
+            android:background="@color/dimmedGrey"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
+            tools:showIn="@layout/activity_profile">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/editName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/profile_name"
-                android:imeOptions="actionNext"
-                android:inputType="textPersonName"
-                android:maxLength="25"
-                android:selectAllOnFocus="true"
-                android:textColor="@color/white" />
+                android:layout_marginStart="-4dp"
+                android:theme="@style/TextLabel">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/editName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/profile_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:maxLength="25"
+                    android:selectAllOnFocus="true"
+                    android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/profile_color"
-            android:textColor="@color/lightGrey"
-            android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.protonvpn.android.components.ProtonPallete
-            android:id="@+id/palette"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </com.protonvpn.android.components.ProtonPallete>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchSecureCore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/secure_core"
-            android:textColor="@color/lightGrey"
-            android:textSize="16sp"
-            android:theme="@style/SCSwitch.Green"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/palette" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutCountry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="16dp"
-            android:theme="@style/TextLabel">
-
-            <com.protonvpn.android.components.ProtonSpinner
-                android:id="@+id/spinnerCountry"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/profile_color"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.protonvpn.android.components.ProtonPallete
+                android:id="@+id/palette"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutServer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="16dp"
-            android:theme="@style/TextLabel">
+            </com.protonvpn.android.components.ProtonPallete>
 
-            <com.protonvpn.android.components.ProtonSpinner
-                android:id="@+id/spinnerServer"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white" />
+                android:layout_marginTop="8dp"
+                android:text="@string/secure_core"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                android:theme="@style/SCSwitch.Green"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/palette" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="16dp"
+                android:theme="@style/TextLabel">
 
-        <include
-            android:id="@+id/protocolSelection"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            layout="@layout/item_protocol_selection"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchDnsLeak"/>
+                <com.protonvpn.android.components.ProtonSpinner
+                    android:id="@+id/spinnerCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white" />
 
-    </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.core.widget.NestedScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutServer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="16dp"
+                android:theme="@style/TextLabel">
+
+                <com.protonvpn.android.components.ProtonSpinner
+                    android:id="@+id/spinnerServer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <include
+                android:id="@+id/protocolSelection"
+                layout="@layout/item_protocol_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchDnsLeak" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
+import com.protonvpn.android.ui.home.profiles.ProfileViewModel
 import com.protonvpn.android.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -32,6 +33,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CountryListViewModel::class)
     abstract fun bindsCountryListViewModel(yourViewModel: CountryListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    abstract fun bindsProfileViewModel(profileViewModel: ProfileViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(vmFactory: ViewModelFactory): ViewModelProvider.Factory
