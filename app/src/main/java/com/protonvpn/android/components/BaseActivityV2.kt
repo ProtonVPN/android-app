@@ -23,17 +23,22 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivityV2<DB : ViewDataBinding> : DaggerAppCompatActivity() {
+abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCompatActivity() {
 
     protected lateinit var binding: DB
+    protected lateinit var viewModel: VM
+
+    protected abstract fun initViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)
         setContentView(binding.root)
+        initViewModel()
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {
