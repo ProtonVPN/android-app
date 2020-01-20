@@ -138,7 +138,7 @@ open class VpnStateMonitor(
     val connectionProtocolString
         get() = connectionProfile?.getProtocol(userData)
 
-    fun isConnectedTo(server: Server) =
+    fun isConnectedTo(server: Server?) =
             isConnected && connectionInfo?.server == server
 
     fun isConnectedToAny(servers: List<Server>) =
