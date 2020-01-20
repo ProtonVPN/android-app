@@ -94,8 +94,7 @@ public final class UserData implements Serializable {
     }
 
     public boolean hasAccessToServer(@Nullable Server serverToAccess) {
-        return serverToAccess != null && getVpnInfoResponse().hasAccessToTier(serverToAccess.getTier())
-            && serverToAccess.isOnline();
+        return serverToAccess != null && getVpnInfoResponse().hasAccessToTier(serverToAccess.getTier());
     }
 
     public boolean isFreeUser() {

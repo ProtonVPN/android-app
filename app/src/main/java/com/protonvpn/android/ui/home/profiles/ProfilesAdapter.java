@@ -128,7 +128,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
             buttonConnect.setAlpha(0);
             buttonConnect.setClickable(false);
-            buttonConnect.setText(userData.hasAccessToServer(server) ? "Connect" : "Upgrade");
+            buttonConnect.setText(userData.hasAccessToServer(server) ? R.string.connect : R.string.upgrade);
             initConnectedStatus();
             imageEdit.setVisibility(profile.isPreBakedProfile() ? View.INVISIBLE : View.VISIBLE);
             layoutProfileColor.setBackgroundColor(Color.parseColor(object.getColor()));

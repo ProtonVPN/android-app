@@ -169,7 +169,7 @@ public abstract class VpnActivity extends BaseActivity {
 
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
-        if ((userData.hasAccessToServer(server) || server == null)) {
+        if ((userData.hasAccessToServer(server) && server.isOnline()) || server == null) {
             if (server == null) {
                 vpnStateMonitor.disconnect();
             }
