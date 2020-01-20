@@ -249,7 +249,7 @@
     <string name="delete">Delete</string>
     <string name="deleteProfile">Are you sure you want to delete this profile?</string>
     <string name="exitCountry">Exit country</string>
-    <string name="entryCountry">Exit country</string>
+    <string name="entryCountry">Entry country</string>
     <string name="country">Country</string>
     <string name="serverSelection">Server</string>
     <string name="protocol">Protocol:</string>
