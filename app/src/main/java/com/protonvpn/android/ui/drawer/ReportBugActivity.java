@@ -130,9 +130,10 @@ public class ReportBugActivity extends BaseActivity {
 
         if (switchAttachLog.getSwitchProton().isChecked() && !userData.isOpenVPNSelected()) {
             File log = new File(getContext().getFilesDir(), CharonVpnService.LOG_FILE);
-
-            builder.addFormDataPart(log.getName(), log.getName(),
-                RequestBody.create(MediaType.parse(log.getName()), log));
+            if (log.exists()) {
+                builder.addFormDataPart(log.getName(), log.getName(),
+                        RequestBody.create(MediaType.parse(log.getName()), log));
+            }
         }
 
         api.postBugReport(this, builder.build(), result -> {
