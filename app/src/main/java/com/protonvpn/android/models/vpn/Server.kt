@@ -319,6 +319,7 @@ class Server(
         profileToConnect.mUseTLSAuth = true
         profileToConnect.mTunMtu = userData.mtuSize
         profileToConnect.mExpectTLSCert = true
+        profileToConnect.mX509AuthType = de.blinkt.openpvpn.VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         profileToConnect.mCheckRemoteCN = true
         profileToConnect.mRemoteCN = connectingDomain.entryDomain
         profileToConnect.mAllowLocalLAN = userData.bypassLocalTraffic()
