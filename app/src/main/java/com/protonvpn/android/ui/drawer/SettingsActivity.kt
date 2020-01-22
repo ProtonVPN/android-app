@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.drawer
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -88,7 +89,7 @@ class SettingsActivity : BaseActivity() {
         initMTUField()
         splitTunnelApps.initTextUpdater(this, userPrefs)
         splitTunnelIPs.initTextUpdater(this, userPrefs)
-        splitTunnelIPs.buttonManage.contentDescription = "Exclude IP addresses"
+        splitTunnelIPs.buttonManage.contentDescription = getString(R.string.settingsExcludeIPAddresses)
         buttonAlwaysOn.setOnClickListener { startActivity(Intent("android.net.vpn.SETTINGS")); }
         switchAutoStart.switchProton.isChecked = userPrefs.connectOnBoot
         switchAutoStart.switchProton
@@ -118,7 +119,7 @@ class SettingsActivity : BaseActivity() {
                 // Fixed in 1.1.0-alpha of material library.
                 if (snackBar == null) {
                     snackBar =
-                            Snackbar.make(findViewById(R.id.coordinator), "Cannot change this while connected", Snackbar.LENGTH_LONG)
+                            Snackbar.make(findViewById(R.id.coordinator), R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG)
                 }
                 if (snackBar?.isShownOrQueued == false) {
                     snackBar?.show()
@@ -158,7 +159,7 @@ class SettingsActivity : BaseActivity() {
         spinnerDefaultProtocol.selectedItem = MockUDP(userPrefs.selectedProtocol.toString())
         spinnerDefaultProtocol.setItems(listOf(MockUDP(VpnProtocol.IKEv2.toString()), MockUDP(VpnProtocol.OpenVPN.toString())))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-            userPrefs.selectedProtocol = VpnProtocol.valueOf(item.label)
+            userPrefs.selectedProtocol = VpnProtocol.valueOf(item.getLabel(this))
             initTransmissionProtocol()
             initSplitTunneling(userPrefs.useSplitTunneling)
         }
@@ -168,7 +169,7 @@ class SettingsActivity : BaseActivity() {
         spinnerTransmissionProtocol.selectedItem = MockUDP(userPrefs.transmissionProtocol)
         spinnerTransmissionProtocol.setItems(listOf(MockUDP(TransmissionProtocol.TCP.toString()), MockUDP(TransmissionProtocol.UDP.toString())))
         spinnerTransmissionProtocol.setOnItemSelectedListener { item, _ ->
-            userPrefs.setTransmissionProtocol(TransmissionProtocol.valueOf(item.label))
+            userPrefs.setTransmissionProtocol(TransmissionProtocol.valueOf(item.getLabel(this)))
         }
     }
 
@@ -215,7 +216,7 @@ class SettingsActivity : BaseActivity() {
 
     class MockUDP(private val name: String) : Listable {
 
-        override fun getLabel(): String {
+        override fun getLabel(context: Context): String {
             return name
         }
     }

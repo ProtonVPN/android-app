@@ -57,7 +57,7 @@ public class OpenVPNWrapperService extends OpenVPNService implements VpnStatus.S
             if (serverToConnect.notReadyForConnection()) {
                 serverToConnect.prepareForConnection(userData);
             }
-            return serverToConnect.openVPNProfile(userData,
+            return serverToConnect.openVPNProfile(this, userData,
                 stateMonitor.getConnectionProfile().getTransmissionProtocol(userData));
         }
         else {

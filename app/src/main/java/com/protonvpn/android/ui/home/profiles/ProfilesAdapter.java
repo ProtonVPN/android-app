@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home.profiles;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +117,6 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
             view.setOnClickListener(this);
         }
 
-        @SuppressLint("SetTextI18n")
         @Override
         public void bindData(Profile object) {
             this.profile = object;

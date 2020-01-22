@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.vpn
 
+import android.content.Context
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.models.config.UserData
@@ -140,7 +141,7 @@ class VpnCountry(val flag: String, serverList: List<Server>, deliverer: ServerDe
         this.addBestConnection = addBestConnection
     }
 
-    override fun getLabel(): String {
+    override fun getLabel(context: Context): String {
         return countryName // + if (hasAccessibleServer()) "" else " (Upgrade)"
     }
 

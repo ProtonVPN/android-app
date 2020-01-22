@@ -55,7 +55,7 @@ public class WelcomeDialog extends DaggerDialogFragment {
         @Override
         public void onTick(long millisUntilFinished) {
             textDescription.setText(HtmlTools.fromHtml(getString(R.string.accountTrialExpires,
-                userData.getVpnInfoResponse().getTrialRemainingTimeString())));
+                userData.getVpnInfoResponse().getTrialRemainingTimeString(getContext()))));
         }
 
         @Override
@@ -119,15 +119,13 @@ public class WelcomeDialog extends DaggerDialogFragment {
 
     private void initLayout() {
         if (type == DialogType.WELCOME) {
-            textTitle.setText("Thanks for joining ever growing ProtonVPN community.");
+            textTitle.setText(R.string.welcomeDialogTitle);
             textTitle.setTypeface(Typeface.DEFAULT_BOLD);
-            textDescription.setText("Use your newly created account credentials to login.");
+            textDescription.setText(R.string.welcomeDialogDescription);
             imageView.setImageResource(R.drawable.onboarding_welcome);
         }
         else {
-            textTitle.setText(
-                "As a welcome gift you have access to a full ProtonVPN subscription including advanced "
-                    + "features for the first days!");
+            textTitle.setText(R.string.welcomeDialogTitleTrial);
             imageView.setImageResource(R.drawable.onboarding_trial_welcome);
         }
     }

@@ -1,5 +1,6 @@
 package com.protonvpn.android.ui.home.profiles
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.components.ProtonSpinner
@@ -41,8 +42,8 @@ class ProfileViewModel @Inject constructor(
             SettingsActivity.MockUDP(editableProfile?.getProtocol(userData)
                     ?: userData.selectedProtocol.toString())
 
-    fun getTransmissionVisibility(): Int {
-        return getTransmissionVisibility(selectedProtocol.label)
+    fun getTransmissionVisibility(context: Context): Int {
+        return getTransmissionVisibility(selectedProtocol.getLabel(context))
     }
 
     fun getTransmissionVisibility(protocol: String): Int {

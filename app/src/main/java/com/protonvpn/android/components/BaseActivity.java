@@ -144,8 +144,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
             startActivity(browserIntent);
         }
         catch (ActivityNotFoundException e) {
-            Toast.makeText(this, url + " could not be opened. Web browser was not detected on your device.",
-                Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show();
         }
     }
 

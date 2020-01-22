@@ -49,7 +49,7 @@ public class AppModule {
     @Singleton
     @Provides
     public ServerManager provideServerManager(UserData userData) {
-        return new ServerManager(userData);
+        return new ServerManager(ProtonApplication.getAppContext(), userData);
     }
 
     @Singleton

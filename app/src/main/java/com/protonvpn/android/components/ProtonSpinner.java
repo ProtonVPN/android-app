@@ -78,7 +78,7 @@ public class ProtonSpinner<T extends Listable> extends AppCompatEditText {
         this.items = items;
         this.listableItems = new ArrayList<>();
         for (T item : this.items) {
-            listableItems.add(new Item(item.getLabel(), 0));
+            listableItems.add(new Item(item.getLabel(getContext()), 0));
         }
 
         configureOnClickListener();
@@ -86,7 +86,7 @@ public class ProtonSpinner<T extends Listable> extends AppCompatEditText {
 
     public void setSelectedItem(T item) {
         selectedItem = item;
-        setText(item.getLabel());
+        setText(item.getLabel(getContext()));
     }
 
     private void configureOnClickListener() {

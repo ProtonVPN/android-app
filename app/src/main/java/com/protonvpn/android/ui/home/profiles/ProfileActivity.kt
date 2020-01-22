@@ -109,6 +109,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     }
 
     private fun initSpinners() {
+        val context = this
         with(binding.contentProfile) {
             initServerSelection()
             binding.fabSave.setOnClickListener {
@@ -117,8 +118,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                             Profile(editName.text.toString(), palette.selectedColor,
                                     spinnerServer.selectedItem as ServerWrapper)
                     newProfile.apply {
-                        setTransmissionProtocol(protocolSelection.spinnerTransmissionProtocol.selectedItem?.label)
-                        setProtocol(protocolSelection.spinnerDefaultProtocol.selectedItem?.label)
+                        setTransmissionProtocol(protocolSelection.spinnerTransmissionProtocol.selectedItem?.getLabel(context))
+                        setProtocol(protocolSelection.spinnerDefaultProtocol.selectedItem?.getLabel(context))
                         serverWrapper.setSecureCoreCountry(switchSecureCore.isChecked)
                     }
                     viewModel.saveProfile(newProfile)
@@ -140,6 +141,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     }
 
     private fun initProtocolSelection() {
+        val context = this
         with(binding.contentProfile.protocolSelection) {
             val spinnerDefaultProtocol =
                     spinnerDefaultProtocol as ProtonSpinner<SettingsActivity.MockUDP>
@@ -149,12 +151,12 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
             spinnerDefaultProtocol.setItems(listOf(SettingsActivity.MockUDP(VpnProtocol.IKEv2.toString()), SettingsActivity.MockUDP(VpnProtocol.OpenVPN.toString())))
             spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-                viewModel.editableProfile?.setProtocol(item.label)
+                viewModel.editableProfile?.setProtocol(item.getLabel(context))
                 layoutTransmissionProtocol.visibility =
-                        viewModel.getTransmissionVisibility(item.label)
+                        viewModel.getTransmissionVisibility(item.getLabel(context))
             }
 
-            layoutTransmissionProtocol.visibility = viewModel.getTransmissionVisibility()
+            layoutTransmissionProtocol.visibility = viewModel.getTransmissionVisibility(context)
             spinnerTransmissionProtocol.selectedItem = viewModel.transmissionProtocol
             spinnerTransmissionProtocol.setItems(listOf(SettingsActivity.MockUDP(TransmissionProtocol.UDP.toString()), SettingsActivity.MockUDP(TransmissionProtocol.TCP.toString())))
         }

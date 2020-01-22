@@ -18,6 +18,10 @@
  */
 package com.protonvpn.android.models.profiles;
 
+import android.content.Context;
+
+import com.protonvpn.android.R;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +38,12 @@ public class SavedProfilesV3 implements Serializable {
         return profileList;
     }
 
-    public static SavedProfilesV3 defaultProfiles(ServerDeliver deliver) {
-        SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<Profile>());
+    public static SavedProfilesV3 defaultProfiles(Context context, ServerDeliver deliver) {
+        SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<>());
         defaultProfiles.getProfileList()
-            .add(new Profile("Fastest", "#27272c", ServerWrapper.makePreBakedFastest(deliver)));
+            .add(new Profile(context.getString(R.string.profileFastest), "#27272c", ServerWrapper.makePreBakedFastest(deliver)));
         defaultProfiles.getProfileList()
-            .add(new Profile("Random", "#27272c", ServerWrapper.makePreBakedRandom(deliver)));
+            .add(new Profile(context.getString(R.string.profileRandom), "#27272c", ServerWrapper.makePreBakedRandom(deliver)));
         return defaultProfiles;
     }
 }

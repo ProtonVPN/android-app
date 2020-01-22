@@ -74,7 +74,7 @@ public class MinimizedNetworkLayout extends RelativeLayout implements LoaderUI {
     @Override
     public void switchToLoading() {
         loadingLayout.setVisibility(View.VISIBLE);
-        textTitle.setText("Loading servers...");
+        textTitle.setText(R.string.loaderLoadingServers);
     }
 
     @Override

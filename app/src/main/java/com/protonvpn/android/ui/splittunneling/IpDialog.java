@@ -71,8 +71,8 @@ public class IpDialog extends BaseDialog {
             }
         });
         list.setAdapter(adapter);
-        textTitle.setText("Exclude IP Addresses");
-        textDescription.setText("Add IP addresses you want to exclude from the VPN traffic.");
+        textTitle.setText(R.string.excludeIpTitle);
+        textDescription.setText(R.string.excludeIpDescription);
         editIP.setContentDescription("Add IP Address");
         editIP.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class IpDialog extends BaseDialog {
     @OnClick(R.id.textAdd)
     public void textAdd() {
         if (userData.getSplitTunnelIpAddresses().contains(editIP.getText().toString())) {
-            Toast.makeText(getActivity(), "Already excluded", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.excludeAlreadyExcluded, Toast.LENGTH_LONG).show();
         }
         else {
             userData.addIpToSplitTunnel(editIP.getText().toString());

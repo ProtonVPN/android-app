@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.vpn
 
+import android.content.Context
 import androidx.annotation.ColorRes
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.protonvpn.android.R
@@ -217,12 +218,12 @@ class Server(
         return result
     }
 
-    override fun getLabel(): String {
+    override fun getLabel(context: Context): String {
         return if (isSecureCoreServer) CountryTools.getFullName(entryCountry) else serverName
     }
 
-    fun openVPNProfile(userData: UserData, transmissionProtocol: String): de.blinkt.openpvpn.VpnProfile {
-        val profileToConnect: de.blinkt.openpvpn.VpnProfile = de.blinkt.openpvpn.VpnProfile(label)
+    fun openVPNProfile(context: Context, userData: UserData, transmissionProtocol: String): de.blinkt.openpvpn.VpnProfile {
+        val profileToConnect: de.blinkt.openpvpn.VpnProfile = de.blinkt.openpvpn.VpnProfile(getLabel(context))
         val connectingDomain = connectingDomains[Random().nextInt(connectingDomains.size)]
 
         profileToConnect.mAuthenticationType = de.blinkt.openpvpn.VpnProfile.TYPE_USERPASS

@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.utils;
 
+import android.content.Context;
+
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
@@ -51,12 +53,15 @@ public final class ServerManager implements Serializable, ServerDeliver {
     private final SavedProfilesV3 savedProfiles;
     private DateTime updatedAt;
 
+    private transient Context appContext;
+
     private transient LiveEvent updateEvent = new LiveEvent();
 
     private transient UserData userData;
 
-    private ServerManager() {
-        savedProfiles = Storage.load(SavedProfilesV3.class, SavedProfilesV3.defaultProfiles(this));
+    private ServerManager(Context appContext) {
+        this.appContext = appContext.getApplicationContext();
+        savedProfiles = Storage.load(SavedProfilesV3.class, SavedProfilesV3.defaultProfiles(appContext, this));
     }
 
     @Override
@@ -64,12 +69,13 @@ public final class ServerManager implements Serializable, ServerDeliver {
         return "vpnCountries: " + vpnCountries.size() + " entry: " + secureCoreEntryCountries.size()
             + " exit: " + secureCoreExitCountries.size() + " saved: " + (savedProfiles == null ?
             "null saved profiles" : (savedProfiles.getProfileList() == null ? "null profile list" :
-            savedProfiles.getProfileList().size())) + " ServerManager Updated: " + String.valueOf(updatedAt)
+            savedProfiles.getProfileList().size())) + " ServerManager Updated: " + updatedAt
             + " ";
     }
 
     @Inject
-    public ServerManager(UserData userData) {
+    public ServerManager(Context appContext, UserData userData) {
+        this.appContext = appContext.getApplicationContext();
         ServerManager oldManager = Storage.load(ServerManager.class);
         if (oldManager != null) {
             vpnCountries.addAll(oldManager.getVpnCountries());
@@ -78,7 +84,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
             updatedAt = oldManager.getUpdatedAt();
         }
         this.userData = userData;
-        savedProfiles = Storage.load(SavedProfilesV3.class, SavedProfilesV3.defaultProfiles(this));
+        savedProfiles = Storage.load(SavedProfilesV3.class, SavedProfilesV3.defaultProfiles(appContext, this));
         reInitProfiles();
     }
 
@@ -325,7 +331,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
     }
 
     public void deleteSavedProfiles() {
-        List<Profile> defaultProfiles = SavedProfilesV3.defaultProfiles(this).getProfileList();
+        List<Profile> defaultProfiles = SavedProfilesV3.defaultProfiles(appContext, this).getProfileList();
         for (Profile profile : getSavedProfiles()) {
             if (!defaultProfiles.contains(profile)) {
                 deleteProfile(profile);
