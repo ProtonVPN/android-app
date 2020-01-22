@@ -63,9 +63,9 @@ public abstract class PoolingActivity extends VpnActivity {
     public void showExpiredDialog() {
         onTrialEnded();
         new MaterialDialog.Builder(this).theme(Theme.DARK)
-            .title("ProtonVPN Plus Trial Expired")
+            .title(R.string.freeTrialExpiredTitle)
             .content(R.string.freeTrialExpired)
-            .positiveText("Upgrade")
+            .positiveText(R.string.upgrade)
             .onPositive((dialog, which) -> openUrl("https://account.protonvpn.com/dashboard"))
             .negativeText(R.string.cancel)
             .show();

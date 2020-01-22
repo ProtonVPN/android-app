@@ -184,7 +184,7 @@ public abstract class VpnActivity extends BaseActivity {
                     server.isPlusServer() ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)
                 .content(server.isSecureCoreServer() ? R.string.restrictedSecureCore :
                     server.isPlusServer() ? R.string.restrictedPlus : R.string.restrictedBasic)
-                .positiveText("Upgrade")
+                .positiveText(R.string.upgrade)
                 .onPositive((dialog, which) -> openUrl("https://account.protonvpn.com/dashboard"))
                 .negativeText(R.string.cancel)
                 .show();

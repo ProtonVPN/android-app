@@ -156,13 +156,13 @@ public class VpnStateFragment extends BaseFragment {
         Profile currentProfile = stateMonitor.getConnectionProfile();
         for (Profile profile : manager.getSavedProfiles()) {
             if (profile.getServer().getDomain().equals(currentProfile.getServer().getDomain())) {
-                Toast.makeText(getActivity(), "Already saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.saveProfileAlreadySaved, Toast.LENGTH_LONG).show();
                 return;
             }
         }
         manager.addToProfileList(currentProfile.getServer().getServerName(),
             Profile.getRandomProfileColor(getContext()), currentProfile.getServer());
-        Toast.makeText(getActivity(), "Saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
         EventBus.post(OnProfilesChanged.INSTANCE);
     }
 
@@ -517,7 +517,7 @@ public class VpnStateFragment extends BaseFragment {
     private void showAuthError(@StringRes int stringRes, ConnectionError error) {
         error.setErrorState(VpnStateMonitor.ErrorState.NO_ERROR);
         new MaterialDialog.Builder(getActivity()).theme(Theme.DARK)
-            .title("Attention")
+            .title(R.string.dialogTitleAttention)
             .content(stringRes)
             .cancelable(false)
             .negativeText(R.string.close)

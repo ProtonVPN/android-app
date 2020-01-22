@@ -41,7 +41,6 @@ class SplitTunnelButton : FrameLayout {
     @BindView(R.id.textDescription) lateinit var textDescription: AppCompatTextView
     @BindView(R.id.buttonManage) lateinit var buttonManage: Button
     private var title: String? = null
-    private var description: String? = null
     private var shouldUseApps: Boolean = false
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -59,7 +58,6 @@ class SplitTunnelButton : FrameLayout {
 
         try {
             title = a.getString(R.styleable.SplitTunnelButton_title)
-            description = a.getString(R.styleable.SplitTunnelButton_description)
             shouldUseApps = a.getBoolean(R.styleable.SplitTunnelButton_shouldHandleApps, false)
         } finally {
             a.recycle()
@@ -81,9 +79,10 @@ class SplitTunnelButton : FrameLayout {
     }
 
     private fun initText(userData: UserData) {
-        val text = (if (shouldUseApps) userData.splitTunnelApps.size.toString()
-        else userData.splitTunnelIpAddresses.size.toString()) + description
-        textDescription.text = text
+        textDescription.text = if (shouldUseApps)
+            context.getString(R.string.settingsExcludeAppsInfo, userData.splitTunnelApps.size)
+        else
+            context.getString(R.string.settingsExcludeIPAddressesInfo, userData.splitTunnelIpAddresses.size)
     }
 
     @OnClick(R.id.buttonManage)

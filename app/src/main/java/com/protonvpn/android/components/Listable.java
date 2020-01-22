@@ -18,7 +18,9 @@
  */
 package com.protonvpn.android.components;
 
+import android.content.Context;
+
 public interface Listable {
 
-    String getLabel();
+    String getLabel(Context context);
 }

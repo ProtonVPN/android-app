@@ -125,7 +125,7 @@ public class Profile implements Serializable, Listable {
     }
 
     @Override
-    public String getLabel() {
+    public String getLabel(Context context) {
         return getName();
     }
 

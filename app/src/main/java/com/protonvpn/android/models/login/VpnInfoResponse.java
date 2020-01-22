@@ -18,8 +18,12 @@
  */
 package com.protonvpn.android.models.login;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import android.content.Context;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.protonvpn.android.R;
+
+import org.joda.time.Days;
 import org.joda.time.Period;
 
 import java.io.Serializable;
@@ -78,12 +82,12 @@ public class VpnInfoResponse implements Serializable {
         return vpnInfo.getTrialRemainingTime();
     }
 
-    public String getTrialRemainingTimeString() {
-        Period period = vpnInfo.getTrialRemainingTime();
-        return vpnInfo.isRemainingTimeAccessible() ?
-            "<b>" + period.getDays() + "</b> days " + "<b>" + period.getHours() + "</b> hours " + "<b>"
-                + period.getMinutes() + "</b> minutes " + "<b>" + period.getSeconds() + "</b> seconds" :
-            "<b>7</b> days <b>0</b> hours <b>0</b> minutes <b>0</b> seconds";
+    public String getTrialRemainingTimeString(Context context) {
+        Period period = vpnInfo.isRemainingTimeAccessible() ?
+                vpnInfo.getTrialRemainingTime() :
+                Days.days(7).toPeriod();
+        return context.getString(R.string.trialRemainingTimeString,
+                period.getDays(), period.getHours(), period.getMinutes(), period.getSeconds());
     }
 
     public String getAccountType() {

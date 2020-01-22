@@ -97,22 +97,23 @@ public class QuickTileService extends TileService {
     public void stateChanged(VpnStateMonitor.VpnState vpnState) {
         switch (vpnState.getState()) {
             case DISABLED:
-                getQsTile().setLabel(userData.isLoggedIn() ? "Quick connect" : "Login");
+                getQsTile().setLabel(
+                        getString(userData.isLoggedIn() ? R.string.quickConnect : R.string.login));
                 getQsTile().setState(Tile.STATE_INACTIVE);
                 break;
             case CHECKING_AVAILABILITY:
             case CONNECTING:
-                getQsTile().setLabel("Connecting");
+                getQsTile().setLabel(getString(R.string.state_connecting));
                 getQsTile().setState(Tile.STATE_UNAVAILABLE);
                 break;
             case CONNECTED:
                 Server server = vpnState.getServer();
                 String serverName = server.getName();
-                getQsTile().setLabel("Connected: " + serverName);
+                getQsTile().setLabel(getString(R.string.tileConnected, serverName));
                 getQsTile().setState(Tile.STATE_ACTIVE);
                 break;
             case DISCONNECTING:
-                getQsTile().setLabel("Disconnecting");
+                getQsTile().setLabel(getString(R.string.state_disconnecting));
                 getQsTile().setState(Tile.STATE_UNAVAILABLE);
                 break;
         }

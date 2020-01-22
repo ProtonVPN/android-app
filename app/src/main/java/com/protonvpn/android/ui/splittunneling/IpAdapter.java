@@ -106,9 +106,9 @@ abstract class IpViewHolder extends RecyclerView.ViewHolder {
     @OnClick(R.id.layoutAddRemove)
     public void layoutAddRemove() {
         new MaterialDialog.Builder(context).theme(Theme.DARK)
-            .title("Warning")
-            .content("Are you sure you want to remove this IP from the list?")
-            .positiveText("Yes")
+            .title(R.string.warning)
+            .content(R.string.removeExcludedIpDialogDescription)
+            .positiveText(R.string.yes)
             .onPositive((dialog, which) -> onItemRemoved(ip))
             .negativeText(R.string.cancel)
             .show();

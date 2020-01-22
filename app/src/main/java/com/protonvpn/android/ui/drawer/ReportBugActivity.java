@@ -98,15 +98,15 @@ public class ReportBugActivity extends BaseActivity {
         String email = editEmail.getText().toString().trim();
         String description = editReport.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            editEmail.setError("Email can't be empty");
+            editEmail.setError(getString(R.string.bugReportErrorEmptyEmail));
             return false;
         }
         if (!isEmailValid(email)) {
-            editEmail.setError("Invalid email address");
+            editEmail.setError(getString(R.string.bugReportErrorInvalidEmail));
             return false;
         }
         if (TextUtils.isEmpty(description)) {
-            editReport.setError("Please write us what is happening");
+            editReport.setError(getString(R.string.bugReportErrorEmptyDescription));
             return false;
         }
         return true;
@@ -138,7 +138,7 @@ public class ReportBugActivity extends BaseActivity {
 
         api.postBugReport(this, builder.build(), result -> {
             if (result.isSuccess()) {
-                Toast.makeText(this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
                 finish();
             }
         });

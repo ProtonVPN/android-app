@@ -56,8 +56,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textStartOptions"
-            app:textDescription="Enabling this will add your client side VPN logs to this report"
-            app:textTitle="VPN logs"
+            app:textDescription="@string/bugReportErrorLabelVpnLogsDescription"
+            app:textTitle="@string/bugReportLabelVpnLogsTitle"
             app:dividerHidden="false" />
 
         <TextView

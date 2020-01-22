@@ -138,17 +138,15 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
         if (!BuildConfig.DEBUG) {
             Log.exception(new Throwable("Something went wrong: " + errorBody.getError()));
         }
-        textDescription.setText(errorBody.isGenericError() ? "Something went wrong" : errorBody.getError());
+        textDescription.setText(errorBody.isGenericError() ?
+                getContext().getString(R.string.loaderErrorGeneric) : errorBody.getError());
         // TODO Remove this click listener upon release
-        textDescription.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(getContext(), errorBody.getError(), Toast.LENGTH_LONG).show();
-                return true;
-            }
+        textDescription.setOnLongClickListener(v -> {
+            Toast.makeText(getContext(), errorBody.getError(), Toast.LENGTH_LONG).show();
+            return true;
         });
         if (!ConnectionTools.isNetworkAvailable(getContext())) {
-            textDescription.setText("No internet connection");
+            textDescription.setText(R.string.loaderErrorNoInternet);
         }
     }
 

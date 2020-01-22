@@ -18,6 +18,9 @@
  */
 package com.protonvpn.android.models.profiles;
 
+import android.content.Context;
+
+import com.protonvpn.android.R;
 import com.protonvpn.android.components.Listable;
 import com.protonvpn.android.models.vpn.Server;
 
@@ -40,15 +43,15 @@ public final class ServerWrapper implements Listable, Serializable {
     }
 
     @Override
-    public String getLabel() {
+    public String getLabel(Context context) {
+        Server server = deliver.getServer(this);
         switch (type) {
             case RANDOM_IN_COUNTRY:
-                return "Random" + upgradeLabel(deliver.getServer(this));
+                return getLabel(context, context.getString(R.string.profileRandom), server);
             case FASTEST_IN_COUNTRY:
-                return "Fastest" + upgradeLabel(deliver.getServer(this));
+                return getLabel(context, context.getString(R.string.profileFastest), server);
             case DIRECT:
-                Server server = deliver.getServer(this);
-                return server != null ? server.getLabel() + upgradeLabel(server) : "";
+                return getLabel(context, server != null ? server.getLabel(context) : "", server);
         }
         throw new RuntimeException("Label not found for: " + type);
     }
@@ -57,9 +60,15 @@ public final class ServerWrapper implements Listable, Serializable {
         this.deliver = deliverer;
     }
 
-    private String upgradeLabel(@Nullable Server server) {
-        return server != null ? server.isOnline() ? (deliver.hasAccessToServer(server) ? "" : " (Upgrade)") :
-            " Under maintenance" : "";
+    private String getLabel(Context context, String name, Server server) {
+        if (server == null) {
+            return name;
+        }
+        if (!server.isOnline()) {
+            return context.getString(R.string.serverLabelUnderMaintenance, name);
+        }
+        return deliver.hasAccessToServer(server) ? name :
+                context.getString(R.string.serverLabelUpgrade, name);
     }
 
     public void setSecureCoreCountry(boolean secureCoreCountry) {
