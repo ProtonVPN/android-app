@@ -59,7 +59,6 @@
     <string name="ok">OK</string>
 
     <string name="secureCoreConnectVia">via %1$s</string>
-    <string name="secureCoreConnectingVia">%1$s Via %2$s</string>
     <string name="connected">Connected</string>
     <string name="buttonConnect">Connect</string>
     <string name="loaderInitializing">Initializing connection&#8230;</string>
@@ -73,17 +72,12 @@
     <string name="loaderCancel">Cancel connection</string>
     <string name="clickBackAgainLogout">Click back again to minimize</string>
     <string name="quickConnect">Quick connect</string>
-    <string name="countryFastestConnection">Fastest server</string>
     <string name="notConnectedCurrentIp">Current IP: %1$s</string>
-    <string name="internetSpeed">%1$s/s</string>
     <string name="serverLoad">%1$s%%</string>
 
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
 
-    <string name="drawerCountries">Countries</string>
-    <string name="drawerMap">Map</string>
-    <string name="drawerProfiles">Profiles</string>
     <string name="drawerSettings">Settings</string>
     <string name="drawerAccount">Account</string>
     <string name="drawerHelp">Help</string>
@@ -110,7 +104,6 @@
     <string name="activityProfileTitle">Profile</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Settings</string>
-    <string name="connectingToRestrictedServer">"You are trying to connect to restricted server"</string>
     <string name="settingsStartOptions">Start options</string>
     <string name="settingsSecurityOptions">Security options</string>
     <string name="settingsAutoStartTitle">Start with Android</string>
@@ -141,7 +134,7 @@
     <string name="restrictedBasic">You are trying to connect to a server which requires a paid subscription.\nTo access high speed servers in all countries, please upgrade your subscription. </string>
     <string name="restrictedPlus">You are trying to connect to a server which requires a ProtonVPN Plus subscription or higher.\nTo access more servers in all countries, please upgrade your subscription.</string>
     <string name="restrictedSecureCore">Secure Core is a premium feature which requires ProtonVPN Plus or higher. Secure Core adds advanced protection against VPN server monitoring.\nTo access Secure Core, check out our other subscription plans which include this feature.</string>
-    <string name="errorUserDelinquent">Your account currently has an overdue invoice.Please pay all unpaid invoices at&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
+    <string name="errorUserDelinquent">Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
     <string name="errorMaxSessions">You have hit the maximum number of simultaneous connections allowed for your account. Please upgrade your ProtonVPN plan to get more connections.</string>
     <string name="errorEmptyName">Profile name field cannot be empty</string>
     <string name="errorEmptyCountry">Country field cannot be empty</string>
@@ -167,9 +160,6 @@
     <string name="onboardingNext">NEXT</string>
 
     <string name="listItemMaintenance">Under maintenance</string>
-    <string name="listItemUpgrade">Upgrade</string>
-    <string name="countryWithTOR">Country with TOR servers</string>
-    <string name="countryWithP2P">Country with P2P servers</string>
     <string name="listFreeCountries">Free countries</string>
     <string name="listPremiumCountries">Premium countries</string>
     <string name="listFastestServer">Fastest server</string>
@@ -179,37 +169,25 @@
     <string name="premium">Premium</string>
     <string name="insufficientPermissionsTitle">Insufficient permissions</string>
     <string name="insufficientPermissionsDetails">Please manually connect one time to fix permissions</string>
-    <string name="profileErrorDuplicate">Profile: %1$s is already using this server</string>
 
     <string name="tabsCountries">Countries</string>
     <string name="tabsMap">Map View</string>
     <string name="tabsProfiles">Profiles</string>
 
     <string name="log_title">Log</string>
-    <string name="state_label">Status:</string>
-    <string name="profile_label">Profile:</string>
     <string name="disconnect">Disconnect</string>
     <string name="state_connecting">Connecting&#8230;</string>
     <string name="state_connected">Connected</string>
     <string name="state_disconnecting">Disconnecting&#8230;</string>
-    <string name="state_disabled">No active VPN</string>
     <string name="state_error">Error</string>
-    <string name="show_remediation_instructions">View remediation instructions</string>
 
-    <string name="errorTroubleshoot">Get Help</string>
-    <string name="error_introduction">Failed to establish VPN:</string>
     <string name="error_lookup_failed">Gateway address lookup failed.</string>
     <string name="error_unreachable">Gateway is unreachable.</string>
-    <string name="errorSessionUnavailable">The server you are trying to connect to is unavailable. Please select another server.</string>
     <string name="error_peer_auth_failed">Verifying gateway authentication failed.</string>
     <string name="error_auth_failed">User authentication failed.</string>
     <string name="error_assessment_failed">Security assessment failed.</string>
     <string name="error_generic">Unspecified failure while connecting.</string>
-    <string name="vpn_connected">VPN connected</string>
-    <string name="vpn_profile_connected">This VPN profile is currently connected!</string>
     <string name="reconnect">Reconnect</string>
-    <string name="connect_profile_question">Connect %1$s?</string>
-    <string name="replaces_active_connection">This will replace your active VPN connection!</string>
     <string name="connect">Connect</string>
     <string name="upgrade">Upgrade</string>
     <string name="retry">Retry</string>
@@ -218,7 +196,6 @@
         <item quantity="one">Reconnection in %1$d second</item>
         <item quantity="other">Reconnection in %1$d seconds</item>
     </plurals>
-    <string name="cancel_retry">Cancel retry</string>
     <string name="connection_failed">Connection failed</string>
     <string name="support_page">Support page</string>
     <string name="create_new_profile">CREATE NEW PROFILE</string>
@@ -257,9 +234,7 @@
     <string name="server">Server:</string>
     <string name="session_time">Session time:</string>
     <string name="download_volume">Volume:</string>
-    <string name="upload_volume">Upload volume:</string>
     <string name="download_speed">Speed:</string>
-    <string name="upload_speed">Upload speed:</string>
     <string name="save_to_profile">Save to profile</string>
     <string name="notConnected">You are not connected \n to a server</string>
     <string name="activityLicensesTitle">Third party licenses</string>
