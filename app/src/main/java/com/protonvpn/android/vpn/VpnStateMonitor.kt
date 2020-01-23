@@ -46,6 +46,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.AUTH_FAILED
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.AUTH_FAILED_INTERNAL
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.MAX_SESSIONS
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.NO_ERROR
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorState.UNPAID
 import com.protonvpn.android.vpn.VpnStateMonitor.State.CHECKING_AVAILABILITY
 import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
@@ -74,7 +75,7 @@ open class VpnStateMonitor(
 
     enum class ErrorState {
         NO_ERROR, AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED, UNREACHABLE,
-        SESSION_IN_USE, MAX_SESSIONS, GENERIC_ERROR
+        SESSION_IN_USE, MAX_SESSIONS, UNPAID, GENERIC_ERROR
     }
 
     data class ConnectionInfo(val profile: Profile, val server: Server) {
@@ -204,12 +205,17 @@ open class VpnStateMonitor(
     }
 
     private suspend fun checkAuthFailedReason() {
-        activeBackend?.setState(CHECKING_AVAILABILITY)
-        val result = getSession()
-        val tooManySessions = userData.vpnInfoResponse.maxSessionCount <= result.sessionList.size
+        var error = AUTH_FAILED
+        if (userData.vpnInfoResponse.isUserDelinquent) {
+            error = UNPAID
+        } else {
+            activeBackend?.setState(CHECKING_AVAILABILITY)
+            val result = getSession()
+            if (userData.vpnInfoResponse.maxSessionCount <= result.sessionList.size)
+                error = MAX_SESSIONS
+        }
         ongoingConnect = null
-
-        activeBackend?.error?.errorState = if (tooManySessions) MAX_SESSIONS else AUTH_FAILED
+        activeBackend?.error?.errorState = error
         activeBackend?.setState(ERROR)
     }
 

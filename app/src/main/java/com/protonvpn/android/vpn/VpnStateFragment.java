@@ -505,6 +505,9 @@ public class VpnStateFragment extends BaseFragment {
                 showAuthError(R.string.errorMaxSessions, error);
                 Log.exception(new VPNException("Maximum number of sessions used"));
                 break;
+            case UNPAID:
+                showAuthError(R.string.errorUserDelinquent, error);
+                Log.exception(new VPNException("Overdue payment"));
             default:
                 showErrorDialog(R.string.error_generic);
                 Log.exception(new VPNException("Unspecified failure while connecting"));
