@@ -83,14 +83,16 @@ abstract class CountryViewHolder(private val viewModel: CountryListViewModel, pr
                     if (vpnCountry.getKeywords().contains("tor")) VISIBLE else GONE
 
             root.setOnClickListener {
-                if (vpnCountry.hasAccessibleServer(viewModel.userData)) {
-                    expandableGroup.onToggleExpanded()
-                    if (expandableGroup.isExpanded) {
-                        onExpanded(position)
+                if (!vpnCountry.isUnderMaintenance()) {
+                    if (vpnCountry.hasAccessibleServer(viewModel.userData)) {
+                        expandableGroup.onToggleExpanded()
+                        if (expandableGroup.isExpanded) {
+                            onExpanded(position)
+                        }
+                        adjustCross(buttonCross, expandableGroup.isExpanded, 300)
+                    } else {
+                        clickedOnUpgradeCountry()
                     }
-                    adjustCross(buttonCross, expandableGroup.isExpanded, 300)
-                } else {
-                    clickedOnUpgradeCountry()
                 }
             }
 
