@@ -134,7 +134,7 @@
     <string name="restrictedBasic">You are trying to connect to a server which requires a paid subscription.\nTo access high speed servers in all countries, please upgrade your subscription. </string>
     <string name="restrictedPlus">You are trying to connect to a server which requires a ProtonVPN Plus subscription or higher.\nTo access more servers in all countries, please upgrade your subscription.</string>
     <string name="restrictedSecureCore">Secure Core is a premium feature which requires ProtonVPN Plus or higher. Secure Core adds advanced protection against VPN server monitoring.\nTo access Secure Core, check out our other subscription plans which include this feature.</string>
-    <string name="errorUserDelinquent">Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
+    <string name="errorUserDelinquent">Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
     <string name="errorMaxSessions">You have hit the maximum number of simultaneous connections allowed for your account. Please upgrade your ProtonVPN plan to get more connections.</string>
     <string name="errorEmptyName">Profile name field cannot be empty</string>
     <string name="errorEmptyCountry">Country field cannot be empty</string>
