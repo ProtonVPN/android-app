@@ -50,6 +50,7 @@ import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -138,6 +139,7 @@ public class ProtonApiRetroFit {
         Request.Builder request = original.newBuilder()
             .header("x-pm-appversion", "AndroidVPN_" + BuildConfig.VERSION_NAME)
             .header("x-pm-apiversion", "3")
+            .header("x-pm-locale", Locale.getDefault().getLanguage())
             .header("Accept", "application/vnd.protonmail.v1+json");
 
         if (!User.getAccessToken().isEmpty() && !User.getUuid().isEmpty()) {
