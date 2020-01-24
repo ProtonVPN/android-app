@@ -188,8 +188,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
         Profile profile = userData.getDefaultConnection() == null ? getSavedProfiles().get(0) :
             userData.getDefaultConnection();
         profile.getServerWrapper().setDeliverer(this);
-        Server server = profile.getServer();
-        return server == null ? null : profile;
+        return profile;
     }
 
     public List<VpnCountry> getSecureCoreEntryCountries() {
@@ -383,8 +382,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
                     getVpnCountry(wrapper.country, false);
                 return vpnCountry != null ? getBestScoreServer(vpnCountry) : null;
             case DIRECT:
-                Server server = getServerById(wrapper.serverId);
-                return server == null ? getRandomServer() : server;
+                return getServerById(wrapper.serverId);
         }
         throw new RuntimeException("Incorrect server type in profile");
     }
