@@ -23,6 +23,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -251,9 +252,13 @@ open class VpnStateMonitor(
     }
 
     fun connect(profile: Profile) {
-        clearOngoingConnection()
-        ongoingConnect = scope.launch {
-            coroutineConnect(profile)
+        if (profile.server != null) {
+            clearOngoingConnection()
+            ongoingConnect = scope.launch {
+                coroutineConnect(profile)
+            }
+        } else {
+            NotificationHelper.showInformationNotification(ProtonApplication.getContext().getString(R.string.error_server_not_set))
         }
     }
 
@@ -280,10 +285,10 @@ open class VpnStateMonitor(
     }
 
     fun buildNotification() =
-        NotificationHelper.buildNotification(vpnState.value!!, null)
+        NotificationHelper.buildStatusNotification(vpnState.value!!, null)
 
     private fun updateNotification(trafficUpdate: TrafficUpdate?) {
-        NotificationHelper.updateNotification(
+        NotificationHelper.updateStatusNotification(
                 ProtonApplication.getAppContext(), vpnState.value!!, trafficUpdate)
     }
 }

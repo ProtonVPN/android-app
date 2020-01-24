@@ -170,12 +170,7 @@ public abstract class VpnActivity extends BaseActivity {
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.isOnline()) || server == null) {
-            if (server == null) {
-                vpnStateMonitor.disconnect();
-            }
-            else {
-                onVpnProfileSelected(profileToConnect);
-            }
+            onVpnProfileSelected(profileToConnect);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
@@ -207,7 +202,7 @@ public abstract class VpnActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case PREPARE_VPN_SERVICE:
-                if (resultCode == RESULT_OK && server != null) {
+                if (resultCode == RESULT_OK) {
                     vpnStateMonitor.connect(server);
                 }
                 else if (resultCode == RESULT_CANCELED && Build.VERSION.SDK_INT >= 24) {
