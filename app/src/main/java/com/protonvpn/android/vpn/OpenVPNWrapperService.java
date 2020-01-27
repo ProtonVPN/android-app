@@ -73,6 +73,6 @@ public class OpenVPNWrapperService extends OpenVPNService implements VpnStatus.S
         }
 
         Profile profile = Profile.getTemptProfile(lastServer, serverManager);
-        return stateMonitor.onRestoreProcess(profile) && profile.isOpenVPNSelected(userData);
+        return stateMonitor.onRestoreProcess(this, profile) && profile.isOpenVPNSelected(userData);
     }
 }

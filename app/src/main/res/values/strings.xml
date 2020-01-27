@@ -167,8 +167,8 @@
     <string name="listBasicServers">Basic servers</string>
     <string name="listPlusServers">Plus servers</string>
     <string name="premium">Premium</string>
-    <string name="insufficientPermissionsTitle">Insufficient permissions</string>
-    <string name="insufficientPermissionsDetails">Please manually connect one time to fix permissions</string>
+    <string name="insufficientPermissionsTitle">User action required</string>
+    <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>
 
     <string name="tabsCountries">Countries</string>
     <string name="tabsMap">Map View</string>

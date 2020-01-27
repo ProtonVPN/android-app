@@ -167,7 +167,7 @@ public class CharonVpnService extends VpnService implements Runnable {
         }
         else {
             Profile profile = Profile.getTemptProfile(lastServer, manager);
-            if (!stateMonitor.onRestoreProcess(profile) || profile.isOpenVPNSelected(userData)) {
+            if (!stateMonitor.onRestoreProcess(this, profile) || profile.isOpenVPNSelected(userData)) {
                 stopSelf();
             }
         }
@@ -180,7 +180,7 @@ public class CharonVpnService extends VpnService implements Runnable {
         }
         else {
             Log.e("handle always on");
-            stateMonitor.connect(profile);
+            stateMonitor.connect(this, profile);
             if (profile.isOpenVPNSelected(userData)) {
                 stopSelf();
             }

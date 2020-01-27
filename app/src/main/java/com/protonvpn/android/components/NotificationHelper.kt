@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -60,13 +61,28 @@ object NotificationHelper {
         }
     }
 
-    fun showInformationNotification(content: String) {
-        val context = ProtonApplication.getAppContext()
+    fun showInformationNotification(
+        context: Context,
+        content: String,
+        title: String? = null,
+        @DrawableRes icon: Int = R.drawable.ic_info
+    ) {
         with(NotificationManagerCompat.from(context)) {
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_info)
-                    .setContentTitle(content)
+                    .setSmallIcon(icon)
+                    .setContentText(content)
+                    .setStyle(NotificationCompat.BigTextStyle())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+            if (title != null)
+                builder.setContentTitle(title)
+
+            builder.setContentIntent(
+                    PendingIntent.getActivity(
+                            context, 0,
+                            Intent(context, HomeActivity::class.java),
+                            PendingIntent.FLAG_UPDATE_CURRENT))
+
             notify(Constants.NOTIFICATION_ID, builder.build())
         }
     }
