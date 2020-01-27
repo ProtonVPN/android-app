@@ -110,7 +110,7 @@ class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, Keyb
 
     private fun initInputFields() {
         switchRememberMe.isChecked = userPrefs.isRememberMeEnabled
-        switchStartWithDevice.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
+        switchStartWithDevice.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         switchStartWithDevice.isChecked = userPrefs.connectOnBoot
         editEmail.addTextChangedListener(getTextWatcher(editEmail))
         editPassword.addTextChangedListener(getTextWatcher(editPassword))
