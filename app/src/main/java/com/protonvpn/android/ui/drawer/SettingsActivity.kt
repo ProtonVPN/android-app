@@ -203,8 +203,8 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun initOSRelatedVisibility() {
-        switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
-        buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 26) VISIBLE else GONE
+        switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
+        buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
         switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
     }
 
