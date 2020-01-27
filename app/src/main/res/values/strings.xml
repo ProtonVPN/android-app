@@ -17,8 +17,8 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string translatable="false" name="app_name">ProtonVPN 2.0</string>
-    <string translatable="false" name="toolbar_app_title"><![CDATA[ProtonVPN <small>v2.0</small>]]></string>
+    <string translatable="false" name="app_name">ProtonVPN</string>
+    <string translatable="false" name="toolbar_app_title">@string/app_name</string>
 
     <!-- Strings related to login -->
     <string name="hintUsername">Username</string>
