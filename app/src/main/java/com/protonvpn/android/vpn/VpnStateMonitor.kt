@@ -18,7 +18,10 @@
  */
 package com.protonvpn.android.vpn
 
+import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
+import android.net.VpnService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -56,7 +59,10 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
 import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 @Singleton
 open class VpnStateMonitor(
@@ -102,7 +108,7 @@ open class VpnStateMonitor(
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
 
-    var connectionInfo: ConnectionInfo? = null
+    private var connectionInfo: ConnectionInfo? = null
 
     private val stateInternal: LiveData<State> =
             Transformations.switchMap(activeBackendObservable) {
@@ -249,24 +255,44 @@ open class VpnStateMonitor(
         ongoingConnect = null
     }
 
-    fun onRestoreProcess(profile: Profile): Boolean {
+    fun onRestoreProcess(context: Context, profile: Profile): Boolean {
         if (state == DISABLED && Storage.getString(STORAGE_KEY_STATE, null) == CONNECTED.name) {
-            connect(profile)
+            connect(context, profile)
             return true
         }
         return false
     }
 
-    fun connect(profile: Profile) {
-        if (profile.server != null) {
-            clearOngoingConnection()
-            ongoingConnect = scope.launch {
-                coroutineConnect(profile)
+    fun connect(context: Context, profile: Profile) {
+        connect(context, profile, null)
+    }
+
+    fun connect(context: Context, profile: Profile, prepareIntentHandler: ((Intent) -> Unit)? = null) {
+        val intent = prepare(context)
+        if (intent != null) {
+            if (prepareIntentHandler != null) {
+                prepareIntentHandler(intent)
+            } else {
+                NotificationHelper.showInformationNotification(
+                        context,
+                        context.getString(R.string.insufficientPermissionsDetails),
+                        context.getString(R.string.insufficientPermissionsTitle),
+                        icon = R.drawable.ic_notification_disconnected)
             }
         } else {
-            NotificationHelper.showInformationNotification(ProtonApplication.getContext().getString(R.string.error_server_not_set))
+            if (profile.server != null) {
+                clearOngoingConnection()
+                ongoingConnect = scope.launch {
+                    coroutineConnect(profile)
+                }
+            } else {
+                NotificationHelper.showInformationNotification(context, context.getString(R.string.error_server_not_set))
+            }
         }
     }
+
+    protected open fun prepare(context: Context): Intent? =
+            VpnService.prepare(context)
 
     private suspend fun disconnectBlocking() {
         Storage.delete(Server::class.java)

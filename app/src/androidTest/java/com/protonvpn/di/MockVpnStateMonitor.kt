@@ -18,6 +18,8 @@
  */
 package com.protonvpn.di
 
+import android.content.Context
+import android.content.Intent
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.SessionListResponse
@@ -38,4 +40,6 @@ class MockVpnStateMonitor(
 
     override suspend fun getSession(): SessionListResponse =
             SessionListResponse(0, arrayListOf())
+
+    override fun prepare(context: Context): Intent? = null
 }

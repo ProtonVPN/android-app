@@ -19,26 +19,16 @@
 package com.protonvpn.android.vpn;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.Service;
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -61,11 +51,11 @@ import javax.inject.Inject;
 
 import de.blinkt.openpvpn.core.IOpenVPNServiceInternal;
 import de.blinkt.openpvpn.core.OpenVPNService;
+import kotlin.Unit;
 
 public abstract class VpnActivity extends BaseActivity {
 
     private static final int PREPARE_VPN_SERVICE = 0;
-    private static final String DIALOG_TAG = "Dialog";
     private static final String URL_SUPPORT_PERMISSIONS = "https://protonvpn.com/support/android-vpn-permissions-problem";
     private Profile server;
     private VpnStateService mService;
@@ -138,39 +128,18 @@ public abstract class VpnActivity extends BaseActivity {
      *
      * @param profileInfo a bundle containing the information about the profile to be started
      */
-    protected void prepareVpnService(Profile profileInfo) {
-        Intent intent;
-        try {
-            intent = VpnService.prepare(this);
-        }
-        catch (IllegalStateException ex) {
-            /* this happens if the always-on VPN feature (Android 4.2+) is activated */
-            VpnNotSupportedError.showWithMessage(this, R.string.strongswan_vpn_not_supported);
-            return;
-        }
-        /* store profile info until the user grants us permission */
+    protected void getPermissionAndConnect(Profile profileInfo) {
         server = profileInfo;
-        if (intent != null) {
-            try {
-                startActivityForResult(intent, PREPARE_VPN_SERVICE);
-            }
-            catch (ActivityNotFoundException ex) {
-                /* it seems some devices, even though they come with Android 4,
-                 * don't have the VPN components built into the system image.
-                 * com.android.vpndialogs/com.android.vpndialogs.ConfirmDialog
-                 * will not be found then */
-                VpnNotSupportedError.showWithMessage(this, R.string.strongswan_vpn_not_supported);
-            }
-        }
-        else {    /* user already granted permission to use VpnService */
-            onActivityResult(PREPARE_VPN_SERVICE, RESULT_OK, null);
-        }
+        vpnStateMonitor.connect(this, profileInfo, intent -> {
+            startActivityForResult(intent, PREPARE_VPN_SERVICE);
+            return Unit.INSTANCE;
+        });
     }
 
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.isOnline()) || server == null) {
-            onVpnProfileSelected(profileToConnect);
+            getPermissionAndConnect(profileToConnect);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
@@ -203,7 +172,7 @@ public abstract class VpnActivity extends BaseActivity {
         switch (requestCode) {
             case PREPARE_VPN_SERVICE:
                 if (resultCode == RESULT_OK) {
-                    vpnStateMonitor.connect(server);
+                    vpnStateMonitor.connect(this, server);
                 }
                 else if (resultCode == RESULT_CANCELED && Build.VERSION.SDK_INT >= 24) {
                     showNoVpnPermissionDialog();
@@ -224,24 +193,6 @@ public abstract class VpnActivity extends BaseActivity {
                 .show();
     }
 
-    public void onVpnProfileSelected(Profile profile) {
-        if (getIntent().getBooleanExtra("isTest", false)) {
-            vpnStateMonitor.connect(profile);
-        }
-        else {
-            prepareVpnService(profile);
-        }
-    }
-
-    private void startVpnProfile(Profile server) {
-        if (server != null) {
-            onVpnProfileSelected(server);
-        }
-        else {
-            Toast.makeText(this, R.string.strongswan_profile_not_found, Toast.LENGTH_LONG).show();
-        }
-    }
-
     /**
      * Class that loads the cached CA certificates.
      */
@@ -260,48 +211,6 @@ public abstract class VpnActivity extends BaseActivity {
         @Override
         protected void onPostExecute(TrustedCertificateManager result) {
             setProgressBarIndeterminateVisibility(false);
-        }
-    }
-
-    /**
-     * Dismiss dialog if shown
-     */
-    public void removeFragmentByTag(String tag) {
-        FragmentManager fm = getFragmentManager();
-        Fragment login = fm.findFragmentByTag(tag);
-        if (login != null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.remove(login);
-            ft.commit();
-        }
-    }
-
-    /**
-     * Class representing an error message which is displayed if VpnService is
-     * not supported on the current device.
-     */
-    public static class VpnNotSupportedError extends DialogFragment {
-
-        static final String ERROR_MESSAGE_ID = "org.strongswan.android.VpnNotSupportedError.MessageId";
-
-        public static void showWithMessage(Activity activity, int messageId) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(ERROR_MESSAGE_ID, messageId);
-            VpnNotSupportedError dialog = new VpnNotSupportedError();
-            dialog.setArguments(bundle);
-            dialog.show(activity.getFragmentManager(), DIALOG_TAG);
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Bundle arguments = getArguments();
-            final int messageId = arguments.getInt(ERROR_MESSAGE_ID);
-            return new AlertDialog.Builder(getActivity()).setTitle(
-                R.string.strongswan_vpn_not_supported_title)
-                .setMessage(messageId)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, (dialog, id) -> dialog.dismiss())
-                .create();
         }
     }
 }

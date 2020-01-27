@@ -80,7 +80,7 @@ public class QuickTileService extends TileService {
             if (userData.isLoggedIn()) {
                 Profile profile = manager.getDefaultConnection();
                 if (profile != null) {
-                    stateMonitor.connect(profile);
+                    stateMonitor.connect(this, profile);
                 }
             }
             else {
