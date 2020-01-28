@@ -35,17 +35,24 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import de.blinkt.openpvpn.core.LogItem
 import de.blinkt.openpvpn.core.VpnStatus
+import org.slf4j.MDC.clear
+import org.strongswan.android.logic.CharonVpnService
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.StringReader
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
-import org.slf4j.MDC.clear
-import org.strongswan.android.logic.CharonVpnService
+import kotlin.collections.ArrayList
 
 @ContentLayout(R.layout.fragment_log)
 class LogFragment : BaseFragment(), VpnStatus.LogListener {
+
+    companion object {
+        private val DATE_FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+    }
 
     private var logFilePath: String? = null
     private var logHandler: Handler? = null
@@ -100,14 +107,17 @@ class LogFragment : BaseFragment(), VpnStatus.LogListener {
 
     private fun addPreviousEntries() {
         for (item in VpnStatus.getlogbuffer()) {
-            log.add(item.getString(context))
+            log.add(formatOpenVpnLogItem(item))
         }
 
         recyclerView?.scrollToPosition(log.size - 1)
     }
 
+    private fun formatOpenVpnLogItem(item: LogItem) =
+            "${DATE_FORMATTER.format(Date(item.logtime))} ${item.getString(activity)}"
+
     override fun newLog(logItem: LogItem) {
-        addToLog(logItem.getString(activity))
+        addToLog(formatOpenVpnLogItem(logItem))
     }
 
     private fun addToLog(item: String) {
