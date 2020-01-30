@@ -29,25 +29,25 @@ import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProtonPallete extends FrameLayout {
+public class ProtonPalette extends FrameLayout {
 
     @BindView(R.id.gridLayout) GridLayout gridLayout;
     private String selectedColor = "";
 
-    public ProtonPallete(@NonNull Context context) {
+    public ProtonPalette(@NonNull Context context) {
         super(context);
     }
 
-    public ProtonPallete(@NonNull Context context, AttributeSet attrs) {
+    public ProtonPalette(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ProtonPallete(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
+    public ProtonPalette(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     private void init() {
-        inflate(getContext(), R.layout.item_pallete, this);
+        inflate(getContext(), R.layout.item_palette, this);
         ButterKnife.bind(this);
         int count = gridLayout.getChildCount();
         for (int i = 0; i < count; i++) {

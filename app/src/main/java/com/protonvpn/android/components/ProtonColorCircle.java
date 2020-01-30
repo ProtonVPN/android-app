@@ -40,7 +40,7 @@ public class ProtonColorCircle extends FrameLayout {
     @BindView(R.id.imageCheckBox) ImageView imageCheckBox;
     private String circleColor;
     private boolean defaultColor = false;
-    private ProtonPallete pallete;
+    private ProtonPalette palette;
 
     public ProtonColorCircle(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -68,7 +68,7 @@ public class ProtonColorCircle extends FrameLayout {
     @OnClick(R.id.circle)
     public void circle() {
         if (!isChecked()) {
-            pallete.setSelectedColor(circleColor, true);
+            palette.setSelectedColor(circleColor, true);
         }
     }
 
@@ -83,7 +83,7 @@ public class ProtonColorCircle extends FrameLayout {
     }
 
     public boolean isChecked() {
-        return pallete.getSelectedColor().equals(circleColor);
+        return palette.getSelectedColor().equals(circleColor);
     }
 
     public boolean isDefaultColor() {
@@ -94,8 +94,8 @@ public class ProtonColorCircle extends FrameLayout {
         return circleColor;
     }
 
-    public void init(ProtonPallete pallete) {
-        this.pallete = pallete;
+    public void init(ProtonPalette palette) {
+        this.palette = palette;
         inflate(getContext(), R.layout.component_color_circle, this);
         ButterKnife.bind(this);
         circle.setImageDrawable(new ColorDrawable(Color.parseColor(circleColor)));

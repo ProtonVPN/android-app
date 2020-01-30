@@ -217,11 +217,11 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         List<double[]> positionList = new ArrayList<>();
         for (VpnCountry vpnCountry : serverManager.getSecureCoreEntryCountries()) {
-            positionList.add(vpnCountry.getTranslatedCoordinates().asCoreCordinates());
+            positionList.add(vpnCountry.getTranslatedCoordinates().asCoreCoordinates());
         }
         List<VpnCountry> secureEntryCountries = serverManager.getSecureCoreEntryCountries();
         if (!secureEntryCountries.isEmpty()) {
-            positionList.add(secureEntryCountries.get(0).getTranslatedCoordinates().asCoreCordinates());
+            positionList.add(secureEntryCountries.get(0).getTranslatedCoordinates().asCoreCoordinates());
             paths.add(mapView.drawPath(positionList, null));
         }
     }
@@ -234,8 +234,8 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         for (Markable vpnCountry : exitCountries) {
             if (vpnCountry.getCoordinates().hasValidCoordinates()) {
-                paths.add(mapView.drawPath(Arrays.asList(entryCoordinates.asCoreCordinates(),
-                    vpnCountry.getCoordinates().asCoreCordinates()), null));
+                paths.add(mapView.drawPath(Arrays.asList(entryCoordinates.asCoreCoordinates(),
+                    vpnCountry.getCoordinates().asCoreCoordinates()), null));
             }
         }
     }

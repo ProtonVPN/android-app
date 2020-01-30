@@ -48,7 +48,7 @@ public class TranslatedCoordinates implements Serializable {
         return positionY;
     }
 
-    public double[] asCoreCordinates() {
+    public double[] asCoreCoordinates() {
         return new double[] {positionX, positionY};
     }
 
