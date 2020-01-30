@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toStartOf="@+id/layoutAddRemove"
         app:layout_constraintStart_toEndOf="@+id/imageIcon"
         app:layout_constraintTop_toTopOf="@+id/imageIcon"
-        tools:text="Very long app name is here writted" />
+        tools:text="Very long app name is here written" />
 
     <FrameLayout
         android:id="@+id/layoutAddRemove"

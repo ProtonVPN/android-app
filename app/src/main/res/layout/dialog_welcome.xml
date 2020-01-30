@@ -54,7 +54,7 @@
         android:lineSpacingMultiplier="1.2"
         android:textColor="@color/white"
         android:textSize="16sp"
-        tools:text="Thanks for joining ever growning ProtonVPN community." />
+        tools:text="Thanks for joining ever growing ProtonVPN community." />
 
     <TextView
         android:id="@+id/textDescription"

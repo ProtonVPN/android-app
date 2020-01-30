@@ -393,7 +393,7 @@ public class ProtonPreferences implements SharedPreferences {
     }
 
     /**
-     * Cycle through the unencrypt all the current prefs to mem cache, clear, then encypt with key
+     * Cycle through the unencrypt all the current prefs to mem cache, clear, then encrypt with key
      * generated from new password.
      * This method can be used if switching from the generated key to a key derived from user password
      * <p>

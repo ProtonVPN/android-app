@@ -241,7 +241,7 @@ open class VpnStateMonitor(
         ongoingConnect = null
     }
 
-    protected open suspend fun getSession(): SessionListResponse = suspendCancellableCoroutine { continuation ->
+    protected open suspend fun getSession(): SessionListResponse = suspendCancelableCoroutine { continuation ->
         val call = api.getSession { result ->
             continuation.resume(result)
         }

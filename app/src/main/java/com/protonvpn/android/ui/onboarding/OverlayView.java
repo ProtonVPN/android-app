@@ -93,8 +93,8 @@ public class OverlayView extends View {
         paint.setColor(Color.TRANSPARENT);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
 
-        RectF anchorRecr = SimpleTooltipUtils.calculeRectInWindow(mAnchorView);
-        RectF overlayRecr = SimpleTooltipUtils.calculeRectInWindow(this);
+        RectF anchorRecr = SimpleTooltipUtils.calculateRectInWindow(mAnchorView);
+        RectF overlayRecr = SimpleTooltipUtils.calculateRectInWindow(this);
 
         float left = anchorRecr.left - overlayRecr.left;
         float top = anchorRecr.top - overlayRecr.top;

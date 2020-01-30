@@ -33,7 +33,7 @@ public class LoginResult extends UIActionsTestHelper {
     }
 
     public LoginResult isSuccessful() {
-        waitUntilObjectWithContentDiscriptionAppearsInView(R.string.hamburgerMenu);
+        waitUntilObjectWithContentDescriptionAppearsInView(R.string.hamburgerMenu);
         return this;
     }
 

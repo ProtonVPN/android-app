@@ -241,10 +241,10 @@ public final class OnboardingTooltip implements PopupWindow.OnDismissListener {
         mRootView.addView(mOverlay);
     }
 
-    private PointF calculePopupLocation() {
+    private PointF calculatePopupLocation() {
         PointF location = new PointF();
 
-        final RectF anchorRect = SimpleTooltipUtils.calculeRectInWindow(mAnchorView);
+        final RectF anchorRect = SimpleTooltipUtils.calculateRectInWindow(mAnchorView);
         final PointF anchorCenter = new PointF(anchorRect.centerX(), anchorRect.centerY());
 
         switch (mGravity) {
@@ -426,7 +426,7 @@ public final class OnboardingTooltip implements PopupWindow.OnDismissListener {
 
                 SimpleTooltipUtils.removeOnGlobalLayoutListener(popup.getContentView(), this);
                 popup.getContentView().getViewTreeObserver().addOnGlobalLayoutListener(mArrowLayoutListener);
-                PointF location = calculePopupLocation();
+                PointF location = calculatePopupLocation();
                 popup.setClippingEnabled(true);
                 popup.update((int) location.x, (int) location.y, popup.getWidth(), popup.getHeight());
                 popup.getContentView().requestLayout();
@@ -450,13 +450,13 @@ public final class OnboardingTooltip implements PopupWindow.OnDismissListener {
                     .addOnGlobalLayoutListener(mAnimationLayoutListener);
                 popup.getContentView().getViewTreeObserver().addOnGlobalLayoutListener(mShowLayoutListener);
                 if (mShowArrow) {
-                    RectF achorRect = SimpleTooltipUtils.calculeRectOnScreen(mAnchorView);
-                    RectF contentViewRect = SimpleTooltipUtils.calculeRectOnScreen(mContentLayout);
+                    RectF anchorRect = SimpleTooltipUtils.calculateRectOnScreen(mAnchorView);
+                    RectF contentViewRect = SimpleTooltipUtils.calculateRectOnScreen(mContentLayout);
                     float x, y;
                     if (mArrowDirection == ArrowDrawable.TOP || mArrowDirection == ArrowDrawable.BOTTOM) {
                         x = mContentLayout.getPaddingLeft() + SimpleTooltipUtils.pxFromDp(2);
                         float centerX = (contentViewRect.width() / 2f) - (mArrowView.getWidth() / 2f);
-                        float newX = centerX - (contentViewRect.centerX() - achorRect.centerX());
+                        float newX = centerX - (contentViewRect.centerX() - anchorRect.centerX());
                         if (newX > x) {
                             if (newX + mArrowView.getWidth() + x > contentViewRect.width()) {
                                 x = contentViewRect.width() - mArrowView.getWidth() - x;
@@ -471,7 +471,7 @@ public final class OnboardingTooltip implements PopupWindow.OnDismissListener {
                     else {
                         y = mContentLayout.getPaddingTop() + SimpleTooltipUtils.pxFromDp(2);
                         float centerY = (contentViewRect.height() / 2f) - (mArrowView.getHeight() / 2f);
-                        float newY = centerY - (contentViewRect.centerY() - achorRect.centerY());
+                        float newY = centerY - (contentViewRect.centerY() - anchorRect.centerY());
                         if (newY > y) {
                             if (newY + mArrowView.getHeight() + y > contentViewRect.height()) {
                                 y = contentViewRect.height() - mArrowView.getHeight() - y;

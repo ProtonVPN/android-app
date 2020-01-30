@@ -65,7 +65,7 @@ public class SettingsRobot extends UIActionsTestHelper {
         return this;
     }
 
-    public SettingsRobot openExcluededIPAddressesList() {
+    public SettingsRobot openExcludedIPAddressesList() {
         clickOnObjectWithContentDescription("Exclude IP addresses");
         return this;
     }
@@ -76,7 +76,7 @@ public class SettingsRobot extends UIActionsTestHelper {
     }
 
     public SettingsRobot addIpAddressInSplitTunneling() {
-        openExcluededIPAddressesList();
+        openExcludedIPAddressesList();
         insertTextIntoFieldWithContentDescription("Add IP Address", UpgradeTestData.excludedIPAddress);
         clickOnObjectWithText("ADD");
         clickOnDoneButton();
