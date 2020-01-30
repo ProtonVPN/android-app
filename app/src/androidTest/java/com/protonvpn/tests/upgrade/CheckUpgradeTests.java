@@ -61,7 +61,7 @@ public class CheckUpgradeTests {
 
         settingsRobot.toggleOnSplitTunneling();
 
-        settingsRobot.openExcluededIPAddressesList();
+        settingsRobot.openExcludedIPAddressesList();
         results.checkIfIPAddressIsExcluded();
 
         settingsRobot.clickOnDoneButton();

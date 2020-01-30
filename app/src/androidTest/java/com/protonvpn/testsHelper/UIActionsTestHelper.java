@@ -337,7 +337,7 @@ public class UIActionsTestHelper {
         checkCondition(instruction);
     }
 
-    public static void waitUntilObjectWithContentDiscriptionAppearsInView(String contentDescription) {
+    public static void waitUntilObjectWithContentDescriptionAppearsInView(String contentDescription) {
         Instruction instruction = new Instruction() {
             @Override
             public String getDescription() {
@@ -361,8 +361,8 @@ public class UIActionsTestHelper {
         checkCondition(instruction);
     }
 
-    public static void waitUntilObjectWithContentDiscriptionAppearsInView(@IdRes int contentDescription) {
-        waitUntilObjectWithContentDiscriptionAppearsInView(getContext().getString(contentDescription));
+    public static void waitUntilObjectWithContentDescriptionAppearsInView(@IdRes int contentDescription) {
+        waitUntilObjectWithContentDescriptionAppearsInView(getContext().getString(contentDescription));
     }
 
     private static void checkCondition(Instruction instruction) {

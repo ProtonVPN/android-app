@@ -68,12 +68,12 @@
                 android:textColor="@color/lightGrey"
                 android:textSize="16sp" />
 
-            <com.protonvpn.android.components.ProtonPallete
+            <com.protonvpn.android.components.ProtonPalette
                 android:id="@+id/palette"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </com.protonvpn.android.components.ProtonPallete>
+            </com.protonvpn.android.components.ProtonPalette>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchSecureCore"
