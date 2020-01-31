@@ -23,12 +23,35 @@ buildscript {
     }
 
 }
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: 'com.jaredsburrows.license'
+
+detekt {
+    failFast = false
+    config = files("$projectDir/config/detekt/detekt.yml")
+
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = false
+        }
+        txt {
+            enabled = false
+        }
+        custom {
+            reportId = "DetektQualityOutputReport"
+            destination = file("build/reports/detekt.json")
+        }
+    }
+}
 
 jacoco {
     toolVersion = '0.8.4'
@@ -321,6 +344,7 @@ repositories {
 }
 configurations {
     ktlint
+    detekt
 }
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
@@ -349,6 +373,9 @@ dependencies {
 
     ktlint 'pm.algirdas.ktlint:reporter:0.2.1'
     ktlint "com.pinterest:ktlint:0.34.2"
+
+    detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.5.0'
+    detektPlugins 'pm.algirdas.detekt:codeanalysis:0.1.21'
 
     implementation project(':pmcrypto')
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"

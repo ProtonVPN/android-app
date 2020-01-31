@@ -74,6 +74,16 @@ kotlin style:
   artifacts:
     reports:
         codequality: app/build/ktquality.json
+        
+detekt analysis:
+  stage: analyze
+  tags:
+    - android
+  script:
+    - ./gradlew detekt
+  artifacts:
+    reports:
+        codequality: app/build/reports/detekt.json
 
 build debug:
   stage: build
