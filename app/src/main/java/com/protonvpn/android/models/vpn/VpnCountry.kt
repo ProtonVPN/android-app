@@ -86,7 +86,8 @@ class VpnCountry(val flag: String, serverList: List<Server>, deliverer: ServerDe
         Collections.sort(serverList,
                 compareBy<Server> { !it.isFreeServer }
                         .thenBy { it.serverNumber >= 100 }
-                        .thenBy { it.domain })
+                        .thenBy { it.domain }
+                        .thenBy { it.tier })
         return serverList
     }
 
@@ -101,9 +102,9 @@ class VpnCountry(val flag: String, serverList: List<Server>, deliverer: ServerDe
         return serverList.any { it.domain == server.domain }
     }
 
-    fun getServersForListView(): List<Server> {
+    fun getServersForListView(userData: UserData): List<Server> {
         val list = serverList.toMutableList()
-        list.sortBy { it.tier }
+        list.sortByDescending { userData.userTier == it.tier }
         if (addBestConnection && bestConnection == null) {
             Log.exception(Exception("AddBest true, while bestConnection is null. Flag: " + flag + " size: " + serverList.size))
         }
