@@ -72,10 +72,10 @@ class Server(
         get() = if (exitCountry == "GB") "UK" else exitCountry
 
     val isBasicServer: Boolean
-        get() = tier >= 1
+        get() = tier == 1
 
     val isPlusServer: Boolean
-        get() = tier >= 2
+        get() = tier == 2
 
     val loadColor: Int
         @ColorRes

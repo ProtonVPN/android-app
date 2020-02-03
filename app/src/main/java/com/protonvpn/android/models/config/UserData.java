@@ -101,6 +101,10 @@ public final class UserData implements Serializable {
         return getVpnInfoResponse().getUserTier() == 0;
     }
 
+    public int getUserTier() {
+        return getVpnInfoResponse().getUserTier();
+    }
+    
     public boolean isTrialUser() {
         return getVpnInfoResponse().getUserTierName() == "trial";
     }
