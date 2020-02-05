@@ -1,6 +1,6 @@
 # ProtonVPN for Android
 
-Copyright (c) 2019 Proton Technologies AG
+Copyright © 2020 Proton Technologies AG
 
 ## Build instructions
 - Install sdk, ndk, cmake, swig
@@ -50,4 +50,4 @@ By making a contribution to this project you agree to the following:
 
 The code and datafiles in this distribution are licensed under the terms of the GPLv3 as published by the Free Software Foundation. See <https://www.gnu.org/licenses/> for a copy of this license.
 
-Copyright (c) 2019 Proton Technologies AG
+Copyright © 2020 Proton Technologies AG
