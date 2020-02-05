@@ -355,6 +355,9 @@ public final class ServerManager implements Serializable, ServerDeliver {
     }
 
     public void editProfile(Profile oldProfile, Profile profileToSave) {
+        if (oldProfile.equals(getDefaultConnection())) {
+            userData.setDefaultConnection(profileToSave);
+        }
         savedProfiles.getProfileList().set(savedProfiles.getProfileList().indexOf(oldProfile), profileToSave);
         Storage.save(savedProfiles);
     }
