@@ -64,16 +64,6 @@ java style:
     expire_in: 1 week
     paths:
     - app/build/reports/checkstyle
-
-kotlin style:
-  stage: analyze
-  tags:
-    - android
-  script:
-    - ./gradlew ktlint
-  artifacts:
-    reports:
-        codequality: app/build/ktquality.json
         
 detekt analysis:
   stage: analyze
