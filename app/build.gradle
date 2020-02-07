@@ -35,7 +35,6 @@ apply plugin: 'com.jaredsburrows.license'
 detekt {
     failFast = false
     config = files("$projectDir/config/detekt/detekt.yml")
-
     reports {
         xml {
             enabled = false
@@ -343,24 +342,9 @@ repositories {
     mavenCentral()
 }
 configurations {
-    ktlint
     detekt
 }
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "--reporter=gitlab-quality", "--reporter=gitlab-quality,output=${buildDir}/ktquality.json"
-    ignoreExitValue true
-}
-check.dependsOn ktlint
 
-task ktlintFormat(type: JavaExec, group: "formatting") {
-    description = "Fix Kotlin code style deviations."
-    classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "-F", "src/**/*.kt"
-}
 apply plugin: 'checkstyle'
 
 dependencies {
@@ -371,11 +355,10 @@ dependencies {
     }
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
 
-    ktlint 'pm.algirdas.ktlint:reporter:0.2.1'
-    ktlint "com.pinterest:ktlint:0.34.2"
-
+    detekt "io.gitlab.arturbosch.detekt:detekt-formatting:1.5.0"
     detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.5.0'
-    detektPlugins 'pm.algirdas.detekt:codeanalysis:0.1.21'
+    detektPlugins 'pm.algirdas.detekt:codeanalysis:0.1.25'
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.5.0'
 
     implementation project(':pmcrypto')
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"

@@ -32,7 +32,7 @@ If you would like to contribute, please keep in mind the following rules:
 Internally our CI automatically checks all pull requests for code style issues, and runs our tests. However you can run those locally as well.
 ```bash
 gradlew checkstyle
-gradlew ktlint
+gradlew detekt
 gradlew test
 gradlew androidTest
 ```
