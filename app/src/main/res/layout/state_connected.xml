@@ -38,15 +38,19 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/button_rounded"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:text="@string/disconnect"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/buttonSaveToProfile"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
@@ -55,27 +59,30 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_rounded_green"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:text="@string/save_to_profile"
             android:textColor="@color/colorAccent"
-            android:textSize="14sp"
+            android:textSize="14dp"
             android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toEndOf="@+id/buttonDisconnect"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/textView11"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView11">
 
             <TextView
@@ -109,20 +116,21 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/textView13"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView13">
 
             <TextView
                 android:id="@+id/textUploadVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/greenBright"
                 android:maxLines="1"
+                android:textColor="@color/greenBright"
                 tools:text="20mb" />
 
             <ImageView
@@ -135,10 +143,10 @@
             <TextView
                 android:id="@+id/textDownloadVolume"
                 android:layout_width="75dp"
-                android:gravity="end"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cyan"
+                android:gravity="end"
                 android:maxLines="1"
+                android:textColor="@color/cyan"
                 tools:text="300.4kb" />
 
             <ImageView
@@ -151,12 +159,13 @@
 
         <LinearLayout
             android:id="@+id/linearLayout6"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/textView14"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView14">
 
             <TextView
@@ -176,10 +185,10 @@
             <TextView
                 android:id="@+id/textDownloadSpeed"
                 android:layout_width="75dp"
-                android:gravity="end"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cyan"
+                android:gravity="end"
                 android:maxLines="1"
+                android:textColor="@color/cyan"
                 tools:text="202kb/s" />
 
             <ImageView
@@ -202,12 +211,13 @@
 
         <TextView
             android:id="@+id/textProtocol"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textView9"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             tools:text="IKEv2" />
 
@@ -223,12 +233,13 @@
 
         <TextView
             android:id="@+id/textServerIp"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             tools:text="127.0.0.1" />
 
@@ -254,12 +265,13 @@
 
         <TextView
             android:id="@+id/textSessionTime"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textView12"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             tools:text="1m 25s" />
 

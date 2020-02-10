@@ -39,7 +39,7 @@ class CountryListViewModel @Inject constructor(
     val api: ProtonApiRetroFit
 ) : ViewModel() {
     val selectedServer = MutableLiveData<Server>()
-    val selectedCountry = MutableLiveData<VpnCountry>()
+    val selectedCountryFlag = MutableLiveData<String>()
     val onUpgradeTriggered = LiveEvent()
 
     fun refreshServerList(networkLoader: NetworkLoader) {

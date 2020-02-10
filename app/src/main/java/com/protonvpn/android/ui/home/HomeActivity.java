@@ -197,7 +197,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CountryListFragment(), getString(R.string.tabsCountries));
         adapter.addFrag(MapFragment.newInstance(), getString(R.string.tabsMap));
-        adapter.addFrag(ProfilesFragment.newInstance(), getString(R.string.tabsProfiles));
+        adapter.addFrag(new ProfilesFragment(), getString(R.string.tabsProfiles));
         viewPager.setAdapter(adapter);
 
         tabs.setupWithViewPager(viewPager);
