@@ -33,12 +33,17 @@ import com.protonvpn.android.bus.ConnectToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.databinding.ItemCountryExpandedBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.databinding.BindableItem
 import com.xwray.groupie.databinding.GroupieViewHolder
 
-open class CountryExpandedViewHolder(private val viewModel: CountryListViewModel, val server: Server, val parentLifeCycle: LifecycleOwner) : BindableItem<ItemCountryExpandedBinding>() {
+open class CountryExpandedViewHolder(
+    private val viewModel: CountryListViewModel,
+    val server: Server,
+    val parentLifeCycle: LifecycleOwner
+) : BindableItemEx<ItemCountryExpandedBinding>() {
 
     private lateinit var binding: ItemCountryExpandedBinding
     private val serverSelectionObserver = Observer<Server> {
@@ -56,7 +61,7 @@ open class CountryExpandedViewHolder(private val viewModel: CountryListViewModel
 
     override fun bind(viewBinding: ItemCountryExpandedBinding, position: Int) {
         // Sometimes we can get 2 binds in a row without unbind in between
-        clearObservers()
+        clear()
         val context = viewBinding.root.context
         binding = viewBinding
         with(binding) {
@@ -96,10 +101,10 @@ open class CountryExpandedViewHolder(private val viewModel: CountryListViewModel
 
     override fun unbind(viewHolder: GroupieViewHolder<ItemCountryExpandedBinding>) {
         super.unbind(viewHolder)
-        clearObservers()
+        clear()
     }
 
-    private fun clearObservers() {
+    override fun clear() {
         viewModel.selectedServer.removeObserver(serverSelectionObserver)
         viewModel.vpnStateMonitor.vpnState.removeObserver(vpnStateObserver)
     }
