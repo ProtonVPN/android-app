@@ -16,19 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.bus;
+package com.protonvpn.android.bus
 
-import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.Server
 
-public class ServerSelected {
+data class ServerSelected(val profile: Profile, val server: Server?) {
 
-    private final Server server;
-
-    public ServerSelected(Server server) {
-        this.server = server;
-    }
-
-    public Server getServer() {
-        return server;
-    }
+    fun isSameSelection(profile: Profile, server: Server?) =
+            this.profile == profile || this.server == server
 }
