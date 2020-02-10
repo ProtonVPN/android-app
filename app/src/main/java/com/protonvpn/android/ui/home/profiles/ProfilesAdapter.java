@@ -148,8 +148,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
         @Subscribe
         public void onServerSelected(ServerSelected data) {
-            if (data.getServer() != null && server != null && !server.equals(data.getServer())
-                && radioServer.isChecked()) {
+            if (radioServer.isChecked() && !data.isSameSelection(profile, server)) {
                 markAsSelected(false);
                 initConnectedStatus();
             }
@@ -178,16 +177,16 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         public void onClick(View v) {
             if (!stateMonitor.isConnectedTo(server) && server != null) {
                 markAsSelected(!radioServer.isChecked());
-                EventBus.post(new ServerSelected(server));
+                EventBus.post(new ServerSelected(profile, server));
             }
         }
 
         @Override
-        public void onConnect(Profile server) {
-            EventBus.post(new ConnectToProfile(server));
+        public void onConnect(Profile profile) {
+            EventBus.post(new ConnectToProfile(profile));
             showConnectButton(false);
             initConnectedStatus();
-            EventBus.post(new ServerSelected(server.getServer()));
+            EventBus.post(new ServerSelected(profile, profile.getServer()));
         }
     }
 }
