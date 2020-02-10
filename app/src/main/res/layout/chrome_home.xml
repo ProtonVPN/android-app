@@ -106,15 +106,12 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.protonvpn.android.components.ProtonActionMenu
+        style="@style/ActionMenuRtlSupported"
         android:id="@+id/fabQuickConnect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="16dp"
+        android:paddingHorizontal="16dp"
         android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
         android:visibility="invisible"
         app:menu_colorNormal="@color/darkGrey"
         app:menu_colorPressed="@color/darkGrey"

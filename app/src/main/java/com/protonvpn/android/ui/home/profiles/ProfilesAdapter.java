@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.protonvpn.android.R;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.EventBus;
@@ -49,6 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import kotlinx.coroutines.CoroutineScope;
 
 public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.ServersViewHolder> {
 
@@ -57,14 +56,16 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
     private ServerManager manager;
     private UserData userData;
     private VpnStateMonitor stateMonitor;
+    private final CoroutineScope scope;
 
-    ProfilesAdapter(ProfilesFragment fragment) {
+    ProfilesAdapter(ProfilesFragment fragment, CoroutineScope coroutineScope) {
         super();
         profilesFragment = fragment;
         manager = fragment.manager;
         userData = fragment.userData;
         stateMonitor = fragment.vpnStateMonitor;
         profileList = manager.getSavedProfiles();
+        scope = coroutineScope;
     }
 
     @NonNull
@@ -125,8 +126,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
             radioServer.setChecked(false);
             radioServer.setClickable(false);
 
-            buttonConnect.setAlpha(0);
-            buttonConnect.setClickable(false);
+            buttonConnect.setExpanded(false, false, scope);
             buttonConnect.setText(userData.hasAccessToServer(server) ? R.string.connect : R.string.upgrade);
             initConnectedStatus();
             textServerNotSet.setVisibility(server != null ? View.GONE : View.VISIBLE);
@@ -163,9 +163,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         }
 
         private void showConnectButton(boolean show) {
-            YoYo.with(show ? Techniques.SlideInRight : Techniques.SlideOutRight)
-                .duration(300)
-                .playOn(buttonConnect);
+            buttonConnect.setExpanded(show, true, scope);
         }
 
         @OnClick(R.id.imageEdit)

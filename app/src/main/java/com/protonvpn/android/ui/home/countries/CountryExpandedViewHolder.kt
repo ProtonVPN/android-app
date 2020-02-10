@@ -23,11 +23,10 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
 import android.view.View.VISIBLE
-import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToServer
 import com.protonvpn.android.bus.EventBus
@@ -36,7 +35,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.xwray.groupie.databinding.BindableItem
 import com.xwray.groupie.databinding.GroupieViewHolder
 
 open class CountryExpandedViewHolder(
@@ -92,9 +90,7 @@ open class CountryExpandedViewHolder(
                 EventBus.post(ConnectToServer(connectTo))
                 viewModel.selectedServer.value = null
             }
-            buttonConnect.isVisible = false
             buttonConnect.setText(if (haveAccess) R.string.connect else R.string.upgrade)
-            buttonConnect.clearAnimation()
             initSelection()
         }
     }
@@ -131,13 +127,8 @@ open class CountryExpandedViewHolder(
         with(binding.buttonConnect) {
             setColor(if (showConnect) R.color.red else R.color.colorAccent)
             setText(if (showConnect) R.string.disconnect else if (viewModel.userData.hasAccessToServer(server)) R.string.connect else R.string.upgrade)
-            if (show && !isVisible) {
-                val anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_from_right)
-                anim.duration = if (animate) 300 else 0
-                startAnimation(anim)
-            }
-            isVisible = show
         }
+        binding.buttonConnect.setExpanded(show, animate, parentLifeCycle.lifecycleScope)
     }
 
     private fun initCasualServer() {

@@ -21,11 +21,10 @@ package com.protonvpn.android.ui.home.countries
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryBinding
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -34,22 +33,21 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
-import com.xwray.groupie.databinding.BindableItem
 import com.xwray.groupie.databinding.GroupieViewHolder
 
 abstract class CountryViewHolder(private val viewModel: CountryListViewModel, private val vpnCountry: VpnCountry, val parentLifecycleOwner: LifecycleOwner) :
         BindableItemEx<ItemCountryBinding>(), ExpandableItem {
 
     private lateinit var expandableGroup: ExpandableGroup
-    private lateinit var binding: ItemCountryBinding
-    private val countrySelectionObserver = Observer<VpnCountry> {
+    private var binding: ItemCountryBinding? = null
+    private val countrySelectionObserver = Observer<String> {
         updateUpgradeButton(animate = true)
     }
 
     abstract fun onExpanded(position: Int)
 
     private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
-        binding.textConnected.visibility =
+        binding?.textConnected?.visibility =
                 if (vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.CONNECTED) VISIBLE else GONE
     }
 
@@ -98,28 +96,19 @@ abstract class CountryViewHolder(private val viewModel: CountryListViewModel, pr
             }
 
             buttonUpgrade.setOnClickListener { viewModel.onUpgradeTriggered.emit() }
-            buttonUpgrade.isVisible = false
-            buttonUpgrade.clearAnimation()
             updateUpgradeButton(animate = false)
-            viewModel.selectedCountry.observe(parentLifecycleOwner, countrySelectionObserver)
+            viewModel.selectedCountryFlag.observe(parentLifecycleOwner, countrySelectionObserver)
         }
     }
 
     private fun clickedOnUpgradeCountry() {
-        viewModel.selectedCountry.value =
-                if (viewModel.selectedCountry.value == vpnCountry) null else vpnCountry
+        viewModel.selectedCountryFlag.value =
+                if (viewModel.selectedCountryFlag.value == vpnCountry.flag) null else vpnCountry.flag
     }
 
     private fun updateUpgradeButton(animate: Boolean) {
-        val show = viewModel.selectedCountry.value?.flag == vpnCountry.flag
-        with(binding.buttonUpgrade) {
-            if (show && !isVisible) {
-                val anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_from_right)
-                anim.duration = if (animate) 300 else 0
-                startAnimation(anim)
-            }
-            isVisible = show
-        }
+        val expand = viewModel.selectedCountryFlag.value == vpnCountry.flag
+        binding?.buttonUpgrade?.setExpanded(expand, animate, parentLifecycleOwner.lifecycleScope)
     }
 
     override fun unbind(viewHolder: GroupieViewHolder<ItemCountryBinding>) {
