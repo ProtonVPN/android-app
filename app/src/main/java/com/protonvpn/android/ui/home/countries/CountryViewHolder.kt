@@ -19,9 +19,8 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -33,13 +32,15 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
-import com.xwray.groupie.databinding.GroupieViewHolder
 
-abstract class CountryViewHolder(private val viewModel: CountryListViewModel, private val vpnCountry: VpnCountry, val parentLifecycleOwner: LifecycleOwner) :
-        BindableItemEx<ItemCountryBinding>(), ExpandableItem {
+abstract class CountryViewHolder(
+    private val viewModel: CountryListViewModel,
+    private val vpnCountry: VpnCountry,
+    val parentLifecycleOwner: LifecycleOwner
+) : BindableItemEx<ItemCountryBinding>(), ExpandableItem {
 
     private lateinit var expandableGroup: ExpandableGroup
-    private var binding: ItemCountryBinding? = null
+
     private val countrySelectionObserver = Observer<String> {
         updateUpgradeButton(animate = true)
     }
@@ -47,17 +48,16 @@ abstract class CountryViewHolder(private val viewModel: CountryListViewModel, pr
     abstract fun onExpanded(position: Int)
 
     private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
-        binding?.textConnected?.visibility =
-                if (vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.CONNECTED) VISIBLE else GONE
+        binding.textConnected.isVisible =
+                vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.CONNECTED
     }
 
     override fun getId() = vpnCountry.flag.hashCode().toLong()
 
     override fun bind(viewBinding: ItemCountryBinding, position: Int) {
-        // Sometimes we can get 2 binds in a row without unbind in between
-        clear()
+        super.bind(viewBinding, position)
+
         val context = viewBinding.root.context
-        binding = viewBinding
         with(viewBinding) {
             textCountry.setTextColor(ContextCompat.getColor(context,
                     if (vpnCountry.hasAccessibleServer(viewModel.userData)) R.color.white else R.color.white50))
@@ -66,20 +66,16 @@ abstract class CountryViewHolder(private val viewModel: CountryListViewModel, pr
             else
                 vpnCountry.countryName + " " + context.getString(if (vpnCountry.isUnderMaintenance()) R.string.listItemMaintenance else R.string.premium)
 
-            buttonCross.visibility =
-                    if (vpnCountry.hasAccessibleServer(viewModel.userData)) VISIBLE else GONE
+            buttonCross.isVisible = vpnCountry.hasAccessibleServer(viewModel.userData)
 
             adjustCross(buttonCross, vpnCountry.isExpanded(), 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
             viewModel.vpnStateMonitor.vpnState.observe(parentLifecycleOwner, vpnStateObserver)
 
-            imageDoubleArrows.visibility =
-                    if (viewModel.userData.isSecureCoreEnabled) VISIBLE else GONE
-            badgeP2P.visibility =
-                    if (vpnCountry.getKeywords().contains("p2p")) VISIBLE else GONE
-            badgeTor.visibility =
-                    if (vpnCountry.getKeywords().contains("tor")) VISIBLE else GONE
+            imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
+            badgeP2P.isVisible= vpnCountry.getKeywords().contains("p2p")
+            badgeTor.isVisible = vpnCountry.getKeywords().contains("tor")
 
             root.setOnClickListener {
                 if (!vpnCountry.isUnderMaintenance()) {
@@ -108,12 +104,7 @@ abstract class CountryViewHolder(private val viewModel: CountryListViewModel, pr
 
     private fun updateUpgradeButton(animate: Boolean) {
         val expand = viewModel.selectedCountryFlag.value == vpnCountry.flag
-        binding?.buttonUpgrade?.setExpanded(expand, animate, parentLifecycleOwner.lifecycleScope)
-    }
-
-    override fun unbind(viewHolder: GroupieViewHolder<ItemCountryBinding>) {
-        super.unbind(viewHolder)
-        clear()
+        binding.buttonUpgrade.setExpanded(expand, animate, parentLifecycleOwner.lifecycleScope)
     }
 
     override fun clear() {

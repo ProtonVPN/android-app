@@ -98,7 +98,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             val expandableHeaderItem =
                     object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                         override fun onExpanded(position: Int) {
-                            binding.list.smoothScrollToPosition(position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2)
+                            this@CountryListFragment.binding.list.smoothScrollToPosition(
+                                    position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2)
                         }
                     }
 

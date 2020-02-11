@@ -33,15 +33,10 @@ import com.protonvpn.android.bus.ServerSelected;
 import com.protonvpn.android.components.BaseViewHolder;
 import com.protonvpn.android.components.SecureCoreCallback;
 import com.protonvpn.android.components.TriangledTextView;
-import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.EventBusBinder;
-import com.protonvpn.android.utils.ServerManager;
-import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,20 +46,14 @@ import kotlinx.coroutines.CoroutineScope;
 
 public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.ServersViewHolder> {
 
-    private List<Profile> profileList;
     private ProfilesFragment profilesFragment;
-    private ServerManager manager;
-    private UserData userData;
-    private VpnStateMonitor stateMonitor;
+    private final ProfilesViewModel profilesViewModel;
     private final CoroutineScope scope;
 
-    ProfilesAdapter(ProfilesFragment fragment, CoroutineScope coroutineScope) {
+    ProfilesAdapter(ProfilesFragment fragment, ProfilesViewModel viewModel, CoroutineScope coroutineScope) {
         super();
         profilesFragment = fragment;
-        manager = fragment.manager;
-        userData = fragment.userData;
-        stateMonitor = fragment.vpnStateMonitor;
-        profileList = manager.getSavedProfiles();
+        profilesViewModel = viewModel;
         scope = coroutineScope;
     }
 
@@ -77,7 +66,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
     @Override
     public void onBindViewHolder(ServersViewHolder holder, int position) {
-        holder.bindData(profileList.get(position));
+        holder.bindData(profilesViewModel.getProfile(position));
     }
 
     @Override
@@ -87,7 +76,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
     @Override
     public int getItemCount() {
-        return profileList.size();
+        return profilesViewModel.getProfileCount();
     }
 
     public class ServersViewHolder extends BaseViewHolder<Profile> implements View.OnClickListener,
@@ -127,7 +116,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
             radioServer.setClickable(false);
 
             buttonConnect.setExpanded(false, false, scope);
-            buttonConnect.setText(userData.hasAccessToServer(server) ? R.string.connect : R.string.upgrade);
+            buttonConnect.setText(profilesViewModel.getConnectTextRes(server));
             initConnectedStatus();
             textServerNotSet.setVisibility(server != null ? View.GONE : View.VISIBLE);
             imageEdit.setVisibility(profile.isPreBakedProfile() ? View.INVISIBLE : View.VISIBLE);
@@ -141,9 +130,9 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         }
 
         private void initConnectedStatus() {
-            boolean connectedToServer = server != null && stateMonitor.isConnectedTo(server);
+            boolean connectedToServer = profilesViewModel.isConnectedTo(server);
             textConnected.setVisibility(connectedToServer ? View.VISIBLE : View.GONE);
-            radioServer.setChecked(stateMonitor.isConnectedTo(server));
+            radioServer.setChecked(connectedToServer);
         }
 
         @Subscribe
@@ -173,7 +162,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
 
         @Override
         public void onClick(View v) {
-            if (!stateMonitor.isConnectedTo(server) && server != null) {
+            if (!profilesViewModel.isConnectedTo(server) && server != null) {
                 markAsSelected(!radioServer.isChecked());
                 EventBus.post(new ServerSelected(profile, server));
             }
