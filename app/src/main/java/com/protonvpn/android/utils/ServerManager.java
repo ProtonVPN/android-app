@@ -56,6 +56,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
     private transient Context appContext;
 
     private transient LiveEvent updateEvent = new LiveEvent();
+    private transient LiveEvent profilesUpdateEvent = new LiveEvent();
 
     private transient UserData userData;
 
@@ -107,6 +108,10 @@ public final class ServerManager implements Serializable, ServerDeliver {
 
     public LiveEvent getUpdateEvent() {
         return updateEvent;
+    }
+
+    public LiveEvent getProfilesUpdateEvent() {
+        return profilesUpdateEvent;
     }
 
     public boolean isDownloadedAtLeastOnce() {
@@ -167,6 +172,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
         updatedAt = new DateTime();
         Storage.save(this);
         updateEvent.emit();
+        profilesUpdateEvent.emit();
     }
 
     private void sortVpnCountries(List<VpnCountry> list) {
@@ -349,6 +355,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
         if (!savedProfiles.getProfileList().contains(profileToSave)) {
             savedProfiles.getProfileList().add(profileToSave);
             Storage.save(savedProfiles);
+            profilesUpdateEvent.emit();
             return true;
         }
         return false;
@@ -360,11 +367,13 @@ public final class ServerManager implements Serializable, ServerDeliver {
         }
         savedProfiles.getProfileList().set(savedProfiles.getProfileList().indexOf(oldProfile), profileToSave);
         Storage.save(savedProfiles);
+        profilesUpdateEvent.emit();
     }
 
     public void deleteProfile(Profile profileToSave) {
         savedProfiles.getProfileList().remove(profileToSave);
         Storage.save(savedProfiles);
+        profilesUpdateEvent.emit();
     }
 
     public List<VpnCountry> getSecureCoreExitCountries() {

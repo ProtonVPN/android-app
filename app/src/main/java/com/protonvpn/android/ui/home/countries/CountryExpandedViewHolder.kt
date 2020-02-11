@@ -35,7 +35,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.xwray.groupie.databinding.GroupieViewHolder
 
 open class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
@@ -43,7 +42,6 @@ open class CountryExpandedViewHolder(
     val parentLifeCycle: LifecycleOwner
 ) : BindableItemEx<ItemCountryExpandedBinding>() {
 
-    private lateinit var binding: ItemCountryExpandedBinding
     private val serverSelectionObserver = Observer<Server> {
         markAsSelected(viewModel.selectedServer.value == server, animate = true)
     }
@@ -58,10 +56,11 @@ open class CountryExpandedViewHolder(
     override fun getId() = server.serverId.hashCode().toLong()
 
     override fun bind(viewBinding: ItemCountryExpandedBinding, position: Int) {
+        super.bind(viewBinding, position)
+
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
         val context = viewBinding.root.context
-        binding = viewBinding
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
             textServer.text = server.getDisplayName()
@@ -93,11 +92,6 @@ open class CountryExpandedViewHolder(
             buttonConnect.setText(if (haveAccess) R.string.connect else R.string.upgrade)
             initSelection()
         }
-    }
-
-    override fun unbind(viewHolder: GroupieViewHolder<ItemCountryExpandedBinding>) {
-        super.unbind(viewHolder)
-        clear()
     }
 
     override fun clear() {

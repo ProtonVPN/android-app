@@ -46,7 +46,6 @@ import com.protonvpn.android.api.ProtonApiRetroFit;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.bus.OnProfilesChanged;
 import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.BaseFragment;
@@ -163,7 +162,6 @@ public class VpnStateFragment extends BaseFragment {
         manager.addToProfileList(currentProfile.getServer().getServerName(),
             Profile.getRandomProfileColor(getContext()), currentProfile.getServer());
         Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
-        EventBus.post(OnProfilesChanged.INSTANCE);
     }
 
     @OnClick(R.id.layoutCollapsedStatus)

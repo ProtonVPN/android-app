@@ -52,7 +52,6 @@ import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.ForcedLogout;
-import com.protonvpn.android.bus.OnProfilesChanged;
 import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.LoaderUI;
@@ -149,6 +148,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             }
             return Unit.INSTANCE;
         });
+
+        serverManager.getProfilesUpdateEvent().observe(this, () -> {
+            initQuickConnectFab();
+            return Unit.INSTANCE;
+        });
+
         serverListUpdater.onHomeActivityCreated(this);
 
         if (Storage.getBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD)) {
@@ -334,11 +339,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         vpnStateMonitor.disconnect();
         finish();
         navigateTo(LoginActivity.class);
-    }
-
-    @Subscribe
-    public void onProfilesChanged(OnProfilesChanged instance) {
-        initQuickConnectFab();
     }
 
     private void initQuickConnectFab() {

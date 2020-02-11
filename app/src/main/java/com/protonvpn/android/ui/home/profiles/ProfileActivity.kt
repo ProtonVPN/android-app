@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -33,8 +32,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.google.android.material.textfield.TextInputLayout
 import com.protonvpn.android.R
-import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.OnProfilesChanged
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
@@ -47,7 +44,6 @@ import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.drawer.SettingsActivity
 import javax.inject.Inject
-import rx_activity_result2.RxActivityResult
 
 @ContentLayout(R.layout.activity_profile)
 class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>() {
@@ -254,23 +250,14 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     companion object {
 
-        fun navigateForCreation(fromActivity: ProfilesFragment) {
-            startForResult(fromActivity, Intent(fromActivity.activity, ProfileActivity::class.java))
+        fun navigateForCreation(fragment: ProfilesFragment) {
+            fragment.startActivity(Intent(fragment.activity, ProfileActivity::class.java))
         }
 
-        fun navigateForEdit(fromActivity: ProfilesFragment, profileToEdit: Profile) {
-            val intent = Intent(fromActivity.activity, ProfileActivity::class.java)
+        fun navigateForEdit(fragment: ProfilesFragment, profileToEdit: Profile) {
+            val intent = Intent(fragment.activity, ProfileActivity::class.java)
             intent.putExtra(IntentExtras.EXTRA_PROFILE, profileToEdit)
-            startForResult(fromActivity, intent)
-        }
-
-        @SuppressLint("CheckResult")
-        private fun startForResult(fromActivity: ProfilesFragment, intent: Intent) {
-            RxActivityResult.on(fromActivity).startIntent(intent).subscribe { result ->
-                if (result.resultCode() == Activity.RESULT_OK) {
-                    EventBus.post(OnProfilesChanged.INSTANCE)
-                }
-            }
+            fragment.startActivity(intent)
         }
     }
 }
