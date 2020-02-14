@@ -265,7 +265,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
         Server bestScore = null;
         boolean hasAccessAtAll = userData.hasAccessToAnyServer(serverList);
         for (Server server : serverList) {
-            if (!server.getKeywords().contains("tor")) {
+            if (!server.getKeywords().contains("tor") && server.isOnline()) {
                 if (bestScore == null) {
                     bestScore = server;
                 }
