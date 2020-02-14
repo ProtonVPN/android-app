@@ -31,7 +31,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 import org.apache.commons.lang3.SerializationUtils
 
-class VpnCountry(val flag: String, serverList: List<Server>, deliverer: ServerDeliver, private var bestConnection: Server?) : Markable, Serializable, Listable {
+class VpnCountry(
+    val flag: String,
+    serverList: List<Server>,
+    deliverer: ServerDeliver,
+    private var bestConnection: Server?
+) : Markable, Serializable, Listable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
     private val keywords: MutableList<String>
