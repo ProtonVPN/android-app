@@ -23,7 +23,10 @@ import androidx.lifecycle.MediatorLiveData
 
 // Transformations.map equivalent that always serves non-null and up-to-date value (even when no
 // observers are attached)
-inline fun <S, reified T : Any> LiveData<S>.eagerMapNotNull(ignoreIfEqual: Boolean = false, crossinline transform: (S?) -> T): LiveData<T> {
+inline fun <S, reified T : Any> LiveData<S>.eagerMapNotNull(
+    ignoreIfEqual: Boolean = false,
+    crossinline transform: (S?) -> T
+): LiveData<T> {
     val mediator = MediatorLiveData<T>()
     mediator.addSource(this) {
         val newValue = transform(value)

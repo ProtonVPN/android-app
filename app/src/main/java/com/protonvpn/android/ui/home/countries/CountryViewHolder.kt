@@ -74,7 +74,7 @@ abstract class CountryViewHolder(
             viewModel.vpnStateMonitor.vpnState.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
-            badgeP2P.isVisible= vpnCountry.getKeywords().contains("p2p")
+            badgeP2P.isVisible = vpnCountry.getKeywords().contains("p2p")
             badgeTor.isVisible = vpnCountry.getKeywords().contains("tor")
 
             root.setOnClickListener {
