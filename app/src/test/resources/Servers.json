@@ -1,0 +1,218 @@
+[
+    {
+      "Name": "CA#1",
+      "EntryCountry": "CA",
+      "ExitCountry": "CA",
+      "Domain": "ca-01.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Toronto",
+      "ID": "BzHqSTaqcpjIY9SncE5s7FpjBrPjiGOucCyJmwA6x4nTNqlElfKvCQFr9xUa2KgQxAiHv4oQQmAkcA56s3ZiGQ==",
+      "Location": {
+        "Lat": 43.632899999999999,
+        "Long": -79.361099999999993
+      },
+      "Status": 0,
+      "Servers": [
+        {
+          "EntryIP": "104.254.92.59",
+          "ExitIP": "104.254.92.59",
+          "Domain": "ca-01.protonvpn.com",
+          "ID": "ceemvAaEwUf5EDfEYoBV8S4h29Cn5vxhZ5yDLR0h_ErRdnyFdt0lhKhpYbtkNNVHWKu9jbDTTf4sKP-sH_NDzA==",
+          "Status": 1
+        }
+      ],
+      "Load": 22,
+      "Score": 1
+    },
+    {
+      "Name": "CA#2",
+      "EntryCountry": "CA",
+      "ExitCountry": "CA",
+      "Domain": "ca-02.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Toronto",
+      "ID": "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ==",
+      "Location": {
+        "Lat": 43.632899999999999,
+        "Long": -79.361099999999993
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "104.254.92.60",
+          "ExitIP": "104.254.92.60",
+          "Domain": "ca-02.protonvpn.com",
+          "ID": "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ==",
+          "Status": 1
+        }
+      ],
+      "Load": 34,
+      "Score": 1.1
+    },
+    {
+      "Name": "CA#3",
+      "EntryCountry": "CA",
+      "ExitCountry": "CA",
+      "Domain": "ca-03.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Toronto",
+      "ID": "vUZGQHCgdhbDi3qBKxtnuuagOsgaa08Wpu0WLdaqVIKGI5FM7KwIrDB4IprPbhThXJ_5Pb90bkGlHM1ARMYYrQ==",
+      "Location": {
+        "Lat": 43.632899999999999,
+        "Long": -79.361099999999993
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "104.254.92.61",
+          "ExitIP": "104.254.92.61",
+          "Domain": "ca-03.protonvpn.com",
+          "ID": "vUZGQHCgdhbDi3qBKxtnuuagOsgaa08Wpu0WLdaqVIKGI5FM7KwIrDB4IprPbhThXJ_5Pb90bkGlHM1ARMYYrQ==",
+          "Status": 1
+        }
+      ],
+      "Load": 54,
+      "Score": 1.4
+    },
+    {
+      "Name": "CA#4",
+      "EntryCountry": "CA",
+      "ExitCountry": "CA",
+      "Domain": "ca-04.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Toronto",
+      "ID": "cjGMPrkCYMsx5VTzPkfOLwbrShoj9NnLt3518AH-DQLYcvsJwwjGOkS8u3AcnX4mVSP6DX2c6Uco99USShaigQ==",
+      "Location": {
+        "Lat": 43.632899999999999,
+        "Long": -79.361099999999993
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "104.254.92.62",
+          "ExitIP": "104.254.92.62",
+          "Domain": "ca-04.protonvpn.com",
+          "ID": "cjGMPrkCYMsx5VTzPkfOLwbrShoj9NnLt3518AH-DQLYcvsJwwjGOkS8u3AcnX4mVSP6DX2c6Uco99USShaigQ==",
+          "Status": 1
+        }
+      ],
+      "Load": 24,
+      "Score": 1.5
+    },
+    {
+      "Name": "DE#1",
+      "EntryCountry": "DE",
+      "ExitCountry": "DE",
+      "Domain": "de-01.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Frankfurt",
+      "ID": "ha0056vPzrt4ErHVbwEGSfMo-e0__HU2kvV-XfkspMOCkVKYsJ5BaD1KUXYSLcR0D7K0q6_J_Z8HgJdGGxrJRA==",
+      "Location": {
+        "Lat": 51,
+        "Long": 9
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "37.58.58.229",
+          "ExitIP": "37.58.58.229",
+          "Domain": "de-01.protonvpn.com",
+          "ID": "ha0056vPzrt4ErHVbwEGSfMo-e0__HU2kvV-XfkspMOCkVKYsJ5BaD1KUXYSLcR0D7K0q6_J_Z8HgJdGGxrJRA==",
+          "Status": 1
+        }
+      ],
+      "Load": 73,
+      "Score": 1.01
+    },
+    {
+      "Name": "DE#2",
+      "EntryCountry": "DE",
+      "ExitCountry": "DE",
+      "Domain": "de-02.protonvpn.com",
+      "Tier": 1,
+      "Features": 0,
+      "Region": null,
+      "City": "Frankfurt",
+      "ID": "sW6Msiby3tNWhOQycK3dOolAL341K40KHOPNv5wSVVFZwkayc7PIflVDxGU8oMwYoGVuI8RWz5OL3yomRfcO6A==",
+      "Location": {
+        "Lat": 51,
+        "Long": 9
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "37.58.58.230",
+          "ExitIP": "37.58.58.230",
+          "Domain": "de-02.protonvpn.com",
+          "ID": "sW6Msiby3tNWhOQycK3dOolAL341K40KHOPNv5wSVVFZwkayc7PIflVDxGU8oMwYoGVuI8RWz5OL3yomRfcO6A==",
+          "Status": 1
+        }
+      ],
+      "Load": 64,
+      "Score": 1.2463433399999999
+    },
+    {
+      "Name": "DE#3",
+      "EntryCountry": "DE",
+      "ExitCountry": "DE",
+      "Domain": "de-03.protonvpn.com",
+      "Tier": 2,
+      "Features": 0,
+      "Region": null,
+      "City": "Frankfurt",
+      "ID": "7J7smwDoOZD537x3sohypBmu8phtWjoc7NmddefXLbHy76M8iTpcU9Zn0QsZhN9tRpJ8ILZ2GZVhaeCbku4IPQ==",
+      "Location": {
+        "Lat": 51,
+        "Long": 9
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "37.58.58.231",
+          "ExitIP": "37.58.58.231",
+          "Domain": "de-03.protonvpn.com",
+          "ID": "7J7smwDoOZD537x3sohypBmu8phtWjoc7NmddefXLbHy76M8iTpcU9Zn0QsZhN9tRpJ8ILZ2GZVhaeCbku4IPQ==",
+          "Status": 1
+        }
+      ],
+      "Load": 45,
+      "Score": 1.1953704999999999
+    },
+	{
+      "Name": "IS-TW#1",
+      "EntryCountry": "IS",
+      "ExitCountry": "TW",
+      "Domain": "is-tw-01.protonvpn.com",
+      "Tier": 2,
+      "Features": 1,
+      "Region": null,
+      "City": null,
+      "ID": "8u-9ov6LEe8hegCNZ5Jg6VkvTzGWEb3MTDycF9VrLjEEDubJYm-ZLElUTMP1_Vwz429LgM0JkcNL0TtDzdtFwA==",
+      "Location": {
+        "Lat": 25.02,
+        "Long": 121.37
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "185.159.158.143",
+          "ExitIP": "211.23.95.245",
+          "Domain": "is-tw-01a.protonvpn.com",
+          "ID": "CVTbN5bjJ6F9Xo0gTs0ME6KOQdqfySKctmjEsbIzF3VU5OCwPMKEv3_f-ESalrRhQncT00mOtTMMh_r9gWwlkw==",
+          "Status": 1
+        }
+      ],
+      "Load": 3,
+      "Score": 999999.48175531998
+    }
+]
