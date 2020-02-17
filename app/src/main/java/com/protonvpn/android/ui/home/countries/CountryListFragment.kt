@@ -62,6 +62,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         }
         viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
             updateListData()
+            if (viewModel.userData.isFreeUser)
+                binding.list.scrollToPosition(0)
         }
         viewModel.serverManager.updateEvent.observe(viewLifecycleOwner) {
             updateListData()
