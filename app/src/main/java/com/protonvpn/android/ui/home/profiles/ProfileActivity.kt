@@ -145,7 +145,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                     spinnerTransmissionProtocol as ProtonSpinner<SettingsActivity.MockUDP>
             spinnerDefaultProtocol.selectedItem = viewModel.selectedProtocol
 
-            spinnerDefaultProtocol.setItems(listOf(SettingsActivity.MockUDP(VpnProtocol.IKEv2.toString()), SettingsActivity.MockUDP(VpnProtocol.OpenVPN.toString())))
+            spinnerDefaultProtocol.setItems(listOf(SettingsActivity.MockUDP(VpnProtocol.IKEv2.toString()),
+                    SettingsActivity.MockUDP(VpnProtocol.OpenVPN.toString())))
             spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
                 viewModel.editableProfile?.setProtocol(item.getLabel(context))
                 layoutTransmissionProtocol.visibility =
@@ -154,7 +155,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
             layoutTransmissionProtocol.visibility = viewModel.getTransmissionVisibility(context)
             spinnerTransmissionProtocol.selectedItem = viewModel.transmissionProtocol
-            spinnerTransmissionProtocol.setItems(listOf(SettingsActivity.MockUDP(TransmissionProtocol.UDP.toString()), SettingsActivity.MockUDP(TransmissionProtocol.TCP.toString())))
+            spinnerTransmissionProtocol.setItems(listOf(SettingsActivity.MockUDP(TransmissionProtocol.UDP.toString()),
+                    SettingsActivity.MockUDP(TransmissionProtocol.TCP.toString())))
         }
     }
 
@@ -180,7 +182,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         with(binding.contentProfile) {
             val spinnerCountry = spinnerCountry as ProtonSpinner<VpnCountry>
             val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
-            editName.setText(profile?.name)
+            editName.setText(profile?.getDisplayName(baseContext))
             palette.setSelectedColor(profile?.color
                     ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
 
@@ -200,7 +202,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             val currentName = editName.text.toString()
             val editableProfile = viewModel.editableProfile
             return if (editableProfile != null) {
-                editableProfile.serverWrapper != spinnerServer.selectedItem || currentName.isNotEmpty() && currentName != editableProfile.name
+                editableProfile.serverWrapper != spinnerServer.selectedItem || currentName.isNotEmpty() &&
+                        currentName != editableProfile.getDisplayName(baseContext)
             } else currentName.isNotEmpty() || spinnerCountry.text!!.toString().isNotEmpty() ||
                     spinnerServer.text!!.toString().isNotEmpty()
         }

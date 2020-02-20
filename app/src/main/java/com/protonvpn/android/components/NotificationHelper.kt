@@ -147,8 +147,8 @@ object NotificationHelper {
         return when (vpnState.state) {
             CHECKING_AVAILABILITY -> context.getString(R.string.loaderCheckingAvailability)
             DISABLED -> context.getString(R.string.loaderNotConnected)
-            CONNECTING -> context.getString(R.string.loaderConnectingTo, getServerName(vpnState))
-            CONNECTED -> context.getString(R.string.loaderConnectedTo, getServerName(vpnState))
+            CONNECTING -> context.getString(R.string.loaderConnectingTo, getServerName(context, vpnState))
+            CONNECTED -> context.getString(R.string.loaderConnectedTo, getServerName(context, vpnState))
             DISCONNECTING -> context.getString(R.string.state_disconnecting)
             ERROR -> context.getString(R.string.state_error)
             RECONNECTING -> context.getString(R.string.loaderReconnecting)
@@ -156,8 +156,9 @@ object NotificationHelper {
         }
     }
 
-    private fun getServerName(vpnState: VpnStateMonitor.VpnState): String {
+    private fun getServerName(context: Context, vpnState: VpnStateMonitor.VpnState): String {
         val (profile, server) = vpnState.connectionInfo!!
-        return if (profile.isPreBakedProfile || profile.name.isEmpty()) server.getDisplayName() else profile.name
+        return if (profile.isPreBakedProfile || profile.getDisplayName(
+                        context).isEmpty()) server.getDisplayName() else profile.getDisplayName(context)
     }
 }

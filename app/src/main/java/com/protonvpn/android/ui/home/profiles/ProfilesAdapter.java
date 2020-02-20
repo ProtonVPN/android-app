@@ -111,7 +111,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         public void bindData(Profile object) {
             this.profile = object;
             this.server = object.getServer();
-            textServer.setText(object.getName());
+            textServer.setText(object.getDisplayName(textServer.getContext()));
             radioServer.setChecked(false);
             radioServer.setClickable(false);
 

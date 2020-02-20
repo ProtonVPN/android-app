@@ -389,7 +389,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         List<Profile> profileList = serverManager.getSavedProfiles();
         for (final Profile profile : ReversedList.reverse(
             profileList.subList(0, profileList.size() >= 6 ? 6 : profileList.size()))) {
-            addActionButtonToFab(fabQuickConnect, Color.parseColor(profile.getColor()), profile.getName(),
+            addActionButtonToFab(fabQuickConnect, Color.parseColor(profile.getColor()), profile.getDisplayName(getContext()),
                 profile.getProfileIcon(), v -> {
                     onConnectToProfile(new ConnectToProfile(profile));
                     fabQuickConnect.close(true);

@@ -53,8 +53,9 @@ public class Profile implements Serializable, Listable {
         return new Profile("", "", ServerWrapper.makeWithServer(server, manager));
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName(Context context) {
+        return isPreBakedProfile() ? context.getString(
+            wrapper.isPreBakedFastest() ? R.string.profileFastest : R.string.profileRandom) : name;
     }
 
     public String getColor() {
@@ -126,7 +127,7 @@ public class Profile implements Serializable, Listable {
 
     @Override
     public String getLabel(Context context) {
-        return getName();
+        return getDisplayName(context);
     }
 
     public String getTransmissionProtocol(@NonNull UserData userData) {
