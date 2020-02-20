@@ -424,9 +424,9 @@ public class VpnStateFragment extends BaseFragment {
         String serverName = "";
         Server connectedServer = null;
         if (profile != null) {
-            serverName = (profile.isPreBakedProfile() || profile.getName().isEmpty())
+            serverName = (profile.isPreBakedProfile() || profile.getDisplayName(getContext()).isEmpty())
                 && stateMonitor.getConnectingToServer() != null ?
-                stateMonitor.getConnectingToServer().getDisplayName() : profile.getName();
+                stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
             connectedServer = vpnState.getServer();
         }
         if (isAdded()) {
