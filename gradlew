@@ -26,6 +26,36 @@ die ( ) {
     exit 1
 }
 
+if [ -f '.env' ]; then
+    source '.env';
+fi;
+
+
+installLocales ( ) {
+
+    if [ -z "$I18N_DEPENDENCY_BRANCH" ] || [ -z "$I18N_DEPENDENCY_REPO" ]; then
+        warn '[warning]' 'You did not configure your env for translations';
+        echo 'To be able to download translations you need to set: I18N_DEPENDENCY_BRANCH and I18N_DEPENDENCY_REPO';
+        return 0
+    fi;
+
+    rm -rf proton-translations || echo;
+    echo '[run] import new translations'
+    git clone \
+        --quiet \
+        --depth 1 \
+        --branch "$I18N_DEPENDENCY_BRANCH" \
+        "$I18N_DEPENDENCY_REPO" \
+        proton-translations;
+    echo '[run] copy translations'
+    rsync -a proton-translations/app/ app
+}
+
+if [ "$1" = 'installLocale' ]; then
+    installLocales;
+    exit;
+fi;
+
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 msys=false
@@ -156,5 +186,7 @@ function splitJvmOpts() {
 }
 eval splitJvmOpts $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS
 JVM_OPTS[${#JVM_OPTS[*]}]="-Dorg.gradle.appname=$APP_BASE_NAME"
+
+installLocales;
 
 exec "$JAVACMD" "${JVM_OPTS[@]}" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"

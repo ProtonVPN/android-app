@@ -4,8 +4,6 @@ variables:
   ANDROID_BUILD_TOOLS: "28.0.3"
   ANDROID_SDK_TOOLS: "26.1.1"
   PUBLIC_REPO_URL: git@github.com:ProtonVPN/android-app.git
-  I18N_PROTON: git@gitlab.protontech.ch:proton/i18n.git
-
 
 before_script:
   - if [[ -n "$http_proxy" ]]; then export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$( echo ${http_proxy##http://} | cut -d':' -f1 ) -Dhttp.proxyPort=$( echo ${http_proxy##http://} | cut -d':' -f2 ) -Dhttps.proxyHost=$( echo ${https_proxy##http://} | cut -d':' -f1 ) -Dhttps.proxyPort=$( echo ${https_proxy##http://} | cut -d':' -f2 ) -Dhttp.nonProxyHosts=\"$( echo $no_proxy | tr ',' '|' )\""; fi
@@ -64,7 +62,7 @@ java style:
     expire_in: 1 week
     paths:
     - app/build/reports/checkstyle
-        
+
 detekt analysis:
   stage: analyze
   tags:
@@ -223,23 +221,20 @@ sync-app:
     # Push the latest tag we can find
     - git push public "$(git describe --abbrev=0)"
 
-.i18n-common: &i18n-common
-    cache: {}
-    stage: i18n
-    before_script:
-        - eval $(ssh-agent -s)
-        - echo "$CI_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-        - mkdir ~/.ssh 2> /dev/null
-        - ssh-keyscan -t rsa ${CI_SERVER_HOST} > ~/.ssh/known_hosts
-        - git config --global user.email $GIT_CI_EMAIL
-        - git config --global user.name $GIT_CI_USERNAME
-        - git config --global url."https://".insteadOf git://
-        - git clone "$I18N_PROTON" --depth 1 /tmp/__PROTON_I18N;
-        - mv $ENV_I18N .env
-
 i18n-update-crowdin:
-  extends: .i18n-common
-  <<: *i18n-common
+  cache: {}
+  stage: i18n
+  before_script:
+      - eval $(ssh-agent -s)
+      - echo "$CI_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+      - mkdir ~/.ssh 2> /dev/null
+      - ssh-keyscan -t rsa ${CI_SERVER_HOST} > ~/.ssh/known_hosts
+      - git config --global user.email $GIT_CI_EMAIL
+      - git config --global user.name $GIT_CI_USERNAME
+      - git config --global url."https://".insteadOf git://
+      - git clone "$I18N_PROTON" --depth 1 /tmp/__PROTON_I18N;
+      - mv $ENV_I18N .env
+
   except:
       - schedules
   only:
@@ -247,11 +242,3 @@ i18n-update-crowdin:
           - development
   script:
     - /tmp/__PROTON_I18N/update crowdin
-
-i18n-update-app:
-  extends: .i18n-common
-  <<: *i18n-common
-  only:
-      - schedules
-  script:
-    - /tmp/__PROTON_I18N/update app
