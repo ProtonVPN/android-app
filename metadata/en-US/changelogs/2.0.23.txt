@@ -1,0 +1,2 @@
+What's new:
+* The app is now available in Spanish, French, Italian, Dutch, Polish, and Portuguese.
