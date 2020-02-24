@@ -1,0 +1,8 @@
+What's new:
+* Added "disconnect" button to notification
+* Removed unnecessary storage permission
+* Battery improvements
+* Fixed connecting with 'quick connect' tile
+* Fixed auto-connect after reboot
+* Error handling improvements for profiles
+* Hardened VPN server certificate verification for OpenVPN
