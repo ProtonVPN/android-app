@@ -1,0 +1,39 @@
+ProtonVPN is a secure and free VPN, now featuring better connection stability, faster speeds, and even more security features.
+
+ProtonVPN is the world's ONLY free VPN service that respects your privacy and is safe to use. Millions of people use ProtonVPN because:
+- We do not record your browsing history
+- We do not display privacy-invading ads
+- We do not sell your data to third parties
+- We do not limit how much you can download
+
+ProtonVPN is created by the CERN scientists behind ProtonMail, the world's largest encrypted email service with 20 million users, including many activists and journalists such as Reporters Without Borders.
+
+ProtonVPN’s Free VPN Service includes:
+
+✔ STRONG ENCRYPTION - Your data is protected with AES-256 and 4096 RSA.
+
+✔ SWISS-BASED - Your data is protected by some of the strongest privacy laws in the world.
+
+✔ NO LOGS. EVER - We never log or share user data. Even if authorities request information, we have nothing to share.
+
+✔ PERFECT FORWARD SECRECY - Your encrypted traffic cannot be captured and decrypted later.
+
+✔ MULTI-PROTOCOL SUPPORT - ProtonVPN supports two secure VPN protocols: IKEv2/IPSec and OpenVPN.
+
+✔ DNS LEAK PROTECTION - We encrypt your DNS to ensure your browsing activity cannot be exposed through DNS queries.
+
+✔ ALWAYS-ON VPN/KILL SWITCH - Protect your IP address from being leaked through accidental disconnects.
+
+✔ FULL DISK ENCRYPTION - Our VPN servers are fully encrypted to protect your data.
+
+✔ ANONYMOUS - You do not need to share any personal data to use ProtonVPN.
+
+✔ SPLIT TUNNELING SUPPORT - This advanced feature allows you to select what traffic goes through the VPN tunnel.
+
+✔ BYPASS BLOCKING - Smart protocol selection automatically overcomes VPN bans and unblocks censored content.
+
+✔ TRUSTED - Our code has undergone a security audit and is open source.
+
+✔ MULTIPLE PLATFORM SUPPORT - Easy to use on Android, iOS, Windows, macOS, Linux, and more.
+
+Note: Free users can only connect one device to Free servers in Japan, the Netherlands, and the US.
