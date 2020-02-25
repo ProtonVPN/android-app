@@ -318,12 +318,6 @@ tasks.register("getArchivesName"){
     }
 }
 
-kapt {
-    arguments {
-        arg('dagger.android.experimentalUseStringKeys')
-    }
-}
-
 task checkstyle(type: Checkstyle) {
     configFile = file("${rootDir}/app/config/checkstyle/checkstyle.xml")
     source 'src'
