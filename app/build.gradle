@@ -434,6 +434,7 @@ dependencies {
 
     testImplementation 'joda-time:joda-time:2.10.3'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'io.mockk:mockk:1.9.3'
 
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.1.0') {
         exclude module: 'support-annotations'
