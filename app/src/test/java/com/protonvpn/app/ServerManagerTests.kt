@@ -5,11 +5,16 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.app.mocks.MockSharedPreference
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -30,10 +35,15 @@ class ServerManagerTests {
     @Before
     fun setup() {
         Storage.setPreferences(MockSharedPreference())
-        val userData = mock(UserData::class.java)
-        `when`(userData.hasAccessToServer(any())).thenReturn(true)
-        `when`(userData.hasAccessToAnyServer(any())).thenReturn(true)
-        manager = ServerManager(mock(Context::class.java), userData)
+        val userData = mockk<UserData>(relaxed = true)
+        val contextMock = mockk<Context>(relaxed = true)
+        mockkStatic(ProtonApplication::class)
+        mockkStatic(Log::class)
+        every { Log.e(any())} answers {}
+        every { ProtonApplication.getAppContext() } returns contextMock
+        every { userData.hasAccessToServer(any()) } returns true
+        every { userData.hasAccessToAnyServer(any()) } returns true
+        manager = ServerManager(contextMock, userData)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val mapper =
                 ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
