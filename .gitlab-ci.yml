@@ -225,15 +225,8 @@ i18n-update-crowdin:
   cache: {}
   stage: i18n
   before_script:
-      - eval $(ssh-agent -s)
-      - echo "$CI_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-      - mkdir ~/.ssh 2> /dev/null
-      - ssh-keyscan -t rsa ${CI_SERVER_HOST} > ~/.ssh/known_hosts
-      - git config --global user.email $GIT_CI_EMAIL
-      - git config --global user.name $GIT_CI_USERNAME
-      - git config --global url."https://".insteadOf git://
-      - git clone "$I18N_PROTON" --depth 1 /tmp/__PROTON_I18N;
-      - mv $ENV_I18N .env
+      - apt-get install -y jq
+      - git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@${I18N_PROTON_REPO}" --depth 1 /tmp/__PROTON_I18N;
 
   except:
       - schedules
@@ -241,4 +234,4 @@ i18n-update-crowdin:
       refs:
           - development
   script:
-    - /tmp/__PROTON_I18N/update crowdin
+    - /tmp/__PROTON_I18N/update crowdin --project android-vpn
