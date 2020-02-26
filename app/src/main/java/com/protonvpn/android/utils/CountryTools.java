@@ -19,10 +19,14 @@
 package com.protonvpn.android.utils;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.protonvpn.android.ProtonApplication;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class CountryTools {
 
@@ -168,16 +172,22 @@ public class CountryTools {
             context.getResources().getIdentifier("zz_flag", "drawable", context.getPackageName());
     }
 
-    public static String getFullName(String country) {
-        Context context = ProtonApplication.getAppContext();
-        int countryResource = context.getResources()
-            .getIdentifier("country" + country.toUpperCase(), "string", context.getPackageName());
-        if (countryResource > 0) {
-            return context.getString(countryResource);
+    public static Locale getPreferredLocale(Context context) {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = context.getResources().getConfiguration().getLocales().get(0);
         }
         else {
-            Log.e("Unrecognized country: " + country);
-            return country;
+            //noinspection deprecation
+            locale = context.getResources().getConfiguration().locale;
         }
+
+        List<String> availableLocales = Arrays.asList("en", "es", "pl", "pt", "it", "fr", "nl");
+        return availableLocales.contains(locale.getLanguage()) ? locale : Locale.US;
+    }
+
+    public static String getFullName(String country) {
+        return new Locale("", country).getDisplayCountry(
+            getPreferredLocale(ProtonApplication.getAppContext()));
     }
 }
