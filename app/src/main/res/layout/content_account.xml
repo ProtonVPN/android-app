@@ -68,7 +68,7 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="73dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="24dp"
