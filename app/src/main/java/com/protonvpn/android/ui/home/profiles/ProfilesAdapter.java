@@ -30,8 +30,8 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.ServerSelected;
+import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.BaseViewHolder;
-import com.protonvpn.android.components.SecureCoreCallback;
 import com.protonvpn.android.components.TriangledTextView;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -79,8 +79,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         return profilesViewModel.getProfileCount();
     }
 
-    public class ServersViewHolder extends BaseViewHolder<Profile> implements View.OnClickListener,
-        SecureCoreCallback {
+    public class ServersViewHolder extends BaseViewHolder<Profile> implements View.OnClickListener {
 
         @BindView(R.id.textServer) TextView textServer;
         @BindView(R.id.radioServer) RadioButton radioServer;
@@ -99,6 +98,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
         public void buttonConnect() {
             if (server != null) {
                 EventBus.post(new ConnectToProfile(profile));
+                showConnectButton(false);
             }
         }
 
@@ -168,9 +168,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Server
             }
         }
 
-        @Override
-        public void onConnect(Profile profile) {
-            EventBus.post(new ConnectToProfile(profile));
+        @Subscribe
+        public void onVpnStateChanged(VpnStateChanged event) {
             showConnectButton(false);
             initConnectedStatus();
             EventBus.post(new ServerSelected(profile, profile.getServer()));
