@@ -20,6 +20,8 @@ package com.protonvpn.android.api;
 
 import com.protonvpn.android.utils.ConnectionTools;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -32,8 +34,9 @@ public class RequestsInterceptor implements Interceptor {
 
     private static final MediaType MEDIA_JSON = MediaType.parse("application/json");
 
+    @NotNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
         return !ConnectionTools.networkAvailable ?
             new Response.Builder().body(ResponseBody.create(MEDIA_JSON, "\"No internet connection\""))
                 .request(chain.request())

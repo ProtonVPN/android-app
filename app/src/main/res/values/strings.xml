@@ -287,6 +287,8 @@
     <string name="welcomeDialogDescription">Use your newly created account credentials to login.</string>
     <string name="welcomeDialogTitleTrial">As a welcome gift you have access to a full ProtonVPN subscription including advanced features for the first days!</string>
     <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
+    <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
+    <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
 
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Set up ProtonVPN to reconnect automatically or to disable external connections if your VPN connection is disrupted.</string>

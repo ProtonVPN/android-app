@@ -30,14 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionButton;
@@ -64,7 +56,7 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
@@ -90,6 +82,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -333,11 +332,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void logout() {
         userData.logout();
         serverManager.clearCache();
-        api.logout(result -> {
-            if (result != null) {
-                Log.d(result.isSuccess() ? "Logout successful" : "Logout api call failed");
-            }
-        });
+        api.logout(result ->
+            Log.d(result.isSuccess() ? "Logout successful" : "Logout api call failed"));
         vpnStateMonitor.disconnect();
         finish();
         navigateTo(LoginActivity.class);
@@ -448,7 +444,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onResume() {
         super.onResume();
         if (!userData.wasVpnInfoRecentlyUpdated(3)) {
-            api.getVPNInfo(this, this::checkTrialChange);
+            api.getVPNInfo(getNetworkFrameLayout(), this::checkTrialChange);
         }
     }
 

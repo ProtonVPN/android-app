@@ -34,7 +34,6 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.DISCONNECT_ACTION
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -57,12 +56,9 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
 import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 
 @Singleton
 open class VpnStateMonitor(
@@ -71,7 +67,7 @@ open class VpnStateMonitor(
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
-    coroutineContext: CoroutineContext
+    private val scope: CoroutineScope
 ) {
 
     enum class State {
@@ -103,7 +99,6 @@ open class VpnStateMonitor(
         private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
     }
 
-    private val scope = CoroutineScope(coroutineContext)
     private var ongoingConnect: Job? = null
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
@@ -216,8 +211,8 @@ open class VpnStateMonitor(
             error = UNPAID
         } else {
             activeBackend?.setState(CHECKING_AVAILABILITY)
-            val result = getSession()
-            if (userData.vpnInfoResponse.maxSessionCount <= result.sessionList.size)
+            val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
+            if (userData.vpnInfoResponse.maxSessionCount <= sessionCount)
                 error = MAX_SESSIONS
         }
         ongoingConnect = null
@@ -239,15 +234,6 @@ open class VpnStateMonitor(
         activateBackend(profile)
         activeBackend?.connect()
         ongoingConnect = null
-    }
-
-    protected open suspend fun getSession(): SessionListResponse = suspendCancellableCoroutine { continuation ->
-        val call = api.getSession { result ->
-            continuation.resume(result)
-        }
-        continuation.invokeOnCancellation {
-            call?.cancel()
-        }
     }
 
     private fun clearOngoingConnection() {

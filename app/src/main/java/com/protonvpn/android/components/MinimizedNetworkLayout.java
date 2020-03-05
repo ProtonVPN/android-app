@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
-import com.protonvpn.android.models.login.ErrorBody;
+import com.protonvpn.android.api.ApiResult;
 import com.protonvpn.android.utils.Log;
 
 import butterknife.BindView;
@@ -59,10 +59,10 @@ public class MinimizedNetworkLayout extends RelativeLayout implements LoaderUI {
     }
 
     @Override
-    public void switchToRetry(ErrorBody body) {
+    public void switchToRetry(ApiResult.Error error) {
         loadingLayout.setVisibility(View.GONE);
         if (!BuildConfig.DEBUG) {
-            Log.exception(new Exception(body.getError()));
+            Log.exception(new Exception(error.getDebugMessage()));
         }
     }
 

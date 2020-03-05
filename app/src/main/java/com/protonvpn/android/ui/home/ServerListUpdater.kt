@@ -22,28 +22,24 @@ import android.os.SystemClock
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.StorageStringObservable
-import java.util.concurrent.TimeUnit
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+import java.util.concurrent.TimeUnit
 
 class ServerListUpdater(
-    val coroutineContext: CoroutineContext,
+    val scope: CoroutineScope,
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
     val userData: UserData
@@ -57,8 +53,6 @@ class ServerListUpdater(
 
         private fun now() = SystemClock.elapsedRealtime()
     }
-
-    private val scope = CoroutineScope(coroutineContext)
 
     private var homeActivity: HomeActivity? = null
     private var inForeground = false
@@ -126,28 +120,28 @@ class ServerListUpdater(
     }
 
     // Returns true if IP has changed
-    private suspend fun updateLocation() = suspendCoroutine<Boolean> { continuation ->
-        api.getLocation { location ->
-            var ipChanged = false
-            location?.let { loc ->
-                val newIp = loc.ipAddress
-                if (newIp.isNotEmpty() && newIp != ipAddress.value) {
-                    ipAddress.setValue(newIp)
-                    ipChanged = true
-                }
-                lastIpCheck = now()
-                Storage.saveLong(KEY_IP_ADDRESS_DATE, DateTime().millis)
+    private suspend fun updateLocation(): Boolean {
+        val result = api.getLocation()
+        var ipChanged = false
+        if (result is ApiResult.Success) {
+            val newIp = result.value.ipAddress
+            if (newIp.isNotEmpty() && newIp != ipAddress.value) {
+                ipAddress.setValue(newIp)
+                ipChanged = true
             }
-            continuation.resume(ipChanged)
+            lastIpCheck = now()
+            Storage.saveLong(KEY_IP_ADDRESS_DATE, DateTime().millis)
         }
+        return ipChanged
     }
 
     private suspend fun updateServerList(
         networkLoader: NetworkLoader?
-    ): Boolean = suspendCoroutine { continuation ->
+    ): Boolean {
         val strippedIP = ipAddress.value?.takeIf { it.isNotEmpty() }?.let { NetUtils.stripIP(it) }
+        val loaderUI = networkLoader?.networkFrameLayout
 
-        networkLoader?.networkFrameLayout?.setRetryListener {
+        loaderUI?.setRetryListener {
             scope.launch(Dispatchers.Main) {
                 updateServerList(networkLoader)
             }
@@ -158,18 +152,12 @@ class ServerListUpdater(
         // To provide relevant scores even when connected to VPN, we send a truncated version of
         // the user's public IP address. In keeping with our no-logs policy, this partial IP address
         // is not stored on the server and is only used to fulfill this one-off API request.
-        api.getServerList(networkLoader, strippedIP, object : NetworkResultCallback<ServerList> {
-            override fun onSuccess(serverList: ServerList?) {
-                if (serverList != null) {
-                    serverManager.setServers(serverList.serverList)
-                    lastServerListUpdate = now()
-                }
-                continuation.resume(serverList != null)
-            }
-
-            override fun onFailure() {
-                continuation.resume(false)
-            }
-        })
+        val result = api.getServerList(loaderUI, strippedIP)
+        if (result is ApiResult.Success) {
+            serverManager.setServers(result.value.serverList)
+            lastServerListUpdate = now()
+            return true
+        }
+        return false
     }
 }

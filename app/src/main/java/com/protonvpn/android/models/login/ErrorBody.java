@@ -38,12 +38,4 @@ public class ErrorBody {
     public int getCode() {
         return code;
     }
-
-    public static ErrorBody buildError(String error) {
-        return new ErrorBody(1337, error);
-    }
-
-    public boolean isGenericError() {
-        return code == 1337;
-    }
 }

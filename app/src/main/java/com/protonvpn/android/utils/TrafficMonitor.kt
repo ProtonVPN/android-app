@@ -29,7 +29,6 @@ import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlin.coroutines.CoroutineContext
 import kotlin.math.roundToLong
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,12 +38,10 @@ import kotlinx.coroutines.launch
 
 class TrafficMonitor(
     val context: Context,
-    val coroutineContext: CoroutineContext,
+    val scope: CoroutineScope,
     val now: () -> Long
 ) {
     val trafficStatus = MutableLiveData<TrafficUpdate>()
-
-    private val scope = CoroutineScope(coroutineContext)
 
     private var sessionStart = 0L
     private var sessionDownloaded = 0L

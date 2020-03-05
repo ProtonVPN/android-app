@@ -19,7 +19,7 @@
 package com.protonvpn.results;
 
 import com.protonvpn.android.R;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.testsHelper.NetworkTestHelper;
 import com.protonvpn.testsHelper.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;

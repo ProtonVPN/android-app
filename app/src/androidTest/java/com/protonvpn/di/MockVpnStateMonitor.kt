@@ -22,12 +22,11 @@ import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 
 class MockVpnStateMonitor(
     userData: UserData,
@@ -35,11 +34,8 @@ class MockVpnStateMonitor(
     vpnBackendProvider: VpnBackendProvider,
     serverListUpdater: ServerListUpdater,
     trafficMonitor: TrafficMonitor,
-    coroutineContext: CoroutineContext
-) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor, coroutineContext) {
-
-    override suspend fun getSession(): SessionListResponse =
-            SessionListResponse(0, arrayListOf())
+    scope: CoroutineScope
+) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor, scope) {
 
     override fun prepare(context: Context): Intent? = null
 }

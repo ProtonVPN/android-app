@@ -19,7 +19,7 @@
 package com.protonvpn.tests.testRules;
 
 import com.protonvpn.android.models.config.UserData;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;

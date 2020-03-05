@@ -22,6 +22,8 @@ import android.os.Build;
 
 import com.protonvpn.android.BuildConfig;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -43,6 +45,7 @@ public class UserAgentInterceptor implements Interceptor {
             Locale.getDefault().getLanguage()));
     }
 
+    @NotNull
     @Override
     public Response intercept(Interceptor.Chain chain) throws IOException {
         Request userAgentRequest = chain.request().newBuilder().header("User-Agent", userAgent).build();

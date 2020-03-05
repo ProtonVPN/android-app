@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
+import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseFragmentV2
@@ -30,7 +31,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
-import com.protonvpn.android.models.login.ErrorBody
 import com.protonvpn.android.utils.Log
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
@@ -154,7 +154,7 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 override fun switchToLoading() {}
                 override fun setRetryListener(listener: NetworkFrameLayout.OnRequestRetryListener?) {}
                 override fun switchToEmpty() {}
-                override fun switchToRetry(body: ErrorBody?) {}
+                override fun switchToRetry(error: ApiResult.Error) {}
             }
         }
     }

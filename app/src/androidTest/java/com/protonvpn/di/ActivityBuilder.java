@@ -18,7 +18,7 @@
  */
 package com.protonvpn.di;
 
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

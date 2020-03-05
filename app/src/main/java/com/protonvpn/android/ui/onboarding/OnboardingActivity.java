@@ -28,7 +28,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ViewPagerAdapter;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.utils.AnimationTools;
 
 import androidx.viewpager.widget.ViewPager;
@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.relex.circleindicator.CircleIndicator;
 
-import static com.protonvpn.android.api.ProtonApiRetroFit.SIGNUP_URL;
+import static com.protonvpn.android.utils.Constants.SIGNUP_URL;
 
 @ContentLayout(R.layout.onboarding_intro)
 public class OnboardingActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
