@@ -18,11 +18,11 @@
  */
 package com.protonvpn.android.components;
 
-import com.protonvpn.android.models.login.ErrorBody;
+import com.protonvpn.android.api.ApiResult;
 
 public interface LoaderUI {
 
-    void switchToRetry(ErrorBody body);
+    void switchToRetry(ApiResult.Error error);
 
     void switchToEmpty();
 

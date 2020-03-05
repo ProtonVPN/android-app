@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import android.app.Activity;
 
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 
 import dagger.Binds;

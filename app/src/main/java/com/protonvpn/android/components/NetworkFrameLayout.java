@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
-import com.protonvpn.android.models.login.ErrorBody;
+import com.protonvpn.android.api.ApiResult;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.Log;
 
@@ -46,9 +46,9 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
     }
 
     @Override
-    public void switchToRetry(ErrorBody errorBody) {
+    public void switchToRetry(ApiResult.Error error) {
         state = State.ERROR;
-        switchToRetryView(errorBody);
+        switchToRetryView(error);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
         a.recycle();
     }
 
-    public void switchToLoadingView() {
+    private void switchToLoadingView() {
         if (loadingView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             loadingView = inflater.inflate(R.layout.fragment_app_loading, this, false);
@@ -115,7 +115,7 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
         }
     }
 
-    public void switchToRetryView(ErrorBody errorMsg) {
+    private void switchToRetryView(ApiResult.Error error) {
         if (retryView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             retryView = inflater.inflate(R.layout.fragment_retry_screen, this, false);
@@ -126,31 +126,33 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
             retryView.setVisibility(View.VISIBLE);
         }
 
-        initRetryView(errorMsg);
+        initRetryView(error);
 
         if (loadingView != null) {
             loadingView.setVisibility(View.GONE);
         }
     }
 
-    private void initRetryView(final ErrorBody errorBody) {
+    private void initRetryView(final ApiResult.Error error) {
         TextView textDescription = retryView.findViewById(R.id.textDescription);
         if (!BuildConfig.DEBUG) {
-            Log.exception(new Throwable("Something went wrong: " + errorBody.getError()));
+            Log.exception(new Throwable("Something went wrong: " + error.getDebugMessage()));
         }
-        textDescription.setText(errorBody.isGenericError() ?
-                getContext().getString(R.string.loaderErrorGeneric) : errorBody.getError());
+
         // TODO Remove this click listener upon release
         textDescription.setOnLongClickListener(v -> {
-            Toast.makeText(getContext(), errorBody.getError(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), error.getDebugMessage(), Toast.LENGTH_LONG).show();
             return true;
         });
         if (!ConnectionTools.isNetworkAvailable(getContext())) {
             textDescription.setText(R.string.loaderErrorNoInternet);
         }
+        else {
+            textDescription.setText(error.getMessage(getContext()));
+        }
     }
 
-    public void switchToEmptyView() {
+    private void switchToEmptyView() {
         if (loadingView != null) {
             loadingView.setVisibility(View.GONE);
         }
@@ -159,7 +161,7 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
         }
     }
 
-    public void setOnRequestRetryListener(OnRequestRetryListener listener) {
+    private void setOnRequestRetryListener(OnRequestRetryListener listener) {
         this.listener = listener;
     }
 

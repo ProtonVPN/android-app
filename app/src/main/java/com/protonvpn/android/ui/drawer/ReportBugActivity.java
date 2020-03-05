@@ -136,11 +136,10 @@ public class ReportBugActivity extends BaseActivity {
             }
         }
 
-        api.postBugReport(this, builder.build(), result -> {
-            if (result.isSuccess()) {
-                Toast.makeText(this, R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
-                finish();
-            }
+        getLoadingContainer().setRetryListener(() -> getLoadingContainer().switchToEmpty());
+        api.postBugReport(getLoadingContainer(), builder.build(), (result) -> {
+            Toast.makeText(getContext(), R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
+            finish();
         });
     }
 }

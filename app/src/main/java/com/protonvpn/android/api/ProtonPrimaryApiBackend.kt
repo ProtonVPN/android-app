@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2020 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,21 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components;
+package com.protonvpn.android.api
 
-import com.protonvpn.android.models.login.ErrorBody;
+import android.net.Uri
+import com.datatheorem.android.trustkit.TrustKit
+import okhttp3.OkHttpClient
 
-import java.io.IOException;
+class ProtonPrimaryApiBackend(baseUrl: String) : ProtonApiBackend(baseUrl) {
 
-public class AuthorizeException extends IOException {
-
-    private final ErrorBody errorBody;
-
-    public AuthorizeException(ErrorBody body) {
-        this.errorBody = body;
+    init {
+        initialize()
     }
 
-    public ErrorBody getErrorBody() {
-        return errorBody;
+    override fun setupOkBuilder(builder: OkHttpClient.Builder) {
+        val hostname = Uri.parse(baseUrl).host!!
+        builder.sslSocketFactory(
+            TrustKit.getInstance().getSSLSocketFactory(hostname),
+            TrustKit.getInstance().getTrustManager(hostname))
     }
 }

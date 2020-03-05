@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui
+package com.protonvpn.android.ui.login
 
 import android.content.res.ColorStateList
 import android.graphics.Rect
@@ -48,9 +48,8 @@ import com.afollestad.materialdialogs.Theme
 import com.evernote.android.state.State
 import com.google.android.material.textfield.TextInputLayout
 import com.protonvpn.android.R
-import com.protonvpn.android.api.NetworkResultCallback
+import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.api.ProtonApiRetroFit.SIGNUP_URL
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.CompressedTextWatcher
 import com.protonvpn.android.components.ContentLayout
@@ -62,6 +61,7 @@ import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
 import com.protonvpn.android.utils.ConstantTime
+import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.Storage
 import javax.inject.Inject
@@ -74,7 +74,7 @@ import srp.Auth
 import srp.Proofs
 
 @ContentLayout(R.layout.activity_login)
-class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, KeyboardVisibilityEventListener {
+class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
 
     @BindView(R.id.email) lateinit var editEmail: AppCompatEditText
     @BindView(R.id.password) lateinit var editPassword: AppCompatEditText
@@ -245,43 +245,65 @@ class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, Keyb
             hideSoftKeyBoard()
             userPrefs.user = email
             downloadStarted = true
-            api.postLoginInfo(this, userPrefs.user) { result ->
-                loadingContainer.switchToLoading()
-                lifecycleScope.launch { parseLoginInfoResponse(result) }
+
+            loadingContainer.setRetryListener {
+                login()
+            }
+            login()
+        }
+    }
+
+    private suspend fun getLoginBody(loginInfo: LoginInfoResponse): LoginBody? {
+        val proofs = getProofs(userPrefs.user, editPassword.text.toString(), loginInfo) ?: return null
+        return LoginBody(userPrefs.user, loginInfo.srpSession,
+                ConstantTime.encodeBase64(proofs.clientEphemeral, true),
+                ConstantTime.encodeBase64(proofs.clientProof, true), "")
+    }
+
+    private fun login() = lifecycleScope.launch {
+        loadingContainer.switchToLoading()
+        Storage.delete(LoginResponse::class.java)
+        when (val loginInfoResult = api.postLoginInfo(userPrefs.user)) {
+            is ApiResult.Error ->
+                loadingContainer.switchToRetry(loginInfoResult)
+            is ApiResult.Success -> {
+                val loginBody = getLoginBody(loginInfoResult.value)
+                if (loginBody == null) {
+                    loadingContainer.switchToEmpty()
+                    Toast.makeText(this@LoginActivity,
+                            R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+                } else {
+                    loginWithProofs(loginBody)
+                }
             }
         }
     }
 
-    private suspend fun parseLoginInfoResponse(result: LoginInfoResponse) {
-        val proofs = getProofs(userPrefs.user, editPassword.text.toString(), result)
-        if (proofs != null) {
-            val body = LoginBody(userPrefs.user, result.srpSession,
-                    ConstantTime.encodeBase64(proofs.clientEphemeral, true),
-                    ConstantTime.encodeBase64(proofs.clientProof, true), "")
-            postLogin(body)
-        } else {
-            networkFrameLayout.switchToEmpty()
-            Toast.makeText(this@LoginActivity,
-                    "Unable to login due to unsupported auth version. Please contact support",
-                    Toast.LENGTH_LONG).show()
-        }
-    }
+    private suspend fun loginWithProofs(loginBody: LoginBody) {
+        when (val loginResult = api.postLogin(loginBody)) {
+            is ApiResult.Error -> {
+                loadingContainer.switchToRetry(loginResult)
+                loadingContainer.setRetryListener {
+                    loadingContainer.switchToEmpty()
+                }
+            }
+            is ApiResult.Success -> {
+                Storage.save(loginResult.value)
+                val infoResult = api.getVPNInfo()
+                when (infoResult) {
+                    is ApiResult.Error ->
+                        loadingContainer.switchToRetry(infoResult)
+                    is ApiResult.Success -> {
+                        navigateTo(HomeActivity::class.java)
+                        finish()
+                    }
+                }
 
-    override fun onSuccess(result: LoginResponse) {
-        loadingContainer.switchToLoading()
-        Storage.save(result)
-        api.getVPNInfo(this@LoginActivity) {
-            loadingContainer.switchToLoading()
-            downloadStarted = false
-            userPrefs.setLoggedIn(it)
-            editPassword.setText("")
-            navigateTo(HomeActivity::class.java)
-            finish()
+                downloadStarted = false
+                userPrefs.setLoggedIn(infoResult.valueOrNull)
+                editPassword.setText("")
+            }
         }
-    }
-
-    private fun postLogin(loginBody: LoginBody) {
-        api.postLogin(this, loginBody, this)
     }
 
     override fun onBackPressed() {
@@ -297,8 +319,8 @@ class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, Keyb
         password: String,
         infoResponse: LoginInfoResponse
     ): Proofs? = withContext(Dispatchers.Default) {
-        val auth =
-                Auth(infoResponse.version, username, password, infoResponse.salt, infoResponse.modulus, infoResponse.serverEphemeral)
+        val auth = Auth(infoResponse.version, username, password, infoResponse.salt,
+                infoResponse.modulus, infoResponse.serverEphemeral)
         auth.generateProofs(2048)
     }
 }

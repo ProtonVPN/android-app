@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import com.protonvpn.android.components.BootReceiver;
 import com.protonvpn.android.components.QuickTileService;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.OssLicensesActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;

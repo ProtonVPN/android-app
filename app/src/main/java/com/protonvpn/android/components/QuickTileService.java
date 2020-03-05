@@ -27,7 +27,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.ui.LoginActivity;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 

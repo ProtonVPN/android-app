@@ -241,6 +241,9 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     splits {
         abi {
             enable project.hasProperty('abiSplit')

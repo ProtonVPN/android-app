@@ -18,9 +18,12 @@
  */
 package com.protonvpn.android.api;
 
+import org.jetbrains.annotations.NotNull;
+
+@Deprecated
 public interface NetworkResultCallback<T> {
 
-    void onSuccess(T result);
+    void onSuccess(@NotNull T result);
 
     default void onFailure() {}
 }

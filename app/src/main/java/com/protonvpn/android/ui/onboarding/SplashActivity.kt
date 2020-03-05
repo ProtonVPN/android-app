@@ -21,7 +21,7 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.protonvpn.android.ui.LoginActivity
+import com.protonvpn.android.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.components
 
-import com.protonvpn.android.BuildConfig;
+import com.protonvpn.android.models.login.ErrorBody
+import java.io.IOException
 
-public class Constants {
-
-    public static final long MAX_LOG_SIZE = 200 * 1024;
-    public static final int NOTIFICATION_ID = 6;
-    public static final String SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile";
-    public static final String PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/";
-}
+internal class ErrorBodyException(
+    val httpCode: Int,
+    val errorBody: ErrorBody
+) : IOException()

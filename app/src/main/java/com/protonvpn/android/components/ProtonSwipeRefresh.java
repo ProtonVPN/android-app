@@ -21,7 +21,7 @@ package com.protonvpn.android.components;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.protonvpn.android.models.login.ErrorBody;
+import com.protonvpn.android.api.ApiResult;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +38,7 @@ public class ProtonSwipeRefresh extends SwipeRefreshLayout implements LoaderUI {
     }
 
     @Override
-    public void switchToRetry(ErrorBody body) {
+    public void switchToRetry(ApiResult.Error error) {
         // TODO pop snackbar with error
         setRefreshing(false);
     }
