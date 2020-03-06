@@ -62,9 +62,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideProtonApiManager(): ProtonApiManager {
+    fun provideProtonApiManager(userData: UserData): ProtonApiManager {
+        val altApiManager = AlternativeApiManagerProd(userData, System::currentTimeMillis)
         val primaryApiBackend = ProtonPrimaryApiBackend(PRIMARY_VPN_API_URL)
-        return ProtonApiManager(primaryApiBackend, random)
+        return ProtonApiManager(ProtonApplication.getAppContext(), userData, altApiManager,
+                primaryApiBackend, random)
     }
 
     @Singleton
@@ -88,8 +90,8 @@ class AppModule {
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
         protonApiManager: ProtonApiManager
-    ) = VpnStateMonitor(userData, api, backendManager, serverListUpdater,
-            trafficMonitor, scope)
+    ) = VpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor,
+            protonApiManager, scope)
 
     @Singleton
     @Provides
