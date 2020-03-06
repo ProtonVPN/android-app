@@ -289,6 +289,24 @@
     <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
     <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
+    <string name="buttonTroubleshoot"><![CDATA[<u>Troubleshoot</u>]]></string>
+    <string name="activityTroubleshootTitle">Troubleshooting</string>
+    <string name="troubleshootNoInternetDescription">Please make sure your internet connection is working.</string>
+    <string name="troubleshootNoInternetTitle">No internet connection</string>
+    <string name="troubleshootIspProblemTitle">Internet Service Provider (ISP) problem</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Antivirus interference</string>
+    <string name="troubleshootAntivirusProblemDescription">Temporarily disable or remove your antivirus software.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interference</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Disable any proxies or firewalls, or contact your network administrator.</string>
+    <string name="troubleshootProtonDownTitle">Proton is down</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
+    <string name="troubleshootOtherProblemTitle">Still can’t find a solution</string>
+    <string name="troubleshootOtherProblemDescription"><![CDATA[Contact us directly through our <a href=\"%1$s\">support form</a>, email (<a href=\"%2$s\">support@protonvpn.com</a>), or <a href=\"%3$s\">Twitter</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingTitle">Allow alternative routing</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton sites are blocked, this setting allows the app to try alternative network routing to reach Proton, which can be useful for bypassing firewalls or network issues. We recommend keeping this setting on for greater reliability. <a href=\"%1$s\">Learn more</a>]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Government block</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
 
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Set up ProtonVPN to reconnect automatically or to disable external connections if your VPN connection is disrupted.</string>

@@ -48,6 +48,8 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
@@ -66,6 +68,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: ProtonSwitch
     @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: ProtonSwitch
     @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: ProtonSwitch
+    @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: ProtonSwitch
     @BindView(R.id.splitTunnelLayout) lateinit var splitTunnelLayout: View
     @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
     @BindView(R.id.splitTunnelIPs) lateinit var splitTunnelIPs: SplitTunnelButton
@@ -104,6 +107,13 @@ class SettingsActivity : BaseActivity() {
                     EventBus.getInstance().post(StatusSettingChanged(isChecked))
                 }
 
+        switchDnsOverHttps.setDescription(HtmlTools.fromHtml(getString(
+                R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))
+        switchDnsOverHttps.switchProton.isChecked = userPrefs.apiUseDoH
+        switchDnsOverHttps.switchProton.setOnCheckedChangeListener { _, isChecked ->
+            userPrefs.apiUseDoH = isChecked
+        }
+
         initTransmissionProtocol()
         spinnerDefaultConnection.setItems(serverManager.savedProfiles)
         spinnerDefaultConnection.selectedItem = serverManager.defaultConnection
@@ -118,8 +128,8 @@ class SettingsActivity : BaseActivity() {
                 // Creating snackbar without showing it might lead to leaking activity.
                 // Fixed in 1.1.0-alpha of material library.
                 if (snackBar == null) {
-                    snackBar =
-                            Snackbar.make(findViewById(R.id.coordinator), R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG)
+                    snackBar = Snackbar.make(findViewById(R.id.coordinator),
+                            R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG)
                 }
                 if (snackBar?.isShownOrQueued == false) {
                     snackBar?.show()

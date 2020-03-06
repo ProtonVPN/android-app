@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2020 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dimmedGrey"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.protonvpn.android.ui.login.TroubleshootActivity"
+        tools:showIn="@layout/activity_troubleshoot">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:id="@+id/switchDnsOverHttps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textDescription="@string/settingsAllowAlternativeRoutingDescription"
+                app:textTitle="@string/settingsAllowAlternativeRoutingTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootNoInternetDescription"
+                app:textTitle="@string/troubleshootNoInternetTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:id="@+id/switchIspProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootIspProblemDescription"
+                app:textTitle="@string/troubleshootIspProblemTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:id="@+id/switchGovBlock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootGovernmentBlockDescription"
+                app:textTitle="@string/troubleshootGovernmentBlockTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootAntivirusProblemDescription"
+                app:textTitle="@string/troubleshootAntivirusProblemTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootProxyFirewallProblemDescription"
+                app:textTitle="@string/troubleshootProxyFirewallProblemTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:id="@+id/switchProtonDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootProtonDownDescription"
+                app:textTitle="@string/troubleshootProtonDownTitle" />
+
+            <com.protonvpn.android.components.ProtonSwitch
+                android:id="@+id/switchOtherProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isInfo="true"
+                app:textDescription="@string/troubleshootOtherProblemDescription"
+                app:textTitle="@string/troubleshootOtherProblemTitle" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

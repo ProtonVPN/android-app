@@ -122,6 +122,13 @@
             app:textDescription="@string/settingsDnsLeakDescription"
             app:textTitle="@string/settingsDnsLeakTitle" />
 
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/switchDnsOverHttps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textDescription="@string/settingsAllowAlternativeRoutingDescription"
+            app:textTitle="@string/settingsAllowAlternativeRoutingTitle" />
+
         <include
             android:id="@+id/protocolSelection"
             layout="@layout/item_protocol_selection"

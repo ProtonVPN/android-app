@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2020 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -14,23 +14,20 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ * along with ProtonVPN. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.di;
 
-import android.text.Html;
-import android.text.Spanned;
+import android.app.Activity;
 
-public class HtmlTools {
+import com.protonvpn.android.ui.login.TroubleshootActivity;
 
-    public static Spanned fromHtml(String html) {
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        }
-        else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
+import dagger.Binds;
+import dagger.Module;
+
+@Module
+public abstract class TroubleshootActivityModule {
+
+    @Binds
+    abstract Activity provideActivity(TroubleshootActivity activity);
 }
