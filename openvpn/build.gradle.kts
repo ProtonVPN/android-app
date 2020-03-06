@@ -34,7 +34,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11")
 
     testImplementation ("junit:junit:4.12")
-    testImplementation ("org.mockito:mockito-core:2.16.0")
     testImplementation ("org.robolectric:robolectric:4.1")
 }
 

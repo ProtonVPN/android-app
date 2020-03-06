@@ -24,12 +24,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.protonvpn.android.utils.LiveEvent
+import io.mockk.mockkClass
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
 
 @RunWith(AndroidJUnit4::class)
 class LiveEventTests {
@@ -37,7 +37,7 @@ class LiveEventTests {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val lifecycleRegistry = LifecycleRegistry(mock(LifecycleOwner::class.java))
+    private val lifecycleRegistry = LifecycleRegistry(mockkClass(LifecycleOwner::class))
     private val lifecycleOwner = LifecycleOwner { lifecycleRegistry }
     private lateinit var event: LiveEvent
     private var notified = false
