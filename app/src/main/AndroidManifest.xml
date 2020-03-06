@@ -136,6 +136,10 @@
             android:label="@string/activityLicensesTitle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.login.TroubleshootActivity"
+            android:label="@string/activityTroubleshootTitle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.drawer.SettingsActivity"
             android:label="@string/activitySettingsTitle"
             android:theme="@style/AppTheme.NoActionBar" />

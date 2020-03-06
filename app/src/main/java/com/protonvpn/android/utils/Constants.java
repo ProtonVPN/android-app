@@ -26,4 +26,5 @@ public class Constants {
     public static final int NOTIFICATION_ID = 6;
     public static final String SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile";
     public static final String PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/";
+    public static final String ALTERNATIVE_ROUTING_LEARN_URL = "https://protonmail.com/blog/anti-censorship-alternative-routing";
 }

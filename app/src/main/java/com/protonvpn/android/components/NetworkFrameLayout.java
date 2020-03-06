@@ -19,7 +19,9 @@
 package com.protonvpn.android.components;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.ApiResult;
+import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.Log;
 
@@ -135,6 +138,16 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
 
     private void initRetryView(final ApiResult.Error error) {
         TextView textDescription = retryView.findViewById(R.id.textDescription);
+        TextView troubleshootButton = retryView.findViewById(R.id.buttonTroubleshoot);
+
+        boolean showTroubleshoot = error.isPotentialBlocking(getContext());
+        troubleshootButton.setVisibility(showTroubleshoot ? VISIBLE : GONE);
+        if (showTroubleshoot) {
+            troubleshootButton.setText(Html.fromHtml(getContext().getString(R.string.buttonTroubleshoot)));
+            troubleshootButton.setOnClickListener(
+                (view) -> getContext().startActivity(new Intent(getContext(), TroubleshootActivity.class)));
+        }
+
         if (!BuildConfig.DEBUG) {
             Log.exception(new Throwable("Something went wrong: " + error.getDebugMessage()));
         }

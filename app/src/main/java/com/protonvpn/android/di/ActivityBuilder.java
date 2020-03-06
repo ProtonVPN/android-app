@@ -27,6 +27,7 @@ import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.ui.home.profiles.ProfileActivity;
+import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.vpn.LogActivity;
 import com.protonvpn.android.vpn.OpenVPNWrapperService;
@@ -68,6 +69,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {OssLicensesModule.class})
     abstract OssLicensesActivity bindOssLicensesActivity();
+
+    @ContributesAndroidInjector(modules = {TroubleshootActivityModule.class})
+    abstract TroubleshootActivity bindTroubleshootActivity();
 
     @ContributesAndroidInjector(modules = {CharonModule.class})
     abstract CharonVpnService bindCharon();

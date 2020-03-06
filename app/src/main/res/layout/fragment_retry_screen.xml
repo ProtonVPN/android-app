@@ -68,6 +68,16 @@
                 android:text="@string/try_again"
                 android:textColor="@color/colorAccent" />
 
+            <Button
+                android:id="@+id/buttonTroubleshoot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorAccent"
+                android:text="@string/buttonTroubleshoot"
+                android:textAllCaps="false"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -20,6 +20,7 @@ package com.protonvpn.android.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -61,6 +62,14 @@ public class ProtonSwitch extends FrameLayout {
         initAttrs(attrs);
     }
 
+    public void setTitle(CharSequence text) {
+        textTitle.setText(text);
+    }
+
+    public void setDescription(CharSequence text) {
+        textDescription.setText(text);
+    }
+
     private void initAttrs(AttributeSet attrs) {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ProtonSwitch, 0, 0);
 
@@ -68,6 +77,7 @@ public class ProtonSwitch extends FrameLayout {
             String title = a.getString(R.styleable.ProtonSwitch_textTitle);
             String description = a.getString(R.styleable.ProtonSwitch_textDescription);
             boolean isButton = a.getBoolean(R.styleable.ProtonSwitch_isButton, false);
+            boolean isInfo = a.getBoolean(R.styleable.ProtonSwitch_isInfo, false);
             textTitle.setText(title);
             if (description == null || description.isEmpty()) {
                 textDescription.setVisibility(GONE);
@@ -75,10 +85,11 @@ public class ProtonSwitch extends FrameLayout {
             else {
                 textDescription.setText(description);
             }
+            textDescription.setMovementMethod(LinkMovementMethod.getInstance());
             switchProton.setChecked(a.getBoolean(R.styleable.ProtonSwitch_switchValue, false));
             switchProton.setEnabled(a.getBoolean(R.styleable.ProtonSwitch_switchEditable, true));
-            switchProton.setVisibility(isButton ? GONE : VISIBLE);
-            imageChevron.setVisibility(isButton ? VISIBLE : GONE);
+            switchProton.setVisibility((isButton || isInfo) ? GONE : VISIBLE);
+            imageChevron.setVisibility((isButton && !isInfo) ? VISIBLE : GONE);
             divider.setVisibility(
                 a.getBoolean(R.styleable.ProtonSwitch_dividerHidden, false) ? View.INVISIBLE : View.VISIBLE);
         }

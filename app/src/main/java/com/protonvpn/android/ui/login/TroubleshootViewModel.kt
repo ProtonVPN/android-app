@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2020 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,21 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.ui.login
 
-import android.text.Html;
-import android.text.Spanned;
+import androidx.lifecycle.ViewModel
+import com.protonvpn.android.models.config.UserData
+import javax.inject.Inject
 
-public class HtmlTools {
+class TroubleshootViewModel @Inject constructor(val userData: UserData) : ViewModel() {
 
-    public static Spanned fromHtml(String html) {
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+    var dnsOverHttpsEnabled: Boolean
+        get() = userData.apiUseDoH
+        set(value) {
+            userData.apiUseDoH = value
         }
-        else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
 }

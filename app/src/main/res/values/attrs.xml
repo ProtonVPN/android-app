@@ -38,6 +38,7 @@
         <attr name="dividerHidden" format="boolean" />
         <attr name="switchValue" format="boolean" />
         <attr name="isButton" format="boolean" />
+        <attr name="isInfo" format="boolean" />
         <attr name="switchEditable" format="boolean" />
     </declare-styleable>
     <declare-styleable name="NetworkFrameLayout">

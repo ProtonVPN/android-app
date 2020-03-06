@@ -76,6 +76,7 @@ public final class UserData implements Serializable {
         selectedProtocol = VpnProtocol.IKEv2;
         transmissionProtocol = TransmissionProtocol.TCP;
         useIon = false;
+        apiUseDoH = true;
     }
 
     public String getUser() {
