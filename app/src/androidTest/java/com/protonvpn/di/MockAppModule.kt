@@ -20,7 +20,9 @@ package com.protonvpn.di
 
 import android.os.SystemClock
 import com.google.gson.Gson
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.api.AlternativeApiManager
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
@@ -61,9 +63,17 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideProtonApiManager(userData: UserData): ProtonApiManager {
+        val altApiManager = object : AlternativeApiManager(
+            BuildConfig.API_DOMAIN,
+            userData,
+            System::currentTimeMillis
+        ) {
+            override fun createAltBackend(baseUrl: String) = throw NotImplementedError()
+            override fun getDnsOverHttpsProviders() = emptyArray<DnsOverHttpsProvider>()
+        }
         val primaryApiBackend = ProtonPrimaryApiBackend(Constants.PRIMARY_VPN_API_URL)
         return ProtonApiManager(ProtonApplication.getAppContext(),
-                userData, primaryApiBackend, random)
+                userData, altApiManager, primaryApiBackend, random)
     }
 
     @Singleton
@@ -88,7 +98,7 @@ class MockAppModule {
         trafficMonitor: TrafficMonitor,
         apiManager: ProtonApiManager
     ): VpnStateMonitor = MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
-                trafficMonitor, scope)
+                trafficMonitor, apiManager, scope)
 
     @Singleton
     @Provides

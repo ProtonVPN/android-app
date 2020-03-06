@@ -27,6 +27,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
+import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -67,6 +68,7 @@ open class VpnStateMonitor(
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
+    apiManager: ProtonApiManager,
     private val scope: CoroutineScope
 ) {
 
@@ -154,6 +156,7 @@ open class VpnStateMonitor(
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
+        apiManager.initVpnState(this)
         ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
                 DISCONNECT_ACTION -> disconnect()

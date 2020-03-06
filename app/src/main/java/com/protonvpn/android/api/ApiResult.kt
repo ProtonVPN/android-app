@@ -62,6 +62,9 @@ sealed class ApiResult<out T> {
 
     val valueOrNull get() = (this as? Success)?.value
 
+    fun isPotentialBlocking(context: Context) =
+        this is Failure && ConnectionTools.isNetworkAvailable(context)
+
     companion object {
         suspend fun <T> tryWrap(block: suspend () -> Response<T>): ApiResult<T> = try {
             val response = block()

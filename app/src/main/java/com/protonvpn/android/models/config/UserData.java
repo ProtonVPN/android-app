@@ -59,6 +59,10 @@ public final class UserData implements Serializable {
     private VpnProtocol selectedProtocol;
     private boolean secureCoreEnabled;
     private TransmissionProtocol transmissionProtocol;
+    private boolean apiUseDoH;
+    private long lastPrimaryApiFail;
+    private String activeAlternativeBaseUrl;
+    private List<String> alternativeApiBaseUrls;
 
     private transient LiveEvent updateEvent = new LiveEvent();
 
@@ -104,7 +108,7 @@ public final class UserData implements Serializable {
     public int getUserTier() {
         return getVpnInfoResponse().getUserTier();
     }
-    
+
     public boolean isTrialUser() {
         return getVpnInfoResponse().getUserTierName() == "trial";
     }
@@ -318,5 +322,43 @@ public final class UserData implements Serializable {
             this.secureCoreEnabled = secureCoreEnabled;
             saveToStorage();
         }
+    }
+
+    public void setApiUseDoH(boolean value) {
+        apiUseDoH = value;
+        saveToStorage();
+    }
+
+    public boolean getApiUseDoH() {
+        return apiUseDoH;
+    }
+
+    @Nullable
+    public List<String> getAlternativeApiBaseUrls() {
+        return alternativeApiBaseUrls;
+    }
+
+    public void setAlternativeApiBaseUrls(@Nullable List<String> baseUrls) {
+        alternativeApiBaseUrls = baseUrls;
+        saveToStorage();
+    }
+
+    public long getLastPrimaryApiFail() {
+        return lastPrimaryApiFail;
+    }
+
+    public void setLastPrimaryApiFail(long timestamp) {
+        lastPrimaryApiFail = timestamp;
+        saveToStorage();
+    }
+
+    @Nullable
+    public String getActiveAlternativeApiBaseUrl() {
+        return activeAlternativeBaseUrl;
+    }
+
+    public void setActiveAlternativeApiBaseUrl(@Nullable String baseUrl) {
+        activeAlternativeBaseUrl = baseUrl;
+        saveToStorage();
     }
 }

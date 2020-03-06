@@ -18,26 +18,69 @@
  */
 package com.protonvpn.android.api
 
+import android.content.Context
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeoutOrNull
 import retrofit2.Response
-import java.util.*
+import java.util.Random
+import java.util.concurrent.TimeoutException
 import kotlin.math.pow
 
 class ProtonApiManager(
+    private val appContext: Context,
+    private val userData: UserData,
+    private val altApiManager: AlternativeApiManager,
     private val primaryBackend: ProtonApiBackend,
     private val random: Random
 ) {
 
     val primaryOkClient get() = primaryBackend.okClient
 
+    private var vpnStateMonitor: VpnStateMonitor? = null
+
+    //TODO: fix dependency cycle more elegantly e.g. extract VpnState from VpnStateMonitor
+    fun initVpnState(monitor: VpnStateMonitor) {
+        vpnStateMonitor = monitor
+    }
+
     suspend fun <T> call(
         useBackoff: Boolean = false,
         callFun: suspend (ProtonVPNRetrofit) -> Response<T>
     ): ApiResult<T> {
-        return if (useBackoff)
-            callWithBackoff(primaryBackend, callFun)
-        else
-            primaryBackend.call(callFun)
+        return when {
+            userData.apiUseDoH && !isConnectedToVpn() -> {
+                callWithTimeout(DOH_TIMEOUT) {
+                    callWithDoH(callFun)
+                }
+            }
+            useBackoff ->
+                callWithBackoff(primaryBackend, callFun)
+            else ->
+                primaryBackend.call(callFun)
+        }
+    }
+
+    private fun isConnectedToVpn() = vpnStateMonitor?.isConnected == true
+
+    private suspend fun <T> callWithDoH(callFun: suspend (ProtonVPNRetrofit) -> Response<T>): ApiResult<T> {
+        val activeBackend = altApiManager.getActiveBackend() ?: primaryBackend
+        val result = activeBackend.call(callFun)
+        if (result.isPotentialBlocking(appContext)) {
+            if (activeBackend == primaryBackend)
+                altApiManager.setPrimaryFailedTimestamp()
+            else
+                altApiManager.clearActiveBackend()
+
+            withTimeoutOrNull(DOH_DOMAIN_REFRESH_TIMEOUT) {
+                altApiManager.refreshDomains()
+            }
+
+            return altApiManager.callWithAlternatives(appContext, callFun) ?: result
+        }
+        return result
     }
 
     private suspend fun <T> callWithBackoff(
@@ -61,8 +104,13 @@ class ProtonApiManager(
     private fun sample(min: Double, max: Double) =
             min + random.nextDouble() * (max - min)
 
+    private suspend fun <T> callWithTimeout(timeoutMs: Long, block: suspend CoroutineScope.() -> ApiResult<T>) =
+            withTimeoutOrNull(timeoutMs, block) ?: ApiResult.Failure(TimeoutException("API call timed out"))
+
     companion object {
+        const val DOH_TIMEOUT = 60_000L
         const val BACKOFF_RETRY_COUNT = 2
         const val BACKOFF_RETRY_DELAY_MS = 500
+        private const val DOH_DOMAIN_REFRESH_TIMEOUT = 30_000L
     }
 }
