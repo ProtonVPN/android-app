@@ -67,9 +67,7 @@ class StrongSwanBackend : VpnBackend("StrongSwan"), VpnStateService.VpnStateList
             stateObservable.value = VpnStateMonitor.State.DISCONNECTING
         }
         vpnService?.disconnect()
-        while (state != VpnStateMonitor.State.DISABLED) {
-            delay(200)
-        }
+        waitForDisconnect()
     }
 
     override suspend fun reconnect() {
@@ -150,9 +148,7 @@ class OpenVpnBackend : VpnBackend("OpenVpn"), VpnStatus.StateListener {
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
         startOpenVPN(OpenVPNWrapperService.PAUSE_VPN)
-        do {
-            delay(200)
-        } while (state != VpnStateMonitor.State.DISABLED)
+        waitForDisconnect()
     }
 
     override suspend fun reconnect() {

@@ -21,6 +21,8 @@ package com.protonvpn.android.vpn
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeoutOrNull
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -38,6 +40,16 @@ abstract class VpnBackend(val name: String) {
         stateObservable.value = newState
     }
 
+    protected suspend fun waitForDisconnect() {
+        withTimeoutOrNull(DISCONNECT_WAIT_TIMEOUT) {
+            do {
+                delay(200)
+            } while (state != VpnStateMonitor.State.DISABLED)
+        }
+        if (state == VpnStateMonitor.State.DISCONNECTING)
+            stateObservable.value = VpnStateMonitor.State.DISABLED
+    }
+
     var active = false
     val stateObservable = MutableLiveData<VpnStateMonitor.State>().apply {
         value = VpnStateMonitor.State.DISABLED
@@ -45,4 +57,8 @@ abstract class VpnBackend(val name: String) {
 
     val state get() = stateObservable.value!!
     var error: ConnectionError = ConnectionError(VpnStateMonitor.ErrorState.NO_ERROR)
+
+    companion object {
+        private const val DISCONNECT_WAIT_TIMEOUT = 3000L
+    }
 }
