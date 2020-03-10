@@ -16,19 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components;
+package com.protonvpn.android.components
 
-import android.view.View;
+import android.view.View
+import androidx.annotation.CallSuper
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.ButterKnife
+import java.lang.IllegalStateException
 
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.ButterKnife;
+abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
-public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
+    private var itemInternal: T? = null
+    protected val item: T get() =
+            itemInternal ?: throw IllegalStateException("Accessing data when not bound")
 
-    public BaseViewHolder(View view) {
-        super(view);
-        ButterKnife.bind(this, view);
+    init {
+        ButterKnife.bind(this, view)
     }
 
-    public abstract void bindData(T object);
+    @CallSuper
+    open fun bindData(newItem: T) {
+        itemInternal = newItem
+    }
+
+    @CallSuper
+    open fun unbind() {
+        itemInternal = null
+    }
 }
