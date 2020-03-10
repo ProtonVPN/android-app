@@ -20,11 +20,13 @@ package com.protonvpn.android.bus;
 
 import com.protonvpn.android.models.profiles.Profile;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ConnectToProfile {
 
     private final Profile profile;
 
-    public ConnectToProfile(Profile profile) {
+    public ConnectToProfile(@NotNull Profile profile) {
         this.profile = profile;
     }
 

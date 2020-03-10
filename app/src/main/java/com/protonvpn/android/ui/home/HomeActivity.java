@@ -84,6 +84,8 @@ import com.protonvpn.android.vpn.VpnStateFragment;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -324,7 +326,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Subscribe
-    public void onConnectToProfile(ConnectToProfile profile) {
+    public void onConnectToProfile(@NotNull ConnectToProfile profile) {
         onConnect(profile.getProfile());
     }
 
@@ -528,7 +530,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Override
-    public void onConnect(Profile profile) {
+    public void onConnect(@NotNull Profile profile) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
         if ((secureCoreServer && !secureCoreOn) || (!secureCoreServer && secureCoreOn)) {

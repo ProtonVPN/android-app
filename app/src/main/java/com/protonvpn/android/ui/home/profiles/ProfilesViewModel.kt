@@ -44,6 +44,6 @@ class ProfilesViewModel @Inject constructor(
     fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 
     @StringRes
-    fun getConnectTextRes(server: Server): Int = if (userData.hasAccessToServer(server))
+    fun getConnectTextRes(server: Server?): Int = if (userData.hasAccessToServer(server))
         R.string.connect else R.string.upgrade
 }
