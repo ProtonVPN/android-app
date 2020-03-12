@@ -288,4 +288,26 @@
     <string name="welcomeDialogTitleTrial">As a welcome gift you have access to a full ProtonVPN subscription including advanced features for the first days!</string>
     <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
 
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Set up ProtonVPN to reconnect automatically or to disable external connections if your VPN connection is disrupted.</string>
+    <string name="settingsAlwaysOnWindowDescription">"Always-On VPN automatically reconnects you to your VPN server if your connection is interrupted.
+
+Kill Switch prevents your device from making external connections if you are disconnected from the VPN, keeping your Internet traffic secure.
+
+The Android operating system controls these features, and you must go out of the app to activate them.
+
+Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[Open your device’s <b>Settings</b> by tapping the button below]]></string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsAlwaysOnWindowStep2">Find ProtonVPN and tap %1$s</string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
+    <string name="settingsAlwaysOnWindowStep4Intro">Perform also this step to activate Kill Switch</string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tap the switch next to <b>Block connect without VPN</b> to enable Kill Switch]]></string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Open Android settings</string>
+    <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Be aware that Kill Switch is not compatible with Split Tunneling. If you activate Kill Switch, Split Tunneling will be automatically disabled.</string>
+    <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Some options missing? <a href=\"%1$s\">Tap here to learn more</a>.]]></string>
+    <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them.
+
+You can update your operating system to the most recent version of Android and try again."</string>
+
 </resources>
