@@ -93,7 +93,7 @@ class SettingsActivity : BaseActivity() {
         splitTunnelApps.initTextUpdater(this, userPrefs)
         splitTunnelIPs.initTextUpdater(this, userPrefs)
         splitTunnelIPs.buttonManage.contentDescription = getString(R.string.settingsExcludeIPAddresses)
-        buttonAlwaysOn.setOnClickListener { startActivity(Intent("android.net.vpn.SETTINGS")); }
+        buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
         switchAutoStart.switchProton.isChecked = userPrefs.connectOnBoot
         switchAutoStart.switchProton
                 .setOnCheckedChangeListener { _, isChecked ->

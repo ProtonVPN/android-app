@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2019 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dimmedGrey"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.protonvpn.android.ui.drawer.AlwaysOnSettingsActivity"
+        tools:showIn="@layout/activity_always_on">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/settingsAlwaysOnWindowDescription"/>
+
+            <include
+                android:id="@+id/step1"
+                layout="@layout/always_on_step"/>
+
+            <include
+                android:id="@+id/step2"
+                layout="@layout/always_on_step"/>
+
+            <include
+                android:id="@+id/step3"
+                layout="@layout/always_on_step"/>
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:text="@string/settingsAlwaysOnWindowStep4Intro"/>
+
+            <include
+                android:id="@+id/step4"
+                layout="@layout/always_on_step"/>
+
+            <Button
+                android:id="@+id/buttonOpenVpnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/button_rounded_green"
+                android:text="@string/settingsAlwaysOnWindowAndroidSettingsButton"
+                android:textColor="@color/colorAccent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/lightGrey"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textColor="@color/lightGrey"
+                android:text="@string/settingsAlwaysOnWindowSplitTunnelingWarning"/>
+
+            <TextView
+                android:id="@+id/learnMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:textStyle="italic"
+                android:textColor="@color/lightGrey"
+                android:text="@string/settingsAlwaysOnWindowLearnMore"/>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

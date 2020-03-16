@@ -87,14 +87,6 @@
             app:textTitle="@string/settingsAutoStartTitle" />
 
         <com.protonvpn.android.components.ProtonSwitch
-            android:id="@+id/buttonAlwaysOn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:isButton="true"
-            app:textDescription="@string/settingsAlwaysOnDescription"
-            app:textTitle="@string/settingsAlwaysOnTitle" />
-
-        <com.protonvpn.android.components.ProtonSwitch
             android:id="@+id/switchShowIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,6 +104,14 @@
             android:textAllCaps="true"
             android:textColor="@color/accountTitles"
             android:textSize="16sp" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/buttonAlwaysOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isButton="true"
+            app:textDescription="@string/settingsAlwaysOnKillSwitchDescription"
+            app:textTitle="@string/settingsAlwaysOnAndKillSwitchTitle" />
 
         <com.protonvpn.android.components.ProtonSwitch
             android:id="@+id/switchDnsLeak"

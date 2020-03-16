@@ -144,6 +144,11 @@
             android:label="@string/activitySettingsTitle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.drawer.AlwaysOnSettingsActivity"
+            android:label="@string/settingsAlwaysOnAndKillSwitchTitle"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".ui.drawer.ReportBugActivity"
             android:label="@string/drawerReportBug"
             android:theme="@style/AppTheme.NoActionBar" />
