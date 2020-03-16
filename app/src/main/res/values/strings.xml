@@ -283,7 +283,7 @@
     <string name="openUrlError">%1$s could not be opened. Web browser was not detected on your device.</string>
     <string name="welcomeDialogTitle">Thanks for joining ever growing ProtonVPN community.</string>
     <string name="welcomeDialogDescription">Use your newly created account credentials to login.</string>
-    <string name="welcomeDialogTitleTrial">As a welcome gift you have access to a full ProtonVPN subscription including advanced features for the first days!</string>
+    <string name="welcomeDialogTitleTrial">To thank you for choosing ProtonVPN, we have given you a free 7 day trial of ProtonVPN Plus. ProtonVPN Plus gives you access to advanced features like streaming and P2P file sharing.</string>
     <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
     <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
