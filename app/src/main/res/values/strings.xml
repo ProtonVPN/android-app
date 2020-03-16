@@ -110,8 +110,6 @@
     <string name="settingsShowIconTitle">Status icon</string>
     <string name="settingsShowIconDescription">Show an icon in the status tray to indicate VPN status</string>
     <string name="settingsAutoStartDescription">ProtonVPN will start automatically with each system start</string>
-    <string name="settingsAlwaysOnDescription">Setup ProtonVPN to connect automatically</string>
-    <string name="settingsAlwaysOnTitle">Always On</string>
     <string name="settingsBypassLocalTitle">Allow LAN connections</string>
     <string name="settingsBypassLocalDetails">This will allow you to bypass the VPN and connect to devices on your local network, like your printer. These connections are not encrypted</string>
     <string name="settingsDnsLeakTitle">DNS Leak</string>

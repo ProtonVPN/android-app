@@ -99,8 +99,6 @@
     <string name="settingsShowIconTitle">Icona di stato</string>
     <string name="settingsShowIconDescription">Mostra un\'icona nella barra di stato per indicare lo stato VPN</string>
     <string name="settingsAutoStartDescription">ProtonVPN si attiverà automaticamente ad ogni avvio del sistema</string>
-    <string name="settingsAlwaysOnDescription">Imposta ProtonVPN per connetterti automaticamente</string>
-    <string name="settingsAlwaysOnTitle">Sempre attiva</string>
     <string name="settingsBypassLocalTitle">Consenti connessioni LAN</string>
     <string name="settingsBypassLocalDetails">Questo ti permetterà di bypassare la VPN e connetterti ai dispositivi sulla tua rete locale, come la tua stampante. Queste connessioni non sono crittografate</string>
     <string name="settingsDnsLeakTitle">Perdita DNS</string>
