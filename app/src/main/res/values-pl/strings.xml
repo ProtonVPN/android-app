@@ -99,8 +99,6 @@
     <string name="settingsShowIconTitle">Ikona statusu</string>
     <string name="settingsShowIconDescription">Pokaż ikonę na pasku stanu, aby wskazać status usługi VPN</string>
     <string name="settingsAutoStartDescription">Aplikacja ProtonVPN uruchomi się automatycznie przy każdym uruchomieniu systemu</string>
-    <string name="settingsAlwaysOnDescription">Skonfiguruj ProtonVPN, aby łączyć się automatycznie</string>
-    <string name="settingsAlwaysOnTitle">Stale aktywny</string>
     <string name="settingsBypassLocalTitle">Zezwalaj na połączenia LAN</string>
     <string name="settingsBypassLocalDetails">Pozwoli to ominąć ruch VPN i połączyć się z urządzeniami w sieci lokalnej, takimi jak drukarka. Te połączenia nie są szyfrowane</string>
     <string name="settingsDnsLeakTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
