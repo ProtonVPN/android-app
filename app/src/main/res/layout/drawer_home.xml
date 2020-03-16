@@ -117,7 +117,7 @@
                 android:id="@+id/drawerButtonSettings"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerSettings"
-                app:drawableStart="@drawable/ic_drawer_gear" />
+                app:drawableStart="@drawable/ic_gear" />
 
             <View style="@style/Divider.Small" />
 
