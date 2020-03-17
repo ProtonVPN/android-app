@@ -85,7 +85,9 @@ public class ProtonSwitch extends FrameLayout {
             else {
                 textDescription.setText(description);
             }
-            textDescription.setMovementMethod(LinkMovementMethod.getInstance());
+            if (isInfo) {
+                textDescription.setMovementMethod(LinkMovementMethod.getInstance());
+            }
             switchProton.setChecked(a.getBoolean(R.styleable.ProtonSwitch_switchValue, false));
             switchProton.setEnabled(a.getBoolean(R.styleable.ProtonSwitch_switchEditable, true));
             switchProton.setVisibility((isButton || isInfo) ? GONE : VISIBLE);
