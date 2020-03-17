@@ -47,8 +47,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.evernote.android.state.State
 import com.google.android.material.textfield.TextInputLayout
-import com.proton.pmcrypto.srp.Auth
-import com.proton.pmcrypto.srp.Proofs
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -72,6 +70,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import srp.Auth
+import srp.Proofs
 
 @ContentLayout(R.layout.activity_login)
 class LoginActivity : BaseActivity(), NetworkResultCallback<LoginResponse>, KeyboardVisibilityEventListener {

@@ -354,7 +354,7 @@ dependencies {
     detektPlugins 'pm.algirdas.detekt:codeanalysis:0.2.1'
     detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.5.0'
 
-    implementation project(':pmcrypto')
+    implementation 'com.proton:srp:1.0.0@aar'
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
