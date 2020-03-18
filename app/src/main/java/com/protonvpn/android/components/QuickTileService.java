@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.login.LoginActivity;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 
@@ -80,6 +81,7 @@ public class QuickTileService extends TileService {
             if (userData.isLoggedIn()) {
                 Profile profile = manager.getDefaultConnection();
                 if (profile != null) {
+                    ProtonLogger.INSTANCE.log("Connecting via quick tile");
                     stateMonitor.connect(this, profile);
                 }
             }
@@ -90,6 +92,7 @@ public class QuickTileService extends TileService {
             }
         }
         else {
+            ProtonLogger.INSTANCE.log("Disconnecting via quick tile");
             stateMonitor.disconnect();
         }
     }

@@ -91,6 +91,7 @@ public final class Log {
     }
 
     private static String withSourceInfo(String msg) {
+        ProtonLogger.INSTANCE.log(msg);
         final StackTraceElement trace = Thread.currentThread().getStackTrace()[4];
         return String.format(Locale.getDefault(), "(%1$s:%2$d) %3$s", trace.getFileName(),
             trace.getLineNumber(), msg);
