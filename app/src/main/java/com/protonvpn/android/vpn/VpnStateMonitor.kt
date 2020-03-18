@@ -41,6 +41,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.eagerMapNotNull
@@ -56,8 +57,10 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
 import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
 import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
+import de.blinkt.openpvpn.core.VpnStatus
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -163,6 +166,7 @@ open class VpnStateMonitor(
             }
         }
 
+        VpnStatus.addLogListener { ProtonLogger.log(it.getString(ProtonApplication.getAppContext())) }
         stateInternal.observeForever {
             Storage.saveString(STORAGE_KEY_STATE, state.name)
 
@@ -224,6 +228,7 @@ open class VpnStateMonitor(
     }
 
     private suspend fun coroutineConnect(profile: Profile) {
+        ProtonLogger.log("Connect: ${profile.server?.domain}")
         if (activeBackend != null && activeBackend != backendProvider.getFor(userData, profile)) {
             disconnectBlocking()
         }
