@@ -45,6 +45,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.Log;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -59,9 +60,11 @@ import org.strongswan.android.utils.IPRange;
 import org.strongswan.android.utils.IPRangeSet;
 import org.strongswan.android.utils.SettingsWriter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -92,6 +95,7 @@ public class CharonVpnService extends VpnService implements Runnable {
     private String mAppDir;
     private String mLogFile;
     private Thread mConnectionHandler;
+    private Thread logCaptureThread = null;
     private Server mCurrentProfile;
     private volatile String mCurrentCertificateAlias;
     private volatile String mCurrentUserCertificateAlias;
@@ -192,7 +196,6 @@ public class CharonVpnService extends VpnService implements Runnable {
         super.onCreate();
         AndroidInjection.inject(this);
         NotificationHelper.INSTANCE.initNotificationChannel(getApplicationContext());
-        Log.e("on create");
         startForeground(Constants.NOTIFICATION_ID, stateMonitor.buildNotification());
         mLogFile = getFilesDir().getAbsolutePath() + File.separator + LOG_FILE;
         mAppDir = getFilesDir().getAbsolutePath();
@@ -203,7 +206,32 @@ public class CharonVpnService extends VpnService implements Runnable {
         EventBus.getInstance().register(this);
         receiver = new DisconnectListener();
         this.registerReceiver(receiver, new IntentFilter("Disconnect"));
+        startCaptureLogFile();
+    }
 
+    public void startCaptureLogFile() {
+        if (logCaptureThread != null) {
+            return;
+        }
+
+        logCaptureThread = new Thread(() -> {
+            try {
+                Process process = Runtime.getRuntime().exec("logcat -s charon -T 1 -v raw");
+
+                BufferedReader bufferedReader =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                String line = bufferedReader.readLine();
+                while (!mTerminate && line != null) {
+                    ProtonLogger.INSTANCE.log(line);
+                    line = bufferedReader.readLine();
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        logCaptureThread.start();
     }
 
     @Override
@@ -215,6 +243,7 @@ public class CharonVpnService extends VpnService implements Runnable {
     @Override
     public void onDestroy() {
         mTerminate = true;
+        logCaptureThread = null;
         stopCurrentConnection();
         setNextProfile(null);
         this.unregisterReceiver(receiver);
