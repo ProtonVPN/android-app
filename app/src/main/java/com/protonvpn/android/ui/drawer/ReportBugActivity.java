@@ -34,8 +34,7 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ProtonSwitch;
 import com.protonvpn.android.models.config.UserData;
-
-import org.strongswan.android.logic.CharonVpnService;
+import com.protonvpn.android.utils.ProtonLogger;
 
 import java.io.File;
 
@@ -128,11 +127,10 @@ public class ReportBugActivity extends BaseActivity {
             .addFormDataPart("Title", "Report from Android app")
             .addFormDataPart("Description", editReport.getText().toString());
 
-        if (switchAttachLog.getSwitchProton().isChecked() && !userData.isOpenVPNSelected()) {
-            File log = new File(getContext().getFilesDir(), CharonVpnService.LOG_FILE);
-            if (log.exists()) {
-                builder.addFormDataPart(log.getName(), log.getName(),
-                        RequestBody.create(MediaType.parse(log.getName()), log));
+        if (switchAttachLog.getSwitchProton().isChecked()) {
+            for (File file : ProtonLogger.INSTANCE.getLogFiles()) {
+                builder.addFormDataPart(file.getName(), file.getName(),
+                    RequestBody.create(MediaType.parse(file.getName()), file));
             }
         }
 
