@@ -19,13 +19,13 @@
 package com.protonvpn.android.vpn
 
 import android.os.Bundle
-import android.os.FileObserver
 import android.os.Handler
 import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.protonvpn.android.R
@@ -33,91 +33,40 @@ import com.protonvpn.android.components.BaseFragment
 import com.protonvpn.android.components.BaseViewHolder
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
-import de.blinkt.openpvpn.core.LogItem
-import de.blinkt.openpvpn.core.VpnStatus
-import org.slf4j.MDC.clear
-import org.strongswan.android.logic.CharonVpnService
-import java.io.BufferedReader
+import com.protonvpn.android.utils.ProtonLogger
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.consume
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileReader
-import java.io.StringReader
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 @ContentLayout(R.layout.fragment_log)
-class LogFragment : BaseFragment(), VpnStatus.LogListener {
+class LogFragment : BaseFragment() {
 
-    companion object {
-        private val DATE_FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-    }
-
-    private var logFilePath: String? = null
     private var logHandler: Handler? = null
 
     private val logAdapter = LogAdapter()
-    private var directoryObserver: FileObserver? = null
     internal var log: MutableList<String> = ArrayList()
-    internal var openVpnLog = false
 
     @BindView(R.id.recyclerView) @JvmField var recyclerView: RecyclerView? = null
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var userData: UserData
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        logFilePath = activity!!.filesDir.toString() + File.separator + CharonVpnService.LOG_FILE
-
         logHandler = Handler(getMainLooper())
 
-        directoryObserver = LogDirectoryObserver(activity!!.filesDir.absolutePath)
+        ProtonLogger.getLogFiles().forEach { file -> file.forEachLine { addToLog(it) } }
+        lifecycleScope.launch {
+            ProtonLogger.newItemsChannel.openSubscription().consumeEach { addToLog(it) }
+        }
     }
 
     override fun onViewCreated() {
         recyclerView?.adapter = logAdapter
-
-        openVpnLog = stateMonitor.connectionProfile?.isOpenVPNSelected(userData)
-                ?: userData.isOpenVPNSelected
-
-        addPreviousEntries()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (openVpnLog) {
-            VpnStatus.addLogListener(this)
-        } else {
-            logAdapter.restart()
-            directoryObserver!!.startWatching()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (openVpnLog) {
-            VpnStatus.removeLogListener(this)
-        } else {
-            directoryObserver!!.stopWatching()
-            logAdapter.stop()
-        }
-    }
-
-    private fun addPreviousEntries() {
-        for (item in VpnStatus.getlogbuffer()) {
-            log.add(formatOpenVpnLogItem(item))
-        }
-
-        recyclerView?.scrollToPosition(log.size - 1)
-    }
-
-    private fun formatOpenVpnLogItem(item: LogItem) =
-            "${DATE_FORMATTER.format(Date(item.logtime))} ${item.getString(activity)}"
-
-    override fun newLog(logItem: LogItem) {
-        addToLog(formatOpenVpnLogItem(logItem))
     }
 
     private fun addToLog(item: String) {
@@ -128,59 +77,7 @@ class LogFragment : BaseFragment(), VpnStatus.LogListener {
         }
     }
 
-    private inner class LogAdapter : RecyclerView.Adapter<LogLineViewHolder>(), Runnable {
-
-        private var reader: BufferedReader? = null
-        private var thread: Thread? = null
-        @Volatile private var isRunning: Boolean = false
-
-        fun restart() {
-            if (isRunning) {
-                stop()
-            }
-
-            clear()
-
-            reader = try {
-                BufferedReader(FileReader(logFilePath))
-            } catch (e: FileNotFoundException) {
-                BufferedReader(StringReader(""))
-            }
-
-            isRunning = true
-            thread = Thread(this)
-            readPrevious()
-            thread!!.start()
-        }
-
-        fun readPrevious() {
-            reader!!.lineSequence().forEach(::addToLog)
-        }
-
-        fun stop() {
-            try {
-                reader?.close()
-                isRunning = false
-                thread!!.interrupt()
-                thread!!.join()
-            } catch (e: InterruptedException) {
-            }
-        }
-
-        override fun run() {
-            while (isRunning && !openVpnLog) {
-                try {
-                    val line = reader!!.readLine()
-                    if (line != null) {
-                        addToLog(line)
-                        /* wait until there is more to log */
-                        Thread.sleep(1000)
-                    }
-                } catch (e: Exception) {
-                    break
-                }
-            }
-        }
+    private inner class LogAdapter : RecyclerView.Adapter<LogLineViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogLineViewHolder {
             return LogLineViewHolder(
@@ -201,38 +98,8 @@ class LogFragment : BaseFragment(), VpnStatus.LogListener {
         @BindView(R.id.logLine) lateinit var logLine: TextView
 
         override fun bindData(message: String) {
+            super.bindData(message)
             logLine.text = message
-        }
-    }
-
-    private inner class LogDirectoryObserver(path: String) : FileObserver(path, CREATE or MODIFY or DELETE) {
-
-        private val file: File = File(logFilePath)
-        private var size: Long = 0
-
-        init {
-            size = file.length()
-        }
-
-        override fun onEvent(event: Int, path: String?) {
-            if (path == null || path != CharonVpnService.LOG_FILE) {
-                return
-            }
-            when (event) {
-                CREATE, DELETE -> restartLogReader()
-                MODIFY -> {
-                    /* if the size got smaller reopen the log file, as it was probably truncated */
-                    val size = file.length()
-                    if (size < this.size) {
-                        restartLogReader()
-                    }
-                    this.size = size
-                }
-            }
-        }
-
-        private fun restartLogReader() {
-            logHandler!!.post { logAdapter.restart() }
         }
     }
 }
