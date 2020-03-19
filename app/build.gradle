@@ -21,7 +21,11 @@ buildscript {
     repositories {
         mavenCentral()
     }
+}
 
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play' version '2.7.2'
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
@@ -72,14 +76,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) 
     def debugTree = fileTree(dir: "${buildDir}/intermediates/app_classes/prodDebug/bundleProdDebugClasses", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: "$buildDir", includes: [
+    sourceDirectories.setFrom files([mainSrc])
+    classDirectories.setFrom files([debugTree])
+    executionData.setFrom fileTree(dir: "$buildDir", includes: [
             "**/*.exec",
             "**/*.ec"
     ])
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
+        classDirectories.setFrom files(classDirectories.files.collect {
             fileTree(dir: it, exclude: '**/ch/protonmail/**')
         })
     }
@@ -138,6 +142,7 @@ def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassw
 def sentryDns = project.hasProperty('sentryDns') ? sentryDns : "\"SentryDNS\""
 def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
 def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
+def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 
 android {
@@ -254,6 +259,24 @@ android {
     }
 }
 
+play {
+    serviceAccountCredentials = file(serviceAccountCredentialsPath)
+    track = 'alpha'
+    releaseName = Helpers.getVersionName()
+}
+
+task publishGenerateReleaseNotes {
+    File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
+    releaseNotesDir.mkdirs()
+    File releaseNotesFile = new File(releaseNotesDir, "default.txt")
+    releaseNotesFile.newWriter() << Helpers.getReleaseNotes()
+}
+
+task publishAlpha {
+    dependsOn 'publishGenerateReleaseNotes'
+    dependsOn 'publishProdReleaseApk'
+}
+
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
 
 import com.android.build.OutputFile
@@ -307,6 +330,10 @@ class Helpers {
         return out.toString()
     }
 
+    static String getReleaseNotes() {
+        def tags = exec('git tag --merged HEAD').split('\n').reverse()
+        return exec("git log ${tags[1]}..${tags[0]} --pretty=format:%s")
+    }
 }
 
 kapt {

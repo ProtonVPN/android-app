@@ -10,7 +10,9 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
   - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
+  - base64 -d - < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
   - md5sum app/protonkey.jks
+  - md5sum app/service_account.json
   - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
   - apt-get -y update
   - apt-get install -y connect-proxy git
@@ -45,6 +47,7 @@ stages:
   - report
   - i18n
   - mirror
+  - publish
 
 cache:
   key: gradle
@@ -220,6 +223,15 @@ sync-app:
     - git push public master
     # Push the latest tag we can find
     - git push public "$(git describe --abbrev=0)"
+
+publish-apk-alpha:
+  stage: publish
+  only:
+    refs:
+      - tags
+  script:
+    - ./gradlew publishAlpha
+  when: manual
 
 i18n-update-crowdin:
   cache: {}
