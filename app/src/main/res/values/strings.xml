@@ -30,7 +30,6 @@
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionLogout">Logout</string>
     <string name="loginSlogan">Secure internet anywhere</string>
-    <string name="loginRememberMe">Remember me on this device</string>
     <string name="loginStartWithDevice">Start with device</string>
     <string name="loginCreateAccount">Create new account</string>
     <string name="loginNeedHelp">Need help?</string>

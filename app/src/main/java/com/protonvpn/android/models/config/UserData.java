@@ -39,7 +39,6 @@ import androidx.annotation.Nullable;
 public final class UserData implements Serializable {
 
     private String user;
-    private boolean rememberMe;
     private boolean connectOnBoot;
     private boolean isLoggedIn;
     private boolean useIon;
@@ -69,7 +68,6 @@ public final class UserData implements Serializable {
     public UserData() {
         user = "";
         mtuSize = 1375;
-        rememberMe = false;
         showIcon = true;
         splitTunnelApps = new ArrayList<>();
         splitTunnelIpAddresses = new ArrayList<>();
@@ -123,10 +121,6 @@ public final class UserData implements Serializable {
         return false;
     }
 
-    public boolean isRememberMeEnabled() {
-        return rememberMe;
-    }
-
     @Deprecated
     public void trackAppOpening(DateTime currentTime) {
         DateTime lastOpen = lastTimeAppOpened != null ? lastTimeAppOpened : new DateTime();
@@ -145,11 +139,6 @@ public final class UserData implements Serializable {
 
     public int getTimesAppUsed() {
         return timesAppUsed;
-    }
-
-    public void setRememberMe(boolean rememberMe) {
-        this.rememberMe = rememberMe;
-        saveToStorage();
     }
 
     public void logout() {

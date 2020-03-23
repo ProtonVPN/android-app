@@ -86,8 +86,6 @@ public class LoginRobotTests extends UIActionsTestHelper {
 
     @Test
     public void rememberMeFunctionality() {
-        loginRobot.toggleRememberMeSwitch();
-
         TestUser user = loginRobot.login(TestUser.getPlusUser()).isSuccessful().getUser();
 
         homeRobot.logout().isSuccessful();

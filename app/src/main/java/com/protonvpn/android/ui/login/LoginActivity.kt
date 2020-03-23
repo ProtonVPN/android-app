@@ -81,7 +81,6 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
     @BindView(R.id.inputEmail) lateinit var inputEmail: TextInputLayout
     @BindView(R.id.inputPassword) lateinit var inputPassword: TextInputLayout
     @BindView(R.id.layoutCredentials) lateinit var layoutCredentials: LinearLayout
-    @BindView(R.id.switchRememberMe) lateinit var switchRememberMe: SwitchCompat
     @BindView(R.id.switchStartWithDevice) lateinit var switchStartWithDevice: SwitchCompat
     @BindView(R.id.protonLogo) lateinit var protonLogo: View
     @BindView(R.id.textCreateAccount) lateinit var textCreateAccount: TextView
@@ -109,7 +108,6 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
     }
 
     private fun initInputFields() {
-        switchRememberMe.isChecked = userPrefs.isRememberMeEnabled
         switchStartWithDevice.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         switchStartWithDevice.isChecked = userPrefs.connectOnBoot
         editEmail.addTextChangedListener(getTextWatcher(editEmail))
@@ -122,9 +120,7 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
             false
         })
 
-        if (userPrefs.isRememberMeEnabled) {
-            editEmail.setText(userPrefs.user)
-        }
+        editEmail.setText(userPrefs.user)
     }
 
     private fun checkForRotation() {
@@ -139,11 +135,6 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
             editEmail.setText(intent.getStringExtra(DeepLinkActivity.USER_NAME))
             WelcomeDialog.showDialog(supportFragmentManager, WelcomeDialog.DialogType.WELCOME)
         }
-    }
-
-    @OnCheckedChanged(R.id.switchRememberMe)
-    fun onRememberMeChanged(isChecked: Boolean) {
-        userPrefs.setRememberMe(isChecked)
     }
 
     @OnCheckedChanged(R.id.switchStartWithDevice)
