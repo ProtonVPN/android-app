@@ -29,7 +29,6 @@
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionLogout">Déconnexion</string>
     <string name="loginSlogan">Internet sécurisé, partout</string>
-    <string name="loginRememberMe">Se souvenir de moi sur cet appareil</string>
     <string name="loginStartWithDevice">Démarrer</string>
     <string name="loginCreateAccount">Créer un nouveau compte</string>
     <string name="loginNeedHelp">Besoin d\'aide ?</string>

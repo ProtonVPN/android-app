@@ -144,20 +144,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchRememberMe"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/loginRememberMe"
-                android:textColor="@color/white70"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                android:theme="@style/SCSwitch.Green"
-                android:visibility="visible" />
-
-            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchStartWithDevice"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"

@@ -29,7 +29,6 @@
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionLogout">Wyloguj</string>
     <string name="loginSlogan">Bezpieczny Internet w każdym miejscu</string>
-    <string name="loginRememberMe">Zapamiętaj mnie na tym urządzeniu</string>
     <string name="loginStartWithDevice">Uruchamiaj przy starcie systemu</string>
     <string name="loginCreateAccount">Utwórz nowe konto</string>
     <string name="loginNeedHelp">Potrzebujesz pomocy?</string>

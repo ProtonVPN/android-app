@@ -40,7 +40,6 @@ public class LogoutResult extends UIActionsTestHelper {
         //checks if login form appeared
         checkIfObjectWithIdIsDisplayed(R.id.email);
         checkIfObjectWithIdIsDisplayed(R.id.password);
-        checkIfObjectWithIdIsDisplayed(R.id.switchRememberMe);
         checkIfObjectWithIdIsDisplayed(R.id.buttonLogin);
 
         return new LogoutResult();
@@ -50,7 +49,6 @@ public class LogoutResult extends UIActionsTestHelper {
         //checks if login form has not appeared
         checkIfObjectWithIdIsNotDisplayed(R.id.email);
         checkIfObjectWithIdIsNotDisplayed(R.id.password);
-        checkIfObjectWithIdIsNotDisplayed(R.id.switchRememberMe);
         checkIfObjectWithIdIsNotDisplayed(R.id.buttonLogin);
 
         return new LogoutResult();

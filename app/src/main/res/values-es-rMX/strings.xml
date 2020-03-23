@@ -29,7 +29,6 @@
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionLogout">Cerrar sesión</string>
     <string name="loginSlogan">Internet seguro en cualquier lugar</string>
-    <string name="loginRememberMe">Recordarme en este dispositivo</string>
     <string name="loginStartWithDevice">Iniciar con el dispositivo</string>
     <string name="loginCreateAccount">Crear una cuenta</string>
     <string name="loginNeedHelp">¿Necesita ayuda?</string>

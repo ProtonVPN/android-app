@@ -31,11 +31,6 @@ public class LoginRobot extends UIActionsTestHelper {
         return new LoginFormResult();
     }
 
-    public LoginRobot toggleRememberMeSwitch() {
-        clickOnObjectWithId(R.id.switchRememberMe);
-        return this;
-    }
-
     public LoginResult login(TestUser user) {
         insertTextIntoFieldWithId(R.id.email, user.email);
         insertTextIntoFieldWithId(R.id.password, user.password);

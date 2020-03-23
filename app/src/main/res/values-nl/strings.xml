@@ -29,7 +29,6 @@
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionLogout">Afmelden</string>
     <string name="loginSlogan">Overal veilig internet</string>
-    <string name="loginRememberMe">Onthoud me op dit apparaat</string>
     <string name="loginStartWithDevice">Starten tijdens opstarten</string>
     <string name="loginCreateAccount">Nieuw account aanmaken</string>
     <string name="loginNeedHelp">Heeft u hulp nodig?</string>
