@@ -85,7 +85,7 @@ public class ProtonSwitch extends FrameLayout {
             else {
                 textDescription.setText(description);
             }
-            if (isInfo) {
+            if (isInfo || !isButton) {
                 textDescription.setMovementMethod(LinkMovementMethod.getInstance());
             }
             switchProton.setChecked(a.getBoolean(R.styleable.ProtonSwitch_switchValue, false));
