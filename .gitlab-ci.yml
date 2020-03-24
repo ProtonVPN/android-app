@@ -111,7 +111,7 @@ build release:
     - android
   script:
     - ./gradlew openvpn:assemble
-    - ./gradlew assembleProdRelease -PabiSplit
+    - ./gradlew assembleProdRelease -PabiSplit -PbuildUniversalApk
   when: manual
   artifacts:
     expire_in: 1 week
@@ -224,13 +224,13 @@ sync-app:
     # Push the latest tag we can find
     - git push public "$(git describe --abbrev=0)"
 
-publish-apk-alpha:
+publish-apk-internal:
   stage: publish
   only:
     refs:
       - tags
   script:
-    - ./gradlew publishAlpha
+    - ./gradlew publishInternal -PabiSplit
   when: manual
 
 i18n-update-crowdin:

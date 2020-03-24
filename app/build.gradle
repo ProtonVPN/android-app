@@ -254,14 +254,14 @@ android {
             enable project.hasProperty('abiSplit')
             reset()
             include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            universalApk true
+            universalApk project.hasProperty('buildUniversalApk')
         }
     }
 }
 
 play {
     serviceAccountCredentials = file(serviceAccountCredentialsPath)
-    track = 'alpha'
+    track = 'internal'
     releaseName = Helpers.getVersionName()
 }
 
@@ -269,10 +269,10 @@ task publishGenerateReleaseNotes {
     File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
     releaseNotesDir.mkdirs()
     File releaseNotesFile = new File(releaseNotesDir, "default.txt")
-    releaseNotesFile.newWriter() << Helpers.getReleaseNotes()
+    releaseNotesFile.newWriter().withWriter { w -> w << Helpers.getReleaseNotes() }
 }
 
-task publishAlpha {
+task publishInternal {
     dependsOn 'publishGenerateReleaseNotes'
     dependsOn 'publishProdReleaseApk'
 }
