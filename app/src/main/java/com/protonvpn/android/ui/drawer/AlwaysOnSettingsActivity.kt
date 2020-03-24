@@ -58,7 +58,7 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
             }
             step2.init(2, textStep2)
 
-            step3.init(3, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep4)))
+            step3.init(3, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep3)))
 
             step4.init(4, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep4)))
 
