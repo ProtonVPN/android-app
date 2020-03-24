@@ -322,7 +322,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="settingsAlwaysOnWindowStep4Intro">Perform also this step to activate Kill Switch</string>
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Open Android settings</string>
-    <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Be aware that Kill Switch is not compatible with Split Tunneling. If you activate Kill Switch, Split Tunneling will be automatically disabled.</string>
+    <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Be aware that if both Kill Switch and Split Tunneling are activated, Split Tunneling won\'t work. Kill Switch blocks all connections outside the VPN tunnel, including those created by Split Tunneling.</string>
     <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Some options missing? <a href=\"%1$s\">Tap here to learn more</a>.]]></string>
     <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them.
 
