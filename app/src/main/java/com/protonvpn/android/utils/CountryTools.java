@@ -19,6 +19,7 @@
 package com.protonvpn.android.utils;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 
 import com.protonvpn.android.ProtonApplication;
@@ -173,14 +174,10 @@ public class CountryTools {
     }
 
     public static Locale getPreferredLocale(Context context) {
-        Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            locale = context.getResources().getConfiguration().getLocales().get(0);
-        }
-        else {
-            //noinspection deprecation
-            locale = context.getResources().getConfiguration().locale;
-        }
+        Configuration configuration = context.getResources().getConfiguration();
+        Locale locale = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+            configuration.getLocales().get(0) :
+            configuration.locale;
 
         List<String> availableLocales = Arrays.asList("en", "es", "pl", "pt", "it", "fr", "nl");
         return availableLocales.contains(locale.getLanguage()) ? locale : Locale.US;
