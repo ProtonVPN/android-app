@@ -190,7 +190,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             if (server != null) {
                 val country = viewModel.getServerCountry(server)
                 spinnerCountry.selectedItem = country
-                spinnerServer.selectedItem = profile?.serverWrapper
+                spinnerServer.selectedItem = profile?.wrapper
                 spinnerServer.setItems(country!!.wrapperServers)
                 spinnerServer.isEnabled = true
             }
