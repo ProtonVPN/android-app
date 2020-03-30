@@ -21,10 +21,10 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 
-class ProtonVpnBackendProvider : VpnBackendProvider {
-
-    private val openVpn = OpenVpnBackend()
-    private val strongSwan = StrongSwanBackend()
+class ProtonVpnBackendProvider(
+    private val strongSwan: StrongSwanBackend,
+    private val openVpn: OpenVpnBackend
+) : VpnBackendProvider {
 
     override fun getFor(userData: UserData, profile: Profile?) =
             if (profile?.isOpenVPNSelected(userData) ?: userData.isOpenVPNSelected)
