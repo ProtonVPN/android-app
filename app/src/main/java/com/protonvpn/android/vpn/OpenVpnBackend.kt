@@ -21,16 +21,115 @@ package com.protonvpn.android.vpn
 import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.NetUtils
+import com.protonvpn.android.utils.User
 import com.protonvpn.android.utils.implies
 import de.blinkt.openpvpn.core.ConnectionStatus
+import de.blinkt.openpvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openpvpn.core.VpnStatus
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import org.apache.commons.codec.binary.Hex
+import org.apache.commons.codec.digest.HmacAlgorithms
+import org.apache.commons.codec.digest.HmacUtils
+import java.io.ByteArrayOutputStream
+import java.io.DataOutputStream
+import java.util.Random
 
-class OpenVpnBackend : VpnBackend("OpenVpn"), VpnStatus.StateListener {
+class OpenVpnBackend(
+    val random: Random,
+    val userData: UserData,
+    val unixTime: () -> Long
+) : VpnBackend("OpenVpn"), VpnStatus.StateListener {
 
     init {
         VpnStatus.addStateListener(this)
+    }
+
+    data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
+
+    private suspend fun scanPorts(connectingDomain: ConnectingDomain): ProtocolInfo? {
+        val openVpnPorts = User.getOpenVPNPorts()
+        val udpPingData = getPingData(tcp = false)
+        var transmissionProtocol = TransmissionProtocol.UDP
+        var availablePort = scanInParallel(
+                openVpnPorts.udpPorts.shuffled(), connectingDomain.entryIp, udpPingData, withTcp = false)
+
+        if (availablePort == null) {
+            val tcpPingData = getPingData(tcp = true)
+            transmissionProtocol = TransmissionProtocol.TCP
+            availablePort = scanInParallel(
+                    openVpnPorts.tcpPorts.shuffled(), connectingDomain.entryIp, tcpPingData, withTcp = true)
+        }
+        return availablePort?.let { ProtocolInfo(transmissionProtocol, it) }
+    }
+
+    private suspend fun scanInParallel(
+        ports: List<Int>,
+        ip: String,
+        data: ByteArray,
+        withTcp: Boolean
+    ): Int? = coroutineScope {
+        val available = ports.map { port ->
+            async {
+                port.takeIf {
+                    NetUtils.ping(ip, port, data, withTcp, timeout = 3000)
+                }
+            }
+        }.mapNotNull {
+            it.await()
+        }
+        if (available.isNotEmpty()) available.random() else null
+    }
+
+    private fun getPingData(tcp: Boolean): ByteArray {
+        // P_CONTROL_HARD_RESET_CLIENT_V2 TLS message.
+        // see: https://build.openvpn.net/doxygen/network_protocol.html
+
+        val sessionId = ByteArray(8)
+        random.nextBytes(sessionId)
+        val timestamp = (unixTime() / 1000).toInt()
+
+        val packet = byteArrayBuilder {
+            writeInt(1)
+            writeInt(timestamp)
+            write(7 shl 3)
+            write(sessionId)
+            write(0)
+            writeInt(0)
+        }
+
+        val tlsAuthKeyHex = Constants.TLS_AUTH_KEY_HEX.replace("\n", "")
+        val tlsAuthKey = Hex.decodeHex(tlsAuthKeyHex.toCharArray()).drop(192).take(64).toByteArray()
+        val hmac = HmacUtils.getInitializedMac(HmacAlgorithms.HMAC_SHA_512, tlsAuthKey).doFinal(packet)
+
+        val authenticatedPacket = byteArrayBuilder {
+            write(7 shl 3)
+            write(sessionId)
+            write(hmac)
+            writeInt(1)
+            writeInt(timestamp)
+            write(0)
+            writeInt(0)
+        }
+
+        return if (tcp) byteArrayBuilder {
+            writeShort(authenticatedPacket.size)
+            write(authenticatedPacket)
+        } else
+            authenticatedPacket
+    }
+
+    private fun byteArrayBuilder(block: DataOutputStream.() -> Unit): ByteArray {
+        val byteStream = ByteArrayOutputStream()
+        DataOutputStream(byteStream).use(block)
+        return byteStream.toByteArray()
     }
 
     override suspend fun connect() {
@@ -43,7 +142,7 @@ class OpenVpnBackend : VpnBackend("OpenVpn"), VpnStatus.StateListener {
         }
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
-        startOpenVPN(OpenVPNWrapperService.PAUSE_VPN)
+        startOpenVPN(PAUSE_VPN)
         waitForDisconnect()
     }
 
