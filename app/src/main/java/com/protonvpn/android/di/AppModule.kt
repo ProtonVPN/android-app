@@ -31,7 +31,9 @@ import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.OpenVpnBackend
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Module
@@ -95,7 +97,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(): VpnBackendProvider = ProtonVpnBackendProvider()
+    fun provideVpnBackendManager(): VpnBackendProvider =
+        ProtonVpnBackendProvider(
+                StrongSwanBackend(random, scope),
+                OpenVpnBackend())
 
     @Singleton
     @Provides

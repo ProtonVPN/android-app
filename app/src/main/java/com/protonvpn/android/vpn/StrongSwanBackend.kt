@@ -25,17 +25,20 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.strongswan.android.logic.VpnStateService
+import java.io.ByteArrayOutputStream
+import java.util.Random
 
-class StrongSwanBackend : VpnBackend("StrongSwan"), VpnStateService.VpnStateListener {
+class StrongSwanBackend(
+    val random: Random,
+    val mainScope: CoroutineScope
+) : VpnBackend("StrongSwan"), VpnStateService.VpnStateListener {
 
-    private val mainScope = CoroutineScope(GlobalScope.coroutineContext + Dispatchers.Main)
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
 
@@ -43,7 +46,21 @@ class StrongSwanBackend : VpnBackend("StrongSwan"), VpnStateService.VpnStateList
         bindCharonMonitor()
     }
 
-    private suspend fun getVpnService() = (vpnService ?: serviceProvider.receive())
+    private suspend fun getVpnService() = vpnService ?: serviceProvider.receive()
+
+    private suspend fun isServerAvailable(ip: String) =
+        NetUtils.ping(ip, 500, getPingData(), tcp = false, timeout = 5000)
+
+    private fun getPingData() = ByteArrayOutputStream().apply {
+        repeat(8) { write(random.nextInt(256)) } // my SPI
+        repeat(8) { write(0) } // other SPI
+        write(0x21) // Security association
+        write(0x20) // Version 2
+        write(0x22) // IKE_SA_INIT
+        write(0x08) // Initiator, no higher version, request
+        repeat(4) { write(0) } // Message id
+        repeat(4) { write(0) } // Length = 0
+    }.toByteArray()
 
     override suspend fun connect() {
         getVpnService().connect(null, true)
