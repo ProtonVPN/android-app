@@ -51,7 +51,7 @@ public class LogoutRobotTests {
 
     @Test
     public void logoutWhileConnectedToVpn() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         homeRobot.connectThroughQuickConnect().isConnectedToVpn();
 
         homeRobot.logout().isFailure().warningMessageIsDisplayed();
@@ -63,7 +63,7 @@ public class LogoutRobotTests {
 
     @Test
     public void cancelLogoutWhileConnectedToVpn() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         homeRobot.connectThroughQuickConnect().isConnectedToVpn();
 
         homeRobot.logout().isFailure().warningMessageIsDisplayed();

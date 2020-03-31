@@ -49,7 +49,7 @@ abstract class CountryViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
         binding.textConnected.isVisible =
-                vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.CONNECTED
+                vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.Connected
     }
 
     override fun getId() = vpnCountry.flag.hashCode().toLong()

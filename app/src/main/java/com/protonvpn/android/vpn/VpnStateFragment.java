@@ -61,6 +61,8 @@ import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType;
+import com.protonvpn.android.vpn.VpnStateMonitor.State;
 
 import java.util.List;
 import java.util.Timer;
@@ -431,46 +433,46 @@ public class VpnStateFragment extends BaseFragment {
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);
-            switch (vpnState.getState()) {
-                case DISABLED:
-                    checkDisconnectFromOutside();
-                    textConnectingTo.setText(R.string.loaderNotConnected);
-                    updateNotConnectedView();
-                    break;
-                case CHECKING_AVAILABILITY:
-                case SCANNING_PORTS:
-                    statusDivider.setVisibility(View.GONE);
-                    textConnectingTo.setText(R.string.loaderCheckingAvailability);
-                    initConnectingStateView(connectedServer, fromSavedState);
-                    break;
-                case CONNECTING:
-                    statusDivider.setVisibility(View.GONE);
-                    textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
-                    initConnectingStateView(connectedServer, fromSavedState);
-                    break;
-                case WAITING_FOR_NETWORK:
-                    statusDivider.setVisibility(View.GONE);
-                    textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
-                    initConnectingStateView(connectedServer, fromSavedState);
-                    break;
-                case CONNECTED:
-                    textConnectingTo.setText(getString(R.string.loaderConnectedTo, serverName));
-                    initConnectedStateView(connectedServer);
-                    break;
-                case DISCONNECTING:
-                    textConnectingTo.setText(R.string.loaderDisconnecting);
-                    connectingView.setBackgroundColor(
-                        ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    textConnectingTo.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                    imageExpand.setImageResource(R.drawable.ic_up_white);
-                    clearConnectedStatus();
-                    break;
-                case ERROR:
-                    reportError(vpnState.getError());
-                    break;
-                default:
-                    updateNotConnectedView();
-                    break;
+            State state = vpnState.getState();
+            //TODO: migrate to kotlin to use "when" here
+            if (state instanceof State.Error) {
+                reportError(((State.Error)vpnState.getState()).getType());
+            }
+            else if (State.Disabled.INSTANCE.equals(state)) {
+                checkDisconnectFromOutside();
+                textConnectingTo.setText(R.string.loaderNotConnected);
+                updateNotConnectedView();
+            }
+            else if (State.CheckingAvailability.INSTANCE.equals(state)
+                || State.ScanningPorts.INSTANCE.equals(state)) {
+                statusDivider.setVisibility(View.GONE);
+                textConnectingTo.setText(R.string.loaderCheckingAvailability);
+                initConnectingStateView(connectedServer, fromSavedState);
+            }
+            else if (State.Connecting.INSTANCE.equals(state)) {
+                statusDivider.setVisibility(View.GONE);
+                textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
+                initConnectingStateView(connectedServer, fromSavedState);
+            }
+            else if (State.WaitingForNetwork.INSTANCE.equals(state)) {
+                statusDivider.setVisibility(View.GONE);
+                textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
+                initConnectingStateView(connectedServer, fromSavedState);
+            }
+            else if (State.Connected.INSTANCE.equals(state)) {
+                textConnectingTo.setText(getString(R.string.loaderConnectedTo, serverName));
+                initConnectedStateView(connectedServer);
+            }
+            else if (State.Disconnecting.INSTANCE.equals(state)) {
+                textConnectingTo.setText(R.string.loaderDisconnecting);
+                connectingView.setBackgroundColor(
+                    ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                textConnectingTo.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                imageExpand.setImageResource(R.drawable.ic_up_white);
+                clearConnectedStatus();
+            }
+            else {
+                updateNotConnectedView();
             }
         }
     }
@@ -482,11 +484,11 @@ public class VpnStateFragment extends BaseFragment {
         }
     }
 
-    private boolean reportError(ConnectionError error) {
-        Log.e("report error: " + error.getErrorState().toString());
-        switch (error.getErrorState()) {
+    private boolean reportError(ErrorType error) {
+        Log.e("report error: " + error.toString());
+        switch (error) {
             case AUTH_FAILED:
-                showAuthError(R.string.error_auth_failed, error);
+                showAuthError(R.string.error_auth_failed);
                 break;
             case PEER_AUTH_FAILED:
                 showErrorDialog(R.string.error_peer_auth_failed);
@@ -502,11 +504,11 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Gateway is unreachable"));
                 break;
             case MAX_SESSIONS:
-                showAuthError(R.string.errorMaxSessions, error);
+                showAuthError(R.string.errorMaxSessions);
                 Log.exception(new VPNException("Maximum number of sessions used"));
                 break;
             case UNPAID:
-                showAuthError(R.string.errorUserDelinquent, error);
+                showAuthError(R.string.errorUserDelinquent);
                 Log.exception(new VPNException("Overdue payment"));
             default:
                 showErrorDialog(R.string.error_generic);
@@ -517,8 +519,7 @@ public class VpnStateFragment extends BaseFragment {
         return true;
     }
 
-    private void showAuthError(@StringRes int stringRes, ConnectionError error) {
-        error.setErrorState(VpnStateMonitor.ErrorState.NO_ERROR);
+    private void showAuthError(@StringRes int stringRes) {
         new MaterialDialog.Builder(getActivity()).theme(Theme.DARK)
             .title(R.string.dialogTitleAttention)
             .content(stringRes)

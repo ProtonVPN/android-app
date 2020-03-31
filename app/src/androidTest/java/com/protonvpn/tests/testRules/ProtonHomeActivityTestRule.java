@@ -62,8 +62,8 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
         service.mockVpnBackend.setStateOnConnect(state);
     }
 
-    public void mockErrorOnConnect(VpnStateMonitor.ErrorState errorState) {
-        service.mockVpnBackend.setErrorOnConnect(errorState);
+    public void mockErrorOnConnect(VpnStateMonitor.ErrorType type) {
+        service.mockVpnBackend.setStateOnConnect(new VpnStateMonitor.State.Error(type));
     }
 
     public HomeActivity getActivity() {

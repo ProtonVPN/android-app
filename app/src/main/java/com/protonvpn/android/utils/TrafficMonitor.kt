@@ -60,7 +60,7 @@ class TrafficMonitor(
             stopUpdateJob()
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_ON)) {
-            if (vpnState.value?.state == VpnStateMonitor.State.CONNECTED)
+            if (vpnState.value?.state == VpnStateMonitor.State.Connected)
                 startUpdateJob()
         }
     }
@@ -127,7 +127,7 @@ class TrafficMonitor(
 
     private fun stateChanged(state: VpnStateMonitor.State) {
         when (state) {
-            VpnStateMonitor.State.CONNECTED -> startSession()
+            VpnStateMonitor.State.Connected -> startSession()
             else -> endSession()
         }
     }

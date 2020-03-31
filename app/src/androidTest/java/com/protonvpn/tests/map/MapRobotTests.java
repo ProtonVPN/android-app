@@ -47,7 +47,7 @@ public class MapRobotTests {
 
     @Test
     public void mapNodeSuccessfullySelected() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         MapRobot map = homeRobot.clickOnMapViewTab();
         map.clickOnUSNode();
 
@@ -60,7 +60,7 @@ public class MapRobotTests {
 
     @Test
     public void mapNodeIsNotSelected() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTING);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connecting.INSTANCE);
         MapRobot map = homeRobot.clickOnMapViewTab();
         map.clickOnUSNode();
 

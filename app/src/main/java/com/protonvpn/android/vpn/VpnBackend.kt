@@ -34,7 +34,7 @@ interface VpnBackendProvider {
     suspend fun prepareConnection(profile: Profile, server: Server, userData: UserData): PrepareResult?
 }
 
-abstract class VpnBackend(val name: String) {
+abstract class VpnBackend(val name: String) : VpnStateSource {
 
     abstract suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult?
     abstract suspend fun connect()
@@ -42,27 +42,18 @@ abstract class VpnBackend(val name: String) {
     abstract suspend fun reconnect()
     abstract val retryInfo: RetryInfo?
 
-    fun setState(newState: VpnStateMonitor.State) {
-        stateObservable.value = newState
-    }
-
     protected suspend fun waitForDisconnect() {
         withTimeoutOrNull(DISCONNECT_WAIT_TIMEOUT) {
             do {
                 delay(200)
-            } while (state != VpnStateMonitor.State.DISABLED)
+            } while (selfState != VpnStateMonitor.State.Disabled)
         }
-        if (state == VpnStateMonitor.State.DISCONNECTING)
-            stateObservable.value = VpnStateMonitor.State.DISABLED
+        if (selfState == VpnStateMonitor.State.Disconnecting)
+            setSelfState(VpnStateMonitor.State.Disabled)
     }
 
     var active = false
-    val stateObservable = MutableLiveData<VpnStateMonitor.State>().apply {
-        value = VpnStateMonitor.State.DISABLED
-    }
-
-    val state get() = stateObservable.value!!
-    val error: ConnectionError = ConnectionError(VpnStateMonitor.ErrorState.NO_ERROR)
+    override val selfStateObservable = MutableLiveData<VpnStateMonitor.State>(VpnStateMonitor.State.Disabled)
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
