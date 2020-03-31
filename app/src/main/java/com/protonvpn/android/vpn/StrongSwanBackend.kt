@@ -27,6 +27,8 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.VpnStateMonitor.State
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
@@ -78,7 +80,7 @@ class StrongSwanBackend(
 
     override suspend fun disconnect() {
         if (vpnService?.state != VpnStateService.State.DISABLED) {
-            stateObservable.value = VpnStateMonitor.State.DISCONNECTING
+            selfStateObservable.value = State.Disconnecting
         }
         vpnService?.disconnect()
         waitForDisconnect()
@@ -109,39 +111,30 @@ class StrongSwanBackend(
         }, Service.BIND_AUTO_CREATE)
     }
 
-    private fun translateError(error: VpnStateService.ErrorState): VpnStateMonitor.ErrorState {
-        return when (error) {
-            VpnStateService.ErrorState.NO_ERROR -> VpnStateMonitor.ErrorState.NO_ERROR
-            VpnStateService.ErrorState.AUTH_FAILED -> VpnStateMonitor.ErrorState.AUTH_FAILED_INTERNAL
-            VpnStateService.ErrorState.PEER_AUTH_FAILED -> VpnStateMonitor.ErrorState.PEER_AUTH_FAILED
-            VpnStateService.ErrorState.LOOKUP_FAILED -> VpnStateMonitor.ErrorState.LOOKUP_FAILED
-            VpnStateService.ErrorState.UNREACHABLE -> VpnStateMonitor.ErrorState.UNREACHABLE
-            VpnStateService.ErrorState.SESSION_IN_USE -> VpnStateMonitor.ErrorState.SESSION_IN_USE
-            VpnStateService.ErrorState.MAX_SESSIONS -> VpnStateMonitor.ErrorState.MAX_SESSIONS
-            VpnStateService.ErrorState.GENERIC_ERROR -> VpnStateMonitor.ErrorState.GENERIC_ERROR
+    private fun translateState(state: VpnStateService.State, error: VpnStateService.ErrorState): State =
+        when (state) {
+            VpnStateService.State.DISABLED -> State.Disabled
+            VpnStateService.State.CHECKING_AVAILABILITY -> State.CheckingAvailability
+            VpnStateService.State.WAITING_FOR_NETWORK -> State.WaitingForNetwork
+            VpnStateService.State.CONNECTING -> State.Connecting
+            VpnStateService.State.CONNECTED -> State.Connected
+            VpnStateService.State.RECONNECTING -> State.Reconnecting
+            VpnStateService.State.DISCONNECTING -> State.Disconnecting
+            VpnStateService.State.ERROR -> State.Error(when (error) {
+                VpnStateService.ErrorState.AUTH_FAILED -> ErrorType.AUTH_FAILED_INTERNAL
+                VpnStateService.ErrorState.PEER_AUTH_FAILED -> ErrorType.PEER_AUTH_FAILED
+                VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED
+                VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
+                VpnStateService.ErrorState.SESSION_IN_USE -> ErrorType.SESSION_IN_USE
+                VpnStateService.ErrorState.MAX_SESSIONS -> ErrorType.MAX_SESSIONS
+                else -> ErrorType.GENERIC_ERROR
+            })
         }
-    }
-
-    private fun translateState(state: VpnStateService.State): VpnStateMonitor.State {
-        return when (state) {
-            VpnStateService.State.DISABLED -> VpnStateMonitor.State.DISABLED
-            VpnStateService.State.CHECKING_AVAILABILITY -> VpnStateMonitor.State.CHECKING_AVAILABILITY
-            VpnStateService.State.WAITING_FOR_NETWORK -> VpnStateMonitor.State.WAITING_FOR_NETWORK
-            VpnStateService.State.CONNECTING -> VpnStateMonitor.State.CONNECTING
-            VpnStateService.State.CONNECTED -> VpnStateMonitor.State.CONNECTED
-            VpnStateService.State.RECONNECTING -> VpnStateMonitor.State.RECONNECTING
-            VpnStateService.State.DISCONNECTING -> VpnStateMonitor.State.DISCONNECTING
-            VpnStateService.State.ERROR -> VpnStateMonitor.State.ERROR
-        }
-    }
 
     override fun stateChanged() {
-        error.errorState = translateError(vpnService!!.errorState)
-        stateObservable.value = if (error.errorState == VpnStateMonitor.ErrorState.NO_ERROR)
-            translateState(vpnService!!.state) else VpnStateMonitor.State.ERROR
+        selfStateObservable.postValue(translateState(vpnService!!.state, vpnService!!.errorState))
         DebugUtils.debugAssert {
-            (stateObservable.value in arrayOf(
-                    VpnStateMonitor.State.CONNECTING, VpnStateMonitor.State.CONNECTED)).implies(active)
+            (selfState in arrayOf(State.Connecting, State.Connected)).implies(active)
         }
     }
 }

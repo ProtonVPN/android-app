@@ -43,25 +43,21 @@ class MockVpnBackend : VpnBackend("MockVpnBackend") {
                 profile, server, server.getRandomConnectingDomain(), VpnProtocol.IKEv2) {})
 
     override suspend fun connect() {
-        error.errorState = errorOnConnect
-        stateObservable.value = VpnStateMonitor.State.CONNECTING
-        stateObservable.value = stateOnConnect
+        selfStateObservable.value = VpnStateMonitor.State.Connecting
+        setSelfState(stateOnConnect)
     }
 
     override suspend fun disconnect() {
-        stateObservable.value = VpnStateMonitor.State.DISCONNECTING
-        error.errorState = VpnStateMonitor.ErrorState.NO_ERROR
-        stateObservable.value = VpnStateMonitor.State.DISABLED
+        setSelfState(VpnStateMonitor.State.Disconnecting)
+        setSelfState(VpnStateMonitor.State.Disabled)
     }
 
     override suspend fun reconnect() {
-        error.errorState = errorOnConnect
-        stateObservable.value = VpnStateMonitor.State.CONNECTING
-        stateObservable.value = stateOnConnect
+        setSelfState(VpnStateMonitor.State.Connecting)
+        setSelfState(stateOnConnect)
     }
 
     override val retryInfo get() = RetryInfo(10, 10)
 
-    var errorOnConnect = VpnStateMonitor.ErrorState.NO_ERROR
-    var stateOnConnect = VpnStateMonitor.State.CONNECTED
+    var stateOnConnect: VpnStateMonitor.State = VpnStateMonitor.State.Connected
 }

@@ -55,7 +55,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaQuickConnect() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         ConnectionRobot connectionRobot =
             homeRobot.connectThroughQuickConnect().isConnectedToVpn().connectionRobot;
         ConnectionResult result = connectionRobot.clickDisconnectButton();
@@ -65,7 +65,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaCountryList() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         CountriesRobot countriesRobot = homeRobot.clickOnCountriesTab();
 
         String country = service.getFirstCountryFromBackend();
@@ -81,7 +81,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaMapView() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
 
         MapRobot mapRobot = homeRobot.clickOnMapViewTab();
         mapRobot.clickOnUSNode();
@@ -93,7 +93,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaProfiles() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         profilesRobot.clickOnFastestOption();
@@ -105,7 +105,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void cancelWhileConnecting() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTING);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connecting.INSTANCE);
         homeRobot.connectThroughQuickConnectWithoutVPNHandling();
 
         ConnectionResult connectionResult = new ConnectionRobot().clickCancelConnectionButton();
@@ -114,8 +114,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectToServerWhenInternetIsDownViaProfiles() {
-        testRule.mockErrorOnConnect(VpnStateMonitor.ErrorState.UNREACHABLE);
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.ERROR);
+        testRule.mockErrorOnConnect(VpnStateMonitor.ErrorType.UNREACHABLE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         profilesRobot.clickOnFastestOption();

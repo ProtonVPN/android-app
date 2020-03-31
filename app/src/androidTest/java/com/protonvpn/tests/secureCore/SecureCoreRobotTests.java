@@ -49,7 +49,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughMap() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
 
         MapRobot map = homeRobot.clickOnMapViewTab();
 
@@ -70,7 +70,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughQuickConnect() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
 
         homeRobot.enableSecureCore();
         ConnectionResult result = homeRobot.connectThroughQuickConnect();
@@ -82,7 +82,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughCountryList() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
 
         homeRobot.enableSecureCore();
         CountriesRobot countries = homeRobot.clickOnCountriesTab();

@@ -125,7 +125,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void tryToConnectToProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";
@@ -237,7 +237,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void connectToCreatedSecureCoreProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";

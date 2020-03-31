@@ -27,6 +27,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.VpnStateMonitor.State
+import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
@@ -157,8 +159,8 @@ class OpenVpnBackend(
     }
 
     override suspend fun disconnect() {
-        if (state != VpnStateMonitor.State.DISABLED) {
-            stateObservable.value = VpnStateMonitor.State.DISCONNECTING
+        if (selfState != State.Disabled) {
+            selfStateObservable.value = State.Disconnecting
         }
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
@@ -186,11 +188,9 @@ class OpenVpnBackend(
         }
     }
 
-    override fun updateState(state: String, logmessage: String, localizedResId: Int, level: ConnectionStatus) {
-        var errorState = VpnStateMonitor.ErrorState.NO_ERROR
-
+    override fun updateState(openVpnState: String, logmessage: String, localizedResId: Int, level: ConnectionStatus) {
         if (level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET &&
-                error.errorState == VpnStateMonitor.ErrorState.PEER_AUTH_FAILED) {
+                (selfState as? State.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
             // On tls-error OpenVPN will send a single RECONNECTING state update with tls-error in
             // logmessage followed by LEVEL_CONNECTING_NO_SERVER_REPLY_YET updates without info
             // about tls-error. Let's stay in PEER_AUTH_FAILED for the rest of this connection
@@ -198,36 +198,29 @@ class OpenVpnBackend(
             return
         }
 
-        val translatedState = if (state == "RECONNECTING" && logmessage.startsWith("tls-error")) {
-            errorState = VpnStateMonitor.ErrorState.PEER_AUTH_FAILED
-            VpnStateMonitor.State.ERROR
-        } else if (state == "RECONNECTING") {
-            VpnStateMonitor.State.RECONNECTING
+        val translatedState = if (openVpnState == "RECONNECTING" && logmessage.startsWith("tls-error")) {
+            State.Error(ErrorType.PEER_AUTH_FAILED)
+        } else if (openVpnState == "RECONNECTING") {
+            State.Reconnecting
         } else when (level) {
             ConnectionStatus.LEVEL_CONNECTED ->
-                VpnStateMonitor.State.CONNECTED
+                State.Connected
             ConnectionStatus.LEVEL_CONNECTING_SERVER_REPLIED, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET,
             ConnectionStatus.LEVEL_START, ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT ->
-                VpnStateMonitor.State.CONNECTING
+                State.Connecting
             ConnectionStatus.LEVEL_NONETWORK ->
-                VpnStateMonitor.State.WAITING_FOR_NETWORK
+                State.WaitingForNetwork
             ConnectionStatus.LEVEL_NOTCONNECTED, ConnectionStatus.LEVEL_VPNPAUSED ->
-                VpnStateMonitor.State.DISABLED
-            ConnectionStatus.LEVEL_AUTH_FAILED -> {
-                errorState = VpnStateMonitor.ErrorState.AUTH_FAILED_INTERNAL
-                VpnStateMonitor.State.ERROR
-            }
-            ConnectionStatus.UNKNOWN_LEVEL -> {
-                errorState = VpnStateMonitor.ErrorState.GENERIC_ERROR
-                VpnStateMonitor.State.ERROR
-            }
+                State.Disabled
+            ConnectionStatus.LEVEL_AUTH_FAILED ->
+                State.Error(ErrorType.AUTH_FAILED_INTERNAL)
+            ConnectionStatus.UNKNOWN_LEVEL ->
+                State.Error(ErrorType.GENERIC_ERROR)
         }
-        error.errorState = errorState
         DebugUtils.debugAssert {
-            (translatedState in arrayOf(
-                    VpnStateMonitor.State.CONNECTING, VpnStateMonitor.State.CONNECTED)).implies(active)
+            (translatedState in arrayOf(State.Connecting, State.Connected)).implies(active)
         }
-        stateObservable.postValue(translatedState)
+        selfStateObservable.postValue(translatedState)
     }
 
     override fun setConnectedVPN(uuid: String) {
