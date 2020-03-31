@@ -21,16 +21,22 @@ package com.protonvpn.android.vpn
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
+data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams)
+
 interface VpnBackendProvider {
-    fun getFor(userData: UserData, profile: Profile? = null): VpnBackend
+    suspend fun prepareConnection(profile: Profile, server: Server, userData: UserData): PrepareResult?
 }
 
 abstract class VpnBackend(val name: String) {
+
+    abstract suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult?
     abstract suspend fun connect()
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()
@@ -56,7 +62,7 @@ abstract class VpnBackend(val name: String) {
     }
 
     val state get() = stateObservable.value!!
-    var error: ConnectionError = ConnectionError(VpnStateMonitor.ErrorState.NO_ERROR)
+    val error: ConnectionError = ConnectionError(VpnStateMonitor.ErrorState.NO_ERROR)
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L

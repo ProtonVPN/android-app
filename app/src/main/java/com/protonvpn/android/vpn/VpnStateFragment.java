@@ -160,7 +160,7 @@ public class VpnStateFragment extends BaseFragment {
             }
         }
         manager.addToProfileList(currentProfile.getServer().getServerName(),
-            Profile.getRandomProfileColor(getContext()), currentProfile.getServer());
+            Profile.Companion.getRandomProfileColor(getContext()), currentProfile.getServer());
         Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
     }
 
@@ -173,7 +173,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.buttonRetry)
     public void buttonRetry() {
-        stateMonitor.reconnect();
+        stateMonitor.reconnect(getContext());
     }
 
     @Override
@@ -363,8 +363,8 @@ public class VpnStateFragment extends BaseFragment {
             server.isSecureCoreServer() ? R.color.colorAccent : R.color.white));
 
         textServerName.setText(server.getServerName());
-        textServerIp.setText(server.getIpAddress());
-        textProtocol.setText(stateMonitor.getConnectionProtocolString());
+        textServerIp.setText(stateMonitor.getExitIP());
+        textProtocol.setText(stateMonitor.getConnectionProtocol().toString());
         textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, server.getLoad()));
         imageLoad.setImageDrawable(
             new ColorDrawable(ContextCompat.getColor(imageLoad.getContext(), server.getLoadColor())));
@@ -438,6 +438,7 @@ public class VpnStateFragment extends BaseFragment {
                     updateNotConnectedView();
                     break;
                 case CHECKING_AVAILABILITY:
+                case SCANNING_PORTS:
                     statusDivider.setVisibility(View.GONE);
                     textConnectingTo.setText(R.string.loaderCheckingAvailability);
                     initConnectingStateView(connectedServer, fromSavedState);
@@ -496,6 +497,7 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Gateway address lookup failed"));
                 break;
             case UNREACHABLE:
+            case NO_PORTS_AVAILABLE:
                 showErrorDialog(R.string.error_unreachable);
                 Log.exception(new VPNException("Gateway is unreachable"));
                 break;

@@ -24,6 +24,9 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
@@ -47,6 +50,13 @@ class StrongSwanBackend(
     }
 
     private suspend fun getVpnService() = vpnService ?: serviceProvider.receive()
+
+    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult? {
+        val connectingDomain = server.getRandomConnectingDomain()
+        if (!scan || isServerAvailable(connectingDomain.entryIp))
+            return PrepareResult(this, ConnectionParamsIKEv2(profile, server, connectingDomain))
+        return null
+    }
 
     private suspend fun isServerAvailable(ip: String) =
         NetUtils.ping(ip, 500, getPingData(), tcp = false, timeout = 5000)

@@ -40,6 +40,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.DISCONNECTING
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
 import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.SCANNING_PORTS
 import com.protonvpn.android.vpn.VpnStateMonitor.State.WAITING_FOR_NETWORK
 
 object NotificationHelper {
@@ -90,8 +91,8 @@ object NotificationHelper {
     fun buildStatusNotification(vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?): Notification {
         val context = ProtonApplication.getAppContext()
         val disconnectIntent = Intent(DISCONNECT_ACTION)
-        val disconnectPendingIntent: PendingIntent =
-                PendingIntent.getBroadcast(context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val disconnectPendingIntent = PendingIntent.getBroadcast(
+            context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder =
                 NotificationCompat.Builder(context, CHANNEL_ID)
@@ -104,12 +105,12 @@ object NotificationHelper {
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
 
         when (vpnState.state) {
-            DISABLED, CHECKING_AVAILABILITY, WAITING_FOR_NETWORK, RECONNECTING, DISCONNECTING -> builder.color =
+            DISABLED, CHECKING_AVAILABILITY, SCANNING_PORTS, WAITING_FOR_NETWORK, RECONNECTING, DISCONNECTING -> builder.color =
                     ContextCompat.getColor(context, R.color.orange)
             CONNECTING, CONNECTED -> {
                 builder.color = ContextCompat.getColor(context, R.color.greenBright)
-                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp, context.getString(R.string.disconnect),
-                        disconnectPendingIntent))
+                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp,
+                        context.getString(R.string.disconnect), disconnectPendingIntent))
             }
             ERROR -> builder.color = ContextCompat.getColor(context, R.color.red)
         }
@@ -137,7 +138,8 @@ object NotificationHelper {
     private fun getIconForState(state: VpnStateMonitor.State): Int {
         return when (state) {
             DISABLED, ERROR -> R.drawable.ic_notification_disconnected
-            CONNECTING, WAITING_FOR_NETWORK, DISCONNECTING, CHECKING_AVAILABILITY, RECONNECTING -> R.drawable.ic_notification_warning
+            CONNECTING, WAITING_FOR_NETWORK, DISCONNECTING, CHECKING_AVAILABILITY, SCANNING_PORTS, RECONNECTING ->
+                R.drawable.ic_notification_warning
             CONNECTED -> R.drawable.ic_notification
         }
     }
@@ -145,7 +147,7 @@ object NotificationHelper {
     private fun getStringFromState(vpnState: VpnStateMonitor.VpnState): String {
         val context = ProtonApplication.getAppContext()
         return when (vpnState.state) {
-            CHECKING_AVAILABILITY -> context.getString(R.string.loaderCheckingAvailability)
+            CHECKING_AVAILABILITY, SCANNING_PORTS -> context.getString(R.string.loaderCheckingAvailability)
             DISABLED -> context.getString(R.string.loaderNotConnected)
             CONNECTING -> context.getString(R.string.loaderConnectingTo, getServerName(context, vpnState))
             CONNECTED -> context.getString(R.string.loaderConnectedTo, getServerName(context, vpnState))
@@ -157,8 +159,9 @@ object NotificationHelper {
     }
 
     private fun getServerName(context: Context, vpnState: VpnStateMonitor.VpnState): String {
-        val (profile, server) = vpnState.connectionInfo!!
-        return if (profile.isPreBakedProfile || profile.getDisplayName(
-                        context).isEmpty()) server.getDisplayName() else profile.getDisplayName(context)
+        val profile = vpnState.profile!!
+        val server = vpnState.server!!
+        return if (profile.isPreBakedProfile || profile.getDisplayName(context).isEmpty())
+            server.displayName else profile.getDisplayName(context)
     }
 }

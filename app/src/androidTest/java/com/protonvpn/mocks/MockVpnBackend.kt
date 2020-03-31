@@ -19,7 +19,11 @@
 package com.protonvpn.mocks
 
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -28,10 +32,15 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 class MockVpnBackendProvider : VpnBackendProvider {
     val backend = MockVpnBackend()
 
-    override fun getFor(userData: UserData, profile: Profile?) = backend
+    override suspend fun prepareConnection(profile: Profile, server: Server, userData: UserData): PrepareResult? =
+        backend.prepareForConnection(profile, server, false)
 }
 
 class MockVpnBackend : VpnBackend("MockVpnBackend") {
+
+    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean) =
+        PrepareResult(this, object : ConnectionParams(
+                profile, server, server.getRandomConnectingDomain(), VpnProtocol.IKEv2) {})
 
     override suspend fun connect() {
         error.errorState = errorOnConnect

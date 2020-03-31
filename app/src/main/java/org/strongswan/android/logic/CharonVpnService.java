@@ -41,7 +41,8 @@ import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.models.vpn.ConnectionParams;
+import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.Log;
@@ -96,10 +97,10 @@ public class CharonVpnService extends VpnService implements Runnable {
     private String mLogFile;
     private Thread mConnectionHandler;
     private Thread logCaptureThread = null;
-    private Server mCurrentProfile;
+    private VpnProfile mCurrentProfile;
     private volatile String mCurrentCertificateAlias;
     private volatile String mCurrentUserCertificateAlias;
-    private Server mNextProfile;
+    private VpnProfile mNextProfile;
     private volatile boolean mProfileUpdated;
     private volatile boolean mTerminate;
     private volatile boolean mIsDisconnecting;
@@ -155,8 +156,10 @@ public class CharonVpnService extends VpnService implements Runnable {
         }
         else {
             startForeground(Constants.NOTIFICATION_ID, stateMonitor.buildNotification());
-            Server serverToConnect = Storage.load(Server.class);
-            setNextProfile(serverToConnect);
+            ConnectionParamsIKEv2 serverToConnect = Storage.load(
+                ConnectionParams.class, ConnectionParamsIKEv2.class);
+            setNextProfile(serverToConnect != null ?
+                serverToConnect.getStrongSwanProfile(userData) : null);
             Log.e("start next profile: " + (serverToConnect == null));
             return serverToConnect != null ? START_STICKY : START_NOT_STICKY;
         }
@@ -165,13 +168,13 @@ public class CharonVpnService extends VpnService implements Runnable {
     }
 
     private void handleRestoreState() {
-        Server lastServer = Storage.load(Server.class);
+        ConnectionParamsIKEv2 lastServer = Storage.load(
+            ConnectionParams.class, ConnectionParamsIKEv2.class);
         if (lastServer == null) {
             stopSelf();
         }
         else {
-            Profile profile = Profile.getTemptProfile(lastServer, manager);
-            if (!stateMonitor.onRestoreProcess(this, profile) || profile.isOpenVPNSelected(userData)) {
+            if (!stateMonitor.onRestoreProcess(this, lastServer.getProfile())) {
                 stopSelf();
             }
         }
@@ -185,9 +188,6 @@ public class CharonVpnService extends VpnService implements Runnable {
         else {
             Log.e("handle always on");
             stateMonitor.connect(this, profile);
-            if (profile.isOpenVPNSelected(userData)) {
-                stopSelf();
-            }
         }
     }
 
@@ -266,7 +266,7 @@ public class CharonVpnService extends VpnService implements Runnable {
      *
      * @param profile the profile to initiate
      */
-    private void setNextProfile(Server profile) {
+    private void setNextProfile(VpnProfile profile) {
         synchronized (this) {
             this.mNextProfile = profile;
             mProfileUpdated = true;
@@ -306,11 +306,6 @@ public class CharonVpnService extends VpnService implements Runnable {
     private void initNativeConnection() {
         mCurrentProfile = mNextProfile;
         mNextProfile = null;
-        /* store this in a separate (volatile) variable to avoid
-         * a possible deadlock during deinitialization */
-        if (mCurrentProfile.notReadyForConnection()) {
-            mCurrentProfile.prepareForConnection(userData);
-        }
         mCurrentCertificateAlias = mCurrentProfile.getCertificateAlias();
         mCurrentUserCertificateAlias = mCurrentProfile.getUserCertificateAlias();
 
@@ -395,7 +390,7 @@ public class CharonVpnService extends VpnService implements Runnable {
      *
      * @param profile currently active VPN profile
      */
-    private void startConnection(Server profile) {
+    private void startConnection(VpnProfile profile) {
         synchronized (mServiceLock) {
             if (mService != null) {
                 mService.startConnection(profile);

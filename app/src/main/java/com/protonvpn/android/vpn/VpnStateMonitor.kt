@@ -35,7 +35,9 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.DISCONNECT_ACTION
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
@@ -57,12 +59,12 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
 import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
 import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
+import com.protonvpn.android.vpn.VpnStateMonitor.State.SCANNING_PORTS
 import de.blinkt.openpvpn.core.VpnStatus
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Singleton
 
 @Singleton
 open class VpnStateMonitor(
@@ -77,27 +79,21 @@ open class VpnStateMonitor(
 
     enum class State {
         DISABLED, CHECKING_AVAILABILITY, WAITING_FOR_NETWORK, CONNECTING, CONNECTED, RECONNECTING,
-        DISCONNECTING, ERROR
+        DISCONNECTING, ERROR, SCANNING_PORTS
     }
 
     enum class ErrorState {
         NO_ERROR, AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED, UNREACHABLE,
-        SESSION_IN_USE, MAX_SESSIONS, UNPAID, GENERIC_ERROR
-    }
-
-    data class ConnectionInfo(val profile: Profile, val server: Server) {
-        init {
-            profile.server!!.reinitFromOldProfile(server)
-        }
+        SESSION_IN_USE, MAX_SESSIONS, UNPAID, GENERIC_ERROR, NO_PORTS_AVAILABLE
     }
 
     data class VpnState(
         val state: State,
         val error: ConnectionError?,
-        val connectionInfo: ConnectionInfo?
+        val connectionParams: ConnectionParams?
     ) {
-        val profile get() = connectionInfo?.profile
-        val server get() = connectionInfo?.server
+        val profile get() = connectionParams?.profile
+        val server get() = connectionParams?.server
     }
 
     companion object {
@@ -108,49 +104,61 @@ open class VpnStateMonitor(
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
 
-    private var connectionInfo: ConnectionInfo? = null
+    private var connectionParams: ConnectionParams? = null
+    private var lastProfile: Profile? = null
+
+    private val monitorState = MutableLiveData(DISABLED)
+    private val monitorError = ConnectionError(NO_ERROR)
+
+    private fun setMonitorState(state: State, error: ErrorState) {
+        monitorError.errorState = error
+        monitorState.value = state
+    }
 
     private val stateInternal: LiveData<State> =
             Transformations.switchMap(activeBackendObservable) {
-                it?.stateObservable
+                it?.stateObservable ?: monitorState
             }
 
     val vpnState: LiveData<VpnState> = stateInternal.eagerMapNotNull(ignoreIfEqual = true) {
         var newState = it ?: DISABLED
-        if (newState == ERROR && error?.errorState == AUTH_FAILED_INTERNAL) {
+        if (newState == ERROR && error.errorState == AUTH_FAILED_INTERNAL) {
             newState = CHECKING_AVAILABILITY
             debugAssert { ongoingConnect == null }
             ongoingConnect = scope.launch {
                 checkAuthFailedReason()
             }
         }
-        VpnState(newState, error, connectionInfo)
+        VpnState(newState, error, connectionParams)
     }
 
     private val state get() = stateInternal.value ?: DISABLED
-    private val error get() = activeBackend?.error
+    private val error get() = activeBackend?.error ?: monitorError
 
-    val isConnected get() = state == CONNECTED && connectionInfo != null
+    val isConnected get() = state == CONNECTED && connectionParams != null
 
     val connectingToServer
-        get() = connectionInfo?.server?.takeIf {
+        get() = connectionParams?.server?.takeIf {
             state == CONNECTED || state == CONNECTING
         }
 
     val connectionProfile
-        get() = connectionInfo?.profile
+        get() = connectionParams?.profile
 
     val isConnectingToSecureCore
         get() = connectingToServer?.isSecureCoreServer == true
 
-    val connectionProtocolString
-        get() = connectionProfile?.getProtocol(userData)
+    val connectionProtocol
+        get() = connectionParams?.protocol
+
+    val exitIP
+        get() = connectionParams?.exitIpAddress
 
     fun isConnectedTo(server: Server?) =
-            isConnected && connectionInfo?.server == server
+            isConnected && connectionParams?.server == server
 
     fun isConnectedToAny(servers: List<Server>) =
-            isConnected && connectionInfo?.server?.domain?.let { connectingToDomain ->
+            isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
                 connectingToDomain in servers.asSequence().map { it.domain }
             } == true
 
@@ -170,10 +178,10 @@ open class VpnStateMonitor(
         stateInternal.observeForever {
             Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-            Log.i("VpnStateMonitor state=$it error=${error?.errorState} backend=${activeBackend?.name}")
+            Log.i("VpnStateMonitor state=$it error=${error.errorState} backend=${activeBackend?.name}")
             debugAssert {
                 (state in arrayOf(CONNECTING, CONNECTED, RECONNECTING))
-                        .implies(connectionInfo != null && activeBackend != null)
+                        .implies(connectionParams != null && activeBackend != null)
             }
             serverListUpdater.isVpnDisconnected = state == DISABLED
 
@@ -200,8 +208,7 @@ open class VpnStateMonitor(
         }
     }
 
-    private fun activateBackend(profile: Profile? = null) {
-        val newBackend = backendProvider.getFor(userData, profile)
+    private fun activateBackend(newBackend: VpnBackend) {
         debugAssert {
             activeBackend == null || activeBackend == newBackend
         }
@@ -209,6 +216,7 @@ open class VpnStateMonitor(
             activeBackend?.active = false
             newBackend.active = true
             activeBackendObservable.value = newBackend
+            setMonitorState(DISABLED, NO_ERROR)
         }
     }
 
@@ -228,18 +236,28 @@ open class VpnStateMonitor(
     }
 
     private suspend fun coroutineConnect(profile: Profile) {
-        ProtonLogger.log("Connect: ${profile.server?.domain}")
-        if (activeBackend != null && activeBackend != backendProvider.getFor(userData, profile)) {
-            disconnectBlocking()
+        // If smart profile fails we need this to handle reconnect request
+        lastProfile = profile
+        val server = profile.server!!
+        ProtonLogger.log("Connect: ${server.domain}")
+
+        if (profile.getProtocol(userData) == VpnProtocol.Smart)
+            setMonitorState(SCANNING_PORTS, NO_ERROR)
+
+        val preparedConnection = backendProvider.prepareConnection(profile, server, userData)
+        if (preparedConnection == null) {
+            setMonitorState(ERROR, ErrorState.NO_PORTS_AVAILABLE)
+            return
         }
 
-        val serverToConnect = profile.server!!.prepareForConnection(userData)
-        Storage.save(serverToConnect)
-        // We need to save and use direct server as well, as using just Profile is not enough
-        // in cases where profile is pointing to random server
-        connectionInfo = ConnectionInfo(profile, serverToConnect)
+        val newBackend = preparedConnection.backend
+        if (activeBackend != newBackend)
+            disconnectBlocking()
 
-        activateBackend(profile)
+        connectionParams = preparedConnection.connectionParams
+
+        Storage.save(connectionParams, ConnectionParams::class.java)
+        activateBackend(newBackend)
         activeBackend?.connect()
         ongoingConnect = null
     }
@@ -280,7 +298,8 @@ open class VpnStateMonitor(
                     coroutineConnect(profile)
                 }
             } else {
-                NotificationHelper.showInformationNotification(context, context.getString(R.string.error_server_not_set))
+                NotificationHelper.showInformationNotification(
+                        context, context.getString(R.string.error_server_not_set))
             }
         }
     }
@@ -289,11 +308,12 @@ open class VpnStateMonitor(
             VpnService.prepare(context)
 
     private suspend fun disconnectBlocking() {
-        Storage.delete(Server::class.java)
+        Storage.delete(ConnectionParams::class.java)
+        setMonitorState(DISABLED, NO_ERROR)
         activeBackend?.disconnect()
         activeBackend?.active = false
         activeBackendObservable.value = null
-        connectionInfo = null
+        connectionParams = null
     }
 
     open fun disconnect() {
@@ -304,10 +324,12 @@ open class VpnStateMonitor(
         }
     }
 
-    fun reconnect() = scope.launch {
+    fun reconnect(context: Context) = scope.launch {
         clearOngoingConnection()
-        activateBackend()
-        activeBackend?.reconnect()
+        if (activeBackend != null)
+            activeBackend?.reconnect()
+        else
+            lastProfile?.let { connect(context, it) }
     }
 
     fun buildNotification() =

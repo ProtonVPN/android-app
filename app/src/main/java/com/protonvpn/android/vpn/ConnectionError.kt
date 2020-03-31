@@ -16,34 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn;
+package com.protonvpn.android.vpn
 
-import androidx.annotation.NonNull;
-
-public class ConnectionError {
-
-    private boolean handled = false;
-    private VpnStateMonitor.ErrorState errorState;
-
-    public ConnectionError(@NonNull VpnStateMonitor.ErrorState errorState) {
-        this.errorState = errorState;
-    }
-
-    public boolean isHandled() {
-        return handled;
-    }
-
-    public void setHandled(boolean handled) {
-        this.handled = handled;
-    }
-
-    @NonNull
-    public VpnStateMonitor.ErrorState getErrorState() {
-        return errorState;
-    }
-
-    public void setErrorState(@NonNull VpnStateMonitor.ErrorState errorState) {
-        this.errorState = errorState;
-        this.setHandled(false);
-    }
-}
+data class ConnectionError(var errorState: VpnStateMonitor.ErrorState)
