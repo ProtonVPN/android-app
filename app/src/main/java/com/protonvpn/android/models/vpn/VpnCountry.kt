@@ -115,7 +115,7 @@ class VpnCountry(
         }
         if (addBestConnection && bestConnection != null) {
             val fastestServer = SerializationUtils.clone(bestConnection)
-            fastestServer!!.setBestScore(true)
+            fastestServer!!.hasBestScore = true
             fastestServer.selectedAsFastest = true
             list.add(0, fastestServer)
         }

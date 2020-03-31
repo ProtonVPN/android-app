@@ -26,6 +26,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
@@ -62,6 +63,7 @@ public final class UserData implements Serializable {
     private long lastPrimaryApiFail;
     private String activeAlternativeBaseUrl;
     private List<String> alternativeApiBaseUrls;
+    private boolean useSmartProtocol;
 
     private transient LiveEvent updateEvent = new LiveEvent();
 
@@ -75,6 +77,7 @@ public final class UserData implements Serializable {
         transmissionProtocol = TransmissionProtocol.TCP;
         useIon = false;
         apiUseDoH = true;
+        useSmartProtocol = true;
     }
 
     public String getUser() {
@@ -276,7 +279,11 @@ public final class UserData implements Serializable {
         return !selectedProtocol.equals(VpnProtocol.IKEv2);
     }
 
+    @NotNull
     public VpnProtocol getSelectedProtocol() {
+        if (useSmartProtocol) {
+            return VpnProtocol.Smart;
+        }
         return selectedProtocol;
     }
 
@@ -321,6 +328,11 @@ public final class UserData implements Serializable {
 
     public boolean getApiUseDoH() {
         return apiUseDoH;
+    }
+
+    public void setUseSmartProtocol(boolean value) {
+        useSmartProtocol = value;
+        saveToStorage();
     }
 
     @Nullable

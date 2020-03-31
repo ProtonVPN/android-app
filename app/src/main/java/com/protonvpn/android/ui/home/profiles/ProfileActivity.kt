@@ -116,7 +116,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                     newProfile.apply {
                         setTransmissionProtocol(protocolSelection.spinnerTransmissionProtocol.selectedItem?.getLabel(context))
                         setProtocol(protocolSelection.spinnerDefaultProtocol.selectedItem?.getLabel(context))
-                        serverWrapper.setSecureCoreCountry(switchSecureCore.isChecked)
+                        wrapper.setSecureCoreCountry(switchSecureCore.isChecked)
                     }
                     viewModel.saveProfile(newProfile)
                     setResult(Activity.RESULT_OK)
@@ -202,7 +202,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             val currentName = editName.text.toString()
             val editableProfile = viewModel.editableProfile
             return if (editableProfile != null) {
-                editableProfile.serverWrapper != spinnerServer.selectedItem || currentName.isNotEmpty() &&
+                editableProfile.wrapper != spinnerServer.selectedItem || currentName.isNotEmpty() &&
                         currentName != editableProfile.getDisplayName(baseContext)
             } else currentName.isNotEmpty() || spinnerCountry.text!!.toString().isNotEmpty() ||
                     spinnerServer.text!!.toString().isNotEmpty()

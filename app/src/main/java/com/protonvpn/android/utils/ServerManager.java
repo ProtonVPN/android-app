@@ -93,7 +93,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
     // Whole profile providing should be moved to separate class outside of ServerManager
     private void reInitProfiles() {
         for (Profile profile : savedProfiles.getProfileList()) {
-            profile.getServerWrapper().setDeliverer(this);
+            profile.getWrapper().setDeliverer(this);
         }
         for (VpnCountry country : vpnCountries) {
             country.setDeliverer(this);
@@ -199,7 +199,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
     public Profile getDefaultConnection() {
         Profile profile = userData.getDefaultConnection() == null ? getSavedProfiles().get(0) :
             userData.getDefaultConnection();
-        profile.getServerWrapper().setDeliverer(this);
+        profile.getWrapper().setDeliverer(this);
         return profile;
     }
 
@@ -347,7 +347,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
 
     public void addToProfileList(String serverName, String color, Server server) {
         Profile newProfile = new Profile(serverName, color, ServerWrapper.makeWithServer(server, this));
-        newProfile.getServerWrapper().setSecureCoreCountry(userData.isSecureCoreEnabled());
+        newProfile.getWrapper().setSecureCoreCountry(userData.isSecureCoreEnabled());
         addToProfileList(newProfile);
     }
 

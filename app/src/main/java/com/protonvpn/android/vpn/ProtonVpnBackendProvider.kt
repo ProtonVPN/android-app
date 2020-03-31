@@ -19,14 +19,26 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.Server
 
 class ProtonVpnBackendProvider(
     private val strongSwan: StrongSwanBackend,
     private val openVpn: OpenVpnBackend
 ) : VpnBackendProvider {
 
-    override fun getFor(userData: UserData, profile: Profile?) =
-            if (profile?.isOpenVPNSelected(userData) ?: userData.isOpenVPNSelected)
-                openVpn else strongSwan
+    override suspend fun prepareConnection(
+        profile: Profile,
+        server: Server,
+        userData: UserData
+    ): PrepareResult? {
+        return when (profile.getProtocol(userData)) {
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.Smart ->
+                strongSwan.prepareForConnection(profile, server, scan = true)
+                        ?: openVpn.prepareForConnection(profile, server, scan = true)
+        }
+    }
 }

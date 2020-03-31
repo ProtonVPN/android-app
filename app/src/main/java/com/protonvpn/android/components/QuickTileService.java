@@ -105,13 +105,14 @@ public class QuickTileService extends TileService {
                 getQsTile().setState(Tile.STATE_INACTIVE);
                 break;
             case CHECKING_AVAILABILITY:
+            case SCANNING_PORTS:
             case CONNECTING:
                 getQsTile().setLabel(getString(R.string.state_connecting));
                 getQsTile().setState(Tile.STATE_UNAVAILABLE);
                 break;
             case CONNECTED:
                 Server server = vpnState.getServer();
-                String serverName = server.getName();
+                String serverName = server.getServerName();
                 getQsTile().setLabel(getString(R.string.tileConnected, serverName));
                 getQsTile().setState(Tile.STATE_ACTIVE);
                 break;

@@ -320,7 +320,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             vpnStateMonitor.disconnect();
         }
         else {
-            onConnect(Profile.getTemptProfile(server.getServer(), serverManager));
+            onConnect(Profile.Companion.getTempProfile(server.getServer(), serverManager));
         }
     }
 

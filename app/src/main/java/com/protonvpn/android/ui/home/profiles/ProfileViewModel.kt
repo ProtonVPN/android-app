@@ -37,10 +37,9 @@ class ProfileViewModel @Inject constructor(
                         secureCoreEnabled)
     }
 
-    val selectedProtocol
-        get() =
-            SettingsActivity.MockUDP(editableProfile?.getProtocol(userData)
-                    ?: userData.selectedProtocol.toString())
+    val selectedProtocol get() =
+        SettingsActivity.MockUDP(editableProfile?.getProtocol(userData)?.toString()
+                ?: userData.selectedProtocol.toString())
 
     fun getTransmissionVisibility(context: Context): Int {
         return getTransmissionVisibility(selectedProtocol.getLabel(context))

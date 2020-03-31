@@ -63,7 +63,7 @@ open class CountryExpandedViewHolder(
         val context = viewBinding.root.context
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
-            textServer.text = server.getDisplayName()
+            textServer.text = server.displayName
             textServer.visibility = VISIBLE
             textServer.setTextColor(
                     ContextCompat.getColor(context, if (haveAccess) R.color.white else R.color.white50))
@@ -162,7 +162,7 @@ open class CountryExpandedViewHolder(
     private fun initBadge() {
         with(binding) {
             serverBadge.visibility =
-                    if (server.keywords.isEmpty() || server.hasBestScore()) View.GONE else VISIBLE
+                    if (server.keywords.isEmpty() || server.hasBestScore) View.GONE else VISIBLE
             if (server.keywords.contains("p2p")) {
                 serverBadge.primaryText = "P2P"
             }
