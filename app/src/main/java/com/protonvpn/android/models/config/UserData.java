@@ -275,10 +275,6 @@ public final class UserData implements Serializable {
         return splitTunnelIpAddresses;
     }
 
-    public boolean isOpenVPNSelected() {
-        return !selectedProtocol.equals(VpnProtocol.IKEv2);
-    }
-
     @NotNull
     public VpnProtocol getSelectedProtocol() {
         if (useSmartProtocol) {
@@ -288,12 +284,15 @@ public final class UserData implements Serializable {
     }
 
     public void setSelectedProtocol(VpnProtocol selectedProtocol) {
+        if (selectedProtocol != VpnProtocol.Smart) {
+            this.useSmartProtocol = false;
+        }
         this.selectedProtocol = selectedProtocol;
         saveToStorage();
     }
 
-    public String getTransmissionProtocol() {
-        return transmissionProtocol.toString();
+    public TransmissionProtocol getTransmissionProtocol() {
+        return transmissionProtocol;
     }
 
     public void setTransmissionProtocol(TransmissionProtocol transmissionProtocol) {
@@ -328,11 +327,6 @@ public final class UserData implements Serializable {
 
     public boolean getApiUseDoH() {
         return apiUseDoH;
-    }
-
-    public void setUseSmartProtocol(boolean value) {
-        useSmartProtocol = value;
-        saveToStorage();
     }
 
     @Nullable

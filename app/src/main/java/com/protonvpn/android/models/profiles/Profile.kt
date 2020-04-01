@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
@@ -61,8 +62,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     override fun getLabel(context: Context) = getDisplayName(context)
 
-    fun getTransmissionProtocol(userData: UserData): String =
-        transmissionProtocol ?: userData.transmissionProtocol
+    fun getTransmissionProtocol(userData: UserData): TransmissionProtocol =
+        transmissionProtocol?.let { TransmissionProtocol.valueOf(it) } ?: userData.transmissionProtocol
 
     fun setTransmissionProtocol(value: String?) {
         transmissionProtocol = value

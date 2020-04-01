@@ -27,6 +27,7 @@ import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
@@ -86,7 +87,9 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData())
+    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
+        selectedProtocol = VpnProtocol.IKEv2
+    })
 
     @Singleton
     @Provides
