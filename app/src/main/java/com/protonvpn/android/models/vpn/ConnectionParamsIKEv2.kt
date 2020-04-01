@@ -41,7 +41,7 @@ class ConnectionParamsIKEv2(
         splitTunneling =
                 VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
         flags = VpnProfile.FLAGS_SUPPRESS_CERT_REQS
-        gateway = if (server.isSecureCoreServer) connectingDomain.entryIp else connectingDomain.exitIp
+        gateway = if (server.isSecureCoreServer) connectingDomain.entryIp else connectingDomain.getExitIP()
         remoteId = connectingDomain.entryDomain
 
         setExcludedSubnets(if (userData.useSplitTunneling) userData.splitTunnelIpAddresses else ArrayList())

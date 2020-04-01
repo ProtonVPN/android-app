@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -18,19 +18,14 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
-abstract class ConnectionParams(
-    val profile: Profile,
-    val server: Server,
-    val connectingDomain: ConnectingDomain,
-    val protocol: VpnProtocol
+data class ConnectingDomain(
+    @param:JsonProperty(value = "EntryIP", required = true) val entryIp: String,
+    @param:JsonProperty(value = "Domain", required = true) val entryDomain: String,
+    @param:JsonProperty(value = "ExitIP", required = false) private val exitIp: String?
 ) : Serializable {
 
-    open val info get() = "${connectingDomain.entryDomain} $protocol"
-
-    val exitIpAddress: String
-        get() = connectingDomain.getExitIP()
+    fun getExitIP() = exitIp ?: entryIp
 }
