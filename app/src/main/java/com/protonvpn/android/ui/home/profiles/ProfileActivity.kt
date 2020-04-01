@@ -37,12 +37,9 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.databinding.ActivityProfileBinding
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.drawer.SettingsActivity
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_profile)
@@ -105,7 +102,6 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     }
 
     private fun initSpinners() {
-        val context = this
         with(binding.contentProfile) {
             initServerSelection()
             binding.fabSave.setOnClickListener {
@@ -114,8 +110,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                             Profile(editName.text.toString(), palette.selectedColor,
                                     spinnerServer.selectedItem as ServerWrapper)
                     newProfile.apply {
-                        setTransmissionProtocol(protocolSelection.spinnerTransmissionProtocol.selectedItem?.getLabel(context))
-                        setProtocol(protocolSelection.spinnerDefaultProtocol.selectedItem?.getLabel(context))
+                        setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
+                        setProtocol(protocolSelection.protocol.toString())
                         wrapper.setSecureCoreCountry(switchSecureCore.isChecked)
                     }
                     viewModel.saveProfile(newProfile)
@@ -136,27 +132,11 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         }
     }
 
-    private fun initProtocolSelection() {
-        val context = this
-        with(binding.contentProfile.protocolSelection) {
-            val spinnerDefaultProtocol =
-                    spinnerDefaultProtocol as ProtonSpinner<SettingsActivity.MockUDP>
-            val spinnerTransmissionProtocol =
-                    spinnerTransmissionProtocol as ProtonSpinner<SettingsActivity.MockUDP>
-            spinnerDefaultProtocol.selectedItem = viewModel.selectedProtocol
-
-            spinnerDefaultProtocol.setItems(listOf(SettingsActivity.MockUDP(VpnProtocol.IKEv2.toString()),
-                    SettingsActivity.MockUDP(VpnProtocol.OpenVPN.toString())))
-            spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-                viewModel.editableProfile?.setProtocol(item.getLabel(context))
-                layoutTransmissionProtocol.visibility =
-                        viewModel.getTransmissionVisibility(item.getLabel(context))
-            }
-
-            layoutTransmissionProtocol.visibility = viewModel.getTransmissionVisibility(context)
-            spinnerTransmissionProtocol.selectedItem = viewModel.transmissionProtocol
-            spinnerTransmissionProtocol.setItems(listOf(SettingsActivity.MockUDP(TransmissionProtocol.UDP.toString()),
-                    SettingsActivity.MockUDP(TransmissionProtocol.TCP.toString())))
+    private fun initProtocolSelection() = with(binding.contentProfile) {
+        protocolSelection.init(viewModel.selectedProtocol, viewModel.transmissionProtocol) {
+            viewModel.editableProfile?.setProtocol(protocolSelection.protocol.toString())
+            viewModel.editableProfile?.setTransmissionProtocol(
+                    protocolSelection.transmissionProtocol.toString())
         }
     }
 

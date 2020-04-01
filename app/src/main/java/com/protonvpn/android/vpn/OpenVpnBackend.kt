@@ -63,7 +63,7 @@ class OpenVpnBackend(
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = User.getOpenVPNPorts()
         val protocolInfo = if (!scan) {
-            val transmissionProtocol = TransmissionProtocol.valueOf(profile.getTransmissionProtocol(userData))
+            val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
                 openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
             ProtocolInfo(transmissionProtocol, port)

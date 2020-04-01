@@ -34,7 +34,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingVertical="16dp"
             tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
             tools:showIn="@layout/activity_profile">
 
@@ -42,7 +42,7 @@
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
+                android:layout_marginHorizontal="16dp"
                 android:theme="@style/TextLabel">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="@string/profile_color"
                 android:textColor="@color/lightGrey"
                 android:textSize="16sp" />
@@ -71,15 +72,15 @@
             <com.protonvpn.android.components.ProtonPalette
                 android:id="@+id/palette"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </com.protonvpn.android.components.ProtonPalette>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="@string/secure_core"
                 android:textColor="@color/lightGrey"
                 android:textSize="16sp"
@@ -92,8 +93,8 @@
                 android:id="@+id/inputLayoutCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
                 android:theme="@style/TextLabel">
 
                 <com.protonvpn.android.components.ProtonSpinner
@@ -108,8 +109,8 @@
                 android:id="@+id/inputLayoutServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
                 android:theme="@style/TextLabel">
 
                 <com.protonvpn.android.components.ProtonSpinner
@@ -120,13 +121,11 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <include
+            <com.protonvpn.android.components.ProtocolSelection
                 android:id="@+id/protocolSelection"
-                layout="@layout/item_protocol_selection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchDnsLeak" />
+                android:theme="@style/ProtocolSelectionProfileActivity"/>
 
         </LinearLayout>
 
