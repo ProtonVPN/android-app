@@ -224,6 +224,7 @@ open class VpnStateMonitor(
             activeBackend?.active = false
             newBackend.active = true
             activeBackendObservable.value = newBackend
+            activeBackend?.setSelfState(Connecting)
             setSelfState(Disabled)
         }
     }
