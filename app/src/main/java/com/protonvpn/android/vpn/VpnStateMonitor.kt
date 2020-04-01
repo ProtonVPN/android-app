@@ -190,7 +190,7 @@ open class VpnStateMonitor(
         stateInternal.observeForever {
             Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-            Log.i("VpnStateMonitor state=$it backend=${activeBackend?.name}")
+            ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
             debugAssert {
                 (state in arrayOf(Connecting, Connected, Reconnecting))
                         .implies(connectionParams != null && activeBackend != null)
@@ -204,9 +204,6 @@ open class VpnStateMonitor(
                 Disabled -> {
                     EventBus.postOnMain(ConnectedToServer(null))
                 }
-                Reconnecting -> {
-                }
-                else -> Log.d("Current state: $it")
             }
             updateNotification(null)
         }
@@ -256,6 +253,7 @@ open class VpnStateMonitor(
 
         val preparedConnection = backendProvider.prepareConnection(profile, server, userData)
         if (preparedConnection == null) {
+            ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}")
             setSelfState(Error(NO_PORTS_AVAILABLE))
             return
         }
@@ -265,6 +263,7 @@ open class VpnStateMonitor(
             disconnectBlocking()
 
         connectionParams = preparedConnection.connectionParams
+        ProtonLogger.log("Smart protocol: using ${connectionParams?.info}")
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)

@@ -36,6 +36,8 @@ class ConnectionParamsOpenVpn(
     private val port: Int
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), Serializable {
 
+    override val info get() = "${super.info} $transmissionProtocol port=$port"
+
     fun openVpnProfile(
         context: Context,
         userData: UserData
@@ -58,7 +60,7 @@ class ConnectionParamsOpenVpn(
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
             mServerName = if (server.isSecureCoreServer)
-                connectingDomain.entryIp else connectingDomain.exitIp
+                connectingDomain.entryIp else connectingDomain.getExitIP()
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
             mCustomConfiguration = ""
