@@ -27,7 +27,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.vpn.VpnStateMonitor.State
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
@@ -163,8 +162,8 @@ class OpenVpnBackend(
     }
 
     override suspend fun disconnect() {
-        if (selfState != State.Disabled) {
-            selfStateObservable.value = State.Disconnecting
+        if (selfState != VpnState.Disabled) {
+            selfStateObservable.value = VpnState.Disconnecting
         }
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
@@ -194,7 +193,7 @@ class OpenVpnBackend(
 
     override fun updateState(openVpnState: String, logmessage: String, localizedResId: Int, level: ConnectionStatus) {
         if (level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET &&
-                (selfState as? State.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
+                (selfState as? VpnState.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
             // On tls-error OpenVPN will send a single RECONNECTING state update with tls-error in
             // logmessage followed by LEVEL_CONNECTING_NO_SERVER_REPLY_YET updates without info
             // about tls-error. Let's stay in PEER_AUTH_FAILED for the rest of this connection
@@ -203,26 +202,26 @@ class OpenVpnBackend(
         }
 
         val translatedState = if (openVpnState == "RECONNECTING" && logmessage.startsWith("tls-error")) {
-            State.Error(ErrorType.PEER_AUTH_FAILED)
+            VpnState.Error(ErrorType.PEER_AUTH_FAILED)
         } else if (openVpnState == "RECONNECTING") {
-            State.Reconnecting
+            VpnState.Reconnecting
         } else when (level) {
             ConnectionStatus.LEVEL_CONNECTED ->
-                State.Connected
+                VpnState.Connected
             ConnectionStatus.LEVEL_CONNECTING_SERVER_REPLIED, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET,
             ConnectionStatus.LEVEL_START, ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT ->
-                State.Connecting
+                VpnState.Connecting
             ConnectionStatus.LEVEL_NONETWORK ->
-                State.WaitingForNetwork
+                VpnState.WaitingForNetwork
             ConnectionStatus.LEVEL_NOTCONNECTED, ConnectionStatus.LEVEL_VPNPAUSED ->
-                State.Disabled
+                VpnState.Disabled
             ConnectionStatus.LEVEL_AUTH_FAILED ->
-                State.Error(ErrorType.AUTH_FAILED_INTERNAL)
+                VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
             ConnectionStatus.UNKNOWN_LEVEL ->
-                State.Error(ErrorType.GENERIC_ERROR)
+                VpnState.Error(ErrorType.GENERIC_ERROR)
         }
         DebugUtils.debugAssert {
-            (translatedState in arrayOf(State.Connecting, State.Connected)).implies(active)
+            (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
         selfStateObservable.postValue(translatedState)
     }
