@@ -24,8 +24,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 
 class ProtonVpnBackendProvider(
-    private val strongSwan: StrongSwanBackend,
-    private val openVpn: OpenVpnBackend
+    val strongSwan: VpnBackend,
+    val openVpn: VpnBackend
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(

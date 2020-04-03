@@ -21,7 +21,6 @@ import org.junit.Test
 import java.io.File
 import java.util.*
 
-
 class ServerManagerTests {
 
     private lateinit var manager: ServerManager
@@ -60,5 +59,3 @@ class ServerManagerTests {
         Assert.assertEquals("DE#1", manager.bestScoreServerFromAll.serverName)
     }
 }
-
-
