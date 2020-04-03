@@ -30,6 +30,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnState
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
 
@@ -47,9 +48,9 @@ abstract class CountryViewHolder(
 
     abstract fun onExpanded(position: Int)
 
-    private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
+    private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.isVisible =
-                vpnCountry.hasConnectedServer(it.server) && it.state == VpnStateMonitor.State.Connected
+                vpnCountry.hasConnectedServer(it.server) && it.state == VpnState.Connected
     }
 
     override fun getId() = vpnCountry.flag.hashCode().toLong()
@@ -71,7 +72,7 @@ abstract class CountryViewHolder(
             adjustCross(buttonCross, vpnCountry.isExpanded(), 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
-            viewModel.vpnStateMonitor.vpnState.observe(parentLifecycleOwner, vpnStateObserver)
+            viewModel.vpnStateMonitor.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
             badgeP2P.isVisible = vpnCountry.getKeywords().contains("p2p")
@@ -109,7 +110,7 @@ abstract class CountryViewHolder(
 
     override fun clear() {
         viewModel.selectedCountryFlag.removeObserver(countrySelectionObserver)
-        viewModel.vpnStateMonitor.vpnState.removeObserver(vpnStateObserver)
+        viewModel.vpnStateMonitor.vpnStatus.removeObserver(vpnStateObserver)
     }
 
     override fun getLayout(): Int {

@@ -25,7 +25,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnState
 
 class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
 
@@ -36,22 +36,22 @@ class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
                 profile, server, server.getRandomConnectingDomain(), protocol) {})
 
     override suspend fun connect() {
-        setSelfState(VpnStateMonitor.State.Connecting)
+        setSelfState(VpnState.Connecting)
         setSelfState(stateOnConnect)
     }
 
     override suspend fun disconnect() {
-        setSelfState(VpnStateMonitor.State.Disconnecting)
-        setSelfState(VpnStateMonitor.State.Disabled)
+        setSelfState(VpnState.Disconnecting)
+        setSelfState(VpnState.Disabled)
     }
 
     override suspend fun reconnect() {
-        setSelfState(VpnStateMonitor.State.Connecting)
+        setSelfState(VpnState.Connecting)
         setSelfState(stateOnConnect)
     }
 
     override val retryInfo get() = RetryInfo(10, 10)
 
-    var stateOnConnect: VpnStateMonitor.State = VpnStateMonitor.State.Connected
+    var stateOnConnect: VpnState = VpnState.Connected
     var failOnPrepare = false
 }

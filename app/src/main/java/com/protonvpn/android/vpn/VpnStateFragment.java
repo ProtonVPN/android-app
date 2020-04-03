@@ -62,7 +62,6 @@ import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType;
-import com.protonvpn.android.vpn.VpnStateMonitor.State;
 
 import java.util.List;
 import java.util.Timer;
@@ -189,7 +188,7 @@ public class VpnStateFragment extends BaseFragment {
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
 
         initChart();
-        stateMonitor.getVpnState().observe(getViewLifecycleOwner(), state -> updateView(false, state));
+        stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
             .getTrafficStatus()
             .observe(getViewLifecycleOwner(), this::onTrafficUpdate);
@@ -420,7 +419,7 @@ public class VpnStateFragment extends BaseFragment {
         return set1;
     }
 
-    public void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.VpnState vpnState) {
+    public void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.Status vpnState) {
         Profile profile = vpnState.getProfile();
 
         String serverName = "";
@@ -433,37 +432,37 @@ public class VpnStateFragment extends BaseFragment {
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);
-            State state = vpnState.getState();
+            VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
-            if (state instanceof State.Error) {
-                reportError(((State.Error)vpnState.getState()).getType());
+            if (state instanceof VpnState.Error) {
+                reportError(((VpnState.Error)vpnState.getState()).getType());
             }
-            else if (State.Disabled.INSTANCE.equals(state)) {
+            else if (VpnState.Disabled.INSTANCE.equals(state)) {
                 checkDisconnectFromOutside();
                 textConnectingTo.setText(R.string.loaderNotConnected);
                 updateNotConnectedView();
             }
-            else if (State.CheckingAvailability.INSTANCE.equals(state)
-                || State.ScanningPorts.INSTANCE.equals(state)) {
+            else if (VpnState.CheckingAvailability.INSTANCE.equals(state)
+                || VpnState.ScanningPorts.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderCheckingAvailability);
                 initConnectingStateView(connectedServer, fromSavedState);
             }
-            else if (State.Connecting.INSTANCE.equals(state)) {
+            else if (VpnState.Connecting.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
                 initConnectingStateView(connectedServer, fromSavedState);
             }
-            else if (State.WaitingForNetwork.INSTANCE.equals(state)) {
+            else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
                 initConnectingStateView(connectedServer, fromSavedState);
             }
-            else if (State.Connected.INSTANCE.equals(state)) {
+            else if (VpnState.Connected.INSTANCE.equals(state)) {
                 textConnectingTo.setText(getString(R.string.loaderConnectedTo, serverName));
                 initConnectedStateView(connectedServer);
             }
-            else if (State.Disconnecting.INSTANCE.equals(state)) {
+            else if (VpnState.Disconnecting.INSTANCE.equals(state)) {
                 textConnectingTo.setText(R.string.loaderDisconnecting);
                 connectingView.setBackgroundColor(
                     ContextCompat.getColor(getContext(), R.color.colorPrimary));

@@ -22,7 +22,7 @@ import com.protonvpn.actions.ConnectionRobot;
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.android.R;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.ProfilesResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
@@ -125,7 +125,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void tryToConnectToProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";
@@ -237,7 +237,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void connectToCreatedSecureCoreProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";

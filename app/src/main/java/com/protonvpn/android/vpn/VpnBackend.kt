@@ -46,14 +46,14 @@ abstract class VpnBackend(val name: String) : VpnStateSource {
         withTimeoutOrNull(DISCONNECT_WAIT_TIMEOUT) {
             do {
                 delay(200)
-            } while (selfState != VpnStateMonitor.State.Disabled)
+            } while (selfState != VpnState.Disabled)
         }
-        if (selfState == VpnStateMonitor.State.Disconnecting)
-            setSelfState(VpnStateMonitor.State.Disabled)
+        if (selfState == VpnState.Disconnecting)
+            setSelfState(VpnState.Disabled)
     }
 
     var active = false
-    override val selfStateObservable = MutableLiveData<VpnStateMonitor.State>(VpnStateMonitor.State.Disabled)
+    override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L

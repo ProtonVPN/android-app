@@ -53,28 +53,17 @@ import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED_INTERNAL
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.MAX_SESSIONS
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.NO_PORTS_AVAILABLE
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.UNPAID
-import com.protonvpn.android.vpn.VpnStateMonitor.State.CheckingAvailability
-import com.protonvpn.android.vpn.VpnStateMonitor.State.Connected
-import com.protonvpn.android.vpn.VpnStateMonitor.State.Connecting
-import com.protonvpn.android.vpn.VpnStateMonitor.State.Disabled
-import com.protonvpn.android.vpn.VpnStateMonitor.State.Error
-import com.protonvpn.android.vpn.VpnStateMonitor.State.Reconnecting
-import com.protonvpn.android.vpn.VpnStateMonitor.State.ScanningPorts
+import com.protonvpn.android.vpn.VpnState.CheckingAvailability
+import com.protonvpn.android.vpn.VpnState.Connected
+import com.protonvpn.android.vpn.VpnState.Connecting
+import com.protonvpn.android.vpn.VpnState.Disabled
+import com.protonvpn.android.vpn.VpnState.Error
+import com.protonvpn.android.vpn.VpnState.Reconnecting
+import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Singleton
-
-interface VpnStateSource {
-    // value shouldn't be null
-    val selfStateObservable: MutableLiveData<VpnStateMonitor.State>
-    val selfState get() = selfStateObservable.value!!
-
-    fun setSelfState(value: VpnStateMonitor.State) {
-        selfStateObservable.value = value
-    }
-}
 
 @Singleton
 open class VpnStateMonitor(
@@ -94,22 +83,8 @@ open class VpnStateMonitor(
         NO_PORTS_AVAILABLE
     }
 
-    sealed class State {
-        object Disabled : State()
-        object ScanningPorts : State()
-        object CheckingAvailability : State()
-        object WaitingForNetwork : State()
-        object Connecting : State()
-        object Connected : State()
-        object Reconnecting : State()
-        object Disconnecting : State()
-        data class Error(val type: ErrorType) : State()
-
-        val name = javaClass.simpleName.toUpperCase(Locale.ROOT)
-    }
-
-    data class VpnState(
-        val state: State,
+    data class Status(
+        val state: VpnState,
         val connectionParams: ConnectionParams?
     ) {
         val profile get() = connectionParams?.profile
@@ -127,14 +102,14 @@ open class VpnStateMonitor(
     private var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
 
-    override val selfStateObservable = MutableLiveData<State>(Disabled)
+    override val selfStateObservable = MutableLiveData<VpnState>(Disabled)
 
     // State taken from active backend or from monitor when no active backend, value always != null
-    private val stateInternal: LiveData<State> = Transformations.switchMap(
+    private val stateInternal: LiveData<VpnState> = Transformations.switchMap(
         activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable)
     private val state get() = stateInternal.value!!
 
-    val vpnState: LiveData<VpnState> = stateInternal.eagerMapNotNull(ignoreIfEqual = true) {
+    val vpnStatus: LiveData<Status> = stateInternal.eagerMapNotNull(ignoreIfEqual = true) {
         var newState = it ?: Disabled
         if ((newState as? Error)?.type == AUTH_FAILED_INTERNAL) {
             newState = CheckingAvailability
@@ -143,7 +118,7 @@ open class VpnStateMonitor(
                 checkAuthFailedReason()
             }
         }
-        VpnState(newState, connectionParams)
+        Status(newState, connectionParams)
     }
 
     val isConnected get() = state == Connected && connectionParams != null
@@ -208,7 +183,7 @@ open class VpnStateMonitor(
     }
 
     private fun bindTrafficMonitor() {
-        trafficMonitor.init(vpnState)
+        trafficMonitor.init(vpnStatus)
         trafficMonitor.trafficStatus.observeForever {
             updateNotification(it)
         }
@@ -341,10 +316,10 @@ open class VpnStateMonitor(
     }
 
     fun buildNotification() =
-        NotificationHelper.buildStatusNotification(vpnState.value!!, null)
+        NotificationHelper.buildStatusNotification(vpnStatus.value!!, null)
 
     private fun updateNotification(trafficUpdate: TrafficUpdate?) {
         NotificationHelper.updateStatusNotification(
-                ProtonApplication.getAppContext(), vpnState.value!!, trafficUpdate)
+                ProtonApplication.getAppContext(), vpnStatus.value!!, trafficUpdate)
     }
 }

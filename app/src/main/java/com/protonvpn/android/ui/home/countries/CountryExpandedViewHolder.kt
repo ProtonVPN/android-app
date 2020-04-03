@@ -46,7 +46,7 @@ open class CountryExpandedViewHolder(
         markAsSelected(viewModel.selectedServer.value == server, animate = true)
     }
 
-    private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
+    private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.visibility =
                 if (viewModel.vpnStateMonitor.isConnectedTo(server)) VISIBLE else View.GONE
         binding.radioServer.isChecked = viewModel.vpnStateMonitor.isConnectedTo(server)
@@ -96,7 +96,7 @@ open class CountryExpandedViewHolder(
 
     override fun clear() {
         viewModel.selectedServer.removeObserver(serverSelectionObserver)
-        viewModel.vpnStateMonitor.vpnState.removeObserver(vpnStateObserver)
+        viewModel.vpnStateMonitor.vpnStatus.removeObserver(vpnStateObserver)
     }
 
     private fun initSelection() {
@@ -173,7 +173,7 @@ open class CountryExpandedViewHolder(
     }
 
     private fun initConnectedStatus() {
-        viewModel.vpnStateMonitor.vpnState.observe(parentLifeCycle, vpnStateObserver)
+        viewModel.vpnStateMonitor.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
     }
 
     override fun getLayout() = R.layout.item_country_expanded

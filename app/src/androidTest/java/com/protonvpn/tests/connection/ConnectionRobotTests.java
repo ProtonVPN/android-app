@@ -26,6 +26,7 @@ import com.protonvpn.actions.MapRobot;
 import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.actions.ServiceRobot;
 import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
@@ -55,7 +56,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaQuickConnect() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         ConnectionRobot connectionRobot =
             homeRobot.connectThroughQuickConnect().isConnectedToVpn().connectionRobot;
         ConnectionResult result = connectionRobot.clickDisconnectButton();
@@ -65,7 +66,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaCountryList() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         CountriesRobot countriesRobot = homeRobot.clickOnCountriesTab();
 
         String country = service.getFirstCountryFromBackend();
@@ -81,7 +82,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaMapView() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         MapRobot mapRobot = homeRobot.clickOnMapViewTab();
         mapRobot.clickOnUSNode();
@@ -93,7 +94,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectAndDisconnectViaProfiles() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connected.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         profilesRobot.clickOnFastestOption();
@@ -105,7 +106,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void cancelWhileConnecting() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.Connecting.INSTANCE);
+        testRule.mockStatusOnConnect(VpnState.Connecting.INSTANCE);
         homeRobot.connectThroughQuickConnectWithoutVPNHandling();
 
         ConnectionResult connectionResult = new ConnectionRobot().clickCancelConnectionButton();

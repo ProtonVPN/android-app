@@ -30,8 +30,8 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.login.LoginActivity
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.VpnStateMonitor.VpnState
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -42,8 +42,7 @@ class QuickTileService : TileService() {
     @Inject lateinit var userData: UserData
     @Inject lateinit var stateMonitor: VpnStateMonitor
 
-    private val stateInfoObserver =
-            Observer { vpnState: VpnState -> stateChanged(vpnState) }
+    private val stateInfoObserver = Observer(::stateChanged)
 
     override fun onCreate() {
         super.onCreate()
@@ -51,7 +50,7 @@ class QuickTileService : TileService() {
     }
 
     override fun onDestroy() {
-        stateMonitor.vpnState.removeObserver(stateInfoObserver)
+        stateMonitor.vpnStatus.removeObserver(stateInfoObserver)
         super.onDestroy()
     }
 
@@ -65,7 +64,7 @@ class QuickTileService : TileService() {
     }
 
     private fun bindToListener() {
-        stateMonitor.vpnState.observeForever(stateInfoObserver)
+        stateMonitor.vpnStatus.observeForever(stateInfoObserver)
     }
 
     override fun onClick() {
@@ -87,25 +86,25 @@ class QuickTileService : TileService() {
         }
     }
 
-    private fun stateChanged(vpnState: VpnState) {
-        when (vpnState.state) {
-            VpnStateMonitor.State.Disabled -> {
+    private fun stateChanged(vpnStatus: VpnStateMonitor.Status) {
+        when (vpnStatus.state) {
+            VpnState.Disabled -> {
                 qsTile.label = getString(if (userData.isLoggedIn) R.string.quickConnect else R.string.login)
                 qsTile.state = Tile.STATE_INACTIVE
             }
-            VpnStateMonitor.State.CheckingAvailability,
-            VpnStateMonitor.State.ScanningPorts,
-            VpnStateMonitor.State.Connecting -> {
+            VpnState.CheckingAvailability,
+            VpnState.ScanningPorts,
+            VpnState.Connecting -> {
                 qsTile.label = getString(R.string.state_connecting)
                 qsTile.state = Tile.STATE_UNAVAILABLE
             }
-            VpnStateMonitor.State.Connected -> {
-                val server = vpnState.server
+            VpnState.Connected -> {
+                val server = vpnStatus.server
                 val serverName = server!!.serverName
                 qsTile.label = getString(R.string.tileConnected, serverName)
                 qsTile.state = Tile.STATE_ACTIVE
             }
-            VpnStateMonitor.State.Disconnecting -> {
+            VpnState.Disconnecting -> {
                 qsTile.label = getString(R.string.state_disconnecting)
                 qsTile.state = Tile.STATE_UNAVAILABLE
             }

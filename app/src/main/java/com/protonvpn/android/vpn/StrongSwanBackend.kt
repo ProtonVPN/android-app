@@ -27,7 +27,6 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.vpn.VpnStateMonitor.State
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.NetUtils
@@ -61,8 +60,9 @@ class StrongSwanBackend(
     }
 
     private suspend fun isServerAvailable(ip: String) =
-        NetUtils.ping(ip, 500, getPingData(), tcp = false, timeout = 5000)
+        NetUtils.ping(ip, STRONGSWAN_PORT, getPingData(), tcp = false, timeout = 5000)
 
+    @Suppress("MagicNumber")
     private fun getPingData() = ByteArrayOutputStream().apply {
         repeat(8) { write(random.nextInt(256)) } // my SPI
         repeat(8) { write(0) } // other SPI
@@ -80,7 +80,7 @@ class StrongSwanBackend(
 
     override suspend fun disconnect() {
         if (vpnService?.state != VpnStateService.State.DISABLED) {
-            selfStateObservable.value = State.Disconnecting
+            selfStateObservable.value = VpnState.Disconnecting
         }
         vpnService?.disconnect()
         waitForDisconnect()
@@ -111,30 +111,36 @@ class StrongSwanBackend(
         }, Service.BIND_AUTO_CREATE)
     }
 
-    private fun translateState(state: VpnStateService.State, error: VpnStateService.ErrorState): State =
+    private fun translateState(state: VpnStateService.State, error: VpnStateService.ErrorState): VpnState =
         when (state) {
-            VpnStateService.State.DISABLED -> State.Disabled
-            VpnStateService.State.CHECKING_AVAILABILITY -> State.CheckingAvailability
-            VpnStateService.State.WAITING_FOR_NETWORK -> State.WaitingForNetwork
-            VpnStateService.State.CONNECTING -> State.Connecting
-            VpnStateService.State.CONNECTED -> State.Connected
-            VpnStateService.State.RECONNECTING -> State.Reconnecting
-            VpnStateService.State.DISCONNECTING -> State.Disconnecting
-            VpnStateService.State.ERROR -> State.Error(when (error) {
-                VpnStateService.ErrorState.AUTH_FAILED -> ErrorType.AUTH_FAILED_INTERNAL
-                VpnStateService.ErrorState.PEER_AUTH_FAILED -> ErrorType.PEER_AUTH_FAILED
-                VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED
-                VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
-                VpnStateService.ErrorState.SESSION_IN_USE -> ErrorType.SESSION_IN_USE
-                VpnStateService.ErrorState.MAX_SESSIONS -> ErrorType.MAX_SESSIONS
-                else -> ErrorType.GENERIC_ERROR
-            })
+            VpnStateService.State.DISABLED -> VpnState.Disabled
+            VpnStateService.State.CHECKING_AVAILABILITY -> VpnState.CheckingAvailability
+            VpnStateService.State.WAITING_FOR_NETWORK -> VpnState.WaitingForNetwork
+            VpnStateService.State.CONNECTING -> VpnState.Connecting
+            VpnStateService.State.CONNECTED -> VpnState.Connected
+            VpnStateService.State.RECONNECTING -> VpnState.Reconnecting
+            VpnStateService.State.DISCONNECTING -> VpnState.Disconnecting
+            VpnStateService.State.ERROR -> VpnState.Error(translateError(error))
         }
+
+    private fun translateError(error: VpnStateService.ErrorState) = when (error) {
+        VpnStateService.ErrorState.AUTH_FAILED -> ErrorType.AUTH_FAILED_INTERNAL
+        VpnStateService.ErrorState.PEER_AUTH_FAILED -> ErrorType.PEER_AUTH_FAILED
+        VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED
+        VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
+        VpnStateService.ErrorState.SESSION_IN_USE -> ErrorType.SESSION_IN_USE
+        VpnStateService.ErrorState.MAX_SESSIONS -> ErrorType.MAX_SESSIONS
+        else -> ErrorType.GENERIC_ERROR
+    }
 
     override fun stateChanged() {
         selfStateObservable.postValue(translateState(vpnService!!.state, vpnService!!.errorState))
         DebugUtils.debugAssert {
-            (selfState in arrayOf(State.Connecting, State.Connected)).implies(active)
+            (selfState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
+    }
+
+    companion object {
+        private const val STRONGSWAN_PORT = 500
     }
 }

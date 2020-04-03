@@ -31,6 +31,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.di.MockVpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.MockedServers
@@ -102,8 +103,8 @@ class VpnConnectionTests {
         monitor.connect(context, profileIKEv2)
         yield()
 
-        val vpnState = monitor.vpnState.value!!
-        Assert.assertTrue(vpnState.state is VpnStateMonitor.State.Error)
+        val vpnState = monitor.vpnStatus.value!!
+        Assert.assertTrue(vpnState.state is VpnState.Error)
     }
 
     @Test
@@ -112,8 +113,8 @@ class VpnConnectionTests {
         monitor.connect(context, profileSmart)
         yield()
 
-        val vpnState = monitor.vpnState.value!!
-        Assert.assertEquals(VpnStateMonitor.State.Connected, vpnState.state)
+        val vpnState = monitor.vpnStatus.value!!
+        Assert.assertEquals(VpnState.Connected, vpnState.state)
         Assert.assertEquals(VpnProtocol.OpenVPN, vpnState.connectionParams?.protocol)
     }
 
@@ -124,8 +125,8 @@ class VpnConnectionTests {
         monitor.connect(context, profileSmart)
         yield()
 
-        val vpnState = monitor.vpnState.value!!
-        Assert.assertTrue((vpnState.state as? VpnStateMonitor.State.Error)?.type ==
+        val vpnState = monitor.vpnStatus.value!!
+        Assert.assertTrue((vpnState.state as? VpnState.Error)?.type ==
                 VpnStateMonitor.ErrorType.NO_PORTS_AVAILABLE)
     }
 }
