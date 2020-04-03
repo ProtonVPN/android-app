@@ -283,11 +283,22 @@ public final class UserData implements Serializable {
         return selectedProtocol;
     }
 
-    public void setSelectedProtocol(VpnProtocol selectedProtocol) {
-        if (selectedProtocol != VpnProtocol.Smart) {
-            this.useSmartProtocol = false;
-        }
-        this.selectedProtocol = selectedProtocol;
+    public boolean getUseSmartProtocol() {
+        return useSmartProtocol;
+    }
+
+    public void setUseSmartProtocol(boolean value) {
+        useSmartProtocol = value;
+        saveToStorage();
+    }
+
+    @NotNull
+    public VpnProtocol getManualProtocol() {
+        return selectedProtocol;
+    }
+
+    public void setManualProtocol(VpnProtocol value) {
+        selectedProtocol = value;
         saveToStorage();
     }
 

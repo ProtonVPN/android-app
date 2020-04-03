@@ -37,6 +37,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.databinding.ActivityProfileBinding
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -133,7 +134,9 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     }
 
     private fun initProtocolSelection() = with(binding.contentProfile) {
-        protocolSelection.init(viewModel.selectedProtocol, viewModel.transmissionProtocol) {
+        val protocol = viewModel.selectedProtocol
+        val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
+        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol, viewModel.transmissionProtocol) {
             viewModel.editableProfile?.setProtocol(protocolSelection.protocol.toString())
             viewModel.editableProfile?.setTransmissionProtocol(
                     protocolSelection.transmissionProtocol.toString())
