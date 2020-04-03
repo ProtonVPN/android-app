@@ -90,7 +90,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
-        selectedProtocol = VpnProtocol.IKEv2
+        useSmartProtocol = false
     })
 
     @Singleton

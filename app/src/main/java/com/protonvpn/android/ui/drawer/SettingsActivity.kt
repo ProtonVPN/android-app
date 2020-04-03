@@ -108,8 +108,9 @@ class SettingsActivity : BaseActivity() {
             userPrefs.apiUseDoH = isChecked
         }
 
-        protocolSelection.init(userPrefs.selectedProtocol, userPrefs.transmissionProtocol) {
-            userPrefs.selectedProtocol = protocolSelection.protocol
+        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol, userPrefs.transmissionProtocol) {
+            userPrefs.useSmartProtocol = protocolSelection.useSmart
+            userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
             switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
             initSplitTunneling(userPrefs.useSplitTunneling)

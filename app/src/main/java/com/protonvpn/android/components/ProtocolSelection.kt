@@ -41,23 +41,30 @@ class ProtocolSelection @JvmOverloads constructor(
     val binding: ItemProtocolSelectionBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context), R.layout.item_protocol_selection, this, true)
 
-    var protocol = VpnProtocol.Smart
+    var useSmart: Boolean = true
         private set
 
-    var transmissionProtocol = TransmissionProtocol.UDP
+    lateinit var manualProtocol: VpnProtocol
         private set
+
+    lateinit var transmissionProtocol: TransmissionProtocol
+        private set
+
+    val protocol get() = if (useSmart) VpnProtocol.Smart else manualProtocol
 
     fun init(
-        initialProtocol: VpnProtocol,
+        initialUseSmart: Boolean,
+        initialManualProtocol: VpnProtocol,
         initialTransmissionProtocol: TransmissionProtocol,
         changeCallback: () -> Unit
     ) = with(binding) {
-        protocol = initialProtocol
+        useSmart = initialUseSmart
+        manualProtocol = initialManualProtocol
         transmissionProtocol = initialTransmissionProtocol
 
-        smartProtocolSwitch.switchProton.isChecked = protocol == VpnProtocol.Smart
+        smartProtocolSwitch.switchProton.isChecked = useSmart
         smartProtocolSwitch.switchProton.setOnCheckedChangeListener { _, isChecked ->
-            protocol = if (isChecked) VpnProtocol.Smart else VpnProtocol.IKEv2
+            useSmart = isChecked
             update()
             changeCallback()
         }
@@ -66,7 +73,7 @@ class ProtocolSelection @JvmOverloads constructor(
                 ListableString(VpnProtocol.IKEv2.toString()),
                 ListableString(VpnProtocol.OpenVPN.toString())))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-            protocol = VpnProtocol.valueOf(item.getLabel(context))
+            manualProtocol = VpnProtocol.valueOf(item.getLabel(context))
             update()
             changeCallback()
         }
@@ -82,9 +89,9 @@ class ProtocolSelection @JvmOverloads constructor(
     }
 
     private fun update() = with(binding) {
-        manualProtocolLayout.isVisible = protocol != VpnProtocol.Smart
-        layoutTransmissionProtocol.isVisible = protocol == VpnProtocol.OpenVPN
-        spinnerDefaultProtocol.setSelectedItem(ListableString(protocol.toString()))
+        manualProtocolLayout.isVisible = !useSmart
+        layoutTransmissionProtocol.isVisible = !useSmart && manualProtocol == VpnProtocol.OpenVPN
+        spinnerDefaultProtocol.setSelectedItem(ListableString(manualProtocol.toString()))
         spinnerTransmissionProtocol.setSelectedItem(ListableString(transmissionProtocol.toString()))
     }
 
