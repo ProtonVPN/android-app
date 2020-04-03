@@ -60,7 +60,6 @@ import com.protonvpn.android.vpn.VpnStateMonitor.State.Disabled
 import com.protonvpn.android.vpn.VpnStateMonitor.State.Error
 import com.protonvpn.android.vpn.VpnStateMonitor.State.Reconnecting
 import com.protonvpn.android.vpn.VpnStateMonitor.State.ScanningPorts
-import de.blinkt.openpvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -186,7 +185,6 @@ open class VpnStateMonitor(
             }
         }
 
-        VpnStatus.addLogListener { ProtonLogger.log(it.getString(ProtonApplication.getAppContext())) }
         stateInternal.observeForever {
             Storage.saveString(STORAGE_KEY_STATE, state.name)
 

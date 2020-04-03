@@ -43,7 +43,7 @@ public class ServiceTestHelper {
     public static VpnStateMonitor stateMonitor = helper.vpnStateMonitor;
     static ServerManager serverManager = helper.serverManager;
     static UserData userData = helper.userData;
-    public MockVpnBackend mockVpnBackend = helper.mockVpnBackendProvider.getBackend();
+    public MockVpnBackend mockVpnBackend = helper.getBackend();
 
     public ServiceTestHelper(ServiceTestRule serviceRule) {
         service = initService(serviceRule);

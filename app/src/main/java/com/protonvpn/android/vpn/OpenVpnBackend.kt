@@ -33,6 +33,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.User
 import com.protonvpn.android.utils.implies
 import de.blinkt.openpvpn.core.ConnectionStatus
@@ -55,6 +56,9 @@ class OpenVpnBackend(
 
     init {
         VpnStatus.addStateListener(this)
+        VpnStatus.addLogListener {
+            ProtonLogger.log(it.getString(ProtonApplication.getAppContext()))
+        }
     }
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
