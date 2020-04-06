@@ -202,7 +202,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun initSplitTunneling(isChecked: Boolean) {
-        splitTunnelIPs.isVisible = userPrefs.selectedProtocol != VpnProtocol.OpenVPN
         splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
         switchShowSplitTunnel.setDividerVisibility(if (isChecked) GONE else VISIBLE)
     }

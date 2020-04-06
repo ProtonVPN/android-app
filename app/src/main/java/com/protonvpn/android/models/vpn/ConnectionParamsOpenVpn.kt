@@ -56,6 +56,10 @@ class ConnectionParamsOpenVpn(
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain.entryDomain
         mAllowLocalLAN = userData.bypassLocalTraffic()
+        if (userData.useSplitTunneling && userData.splitTunnelIpAddresses.isNotEmpty()) {
+            mUseDefaultRoute = false
+            mExcludedRoutes = userData.splitTunnelIpAddresses.joinToString(" ")
+        }
         mConnections[0] = Connection().apply {
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
