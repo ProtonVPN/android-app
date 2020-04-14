@@ -35,7 +35,7 @@ data class Server(
     @param:JsonProperty(value = "Name", required = true) val serverName: String,
     @param:JsonProperty(value = "Servers", required = true) private val connectingDomains: List<ConnectingDomain>,
     @param:JsonProperty(value = "Domain", required = true) val domain: String,
-    @param:JsonProperty(value = "Load", required = true) val load: String,
+    @param:JsonProperty(value = "Load", required = true) val load: Float,
     @param:JsonProperty(value = "Tier", required = true) val tier: Int,
     @param:JsonProperty(value = "Region", required = true) val region: String?,
     @param:JsonProperty(value = "City", required = true) val city: String?,
@@ -69,8 +69,8 @@ data class Server(
     val loadColor: Int
         @ColorRes
         get() = when {
-            Integer.parseInt(load) < 50 -> R.color.colorAccent
-            Integer.parseInt(load) < 90 -> R.color.yellow
+            load < 50f -> R.color.colorAccent
+            load < 90f -> R.color.yellow
             else -> R.color.dimmedRed
         }
 

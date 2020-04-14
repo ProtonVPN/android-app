@@ -71,7 +71,7 @@ open class CountryExpandedViewHolder(
             radioServer.isChecked = false
             radioServer.isClickable = false
 
-            textLoad.text = server.load + "%"
+            textLoad.text = "${server.load.toInt()}%"
             imageLoad.setImageDrawable(
                     ColorDrawable(ContextCompat.getColor(imageLoad.context, server.loadColor)))
 

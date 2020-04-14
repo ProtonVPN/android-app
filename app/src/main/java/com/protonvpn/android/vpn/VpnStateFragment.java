@@ -366,7 +366,8 @@ public class VpnStateFragment extends BaseFragment {
         textServerName.setText(server.getServerName());
         textServerIp.setText(stateMonitor.getExitIP());
         textProtocol.setText(stateMonitor.getConnectionProtocol().toString());
-        textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, server.getLoad()));
+        int load = (int) server.getLoad();
+        textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, String.valueOf(load)));
         imageLoad.setImageDrawable(
             new ColorDrawable(ContextCompat.getColor(imageLoad.getContext(), server.getLoadColor())));
     }
