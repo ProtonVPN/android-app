@@ -35,6 +35,7 @@ import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ProtonSwitch;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.utils.ProtonLogger;
+import com.protonvpn.android.utils.ViewUtils;
 
 import java.io.File;
 
@@ -69,7 +70,7 @@ public class ReportBugActivity extends BaseActivity {
     public void addHideKeyboard(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
-                hideKeyboard(editReport);
+                ViewUtils.INSTANCE.hideKeyboard(this, editReport);
                 return false;
             });
         }

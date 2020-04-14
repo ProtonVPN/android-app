@@ -19,11 +19,8 @@
 package com.protonvpn.android.ui.splittunneling;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.text.Editable;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +31,7 @@ import com.protonvpn.android.components.BaseDialog;
 import com.protonvpn.android.components.CompressedTextWatcher;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.android.utils.ViewUtils;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -75,6 +73,7 @@ public class IpDialog extends BaseDialog {
         textDescription.setText(R.string.excludeIpDescription);
         editIP.setContentDescription("Add IP Address");
         editIP.setVisibility(View.VISIBLE);
+        editIP.post(() -> ViewUtils.INSTANCE.showKeyboard(getActivity(), editIP));
         progressBar.setVisibility(View.GONE);
         checkForEmptyList();
         editIP.addTextChangedListener(new CompressedTextWatcher() {
@@ -86,21 +85,13 @@ public class IpDialog extends BaseDialog {
         });
         constraintLayout.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
-                hideKeyboard(getActivity());
+                ViewUtils.INSTANCE.hideKeyboard(getActivity(), editIP);
             }
         });
         list.setOnTouchListener((view, motionEvent) -> {
-            hideKeyboard(getActivity());
+            ViewUtils.INSTANCE.hideKeyboard(getActivity(), editIP);
             return false;
         });
-    }
-
-    public void hideKeyboard(Activity activity) {
-        if (activity != null && activity.getWindow() != null) {
-            InputMethodManager imm =
-                (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editIP.getWindowToken(), 0);
-        }
     }
 
     private void checkForEmptyList() {
@@ -122,7 +113,7 @@ public class IpDialog extends BaseDialog {
             userData.addIpToSplitTunnel(editIP.getText().toString());
             editIP.setText("");
             adapter.dataChanged();
-            hideKeyboard(getActivity());
+            ViewUtils.INSTANCE.hideKeyboard(getActivity(), editIP);
         }
     }
 

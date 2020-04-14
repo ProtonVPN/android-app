@@ -49,6 +49,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
@@ -187,7 +188,7 @@ class SettingsActivity : BaseActivity() {
 
         textMTU.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hideSoftKeyBoard()
+                hideKeyboard()
                 true
             } else {
                 false
