@@ -40,6 +40,7 @@ import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.ProtocolSelection
+import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
@@ -71,6 +72,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.splitTunnelApps) lateinit var splitTunnelApps: SplitTunnelButton
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
+    @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var userPrefs: UserData
@@ -94,7 +96,9 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-
+        switchNetShield.init(userPrefs.netShieldProtocol, userPrefs, stateMonitor) {
+            userPrefs.netShieldProtocol = it
+        }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()
         switchShowIcon.switchProton
                 .setOnCheckedChangeListener { _, isChecked ->

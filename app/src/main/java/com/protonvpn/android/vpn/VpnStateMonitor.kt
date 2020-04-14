@@ -300,10 +300,15 @@ open class VpnStateMonitor(
     }
 
     open fun disconnect() {
+        disconnectWithCallback()
+    }
+
+    open fun disconnectWithCallback(afterDisconnect: (() -> Unit)? = null) {
         clearOngoingConnection()
         scope.launch {
             disconnectBlocking()
             serverListUpdater.onDisconnectedByUser()
+            afterDisconnect?.invoke()
         }
     }
 

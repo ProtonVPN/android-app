@@ -17,9 +17,9 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string translatable="false" name="app_name">ProtonVPN</string>
-    <string translatable="false" name="toolbar_app_title">@string/app_name</string>
-
+    <string name="app_name" translatable="false">ProtonVPN</string>
+    <string name="toolbar_app_title" translatable="false">@string/app_name</string>
+    <string name="plus" translatable="false">Plus</string>
     <!-- Strings related to login -->
     <string name="hintUsername">Username</string>
     <string name="hintPassword">Password</string>
@@ -323,10 +323,20 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Open Android settings</string>
     <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Be aware that if both Kill Switch and Split Tunneling are activated, Split Tunneling won\'t work. Kill Switch blocks all connections outside the VPN tunnel, including those created by Split Tunneling.</string>
     <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Some options missing? <a href=\"%1$s\">Tap here to learn more</a>.]]></string>
-    <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them.
-
-You can update your operating system to the most recent version of Android and try again."</string>
+    <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on
+        older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them. You can update your operating system to the most recent version of Android and try again."</string>
     <string name="settingsSmartProtocolTitle">Smart Protocol</string>
     <string name="settingsSmartProtocolDescription">Use automatically the protocol and port that offer the best connectivity.</string>
+    <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
+    <string name="netShieldDescription">Block advertisements, trackers and malware </string>
+    <string name="netshield">NetShield</string>
+    <string name="netShieldBlockMalwareOnly">Block malware only</string>
+    <string name="netShieldFullBlock">Block malware, tracking, ads</string>
+    <string name="dialogDontShowAgain">Don\'t show again</string>
+    <string name="paidFeature">Paid feature</string>
+    <string name="netShieldReconnectionNeeded">Reconnection needed</string>
+    <string name="netShieldReconnectionDescription">Your connection needs to be restarted to disable NetShield.</string>
+    <string name="netShieldPaidFeature">You are trying to enable feature which requires ProtonVPN plus subscription
+        .</string>
 
 </resources>

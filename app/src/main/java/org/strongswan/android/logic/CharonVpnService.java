@@ -328,8 +328,8 @@ public class CharonVpnService extends VpnService implements Runnable {
             writer.setValue("connection.type", mCurrentProfile.getVpnType().getIdentifier());
             writer.setValue("connection.server", mCurrentProfile.getGateway());
             writer.setValue("connection.port", mCurrentProfile.getPort());
-            writer.setValue("connection.username", userData.getVpnInfoResponse().getVpnUserName());
-            writer.setValue("connection.password", userData.getVpnInfoResponse().getPassword());
+            writer.setValue("connection.username", mCurrentProfile.getUserName());
+            writer.setValue("connection.password", mCurrentProfile.getUserPassword());
             writer.setValue("connection.local_id", mCurrentProfile.getLocalId());
             writer.setValue("connection.remote_id", mCurrentProfile.getRemoteId());
             writer.setValue("connection.certreq",

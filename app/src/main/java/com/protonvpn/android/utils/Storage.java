@@ -68,6 +68,10 @@ public final class Storage {
         preferences.edit().putBoolean(key, value).apply();
     }
 
+    public static boolean getBoolean(String key, Boolean defaultValue) {
+        return preferences.getBoolean(key, defaultValue);
+    }
+
     public static boolean getBoolean(String key) {
         return preferences.getBoolean(key, false);
     }

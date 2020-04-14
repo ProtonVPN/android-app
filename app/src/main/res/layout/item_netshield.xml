@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright (c) 2020 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutNetshield"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dimmedGrey"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="6dp">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchNetshield"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/netshield"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:theme="@style/SCSwitch" />
+
+    <TextView
+        android:id="@+id/textNetDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lightGrey"
+        android:textSize="14sp"
+        tools:text="@string/netShieldEnabledWarning" />
+
+    <LinearLayout
+        android:id="@+id/netShieldSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radioSimpleBlocking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/netShieldBlockMalwareOnly"
+            android:textColor="@color/lightGrey"
+            android:theme="@style/RadioButton.Branded" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radioFullBlocking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/netShieldFullBlock"
+                android:textColor="@color/lightGrey"
+                android:theme="@style/RadioButton.Branded" />
+
+            <TextView
+                android:id="@+id/plusFeature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_white_normal"
+                android:text="@string/plus"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
