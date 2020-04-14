@@ -60,6 +60,7 @@ public final class UserData implements Serializable {
     private boolean secureCoreEnabled;
     private TransmissionProtocol transmissionProtocol;
     private boolean apiUseDoH;
+    private NetShieldProtocol netShieldProtocol;
     private long lastPrimaryApiFail;
     private String activeAlternativeBaseUrl;
     private List<String> alternativeApiBaseUrls;
@@ -78,10 +79,15 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
+        netShieldProtocol = NetShieldProtocol.DISABLED;
     }
 
     public String getUser() {
         return user;
+    }
+
+    public String getVpnUserName() {
+        return getVpnInfoResponse().getVpnUserName();
     }
 
     public void setUser(String user) {
@@ -105,6 +111,10 @@ public final class UserData implements Serializable {
 
     public boolean isFreeUser() {
         return getVpnInfoResponse().getUserTier() == 0;
+    }
+
+    public boolean isUserPlusOrAbove() {
+        return getVpnInfoResponse().getUserTier() > 1;
     }
 
     public int getUserTier() {
@@ -338,6 +348,15 @@ public final class UserData implements Serializable {
 
     public boolean getApiUseDoH() {
         return apiUseDoH;
+    }
+
+    public void setNetShieldProtocol(NetShieldProtocol value) {
+        netShieldProtocol = value;
+        saveToStorage();
+    }
+
+    public NetShieldProtocol getNetShieldProtocol() {
+        return netShieldProtocol;
     }
 
     @Nullable

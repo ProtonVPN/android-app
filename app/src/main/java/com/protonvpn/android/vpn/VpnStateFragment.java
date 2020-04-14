@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -50,6 +51,7 @@ import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
+import com.protonvpn.android.components.NetShieldSwitch;
 import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
@@ -61,6 +63,7 @@ import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
+import com.protonvpn.android.utils.ViewUtils;
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType;
 
 import java.util.List;
@@ -111,6 +114,7 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.textLoad) TextView textLoad;
     @BindView(R.id.imageLoad) CircleImageView imageLoad;
     @BindView(R.id.buttonCancel) Button buttonCancel;
+    @BindView(R.id.netShieldSwitch) NetShieldSwitch switchNetShield;
 
     @Inject ProtonApiRetroFit api;
     @Inject ServerManager manager;
@@ -186,7 +190,10 @@ public class VpnStateFragment extends BaseFragment {
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
-
+        switchNetShield.init(userData.getNetShieldProtocol(), userData, stateMonitor, s -> {
+            userData.setNetShieldProtocol(s);
+            return null;
+        });
         initChart();
         stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
@@ -299,7 +306,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void initConnectingStateView(@Nullable Server profile, boolean fromSavedState) {
-
+        switchNetShield.setVisibility(View.GONE);
         layoutConnected.setVisibility(View.GONE);
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.VISIBLE);
@@ -342,6 +349,7 @@ public class VpnStateFragment extends BaseFragment {
         layoutConnecting.setVisibility(View.GONE);
         layoutError.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
+        switchNetShield.setVisibility(View.VISIBLE);
 
         connectingView.setBackgroundColor(
             ContextCompat.getColor(connectingView.getContext(), R.color.colorPrimary));
@@ -350,6 +358,18 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void initConnectedStateView(Server server) {
+        chart.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener(){
+                @Override
+                public void onGlobalLayout() {
+                    int chartHeightInDp = ViewUtils.INSTANCE.convertPixelsToDp(chart.getHeight());
+                    if (chartHeightInDp < 100) {
+                        chart.setVisibility(View.GONE);
+                    }
+                    chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        switchNetShield.setVisibility(View.VISIBLE);
         layoutConnected.setVisibility(View.VISIBLE);
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.GONE);
@@ -430,6 +450,10 @@ public class VpnStateFragment extends BaseFragment {
                 && stateMonitor.getConnectingToServer() != null ?
                 stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
             connectedServer = vpnState.getServer();
+            switchNetShield.init(profile.getNetShieldProtocol(userData), userData, stateMonitor, s -> {
+                userData.setNetShieldProtocol(s);
+                return null;
+            });
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);

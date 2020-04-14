@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
+import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -35,7 +36,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
-
+    private var netShieldProtocol: NetShieldProtocol? = null
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
     else
@@ -67,6 +68,13 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     fun setTransmissionProtocol(value: String?) {
         transmissionProtocol = value
+    }
+
+    fun getNetShieldProtocol(userData: UserData): NetShieldProtocol =
+            netShieldProtocol?: userData.netShieldProtocol
+
+    fun setNetShieldProtocol(value: NetShieldProtocol) {
+        netShieldProtocol = value
     }
 
     fun getProtocol(userData: UserData): VpnProtocol =

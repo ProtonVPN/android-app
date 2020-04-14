@@ -113,6 +113,15 @@
             app:textDescription="@string/settingsAlwaysOnKillSwitchDescription"
             app:textTitle="@string/settingsAlwaysOnAndKillSwitchTitle" />
 
+        <com.protonvpn.android.components.NetShieldSwitch
+            android:id="@+id/netShieldSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:descriptionText="@string/netShieldDescription"
+            app:withReconnectConfirmation="true"/>
+
+        <View style="@style/Divider.Small" />
+
         <com.protonvpn.android.components.ProtonSwitch
             android:id="@+id/switchDnsLeak"
             android:layout_width="match_parent"

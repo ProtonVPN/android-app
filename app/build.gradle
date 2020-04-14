@@ -160,6 +160,9 @@ android {
             keyPassword storeKeyPass
         }
     }
+    viewBinding {
+        enabled = true
+    }
     dexOptions {
         javaMaxHeapSize "4g"
         incremental true

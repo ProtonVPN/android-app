@@ -20,6 +20,8 @@ package com.protonvpn.android.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
+import android.util.DisplayMetrics
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -41,4 +43,18 @@ object ViewUtils {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
+    fun convertDpToPixel(dp: Int): Int {
+        val metrics = Resources.getSystem().displayMetrics
+        return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    fun convertPixelsToDp(px: Int): Int {
+        val metrics = Resources.getSystem().displayMetrics
+        return px / (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    fun Int.toPx(): Int = convertDpToPixel(this)
+
+    fun Int.toDp(): Int = convertPixelsToDp(this)
 }
