@@ -120,7 +120,11 @@ open class CountryExpandedViewHolder(
         val showConnect = viewModel.vpnStateMonitor.isConnectedTo(server)
         with(binding.buttonConnect) {
             setColor(if (showConnect) R.color.red else R.color.colorAccent)
-            setText(if (showConnect) R.string.disconnect else if (viewModel.userData.hasAccessToServer(server)) R.string.connect else R.string.upgrade)
+            setText(when {
+                showConnect -> R.string.disconnect
+                viewModel.userData.hasAccessToServer(server) -> R.string.connect
+                else -> R.string.upgrade
+            })
         }
         binding.buttonConnect.setExpanded(show, animate, parentLifeCycle.lifecycleScope)
     }

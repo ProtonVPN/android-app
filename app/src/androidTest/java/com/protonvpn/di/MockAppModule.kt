@@ -107,7 +107,7 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager() : VpnBackendProvider = ProtonVpnBackendProvider(
+    fun provideVpnBackendManager(): VpnBackendProvider = ProtonVpnBackendProvider(
             strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
             openVpn = MockVpnBackend(VpnProtocol.OpenVPN))
 

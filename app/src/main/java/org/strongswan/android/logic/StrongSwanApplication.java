@@ -17,6 +17,7 @@ package org.strongswan.android.logic;
 
 import android.content.Context;
 
+import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.security.LocalCertificateKeyStoreProvider;
 
 import java.security.Security;
@@ -48,5 +49,9 @@ public abstract class StrongSwanApplication extends DaggerApplication {
      */
     public static Context getContext() {
         return StrongSwanApplication.mContext;
+    }
+
+    public static void setAppContextForTest(@NotNull Context c) {
+        mContext = c;
     }
 }

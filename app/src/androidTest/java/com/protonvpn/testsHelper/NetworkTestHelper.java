@@ -46,7 +46,7 @@ public class NetworkTestHelper extends UIActionsTestHelper {
 
     public static String getEntryVpnCountry(VpnCountry exitCountry) {
         String countryCode = serverManager.getBestScoreServer(exitCountry).getEntryCountry();
-        return CountryTools.getFullName(countryCode);
+        return CountryTools.INSTANCE.getFullName(countryCode);
     }
 
     public static void waitUntilNetworkErrorAppears(LoaderUI loader) {
