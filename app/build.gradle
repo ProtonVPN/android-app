@@ -266,10 +266,12 @@ play {
 }
 
 task publishGenerateReleaseNotes {
-    File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
-    releaseNotesDir.mkdirs()
-    File releaseNotesFile = new File(releaseNotesDir, "default.txt")
-    releaseNotesFile.newWriter().withWriter { w -> w << Helpers.getReleaseNotes() }
+    doLast {
+        File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
+        releaseNotesDir.mkdirs()
+        File releaseNotesFile = new File(releaseNotesDir, "default.txt")
+        releaseNotesFile.newWriter().withWriter { w -> w << Helpers.getReleaseNotes() }
+    }
 }
 
 task publishInternal {
