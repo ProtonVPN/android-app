@@ -9,11 +9,6 @@
 if "%OS%"=="Windows_NT" setlocal
 
 
-if "%1"=="installLocale" (
-    call:installLocale
-    goto:eof
-)
-
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS=
 
@@ -75,8 +70,6 @@ set CMD_LINE_ARGS=%$
 :execute
 @rem Setup the command line
 
-call:installLocale
-
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 
 @rem Execute Gradle
@@ -91,36 +84,6 @@ rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instea
 rem the _cmd.exe /c_ return code!
 if  not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
 exit /b 1
-
-:installLocale
-
-rem 'load env variables for translations, to be able to find the repository + branch'
-if exist .env (
-  for /F "TOKENS=*" %%I in (.env) do @set %%I
-)
-
-if not defined I18N_DEPENDENCY_BRANCH (
-  echo '[warning] You did not configure your env for translations';
-  echo 'To be able to download translations you need to set: I18N_DEPENDENCY_BRANCH and I18N_DEPENDENCY_REPO';
-  exit /b 0
-)
-
-if not defined I18N_DEPENDENCY_BRANCH (
-  echo '[warning] You did not configure your env for translations';
-  echo 'To be able to download translations you need to set: I18N_DEPENDENCY_BRANCH and I18N_DEPENDENCY_REPO';
-  exit /b 0
-)
-
-echo 'remove latest of translations'
-if exist proton-translations rmdir proton-translations /q /s
-
-echo 'import new translations'
-git clone --quiet --depth 1 --branch %I18N_DEPENDENCY_BRANCH%  %I18N_DEPENDENCY_REPO% proton-translations;
-
-echo 'Copy translations';
-robocopy proton-translations\app app /S
-exit /b 0
-:end
 
 :mainEnd
 if "%OS%"=="Windows_NT" endlocal
