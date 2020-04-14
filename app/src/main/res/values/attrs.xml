@@ -41,7 +41,6 @@
         <attr name="switchEditable" format="boolean" />
     </declare-styleable>
     <declare-styleable name="NetShieldSwitch">
-        <attr name="titleTextColor" format="color" />
         <attr name="descriptionText" format="string" />
         <attr name="isInConnectedScreen" format="boolean" />
         <attr name="withPadding" format="boolean" />

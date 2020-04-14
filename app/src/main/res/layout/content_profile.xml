@@ -35,6 +35,7 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingVertical="16dp"
+            android:layout_marginBottom="64dp"
             tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
             tools:showIn="@layout/activity_profile">
 
@@ -83,7 +84,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/secure_core"
-                android:textColor="@color/lightGrey"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:theme="@style/SCSwitch.Green"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -96,7 +97,6 @@
                 android:layout_height="wrap_content"
                 app:descriptionText="@string/netShieldEnabledWarning"
                 app:withReconnectConfirmation="false"
-                app:titleTextColor="@color/lightGrey"
                 app:withPadding="true" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -134,8 +134,7 @@
             <com.protonvpn.android.components.ProtocolSelection
                 android:id="@+id/protocolSelection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ProtocolSelectionProfileActivity"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

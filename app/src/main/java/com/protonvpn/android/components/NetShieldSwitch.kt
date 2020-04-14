@@ -103,8 +103,6 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (!attributes.getBoolean(R.styleable.NetShieldSwitch_withPadding, true)) {
                 layoutNetshield.setPadding(0)
             }
-            switchNetshield.setTextColor(attributes.getColor(R.styleable.NetShieldSwitch_titleTextColor,
-                    ContextCompat.getColor(context, R.color.white)))
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
                 val textColor = ContextCompat.getColor(context, R.color.white)
