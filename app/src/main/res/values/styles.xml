@@ -130,8 +130,4 @@
         <item name="colorControlActivated">@color/lightGrey</item>
     </style>
 
-    <style name="ProtocolSelectionProfileActivity" parent="AppTheme">
-        <item name="android:textSize">16sp</item>
-    </style>
-
 </resources>
