@@ -262,11 +262,11 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     }
 
     private <T extends Markable> void showCallout(T marker) {
-
-        mapView.slideToAndCenterWithScale(marker.getCoordinates().getPositionX(),
-            marker.getCoordinates().getPositionY(), 4.0f);
-        mapView.addCallout(initCalloutView(marker), marker.getCoordinates().getPositionX(),
-            marker.getCoordinates().getPositionY(), -0.5f, -1.0f);
+        TranslatedCoordinates coordinates = marker.getCoordinates();
+        mapView.slideToAndCenterWithScale(coordinates.getPositionX(),
+            coordinates.getPositionY(), 4.0f);
+        mapView.addCallout(initCalloutView(marker), coordinates.getPositionX(),
+            coordinates.getPositionY(), -0.5f, -1.0f);
     }
 
     private View initCalloutView(final Markable country) {
