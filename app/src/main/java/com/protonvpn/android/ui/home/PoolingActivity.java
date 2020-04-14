@@ -26,6 +26,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.vpn.VpnActivity;
 
 import org.joda.time.DateTime;
@@ -66,7 +67,7 @@ public abstract class PoolingActivity extends VpnActivity {
             .title(R.string.freeTrialExpiredTitle)
             .content(R.string.freeTrialExpired)
             .positiveText(R.string.upgrade)
-            .onPositive((dialog, which) -> openUrl("https://account.protonvpn.com/dashboard"))
+            .onPositive((dialog, which) -> openUrl(Constants.DASHBOARD_URL))
             .negativeText(R.string.cancel)
             .show();
     }

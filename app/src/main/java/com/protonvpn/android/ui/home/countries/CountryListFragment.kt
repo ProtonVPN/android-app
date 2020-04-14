@@ -31,6 +31,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
@@ -58,7 +59,7 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
     private fun observeLiveEvents() {
         viewModel.onUpgradeTriggered.observe(viewLifecycleOwner) {
             val activity: BaseActivity = activity as BaseActivity
-            activity.openUrl("https://account.protonvpn.com/dashboard")
+            activity.openUrl(Constants.DASHBOARD_URL)
         }
         viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
             updateListData()

@@ -37,6 +37,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -185,7 +186,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                         .positiveText(R.string.upgrade)
                         .onPositive { _: MaterialDialog?, _: DialogAction? ->
                             val browserIntent = Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://account.protonvpn.com/dashboard"))
+                                    Uri.parse(Constants.DASHBOARD_URL))
                             context.startActivity(browserIntent)
                         }
                         .negativeText(R.string.cancel)
