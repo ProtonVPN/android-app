@@ -64,6 +64,7 @@ import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -126,7 +127,7 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
     private fun checkForRotation() {
         if (downloadStarted) {
             networkFrameLayout.switchToLoading()
-            hideSoftKeyBoard()
+            hideKeyboard()
         }
     }
 
@@ -162,7 +163,7 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
                 editPassword.getGlobalVisibleRect(passRect)
                 if (!emailRect.contains(event.rawX.toInt(), event.rawY.toInt()) &&
                         !passRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    hideSoftKeyBoard()
+                    hideKeyboard()
                 }
             }
         }
@@ -233,7 +234,7 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener {
         if (cancel) {
             focusView?.requestFocus()
         } else {
-            hideSoftKeyBoard()
+            hideKeyboard()
             userPrefs.user = email
             downloadStarted = true
 
