@@ -224,7 +224,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Onbekend</string>
   <string name="successful_migration_message">Welkom bij ProtonVPN 2.0! Al uw instellingen en profielen zijn gemigreerd en u kunt de oude app nu veilig verwijderen.</string>
   <string name="successful_migration_uninstall">Nu verwijderen</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href\"%1$\">Meer informatie</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href\"%1$s\">Meer informatie</a>]]></string>
   <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
   <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
   <string name="error_server_not_set">Server niet langer beschikbaar</string>

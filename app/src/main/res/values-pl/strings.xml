@@ -226,7 +226,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Nieznany</string>
   <string name="successful_migration_message">Witaj w aplikacji ProtonVPN 2.0! Wszystkie Twoje ustawienia i profile zostały zaimportowane i możesz bezpiecznie odinstalować starą aplikację.</string>
   <string name="successful_migration_uninstall">Odinstaluj</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Wyłącz funkcję stale aktywnego połączenia VPN dla wszystkich innych aplikacji w ustawieniach sieci VPN w systemie Android. Ta funkcja uniemożliwia aplikacji ProtonVPN ustanowienie połączenia. Jeśli pojawi się okno dialogowe z żądaniem uprawnień VPN, przyznaj je. Wymagane może być również odinstalowanie innych aplikacje, aby zapobiec konfliktom. Następnie spróbuj ponownie. <a href\"%1$\">Dowiedz się więcej</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Wyłącz funkcję stale aktywnego połączenia VPN dla wszystkich innych aplikacji w ustawieniach sieci VPN w systemie Android. Ta funkcja uniemożliwia aplikacji ProtonVPN ustanowienie połączenia. Jeśli pojawi się okno dialogowe z żądaniem uprawnień VPN, przyznaj je. Wymagane może być również odinstalowanie innych aplikacje, aby zapobiec konfliktom. Następnie spróbuj ponownie. <a href\"%1$s\">Dowiedz się więcej</a>]]></string>
   <string name="error_prepare_vpn_settings">Przejdź do ustawień VPN w systemie Android</string>
   <string name="error_prepare_vpn_title">Błąd: problem z uprawnieniem VPN</string>
   <string name="error_server_not_set">Serwer nie jest już dostępny</string>
