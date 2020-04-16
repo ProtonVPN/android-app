@@ -26,6 +26,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
@@ -82,7 +83,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             spinnerCountry.setItems(viewModel.getCountryItems())
             spinnerCountry.setOnItemSelectedListener { item, _ ->
                 spinnerServer.setItems(item.wrapperServers)
-                spinnerServer.isEnabled = true
+                spinnerServer.isVisible = true
                 spinnerServer.setText("")
                 inputLayoutCountry.error = ""
             }
@@ -94,7 +95,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             inputLayoutServer.hint =
                     getString(if (viewModel.secureCoreEnabled) R.string.entryCountry else R.string.serverSelection)
 
-            spinnerServer.isEnabled = false
+            spinnerServer.isVisible = false
             spinnerServer.setOnItemSelectedListener { _, _ ->
                 inputLayoutServer.error = ""
             }
@@ -175,7 +176,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                 spinnerCountry.selectedItem = country
                 spinnerServer.selectedItem = profile?.wrapper
                 spinnerServer.setItems(country!!.wrapperServers)
-                spinnerServer.isEnabled = true
+                spinnerServer.isVisible = true
             }
         }
     }
