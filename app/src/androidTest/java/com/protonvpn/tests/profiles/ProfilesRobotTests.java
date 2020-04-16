@@ -199,7 +199,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
         result.profileIsVisible(profileName);
@@ -229,7 +229,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
@@ -246,7 +246,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
@@ -268,7 +268,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
@@ -286,7 +286,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 

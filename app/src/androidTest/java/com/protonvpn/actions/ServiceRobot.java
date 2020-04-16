@@ -49,6 +49,10 @@ public class ServiceRobot {
         return NetworkTestHelper.getExitVpnCountries().get(0);
     }
 
+    public VpnCountry getSecondSecureCoreExitCountryFromBackend() {
+        return NetworkTestHelper.getExitVpnCountries().get(1);
+    }
+
     public String getFirstNotAccessibleVpnCountryFromBackend() {
         return NetworkTestHelper.getFirstNotAccessibleVpnCountry().getCountryName();
     }
