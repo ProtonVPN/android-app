@@ -194,14 +194,15 @@ public class ProfilesRobotTests {
     public void tryToSaveSecureCoreProfileWithoutExitCountry() {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
-        String profileName = "Test";
+        String profileName = "TestFieldPrefill";
 
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
+        profilesRobot.selectFirstSecureCoreExitCountry();
 
-        ProfilesResult result = profilesRobot.clickOnSaveButton().isFailure();
-        result.emptyExitCountryError().profileIsVisible(profileName);
+        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
+        result.profileIsVisible(profileName);
     }
 
     @Test
