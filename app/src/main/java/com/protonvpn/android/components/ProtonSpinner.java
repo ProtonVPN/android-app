@@ -84,9 +84,9 @@ public class ProtonSpinner<T extends Listable> extends AppCompatEditText {
         configureOnClickListener();
     }
 
-    public void setSelectedItem(T item) {
+    public void setSelectedItem(@Nullable T item) {
         selectedItem = item;
-        setText(item.getLabel(getContext()));
+        setText(item != null ? item.getLabel(getContext()) : "");
     }
 
     private void configureOnClickListener() {

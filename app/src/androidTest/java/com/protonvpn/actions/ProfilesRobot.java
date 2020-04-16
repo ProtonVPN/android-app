@@ -78,6 +78,12 @@ public class ProfilesRobot extends UIActionsTestHelper {
         return this;
     }
 
+    public ProfilesRobot selectSecondSecureCoreExitCountry() {
+        clickOnObjectWithId(R.id.spinnerCountry);
+        clickOnObjectWithText(serviceRobot.getSecondSecureCoreExitCountryFromBackend().getCountryName());
+        return this;
+    }
+
     public ProfilesRobot selectSecureCoreEntryCountry() {
         VpnCountry exitCountry = serviceRobot.getFirstSecureCoreExitCountryFromBackend();
         clickOnObjectWithId(R.id.spinnerServer);

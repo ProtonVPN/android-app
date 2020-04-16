@@ -349,6 +349,43 @@
         "exitIp": "127.0.0.1"
       }
     ],
+    "domain": "fr-fi-01.protonvpn.com",
+    "entryCountry": "FR",
+    "entryCountryCoordinates": {
+      "positionX": 2485.0,
+      "positionY": 300.0
+    },
+    "exitCountry": "FI",
+    "features": 1,
+    "isOnline": true,
+    "keywords": [],
+    "load": "10",
+    "location": {
+      "latitude": "60.174999999999997",
+      "longitude": "24.940999999999999"
+    },
+    "score": 4.434756,
+    "selectedAsFastest": false,
+    "serverId": "6",
+    "serverName": "FR-FI#1",
+    "tier": 2,
+    "translatedCoordinates": {
+      "positionX": 2615.0,
+      "positionY": 295.0
+    },
+    "mId": -1,
+    "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
+    "mUUID": "5356c959-c904-48c1-b112-01dd713de36c"
+  },
+  {
+    "bestScore": false,
+    "connectingDomains": [
+      {
+        "entryDomain": "fr-fi-01.protonvpn.com",
+        "entryIp": "127.0.0.1",
+        "exitIp": "127.0.0.1"
+      }
+    ],
     "domain": "se-fi-01.protonvpn.com",
     "entryCountry": "FI",
     "entryCountryCoordinates": {
