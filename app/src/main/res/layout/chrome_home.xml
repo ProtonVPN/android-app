@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -60,21 +59,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingBottom="?attr/actionBarSize">
+            android:paddingBottom="?attr/actionBarSize"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchSecureCore"
+            <LinearLayout
+                android:id="@+id/switchSecureCoreLayout"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:background="#2c2c31"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="@string/mapSwitchSecureCore"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                android:theme="@style/SCSwitch" />
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mapSwitchSecureCore"
+                    android:textColor="@color/white" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchSecureCore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:theme="@style/SCSwitch" />
+
+            </LinearLayout>
 
             <View style="@style/Divider.Small" />
 
@@ -106,16 +116,16 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.protonvpn.android.components.ProtonActionMenu
-        style="@style/ActionMenuRtlSupported"
         android:id="@+id/fabQuickConnect"
+        style="@style/ActionMenuRtlSupported"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
         android:paddingBottom="16dp"
         android:visibility="invisible"
+        app:menu_backgroundColor="@color/blackOverlay"
         app:menu_colorNormal="@color/darkGrey"
         app:menu_colorPressed="@color/darkGrey"
-        app:menu_backgroundColor="@color/blackOverlay"
         app:menu_labels_colorNormal="@color/white"
         app:menu_labels_textColor="@color/darkGrey" />
 
