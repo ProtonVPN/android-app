@@ -1,4 +1,4 @@
-image: gitlab.protontech.ch:4567/protonvpn/android/android-app:protonish5
+image: gitlab.protontech.ch:4567/protonvpn/android/android-app-new:protonish5
 variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.3"
