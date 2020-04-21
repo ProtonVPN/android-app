@@ -114,6 +114,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible" />
 
+            <ImageView
+                android:id="@+id/imageWrench"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_wrench" />
+
             <TextView
                 android:id="@+id/textLoad"
                 android:layout_width="wrap_content"
