@@ -24,6 +24,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -144,6 +145,9 @@ open class CountryExpandedViewHolder(
                     binding.textIp.context.getString(R.string.premium)
             else
                 binding.textIp.context.getString(R.string.listItemMaintenance)
+            textLoad.isVisible = server.isOnline
+            imageLoad.isVisible = server.isOnline
+            imageWrench.isVisible = !server.isOnline
             imageDoubleArrows.visibility = View.GONE
         }
     }
