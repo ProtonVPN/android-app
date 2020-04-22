@@ -26,7 +26,7 @@ import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.RefreshBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.models.vpn.OpenVPNConfigResponse
+import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import okhttp3.RequestBody
@@ -68,5 +68,5 @@ interface ProtonVPNRetrofit {
     suspend fun postBugReport(@Body params: RequestBody): Response<GenericResponse>
 
     @GET("/vpn/clientconfig")
-    suspend fun getOpenVPNConfig(): Response<OpenVPNConfigResponse>
+    suspend fun getAppConfig(): Response<AppConfigResponse>
 }

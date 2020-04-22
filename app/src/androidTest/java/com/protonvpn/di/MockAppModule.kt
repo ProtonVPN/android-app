@@ -26,6 +26,7 @@ import com.protonvpn.android.api.AlternativeApiManager
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -62,6 +63,10 @@ class MockAppModule {
         serverManager: ServerManager,
         userData: UserData
     ) = ServerListUpdater(scope, api, serverManager, userData)
+
+    @Singleton
+    @Provides
+    fun provideAppConfig(api: ProtonApiRetroFit): AppConfig = AppConfig(scope, api)
 
     @Singleton
     @Provides

@@ -25,8 +25,8 @@ import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.models.vpn.OpenVPNConfigResponse
-import com.protonvpn.android.utils.User
+import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.AppConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -36,14 +36,8 @@ import retrofit2.Response
 //TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
 open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: ProtonApiManager) {
 
-    init {
-        scope.launch {
-            User.setOpenVPNConfig((getOpenVPNConfig() as? ApiResult.Success)?.value)
-        }
-    }
-
-    private suspend fun getOpenVPNConfig(): ApiResult<OpenVPNConfigResponse> =
-        manager.call(useBackoff = true) { it.getOpenVPNConfig() }
+    suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
+        manager.call(useBackoff = true) { it.getAppConfig() }
 
     suspend fun getLocation() =
         manager.call { it.getLocation() }
