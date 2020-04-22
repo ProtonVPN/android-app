@@ -48,6 +48,7 @@ import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
@@ -63,6 +64,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: ProtonSwitch
     @BindView(R.id.textMTU) lateinit var textMTU: MaskedEditText
     @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: ProtonSwitch
+    @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: ProtonSwitch
     @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: ProtonSwitch
     @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: ProtonSwitch
     @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: ProtonSwitch
@@ -107,6 +109,8 @@ class SettingsActivity : BaseActivity() {
                     userPrefs.setShowIcon(isChecked)
                     EventBus.getInstance().post(StatusSettingChanged(isChecked))
                 }
+
+        switchDnsLeak.isEnabled = false
 
         switchDnsOverHttps.setDescription(HtmlTools.fromHtml(getString(
                 R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))
