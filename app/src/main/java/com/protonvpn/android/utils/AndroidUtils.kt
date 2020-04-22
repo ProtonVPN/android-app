@@ -23,8 +23,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import android.util.TypedValue
+import androidx.annotation.DimenRes
 
 object AndroidUtils {
 
@@ -54,7 +57,10 @@ object AndroidUtils {
                 false
             }
 
-    fun Context.registerBroadcastReceiver(intentFilter: IntentFilter, onReceive: (intent: Intent?) -> Unit): BroadcastReceiver {
+    fun Context.registerBroadcastReceiver(
+        intentFilter: IntentFilter,
+        onReceive: (intent: Intent?) -> Unit
+    ): BroadcastReceiver {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent?) {
                 onReceive(intent)
@@ -66,4 +72,8 @@ object AndroidUtils {
 
     fun playMarketIntentFor(appId: String) =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appId"))
+
+    fun Resources.getFloatRes(@DimenRes id: Int) = TypedValue().also {
+        getValue(id, it, true)
+    }.float
 }
