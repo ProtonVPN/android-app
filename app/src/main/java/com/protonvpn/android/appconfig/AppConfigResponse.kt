@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2019 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,22 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.appconfig
 
-import com.protonvpn.android.models.login.LoginResponse;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-// Should be refactored and removed
-@Deprecated
-public class User {
-
-    public static String getUuid() {
-        LoginResponse user = Storage.load(LoginResponse.class);
-        return user != null ? user.getUid() : "";
-    }
-
-    public static String getAccessToken() {
-        LoginResponse user = Storage.load(LoginResponse.class);
-        return user != null ? "Bearer " + user.getAccessToken() : "";
-    }
-
+class AppConfigResponse internal constructor(
+        @JsonProperty(value = "OpenVPNConfig", required = true) openVPNConfigResponse: OpenVPNConfigResponse,
+        @JsonProperty(value = "FeatureFlags", required = true) val featureFlags: FeatureFlags) {
+    val defaultPorts: DefaultPorts = openVPNConfigResponse.defaultPorts
 }
