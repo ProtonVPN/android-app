@@ -44,6 +44,7 @@ import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.ProtonApiRetroFit;
+import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
@@ -119,6 +120,7 @@ public class VpnStateFragment extends BaseFragment {
     @Inject ProtonApiRetroFit api;
     @Inject ServerManager manager;
     @Inject UserData userData;
+    @Inject AppConfig appConfig;
     @Inject VpnStateMonitor stateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
@@ -190,7 +192,7 @@ public class VpnStateFragment extends BaseFragment {
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
-        switchNetShield.init(userData.getNetShieldProtocol(), userData, stateMonitor, s -> {
+        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, userData, stateMonitor, s -> {
             userData.setNetShieldProtocol(s);
             return null;
         });
@@ -450,17 +452,18 @@ public class VpnStateFragment extends BaseFragment {
                 && stateMonitor.getConnectingToServer() != null ?
                 stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
             connectedServer = vpnState.getServer();
-            switchNetShield.init(profile.getNetShieldProtocol(userData), userData, stateMonitor, s -> {
-                userData.setNetShieldProtocol(s);
-                return null;
-            });
+            switchNetShield.init(profile.getNetShieldProtocol(userData, appConfig), appConfig, userData,
+                stateMonitor, s -> {
+                    userData.setNetShieldProtocol(s);
+                    return null;
+                });
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);
             VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
             if (state instanceof VpnState.Error) {
-                reportError(((VpnState.Error)vpnState.getState()).getType());
+                reportError(((VpnState.Error) vpnState.getState()).getType());
             }
             else if (VpnState.Disabled.INSTANCE.equals(state)) {
                 checkDisconnectFromOutside();

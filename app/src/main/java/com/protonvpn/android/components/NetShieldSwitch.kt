@@ -34,6 +34,7 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
@@ -132,8 +133,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }.show()
     }
 
-    fun init(initialValue: NetShieldProtocol, userData: UserData, stateMonitor: VpnStateMonitor,
+    fun init(initialValue: NetShieldProtocol, appConfig: AppConfig, userData: UserData, stateMonitor:
+    VpnStateMonitor,
              changeCallback: (protocol: NetShieldProtocol) -> Unit) = with(binding) {
+        this.root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         onStateChange(initialValue)
         initUserTier(userData)
         switchNetshield.isChecked = initialValue != NetShieldProtocol.DISABLED

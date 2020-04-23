@@ -66,8 +66,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     }
 
     private fun initNetShield() {
-        binding.contentProfile.netShieldSwitch.init(viewModel.netShieldProtocol, viewModel.userData, viewModel
-                .vpnStateMonitor) {}
+        binding.contentProfile.netShieldSwitch.init(viewModel.netShieldProtocol, viewModel.appConfig,
+                viewModel.userData, viewModel.vpnStateMonitor) {}
     }
 
     private fun checkInputFields(): Boolean {
