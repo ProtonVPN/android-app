@@ -62,7 +62,7 @@ sealed class ApiResult<out T> {
             else
                 super.getMessage(context)
 
-        override fun getDebugMessage(): String = exception.localizedMessage
+        override fun getDebugMessage(): String = exception.localizedMessage ?: exception.toString()
     }
 
     val valueOrNull get() = (this as? Success)?.value
