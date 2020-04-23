@@ -38,6 +38,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+@Suppress("ComplexInterface")
 interface ProtonVPNRetrofit {
 
     @GET("vpn/logicals")
@@ -69,4 +70,7 @@ interface ProtonVPNRetrofit {
 
     @GET("/vpn/clientconfig")
     suspend fun getAppConfig(): Response<AppConfigResponse>
+
+    @GET("test/ping")
+    suspend fun ping(): Response<GenericResponse>
 }
