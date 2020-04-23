@@ -19,6 +19,7 @@
 package com.protonvpn.android.models.vpn
 
 import android.content.Context
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -40,7 +41,8 @@ class ConnectionParamsOpenVpn(
 
     fun openVpnProfile(
         context: Context,
-        userData: UserData
+        userData: UserData,
+        appConfig: AppConfig
     ) = VpnProfile(server.getLabel(context)).apply {
         mAuthenticationType = VpnProfile.TYPE_USERPASS
         mCaFilename = ROOT_CERTS
@@ -48,7 +50,7 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData).protocolString
+        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString
         mUseTLSAuth = true
         mTunMtu = userData.mtuSize
         mExpectTLSCert = true

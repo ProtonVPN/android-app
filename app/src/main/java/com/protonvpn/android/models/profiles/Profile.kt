@@ -22,6 +22,7 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -70,8 +71,13 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
         transmissionProtocol = value
     }
 
-    fun getNetShieldProtocol(userData: UserData): NetShieldProtocol =
-            netShieldProtocol?: userData.netShieldProtocol
+    fun getNetShieldProtocol(userData: UserData, appConfig: AppConfig): NetShieldProtocol {
+        return if (appConfig.getFeatureFlags().netShieldEnabled) {
+            netShieldProtocol ?: userData.netShieldProtocol
+        } else {
+            NetShieldProtocol.DISABLED
+        }
+    }
 
     fun setNetShieldProtocol(value: NetShieldProtocol) {
         netShieldProtocol = value

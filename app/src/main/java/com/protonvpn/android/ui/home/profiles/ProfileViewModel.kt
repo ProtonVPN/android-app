@@ -1,6 +1,7 @@
 package com.protonvpn.android.ui.home.profiles
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     val serverManager: ServerManager,
-    val userData: UserData
+    val userData: UserData,
+    val appConfig: AppConfig
 ) : ViewModel() {
 
     var editableProfile: Profile? = null
@@ -27,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     val transmissionProtocol: TransmissionProtocol
         get() = editableProfile?.getTransmissionProtocol(userData) ?: userData.transmissionProtocol
     val netShieldProtocol: NetShieldProtocol
-        get() = editableProfile?.getNetShieldProtocol(userData) ?: userData.netShieldProtocol
+        get() = editableProfile?.getNetShieldProtocol(userData, appConfig) ?: userData.netShieldProtocol
     val serverValidateSelection = ProtonSpinner.OnValidateSelection<ServerWrapper> {
         userData.hasAccessToServer(serverManager.getServerFromWrap(it))
     }

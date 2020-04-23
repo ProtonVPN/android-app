@@ -34,6 +34,7 @@ import br.com.sapereaude.maskedEditText.MaskedEditText
 import butterknife.BindView
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivity
@@ -76,6 +77,7 @@ class SettingsActivity : BaseActivity() {
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var userPrefs: UserData
+    @Inject lateinit var appConfig: AppConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +98,7 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-        switchNetShield.init(userPrefs.netShieldProtocol, userPrefs, stateMonitor) {
+        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, userPrefs, stateMonitor) {
             userPrefs.netShieldProtocol = it
         }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()

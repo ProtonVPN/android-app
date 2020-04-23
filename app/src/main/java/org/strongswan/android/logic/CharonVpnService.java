@@ -37,6 +37,7 @@ import android.security.KeyChainException;
 import android.system.OsConstants;
 
 import com.protonvpn.android.api.ProtonApiRetroFit;
+import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.models.config.UserData;
@@ -112,6 +113,7 @@ public class CharonVpnService extends VpnService implements Runnable {
     public static final String KEY_IS_RETRY = "retry";
     @Inject ProtonApiRetroFit api;
     @Inject UserData userData;
+    @Inject AppConfig appConfig;
     @Inject ServerManager manager;
     @Inject VpnStateMonitor stateMonitor;
 
@@ -159,7 +161,7 @@ public class CharonVpnService extends VpnService implements Runnable {
             ConnectionParamsIKEv2 serverToConnect = Storage.load(
                 ConnectionParams.class, ConnectionParamsIKEv2.class);
             setNextProfile(serverToConnect != null ?
-                serverToConnect.getStrongSwanProfile(userData) : null);
+                serverToConnect.getStrongSwanProfile(userData, appConfig) : null);
             Log.e("start next profile: " + (serverToConnect == null));
             return serverToConnect != null ? START_STICKY : START_NOT_STICKY;
         }

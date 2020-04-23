@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
 data class FeatureFlags(
-        @param:JsonProperty(value = "NetShield", required = false) val netShield: Int,
-        @param:JsonProperty(value = "GuestHoles", required = false) val guestHoles: Int
+        @param:JsonProperty(value = "NetShield", required = false) val netShield: Int = 0,
+        @param:JsonProperty(value = "GuestHoles", required = false) val guestHoles: Int = 0
 ) : Serializable {
 
    val guestHoleEnabled: Boolean get() = guestHoles != 0
