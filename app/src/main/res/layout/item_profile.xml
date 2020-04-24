@@ -70,7 +70,8 @@
                 android:id="@+id/textServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/white"
                 tools:text="Coffe shop (Default)" />
 
@@ -79,6 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/lightGrey"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textSize="12sp"
                 android:text="@string/error_server_not_set"/>
 
