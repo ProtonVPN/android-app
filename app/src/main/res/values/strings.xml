@@ -336,7 +336,6 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="paidFeature">Paid feature</string>
     <string name="netShieldReconnectionNeeded">Reconnection needed</string>
     <string name="netShieldReconnectionDescription">Your connection needs to be restarted to disable NetShield.</string>
-    <string name="netShieldPaidFeature">You are trying to enable feature which requires ProtonVPN plus subscription
-        .</string>
+    <string name="netShieldPaidFeature">You are trying to enable feature which requires ProtonVPN Plus subscription.</string>
 
 </resources>
