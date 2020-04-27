@@ -26,15 +26,16 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.TypedValue
 import androidx.annotation.DimenRes
 
 object AndroidUtils {
 
     fun isPackageSignedWith(
-        context: Context,
-        packageName: String,
-        expectedSignature: String
+            context: Context,
+            packageName: String,
+            expectedSignature: String
     ): Boolean = with(context) {
         val oldAppInfo = packageManager.getPackageInfo(packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
@@ -49,6 +50,15 @@ object AndroidUtils {
         }
     }
 
+    inline fun <reified T : Any> Context.launchActivity(
+            options: Bundle? = null,
+            noinline init: Intent.() -> Unit = {}) {
+
+        val intent = Intent(this, T::class.java)
+        intent.init()
+        startActivity(intent, options)
+    }
+
     fun isPackageInstalled(context: Context, packageName: String) =
             try {
                 context.packageManager.getApplicationInfo(packageName, 0)
@@ -58,8 +68,8 @@ object AndroidUtils {
             }
 
     fun Context.registerBroadcastReceiver(
-        intentFilter: IntentFilter,
-        onReceive: (intent: Intent?) -> Unit
+            intentFilter: IntentFilter,
+            onReceive: (intent: Intent?) -> Unit
     ): BroadcastReceiver {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent?) {
