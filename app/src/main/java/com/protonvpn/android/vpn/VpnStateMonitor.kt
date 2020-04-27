@@ -122,6 +122,7 @@ open class VpnStateMonitor(
     }
 
     val isConnected get() = state == Connected && connectionParams != null
+    val isDisabled get() = state == Disabled
 
     val connectingToServer
         get() = connectionParams?.server?.takeIf {
@@ -262,7 +263,11 @@ open class VpnStateMonitor(
         connect(context, profile, null)
     }
 
-    fun connect(context: Context, profile: Profile, prepareIntentHandler: ((Intent) -> Unit)? = null) {
+    fun connect(
+        context: Context,
+        profile: Profile,
+        prepareIntentHandler: ((Intent) -> Unit)? = null
+    ) {
         val intent = prepare(context)
         if (intent != null) {
             if (prepareIntentHandler != null) {
@@ -301,6 +306,11 @@ open class VpnStateMonitor(
 
     open fun disconnect() {
         disconnectWithCallback()
+    }
+
+    suspend fun disconnectSync() {
+        clearOngoingConnection()
+        disconnectBlocking()
     }
 
     open fun disconnectWithCallback(afterDisconnect: (() -> Unit)? = null) {

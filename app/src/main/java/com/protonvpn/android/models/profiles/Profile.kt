@@ -82,8 +82,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     fun getProtocol(userData: UserData): VpnProtocol =
         protocol?.let { VpnProtocol.valueOf(it) } ?: userData.selectedProtocol
 
-    fun setProtocol(protocol: String?) {
-        this.protocol = protocol
+    fun setProtocol(protocol: VpnProtocol) {
+        this.protocol = protocol.toString()
     }
 
     companion object {

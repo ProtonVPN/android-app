@@ -22,6 +22,7 @@ import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.AlternativeApiManagerProd
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
@@ -52,7 +53,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideServerManager(userData: UserData?) =
+    fun provideServerManager(userData: UserData) =
             ServerManager(ProtonApplication.getAppContext(), userData)
 
     @Singleton
@@ -111,4 +112,9 @@ class AppModule {
     @Provides
     fun provideTrafficMonitor() = TrafficMonitor(
             ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime)
+
+    @Singleton
+    @Provides
+    fun provideGuestHole(serverManager: ServerManager, vpnMonitor: VpnStateMonitor) =
+            GuestHole(serverManager, vpnMonitor)
 }

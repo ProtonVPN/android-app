@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.AlternativeApiManager
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
@@ -120,4 +121,9 @@ class MockAppModule {
     @Provides
     fun provideTrafficMonitor() = TrafficMonitor(
             ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime)
+
+    @Singleton
+    @Provides
+    fun provideGuestHole(serverManager: ServerManager, vpnMonitor: VpnStateMonitor) =
+            GuestHole(serverManager, vpnMonitor)
 }

@@ -56,7 +56,7 @@ object MockedServers {
             override fun hasAccessToServer(server: Server?) = true
             override fun getServer(wrapper: ServerWrapper?): Server = server
         })).apply {
-            setProtocol(protocol.toString())
+            setProtocol(protocol)
         }
 
     private val serverJson = """

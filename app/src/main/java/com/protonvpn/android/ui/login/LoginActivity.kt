@@ -42,6 +42,7 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.CompressedTextWatcher
 import com.protonvpn.android.components.ContentLayout
@@ -53,10 +54,11 @@ import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
-import javax.inject.Inject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_login)
 class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
@@ -209,10 +211,20 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         }
     }
 
+    private var loginJob: Job? = null
+
+    override fun onVpnPrepareFailed() {
+        loginJob?.cancel()
+        binding.loadingContainer.switchToRetry(
+                ApiResult.Failure(Exception("Vpn permission not granted")))
+    }
+
     private fun login() = with(binding) {
         loadingContainer.switchToLoading()
-        lifecycleScope.launch {
-            val loginState = viewModel.login(editPassword.text.toString())
+        loginJob = lifecycleScope.launch {
+            val loginState = viewModel.login(this@LoginActivity, editPassword.text.toString()) {
+                startActivityForResult(it, PREPARE_VPN_SERVICE)
+            }
             when (loginState) {
                 is LoginState.Success -> {
                     launchActivity<HomeActivity>()
