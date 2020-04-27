@@ -38,8 +38,8 @@ public class LogoutResult extends UIActionsTestHelper {
 
     public LogoutResult isSuccessful() {
         //checks if login form appeared
-        checkIfObjectWithIdIsDisplayed(R.id.email);
-        checkIfObjectWithIdIsDisplayed(R.id.password);
+        checkIfObjectWithIdIsDisplayed(R.id.editEmail);
+        checkIfObjectWithIdIsDisplayed(R.id.editPassword);
         checkIfObjectWithIdIsDisplayed(R.id.buttonLogin);
 
         return new LogoutResult();
@@ -47,8 +47,8 @@ public class LogoutResult extends UIActionsTestHelper {
 
     public LogoutResult isFailure() {
         //checks if login form has not appeared
-        checkIfObjectWithIdIsNotDisplayed(R.id.email);
-        checkIfObjectWithIdIsNotDisplayed(R.id.password);
+        checkIfObjectWithIdIsNotDisplayed(R.id.editEmail);
+        checkIfObjectWithIdIsNotDisplayed(R.id.editPassword);
         checkIfObjectWithIdIsNotDisplayed(R.id.buttonLogin);
 
         return new LogoutResult();
@@ -65,7 +65,7 @@ public class LogoutResult extends UIActionsTestHelper {
     }
 
     public LogoutResult userNameVisible() {
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.email, user.email);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.editEmail, user.email);
         return this;
     }
 }

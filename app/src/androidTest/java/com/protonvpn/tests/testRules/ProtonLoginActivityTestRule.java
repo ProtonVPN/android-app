@@ -36,7 +36,7 @@ public class ProtonLoginActivityTestRule extends TestWatcher {
     @Override
     protected void starting(Description description) {
         activityTestRule.launchActivity(null);
-        userData = activityTestRule.getActivity().userPrefs;
+        userData = activityTestRule.getActivity().viewModel.getUserData();
     }
 
     @Override
