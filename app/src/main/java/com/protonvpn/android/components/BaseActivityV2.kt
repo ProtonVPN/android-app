@@ -18,18 +18,27 @@
  */
 package com.protonvpn.android.components
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.R
 import dagger.android.support.DaggerAppCompatActivity
 
 abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCompatActivity() {
 
-    protected lateinit var binding: DB
-    protected lateinit var viewModel: VM
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    lateinit var binding: DB
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    lateinit var viewModel: VM
 
     protected abstract fun initViewModel()
 
@@ -44,6 +53,15 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun openUrl(url: String?) {
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
