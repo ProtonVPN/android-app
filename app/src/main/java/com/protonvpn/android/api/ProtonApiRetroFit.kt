@@ -19,14 +19,13 @@
 package com.protonvpn.android.api
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.appconfig.AppConfigResponse
-import com.protonvpn.android.appconfig.AppConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody

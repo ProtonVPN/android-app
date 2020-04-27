@@ -21,7 +21,11 @@ package com.protonvpn.android.components
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.annotation.TargetApi
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
@@ -30,6 +34,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
+import com.afollestad.materialdialogs.DialogAction
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.HtmlTools
 import dagger.android.support.DaggerAppCompatActivity
 
 abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCompatActivity() {
@@ -70,5 +79,36 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PREPARE_VPN_SERVICE) {
+            if (resultCode == Activity.RESULT_OK) {
+                onVpnPrepared()
+            } else if (resultCode == Activity.RESULT_CANCELED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                onVpnPrepareFailed()
+                showNoVpnPermissionDialog()
+            }
+        } else super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    protected open fun onVpnPrepared() {}
+    protected open fun onVpnPrepareFailed() {}
+
+    companion object {
+        const val PREPARE_VPN_SERVICE = 0
+
+        @TargetApi(Build.VERSION_CODES.N)
+        fun Activity.showNoVpnPermissionDialog() {
+            val content = HtmlTools.fromHtml(getString(
+                    R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS))
+            MaterialDialog.Builder(this).theme(Theme.DARK)
+                    .title(R.string.error_prepare_vpn_title)
+                    .content(content)
+                    .positiveText(R.string.error_prepare_vpn_settings)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
+                    }.show()
+        }
     }
 }

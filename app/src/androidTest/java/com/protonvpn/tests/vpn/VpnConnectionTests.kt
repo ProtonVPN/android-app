@@ -22,12 +22,14 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -73,6 +75,9 @@ class VpnConnectionTests {
 
     @RelaxedMockK
     lateinit var apiManager: ProtonApiManager
+
+    @RelaxedMockK
+    lateinit var serverManager: ServerManager
 
     private val mockStrongSwan = MockVpnBackend(VpnProtocol.IKEv2)
     private val mockOpenVpn = MockVpnBackend(VpnProtocol.OpenVPN)
@@ -128,5 +133,28 @@ class VpnConnectionTests {
         val vpnState = monitor.vpnStatus.value!!
         Assert.assertTrue((vpnState.state as? VpnState.Error)?.type ==
                 VpnStateMonitor.ErrorType.NO_PORTS_AVAILABLE)
+    }
+
+    @Test
+    fun executeInGuestHole() = runBlockingTest {
+        val guestHole = GuestHole(serverManager, monitor)
+        val wasConnected = guestHole.call(context) {
+            monitor.isConnected
+        }
+        Assert.assertTrue(monitor.isDisabled)
+        Assert.assertEquals(true, wasConnected)
+    }
+
+    @Test
+    fun guestHoleFail() = runBlockingTest {
+        mockStrongSwan.failOnPrepare = true
+        mockOpenVpn.failOnPrepare = true
+
+        val guestHole = GuestHole(serverManager, monitor)
+        val result = guestHole.call(context) {
+            Assert.fail()
+        }
+        Assert.assertTrue(monitor.isDisabled)
+        Assert.assertEquals(null, result)
     }
 }
