@@ -73,6 +73,7 @@ detekt analysis:
   script:
     - ./gradlew detekt
   artifacts:
+    expire_in: 4 weeks
     reports:
         codequality: app/build/reports/detekt.json
 
