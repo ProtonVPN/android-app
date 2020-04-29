@@ -384,10 +384,10 @@ dependencies {
     }
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
-    detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.5.1'
-    detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.5.1'
-    detektPlugins 'pm.algirdas.detekt:codeanalysis:0.2.1'
-    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.5.1'
+    detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0'
+    detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.8.0'
+    detektPlugins 'pm.algirdas.detekt:codeanalysis:0.3.2'
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0'
 
     implementation 'com.proton:srp:1.0.0@aar'
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
