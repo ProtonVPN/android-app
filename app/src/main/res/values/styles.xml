@@ -130,4 +130,8 @@
         <item name="colorControlActivated">@color/lightGrey</item>
     </style>
 
+    <style name="TabLayoutStyle">
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>
