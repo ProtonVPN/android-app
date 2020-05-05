@@ -63,13 +63,16 @@
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
                     <TextView
                         android:id="@+id/textVersion"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
-                        android:layout_weight="1"
-                        android:gravity="end|center_vertical"
                         android:textColor="@color/white"
                         tools:text="v1.0.0" />
 
@@ -77,7 +80,7 @@
 
                 <LinearLayout
                     android:id="@+id/layoutUserInfo"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="8dp"
@@ -88,7 +91,7 @@
                         android:id="@+id/textTier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="start"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_square_rounded_white"
                         android:textAllCaps="true"
@@ -102,7 +105,7 @@
                         android:id="@+id/textUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="start"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/white"
@@ -113,43 +116,43 @@
 
             </RelativeLayout>
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonSettings"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerSettings"
-                app:drawableStart="@drawable/ic_gear" />
+                android:drawableStart="@drawable/ic_gear" />
 
             <View style="@style/Divider.Small" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonAccount"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerAccount"
-                app:drawableStart="@drawable/ic_drawer_account" />
+                android:drawableStart="@drawable/ic_drawer_account" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonShowLog"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerShowLog"
-                app:drawableStart="@drawable/ic_log" />
+                android:drawableStart="@drawable/ic_log" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonReportBug"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerReportBug"
-                app:drawableStart="@drawable/ic_bug" />
+                android:drawableStart="@drawable/ic_bug" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonHelp"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerHelp"
-                app:drawableStart="@drawable/ic_drawer_support" />
+                android:drawableStart="@drawable/ic_drawer_support" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/drawerButtonLogout"
                 style="@style/TextView.Drawer"
                 android:text="@string/drawerLogout"
-                app:drawableStart="@drawable/ic_drawer_logout" />
+                android:drawableStart="@drawable/ic_drawer_logout" />
 
         </LinearLayout>
 
