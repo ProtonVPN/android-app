@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.BuildConfig;
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
-public class Constants {
+data class ConnectingDomain(
+    @param:JsonProperty(value = "EntryIP", required = true) val entryIp: String,
+    @param:JsonProperty(value = "Domain", required = true) val entryDomain: String,
+    @param:JsonProperty(value = "ExitIP", required = false) private val exitIp: String?
+) : Serializable {
 
-    public static final long MAX_LOG_SIZE = 200 * 1024;
-    public static final int NOTIFICATION_ID = 6;
-    public static final String SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile";
-    public static final String PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/";
-    public static final String ALTERNATIVE_ROUTING_LEARN_URL = "https://protonmail.com/blog/anti-censorship-alternative-routing";
+    fun getExitIP() = exitIp ?: entryIp
 }

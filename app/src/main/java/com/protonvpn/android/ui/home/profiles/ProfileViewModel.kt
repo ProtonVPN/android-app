@@ -1,16 +1,14 @@
 package com.protonvpn.android.ui.home.profiles
 
-import android.content.Context
-import android.view.View
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.components.ProtonSpinner
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.drawer.SettingsActivity
 import com.protonvpn.android.utils.ServerManager
 import javax.inject.Inject
 
@@ -23,10 +21,8 @@ class ProfileViewModel @Inject constructor(
     var secureCoreEnabled = userData.isSecureCoreEnabled
     val profileServer get() = editableProfile?.server
 
-    val transmissionProtocol
-        get() =
-            SettingsActivity.MockUDP(editableProfile?.getTransmissionProtocol(userData)
-                    ?: userData.transmissionProtocol)
+    val transmissionProtocol: TransmissionProtocol
+        get() = editableProfile?.getTransmissionProtocol(userData) ?: userData.transmissionProtocol
 
     val serverValidateSelection = ProtonSpinner.OnValidateSelection<ServerWrapper> {
         userData.hasAccessToServer(serverManager.getServerFromWrap(it))
@@ -37,30 +33,19 @@ class ProfileViewModel @Inject constructor(
                         secureCoreEnabled)
     }
 
-    val selectedProtocol
-        get() =
-            SettingsActivity.MockUDP(editableProfile?.getProtocol(userData)
-                    ?: userData.selectedProtocol.toString())
-
-    fun getTransmissionVisibility(context: Context): Int {
-        return getTransmissionVisibility(selectedProtocol.getLabel(context))
-    }
-
-    fun getTransmissionVisibility(protocol: String): Int {
-        return if (protocol == VpnProtocol.OpenVPN.toString()) View.VISIBLE else View.GONE
-    }
+    val selectedProtocol: VpnProtocol
+        get() = editableProfile?.getProtocol(userData) ?: userData.selectedProtocol
 
     fun initWithProfile(profile: Profile?) {
         editableProfile = profile
         if (profile != null) {
             secureCoreEnabled = profile.isSecureCore
-            profile.serverWrapper.setDeliverer(serverManager)
+            profile.wrapper.setDeliverer(serverManager)
         }
     }
 
-    fun getCountryItems(): List<VpnCountry> {
-        return if (secureCoreEnabled) serverManager.secureCoreExitCountries else serverManager.vpnCountries
-    }
+    fun getCountryItems(): List<VpnCountry> =
+        if (secureCoreEnabled) serverManager.secureCoreExitCountries else serverManager.vpnCountries
 
     fun saveProfile(profile: Profile) {
         if (editableProfile != null) {

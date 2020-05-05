@@ -1,4 +1,4 @@
-image: gitlab.protontech.ch:4567/protonvpn/android/android-app:protonish5
+image: gitlab.protontech.ch:4567/protonvpn/android/android-app-new:protonish5
 variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.3"
@@ -15,7 +15,7 @@ before_script:
   - md5sum app/service_account.json
   - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
   - apt-get -y update
-  - apt-get install -y connect-proxy git
+  - apt-get install -y connect-proxy git rsync curl jq
   - 'which ssh-agent || apt-get -y install openssh-client'
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
@@ -45,7 +45,7 @@ stages:
   - build
   - test
   - report
-  - i18n
+  - bot
   - mirror
   - publish
 
@@ -234,17 +234,25 @@ publish-apk-internal:
     - ./gradlew publishInternal -PabiSplit
   when: manual
 
-i18n-update-crowdin:
-  cache: {}
-  stage: i18n
-  before_script:
-      - apt-get install -y jq
-      - git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@${I18N_PROTON_REPO}" --depth 1 /tmp/__PROTON_I18N;
 
-  except:
-      - schedules
-  only:
-      refs:
-          - development
-  script:
-    - /tmp/__PROTON_I18N/update crowdin --project android-vpn
+include:
+  - project: 'translations/generator'
+    ref: master
+    file: '/jobs/sync-crowdin.gitlab-ci.yml'
+
+  - project: 'translations/generator'
+    ref: master
+    file: '/jobs/commit-locales.gitlab-ci.yml'
+
+i18n-sync-crowdin:
+  variables:
+      I18N_SYNC_BRANCH: development
+      I18N_SYNC_CROWDIN_PROJECT: 'android-vpn'
+  extends: .i18n-sync-crowdin-shared
+
+i18n-commit-locales:
+  variables:
+      I18N_COMMIT_BRANCH_PUSH: development
+      I18N_COMMIT_BRANCH_ALLOWED: development
+      I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
+  extends: .i18n-commit-locales-shared

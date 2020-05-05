@@ -16,34 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn;
+package com.protonvpn.android.api
 
-import androidx.annotation.NonNull;
+import android.os.Build
+import com.protonvpn.android.BuildConfig
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
+import java.util.Locale
 
-public class ConnectionError {
+class UserAgentInterceptor : Interceptor {
 
-    private boolean handled = false;
-    private VpnStateMonitor.ErrorState errorState;
+    private val userAgent: String =
+            String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
+            BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND, Build.MODEL)
 
-    public ConnectionError(@NonNull VpnStateMonitor.ErrorState errorState) {
-        this.errorState = errorState;
-    }
-
-    public boolean isHandled() {
-        return handled;
-    }
-
-    public void setHandled(boolean handled) {
-        this.handled = handled;
-    }
-
-    @NonNull
-    public VpnStateMonitor.ErrorState getErrorState() {
-        return errorState;
-    }
-
-    public void setErrorState(@NonNull VpnStateMonitor.ErrorState errorState) {
-        this.errorState = errorState;
-        this.setHandled(false);
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val userAgentRequest =
+                chain.request().newBuilder().header("User-Agent", userAgent).build()
+        return chain.proceed(userAgentRequest)
     }
 }

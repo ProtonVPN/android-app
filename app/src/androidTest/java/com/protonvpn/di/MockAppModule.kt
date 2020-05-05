@@ -27,18 +27,21 @@ import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.mocks.MockVpnBackendProvider
+import com.protonvpn.mocks.MockVpnBackend
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
-import java.util.*
+import java.util.Random
 import javax.inject.Singleton
 
 @Module
@@ -86,14 +89,16 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData())
+    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
+        useSmartProtocol = false
+    })
 
     @Singleton
     @Provides
     fun provideVpnStateMonitor(
         userData: UserData,
         api: ProtonApiRetroFit,
-        backendManager: MockVpnBackendProvider,
+        backendManager: VpnBackendProvider,
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
         apiManager: ProtonApiManager
@@ -102,7 +107,9 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager() = MockVpnBackendProvider()
+    fun provideVpnBackendManager(): VpnBackendProvider = ProtonVpnBackendProvider(
+            strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
+            openVpn = MockVpnBackend(VpnProtocol.OpenVPN))
 
     @Singleton
     @Provides

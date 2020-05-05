@@ -33,14 +33,16 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.VpnStateMonitor.State.CHECKING_AVAILABILITY
-import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTED
-import com.protonvpn.android.vpn.VpnStateMonitor.State.CONNECTING
-import com.protonvpn.android.vpn.VpnStateMonitor.State.DISABLED
-import com.protonvpn.android.vpn.VpnStateMonitor.State.DISCONNECTING
-import com.protonvpn.android.vpn.VpnStateMonitor.State.ERROR
-import com.protonvpn.android.vpn.VpnStateMonitor.State.RECONNECTING
-import com.protonvpn.android.vpn.VpnStateMonitor.State.WAITING_FOR_NETWORK
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.VpnState.CheckingAvailability
+import com.protonvpn.android.vpn.VpnState.Connected
+import com.protonvpn.android.vpn.VpnState.Connecting
+import com.protonvpn.android.vpn.VpnState.Disabled
+import com.protonvpn.android.vpn.VpnState.Disconnecting
+import com.protonvpn.android.vpn.VpnState.Reconnecting
+import com.protonvpn.android.vpn.VpnState.ScanningPorts
+import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
+import com.protonvpn.android.vpn.VpnState.Error
 
 object NotificationHelper {
 
@@ -87,31 +89,31 @@ object NotificationHelper {
         }
     }
 
-    fun buildStatusNotification(vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?): Notification {
+    fun buildStatusNotification(vpnStatus: VpnStateMonitor.Status, trafficUpdate: TrafficUpdate?): Notification {
         val context = ProtonApplication.getAppContext()
         val disconnectIntent = Intent(DISCONNECT_ACTION)
-        val disconnectPendingIntent: PendingIntent =
-                PendingIntent.getBroadcast(context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val disconnectPendingIntent = PendingIntent.getBroadcast(
+            context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder =
                 NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(getIconForState(vpnState.state))
-                        .setContentTitle(getStringFromState(vpnState))
+                        .setSmallIcon(getIconForState(vpnStatus.state))
+                        .setContentTitle(getStringFromState(vpnStatus))
                         .setContentText(trafficUpdate?.notificationString)
                         .setStyle(NotificationCompat.BigTextStyle())
                         .setOngoing(true)
                         .setOnlyAlertOnce(true)
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
 
-        when (vpnState.state) {
-            DISABLED, CHECKING_AVAILABILITY, WAITING_FOR_NETWORK, RECONNECTING, DISCONNECTING -> builder.color =
-                    ContextCompat.getColor(context, R.color.orange)
-            CONNECTING, CONNECTED -> {
+        when (vpnStatus.state) {
+            Disabled, CheckingAvailability, ScanningPorts, WaitingForNetwork, Reconnecting, Disconnecting ->
+                builder.color = ContextCompat.getColor(context, R.color.orange)
+            Connecting, Connected -> {
                 builder.color = ContextCompat.getColor(context, R.color.greenBright)
-                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp, context.getString(R.string.disconnect),
-                        disconnectPendingIntent))
+                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp,
+                        context.getString(R.string.disconnect), disconnectPendingIntent))
             }
-            ERROR -> builder.color = ContextCompat.getColor(context, R.color.red)
+            else -> builder.color = ContextCompat.getColor(context, R.color.red)
         }
 
         val intent = Intent(context, HomeActivity::class.java)
@@ -122,43 +124,49 @@ object NotificationHelper {
         return builder.build()
     }
 
-    fun updateStatusNotification(context: Context, vpnState: VpnStateMonitor.VpnState, trafficUpdate: TrafficUpdate?) {
+    fun updateStatusNotification(
+            context: Context,
+            vpnStatus: VpnStateMonitor.Status,
+            trafficUpdate: TrafficUpdate?
+    ) {
         with(NotificationManagerCompat.from(context)) {
             // First update the notification even when disabled. If foreground service is
             // still running, notification will stay after cancel() - let's at least show correct
             // "not connected" notification.
-            notify(Constants.NOTIFICATION_ID, buildStatusNotification(vpnState, trafficUpdate))
-            if (vpnState.state == DISABLED) {
+            notify(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
+            if (vpnStatus.state == Disabled) {
                 cancel(Constants.NOTIFICATION_ID)
             }
         }
     }
 
-    private fun getIconForState(state: VpnStateMonitor.State): Int {
+    private fun getIconForState(state: VpnState): Int {
         return when (state) {
-            DISABLED, ERROR -> R.drawable.ic_notification_disconnected
-            CONNECTING, WAITING_FOR_NETWORK, DISCONNECTING, CHECKING_AVAILABILITY, RECONNECTING -> R.drawable.ic_notification_warning
-            CONNECTED -> R.drawable.ic_notification
+            Disabled, is Error -> R.drawable.ic_notification_disconnected
+            Connecting, WaitingForNetwork, Disconnecting, CheckingAvailability, ScanningPorts, Reconnecting ->
+                R.drawable.ic_notification_warning
+            Connected -> R.drawable.ic_notification
         }
     }
 
-    private fun getStringFromState(vpnState: VpnStateMonitor.VpnState): String {
+    private fun getStringFromState(vpnStatus: VpnStateMonitor.Status): String {
         val context = ProtonApplication.getAppContext()
-        return when (vpnState.state) {
-            CHECKING_AVAILABILITY -> context.getString(R.string.loaderCheckingAvailability)
-            DISABLED -> context.getString(R.string.loaderNotConnected)
-            CONNECTING -> context.getString(R.string.loaderConnectingTo, getServerName(context, vpnState))
-            CONNECTED -> context.getString(R.string.loaderConnectedTo, getServerName(context, vpnState))
-            DISCONNECTING -> context.getString(R.string.state_disconnecting)
-            ERROR -> context.getString(R.string.state_error)
-            RECONNECTING -> context.getString(R.string.loaderReconnecting)
-            WAITING_FOR_NETWORK -> context.getString(R.string.loaderReconnectNoNetwork)
+        return when (vpnStatus.state) {
+            CheckingAvailability, ScanningPorts -> context.getString(R.string.loaderCheckingAvailability)
+            Disabled -> context.getString(R.string.loaderNotConnected)
+            Connecting -> context.getString(R.string.loaderConnectingTo, getServerName(context, vpnStatus))
+            Connected -> context.getString(R.string.loaderConnectedTo, getServerName(context, vpnStatus))
+            Disconnecting -> context.getString(R.string.state_disconnecting)
+            Reconnecting -> context.getString(R.string.loaderReconnecting)
+            WaitingForNetwork -> context.getString(R.string.loaderReconnectNoNetwork)
+            is Error -> context.getString(R.string.state_error)
         }
     }
 
-    private fun getServerName(context: Context, vpnState: VpnStateMonitor.VpnState): String {
-        val (profile, server) = vpnState.connectionInfo!!
-        return if (profile.isPreBakedProfile || profile.getDisplayName(
-                        context).isEmpty()) server.getDisplayName() else profile.getDisplayName(context)
+    private fun getServerName(context: Context, vpnStatus: VpnStateMonitor.Status): String {
+        val profile = vpnStatus.profile!!
+        val server = vpnStatus.server!!
+        return if (profile.isPreBakedProfile || profile.getDisplayName(context).isEmpty())
+            server.displayName else profile.getDisplayName(context)
     }
 }

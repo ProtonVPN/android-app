@@ -21,42 +21,39 @@ package com.protonvpn.android.vpn
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
+data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams)
+
 interface VpnBackendProvider {
-    fun getFor(userData: UserData, profile: Profile? = null): VpnBackend
+    suspend fun prepareConnection(profile: Profile, server: Server, userData: UserData): PrepareResult?
 }
 
-abstract class VpnBackend(val name: String) {
+abstract class VpnBackend(val name: String) : VpnStateSource {
+
+    abstract suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult?
     abstract suspend fun connect()
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()
     abstract val retryInfo: RetryInfo?
 
-    fun setState(newState: VpnStateMonitor.State) {
-        stateObservable.value = newState
-    }
-
     protected suspend fun waitForDisconnect() {
         withTimeoutOrNull(DISCONNECT_WAIT_TIMEOUT) {
             do {
                 delay(200)
-            } while (state != VpnStateMonitor.State.DISABLED)
+            } while (selfState != VpnState.Disabled)
         }
-        if (state == VpnStateMonitor.State.DISCONNECTING)
-            stateObservable.value = VpnStateMonitor.State.DISABLED
+        if (selfState == VpnState.Disconnecting)
+            setSelfState(VpnState.Disabled)
     }
 
     var active = false
-    val stateObservable = MutableLiveData<VpnStateMonitor.State>().apply {
-        value = VpnStateMonitor.State.DISABLED
-    }
-
-    val state get() = stateObservable.value!!
-    var error: ConnectionError = ConnectionError(VpnStateMonitor.ErrorState.NO_ERROR)
+    override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L

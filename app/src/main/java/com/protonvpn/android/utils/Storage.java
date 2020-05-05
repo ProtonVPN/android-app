@@ -110,19 +110,29 @@ public final class Storage {
         }
     }
 
+    public static <T> void save(@Nullable T data, Class<T> as) {
+        if (data != null) {
+            preferences.edit().putString(as.getName(), GSON.toJson(data)).apply();
+        }
+    }
+
     public static <T> T toObject(Class<T> objClass, @NonNull String json) {
         return GSON.fromJson(json, objClass);
     }
 
     @Nullable
     public static <T> T load(Class<T> objClass) {
+        return load(objClass, objClass);
+    }
 
-        String key = objClass.getName();
+    @Nullable
+    public static <K,V extends K> V load(Class<K> keyClass, Class<V> objClass) {
+        String key = keyClass.getName();
         if (!preferences.contains(key)) {
             return null;
         }
 
-        T fromJson;
+        V fromJson;
         try {
             String json = preferences.getString(key, null);
             fromJson = GSON.fromJson(json, objClass);

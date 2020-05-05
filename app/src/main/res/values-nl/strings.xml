@@ -17,8 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
-  <!-- Strings related to login -->
+<resources><!-- Strings related to login -->
   <string name="hintUsername">Gebruikersnaam</string>
   <string name="hintPassword">Wachtwoord</string>
   <string name="splitTunnellingSwitch">Split-tunnel-schakelaar</string>
@@ -84,15 +83,9 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountButtonManage">Account beheren</string>
   <string name="accountTrial">ProtonVPN Plus Proefversie</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic">
-    <font fgcolor="#FB7554">ProtonVPN Basic</font>
-  </string>
-  <string name="accountPlus">
-    <font fgcolor="#59B268">ProtonVPN Plus</font>
-  </string>
-  <string name="accountVisionary">
-    <font fgcolor="#32b3dd">Proton Visionary</font>
-  </string>
+  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
+  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
+  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
   <string name="freeTrialExpired">"Uw 7 dagen gratis proefperiode van ProtonVPN Plus is verlopen. U kunt ProtonVPN Free blijven gebruiken, maar als u het project wilt steunen en hogere snelheden en meer functies wilt krijgen, upgrade dan naar een betaald abonnement."</string>
   <string name="activityProfileTitle">Profiel</string>
   <string name="activityAccountTitle">Account</string>
@@ -118,7 +111,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedMaintenanceTitle">In onderhoud</string>
   <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
   <string name="restrictedBasicTitle">Betaalde server</string>
-  <string name="restrictedPlusTitle">Plus-server</string>
+  <string name="restrictedPlusTitle">Plus Server</string>
   <string name="restrictedSecureCoreTitle">Secure Core Server</string>
   <string name="restrictedBasic">U probeert verbinding te maken met een server waar een betaald abonnement voor nodig is.\nOm toegang te krijgen tot snelle servers in alle landen, upgrade uw abonnement. </string>
   <string name="restrictedPlus">U probeert verbinding te maken met een server waar een ProtonVPN Plus abonnement of hoger voor nodig is.\nOm toegang te krijgen tot meer servers in alle landen, upgrade uw abonnement.</string>
@@ -178,7 +171,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="retry_in">
     <item quantity="one">Opnieuw verbinden in %1$d seconde</item>
     <item quantity="other">Opnieuw verbinden over %1$d seconden</item>
-  </plurals>
+</plurals>
   <string name="connection_failed">Verbinding mislukt</string>
   <string name="support_page">Ondersteuningspagina</string>
   <string name="create_new_profile">NIEUW PROFIEL MAKEN</string>
@@ -224,7 +217,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Onbekend</string>
   <string name="successful_migration_message">Welkom bij ProtonVPN 2.0! Al uw instellingen en profielen zijn gemigreerd en u kunt de oude app nu veilig verwijderen.</string>
   <string name="successful_migration_uninstall">Nu verwijderen</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href\"%1$s\">Meer informatie</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href=\"%1$s\">Meer informatie</a>]]></string>
   <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
   <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
   <string name="error_server_not_set">Server niet langer beschikbaar</string>
@@ -251,11 +244,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d App uitgesloten</item>
     <item quantity="other">%1$d Apps uitgesloten</item>
-  </plurals>
+</plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d IP-adres uitgesloten</item>
     <item quantity="other">%1$d IP-adressen uitgesloten</item>
-  </plurals>
+</plurals>
   <string name="settingsCannotChangeWhileConnected">Kan dit niet wijzigen terwijl u verbonden bent</string>
   <string name="excludeAlreadyExcluded">Al uitgesloten</string>
   <string name="removeExcludedIpDialogDescription">Weet je zeker dat u dit IP uit de lijst wilt verwijderen?</string>
@@ -268,7 +261,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
   <string name="welcomeDialogTitle">Bedankt voor het lid worden van een steeds groter wordende ProtonVPN gemeenschap.</string>
   <string name="welcomeDialogDescription">Gebruik uw nieuwe accountgegevens om in te loggen.</string>
-  <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus-plan. Het laat u toe om geavanceerde functies en Plus-servers te gebruiken. Aan het einde van de proefperiode keert u terug naar een Gratis plan en heeft u alleen toegang tot Gratis servers.</string>
+  <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het laat u toe om geavanceerde functies en Plus servers te gebruiken. Aan het einde van de proefperiode keert u terug naar een Gratis plan en heeft u alleen toegang tot Gratis servers.</string>
   <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> dagen <b>%2$d</b> uur <b>%3$d</b> minuten <b>%4$d</b> seconden]]></string>
   <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
   <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
@@ -299,8 +292,7 @@ Kill Switch voorkomt dat uw apparaat externe verbindingen maakt als uw verbindin
 Het Android besturingssysteem controleert deze functies en u moet de app verlaten om ze te activeren.
 
 Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Open de <b>Instellingen</b> van uw apparaat door op onderstaande knop te tikken]]></string>
-  <!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Open de <b>Instellingen</b> van uw apparaat door op onderstaande knop te tikken]]></string><!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Zoek ProtonVPN en tik %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Tik op de schakelaar naast <b>Altijd-Aan VPN</b> om het in te schakelen]]></string>
   <string name="settingsAlwaysOnWindowStep4Intro">Voer ook deze stap uit om Kill Switch te activeren</string>

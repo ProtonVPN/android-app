@@ -26,8 +26,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.protonvpn.android.R;
@@ -103,21 +101,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
 
     public void closeDrawer() {
         getDrawer().closeDrawer(Gravity.START, false);
-    }
-
-    protected void hideSoftKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    public void hideKeyboard(EditText editText) {
-        if (editText != null) {
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
     }
 
     public void setDrawerState(boolean isEnabled, View view) {

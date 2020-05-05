@@ -20,5 +20,6 @@ package com.protonvpn.android.models.config
 
 enum class VpnProtocol {
     OpenVPN,
-    IKEv2
+    IKEv2,
+    Smart
 }
