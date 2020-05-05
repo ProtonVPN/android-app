@@ -20,7 +20,7 @@ package com.protonvpn.tests.map;
 
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.MapRobot;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.MapResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
@@ -47,7 +47,7 @@ public class MapRobotTests {
 
     @Test
     public void mapNodeSuccessfullySelected() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         MapRobot map = homeRobot.clickOnMapViewTab();
         map.clickOnUSNode();
 
@@ -60,7 +60,7 @@ public class MapRobotTests {
 
     @Test
     public void mapNodeIsNotSelected() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTING);
+        testRule.mockStatusOnConnect(VpnState.Connecting.INSTANCE);
         MapRobot map = homeRobot.clickOnMapViewTab();
         map.clickOnUSNode();
 

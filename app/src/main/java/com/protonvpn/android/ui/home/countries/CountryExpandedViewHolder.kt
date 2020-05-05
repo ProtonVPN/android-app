@@ -46,7 +46,7 @@ open class CountryExpandedViewHolder(
         markAsSelected(viewModel.selectedServer.value == server, animate = true)
     }
 
-    private val vpnStateObserver = Observer<VpnStateMonitor.VpnState> {
+    private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.visibility =
                 if (viewModel.vpnStateMonitor.isConnectedTo(server)) VISIBLE else View.GONE
         binding.radioServer.isChecked = viewModel.vpnStateMonitor.isConnectedTo(server)
@@ -63,7 +63,7 @@ open class CountryExpandedViewHolder(
         val context = viewBinding.root.context
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
-            textServer.text = server.getDisplayName()
+            textServer.text = server.displayName
             textServer.visibility = VISIBLE
             textServer.setTextColor(
                     ContextCompat.getColor(context, if (haveAccess) R.color.white else R.color.white50))
@@ -71,7 +71,7 @@ open class CountryExpandedViewHolder(
             radioServer.isChecked = false
             radioServer.isClickable = false
 
-            textLoad.text = server.load + "%"
+            textLoad.text = "${server.load.toInt()}%"
             imageLoad.setImageDrawable(
                     ColorDrawable(ContextCompat.getColor(imageLoad.context, server.loadColor)))
 
@@ -96,7 +96,7 @@ open class CountryExpandedViewHolder(
 
     override fun clear() {
         viewModel.selectedServer.removeObserver(serverSelectionObserver)
-        viewModel.vpnStateMonitor.vpnState.removeObserver(vpnStateObserver)
+        viewModel.vpnStateMonitor.vpnStatus.removeObserver(vpnStateObserver)
     }
 
     private fun initSelection() {
@@ -120,7 +120,11 @@ open class CountryExpandedViewHolder(
         val showConnect = viewModel.vpnStateMonitor.isConnectedTo(server)
         with(binding.buttonConnect) {
             setColor(if (showConnect) R.color.red else R.color.colorAccent)
-            setText(if (showConnect) R.string.disconnect else if (viewModel.userData.hasAccessToServer(server)) R.string.connect else R.string.upgrade)
+            setText(when {
+                showConnect -> R.string.disconnect
+                viewModel.userData.hasAccessToServer(server) -> R.string.connect
+                else -> R.string.upgrade
+            })
         }
         binding.buttonConnect.setExpanded(show, animate, parentLifeCycle.lifecycleScope)
     }
@@ -162,7 +166,7 @@ open class CountryExpandedViewHolder(
     private fun initBadge() {
         with(binding) {
             serverBadge.visibility =
-                    if (server.keywords.isEmpty() || server.hasBestScore()) View.GONE else VISIBLE
+                    if (server.keywords.isEmpty() || server.hasBestScore) View.GONE else VISIBLE
             if (server.keywords.contains("p2p")) {
                 serverBadge.primaryText = "P2P"
             }
@@ -173,7 +177,7 @@ open class CountryExpandedViewHolder(
     }
 
     private fun initConnectedStatus() {
-        viewModel.vpnStateMonitor.vpnState.observe(parentLifeCycle, vpnStateObserver)
+        viewModel.vpnStateMonitor.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
     }
 
     override fun getLayout() = R.layout.item_country_expanded

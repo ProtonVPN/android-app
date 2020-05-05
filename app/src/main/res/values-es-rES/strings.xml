@@ -17,8 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
-  <!-- Strings related to login -->
+<resources><!-- Strings related to login -->
   <string name="hintUsername">Nombre de usuario</string>
   <string name="hintPassword">Contraseña</string>
   <string name="splitTunnellingSwitch">Cambiar a tunelización dividida</string>
@@ -84,15 +83,9 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountButtonManage">Administrar cuenta</string>
   <string name="accountTrial">Prueba de ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic">
-    <font fgcolor="#FB7554">ProtonVPN Basic</font>
-  </string>
-  <string name="accountPlus">
-    <font fgcolor="#59B268">ProtonVPN Plus</font>
-  </string>
-  <string name="accountVisionary">
-    <font fgcolor="#32b3dd">Proton Visionary</font>
-  </string>
+  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
+  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
+  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
   <string name="freeTrialExpired">"Su prueba gratuita de 7 días de ProtonVPN Plus ha expirado. Puede continuar usando ProtonVPN Free, pero si desea apoyar el proyecto y tener velocidades más altas y más funciones, por favor mejore a un plan de pago."</string>
   <string name="activityProfileTitle">Perfil</string>
   <string name="activityAccountTitle">Cuenta</string>
@@ -178,7 +171,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="retry_in">
     <item quantity="one">Reconexión en %1$d segundo</item>
     <item quantity="other">Reconexión en %1$d segundos</item>
-  </plurals>
+</plurals>
   <string name="connection_failed">La conexión falló</string>
   <string name="support_page">Página de soporte</string>
   <string name="create_new_profile">CREAR PERFIL NUEVO</string>
@@ -224,7 +217,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Desconocido</string>
   <string name="successful_migration_message">¡Bienvenido a ProtonVPN 2.0! Todos sus ajustes y perfiles han sido migrados y ahora puede desinstalar de forma segura la aplicación anterior.</string>
   <string name="successful_migration_uninstall">Desinstalar ahora</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Por favor, deshabilite la VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema VPN de Android, ya que eso evita que ProtonVPN pueda establecer una conexión VPN. Por favor, otorgue también permisos VPN si aparece un cuadro de diálogo que solicite los permisos VPN. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después, por favor intentelo de nuevo. <a href\"%1$s\">Más información</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Por favor, deshabilite la VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema VPN de Android, ya que eso evita que ProtonVPN pueda establecer una conexión VPN. Por favor, otorgue también permisos VPN si aparece un cuadro de diálogo que solicite los permisos VPN. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después, por favor intentelo de nuevo. <a href=\"%1$s\">Más información</a>]]></string>
   <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
   <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>
   <string name="error_server_not_set">El servidor ya no está disponible</string>
@@ -251,11 +244,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d Aplicación excluida</item>
     <item quantity="other">%1$d Aplicaciones excluidas</item>
-  </plurals>
+</plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d Dirección IP excluida</item>
     <item quantity="other">%1$d Direcciones IP excluidas</item>
-  </plurals>
+</plurals>
   <string name="settingsCannotChangeWhileConnected">No se puede cambiar esto mientras estás conectado</string>
   <string name="excludeAlreadyExcluded">Ya excluido</string>
   <string name="removeExcludedIpDialogDescription">¿Estás seguro que quieres eliminar esta IP de la lista?</string>
@@ -299,8 +292,7 @@ Kill Switch evita que su dispositivo realice conexiones externas si está descon
 El sistema operativo Android controla estas funciones, y debes salir de la aplicación para activarlas.
 
 Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Abre la <b>Configuración</b> de su dispositivo tocando el siguiente botón]]></string>
-  <!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Abre la <b>Configuración</b> de su dispositivo tocando el siguiente botón]]></string><!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Encuentra ProtonVPN y pulsa %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Pulsa el interruptor junto a <b>VPN siempre activada</b> para habilitarlo]]></string>
   <string name="settingsAlwaysOnWindowStep4Intro">Realice también este paso para activar Kill Switch</string>

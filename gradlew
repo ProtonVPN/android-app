@@ -30,10 +30,6 @@ if [ -f '.env' ]; then
     source '.env';
 fi;
 
-if [ "$1" = 'installLocale' ]; then
-    exit;
-fi;
-
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 msys=false

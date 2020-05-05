@@ -19,12 +19,17 @@
 package com.protonvpn.android.api
 
 import android.content.Context
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ErrorBodyException
 import com.protonvpn.android.models.login.ErrorBody
 import com.protonvpn.android.utils.ConnectionTools
+import com.protonvpn.android.utils.ProtonLogger
 import retrofit2.Response
 import java.io.IOException
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
@@ -75,9 +80,19 @@ sealed class ApiResult<out T> {
         } catch (e: ErrorBodyException) {
             ErrorBodyResponse(e.httpCode, e.errorBody)
         } catch (e: IOException) {
+            if (e is JsonProcessingException) {
+                ProtonLogger.log(stackTraceString(e))
+
+                // Crash on debug to make sure we find about unexpected responses asap
+                if (BuildConfig.DEBUG)
+                    error("Error parsing API response")
+            }
             Failure(e)
         } catch (e: TimeoutException) {
             Failure(e)
         }
+
+        private fun stackTraceString(e: Exception) =
+            StringWriter().also { e.printStackTrace(PrintWriter(it)) }.toString()
     }
 }

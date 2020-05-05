@@ -22,7 +22,7 @@ import com.protonvpn.MockSwitch;
 import com.protonvpn.actions.CountriesRobot;
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.MapRobot;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.MapResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
@@ -49,7 +49,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughMap() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         MapRobot map = homeRobot.clickOnMapViewTab();
 
@@ -70,7 +70,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughQuickConnect() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         homeRobot.enableSecureCore();
         ConnectionResult result = homeRobot.connectThroughQuickConnect();
@@ -82,7 +82,7 @@ public class SecureCoreRobotTests {
 
     @Test
     public void connectAndDisconnectFromSecureCoreThroughCountryList() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         homeRobot.enableSecureCore();
         CountriesRobot countries = homeRobot.clickOnCountriesTab();

@@ -20,6 +20,7 @@ package com.protonvpn.tests.testRules;
 
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.testsHelper.ServiceTestHelper;
 import com.protonvpn.testsHelper.UserDataHelper;
 
@@ -58,12 +59,12 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
         activityTestRule.finishActivity();
     }
 
-    public void mockStatusOnConnect(VpnStateMonitor.State state) {
+    public void mockStatusOnConnect(VpnState state) {
         service.mockVpnBackend.setStateOnConnect(state);
     }
 
-    public void mockErrorOnConnect(VpnStateMonitor.ErrorState errorState) {
-        service.mockVpnBackend.setErrorOnConnect(errorState);
+    public void mockErrorOnConnect(VpnStateMonitor.ErrorType type) {
+        service.mockVpnBackend.setStateOnConnect(new VpnState.Error(type));
     }
 
     public HomeActivity getActivity() {

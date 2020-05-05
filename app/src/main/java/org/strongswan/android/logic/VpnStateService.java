@@ -26,11 +26,9 @@ import android.os.Message;
 import android.os.SystemClock;
 
 import com.protonvpn.android.R;
-import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.Log;
 
-import org.jetbrains.annotations.TestOnly;
+import org.strongswan.android.data.VpnProfile;
 import org.strongswan.android.logic.imc.ImcState;
 import org.strongswan.android.logic.imc.RemediationInstruction;
 
@@ -49,7 +47,7 @@ public class VpnStateService extends Service {
     private final IBinder mBinder = new LocalBinder();
     private long mConnectionID = 0;
     private Handler mHandler;
-    private Server mProfile;
+    private VpnProfile mProfile;
     private State mState = State.DISABLED;
     private ErrorState mError = ErrorState.NO_ERROR;
     private ImcState mImcState = ImcState.UNKNOWN;
@@ -130,7 +128,7 @@ public class VpnStateService extends Service {
      *
      * @return profile
      */
-    public Server getProfile() {    /* only updated from the main thread so no synchronization needed */
+    public VpnProfile getProfile() {    /* only updated from the main thread so no synchronization needed */
         return mProfile;
     }
 
@@ -291,7 +289,7 @@ public class VpnStateService extends Service {
      *
      * @param profile current profile
      */
-    public void startConnection(final Server profile) {
+    public void startConnection(final VpnProfile profile) {
         notifyListeners(() -> {
             resetRetryTimer();
             VpnStateService.this.mConnectionID++;
@@ -300,18 +298,6 @@ public class VpnStateService extends Service {
             VpnStateService.this.mError = ErrorState.NO_ERROR;
             VpnStateService.this.mImcState = ImcState.UNKNOWN;
             VpnStateService.this.mRemediationInstructions.clear();
-            return true;
-        });
-    }
-
-    @TestOnly
-    public void mockConnection(final Profile profile) {
-        notifyListeners(() -> {
-            if (profile != null) {
-                VpnStateService.this.mProfile = profile.getServer();
-            }
-            VpnStateService.this.mConnectionID++;
-            VpnStateService.this.mState = State.CONNECTING;
             return true;
         });
     }

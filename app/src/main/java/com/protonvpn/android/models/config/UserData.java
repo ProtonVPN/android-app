@@ -26,6 +26,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
@@ -62,6 +63,7 @@ public final class UserData implements Serializable {
     private long lastPrimaryApiFail;
     private String activeAlternativeBaseUrl;
     private List<String> alternativeApiBaseUrls;
+    private boolean useSmartProtocol;
 
     private transient LiveEvent updateEvent = new LiveEvent();
 
@@ -75,6 +77,7 @@ public final class UserData implements Serializable {
         transmissionProtocol = TransmissionProtocol.TCP;
         useIon = false;
         apiUseDoH = true;
+        useSmartProtocol = true;
     }
 
     public String getUser() {
@@ -272,21 +275,35 @@ public final class UserData implements Serializable {
         return splitTunnelIpAddresses;
     }
 
-    public boolean isOpenVPNSelected() {
-        return !selectedProtocol.equals(VpnProtocol.IKEv2);
-    }
-
+    @NotNull
     public VpnProtocol getSelectedProtocol() {
+        if (useSmartProtocol) {
+            return VpnProtocol.Smart;
+        }
         return selectedProtocol;
     }
 
-    public void setSelectedProtocol(VpnProtocol selectedProtocol) {
-        this.selectedProtocol = selectedProtocol;
+    public boolean getUseSmartProtocol() {
+        return useSmartProtocol;
+    }
+
+    public void setUseSmartProtocol(boolean value) {
+        useSmartProtocol = value;
         saveToStorage();
     }
 
-    public String getTransmissionProtocol() {
-        return transmissionProtocol.toString();
+    @NotNull
+    public VpnProtocol getManualProtocol() {
+        return selectedProtocol;
+    }
+
+    public void setManualProtocol(VpnProtocol value) {
+        selectedProtocol = value;
+        saveToStorage();
+    }
+
+    public TransmissionProtocol getTransmissionProtocol() {
+        return transmissionProtocol;
     }
 
     public void setTransmissionProtocol(TransmissionProtocol transmissionProtocol) {

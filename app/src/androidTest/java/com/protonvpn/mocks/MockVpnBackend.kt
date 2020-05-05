@@ -18,41 +18,40 @@
  */
 package com.protonvpn.mocks
 
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
-import com.protonvpn.android.vpn.VpnBackendProvider
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnState
 
-class MockVpnBackendProvider : VpnBackendProvider {
-    val backend = MockVpnBackend()
+class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
 
-    override fun getFor(userData: UserData, profile: Profile?) = backend
-}
-
-class MockVpnBackend : VpnBackend("MockVpnBackend") {
+    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean) =
+        if (failOnPrepare)
+            null
+        else PrepareResult(this, object : ConnectionParams(
+                profile, server, server.getRandomConnectingDomain(), protocol) {})
 
     override suspend fun connect() {
-        error.errorState = errorOnConnect
-        stateObservable.value = VpnStateMonitor.State.CONNECTING
-        stateObservable.value = stateOnConnect
+        setSelfState(VpnState.Connecting)
+        setSelfState(stateOnConnect)
     }
 
     override suspend fun disconnect() {
-        stateObservable.value = VpnStateMonitor.State.DISCONNECTING
-        error.errorState = VpnStateMonitor.ErrorState.NO_ERROR
-        stateObservable.value = VpnStateMonitor.State.DISABLED
+        setSelfState(VpnState.Disconnecting)
+        setSelfState(VpnState.Disabled)
     }
 
     override suspend fun reconnect() {
-        error.errorState = errorOnConnect
-        stateObservable.value = VpnStateMonitor.State.CONNECTING
-        stateObservable.value = stateOnConnect
+        setSelfState(VpnState.Connecting)
+        setSelfState(stateOnConnect)
     }
 
     override val retryInfo get() = RetryInfo(10, 10)
 
-    var errorOnConnect = VpnStateMonitor.ErrorState.NO_ERROR
-    var stateOnConnect = VpnStateMonitor.State.CONNECTED
+    var stateOnConnect: VpnState = VpnState.Connected
+    var failOnPrepare = false
 }

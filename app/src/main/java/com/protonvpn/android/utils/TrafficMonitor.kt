@@ -29,6 +29,7 @@ import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnState
 import kotlin.math.roundToLong
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,15 +53,15 @@ class TrafficMonitor(
 
     private var updateJob: Job? = null
 
-    fun init(vpnState: LiveData<VpnStateMonitor.VpnState>) {
-        vpnState.observeForever {
+    fun init(vpnStatus: LiveData<VpnStateMonitor.Status>) {
+        vpnStatus.observeForever {
             stateChanged(it.state)
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_OFF)) {
             stopUpdateJob()
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_ON)) {
-            if (vpnState.value?.state == VpnStateMonitor.State.CONNECTED)
+            if (vpnStatus.value?.state == VpnState.Connected)
                 startUpdateJob()
         }
     }
@@ -125,10 +126,10 @@ class TrafficMonitor(
         updateJob = null
     }
 
-    private fun stateChanged(state: VpnStateMonitor.State) {
-        when (state) {
-            VpnStateMonitor.State.CONNECTED -> startSession()
-            else -> endSession()
-        }
+    private fun stateChanged(state: VpnState) {
+        if (state == VpnState.Connected)
+            startSession()
+        else
+            endSession()
     }
 }

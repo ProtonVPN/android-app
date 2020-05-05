@@ -43,7 +43,7 @@ class MockApi(scope: CoroutineScope, manager: ProtonApiManager) : ProtonApiRetro
 
     override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         if (MockSwitch.mockedServersUsed)
-            ApiResult.Success(Response.success(ServerList(MockedServers.getServerList())))
+            ApiResult.Success(Response.success(ServerList(MockedServers.serverList)))
         else
             super.getServerList(loader, ip)
 

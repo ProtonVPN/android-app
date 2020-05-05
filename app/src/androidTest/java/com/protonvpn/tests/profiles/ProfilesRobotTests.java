@@ -22,7 +22,7 @@ import com.protonvpn.actions.ConnectionRobot;
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.android.R;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.ProfilesResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
@@ -125,7 +125,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void tryToConnectToProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";
@@ -194,14 +194,15 @@ public class ProfilesRobotTests {
     public void tryToSaveSecureCoreProfileWithoutExitCountry() {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
-        String profileName = "Test";
+        String profileName = "TestFieldPrefill";
 
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
+        profilesRobot.selectSecondSecureCoreExitCountry();
 
-        ProfilesResult result = profilesRobot.clickOnSaveButton().isFailure();
-        result.emptyExitCountryError().profileIsVisible(profileName);
+        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
+        result.profileIsVisible(profileName);
     }
 
     @Test
@@ -228,7 +229,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
@@ -237,7 +238,7 @@ public class ProfilesRobotTests {
 
     @Test
     public void connectToCreatedSecureCoreProfile() {
-        testRule.mockStatusOnConnect(VpnStateMonitor.State.CONNECTED);
+        testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";
@@ -245,7 +246,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
@@ -267,7 +268,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
@@ -285,7 +286,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectFirstSecureCoreExitCountry();
+        profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountry();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
