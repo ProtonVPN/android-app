@@ -217,7 +217,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                 is LoginState.Success -> {
                     launchActivity<HomeActivity>()
                     editPassword.clearComposingText()
-                    loadingContainer.switchToEmpty()
+                    finish()
                 }
                 is LoginState.Error -> {
                     loadingContainer.switchToRetry(loginState.error)
