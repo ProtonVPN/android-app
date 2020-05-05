@@ -123,6 +123,11 @@ public final class ServerManager implements Serializable, ServerDeliver {
             || Minutes.minutesBetween(updatedAt, new DateTime()).getMinutes() >= (BuildConfig.DEBUG ? 1 : 15);
     }
 
+    public void setGuestHoleServers(List<Server> serverList) {
+        setServers(serverList);
+        updatedAt = null;
+    }
+
     public void clearCache() {
         updatedAt = null;
         Storage.delete(ServerManager.class);
