@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -41,10 +42,9 @@ class GuestHole(
         prepareIntentHandler: ((Intent) -> Unit)? = null,
         block: suspend () -> T
     ): T? {
-        val servers = serverManager.getRandomServers(GUEST_HOLE_SERVERS_COUNT)
         var result: T? = null
         try {
-            servers.any { server ->
+            getGuestHoleServers().any { server ->
                 executeConnected(context, server, prepareIntentHandler) {
                     result = block()
                 }
@@ -54,6 +54,13 @@ class GuestHole(
                 vpnMonitor.disconnectSync()
         }
         return result
+    }
+
+    private fun getGuestHoleServers(): List<Server> {
+        val servers = FileUtils.getObjectFromAssets<List<Server>>(GUEST_HOLE_SERVERS_ASSET)
+        val shuffledServers = servers.shuffled().take(GUEST_HOLE_SERVER_COUNT)
+        serverManager.setGuestHoleServers(shuffledServers)
+        return shuffledServers
     }
 
     private suspend fun <T> executeConnected(
@@ -92,7 +99,8 @@ class GuestHole(
     }
 
     companion object {
+        private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_TIMEOUT = 10_000L
-        private const val GUEST_HOLE_SERVERS_COUNT = 5
+        private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers/Servers.json"
     }
 }
