@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright (c) 2017 Proton Technologies AG
- 
+
  This file is part of ProtonVPN.
- 
+
  ProtonVPN is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  ProtonVPN is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
@@ -25,162 +25,160 @@
     android:background="@color/dimmedGrey"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.protonvpn.android.ui.drawer.AccountActivity"
-    tools:ignore="RtlHardcoded"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_account">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/accountDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/accountSubscription"
-        android:textAllCaps="true"
-        android:textColor="@color/accountTitles"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountVersion"
-        android:textColor="@color/white50"
-        app:layout_constraintLeft_toLeftOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountTier"
-        android:textColor="@color/white50"
-        app:layout_constraintLeft_toLeftOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/accountUser"
-        android:textColor="@color/white50"
-        app:layout_constraintLeft_toLeftOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/accountDetails"
         android:textAllCaps="true"
         android:textColor="@color/accountTitles"
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/userLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountType"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/accountUser"
         android:textColor="@color/white50"
-        app:layout_constraintLeft_toLeftOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountDetails" />
 
     <TextView
         android:id="@+id/textUser"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/textView5"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView4"
-        tools:text="Paul.Muller@protonmail.comsuck my balls" />
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/userLabel"
+        tools:text="example@protonmail.com" />
+
+    <TextView
+        android:id="@+id/accountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/accountType"
+        android:textColor="@color/white50"
+        app:layout_constraintStart_toStartOf="@+id/userLabel"
+        app:layout_constraintTop_toBottomOf="@+id/userLabel"/>
 
     <TextView
         android:id="@+id/textAccountType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="@+id/textUser"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/textUser"
         app:layout_constraintTop_toBottomOf="@+id/textUser"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="ProtonMail account" />
+
+    <TextView
+        android:id="@+id/subscriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/accountTier"
+        android:textColor="@color/white50"
+        app:layout_constraintStart_toStartOf="@+id/accountLabel"
+        app:layout_constraintTop_toBottomOf="@+id/accountLabel" />
 
     <TextView
         android:id="@+id/textAccountTier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="@+id/textAccountType"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/textAccountType"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textAccountType"
         tools:text="ProtonVPN Basic" />
+
+    <TextView
+        android:id="@+id/versionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/accountVersion"
+        android:textColor="@color/white50"
+        app:layout_constraintStart_toStartOf="@+id/subscriptionLabel"
+        app:layout_constraintTop_toBottomOf="@+id/subscriptionLabel" />
 
     <TextView
         android:id="@+id/textVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="@+id/textAccountTier"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/textAccountTier"
         app:layout_constraintTop_toBottomOf="@+id/textAccountTier"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="0.7.5" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/divider"
         style="@style/Divider.Small"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textVersion" />
+
+    <TextView
+        android:id="@+id/subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/accountSubscription"
+        android:textAllCaps="true"
+        android:textColor="@color/accountTitles"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
         android:lineSpacingMultiplier="1.3"
         android:text="@string/accountSubscriptionDetails"
         android:textColor="@color/white50"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/subscription" />
 
     <Button
         android:id="@+id/buttonManageAccount"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/button_rounded_green"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -193,9 +191,15 @@
 
     <View
         style="@style/Divider.Small"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonManageAccount" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="userLabel,accountLabel,subscriptionLabel,versionLabel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
