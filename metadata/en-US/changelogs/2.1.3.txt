@@ -1,0 +1,7 @@
+What's new:
+* Supports alternative routing feature that allows users to evade blocks of the Proton API.
+* Displays a troubleshooting screen following failed login attempts.
+* Improved log and bug reporting. 
+* Settings screen explains Always-On VPN and Kill Switch features.
+* Fixed crash happening when user denies VPN permission.
+* Improved app stability.
