@@ -117,7 +117,7 @@
     <string name="settingsTransmissionProtocol">Transmission protocol</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU size</string>
-    <string name="settingsMtuDescription">In case the default value is unsuitable for a particular network, enter a value within 1280–1500 range. Change it only when you know what you are doing.</string>
+    <string name="settingsMtuDescription">In case the default value is unsuitable for a particular network, enter a value within 1280–1500 range. Change it only if you know what you are doing.</string>
     <string name="settingsMtuRangeInvalid">MTU value must be in 1280–1500 range</string>
     <string name="settingsDefaultConnectionTitle">Quick Connect</string>
     <string name="settingsDefaultConnectionDescription">Quick connect button connects you to the selected profile</string>
@@ -326,7 +326,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on
         older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them. You can update your operating system to the most recent version of Android and try again."</string>
     <string name="settingsSmartProtocolTitle">Smart Protocol</string>
-    <string name="settingsSmartProtocolDescription">Use automatically the protocol and port that offer the best connectivity.</string>
+    <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
     <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
     <string name="netShieldDescription">Block advertisements, trackers and malware </string>
     <string name="netshield">NetShield</string>
