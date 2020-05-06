@@ -168,7 +168,7 @@
     <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>
 
     <string name="tabsCountries">Countries</string>
-    <string name="tabsMap">Map View</string>
+    <string name="tabsMap">Map</string>
     <string name="tabsProfiles">Profiles</string>
 
     <string name="log_title">Log</string>

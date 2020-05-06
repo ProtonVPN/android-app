@@ -397,7 +397,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-codec:commons-codec:1.14'
     implementation 'com.qozix:tileview:2.2.7'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.jakewharton:butterknife:10.2.1'
     implementation 'com.google.code.gson:gson:2.8.6'

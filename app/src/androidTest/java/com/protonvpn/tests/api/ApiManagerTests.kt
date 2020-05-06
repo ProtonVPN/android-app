@@ -3,7 +3,7 @@ package com.protonvpn.tests.api
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import ch.protonvpn.android.test.BuildConfig
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.*
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse

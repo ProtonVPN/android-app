@@ -43,7 +43,7 @@ public class LoginRobot extends UIActionsTestHelper {
         insertTextIntoFieldWithId(R.id.editEmail, user.email);
         insertTextIntoFieldWithId(R.id.editPassword, user.password);
 
-        clickOnObjectWithId(R.id.text_input_password_toggle);
+        clickOnObjectWithId(com.google.android.material.R.id.text_input_end_icon);
 
         return new LoginFormResult(user);
     }
