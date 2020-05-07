@@ -230,11 +230,10 @@ publish-apk-internal:
   stage: publish
   only:
     refs:
-      - tags
+      - development
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew publishInternal -PabiSplit
-  when: manual
 
 
 include:
