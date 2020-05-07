@@ -87,7 +87,11 @@ public final class UserData implements Serializable {
     }
 
     public String getVpnUserName() {
-        return getVpnInfoResponse().getVpnUserName();
+        return isLoggedIn ? getVpnInfoResponse().getVpnUserName() : "guest";
+    }
+
+    public String getVpnPassword() {
+        return isLoggedIn ? getVpnInfoResponse().getPassword() : "guest";
     }
 
     public void setUser(String user) {
