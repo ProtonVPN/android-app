@@ -173,7 +173,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        versionName helpers.versionName
+        versionName helpers.fullVersionName
         versionCode helpers.getVersionCode(0)
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
@@ -265,7 +265,7 @@ android {
 play {
     serviceAccountCredentials = file(serviceAccountCredentialsPath)
     track = 'internal'
-    releaseName = Helpers.getVersionName()
+    releaseName = Helpers.fullVersionName
 }
 
 task publishGenerateReleaseNotes {
@@ -298,46 +298,84 @@ android.applicationVariants.all { variant ->
 class Helpers {
 
     // Versioning:
-    //  Version name: M.m.P
-    //  Version code: AAMMMmmPP as decimal integer
-    //  where: A - abi, M - major, m - minor, P - patch
+    //  Version name: M.m.D.R
+    //  M.m (major.minor) come from the last tag on development branch of this form (e.g. "2.1")
+    //  D - number of commits on development since M.m
+    //  R - number of commits on release branch (from development)
+    //  Version code: AMMmmDDRR as decimal integer
+    //  A - abiCode + 1
     static int getVersionCode(def abiCode) {
-        println "Directory for versionCode: " + System.getProperty("user.dir")
-        def name = getVersionName()
+        def name = fullVersionName
         def versions = name.split("\\.")
         def major = versions[0].toInteger()
         def minor = versions[1].toInteger()
-        def patch = versions[2].toInteger()
-        // Max version code allowed by android is 2_000_000_000
-        assert major < 1000 && minor < 100 && patch < 100
+        def dev = versions[2].toInteger()
+        def release = versions[3].toInteger()
 
-        def versionCode = abiCode * 10_000_000 + major * 10_000 + minor * 100 + patch
-        return versionCode
+        // Max version code allowed by android is 2_000_000_000
+        assert major < 100 && minor < 100 && dev < 100 && release < 100
+
+        // abiCode + 1 needed to always produce higher version code than in previous versioning
+        // scheme
+        // 0AMMMmmPP - old
+        // AMMmmDDRR - new
+        def code = (abiCode + 1) * 100_000_000 +
+                major * 1_000_000 +
+                minor*10_000 +
+                dev * 100 +
+                release
+
+        // Just some sanity check because there's no turning back once we accidentally publish
+        // some large version code
+        assert code < 600_000_000 && major < 50
+
+        return code
     }
 
-    static String getVersionName() {
-        println "Directory for versionName: " + System.getProperty("user.dir")
-        return exec('git describe --abbrev=0 --tags').trim()
+    static String getFullVersionName() {
+        // Find last tag in the form M.m.D.R, D and R are optional
+        def tag = exec('git tag --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
+        def tagSplit = Arrays.stream(tag.split("\\.")).mapToInt { it.toInteger() }.toArray()
+        def major = tagSplit[0]
+        def minor = tagSplit[1]
+        def dev = tagSplit.size() > 2 ? tagSplit[2] : 0
+        def release = tagSplit.size() > 3 ? tagSplit[3] : 0
+
+        if (exec("git rev-parse --verify origin/development", false) == null) {
+            // no development branch, e.g. public repository, just add #commits since the last tag
+            // to R part
+            release += exec("git rev-list --count ${tag}..HEAD").trim().toInteger()
+        } else {
+            def branchPoint = exec("git merge-base origin/development HEAD").trim()
+            // add #commits from tag to branch point with development to dev
+            dev += exec("git rev-list --count ${tag}..${branchPoint}").trim().toInteger()
+            // add #commits from branch point to HEAD to release
+            release += exec("git rev-list --count origin/development..HEAD").trim().toInteger()
+        }
+        return "${major}.${minor}.${dev}.${release}"
+    }
+
+    static String getReleaseNotes() {
+        def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        return exec("git log ${lastSha}..HEAD --pretty=format:%s")
     }
 
     static String getArchivesBaseName() {
-        return "ProtonVPN-" + versionName + "(" + getVersionCode(0) + ")"
+        return "ProtonVPN-" + fullVersionName + "(" + getVersionCode(0) + ")"
     }
 
-    static String exec(String cmd) {
+    static String exec(String cmd, boolean throwOnError = true) {
         def out = new StringBuffer()
         def err = new StringBuffer()
         def proc = cmd.execute()
         proc.waitForProcessOutput(out, err)
         if (err) {
-            throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+            if (throwOnError)
+                throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+            else
+                return null
         }
         return out.toString()
-    }
-
-    static String getReleaseNotes() {
-        def tags = exec('git tag --merged HEAD').split('\n').reverse()
-        return exec("git log ${tags[1]}..${tags[0]} --pretty=format:%s")
     }
 }
 
