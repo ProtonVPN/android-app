@@ -39,7 +39,7 @@ class ConnectionParamsIKEv2(
         vpnType = VpnType.IKEV2_EAP
         id = 1
         userName = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString
-        userPassword = userData.vpnInfoResponse.password
+        userPassword = userData.vpnPassword
         splitTunneling =
                 VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
         flags = VpnProfile.FLAGS_SUPPRESS_CERT_REQS
