@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:gravity="center_horizontal"
             android:textSize="20sp"
             tools:text="Loading..." />
 

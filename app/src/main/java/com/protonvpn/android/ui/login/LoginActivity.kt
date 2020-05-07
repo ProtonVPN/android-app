@@ -37,6 +37,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -62,7 +63,7 @@ import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_login)
 class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
-        KeyboardVisibilityEventListener {
+        KeyboardVisibilityEventListener, Observer<LoginState> {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -82,6 +83,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         checkIfOpenedFromWeb()
         initClickListeners()
         KeyboardVisibilityEvent.setEventListener(this, this)
+        viewModel.loginState.observe(this@LoginActivity, this@LoginActivity)
     }
 
     private fun initClickListeners() = with(binding) {
@@ -220,27 +222,9 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     }
 
     private fun login() = with(binding) {
-        loadingContainer.switchToLoading()
         loginJob = lifecycleScope.launch {
-            val loginState = viewModel.login(this@LoginActivity, editPassword.text.toString()) {
+            viewModel.login(this@LoginActivity, editPassword.text.toString()) {
                 startActivityForResult(it, PREPARE_VPN_SERVICE)
-            }
-            when (loginState) {
-                is LoginState.Success -> {
-                    launchActivity<HomeActivity>()
-                    editPassword.clearComposingText()
-                    finish()
-                }
-                is LoginState.Error -> {
-                    loadingContainer.switchToRetry(loginState.error)
-                    if (loginState.retryRequest.not())
-                        loadingContainer.setRetryListener { loadingContainer.switchToEmpty() }
-                }
-                is LoginState.UnsupportedAuth -> {
-                    loadingContainer.switchToEmpty()
-                    Toast.makeText(this@LoginActivity,
-                            R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
-                }
             }
         }
     }
@@ -250,6 +234,32 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             binding.loadingContainer.switchToEmpty()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onChanged(loginState: LoginState) = with(binding) {
+        when (loginState) {
+            is LoginState.Success -> {
+                launchActivity<HomeActivity>()
+                editPassword.clearComposingText()
+                loadingContainer.switchToEmpty()
+            }
+            is LoginState.InProgress -> {
+                loadingContainer.switchToLoading()
+            }
+            is LoginState.GuestHoleActivated -> {
+                loadingContainer.switchToLoading(getString(R.string.guestHoleActivated))
+            }
+            is LoginState.Error -> {
+                loadingContainer.switchToRetry(loginState.error)
+                if (loginState.retryRequest.not())
+                    loadingContainer.setRetryListener { loadingContainer.switchToEmpty() }
+            }
+            is LoginState.UnsupportedAuth -> {
+                loadingContainer.switchToEmpty()
+                Toast.makeText(this@LoginActivity,
+                    R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

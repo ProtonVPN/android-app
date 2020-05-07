@@ -22,6 +22,8 @@ import com.protonvpn.android.api.ApiResult
 
 sealed class LoginState {
     object Success : LoginState()
+    object InProgress : LoginState()
+    object GuestHoleActivated : LoginState()
     class Error(val error: ApiResult.Error, val retryRequest: Boolean) : LoginState()
     object UnsupportedAuth : LoginState()
 }
