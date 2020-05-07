@@ -82,6 +82,8 @@ class GuestHole(
                         }
                     }
                     val profile = Profile.getTempProfile(server, serverManager).apply {
+                        // Using OpenVPN instead of Smart due to memory corruption bug on native level
+                        // with gosrp and Strongswan
                         setProtocol(VpnProtocol.OpenVPN)
                     }
                     vpnMonitor.connect(context, profile, prepareIntentHandler = prepareIntentHandler)

@@ -63,7 +63,12 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
     @Override
     public void switchToLoading() {
         state = State.LOADING;
-        switchToLoadingView();
+        switchToLoadingView(loadingTitle);
+    }
+
+    public void switchToLoading(String loadingTitle) {
+        state = State.LOADING;
+        switchToLoadingView(loadingTitle);
     }
 
     @Override
@@ -102,7 +107,7 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
         a.recycle();
     }
 
-    private void switchToLoadingView() {
+    private void switchToLoadingView(String loadingTitle) {
         if (loadingView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             loadingView = inflater.inflate(R.layout.fragment_app_loading, this, false);
@@ -111,6 +116,8 @@ public class NetworkFrameLayout extends RelativeLayout implements View.OnClickLi
             addView(loadingView);
         }
         else {
+            TextView textLoading = loadingView.findViewById(R.id.textLoading);
+            textLoading.setText(loadingTitle);
             loadingView.setVisibility(View.VISIBLE);
         }
         if (retryView != null) {
