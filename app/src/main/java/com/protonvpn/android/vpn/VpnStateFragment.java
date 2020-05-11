@@ -364,8 +364,8 @@ public class VpnStateFragment extends BaseFragment {
             new ViewTreeObserver.OnGlobalLayoutListener(){
                 @Override
                 public void onGlobalLayout() {
-                    int chartHeightInDp = ViewUtils.INSTANCE.convertPixelsToDp(chart.getHeight());
-                    if (chartHeightInDp < 100) {
+                    float chartHeightInDp = ViewUtils.INSTANCE.convertPixelsToDp(chart.getHeight());
+                    if (chartHeightInDp < 100f) {
                         chart.setVisibility(View.GONE);
                     }
                     chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);

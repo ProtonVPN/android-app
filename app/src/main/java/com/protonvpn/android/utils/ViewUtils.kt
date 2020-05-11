@@ -21,10 +21,10 @@ package com.protonvpn.android.utils
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.util.DisplayMetrics
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import kotlin.math.roundToInt
 
 object ViewUtils {
 
@@ -46,17 +46,13 @@ object ViewUtils {
         }
     }
 
-    fun convertDpToPixel(dp: Int): Int {
-        val metrics = Resources.getSystem().displayMetrics
-        return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
-    }
+    private fun convertDpToPixel(dp: Int): Int =
+            (dp * Resources.getSystem().displayMetrics.density).roundToInt()
 
-    fun convertPixelsToDp(px: Int): Int {
-        val metrics = Resources.getSystem().displayMetrics
-        return px / (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
-    }
+    fun convertPixelsToDp(px: Int): Float =
+            px.toFloat() / Resources.getSystem().displayMetrics.density
 
     fun Int.toPx(): Int = convertDpToPixel(this)
 
-    fun Int.toDp(): Int = convertPixelsToDp(this)
+    fun Int.toDp(): Float = convertPixelsToDp(this)
 }
