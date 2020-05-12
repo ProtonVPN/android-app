@@ -66,6 +66,9 @@ data class Server(
     val isPlusServer: Boolean
         get() = tier == 2
 
+    val isPMTeamServer: Boolean
+        get() = tier == 3
+
     val loadColor: Int
         @ColorRes
         get() = when {
