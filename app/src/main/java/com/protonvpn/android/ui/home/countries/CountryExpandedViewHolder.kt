@@ -170,7 +170,7 @@ open class CountryExpandedViewHolder(
     private fun initBadge() {
         with(binding) {
             serverBadge.visibility =
-                    if (server.keywords.isEmpty() || server.hasBestScore) View.GONE else VISIBLE
+                    if (server.keywords.isEmpty()) View.GONE else VISIBLE
             if (server.keywords.contains("p2p")) {
                 serverBadge.primaryText = "P2P"
             }

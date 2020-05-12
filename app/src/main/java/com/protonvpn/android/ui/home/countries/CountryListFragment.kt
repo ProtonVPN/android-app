@@ -98,43 +98,21 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 newGroups.add(HeaderItem(R.string.listPremiumCountries))
                 premiumHeaderAdded = true
             }
-            val expandableHeaderItem =
-                    object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
-                        override fun onExpanded(position: Int) {
-                            this@CountryListFragment.binding.list.smoothScrollToPosition(
-                                    position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2)
-                        }
-                    }
+            val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
+                override fun onExpanded(position: Int) {
+                    this@CountryListFragment.binding.list.smoothScrollToPosition(
+                        position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2
+                    )
+                }
+            }
 
-            var freeServerHeaderAdded = false
-            var basicServerHeaderAdded = false
-            var premiumServerHeaderAdded = false
             newGroups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds
-                val servers = country.getServersForListView(viewModel.userData)
-                val internalServers = servers.filter { it.isPMTeamServer }
-                if (internalServers.isNotEmpty()) {
-                    add(HeaderItem(R.string.listInternalServers))
-                    internalServers.forEach {
+                viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
+                    title?.let { add(HeaderItem(it)) }
+                    servers.forEach {
                         add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner))
                     }
-                }
-                add(HeaderItem(R.string.listFastestServer))
-                for (server in servers.filter { !it.isPMTeamServer || it.hasBestScore }) {
-                    val isCasualServer = !server.selectedAsFastest && !viewModel.userData.isSecureCoreEnabled
-                    if (server.isFreeServer && !freeServerHeaderAdded && isCasualServer) {
-                        add(HeaderItem(R.string.listFreeServers))
-                        freeServerHeaderAdded = true
-                    }
-                    if (server.isBasicServer && !basicServerHeaderAdded && isCasualServer) {
-                        add(HeaderItem(R.string.listBasicServers))
-                        basicServerHeaderAdded = true
-                    }
-                    if (server.isPlusServer && !premiumServerHeaderAdded && isCasualServer) {
-                        add(HeaderItem(R.string.listPlusServers))
-                        premiumServerHeaderAdded = true
-                    }
-                    add(CountryExpandedViewHolder(viewModel, server, viewLifecycleOwner))
                 }
             })
         }

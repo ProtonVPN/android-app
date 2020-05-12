@@ -140,7 +140,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
         for (final String country : countries) {
             List<Server> servers = filterServers(serverList,
                 server -> !server.isSecureCoreServer() && server.getFlag().equals(country));
-            VpnCountry vpnCountry = new VpnCountry(country, servers, this, getBestScoreServer(servers));
+            VpnCountry vpnCountry = new VpnCountry(country, servers, this);
             vpnCountries.add(vpnCountry);
         }
 
@@ -150,8 +150,7 @@ public final class ServerManager implements Serializable, ServerDeliver {
                     server -> server.isSecureCoreServer() && server.getEntryCountry()
                         .equalsIgnoreCase(country));
 
-                VpnCountry vpnCountry = new VpnCountry(country, servers, this, getBestScoreServer(servers));
-                vpnCountry.addBestConnectionToList(false);
+                VpnCountry vpnCountry = new VpnCountry(country, servers, this);
                 secureCoreEntryCountries.add(vpnCountry);
             }
         }
@@ -159,9 +158,8 @@ public final class ServerManager implements Serializable, ServerDeliver {
         for (final String country : countries) {
             List<Server> servers = filterServers(serverList,
                 server -> server.isSecureCoreServer() && server.getExitCountry().equalsIgnoreCase(country));
-            VpnCountry vpnCountry = new VpnCountry(country, servers, this, getBestScoreServer(servers));
+            VpnCountry vpnCountry = new VpnCountry(country, servers, this);
             if (!vpnCountry.getServerList().isEmpty()) {
-                vpnCountry.addBestConnectionToList(false);
                 secureCoreExitCountries.add(vpnCountry);
             }
         }
