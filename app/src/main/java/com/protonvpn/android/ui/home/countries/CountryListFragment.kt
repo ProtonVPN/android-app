@@ -111,8 +111,16 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             var premiumServerHeaderAdded = false
             newGroups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds
+                val servers = country.getServersForListView(viewModel.userData)
+                val internalServers = servers.filter { it.isPMTeamServer }
+                if (internalServers.isNotEmpty()) {
+                    add(HeaderItem(R.string.listInternalServers))
+                    internalServers.forEach {
+                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner))
+                    }
+                }
                 add(HeaderItem(R.string.listFastestServer))
-                for (server in country.getServersForListView(viewModel.userData)) {
+                for (server in servers.filter { !it.isPMTeamServer || it.hasBestScore }) {
                     val isCasualServer = !server.selectedAsFastest && !viewModel.userData.isSecureCoreEnabled
                     if (server.isFreeServer && !freeServerHeaderAdded && isCasualServer) {
                         add(HeaderItem(R.string.listFreeServers))

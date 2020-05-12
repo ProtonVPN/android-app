@@ -162,6 +162,7 @@
     <string name="listFastestServer">Fastest server</string>
     <string name="listFreeServers">Free servers</string>
     <string name="listBasicServers">Basic servers</string>
+    <string name="listInternalServers" translatable="false">Internal servers (PMTEAM)</string>
     <string name="listPlusServers">Plus servers</string>
     <string name="premium">Premium</string>
     <string name="insufficientPermissionsTitle">User action required</string>
