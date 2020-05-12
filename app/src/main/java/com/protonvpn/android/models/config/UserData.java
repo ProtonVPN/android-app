@@ -113,6 +113,10 @@ public final class UserData implements Serializable {
         return getVpnInfoResponse().getUserTier() == 0;
     }
 
+    public boolean isBasicUser() {
+        return getVpnInfoResponse().getUserTier() == 1;
+    }
+
     public boolean isUserPlusOrAbove() {
         return getVpnInfoResponse().getUserTier() > 1;
     }

@@ -48,8 +48,6 @@ data class Server(
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
     val keywords: List<String>
-    var hasBestScore = false
-    var selectedAsFastest = false
 
     val entryCountryCoordinates: TranslatedCoordinates? =
             if (entryCountry != null) TranslatedCoordinates(this.entryCountry) else null
@@ -97,7 +95,6 @@ data class Server(
                 exitCountry)
 
     init {
-        hasBestScore = false
         keywords = mutableListOf<String>().apply {
             if (features and 4 == 4)
                 add("p2p")
