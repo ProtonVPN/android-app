@@ -389,7 +389,7 @@ class Helpers {
         def err = new StringBuffer()
         def proc = cmd.execute()
         proc.waitForProcessOutput(out, err)
-        if (err) {
+        if (proc.exitValue() != 0) {
             if (throwOnError)
                 throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
             else
@@ -403,7 +403,7 @@ class Helpers {
         def err = new StringBuffer()
         def proc = cmd.execute()
         proc.waitForProcessOutput(out, err)
-        if (err) {
+        if (proc.exitValue() != 0) {
             if (throwOnError)
                 throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
             else
