@@ -273,18 +273,25 @@ task publishGenerateReleaseNotes {
         File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
         releaseNotesDir.mkdirs()
         File releaseNotesFile = new File(releaseNotesDir, "default.txt")
-        releaseNotesFile.newWriter().withWriter { w -> w << Helpers.getReleaseNotes() }
+        releaseNotesFile.newWriter().withWriter { w ->
+            // Limit of 500 chars on Google Play console for release notes
+            w << Helpers.getReleaseNotes(490)
+        }
     }
 }
 
 task publishInternal {
     dependsOn 'publishGenerateReleaseNotes'
     dependsOn 'publishProdReleaseApk'
+    doLast {
+        Helpers.notifyPublishOnSlack()
+    }
 }
 
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
 
 import com.android.build.OutputFile
+import groovy.json.JsonOutput
 
 android.applicationVariants.all { variant ->
     variant.outputs.each { output ->
@@ -355,9 +362,22 @@ class Helpers {
         return "${major}.${minor}.${dev}.${release}"
     }
 
-    static String getReleaseNotes() {
+    static String getReleaseNotes(int trimAt) {
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
-        return exec("git log ${lastSha}..HEAD --pretty=format:%s")
+        def notes = exec(["git", "log", "${lastSha}..HEAD", "--pretty=format:- %s"])
+        if (notes.length() > trimAt)
+            return notes.take(trimAt) + "\n..."
+        return notes
+    }
+
+    static void notifyPublishOnSlack() {
+        def hook = System.getenv("SLACK_PUBLISH_HOOK")
+        if (hook == null)
+            return
+        def json = new JsonOutput().toJson(["text": ":android: :protonvpn: ${getFullVersionName()} released to internal\n" +
+                "Release notes:\n" +
+                "${getReleaseNotes(1000)}"])
+        Helpers.exec(["curl", "-X", "POST", "-H", "'Content-type: application/json'", "--data", json, hook])
     }
 
     static String getArchivesBaseName() {
@@ -365,6 +385,20 @@ class Helpers {
     }
 
     static String exec(String cmd, boolean throwOnError = true) {
+        def out = new StringBuffer()
+        def err = new StringBuffer()
+        def proc = cmd.execute()
+        proc.waitForProcessOutput(out, err)
+        if (err) {
+            if (throwOnError)
+                throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+            else
+                return null
+        }
+        return out.toString()
+    }
+
+    static String exec(ArrayList<String> cmd, boolean throwOnError = true) {
         def out = new StringBuffer()
         def err = new StringBuffer()
         def proc = cmd.execute()
