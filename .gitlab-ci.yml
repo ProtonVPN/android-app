@@ -190,6 +190,7 @@ coverage report:
   tags:
     - android
   script:
+    - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
   allow_failure: true
   artifacts:

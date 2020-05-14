@@ -73,7 +73,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) 
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/app_classes/prodDebug/bundleProdDebugClasses", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/prodDebug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
     sourceDirectories.setFrom files([mainSrc])
