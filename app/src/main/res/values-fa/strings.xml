@@ -20,12 +20,12 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 <resources><!-- Strings related to login -->
   <string name="hintUsername">نام کاربری</string>
   <string name="hintPassword">رمز عبور</string>
-  <string name="splitTunnellingSwitch">سوییچ Split tunneling</string>
+  <string name="splitTunnellingSwitch">کلید Split tunneling</string>
   <string name="login">ورود</string>
   <string name="hamburgerMenu">منو</string>
   <string name="error_field_required">این قسمت الزامی است</string>
   <string name="title_activity_home">@string/app_name</string>
-  <string name="menuActionLogout">خروج از حساب</string>
+  <string name="menuActionLogout">خروج از حساب کاربری</string>
   <string name="loginSlogan">اینترنت امن در همه جا</string>
   <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
   <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
@@ -38,12 +38,12 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="mapCalloutDisconnect">قطع ارتباط</string>
   <string name="mapSwitchSecureCore">استفاده از Secure Core</string>
   <string name="warning">هشدار</string>
-  <string name="secureCoreSwitchOn">شما قصد اتصال به سرور Secure Core را دارید. این کار حالت Secure Core را فعال می‌کند %1$s ادامه می‌دهید؟</string>
-  <string name="secureCoreSwitchOff">شما در حال تلاش برای اتصال به یک سرور غیر Secure Core هستید. این کار حالت Secure Core %1$s را غیرفعال می‌کند، ادامه می‌دهید؟</string>
+  <string name="secureCoreSwitchOn">شما قصد اتصال به سرور Secure Core را دارید. این کار حالت Secure Core را فعال می‌کند%1$s ادامه می‌دهید؟</string>
+  <string name="secureCoreSwitchOff">شما قصد اتصال به سروری را دارید که از Secure Core پشتیبانی نمی‌کند. این کار حالت Secure Core را غیرفعال می‌کند%1$s ادامه می‌دهید؟</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;و <b>قطع اتصال فعلی</b>.]]></string>
   <string name="disconnectDialogDescription">این عمل نشست فعلی شما را قطع می‌کند. آیا برای ادامه مطمئن هستید؟</string>
   <string name="logoutDescription">خارج شدن، اتصال دستگاه شما را از سرور VPN قطع می‌کند.</string>
-  <string name="showAllProfiles">نمایش همه پروفایل‌ها</string>
+  <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
   <string name="yes">بله</string>
   <string name="no">خیر</string>
   <string name="ok">تأیید</string>
@@ -52,11 +52,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="buttonConnect">اتصال</string>
   <string name="loaderInitializing">آماده‌سازی اتصال…</string>
   <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
-  <string name="loaderNotConnected">متصل نیست (نا امن)</string>
+  <string name="loaderNotConnected">متصل نیست (ناامن)</string>
   <string name="loaderConnectedTo">متصل به %1$s</string>
   <string name="loaderDisconnecting">در حال قطع اتصال</string>
   <string name="loaderReconnecting">در حال اتصال مجدد</string>
-  <string name="loaderReconnectNoNetwork">منتظر شبکه قابل استفاده</string>
+  <string name="loaderReconnectNoNetwork">در انتظار شبکهٔ قابل استفاده</string>
   <string name="loaderCheckingAvailability">در حال بررسی دسترسی به سرور</string>
   <string name="loaderCancel">لغو اتصال</string>
   <string name="clickBackAgainLogout">برای کمینه کردن، دوباره کلیک کنید</string>
@@ -67,7 +67,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="close">بستن</string>
   <string name="drawerSettings">تنظیمات</string>
   <string name="drawerAccount">حساب کاربری</string>
-  <string name="drawerHelp">راهنما</string>
+  <string name="drawerHelp">راهنمایی</string>
   <string name="drawerShowLog">نمایش گزارش</string>
   <string name="drawerReportBug">گزارش اشکال</string>
   <string name="drawerLogout">@string/menuActionLogout</string>
@@ -86,7 +86,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
   <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
   <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
-  <string name="freeTrialExpired">"طرح آزمایشی ۷ روزه شما از ProtonVPN Plus منقضی شد. شما می‌تونید به استفاده از طرح ProtonVPN رایگان ادامه بدهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفا اشتراک خود را به یک طرح غیر رایگان ارتقا دهید."</string>
+  <string name="freeTrialExpired">"طرح آزمایشی ۷ روزۀ ProtonVPN Plus شما به پایان رسید. شما می‌توانید به استفاده از طرح ProtonVPN رایگان ادامه دهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفاً اشتراک خود را به یک طرح غیررایگان ارتقا دهید."</string>
   <string name="activityProfileTitle">پروفایل</string>
   <string name="activityAccountTitle">حساب کاربری</string>
   <string name="activitySettingsTitle">تنظیمات</string>
@@ -94,75 +94,75 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsSecurityOptions">تنظیمات امنیتی</string>
   <string name="settingsAutoStartTitle">آغاز با اندروید</string>
   <string name="settingsShowIconTitle">آیکون وضعیت</string>
-  <string name="settingsShowIconDescription">یک آیکون در نوار وضعیت که نشان‌دهنده وضعیت VPN است، نشان بده</string>
+  <string name="settingsShowIconDescription">نشان دادن آیکون اتصال VPN در نوار وضعیت</string>
   <string name="settingsAutoStartDescription">ProtonVPN به صورت خودکار بعد از هر شروع سیستم، اجرا می‌شود</string>
-  <string name="settingsBypassLocalTitle">اجازه اتصال به شبکه‌های LAN</string>
-  <string name="settingsBypassLocalDetails">این گزینه به شما اجازه می‌دهد تا برای اتصال به دستگاه‌هایی مانند چاپگر که در شبکه محلی شما هستند، VPN را دور بزنید. این اتصالات رمزگذاری نمی‌شوند.</string>
+  <string name="settingsBypassLocalTitle">اجازهٔ اتصال به شبکه‌های LAN</string>
+  <string name="settingsBypassLocalDetails">این گزینه به شما اجازه می‌دهد تا برای اتصال به دستگاه‌هایی مانند چاپگر که در شبکهٔ محلی شما هستند، VPN را دور بزنید. این اتصالات رمزگذاری نمی‌شوند</string>
   <string name="settingsDnsLeakTitle">نشت DNS</string>
-  <string name="settingsDnsLeakDescription">جلوگیری از نشت پرس‌وجو DNS به اشخاص ثالث (همیشه فعال)</string>
+  <string name="settingsDnsLeakDescription">جلوگیری از نشت پرسمان DNS به اشخاص ثالث (همیشه فعال)</string>
   <string name="settingsDefaultProtocol">پروتکل</string>
   <string name="settingsTransmissionProtocol">پروتکل انتقال</string>
   <string name="settingsDefaultMtu">1375</string>
-  <string name="settingsMtuSizeTitle">سایز MTU</string>
-  <string name="settingsMtuDescription">درصورتی‌که مقدار پیش‌فرض، برای یک شبکه خاص، مناسب نیست، یک مقدار در محدوده ۱۲۸۰ تا ۱۵۰۰ وارد کنید. تنها در صورتی آن را تغییر دهید که می‌دانید در حال انجام چه کاری هستید.</string>
-  <string name="settingsMtuRangeInvalid">مقدار MTU باید در محدوده ۱۲۸۰-۱۵۰۰ باشد</string>
+  <string name="settingsMtuSizeTitle">اندازهٔ MTU</string>
+  <string name="settingsMtuDescription">در صورتی‌ که مقدار پیش‌فرض برای یک شبکهٔ خاص مناسب نیست، یک مقدار در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ وارد کنید. تنها در صورتی آن را تغییر دهید که می‌دانید در حال انجام چه کاری هستید.</string>
+  <string name="settingsMtuRangeInvalid">مقدار MTU باید در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ باشد</string>
   <string name="settingsDefaultConnectionTitle">اتصال سریع</string>
-  <string name="settingsDefaultConnectionDescription">دکمه اتصال سریع، شما را به پروفایل انتخابی متصل می‌کند</string>
-  <string name="restrictedMaintenanceTitle">در حال بازسازی</string>
-  <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفا سرور دیگری را انتخاب کنید.</string>
-  <string name="restrictedBasicTitle">سرور غیر رایگان</string>
+  <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
+  <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
+  <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
+  <string name="restrictedBasicTitle">سرور غیررایگان</string>
   <string name="restrictedPlusTitle">سرور Plus</string>
   <string name="restrictedSecureCoreTitle">سرور Secure Core</string>
-  <string name="restrictedBasic">شما قصد اتصال به سرور غیر رایگان را دارید. برای دسترسی به سرورهای تمام کشورها با سرعت بالا،\n لطفا اشتراک خود را به یک طرح غیر رایگان ارتقا دهید. </string>
+  <string name="restrictedBasic">شما قصد اتصال به یک سرور غیررایگان را دارید.\n برای دسترسی به سرورهای تمامی کشورها با سرعت بالا، لطفاً اشتراک خود را ارتقا دهید. </string>
   <string name="restrictedPlus">شما قصد اتصال به یک سرور که به اشتراک ProtonVPN Plus یا بالاتر نیاز دارد را دارید.\nبرای دسترسی به سرورهای بیشتر در تمامی کشورها، لطفا اشتراک خود را ارتقا دهید.</string>
-  <string name="restrictedSecureCore">Secure Core، یک امکان ویژه است که نیاز به اشتراک ProtonVPN Plus یا بالاتر دارد. Secure Core حفاظت پیشرفته در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، دیگر طرح‌های اشتراک ما را بررسی کنید که شامل این امکان هستند.</string>
-  <string name="errorUserDelinquent">موعد یک فاکتور در حساب فعلی شما سر رسیده است. لطفا همه فاکتورهای پرداخت نشده را در  <a href="http://account.protonvpn.com">account.protonvpn.com</a> پرداخت کنید</string>
-  <string name="errorMaxSessions">شما به حداکثر تعداد ارتباطات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفا برای گرفتن تعداد بیشتر ارتباطات، طرح ProtonVPN خود را ارتقا دهید.</string>
+  <string name="restrictedSecureCore">Secure Core یک قابلیت ویژه است که نیاز به اشتراک ProtonVPN Plus یا بالاتر دارد. Secure Core حفاظت پیشرفته را در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، طرح‌های اشتراک دیگر ما را بررسی کنید که شامل این امکان هستند.</string>
+  <string name="errorUserDelinquent">موعد فاکتور حساب فعلی شما سر رسیده است. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.</string>
+  <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح ProtonVPN خود را ارتقا دهید.</string>
   <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
   <string name="errorEmptyCountry">وارد کردن نام کشور الزامی است</string>
   <string name="errorEmptyServer">وارد کردن سرور الزامی است</string>
   <string name="errorEmptyEntryCountry">وارد کردن کشور ورودی الزامی است</string>
   <string name="errorEmptyExitCountry">وارد کردن کشور خروجی الزامی است</string>
   <string name="onboardingDialogMapView">از نقشه برای اتصال استفاده کنید و محل سرور VPN را ببینید.</string>
-  <string name="onboardingDialogProfiles">برای دسترسی و اتصال راحت‌تر به سرورهای مورد علاقه‌تان می‌توانید پروفابل بسازید. همچنین انگشت خود را بر روی آیکون ProtonVPN در پایین صفحه نگه‌دارید تا تمام پروفایل‌هایتان را ببینید. کلیک بر هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
-  <string name="onboardingDialogSecureCoreDescription">از این امکان غیر رایگان استفاده کنید تا به امن‌ترین سرورهای جهان متصل شوید. شما می‌توانید آن‌ها را تب کشور‌ها یا تب نقشه هم مشاهده کنید.</string>
+  <string name="onboardingDialogProfiles">برای سرورهای مورد علاقه‌تان پروفایل بسازید تا به آن‌ها دسترسی راحت‌تری داشته باشید. همچنین لمس طولانی آیکون ProtonVPN در پایین صفحه تمامی پروفایل‌هایتان را به شما نشان می‌دهد. لمس هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
+  <string name="onboardingDialogSecureCoreDescription">از این قابلیت غیررایگان استفاده کنید تا به امن‌ترین سرورهای جهان متصل شوید. شما می‌توانید آن‌ها را در برگهٔ کشور‌ها یا برگهٔ نقشه هم مشاهده کنید.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">در این لیست می‌توانید کشور و سروری که می‌خواهید به آن متصل شوید را انتخاب کنید</string>
+  <string name="onboardingListDescription">در این لیست می توانید کشور و سروری را که می خواهید به آن متصل شوید، انتخاب کنید</string>
   <string name="onboardingStartSlideTitle">به اینترنت بهتر خوش آمدید</string>
   <string name="onboardingStartSlideDescription">از طرف دانشمندان و مهندسانی که ProtonMail را ایجاد کرده‌اند، به اینترنت امن‌تر و دارای حریم خصوصی بیشتر خوش آمدید.</string>
   <string name="onboardingMiddleSlideTitle">ما معتقدیم که اینترنت باید آزاد باشد</string>
   <string name="onboardingMiddleSlideDescription">سانسور و محدودیت‌های منطقه‌ای را از بین ببرید. ما تبلیغات و محدودیت پهنای باند نداریم و داده‌های شما را نمی‌فروشیم.</string>
   <string name="onboardingEndingSlideTitle">امنیت شما، اولویت ماست</string>
-  <string name="onboardingEndingSlideDescription">ما یک شرکت امنیتی هستیم. چه در معماری Secure Core و چه در رمزگذاری پیشرفته، امنیت همیشه اولویت اول است.</string>
+  <string name="onboardingEndingSlideDescription">ما یک شرکت امنیتی هستیم. چه در معماری Secure Core و چه در رمزگذاری پیشرفته، امنیت همیشه اولویت اول ماست.</string>
   <string name="onboardingFAB">اتصال سریع / پروفایل‌ها</string>
-  <string name="onboardingFABDescription">برای سریع‌ترین راه برای اتصال، روی این دکمه ضربه بزنید</string>
+  <string name="onboardingFABDescription">برای سریع‌ترین راه اتصال، روی این دکمه ضربه بزنید</string>
   <string name="onboardingSignup">ثبت نام</string>
   <string name="onboardingSkip">رد کردن</string>
   <string name="onboardingNext">بعدی</string>
-  <string name="listItemMaintenance">در حال بازسازی</string>
-  <string name="listFreeCountries">کشورهای Free</string>
-  <string name="listPremiumCountries">کشورهای Premium</string>
+  <string name="listItemMaintenance">تحت عملیات نگهداری</string>
+  <string name="listFreeCountries">کشورهای رایگان</string>
+  <string name="listPremiumCountries">کشورهای ویژه</string>
   <string name="listFastestServer">سریع‌ترین سرور</string>
-  <string name="listFreeServers">سرورهای Free</string>
+  <string name="listFreeServers">سرورهای رایگان</string>
   <string name="listBasicServers">سرورهای Basic</string>
   <string name="listPlusServers">سرورهای Plus</string>
-  <string name="premium">Premium</string>
+  <string name="premium">ویژه</string>
   <string name="insufficientPermissionsTitle">اقدام کاربر لازم است</string>
-  <string name="insufficientPermissionsDetails">اتصال VPN بطور خودکار نتوانست ایجاد شود. لطفا بطور دستی یکبار اقدام به اتصال نمایید تا اجازه اعطا شود.</string>
+  <string name="insufficientPermissionsDetails">اتصال VPN نتوانست بطور خودکار برقرار شود. لطفاً یکبار به صورت دستی اقدام به اتصال نمایید تا اجازه اعطا شود.</string>
   <string name="tabsCountries">کشورها</string>
   <string name="tabsMap">نقشه</string>
   <string name="tabsProfiles">پروفایل‌ها</string>
   <string name="log_title">گزارش</string>
   <string name="disconnect">قطع ارتباط</string>
-  <string name="state_connecting">در‌حال اتصال به …</string>
+  <string name="state_connecting">در حال اتصال به…</string>
   <string name="state_connected">متصل</string>
-  <string name="state_disconnecting">در‌حال قطع اتصال از …</string>
+  <string name="state_disconnecting">در حال قطع اتصال از…</string>
   <string name="state_error">خطا</string>
-  <string name="error_lookup_failed">پیدا کردن آدرس دروازه خروجی با مشکل مواجه شد.</string>
-  <string name="error_unreachable">دروازه خروجی قابل دسترس نیست.</string>
-  <string name="error_peer_auth_failed">تایید هویت دروازه نا‌موفق بود.</string>
+  <string name="error_lookup_failed">پیدا کردن آدرس دروازهٔ خروجی با مشکل مواجه شد.</string>
+  <string name="error_unreachable">دروازهٔ خروجی در دسترس نیست.</string>
+  <string name="error_peer_auth_failed">تأیید هویت دروازهٔ خروجی نا‌موفق بود.</string>
   <string name="error_auth_failed">احراز هویت موفق نبود.</string>
-  <string name="error_assessment_failed">ارزیابی امنیتی انجام نشد.</string>
+  <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
   <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
   <string name="reconnect">اتصال مجدد</string>
   <string name="connect">اتصال</string>
@@ -172,11 +172,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
     <item quantity="one">اتصال دوباره در %1$d ثانیه</item>
     <item quantity="other">اتصال دوباره در %1$d ثانیه</item>
 </plurals>
-  <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ</string>
-  <string name="support_page">صفحه پشتیبانی</string>
+  <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
+  <string name="support_page">صفحهٔ پشتیبانی</string>
   <string name="create_new_profile">ایجاد پروفایل جدید</string>
   <string name="excludeAppsTitle">برنامه‌های مستثنی شده</string>
-  <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN مستثنی شوند را انتخاب کنید.</string>
+  <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN مستثنی شوند را اضافه کنید.</string>
   <string name="profile_name">نام پروفایل</string>
   <string name="profile_color">رنگ پروفایل</string>
   <string name="secure_core">Secure core</string>
@@ -187,9 +187,9 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="send_report">ارسال گزارش</string>
   <string name="excludeIpTitle">مستثنی کردن آدرس‌های IP</string>
   <string name="discardChanges">تغییرات ذخیره نشده‌ای وجود دارند. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟</string>
-  <string name="discard">صرف‌نظر</string>
-  <string name="selectedProfileColor">لطفا رنگ پروفایل را انتخاب کنید</string>
-  <string name="excludeIpDescription">آدرس‌های IP که می‌خواهید از ترافیک VPN مستثنی شوند.</string>
+  <string name="discard">لغو</string>
+  <string name="selectedProfileColor">لطفاً رنگ پروفایل را انتخاب کنید</string>
+  <string name="excludeIpDescription">آدرس‌های IP که می‌خواهید از ترافیک VPN مستثنی شوند را اضافه کنید.</string>
   <string name="done">انجام شد</string>
   <string name="add">اضافه کردن</string>
   <string name="the_list_is_empty">لیست خالی است</string>
@@ -213,28 +213,28 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="download_speed">سرعت:</string>
   <string name="save_to_profile">ذخیره در پروفایل</string>
   <string name="notConnected">شما به سروری \n متصل نیستید</string>
-  <string name="activityLicensesTitle">گواهینامه های شخص ثالث</string>
+  <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
   <string name="stateFragmentUnknownIp">ناشناخته</string>
-  <string name="successful_migration_message">به ProtonVPN 2.0 خوش آمدید! همه تنظیمات و پروفایل‌های شما منتقل شده‌اند و اکنون می‌توانید با خیال راحت برنامه قدیمی را حذف کنید.</string>
+  <string name="successful_migration_message">به ProtonVPN 2.0 خوش آمدید! همهٔ تنظیمات و پروفایل‌های شما منتقل شده‌اند و اکنون می‌توانید با خیال راحت برنامهٔ قدیمی را حذف کنید.</string>
   <string name="successful_migration_uninstall">حالا حذف شود</string>
-  <string name="error_prepare_vpn_description"><![CDATA[لطفاً Always-on VPN را برای تمام اَپ های دیگر VPN در تنظیمات VPN سیستم اندروید غیر فعّال کنید، زیرا این مانع میشود که ProtonVPN اتصال VPN را برقرار کند. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحه درخواست اجازه VPN اعطا نمایید. دیگر اَپ های VPN نیز جهت جلوگیری از تداخل ممکن است نیاز به حذف شدن داشته باشند. سپس، لطفاً دوباره امتحان کنید.<a href=\"%1$s\">بیشتر بدانید</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعّال کنید، زیرا مانع برقراری اتصال ProtonVPN می‌شود. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحهٔ درخواست اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
   <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
   <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>
   <string name="error_server_not_set">سرور دیگر در دسترس نیست</string>
   <string name="bugReportThankYouToast">از گزارش شما متشکریم</string>
   <string name="bugReportErrorEmptyEmail">رایانامه نباید خالی بماند</string>
   <string name="bugReportErrorInvalidEmail">آدرس ایمیل نامعتبر است</string>
-  <string name="bugReportErrorEmptyDescription">لطفا برای ما بنویسید که چه اتفاقی می افتد</string>
-  <string name="bugReportLabelVpnLogsTitle">لاگ‌های VPN</string>
-  <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه لاگهای VPN سمت کلاینت شما را به این گزارش میافزاید</string>
+  <string name="bugReportErrorEmptyDescription">در مورد اشکال به ما توضیح دهید</string>
+  <string name="bugReportLabelVpnLogsTitle">گزارش‌های VPN</string>
+  <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه گزارش‌های VPN سمت کاربر را به این گزارش می‌افزاید</string>
   <string name="profileFastest">سریع‌ترین</string>
   <string name="profileRandom">تصادفی</string>
   <string name="settingsSplitTunnelingDescription">Split tunneling اجازه می‌دهد تا IP‌ها یا برنامه‌های خاص از ترافیک VPN مستثنی شوند.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s در حال بازسازی</string>
+  <string name="serverLabelUnderMaintenance">%1$s تحت عملیات نگهداری</string>
   <string name="serverLabelUpgrade">%1$s (ارتقا)</string>
-  <string name="loaderAuthenticatingUser">تایید هویت کاربر…</string>
-  <string name="loaderErrorNoInternet">عدم اتصال اینترنت</string>
+  <string name="loaderAuthenticatingUser">تأیید هویت کاربر…</string>
+  <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
   <string name="settingsExcludeIPAddresses">مستثنی کردن آدرس‌های IP</string>
@@ -249,68 +249,70 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
     <item quantity="one">%1$d آدرس IP مستثنی شده</item>
     <item quantity="other">%1$d آدرس IP مستثنی شده</item>
 </plurals>
-  <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این را تغییر دهید</string>
+  <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً مستثنی شده</string>
-  <string name="removeExcludedIpDialogDescription">آیا مطمئن هستید که می خواهید این IP را از لیست حذف کنید؟</string>
+  <string name="removeExcludedIpDialogDescription">آیا مطمئن هستید که می‌خواهید این IP را از لیست حذف کنید؟</string>
   <string name="loaderFetchingServers">بارگیری سرورها…</string>
-  <string name="toastProfileSaved">ذخیره</string>
-  <string name="freeTrialExpiredTitle">دوره آزمایشی ProtonVPN در طرح Plus منقضی شد</string>
+  <string name="toastProfileSaved">ذخیره شد</string>
+  <string name="freeTrialExpiredTitle">دورهٔ آزمایشی ProtonVPN Plus به پایان رسید</string>
   <string name="tileConnected">متصل: %1$s</string>
   <string name="dialogTitleAttention">توجه</string>
-  <string name="saveProfileAlreadySaved">قبلا ذخیره شده</string>
+  <string name="saveProfileAlreadySaved">قبلاً ذخیره شده</string>
   <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
-  <string name="welcomeDialogTitle">با تشکر از شما برای پیوستن به جامعه رو به رشد ProtonVPN.</string>
-  <string name="welcomeDialogDescription">برای ورود به سیستم از اعتبارنامه جدید ایجاد شده خود استفاده کنید.</string>
-  <string name="welcomeDialogTitleTrial">برای ابراز تشکر، ما طرح Plus خود را بطور آزمایشی رایگان برای ۷ روز به شما میدهیم. این به شما قابلیت استفاده از امکانات پیشرفته و سرورهای Plus را میدهد. در انتهای دوره آزمایشی، شما به طرح Free بر میگردید و تنها به سرورهای Free دسترسی خواهید داشت.</string>
+  <string name="welcomeDialogTitle">ممنون از شما برای پیوستن به اجتماع رو به رشد ProtonVPN.</string>
+  <string name="welcomeDialogDescription">برای ورود از اعتبارنامهٔ به‌تازگی ایجاد شدهٔ خود، استفاده کنید.</string>
+  <string name="welcomeDialogTitleTrial">برای تشکر از شما، ما طرح آزمایشی ۷ روزهٔ Plus خود را به صورت رایگان در اختیار شما قرار می‌دهیم. این طرح به شما قابلیت استفاده از امکانات پیشرفته و سرورهای Plus را می‌دهد. در انتهای دورهٔ آزمایشی، شما به طرح رایگان بازمی‌گردید و تنها به سرورهای رایگان دسترسی خواهید داشت.</string>
   <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> روز و <b>%2$d</b> ساعت و <b>%3$d</b> دقیقه و <b>%4$d</b> ثانیه]]></string>
-  <string name="toastLoginAuthVersionError">به دلیل نسخه پشتیبانی نشده فرایند تایید اعتبار، قادر به ورود نیست. لطفا با پشتیبانی تماس بگیرید.</string>
+  <string name="toastLoginAuthVersionError">به دلیل نسخهٔ پشتیبانی نشده تایید هویت، قادر به ورود نیست. لطفاً با پشتیبانی تماس بگیرید.</string>
   <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>ایرادیابی</u>]]></string>
-  <string name="activityTroubleshootTitle">ایرادیابی</string>
+  <string name="buttonTroubleshoot"><![CDATA[<u>اشکال‌زدایی</u>]]></string>
+  <string name="activityTroubleshootTitle">اشکال‌زدایی</string>
   <string name="troubleshootNoInternetDescription">لطفاً مطمئن شوید که اتصال اینترنت شما کار میکند.</string>
-  <string name="troubleshootNoInternetTitle">نبود اتصال اینترنت</string>
-  <string name="troubleshootIspProblemTitle">مشکل ارائه دهنده سرویس اینترنت (ISP)</string>
-  <string name="troubleshootIspProblemDescription"><![CDATA[سعی کنید از شبکه دیگری به پروتون متصل شوید (یا از <a href=\'%1$s\'>Tor</a>استفاده کنید)]]></string>
+  <string name="troubleshootNoInternetTitle">اتصال اینترنت برقرار نیست</string>
+  <string name="troubleshootIspProblemTitle">مشکل ارائه‌دهندهً خدمات اینترنتی (ISP)</string>
+  <string name="troubleshootIspProblemDescription"><![CDATA[سعی کنید از شبکهٔ دیگری به Proton متصل شوید (یا از <a href=\'%1$s\'>Tor</a> استفاده کنید)]]></string>
   <string name="troubleshootAntivirusProblemTitle">تداخل با ضد ویروس</string>
-  <string name="troubleshootAntivirusProblemDescription">نرم افزار ضد ویروس خود را بطور موقت غیرفعال یا حذف کنید.</string>
+  <string name="troubleshootAntivirusProblemDescription">نرم‌افزار ضد ویروس خود را بطور موقت غیرفعال یا حذف کنید.</string>
   <string name="troubleshootProxyFirewallProblemTitle">تداخل پروکسی/دیوار آتشین</string>
-  <string name="troubleshootProxyFirewallProblemDescription">هرگونه پروکسی یا دیوار آتشین را غیر فعال کنید، یا با سرپرست شبکه خود تماس بگیرید.</string>
-  <string name="troubleshootProtonDownTitle">پروتون کار نمی کند</string>
-  <string name="troubleshootProtonDownDescription"><![CDATA[برای وضعیت سیستم ما<a href=\"%1$s\">وضعیت پروتون</a>را بررسی کنید.]]></string>
-  <string name="troubleshootOtherProblemTitle">هنوز راه حلی پیدا نشد</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[با ما بطور مستقیم بوسیله<a href=\"%1$s\">فرم پشتیبانی</a>، ایمیل (<a href=\"%2$s\">support@protonvpn.com</a>)، یا <a href=\"%3$s\">توییتر</a>تماس بگیرید.]]></string>
-  <string name="settingsAllowAlternativeRoutingTitle">اجازه مسیریابی جایگزین</string>
-  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانیکه سایتهای پروتون مسدود هستند، به اپ امکان میدهد که مسیریابی جایگزین شبکه را به منظور دسترسی به پروتون امتحان کند، که البته برای دور زدن دیوار آتشین یا مسائل شبکه مفید میباشد. ما پیشنهاد میکنیم که این تنظیم را جهت قابلیت اطمینان بالاتر روشن نگه دارید.<a href=\"%1$s\">بیشتر بدانید</a>]]></string>
-  <string name="troubleshootGovernmentBlockTitle">انسداد دولت</string>
-  <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به پروتون را مسدود کرده باشد. سعی کنید<a href=\'%1$s\'>Tor</a> استفاده کنید تا به پروتون دست یابید.]]></string>
+  <string name="troubleshootProxyFirewallProblemDescription">هرگونه پروکسی یا دیوار آتشین را غیر فعال کنید، یا با مدیر شبکهً خود تماس بگیرید.</string>
+  <string name="troubleshootProtonDownTitle">Proton کار نمی‌کند</string>
+  <string name="troubleshootProtonDownDescription"><![CDATA[وضعیت سامانهٔ ما را در <a href=\"%1$s\">وضعیت Proton</a> بررسی کنید.]]></string>
+  <string name="troubleshootOtherProblemTitle">هنوز راه حلی پیدا نشده است</string>
+  <string name="troubleshootOtherProblemDescription"><![CDATA[با ما بطور مستقیم از طریق <a href=\"%1$s\">فرم پشتیبانی</a>، رایانامه (<a href=\"%2$s\">support@protonvpn.com</a>)، یا <a href=\"%3$s\">توییتر</a> تماس بگیرید.]]></string>
+  <string name="settingsAllowAlternativeRoutingTitle">اجازهٔ مسیریابی جایگزین</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانی که سایتهای Proton مسدود هستند، به برنامه امکان می‌دهد که مسیریابی جایگزین شبکه را به منظور دسترسی به Proton امتحان کند که برای دور زدن دیوار آتشین یا اشکالات شبکه مفید است. ما پیشنهاد می‌کنیم که این تنظیم را جهت قابلیت اطمینان بالاتر روشن نگه دارید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
+  <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
+  <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">VPN &amp; Kill Switch همیشه روشن</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">ProtonVPN را راه بیاندازید تا بطور خودکار دوباره متصل شوید یا اگر اتصال VPN قطع شد اتصالات خارجی را غیر فعال کند.</string>
-  <string name="settingsAlwaysOnWindowDescription">همیشه-روشن VPN شما را بطور خودکار اگر اتصالتان قطع شود دوباره به سرور VPN وصل میکند.
+  <string name="settingsAlwaysOnKillSwitchDescription">ProtonVPN را تنظیم کنید تا به‌طور خودکار دوباره متصل شود یا در صورت وجود اختلال در اتصال VPN، اتصالات خارجی را غیرفعال کند.</string>
+  <string name="settingsAlwaysOnWindowDescription">«VPN همیشه روشن در صورت بروز اختلال شما را بطور خودکار دوباره به سرور VPN وصل می‌کند.
 
-Kill Switch دستگاه شما را از اینکه اتصال خارجی برقرار کند در حالتی که از VPN جدا شده است باز میدارد،در نتیجه امن نگاهداشتن ترافیک اینترنت شما.
+Kill Switch در صورت قطع شدن VPN دستگاه شما را از برقراری ارتباط خارجی باز می‌دارد تا امنیت ترافیک اینترنت شما حفظ شود.
 
-سیستم عامل اندروید این امکانات را کنترل میکند، و شما باید حتما از اپ خارج شوید تا آنها را فعال نمایید.
+سیستم‌عامل اندروید این قابلیت‌ها را کنترل می‌کند و شما برای فعال کردن آن‌ها باید از برنامه خارج شوید.
 
-این قدمها را دنبال کنید تا همیشه-روشن VPN و Kill Switch را روشن کنید:\"</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با فشردن دکمه زیر باز نمایید]]></string><!-- %1$s here will be replaced by "gear" icon -->
-  <string name="settingsAlwaysOnWindowStep2">بیابید ProtonVPN را و بزنید %1$s</string>
-  <string name="settingsAlwaysOnWindowStep3"><![CDATA[دکمه کنار <b>همیشه-روشن VPN</b> را بزنید تا آن را فعال کنید]]></string>
-  <string name="settingsAlwaysOnWindowStep4Intro">این قدم را نیز اجرا کنید تا Kill Switch را فعال کنید</string>
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[دکمه کنار <b>بدون VPN اتصال را مسدود کن</b> را بزنید تا Kill Switch را فعال کنید]]></string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButton">تنظیمات اندروید را باز کنید</string>
-  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">در نظر داشته باشید که اگر هر دوی Kill Switch و Split Tunneling فعال باشند، Split Tunneling عمل نخواهد کرد. Kill Switch همه اتصالات خارج از تونل VPN را مسدود میکند، حتی آنهایی که توسط Split Tunneling ایجاد شده اند.</string>
-  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه ها؟<a href=\"%1$s\">اینجا را بزنید تا بیشتر بدانید</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch و VPN همیشه-روشن همواره در         نسخه های قدیمی تر OS اندروید یا در همه دستگاههای اندروید در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمیکند، ProtonVPN نمیتواند کاری انجام دهد تا نقش آنها را ایفا نماید. شما میتوانید سیستم عامل خود را به آخرین نسخه اندروید به روز نموده و دوباره سعی کنید."</string>
+این مراحل را دنبال کنید تا VPN همیشه روشن و Kill Switch را فعال کنید:»</string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با لمس دکمهً زیر باز نمایید]]></string><!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep2">ProtonVPN را بیابید و بر روی %1$s ضربه بزنید</string>
+  <string name="settingsAlwaysOnWindowStep3"><![CDATA[دکمهٔ کنار <b>VPN همیشه روشن</b> را لمس کنید تا آن را فعال کنید]]></string>
+  <string name="settingsAlwaysOnWindowStep4Intro">این مرحله را نیز دنبال کنید تا Kill Switch فعال شود</string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[دکمهٔ کنار <b>اتصالات بدون VPN را مسدود کن</b> را لمس کنید تا Kill Switch فعال شود]]></string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
+  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">در نظر داشته باشید که اگر Kill Switch و Split Tunneling هر دو فعال باشند، Split Tunneling عمل نخواهد کرد. Kill Switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند، حتی آن‌هایی را که Split Tunneling ایجاد کرده است.</string>
+  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه‌ها؟ <a href=\"%1$s\">برای یادگیری بیشتر ضربه بزنید</a>.]]></string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">«Kill Switch و VPN همیشه-روشن همواره بر روی
+نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.»</string>
   <string name="settingsSmartProtocolTitle">پروتکل هوشمند</string>
-  <string name="settingsSmartProtocolDescription">بطور خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد، استفاده می‌کند.</string>
-  <string name="netShieldEnabledWarning">در نظر داشته باشید که بعضی وبسایتها به دلیل محتوای مسدود شده ممکن است بطور کامل کار نکنند.</string>
-  <string name="netShieldDescription">مسدود کردن آگهی ها، ردیاب ها و بدافزارها </string>
+  <string name="settingsSmartProtocolDescription">به طور خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد، استفاده شود.</string>
+  <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
+  <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>
   <string name="netshield">NetShield</string>
-  <string name="netShieldBlockMalwareOnly">تنها مسدود کردن بدافزار</string>
+  <string name="netShieldBlockMalwareOnly">فقط بدافزار مسدود شود</string>
   <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
-  <string name="dialogDontShowAgain">دیگر نمایش نده</string>
-  <string name="paidFeature">ویژگی پرداختی</string>
+  <string name="dialogDontShowAgain">دوباره نشان نده</string>
+  <string name="paidFeature">قابلیت غیررایگان</string>
   <string name="netShieldReconnectionNeeded">اتصال مجدد لازم است</string>
-  <string name="netShieldReconnectionDescription">اتصال شما لازم است ری استارت شده تا NetShield غیر فعال شود.</string>
-  <string name="netShieldPaidFeature">شما در حال فعال سازی قابلیتی هستید که نیاز به اشتراک ProtonVPN Plus دارد.</string>
+  <string name="netShieldReconnectionDescription">اتصال شما باید مجدداً راه‌اندازی شود تا NetShield غیرفعال شود.</string>
+  <string name="netShieldPaidFeature">شما در حال فعال‌سازی قابلیتی هستید که نیاز به اشتراک ProtonVPN Plus دارد.</string>
+  <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. لطفا مادامیکه ما در اطراف این مشکل کار می‌کنیم منتظر بمانید.</string>
 </resources>
