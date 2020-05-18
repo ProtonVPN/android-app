@@ -150,7 +150,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="insufficientPermissionsTitle">Benutzereingabe erforderlich</string>
   <string name="insufficientPermissionsDetails">Das automatische Aufbauen einer VPN-Verbindung fehlgeschlagen. Bitte verbinden Sie sich einmal manuell, um die Berechtigungen erteilen zu können.</string>
   <string name="tabsCountries">Länder</string>
-  <string name="tabsMap">Kartenansicht</string>
+  <string name="tabsMap">Karte</string>
   <string name="tabsProfiles">Profile</string>
   <string name="log_title">Protokoll</string>
   <string name="disconnect">Trennen</string>
@@ -311,4 +311,5 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
   <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu aufgebaut werden, um NetShield zu deaktivieren.</string>
   <string name="netShieldPaidFeature">Sie versuchen eine Funktion zu aktivieren, die ein ProtonVPN Plus Abonnement erfordert.</string>
+  <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
 </resources>

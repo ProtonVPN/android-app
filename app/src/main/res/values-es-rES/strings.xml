@@ -104,7 +104,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsTransmissionProtocol">Protocolo de transmisión</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Tamaño MTU</string>
-  <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, introduzca un valor dentro del rango 1280-1500. Cambielo sólo cuando sepa lo que está haciendo.</string>
+  <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, introduce un valor dentro del rango 1280-1500. Cámbialo sólo si sabes lo que estás haciendo.</string>
   <string name="settingsMtuRangeInvalid">El valor de MTU debe estar en rango 1280-1500</string>
   <string name="settingsDefaultConnectionTitle">Conexión rápida</string>
   <string name="settingsDefaultConnectionDescription">El botón de conexión rápida le conecta al perfil seleccionado</string>
@@ -150,7 +150,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="insufficientPermissionsTitle">Es necesaria la acción del usuario</string>
   <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese manualmente una vez para otorgar permisos.</string>
   <string name="tabsCountries">Países</string>
-  <string name="tabsMap">Vista del Mapa</string>
+  <string name="tabsMap">Mapa</string>
   <string name="tabsProfiles">Perfiles</string>
   <string name="log_title">Registro</string>
   <string name="disconnect">Desconectar</string>
@@ -263,7 +263,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="welcomeDialogDescription">Utiliza las credenciales de tu cuenta recién creada para iniciar sesión.</string>
   <string name="welcomeDialogTitleTrial">Para agradecértelo, te damos una prueba gratuita de 7 días de nuestro plan Plus. Esto te permite usar características avanzadas y los servidores Plus. Al final de la prueba, volverás a un plan gratuito y sólo tendrás acceso a los servidores gratuitos.</string>
   <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> días <b>%2$d</b> horas <b>%3$d</b> minutos <b>%4$d</b> segundos]]></string>
-  <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no compatible. Por favor, póngase en contacto con el soporte.</string>
+  <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no compatible. Por favor, ponte en contacto con soporte.</string>
   <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Por favor, inténtalo de nuevo.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Solución de problemas</u>]]></string>
   <string name="activityTroubleshootTitle">Solución de problemas</string>
@@ -272,11 +272,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
   <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
   <string name="troubleshootAntivirusProblemTitle">Interfencia del antivirus</string>
-  <string name="troubleshootAntivirusProblemDescription">Deshabilitar o eliminar temporalmente su software antivirus.</string>
+  <string name="troubleshootAntivirusProblemDescription">Deshabilita o elimina temporalmente tu software antivirus.</string>
   <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
-  <string name="troubleshootProxyFirewallProblemDescription">Deshabilita cualquier proxy o firewalls, o contacta con el administrador de tu red.</string>
+  <string name="troubleshootProxyFirewallProblemDescription">Deshabilita cualquier proxy o firewall, o contacta con el administrador de tu red.</string>
   <string name="troubleshootProtonDownTitle">Proton está caído</string>
-  <string name="troubleshootProtonDownDescription"><![CDATA[Compruebe <a href=\"%1$s\">Proton Status</a> para el estado de nuestro sistema.]]></string>
+  <string name="troubleshootProtonDownDescription"><![CDATA[Comprueba <a href=\"%1$s\">Proton Status</a> para el estado de nuestro sistema.]]></string>
   <string name="troubleshootOtherProblemTitle">Todavía no se puede encontrar una solución</string>
   <string name="troubleshootOtherProblemDescription"><![CDATA[Contáctenos directamente a través de nuestro <a href=\"%1$s\">formulario de soporte</a>, correo electrónico (<a href=\"%2$s\">support@protonvpn.com</a>), o <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Permitir ruta alternativa</string>
@@ -303,7 +303,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch y Always-On VPN  no siempre están disponibles en
 versiones antiguas del sistema operativo Android OS o en todos los dispositivos Android. Si su dispositivo no ofrece Always-On VPN o Kill Switch, no hay nada que ProtonVPN pueda hacer para implementarlos. Puedes actualizar tu sistema operativo a la versión más reciente de Android e intentarlo de nuevo."</string>
   <string name="settingsSmartProtocolTitle">Protocolo inteligente</string>
-  <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrezca la mejor conectividad.</string>
+  <string name="settingsSmartProtocolDescription">Utilizar automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
   <string name="netShieldEnabledWarning">Es posible que algunos sitios web no funcionen por completo debido a contenidos bloqueados.</string>
   <string name="netShieldDescription">Bloquear anuncios, rastreadores y malware </string>
   <string name="netshield">NetShield</string>
@@ -313,5 +313,6 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="paidFeature">Característica de pago</string>
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
   <string name="netShieldReconnectionDescription">Es necesario reiniciar tu conexión para desactivar NetShield.</string>
-  <string name="netShieldPaidFeature">Estás intentando habilitar una función que requiere suscripción ProtonVPN plus.</string>
+  <string name="netShieldPaidFeature">Estás intentando habilitar una función que requiere una suscripción ProtonVPN plus.</string>
+  <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
 </resources>
