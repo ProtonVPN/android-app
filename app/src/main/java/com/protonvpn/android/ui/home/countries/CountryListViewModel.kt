@@ -92,5 +92,8 @@ class CountryListViewModel @Inject constructor(
     }
 
     fun getCountriesForList(): List<VpnCountry> =
-        if (userData.isSecureCoreEnabled) serverManager.secureCoreExitCountries else serverManager.vpnCountries
+        if (userData.isSecureCoreEnabled)
+            serverManager.getSecureCoreExitCountries()
+        else
+            serverManager.getVpnCountries()
 }

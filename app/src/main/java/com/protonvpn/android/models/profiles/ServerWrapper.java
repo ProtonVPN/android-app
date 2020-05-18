@@ -24,13 +24,15 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.components.Listable;
 import com.protonvpn.android.models.vpn.Server;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 import androidx.annotation.Nullable;
 
 public final class ServerWrapper implements Listable, Serializable {
 
-    public ProfileType type;
+    @NotNull public ProfileType type;
     public String country;
     public String serverId;
     public boolean secureCoreCountry;

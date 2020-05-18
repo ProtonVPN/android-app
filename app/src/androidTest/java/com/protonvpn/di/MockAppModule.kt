@@ -54,7 +54,7 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideServerManager(userData: UserData?) =
+    fun provideServerManager(userData: UserData) =
         ServerManager(ProtonApplication.getAppContext(), userData)
 
     @Singleton
