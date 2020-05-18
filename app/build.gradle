@@ -281,10 +281,18 @@ task publishGenerateReleaseNotes {
 }
 
 task publishInternal {
-    dependsOn 'publishGenerateReleaseNotes'
-    dependsOn 'publishProdReleaseApk'
-    doLast {
-        Helpers.notifyPublishOnSlack()
+    if (name in project.gradle.startParameter.taskNames) {
+        def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        if (lastSha == null || lastSha.matches("0*") ||
+                Helpers.exec("git rev-list --count ${lastSha}..HEAD").trim().toInteger() == 0) {
+            println "skipping publishing..."
+        } else {
+            dependsOn 'publishGenerateReleaseNotes'
+            dependsOn 'publishProdReleaseApk'
+            doLast {
+                Helpers.notifyPublishOnSlack()
+            }
+        }
     }
 }
 
