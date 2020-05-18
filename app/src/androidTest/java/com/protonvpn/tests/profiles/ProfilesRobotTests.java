@@ -230,7 +230,7 @@ public class ProfilesRobotTests {
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
-        profilesRobot.selectSecureCoreEntryCountry();
+        profilesRobot.selectSecureCoreEntryCountryForSecondExit();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
         result.profileIsVisible(profileName);
@@ -247,7 +247,7 @@ public class ProfilesRobotTests {
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
-        profilesRobot.selectSecureCoreEntryCountry();
+        profilesRobot.selectSecureCoreEntryCountryForSecondExit();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
         profilesRobot.selectProfile(profileName);
@@ -269,7 +269,7 @@ public class ProfilesRobotTests {
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
-        profilesRobot.selectSecureCoreEntryCountry();
+        profilesRobot.selectSecureCoreEntryCountryForSecondExit();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();
@@ -287,7 +287,7 @@ public class ProfilesRobotTests {
         profilesRobot.enableSecureCore();
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
-        profilesRobot.selectSecureCoreEntryCountry();
+        profilesRobot.selectSecureCoreEntryCountryForSecondExit();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();

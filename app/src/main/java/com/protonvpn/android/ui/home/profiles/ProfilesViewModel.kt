@@ -37,9 +37,9 @@ class ProfilesViewModel @Inject constructor(
 
     val profilesUpdateEvent: LiveEvent get() = serverManager.profilesUpdateEvent
 
-    val profileCount: Int get() = serverManager.savedProfiles.size
+    val profileCount: Int get() = serverManager.getSavedProfiles().size
 
-    fun getProfile(position: Int): Profile = serverManager.savedProfiles[position]
+    fun getProfile(position: Int): Profile = serverManager.getSavedProfiles()[position]
 
     fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 

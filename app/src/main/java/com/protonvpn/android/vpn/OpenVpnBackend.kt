@@ -35,6 +35,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.implies
+import com.protonvpn.android.utils.randomNullable
 import de.blinkt.openpvpn.core.ConnectionStatus
 import de.blinkt.openpvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openpvpn.core.VpnStatus
@@ -111,7 +112,7 @@ class OpenVpnBackend(
         }.mapNotNull {
             it.await()
         }
-        if (available.isNotEmpty()) available.random() else null
+        available.randomNullable()
     }
 
     private fun getPingData(tcp: Boolean): ByteArray {

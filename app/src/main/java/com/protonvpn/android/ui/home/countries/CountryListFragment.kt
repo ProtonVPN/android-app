@@ -94,7 +94,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
 
         val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
         for (country in viewModel.getCountriesForList()) {
-            if (viewModel.userData.isFreeUser && !country.hasAccessibleServer(viewModel.userData) && !premiumHeaderAdded && !viewModel.userData.isSecureCoreEnabled) {
+            val isPremiumForUser = viewModel.userData.isFreeUser && !country.hasAccessibleServer(viewModel.userData)
+            if (isPremiumForUser && !premiumHeaderAdded && !viewModel.userData.isSecureCoreEnabled) {
                 newGroups.add(HeaderItem(R.string.listPremiumCountries))
                 premiumHeaderAdded = true
             }
