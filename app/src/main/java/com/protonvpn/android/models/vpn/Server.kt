@@ -35,14 +35,14 @@ data class Server(
     @param:JsonProperty(value = "Name", required = true) val serverName: String,
     @param:JsonProperty(value = "Servers", required = true) private val connectingDomains: List<ConnectingDomain>,
     @param:JsonProperty(value = "Domain", required = true) val domain: String,
-    @param:JsonProperty(value = "Load", required = true) val load: Float,
+    @param:JsonProperty(value = "Load", required = true) var load: Float,
     @param:JsonProperty(value = "Tier", required = true) val tier: Int,
     @param:JsonProperty(value = "Region", required = true) val region: String?,
     @param:JsonProperty(value = "City", required = true) val city: String?,
     @param:JsonProperty(value = "Features", required = true) private val features: Int,
     @param:JsonProperty(value = "Location", required = true) private val location: Location,
-    @param:JsonProperty(value = "Score", required = true) val score: Float,
-    @param:JsonProperty(value = "Status", required = true) val isOnline: Boolean
+    @param:JsonProperty(value = "Score", required = true) var score: Float,
+    @param:JsonProperty(value = "Status", required = true) var isOnline: Boolean
 ) : Markable, Serializable, Listable {
 
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)

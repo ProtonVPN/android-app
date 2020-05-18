@@ -25,6 +25,7 @@ import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
+import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -135,6 +136,19 @@ class ServerManager(
         sortVpnCountries(vpnCountries)
         sortVpnCountries(secureCoreExitCountries)
         updatedAt = DateTime()
+        Storage.save(this)
+        updateEvent.emit()
+        profilesUpdateEvent.emit()
+    }
+
+    fun updateLoads(loadsList: List<LoadUpdate>) {
+        val loadsMap = loadsList.asSequence().map { it.id to it }.toMap()
+        allServers.forEach { server ->
+            loadsMap[server.serverId]?.let {
+                server.load = it.load
+                server.score = it.score
+            }
+        }
         Storage.save(this)
         updateEvent.emit()
         profilesUpdateEvent.emit()
