@@ -85,7 +85,7 @@ sealed class ApiResult<out T> {
 
                 // Crash on debug to make sure we find about unexpected responses asap
                 if (BuildConfig.DEBUG)
-                    error("Error parsing API response")
+                    error("Error parsing API response: $e")
             }
             Failure(e)
         } catch (e: TimeoutException) {

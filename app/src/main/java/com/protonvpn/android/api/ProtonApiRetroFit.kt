@@ -50,6 +50,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         makeCall(loader, useBackoff = true) { it.getServers(ip) }
 
+    open suspend fun getLoads(ip: String?) =
+        manager.call { it.getLoads(ip) }
+
     suspend fun postLogin(body: LoginBody) =
         manager.call(true) { it.postLogin(body) }
 
