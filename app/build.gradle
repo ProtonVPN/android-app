@@ -442,7 +442,7 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures = false
 }
 
-ext.jacksonVersion = '2.10.2'
+ext.jacksonVersion = '2.11.0'
 ext.daggerVersion = '2.26'
 
 repositories {
@@ -473,6 +473,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-codec:commons-codec:1.14'
