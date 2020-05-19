@@ -25,6 +25,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.DebugUtils.debugAssert
+import com.protonvpn.android.utils.implies
 import java.io.Serializable
 import java.util.regex.Pattern
 
@@ -51,6 +53,12 @@ data class Server(
 
     val entryCountryCoordinates: TranslatedCoordinates? =
             if (entryCountry != null) TranslatedCoordinates(this.entryCountry) else null
+
+    init {
+        debugAssert {
+            isOnline.implies(connectingDomains.any(ConnectingDomain::isOnline))
+        }
+    }
 
     val isFreeServer: Boolean
         get() = domain.contains("-free")
@@ -116,7 +124,8 @@ data class Server(
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 
-    fun getRandomConnectingDomain() = connectingDomains.random()
+    fun getRandomConnectingDomain() =
+            connectingDomains.filter(ConnectingDomain::isOnline).random()
 
     override fun toString() = "$domain $entryCountry"
 

@@ -6,7 +6,8 @@
       {
         "entryDomain": "nl-150.protonvpn.com",
         "entryIp": "172.83.45.3",
-        "exitIp": "172.83.45.3"
+        "exitIp": "172.83.45.3",
+        "isOnline": true
       }
     ],
     "domain": "nl-150.protonvpn.com",
@@ -44,7 +45,8 @@
       {
         "entryDomain": "nl-151.protonvpn.com",
         "entryIp": "172.83.45.4",
-        "exitIp": "172.83.45.4"
+        "exitIp": "172.83.45.4",
+        "isOnline": true
       }
     ],
     "domain": "nl-151.protonvpn.com",

@@ -24,8 +24,10 @@ import java.io.Serializable
 data class ConnectingDomain(
     @param:JsonProperty(value = "EntryIP", required = true) val entryIp: String,
     @param:JsonProperty(value = "Domain", required = true) val entryDomain: String,
-    @param:JsonProperty(value = "ExitIP", required = false) private val exitIp: String?
+    @param:JsonProperty(value = "ExitIP", required = false) private val exitIp: String?,
+    @param:JsonProperty(value = "Status", required = true) private val isOnline: Boolean?
 ) : Serializable {
 
+    fun isOnline() = isOnline != false
     fun getExitIP() = exitIp ?: entryIp
 }

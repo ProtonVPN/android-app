@@ -6,7 +6,8 @@
       {
         "entryDomain": "ca-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "ca-01.protonvpn.com",
@@ -44,7 +45,8 @@
       {
         "entryDomain": "ca-02.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "ca-02.protonvpn.com",
@@ -82,7 +84,8 @@
       {
         "entryDomain": "us-ny-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "us-ny-01.protonvpn.com",
@@ -120,7 +123,8 @@
       {
         "entryDomain": "se-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-01.protonvpn.com",
@@ -160,7 +164,8 @@
       {
         "entryDomain": "fr-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "fr-01.protonvpn.com",
@@ -197,7 +202,8 @@
       {
         "entryDomain": "se-fr-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-fr-01.protonvpn.com",
@@ -234,7 +240,8 @@
       {
         "entryDomain": "se-fr-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-fr-01.protonvpn.com",
@@ -272,7 +279,8 @@
       {
         "entryDomain": "fr-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "fr-01.protonvpn.com",
@@ -309,7 +317,8 @@
       {
         "entryDomain": "se-fi-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-fi-01.protonvpn.com",
@@ -346,7 +355,8 @@
       {
         "entryDomain": "se-fi-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "fr-fi-01.protonvpn.com",
@@ -383,7 +393,8 @@
       {
         "entryDomain": "fr-fi-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-fi-01.protonvpn.com",
@@ -420,7 +431,8 @@
       {
         "entryDomain": "fi-01.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "fi-01.protonvpn.com",
@@ -458,7 +470,8 @@
       {
         "entryDomain": "se-03.protonvpn.com",
         "entryIp": "127.0.0.1",
-        "exitIp": "127.0.0.1"
+        "exitIp": "127.0.0.1",
+        "isOnline": true
       }
     ],
     "domain": "se-03.protonvpn.com",
