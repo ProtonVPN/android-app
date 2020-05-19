@@ -56,7 +56,8 @@ object MockedServers {
           {
             "entryDomain": "ca-01.protonvpn.com",
             "entryIp": "127.0.0.1",
-            "exitIp": "127.0.0.1"
+            "exitIp": "127.0.0.1",
+            "isOnline": true
           }
         ],
         "domain": "ca-01.protonvpn.com",
