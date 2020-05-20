@@ -19,7 +19,7 @@
 package com.protonvpn.android.vpn
 
 import androidx.lifecycle.MutableLiveData
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -31,7 +31,7 @@ data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams)
 
 interface VpnBackendProvider {
-    suspend fun prepareConnection(profile: Profile, server: Server, userData: UserData): PrepareResult?
+    suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?
 }
 
 abstract class VpnBackend(val name: String) : VpnStateSource {
