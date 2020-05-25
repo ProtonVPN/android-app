@@ -314,5 +314,5 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="netShieldReconnectionNeeded">اتصال مجدد لازم است</string>
   <string name="netShieldReconnectionDescription">اتصال شما باید مجدداً راه‌اندازی شود تا NetShield غیرفعال شود.</string>
   <string name="netShieldPaidFeature">شما در حال فعال‌سازی قابلیتی هستید که نیاز به اشتراک ProtonVPN Plus دارد.</string>
-  <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. لطفا مادامیکه ما در اطراف این مشکل کار می‌کنیم منتظر بمانید.</string>
+  <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
 </resources>
