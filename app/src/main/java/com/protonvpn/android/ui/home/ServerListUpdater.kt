@@ -48,6 +48,7 @@ class ServerListUpdater(
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
+        private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
 
         private const val KEY_IP_ADDRESS = "IP_ADDRESS"
         private const val KEY_IP_ADDRESS_DATE = "IP_ADDRESS_DATE"
@@ -78,7 +79,7 @@ class ServerListUpdater(
                 updateLoads()
 
             if (inForeground)
-                scheduleIn(LIST_CALL_DELAY)
+                scheduleIn(MIN_CALL_DELAY)
         }
     }
 
