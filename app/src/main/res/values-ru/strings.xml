@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2017 Proton Technologies AG
+
+This file is part of ProtonVPN.
+
+ProtonVPN is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ProtonVPN is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources><!-- Strings related to login -->
+  <string name="hintUsername">Имя пользователя</string>
+  <string name="hintPassword">Пароль</string>
+  <string name="splitTunnellingSwitch">Переключатель Split Tunneling</string>
+  <string name="login">Войти</string>
+  <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
+  <string name="error_field_required">Это обязательное поле</string>
+  <string name="title_activity_home">@string/app_name</string>
+  <string name="menuActionLogout">Выход из учётной записи</string>
+  <string name="loginSlogan">Безопасный Интернет повсюду</string>
+  <string name="loginStartWithDevice">Запуск при включении устройства</string>
+  <string name="loginCreateAccount">Создать новый аккаунт</string>
+  <string name="loginNeedHelp">Нужна помощь?</string>
+  <string name="helpResetPassword">Сбросить пароль</string>
+  <string name="helpForgotUser">Забыли имя пользователя?</string>
+  <string name="helpCommonProblems">Распространённые проблемы входа</string>
+  <string name="helpGetSupport">Получить поддержку</string>
+  <string name="mapCalloutConnect">Подключиться</string>
+  <string name="mapCalloutDisconnect">Отключиться</string>
+  <string name="mapSwitchSecureCore">Использовать Secure Core</string>
+  <string name="warning">Внимание</string>
+  <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Это действие включит режим Secure Core%1$s Продолжить?</string>
+  <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу, не поддерживающему Secure Core. Это действие выключит режим Secure Core%1$s Продолжить?</string>
+  <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>разорвать текущее соединение</b>.]]></string>
+  <string name="disconnectDialogDescription">Это действие отключит Вас от текущего сеанса. Вы уверены, что хотите продолжить?</string>
+  <string name="logoutDescription">Выход отключит ваше устройство от VPN-сервера.</string>
+  <string name="showAllProfiles">Показать все профили</string>
+  <string name="yes">Да</string>
+  <string name="no">Нет</string>
+  <string name="ok">ОК</string>
+  <string name="secureCoreConnectVia">через %1$s</string>
+  <string name="connected">Подключено</string>
+  <string name="buttonConnect">Подключиться</string>
+  <string name="loaderInitializing">Инициализация подключения…</string>
+  <string name="loaderConnectingTo">Подключение к %1$s</string>
+  <string name="loaderNotConnected">Не подключен (не защищен)</string>
+  <string name="loaderConnectedTo">Подключен к %1$s</string>
+  <string name="loaderDisconnecting">Отключение</string>
+  <string name="loaderReconnecting">Повторное подключение</string>
+  <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
+  <string name="loaderCheckingAvailability">Проверка доступности сервера</string>
+  <string name="loaderCancel">Отменить подключение</string>
+  <string name="clickBackAgainLogout">Нажмите кнопку назад еще раз, чтобы свернуть</string>
+  <string name="quickConnect">Быстрое подключение</string>
+  <string name="notConnectedCurrentIp">Текущий IP: %1$s</string>
+  <string name="serverLoad">%1$s%%</string>
+  <string name="cancel">Отмена</string>
+  <string name="close">Закрыть</string>
+  <string name="drawerSettings">Настройки</string>
+  <string name="drawerAccount">Аккаунт</string>
+  <string name="drawerHelp">Справка</string>
+  <string name="drawerShowLog">Показать журнал</string>
+  <string name="drawerReportBug">Сообщить об ошибке</string>
+  <string name="drawerLogout">@string/menuActionLogout</string>
+  <string name="drawerAppVersion">v%1$s</string>
+  <string name="accountDetails">Информация об аккаунте</string>
+  <string name="accountSubscription">Подписка</string>
+  <string name="accountUser">Пользователь:</string>
+  <string name="accountType">Тип аккаунта:</string>
+  <string name="accountTier">Активная подписка:</string>
+  <string name="accountTrialExpires"><![CDATA[Пробная версия заканчивается через <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+  <string name="accountVersion">Версия:</string>
+  <string name="accountSubscriptionDetails">Чтобы управлять подпиской, вам нужно перейти на веб-панель <font fgcolor="#59B268">protonvpn.com</font>.</string>
+  <string name="accountButtonManage">Управление аккаунтом</string>
+  <string name="accountTrial">Пробная версия ProtonVPN Plus</string>
+  <string name="accountFree">ProtonVPN Free</string>
+  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
+  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
+  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="freeTrialExpired">"Срок действия вашей 7-дневной бесплатной пробной версии ProtonVPN Plus истек. Вы можете продолжать использовать ProtonVPN Free, но если вы хотите поддержать проект и иметь доступ к большему количеству стран и функций, пожалуйста, перейдите на платный план."</string>
+  <string name="activityProfileTitle">Профиль</string>
+  <string name="activityAccountTitle">Аккаунт</string>
+  <string name="activitySettingsTitle">Настройки</string>
+  <string name="settingsStartOptions">Параметры запуска</string>
+  <string name="settingsSecurityOptions">Параметры безопасности</string>
+  <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
+  <string name="settingsShowIconTitle">Значок состояния</string>
+  <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
+  <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
+  <string name="settingsBypassLocalTitle">Разрешить соединения по локальной сети</string>
+  <string name="settingsBypassLocalDetails">Это позволит обходить VPN, чтобы подключаться к устройствам в вашей локальной сети, например, к вашему принтеру. Эти соединения не зашифрованы</string>
+  <string name="settingsDnsLeakTitle">Утечка DNS</string>
+  <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
+  <string name="settingsDefaultProtocol">Протокол</string>
+  <string name="settingsTransmissionProtocol">Протокол передачи</string>
+  <string name="settingsDefaultMtu">1375</string>
+  <string name="settingsMtuSizeTitle">Размер MTU</string>
+  <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Изменяйте его только тогда, когда понимаете, что делаете.</string>
+  <string name="settingsMtuRangeInvalid">Значение MTU должно быть в диапазоне 1280–1500</string>
+  <string name="settingsDefaultConnectionTitle">Быстрое подключение</string>
+  <string name="settingsDefaultConnectionDescription">Кнопка «Быстрое подключение» подключит вас к выбранному профилю</string>
+  <string name="restrictedMaintenanceTitle">На техобслуживании</string>
+  <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
+  <string name="restrictedBasicTitle">Платный сервер</string>
+  <string name="restrictedPlusTitle">Серверы Plus</string>
+  <string name="restrictedSecureCoreTitle">Серверы Secure Core</string>
+  <string name="restrictedBasic">Вы пытаетесь подключиться к серверу, который требует платной подписки.\nДля доступа к высокоскоростным серверам во всех странах, пожалуйста, улучшите свою подписку. </string>
+  <string name="restrictedPlus">Вы пытаетесь подключиться к серверу, который требует требует подписки ProtonVPN Plus или выше.\nДля доступа к большему количеству серверов во всех странах, улучшите подписку.</string>
+  <string name="restrictedSecureCore">Secure Core является премиум-функцией, которая требует ProtonVPN или выше. Secure Core обеспечивает расширенную защиту от мониторинга VPN-серверов.\nДля доступа к Secure Core, ознакомьтесь с другими нашими планами подписки, которые включают эту функцию.</string>
+  <string name="errorUserDelinquent">Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на  <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorMaxSessions">Вы достигли максимального количества одновременных подключений, разрешенных для вашего аккаунта. Пожалуйста, улучшите свой тарифный план ProtonVPN, чтобы иметь больше количество одновременных подключений.</string>
+  <string name="errorEmptyName">Поле названия профиля не может быть пустым</string>
+  <string name="errorEmptyCountry">Поле страны не может быть пустым</string>
+  <string name="errorEmptyServer">Поле сервера не может быть пустым</string>
+  <string name="errorEmptyEntryCountry">Поле страны входа не может быть пустым</string>
+  <string name="errorEmptyExitCountry">Поле \"Страна выхода\" не может быть пустым</string>
+  <string name="onboardingDialogMapView">Используйте \"Просмотр карты\", чтобы подключиться и фактически увидеть, где находится VPN-сервер.</string>
+  <string name="onboardingDialogProfiles">Создавайте профили для ваших любимых серверов и получайте к ним легкий доступ. Кроме того, долгое нажатие на значок ProtonVPN в нижней части экрана покажет вам все ваши профили. Нажатие на один из профилей соединит вас с VPN.</string>
+  <string name="onboardingDialogSecureCoreDescription">Используйте эту платную функцию и подключайтесь к самым безопасным серверам на планете. Вы можете увидеть их на вкладке \"Страны\" и \"Просмотр карты\".</string>
+  <string name="onboardingDialogSecureCoreTitle">Secure core</string>
+  <string name="onboardingListDescription">В этом списке вы можете выбрать страну и сервер, к которому хотите подключиться</string>
+  <string name="onboardingStartSlideTitle">Добро пожаловать в лучший интернет</string>
+  <string name="onboardingStartSlideDescription">Создавшие ProtonMail учёные и инженеры приглашают вас в более безопасный интернет без цензуры.</string>
+  <string name="onboardingMiddleSlideTitle">Мы считаем, что Интернет должен быть свободным</string>
+  <string name="onboardingMiddleSlideDescription">Победите цензуру и региональные ограничения. У нас нет рекламы, нет ограничений пропускной способности и мы не продаём ваши данные.</string>
+  <string name="onboardingEndingSlideTitle">Ваша безопасность является нашим приоритетом</string>
+  <string name="onboardingEndingSlideDescription">Наша компания специализируется на безопасности. Идёт ли речь о нашей архитектуре Secure Core или о передовом шифровании — безопасность всегда находится на первом месте.</string>
+  <string name="onboardingFAB">Быстрое подключение / Профили</string>
+  <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
+  <string name="onboardingSignup">Зарегистрироваться</string>
+  <string name="onboardingSkip">ПРОПУСТИТЬ</string>
+  <string name="onboardingNext">ДАЛЕЕ</string>
+  <string name="listItemMaintenance">На техобслуживании</string>
+  <string name="listFreeCountries">Free страны</string>
+  <string name="listPremiumCountries">Premium страны</string>
+  <string name="listFastestServer">Самый быстрый сервер</string>
+  <string name="listFreeServers">Free серверы</string>
+  <string name="listBasicServers">Basic серверы</string>
+  <string name="listPlusServers">Plus серверы</string>
+  <string name="premium">Premium</string>
+  <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
+  <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
+  <string name="tabsCountries">Страны</string>
+  <string name="tabsMap">Просмотр карты</string>
+  <string name="tabsProfiles">Профили</string>
+  <string name="log_title">Журнал</string>
+  <string name="disconnect">Отключиться</string>
+  <string name="state_connecting">Подключение…</string>
+  <string name="state_connected">Подключено</string>
+  <string name="state_disconnecting">Отключение…</string>
+  <string name="state_error">Ошибка</string>
+  <string name="error_lookup_failed">Сбой поиска адреса шлюза.</string>
+  <string name="error_unreachable">Шлюз недоступен.</string>
+  <string name="error_peer_auth_failed">Сбой проверки подлинности шлюза.</string>
+  <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
+  <string name="error_assessment_failed">Сбой проверки безопасности.</string>
+  <string name="error_generic">Неизвестный сбой при подключении.</string>
+  <string name="reconnect">Переподключиться</string>
+  <string name="connect">Подключиться</string>
+  <string name="upgrade">Улучшить</string>
+  <string name="retry">Повторить</string>
+  <plurals name="retry_in">
+    <item quantity="one">Повторное подключение через %1$d секунду</item>
+    <item quantity="few">Повторное подключение через %1$d секунды</item>
+    <item quantity="many">Повторное подключение через %1$d секунд</item>
+    <item quantity="other">Повторное подключение через %1$d секунд</item>
+</plurals>
+  <string name="connection_failed">Сбой подключения</string>
+  <string name="support_page">Страница поддержки</string>
+  <string name="create_new_profile">СОЗДАТЬ НОВЫЙ ПРОФИЛЬ</string>
+  <string name="excludeAppsTitle">Исключенные приложения</string>
+  <string name="excludeAppsDescription">Добавьте приложения, которые вы хотите исключить из трафика через VPN.</string>
+  <string name="profile_name">Название профиля</string>
+  <string name="profile_color">Цвет профиля</string>
+  <string name="secure_core">Secure Core</string>
+  <string name="attachments">Вложения</string>
+  <string name="report_message">Комментарий к отчету</string>
+  <string name="contact_email">Контактная эл. почта</string>
+  <string name="your_message">Ваше сообщение…</string>
+  <string name="send_report">Отправить отчёт</string>
+  <string name="excludeIpTitle">Исключенные IP-адреса</string>
+  <string name="discardChanges">Есть несохраненные изменения. Вы уверены, что хотите отказаться от них?</string>
+  <string name="discard">Не сохранять</string>
+  <string name="selectedProfileColor">Пожалуйста, выберите цвет для вашего профиля</string>
+  <string name="excludeIpDescription">Добавьте IP-адреса, которые вы хотите исключить из трафика через VPN.</string>
+  <string name="done">ГОТОВО</string>
+  <string name="add">ДОБАВИТЬ</string>
+  <string name="the_list_is_empty">Список пуст</string>
+  <string name="got_it">Я понял</string>
+  <string name="onboardingWelcome">Добро пожаловать на борт</string>
+  <string name="proton_log">Proton журнал</string>
+  <string name="something_went_wrong">Что-то пошло не так</string>
+  <string name="try_again">Попробовать снова</string>
+  <string name="manage">Управление</string>
+  <string name="delete">Удалить</string>
+  <string name="deleteProfile">Вы уверены, что хотите удалить этот профиль?</string>
+  <string name="exitCountry">Страна выхода</string>
+  <string name="entryCountry">Страна входа</string>
+  <string name="country">Страна</string>
+  <string name="serverSelection">Сервер</string>
+  <string name="protocol">Протокол:</string>
+  <string name="ip">IP:</string>
+  <string name="server">Сервер:</string>
+  <string name="session_time">Время сеанса:</string>
+  <string name="download_volume">Скачено:</string>
+  <string name="download_speed">Скорость:</string>
+  <string name="save_to_profile">Сохранить в профиль</string>
+  <string name="notConnected">Вы не подключены \n к серверу</string>
+  <string name="activityLicensesTitle">Лицензии третьих сторон</string>
+  <string name="stateFragmentUnknownIp">Неизвестно</string>
+  <string name="successful_migration_message">Добро пожаловать в ProtonVPN 2.0! Все ваши настройки и профили были перенесены, и теперь вы можете безопасно удалить старое приложение.</string>
+  <string name="successful_migration_uninstall">Удалить сейчас</string>
+  <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href=\"%1$s\">Подробнее</a>]]></string>
+  <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
+  <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
+  <string name="error_server_not_set">Сервер больше недоступен</string>
+  <string name="bugReportThankYouToast">Спасибо за ваше сообщение</string>
+  <string name="bugReportErrorEmptyEmail">Адрес эл. почты не может быть пустым</string>
+  <string name="bugReportErrorInvalidEmail">Недействительный адрес эл. почты</string>
+  <string name="bugReportErrorEmptyDescription">Пожалуйста, напишите нам, что происходит</string>
+  <string name="bugReportLabelVpnLogsTitle">Журналы VPN</string>
+  <string name="bugReportErrorLabelVpnLogsDescription">Включение этого параметра добавит журналы работы VPN на стороне клиента в этот отчет</string>
+  <string name="profileFastest">Быстрейший</string>
+  <string name="profileRandom">Случайный</string>
+  <string name="settingsSplitTunnelingDescription">Разделенное туннелирование позволяет пустить некоторые приложения или IP-адреса в обход VPN.</string>
+  <string name="settingsSplitTunnelingTitle">Раздельное туннелирование</string>
+  <string name="serverLabelUnderMaintenance">%1$s на техобслуживании</string>
+  <string name="serverLabelUpgrade">%1$s (улучшить)</string>
+  <string name="loaderAuthenticatingUser">Аутентификация пользователя…</string>
+  <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
+  <string name="loaderErrorGeneric">Что-то пошло не так</string>
+  <string name="loaderLoadingServers">Загрузка серверов…</string>
+  <string name="settingsExcludeIPAddresses">Исключить IP-адреса</string>
+  <string name="settingsExcludeApps">Исключить приложения</string>
+  <string name="settingsExcludeAppsInfo">Приложений исключено: %1$d</string>
+  <string name="settingsExcludeIPAddressesInfo">IP адресов исключено: %1$d</string>
+  <plurals name="settingsExcludedAppsCount">
+    <item quantity="one">%1$d приложение исключено</item>
+    <item quantity="few">%1$d приложения исключено</item>
+    <item quantity="many">%1$d приложений исключено</item>
+    <item quantity="other">%1$d приложений исключено</item>
+</plurals>
+  <plurals name="settingsExcludedIPAddressesCount">
+    <item quantity="one">%1$d IP адрес исключен</item>
+    <item quantity="few">%1$d IP адреса исключено</item>
+    <item quantity="many">%1$d IP адресов исключено</item>
+    <item quantity="other">%1$d IP адресов исключено</item>
+</plurals>
+  <string name="settingsCannotChangeWhileConnected">Нельзя изменить это при подключении</string>
+  <string name="excludeAlreadyExcluded">Уже исключено</string>
+  <string name="removeExcludedIpDialogDescription">Вы уверены, что хотите удалить этот IP из списка?</string>
+  <string name="loaderFetchingServers">Загрузка списка серверов…</string>
+  <string name="toastProfileSaved">Сохранено</string>
+  <string name="freeTrialExpiredTitle">Пробная версия ProtonVPN Plus истекла</string>
+  <string name="tileConnected">Подключено: %1$s</string>
+  <string name="dialogTitleAttention">Внимание</string>
+  <string name="saveProfileAlreadySaved">Уже сохранено</string>
+  <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
+  <string name="welcomeDialogTitle">Спасибо за присоединение к постоянно растущему сообществу ProtonVPN.</string>
+  <string name="welcomeDialogDescription">Используйте только что созданные учетные данные для входа.</string>
+  <string name="welcomeDialogTitleTrial">Чтобы сказать спасибо, мы дадим вам бесплатную 7-дневную пробную версию нашего плана Plus, которая позволяет использовать расширенные возможности и серверы Plus. В конце пробного периода вы вернетесь к бесплатному плану и сохраните доступ только к серверам тарифа Free.</string>
+  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> дн. <b>%2$d</b> час. <b>%3$d</b> мин. <b>%4$d</b> с]]></string>
+  <string name="toastLoginAuthVersionError">Вход невозможен по причине неподдерживаемой версии аутентификации. Пожалуйста, свяжитесь со службой поддержки.</string>
+  <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
+  <string name="buttonTroubleshoot"><![CDATA[<u>Устранение неисправностей</u>]]></string>
+  <string name="activityTroubleshootTitle">Устранение неисправностей</string>
+  <string name="troubleshootNoInternetDescription">Пожалуйста, убедитесь, что ваше интернет-соединение работает.</string>
+  <string name="troubleshootNoInternetTitle">Нет подключения к интернету</string>
+  <string name="troubleshootIspProblemTitle">Проблема с интернет-провайдером (ISP)</string>
+  <string name="troubleshootIspProblemDescription"><![CDATA[Попробуйте подключиться к Proton из другой сети (или используйте <a href=\'%1$s\'>Tor</a>)]]></string>
+  <string name="troubleshootAntivirusProblemTitle">Конфликт с антивирусом</string>
+  <string name="troubleshootAntivirusProblemDescription">Временно отключите или удалите антивирусное программное обеспечение.</string>
+  <string name="troubleshootProxyFirewallProblemTitle">Конфликт с прокси-сервером/брандмауэром</string>
+  <string name="troubleshootProxyFirewallProblemDescription">Отключите все прокси-серверы или брандмауэры, или обратитесь к своему сетевому администратору.</string>
+  <string name="troubleshootProtonDownTitle">Proton не работает</string>
+  <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">статус ProtonVPN</a>, чтобы узнать состояние нашей системы.]]></string>
+  <string name="troubleshootOtherProblemTitle">Так и не нашлось решение</string>
+  <string name="troubleshootOtherProblemDescription"><![CDATA[Свяжитесь с нами напрямую через нашу <a href=\"%1$s\">форму поддержки</a>, эл. почту (<a href=\"%2$s\">support@protonvpn.com</a>) или <a href=\"%3$s\">Twitter</a>.]]></string>
+  <string name="settingsAllowAlternativeRoutingTitle">Разрешить альтернативную маршрутизацию</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае блокировки сайтов Proton эта настройка позволяет приложению попробовать альтернативную сетевую маршрутизацию, чтобы добраться до Proton, что может быть полезно для обхода брандмауэров или сетевых проблем. Для большей надежности мы рекомендуем оставить эту настройку включенной. <a href=\"%1$s\">Узнать больше</a>]]></string>
+  <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
+  <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
+  <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN и Kill Switch</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Настройте ProtonVPN на автоматическое переподключение или отключение внешних соединений в случае разрыва VPN-подключения.</string>
+  <string name="settingsAlwaysOnWindowDescription">"Постоянный VPN автоматически подключает Вас к VPN-серверу, если ваше соединение прервано.
+
+Kill Switch не позволяет вашему устройству совершать внешние соединения, если вы отключились от VPN, и таким образом сохранет безопасность вашего Интернет-трафика.
+
+Операционная система Android контролирует эти функции, и вы должны выйти из приложения, чтобы их активировать.
+
+Выполните следующие действия, чтобы включить Постоянный VPN и Kill Switch:"</string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string><!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep2">Найдите ProtonVPN и нажмите %1$s</string>
+  <string name="settingsAlwaysOnWindowStep3"><![CDATA[Нажмите переключатель рядом с пунктом <b>постоянный VPN</b>, чтобы включить его]]></string>
+  <string name="settingsAlwaysOnWindowStep4Intro">Выполните также этот шаг, чтобы активировать Kill Switch</string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
+  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Имейте в виду, что если и Kill Switch, и раздельное туннелирование активированы, раздельное туннелирование не будет работать. Kill Switch блокирует все соединения без VPN туннеля, в том числе созданные раздельным туннелированием.</string>
+  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Некоторые параметры отсутствуют? <a href=\"%1$s\">Нажмите здесь, чтобы узнать больше</a>.]]></string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны на старых версиях ОС Android и на разных устройствах Android. Если ваше устройство не позволяет использовать Постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить.
+
+Вы можете обновить свою операционную систему до последней версии Android и попробовать еще раз."</string>
+  <string name="settingsSmartProtocolTitle">Умный протокол</string>
+  <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
+  <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
+  <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
+  <string name="netshield">NetShield</string>
+  <string name="netShieldBlockMalwareOnly">Блокировать только вредоносные программы</string>
+  <string name="netShieldFullBlock">Блокировать вредоносные программы, отслеживание, рекламу</string>
+  <string name="dialogDontShowAgain">Больше не показывать</string>
+  <string name="paidFeature">Платная функция</string>
+  <string name="netShieldReconnectionNeeded">Требуется переподключение</string>
+  <string name="netShieldReconnectionDescription">Чтобы отключить NetShield - необходимо перезапустить подключение.</string>
+  <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
+</resources>

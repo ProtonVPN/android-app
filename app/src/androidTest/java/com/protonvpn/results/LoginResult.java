@@ -60,7 +60,7 @@ public class LoginResult extends UIActionsTestHelper {
     }
 
     public LoginResult noInternetConnectionError(LoginActivity activity) {
-        NetworkTestHelper.waitUntilNetworkErrorAppears(activity.getNetworkFrameLayout());
+        NetworkTestHelper.waitUntilNetworkErrorAppears(activity.binding.loadingContainer);
 
         checkIfObjectWithIdIsDisplayed(R.id.buttonRetry);
 

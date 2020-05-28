@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -40,6 +39,12 @@
         <attr name="isButton" format="boolean" />
         <attr name="isInfo" format="boolean" />
         <attr name="switchEditable" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="NetShieldSwitch">
+        <attr name="descriptionText" format="string" />
+        <attr name="isInConnectedScreen" format="boolean" />
+        <attr name="withPadding" format="boolean" />
+        <attr name="withReconnectConfirmation" format="boolean" />
     </declare-styleable>
     <declare-styleable name="NetworkFrameLayout">
         <attr name="textLoading" format="string" />

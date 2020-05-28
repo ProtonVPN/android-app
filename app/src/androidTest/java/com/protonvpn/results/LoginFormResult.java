@@ -43,15 +43,15 @@ public class LoginFormResult extends UIActionsTestHelper {
         clickOnObjectWithIdAndText(R.id.md_buttonDefaultNegative, R.string.cancel);
 
         //checks if the login screen reappears
-        checkIfObjectWithIdIsDisplayed(R.id.email);
-        checkIfObjectWithIdIsDisplayed(R.id.password);
+        checkIfObjectWithIdIsDisplayed(R.id.editEmail);
+        checkIfObjectWithIdIsDisplayed(R.id.editPassword);
         checkIfObjectWithIdIsDisplayed(R.id.buttonLogin);
 
         return this;
     }
 
     public LoginFormResult passwordIsVisible() {
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.password, user.password);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.editPassword, user.password);
         return this;
     }
 }

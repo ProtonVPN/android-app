@@ -164,6 +164,8 @@ object CountryTools {
             "SK_y" to 527.0,
             "SL_x" to 2483.0,
             "SL_y" to 575.0,
+            "SI_x" to 2481.0,
+            "SI_y" to 578.0,
             "ZA_x" to 2629.0,
             "ZA_y" to 1950.0,
             "KR_x" to 4171.0,

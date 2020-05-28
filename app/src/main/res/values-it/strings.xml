@@ -300,9 +300,18 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Apri impostazioni Android</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Tieni presente che se sia Kill Switch che Split Tunneling sono attivati, Split Tunneling non funzionerà. Kill Switch blocca tutte le connessioni al di fuori del tunnel VPN, comprese quelle create da Split Tunneling.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Manca qualche opzione? <a href=\"%1$s\">Tocca qui per saperne di più</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch e la VPN Sempre Attiva non sono sempre disponibili su versioni precedenti del sistema operativo Android o su tutti i dispositivi Android. Se il tuo dispositivo non offre sempre VPN Sempre Attiva o Kill Switch, non c\'è niente che ProtonVPN possa fare per implementarli.
-
-Puoi aggiornare il tuo sistema operativo alla versione più recente di Android e riprovare."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch e la VPN Sempre Attiva non sono sempre disponibili su
+versioni precedenti del sistema operativo Android o su tutti i dispositivi Android. Se il tuo dispositivo non offre sempre VPN Sempre Attiva o Kill Switch, non c\'è niente che ProtonVPN possa fare per implementarli. Puoi aggiornare il tuo sistema operativo alla versione più recente di Android e riprovare."</string>
   <string name="settingsSmartProtocolTitle">Protocollo Smart</string>
   <string name="settingsSmartProtocolDescription">Utilizza automaticamente il protocollo e la porta che offrono la migliore connettività.</string>
+  <string name="netShieldEnabledWarning">Attenzione, alcuni siti web potrebbero non funzionare completamente a causa di contenuti bloccati.</string>
+  <string name="netShieldDescription">Blocca pubblicità, tracker e malware </string>
+  <string name="netshield">NetShield</string>
+  <string name="netShieldBlockMalwareOnly">Blocca solo malware</string>
+  <string name="netShieldFullBlock">Blocca malware, tracciamento, pubblicità</string>
+  <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
+  <string name="paidFeature">Funzione a pagamento</string>
+  <string name="netShieldReconnectionNeeded">Riconnessione necessaria</string>
+  <string name="netShieldReconnectionDescription">La connessione deve essere riavviata per disabilitare NetShield.</string>
+  <string name="netShieldPaidFeature">Stai cercando di abilitare la funzionalità che richiede l\'abbonamento a ProtonVPN Plus.</string>
 </resources>

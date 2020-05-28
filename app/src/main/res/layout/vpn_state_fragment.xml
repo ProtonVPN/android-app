@@ -59,8 +59,8 @@
                     style="?android:attr/progressBarStyleSmall"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:theme="@style/AppTheme.WhiteAccent" />
 
                 <TextView
@@ -80,6 +80,14 @@
                 style="@style/Divider.Dimmed"
                 android:layout_below="@id/layoutCollapsedStatus" />
 
+            <com.protonvpn.android.components.NetShieldSwitch
+                android:id="@+id/netShieldSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/statusDivider"
+                app:descriptionText="@string/netShieldEnabledWarning"
+                app:isInConnectedScreen="true" />
+
             <include
                 layout="@layout/state_not_connected"
                 android:layout_width="match_parent"
@@ -96,7 +104,7 @@
                 layout="@layout/state_connected"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/statusDivider" />
+                android:layout_below="@id/netShieldSwitch" />
 
             <RelativeLayout
                 android:id="@+id/layoutConnecting"

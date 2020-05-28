@@ -16,23 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn;
+package com.protonvpn.android.appconfig
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import androidx.annotation.NonNull;
-
-public class OpenVPNConfigResponse {
-
-    private final OpenVPNConfig openVPNConfig;
-
-    public OpenVPNConfigResponse(
-        @JsonProperty(value = "OpenVPNConfig", required = true) @NonNull OpenVPNConfig openVPNConfig) {
-        this.openVPNConfig = openVPNConfig;
-    }
-
-    @NonNull
-    public OpenVPNConfig getOpenVPNConfig() {
-        return openVPNConfig;
-    }
-}
+internal class OpenVPNConfigResponse(
+        @param:JsonProperty(value = "DefaultPorts", required = true) val defaultPorts: DefaultPorts)

@@ -146,6 +146,8 @@ abstract class ProtonApiBackend(override val baseUrl: String) : ApiBackendRetrof
         return chain.proceed(newRequest)
     }
 
+    suspend fun ping() = ApiResult.tryWrap { vpnAPI.ping() }
+
     override suspend fun <T> call(
         callFun: suspend (ProtonVPNRetrofit) -> retrofit2.Response<T>
     ) = ApiResult.tryWrap { callFun(vpnAPI) }

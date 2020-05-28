@@ -115,7 +115,7 @@ public class ProtonSpinner<T extends Listable> extends AppCompatEditText {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.AlertDialog);
                 builder.setTitle(hint);
-                builder.setPositiveButton("close", null);
+                builder.setPositiveButton(R.string.close, null);
                 builder.setAdapter(adapter, null);
 
                 final AlertDialog dialog = builder.create();

@@ -1,0 +1,2 @@
+versionName=2.2.2
+versionCode=20202

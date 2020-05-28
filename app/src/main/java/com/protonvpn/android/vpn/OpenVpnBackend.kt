@@ -27,13 +27,13 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
-import com.protonvpn.android.utils.User
 import com.protonvpn.android.utils.implies
 import de.blinkt.openpvpn.core.ConnectionStatus
 import de.blinkt.openpvpn.core.OpenVPNService.PAUSE_VPN
@@ -50,6 +50,7 @@ import java.util.Random
 class OpenVpnBackend(
     val random: Random,
     val userData: UserData,
+    val appConfig: AppConfig,
     val unixTime: () -> Long
 ) : VpnBackend("OpenVpn"), VpnStatus.StateListener {
 
@@ -64,7 +65,7 @@ class OpenVpnBackend(
 
     override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult? {
         val connectingDomain = server.getRandomConnectingDomain()
-        val openVpnPorts = User.getOpenVPNPorts()
+        val openVpnPorts = appConfig.getOpenVPNPorts()
         val protocolInfo = if (!scan) {
             val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
@@ -80,7 +81,7 @@ class OpenVpnBackend(
     }
 
     private suspend fun scanPorts(connectingDomain: ConnectingDomain): ProtocolInfo? {
-        val openVpnPorts = User.getOpenVPNPorts()
+        val openVpnPorts = appConfig.getOpenVPNPorts()
         val udpPingData = getPingData(tcp = false)
         var transmissionProtocol = TransmissionProtocol.UDP
         var availablePort = scanInParallel(

@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.protonvpn.android.R;
+import com.protonvpn.android.utils.AndroidUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
@@ -107,5 +108,16 @@ public class ProtonSwitch extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.item_proton_switch, this);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        switchProton.setEnabled(enabled);
+
+        float alpha = enabled ?
+            1f : AndroidUtils.INSTANCE.getFloatRes(getResources(), R.dimen.inactive_view_alpha);
+        switchProton.setAlpha(alpha);
+        imageChevron.setAlpha(alpha);
     }
 }

@@ -89,7 +89,7 @@ abstract class AlternativeApiManager(
         callFun: suspend (ProtonVPNRetrofit) -> Response<T>
     ): ApiResult<T>? {
         // Make a copy to avoid concurrent modification
-        val alternatives = alternativeBaseUrls?.toTypedArray()
+        val alternatives = alternativeBaseUrls?.shuffled()?.toTypedArray()
         alternatives?.forEach { baseUrl ->
             val backend = createAltBackend(baseUrl)
             val result = backend.call(callFun)

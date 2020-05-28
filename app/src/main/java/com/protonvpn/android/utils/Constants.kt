@@ -28,8 +28,8 @@ object Constants {
     const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
-
-    val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl")
+    const val DASHBOARD_URL = "https://account.protonvpn.com/dashboard"
+    val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
 
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +

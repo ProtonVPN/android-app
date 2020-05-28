@@ -37,6 +37,7 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
@@ -154,7 +155,7 @@ public abstract class VpnActivity extends BaseActivity {
                 .content(server.isSecureCoreServer() ? R.string.restrictedSecureCore :
                     server.isPlusServer() ? R.string.restrictedPlus : R.string.restrictedBasic)
                 .positiveText(R.string.upgrade)
-                .onPositive((dialog, which) -> openUrl("https://account.protonvpn.com/dashboard"))
+                .onPositive((dialog, which) -> openUrl(Constants.DASHBOARD_URL))
                 .negativeText(R.string.cancel)
                 .show();
         }
