@@ -18,19 +18,11 @@
  */
 package com.protonvpn.android.utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.protonvpn.android.models.login.LoginResponse;
-import com.protonvpn.android.models.vpn.DefaultPorts;
-import com.protonvpn.android.models.vpn.OpenVPNConfig;
-import com.protonvpn.android.models.vpn.OpenVPNConfigResponse;
 
 // Should be refactored and removed
 @Deprecated
 public class User {
-
-    private static OpenVPNConfig openVPNConfig;
 
     public static String getUuid() {
         LoginResponse user = Storage.load(LoginResponse.class);
@@ -42,13 +34,4 @@ public class User {
         return user != null ? "Bearer " + user.getAccessToken() : "";
     }
 
-    @NonNull
-    public static DefaultPorts getOpenVPNPorts() {
-        return openVPNConfig == null ? DefaultPorts.getDefaults() : openVPNConfig.getDefaultPorts();
-    }
-
-    public static void setOpenVPNConfig(@Nullable OpenVPNConfigResponse config) {
-        openVPNConfig =
-            config == null ? new OpenVPNConfig(DefaultPorts.getDefaults()) : config.getOpenVPNConfig();
-    }
 }

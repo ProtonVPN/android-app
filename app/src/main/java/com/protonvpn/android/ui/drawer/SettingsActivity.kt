@@ -34,18 +34,21 @@ import br.com.sapereaude.maskedEditText.MaskedEditText
 import butterknife.BindView
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.ProtocolSelection
+import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
@@ -61,6 +64,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: ProtonSwitch
     @BindView(R.id.textMTU) lateinit var textMTU: MaskedEditText
     @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: ProtonSwitch
+    @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: ProtonSwitch
     @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: ProtonSwitch
     @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: ProtonSwitch
     @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: ProtonSwitch
@@ -71,9 +75,11 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.splitTunnelApps) lateinit var splitTunnelApps: SplitTunnelButton
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
+    @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var userPrefs: UserData
+    @Inject lateinit var appConfig: AppConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,13 +100,17 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-
+        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, userPrefs, stateMonitor) {
+            userPrefs.netShieldProtocol = it
+        }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()
         switchShowIcon.switchProton
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.setShowIcon(isChecked)
                     EventBus.getInstance().post(StatusSettingChanged(isChecked))
                 }
+
+        switchDnsLeak.isEnabled = false
 
         switchDnsOverHttps.setDescription(HtmlTools.fromHtml(getString(
                 R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))

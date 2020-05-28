@@ -46,11 +46,28 @@ public class VpnProfile implements Cloneable {
     private String mUserCertificate;
     private String mRemoteId, mLocalId, mExcludedSubnets, mIncludedSubnets, mSelectedApps;
     private String mIkeProposal, mEspProposal;
+    private String userName, userPassword;
     private Integer mMTU, mPort, mSplitTunneling, mNATKeepAlive, mFlags;
     private SelectedAppsHandling mSelectedAppsHandling = SelectedAppsHandling.SELECTED_APPS_DISABLE;
     private VpnType mVpnType;
     private UUID mUUID;
     private long mId = -1;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
     public enum SelectedAppsHandling {
         SELECTED_APPS_DISABLE(0), SELECTED_APPS_EXCLUDE(1), SELECTED_APPS_ONLY(2);

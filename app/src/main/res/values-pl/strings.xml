@@ -306,9 +306,18 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Pamiętaj, że przy aktywnych funkcjach Kill Switch i Split Tunneling, funkcja Split Tunneling nie będzie działać. Kill Switch blokuje wszystkie połączenia poza tunelem VPN, łącznie z połączeniami utworzonymi przez funkcję Split Tunneling.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Brakuje niektórych opcji? <a href=\"%1$s\">Kliknij tutaj, aby dowiedzieć się więcej</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Funkcja Kill Switch i stale aktywny VPN nie są dostępne na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli Twoje urządzenie nie wspiera tych funkcji, zespół ProtonVPN nie może ich zaimplementować.
-
-Możesz zaktualizować system Android do najnowszej wersji i spróbować ponownie."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"Funkcja Kill Switch i stale aktywny VPN nie są dostępne
+na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli Twoje urządzenie nie wspiera tych funkcji, zespół ProtonVPN nie może ich zaimplementować. Zaktualizuj system Android do najnowszej wersji i spróbuj ponownie."</string>
   <string name="settingsSmartProtocolTitle">Inteligentny protokół</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, który oferuje najlepsze połączanie.</string>
+  <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
+  <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
+  <string name="netshield">NetShield</string>
+  <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
+  <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
+  <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
+  <string name="paidFeature">Płatna funkcja</string>
+  <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
+  <string name="netShieldReconnectionDescription">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
+  <string name="netShieldPaidFeature">Próbujesz włączyć funkcję, która wymaga subskrypcji ProtonVPN Plus.</string>
 </resources>

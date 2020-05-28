@@ -22,6 +22,8 @@ import android.content.Context
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import retrofit2.Response
@@ -68,19 +70,37 @@ class ProtonApiManager(
     private suspend fun <T> callWithDoH(callFun: suspend (ProtonVPNRetrofit) -> Response<T>): ApiResult<T> {
         val activeBackend = altApiManager.getActiveBackend() ?: primaryBackend
         val result = activeBackend.call(callFun)
-        if (result.isPotentialBlocking(appContext)) {
-            if (activeBackend == primaryBackend)
-                altApiManager.setPrimaryFailedTimestamp()
-            else
-                altApiManager.clearActiveBackend()
-
-            withTimeoutOrNull(DOH_DOMAIN_REFRESH_TIMEOUT) {
-                altApiManager.refreshDomains()
+        return if (!result.isPotentialBlocking(appContext))
+            result
+        else coroutineScope {
+            // Ping primary backend (to make sure failure wasn't a random network error rather than
+            // an actual block) parallel with refreshing proxy list
+            val ping = async {
+                primaryBackend.ping()
             }
+            val dohRefresh = async {
+                withTimeoutOrNull(DOH_DOMAIN_REFRESH_TIMEOUT) {
+                    altApiManager.refreshDomains()
+                }
+            }
+            // If ping succeeded don't fallback to proxy
+            val pingResult = ping.await()
+            if (!pingResult.isPotentialBlocking(appContext)) {
+                dohRefresh.cancel()
+                altApiManager.clearActiveBackend()
+                result
+            } else {
+                // Active api appears blocked, try proxies from DoH
+                dohRefresh.await()
 
-            return altApiManager.callWithAlternatives(appContext, callFun) ?: result
+                if (activeBackend == primaryBackend)
+                    altApiManager.setPrimaryFailedTimestamp()
+                else
+                    altApiManager.clearActiveBackend()
+
+                altApiManager.callWithAlternatives(appContext, callFun) ?: result
+            }
         }
-        return result
     }
 
     private suspend fun <T> callWithBackoff(

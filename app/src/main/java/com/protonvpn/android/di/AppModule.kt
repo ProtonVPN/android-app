@@ -25,6 +25,7 @@ import com.protonvpn.android.api.AlternativeApiManagerProd
 import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonPrimaryApiBackend
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
@@ -64,6 +65,10 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideAppConfig(api: ProtonApiRetroFit): AppConfig = AppConfig(scope, api)
+
+    @Singleton
+    @Provides
     fun provideProtonApiManager(userData: UserData): ProtonApiManager {
         val altApiManager = AlternativeApiManagerProd(userData, System::currentTimeMillis)
         val primaryApiBackend = ProtonPrimaryApiBackend(PRIMARY_VPN_API_URL)
@@ -97,10 +102,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(userData: UserData): VpnBackendProvider =
+    fun provideVpnBackendManager(userData: UserData, appConfig: AppConfig): VpnBackendProvider =
         ProtonVpnBackendProvider(
                 StrongSwanBackend(random, scope),
-                OpenVpnBackend(random, userData, System::currentTimeMillis))
+                OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis))
 
     @Singleton
     @Provides

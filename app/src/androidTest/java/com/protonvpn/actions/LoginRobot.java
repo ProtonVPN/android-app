@@ -32,18 +32,18 @@ public class LoginRobot extends UIActionsTestHelper {
     }
 
     public LoginResult login(TestUser user) {
-        insertTextIntoFieldWithId(R.id.email, user.email);
-        insertTextIntoFieldWithId(R.id.password, user.password);
+        insertTextIntoFieldWithId(R.id.editEmail, user.email);
+        insertTextIntoFieldWithId(R.id.editPassword, user.password);
 
         clickOnObjectWithIdAndText(R.id.buttonLogin, "Login");
         return new LoginResult(user);
     }
 
     public LoginFormResult viewUserPassword(TestUser user) {
-        insertTextIntoFieldWithId(R.id.email, user.email);
-        insertTextIntoFieldWithId(R.id.password, user.password);
+        insertTextIntoFieldWithId(R.id.editEmail, user.email);
+        insertTextIntoFieldWithId(R.id.editPassword, user.password);
 
-        clickOnObjectWithId(R.id.text_input_password_toggle);
+        clickOnObjectWithId(com.google.android.material.R.id.text_input_end_icon);
 
         return new LoginFormResult(user);
     }

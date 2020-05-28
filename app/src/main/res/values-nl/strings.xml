@@ -300,9 +300,18 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Wees ervan bewust dat Split Tunneling en Split Switch zijn geactiveerd, Split Tunneling zal niet werken. Kill Switch blokkeert alle verbindingen buiten de VPN-tunnel, ook die gemaakt zijn door Split Tunneling.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Enkele opties ontbreken? <a href=\"%1$s\">Tik hier om meer te leren</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch en Altijd-Aan VPN zijn niet altijd beschikbaar op oudere versies van het Android OS of op alle Android apparaten. Als uw apparaat niet Altijd-On VPN of Kill Switch aanbiedt, kan ProtonVPN niets doen om ze te implementeren.
-
-U kunt uw besturingssysteem bijwerken naar de meest recente versie van Android en het opnieuw proberen."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch en Always-On VPN zijn niet altijd beschikbaar op
+oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel geen Always-On VPN of Kill Switch biedt, kan ProtonVPN niets doen om deze te implementeren. U kunt uw besturingssysteem updaten naar de meest recente versie van Android en het opnieuw proberen."</string>
   <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Gebruik automatisch het protocol en poort die de beste verbinding bieden.</string>
+  <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
+  <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>
+  <string name="netshield">NetShield</string>
+  <string name="netShieldBlockMalwareOnly">Alleen malware blokkeren</string>
+  <string name="netShieldFullBlock">Malware, tracking, advertenties blokkeren</string>
+  <string name="dialogDontShowAgain">Niet meer weergeven</string>
+  <string name="paidFeature">Functie tegen betaling</string>
+  <string name="netShieldReconnectionNeeded">Opnieuw verbinden nodig</string>
+  <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield uit te schakelen.</string>
+  <string name="netShieldPaidFeature">U probeert functie in te schakelen waarvoor ProtonVPN Plus abonnement nodig is.</string>
 </resources>

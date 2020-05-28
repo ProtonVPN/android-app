@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2020 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,22 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn;
+package com.protonvpn.android.appconfig
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
-import androidx.annotation.NonNull;
+data class FeatureFlags(
+        @param:JsonProperty(value = "NetShield", required = false) val netShield: Int = 0,
+        @param:JsonProperty(value = "GuestHoles", required = false) val guestHoles: Int = 0
+) : Serializable {
 
-public class OpenVPNConfig {
-
-    private final DefaultPorts defaultPorts;
-
-    public OpenVPNConfig(@JsonProperty(value = "DefaultPorts", required = true) DefaultPorts defaultPorts) {
-        this.defaultPorts = defaultPorts;
-    }
-
-    @NonNull
-    public DefaultPorts getDefaultPorts() {
-        return defaultPorts;
-    }
+   val guestHoleEnabled: Boolean get() = guestHoles != 0
+   val netShieldEnabled: Boolean get() = netShield != 0
 }

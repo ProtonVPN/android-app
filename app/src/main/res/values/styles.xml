@@ -96,8 +96,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">16dp</item>
-        <item name="android:paddingLeft">22dp</item>
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingStart">22dp</item>
+        <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
@@ -128,10 +128,6 @@
         <item name="colorAccent">@color/lightGrey</item>
         <item name="colorControlNormal">@color/lightGrey</item>
         <item name="colorControlActivated">@color/lightGrey</item>
-    </style>
-
-    <style name="ProtocolSelectionProfileActivity" parent="AppTheme">
-        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

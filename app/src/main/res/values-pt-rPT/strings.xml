@@ -300,9 +300,18 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir definições Android</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Note que se o Kill Switch e o Split Tunneling estiverem activos, o Split Tunneling não funciona. O Kill Switch bloqueia todas as ligações fora do túnel VPN, incluindo as criadas pelo Split Tunneling.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Faltam-lhe opções? <a href=\"%1$s\">Toque aqui para saber mais</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"O Kill Switch e a VPN Sempre ligada não estão disponíveis nalgumas versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não oferece a VPN Sempre ligada ou o Kill Switch, não há nada que possamos fazer para implementar estas opções.
-
-Pode tentar actualizar o sistema operativo para a versão mais recente do Android e tentar de novo."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"O Kill Switch e a VPN Sempre ligada não estão disponíveis nalgumas
+versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não oferece a VPN Sempre ligada ou o Kill Switch, não há nada que possamos fazer para implementar estas opções. Pode tentar actualizar o sistema operativo para a versão mais recente do Android e tentar de novo."</string>
   <string name="settingsSmartProtocolTitle">Protocolo inteligente</string>
   <string name="settingsSmartProtocolDescription">Utilizar automaticamente o protocolo e porta que ofereçam a melhor ligação.</string>
+  <string name="netShieldEnabledWarning">Note que algumas páginas podem não funcionar completamente devido a conteúdo bloqueado.</string>
+  <string name="netShieldDescription">Bloquear anúncios, rastreio e malware </string>
+  <string name="netshield">NetShield</string>
+  <string name="netShieldBlockMalwareOnly">Bloquear apenas malware</string>
+  <string name="netShieldFullBlock">Bloquear malware, rastreio, anúncios</string>
+  <string name="dialogDontShowAgain">Não mostrar novamente</string>
+  <string name="paidFeature">Funcionalidade paga</string>
+  <string name="netShieldReconnectionNeeded">Requerida nova ligação</string>
+  <string name="netShieldReconnectionDescription">Tem de reiniciar a ligação para desactivar o NetShield.</string>
+  <string name="netShieldPaidFeature">Está a tentar activar uma funcionalidade que requer uma subscrição ProtonVPN Plus.</string>
 </resources>

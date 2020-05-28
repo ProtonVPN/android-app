@@ -24,6 +24,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -72,8 +73,12 @@ open class CountryExpandedViewHolder(
             radioServer.isClickable = false
 
             textLoad.text = "${server.load.toInt()}%"
-            imageLoad.setImageDrawable(
-                    ColorDrawable(ContextCompat.getColor(imageLoad.context, server.loadColor)))
+            if (server.isOnline) {
+                imageLoad.setImageDrawable(
+                        ColorDrawable(ContextCompat.getColor(imageLoad.context, server.loadColor)))
+            }
+            imageLoad.isVisible = server.isOnline
+            imageWrench.isVisible = !server.isOnline
 
             if (viewModel.userData.isSecureCoreEnabled) {
                 initSecureCoreServer()
@@ -144,6 +149,7 @@ open class CountryExpandedViewHolder(
                     binding.textIp.context.getString(R.string.premium)
             else
                 binding.textIp.context.getString(R.string.listItemMaintenance)
+            textLoad.isVisible = server.isOnline
             imageDoubleArrows.visibility = View.GONE
         }
     }

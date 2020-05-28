@@ -31,6 +31,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
@@ -58,7 +59,7 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
     private fun observeLiveEvents() {
         viewModel.onUpgradeTriggered.observe(viewLifecycleOwner) {
             val activity: BaseActivity = activity as BaseActivity
-            activity.openUrl("https://account.protonvpn.com/dashboard")
+            activity.openUrl(Constants.DASHBOARD_URL)
         }
         viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
             updateListData()
@@ -110,8 +111,16 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             var premiumServerHeaderAdded = false
             newGroups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds
+                val servers = country.getServersForListView(viewModel.userData)
+                val internalServers = servers.filter { it.isPMTeamServer }
+                if (internalServers.isNotEmpty()) {
+                    add(HeaderItem(R.string.listInternalServers))
+                    internalServers.forEach {
+                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner))
+                    }
+                }
                 add(HeaderItem(R.string.listFastestServer))
-                for (server in country.getServersForListView(viewModel.userData)) {
+                for (server in servers.filter { !it.isPMTeamServer || it.hasBestScore }) {
                     val isCasualServer = !server.selectedAsFastest && !viewModel.userData.isSecureCoreEnabled
                     if (server.isFreeServer && !freeServerHeaderAdded && isCasualServer) {
                         add(HeaderItem(R.string.listFreeServers))
