@@ -62,8 +62,8 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     open suspend fun getVPNInfo() =
         manager.call(useBackoff = true) { it.getVPNInfo() }
 
-    open fun getVPNInfo(loader: LoaderUI, callback: NetworkResultCallback<VpnInfoResponse>) =
-        makeCall(callback, loader) { it.getVPNInfo() }
+    open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
+        makeCall(callback) { it.getVPNInfo() }
 
     open fun logout(callback: NetworkResultCallback<GenericResponse>) =
         makeCall(callback) { it.postLogout() }

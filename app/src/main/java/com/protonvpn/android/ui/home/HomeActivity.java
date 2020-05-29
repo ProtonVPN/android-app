@@ -445,7 +445,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onResume() {
         super.onResume();
         if (!userData.wasVpnInfoRecentlyUpdated(3)) {
-            api.getVPNInfo(getNetworkFrameLayout(), this::checkTrialChange);
+            api.getVPNInfo(this::checkTrialChange);
         }
     }
 
