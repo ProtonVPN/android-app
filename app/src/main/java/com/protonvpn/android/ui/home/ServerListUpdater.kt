@@ -62,7 +62,8 @@ class ServerListUpdater(
     var isVpnDisconnected = true
 
     private var lastIpCheck = Long.MIN_VALUE
-    private var lastServerListUpdate = Long.MIN_VALUE
+    private val lastServerListUpdate get() =
+        dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
     private var lastLoadsUpdateInternal = Long.MIN_VALUE
 
     val ipAddress = StorageStringObservable(KEY_IP_ADDRESS)
@@ -95,7 +96,6 @@ class ServerListUpdater(
     init {
         val lastIpCheckDate = Storage.getLong(KEY_IP_ADDRESS_DATE, 0L)
         lastIpCheck = dateToRealtime(lastIpCheckDate)
-        lastServerListUpdate = dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
         lastLoadsUpdateInternal = dateToRealtime(Storage.getLong(KEY_LOADS_UPDATE_DATE, 0L))
     }
 
@@ -136,6 +136,7 @@ class ServerListUpdater(
         val result = api.getLoads(strippedIP)
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
+            lastLoadsUpdateInternal = now()
             Storage.saveLong(KEY_LOADS_UPDATE_DATE, DateTime().millis)
             return true
         }
@@ -177,7 +178,6 @@ class ServerListUpdater(
         val result = api.getServerList(loaderUI, strippedIP)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
-            lastServerListUpdate = now()
             return true
         }
         return false
