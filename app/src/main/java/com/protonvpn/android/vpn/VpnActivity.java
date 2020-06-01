@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -32,7 +31,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
-import com.protonvpn.android.components.BaseActivityV2;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -50,15 +48,11 @@ import javax.inject.Inject;
 
 import de.blinkt.openpvpn.core.IOpenVPNServiceInternal;
 import de.blinkt.openpvpn.core.OpenVPNService;
-import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 public abstract class VpnActivity extends BaseActivity {
 
-    private static final int PREPARE_VPN_SERVICE = 0;
-
-    private Profile server;
     private VpnStateService mService;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
@@ -123,24 +117,10 @@ public abstract class VpnActivity extends BaseActivity {
         }
     }
 
-    /**
-     * Prepare the VpnService. If this succeeds the current VPN profile is
-     * started.
-     *
-     * @param profileInfo a bundle containing the information about the profile to be started
-     */
-    protected void getPermissionAndConnect(Profile profileInfo) {
-        server = profileInfo;
-        vpnStateMonitor.connect(this, profileInfo, intent -> {
-            startActivityForResult(intent, PREPARE_VPN_SERVICE);
-            return Unit.INSTANCE;
-        });
-    }
-
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
-            getPermissionAndConnect(profileToConnect);
+            vpnStateMonitor.connect(this, profileToConnect);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
@@ -165,22 +145,6 @@ public abstract class VpnActivity extends BaseActivity {
                 .content(R.string.restrictedMaintenanceDescription)
                 .negativeText(R.string.cancel)
                 .show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case PREPARE_VPN_SERVICE:
-                if (resultCode == RESULT_OK) {
-                    vpnStateMonitor.connect(this, server);
-                }
-                else if (resultCode == RESULT_CANCELED && Build.VERSION.SDK_INT >= 24) {
-                    BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

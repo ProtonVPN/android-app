@@ -40,13 +40,12 @@ class GuestHole(
 
     suspend fun <T> call(
         context: Context,
-        prepareIntentHandler: ((Intent) -> Unit)? = null,
         block: suspend () -> T
     ): T? {
         var result: T? = null
         try {
             getGuestHoleServers().any { server ->
-                executeConnected(context, server, prepareIntentHandler) {
+                executeConnected(context, server) {
                     result = block()
                 }
             }
@@ -67,7 +66,6 @@ class GuestHole(
     private suspend fun <T> executeConnected(
         context: Context,
         server: Server,
-        prepareIntentHandler: ((Intent) -> Unit)?,
         block: suspend () -> T
     ): Boolean {
         var connected = vpnMonitor.isConnected
@@ -87,7 +85,7 @@ class GuestHole(
                         // with gosrp and Strongswan
                         setProtocol(VpnProtocol.OpenVPN)
                     }
-                    vpnMonitor.connect(context, profile, prepareIntentHandler = prepareIntentHandler)
+                    vpnMonitor.connect(context, profile)
                     vpnStatus.observeForever(observer)
                     continuation.invokeOnCancellation {
                         vpnStatus.removeObserver(observer)

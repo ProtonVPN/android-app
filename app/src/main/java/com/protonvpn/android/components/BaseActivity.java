@@ -29,6 +29,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.ui.drawer.DrawerArrowDrawableEx;
+import com.protonvpn.android.utils.AndroidUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -72,8 +73,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     }
 
     public void checkOrientation() {
-        setRequestedOrientation(getResources().getBoolean(R.bool.isTablet) ? SCREEN_ORIENTATION_FULL_USER :
-            SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(
+            getResources().getBoolean(R.bool.isTablet) || AndroidUtils.INSTANCE.isTV(this) ?
+                SCREEN_ORIENTATION_FULL_USER : SCREEN_ORIENTATION_PORTRAIT);
     }
 
     public NetworkFrameLayout getLoadingContainer() {

@@ -221,9 +221,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
 
     private fun login() = with(binding) {
         loginJob = lifecycleScope.launch {
-            viewModel.login(this@LoginActivity, editPassword.text.toString()) {
-                startActivityForResult(it, PREPARE_VPN_SERVICE)
-            }
+            viewModel.login(this@LoginActivity, editEmail.text.toString(), editPassword.text.toString())
         }
     }
 

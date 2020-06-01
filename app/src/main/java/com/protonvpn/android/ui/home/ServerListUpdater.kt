@@ -129,7 +129,7 @@ class ServerListUpdater(
         task.scheduleIn(0)
     }
 
-    fun getServersList(networkLoader: NetworkLoader): Job = scope.launch(Dispatchers.Main) {
+    fun getServersList(networkLoader: NetworkLoader?): Job = scope.launch(Dispatchers.Main) {
         updateServerList(networkLoader)
     }
 

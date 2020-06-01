@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+import com.android.build.OutputFile
 buildscript {
     repositories {
         mavenCentral()
@@ -244,8 +244,9 @@ android {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.md'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
@@ -354,7 +355,7 @@ preBuild.dependsOn prepareGuestHoleServers
 
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
 
-import com.android.build.OutputFile
+
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
@@ -517,7 +518,8 @@ dependencies {
     debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude module: 'support-annotations'
     }
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    //TODO: re-enable
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
     detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
     detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.9.1'
@@ -541,7 +543,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation "androidx.activity:activity-ktx:1.2.0-alpha07"
     implementation 'com.daimajia.easing:library:2.4@aar'
+    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation 'androidx.fragment:fragment:1.3.0-alpha07'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'io.sentry:sentry-android:1.7.30'
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -592,6 +598,13 @@ dependencies {
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
+
+    def leanback_version = "1.1.0-alpha04"
+
+    // TV
+    implementation "androidx.leanback:leanback:$leanback_version"
+    implementation "androidx.leanback:leanback-preference:$leanback_version"
+    implementation 'com.caverock:androidsvg:1.4'
 
     // Dagger dependencies
     implementation "com.google.dagger:dagger-android:$daggerVersion"

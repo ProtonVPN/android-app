@@ -22,6 +22,10 @@
     <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#59B268</color>
 
+    <color name="tvAccent">#4da358</color>
+    <color name="tvAlert">#ec5858</color>
+    <color name="tvButtonBg">#262a33</color>
+
     <color name="white">#FFFFFF</color>
     <color name="transparentWhite">#55FFFFFF</color>
     <color name="black">#000000</color>
@@ -70,4 +74,10 @@
     <color name="white70">#B3FFFFFF</color>
     <color name="white50">#80FFFFFF</color>
     <color name="white30">#4dFFFFFF</color>
+
+    <!-- TV -->
+    <color name="tvMapSelected">#5f6575</color>
+    <color name="tvMapCountry">#3c414e</color>
+    <color name="tvMapConnected">#4da358</color>
+    <color name="tvMapBorder">#262a33</color>
 </resources>

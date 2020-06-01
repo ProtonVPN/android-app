@@ -18,10 +18,13 @@
  */
 package com.protonvpn.android.vpn
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.VpnService
+import android.os.Build
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -31,6 +34,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.components.BaseActivityV2.Companion.showNoVpnPermissionDialog
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.DISCONNECT_ACTION
 import com.protonvpn.android.models.config.UserData
@@ -49,6 +53,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
+import com.protonvpn.android.vpn.PermissionContract.Companion.VPN_PERMISSION_ACTIVITY
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Connecting
@@ -271,40 +276,50 @@ open class VpnStateMonitor(
     }
 
     fun connect(context: Context, profile: Profile) {
-        connect(context, profile, null)
-    }
-
-    fun connect(
-        context: Context,
-        profile: Profile,
-        prepareIntentHandler: ((Intent) -> Unit)? = null
-    ) {
         val intent = prepare(context)
         if (intent != null) {
-            if (prepareIntentHandler != null) {
-                prepareIntentHandler(intent)
+            if (context is ActivityResultRegistryOwner) {
+                val permissionCall = context.activityResultRegistry.register(
+                    "VPNPermission", PermissionContract(intent)
+                ) { permissionGranted ->
+                    if (permissionGranted) {
+                        connectWithPermission(context, profile)
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        (context as Activity).showNoVpnPermissionDialog()
+                    }
+                }
+                permissionCall.launch(VPN_PERMISSION_ACTIVITY)
             } else {
-                NotificationHelper.showInformationNotification(
-                        context,
-                        context.getString(R.string.insufficientPermissionsDetails),
-                        context.getString(R.string.insufficientPermissionsTitle),
-                        icon = R.drawable.ic_notification_disconnected)
+                showInsufficientPermissionNotification(context)
             }
         } else {
-            if (profile.server != null) {
-                clearOngoingConnection()
-                ongoingConnect = scope.launch {
-                    coroutineConnect(profile)
-                }
-            } else {
-                NotificationHelper.showInformationNotification(
-                        context, context.getString(R.string.error_server_not_set))
-            }
+            connectWithPermission(context, profile)
         }
     }
 
-    protected open fun prepare(context: Context): Intent? =
-            VpnService.prepare(context)
+    private fun connectWithPermission(context: Context, profile: Profile) {
+        if (profile.server != null) {
+            clearOngoingConnection()
+            ongoingConnect = scope.launch {
+                coroutineConnect(profile)
+            }
+        } else {
+            NotificationHelper.showInformationNotification(
+                context, context.getString(R.string.error_server_not_set)
+            )
+        }
+    }
+
+    private fun showInsufficientPermissionNotification(context: Context) {
+        NotificationHelper.showInformationNotification(
+            context,
+            context.getString(R.string.insufficientPermissionsDetails),
+            context.getString(R.string.insufficientPermissionsTitle),
+            icon = R.drawable.ic_notification_disconnected
+        )
+    }
+
+    protected open fun prepare(context: Context): Intent? = VpnService.prepare(context)
 
     private suspend fun disconnectBlocking() {
         Storage.delete(ConnectionParams::class.java)

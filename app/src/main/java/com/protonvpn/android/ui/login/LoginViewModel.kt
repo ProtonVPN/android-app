@@ -82,11 +82,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    suspend fun login(context: Context, password: String, prepareIntentHandler: ((Intent) -> Unit)) {
+    suspend fun login(context: Context, user: String, password: String) {
         loginState.postValue(LoginState.InProgress)
-        var result = makeInfoResponseCall(password)
+        var result = makeInfoResponseCall(user, password)
         if (result is LoginState.Error && result.error.isPotentialBlocking) {
-            loginWithGuestHole(context, password, prepareIntentHandler)?.let { result = it }
+            loginWithGuestHole(context, user, password)?.let { result = it }
         }
         loginState.postValue(result)
         appConfig.update()
@@ -94,13 +94,13 @@ class LoginViewModel @Inject constructor(
 
     private suspend fun loginWithGuestHole(
         context: Context,
-        password: String,
-        prepareIntentHandler: ((Intent) -> Unit)
+        user: String,
+        password: String
     ): LoginState? {
         loginState.postValue(LoginState.GuestHoleActivated)
-        return guestHole.call(context, prepareIntentHandler) {
+        return guestHole.call(context) {
             appConfig.update()
-            makeInfoResponseCall(password).apply {
+            makeInfoResponseCall(user, password).apply {
                 if (this is LoginState.Success && serverManager.isOutdated) {
                     val serversResult = api.getServerList(null, null)
                     if (serversResult is ApiResult.Success) serverManager.setServers(serversResult.value.serverList)
@@ -109,12 +109,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun makeInfoResponseCall(password: String): LoginState {
+    private suspend fun makeInfoResponseCall(user: String, password: String): LoginState {
         userData.clearNetworkUserData()
-        return when (val loginInfoResult = api.postLoginInfo(userData.user)) {
+        return when (val loginInfoResult = api.postLoginInfo(user)) {
             is ApiResult.Error -> LoginState.Error(loginInfoResult, true)
             is ApiResult.Success -> {
-                val loginBody = getLoginBody(loginInfoResult.value, password)
+                val loginBody = getLoginBody(loginInfoResult.value, user, password)
                 if (loginBody == null) {
                     LoginState.UnsupportedAuth
                 } else {
@@ -124,10 +124,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getLoginBody(loginInfo: LoginInfoResponse, password: String): LoginBody? {
-        val proofs = getProofs(userData.user, password, loginInfo) ?: return null
+    private suspend fun getLoginBody(loginInfo: LoginInfoResponse, user: String, password: String): LoginBody? {
+        val proofs = getProofs(user, password, loginInfo) ?: return null
         return LoginBody(
-            userData.user,
+            user,
             loginInfo.srpSession,
             ConstantTime.encodeBase64(proofs.clientEphemeral, true),
             ConstantTime.encodeBase64(proofs.clientProof, true),

@@ -21,18 +21,18 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.utils.AndroidUtils.isTV
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val nextActivity = if (OnboardingPreferences.wasOnboardingShown())
-            LoginActivity::class.java
-        else
-            OnboardingActivity::class.java
-
+        val nextActivity = if (OnboardingPreferences.wasOnboardingShown()) {
+            if (isTV()) TvLoginActivity::class.java else LoginActivity::class.java
+        } else OnboardingActivity::class.java
         startActivity(Intent(this, nextActivity))
 
         finish()

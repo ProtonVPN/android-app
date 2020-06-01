@@ -21,6 +21,10 @@
 
     <item android:drawable="@drawable/bg_rounded_white_pressed" android:state_enabled="false" />
     <item android:drawable="@drawable/bg_rounded_white_pressed" android:state_pressed="true" />
+    <item android:state_focused="true"
+        android:drawable="@drawable/bg_rounded_white_hovered" />
+    <item android:state_hovered="true"
+        android:drawable="@drawable/bg_rounded_white_hovered" />
     <item android:drawable="@drawable/bg_rounded_white_normal" />
 
 </selector>

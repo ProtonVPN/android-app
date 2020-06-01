@@ -20,6 +20,7 @@ package com.protonvpn.android.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
 import com.protonvpn.android.ui.home.profiles.ProfileViewModel
@@ -33,11 +34,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class ViewModelModule {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindsHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -58,6 +54,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindsProfileViewModel(profileViewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindsHomeViewModel(viewModel: HomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TvHomeViewModel::class)
+    abstract fun bindsTvHomeViewModel(viewModel: TvHomeViewModel): ViewModel
 
     @Binds
     @IntoMap

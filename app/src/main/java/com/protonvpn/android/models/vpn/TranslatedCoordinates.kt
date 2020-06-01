@@ -24,8 +24,15 @@ import java.io.Serializable
 
 class TranslatedCoordinates(forFlag: String) : Serializable {
 
-    val positionX = CountryTools.locationMap[forFlag + "_x"]
-    val positionY = CountryTools.locationMap[forFlag + "_y"]
+    val positionX: Double?
+    val positionY: Double?
+
+    init {
+        CountryTools.locationMap[forFlag].also {
+            positionX = it?.x
+            positionY = it?.y
+        }
+    }
 
     fun hasValidCoordinates(): Boolean = positionX != null && positionY != null
     fun asCoreCoordinates() = doubleArrayOf(positionX!!, positionY!!)
