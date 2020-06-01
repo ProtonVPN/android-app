@@ -20,6 +20,8 @@ package com.protonvpn.android.api
 
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
+import com.protonvpn.android.appconfig.ForkedSessionResponse
+import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
@@ -60,6 +62,13 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @DELETE("auth")
     suspend fun postLogout(): GenericResponse
+
+    @GET("auth/sessions/forks")
+    suspend fun getSessionForkSelector(): SessionForkSelectorResponse
+
+    @GET("auth/sessions/forks/{selector}")
+    suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String):
+            ForkedSessionResponse
 
     @GET("vpn")
     suspend fun getVPNInfo(): VpnInfoResponse

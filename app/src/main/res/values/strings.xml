@@ -230,6 +230,7 @@
     <string name="serverSelection">Server</string>
     <string name="protocol">Protocol:</string>
     <string name="ip">IP:</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Server:</string>
     <string name="session_time">Session time:</string>
     <string name="download_volume">Volume:</string>
@@ -344,4 +345,18 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="stateConnectedTo">Connected to %1$s</string>
+    <string name="stateNotConnected">You are not connected</string>
+
+    <string name="nameEurope">Europe</string>
+    <string name="nameAmerica">America</string>
+    <string name="nameAsia">Asia</string>
+    <string name="nameAfrica">Africa</string>
+    <string name="nameOceania">Oceania</string>
+
+    <string name="tvMainTitle">VPN</string>
+    <string name="tv_detail_default_connection_checkbox">Use as default quick connection</string>
+    <string name="tv_detail_connect_streaming">Connect to streaming server</string>
+    <string name="tv_detail_connect_fastest">Connect to fastest server</string>
+    <string name="tv_detail_decription">Our streaming servers are the best solution to unblock content from your favorite apps.</string>
 </resources>

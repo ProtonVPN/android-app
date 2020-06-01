@@ -37,6 +37,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".tv.main.TvMainActivity"
+            android:theme="@style/AppTheme.TV.Browse"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -159,15 +161,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+        <activity android:name=".tv.TvLoginActivity"
+            android:theme="@style/AppTheme.TV.Leanback" />
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
-
     </application>
 
 </manifest>
