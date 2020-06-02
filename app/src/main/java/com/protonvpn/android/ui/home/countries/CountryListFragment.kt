@@ -112,7 +112,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
                     title?.let { add(HeaderItem(it)) }
                     servers.forEach {
-                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner))
+                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner,
+                                title == R.string.listFastestServer))
                     }
                 }
             })
