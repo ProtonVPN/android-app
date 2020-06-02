@@ -529,7 +529,7 @@ dependencies = [
   {
     "project": "Android Support Library compat",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -541,16 +541,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core:1.2.0"
+    "dependency": "androidx.core:core:1.3.0"
   },
   {
     "project": "Android Support Library Coordinator Layout",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "url": "https://developer.android.com/jetpack/androidx",
     "year": "2011",
     "licenses": [
       {
@@ -558,7 +558,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.coordinatorlayout:coordinatorlayout:1.0.0"
+    "dependency": "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
   },
   {
     "project": "Android Support Library core UI",
@@ -886,11 +886,11 @@ dependencies = [
   {
     "project": "Android Transition Support Library",
     "description": "Android Transition Support Library",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "url": "https://developer.android.com/jetpack/androidx",
     "year": "2016",
     "licenses": [
       {
@@ -898,12 +898,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.transition:transition:1.0.0"
+    "dependency": "androidx.transition:transition:1.2.0"
   },
   {
     "project": "Android WorkManager Runtime",
     "description": "Android WorkManager runtime library",
-    "version": "2.3.2",
+    "version": "2.3.4",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -915,7 +915,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime:2.3.2"
+    "dependency": "androidx.work:work-runtime:2.3.4"
   },
   {
     "project": "AndroidEasingFunctions Library",
@@ -950,6 +950,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.test.espresso:espresso-idling-resource:3.2.0"
+  },
+  {
+    "project": "AndroidX Widget ViewPager2",
+    "description": "AndroidX Widget ViewPager2",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.viewpager2:viewpager2:1.0.0"
   },
   {
     "project": "ANR-Watchdog",
@@ -998,7 +1015,7 @@ dependencies = [
   {
     "project": "Apache Commons Lang",
     "description": "Apache Commons Lang, a package of Java utility classes for the\n  classes that are in java.lang\u0027s hierarchy, or are considered to be so\n  standard as to justify existence in java.lang.",
-    "version": "3.9",
+    "version": "3.10",
     "developers": [
       "Daniel Rall",
       "Stephen Colebourne",
@@ -1018,7 +1035,7 @@ dependencies = [
       "Loic Guibert",
       "Rob Tompkins"
     ],
-    "url": "http://commons.apache.org/proper/commons-lang/",
+    "url": "https://commons.apache.org/proper/commons-lang/",
     "year": "2001",
     "licenses": [
       {
@@ -1026,7 +1043,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.apache.commons:commons-lang3:3.9"
+    "dependency": "org.apache.commons:commons-lang3:3.10"
   },
   {
     "project": "Butterknife",
@@ -1115,18 +1132,20 @@ dependencies = [
   },
   {
     "project": "Converter: Jackson",
-    "description": null,
-    "version": "2.7.1",
-    "developers": [],
-    "url": null,
+    "description": "A Retrofit Converter which uses Jackson for serialization.",
+    "version": "2.9.0",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://github.com/square/retrofit",
     "year": null,
     "licenses": [
       {
-        "license": "Apache 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.retrofit2:converter-jackson:2.7.1"
+    "dependency": "com.squareup.retrofit2:converter-jackson:2.9.0"
   },
   {
     "project": "core",
@@ -1141,7 +1160,7 @@ dependencies = [
   {
     "project": "Core Kotlin Extensions",
     "description": "Kotlin extensions for \u0027core\u0027 artifact",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1153,12 +1172,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core-ktx:1.2.0"
+    "dependency": "androidx.core:core-ktx:1.3.0"
   },
   {
     "project": "Dagger",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.26",
+    "version": "2.28",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1168,12 +1187,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger:2.26"
+    "dependency": "com.google.dagger:dagger:2.28"
   },
   {
     "project": "Dagger Android",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.26",
+    "version": "2.28",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1183,12 +1202,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger-android:2.26"
+    "dependency": "com.google.dagger:dagger-android:2.28"
   },
   {
     "project": "Dagger Android Support",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.26",
+    "version": "2.28",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1198,12 +1217,27 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger-android-support:2.26"
+    "dependency": "com.google.dagger:dagger-android-support:2.28"
+  },
+  {
+    "project": "Dagger Lint Rules AAR Distribution",
+    "description": "A fast dependency injector for Android and Java.",
+    "version": "2.28",
+    "developers": [],
+    "url": "https://github.com/google/dagger",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.dagger:dagger-lint-aar:2.28"
   },
   {
     "project": "Data Binding Base Library",
     "description": "Shared library between Data Binding runtime lib and compiler",
-    "version": "3.5.3",
+    "version": "3.6.3",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1215,12 +1249,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-common:3.5.3"
+    "dependency": "androidx.databinding:databinding-common:3.6.3"
   },
   {
     "project": "databinding-adapters",
     "description": null,
-    "version": "3.5.3",
+    "version": "3.6.3",
     "developers": [],
     "url": null,
     "year": null,
@@ -1230,12 +1264,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-adapters:3.5.3"
+    "dependency": "androidx.databinding:databinding-adapters:3.6.3"
   },
   {
     "project": "databinding-runtime",
     "description": null,
-    "version": "3.5.3",
+    "version": "3.6.3",
     "developers": [],
     "url": null,
     "year": null,
@@ -1245,7 +1279,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-runtime:3.5.3"
+    "dependency": "androidx.databinding:databinding-runtime:3.6.3"
   },
   {
     "project": "douglasjunior/android-simple-tooltip",
@@ -1382,7 +1416,7 @@ dependencies = [
   {
     "project": "Jackson-annotations",
     "description": "Core annotations used for value types, used by Jackson data binding package.",
-    "version": "2.10.2",
+    "version": "2.11.0",
     "developers": [],
     "url": "http://github.com/FasterXML/jackson",
     "year": "2008",
@@ -1392,12 +1426,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.fasterxml.jackson.core:jackson-annotations:2.10.2"
+    "dependency": "com.fasterxml.jackson.core:jackson-annotations:2.11.0"
   },
   {
     "project": "Jackson-core",
     "description": "Core Jackson processing abstractions (aka Streaming API), implementation for JSON",
-    "version": "2.10.2",
+    "version": "2.11.0",
     "developers": [],
     "url": "https://github.com/FasterXML/jackson-core",
     "year": "2008",
@@ -1407,12 +1441,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.fasterxml.jackson.core:jackson-core:2.10.2"
+    "dependency": "com.fasterxml.jackson.core:jackson-core:2.11.0"
   },
   {
     "project": "jackson-databind",
     "description": "General data-binding functionality for Jackson: works on core streaming API",
-    "version": "2.10.2",
+    "version": "2.11.0",
     "developers": [],
     "url": "http://github.com/FasterXML/jackson",
     "year": "2008",
@@ -1422,7 +1456,24 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.fasterxml.jackson.core:jackson-databind:2.10.2"
+    "dependency": "com.fasterxml.jackson.core:jackson-databind:2.11.0"
+  },
+  {
+    "project": "jackson-module-kotlin",
+    "description": "Add-on module for Jackson (https://github.com/FasterXML/jackson/) to support\n        Kotlin language, specifically introspection of method/constructor parameter names,\n        without having to add explicit property name annotation.",
+    "version": "2.11.0",
+    "developers": [
+      "Jayson Minard"
+    ],
+    "url": "https://github.com/FasterXML/jackson-module-kotlin",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0"
   },
   {
     "project": "javax.inject",
@@ -1452,7 +1503,7 @@ dependencies = [
   {
     "project": "Joda-Time",
     "description": "Date and time library to replace JDK date handling",
-    "version": "2.10.3",
+    "version": "2.10.6",
     "developers": [
       "Stephen Colebourne",
       "Brian S O\u0027Neill"
@@ -1465,12 +1516,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "joda-time:joda-time:2.10.3"
+    "dependency": "joda-time:joda-time:2.10.6"
   },
   {
     "project": "joda-time-android Library",
     "description": "Joda-Time library with Android specialization",
-    "version": "2.10.3",
+    "version": "2.10.6",
     "developers": [
       "Dan Lew"
     ],
@@ -1482,7 +1533,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "net.danlew:android.joda:2.10.3"
+    "dependency": "net.danlew:android.joda:2.10.6"
   },
   {
     "project": "keyboardvisibilityevent",
@@ -1497,7 +1548,7 @@ dependencies = [
   {
     "project": "kotlinx-coroutines-android",
     "description": "Coroutines support libraries for Kotlin",
-    "version": "1.3.3",
+    "version": "1.3.7",
     "developers": [
       "JetBrains Team"
     ],
@@ -1509,12 +1560,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7"
   },
   {
     "project": "kotlinx-coroutines-core",
     "description": "Coroutines support libraries for Kotlin",
-    "version": "1.3.3",
+    "version": "1.3.7",
     "developers": [
       "JetBrains Team"
     ],
@@ -1526,7 +1577,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
   },
   {
     "project": "LiveData Core Kotlin Extensions",
@@ -1563,21 +1614,21 @@ dependencies = [
     "dependency": "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
   },
   {
-    "project": "logging-interceptor",
-    "description": "null",
-    "version": "4.3.1",
+    "project": "logback-android",
+    "description": "\"Logging library for Android apps\"",
+    "version": "2.0.0",
     "developers": [
-      "Square, Inc."
+      "tony19"
     ],
-    "url": "https://github.com/square/okhttp",
+    "url": "https://github.com/tony19/logback-android",
     "year": null,
     "licenses": [
       {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "\"The Apache Software License, Version 2.0\"",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0"
       }
     ],
-    "dependency": "com.squareup.okhttp3:logging-interceptor:4.3.1"
+    "dependency": "com.github.tony19:logback-android:2.0.0"
   },
   {
     "project": "lzyzsd/CircleProgress",
@@ -1594,7 +1645,7 @@ dependencies = [
   {
     "project": "Material Components for Android",
     "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1606,7 +1657,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.android.material:material:1.0.0"
+    "dependency": "com.google.android.material:material:1.1.0"
   },
   {
     "project": "MaterialProgressBar Library",
@@ -1628,7 +1679,7 @@ dependencies = [
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1641,12 +1692,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-hla:0.3.3"
+    "dependency": "org.minidns:minidns-hla:0.3.4"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1659,12 +1710,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-dnssec:0.3.3"
+    "dependency": "org.minidns:minidns-dnssec:0.3.4"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1677,12 +1728,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-iterative-resolver:0.3.3"
+    "dependency": "org.minidns:minidns-iterative-resolver:0.3.4"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1695,12 +1746,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-client:0.3.3"
+    "dependency": "org.minidns:minidns-client:0.3.4"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1713,7 +1764,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-core:0.3.3"
+    "dependency": "org.minidns:minidns-core:0.3.4"
   },
   {
     "project": "MPAndroidChart",
@@ -1727,12 +1778,12 @@ dependencies = [
   },
   {
     "project": "okhttp",
-    "description": "null",
-    "version": "4.3.1",
+    "description": "Square’s meticulous HTTP client for Java and Kotlin.",
+    "version": "4.7.2",
     "developers": [
       "Square, Inc."
     ],
-    "url": "https://github.com/square/okhttp",
+    "url": "https://square.github.io/okhttp/",
     "year": null,
     "licenses": [
       {
@@ -1740,12 +1791,29 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okhttp3:okhttp:4.3.1"
+    "dependency": "com.squareup.okhttp3:okhttp:4.7.2"
+  },
+  {
+    "project": "okhttp-logging-interceptor",
+    "description": "Square’s meticulous HTTP client for Java and Kotlin.",
+    "version": "4.7.2",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://square.github.io/okhttp/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.squareup.okhttp3:logging-interceptor:4.7.2"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-android-extensions-runtime",
     "description": "Kotlin Android Extensions Runtime",
-    "version": "1.3.70",
+    "version": "1.3.72",
     "developers": [
       "Kotlin Team"
     ],
@@ -1757,12 +1825,29 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.70"
+    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.72"
+  },
+  {
+    "project": "org.jetbrains.kotlin:kotlin-reflect",
+    "description": "Kotlin Full Reflection Library",
+    "version": "1.3.61",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib",
     "description": "Kotlin Standard Library for JVM",
-    "version": "1.3.70",
+    "version": "1.3.72",
     "developers": [
       "Kotlin Team"
     ],
@@ -1774,12 +1859,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.3.70"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib-common",
     "description": "Kotlin Common Standard Library",
-    "version": "1.3.70",
+    "version": "1.3.72",
     "developers": [
       "Kotlin Team"
     ],
@@ -1791,12 +1876,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.3.72"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
     "description": "Kotlin Standard Library JDK 7 extension",
-    "version": "1.3.70",
+    "version": "1.3.72",
     "developers": [
       "Kotlin Team"
     ],
@@ -1808,7 +1893,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.70"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
   },
   {
     "project": "Otto",
@@ -1861,18 +1946,20 @@ dependencies = [
   },
   {
     "project": "Retrofit",
-    "description": null,
-    "version": "2.7.1",
-    "developers": [],
-    "url": null,
+    "description": "A type-safe HTTP client for Android and Java.",
+    "version": "2.9.0",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://github.com/square/retrofit",
     "year": null,
     "licenses": [
       {
-        "license": "Apache 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.retrofit2:retrofit:2.7.1"
+    "dependency": "com.squareup.retrofit2:retrofit:2.9.0"
   },
   {
     "project": "RoundedImageView",
@@ -1957,7 +2044,7 @@ dependencies = [
   {
     "project": "RxJava",
     "description": "Reactive Extensions for Java",
-    "version": "2.2.17",
+    "version": "2.2.19",
     "developers": [
       "David Karnok"
     ],
@@ -1969,7 +2056,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "io.reactivex.rxjava2:rxjava:2.2.17"
+    "dependency": "io.reactivex.rxjava2:rxjava:2.2.19"
   },
   {
     "project": "rxjava2-extensions",
@@ -2046,19 +2133,14 @@ dependencies = [
     "dependency": "org.slf4j:slf4j-api:1.7.30"
   },
   {
-    "project": "SLF4J NOP Binding",
-    "description": "SLF4J NOP Binding",
-    "version": "1.7.30",
+    "project": "srp",
+    "description": null,
+    "version": "1.0.0",
     "developers": [],
-    "url": "http://www.slf4j.org",
+    "url": null,
     "year": null,
-    "licenses": [
-      {
-        "license": "MIT License",
-        "license_url": "http://www.opensource.org/licenses/mit-license.php"
-      }
-    ],
-    "dependency": "org.slf4j:slf4j-nop:1.7.30"
+    "licenses": [],
+    "dependency": "com.proton:srp:1.0.0"
   },
   {
     "project": "SubsamplingScaleImageView",
@@ -2138,5 +2220,20 @@ dependencies = [
       }
     ],
     "dependency": "androidx.versionedparcelable:versionedparcelable:1.1.0"
+  },
+  {
+    "project": "viewbinding",
+    "description": null,
+    "version": "3.6.3",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.databinding:viewbinding:3.6.3"
   }
 ]
