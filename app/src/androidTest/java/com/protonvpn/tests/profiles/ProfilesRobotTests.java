@@ -80,7 +80,7 @@ public class ProfilesRobotTests {
     }
 
     @Test
-    public void tryToCreateProfileWithoutServer() {
+    public void testServerPreselection() {
         String profileName = "Test";
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
@@ -89,7 +89,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectFirstCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isFailure().emptyServerError().profileIsVisible(profileName);
+        result.isSuccess().profilesResult.profileIsVisible(profileName);
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ProfilesRobotTests {
     }
 
     @Test
-    public void tryToSaveSecureCoreProfileWithoutEntryCountry() {
+    public void testEntryCountryPreselectionForSecureCore() {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         String profileName = "Test";
@@ -217,7 +217,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectFirstSecureCoreExitCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isFailure();
-        result.emptyEntryCountryError().profileIsVisible(profileName);
+        result.isSuccess().profilesResult.profileIsVisible(profileName);
     }
 
     @Test
