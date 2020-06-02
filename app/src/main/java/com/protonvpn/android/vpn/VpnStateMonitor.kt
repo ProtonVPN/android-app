@@ -141,7 +141,7 @@ open class VpnStateMonitor(
         get() = connectionParams?.exitIpAddress
 
     fun isConnectedTo(server: Server?) =
-            isConnected && connectionParams?.server == server
+            isConnected && connectionParams?.server?.serverId == server?.serverId
 
     fun isConnectedToAny(servers: List<Server>) =
             isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->

@@ -40,7 +40,8 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 open class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
     val server: Server,
-    val parentLifeCycle: LifecycleOwner
+    val parentLifeCycle: LifecycleOwner,
+    val isShortcut: Boolean
 ) : BindableItemEx<ItemCountryExpandedBinding>() {
 
     private val serverSelectionObserver = Observer<Server> {
@@ -48,10 +49,10 @@ open class CountryExpandedViewHolder(
     }
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
-        binding.textConnected.visibility =
-                if (viewModel.vpnStateMonitor.isConnectedTo(server)) VISIBLE else View.GONE
-        binding.radioServer.isChecked = viewModel.vpnStateMonitor.isConnectedTo(server)
-        binding.radioServer.isEnabled = !viewModel.vpnStateMonitor.isConnectedTo(server)
+        val connected = !isShortcut && viewModel.vpnStateMonitor.isConnectedTo(server)
+        binding.textConnected.isVisible = connected
+        binding.radioServer.isChecked = connected
+        binding.radioServer.isEnabled = !connected
     }
 
     override fun getId() = server.serverId.hashCode().toLong()
