@@ -93,7 +93,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                 spinnerServer.isVisible = true
                 spinnerServer.setText("")
                 inputLayoutCountry.error = ""
-                spinnerServer.selectedItem = item.wrapperServers.singleOrNull()
+                spinnerServer.selectedItem = item.wrapperServers.firstOrNull()
             }
             val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
             spinnerServer.setText("")
