@@ -28,7 +28,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
-import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
@@ -112,7 +112,7 @@ class StrongSwanBackend(
     }
 
     private fun translateState(state: VpnStateService.State, error: VpnStateService.ErrorState): VpnState =
-        when (state) {
+        if (error == VpnStateService.ErrorState.NO_ERROR) when (state) {
             VpnStateService.State.DISABLED -> VpnState.Disabled
             VpnStateService.State.CHECKING_AVAILABILITY -> VpnState.CheckingAvailability
             VpnStateService.State.WAITING_FOR_NETWORK -> VpnState.WaitingForNetwork
@@ -120,7 +120,12 @@ class StrongSwanBackend(
             VpnStateService.State.CONNECTED -> VpnState.Connected
             VpnStateService.State.RECONNECTING -> VpnState.Reconnecting
             VpnStateService.State.DISCONNECTING -> VpnState.Disconnecting
-            VpnStateService.State.ERROR -> VpnState.Error(translateError(error))
+            VpnStateService.State.ERROR -> {
+                debugAssert("inconsistent strongswan state") { false }
+                VpnState.Error(translateError(error))
+            }
+        } else {
+            VpnState.Error(translateError(error))
         }
 
     private fun translateError(error: VpnStateService.ErrorState) = when (error) {
@@ -135,7 +140,7 @@ class StrongSwanBackend(
 
     override fun stateChanged() {
         selfStateObservable.postValue(translateState(vpnService!!.state, vpnService!!.errorState))
-        DebugUtils.debugAssert {
+        debugAssert {
             (selfState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
     }
