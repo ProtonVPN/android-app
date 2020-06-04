@@ -37,7 +37,7 @@ object MockedServers {
     val server by lazy<Server> { gson.fromJson(serverJson, serverType) }
 
     val serverList by lazy {
-        FileUtils.getObjectFromAssets<List<Server>>("MockedServers/Servers.json")
+        FileUtils.getObjectFromAssetsWithGson<List<Server>>("MockedServers/Servers.json")
     }
 
     fun getProfile(protocol: VpnProtocol, server: Server) =

@@ -57,7 +57,7 @@ class GuestHole(
     }
 
     private fun getGuestHoleServers(): List<Server> {
-        val servers = FileUtils.getObjectFromAssets<List<Server>>(GUEST_HOLE_SERVERS_ASSET)
+        val servers = FileUtils.getObjectFromAssetsWithJackson<List<Server>>(GUEST_HOLE_SERVERS_ASSET)
         val shuffledServers = servers.shuffled().take(GUEST_HOLE_SERVER_COUNT)
         serverManager.setGuestHoleServers(shuffledServers)
         return shuffledServers
@@ -103,6 +103,6 @@ class GuestHole(
     companion object {
         private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_TIMEOUT = 10_000L
-        private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers/Servers.json"
+        private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
     }
 }
