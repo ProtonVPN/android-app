@@ -297,10 +297,40 @@ task publishInternal {
     }
 }
 
+task prepareGuestHoleServers {
+    doLast {
+        def guestHoleUrl = System.getenv("GUEST_HOLE_URL")
+        if (guestHoleUrl == null) {
+            copy {
+                from "$project.projectDir/config/GuestHoleServers.json"
+                into "$project.projectDir/src/main/assets"
+            }
+        } else {
+            def allServers = new JsonSlurper().parse(new URL(guestHoleUrl))["LogicalServers"]
+            def candidateServers = allServers.stream().filter { s ->
+                def country = s["ExitCountry"]
+                def secureCore = (s["Features"] & 1) == 1
+                !secureCore && s["Status"] == 1 && !country.equalsIgnoreCase("se") && !country.equalsIgnoreCase("is")
+            }.collect()
+            Collections.shuffle(candidateServers)
+            def servers = candidateServers.take(10)
+
+            File dir = new File("$project.projectDir/src/main/assets")
+            File serversFile = new File(dir, "GuestHoleServers.json")
+            serversFile.newWriter().withWriter { w ->
+                w << JsonOutput.prettyPrint(new JsonOutput().toJson(servers))
+            }
+        }
+    }
+}
+
+preBuild.dependsOn prepareGuestHoleServers
+
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
 
 import com.android.build.OutputFile
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 android.applicationVariants.all { variant ->
     variant.outputs.each { output ->

@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.protonvpn.android.ProtonApplication
@@ -25,7 +26,18 @@ import java.io.FileNotFoundException
 
 object FileUtils {
 
-    inline fun <reified T> getObjectFromAssets(jsonAssetPath: String): T {
+    inline fun <reified T> getObjectFromAssetsWithGson(jsonAssetPath: String): T =
+        getObjectFromAssets(jsonAssetPath) { json ->
+            val listType = object : TypeToken<T>() {}.type
+            GsonBuilder().create().fromJson(json, listType)
+        }
+
+    inline fun <reified T> getObjectFromAssetsWithJackson(jsonAssetPath: String): T =
+        getObjectFromAssets(jsonAssetPath) { json ->
+            Json.MAPPER.readValue(json, object : TypeReference<T>() {})
+        }
+
+    fun <T> getObjectFromAssets(jsonAssetPath: String, jsonToObject: (String) -> T): T {
         val manager = ProtonApplication.getAppContext().assets
         try {
             val file = manager.open(jsonAssetPath)
@@ -33,8 +45,7 @@ object FileUtils {
             val buffer = ByteArray(size)
             file.read(buffer)
             val json = buffer.toString(Charsets.UTF_8)
-            val listType = object : TypeToken<T>() {}.type
-            return GsonBuilder().create().fromJson(json, listType)
+            return jsonToObject(json)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
             throw e
