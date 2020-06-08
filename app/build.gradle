@@ -474,7 +474,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 ext.jacksonVersion = '2.11.0'
-ext.daggerVersion = '2.28'
+ext.daggerVersion = '2.26'
 
 repositories {
     maven { url "https://clojars.org/repo/" }
