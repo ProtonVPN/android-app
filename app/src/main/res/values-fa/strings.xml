@@ -50,7 +50,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="secureCoreConnectVia">از طریق %1$s</string>
   <string name="connected">متصل</string>
   <string name="buttonConnect">اتصال</string>
-  <string name="loaderInitializing">آماده‌سازی اتصال…</string>
+  <string name="loaderInitializing">راه‌اندازی اتصال…</string>
   <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
   <string name="loaderNotConnected">متصل نیست (ناامن)</string>
   <string name="loaderConnectedTo">متصل به %1$s</string>
@@ -124,7 +124,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="errorEmptyEntryCountry">وارد کردن کشور ورودی الزامی است</string>
   <string name="errorEmptyExitCountry">وارد کردن کشور خروجی الزامی است</string>
   <string name="onboardingDialogMapView">از نقشه برای اتصال استفاده کنید و محل سرور VPN را ببینید.</string>
-  <string name="onboardingDialogProfiles">برای سرورهای مورد علاقه‌تان پروفایل بسازید تا به آن‌ها دسترسی راحت‌تری داشته باشید. همچنین لمس طولانی آیکون ProtonVPN در پایین صفحه تمامی پروفایل‌هایتان را به شما نشان می‌دهد. لمس هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
+  <string name="onboardingDialogProfiles">برای سرورهای مورد علاقه‌یتان پروفایل بسازید تا به آن‌ها دسترسی راحت‌تری داشته باشید. همچنین لمس طولانی آیکون ProtonVPN در پایین صفحه تمامی پروفایل‌هایتان را به شما نشان می‌دهد. لمس هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
   <string name="onboardingDialogSecureCoreDescription">از این قابلیت غیررایگان استفاده کنید تا به امن‌ترین سرورهای جهان متصل شوید. شما می‌توانید آن‌ها را در برگهٔ کشور‌ها یا برگهٔ نقشه هم مشاهده کنید.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">در این لیست می توانید کشور و سروری را که می خواهید به آن متصل شوید، انتخاب کنید</string>
@@ -175,8 +175,8 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
   <string name="support_page">صفحهٔ پشتیبانی</string>
   <string name="create_new_profile">ایجاد پروفایل جدید</string>
-  <string name="excludeAppsTitle">برنامه‌های مستثنی شده</string>
-  <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN مستثنی شوند را اضافه کنید.</string>
+  <string name="excludeAppsTitle">برنامه‌های جدا شده</string>
+  <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
   <string name="profile_name">نام پروفایل</string>
   <string name="profile_color">رنگ پروفایل</string>
   <string name="secure_core">Secure core</string>
@@ -185,11 +185,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="contact_email">ایمیل</string>
   <string name="your_message">پیام شما…</string>
   <string name="send_report">ارسال گزارش</string>
-  <string name="excludeIpTitle">مستثنی کردن آدرس‌های IP</string>
+  <string name="excludeIpTitle">جدا کردن آدرس‌های IP</string>
   <string name="discardChanges">تغییرات ذخیره نشده‌ای وجود دارند. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟</string>
   <string name="discard">لغو</string>
   <string name="selectedProfileColor">لطفاً رنگ پروفایل را انتخاب کنید</string>
-  <string name="excludeIpDescription">آدرس‌های IP که می‌خواهید از ترافیک VPN مستثنی شوند را اضافه کنید.</string>
+  <string name="excludeIpDescription">آدرس‌های IP را که می‌خواهید از ترافیک VPN جدا شوند اضافه کنید.</string>
   <string name="done">انجام شد</string>
   <string name="add">اضافه کردن</string>
   <string name="the_list_is_empty">لیست خالی است</string>
@@ -229,7 +229,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه لاگ‌های VPN سمت کاربر را به این گزارش می‌افزاید</string>
   <string name="profileFastest">سریع‌ترین</string>
   <string name="profileRandom">تصادفی</string>
-  <string name="settingsSplitTunnelingDescription">گزینه Split tunneling اجازه می‌دهد تا IP‌ها یا برنامه‌های خاص از ترافیک VPN مستثنی شوند.</string>
+  <string name="settingsSplitTunnelingDescription">Split tunneling اجازه می‌دهد تا آدرس‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s تحت عملیات نگهداری</string>
   <string name="serverLabelUpgrade">%1$s (ارتقا)</string>
@@ -237,20 +237,20 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
-  <string name="settingsExcludeIPAddresses">مستثنی کردن آدرس‌های IP</string>
-  <string name="settingsExcludeApps">مستثنی کردن برنامه‌ها</string>
-  <string name="settingsExcludeAppsInfo">%1$d برنامه مستثنی شده</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d آدرس IP مستثنی شده</string>
+  <string name="settingsExcludeIPAddresses">جدا کردن آدرس‌های IP</string>
+  <string name="settingsExcludeApps">جدا کردن برنامه‌ها</string>
+  <string name="settingsExcludeAppsInfo">%1$d برنامه جدا شدند</string>
+  <string name="settingsExcludeIPAddressesInfo">%1$d آدرس IP جدا شدند</string>
   <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d برنامه مستثنی شده</item>
+    <item quantity="one">%1$d برنامه جدا شد</item>
     <item quantity="other">%1$d برنامه مستثنی شده</item>
 </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d آدرس IP مستثنی شده</item>
+    <item quantity="one">%1$d آدرس IP جدا شد</item>
     <item quantity="other">%1$d آدرس IP مستثنی شده</item>
 </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
-  <string name="excludeAlreadyExcluded">قبلاً مستثنی شده</string>
+  <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
   <string name="removeExcludedIpDialogDescription">آیا مطمئن هستید که می‌خواهید این IP را از لیست حذف کنید؟</string>
   <string name="loaderFetchingServers">بارگیری سرورها…</string>
   <string name="toastProfileSaved">ذخیره شد</string>
@@ -280,7 +280,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="troubleshootOtherProblemTitle">هنوز راه حلی پیدا نشده است</string>
   <string name="troubleshootOtherProblemDescription"><![CDATA[با ما بطور مستقیم از طریق <a href=\"%1$s\">فرم پشتیبانی</a>، ایمیل(<a href=\"%2$s\">support@protonvpn.com</a>)، یا <a href=\"%3$s\">توییتر</a> تماس بگیرید.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">اجازهٔ مسیریابی جایگزین</string>
-  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانی که سایتهای Proton مسدود هستند، به برنامه امکان می‌دهد که مسیریابی جایگزین شبکه را به منظور دسترسی به Proton امتحان کند که برای دور زدن دیوار آتشین یا اشکالات شبکه مفید است. ما پیشنهاد می‌کنیم که این تنظیم را جهت قابلیت اطمینان بالاتر روشن نگه دارید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانی که سایتهای Proton مسدود هستند، به برنامه امکان می‌دهد که مسیریابی جایگزین شبکه را به منظور دسترسی به Proton امتحان کند که به دور زدن دیوار آتشین یا رفع اشکالات شبکه کمک می‌کند. ما پیشنهاد می‌کنیم که این تنظیم را به منظور اطمینان‌پذیری بالاتر روشن نگه دارید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
