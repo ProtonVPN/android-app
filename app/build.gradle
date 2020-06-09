@@ -506,7 +506,8 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
-    implementation 'org.apache.commons:commons-lang3:3.10'
+    // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
+    implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-codec:commons-codec:1.14'
     implementation 'com.qozix:tileview:2.2.7'
     implementation 'com.google.android.material:material:1.1.0'
