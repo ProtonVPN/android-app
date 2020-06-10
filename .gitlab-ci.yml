@@ -109,6 +109,8 @@ build blue:
 
 build release:
   stage: build
+  except:
+    - master
   tags:
     - android
   script:
@@ -119,6 +121,21 @@ build release:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+
+build release (auto):
+  stage: build
+  only:
+    refs:
+      - master
+  tags:
+    - android
+  script:
+    - ./gradlew openvpn:assemble
+    - ./gradlew assembleProdRelease -PabiSplit -PbuildUniversalApk
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
 
 unit tests:
   stage: test
@@ -215,7 +232,6 @@ sync-app:
   stage: mirror
   only:
     refs:
-      - tags
       - master
 
   script:
@@ -246,6 +262,10 @@ include:
     ref: master
     file: '/jobs/commit-locales.gitlab-ci.yml'
 
+  - project: 'agarroux/publish-github'
+    ref: master
+    file: '/jobs/release.gitlab-ci.yml'
+
 i18n-sync-crowdin:
   variables:
       I18N_SYNC_BRANCH: development
@@ -258,3 +278,12 @@ i18n-commit-locales:
       I18N_COMMIT_BRANCH_ALLOWED: development
       I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-commit-locales-shared
+
+publish-github:
+  only:
+    refs:
+      - master
+  variables:
+    RELEASE_APP: android-vpn
+    RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
+  extends: .release-make-release
