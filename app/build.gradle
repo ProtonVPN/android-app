@@ -387,11 +387,9 @@ class Helpers {
         def dev = tagSplit.size() > 2 ? tagSplit[2] : 0
         def release = tagSplit.size() > 3 ? tagSplit[3] : 0
 
-        if (exec("git rev-parse --verify origin/development", false) == null) {
-            // no development branch, e.g. public repository, just add #commits since the last tag
-            // to R part
-            release += exec("git rev-list --count ${tag}..HEAD").trim().toInteger()
-        } else {
+        // On master or public repo just use last tag for version name
+        if (exec("git rev-parse --abbrev-ref HEAD").trim() != "master"
+                && exec("git rev-parse --verify origin/development", false) != null) {
             def branchPoint = exec("git merge-base origin/development HEAD").trim()
             // add #commits from tag to branch point with development to dev
             dev += exec("git rev-list --count ${tag}..${branchPoint}").trim().toInteger()
