@@ -41,6 +41,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
+import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
@@ -51,7 +52,6 @@ import com.protonvpn.android.utils.implies
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED_INTERNAL
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.MAX_SESSIONS
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.NO_PORTS_AVAILABLE
 import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.UNPAID
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
@@ -79,8 +79,7 @@ open class VpnStateMonitor(
     enum class ErrorType {
         AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED,
         LOOKUP_FAILED, UNREACHABLE, SESSION_IN_USE,
-        MAX_SESSIONS, UNPAID, GENERIC_ERROR,
-        NO_PORTS_AVAILABLE
+        MAX_SESSIONS, UNPAID, GENERIC_ERROR
     }
 
     data class Status(
@@ -122,6 +121,7 @@ open class VpnStateMonitor(
     }
 
     val isConnected get() = state == Connected && connectionParams != null
+    val isDisabled get() = state == Disabled
 
     val connectingToServer
         get() = connectionParams?.server?.takeIf {
@@ -141,7 +141,7 @@ open class VpnStateMonitor(
         get() = connectionParams?.exitIpAddress
 
     fun isConnectedTo(server: Server?) =
-            isConnected && connectionParams?.server == server
+            isConnected && connectionParams?.server?.serverId == server?.serverId
 
     fun isConnectedToAny(servers: List<Server>) =
             isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
@@ -216,7 +216,7 @@ open class VpnStateMonitor(
         activeBackend?.setSelfState(Error(errorType))
     }
 
-    private suspend fun coroutineConnect(profile: Profile) {
+    private suspend fun coroutineConnect(context: Context, profile: Profile) {
         // If smart profile fails we need this to handle reconnect request
         lastProfile = profile
         val server = profile.server!!
@@ -225,11 +225,17 @@ open class VpnStateMonitor(
         if (profile.getProtocol(userData) == VpnProtocol.Smart)
             setSelfState(ScanningPorts)
 
-        val preparedConnection = backendProvider.prepareConnection(profile, server, userData)
+        var protocol = profile.getProtocol(userData)
+        if (!ConnectionTools.isNetworkAvailable(context) && protocol == VpnProtocol.Smart)
+            protocol = userData.manualProtocol
+        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
         if (preparedConnection == null) {
-            ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}")
-            setSelfState(Error(NO_PORTS_AVAILABLE))
-            return
+            ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}, " +
+                    "falling back to ${userData.manualProtocol}")
+
+            // If port scanning fails (because e.g. some temporary network situation) just connect
+            // without smart protocol
+            preparedConnection = backendProvider.prepareConnection(userData.manualProtocol, profile, server)!!
         }
 
         val newBackend = preparedConnection.backend
@@ -262,7 +268,11 @@ open class VpnStateMonitor(
         connect(context, profile, null)
     }
 
-    fun connect(context: Context, profile: Profile, prepareIntentHandler: ((Intent) -> Unit)? = null) {
+    fun connect(
+        context: Context,
+        profile: Profile,
+        prepareIntentHandler: ((Intent) -> Unit)? = null
+    ) {
         val intent = prepare(context)
         if (intent != null) {
             if (prepareIntentHandler != null) {
@@ -278,7 +288,7 @@ open class VpnStateMonitor(
             if (profile.server != null) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
-                    coroutineConnect(profile)
+                    coroutineConnect(context, profile)
                 }
             } else {
                 NotificationHelper.showInformationNotification(
@@ -301,6 +311,11 @@ open class VpnStateMonitor(
 
     open fun disconnect() {
         disconnectWithCallback()
+    }
+
+    suspend fun disconnectSync() {
+        clearOngoingConnection()
+        disconnectBlocking()
     }
 
     open fun disconnectWithCallback(afterDisconnect: (() -> Unit)? = null) {

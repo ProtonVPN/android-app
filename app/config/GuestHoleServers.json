@@ -1,0 +1,272 @@
+[
+    {
+        "Name": "RO#2",
+        "EntryCountry": "RO",
+        "ExitCountry": "RO",
+        "Domain": "ro-02.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Bucharest",
+        "ID": "Hw2tqt5b7muAH__2RPppvTOdu9iCQIKArtEouITmufB2CEaJVOy4ug0bSs0eIkd2NlVL4UOD4spHlLTHR8VEyQ==",
+        "Location": {
+            "Lat": 44.43,
+            "Long": 26.100000000000001
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "109.163.233.84",
+                "ExitIP": "109.163.233.84",
+                "Domain": "ro-02.protonvpn.com",
+                "ID": "xf4kWXg7nvZAF7-oM6eRCU6Dd_V2Bxp-iWKq7ru_c_aNshecl4Nf-gabqLM71DX4wNsBFGTzRmN0YOZs8dTsiQ==",
+                "Status": 1
+            }
+        ],
+        "Load": 9,
+        "Score": 2.1927542600000001
+    },
+    {
+        "Name": "FR#6",
+        "EntryCountry": "FR",
+        "ExitCountry": "FR",
+        "Domain": "fr-06.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Paris",
+        "ID": "sQmnUmLlVni9TXM8ygBJjV-7oVAQ7YZZ8Ram9vJ886rB0iCwJ6d56UfIc39ZVguWWuQq_tE1-dHFc08aQ6Fkvw==",
+        "Location": {
+            "Lat": 48.859999999999999,
+            "Long": 2.3500000000000001
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "185.94.189.188",
+                "ExitIP": "185.94.189.188",
+                "Domain": "fr-06.protonvpn.com",
+                "ID": "NjJhr3luUHceKO_iF0PNePHwEKyADZu3x-vz7JHDtebjTUMzBMRDcmvnSZ7_rfFXJSHg6QXljSkFb_yTJ3FgBA==",
+                "Status": 1
+            }
+        ],
+        "Load": 44,
+        "Score": 2.1395176299999998
+    },
+    {
+        "Name": "UK#15",
+        "EntryCountry": "UK",
+        "ExitCountry": "UK",
+        "Domain": "uk-15.protonvpn.com",
+        "Tier": 2,
+        "Features": 0,
+        "Region": null,
+        "City": "London",
+        "ID": "po7lOX99XNpdbuvpODm93S_nikKhcU_4dC1FTAytdXUxzJbq3LXZ0x2Roydz91utFot75RZqbxj4oHSFq1Yxiw==",
+        "Location": {
+            "Lat": 52.399999999999999,
+            "Long": -1.5800000000000001
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "95.168.185.250",
+                "ExitIP": "95.168.185.250",
+                "Domain": "uk-15.protonvpn.com",
+                "ID": "ZRo_PjKP-hss0dFUXh0JBWN4Ltxa8wqtIzfqNO_ABXeJOfNgY7T4uKuGOKKk-8NkxPa33zmWxtTisnVxwup3xw==",
+                "Status": 1
+            }
+        ],
+        "Load": 59,
+        "Score": 1.2176193099999999
+    },
+    {
+        "Name": "DK#8",
+        "EntryCountry": "DK",
+        "ExitCountry": "DK",
+        "Domain": "dk-08.protonvpn.com",
+        "Tier": 2,
+        "Features": 0,
+        "Region": null,
+        "City": "Copenhagen",
+        "ID": "JfhrXRkVWqyufriIHZu7hbDAVCiKFuTmpl76p8ZZR6uI6UbYfhR5g93Q8lRSISvyXkqWE2J3lUzr9jE43rtnDg==",
+        "Location": {
+            "Lat": 55.68,
+            "Long": 12.57
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "45.12.221.230",
+                "ExitIP": "45.12.221.230",
+                "Domain": "dk-08.protonvpn.com",
+                "ID": "vMWGSp-YkV-E9pnHRdQQHbZqF9IIwLpkdjJkwRqAizNF5tqdZvRDl9_G-jvMJ7NYAJgBntpz8UMnWR6BVFYNDA==",
+                "Status": 1
+            }
+        ],
+        "Load": 55,
+        "Score": 1.21008648
+    },
+    {
+        "Name": "JP#26",
+        "EntryCountry": "JP",
+        "ExitCountry": "JP",
+        "Domain": "jp-26.protonvpn.com",
+        "Tier": 2,
+        "Features": 0,
+        "Region": null,
+        "City": "Tokyo",
+        "ID": "tlmspChVQQMDpKsDUGSr6D6VeqFHYDjPe-G6GwkgWapMdq0rvWuH3AntSjhusVTUxrBLjhS93kONVHLPItQeyA==",
+        "Location": {
+            "Lat": 35.649999999999999,
+            "Long": 139.83000000000001
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "103.125.234.209",
+                "ExitIP": "103.125.234.209",
+                "Domain": "jp-26.protonvpn.com",
+                "ID": "0tAQrc_F4zWMUxjHdIvLgdIknnA63AJnouPVhwjl9kRWoxjvko4y_PfJdiINye-tn2KmGtis_g1kdZC_-kyXWQ==",
+                "Status": 1
+            }
+        ],
+        "Load": 9,
+        "Score": 1.50565813
+    },
+    {
+        "Name": "LT#1",
+        "EntryCountry": "LT",
+        "ExitCountry": "LT",
+        "Domain": "lt-01.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Siauliai",
+        "ID": "7zFK3gJgndNFpvH-hEY6YComdrfdsborBLkatv5T8L9mIHdkss4IvCQ6Mkrrb5n22mHsCtWCUqIHufFxIEiZgg==",
+        "Location": {
+            "Lat": 55.93,
+            "Long": 23.32
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "85.206.163.145",
+                "ExitIP": "85.206.163.145",
+                "Domain": "lt-01.protonvpn.com",
+                "ID": "vanpca040Ko5bRiwPzRgZBVYpQHeJvuPRx7FUVRITdMS0RFVtAvA399V4_LMv73sQeDYkChQiGbGMy3hpcQEQQ==",
+                "Status": 1
+            }
+        ],
+        "Load": 58,
+        "Score": 2.2507932199999998
+    },
+    {
+        "Name": "DE#1",
+        "EntryCountry": "DE",
+        "ExitCountry": "DE",
+        "Domain": "de-01.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Frankfurt",
+        "ID": "ha0056vPzrt4ErHVbwEGSfMo-e0__HU2kvV-XfkspMOCkVKYsJ5BaD1KUXYSLcR0D7K0q6_J_Z8HgJdGGxrJRA==",
+        "Location": {
+            "Lat": 51,
+            "Long": 9
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "37.58.58.229",
+                "ExitIP": "37.58.58.229",
+                "Domain": "de-01.protonvpn.com",
+                "ID": "ha0056vPzrt4ErHVbwEGSfMo-e0__HU2kvV-XfkspMOCkVKYsJ5BaD1KUXYSLcR0D7K0q6_J_Z8HgJdGGxrJRA==",
+                "Status": 1
+            }
+        ],
+        "Load": 60,
+        "Score": 2.1684573700000001
+    },
+    {
+        "Name": "DE#9",
+        "EntryCountry": "DE",
+        "ExitCountry": "DE",
+        "Domain": "de-09.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Frankfurt",
+        "ID": "jSKwBHAB8cEfIFZ3byUjbnL8NEQRCE2GFj35iDiZH_rsAeCzzhnfnUO-gEECmlzGWKnOQDs9K96lph2UAyO8lQ==",
+        "Location": {
+            "Lat": 51,
+            "Long": 9
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "82.102.16.195",
+                "ExitIP": "82.102.16.195",
+                "Domain": "de-09.protonvpn.com",
+                "ID": "P6KCV83Ticrbmhk8zCivQ6GDWKteKhe4kChy97uiLJaXOPYaYYTVrcI1c4oG7RzAFd81tj2ED95B8QUK7zPOow==",
+                "Status": 1
+            }
+        ],
+        "Load": 55,
+        "Score": 2.1535698700000001
+    },
+    {
+        "Name": "EE#2",
+        "EntryCountry": "EE",
+        "ExitCountry": "EE",
+        "Domain": "ee-02.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Tallinn",
+        "ID": "ZRo_PjKP-hss0dFUXh0JBWN4Ltxa8wqtIzfqNO_ABXeJOfNgY7T4uKuGOKKk-8NkxPa33zmWxtTisnVxwup3xw==",
+        "Location": {
+            "Lat": 59.439999999999998,
+            "Long": 24.75
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "165.231.178.19",
+                "ExitIP": "165.231.178.19",
+                "Domain": "ee-02.protonvpn.com",
+                "ID": "7zFK3gJgndNFpvH-hEY6YComdrfdsborBLkatv5T8L9mIHdkss4IvCQ6Mkrrb5n22mHsCtWCUqIHufFxIEiZgg==",
+                "Status": 1
+            }
+        ],
+        "Load": 29,
+        "Score": 2.2206271900000001
+    },
+    {
+        "Name": "US-IL#30",
+        "EntryCountry": "US",
+        "ExitCountry": "US",
+        "Domain": "us-il-30.protonvpn.com",
+        "Tier": 2,
+        "Features": 0,
+        "Region": null,
+        "City": "Chicago",
+        "ID": "RBilrftAPQogL3kgcevLCrckj1DJfZOmJvDi4SlP3ABGuHOWiih1S8w4Z8Yb7rIGBwMob-d4u36qbcv4zdhhXQ==",
+        "Location": {
+            "Lat": 41.850000000000001,
+            "Long": -87.650000000000006
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "173.0.77.17",
+                "ExitIP": "173.0.77.17",
+                "Domain": "us-il-30.protonvpn.com",
+                "ID": "nsKp7TSiN2EGt6ZOw81kI9ohUqqb4hnDQV_XwD76z1l1O8D45pLNAMSBynQ_empiuKEQu0Zq6jBN5X1fMNaxxg==",
+                "Status": 1
+            }
+        ],
+        "Load": 100,
+        "Score": 1.73586493
+    }
+]

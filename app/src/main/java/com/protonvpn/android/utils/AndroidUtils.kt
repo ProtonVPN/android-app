@@ -80,6 +80,12 @@ object AndroidUtils {
         return receiver
     }
 
+    inline fun <E : Any, T : Collection<E>> T?.whenNotNullNorEmpty(func: (T) -> Unit) {
+        if (this != null && this.isNotEmpty()) {
+            func(this)
+        }
+    }
+
     fun playMarketIntentFor(appId: String) =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appId"))
 

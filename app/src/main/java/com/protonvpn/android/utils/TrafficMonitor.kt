@@ -101,8 +101,8 @@ class TrafficMonitor(
                     // problem but is only available from marshmallow.
                     val totalDownload = TrafficStats.getTotalRxBytes()
                     val totalUpload = TrafficStats.getTotalTxBytes()
-                    val downloaded = (totalDownload - lastTotalDownload) / 2
-                    val uploaded = (totalUpload - lastTotalUpload) / 2
+                    val downloaded = (totalDownload - lastTotalDownload).coerceAtLeast(0) / 2
+                    val uploaded = (totalUpload - lastTotalUpload).coerceAtLeast(0) / 2
                     val downloadSpeed = (downloaded / elapsedSeconds).roundToLong()
                     val uploadSpeed = (uploaded / elapsedSeconds).roundToLong()
 

@@ -73,7 +73,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) 
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/app_classes/prodDebug/bundleProdDebugClasses", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/prodDebug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
     sourceDirectories.setFrom files([mainSrc])
@@ -173,7 +173,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        versionName helpers.versionName
+        versionName helpers.fullVersionName
         versionCode helpers.getVersionCode(0)
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
@@ -237,6 +237,7 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
     }
 
     sourceSets {
@@ -265,7 +266,7 @@ android {
 play {
     serviceAccountCredentials = file(serviceAccountCredentialsPath)
     track = 'internal'
-    releaseName = Helpers.getVersionName()
+    releaseName = Helpers.fullVersionName
 }
 
 task publishGenerateReleaseNotes {
@@ -273,18 +274,63 @@ task publishGenerateReleaseNotes {
         File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
         releaseNotesDir.mkdirs()
         File releaseNotesFile = new File(releaseNotesDir, "default.txt")
-        releaseNotesFile.newWriter().withWriter { w -> w << Helpers.getReleaseNotes() }
+        releaseNotesFile.newWriter().withWriter { w ->
+            // Limit of 500 chars on Google Play console for release notes
+            w << Helpers.getReleaseNotes(490)
+        }
     }
 }
 
 task publishInternal {
-    dependsOn 'publishGenerateReleaseNotes'
-    dependsOn 'publishProdReleaseApk'
+    if (name in project.gradle.startParameter.taskNames) {
+        def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        if (lastSha == null || lastSha.matches("0*") ||
+                Helpers.exec("git rev-list --count ${lastSha}..HEAD").trim().toInteger() == 0) {
+            println "skipping publishing..."
+        } else {
+            dependsOn 'publishGenerateReleaseNotes'
+            dependsOn 'publishProdReleaseApk'
+            doLast {
+                Helpers.notifyPublishOnSlack()
+            }
+        }
+    }
 }
+
+task prepareGuestHoleServers {
+    doLast {
+        def guestHoleUrl = System.getenv("GUEST_HOLE_URL")
+        if (guestHoleUrl == null) {
+            copy {
+                from "$project.projectDir/config/GuestHoleServers.json"
+                into "$project.projectDir/src/main/assets"
+            }
+        } else {
+            def allServers = new JsonSlurper().parse(new URL(guestHoleUrl))["LogicalServers"]
+            def candidateServers = allServers.stream().filter { s ->
+                def country = s["ExitCountry"]
+                def secureCore = (s["Features"] & 1) == 1
+                !secureCore && s["Status"] == 1 && !country.equalsIgnoreCase("se") && !country.equalsIgnoreCase("is")
+            }.collect()
+            Collections.shuffle(candidateServers)
+            def servers = candidateServers.take(10)
+
+            File dir = new File("$project.projectDir/src/main/assets")
+            File serversFile = new File(dir, "GuestHoleServers.json")
+            serversFile.newWriter().withWriter { w ->
+                w << JsonOutput.prettyPrint(new JsonOutput().toJson(servers))
+            }
+        }
+    }
+}
+
+preBuild.dependsOn prepareGuestHoleServers
 
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
 
 import com.android.build.OutputFile
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 android.applicationVariants.all { variant ->
     variant.outputs.each { output ->
@@ -298,46 +344,109 @@ android.applicationVariants.all { variant ->
 class Helpers {
 
     // Versioning:
-    //  Version name: M.m.P
-    //  Version code: AAMMMmmPP as decimal integer
-    //  where: A - abi, M - major, m - minor, P - patch
+    //  Version name: M.m.D.R
+    //  M.m (major.minor) come from the last tag on development branch of this form (e.g. "2.1")
+    //  D - number of commits on development since M.m
+    //  R - number of commits on release branch (from development)
+    //  Version code: AMMmmDDRR as decimal integer
+    //  A - abiCode + 1
     static int getVersionCode(def abiCode) {
-        println "Directory for versionCode: " + System.getProperty("user.dir")
-        def name = getVersionName()
+        def name = fullVersionName
         def versions = name.split("\\.")
         def major = versions[0].toInteger()
         def minor = versions[1].toInteger()
-        def patch = versions[2].toInteger()
-        // Max version code allowed by android is 2_000_000_000
-        assert major < 1000 && minor < 100 && patch < 100
+        def dev = versions[2].toInteger()
+        def release = versions[3].toInteger()
 
-        def versionCode = abiCode * 10_000_000 + major * 10_000 + minor * 100 + patch
-        return versionCode
+        // Max version code allowed by android is 2_000_000_000
+        assert major < 100 && minor < 100 && dev < 100 && release < 100
+
+        // abiCode + 1 needed to always produce higher version code than in previous versioning
+        // scheme
+        // 0AMMMmmPP - old
+        // AMMmmDDRR - new
+        def code = (abiCode + 1) * 100_000_000 +
+                major * 1_000_000 +
+                minor*10_000 +
+                dev * 100 +
+                release
+
+        // Just some sanity check because there's no turning back once we accidentally publish
+        // some large version code
+        assert code < 600_000_000 && major < 50
+
+        return code
     }
 
-    static String getVersionName() {
-        println "Directory for versionName: " + System.getProperty("user.dir")
-        return exec('git describe --abbrev=0 --tags').trim()
+    static String getFullVersionName() {
+        // Find last tag in the form M.m.D.R, D and R are optional
+        def tag = exec('git tag --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
+        def tagSplit = Arrays.stream(tag.split("\\.")).mapToInt { it.toInteger() }.toArray()
+        def major = tagSplit[0]
+        def minor = tagSplit[1]
+        def dev = tagSplit.size() > 2 ? tagSplit[2] : 0
+        def release = tagSplit.size() > 3 ? tagSplit[3] : 0
+
+        // On master or public repo just use last tag for version name
+        if (exec("git rev-parse --abbrev-ref HEAD").trim() != "master"
+                && exec("git rev-parse --verify origin/development", false) != null) {
+            def branchPoint = exec("git merge-base origin/development HEAD").trim()
+            // add #commits from tag to branch point with development to dev
+            dev += exec("git rev-list --count ${tag}..${branchPoint}").trim().toInteger()
+            // add #commits from branch point to HEAD to release
+            release += exec("git rev-list --count origin/development..HEAD").trim().toInteger()
+        }
+        return "${major}.${minor}.${dev}.${release}"
+    }
+
+    static String getReleaseNotes(int trimAt) {
+        def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        def notes = exec(["git", "log", "${lastSha}..HEAD", "--pretty=format:- %s"])
+        if (notes.length() > trimAt)
+            return notes.take(trimAt) + "\n..."
+        return notes
+    }
+
+    static void notifyPublishOnSlack() {
+        def hook = System.getenv("SLACK_PUBLISH_HOOK")
+        if (hook == null)
+            return
+        def json = new JsonOutput().toJson(["text": ":android: :protonvpn: ${getFullVersionName()} released to internal\n" +
+                "Release notes:\n" +
+                "${getReleaseNotes(1000)}"])
+        exec(["curl", "-X", "POST", "-H", "'Content-type: application/json'", "--data", json, hook])
     }
 
     static String getArchivesBaseName() {
-        return "ProtonVPN-" + versionName + "(" + getVersionCode(0) + ")"
+        return "ProtonVPN-" + fullVersionName + "(" + getVersionCode(0) + ")"
     }
 
-    static String exec(String cmd) {
+    static String exec(String cmd, boolean throwOnError = true) {
         def out = new StringBuffer()
         def err = new StringBuffer()
         def proc = cmd.execute()
         proc.waitForProcessOutput(out, err)
-        if (err) {
-            throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+        if (proc.exitValue() != 0) {
+            if (throwOnError)
+                throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+            else
+                return null
         }
         return out.toString()
     }
 
-    static String getReleaseNotes() {
-        def tags = exec('git tag --merged HEAD').split('\n').reverse()
-        return exec("git log ${tags[1]}..${tags[0]} --pretty=format:%s")
+    static String exec(ArrayList<String> cmd, boolean throwOnError = true) {
+        def out = new StringBuffer()
+        def err = new StringBuffer()
+        def proc = cmd.execute()
+        proc.waitForProcessOutput(out, err)
+        if (proc.exitValue() != 0) {
+            if (throwOnError)
+                throw new GradleScriptException("Error executing: ${cmd}", new RuntimeException(err.toString()))
+            else
+                return null
+        }
+        return out.toString()
     }
 }
 
@@ -362,7 +471,7 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures = false
 }
 
-ext.jacksonVersion = '2.10.2'
+ext.jacksonVersion = '2.11.0'
 ext.daggerVersion = '2.26'
 
 repositories {
@@ -382,18 +491,20 @@ dependencies {
     debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude module: 'support-annotations'
     }
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 
-    detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0'
-    detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.8.0'
+    detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
+    detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.9.1'
     detektPlugins 'pm.algirdas.detekt:codeanalysis:0.3.2'
-    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0'
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
 
     implementation 'com.proton:srp:1.0.0@aar'
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+    // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-codec:commons-codec:1.14'
     implementation 'com.qozix:tileview:2.2.7'
@@ -403,8 +514,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.core:core:1.2.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core:1.3.0'
+    implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
@@ -419,34 +530,35 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
     implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.clans:fab:1.6.4'
-    implementation 'net.danlew:android.joda:2.10.3'
+    implementation 'net.danlew:android.joda:2.10.6'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.7.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
     implementation 'com.getkeepsafe.relinker:relinker:1.3.1'
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
     implementation 'ru.egslava:MaskedEditText:1.0.5'
     implementation 'com.evernote:android-state:1.4.1'
-    implementation "androidx.work:work-runtime:2.3.2"
+    implementation 'androidx.work:work-runtime:2.3.4'
     implementation 'com.github.akarnokd:rxjava2-extensions:0.20.10'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
     implementation "com.datatheorem.android.trustkit:trustkit:1.1.2"
     implementation 'com.xwray:groupie:2.7.2'
     implementation 'com.xwray:groupie-databinding:2.7.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "org.minidns:minidns-hla:0.3.3"
+    implementation 'org.minidns:minidns-hla:0.3.4'
     implementation 'com.github.tony19:logback-android:2.0.0'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
@@ -467,11 +579,11 @@ dependencies {
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
     kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    testImplementation 'joda-time:joda-time:2.10.5'
+    testImplementation 'joda-time:joda-time:2.10.6'
     testImplementation 'junit:junit:4.13'
-    testImplementation "io.mockk:mockk:1.9.2"
-    androidTestImplementation "io.mockk:mockk-android:1.9.2"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3"
+    testImplementation 'io.mockk:mockk:1.10.0'
+    androidTestImplementation 'io.mockk:mockk-android:1.10.0'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
 
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.2.0') {
         exclude module: 'support-annotations'
@@ -482,7 +594,7 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.2.0'
     testImplementation "androidx.arch.core:core-testing:2.0.1"
     androidTestImplementation "androidx.arch.core:core-testing:2.0.1"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.2.0'

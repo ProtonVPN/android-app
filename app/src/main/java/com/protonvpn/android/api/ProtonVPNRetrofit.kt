@@ -27,6 +27,7 @@ import com.protonvpn.android.models.login.RefreshBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import okhttp3.RequestBody
@@ -43,6 +44,9 @@ interface ProtonVPNRetrofit {
 
     @GET("vpn/logicals")
     suspend fun getServers(@Query("IP") ip: String?): Response<ServerList>
+
+    @GET("vpn/loads")
+    suspend fun getLoads(@Query("IP") ip: String?): Response<LoadsResponse>
 
     @POST("auth/info")
     suspend fun postLoginInfo(@Body body: LoginInfoBody): Response<LoginInfoResponse>

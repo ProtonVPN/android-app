@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.vpn
 
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
@@ -29,16 +28,14 @@ class ProtonVpnBackendProvider(
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(
+        protocol: VpnProtocol,
         profile: Profile,
-        server: Server,
-        userData: UserData
-    ): PrepareResult? {
-        return when (profile.getProtocol(userData)) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.Smart ->
-                strongSwan.prepareForConnection(profile, server, scan = true)
-                        ?: openVpn.prepareForConnection(profile, server, scan = true)
-        }
+        server: Server
+    ): PrepareResult? = when (protocol) {
+        VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
+        VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
+        VpnProtocol.Smart ->
+            strongSwan.prepareForConnection(profile, server, scan = true)
+                    ?: openVpn.prepareForConnection(profile, server, scan = true)
     }
 }

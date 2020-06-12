@@ -93,7 +93,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                 spinnerServer.isVisible = true
                 spinnerServer.setText("")
                 inputLayoutCountry.error = ""
-                spinnerServer.selectedItem = item.wrapperServers.singleOrNull()
+                spinnerServer.selectedItem = item.wrapperServers.firstOrNull()
             }
             val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
             spinnerServer.setText("")
@@ -121,7 +121,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                                     spinnerServer.selectedItem as ServerWrapper)
                     newProfile.apply {
                         setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
-                        setProtocol(protocolSelection.protocol.toString())
+                        setProtocol(protocolSelection.protocol)
                         setNetShieldProtocol(netShieldSwitch.currentState)
                         wrapper.setSecureCoreCountry(switchSecureCore.isChecked)
                     }
@@ -147,7 +147,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         val protocol = viewModel.selectedProtocol
         val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
         protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol, viewModel.transmissionProtocol) {
-            viewModel.editableProfile?.setProtocol(protocolSelection.protocol.toString())
+            viewModel.editableProfile?.setProtocol(protocolSelection.protocol)
             viewModel.editableProfile?.setTransmissionProtocol(
                     protocolSelection.transmissionProtocol.toString())
         }

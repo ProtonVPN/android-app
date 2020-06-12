@@ -126,7 +126,7 @@ class SettingsActivity : BaseActivity() {
             switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
             initSplitTunneling(userPrefs.useSplitTunneling)
         }
-        spinnerDefaultConnection.setItems(serverManager.savedProfiles)
+        spinnerDefaultConnection.setItems(serverManager.getSavedProfiles())
         spinnerDefaultConnection.selectedItem = serverManager.defaultConnection
         spinnerDefaultConnection.setOnItemSelectedListener { item, _ ->
             userPrefs.defaultConnection = item

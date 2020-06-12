@@ -18,8 +18,6 @@
  */
 package com.protonvpn.testsHelper
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.protonvpn.android.models.config.VpnProtocol
@@ -27,6 +25,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.FileUtils
 
 object MockedServers {
 
@@ -37,18 +36,8 @@ object MockedServers {
 
     val server by lazy<Server> { gson.fromJson(serverJson, serverType) }
 
-    val serverList by lazy<List<Server>> {
-        val manager = ApplicationProvider.getApplicationContext<Context>().assets
-        try {
-            val file = manager.open("MockedServers/Servers.json")
-            val size = file.available()
-            val buffer = ByteArray(size)
-            file.read(buffer)
-            json = buffer.toString(Charsets.UTF_8)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        gson.fromJson(json, listType)
+    val serverList by lazy {
+        FileUtils.getObjectFromAssetsWithGson<List<Server>>("MockedServers/Servers.json")
     }
 
     fun getProfile(protocol: VpnProtocol, server: Server) =
@@ -56,7 +45,7 @@ object MockedServers {
             override fun hasAccessToServer(server: Server?) = true
             override fun getServer(wrapper: ServerWrapper?): Server = server
         })).apply {
-            setProtocol(protocol.toString())
+            setProtocol(protocol)
         }
 
     private val serverJson = """
@@ -67,7 +56,8 @@ object MockedServers {
           {
             "entryDomain": "ca-01.protonvpn.com",
             "entryIp": "127.0.0.1",
-            "exitIp": "127.0.0.1"
+            "exitIp": "127.0.0.1",
+            "isOnline": true
           }
         ],
         "domain": "ca-01.protonvpn.com",

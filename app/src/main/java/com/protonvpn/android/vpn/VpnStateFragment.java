@@ -526,7 +526,6 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Gateway address lookup failed"));
                 break;
             case UNREACHABLE:
-            case NO_PORTS_AVAILABLE:
                 showErrorDialog(R.string.error_unreachable);
                 Log.exception(new VPNException("Gateway is unreachable"));
                 break;

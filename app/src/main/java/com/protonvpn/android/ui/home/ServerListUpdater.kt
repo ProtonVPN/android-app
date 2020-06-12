@@ -46,10 +46,13 @@ class ServerListUpdater(
 ) {
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
-        private val LIST_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
+        private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
+        val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
+        private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
 
         private const val KEY_IP_ADDRESS = "IP_ADDRESS"
         private const val KEY_IP_ADDRESS_DATE = "IP_ADDRESS_DATE"
+        private const val KEY_LOADS_UPDATE_DATE = "LOADS_UPDATE_DATE"
 
         private fun now() = SystemClock.elapsedRealtime()
     }
@@ -59,23 +62,33 @@ class ServerListUpdater(
     var isVpnDisconnected = true
 
     private var lastIpCheck = Long.MIN_VALUE
-    private var lastServerListUpdate = Long.MIN_VALUE
+    private val lastServerListUpdate get() =
+        dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
+    private var lastLoadsUpdateInternal = Long.MIN_VALUE
 
     val ipAddress = StorageStringObservable(KEY_IP_ADDRESS)
 
     private val task = ReschedulableTask(scope, ::now) {
         if (userData.isLoggedIn) {
-            if (isVpnDisconnected && (now() >= lastIpCheck + LOCATION_CALL_DELAY)) {
+            if (isVpnDisconnected && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocation())
                     updateServerList(homeActivity)
             }
-            if (serverManager.isOutdated || (inForeground && now() >= lastServerListUpdate + LIST_CALL_DELAY))
+            if (serverManager.isOutdated || inForeground && now() >= lastServerListUpdate + LIST_CALL_DELAY)
                 updateServerList(homeActivity)
+            else if (inForeground && now() >= lastLoadsUpdate + LOADS_CALL_DELAY)
+                updateLoads()
 
             if (inForeground)
-                scheduleIn(LIST_CALL_DELAY)
+                scheduleIn(MIN_CALL_DELAY)
         }
     }
+
+    private val strippedIP
+        get() = ipAddress.value?.takeIf { it.isNotEmpty() }?.let { NetUtils.stripIP(it) }
+
+    private val lastLoadsUpdate
+        get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
 
     private fun dateToRealtime(date: Long) =
             now() - (DateTime().millis - date).coerceAtLeast(0)
@@ -83,7 +96,7 @@ class ServerListUpdater(
     init {
         val lastIpCheckDate = Storage.getLong(KEY_IP_ADDRESS_DATE, 0L)
         lastIpCheck = dateToRealtime(lastIpCheckDate)
-        lastServerListUpdate = dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
+        lastLoadsUpdateInternal = dateToRealtime(Storage.getLong(KEY_LOADS_UPDATE_DATE, 0L))
     }
 
     fun onHomeActivityCreated(activity: HomeActivity) {
@@ -119,6 +132,17 @@ class ServerListUpdater(
         updateServerList(networkLoader)
     }
 
+    private suspend fun updateLoads(): Boolean {
+        val result = api.getLoads(strippedIP)
+        if (result is ApiResult.Success) {
+            serverManager.updateLoads(result.value.loadsList)
+            lastLoadsUpdateInternal = now()
+            Storage.saveLong(KEY_LOADS_UPDATE_DATE, DateTime().millis)
+            return true
+        }
+        return false
+    }
+
     // Returns true if IP has changed
     private suspend fun updateLocation(): Boolean {
         val result = api.getLocation()
@@ -138,7 +162,6 @@ class ServerListUpdater(
     private suspend fun updateServerList(
         networkLoader: NetworkLoader?
     ): Boolean {
-        val strippedIP = ipAddress.value?.takeIf { it.isNotEmpty() }?.let { NetUtils.stripIP(it) }
         val loaderUI = networkLoader?.networkFrameLayout
 
         loaderUI?.setRetryListener {
@@ -155,7 +178,6 @@ class ServerListUpdater(
         val result = api.getServerList(loaderUI, strippedIP)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
-            lastServerListUpdate = now()
             return true
         }
         return false

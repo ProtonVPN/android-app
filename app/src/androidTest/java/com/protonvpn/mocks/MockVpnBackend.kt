@@ -30,7 +30,7 @@ import com.protonvpn.android.vpn.VpnState
 class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
 
     override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean) =
-        if (failOnPrepare)
+        if (scan && failScanning)
             null
         else PrepareResult(this, object : ConnectionParams(
                 profile, server, server.getRandomConnectingDomain(), protocol) {})
@@ -53,5 +53,5 @@ class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
     override val retryInfo get() = RetryInfo(10, 10)
 
     var stateOnConnect: VpnState = VpnState.Connected
-    var failOnPrepare = false
+    var failScanning = false
 }

@@ -71,7 +71,7 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-        mPassword = userData.vpnInfoResponse.password
+        mPassword = userData.vpnPassword
     }
 
     companion object {

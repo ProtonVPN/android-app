@@ -53,11 +53,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
         get() = wrapper.isPreBakedProfile
 
     val server: Server? get() {
-        val server = wrapper.server
-        if (server != null && (wrapper.isFastestInCountry || wrapper.isPreBakedFastest)) {
-            server.selectedAsFastest = true
-        }
-        return server
+        return wrapper.server
     }
 
     val isSecureCore get() = wrapper.isSecureCoreServer
@@ -86,8 +82,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     fun getProtocol(userData: UserData): VpnProtocol =
         protocol?.let { VpnProtocol.valueOf(it) } ?: userData.selectedProtocol
 
-    fun setProtocol(protocol: String?) {
-        this.protocol = protocol
+    fun setProtocol(protocol: VpnProtocol) {
+        this.protocol = protocol.toString()
     }
 
     companion object {

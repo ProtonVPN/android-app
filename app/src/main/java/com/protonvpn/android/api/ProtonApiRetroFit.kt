@@ -19,14 +19,13 @@
 package com.protonvpn.android.api
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.appconfig.AppConfigResponse
-import com.protonvpn.android.appconfig.AppConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -51,6 +50,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         makeCall(loader, useBackoff = true) { it.getServers(ip) }
 
+    open suspend fun getLoads(ip: String?) =
+        manager.call { it.getLoads(ip) }
+
     suspend fun postLogin(body: LoginBody) =
         manager.call(true) { it.postLogin(body) }
 
@@ -60,8 +62,8 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     open suspend fun getVPNInfo() =
         manager.call(useBackoff = true) { it.getVPNInfo() }
 
-    open fun getVPNInfo(loader: LoaderUI, callback: NetworkResultCallback<VpnInfoResponse>) =
-        makeCall(callback, loader) { it.getVPNInfo() }
+    open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
+        makeCall(callback) { it.getVPNInfo() }
 
     open fun logout(callback: NetworkResultCallback<GenericResponse>) =
         makeCall(callback) { it.postLogout() }

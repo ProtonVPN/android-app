@@ -31,7 +31,7 @@ class ProfileViewModel @Inject constructor(
     val netShieldProtocol: NetShieldProtocol
         get() = editableProfile?.getNetShieldProtocol(userData, appConfig) ?: userData.netShieldProtocol
     val serverValidateSelection = ProtonSpinner.OnValidateSelection<ServerWrapper> {
-        userData.hasAccessToServer(serverManager.getServerFromWrap(it))
+        userData.hasAccessToServer(serverManager.getServer(it))
     }
 
     fun getServerCountry(server: Server): VpnCountry? {
@@ -51,14 +51,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun getCountryItems(): List<VpnCountry> =
-        if (secureCoreEnabled) serverManager.secureCoreExitCountries else serverManager.vpnCountries
+        if (secureCoreEnabled)
+            serverManager.getSecureCoreExitCountries()
+        else
+            serverManager.getVpnCountries()
 
     fun saveProfile(profile: Profile) {
-        if (editableProfile != null) {
-            serverManager.editProfile(editableProfile, profile)
-        } else {
-            serverManager.addToProfileList(profile)
-        }
+        editableProfile?.let {
+            serverManager.editProfile(it, profile)
+        } ?: serverManager.addToProfileList(profile)
     }
 
     fun deleteProfile() {

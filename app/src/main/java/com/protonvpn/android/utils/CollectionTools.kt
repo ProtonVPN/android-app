@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.login
+package com.protonvpn.android.utils
 
-import com.protonvpn.android.api.ApiResult
-
-sealed class LoginState {
-    object Success : LoginState()
-    object InProgress : LoginState()
-    object GuestHoleActivated : LoginState()
-    class Error(val error: ApiResult.Error, val retryRequest: Boolean) : LoginState()
-    object UnsupportedAuth : LoginState()
-}
+fun <T> Collection<T>.randomNullable() =
+        if (isEmpty()) null else random()
