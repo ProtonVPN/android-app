@@ -104,7 +104,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsTransmissionProtocol">Протокол передачи</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Размер MTU</string>
-  <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Изменяйте его только тогда, когда понимаете, что делаете.</string>
+  <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Меняйте его только если знаете, что делаете.</string>
   <string name="settingsMtuRangeInvalid">Значение MTU должно быть в диапазоне 1280–1500</string>
   <string name="settingsDefaultConnectionTitle">Быстрое подключение</string>
   <string name="settingsDefaultConnectionDescription">Кнопка «Быстрое подключение» подключит вас к выбранному профилю</string>
@@ -150,7 +150,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
   <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
   <string name="tabsCountries">Страны</string>
-  <string name="tabsMap">Просмотр карты</string>
+  <string name="tabsMap">Карта</string>
   <string name="tabsProfiles">Профили</string>
   <string name="log_title">Журнал</string>
   <string name="disconnect">Отключиться</string>
@@ -306,9 +306,8 @@ Kill Switch не позволяет вашему устройству совер
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Имейте в виду, что если и Kill Switch, и раздельное туннелирование активированы, раздельное туннелирование не будет работать. Kill Switch блокирует все соединения без VPN туннеля, в том числе созданные раздельным туннелированием.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Некоторые параметры отсутствуют? <a href=\"%1$s\">Нажмите здесь, чтобы узнать больше</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны на старых версиях ОС Android и на разных устройствах Android. Если ваше устройство не позволяет использовать Постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить.
-
-Вы можете обновить свою операционную систему до последней версии Android и попробовать еще раз."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны
+на старых версиях ОС Android и на разных устройствах с Android. Если ваше устройство не предоставляет постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить. Вы можете обновить свою операционную систему до последней версии Android и попробовать снова."</string>
   <string name="settingsSmartProtocolTitle">Умный протокол</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
@@ -319,6 +318,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
   <string name="netShieldReconnectionNeeded">Требуется переподключение</string>
-  <string name="netShieldReconnectionDescription">Чтобы отключить NetShield - необходимо перезапустить подключение.</string>
+  <string name="netShieldReconnectionDescription">Для отключения NetShield необходимо перезапустить соединение.</string>
   <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
+  <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
 </resources>

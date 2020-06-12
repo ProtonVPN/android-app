@@ -37,11 +37,13 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.CompressedTextWatcher
 import com.protonvpn.android.components.ContentLayout
@@ -53,14 +55,15 @@ import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
-import javax.inject.Inject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_login)
 class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
-        KeyboardVisibilityEventListener {
+        KeyboardVisibilityEventListener, Observer<LoginState> {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -80,6 +83,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         checkIfOpenedFromWeb()
         initClickListeners()
         KeyboardVisibilityEvent.setEventListener(this, this)
+        viewModel.loginState.observe(this@LoginActivity, this@LoginActivity)
     }
 
     private fun initClickListeners() = with(binding) {
@@ -209,26 +213,18 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         }
     }
 
+    private var loginJob: Job? = null
+
+    override fun onVpnPrepareFailed() {
+        loginJob?.cancel()
+        binding.loadingContainer.switchToRetry(
+                ApiResult.Failure(Exception("Vpn permission not granted")))
+    }
+
     private fun login() = with(binding) {
-        loadingContainer.switchToLoading()
-        lifecycleScope.launch {
-            val loginState = viewModel.login(editPassword.text.toString())
-            when (loginState) {
-                is LoginState.Success -> {
-                    launchActivity<HomeActivity>()
-                    editPassword.clearComposingText()
-                    finish()
-                }
-                is LoginState.Error -> {
-                    loadingContainer.switchToRetry(loginState.error)
-                    if (loginState.retryRequest.not())
-                        loadingContainer.setRetryListener { loadingContainer.switchToEmpty() }
-                }
-                is LoginState.UnsupportedAuth -> {
-                    loadingContainer.switchToEmpty()
-                    Toast.makeText(this@LoginActivity,
-                            R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
-                }
+        loginJob = lifecycleScope.launch {
+            viewModel.login(this@LoginActivity, editPassword.text.toString()) {
+                startActivityForResult(it, PREPARE_VPN_SERVICE)
             }
         }
     }
@@ -238,6 +234,32 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             binding.loadingContainer.switchToEmpty()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onChanged(loginState: LoginState) = with(binding) {
+        when (loginState) {
+            is LoginState.Success -> {
+                launchActivity<HomeActivity>()
+                editPassword.clearComposingText()
+                finish()
+            }
+            is LoginState.InProgress -> {
+                loadingContainer.switchToLoading()
+            }
+            is LoginState.GuestHoleActivated -> {
+                loadingContainer.switchToLoading(getString(R.string.guestHoleActivated))
+            }
+            is LoginState.Error -> {
+                loadingContainer.switchToRetry(loginState.error)
+                if (loginState.retryRequest.not())
+                    loadingContainer.setRetryListener { loadingContainer.switchToEmpty() }
+            }
+            is LoginState.UnsupportedAuth -> {
+                loadingContainer.switchToEmpty()
+                Toast.makeText(this@LoginActivity,
+                    R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

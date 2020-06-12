@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 
 import org.json.JSONObject;
 
@@ -44,6 +45,7 @@ public final class Json {
         SimpleModule dateModule = new SimpleModule("date", new Version(1, 0, 0, null, null, null));
 
         MAPPER.registerModule(dateModule);
+        MAPPER.registerModule(new KotlinModule());
         MAPPER.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MAPPER.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);

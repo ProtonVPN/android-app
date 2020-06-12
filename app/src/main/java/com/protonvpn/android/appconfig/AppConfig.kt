@@ -23,7 +23,7 @@ import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class AppConfig(scope: CoroutineScope, api: ProtonApiRetroFit) {
+class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit) {
 
     private var appConfigResponse: AppConfigResponse
 
@@ -32,11 +32,15 @@ class AppConfig(scope: CoroutineScope, api: ProtonApiRetroFit) {
                 Storage.load(AppConfigResponse::class.java,
                         getDefaultConfig())
         scope.launch {
-            val config = api.getAppConfig().valueOrNull
-            config?.let {
-                Storage.save(it)
-                appConfigResponse = it
-            }
+            update()
+        }
+    }
+
+    suspend fun update() {
+        val config = api.getAppConfig().valueOrNull
+        if (config != null) {
+            Storage.save(config)
+            appConfigResponse = config
         }
     }
 

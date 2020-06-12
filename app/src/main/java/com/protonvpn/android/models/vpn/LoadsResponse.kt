@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.login
+package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.api.ApiResult
+import com.fasterxml.jackson.annotation.JsonProperty
 
-sealed class LoginState {
-    object Success : LoginState()
-    object InProgress : LoginState()
-    object GuestHoleActivated : LoginState()
-    class Error(val error: ApiResult.Error, val retryRequest: Boolean) : LoginState()
-    object UnsupportedAuth : LoginState()
-}
+class LoadsResponse(
+    @param:JsonProperty(value = "LogicalServers", required = true) val loadsList: List<LoadUpdate>
+)
+
+data class LoadUpdate(
+    @param:JsonProperty(value = "ID", required = true) val id: String,
+    @param:JsonProperty(value = "Load", required = true) val load: Float,
+    @param:JsonProperty(value = "Score", required = false) val score: Float
+)

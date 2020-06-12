@@ -69,7 +69,7 @@ abstract class CountryViewHolder(
 
             buttonCross.isVisible = vpnCountry.hasAccessibleServer(viewModel.userData)
 
-            adjustCross(buttonCross, vpnCountry.isExpanded(), 0)
+            adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
             viewModel.vpnStateMonitor.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)

@@ -303,7 +303,7 @@ Siga estos pasos para activar la VPN Siempre Activa y Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch y VPN Siempre Activa no siempre están disponibles en
 versiones anteriores de Android o en todos los dispositivos Android. Si su dispositivo no ofrece VPN Siempre Activa o Kill Switch, no hay nada que ProtonVPN pueda hacer para implementarlos. Puede actualizar su sistema operativo a la versión más reciente de Android e intentar otra vez."</string>
   <string name="settingsSmartProtocolTitle">Protocolo inteligente</string>
-  <string name="settingsSmartProtocolDescription">Utilice automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
+  <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
   <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
   <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>
   <string name="netshield">NetShield</string>
@@ -314,4 +314,5 @@ versiones anteriores de Android o en todos los dispositivos Android. Si su dispo
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
   <string name="netShieldReconnectionDescription">Su conexión debe ser reiniciada para deshabilitar NetShield.</string>
   <string name="netShieldPaidFeature">Está intentando habilitar una función que requiere una suscripción de ProtonVPN Plus.</string>
+  <string name="guestHoleActivated">El acceso a ProtonVPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
 </resources>

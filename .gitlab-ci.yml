@@ -39,6 +39,7 @@ before_script:
     [ssh.github.com]:443 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
     EOF
   - cat ~/.ssh/config
+  - git fetch origin development
 
 stages:
   - analyze
@@ -108,6 +109,8 @@ build blue:
 
 build release:
   stage: build
+  except:
+    - master
   tags:
     - android
   script:
@@ -118,6 +121,21 @@ build release:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+
+build release (auto):
+  stage: build
+  only:
+    refs:
+      - master
+  tags:
+    - android
+  script:
+    - ./gradlew openvpn:assemble
+    - ./gradlew assembleProdRelease -PabiSplit -PbuildUniversalApk
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
 
 unit tests:
   stage: test
@@ -189,6 +207,7 @@ coverage report:
   tags:
     - android
   script:
+    - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
   allow_failure: true
   artifacts:
@@ -213,7 +232,6 @@ sync-app:
   stage: mirror
   only:
     refs:
-      - tags
       - master
 
   script:
@@ -229,11 +247,10 @@ publish-apk-internal:
   stage: publish
   only:
     refs:
-      - tags
+      - development
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew publishInternal -PabiSplit
-  when: manual
 
 
 include:
@@ -244,6 +261,10 @@ include:
   - project: 'translations/generator'
     ref: master
     file: '/jobs/commit-locales.gitlab-ci.yml'
+
+  - project: 'agarroux/publish-github'
+    ref: master
+    file: '/jobs/release.gitlab-ci.yml'
 
 i18n-sync-crowdin:
   variables:
@@ -257,3 +278,12 @@ i18n-commit-locales:
       I18N_COMMIT_BRANCH_ALLOWED: development
       I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-commit-locales-shared
+
+publish-github:
+  only:
+    refs:
+      - master
+  variables:
+    RELEASE_APP: android-vpn
+    RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
+  extends: .release-make-release

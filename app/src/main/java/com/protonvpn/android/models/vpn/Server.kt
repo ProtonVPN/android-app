@@ -25,6 +25,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.DebugUtils.debugAssert
+import com.protonvpn.android.utils.implies
 import java.io.Serializable
 import java.util.regex.Pattern
 
@@ -35,24 +37,28 @@ data class Server(
     @param:JsonProperty(value = "Name", required = true) val serverName: String,
     @param:JsonProperty(value = "Servers", required = true) private val connectingDomains: List<ConnectingDomain>,
     @param:JsonProperty(value = "Domain", required = true) val domain: String,
-    @param:JsonProperty(value = "Load", required = true) val load: Float,
+    @param:JsonProperty(value = "Load", required = true) var load: Float,
     @param:JsonProperty(value = "Tier", required = true) val tier: Int,
     @param:JsonProperty(value = "Region", required = true) val region: String?,
     @param:JsonProperty(value = "City", required = true) val city: String?,
     @param:JsonProperty(value = "Features", required = true) private val features: Int,
     @param:JsonProperty(value = "Location", required = true) private val location: Location,
-    @param:JsonProperty(value = "Score", required = true) val score: Float,
-    @param:JsonProperty(value = "Status", required = true) val isOnline: Boolean
+    @param:JsonProperty(value = "Score", required = true) var score: Float,
+    @param:JsonProperty(value = "Status", required = true) var isOnline: Boolean
 ) : Markable, Serializable, Listable {
 
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
     val keywords: List<String>
-    var hasBestScore = false
-    var selectedAsFastest = false
 
     val entryCountryCoordinates: TranslatedCoordinates? =
             if (entryCountry != null) TranslatedCoordinates(this.entryCountry) else null
+
+    init {
+        debugAssert {
+            isOnline.implies(connectingDomains.any(ConnectingDomain::isOnline))
+        }
+    }
 
     val isFreeServer: Boolean
         get() = domain.contains("-free")
@@ -97,7 +103,6 @@ data class Server(
                 exitCountry)
 
     init {
-        hasBestScore = false
         keywords = mutableListOf<String>().apply {
             if (features and 4 == 4)
                 add("p2p")
@@ -119,7 +124,8 @@ data class Server(
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 
-    fun getRandomConnectingDomain() = connectingDomains.random()
+    fun getRandomConnectingDomain() =
+            connectingDomains.filter(ConnectingDomain::isOnline).random()
 
     override fun toString() = "$domain $entryCountry"
 

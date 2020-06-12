@@ -104,7 +104,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsTransmissionProtocol">Protocole de transmission</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Taille du MTU</string>
-  <string name="settingsMtuDescription">Si la valeur par défaut n\'est pas adaptée à un réseau particulier, entrez une valeur comprise entre 1280 et 1500. Ne le changez que lorsque vous savez ce que vous faites.</string>
+  <string name="settingsMtuDescription">Si la valeur par défaut n\'est pas adaptée à un réseau particulier, entrez une valeur comprise entre 1280 et 1500. Ne la changez que lorsque vous savez ce que vous faites.</string>
   <string name="settingsMtuRangeInvalid">La valeur du MTU doit être comprise entre 1280 et 1500</string>
   <string name="settingsDefaultConnectionTitle">Connexion rapide</string>
   <string name="settingsDefaultConnectionDescription">Le bouton Connexion rapide vous connecte au profil sélectionné</string>
@@ -302,7 +302,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Il manque certaines options ? <a href=\"%1$s\">Appuyez ici pour en savoir plus</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">« Kill Switch et le VPN permanent ne sont pas toujours disponibles sur        les anciennes versions de l\'OS Android ni sur tous les appareils Android. Si votre appareil n\'offre pas le VPN permanent ou Kill Switch, il n\'y a rien que ProtonVPN puisse faire pour les implémenter. Vous pouvez mettre à jour votre système d\'exploitation vers la version la plus récente d\'Android et essayer à nouveau. »</string>
   <string name="settingsSmartProtocolTitle">Protocole Smart</string>
-  <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connexion.</string>
+  <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
   <string name="netShieldEnabledWarning">Attention, certains sites Web pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
   <string name="netShieldDescription">Bloquer les publicités, les trackers et les logiciels malveillants </string>
   <string name="netshield">NetShield</string>
@@ -313,4 +313,5 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="netShieldReconnectionNeeded">Reconnexion nécessaire</string>
   <string name="netShieldReconnectionDescription">Votre connexion doit être relancée pour désactiver NetShield.</string>
   <string name="netShieldPaidFeature">Vous essayez d\'activer une fonctionnalité qui nécessite un abonnement ProtonVPN PLUS.</string>
+  <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
 </resources>

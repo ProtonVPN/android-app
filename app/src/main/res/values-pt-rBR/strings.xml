@@ -150,7 +150,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="insufficientPermissionsTitle">Ação do usuário necessária</string>
   <string name="insufficientPermissionsDetails">Não foi possível estabelecer uma conexão automaticamente com a VPN. Por favor, efetue a conexão manualmente para conceder as permissões.</string>
   <string name="tabsCountries">Países</string>
-  <string name="tabsMap">Visualização do mapa</string>
+  <string name="tabsMap">Mapa</string>
   <string name="tabsProfiles">Perfis</string>
   <string name="log_title">Registros</string>
   <string name="disconnect">Desconectar</string>
@@ -314,4 +314,5 @@ em versões mais antigas do sistema operacional Android e/ou em todos os disposi
   <string name="netShieldReconnectionNeeded">Reconexão necessária</string>
   <string name="netShieldReconnectionDescription">Sua conexão precisa ser reiniciada para desativar o NetShield.</string>
   <string name="netShieldPaidFeature">Você está tentando ativar o recurso que requer a assinatura do ProtonVPN Plus.</string>
+  <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
 </resources>

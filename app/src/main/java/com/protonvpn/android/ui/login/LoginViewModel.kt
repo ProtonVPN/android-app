@@ -18,14 +18,20 @@
  */
 package com.protonvpn.android.ui.login
 
+import android.content.Context
+import android.content.Intent
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.api.ApiResult
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.utils.ConstantTime
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +39,15 @@ import srp.Auth
 import srp.Proofs
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(val userData: UserData, val api: ProtonApiRetroFit) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    val userData: UserData,
+    val appConfig: AppConfig,
+    val api: ProtonApiRetroFit,
+    private val guestHole: GuestHole,
+    val serverManager: ServerManager
+) : ViewModel() {
+
+    val loginState = MutableLiveData<LoginState>()
 
     private suspend fun getProofs(
         username: String,
@@ -70,7 +84,33 @@ class LoginViewModel @Inject constructor(val userData: UserData, val api: Proton
         }
     }
 
-    suspend fun login(password: String): LoginState {
+    suspend fun login(context: Context, password: String, prepareIntentHandler: ((Intent) -> Unit)) {
+        loginState.postValue(LoginState.InProgress)
+        var result = makeInfoResponseCall(password)
+        if (result is LoginState.Error && result.error.isPotentialBlocking(context)) {
+            loginWithGuestHole(context, password, prepareIntentHandler)?.let { result = it }
+        }
+        loginState.postValue(result)
+    }
+
+    private suspend fun loginWithGuestHole(
+        context: Context,
+        password: String,
+        prepareIntentHandler: ((Intent) -> Unit)
+    ): LoginState? {
+        loginState.postValue(LoginState.GuestHoleActivated)
+        return guestHole.call(context, prepareIntentHandler) {
+            appConfig.update()
+            makeInfoResponseCall(password).apply {
+                if (this is LoginState.Success && serverManager.isOutdated) {
+                    val serversResult = api.getServerList(null, null)
+                    if (serversResult is ApiResult.Success) serverManager.setServers(serversResult.value.serverList)
+                }
+            }
+        }
+    }
+
+    private suspend fun makeInfoResponseCall(password: String): LoginState {
         Storage.delete(LoginResponse::class.java)
         return when (val loginInfoResult = api.postLoginInfo(userData.user)) {
             is ApiResult.Error -> LoginState.Error(loginInfoResult, true)

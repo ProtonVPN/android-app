@@ -25,28 +25,20 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.Log
 import java.io.Serializable
-import java.util.*
+import java.util.Collections
 import kotlin.collections.ArrayList
-import org.apache.commons.lang3.SerializationUtils
 
 class VpnCountry(
     val flag: String,
     serverList: List<Server>,
-    deliverer: ServerDeliver,
-    private var bestConnection: Server?
+    deliverer: ServerDeliver
 ) : Markable, Serializable, Listable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
     private val keywords: MutableList<String>
-    private var isExpanded: Boolean = false
-    private var addBestConnection = true
 
     @Transient var deliverer: ServerDeliver
-
-    private val expandedCountryString: String
-        get() = flag + countryName + serverList.size
 
     val countryName: String
         get() = CountryTools.getFullName(flag)
@@ -68,7 +60,6 @@ class VpnCountry(
         this.translatedCoordinates = TranslatedCoordinates(flag)
         this.keywords = ArrayList()
         initKeywords()
-        this.isExpanded = false
     }
 
     private fun initKeywords() {
@@ -79,13 +70,10 @@ class VpnCountry(
         }
     }
 
-    fun hasAccessibleServer(userData: UserData): Boolean {
-        return serverList.any { userData.hasAccessToServer(it) && it.isOnline }
-    }
+    fun hasAccessibleServer(userData: UserData): Boolean =
+        serverList.any { userData.hasAccessToServer(it) && it.isOnline }
 
-    fun isUnderMaintenance(): Boolean {
-        return !serverList.any { it.isOnline }
-    }
+    fun isUnderMaintenance(): Boolean = !serverList.any { it.isOnline }
 
     private fun sortServers(serverList: List<Server>): List<Server> {
         Collections.sort(serverList,
@@ -96,9 +84,7 @@ class VpnCountry(
         return serverList
     }
 
-    fun getKeywords(): List<String> {
-        return keywords
-    }
+    fun getKeywords(): List<String> = keywords
 
     fun hasConnectedServer(server: Server?): Boolean {
         if (server == null) {
@@ -107,51 +93,15 @@ class VpnCountry(
         return serverList.any { it.domain == server.domain }
     }
 
-    fun getServersForListView(userData: UserData): List<Server> {
-        val list = serverList.toMutableList()
-        list.sortByDescending { userData.userTier == it.tier }
-        if (addBestConnection && bestConnection == null) {
-            Log.exception(Exception("AddBest true, while bestConnection is null. Flag: " + flag + " size: " + serverList.size))
-        }
-        if (addBestConnection && bestConnection != null) {
-            val fastestServer = SerializationUtils.clone(bestConnection)
-            fastestServer!!.hasBestScore = true
-            fastestServer.selectedAsFastest = true
-            list.add(0, fastestServer)
-        }
+    override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
 
-        return list
-    }
+    override fun isSecureCoreMarker(): Boolean = isSecureCoreCountry()
 
-    fun isExpanded(): Boolean {
-        return isExpanded
-    }
+    override fun getMarkerText(): String = countryName
 
-    override fun getCoordinates(): TranslatedCoordinates {
-        return translatedCoordinates
-    }
+    override fun getConnectableServers(): List<Server> = serverList
 
-    override fun isSecureCoreMarker(): Boolean {
-        return isSecureCoreCountry()
-    }
+    override fun getLabel(context: Context): String = countryName
 
-    override fun getMarkerText(): String {
-        return countryName
-    }
-
-    override fun getConnectableServers(): List<Server> {
-        return serverList
-    }
-
-    fun addBestConnectionToList(addBestConnection: Boolean) {
-        this.addBestConnection = addBestConnection
-    }
-
-    override fun getLabel(context: Context): String {
-        return countryName // + if (hasAccessibleServer()) "" else " (Upgrade)"
-    }
-
-    fun isSecureCoreCountry(): Boolean {
-        return flag == "IS" || flag == "SE" || flag == "CH"
-    }
+    fun isSecureCoreCountry(): Boolean = flag == "IS" || flag == "SE" || flag == "CH"
 }
