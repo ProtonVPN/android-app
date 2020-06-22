@@ -26,7 +26,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="error_field_required">Это обязательное поле</string>
   <string name="title_activity_home">@string/app_name</string>
   <string name="menuActionLogout">Выход из учётной записи</string>
-  <string name="loginSlogan">Безопасный Интернет повсюду</string>
+  <string name="loginSlogan">Безопасный Интернет где угодно</string>
   <string name="loginStartWithDevice">Запуск при включении устройства</string>
   <string name="loginCreateAccount">Создать новый аккаунт</string>
   <string name="loginNeedHelp">Нужна помощь?</string>

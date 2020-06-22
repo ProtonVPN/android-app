@@ -83,7 +83,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountButtonManage">Gérer le compte</string>
   <string name="accountTrial">ProtonVPN PLUS version d’essai</string>
   <string name="accountFree">ProtonVPN FREE</string>
-  <string name="accountBasic">&lt;font fgcolor=BASIC"#FB7554"&gt;ProtonVPN BASIC&lt;/font&gt;</string>
+  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN BASIC</font></string>
   <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN PLUS</font></string>
   <string name="accountVisionary"><font fgcolor="#32b3dd">Proton VISIONARY</font></string>
   <string name="freeTrialExpired">"Votre essai gratuit de 7 jours de ProtonVPN PLUS a expiré. Vous pouvez continuer à utiliser ProtonVPN FREE, mais si vous souhaitez soutenir le projet et avoir plus de débit et de fonctionnalités, veuillez mettre à niveau vers une offre payante."</string>
