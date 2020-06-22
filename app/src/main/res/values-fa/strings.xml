@@ -229,7 +229,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه لاگ‌های VPN سمت کاربر را به این گزارش می‌افزاید</string>
   <string name="profileFastest">سریع‌ترین</string>
   <string name="profileRandom">تصادفی</string>
-  <string name="settingsSplitTunnelingDescription">Split tunneling اجازه می‌دهد تا آدرس‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
+  <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا آدرس‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s تحت عملیات نگهداری</string>
   <string name="serverLabelUpgrade">%1$s (ارتقا)</string>
