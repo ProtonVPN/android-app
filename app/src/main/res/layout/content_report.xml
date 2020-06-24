@@ -43,9 +43,7 @@
             android:textAllCaps="true"
             android:textColor="@color/accountTitles"
             android:textSize="16sp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.protonvpn.android.components.ProtonSwitch
@@ -70,9 +68,7 @@
             android:textAllCaps="true"
             android:textColor="@color/accountTitles"
             android:textSize="16sp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switchAttachLog" />
 
         <androidx.appcompat.widget.AppCompatEditText
