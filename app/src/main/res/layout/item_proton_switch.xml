@@ -85,6 +85,7 @@
         android:layout_marginEnd="8dp"
         android:lineSpacingMultiplier="1.2"
         android:textColor="@color/white50"
+        android:textDirection="locale"
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textTitle"
