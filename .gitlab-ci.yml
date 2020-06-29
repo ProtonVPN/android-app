@@ -280,6 +280,7 @@ i18n-commit-locales:
   extends: .i18n-commit-locales-shared
 
 publish-github:
+  stage: publish
   only:
     refs:
       - master
