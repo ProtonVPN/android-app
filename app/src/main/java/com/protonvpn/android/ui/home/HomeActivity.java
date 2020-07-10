@@ -68,7 +68,6 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
-import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.vpn.LogActivity;
@@ -333,8 +332,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void logout() {
         userData.logout();
         serverManager.clearCache();
-        api.logout(result ->
-            Log.d(result.isSuccess() ? "Logout successful" : "Logout api call failed"));
+        api.logout(result -> {});
         vpnStateMonitor.disconnect();
         finish();
         navigateTo(LoginActivity.class);

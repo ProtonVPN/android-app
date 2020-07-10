@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2020 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,19 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components;
+package com.protonvpn.di
 
-import com.protonvpn.android.api.ApiResult;
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 
-public interface LoaderUI {
+class MockNetworkManager : NetworkManager() {
+    override val networkStatus get() = currentStatus
+    override fun register() {}
+    override fun unregister() {}
 
-    void switchToRetry(ApiResult.Error error);
-
-    void switchToEmpty();
-
-    void switchToLoading();
-
-    void setRetryListener(NetworkFrameLayout.OnRequestRetryListener listener);
-
-    NetworkFrameLayout.State getState();
+    companion object {
+        var currentStatus = NetworkStatus.Unmetered
+    }
 }

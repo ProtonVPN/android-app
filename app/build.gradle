@@ -570,6 +570,11 @@ dependencies {
     implementation 'org.minidns:minidns-hla:0.3.4'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+
+    // Proton Core libs
+    implementation "me.proton.core:network:0.1.5"
+    implementation "me.proton.core:util-kotlin:0.1.4"
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'

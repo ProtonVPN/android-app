@@ -18,7 +18,7 @@
  */
 package com.protonvpn.android.ui.login
 
-import com.protonvpn.android.api.ApiResult
+import me.proton.core.network.domain.ApiResult
 
 sealed class LoginState {
     object Success : LoginState()

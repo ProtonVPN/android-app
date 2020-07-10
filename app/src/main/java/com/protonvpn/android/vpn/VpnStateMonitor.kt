@@ -27,7 +27,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -41,7 +40,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
@@ -63,6 +61,7 @@ import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
 
 @Singleton
@@ -72,7 +71,7 @@ open class VpnStateMonitor(
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
-    apiManager: ProtonApiManager,
+    private val networkManager: NetworkManager,
     private val scope: CoroutineScope
 ) : VpnStateSource {
 
@@ -153,7 +152,6 @@ open class VpnStateMonitor(
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
-        apiManager.initVpnState(this)
         ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
                 DISCONNECT_ACTION -> disconnect()
@@ -216,7 +214,7 @@ open class VpnStateMonitor(
         activeBackend?.setSelfState(Error(errorType))
     }
 
-    private suspend fun coroutineConnect(context: Context, profile: Profile) {
+    private suspend fun coroutineConnect(profile: Profile) {
         // If smart profile fails we need this to handle reconnect request
         lastProfile = profile
         val server = profile.server!!
@@ -226,7 +224,7 @@ open class VpnStateMonitor(
             setSelfState(ScanningPorts)
 
         var protocol = profile.getProtocol(userData)
-        if (!ConnectionTools.isNetworkAvailable(context) && protocol == VpnProtocol.Smart)
+        if (!networkManager.isConnectedToNetwork() && protocol == VpnProtocol.Smart)
             protocol = userData.manualProtocol
         var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
         if (preparedConnection == null) {
@@ -288,7 +286,7 @@ open class VpnStateMonitor(
             if (profile.server != null) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
-                    coroutineConnect(context, profile)
+                    coroutineConnect(profile)
                 }
             } else {
                 NotificationHelper.showInformationNotification(

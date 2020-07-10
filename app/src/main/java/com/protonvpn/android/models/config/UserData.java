@@ -20,6 +20,8 @@ package com.protonvpn.android.models.config;
 
 import android.os.Build;
 
+import com.protonvpn.android.api.NetworkUserData;
+import com.protonvpn.android.models.login.LoginResponse;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -61,12 +63,10 @@ public final class UserData implements Serializable {
     private TransmissionProtocol transmissionProtocol;
     private boolean apiUseDoH;
     private NetShieldProtocol netShieldProtocol;
-    private long lastPrimaryApiFail;
-    private String activeAlternativeBaseUrl;
-    private List<String> alternativeApiBaseUrls;
     private boolean useSmartProtocol;
 
     private transient LiveEvent updateEvent = new LiveEvent();
+    private transient NetworkUserData networkUserData = new NetworkUserData();
 
     public UserData() {
         user = "";
@@ -368,32 +368,15 @@ public final class UserData implements Serializable {
         return netShieldProtocol;
     }
 
-    @Nullable
-    public List<String> getAlternativeApiBaseUrls() {
-        return alternativeApiBaseUrls;
+    public NetworkUserData getNetworkUserData() {
+        return networkUserData;
     }
 
-    public void setAlternativeApiBaseUrls(@Nullable List<String> baseUrls) {
-        alternativeApiBaseUrls = baseUrls;
-        saveToStorage();
+    public void clearNetworkUserData() {
+        networkUserData.clear();
     }
 
-    public long getLastPrimaryApiFail() {
-        return lastPrimaryApiFail;
-    }
-
-    public void setLastPrimaryApiFail(long timestamp) {
-        lastPrimaryApiFail = timestamp;
-        saveToStorage();
-    }
-
-    @Nullable
-    public String getActiveAlternativeApiBaseUrl() {
-        return activeAlternativeBaseUrl;
-    }
-
-    public void setActiveAlternativeApiBaseUrl(@Nullable String baseUrl) {
-        activeAlternativeBaseUrl = baseUrl;
-        saveToStorage();
+    public void setLoginResponse(LoginResponse value) {
+        networkUserData.setLoginResponse(value);
     }
 }

@@ -18,30 +18,9 @@
  */
 package com.protonvpn.android.utils;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import java.text.DecimalFormat;
 
 public final class ConnectionTools {
-
-    public static boolean networkAvailable = true;
-
-    public static void setNetworkAvailability(boolean availability) {
-        networkAvailable = availability;
-    }
-
-    public ConnectionTools() {
-
-    }
-
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager =
-            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkAvailable && activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
     public static String bytesToSize(long sizeInBytes) {
         String readableSize;

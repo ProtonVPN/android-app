@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.api
 
-import org.minidns.dnsmessage.DnsMessage
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Query
-import retrofit2.http.Url
+package com.protonvpn.android.utils
 
-interface DnsOverHttpsRetrofitApi {
+import com.protonvpn.android.BuildConfig
+import me.proton.core.util.kotlin.Logger
 
-    @Headers("Accept: application/dns-message")
-    @GET
-    suspend fun getServers(@Url url: String, @Query("dns") base64DnsMessage: String): Response<DnsMessage>
+class CoreLogger : Logger {
+
+    override fun e(e: Throwable) {
+        ProtonLogger.log(e.toString())
+        if (BuildConfig.DEBUG)
+            e.printStackTrace()
+    }
 }

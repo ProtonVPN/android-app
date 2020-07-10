@@ -18,24 +18,24 @@
  */
 package com.protonvpn.di
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.IdlingResource
 import com.protonvpn.MockSwitch
-import com.protonvpn.android.api.*
+import com.protonvpn.android.api.NetworkResultCallback
+import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.vpn.ServerList
-import com.protonvpn.testsHelper.IdlingResourceHelper
 import com.protonvpn.testsHelper.MockedServers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import me.proton.core.network.domain.ApiManager
+import me.proton.core.network.domain.ApiResult
 
-class MockApi(scope: CoroutineScope, manager: ProtonApiManager) : ProtonApiRetroFit(scope, manager) {
+class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>) : ProtonApiRetroFit(scope, manager) {
 
     override suspend fun getSession(): ApiResult<SessionListResponse> =
-        ApiResult.Success(Response.success(SessionListResponse(0, listOf())))
+        ApiResult.Success(SessionListResponse(0, listOf()))
 
     override fun logout(callback: NetworkResultCallback<GenericResponse>) = scope.launch {
         callback.onSuccess(GenericResponse(1000))
@@ -43,12 +43,7 @@ class MockApi(scope: CoroutineScope, manager: ProtonApiManager) : ProtonApiRetro
 
     override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         if (MockSwitch.mockedServersUsed)
-            ApiResult.Success(Response.success(ServerList(MockedServers.serverList)))
+            ApiResult.Success(ServerList(MockedServers.serverList))
         else
             super.getServerList(loader, ip)
-
-    init {
-        val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", getOkClient())
-        Espresso.registerIdlingResources(resource)
-    }
 }

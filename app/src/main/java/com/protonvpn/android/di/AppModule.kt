@@ -21,15 +21,15 @@ package com.protonvpn.android.di
 import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.AlternativeApiManagerProd
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.api.ProtonPrimaryApiBackend
+import com.protonvpn.android.api.ProtonVPNRetrofit
+import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
+import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
@@ -42,6 +42,11 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import me.proton.core.network.data.di.ApiFactory
+import me.proton.core.network.data.di.NetworkManager
+import me.proton.core.network.data.di.NetworkPrefs
+import me.proton.core.network.domain.ApiManager
+import me.proton.core.network.domain.NetworkManager
 import java.util.Random
 import javax.inject.Singleton
 
@@ -70,16 +75,30 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideProtonApiManager(userData: UserData): ProtonApiManager {
-        val altApiManager = AlternativeApiManagerProd(userData, System::currentTimeMillis)
-        val primaryApiBackend = ProtonPrimaryApiBackend(PRIMARY_VPN_API_URL)
-        return ProtonApiManager(ProtonApplication.getAppContext(), userData, altApiManager,
-                primaryApiBackend, random)
+    fun provideNetworkManager(): NetworkManager =
+        NetworkManager(ProtonApplication.getAppContext())
+
+    @Singleton
+    @Provides
+    fun provideProtonApiManager(
+        networkManager: NetworkManager,
+        apiClient: VpnApiClient,
+        userData: UserData
+    ): ApiManager<ProtonVPNRetrofit> {
+        val appContext = ProtonApplication.getAppContext()
+        val logger = CoreLogger()
+        val apiFactory = ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
+                NetworkPrefs(appContext), scope)
+        return apiFactory.ApiManager(userData.getNetworkUserData(), ProtonVPNRetrofit::class)
     }
 
     @Singleton
     @Provides
-    fun provideAPI(apiManager: ProtonApiManager) = ProtonApiRetroFit(scope, apiManager)
+    fun provideApiClient(): VpnApiClient = VpnApiClient()
+
+    @Singleton
+    @Provides
+    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>) = ProtonApiRetroFit(scope, apiManager)
 
     @Singleton
     @Provides
@@ -97,9 +116,11 @@ class AppModule {
         backendManager: VpnBackendProvider,
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
-        protonApiManager: ProtonApiManager
-    ) = VpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor,
-            protonApiManager, scope)
+        networkManager: NetworkManager,
+        apiClient: VpnApiClient
+    ) = VpnStateMonitor(userData, api, backendManager, serverListUpdater, trafficMonitor, networkManager, scope).apply {
+        apiClient.init(this)
+    }
 
     @Singleton
     @Provides
