@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseFragmentV2
@@ -37,6 +36,7 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
 @ContentLayout(R.layout.fragment_country_list)
@@ -137,11 +137,11 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             //  views lifecycles, this needs to be refactored, for now return fake LoaderUI.
             Log.exception(e)
             return object : LoaderUI {
-                override fun getState(): NetworkFrameLayout.State =
+                override val state: NetworkFrameLayout.State =
                         NetworkFrameLayout.State.EMPTY
 
                 override fun switchToLoading() {}
-                override fun setRetryListener(listener: NetworkFrameLayout.OnRequestRetryListener?) {}
+                override fun setRetryListener(listener: () -> Unit) {}
                 override fun switchToEmpty() {}
                 override fun switchToRetry(error: ApiResult.Error) {}
             }

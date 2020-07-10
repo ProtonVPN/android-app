@@ -18,21 +18,19 @@
  */
 package com.protonvpn.android.api
 
+import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.LoginResponse
-import com.protonvpn.android.models.login.RefreshBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
+import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -40,41 +38,35 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 @Suppress("ComplexInterface")
-interface ProtonVPNRetrofit {
+interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/logicals")
-    suspend fun getServers(@Query("IP") ip: String?): Response<ServerList>
+    suspend fun getServers(@Query("IP") ip: String?): ServerList
 
     @GET("vpn/loads")
-    suspend fun getLoads(@Query("IP") ip: String?): Response<LoadsResponse>
+    suspend fun getLoads(@Query("IP") ip: String?): LoadsResponse
 
     @POST("auth/info")
-    suspend fun postLoginInfo(@Body body: LoginInfoBody): Response<LoginInfoResponse>
+    suspend fun postLoginInfo(@Body body: LoginInfoBody): LoginInfoResponse
 
     @POST("auth")
-    suspend fun postLogin(@Body body: LoginBody): Response<LoginResponse>
-
-    @POST("auth/refresh")
-    fun postRefresh(@Body body: RefreshBody): Call<LoginResponse>
+    suspend fun postLogin(@Body body: LoginBody): LoginResponse
 
     @DELETE("auth")
-    suspend fun postLogout(): Response<GenericResponse>
+    suspend fun postLogout(): GenericResponse
 
     @GET("vpn")
-    suspend fun getVPNInfo(): Response<VpnInfoResponse>
+    suspend fun getVPNInfo(): VpnInfoResponse
 
     @GET("vpn/sessions")
-    suspend fun getSession(): Response<SessionListResponse>
+    suspend fun getSession(): SessionListResponse
 
     @GET("vpn/location")
-    suspend fun getLocation(): Response<UserLocation>
+    suspend fun getLocation(): UserLocation
 
     @POST("reports/bug")
-    suspend fun postBugReport(@Body params: RequestBody): Response<GenericResponse>
+    suspend fun postBugReport(@Body params: RequestBody): GenericResponse
 
     @GET("/vpn/clientconfig")
-    suspend fun getAppConfig(): Response<AppConfigResponse>
-
-    @GET("test/ping")
-    suspend fun ping(): Response<GenericResponse>
+    suspend fun getAppConfig(): AppConfigResponse
 }

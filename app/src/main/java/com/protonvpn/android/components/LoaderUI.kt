@@ -16,22 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils;
+package com.protonvpn.android.components
 
-import com.protonvpn.android.models.login.LoginResponse;
+import me.proton.core.network.domain.ApiResult
 
-// Should be refactored and removed
-@Deprecated
-public class User {
+interface LoaderUI {
 
-    public static String getUuid() {
-        LoginResponse user = Storage.load(LoginResponse.class);
-        return user != null ? user.getUid() : "";
-    }
+    fun switchToRetry(error: ApiResult.Error)
+    fun switchToEmpty()
+    fun switchToLoading()
+    fun setRetryListener(listener: () -> Unit)
 
-    public static String getAccessToken() {
-        LoginResponse user = Storage.load(LoginResponse.class);
-        return user != null ? "Bearer " + user.getAccessToken() : "";
-    }
-
+    val state: NetworkFrameLayout.State?
 }

@@ -20,7 +20,7 @@ package com.protonvpn.tests.login;
 
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.LoginRobot;
-import com.protonvpn.android.utils.ConnectionTools;
+import com.protonvpn.di.MockNetworkManager;
 import com.protonvpn.results.LoginFormResult;
 import com.protonvpn.results.LoginResult;
 import com.protonvpn.results.LogoutResult;
@@ -29,6 +29,7 @@ import com.protonvpn.tests.testRules.SetUserPreferencesRule;
 import com.protonvpn.testsHelper.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -37,6 +38,7 @@ import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import me.proton.core.network.domain.NetworkStatus;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -47,6 +49,11 @@ public class LoginRobotTests extends UIActionsTestHelper {
 
     @Rule public ProtonLoginActivityTestRule testRule = new ProtonLoginActivityTestRule();
     @ClassRule public static SetUserPreferencesRule testClassRule = new SetUserPreferencesRule(null);
+
+    @After
+    public void setup() {
+        MockNetworkManager.Companion.setCurrentStatus(NetworkStatus.Unmetered);
+    }
 
     @Test
     public void loginWithPlusUser() {
@@ -78,10 +85,9 @@ public class LoginRobotTests extends UIActionsTestHelper {
 
     @Test
     public void loginWhenInternetIsDown() {
-        ConnectionTools.setNetworkAvailability(false);
+        MockNetworkManager.Companion.setCurrentStatus(NetworkStatus.Disconnected);
         LoginResult result = loginRobot.login(TestUser.getPlusUser());
         result.isFailure().noInternetConnectionError(testRule.getActivity());
-        ConnectionTools.setNetworkAvailability(true);
     }
 
     @Test

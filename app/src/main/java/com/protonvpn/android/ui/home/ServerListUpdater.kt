@@ -22,9 +22,9 @@ import android.os.SystemClock
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
@@ -35,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiResult
 import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
 

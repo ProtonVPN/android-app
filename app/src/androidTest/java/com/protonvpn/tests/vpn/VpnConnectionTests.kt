@@ -23,18 +23,17 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.di.MockNetworkManager
 import com.protonvpn.di.MockVpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.MockedServers
@@ -48,6 +47,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
+import me.proton.core.network.domain.NetworkStatus
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -66,6 +66,7 @@ class VpnConnectionTests {
     private lateinit var scope: CoroutineScope
     private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
+    private lateinit var networkManager: MockNetworkManager
 
     @MockK
     private lateinit var api: ProtonApiRetroFit
@@ -75,9 +76,6 @@ class VpnConnectionTests {
 
     @RelaxedMockK
     lateinit var trafficMonitor: TrafficMonitor
-
-    @RelaxedMockK
-    lateinit var apiManager: ProtonApiManager
 
     @RelaxedMockK
     lateinit var serverManager: ServerManager
@@ -94,13 +92,14 @@ class VpnConnectionTests {
         context = InstrumentationRegistry.getInstrumentation().context
         scope = TestCoroutineScope(EmptyCoroutineContext)
         userData = UserData()
+        networkManager = MockNetworkManager()
 
         val backendProvider =
                 ProtonVpnBackendProvider(strongSwan = mockStrongSwan, openVpn = mockOpenVpn)
         monitor = MockVpnStateMonitor(
-                userData, api, backendProvider, serverListUpdater, trafficMonitor, apiManager, scope)
+                userData, api, backendProvider, serverListUpdater, trafficMonitor, networkManager, scope)
 
-        ConnectionTools.setNetworkAvailability(true)
+        MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
         val server = MockedServers.server
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
@@ -138,7 +137,7 @@ class VpnConnectionTests {
 
     @Test
     fun smartNoInternet() = runBlockingTest {
-        ConnectionTools.setNetworkAvailability(false)
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userData.manualProtocol = VpnProtocol.OpenVPN
         monitor.connect(context, profileSmart)
         yield()

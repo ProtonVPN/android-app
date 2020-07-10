@@ -19,19 +19,20 @@
 package com.protonvpn.di
 
 import android.os.SystemClock
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import com.google.gson.Gson
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.AlternativeApiManager
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.api.ProtonPrimaryApiBackend
+import com.protonvpn.android.api.ProtonVPNRetrofit
+import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
@@ -39,18 +40,21 @@ import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
+import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
-import java.util.Random
+import me.proton.core.network.data.di.ApiFactory
+import me.proton.core.network.data.di.NetworkPrefs
+import me.proton.core.network.domain.ApiManager
+import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
 
 @Module
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
-    private val random = Random()
 
     @Singleton
     @Provides
@@ -71,23 +75,33 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideProtonApiManager(userData: UserData): ProtonApiManager {
-        val altApiManager = object : AlternativeApiManager(
-            BuildConfig.API_DOMAIN,
-            userData,
-            System::currentTimeMillis
-        ) {
-            override fun createAltBackend(baseUrl: String) = throw NotImplementedError()
-            override fun getDnsOverHttpsProviders() = emptyArray<DnsOverHttpsProvider>()
-        }
-        val primaryApiBackend = ProtonPrimaryApiBackend(Constants.PRIMARY_VPN_API_URL)
-        return ProtonApiManager(ProtonApplication.getAppContext(),
-                userData, altApiManager, primaryApiBackend, random)
+    fun provideNetworkManager(): NetworkManager = MockNetworkManager()
+
+    @Singleton
+    @Provides
+    fun provideProtonApiManager(
+        networkManager: NetworkManager,
+        apiClient: VpnApiClient,
+        userData: UserData
+    ): ApiManager<ProtonVPNRetrofit> {
+        val appContext = ProtonApplication.getAppContext()
+        val logger = CoreLogger()
+        val apiFactory = ApiFactory(Constants.PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
+                NetworkPrefs(appContext), scope)
+        val resource: IdlingResource =
+                IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
+        IdlingRegistry.getInstance().register(resource)
+
+        return apiFactory.ApiManager(userData.getNetworkUserData(), ProtonVPNRetrofit::class)
     }
 
     @Singleton
     @Provides
-    fun provideAPI(apiManager: ProtonApiManager): ProtonApiRetroFit = MockApi(scope, apiManager)
+    fun provideApiClient(): VpnApiClient = VpnApiClient()
+
+    @Singleton
+    @Provides
+    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>): ProtonApiRetroFit = MockApi(scope, apiManager)
 
     @Singleton
     @Provides
@@ -107,9 +121,12 @@ class MockAppModule {
         backendManager: VpnBackendProvider,
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
-        apiManager: ProtonApiManager
+        networkManager: NetworkManager,
+        apiClient: VpnApiClient
     ): VpnStateMonitor = MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
-                trafficMonitor, apiManager, scope)
+                trafficMonitor, networkManager, scope).apply {
+        apiClient.init(this)
+    }
 
     @Singleton
     @Provides

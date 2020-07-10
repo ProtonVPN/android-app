@@ -43,7 +43,6 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ApiResult
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.CompressedTextWatcher
 import com.protonvpn.android.components.ContentLayout
@@ -57,6 +56,7 @@ import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiResult
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import javax.inject.Inject
@@ -206,10 +206,8 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             hideKeyboard()
             viewModel.userData.user = email
 
-            loadingContainer.setRetryListener {
-                login()
-            }
             login()
+            loadingContainer.setRetryListener(::login)
         }
     }
 
@@ -218,7 +216,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     override fun onVpnPrepareFailed() {
         loginJob?.cancel()
         binding.loadingContainer.switchToRetry(
-                ApiResult.Failure(Exception("Vpn permission not granted")))
+                ApiResult.Error.Connection(false, Exception("Vpn permission not granted")))
     }
 
     private fun login() = with(binding) {
@@ -253,7 +251,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             is LoginState.Error -> {
                 loadingContainer.switchToRetry(loginState.error)
                 if (loginState.retryRequest.not())
-                    loadingContainer.setRetryListener { loadingContainer.switchToEmpty() }
+                    loadingContainer.setRetryListener(loadingContainer::switchToEmpty)
             }
             is LoginState.UnsupportedAuth -> {
                 loadingContainer.switchToEmpty()
