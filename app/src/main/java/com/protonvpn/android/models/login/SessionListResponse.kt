@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2018 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,26 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.login;
+package com.protonvpn.android.models.login
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-public class ErrorBody {
-
-    private final String error;
-    private final int code;
-
-    public ErrorBody(@JsonProperty(value = "Code", required = true) int code,
-                     @JsonProperty(value = "Error", required = true) String error) {
-        this.error = error;
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public int getCode() {
-        return code;
-    }
-}
+@Serializable
+class SessionListResponse(
+    @SerialName(value = "Code") val code: Int,
+    @SerialName(value = "Sessions") val sessionList: List<Session>
+)

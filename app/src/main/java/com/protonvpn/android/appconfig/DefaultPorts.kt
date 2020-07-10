@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2019 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -18,15 +18,23 @@
  */
 package com.protonvpn.android.appconfig
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Serializable
-data class FeatureFlags(
-    @SerialName(value = "NetShield") val netShield: Int = 0,
-    @SerialName(value = "GuestHoles") val guestHoles: Int = 0
-) : java.io.Serializable {
+class DefaultPorts(
+    @SerialName(value = "UDP") private val udpPorts: List<Int>,
+    @SerialName(value = "TCP") private val tcpPorts: List<Int>
+) {
+    fun getUdpPorts(): List<Int> =
+        if (udpPorts.isEmpty()) DEFAULT_PORT_LIST else udpPorts
 
-    val guestHoleEnabled: Boolean get() = guestHoles != 0
-    val netShieldEnabled: Boolean get() = netShield != 0
+    fun getTcpPorts(): List<Int> =
+        if (tcpPorts.isEmpty()) DEFAULT_PORT_LIST else tcpPorts
+
+    companion object {
+        private val DEFAULT_PORT_LIST = listOf(443)
+        val defaults: DefaultPorts
+            get() = DefaultPorts(DEFAULT_PORT_LIST, DEFAULT_PORT_LIST)
+    }
 }

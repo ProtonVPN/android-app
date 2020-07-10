@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2018 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,23 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn;
+package com.protonvpn.android.models.login
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import java.io.Serializable;
-import java.util.List;
-
-public class ServerList implements Serializable {
-
-    private final List<Server> serverList;
-
-    public ServerList(
-        @JsonProperty(value = "LogicalServers", required = true) List<Server> secureCoreServer) {
-        this.serverList = secureCoreServer;
-    }
-
-    public List<Server> getServerList() {
-        return serverList;
-    }
-}
+@Serializable
+class GenericResponse(@SerialName(value = "Code") val code: Int)

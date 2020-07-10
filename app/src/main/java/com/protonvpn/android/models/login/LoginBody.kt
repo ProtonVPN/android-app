@@ -16,19 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
+package com.protonvpn.android.models.login
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.protonvpn.android.components.GsonModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class LoadsResponse(
-    @SerialName(value = "LogicalServers") val loadsList: List<LoadUpdate>
-)
+class LoginBody(
+    @SerialName("Username") val username: String,
+    @SerialName("SRPSession") val srpSession: String,
+    @SerialName("ClientEphemeral") val clientEphemeral: String,
+    @SerialName("ClientProof") val clientProof: String,
+    @SerialName("TwoFactorCode") val twoFactorCode: String
+) : GsonModel {
 
-@Serializable
-data class LoadUpdate(
-    @SerialName(value = "ID") val id: String,
-    @SerialName(value = "Load") val load: Float,
-    @SerialName(value = "Score") val score: Float = 0f
-)
+    override fun toJson(): JsonObject {
+        val jsonString = GsonBuilder().create().toJson(this, LoginBody::class.java)
+        val parser = JsonParser()
+        return parser.parse(jsonString).asJsonObject
+    }
+}

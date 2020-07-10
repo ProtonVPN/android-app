@@ -44,12 +44,12 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit) {
         }
     }
 
-    fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts
+    fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts!!
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     private fun getDefaultConfig(): AppConfigResponse {
-        val defaultPorts = OpenVPNConfigResponse(DefaultPorts.getDefaults())
+        val defaultPorts = OpenVPNConfigResponse(DefaultPorts.defaults)
         val defaultFeatureFlags = FeatureFlags(0, 0)
         return AppConfigResponse(defaultPorts,
                 defaultFeatureFlags)

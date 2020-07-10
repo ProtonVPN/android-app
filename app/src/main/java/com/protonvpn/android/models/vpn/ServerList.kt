@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,28 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.login;
+package com.protonvpn.android.models.vpn
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import java.util.List;
-
-public class SessionListResponse {
-
-    private int code;
-    private List<Session> sessionList;
-
-    public SessionListResponse(@JsonProperty(value = "Code", required = true) int code,
-                               @JsonProperty(value = "Sessions", required = true) List<Session> sessionList) {
-        this.code = code;
-        this.sessionList = sessionList;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public List<Session> getSessionList() {
-        return sessionList;
-    }
-}
+@Serializable
+class ServerList(
+    @SerialName(value = "LogicalServers") val serverList: List<Server>
+) : java.io.Serializable

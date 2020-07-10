@@ -16,32 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn;
+package com.protonvpn.android.models.login
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import java.io.Serializable;
-
-public class Location implements Serializable {
-
-    private final String latitude;
-    private final String longitude;
-
-    public Location(@JsonProperty(value = "Lat", required = true) String latitude,
-                    @JsonProperty(value = "Long", required = true) String longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public String getCoordinates() {
-        return latitude + " " + longitude;
-    }
-}
+@Serializable
+class LoginResponse(
+    @SerialName(value = "AccessToken") var accessToken: String,
+    @SerialName(value = "ExpiresIn") val expiresIn: Int,
+    @SerialName(value = "TokenType") val tokenType: String,
+    @SerialName(value = "Scope") val scope: String,
+    @SerialName(value = "Uid") val uid: String,
+    @SerialName(value = "RefreshToken") var refreshToken: String
+)

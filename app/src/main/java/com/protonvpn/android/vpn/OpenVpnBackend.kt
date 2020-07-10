@@ -70,7 +70,7 @@ class OpenVpnBackend(
         val protocolInfo = if (!scan) {
             val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
-                openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
+                openVpnPorts.getUdpPorts() else openVpnPorts.getTcpPorts()).random()
             ProtocolInfo(transmissionProtocol, port)
         } else {
             scanPorts(connectingDomain)
@@ -86,13 +86,13 @@ class OpenVpnBackend(
         val udpPingData = getPingData(tcp = false)
         var transmissionProtocol = TransmissionProtocol.UDP
         var availablePort = scanInParallel(
-                openVpnPorts.udpPorts.shuffled(), connectingDomain.entryIp, udpPingData, withTcp = false)
+                openVpnPorts.getUdpPorts().shuffled(), connectingDomain.entryIp, udpPingData, withTcp = false)
 
         if (availablePort == null) {
             val tcpPingData = getPingData(tcp = true)
             transmissionProtocol = TransmissionProtocol.TCP
             availablePort = scanInParallel(
-                    openVpnPorts.tcpPorts.shuffled(), connectingDomain.entryIp, tcpPingData, withTcp = true)
+                    openVpnPorts.getTcpPorts().shuffled(), connectingDomain.entryIp, tcpPingData, withTcp = true)
         }
         return availablePort?.let { ProtocolInfo(transmissionProtocol, it) }
     }

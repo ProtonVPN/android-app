@@ -18,7 +18,10 @@
  */
 package com.protonvpn.android.appconfig
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-internal class OpenVPNConfigResponse(
-        @param:JsonProperty(value = "DefaultPorts", required = true) val defaultPorts: DefaultPorts)
+@Serializable
+class OpenVPNConfigResponse(
+    @SerialName(value = "DefaultPorts") val defaultPorts: DefaultPorts
+)
