@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,26 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.login;
+package com.protonvpn.android.models.vpn
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-public class Session {
-
-    private String exitIp;
-    private String sessionId;
-
-    public Session(@JsonProperty(value = "ExitIP", required = true) String exitIp,
-                   @JsonProperty(value = "SessionID") String sessionId) {
-        this.exitIp = exitIp;
-        this.sessionId = sessionId;
-    }
-
-    public String getExitIp() {
-        return exitIp;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-}
+@Serializable
+class UserLocation(
+    @SerialName(value = "IP") val ipAddress: String
+) : java.io.Serializable

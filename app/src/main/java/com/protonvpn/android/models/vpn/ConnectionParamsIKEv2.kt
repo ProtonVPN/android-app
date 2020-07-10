@@ -24,13 +24,12 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import org.strongswan.android.data.VpnProfile
 import org.strongswan.android.data.VpnType
-import java.io.Serializable
 
 class ConnectionParamsIKEv2(
     profile: Profile,
     server: Server,
     connectingDomain: ConnectingDomain
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), Serializable {
+) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), java.io.Serializable {
 
     fun getStrongSwanProfile(userData: UserData, appConfig: AppConfig) = VpnProfile().apply {
         name = server.displayName

@@ -16,16 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.login;
+package com.protonvpn.android.models.vpn
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-public class LoginInfoBody {
+@Serializable
+open class Location(
+    @SerialName(value = "Lat") val latitude: String,
+    @SerialName(value = "Long") val longitude: String
+) : java.io.Serializable {
 
-    @JsonProperty("Username") private String username;
-
-    public LoginInfoBody(final String username) {
-        this.username = username;
-    }
-
+    val coordinates: String get() = "$latitude $longitude"
 }

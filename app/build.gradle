@@ -26,6 +26,7 @@ buildscript {
 plugins {
     id 'com.android.application'
     id 'com.github.triplet.play' version '2.7.2'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.70'
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
@@ -510,10 +511,6 @@ dependencies {
     detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
 
     implementation 'com.proton:srp:1.0.0@aar'
-    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
     // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
     implementation 'org.apache.commons:commons-lang3:3.9'

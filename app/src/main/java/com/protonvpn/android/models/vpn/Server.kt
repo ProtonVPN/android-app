@@ -20,37 +20,52 @@ package com.protonvpn.android.models.vpn
 
 import android.content.Context
 import androidx.annotation.ColorRes
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.implies
-import java.io.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import me.proton.core.network.data.protonApi.IntToBoolSerializer
 import java.util.regex.Pattern
 
+@Serializable
 data class Server(
-    @param:JsonProperty(value = "ID", required = true) val serverId: String,
-    @param:JsonProperty(value = "EntryCountry") val entryCountry: String?,
-    @param:JsonProperty(value = "ExitCountry") val exitCountry: String,
-    @param:JsonProperty(value = "Name", required = true) val serverName: String,
-    @param:JsonProperty(value = "Servers", required = true) private val connectingDomains: List<ConnectingDomain>,
-    @param:JsonProperty(value = "Domain", required = true) val domain: String,
-    @param:JsonProperty(value = "Load", required = true) var load: Float,
-    @param:JsonProperty(value = "Tier", required = true) val tier: Int,
-    @param:JsonProperty(value = "Region", required = true) val region: String?,
-    @param:JsonProperty(value = "City", required = true) val city: String?,
-    @param:JsonProperty(value = "Features", required = true) private val features: Int,
-    @param:JsonProperty(value = "Location", required = true) private val location: Location,
-    @param:JsonProperty(value = "Score", required = true) var score: Float,
-    @param:JsonProperty(value = "Status", required = true) var isOnline: Boolean
-) : Markable, Serializable, Listable {
+    @SerialName(value = "ID") val serverId: String,
+    @SerialName(value = "EntryCountry") val entryCountry: String? = null,
+    @SerialName(value = "ExitCountry") val exitCountry: String,
+    @SerialName(value = "Name") val serverName: String,
+    @SerialName(value = "Servers") private val connectingDomains: List<ConnectingDomain>,
+    @SerialName(value = "Domain") val domain: String,
+    @SerialName(value = "Load") var load: Float,
+    @SerialName(value = "Tier") val tier: Int,
+    @SerialName(value = "Region") val region: String?,
+    @SerialName(value = "City") val city: String?,
+    @SerialName(value = "Features") private val features: Int,
+    @SerialName(value = "Location") private val location: Location,
 
+    @SerialName(value = "Score") var score: Float,
+
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "Status")
+    val isOnline: Boolean
+) : Markable, java.io.Serializable, Listable {
+
+    @Transient
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
-    val keywords: List<String>
+    @Transient
+    val keywords: List<String> = mutableListOf<String>().apply {
+        if (features and 4 == 4)
+            add("p2p")
+        if (features and 2 == 2)
+            add("tor")
+    }
 
+    @Transient
     val entryCountryCoordinates: TranslatedCoordinates? =
             if (entryCountry != null) TranslatedCoordinates(this.entryCountry) else null
 
@@ -101,15 +116,6 @@ data class Server(
     private val secureCoreServerNaming: String
         get() = CountryTools.getFullName(entryCountry) + " >> " + CountryTools.getFullName(
                 exitCountry)
-
-    init {
-        keywords = mutableListOf<String>().apply {
-            if (features and 4 == 4)
-                add("p2p")
-            if (features and 2 == 2)
-                add("tor")
-        }
-    }
 
     val displayName: String get() = if (isSecureCoreServer)
         secureCoreServerNaming

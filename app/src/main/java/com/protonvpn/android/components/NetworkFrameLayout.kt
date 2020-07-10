@@ -30,7 +30,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.ui.login.TroubleshootActivity
-import com.protonvpn.android.utils.ConnectionTools
 import me.proton.core.network.domain.ApiResult
 
 class NetworkFrameLayout : RelativeLayout, LoaderUI {

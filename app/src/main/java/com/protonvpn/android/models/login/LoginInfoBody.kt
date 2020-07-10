@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2017 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.api
+package com.protonvpn.android.models.login
 
-interface ApiBackendRetrofit<T> {
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-    val baseUrl: String
-    suspend fun <V> call(callFun: suspend (T) -> retrofit2.Response<V>): ApiResult<V>
-}
+@Serializable
+class LoginInfoBody(@SerialName("Username") val username: String)

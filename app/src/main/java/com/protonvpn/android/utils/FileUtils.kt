@@ -18,10 +18,11 @@
  */
 package com.protonvpn.android.utils
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.protonvpn.android.ProtonApplication
+import kotlinx.serialization.DeserializationStrategy
+import me.proton.core.util.kotlin.deserialize
 import java.io.FileNotFoundException
 
 object FileUtils {
@@ -32,9 +33,9 @@ object FileUtils {
             GsonBuilder().create().fromJson(json, listType)
         }
 
-    inline fun <reified T> getObjectFromAssetsWithJackson(jsonAssetPath: String): T =
+    inline fun <reified T : Any> getObjectFromAssets(serializer: DeserializationStrategy<T>, jsonAssetPath: String): T =
         getObjectFromAssets(jsonAssetPath) { json ->
-            Json.MAPPER.readValue(json, object : TypeReference<T>() {})
+            json.deserialize(serializer)
         }
 
     fun <T> getObjectFromAssets(jsonAssetPath: String, jsonToObject: (String) -> T): T {

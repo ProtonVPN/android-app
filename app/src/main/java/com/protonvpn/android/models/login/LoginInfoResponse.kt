@@ -16,22 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn;
+package com.protonvpn.android.models.login
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-public class UserLocation extends Location {
-
-    private final String ipAddress;
-
-    public UserLocation(@JsonProperty(value = "IP", required = true) String ipAddress,
-                        @JsonProperty(value = "Lat", required = true) String latitude,
-                        @JsonProperty(value = "Long", required = true) String longitude) {
-        super(latitude, longitude);
-        this.ipAddress = ipAddress;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
+@Serializable
+class LoginInfoResponse(
+    @SerialName(value = "Code") val code: Int,
+    @SerialName(value = "Modulus") val modulus: String,
+    @SerialName(value = "ServerEphemeral") val serverEphemeral: String,
+    @SerialName(value = "Version") private val version: Int,
+    @SerialName(value = "Salt") val salt: String,
+    @SerialName(value = "SRPSession") val srpSession: String
+) {
+    fun getVersion(): Long = version.toLong()
 }

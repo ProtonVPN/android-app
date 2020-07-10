@@ -18,16 +18,19 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
+@Serializable
 data class ConnectingDomain(
-    @param:JsonProperty(value = "EntryIP", required = true) val entryIp: String,
-    @param:JsonProperty(value = "Domain", required = true) val entryDomain: String,
-    @param:JsonProperty(value = "ExitIP", required = false) private val exitIp: String?,
-    @param:JsonProperty(value = "Status", required = true) private val isOnline: Boolean?
-) : Serializable {
+    @SerialName(value = "EntryIP") val entryIp: String,
+    @SerialName(value = "Domain") val entryDomain: String,
+    @SerialName(value = "ExitIP") private val exitIp: String? = null,
 
-    fun isOnline() = isOnline != false
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "Status") val isOnline: Boolean = true
+) : java.io.Serializable {
+
     fun getExitIP() = exitIp ?: entryIp
 }

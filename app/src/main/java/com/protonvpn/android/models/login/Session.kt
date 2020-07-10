@@ -16,23 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.login;
+package com.protonvpn.android.models.login
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-public class GenericResponse {
-
-    private int code;
-
-    public GenericResponse(@JsonProperty(value = "Code", required = true) int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public boolean isSuccess() {
-        return code == 1000;
-    }
-}
+@Serializable
+class Session(
+    @SerialName(value = "ExitIP") val exitIp: String,
+    @SerialName(value = "SessionID") val sessionId: String
+)

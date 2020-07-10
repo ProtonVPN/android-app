@@ -28,10 +28,8 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoResponse
-import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
@@ -55,7 +53,7 @@ class LoginViewModel @Inject constructor(
         infoResponse: LoginInfoResponse
     ): Proofs? = withContext(Dispatchers.Default) {
         val auth = Auth(
-            infoResponse.version,
+            infoResponse.getVersion(),
             username,
             password,
             infoResponse.salt,
