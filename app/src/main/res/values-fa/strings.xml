@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">شما قصد اتصال به یک سرور غیررایگان را دارید.\n برای دسترسی به سرورهای تمامی کشورها با سرعت بالا، لطفاً اشتراک خود را ارتقا دهید. </string>
   <string name="restrictedPlus">شما قصد اتصال به یک سرور که به اشتراک ProtonVPN Plus یا بالاتر نیاز دارد را دارید.\nبرای دسترسی به سرورهای بیشتر در تمامی کشورها، لطفا اشتراک خود را ارتقا دهید.</string>
   <string name="restrictedSecureCore">قابلیت Secure Core یک قابلیت ویژه است که نیاز به اشتراک ProtonVPN پلاس یا بالاتر دارد. Secure Core حفاظت پیشرفته را در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، طرح‌های اشتراک دیگر ما را که شامل این امکان هستند بررسی کنید.</string>
-  <string name="errorUserDelinquent">موعد فاکتور حساب فعلی شما سر رسیده است. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.</string>
+  <string name="errorUserDelinquent">حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.</string>
   <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح ProtonVPN خود را ارتقا دهید.</string>
   <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
   <string name="errorEmptyCountry">وارد کردن نام کشور الزامی است</string>
@@ -175,7 +175,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
   <string name="support_page">صفحهٔ پشتیبانی</string>
   <string name="create_new_profile">ایجاد پروفایل جدید</string>
-  <string name="excludeAppsTitle">برنامه‌های جدا شده</string>
+  <string name="excludeAppsTitle">جدا کردن برنامه‌ها</string>
   <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
   <string name="profile_name">نام پروفایل</string>
   <string name="profile_color">رنگ پروفایل</string>
@@ -193,7 +193,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="done">انجام شد</string>
   <string name="add">اضافه کردن</string>
   <string name="the_list_is_empty">لیست خالی است</string>
-  <string name="got_it">متوجه شدم</string>
+  <string name="got_it">فهمیدم</string>
   <string name="onboardingWelcome">خوش آمدید</string>
   <string name="proton_log">گزارش Proton</string>
   <string name="something_went_wrong">مشکلی پیش آمد</string>
@@ -243,11 +243,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsExcludeIPAddressesInfo">%1$d آدرس IP جدا شدند</string>
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d برنامه جدا شد</item>
-    <item quantity="other">%1$d برنامه مستثنی شده</item>
+    <item quantity="other">%1$d برنامه جدا شده</item>
 </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d آدرس IP جدا شد</item>
-    <item quantity="other">%1$d آدرس IP مستثنی شده</item>
+    <item quantity="other">%1$d آدرس IP جدا شد</item>
 </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>

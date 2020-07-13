@@ -311,5 +311,5 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
   <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu aufgebaut werden, um NetShield zu deaktivieren.</string>
   <string name="netShieldPaidFeature">Sie versuchen eine Funktion zu aktivieren, die ein ProtonVPN Plus Abonnement erfordert.</string>
-  <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
+  <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
 </resources>

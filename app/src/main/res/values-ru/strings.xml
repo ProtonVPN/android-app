@@ -211,7 +211,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="ip">IP:</string>
   <string name="server">Сервер:</string>
   <string name="session_time">Время сеанса:</string>
-  <string name="download_volume">Скачено:</string>
+  <string name="download_volume">Скачано:</string>
   <string name="download_speed">Скорость:</string>
   <string name="save_to_profile">Сохранить в профиль</string>
   <string name="notConnected">Вы не подключены \n к серверу</string>
