@@ -190,6 +190,7 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
+    @Nullable
     public VpnInfoResponse getVpnInfoResponse() {
         return vpnInfoResponse;
     }
