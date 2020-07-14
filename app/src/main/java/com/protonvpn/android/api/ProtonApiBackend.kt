@@ -121,7 +121,7 @@ abstract class ProtonApiBackend(override val baseUrl: String) : ApiBackendRetrof
 
     private fun prepareHeaders(original: Request): Request.Builder {
         val request = original.newBuilder()
-                .header("x-pm-appversion", "AndroidVPN_" + BuildConfig.VERSION_NAME)
+                .header("x-pm-appversion", "AndroidVPN_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX)
                 .header("x-pm-apiversion", "3")
                 .header("x-pm-locale", Locale.getDefault().language)
                 .header("Accept", "application/vnd.protonmail.v1+json")
