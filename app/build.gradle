@@ -65,7 +65,7 @@ tasks.withType(Test) {
 }
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDirectDebugUnitTest']) {
 
     reports {
         xml.enabled = true
@@ -73,7 +73,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest']) 
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/prodDebug", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/directDebug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
     sourceDirectories.setFrom files([mainSrc])
@@ -193,15 +193,25 @@ android {
             versionNameSuffix "-dev"
             applicationIdSuffix '.dev'
             resConfigs "en", "xxhdpi"
+            buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", productionServer
         }
 
         blue {
             versionNameSuffix "-blue"
+            buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", testingServer
         }
-
+        googlePlay {
+            buildConfigField "String", "STORE_SUFFIX", "\"+play\""
+            buildConfigField "String", "API_DOMAIN", productionServer
+        }
+        direct {
+            buildConfigField "String", "STORE_SUFFIX", "\"+apk\""
+            buildConfigField "String", "API_DOMAIN", productionServer
+        }
         prod {
+            buildConfigField "String", "STORE_SUFFIX", "\"+os\""
             buildConfigField "String", "API_DOMAIN", productionServer
         }
     }
@@ -289,7 +299,7 @@ task publishInternal {
             println "skipping publishing..."
         } else {
             dependsOn 'publishGenerateReleaseNotes'
-            dependsOn 'publishProdReleaseApk'
+            dependsOn 'publishGooglePlayReleaseApk'
             doLast {
                 Helpers.notifyPublishOnSlack()
             }
