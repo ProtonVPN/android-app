@@ -202,13 +202,16 @@ open class VpnStateMonitor(
 
     private suspend fun checkAuthFailedReason() {
         var errorType = AUTH_FAILED
-        if (userData.vpnInfoResponse.isUserDelinquent) {
-            errorType = UNPAID
-        } else {
-            activeBackend?.setSelfState(CheckingAvailability)
-            val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-            if (userData.vpnInfoResponse.maxSessionCount <= sessionCount)
-                errorType = MAX_SESSIONS
+        val vpnInfoResponse = userData.vpnInfoResponse
+        if (vpnInfoResponse != null) {
+            if (vpnInfoResponse.isUserDelinquent) {
+                errorType = UNPAID
+            } else {
+                activeBackend?.setSelfState(CheckingAvailability)
+                val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
+                if (vpnInfoResponse.maxSessionCount <= sessionCount)
+                    errorType = MAX_SESSIONS
+            }
         }
         ongoingConnect = null
         activeBackend?.setSelfState(Error(errorType))
