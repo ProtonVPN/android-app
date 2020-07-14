@@ -25,8 +25,10 @@ import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionListResponse
+import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.testsHelper.MockedServers
+import com.protonvpn.testsHelper.TestUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiManager
@@ -46,4 +48,11 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>) : P
             ApiResult.Success(ServerList(MockedServers.serverList))
         else
             super.getServerList(loader, ip)
+
+    override suspend fun getVPNInfo(): ApiResult<VpnInfoResponse> =
+        ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
+
+    override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
+        ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
+    }
 }
