@@ -150,7 +150,8 @@ android {
     def helpers = new Helpers()
 
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    // FIXME: update on CI image
+    ndkVersion "20.0.5594570"
     useLibrary 'org.apache.http.legacy'
     flavorDimensions "default"
     signingConfigs {
@@ -483,7 +484,6 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures = false
 }
 
-ext.jacksonVersion = '2.11.0'
 ext.daggerVersion = '2.26'
 
 repositories {
@@ -549,8 +549,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
     implementation 'com.getkeepsafe.relinker:relinker:1.3.1'
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
