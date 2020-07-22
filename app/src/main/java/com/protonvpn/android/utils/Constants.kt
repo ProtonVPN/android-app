@@ -33,6 +33,8 @@ object Constants {
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
 
+    const val VPN_USERNAME_PRODUCT_SUFFIX = "+pa"
+
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +
             "423cea742242106cb2916a8a4c829756\n" +
