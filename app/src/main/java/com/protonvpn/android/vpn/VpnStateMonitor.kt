@@ -149,6 +149,8 @@ open class VpnStateMonitor(
 
     val retryInfo get() = activeBackend?.retryInfo
 
+    var initialized = false
+
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
@@ -159,25 +161,29 @@ open class VpnStateMonitor(
         }
 
         stateInternal.observeForever {
-            Storage.saveString(STORAGE_KEY_STATE, state.name)
+            if (initialized) {
+                Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-            ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
-            debugAssert {
-                (state in arrayOf(Connecting, Connected, Reconnecting))
-                        .implies(connectionParams != null && activeBackend != null)
-            }
-            serverListUpdater.isVpnDisconnected = state == Disabled
+                ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
+                debugAssert {
+                    (state in arrayOf(Connecting, Connected, Reconnecting))
+                            .implies(connectionParams != null && activeBackend != null)
+                }
+                serverListUpdater.isVpnDisconnected = state == Disabled
 
-            when (state) {
-                Connected -> {
-                    EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                when (state) {
+                    Connected -> {
+                        EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                    }
+                    Disabled -> {
+                        EventBus.postOnMain(ConnectedToServer(null))
+                    }
                 }
-                Disabled -> {
-                    EventBus.postOnMain(ConnectedToServer(null))
-                }
+                updateNotification(null)
             }
-            updateNotification(null)
         }
+
+        initialized = true
     }
 
     private fun bindTrafficMonitor() {
