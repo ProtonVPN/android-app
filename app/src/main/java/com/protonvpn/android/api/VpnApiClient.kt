@@ -36,7 +36,7 @@ class VpnApiClient : ApiClient {
 
     override val appVersionHeader = "AndroidVPN_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
-    override val shouldUseDoh = vpnStateMonitor?.isConnected != true
+    override val shouldUseDoh get() = vpnStateMonitor?.isConnected != true
 
     override val userAgent: String
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
