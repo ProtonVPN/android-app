@@ -568,7 +568,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
 
     // Proton Core libs
-    implementation "me.proton.core:network:0.1.5"
+    implementation "me.proton.core:network:0.1.6"
     implementation "me.proton.core:util-kotlin:0.1.4"
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
