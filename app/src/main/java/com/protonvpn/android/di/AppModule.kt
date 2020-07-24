@@ -89,7 +89,7 @@ class AppModule {
         val logger = CoreLogger()
         val apiFactory = ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
                 NetworkPrefs(appContext), scope)
-        return apiFactory.ApiManager(userData.getNetworkUserData(), ProtonVPNRetrofit::class)
+        return apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
     }
 
     @Singleton

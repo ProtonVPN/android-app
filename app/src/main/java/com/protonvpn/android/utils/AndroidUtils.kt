@@ -68,8 +68,8 @@ object AndroidUtils {
             }
 
     fun Context.registerBroadcastReceiver(
-            intentFilter: IntentFilter,
-            onReceive: (intent: Intent?) -> Unit
+        intentFilter: IntentFilter,
+        onReceive: (intent: Intent?) -> Unit
     ): BroadcastReceiver {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent?) {

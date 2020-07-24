@@ -21,6 +21,7 @@ package com.protonvpn.tests.vpn
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -57,6 +58,8 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
+// These tests use mocking of final classes that's not available on API < 28
+@SdkSuppress(minSdkVersion = 28)
 class VpnConnectionTests {
 
     @get:Rule
