@@ -135,7 +135,7 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
         textDescription.text = errorToMessage(error)
     }
 
-    private fun ApiResult.Error.debugMessage() = cause?.message ?: javaClass.name
+    private fun ApiResult.Error.debugMessage() = cause?.message ?: toString()
 
     private fun errorToMessage(error: ApiResult.Error): String = when (error) {
         is ApiResult.Error.NoInternet -> context.getString(R.string.loaderErrorNoInternet)
