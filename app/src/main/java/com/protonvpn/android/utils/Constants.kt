@@ -24,6 +24,7 @@ object Constants {
 
     const val MAX_LOG_SIZE = 200 * 1024.toLong()
     const val NOTIFICATION_ID = 6
+    const val NOTIFICATION_INFO_ID = 7
     const val SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile"
     const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
