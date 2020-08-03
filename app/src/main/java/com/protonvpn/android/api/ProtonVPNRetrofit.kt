@@ -26,6 +26,7 @@ import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
@@ -35,6 +36,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 @Suppress("ComplexInterface")
@@ -45,6 +47,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/loads")
     suspend fun getLoads(@Query("IP") ip: String?): LoadsResponse
+
+    @GET("vpn/servers/{serverId}")
+    suspend fun getServerDomain(@Path(value = "serverId", encoded = true) serverId: String): ConnectingDomainResponse
 
     @POST("auth/info")
     suspend fun postLoginInfo(@Body body: LoginInfoBody): LoginInfoResponse

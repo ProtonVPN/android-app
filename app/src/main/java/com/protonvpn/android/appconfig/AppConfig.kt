@@ -44,14 +44,18 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit) {
         }
     }
 
+    fun getMaintenanceTrackerDelay(): Long = appConfigResponse.underMaintenanceDetectionDelay
+
+    fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
+
     fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts!!
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     private fun getDefaultConfig(): AppConfigResponse {
         val defaultPorts = OpenVPNConfigResponse(DefaultPorts.defaults)
-        val defaultFeatureFlags = FeatureFlags(0, 0)
-        return AppConfigResponse(defaultPorts,
-                defaultFeatureFlags)
+        val defaultFeatureFlags = FeatureFlags()
+        return AppConfigResponse(openVPNConfigResponse = defaultPorts,
+                featureFlags = defaultFeatureFlags)
     }
 }

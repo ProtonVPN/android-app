@@ -137,7 +137,7 @@ public abstract class VpnActivity extends BaseActivity {
 
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
-        if ((userData.hasAccessToServer(server) && server.isOnline()) || server == null) {
+        if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
             getPermissionAndConnect(profileToConnect);
         }
         else {
@@ -146,7 +146,7 @@ public abstract class VpnActivity extends BaseActivity {
     }
 
     private void connectingToRestrictedServer(Server server) {
-        if (server.isOnline()) {
+        if (server.getOnline()) {
             new MaterialDialog.Builder(this).theme(Theme.DARK)
                 .title(server.isSecureCoreServer() ? R.string.restrictedSecureCoreTitle :
                     server.isPlusServer() ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)

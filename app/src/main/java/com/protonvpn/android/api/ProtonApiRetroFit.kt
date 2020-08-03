@@ -55,6 +55,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     suspend fun postLogin(body: LoginBody) =
         manager { postLogin(body) }
 
+    open suspend fun getConnectingDomain(domainId: String) =
+        manager { getServerDomain(domainId) }
+
     suspend fun postLoginInfo(email: String) =
         manager { postLoginInfo(LoginInfoBody(email)) }
 

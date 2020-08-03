@@ -27,9 +27,9 @@ data class ConnectingDomain(
     @SerialName(value = "EntryIP") val entryIp: String,
     @SerialName(value = "Domain") val entryDomain: String,
     @SerialName(value = "ExitIP") private val exitIp: String? = null,
-
+    @SerialName(value = "ID") val id: String,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "Status") val isOnline: Boolean = true
+    @SerialName(value = "Status") var isOnline: Boolean = true
 ) : java.io.Serializable {
 
     fun getExitIP() = exitIp ?: entryIp

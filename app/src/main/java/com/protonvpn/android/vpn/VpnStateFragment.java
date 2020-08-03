@@ -66,7 +66,6 @@ import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.utils.ViewUtils;
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType;
 
 import java.util.List;
 import java.util.Timer;
