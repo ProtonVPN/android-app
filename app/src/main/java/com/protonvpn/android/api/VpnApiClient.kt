@@ -22,11 +22,12 @@ import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.ForcedLogout
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.VpnStateMonitor
 import me.proton.core.network.domain.ApiClient
 import java.util.Locale
 
-class VpnApiClient : ApiClient {
+class VpnApiClient(val userData: UserData) : ApiClient {
 
     private var vpnStateMonitor: VpnStateMonitor? = null
 
@@ -36,7 +37,7 @@ class VpnApiClient : ApiClient {
 
     override val appVersionHeader = "AndroidVPN_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
-    override val shouldUseDoh get() = vpnStateMonitor?.isConnected != true
+    override val shouldUseDoh get() = userData.apiUseDoH && vpnStateMonitor?.isConnected != true
 
     override val userAgent: String
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
