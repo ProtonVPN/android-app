@@ -47,10 +47,6 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED_INTERNAL
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.MAX_SESSIONS
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.UNPAID
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Connecting
@@ -74,12 +70,6 @@ open class VpnStateMonitor(
     private val networkManager: NetworkManager,
     private val scope: CoroutineScope
 ) : VpnStateSource {
-
-    enum class ErrorType {
-        AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED,
-        LOOKUP_FAILED, UNREACHABLE, SESSION_IN_USE,
-        MAX_SESSIONS, UNPAID, GENERIC_ERROR
-    }
 
     data class Status(
         val state: VpnState,
@@ -109,7 +99,7 @@ open class VpnStateMonitor(
 
     val vpnStatus: LiveData<Status> = stateInternal.eagerMapNotNull(ignoreIfEqual = true) {
         var newState = it ?: Disabled
-        if ((newState as? Error)?.type == AUTH_FAILED_INTERNAL) {
+        if ((newState as? Error)?.type == ErrorType.AUTH_FAILED_INTERNAL) {
             newState = CheckingAvailability
             debugAssert { ongoingConnect == null }
             ongoingConnect = scope.launch {
@@ -207,16 +197,16 @@ open class VpnStateMonitor(
     }
 
     private suspend fun checkAuthFailedReason() {
-        var errorType = AUTH_FAILED
+        var errorType = ErrorType.AUTH_FAILED
         val vpnInfoResponse = userData.vpnInfoResponse
         if (vpnInfoResponse != null) {
             if (vpnInfoResponse.isUserDelinquent) {
-                errorType = UNPAID
+                errorType = ErrorType.UNPAID
             } else {
                 activeBackend?.setSelfState(CheckingAvailability)
                 val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
                 if (vpnInfoResponse.maxSessionCount <= sessionCount)
-                    errorType = MAX_SESSIONS
+                    errorType = ErrorType.MAX_SESSIONS
             }
         }
         ongoingConnect = null
