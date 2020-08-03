@@ -40,7 +40,12 @@ sealed class VpnState {
     object Connected : VpnState()
     object Reconnecting : VpnState()
     object Disconnecting : VpnState()
-    data class Error(val type: VpnStateMonitor.ErrorType) : VpnState()
+    data class Error(val type: ErrorType) : VpnState()
 
     val name = javaClass.simpleName.toUpperCase(Locale.ROOT)
+}
+
+enum class ErrorType {
+    AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED,
+    UNREACHABLE, SESSION_IN_USE, MAX_SESSIONS, UNPAID, GENERIC_ERROR
 }

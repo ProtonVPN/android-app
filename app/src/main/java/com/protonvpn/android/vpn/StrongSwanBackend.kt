@@ -27,7 +27,6 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
