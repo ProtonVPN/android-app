@@ -68,6 +68,7 @@ open class VpnStateMonitor(
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
     private val networkManager: NetworkManager,
+    private val maintenanceTracker: MaintenanceTracker,
     private val scope: CoroutineScope
 ) : VpnStateSource {
 
@@ -87,7 +88,7 @@ open class VpnStateMonitor(
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
 
-    private var connectionParams: ConnectionParams? = null
+    var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
 
     override val selfStateObservable = MutableLiveData<VpnState>(Disabled)
@@ -144,6 +145,7 @@ open class VpnStateMonitor(
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
+        maintenanceTracker.initWithStateMonitor(this)
         ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
                 DISCONNECT_ACTION -> disconnect()
@@ -209,8 +211,10 @@ open class VpnStateMonitor(
                     errorType = ErrorType.MAX_SESSIONS
             }
         }
-        ongoingConnect = null
-        activeBackend?.setSelfState(Error(errorType))
+        if (!maintenanceTracker.checkMaintenanceReconnect()) {
+            ongoingConnect = null
+            activeBackend?.setSelfState(Error(errorType))
+        }
     }
 
     private suspend fun coroutineConnect(profile: Profile) {

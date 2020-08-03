@@ -160,8 +160,8 @@ class ServerListUpdater(
         return ipChanged
     }
 
-    private suspend fun updateServerList(
-        networkLoader: NetworkLoader?
+    suspend fun updateServerList(
+        networkLoader: NetworkLoader? = null
     ): Boolean {
         val loaderUI = networkLoader?.networkFrameLayout
 

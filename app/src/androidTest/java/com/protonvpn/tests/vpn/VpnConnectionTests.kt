@@ -31,6 +31,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnState
@@ -83,6 +84,9 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var serverManager: ServerManager
 
+    @RelaxedMockK
+    lateinit var maintenanceTracker: MaintenanceTracker
+
     private val mockStrongSwan = spyk(MockVpnBackend(VpnProtocol.IKEv2))
     private val mockOpenVpn = spyk(MockVpnBackend(VpnProtocol.OpenVPN))
 
@@ -100,7 +104,7 @@ class VpnConnectionTests {
         val backendProvider =
                 ProtonVpnBackendProvider(strongSwan = mockStrongSwan, openVpn = mockOpenVpn)
         monitor = MockVpnStateMonitor(
-                userData, api, backendProvider, serverListUpdater, trafficMonitor, networkManager, scope)
+                userData, api, backendProvider, serverListUpdater, trafficMonitor, networkManager, maintenanceTracker, scope)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 

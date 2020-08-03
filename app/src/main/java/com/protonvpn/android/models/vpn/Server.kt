@@ -38,7 +38,7 @@ data class Server(
     @SerialName(value = "EntryCountry") val entryCountry: String? = null,
     @SerialName(value = "ExitCountry") val exitCountry: String,
     @SerialName(value = "Name") val serverName: String,
-    @SerialName(value = "Servers") private val connectingDomains: List<ConnectingDomain>,
+    @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
     @SerialName(value = "Domain") val domain: String,
     @SerialName(value = "Load") var load: Float,
     @SerialName(value = "Tier") val tier: Int,
@@ -51,8 +51,10 @@ data class Server(
 
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Status")
-    val isOnline: Boolean
+    private val isOnline: Boolean
 ) : Markable, java.io.Serializable, Listable {
+
+    val online get() = isOnline && connectingDomains.any { it.isOnline }
 
     @Transient
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)

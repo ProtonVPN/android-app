@@ -36,6 +36,7 @@ import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -122,9 +123,10 @@ class MockAppModule {
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient
+        apiClient: VpnApiClient,
+        maintenanceTracker: MaintenanceTracker
     ): VpnStateMonitor = MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
-                trafficMonitor, networkManager, scope).apply {
+                trafficMonitor, networkManager, maintenanceTracker, scope).apply {
         apiClient.init(this)
     }
 
@@ -136,8 +138,17 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideTrafficMonitor() = TrafficMonitor(
-            ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime)
+    fun provideReconnectManager(
+        serverManager: ServerManager,
+        api: ProtonApiRetroFit,
+        serverListUpdater: ServerListUpdater,
+        appConfig: AppConfig
+    ) = MaintenanceTracker(scope, api, serverManager, serverListUpdater, appConfig)
+
+    @Singleton
+    @Provides
+    fun provideTrafficMonitor() =
+        TrafficMonitor(ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime)
 
     @Singleton
     @Provides

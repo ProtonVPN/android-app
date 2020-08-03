@@ -23,6 +23,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class AppConfigResponse(
+    @SerialName(value = "ServerRefreshInterval") val underMaintenanceDetectionDelay: Long = 30,
     @SerialName(value = "OpenVPNConfig") val openVPNConfigResponse: OpenVPNConfigResponse? = null,
     @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags
 ) {
