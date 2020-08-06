@@ -32,7 +32,7 @@ class MaintenanceTracker(
     private fun now() = SystemClock.elapsedRealtime()
 
     private val task = ReschedulableTask(scope, ::now) {
-        if (stateMonitor.isConnected && !appConfig.isMaintenanceTrackerEnabled()) {
+        if (stateMonitor.isConnected && appConfig.isMaintenanceTrackerEnabled()) {
             checkMaintenanceReconnect()
             scheduleIn(getScheduleDelay())
         }
