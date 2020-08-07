@@ -134,8 +134,6 @@ class ServerManager(
             if (servers.isNotEmpty())
                 secureCoreExitCountries.add(VpnCountry(country, servers, this))
         }
-        sortVpnCountries(vpnCountries)
-        sortVpnCountries(secureCoreExitCountries)
         updatedAt = DateTime()
         Storage.save(this)
         updateEvent.emit()
@@ -164,10 +162,6 @@ class ServerManager(
         Storage.save(this)
         updateEvent.emit()
         profilesUpdateEvent.emit()
-    }
-
-    private fun sortVpnCountries(list: MutableList<VpnCountry>) {
-        list.sortWith(compareBy({ !it.hasAccessibleServer(userData) }, VpnCountry::countryName))
     }
 
     fun getVpnCountries(): List<VpnCountry> = vpnCountries
@@ -208,7 +202,7 @@ class ServerManager(
 
     private fun getRandomServer(): Server? {
         val allCountries = getExitCountries(userData.isSecureCoreEnabled)
-        val accessibleCountries = allCountries.filter { it.hasAccessibleServer(userData) }
+        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(userData) }
         return (if (accessibleCountries.isEmpty())
             allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
     }
@@ -289,6 +283,6 @@ class ServerManager(
         userData.hasAccessToServer(server)
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
-        getVpnCountries().firstOrNull { !it.hasAccessibleServer(userData) }
+        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }
                 ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }
