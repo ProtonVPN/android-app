@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +31,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
 import com.xwray.groupie.ExpandableGroup
@@ -83,31 +85,25 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         updateListData()
     }
 
-    private fun updateListData() {
-        val newGroups = mutableListOf<Group>()
-        val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
+    private fun addCountriesGroup(
+        groups: MutableList<Group>,
+        @StringRes header: Int?,
+        countries: List<VpnCountry>,
+        expandedCountriesIds: Set<Long>
+    ) {
+        if (header != null)
+            groups.add(HeaderItem(header))
 
-        if (viewModel.userData.isFreeUser && !viewModel.userData.isSecureCoreEnabled) {
-            newGroups.add(HeaderItem(R.string.listFreeCountries))
-        }
-        var premiumHeaderAdded = false
-
-        val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
-        for (country in viewModel.getCountriesForList()) {
-            val isPremiumForUser = viewModel.userData.isFreeUser && !country.hasAccessibleServer(viewModel.userData)
-            if (isPremiumForUser && !premiumHeaderAdded && !viewModel.userData.isSecureCoreEnabled) {
-                newGroups.add(HeaderItem(R.string.listPremiumCountries))
-                premiumHeaderAdded = true
-            }
+        for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
                     this@CountryListFragment.binding.list.smoothScrollToPosition(
-                        position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2
+                            position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2
                     )
                 }
             }
 
-            newGroups.add(ExpandableGroup(expandableHeaderItem).apply {
+            groups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
                     title?.let { add(HeaderItem(it)) }
@@ -118,7 +114,20 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 }
             })
         }
+    }
 
+    private fun updateListData() {
+        val newGroups = mutableListOf<Group>()
+        val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
+
+        val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
+        if (viewModel.userData.isFreeUser && !viewModel.userData.isSecureCoreEnabled) {
+            val (free, premium) = viewModel.getFreeAndPremiumCountries()
+            addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
+            addCountriesGroup(newGroups, R.string.listPremiumCountries, premium, expandedCountriesIds)
+        } else {
+            addCountriesGroup(newGroups, null, viewModel.getCountriesForList(), expandedCountriesIds)
+        }
         groupAdapter.update(newGroups)
     }
 

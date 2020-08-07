@@ -92,8 +92,10 @@ class CountryListViewModel @Inject constructor(
     }
 
     fun getCountriesForList(): List<VpnCountry> =
-        if (userData.isSecureCoreEnabled)
-            serverManager.getSecureCoreExitCountries()
-        else
-            serverManager.getVpnCountries()
+        (if (userData.isSecureCoreEnabled)
+            serverManager.getSecureCoreExitCountries() else serverManager.getVpnCountries())
+                .sortedBy(VpnCountry::countryName)
+
+    fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
+        getCountriesForList().partition { it.hasAccessibleServer(userData) }
 }

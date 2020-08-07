@@ -71,6 +71,9 @@ class VpnCountry(
     }
 
     fun hasAccessibleServer(userData: UserData): Boolean =
+        serverList.any { userData.hasAccessToServer(it) }
+
+    fun hasAccessibleOnlineServer(userData: UserData): Boolean =
         serverList.any { userData.hasAccessToServer(it) && it.online }
 
     fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
