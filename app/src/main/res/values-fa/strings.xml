@@ -315,4 +315,5 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="netShieldReconnectionDescription">اتصال شما باید مجدداً راه‌اندازی شود تا NetShield غیرفعال شود.</string>
   <string name="netShieldPaidFeature">شما در حال فعال‌سازی قابلیتی هستید که نیاز به اشتراک ProtonVPN Plus دارد.</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
+  <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
 </resources>

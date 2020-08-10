@@ -315,4 +315,5 @@ em versões mais antigas do sistema operacional Android e/ou em todos os disposi
   <string name="netShieldReconnectionDescription">Sua conexão precisa ser reiniciada para desativar o NetShield.</string>
   <string name="netShieldPaidFeature">Você está tentando ativar o recurso que requer a assinatura do ProtonVPN Plus.</string>
   <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
+  <string name="onMaintenanceDetected">O servidor VPN ao qual você estava conectado está passando por uma manutenção. Vamos conectar você automaticamente ao servidor mais rápido disponível.</string>
 </resources>
