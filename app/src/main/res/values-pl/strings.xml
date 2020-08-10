@@ -321,4 +321,5 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="netShieldReconnectionDescription">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
   <string name="netShieldPaidFeature">Próbujesz włączyć funkcję, która wymaga subskrypcji ProtonVPN Plus.</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
+  <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
 </resources>

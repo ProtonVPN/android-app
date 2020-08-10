@@ -321,4 +321,5 @@ Kill Switch не позволяет вашему устройству совер
   <string name="netShieldReconnectionDescription">Для отключения NetShield необходимо перезапустить соединение.</string>
   <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
+  <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
 </resources>

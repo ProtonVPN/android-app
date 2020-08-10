@@ -314,4 +314,5 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="netShieldReconnectionDescription">Votre connexion doit être relancée pour désactiver NetShield.</string>
   <string name="netShieldPaidFeature">Vous essayez d\'activer une fonctionnalité qui nécessite un abonnement ProtonVPN PLUS.</string>
   <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
+  <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
 </resources>
