@@ -200,7 +200,7 @@ android {
         }
 
         blue {
-            versionNameSuffix "-blue"
+            versionNameSuffix "+blue"
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", testingServer
         }
