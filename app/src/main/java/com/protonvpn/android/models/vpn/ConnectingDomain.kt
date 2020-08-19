@@ -27,7 +27,8 @@ data class ConnectingDomain(
     @SerialName(value = "EntryIP") val entryIp: String,
     @SerialName(value = "Domain") val entryDomain: String,
     @SerialName(value = "ExitIP") private val exitIp: String? = null,
-    @SerialName(value = "ID") val id: String,
+    // FIXME nullable id should be removed after some time, as it is needed only for migration
+    @SerialName(value = "ID") val id: String?,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Status") var isOnline: Boolean = true
 ) : java.io.Serializable {
