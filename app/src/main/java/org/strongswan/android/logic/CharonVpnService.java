@@ -226,7 +226,7 @@ public class CharonVpnService extends VpnService implements Runnable {
 
                 String line = bufferedReader.readLine();
                 while (!mTerminate && line != null) {
-                    ProtonLogger.INSTANCE.log(line, false);
+                    ProtonLogger.INSTANCE.log(line);
                     line = bufferedReader.readLine();
                 }
             }
