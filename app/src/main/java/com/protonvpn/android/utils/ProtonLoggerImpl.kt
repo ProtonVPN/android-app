@@ -30,6 +30,7 @@ import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
+import io.sentry.event.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -117,14 +118,18 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
         return list
     }
 
-    fun log(message: String, captureInSentry: Boolean = false) {
+    fun logSentryEvent(event: Event) {
+        if (!BuildConfig.DEBUG) {
+            Sentry.capture(event)
+        }
+        log(event.message)
+    }
+
+    fun log(message: String) {
         logger.debug(message)
         val timeStamp: String = simpleDateFormat.format(Date())
         scope.launch {
             newItemsChannel.send("$timeStamp: $message")
-        }
-        if (!BuildConfig.DEBUG && captureInSentry) {
-            Sentry.capture(message)
         }
     }
 }

@@ -11,6 +11,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
+import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
@@ -60,7 +61,11 @@ class MaintenanceTracker(
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
                 val context = ProtonApplication.getAppContext()
-                ProtonLogger.log("Maintenance detected in ${result.value.connectingDomain.entryDomain}", true)
+                val sentryEvent = EventBuilder()
+                    .withMessage("Maintenance detected")
+                    .withExtra("Server", result.value.connectingDomain.entryDomain)
+                    .build()
+                ProtonLogger.logSentryEvent(sentryEvent)
                 stateMonitor.connect(
                     context, Profile.getTempProfile(serverManager.getBestScoreServer(), serverManager)
                 )
