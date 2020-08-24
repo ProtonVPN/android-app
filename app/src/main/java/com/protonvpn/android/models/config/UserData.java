@@ -166,6 +166,7 @@ public final class UserData implements Serializable {
     public void logout() {
         setLoggedIn(false);
         setTrialDialogShownAt(null);
+        clearNetworkUserData();
     }
 
     public boolean isMaxSessionReached(int currentSessionCount) {

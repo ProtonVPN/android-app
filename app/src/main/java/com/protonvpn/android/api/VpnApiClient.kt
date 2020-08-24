@@ -20,15 +20,16 @@ package com.protonvpn.android.api
 
 import android.os.Build
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.ForcedLogout
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.vpn.VpnStateMonitor
 import me.proton.core.network.domain.ApiClient
 import me.proton.core.network.domain.humanverification.HumanVerificationDetails
 import java.util.Locale
 
 class VpnApiClient(val userData: UserData) : ApiClient {
+
+    val forceUpdateEvent = LiveEvent()
 
     private var vpnStateMonitor: VpnStateMonitor? = null
 
@@ -45,7 +46,7 @@ class VpnApiClient(val userData: UserData) : ApiClient {
                 BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND, Build.MODEL)
 
     override fun forceUpdate() {
-        EventBus.postOnMain(ForcedLogout.INSTANCE)
+        forceUpdateEvent.emit()
     }
 
     // To be implemeted in VPNAND-210
