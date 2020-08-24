@@ -21,8 +21,10 @@ package com.protonvpn.android.api
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.ForcedLogout
 import com.protonvpn.android.models.login.LoginResponse
+import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Storage
 import me.proton.core.network.domain.UserData
+import me.proton.core.network.domain.humanverification.HumanVerificationHeaders
 
 class NetworkUserData : UserData {
 
@@ -41,19 +43,18 @@ class NetworkUserData : UserData {
     override val sessionUid: String
         get() = loginResponse?.uid ?: ""
 
-    override var accessToken: String
-        get() = loginResponse?.accessToken ?: ""
-        set(value) {
-            loginResponse?.accessToken = value
-            Storage.save(loginResponse)
-        }
+    override val accessToken: String get() = loginResponse?.accessToken ?: ""
+    override val refreshToken: String get() = loginResponse?.refreshToken ?: ""
 
-    override var refreshToken: String
-        get() = loginResponse?.refreshToken ?: ""
-        set(value) {
-            loginResponse?.refreshToken = value
-            Storage.save(this)
-        }
+    override fun updateTokens(access: String, refresh: String) {
+        debugAssert { loginResponse != null }
+        loginResponse?.accessToken = access
+        loginResponse?.refreshToken = refresh
+        Storage.save(loginResponse)
+    }
+
+    // To be implemeted in VPNAND-210
+    override var humanVerificationHandler: HumanVerificationHeaders? = null
 
     override fun forceLogout() {
         EventBus.postOnMain(ForcedLogout.INSTANCE)

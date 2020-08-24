@@ -24,9 +24,14 @@ import me.proton.core.util.kotlin.Logger
 
 class CoreLogger : Logger {
 
-    override fun e(e: Throwable) {
-        ProtonLogger.log(e.toString())
+    override fun e(tag: String, msg: String?, e: Throwable?) {
+        msg?.let { ProtonLogger.log("[$tag] $msg") }
+        e?.let { ProtonLogger.log(e.toString()) }
         if (BuildConfig.DEBUG)
-            e.printStackTrace()
+            e?.printStackTrace()
+    }
+
+    override fun i(tag: String, msg: String) {
+        ProtonLogger.log("[$tag] $msg")
     }
 }
