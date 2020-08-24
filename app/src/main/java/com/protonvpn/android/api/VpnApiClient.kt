@@ -25,6 +25,7 @@ import com.protonvpn.android.bus.ForcedLogout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.VpnStateMonitor
 import me.proton.core.network.domain.ApiClient
+import me.proton.core.network.domain.humanverification.HumanVerificationDetails
 import java.util.Locale
 
 class VpnApiClient(val userData: UserData) : ApiClient {
@@ -46,4 +47,7 @@ class VpnApiClient(val userData: UserData) : ApiClient {
     override fun forceUpdate() {
         EventBus.postOnMain(ForcedLogout.INSTANCE)
     }
+
+    // To be implemeted in VPNAND-210
+    override suspend fun humanVerification(humanVerificationDetails: HumanVerificationDetails) = false
 }
