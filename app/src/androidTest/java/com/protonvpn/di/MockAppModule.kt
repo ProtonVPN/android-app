@@ -30,6 +30,7 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.ui.home.AuthManager
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CoreLogger
@@ -154,4 +155,15 @@ class MockAppModule {
     @Provides
     fun provideGuestHole(serverManager: ServerManager, vpnMonitor: VpnStateMonitor) =
             GuestHole(serverManager, vpnMonitor)
+
+    @Singleton
+    @Provides
+    fun provideAuthManager(
+        userData: UserData,
+        serverManager: ServerManager,
+        api: ProtonApiRetroFit,
+        vpnStateMonitor: VpnStateMonitor,
+        vpnApiClient: VpnApiClient
+    ): AuthManager = AuthManager(
+            scope, userData, serverManager, api, vpnStateMonitor, vpnApiClient, userData.networkUserData)
 }

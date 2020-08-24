@@ -43,7 +43,6 @@ import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.bus.ForcedLogout;
 import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.LoaderUI;
@@ -116,6 +115,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
+    @Inject AuthManager authManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +152,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
         serverManager.getProfilesUpdateEvent().observe(this, () -> {
             initQuickConnectFab();
+            return Unit.INSTANCE;
+        });
+
+        authManager.getLogoutEvent().observe(this, () -> {
+            finish();
+            navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
         });
 
@@ -292,12 +298,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 .title(R.string.warning)
                 .content(R.string.logoutDescription)
                 .positiveText(R.string.ok)
-                .onPositive((dialog, which) -> logout())
+                .onPositive((dialog, which) -> authManager.logout(false))
                 .negativeText(R.string.cancel)
                 .show();
         }
         else {
-            logout();
+            authManager.logout(false);
         }
     }
 
@@ -307,11 +313,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             fragment.openBottomSheet();
         }
         super.onNewIntent(intent);
-    }
-
-    @Subscribe
-    public void onForcedLogout(ForcedLogout event) {
-        logout();
     }
 
     @Subscribe
@@ -327,15 +328,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Subscribe
     public void onConnectToProfile(@NotNull ConnectToProfile profile) {
         onConnect(profile.getProfile());
-    }
-
-    public void logout() {
-        userData.logout();
-        serverManager.clearCache();
-        api.logout(result -> {});
-        vpnStateMonitor.disconnect();
-        finish();
-        navigateTo(LoginActivity.class);
     }
 
     private void initQuickConnectFab() {

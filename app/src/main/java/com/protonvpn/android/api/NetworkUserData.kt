@@ -18,15 +18,16 @@
  */
 package com.protonvpn.android.api
 
-import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.ForcedLogout
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.utils.DebugUtils.debugAssert
+import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
 import me.proton.core.network.domain.UserData
 import me.proton.core.network.domain.humanverification.HumanVerificationHeaders
 
 class NetworkUserData : UserData {
+
+    val forceLogoutEvent = LiveEvent()
 
     private var loginResponse: LoginResponse? = Storage.load(LoginResponse::class.java)
 
@@ -57,6 +58,6 @@ class NetworkUserData : UserData {
     override var humanVerificationHandler: HumanVerificationHeaders? = null
 
     override fun forceLogout() {
-        EventBus.postOnMain(ForcedLogout.INSTANCE)
+        forceLogoutEvent.emit()
     }
 }

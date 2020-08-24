@@ -39,9 +39,8 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>) : P
     override suspend fun getSession(): ApiResult<SessionListResponse> =
         ApiResult.Success(SessionListResponse(0, listOf()))
 
-    override fun logout(callback: NetworkResultCallback<GenericResponse>) = scope.launch {
-        callback.onSuccess(GenericResponse(1000))
-    }
+    override suspend fun logout() =
+        ApiResult.Success(GenericResponse(1000))
 
     override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         if (MockSwitch.mockedServersUsed)
