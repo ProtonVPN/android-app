@@ -30,12 +30,8 @@ class TranslatedCoordinates(forFlag: String) : Serializable {
     fun hasValidCoordinates(): Boolean = positionX != null && positionY != null
     fun asCoreCoordinates() = doubleArrayOf(positionX!!, positionY!!)
 
-    operator fun compareTo(b: TranslatedCoordinates) = when {
-        !hasValidCoordinates() || !b.hasValidCoordinates() -> 0
-        positionY!! > b.positionY!! -> 1
-        positionY < b.positionY -> -1
-        else -> 0
-    }
+    operator fun compareTo(b: TranslatedCoordinates) =
+        compareValues(positionY, b.positionY)
 
     init {
         if (positionX == null || positionY == null) {
