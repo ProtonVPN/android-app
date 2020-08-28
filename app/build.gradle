@@ -144,6 +144,7 @@ def sentryDns = project.hasProperty('sentryDns') ? sentryDns : "null"
 def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
 def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
+def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 
 android {
@@ -186,6 +187,7 @@ android {
         buildConfigField "String", "Sentry_DSN",  sentryDns
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
+        buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
     }
     dataBinding {
         enabled = true
@@ -219,6 +221,7 @@ android {
     }
     buildTypes {
         debug {
+            buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
             testCoverageEnabled true
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
