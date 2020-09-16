@@ -36,7 +36,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TriangledTextView(context: Context?, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
+class TriangledTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
 
     private val paint = Paint()
     private val path = Path()

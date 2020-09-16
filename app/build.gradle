@@ -26,7 +26,7 @@ buildscript {
 plugins {
     id 'com.android.application'
     id 'com.github.triplet.play' version '2.7.2'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.70'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
@@ -502,11 +502,11 @@ apply plugin: 'checkstyle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0-rc01'
+    debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
     debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude module: 'support-annotations'
     }
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
     detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
     detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.9.1'
@@ -514,23 +514,23 @@ dependencies {
     detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
 
     implementation 'com.proton:srp:1.0.0@aar'
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0-rc01'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
     // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-codec:commons-codec:1.14'
     implementation 'com.qozix:tileview:2.2.7'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
-    implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.core:core:1.3.0'
-    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.core:core:1.3.1'
+    implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'com.daimajia.easing:library:2.1@aar'
+    implementation 'com.daimajia.easing:library:2.4@aar'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'io.sentry:sentry-android:1.7.30'
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -538,7 +538,7 @@ dependencies {
     implementation 'com.github.shts:TriangleLabelView:1.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
     implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.2.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
@@ -557,15 +557,15 @@ dependencies {
     implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
     implementation 'ru.egslava:MaskedEditText:1.0.5'
     implementation 'com.evernote:android-state:1.4.1'
-    implementation 'androidx.work:work-runtime:2.3.4'
+    implementation 'androidx.work:work-runtime:2.4.0'
     implementation 'com.github.akarnokd:rxjava2-extensions:0.20.10'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
-    implementation "com.datatheorem.android.trustkit:trustkit:1.1.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation "com.datatheorem.android.trustkit:trustkit:1.1.3"
     implementation 'com.xwray:groupie:2.7.2'
     implementation 'com.xwray:groupie-databinding:2.7.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'org.minidns:minidns-hla:0.3.4'
+    implementation 'org.minidns:minidns-hla:1.0.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
@@ -585,7 +585,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    kapt 'com.jakewharton:butterknife-compiler:10.2.1'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     kapt 'com.evernote:android-state-processor:1.4.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -598,33 +598,33 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     testImplementation 'io.mockk:mockk:1.10.0'
     androidTestImplementation 'io.mockk:mockk-android:1.10.0'
-    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
 
-    androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.3.0-rc01') {
+    androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.3.0') {
         exclude module: 'support-annotations'
     }
     androidTestImplementation 'com.azimolabs.conditionwatcher:conditionwatcher:0.2'
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:core:1.3.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.3.0-rc01'
-    androidTestImplementation 'androidx.test:rules:1.3.0-rc01'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
 
     // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
     androidTestImplementation 'com.google.truth:truth:1.0.1'
 
     // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc01'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0-rc01'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0-rc01'
-    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.3.0-rc01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.3.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     implementation project(path: ':openvpn')
 }
