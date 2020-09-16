@@ -531,7 +531,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void showSecureCoreChangeDialog(Profile profileToConnect) {
         String disconnect =
             vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : ".";
-        boolean isSecureCoreServer = profileToConnect.getServer().isSecureCoreServer();
+        boolean isSecureCoreServer = profileToConnect.isSecureCore();
         new MaterialDialog.Builder(this).title(R.string.warning)
             .theme(Theme.DARK)
             .content(HtmlTools.fromHtml(
