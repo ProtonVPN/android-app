@@ -34,6 +34,23 @@ dependencies = [
     "dependency": "androidx.savedstate:savedstate:1.0.0"
   },
   {
+    "project": "Activity Kotlin Extensions",
+    "description": "Kotlin extensions for \u0027activity\u0027 artifact",
+    "version": "1.1.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.activity:activity-ktx:1.1.0"
+  },
+  {
     "project": "AES-Crypto",
     "description": "A simple Android class for encrypting \u0026 decrypting strings, aiming to avoid the classic mistakes that most such classes suffer from.",
     "version": "0.0.5",
@@ -53,7 +70,7 @@ dependencies = [
   {
     "project": "Android AppCompat Library v7",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -65,7 +82,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.appcompat:appcompat:1.1.0"
+    "dependency": "androidx.appcompat:appcompat:1.2.0"
   },
   {
     "project": "Android Arch-Common",
@@ -104,7 +121,7 @@ dependencies = [
   {
     "project": "Android ConstraintLayout",
     "description": "ConstraintLayout for Android",
-    "version": "1.1.3",
+    "version": "2.0.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -116,12 +133,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.constraintlayout:constraintlayout:1.1.3"
+    "dependency": "androidx.constraintlayout:constraintlayout:2.0.1"
   },
   {
     "project": "Android ConstraintLayout Solver",
     "description": "Solver for ConstraintLayout",
-    "version": "1.1.3",
+    "version": "2.0.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -133,7 +150,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.constraintlayout:constraintlayout-solver:1.1.3"
+    "dependency": "androidx.constraintlayout:constraintlayout-solver:2.0.1"
   },
   {
     "project": "Android DB",
@@ -308,7 +325,7 @@ dependencies = [
   {
     "project": "Android Lifecycle ViewModel with SavedState",
     "description": "Android Lifecycle ViewModel",
-    "version": "1.0.0",
+    "version": "2.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -320,7 +337,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
   },
   {
     "project": "Android Lifecycle-Common",
@@ -357,9 +374,26 @@ dependencies = [
     "dependency": "androidx.multidex:multidex:2.0.1"
   },
   {
+    "project": "Android Preferences KTX",
+    "description": "Kotlin extensions for preferences",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.preference:preference-ktx:1.1.1"
+  },
+  {
     "project": "Android Resources Library",
     "description": "The Resources Library is a static library that you can add to your Android application in order to use resource APIs that backport the latest APIs to older versions of the platform. Compatible on devices running API 14 or later.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -371,12 +405,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.appcompat:appcompat-resources:1.1.0"
+    "dependency": "androidx.appcompat:appcompat-resources:1.2.0"
   },
   {
     "project": "Android Room-Common",
     "description": "Android Room-Common",
-    "version": "2.2.3",
+    "version": "2.2.5",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -388,12 +422,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.room:room-common:2.2.3"
+    "dependency": "androidx.room:room-common:2.2.5"
   },
   {
     "project": "Android Room-Runtime",
     "description": "Android Room-Runtime",
-    "version": "2.2.3",
+    "version": "2.2.5",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -405,7 +439,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.room:room-runtime:2.2.3"
+    "dependency": "androidx.room:room-runtime:2.2.5"
   },
   {
     "project": "Android State",
@@ -529,7 +563,7 @@ dependencies = [
   {
     "project": "Android Support Library compat",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -541,7 +575,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core:1.3.0"
+    "dependency": "androidx.core:core:1.3.1"
   },
   {
     "project": "Android Support Library Coordinator Layout",
@@ -682,7 +716,7 @@ dependencies = [
   {
     "project": "Android Support Library fragment",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.2.0",
+    "version": "1.2.4",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -694,7 +728,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.fragment:fragment:1.2.0"
+    "dependency": "androidx.fragment:fragment:1.2.4"
   },
   {
     "project": "Android Support Library Interpolators",
@@ -903,7 +937,7 @@ dependencies = [
   {
     "project": "Android WorkManager Runtime",
     "description": "Android WorkManager runtime library",
-    "version": "2.3.4",
+    "version": "2.4.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -915,12 +949,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime:2.3.4"
+    "dependency": "androidx.work:work-runtime:2.4.0"
   },
   {
     "project": "AndroidEasingFunctions Library",
     "description": "Android Animation Easing Functions",
-    "version": "2.1",
+    "version": "2.4",
     "developers": [
       "daimajia"
     ],
@@ -932,12 +966,29 @@ dependencies = [
         "license_url": "http://opensource.org/licenses/MIT"
       }
     ],
-    "dependency": "com.daimajia.easing:library:2.1"
+    "dependency": "com.daimajia.easing:library:2.4"
+  },
+  {
+    "project": "AndroidX Preference",
+    "description": "AndroidX Preference",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2015",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.preference:preference:1.1.1"
   },
   {
     "project": "AndroidX Test Library",
     "description": "The AndroidX Test Library provides an extensive framework for testing Android apps",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -949,7 +1000,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.test.espresso:espresso-idling-resource:3.2.0"
+    "dependency": "androidx.test.espresso:espresso-idling-resource:3.3.0"
   },
   {
     "project": "AndroidX Widget ViewPager2",
@@ -1048,7 +1099,7 @@ dependencies = [
   {
     "project": "Butterknife",
     "description": "Field and method binding for Android views.",
-    "version": "10.2.1",
+    "version": "10.2.3",
     "developers": [
       "Jake Wharton"
     ],
@@ -1060,12 +1111,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.jakewharton:butterknife:10.2.1"
+    "dependency": "com.jakewharton:butterknife:10.2.3"
   },
   {
     "project": "Butterknife Annotations",
     "description": "Field and method binding for Android views.",
-    "version": "10.2.1",
+    "version": "10.2.3",
     "developers": [
       "Jake Wharton"
     ],
@@ -1077,12 +1128,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.jakewharton:butterknife-annotations:10.2.1"
+    "dependency": "com.jakewharton:butterknife-annotations:10.2.3"
   },
   {
     "project": "ButterKnife Runtime",
     "description": "Field and method binding for Android views.",
-    "version": "10.2.1",
+    "version": "10.2.3",
     "developers": [
       "Jake Wharton"
     ],
@@ -1094,7 +1145,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.jakewharton:butterknife-runtime:10.2.1"
+    "dependency": "com.jakewharton:butterknife-runtime:10.2.3"
   },
   {
     "project": "CircleImageView",
@@ -1131,6 +1182,23 @@ dependencies = [
     "dependency": "me.relex:circleindicator:1.2.2"
   },
   {
+    "project": "Collections Kotlin Extensions",
+    "description": "Kotlin extensions for \u0027collection\u0027 artifact",
+    "version": "1.1.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.collection:collection-ktx:1.1.0"
+  },
+  {
     "project": "core",
     "description": null,
     "version": "0.9.6.0",
@@ -1143,7 +1211,7 @@ dependencies = [
   {
     "project": "Core Kotlin Extensions",
     "description": "Kotlin extensions for \u0027core\u0027 artifact",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1155,7 +1223,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core-ktx:1.3.0"
+    "dependency": "androidx.core:core-ktx:1.3.1"
   },
   {
     "project": "Dagger",
@@ -1205,7 +1273,7 @@ dependencies = [
   {
     "project": "Data Binding Base Library",
     "description": "Shared library between Data Binding runtime lib and compiler",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1217,12 +1285,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-common:4.0.0"
+    "dependency": "androidx.databinding:databinding-common:4.0.1"
   },
   {
     "project": "databinding-adapters",
     "description": null,
-    "version": "4.0.0",
+    "version": "4.0.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -1232,12 +1300,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-adapters:4.0.0"
+    "dependency": "androidx.databinding:databinding-adapters:4.0.1"
   },
   {
     "project": "databinding-runtime",
     "description": null,
-    "version": "4.0.0",
+    "version": "4.0.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -1247,7 +1315,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-runtime:4.0.0"
+    "dependency": "androidx.databinding:databinding-runtime:4.0.1"
   },
   {
     "project": "douglasjunior/android-simple-tooltip",
@@ -1284,6 +1352,23 @@ dependencies = [
     "dependency": "ru.egslava:MaskedEditText:1.0.5"
   },
   {
+    "project": "Experimental annotation",
+    "description": "Java annotation for use on unstable Android API surfaces. When used in conjunction with the Experimental annotation lint checks, this annotation provides functional parity with Kotlin\u0027s Experimental annotation.",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.annotation:annotation-experimental:1.0.0"
+  },
+  {
     "project": "Floating Action Button Library",
     "description": "Floating Action Button implementation for Android",
     "version": "1.6.4",
@@ -1299,6 +1384,23 @@ dependencies = [
       }
     ],
     "dependency": "com.github.clans:fab:1.6.4"
+  },
+  {
+    "project": "Fragment Kotlin Extensions",
+    "description": "Kotlin extensions for \u0027fragment\u0027 artifact",
+    "version": "1.2.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.fragment:fragment-ktx:1.2.4"
   },
   {
     "project": "Groupie",
@@ -1469,7 +1571,7 @@ dependencies = [
   {
     "project": "kotlinx-coroutines-android",
     "description": "Coroutines support libraries for Kotlin",
-    "version": "1.3.7",
+    "version": "1.3.9",
     "developers": [
       "JetBrains Team"
     ],
@@ -1481,24 +1583,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7"
-  },
-  {
-    "project": "kotlinx-coroutines-core",
-    "description": "Coroutines support libraries for Kotlin",
-    "version": "1.3.7",
-    "developers": [
-      "JetBrains Team"
-    ],
-    "url": "https://github.com/Kotlin/kotlinx.coroutines",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
   },
   {
     "project": "kotlinx-serialization-runtime",
@@ -1583,11 +1668,11 @@ dependencies = [
   {
     "project": "Material Components for Android",
     "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
-    "version": "1.1.0",
+    "version": "1.2.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "url": "https://github.com/material-components/material-components-android",
     "year": "2015",
     "licenses": [
       {
@@ -1595,7 +1680,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.android.material:material:1.1.0"
+    "dependency": "com.google.android.material:material:1.2.1"
   },
   {
     "project": "MaterialProgressBar Library",
@@ -1617,7 +1702,7 @@ dependencies = [
   {
     "project": "me.proton.core:network",
     "description": "Proton Core libraries for Android",
-    "version": "0.1.5",
+    "version": "0.2.3",
     "developers": [
       "Davide Farella"
     ],
@@ -1629,12 +1714,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network:0.1.5"
+    "dependency": "me.proton.core:network:0.2.3"
   },
   {
     "project": "me.proton.core:network-data",
     "description": "Proton Core libraries for Android",
-    "version": "0.1.5",
+    "version": "0.2.3",
     "developers": [
       "Davide Farella"
     ],
@@ -1646,12 +1731,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-data:0.1.5"
+    "dependency": "me.proton.core:network-data:0.2.3"
   },
   {
     "project": "me.proton.core:network-domain",
     "description": "Proton Core libraries for Android",
-    "version": "0.1.3",
+    "version": "0.2.2",
     "developers": [
       "Davide Farella"
     ],
@@ -1663,7 +1748,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-domain:0.1.3"
+    "dependency": "me.proton.core:network-domain:0.2.2"
   },
   {
     "project": "me.proton.core:util-android-shared-preferences",
@@ -1685,7 +1770,7 @@ dependencies = [
   {
     "project": "me.proton.core:util-kotlin",
     "description": "Proton Core libraries for Android",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "developers": [
       "Davide Farella"
     ],
@@ -1697,12 +1782,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-kotlin:0.1.4"
+    "dependency": "me.proton.core:util-kotlin:0.1.5"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.4",
+    "version": "1.0.0",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1715,12 +1800,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-hla:0.3.4"
+    "dependency": "org.minidns:minidns-hla:1.0.0"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.4",
+    "version": "1.0.0",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1733,12 +1818,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-dnssec:0.3.4"
+    "dependency": "org.minidns:minidns-dnssec:1.0.0"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.4",
+    "version": "1.0.0",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1751,12 +1836,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-iterative-resolver:0.3.4"
+    "dependency": "org.minidns:minidns-iterative-resolver:1.0.0"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.4",
+    "version": "1.0.0",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1769,12 +1854,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-client:0.3.4"
+    "dependency": "org.minidns:minidns-client:1.0.0"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "0.3.4",
+    "version": "1.0.0",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -1787,7 +1872,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-core:0.3.4"
+    "dependency": "org.minidns:minidns-core:1.0.0"
   },
   {
     "project": "MPAndroidChart",
@@ -1853,7 +1938,7 @@ dependencies = [
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib",
     "description": "Kotlin Standard Library for JVM",
-    "version": "1.3.72",
+    "version": "1.4.0",
     "developers": [
       "Kotlin Team"
     ],
@@ -1865,12 +1950,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.3.72"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.4.0"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib-common",
     "description": "Kotlin Common Standard Library",
-    "version": "1.3.72",
+    "version": "1.4.0",
     "developers": [
       "Kotlin Team"
     ],
@@ -1882,7 +1967,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.3.72"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.4.0"
   },
   {
     "project": "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -2212,7 +2297,7 @@ dependencies = [
   {
     "project": "TrustKit-Android",
     "description": "TrustKit Android is an open source library that makes it easy to deploy SSL public key pinning and reporting in any Android App.",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "developers": [
       "Alban Diquet",
       "Jordan Bouellat"
@@ -2225,7 +2310,7 @@ dependencies = [
         "license_url": "https://github.com/datatheorem/TrustKit-Android/blob/master/LICENSE"
       }
     ],
-    "dependency": "com.datatheorem.android.trustkit:trustkit:1.1.2"
+    "dependency": "com.datatheorem.android.trustkit:trustkit:1.1.3"
   },
   {
     "project": "VersionedParcelable",
@@ -2247,7 +2332,7 @@ dependencies = [
   {
     "project": "viewbinding",
     "description": null,
-    "version": "4.0.0",
+    "version": "4.0.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -2257,6 +2342,6 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:viewbinding:4.0.0"
+    "dependency": "androidx.databinding:viewbinding:4.0.1"
   }
 ]
