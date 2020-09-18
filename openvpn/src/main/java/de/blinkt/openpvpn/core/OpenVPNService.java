@@ -916,6 +916,9 @@ public abstract class OpenVPNService extends VpnService implements StateListener
                 throw new NullPointerException("Android establish() method returned null (Really broken network configuration?)");
             return tun;
         } catch (Exception e) {
+            if (e instanceof SecurityException && e.getMessage().contains("INTERACT_ACROSS_USERS")) {
+                VpnStatus.updateStateString("MULTI_USER_PERMISSION", "", R.string.state_user_vpn_permission, ConnectionStatus.LEVEL_MULTI_USER_PERMISSION);
+            }
             VpnStatus.logError(R.string.tun_open_error);
             VpnStatus.logError(getString(R.string.error) + e.getLocalizedMessage());
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1) {

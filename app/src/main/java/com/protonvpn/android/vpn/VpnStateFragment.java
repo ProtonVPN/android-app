@@ -538,6 +538,10 @@ public class VpnStateFragment extends BaseFragment {
             case UNPAID:
                 showAuthError(R.string.errorUserDelinquent);
                 Log.exception(new VPNException("Overdue payment"));
+            case MULTI_USER_PERMISSION:
+                stateMonitor.disconnect();
+                showAuthError(R.string.errorTunMultiUserPermission);
+                Log.exception(new VPNException("Dual-apps permission error"));
             default:
                 showErrorDialog(R.string.error_generic);
                 Log.exception(new VPNException("Unspecified failure while connecting"));

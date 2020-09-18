@@ -133,17 +133,21 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }.show()
     }
 
-    fun init(initialValue: NetShieldProtocol, appConfig: AppConfig, userData: UserData, stateMonitor:
-    VpnStateMonitor,
-             changeCallback: (protocol: NetShieldProtocol) -> Unit) = with(binding) {
+    fun init(
+        initialValue: NetShieldProtocol,
+        appConfig: AppConfig,
+        userData: UserData,
+        stateMonitor: VpnStateMonitor,
+        changeCallback: (protocol: NetShieldProtocol) -> Unit
+    ) = with(binding) {
         this.root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         onStateChange(initialValue)
         initUserTier(userData)
         switchNetshield.isChecked = initialValue != NetShieldProtocol.DISABLED
         val checkedChangeListener = CompoundButton.OnCheckedChangeListener { view, _ ->
             if (view.isPressed) {
-                if (stateMonitor.isConnected && withReconnectDialog
-                        && Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)) {
+                if (stateMonitor.isConnected && withReconnectDialog &&
+                        Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)) {
                     showReconnectDialog { agreedToReconnect ->
                         if (agreedToReconnect) {
                             onStateChange(currentState)

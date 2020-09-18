@@ -65,7 +65,7 @@ public class VpnStateService extends Service {
 
     public enum ErrorState {
         NO_ERROR, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED, UNREACHABLE, SESSION_IN_USE, MAX_SESSIONS,
-        GENERIC_ERROR,
+        GENERIC_ERROR, MULTI_USER_PERMISSION
     }
 
     /**
