@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -125,15 +126,18 @@ object NotificationHelper {
     }
 
     fun updateStatusNotification(
-            context: Context,
-            vpnStatus: VpnStateMonitor.Status,
-            trafficUpdate: TrafficUpdate?
+        context: Context,
+        vpnStatus: VpnStateMonitor.Status,
+        trafficUpdate: TrafficUpdate?
     ) {
         with(NotificationManagerCompat.from(context)) {
-            // First update the notification even when disabled. If foreground service is
-            // still running, notification will stay after cancel() - let's at least show correct
-            // "not connected" notification.
-            notify(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
+            // On android < 10 first update the notification even when disabled. If foreground
+            // service is still running, notification will stay after cancel() - let's at least show
+            // correct "not connected" notification. However on Android 10+ this somehow can cause
+            // notification cancel to have no effect.
+            if (Build.VERSION.SDK_INT < 29 || vpnStatus.state != Disabled) {
+                notify(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
+            }
             if (vpnStatus.state == Disabled) {
                 cancel(Constants.NOTIFICATION_ID)
             }
