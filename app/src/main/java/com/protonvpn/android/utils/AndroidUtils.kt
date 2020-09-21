@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -33,9 +34,9 @@ import androidx.annotation.DimenRes
 object AndroidUtils {
 
     fun isPackageSignedWith(
-            context: Context,
-            packageName: String,
-            expectedSignature: String
+        context: Context,
+        packageName: String,
+        expectedSignature: String
     ): Boolean = with(context) {
         val oldAppInfo = packageManager.getPackageInfo(packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
@@ -50,10 +51,15 @@ object AndroidUtils {
         }
     }
 
-    inline fun <reified T : Any> Context.launchActivity(
-            options: Bundle? = null,
-            noinline init: Intent.() -> Unit = {}) {
+    fun Context.isTV(): Boolean {
+        val uiMode: Int = resources.configuration.uiMode
+        return uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION
+    }
 
+    inline fun <reified T : Any> Context.launchActivity(
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
+    ) {
         val intent = Intent(this, T::class.java)
         intent.init()
         startActivity(intent, options)
@@ -92,4 +98,7 @@ object AndroidUtils {
     fun Resources.getFloatRes(@DimenRes id: Int) = TypedValue().also {
         getValue(id, it, true)
     }.float
+
+    fun Context.isChromeOS() =
+            packageManager.hasSystemFeature("org.chromium.arc.device_management")
 }

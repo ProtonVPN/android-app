@@ -122,6 +122,7 @@ class AppModule {
         maintenanceTracker: MaintenanceTracker,
         apiClient: VpnApiClient
     ) = VpnStateMonitor(
+        ProtonApplication.getAppContext(),
         userData,
         api,
         backendManager,
