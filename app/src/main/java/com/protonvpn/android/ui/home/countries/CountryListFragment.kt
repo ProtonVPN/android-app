@@ -104,7 +104,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             }
 
             groups.add(ExpandableGroup(expandableHeaderItem).apply {
-                isExpanded = expandableHeaderItem.id in expandedCountriesIds
+                isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
+                        country.hasAccessibleOnlineServer(viewModel.userData)
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
                     title?.let { add(HeaderItem(it)) }
                     servers.forEach {
