@@ -19,6 +19,7 @@
 package com.protonvpn.android.appconfig
 
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -44,7 +45,8 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit) {
         }
     }
 
-    fun getMaintenanceTrackerDelay(): Long = appConfigResponse.underMaintenanceDetectionDelay
+    fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
+        appConfigResponse.underMaintenanceDetectionDelay)
 
     fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
 
