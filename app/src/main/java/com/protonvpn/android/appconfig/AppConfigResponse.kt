@@ -18,12 +18,14 @@
  */
 package com.protonvpn.android.appconfig
 
+import com.protonvpn.android.utils.Constants
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 class AppConfigResponse(
-    @SerialName(value = "ServerRefreshInterval") val underMaintenanceDetectionDelay: Long = 30,
+    @SerialName(value = "ServerRefreshInterval")
+    val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
     @SerialName(value = "OpenVPNConfig") val openVPNConfigResponse: OpenVPNConfigResponse? = null,
     @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags
 ) {
