@@ -150,7 +150,7 @@ def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 android {
     def helpers = new Helpers()
 
-    compileSdkVersion 28
+    compileSdkVersion 30
     // FIXME: update on CI image
     ndkVersion "20.0.5594570"
     useLibrary 'org.apache.http.legacy'
@@ -174,7 +174,7 @@ android {
     defaultConfig {
         applicationId appId
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         multiDexEnabled true
         versionName helpers.fullVersionName
         versionCode helpers.getVersionCode(0)
