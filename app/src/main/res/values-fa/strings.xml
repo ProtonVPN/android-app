@@ -280,7 +280,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="troubleshootOtherProblemTitle">هنوز راه حلی پیدا نشده است</string>
   <string name="troubleshootOtherProblemDescription"><![CDATA[با ما بطور مستقیم از طریق <a href=\"%1$s\">فرم پشتیبانی</a>، ایمیل(<a href=\"%2$s\">support@protonvpn.com</a>)، یا <a href=\"%3$s\">توییتر</a> تماس بگیرید.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">اجازهٔ مسیریابی جایگزین</string>
-  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانی که سایتهای Proton مسدود هستند، به برنامه امکان می‌دهد که مسیریابی جایگزین شبکه را به منظور دسترسی به Proton امتحان کند که به دور زدن دیوار آتشین یا رفع اشکالات شبکه کمک می‌کند. ما پیشنهاد می‌کنیم که این تنظیم را به منظور اطمینان‌پذیری بالاتر روشن نگه دارید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[این تنظیم در زمانی که سایتهای Proton مسدود هستند، به برنامه امکان می‌دهد که مسیریابی شبکهٔ جایگزین را به منظور دسترسی به Proton امتحان کند که به دور زدن دیوار آتشین یا رفع اشکالات شبکه کمک می‌کند. ما پیشنهاد می‌کنیم که این تنظیم را به منظور اطمینان‌پذیری بالاتر روشن نگه دارید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>

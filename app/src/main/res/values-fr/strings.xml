@@ -96,7 +96,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsShowIconTitle">Icône d\'état</string>
   <string name="settingsShowIconDescription">Affiche une icône dans la barre d\'état pour indiquer l\'état du VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN démarrera automatiquement à chaque démarrage du système</string>
-  <string name="settingsBypassLocalTitle">Autoriser les connections LAN</string>
+  <string name="settingsBypassLocalTitle">Autoriser les connexions LAN</string>
   <string name="settingsBypassLocalDetails">Cela vous permettra de contourner le VPN et de vous connecter à des périphériques sur votre réseau local, comme votre imprimante. Ces connexions ne sont pas cryptées</string>
   <string name="settingsDnsLeakTitle">Fuites DNS</string>
   <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif)</string>
