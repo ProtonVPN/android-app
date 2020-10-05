@@ -261,7 +261,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
   <string name="welcomeDialogTitle">Bedankt voor het lid worden van een steeds groter wordende ProtonVPN gemeenschap.</string>
   <string name="welcomeDialogDescription">Gebruik uw nieuwe accountgegevens om in te loggen.</string>
-  <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het laat u toe om geavanceerde functies en Plus servers te gebruiken. Aan het einde van de proefperiode keert u terug naar een Gratis plan en heeft u alleen toegang tot Gratis servers.</string>
+  <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het stelt u in staat om geavanceerde functies en Plus servers te proberen. Aan het einde van de proefperiode keert u terug naar een gratis abonnement en heeft u alleen toegang tot de gratis servers.</string>
   <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> dagen <b>%2$d</b> uur <b>%3$d</b> minuten <b>%4$d</b> seconden]]></string>
   <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
   <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
@@ -271,7 +271,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="troubleshootNoInternetTitle">Geen internetverbinding</string>
   <string name="troubleshootIspProblemTitle">Probleem met Internet Service Provider (ISP)</string>
   <string name="troubleshootIspProblemDescription"><![CDATA[Probeer verbinding te maken met Proton vanuit een ander netwerk (of gebruik <a href=\'%1$s\'>Tor</a>)]]></string>
-  <string name="troubleshootAntivirusProblemTitle">Antivirus storing</string>
+  <string name="troubleshootAntivirusProblemTitle">Antivirus-probleem</string>
   <string name="troubleshootAntivirusProblemDescription">Tijdelijk uitschakelen of verwijderen van uw antivirussoftware.</string>
   <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interferentie</string>
   <string name="troubleshootProxyFirewallProblemDescription">Schakel eventuele proxy\'s of firewalls uit of neem contact op met uw netwerkbeheerder.</string>
@@ -281,7 +281,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="troubleshootOtherProblemDescription"><![CDATA[Neem rechtstreeks contact met ons op via ons <a href=\"%1$s\">ondersteuningsformulier</a>, e-mail (<a href=\"%2$s\">support@protonvpn.com</a>), of <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatieve routing toestaan</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In het geval dat Proton-sites worden geblokkeerd, stelt deze instelling de app in staat om alternatieve netwerkroutering te proberen om Proton te bereiken, wat nuttig kan zijn voor het omzeilen van firewalls of netwerkproblemen. We raden aan deze instelling aan te houden voor een grotere betrouwbaarheid. <a href=\"%1$s\">Learn more</a>]]></string>
-  <string name="troubleshootGovernmentBlockTitle">Overheid blokkage</string>
+  <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Stel ProtonVPN in om automatisch opnieuw verbinding te maken of om externe verbindingen uit te schakelen als uw VPN-verbinding wordt verbroken.</string>
@@ -315,5 +315,5 @@ oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel 
   <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield uit te schakelen.</string>
   <string name="netShieldPaidFeature">U probeert functie in te schakelen waarvoor ProtonVPN Plus abonnement nodig is.</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
-  <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
+  <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
 </resources>
