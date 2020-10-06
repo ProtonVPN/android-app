@@ -19,6 +19,7 @@
 package com.protonvpn.android.appconfig
 
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -44,14 +45,19 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit) {
         }
     }
 
-    fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts
+    fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
+        appConfigResponse.underMaintenanceDetectionDelay)
+
+    fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
+
+    fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts!!
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     private fun getDefaultConfig(): AppConfigResponse {
-        val defaultPorts = OpenVPNConfigResponse(DefaultPorts.getDefaults())
-        val defaultFeatureFlags = FeatureFlags(0, 0)
-        return AppConfigResponse(defaultPorts,
-                defaultFeatureFlags)
+        val defaultPorts = OpenVPNConfigResponse(DefaultPorts.defaults)
+        val defaultFeatureFlags = FeatureFlags()
+        return AppConfigResponse(openVPNConfigResponse = defaultPorts,
+                featureFlags = defaultFeatureFlags)
     }
 }

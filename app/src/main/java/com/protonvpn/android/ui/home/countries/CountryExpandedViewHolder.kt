@@ -74,12 +74,12 @@ open class CountryExpandedViewHolder(
             radioServer.isClickable = false
 
             textLoad.text = "${server.load.toInt()}%"
-            if (server.isOnline) {
+            if (server.online) {
                 imageLoad.setImageDrawable(
                         ColorDrawable(ContextCompat.getColor(imageLoad.context, server.loadColor)))
             }
-            imageLoad.isVisible = server.isOnline
-            imageWrench.isVisible = !server.isOnline
+            imageLoad.isVisible = server.online
+            imageWrench.isVisible = !server.online
 
             if (viewModel.userData.isSecureCoreEnabled) {
                 initSecureCoreServer()
@@ -143,14 +143,14 @@ open class CountryExpandedViewHolder(
             textServer.text = server.serverName
             textIp.visibility = VISIBLE
             textIp.setTextColor(ContextCompat.getColor(textIp.context, R.color.lightGrey))
-            textIp.text = if (server.isOnline)
+            textIp.text = if (server.online)
                 if (viewModel.userData.hasAccessToServer(server))
                     if (server.isFreeServer) "" else server.city
                 else
                     binding.textIp.context.getString(R.string.premium)
             else
                 binding.textIp.context.getString(R.string.listItemMaintenance)
-            textLoad.isVisible = server.isOnline
+            textLoad.isVisible = server.online
             imageDoubleArrows.visibility = View.GONE
         }
     }

@@ -20,7 +20,6 @@ package com.protonvpn.tests.testRules;
 
 import android.content.Intent;
 
-import com.protonvpn.MockSwitch;
 import com.protonvpn.android.ui.home.HomeActivity;
 
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
@@ -31,7 +30,7 @@ public class TestIntent {
 
     public TestIntent() {
         intent = new Intent(getContext(), HomeActivity.class);
-        intent.putExtra("isTest", MockSwitch.mockedConnectionUsed);
+        intent.putExtra("isTest", true);
     }
 
     public Intent getIntent() {

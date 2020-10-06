@@ -25,7 +25,7 @@ import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.MapRobot;
 import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.actions.ServiceRobot;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
@@ -115,7 +115,7 @@ public class ConnectionRobotTests {
 
     @Test
     public void connectToServerWhenInternetIsDownViaProfiles() {
-        testRule.mockErrorOnConnect(VpnStateMonitor.ErrorType.UNREACHABLE);
+        testRule.mockErrorOnConnect(ErrorType.UNREACHABLE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         profilesRobot.clickOnFastestOption();

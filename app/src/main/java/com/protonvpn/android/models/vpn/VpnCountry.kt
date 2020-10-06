@@ -71,9 +71,12 @@ class VpnCountry(
     }
 
     fun hasAccessibleServer(userData: UserData): Boolean =
-        serverList.any { userData.hasAccessToServer(it) && it.isOnline }
+        serverList.any { userData.hasAccessToServer(it) }
 
-    fun isUnderMaintenance(): Boolean = !serverList.any { it.isOnline }
+    fun hasAccessibleOnlineServer(userData: UserData): Boolean =
+        serverList.any { userData.hasAccessToServer(it) && it.online }
+
+    fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
 
     private fun sortServers(serverList: List<Server>): List<Server> {
         Collections.sort(serverList,

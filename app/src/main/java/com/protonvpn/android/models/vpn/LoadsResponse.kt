@@ -18,14 +18,17 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class LoadsResponse(
-    @param:JsonProperty(value = "LogicalServers", required = true) val loadsList: List<LoadUpdate>
+    @SerialName(value = "LogicalServers") val loadsList: List<LoadUpdate>
 )
 
+@Serializable
 data class LoadUpdate(
-    @param:JsonProperty(value = "ID", required = true) val id: String,
-    @param:JsonProperty(value = "Load", required = true) val load: Float,
-    @param:JsonProperty(value = "Score", required = false) val score: Float
+    @SerialName(value = "ID") val id: String,
+    @SerialName(value = "Load") val load: Float,
+    @SerialName(value = "Score") val score: Float = 0f
 )

@@ -20,14 +20,13 @@ package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import java.io.Serializable
 
-abstract class ConnectionParams(
+open class ConnectionParams(
     val profile: Profile,
     val server: Server,
     val connectingDomain: ConnectingDomain,
     val protocol: VpnProtocol
-) : Serializable {
+) : java.io.Serializable {
 
     open val info get() = "${connectingDomain.entryDomain} $protocol"
 

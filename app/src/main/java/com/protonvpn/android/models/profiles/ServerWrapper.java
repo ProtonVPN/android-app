@@ -66,7 +66,7 @@ public final class ServerWrapper implements Listable, Serializable {
         if (server == null) {
             return name;
         }
-        if (!server.isOnline()) {
+        if (!server.getOnline()) {
             return context.getString(R.string.serverLabelUnderMaintenance, name);
         }
         return deliver.hasAccessToServer(server) ? name :

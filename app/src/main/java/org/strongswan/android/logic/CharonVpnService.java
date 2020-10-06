@@ -176,6 +176,7 @@ public class CharonVpnService extends VpnService implements Runnable {
             stopSelf();
         }
         else {
+            lastServer.getProfile().getWrapper().setDeliverer(manager);
             if (!stateMonitor.onRestoreProcess(this, lastServer.getProfile())) {
                 stopSelf();
             }

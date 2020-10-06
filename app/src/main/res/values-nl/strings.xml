@@ -315,4 +315,5 @@ oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel 
   <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield uit te schakelen.</string>
   <string name="netShieldPaidFeature">U probeert functie in te schakelen waarvoor ProtonVPN Plus abonnement nodig is.</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
+  <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
 </resources>

@@ -25,6 +25,7 @@ import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
+import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -62,7 +63,7 @@ class ServerManager(
     private val allServers get() = sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
-    private fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
 
     private fun getEntryCountries(secureCore: Boolean) = if (secureCore)
         secureCoreEntryCountries else vpnCountries
@@ -133,9 +134,18 @@ class ServerManager(
             if (servers.isNotEmpty())
                 secureCoreExitCountries.add(VpnCountry(country, servers, this))
         }
-        sortVpnCountries(vpnCountries)
-        sortVpnCountries(secureCoreExitCountries)
         updatedAt = DateTime()
+        Storage.save(this)
+        updateEvent.emit()
+        profilesUpdateEvent.emit()
+    }
+
+    fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
+        allServers.asSequence().flatMap { it.connectingDomains.asSequence() }
+            .find { it.id == connectingDomain.id }?.let {
+                it.isOnline = connectingDomain.isOnline
+            }
+
         Storage.save(this)
         updateEvent.emit()
         profilesUpdateEvent.emit()
@@ -152,10 +162,6 @@ class ServerManager(
         Storage.save(this)
         updateEvent.emit()
         profilesUpdateEvent.emit()
-    }
-
-    private fun sortVpnCountries(list: MutableList<VpnCountry>) {
-        list.sortWith(compareBy({ !it.hasAccessibleServer(userData) }, VpnCountry::countryName))
     }
 
     fun getVpnCountries(): List<VpnCountry> = vpnCountries
@@ -188,7 +194,7 @@ class ServerManager(
 
     fun getBestScoreServer(serverList: List<Server>): Server? {
         val map = serverList.asSequence()
-                .filter { "tor" !in it.keywords && it.isOnline }
+                .filter { "tor" !in it.keywords && it.online }
                 .groupBy(::hasAccessToServer)
                 .mapValues { it.value.minBy(Server::score) }
         return map[true] ?: map[false]
@@ -196,13 +202,13 @@ class ServerManager(
 
     private fun getRandomServer(): Server? {
         val allCountries = getExitCountries(userData.isSecureCoreEnabled)
-        val accessibleCountries = allCountries.filter { it.hasAccessibleServer(userData) }
+        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(userData) }
         return (if (accessibleCountries.isEmpty())
             allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
     }
 
     private fun getRandomServer(country: VpnCountry): Server? {
-        val online = country.serverList.filter(Server::isOnline)
+        val online = country.serverList.filter(Server::online)
         val accessible = online.filter(::hasAccessToServer)
         return (if (accessible.isEmpty())
             online else accessible).randomNullable()
@@ -277,6 +283,6 @@ class ServerManager(
         userData.hasAccessToServer(server)
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
-        getVpnCountries().firstOrNull { !it.hasAccessibleServer(userData) }
+        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }
                 ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }

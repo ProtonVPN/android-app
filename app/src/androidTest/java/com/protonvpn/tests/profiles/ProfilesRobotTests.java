@@ -30,7 +30,6 @@ import com.protonvpn.tests.testRules.SetUserPreferencesRule;
 import com.protonvpn.testsHelper.TestUser;
 
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -294,8 +293,6 @@ public class ProfilesRobotTests {
         profilesRobot.clickDeleteProfile().profilesResult.profileIsNotVisible(profileName);
     }
 
-    //Remove ignore after the bug will be fixed
-    @Ignore
     @Test
     public void editProfile() {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();

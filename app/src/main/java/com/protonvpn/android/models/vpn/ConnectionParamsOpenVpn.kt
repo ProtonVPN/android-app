@@ -27,7 +27,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openpvpn.VpnProfile
 import de.blinkt.openpvpn.core.Connection
-import java.io.Serializable
 
 class ConnectionParamsOpenVpn(
     profile: Profile,
@@ -35,7 +34,7 @@ class ConnectionParamsOpenVpn(
     connectingDomain: ConnectingDomain,
     private val transmissionProtocol: TransmissionProtocol,
     private val port: Int
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), Serializable {
+) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port=$port"
 
@@ -50,7 +49,8 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString
+        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
+                Constants.VPN_USERNAME_PRODUCT_SUFFIX
         mUseTLSAuth = true
         mTunMtu = userData.mtuSize
         mExpectTLSCert = true

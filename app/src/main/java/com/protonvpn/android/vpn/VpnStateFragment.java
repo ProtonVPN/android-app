@@ -60,12 +60,12 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.ConnectionTools;
+import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.utils.ViewUtils;
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType;
 
 import java.util.List;
 import java.util.Timer;
@@ -313,7 +313,9 @@ public class VpnStateFragment extends BaseFragment {
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.VISIBLE);
         layoutError.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+
+        // isTest(): ugly but enables running UI tests on android 5/6 (which have a problem with this view)
+        progressBar.setVisibility(DebugUtils.INSTANCE.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
 
         connectingView.setBackgroundColor(ContextCompat.getColor(connectingView.getContext(),
             profile != null ? (userData.isSecureCoreEnabled() ? R.color.colorAccent : R.color.colorPrimary) :

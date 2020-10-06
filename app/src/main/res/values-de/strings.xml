@@ -38,8 +38,8 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="mapCalloutDisconnect">Trennen</string>
   <string name="mapSwitchSecureCore">Secure Core verwenden</string>
   <string name="warning">Warnung</string>
-  <string name="secureCoreSwitchOn">Sie versuchen sich mit einem Secure‐Core‐Server zu verbinden. Dies wird Secure Core aktivieren%1$s Fortfahren?</string>
-  <string name="secureCoreSwitchOff">Sie versuchen sich mit einem Server zu verbinden, der kein Secure‐Core‐Server ist. Dies wird Secure Core deaktivieren%1$s Fortfahren?</string>
+  <string name="secureCoreSwitchOn">Sie versuchen sich mit einem „Secure Core”‐Server zu verbinden. Dies wird Secure Core aktivieren%1$s Fortfahren?</string>
+  <string name="secureCoreSwitchOff">Sie versuchen sich mit einem Server zu verbinden, der kein „Secure Core”‐Server ist. Dies wird Secure Core deaktivieren%1$s Fortfahren?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;und Ihre <b>aktuelle Verbindung unterbrechen</b>.]]></string>
   <string name="disconnectDialogDescription">Diese Aktion wird Sie von der aktuellen Sitzung trennen. Sind Sie sicher, dass Sie fortfahren möchten?</string>
   <string name="logoutDescription">Das Abmelden wird Ihr Gerät vom VPN‐Server trennen.</string>
@@ -112,7 +112,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedMaintenanceDescription">Der Server, mit dem Sie sich versuchen zu verbinden, ist zurzeit in Wartungsarbeiten. Bitte versuchen Sie es mit einem anderen Server.</string>
   <string name="restrictedBasicTitle">Bezahlter Server</string>
   <string name="restrictedPlusTitle">Plus‐Server</string>
-  <string name="restrictedSecureCoreTitle">Secure‐Core‐Server</string>
+  <string name="restrictedSecureCoreTitle">„Secure Core”‐Server</string>
   <string name="restrictedBasic">Sie versuchen sich zu einem Server zu verbinden, der ein kostenpflichtiges Abonnement benötigt.\nUm High‐Speed‐Server in allen Ländern nutzen zu können, upgraden Sie bitte Ihr Abonnement. </string>
   <string name="restrictedPlus">Sie versuchen sich mit einem Server zu verbinden, der mindestens ein ProtonVPN‐Plus‐Abonnement benötigt.\nUm Zugriff auf mehr Server in allen Ländern zu erhalten, sollten Sie Ihr Abonnement upgraden.</string>
   <string name="restrictedSecureCore">Secure Core ist eine Premium‐Funktion, welche mindestens ProtonVPN Plus benötigt. Secure Core fügt erweiterten Schutz gegen die Überwachung von VPN‐Servern hinzu.\nUm Zugriff auf Secure Core zu erhalten, sehen Sie sich unsere anderen Abonnements an, die diese Funktion enthalten.</string>
@@ -133,7 +133,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideTitle">Wir sind der Meinung, dass das Internet frei sein sollte</string>
   <string name="onboardingMiddleSlideDescription">Lassen Sie Zensur und regionale Beschränkungen hinter sich. Wir schalten keine Werbung, haben keine Bandweitenbeschränkungen und verkaufen auch keinerlei Daten an Dritte.</string>
   <string name="onboardingEndingSlideTitle">Ihre Sicherheit ist unsere Priorität</string>
-  <string name="onboardingEndingSlideDescription">Wir sind ein Sicherheitsunternehmen. Ob es unsere Secure‐Core‐Architektur, oder unsere fortgeschrittene Verschlüsselung ist, Sicherheit kommt immer zuerst.</string>
+  <string name="onboardingEndingSlideDescription">Wir sind ein Sicherheitsunternehmen. Ob es unsere „Secure Core”‐Architektur, oder unsere fortgeschrittene Verschlüsselung ist, Sicherheit kommt immer zuerst.</string>
   <string name="onboardingFAB">Schnellverbindung/Profile</string>
   <string name="onboardingFABDescription">Tippen Sie auf diese Schaltfläche, um sich schnell zu verbinden</string>
   <string name="onboardingSignup">Registrieren</string>
@@ -311,5 +311,6 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
   <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu aufgebaut werden, um NetShield zu deaktivieren.</string>
   <string name="netShieldPaidFeature">Sie versuchen eine Funktion zu aktivieren, die ein ProtonVPN Plus Abonnement erfordert.</string>
-  <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
+  <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
+  <string name="onMaintenanceDetected">Der VPN-Server, mit dem Sie verbunden waren, wird derzeit gewartet. Wir haben Sie automatisch wieder mit dem schnellsten verfügbaren Server verbunden.</string>
 </resources>

@@ -36,7 +36,7 @@ class UserPreferencesTests {
 
     @Before
     fun before() {
-        Storage.setPreferences(mockkClass(SharedPreferences::class))
+        Storage.setPreferences(mockkClass(SharedPreferences::class, relaxed = true))
     }
 
     @Test
