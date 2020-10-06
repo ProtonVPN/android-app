@@ -28,6 +28,9 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
 import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
+import com.protonvpn.android.BuildConfig
+import io.sentry.Sentry
+import io.sentry.event.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -92,9 +95,9 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
         fileAppender.start()
         val root = context.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
         root.addAppender(fileAppender)
-        root.addAppender(logcatAppender);
+        root.addAppender(logcatAppender)
 
-        StatusPrinter.print(context);
+        StatusPrinter.print(context)
     }
 
     fun getLogFiles(): List<File> {
@@ -113,6 +116,13 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
             }
         }
         return list
+    }
+
+    fun logSentryEvent(event: Event) {
+        if (!BuildConfig.DEBUG) {
+            Sentry.capture(event)
+        }
+        log(event.message)
     }
 
     fun log(message: String) {

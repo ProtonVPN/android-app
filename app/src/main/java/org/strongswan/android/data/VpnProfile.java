@@ -19,7 +19,6 @@ package org.strongswan.android.data;
 
 import android.text.TextUtils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.protonvpn.android.models.config.UserData;
 
 import java.util.Arrays;
@@ -199,7 +198,6 @@ public class VpnProfile implements Cloneable {
         this.mNATKeepAlive = keepalive;
     }
 
-    @JsonIgnore
     public void setExcludedSubnets(List<String> excludedSubnets) {
         this.mExcludedSubnets = excludedSubnets.size() > 0 ? TextUtils.join(" ", excludedSubnets) : "";
     }
@@ -216,12 +214,10 @@ public class VpnProfile implements Cloneable {
         return mIncludedSubnets;
     }
 
-    @JsonIgnore
     public void setSelectedApps(String selectedApps) {
         this.mSelectedApps = selectedApps;
     }
 
-    @JsonIgnore
     public void setSelectedApps(List<String> selectedApps) {
         this.mSelectedApps = selectedApps.size() > 0 ? TextUtils.join(" ", selectedApps) : null;
     }
@@ -238,7 +234,6 @@ public class VpnProfile implements Cloneable {
         return set;
     }
 
-    @JsonIgnore
     public void setSelectedAppsHandling(SelectedAppsHandling selectedAppsHandling) {
         this.mSelectedAppsHandling = selectedAppsHandling;
     }

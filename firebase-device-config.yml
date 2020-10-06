@@ -2,7 +2,8 @@ fullTest:
   device:
   - model: Pixel2
     version: 28
-    #need to add API 23 version device after fix of https://gitlab.com/ProtonVPN/android-app/issues/373
+  - model: Nexus5X
+    version: 23
 quickTest:
   timeout: 30m
   device:

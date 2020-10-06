@@ -61,13 +61,13 @@ abstract class CountryViewHolder(
         val context = viewBinding.root.context
         with(viewBinding) {
             textCountry.setTextColor(ContextCompat.getColor(context,
-                    if (vpnCountry.hasAccessibleServer(viewModel.userData)) R.color.white else R.color.white50))
-            textCountry.text = if (vpnCountry.hasAccessibleServer(viewModel.userData))
+                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.white else R.color.white50))
+            textCountry.text = if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData))
                 vpnCountry.countryName
             else
                 vpnCountry.countryName + " " + context.getString(if (vpnCountry.isUnderMaintenance()) R.string.listItemMaintenance else R.string.premium)
 
-            buttonCross.isVisible = vpnCountry.hasAccessibleServer(viewModel.userData)
+            buttonCross.isVisible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
@@ -80,7 +80,7 @@ abstract class CountryViewHolder(
 
             root.setOnClickListener {
                 if (!vpnCountry.isUnderMaintenance()) {
-                    if (vpnCountry.hasAccessibleServer(viewModel.userData)) {
+                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) {
                         expandableGroup.onToggleExpanded()
                         if (expandableGroup.isExpanded) {
                             onExpanded(position)

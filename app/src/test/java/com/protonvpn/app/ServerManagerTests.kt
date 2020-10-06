@@ -2,9 +2,6 @@ package com.protonvpn.app
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.Server
@@ -15,6 +12,8 @@ import com.protonvpn.app.mocks.MockSharedPreference
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.serialization.builtins.list
+import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -41,10 +40,7 @@ class ServerManagerTests {
         every { CountryTools.getPreferredLocale(any()) } returns Locale.US
         manager = ServerManager(contextMock, userData)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
-        val mapper =
-                ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        val list =
-                mapper.readValue(serversFile.readText(), object : TypeReference<List<Server>>() {})
+        val list = serversFile.readText().deserialize(Server.serializer().list)
 
         manager.setServers(list)
     }

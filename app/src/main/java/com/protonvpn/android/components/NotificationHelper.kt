@@ -85,7 +85,7 @@ object NotificationHelper {
                             Intent(context, HomeActivity::class.java),
                             PendingIntent.FLAG_UPDATE_CURRENT))
 
-            notify(Constants.NOTIFICATION_ID, builder.build())
+            notify(Constants.NOTIFICATION_INFO_ID, builder.build())
         }
     }
 

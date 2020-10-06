@@ -26,7 +26,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="error_field_required">Это обязательное поле</string>
   <string name="title_activity_home">@string/app_name</string>
   <string name="menuActionLogout">Выход из учётной записи</string>
-  <string name="loginSlogan">Безопасный Интернет повсюду</string>
+  <string name="loginSlogan">Безопасный Интернет где угодно</string>
   <string name="loginStartWithDevice">Запуск при включении устройства</string>
   <string name="loginCreateAccount">Создать новый аккаунт</string>
   <string name="loginNeedHelp">Нужна помощь?</string>
@@ -211,7 +211,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="ip">IP:</string>
   <string name="server">Сервер:</string>
   <string name="session_time">Время сеанса:</string>
-  <string name="download_volume">Скачено:</string>
+  <string name="download_volume">Скачано:</string>
   <string name="download_speed">Скорость:</string>
   <string name="save_to_profile">Сохранить в профиль</string>
   <string name="notConnected">Вы не подключены \n к серверу</string>
@@ -321,4 +321,5 @@ Kill Switch не позволяет вашему устройству совер
   <string name="netShieldReconnectionDescription">Для отключения NetShield необходимо перезапустить соединение.</string>
   <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
+  <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
 </resources>

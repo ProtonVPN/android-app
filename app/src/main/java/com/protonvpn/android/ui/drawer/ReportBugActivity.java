@@ -45,6 +45,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
+import kotlin.Unit;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -135,7 +136,10 @@ public class ReportBugActivity extends BaseActivity {
             }
         }
 
-        getLoadingContainer().setRetryListener(() -> getLoadingContainer().switchToEmpty());
+        getLoadingContainer().setRetryListener(() -> {
+            getLoadingContainer().switchToEmpty();
+            return Unit.INSTANCE;
+        });
         api.postBugReport(getLoadingContainer(), builder.build(), (result) -> {
             Toast.makeText(getContext(), R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
             finish();

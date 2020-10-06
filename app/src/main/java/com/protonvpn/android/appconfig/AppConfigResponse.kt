@@ -18,10 +18,16 @@
  */
 package com.protonvpn.android.appconfig
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.protonvpn.android.utils.Constants
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-class AppConfigResponse internal constructor(
-        @JsonProperty(value = "OpenVPNConfig", required = true) openVPNConfigResponse: OpenVPNConfigResponse,
-        @JsonProperty(value = "FeatureFlags", required = true) val featureFlags: FeatureFlags) {
-    val defaultPorts: DefaultPorts = openVPNConfigResponse.defaultPorts
+@Serializable
+class AppConfigResponse(
+    @SerialName(value = "ServerRefreshInterval")
+    val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
+    @SerialName(value = "OpenVPNConfig") val openVPNConfigResponse: OpenVPNConfigResponse? = null,
+    @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags
+) {
+    val defaultPorts: DefaultPorts? = openVPNConfigResponse?.defaultPorts
 }

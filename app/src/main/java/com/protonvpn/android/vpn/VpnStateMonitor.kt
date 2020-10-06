@@ -27,7 +27,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ProtonApiManager
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -41,7 +40,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
@@ -49,10 +47,6 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.AUTH_FAILED_INTERNAL
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.MAX_SESSIONS
-import com.protonvpn.android.vpn.VpnStateMonitor.ErrorType.UNPAID
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Connecting
@@ -63,6 +57,7 @@ import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
 
 @Singleton
@@ -72,15 +67,10 @@ open class VpnStateMonitor(
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
-    apiManager: ProtonApiManager,
+    private val networkManager: NetworkManager,
+    private val maintenanceTracker: MaintenanceTracker,
     private val scope: CoroutineScope
 ) : VpnStateSource {
-
-    enum class ErrorType {
-        AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED,
-        LOOKUP_FAILED, UNREACHABLE, SESSION_IN_USE,
-        MAX_SESSIONS, UNPAID, GENERIC_ERROR
-    }
 
     data class Status(
         val state: VpnState,
@@ -98,7 +88,7 @@ open class VpnStateMonitor(
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
 
-    private var connectionParams: ConnectionParams? = null
+    var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
 
     override val selfStateObservable = MutableLiveData<VpnState>(Disabled)
@@ -110,7 +100,7 @@ open class VpnStateMonitor(
 
     val vpnStatus: LiveData<Status> = stateInternal.eagerMapNotNull(ignoreIfEqual = true) {
         var newState = it ?: Disabled
-        if ((newState as? Error)?.type == AUTH_FAILED_INTERNAL) {
+        if ((newState as? Error)?.type == ErrorType.AUTH_FAILED_INTERNAL) {
             newState = CheckingAvailability
             debugAssert { ongoingConnect == null }
             ongoingConnect = scope.launch {
@@ -150,10 +140,12 @@ open class VpnStateMonitor(
 
     val retryInfo get() = activeBackend?.retryInfo
 
+    var initialized = false
+
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
-        apiManager.initVpnState(this)
+        maintenanceTracker.initWithStateMonitor(this)
         ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
                 DISCONNECT_ACTION -> disconnect()
@@ -161,25 +153,29 @@ open class VpnStateMonitor(
         }
 
         stateInternal.observeForever {
-            Storage.saveString(STORAGE_KEY_STATE, state.name)
+            if (initialized) {
+                Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-            ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
-            debugAssert {
-                (state in arrayOf(Connecting, Connected, Reconnecting))
-                        .implies(connectionParams != null && activeBackend != null)
-            }
-            serverListUpdater.isVpnDisconnected = state == Disabled
+                ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
+                debugAssert {
+                    (state in arrayOf(Connecting, Connected, Reconnecting))
+                            .implies(connectionParams != null && activeBackend != null)
+                }
+                serverListUpdater.isVpnDisconnected = state == Disabled
 
-            when (state) {
-                Connected -> {
-                    EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                when (state) {
+                    Connected -> {
+                        EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                    }
+                    Disabled -> {
+                        EventBus.postOnMain(ConnectedToServer(null))
+                    }
                 }
-                Disabled -> {
-                    EventBus.postOnMain(ConnectedToServer(null))
-                }
+                updateNotification(null)
             }
-            updateNotification(null)
         }
+
+        initialized = true
     }
 
     private fun bindTrafficMonitor() {
@@ -203,20 +199,25 @@ open class VpnStateMonitor(
     }
 
     private suspend fun checkAuthFailedReason() {
-        var errorType = AUTH_FAILED
-        if (userData.vpnInfoResponse.isUserDelinquent) {
-            errorType = UNPAID
-        } else {
-            activeBackend?.setSelfState(CheckingAvailability)
-            val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-            if (userData.vpnInfoResponse.maxSessionCount <= sessionCount)
-                errorType = MAX_SESSIONS
+        var errorType = ErrorType.AUTH_FAILED
+        val vpnInfoResponse = userData.vpnInfoResponse
+        if (vpnInfoResponse != null) {
+            if (vpnInfoResponse.isUserDelinquent) {
+                errorType = ErrorType.UNPAID
+            } else {
+                activeBackend?.setSelfState(CheckingAvailability)
+                val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
+                if (vpnInfoResponse.maxSessionCount <= sessionCount)
+                    errorType = ErrorType.MAX_SESSIONS
+            }
         }
-        ongoingConnect = null
-        activeBackend?.setSelfState(Error(errorType))
+        if (!maintenanceTracker.checkMaintenanceReconnect()) {
+            ongoingConnect = null
+            activeBackend?.setSelfState(Error(errorType))
+        }
     }
 
-    private suspend fun coroutineConnect(context: Context, profile: Profile) {
+    private suspend fun coroutineConnect(profile: Profile) {
         // If smart profile fails we need this to handle reconnect request
         lastProfile = profile
         val server = profile.server!!
@@ -226,7 +227,7 @@ open class VpnStateMonitor(
             setSelfState(ScanningPorts)
 
         var protocol = profile.getProtocol(userData)
-        if (!ConnectionTools.isNetworkAvailable(context) && protocol == VpnProtocol.Smart)
+        if (!networkManager.isConnectedToNetwork() && protocol == VpnProtocol.Smart)
             protocol = userData.manualProtocol
         var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
         if (preparedConnection == null) {
@@ -288,7 +289,7 @@ open class VpnStateMonitor(
             if (profile.server != null) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
-                    coroutineConnect(context, profile)
+                    coroutineConnect(profile)
                 }
             } else {
                 NotificationHelper.showInformationNotification(

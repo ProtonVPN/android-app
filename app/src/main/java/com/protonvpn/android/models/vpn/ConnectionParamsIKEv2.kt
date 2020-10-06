@@ -22,15 +22,15 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.Constants
 import org.strongswan.android.data.VpnProfile
 import org.strongswan.android.data.VpnType
-import java.io.Serializable
 
 class ConnectionParamsIKEv2(
     profile: Profile,
     server: Server,
     connectingDomain: ConnectingDomain
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), Serializable {
+) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), java.io.Serializable {
 
     fun getStrongSwanProfile(userData: UserData, appConfig: AppConfig) = VpnProfile().apply {
         name = server.displayName
@@ -38,7 +38,8 @@ class ConnectionParamsIKEv2(
         mtu = userData.mtuSize
         vpnType = VpnType.IKEV2_EAP
         id = 1
-        userName = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString
+        userName = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
+                Constants.VPN_USERNAME_PRODUCT_SUFFIX
         userPassword = userData.vpnPassword
         splitTunneling =
                 VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6

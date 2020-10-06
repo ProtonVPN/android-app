@@ -181,7 +181,11 @@ object CountryTools {
             "AE_x" to 3103.0,
             "AE_y" to 976.0,
             "VN_x" to 3961.0,
-            "VN_y" to 1144.0)
+            "VN_y" to 1144.0,
+            "CO_x" to 1100.0,
+            "CO_y" to 1339.0,
+            "PE_x" to 1056.0,
+            "PE_y" to 1589.0)
 
     private const val MAX_LOCALIZED_LENGTH = 60
 }

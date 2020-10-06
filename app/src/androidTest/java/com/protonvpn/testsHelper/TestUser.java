@@ -18,6 +18,7 @@
  */
 package com.protonvpn.testsHelper;
 
+import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.models.login.VPNInfo;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 
@@ -41,15 +42,15 @@ public final class TestUser {
     }
 
     public static TestUser getFreeUser() {
-        return new TestUser("Testas1", "labadiena", "testas", "free", 0, 1);
+        return new TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", 0, 1);
     }
 
     public static TestUser getBasicUser() {
-        return new TestUser("Testas2", "labadiena", "testas2", "vpnbasic", 1, 2);
+        return new TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", 1, 2);
     }
 
     public static TestUser getPlusUser() {
-        return new TestUser("Testas3", "labadiena", "test", "vpnplus", 2, 5);
+        return new TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", 2, 5);
     }
 
     public static TestUser getBadUser() {
@@ -57,11 +58,11 @@ public final class TestUser {
     }
 
     public static TestUser getTrialUser() {
-        return new TestUser("Testas5", "labadiena", "test", "trial", 1, 2);
+        return new TestUser("Testas5", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "trial", 1, 2);
     }
 
     public static TestUser setTrialUserAsExpired() {
-        return new TestUser("Testas5", "labadiena", "test", "free", 1, 2);
+        return new TestUser("Testas5", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "free", 1, 2);
     }
 
     public VpnInfoResponse getVpnInfoResponse() {

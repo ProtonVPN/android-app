@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.api
 
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
@@ -28,18 +27,18 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiManager
+import me.proton.core.network.domain.ApiResult
 import okhttp3.RequestBody
-import org.jetbrains.annotations.TestOnly
-import retrofit2.Response
 
 //TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
-open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: ProtonApiManager) {
+open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: ApiManager<ProtonVPNRetrofit>) {
 
     suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
-        manager.call(useBackoff = true) { it.getAppConfig() }
+        manager { getAppConfig() }
 
     suspend fun getLocation() =
-        manager.call { it.getLocation() }
+        manager { getLocation() }
 
     fun postBugReport(
         loader: LoaderUI,
@@ -48,43 +47,43 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     ) = makeCall(callback, loader) { it.postBugReport(params) }
 
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
-        makeCall(loader, useBackoff = true) { it.getServers(ip) }
+        makeCall(loader) { it.getServers(ip) }
 
     open suspend fun getLoads(ip: String?) =
-        manager.call { it.getLoads(ip) }
+        manager { getLoads(ip) }
 
     suspend fun postLogin(body: LoginBody) =
-        manager.call(true) { it.postLogin(body) }
+        manager { postLogin(body) }
+
+    open suspend fun getConnectingDomain(domainId: String) =
+        manager { getServerDomain(domainId) }
 
     suspend fun postLoginInfo(email: String) =
-        manager.call(useBackoff = true) { it.postLoginInfo(LoginInfoBody(email)) }
+        manager { postLoginInfo(LoginInfoBody(email)) }
 
     open suspend fun getVPNInfo() =
-        manager.call(useBackoff = true) { it.getVPNInfo() }
+        manager { getVPNInfo() }
 
     open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
         makeCall(callback) { it.getVPNInfo() }
 
-    open fun logout(callback: NetworkResultCallback<GenericResponse>) =
-        makeCall(callback) { it.postLogout() }
+    open suspend fun logout() =
+        manager { postLogout() }
 
     open suspend fun getSession(): ApiResult<SessionListResponse> =
-        manager.call(useBackoff = true) { it.getSession() }
+        manager { getSession() }
 
     private suspend fun <T> makeCall(
         loader: LoaderUI?,
-        useBackoff: Boolean,
-        callFun: suspend (ProtonVPNRetrofit) -> Response<T>
+        callFun: suspend (ProtonVPNRetrofit) -> T
     ): ApiResult<T> {
         loader?.switchToLoading()
-        val result = manager.call(useBackoff, callFun)
+        val result = manager(block = callFun)
         when (result) {
             is ApiResult.Success -> {
                 loader?.switchToEmpty()
             }
             is ApiResult.Error -> {
-                if (result is ApiResult.Failure && BuildConfig.DEBUG)
-                    result.exception.printStackTrace()
                 loader?.switchToRetry(result)
             }
         }
@@ -94,23 +93,18 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Pro
     private fun <T> makeCall(
         callback: NetworkResultCallback<T>,
         loader: LoaderUI? = null,
-        callFun: suspend (ProtonVPNRetrofit) -> Response<T>
+        callFun: suspend (ProtonVPNRetrofit) -> T
     ) = scope.launch {
         loader?.switchToLoading()
-        when (val result = manager.call(true, callFun)) {
+        when (val result = manager(block = callFun)) {
             is ApiResult.Success -> {
                 loader?.switchToEmpty()
                 callback.onSuccess(result.value)
             }
             is ApiResult.Error -> {
-                if (result is ApiResult.Failure && BuildConfig.DEBUG)
-                    result.exception.printStackTrace()
                 loader?.switchToRetry(result)
                 callback.onFailure()
             }
         }
     }
-
-    @TestOnly
-    fun getOkClient() = manager.primaryOkClient
 }

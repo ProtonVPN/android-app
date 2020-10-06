@@ -18,14 +18,16 @@
  */
 package com.protonvpn.android.appconfig
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
+@Serializable
 data class FeatureFlags(
-        @param:JsonProperty(value = "NetShield", required = false) val netShield: Int = 0,
-        @param:JsonProperty(value = "GuestHoles", required = false) val guestHoles: Int = 0
-) : Serializable {
-
-   val guestHoleEnabled: Boolean get() = guestHoles != 0
-   val netShieldEnabled: Boolean get() = netShield != 0
-}
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "ServerRefresh") val maintenanceTrackerEnabled: Boolean = true,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = false
+) : java.io.Serializable
