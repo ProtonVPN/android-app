@@ -1,0 +1,4 @@
+What's new:
+* Introduces Smart Protocol Selection, which automatically detects and uses the VPN protocol that works best on a given network.
+* Split Tunneling feature now supports IP address exclusion for OpenVPN connections.
+* Streamlined profile creation process.

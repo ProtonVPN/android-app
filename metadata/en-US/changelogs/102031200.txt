@@ -1,0 +1,5 @@
+What's new:
+* Reduces data usage when refreshing server list
+* Fixes connectivity issues with Smart Protocol
+* Improves censorship resistance and block bypass techniques
+* Improves app stability and user interface
