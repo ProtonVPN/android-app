@@ -121,6 +121,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
                 Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
             }
+            .canceledOnTouchOutside(false)
             .title(R.string.netShieldReconnectionNeeded)
             .content(R.string.netShieldReconnectionDescription)
             .positiveText(R.string.reconnect)
