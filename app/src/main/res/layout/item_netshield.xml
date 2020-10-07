@@ -57,8 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:textColor="@color/white"
             android:text="@string/netShieldBlockMalwareOnly"
-            android:textColor="@color/lightGrey"
             android:theme="@style/RadioButton.Branded" />
 
         <LinearLayout
@@ -71,16 +71,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:text="@string/netShieldFullBlock"
-                android:textColor="@color/lightGrey"
                 android:theme="@style/RadioButton.Branded" />
 
             <TextView
                 android:id="@+id/plusFeature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded_white_normal"
-                android:text="@string/plus"
+                android:text="@string/upgrade"
                 android:textColor="@color/white" />
 
         </LinearLayout>

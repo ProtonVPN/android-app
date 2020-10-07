@@ -67,7 +67,7 @@
 
     <style name="RadioButton.Branded" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlNormal">#5e5e62</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">

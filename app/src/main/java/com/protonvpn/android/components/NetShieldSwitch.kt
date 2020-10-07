@@ -79,22 +79,22 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 textNetDescription.isVisible = newProtocol != NetShieldProtocol.DISABLED
                 netShieldSettings.isVisible = false
                 layoutNetshield.setBackgroundColor(
-                        ContextCompat.getColor(context,
-                                if (newProtocol != NetShieldProtocol.DISABLED) R.color.colorAccent else R.color
-                                        .dimmedGrey))
+                    ContextCompat.getColor(
+                        context,
+                        if (newProtocol != NetShieldProtocol.DISABLED) R.color.colorAccent else R.color
+                            .dimmedGrey))
             }
         }
     }
 
     init {
         val inflater =
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        binding = ItemNetshieldBinding.inflate(inflater, this,
-                true)
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        binding = ItemNetshieldBinding.inflate(inflater, this, true)
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.NetShieldSwitch)
         isInConnectedScreen = attributes.getBoolean(R.styleable.NetShieldSwitch_isInConnectedScreen, false)
         withReconnectDialog = attributes.getBoolean(R.styleable
-                .NetShieldSwitch_withReconnectConfirmation, true)
+            .NetShieldSwitch_withReconnectConfirmation, true)
         initAttributes(attributes)
         attributes.recycle()
     }
@@ -118,19 +118,19 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun showReconnectDialog(changeCallback: (agreedToChange: Boolean) -> Unit) {
         MaterialDialog.Builder(context).theme(Theme.DARK)
-                .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
-                    Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
-                }
-                .title(R.string.netShieldReconnectionNeeded)
-                .content(R.string.netShieldReconnectionDescription)
-                .positiveText(R.string.reconnect)
-                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    changeCallback(true)
-                }
-                .negativeText(R.string.cancel)
-                .onNegative { _, _ ->
-                    changeCallback(false)
-                }.show()
+            .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
+                Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
+            }
+            .title(R.string.netShieldReconnectionNeeded)
+            .content(R.string.netShieldReconnectionDescription)
+            .positiveText(R.string.reconnect)
+            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                changeCallback(true)
+            }
+            .negativeText(R.string.cancel)
+            .onNegative { _, _ ->
+                changeCallback(false)
+            }.show()
     }
 
     fun init(
@@ -147,7 +147,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val checkedChangeListener = CompoundButton.OnCheckedChangeListener { view, _ ->
             if (view.isPressed) {
                 if (stateMonitor.isConnected && withReconnectDialog &&
-                        Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)) {
+                    Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)) {
                     showReconnectDialog { agreedToReconnect ->
                         if (agreedToReconnect) {
                             onStateChange(currentState)
@@ -182,22 +182,26 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun initUserTier(userData: UserData) = with(binding) {
+        plusFeature.isVisible = !userData.isUserPlusOrAbove
         if (!userData.isUserPlusOrAbove) {
             radioFullBlocking.isEnabled = false
-            plusFeature.setOnClickListener {
-                MaterialDialog.Builder(context).theme(Theme.DARK)
-                        .title(R.string.paidFeature)
-                        .content(R.string.netShieldPaidFeature)
-                        .positiveText(R.string.upgrade)
-                        .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                            val browserIntent = Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(Constants.DASHBOARD_URL))
-                            context.startActivity(browserIntent)
-                        }
-                        .negativeText(R.string.cancel)
-                        .show()
-            }
+            radioFullBlocking.setTextColor(ContextCompat.getColor(context, R.color.lightGrey))
+            plusFeature.setOnClickListener { showUpgradeDialog() }
         }
+    }
+
+    private fun showUpgradeDialog() {
+        MaterialDialog.Builder(context).theme(Theme.DARK)
+            .title(R.string.paidFeature)
+            .content(R.string.netShieldPaidFeature)
+            .positiveText(R.string.upgrade)
+            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                val browserIntent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse(Constants.DASHBOARD_URL))
+                context.startActivity(browserIntent)
+            }
+            .negativeText(R.string.cancel)
+            .show()
     }
 
     private fun checkForReconnection(stateMonitor: VpnStateMonitor) {
