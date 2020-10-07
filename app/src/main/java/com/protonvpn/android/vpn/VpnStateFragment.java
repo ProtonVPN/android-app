@@ -49,7 +49,6 @@ import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.TrafficUpdate;
-import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.NetShieldSwitch;
@@ -79,6 +78,8 @@ import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @ContentLayout(R.layout.vpn_state_fragment)
 public class VpnStateFragment extends BaseFragment {
@@ -153,8 +154,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.textSupport)
     public void textSupport() {
-        ((BaseActivity) getActivity()).openUrl(
-            "https://protonvpn.com/support/solutions-android-vpn-app-issues/");
+        openProtonUrl(getActivity(), "https://protonvpn.com/support/solutions-android-vpn-app-issues/");
     }
 
     @OnClick(R.id.buttonSaveToProfile)

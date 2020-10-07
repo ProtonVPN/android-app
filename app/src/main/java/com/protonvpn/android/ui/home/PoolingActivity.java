@@ -33,6 +33,8 @@ import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
+
 public abstract class PoolingActivity extends VpnActivity {
 
     @Inject UserData userData;
@@ -67,7 +69,7 @@ public abstract class PoolingActivity extends VpnActivity {
             .title(R.string.freeTrialExpiredTitle)
             .content(R.string.freeTrialExpired)
             .positiveText(R.string.upgrade)
-            .onPositive((dialog, which) -> openUrl(Constants.DASHBOARD_URL))
+            .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
             .negativeText(R.string.cancel)
             .show();
     }
