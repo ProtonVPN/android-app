@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.utils
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -29,7 +31,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.annotation.DimenRes
+import com.protonvpn.android.R
 
 object AndroidUtils {
 
@@ -102,3 +106,18 @@ object AndroidUtils {
     fun Context.isChromeOS() =
             packageManager.hasSystemFeature("org.chromium.arc.device_management")
 }
+
+fun Context.openUrl(url: Uri) {
+    try {
+        val browserIntent = Intent(Intent.ACTION_VIEW, url)
+        if (this !is Activity)
+            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        browserIntent.addCategory(Intent.CATEGORY_BROWSABLE)
+        startActivity(browserIntent)
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
+    }
+}
+
+fun Context.openProtonUrl(url: String) =
+    openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())

@@ -94,6 +94,8 @@ import io.sentry.Sentry;
 import io.sentry.event.UserBuilder;
 import kotlin.Unit;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
+
 @ContentLayout(R.layout.activity_home)
 public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
 
@@ -288,7 +290,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @OnClick(R.id.drawerButtonHelp)
     public void drawerButtonHelp() {
-        openUrl("https://protonvpn.com/support");
+        openProtonUrl(this, "https://protonvpn.com/support");
     }
 
     @OnClick(R.id.drawerButtonLogout)

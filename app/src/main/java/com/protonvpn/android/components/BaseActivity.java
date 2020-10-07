@@ -121,16 +121,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
         }
     }
 
-    public void openUrl(String url) {
-        try {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-        }
-        catch (ActivityNotFoundException e) {
-            Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show();
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
