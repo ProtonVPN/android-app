@@ -260,6 +260,12 @@ android {
         main {
            assets.srcDirs = ['src/main/assets', 'assets', 'ovpnlibs/assets', '../openvpn/build/ovpnassets']
         }
+        test {
+            java.srcDirs += "$projectDir/src/sharedTest/java"
+        }
+        androidTest {
+            java.srcDirs += "$projectDir/src/sharedTest/java"
+        }
     }
     compileOptions {
         targetCompatibility 1.8
@@ -570,6 +576,10 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     implementation "androidx.preference:preference-ktx:1.1.1"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Proton Core libs
     implementation "me.proton.core:network:0.2.3"

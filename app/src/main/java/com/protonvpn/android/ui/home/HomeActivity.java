@@ -39,6 +39,7 @@ import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.ProtonApiRetroFit;
+import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -55,6 +56,8 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
+import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
@@ -69,6 +72,7 @@ import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.ViewModelFactory;
 import com.protonvpn.android.vpn.LogActivity;
 import com.protonvpn.android.vpn.VpnStateFragment;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -86,6 +90,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -108,6 +113,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
+    @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchCompat switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
@@ -118,11 +124,18 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject AuthManager authManager;
+    @Inject AppConfig appConfig;
+
+    @Inject ViewModelFactory viewModelFactory;
+    private HomeViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         registerForEvents();
         super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(HtmlTools.fromHtml(getString(R.string.toolbar_app_title)));
         initDrawer();
@@ -161,6 +174,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             finish();
             navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
+        });
+
+        viewModel.getHaveNonVisitedOffers().observe(this, (unreadNotifications) ->
+            toggleDrawable.setShowIndicator(unreadNotifications));
+
+        viewModel.getOffersViewModel().observe(this, (notifications) -> {
+            drawerNotifications.updateNotifications(this, notifications);
         });
 
         serverListUpdater.onHomeActivityCreated(this);

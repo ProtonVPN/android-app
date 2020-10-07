@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2019 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -18,18 +18,10 @@
  */
 package com.protonvpn.android.appconfig
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import me.proton.core.network.data.protonApi.IntToBoolSerializer
+import kotlinx.serialization.Serializable
 
 @Serializable
-data class FeatureFlags(
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "ServerRefresh") val maintenanceTrackerEnabled: Boolean = true,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false
-) : java.io.Serializable
+class ApiNotificationsResponse(
+    @SerialName(value = "Notifications") val notifications: Array<ApiNotification>
+)

@@ -26,7 +26,7 @@ import androidx.lifecycle.MediatorLiveData
 inline fun <S, reified T : Any> LiveData<S>.eagerMapNotNull(
     ignoreIfEqual: Boolean = false,
     crossinline transform: (S?) -> T
-): LiveData<T> {
+): MediatorLiveData<T> {
     val mediator = MediatorLiveData<T>()
     mediator.addSource(this) {
         val newValue = transform(value)

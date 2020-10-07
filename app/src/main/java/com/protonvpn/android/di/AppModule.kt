@@ -25,6 +25,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.AuthManager
@@ -73,7 +74,12 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideAppConfig(api: ProtonApiRetroFit): AppConfig = AppConfig(scope, api)
+    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData): AppConfig = AppConfig(scope, api, userData)
+
+    @Singleton
+    @Provides
+    fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
+        ApiNotificationManager(scope, System::currentTimeMillis, appConfig)
 
     @Singleton
     @Provides
