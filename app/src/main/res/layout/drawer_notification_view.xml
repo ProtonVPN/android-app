@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright (c) 2017 Proton Technologies AG
  
@@ -16,12 +17,13 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="drawer_icon_size">24dp</dimen>
-    <dimen name="new_indicator_size">8dp</dimen>
-    <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
-</resources>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<com.protonvpn.android.ui.drawer.DrawerNotificationView
+    android:id="@+id/drawerNotificationItem"
+    style="@style/TextView.Drawer"
+    android:text="@string/drawerHelp"
+    android:drawableStart="@drawable/ic_drawer_support"/>
+
+</layout>

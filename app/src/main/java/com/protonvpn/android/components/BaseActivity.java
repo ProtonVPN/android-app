@@ -18,19 +18,17 @@
  */
 package com.protonvpn.android.components;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.drawer.DrawerArrowDrawableEx;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -53,6 +51,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
     protected ActionBarDrawerToggle toggle;
+    protected DrawerArrowDrawableEx toggleDrawable;
 
     public void navigateTo(Class className) {
         Intent intent = new Intent(this, className);
@@ -94,6 +93,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     public void initDrawer() {
         toggle =
             new ActionBarDrawerToggle(this, drawer, toolbar, R.string.hamburgerMenu, R.string.hamburgerMenu);
+        toggleDrawable = new DrawerArrowDrawableEx(getDrawerToggleDelegate().getActionBarThemedContext());
+        toggle.setDrawerArrowDrawable(toggleDrawable);
         getDrawer().addDrawerListener(toggle);
         toggle.syncState();
         setDrawerState(true, navigationDrawer);

@@ -19,6 +19,7 @@
 package com.protonvpn.android.api
 
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
@@ -72,6 +73,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @POST("reports/bug")
     suspend fun postBugReport(@Body params: RequestBody): GenericResponse
 
-    @GET("/vpn/clientconfig")
+    @GET("vpn/clientconfig")
     suspend fun getAppConfig(): AppConfigResponse
+
+    @GET("core/v4/notifications")
+    suspend fun getApiNotifications(): ApiNotificationsResponse
 }
