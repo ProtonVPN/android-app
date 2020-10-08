@@ -30,6 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionMenu;
@@ -71,13 +76,10 @@ import java.util.Timer;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
@@ -197,6 +199,11 @@ public class VpnStateFragment extends BaseFragment {
             return null;
         });
         initChart();
+        userData.getUpdateEvent().observe(getViewLifecycleOwner(), () -> {
+            switchNetShield.setNetShieldValue(userData.getNetShieldProtocol());
+            return Unit.INSTANCE;
+        });
+
         stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
             .getTrafficStatus()
