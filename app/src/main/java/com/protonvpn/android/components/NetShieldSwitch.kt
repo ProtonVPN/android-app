@@ -67,6 +67,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private var extendedProtocol: Boolean = false
 
+    fun setNetShieldValue(newProtocol: NetShieldProtocol) {
+        onStateChange(newProtocol)
+    }
+
     private fun onStateChange(newProtocol: NetShieldProtocol) {
         with(binding) {
             switchNetshield.isChecked = newProtocol != NetShieldProtocol.DISABLED
