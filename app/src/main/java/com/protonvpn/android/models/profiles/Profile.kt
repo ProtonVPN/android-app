@@ -69,7 +69,11 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     fun getNetShieldProtocol(userData: UserData, appConfig: AppConfig): NetShieldProtocol {
         return if (appConfig.getFeatureFlags().netShieldEnabled) {
-            netShieldProtocol ?: userData.netShieldProtocol
+            if (isPreBakedProfile) {
+                userData.netShieldProtocol
+            } else {
+                netShieldProtocol ?: userData.netShieldProtocol
+            }
         } else {
             NetShieldProtocol.DISABLED
         }
