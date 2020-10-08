@@ -51,7 +51,7 @@
     <debug-overrides>
         <trust-anchors>
             <!-- Trust user added CAs while debuggable only -->
-            <certificates src="user" />
+            <certificates src="user" overridePins="true" />
         </trust-anchors>
     </debug-overrides>
 

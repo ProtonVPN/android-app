@@ -20,6 +20,7 @@ package com.protonvpn.android.di
 
 import android.os.SystemClock
 import com.google.gson.Gson
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -97,7 +98,12 @@ class AppModule {
         val logger = CoreLogger()
         val apiFactory = ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
                 NetworkPrefs(appContext), scope)
-        return apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
+        return if (BuildConfig.DEBUG) {
+            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class,
+                certificatePins = emptyArray(), alternativeApiPins = emptyList())
+        } else {
+            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
+        }
     }
 
     @Singleton
