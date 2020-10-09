@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     val transmissionProtocol: TransmissionProtocol
         get() = editableProfile?.getTransmissionProtocol(userData) ?: userData.transmissionProtocol
     val netShieldProtocol: NetShieldProtocol
-        get() = editableProfile?.getNetShieldProtocol(userData, appConfig) ?: userData.netShieldProtocol
+        get() = editableProfile?.getNetShieldProtocol(userData, appConfig) ?: NetShieldProtocol.ENABLED
     val serverValidateSelection = ProtonSpinner.OnValidateSelection<ServerWrapper> {
         userData.hasAccessToServer(serverManager.getServer(it))
     }
