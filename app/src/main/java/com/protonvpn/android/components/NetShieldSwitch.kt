@@ -28,6 +28,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import com.afollestad.materialdialogs.DialogAction
@@ -125,6 +126,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
                 Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
             }
+            .icon(getDrawable(context, R.drawable.ic_refresh)!!)
             .canceledOnTouchOutside(false)
             .title(R.string.netShieldReconnectionNeeded)
             .content(R.string.netShieldReconnectionDescription)
@@ -197,7 +199,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun showUpgradeDialog() {
         MaterialDialog.Builder(context).theme(Theme.DARK)
-            .title(R.string.paidFeature)
+            .icon(getDrawable(context, R.drawable.ic_upgrade)!!)
+            .title(R.string.upgradeRequired)
             .content(R.string.netShieldPaidFeature)
             .positiveText(R.string.upgrade)
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
