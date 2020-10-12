@@ -312,8 +312,9 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="dialogDontShowAgain">No mostrar de nuevo</string>
   <string name="paidFeature">Característica de pago</string>
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
-  <string name="netShieldReconnectionDescription">Es necesario reiniciar tu conexión para desactivar NetShield.</string>
+  <string name="netShieldReconnectionDescription">Your connection needs to be restarted to change NetShield state.</string>
   <string name="netShieldPaidFeature">Estás intentando habilitar una función que requiere una suscripción ProtonVPN plus.</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
+  <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
 </resources>

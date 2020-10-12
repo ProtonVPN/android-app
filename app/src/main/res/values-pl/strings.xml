@@ -318,8 +318,9 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
   <string name="paidFeature">Płatna funkcja</string>
   <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
-  <string name="netShieldReconnectionDescription">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
+  <string name="netShieldReconnectionDescription">Aby zmienić ustawienia funkcji NetShield, musisz ponownie nawiązać połączenie.</string>
   <string name="netShieldPaidFeature">Próbujesz włączyć funkcję, która wymaga subskrypcji ProtonVPN Plus.</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
+  <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
 </resources>

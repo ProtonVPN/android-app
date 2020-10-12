@@ -312,8 +312,9 @@ oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel 
   <string name="dialogDontShowAgain">Niet meer weergeven</string>
   <string name="paidFeature">Functie tegen betaling</string>
   <string name="netShieldReconnectionNeeded">Opnieuw verbinden nodig</string>
-  <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield uit te schakelen.</string>
+  <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield status te veranderen.</string>
   <string name="netShieldPaidFeature">U probeert functie in te schakelen waarvoor ProtonVPN Plus abonnement nodig is.</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
+  <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
 </resources>
