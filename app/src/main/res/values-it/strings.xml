@@ -312,8 +312,9 @@ versioni precedenti del sistema operativo Android o su tutti i dispositivi Andro
   <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
   <string name="paidFeature">Funzione a pagamento</string>
   <string name="netShieldReconnectionNeeded">Riconnessione necessaria</string>
-  <string name="netShieldReconnectionDescription">La connessione deve essere riavviata per disabilitare NetShield.</string>
+  <string name="netShieldReconnectionDescription">La tua connessione deve essere riavviata per cambiare lo stato di NetShield.</string>
   <string name="netShieldPaidFeature">Stai cercando di abilitare la funzionalità che richiede l\'abbonamento a ProtonVPN Plus.</string>
   <string name="guestHoleActivated">L\'accesso a ProtonVPN può essere limitato nella tua zona, quindi ci vorrà più tempo del solito. Per favore attendi mentre aggiriamo questo problema.</string>
   <string name="onMaintenanceDetected">Il server VPN a cui sei stato connesso è in manutenzione. Ti abbiamo ricollegato automaticamente al server più veloce disponibile.</string>
+  <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>
 </resources>
