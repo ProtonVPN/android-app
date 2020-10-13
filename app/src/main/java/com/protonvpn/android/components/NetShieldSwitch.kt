@@ -150,42 +150,42 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         this.root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         onStateChange(initialValue)
         initUserTier(userData)
-        switchNetshield.isChecked = initialValue != NetShieldProtocol.DISABLED
         val checkedChangeListener = CompoundButton.OnCheckedChangeListener { view, _ ->
             if (view.isPressed) {
-                if (stateMonitor.isConnected && withReconnectDialog &&
-                    Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)) {
-                    showReconnectDialog { agreedToReconnect ->
-                        if (agreedToReconnect) {
-                            onStateChange(currentState)
-                            changeCallback(currentState)
-                            checkForReconnection(stateMonitor)
-                        } else {
-                            view.isChecked = !view.isChecked
-                            onStateChange(currentState)
-                        }
-                    }
-                } else {
-                    onStateChange(currentState)
-                    changeCallback(currentState)
-                    checkForReconnection(stateMonitor)
-                }
+                onStateChange(currentState)
+                changeCallback(currentState)
+                checkForReconnection(stateMonitor)
             }
         }
         radioFullBlocking.setOnCheckedChangeListener { buttonView, isChecked ->
             extendedProtocol = isChecked
-            if (buttonView.isPressed) {
-                checkedChangeListener.onCheckedChanged(buttonView, isChecked)
-            }
+            checkedChangeListener.onCheckedChanged(buttonView, isChecked)
         }
         radioSimpleBlocking.setOnCheckedChangeListener { buttonView, isChecked ->
             extendedProtocol = !isChecked
-            if (buttonView.isPressed) {
-                checkedChangeListener.onCheckedChanged(buttonView, isChecked)
-            }
+            checkedChangeListener.onCheckedChanged(buttonView, isChecked)
         }
-        extendedProtocol = initialValue == NetShieldProtocol.ENABLED_EXTENDED
         switchNetshield.setOnCheckedChangeListener(checkedChangeListener)
+
+        val dialogInterceptor: CompoundButton.() -> Boolean = {
+            val needsReconnectDialog = withReconnectDialog &&
+                Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)
+            if (stateMonitor.isConnected && needsReconnectDialog) {
+                showReconnectDialog { agreedToReconnect ->
+                    if (agreedToReconnect) {
+                        isChecked = !isChecked
+                        onStateChange(currentState)
+                        changeCallback(currentState)
+                        checkForReconnection(stateMonitor)
+                    }
+                }
+                true
+            } else
+                false
+        }
+        radioFullBlocking.switchClickInterceptor = dialogInterceptor
+        radioSimpleBlocking.switchClickInterceptor = dialogInterceptor
+        switchNetshield.switchClickInterceptor = dialogInterceptor
     }
 
     private fun initUserTier(userData: UserData) = with(binding) {

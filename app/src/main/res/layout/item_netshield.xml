@@ -28,7 +28,7 @@
     android:paddingEnd="16dp"
     android:paddingBottom="6dp">
 
-    <androidx.appcompat.widget.SwitchCompat
+    <com.protonvpn.android.components.SwitchEx
         android:id="@+id/switchNetshield"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
+        <com.protonvpn.android.components.RadioButtonEx
             android:id="@+id/radioSimpleBlocking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.protonvpn.android.components.RadioButtonEx
                 android:id="@+id/radioFullBlocking"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

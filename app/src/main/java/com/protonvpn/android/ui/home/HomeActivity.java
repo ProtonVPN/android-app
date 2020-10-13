@@ -51,6 +51,7 @@ import com.protonvpn.android.components.MinimizedNetworkLayout;
 import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SecureCoreCallback;
+import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
@@ -115,7 +116,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
     @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
     VpnStateFragment fragment;
-    public @BindView(R.id.switchSecureCore) SwitchCompat switchSecureCore;
+    public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
 
     @Inject ProtonApiRetroFit api;
@@ -141,7 +142,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         initDrawer();
         initDrawerView();
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        initSecureCoreSwitch();
         Sentry.getContext().setUser(new UserBuilder().setUsername(userData.getUser()).build());
         checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
@@ -223,6 +224,29 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (getIntent().getBooleanExtra("OpenStatus", false)) {
             fragment.openBottomSheet();
         }
+    }
+
+    private void initSecureCoreSwitch() {
+        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        switchSecureCore.setSwitchClickInterceptor((switchView) -> {
+            if (vpnStateMonitor.isConnected() && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
+                new MaterialDialog.Builder(getContext()).title(R.string.warning)
+                    .theme(Theme.DARK)
+                    .content(R.string.disconnectDialogDescription)
+                    .cancelable(false)
+                    .positiveText(R.string.yes)
+                    .negativeText(R.string.no)
+                    .negativeColor(ContextCompat.getColor(this, R.color.white))
+                    .onPositive((dialog, which) -> {
+                        switchView.toggle();
+                        postSecureCoreSwitched(switchView);
+                        vpnStateMonitor.disconnect();
+                    })
+                    .show();
+                return true;
+            }
+            return false;
+        });
     }
 
     @SuppressLint("CheckResult")
@@ -431,25 +455,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @OnCheckedChanged(R.id.switchSecureCore)
     public void switchSecureCore(final SwitchCompat switchCompat, final boolean isChecked) {
-        if (vpnStateMonitor.isConnected() && (!vpnStateMonitor.isConnectingToSecureCore() && isChecked) || (
-            vpnStateMonitor.isConnectingToSecureCore() && !isChecked)) {
-            new MaterialDialog.Builder(getContext()).title(R.string.warning)
-                .theme(Theme.DARK)
-                .content(R.string.disconnectDialogDescription)
-                .cancelable(false)
-                .positiveText(R.string.yes)
-                .negativeText(R.string.no)
-                .negativeColor(ContextCompat.getColor(this, R.color.white))
-                .onPositive((dialog, which) -> {
-                    postSecureCoreSwitched(switchCompat);
-                    vpnStateMonitor.disconnect();
-                })
-                .onNegative((materialDialog, dialogAction) -> switchCompat.setChecked(!isChecked))
-                .show();
-        }
-        else {
-            postSecureCoreSwitched(switchCompat);
-        }
+        postSecureCoreSwitched(switchCompat);
     }
 
     // FIXME: API needs to inform app of changes, not other way
