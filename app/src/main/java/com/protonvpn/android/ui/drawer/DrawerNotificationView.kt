@@ -73,7 +73,7 @@ class DrawerNotificationView @JvmOverloads constructor(
                     val size = resources.getDimensionPixelSize(R.dimen.drawer_icon_size)
                     resource.setBounds(0, 0, size, size)
                     resource.setTint(if (!item.visited) accent else currentTextColor)
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(resource, null, null, null)
+                    setCompoundDrawablesRelative(resource, null, null, null)
                 }
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
