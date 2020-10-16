@@ -24,6 +24,7 @@ import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.COUNTRY_
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.FLOATINGACTION_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.FLOATING_BUTTON_USED;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.MAPVIEW_DIALOG;
+import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.NETSHIELD_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.PROFILES_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.SECURECORE_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.SLIDES_SHOWN;
@@ -38,6 +39,7 @@ public class TestSetup {
         Storage.saveBoolean(SECURECORE_DIALOG, true);
         Storage.saveBoolean(FLOATINGACTION_DIALOG, true);
         Storage.saveBoolean(FLOATING_BUTTON_USED, true);
+        Storage.saveBoolean(NETSHIELD_DIALOG, true);
         Storage.saveBoolean(COUNTRY_DIALOG, true);
     }
 }
