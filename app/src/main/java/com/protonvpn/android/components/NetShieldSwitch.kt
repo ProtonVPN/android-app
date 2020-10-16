@@ -18,13 +18,14 @@
  */
 package com.protonvpn.android.components
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
@@ -81,25 +82,38 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 radioFullBlocking.isChecked = newProtocol == NetShieldProtocol.ENABLED_EXTENDED
             }
             if (isInConnectedScreen) {
-                textNetDescription.isVisible = newProtocol != NetShieldProtocol.DISABLED
-                netShieldSettings.isVisible = false
+                val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
+                imageExpand.isVisible = netShieldEnabled
+                layoutSummary.isVisible = netShieldEnabled && imageExpand.isChecked
+                netShieldSettings.isVisible = netShieldEnabled && !imageExpand.isChecked
+                textCollapsedMark.isVisible = netShieldEnabled && imageExpand.isChecked
+                val descriptionText =
+                    if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
+                    else R.string.netShieldFullBlock
+                textNetDescription.setText(descriptionText)
                 layoutNetshield.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        if (newProtocol != NetShieldProtocol.DISABLED) R.color.colorAccent else R.color
-                            .dimmedGrey))
+                        if (newProtocol != NetShieldProtocol.DISABLED) R.color.colorAccent else R.color.dimmedGrey
+                    )
+                )
+            } else {
+                textCollapsedMark.isVisible = false
             }
         }
     }
 
     init {
-        val inflater =
-            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = ItemNetshieldBinding.inflate(inflater, this, true)
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.NetShieldSwitch)
         isInConnectedScreen = attributes.getBoolean(R.styleable.NetShieldSwitch_isInConnectedScreen, false)
-        withReconnectDialog = attributes.getBoolean(R.styleable
-            .NetShieldSwitch_withReconnectConfirmation, true)
+        withReconnectDialog = attributes.getBoolean(
+            R.styleable.NetShieldSwitch_withReconnectConfirmation, true
+        )
+        val layoutTransition = LayoutTransition()
+        layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING)
+        binding.layoutNetshield.layoutTransition = layoutTransition
         initAttributes(attributes)
         attributes.recycle()
     }
@@ -111,14 +125,37 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
-                val textColor = ContextCompat.getColor(context, R.color.white)
-                switchNetshield.setTextColor(textColor)
-                textNetDescription.setTextColor(textColor)
-                netShieldSettings.visibility = View.GONE
+                layoutNetshield.setOnClickListener {
+                    imageExpand.isChecked = !imageExpand.isChecked
+                    onStateChange(currentState)
+                }
+                textNetDescription.setTextColor(ContextCompat.getColor(context, R.color.grey))
+                switchNetshield.setTextColor(ContextCompat.getColor(context, R.color.grey))
             } else {
                 switchNetshield.trackTintList = ContextCompat.getColorStateList(context, R.color.switch_track)
             }
+            imageExpand.isVisible = isInConnectedScreen
+            tintRadioButtons()
         }
+    }
+
+    private fun tintRadioButtons() = with(binding) {
+        val notSelectedColor = if (isInConnectedScreen) R.color.grey else R.color.white
+        val selectedColor = if (isInConnectedScreen) R.color.grey else R.color.colorAccent
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
+            ), intArrayOf(
+                ContextCompat.getColor(context, notSelectedColor),
+                ContextCompat.getColor(context, selectedColor)
+            )
+        )
+
+        radioSimpleBlocking.buttonTintList = colorStateList
+        radioSimpleBlocking.setTextColor(ContextCompat.getColor(context, notSelectedColor))
+
+        radioFullBlocking.buttonTintList = colorStateList
+        radioFullBlocking.setTextColor(ContextCompat.getColor(context, notSelectedColor))
     }
 
     private fun showReconnectDialog(changeCallback: (agreedToChange: Boolean) -> Unit) {
@@ -192,7 +229,18 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         plusFeature.isVisible = !userData.isUserPlusOrAbove
         if (!userData.isUserPlusOrAbove) {
             radioFullBlocking.isEnabled = false
-            radioFullBlocking.setTextColor(ContextCompat.getColor(context, R.color.lightGrey))
+            val disabledColor = if (isInConnectedScreen) R.color.brightGrey else R.color.lightGrey
+            radioFullBlocking.setTextColor(ContextCompat.getColor(context, disabledColor))
+            val colorStateList = ColorStateList(
+                arrayOf(
+                    intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
+                ), intArrayOf(
+                    ContextCompat.getColor(context, disabledColor),
+                    ContextCompat.getColor(context, disabledColor)
+                )
+            )
+
+            radioFullBlocking.buttonTintList = colorStateList
             plusFeature.setOnClickListener { showUpgradeDialog() }
         }
     }

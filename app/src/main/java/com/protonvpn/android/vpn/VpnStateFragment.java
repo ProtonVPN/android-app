@@ -18,22 +18,19 @@
  */
 package com.protonvpn.android.vpn;
 
+import android.animation.LayoutTransition;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -62,6 +59,8 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
+import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.DebugUtils;
@@ -76,6 +75,10 @@ import java.util.Timer;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -188,7 +191,7 @@ public class VpnStateFragment extends BaseFragment {
     public void onViewCreated() {
         registerForEvents();
         updateNotConnectedView();
-
+        forceAnimeNestedLayouts();
         serverListUpdater.getIpAddress()
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
@@ -198,15 +201,16 @@ public class VpnStateFragment extends BaseFragment {
             return null;
         });
         initChart();
-        userData.getUpdateEvent().observe(getViewLifecycleOwner(), () -> {
-            switchNetShield.setNetShieldValue(userData.getNetShieldProtocol());
-            return Unit.INSTANCE;
-        });
 
         stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
             .getTrafficStatus()
             .observe(getViewLifecycleOwner(), this::onTrafficUpdate);
+    }
+
+    private void forceAnimeNestedLayouts() {
+        LayoutTransition layoutTransition = ((ViewGroup) layoutConnected).getLayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
     @Override
