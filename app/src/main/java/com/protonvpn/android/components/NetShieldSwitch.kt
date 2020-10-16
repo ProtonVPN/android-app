@@ -215,7 +215,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun checkForReconnection(stateMonitor: VpnStateMonitor) {
         if (stateMonitor.isConnected) {
             val currentConnection = stateMonitor.connectionProfile
-            currentConnection?.let {
+            currentConnection?.copy()?.let {
                 it.setNetShieldProtocol(currentState)
                 stateMonitor.disconnectWithCallback { stateMonitor.connect(context, it) }
             }
