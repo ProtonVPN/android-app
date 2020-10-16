@@ -79,7 +79,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
@@ -265,7 +264,12 @@ public class VpnStateFragment extends BaseFragment {
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
+                if (newState == BottomSheetBehavior.STATE_EXPANDED && appConfig.getFeatureFlags().getNetShieldEnabled()
+                    && switchNetShield.getVisibility() == View.VISIBLE) {
+                    OnboardingDialogs.showDialogOnView(getContext(), switchNetShield,
+                        getString(R.string.netshield), getString(R.string.onboardingNetshield),
+                        OnboardingPreferences.NETSHIELD_DIALOG);
+                }
             }
 
             @Override

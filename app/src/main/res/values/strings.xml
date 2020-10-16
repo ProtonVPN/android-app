@@ -150,6 +150,7 @@
     <string name="onboardingMiddleSlideDescription">Beat censorship and regional restrictions. We have no ads, no bandwidth limits, and don\'t sell your data.</string>
     <string name="onboardingEndingSlideTitle">Your security is our priority</string>
     <string name="onboardingEndingSlideDescription">We are a security company. Whether it is our secure core architecture or advanced encryption, security always comes first.</string>
+    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield. </string>
     <string name="onboardingFAB">Quick connect / Profiles</string>
     <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>
     <string name="onboardingSignup">Sign up</string>
