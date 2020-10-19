@@ -82,7 +82,7 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
-        netShieldProtocol = NetShieldProtocol.DISABLED;
+        netShieldProtocol = NetShieldProtocol.ENABLED;
     }
 
     public String getUser() {
