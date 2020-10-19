@@ -200,6 +200,11 @@ public class VpnStateFragment extends BaseFragment {
             userData.setNetShieldProtocol(s);
             return null;
         });
+        userData.getNetShieldLiveData().observe(getViewLifecycleOwner(), state -> {
+            if (state != null) {
+                switchNetShield.setNetShieldValue(state);
+            }
+        });
         initChart();
 
         stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
@@ -469,11 +474,6 @@ public class VpnStateFragment extends BaseFragment {
                 && stateMonitor.getConnectingToServer() != null ?
                 stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
             connectedServer = vpnState.getServer();
-            switchNetShield.init(profile.getNetShieldProtocol(userData, appConfig), appConfig, userData,
-                stateMonitor, s -> {
-                    userData.setNetShieldProtocol(s);
-                    return null;
-                });
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);
