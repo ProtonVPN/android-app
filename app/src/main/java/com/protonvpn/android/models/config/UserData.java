@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public final class UserData implements Serializable {
 
@@ -65,6 +67,7 @@ public final class UserData implements Serializable {
     private NetShieldProtocol netShieldProtocol;
     private boolean useSmartProtocol;
 
+    private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
     private transient NetworkUserData networkUserData = new NetworkUserData();
 
@@ -363,7 +366,12 @@ public final class UserData implements Serializable {
 
     public void setNetShieldProtocol(NetShieldProtocol value) {
         netShieldProtocol = value;
+        netShieldProtocolLiveData.setValue(value);
         saveToStorage();
+    }
+
+    public LiveData<NetShieldProtocol> getNetShieldLiveData() {
+        return netShieldProtocolLiveData;
     }
 
     public NetShieldProtocol getNetShieldProtocol() {
