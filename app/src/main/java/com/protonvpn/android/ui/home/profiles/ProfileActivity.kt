@@ -38,7 +38,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.databinding.ActivityProfileBinding
-import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -62,12 +61,6 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         initProtocolSelection()
         initSecureCoreSwitch()
         initEditableProfile()
-        initNetShield()
-    }
-
-    private fun initNetShield() {
-        binding.contentProfile.netShieldSwitch.init(viewModel.netShieldProtocol, viewModel.appConfig,
-                viewModel.userData, viewModel.vpnStateMonitor) {}
     }
 
     private fun checkInputFields(): Boolean {
@@ -122,7 +115,6 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                     newProfile.apply {
                         setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
                         setProtocol(protocolSelection.protocol)
-                        setNetShieldProtocol(netShieldSwitch.currentState)
                         wrapper.setSecureCoreCountry(switchSecureCore.isChecked)
                     }
                     viewModel.saveProfile(newProfile)

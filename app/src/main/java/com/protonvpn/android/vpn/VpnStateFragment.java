@@ -274,7 +274,7 @@ public class VpnStateFragment extends BaseFragment {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED && appConfig.getFeatureFlags().getNetShieldEnabled()
-                    && switchNetShield.getVisibility() == View.VISIBLE) {
+                    && switchNetShield.isSwitchVisible()) {
                     OnboardingDialogs.showDialogOnView(getContext(), switchNetShield,
                         getString(R.string.netshield), getString(R.string.onboardingNetshield),
                         OnboardingPreferences.NETSHIELD_DIALOG);

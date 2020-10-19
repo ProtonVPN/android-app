@@ -69,6 +69,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private var extendedProtocol: Boolean = false
 
+    fun isSwitchVisible() = binding.root.isVisible
+
     fun setNetShieldValue(newProtocol: NetShieldProtocol) {
         onStateChange(newProtocol)
     }
@@ -262,11 +264,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun checkForReconnection(stateMonitor: VpnStateMonitor) {
         if (stateMonitor.isConnected) {
-            val currentConnection = stateMonitor.connectionProfile
-            currentConnection?.copy()?.let {
-                it.setNetShieldProtocol(currentState)
-                stateMonitor.disconnectWithCallback { stateMonitor.connect(context, it) }
-            }
+            stateMonitor.reconnect(context)
         }
     }
 
