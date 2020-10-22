@@ -170,7 +170,12 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .icon(getDrawable(context, R.drawable.ic_refresh)!!)
             .canceledOnTouchOutside(false)
             .title(R.string.netShieldReconnectionNeeded)
-            .content(R.string.netShieldReconnectionDescription)
+            .content(
+                if (isSwitchedOn)
+                    R.string.netShieldReconnectionDescriptionDisabling
+                else 
+                    R.string.netShieldReconnectionDescription
+            )
             .positiveText(R.string.reconnect)
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
                 changeCallback(true)
