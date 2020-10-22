@@ -100,7 +100,7 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, userPrefs, stateMonitor) {
+        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor) {
             userPrefs.netShieldProtocol = it
         }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()

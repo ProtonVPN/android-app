@@ -196,7 +196,7 @@ public class VpnStateFragment extends BaseFragment {
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
-        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, userData, stateMonitor, s -> {
+        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, getViewLifecycleOwner(), userData, stateMonitor, s -> {
             userData.setNetShieldProtocol(s);
             return null;
         });

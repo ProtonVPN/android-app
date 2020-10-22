@@ -32,6 +32,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -182,11 +184,14 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     fun init(
         initialValue: NetShieldProtocol,
         appConfig: AppConfig,
+        lifecycleOwner: LifecycleOwner,
         userData: UserData,
         stateMonitor: VpnStateMonitor,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
-        this.root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
+        appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
+            root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
+        })
         onStateChange(initialValue)
         initUserTier(userData)
         val checkedChangeListener = CompoundButton.OnCheckedChangeListener { view, _ ->

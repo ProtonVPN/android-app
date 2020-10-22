@@ -19,6 +19,7 @@
 package com.protonvpn.android.appconfig
 
 import android.os.SystemClock
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
@@ -31,12 +32,13 @@ import java.util.concurrent.TimeUnit
 
 class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData: UserData) {
 
-    private var appConfigResponse: AppConfigResponse
+    private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
 
     val apiNotificationsResponseObservable = MutableLiveData<ApiNotificationsResponse>(
             Storage.load<ApiNotificationsResponse>(
                     ApiNotificationsResponse::class.java, ApiNotificationsResponse(emptyArray())))
 
+    val appConfigResponse get() = appConfigResponseObservable.value!!
     val apiNotifications get() = apiNotificationsResponseObservable.value!!.notifications
 
     private var updateTask = ReschedulableTask(scope, SystemClock::elapsedRealtime) {
@@ -44,7 +46,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
     }
 
     init {
-        appConfigResponse = Storage.load(AppConfigResponse::class.java, getDefaultConfig())
+        appConfigResponseObservable = MutableLiveData(Storage.load(AppConfigResponse::class.java, getDefaultConfig()))
         updateTask.scheduleIn(0)
     }
 
@@ -53,7 +55,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
         val config = result.valueOrNull
         if (config != null) {
             Storage.save(config)
-            appConfigResponse = config
+            appConfigResponseObservable.value = config
             if (userData.isLoggedIn) {
                 val notificationsResponse = if (config.featureFlags.pollApiNotifications)
                     api.getApiNotifications().valueOrNull
@@ -76,6 +78,8 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
     fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts!!
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
+
+    fun getLiveConfig(): LiveData<AppConfigResponse> = appConfigResponseObservable
 
     private fun getDefaultConfig(): AppConfigResponse {
         val defaultPorts = OpenVPNConfigResponse(DefaultPorts.defaults)
