@@ -19,9 +19,13 @@
 package com.protonvpn.android.utils
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.utils.AndroidUtils.isTV
 
 object Constants {
 
+    // TODO: Temporarily var, as AndroidTvVPN is not yet supported on production API.
+    var CLIENT_ID = if (ProtonApplication.getAppContext().isTV()) "AndroidTvVPN" else "AndroidVPN"
     const val MAX_LOG_SIZE = 200 * 1024.toLong()
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
@@ -55,4 +59,7 @@ object Constants {
             "344739a0dd48d03025b0450cf1fb5e8c\n" +
             "aeb893d9a96d1f15519bb3c4dcb40ee3\n" +
             "16672ea16c012664f8a9f11255518deb\n"
+
+    // TV
+    const val TV_LOGIN_URL = "account.protonvpn.com/tv"
 }

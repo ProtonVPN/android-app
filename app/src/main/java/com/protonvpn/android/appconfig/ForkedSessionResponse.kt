@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.appconfig
 
+import com.protonvpn.android.models.login.LoginResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,8 +28,11 @@ class ForkedSessionResponse(
     @SerialName(value = "TokenType") val tokenType: String,
     @SerialName(value = "UID") val uid: String,
     @SerialName(value = "RefreshToken") val refreshToken: String,
-    @SerialName(value = "Payload") val payload: String,
+    @SerialName(value = "Payload") val payload: String?,
     @SerialName(value = "LocalID") val localId: Int,
     @SerialName(value = "Scopes") val scopes: Array<String>,
     @SerialName(value = "UserID") val userId: String
-)
+) {
+    fun toLoginResponse(accessToken: String): LoginResponse =
+        LoginResponse(accessToken, expiresIn, tokenType, scopes.joinToString(" "), uid, refreshToken)
+}

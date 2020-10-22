@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class LoginResponse(
-    @SerialName(value = "AccessToken") var accessToken: String,
+    @SerialName(value = "AccessToken") var accessToken: String?,
     @SerialName(value = "ExpiresIn") val expiresIn: Int,
     @SerialName(value = "TokenType") val tokenType: String,
     @SerialName(value = "Scope") val scope: String,

@@ -172,7 +172,13 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
         <activity android:name=".tv.TvLoginActivity"
-            android:theme="@style/AppTheme.TV.Leanback" />
+            android:theme="@style/AppTheme.TV.Leanback">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />

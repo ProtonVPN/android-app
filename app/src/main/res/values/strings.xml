@@ -363,4 +363,12 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_detail_connect_streaming">Connect to streaming server</string>
     <string name="tv_detail_connect_fastest">Connect to fastest server</string>
     <string name="tv_detail_decription">Our streaming servers are the best solution to unblock content from your favorite apps.</string>
+    <string name="tv_login_title_signin">Sign in to your ProtonVPN</string>
+    <string name="tv_login_step1_description"><![CDATA[Go to <b>%1$s</b> on your smartphone or computer]]></string>
+    <string name="tv_login_step2_description">Sign in to your Proton account</string>
+    <string name="tv_login_step3_description">Enter the code:</string>
+    <string name="tv_login_timer_label">Session timeout in</string>
+    <string name="tv_login_refresh">Refresh</string>
+    <string name="tv_login_title_loading">Loading…</string>
+    <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
 </resources>

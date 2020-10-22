@@ -42,6 +42,7 @@
         <item name="guidedActionsBackgroundDark">@color/pickerColor2</item>
         <item name="android:colorControlActivated">@color/colorAccent</item>
         <item name="android:colorForeground">@color/colorPrimary</item>
+        <item name="primaryText">@color/white</item>
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.Leanback.Browse">

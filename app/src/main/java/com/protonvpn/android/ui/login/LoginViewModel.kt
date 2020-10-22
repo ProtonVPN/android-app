@@ -19,7 +19,6 @@
 package com.protonvpn.android.ui.login
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.api.GuestHole
