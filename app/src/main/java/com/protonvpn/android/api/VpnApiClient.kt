@@ -21,6 +21,7 @@ package com.protonvpn.android.api
 import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.vpn.VpnStateMonitor
 import me.proton.core.network.domain.ApiClient
@@ -37,7 +38,8 @@ class VpnApiClient(val userData: UserData) : ApiClient {
         vpnStateMonitor = monitor
     }
 
-    override val appVersionHeader = "AndroidVPN_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
+    override val appVersionHeader get() =
+        "${Constants.CLIENT_ID}_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
     override val shouldUseDoh get() = userData.apiUseDoH && vpnStateMonitor?.isConnected != true
 

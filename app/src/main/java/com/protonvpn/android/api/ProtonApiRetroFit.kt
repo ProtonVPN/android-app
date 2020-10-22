@@ -27,6 +27,7 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
 import okhttp3.RequestBody
@@ -39,6 +40,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
 
     suspend fun getLocation() =
         manager { getLocation() }
+
+    suspend fun refreshToken(request: RefreshTokenRequest) =
+        manager { refreshToken(request) }
 
     fun postBugReport(
         loader: LoaderUI,
