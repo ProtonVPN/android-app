@@ -162,7 +162,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         radioFullBlocking.setTextColor(ContextCompat.getColor(context, notSelectedColor))
     }
 
-    private fun showReconnectDialog(changeCallback: (agreedToChange: Boolean) -> Unit) {
+    private fun showReconnectDialog(isRadioButton: Boolean, changeCallback: (agreedToChange: Boolean) -> Unit) {
         MaterialDialog.Builder(context).theme(Theme.DARK)
             .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
                 Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
@@ -171,10 +171,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .canceledOnTouchOutside(false)
             .title(R.string.netShieldReconnectionNeeded)
             .content(
-                if (isSwitchedOn)
-                    R.string.netShieldReconnectionDescriptionDisabling
-                else 
+                if (!isSwitchedOn || isRadioButton)
                     R.string.netShieldReconnectionDescription
+                else
+                    R.string.netShieldReconnectionDescriptionDisabling
             )
             .positiveText(R.string.reconnect)
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
@@ -220,7 +220,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             val needsReconnectDialog = withReconnectDialog &&
                 Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)
             if (stateMonitor.isConnected && needsReconnectDialog) {
-                showReconnectDialog { agreedToReconnect ->
+                showReconnectDialog(this is RadioButtonEx) { agreedToReconnect ->
                     if (agreedToReconnect) {
                         isChecked = !isChecked
                         onStateChange(currentState)
