@@ -149,9 +149,13 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(userData: UserData, appConfig: AppConfig): VpnBackendProvider =
+    fun provideVpnBackendManager(
+        userData: UserData,
+        networkManager: NetworkManager,
+        appConfig: AppConfig
+    ): VpnBackendProvider =
         ProtonVpnBackendProvider(
-                StrongSwanBackend(random, scope),
+                StrongSwanBackend(random, networkManager, scope),
                 OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis))
 
     @Singleton
