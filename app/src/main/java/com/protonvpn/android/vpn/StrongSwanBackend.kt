@@ -32,13 +32,17 @@ import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 import org.strongswan.android.logic.VpnStateService
 import java.io.ByteArrayOutputStream
 import java.util.Random
 
 class StrongSwanBackend(
     val random: Random,
+    private val networkManager: NetworkManager,
     val mainScope: CoroutineScope
 ) : VpnBackend("StrongSwan"), VpnStateService.VpnStateListener {
 
@@ -47,14 +51,29 @@ class StrongSwanBackend(
 
     init {
         bindCharonMonitor()
+        mainScope.launch {
+            networkManager.observe().collect { status ->
+                if (status == NetworkStatus.Disconnected) {
+                    selfStateObservable.value = VpnState.WaitingForNetwork
+                } else {
+                    stateChanged()
+                }
+            }
+        }
     }
 
     private suspend fun getVpnService() = vpnService ?: serviceProvider.receive()
 
-    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult? {
+    override suspend fun prepareForConnection(
+        profile: Profile,
+        server: Server,
+        scan: Boolean
+    ): PrepareResult? {
         val connectingDomain = server.getRandomConnectingDomain()
-        if (!scan || isServerAvailable(connectingDomain.entryIp))
-            return PrepareResult(this, ConnectionParamsIKEv2(profile, server, connectingDomain))
+        if (!scan || isServerAvailable(connectingDomain.entryIp)) return PrepareResult(
+            this,
+            ConnectionParamsIKEv2(profile, server, connectingDomain)
+        )
         return null
     }
 
