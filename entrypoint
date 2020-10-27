@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+
+source .bashrc
+
+if [ -n "$CI_SERVER_HOST" ]; then
+
+  # Gitlab put the code here...
+  cd "$CI_PROJECT_DIR";
+
+  # https://gitlab.com/gitlab-org/gitlab-runner/issues/1380
+  if [ -f ~/lockfilerun ]; then
+    exit 0;
+  fi
+
+# debug env
+  env | grep 'CI_' || true
+  echo 123 > ~/lockfilerun
+fi
+
+if [ -f "$HOME/app/.env" ]; then
+  echo '[image] load local .env';
+  source "$HOME/app/.env";
+fi
+
+ls -lha
+
+export ANDROID_HOME="$HOME/android-sdk-linux/"
+export PATH="$PATH:${ANDROID_HOME}cmdline-tools/tools/bin"
+export GRADLE_USER_HOME="${PWD}/.gradle"
+export ANDROID_SDK_ROOT="$HOME/android-sdk-linux"
+
+if [ -f "$GRADLE_USER_HOME" ]; then
+  chmod +x ./gradlew
+fi
+
+
+if [ -n "$http_proxy" ]; then
+  proxyHost="$(echo "${http_proxy##http://}" | cut -d':' -f1)";
+  proxyPort="$(echo "${http_proxy##http://}" | cut -d':' -f2)";
+  noProxyHost="$(echo "$no_proxy" | tr ',' '|')"
+
+  export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$proxyHost -Dhttp.proxyPort=$proxyPort -Dhttps.proxyHost=$proxyHost -Dhttps.proxyPort=$proxyPort -Dhttp.nonProxyHosts=$noProxyHost";
+fi
+
+if [ -d '.git' ]; then
+  echo '[run] detect git ~ fetch development'
+  git fetch origin development
+fi
+
+
+exec "$@"

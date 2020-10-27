@@ -1,0 +1,78 @@
+FROM openjdk:8-jdk-slim-buster
+
+ENV ANDROID_COMPILE_SDK "28"
+ENV ANDROID_BUILD_TOOLS "28.0.3"
+ENV ANDROID_SDK_TOOLS "26.1.1"
+
+RUN apt update && apt-get install -y \
+  swig \
+  netbase \
+  connect-proxy \
+  bash \
+  python3 \
+  git \
+  jq \
+  rsync \
+  gnupg \
+  dirmngr \
+  bzip2 \
+  unzip \
+  xz-utils \
+  tar \
+  lib32stdc++6 \
+  lib32z1 \
+  libtool \
+  gettext \
+  gperf \
+  pkg-config \
+  automake \
+  gcc \
+  wget \
+  bison \
+  flex \
+  gperf \
+  curl
+
+# Because the alias is not there out of the box
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# IF we want swig 4
+# Add this so we can install swig 4.0 instead of the old 3.0.12 from 3 years old
+# Cannot group it before has it creates an issue with libc6 during the install :/
+#RUN echo 'deb http://http.us.debian.org/debian/ testing non-free contrib main' >> /etc/apt/sources.list && \
+#  apt-get update && apt-get install -y swig
+
+WORKDIR /root
+
+COPY entrypoint /usr/local/bin
+RUN useradd -ms /bin/bash pedro
+WORKDIR /home/pedro
+USER pedro
+
+RUN mkdir android-sdk-linux && \
+  curl \
+    --silent \
+    https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip \
+    --output android-sdk.zip && \
+
+  unzip -d android-sdk-linux/cmdline-tools android-sdk.zip && \
+  rm android-sdk.zip && \
+
+  export ANDROID_HOME=$PWD/android-sdk-linux && \
+  export ANDROID_CLI="${ANDROID_HOME}/cmdline-tools" && \
+
+  yes | "${ANDROID_CLI}/tools/bin/sdkmanager" \
+    --sdk_root="${ANDROID_HOME}" \
+    "platform-tools" "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null && \
+  yes | "${ANDROID_CLI}/tools/bin/sdkmanager" \
+    --sdk_root="${ANDROID_HOME}" \
+    "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null && \
+
+   export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/ && \
+   export ANDROID_SDK_ROOT=$PWD/android-sdk-linux && \
+   echo "export ANDROID_SDK_ROOT=${PWD}/android-sdk-linux" >> $HOME/.bashrc && \
+   echo "export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/" >> $HOME/.bashrc && \
+   echo "export ANDROID_HOME=$PWD/android-sdk-linux/" >> $HOME/.bashrc
+
+
+ENTRYPOINT ["/usr/local/bin/entrypoint"]

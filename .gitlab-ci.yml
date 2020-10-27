@@ -1,47 +1,21 @@
-image: gitlab.protontech.ch:4567/protonvpn/android/android-app-new:protonish5
-variables:
-  ANDROID_COMPILE_SDK: "28"
-  ANDROID_BUILD_TOOLS: "28.0.3"
-  ANDROID_SDK_TOOLS: "26.1.1"
-  PUBLIC_REPO_URL: git@github.com:ProtonVPN/android-app.git
+default:
+  image:
+    name: $CI_REGISTRY_IMAGE:branch-development
+    #name: $CI_REGISTRY_IMAGE:latest
+  before_script:
+    # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
+    # gitlab is going to convert them as a variable content instead of a variable file...
+    - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
+    - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
+    - md5sum app/protonkey.jks
+    - md5sum app/service_account.json
+    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
 
-before_script:
-  - if [[ -n "$http_proxy" ]]; then export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$( echo ${http_proxy##http://} | cut -d':' -f1 ) -Dhttp.proxyPort=$( echo ${http_proxy##http://} | cut -d':' -f2 ) -Dhttps.proxyHost=$( echo ${https_proxy##http://} | cut -d':' -f1 ) -Dhttps.proxyPort=$( echo ${https_proxy##http://} | cut -d':' -f2 ) -Dhttp.nonProxyHosts=\"$( echo $no_proxy | tr ',' '|' )\""; fi
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-  - chmod +x ./gradlew
-  - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
-  - base64 -d - < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
-  - md5sum app/protonkey.jks
-  - md5sum app/service_account.json
-  - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
-  - apt-get -y update
-  - apt-get install -y connect-proxy git rsync curl jq
-  - 'which ssh-agent || apt-get -y install openssh-client'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - git config --global user.email $GIT_CI_EMAIL
-  - git config --global user.name $GIT_CI_USERNAME
-  - git config --global url."https://".insteadOf git://
-  - mkdir ~/.ssh 2> /dev/null
-  - |
-    cat <<EOF > ~/.ssh/config
-    Host github.com
-        Hostname ssh.github.com
-        User git
-        Port 443
-        ProxyCommand connect-proxy -H $http_proxy %h %p
-    EOF
-  - ssh-keyscan -t rsa ${CI_SERVER_HOST} > ~/.ssh/known_hosts
-  ## ssh-keyscan doesn't support proxies so we can't fetch the fingerprint online
-  - |
-    cat <<EOF >> ~/.ssh/known_hosts
-    # ssh.github.com:443 SSH-2.0-babeld-2e9d163d
-    [ssh.github.com]:443 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-    EOF
-  - cat ~/.ssh/config
-  - git fetch origin development
+variables:
+  GIT_FETCH_EXTRA_FLAGS: --tags
 
 stages:
+  - image
   - analyze
   - build
   - test
@@ -49,6 +23,53 @@ stages:
   - bot
   - mirror
   - publish
+
+
+
+########## Manage the Image ##########
+.common-image:
+  image: docker:stable
+  interruptible: true
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+  services:
+    - docker:dind
+  before_script:
+    - apk update
+    - apk add make bash
+
+
+# Make image when we push to a branch -> run tests on top of this one
+create-ci-image-auto:
+  stage: image
+  extends: .common-image
+  except:
+    - schedules
+    - triggers
+  script:
+    - make image branch=$CI_COMMIT_REF_SLUG
+  only:
+    refs:
+      - development
+    changes:
+      - entrypoint
+      - Dockerfile
+
+# If we want to force regenerate the image
+create-ci-image-manual:
+  when: manual
+  extends: create-ci-image-auto
+  only:
+    - master
+    - development
+
+# Once the CI is green, we retag the current branch-master to latest
+create-ci-image-latest:
+  stage: publish
+  extends: create-ci-image-auto
+  dependencies: [] # Prevent download + extract artifacts
+  script:
+    - make latest
 
 cache:
   key: gradle
@@ -149,28 +170,32 @@ unit tests:
   tags:
     - android
   script:
-  - chmod +x gradlew
-  - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-  - echo ${ARCHIVES_BASE_NAME}
-  - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-  - mkdir -p /opt
-  - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /opt
-  - /opt/google-cloud-sdk/install.sh --quiet
-  - source /opt/google-cloud-sdk/path.bash.inc
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+    - mkdir -p /tmp/sdk-dir
+    - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /tmp/sdk-dir
+    - /tmp/sdk-dir/google-cloud-sdk/install.sh --quiet
+    - source /tmp/sdk-dir/google-cloud-sdk/path.bash.inc
 
-  - gcloud components update
-  - echo $CLOUD_PROJECT_ID
-  - gcloud config set project $CLOUD_PROJECT_ID
-  - echo $SERVICE_ACCOUNT > /tmp/service-account.json
-  - gcloud auth activate-service-account --key-file /tmp/service-account.json
-  - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
-  - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
-  - echo $APP
-  - echo $TEST_APP
-  - echo $PWD
-  - gcloud firebase test android run firebase-device-config.yml:${TESTS_TYPE} --app "$APP" --test "$TEST_APP"  --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"  --directories-to-pull /sdcard
-  - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
-  - gsutil cp $coverageFile app/build/outputs/apk | true
+    - gcloud components update
+    - echo $CLOUD_PROJECT_ID
+    - gcloud config set project $CLOUD_PROJECT_ID
+    - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
+    - gcloud auth activate-service-account --key-file /tmp/service-account.json
+    - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
+    - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
+    - echo $APP
+    - echo $TEST_APP
+    - echo $PWD
+    - gcloud firebase test android
+        run firebase-device-config.yml:${TESTS_TYPE}
+        --app "$APP"
+        --test "$TEST_APP"
+        --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"
+        --directories-to-pull /sdcard
+    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
+    - gsutil cp $coverageFile app/build/outputs/apk | true
   artifacts:
     expire_in: 1 week
     paths:
