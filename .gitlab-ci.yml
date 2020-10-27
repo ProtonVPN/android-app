@@ -1,7 +1,8 @@
 default:
   image:
+    # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
+    # name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
     name: $CI_REGISTRY_IMAGE:branch-development
-    #name: $CI_REGISTRY_IMAGE:latest
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -49,8 +50,6 @@ create-ci-image-auto:
   script:
     - make image branch=$CI_COMMIT_REF_SLUG
   only:
-    refs:
-      - development
     changes:
       - entrypoint
       - Dockerfile
@@ -59,15 +58,14 @@ create-ci-image-auto:
 create-ci-image-manual:
   when: manual
   extends: create-ci-image-auto
-  only:
-    - master
-    - development
 
-# Once the CI is green, we retag the current branch-master to latest
+# Once the CI is green, we retag the current branch-development to latest
 create-ci-image-latest:
   stage: publish
   extends: create-ci-image-auto
   dependencies: [] # Prevent download + extract artifacts
+  only:
+    - development
   script:
     - make latest
 
