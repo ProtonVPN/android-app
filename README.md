@@ -9,7 +9,7 @@ Copyright (c) 2019 Proton Technologies AG
 
 ### Build release
 To complete a release build signing keys need to be provided:
-./gradlew assembleProdRelease -PkeyStoreFilePath=<keystore> -PkeyStoreKeyAlias=<alias> -PkeyStorePassword=<pass> -PkeyStoreKeyPassword=<key-pass>` 
+./gradlew assembleProdRelease -PkeyStoreFilePath=<keystore> -PkeyStoreKeyAlias=<alias> -PkeyStorePassword=<pass> -PkeyStoreKeyPassword=<key-pass>`
 
 ### Rebuild strongswan
 This project is using native libraries from [open-source project Strongswan](https://www.strongswan.org/).
@@ -42,6 +42,32 @@ By making a contribution to this project you agree to the following:
 1. I assign any and all copyright related to the contribution to Proton Technologies AG;
 2. I certify that the contribution was created in whole by me;
 3. I understand and agree that this project and the contribution are public and that a record of the contribution (including all personal information I submit with it) is maintained indefinitely and may be redistributed with this project or the open source license(s) involved.
+
+## Manage Image for the CI
+
+### Create an image NAME_IMAGE:branch-<branch>
+
+```sh
+$ make image [branch=name]
+```
+
+### For the dev ~ Build the image on your computer: output ci-android:latest
+
+```sh
+$ make local
+```
+
+### Run the image built via make local on your compute so you can inspect its content
+
+```sh
+$ make debug-local
+```
+
+### Deploy the image of the CI from your computer
+
+```sh
+$ make deploy-local: login-deploy imag
+```
 
 ## Versioning
 - Version matches format: `[major][minor][patch]`
