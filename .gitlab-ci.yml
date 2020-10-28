@@ -29,6 +29,7 @@ stages:
 
 ########## Manage the Image ##########
 .common-image:
+  stage: image
   image: docker:stable
   interruptible: true
   variables:
@@ -38,17 +39,16 @@ stages:
   before_script:
     - apk update
     - apk add make bash
-
-
-# Make image when we push to a branch -> run tests on top of this one
-create-ci-image-auto:
-  stage: image
-  extends: .common-image
   except:
     - schedules
     - triggers
   script:
     - make image branch=$CI_COMMIT_REF_SLUG
+
+
+# Make image when we push to a branch -> run tests on top of this one
+create-ci-image-auto:
+  extends: .common-image
   only:
     changes:
       - entrypoint
@@ -57,7 +57,7 @@ create-ci-image-auto:
 # If we want to force regenerate the image
 create-ci-image-manual:
   when: manual
-  extends: create-ci-image-auto
+  extends: .common-image
 
 # Once the CI is green, we retag the current branch-development to latest
 create-ci-image-latest:
