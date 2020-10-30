@@ -151,8 +151,6 @@ android {
     def helpers = new Helpers()
 
     compileSdkVersion 30
-    // FIXME: update on CI image
-    ndkVersion "20.0.5594570"
     useLibrary 'org.apache.http.legacy'
     flavorDimensions "default"
     signingConfigs {

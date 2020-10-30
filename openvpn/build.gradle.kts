@@ -61,9 +61,6 @@ tasks.register<Exec>("generateOpenVPN3Swig")
 android {
     compileSdkVersion(30)
 
-    // FIXME: update on CI image
-    ndkVersion = "20.0.5594570"
-
     defaultConfig {
         minSdkVersion(19)
         targetSdkVersion(30)
