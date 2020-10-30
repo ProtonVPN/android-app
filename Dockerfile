@@ -1,8 +1,8 @@
 FROM openjdk:8-jdk-slim-buster
 
-ENV ANDROID_COMPILE_SDK "28"
-ENV ANDROID_BUILD_TOOLS "28.0.3"
-ENV ANDROID_SDK_TOOLS "26.1.1"
+ENV ANDROID_COMPILE_SDK "30"
+ENV ANDROID_BUILD_TOOLS "30.0.2"
+ENV ANDROID_SDK_TOOLS "30.0.2"
 
 RUN apt update && apt-get install -y \
   swig \
@@ -66,7 +66,14 @@ RUN mkdir android-sdk-linux && \
     "platform-tools" "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null && \
   yes | "${ANDROID_CLI}/tools/bin/sdkmanager" \
     --sdk_root="${ANDROID_HOME}" \
-    "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null && \
+    "build-tools;${ANDROID_BUILD_TOOLS}" \
+    "build-tools;29.0.2" \
+    "cmake;3.10.2.4988404" \
+    "cmake;3.6.4111459" \
+    "extras;android;m2repository" \
+    "ndk;20.0.5594570" \
+    "ndk;21.0.6113669" \
+    "ndk;21.3.6528147" >/dev/null && \
 
    export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/ && \
    export ANDROID_SDK_ROOT=$PWD/android-sdk-linux && \
