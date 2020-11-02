@@ -232,11 +232,14 @@ coverage report:
   script:
     - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
+    - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml
   allow_failure: true
   artifacts:
     expire_in: 1 week
     paths:
-    - app/build/reports
+      - app/build/reports
+    reports:
+      cobertura: app/build/reports/cobertura-coverage.xml
 
 owasp check:
   stage: report
