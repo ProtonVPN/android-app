@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Pokonaj cenzurę i ograniczenia regionalne. Nie posiadamy reklam, limitów danych i nie sprzedajemy Twoich informacji.</string>
   <string name="onboardingEndingSlideTitle">Twoje bezpieczeństwo jest naszym priorytetem</string>
   <string name="onboardingEndingSlideDescription">Zajmujemy się ochroną prywatności. Od trybu Secure Core po zaawansowane szyfrowanie, bezpieczeństwo stawiamy zawsze na pierwszym miejscu.</string>
+  <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i skryptami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać. </string>
   <string name="onboardingFAB">Szybkie połączenie / profile</string>
   <string name="onboardingFABDescription">Kliknij na ten przycisk, aby połączyć się najszybciej</string>
   <string name="onboardingSignup">Zarejestruj się</string>
@@ -317,9 +318,11 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
   <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
   <string name="paidFeature">Płatna funkcja</string>
+  <string name="upgradeRequired">Ulepszenie jest wymagane</string>
   <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
-  <string name="netShieldReconnectionDescription">Aby zmienić ustawienia funkcji NetShield, musisz ponownie nawiązać połączenie.</string>
-  <string name="netShieldPaidFeature">Próbujesz włączyć funkcję, która wymaga subskrypcji ProtonVPN Plus.</string>
+  <string name="netShieldReconnectionDescription">Twoje połączenie musi zostać ponownie nawiązane, aby zmienić ustawienie funkcji NetShield.\n\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
+  <string name="netShieldPaidFeature">Ta funkcja wymaga planu ProtonVPN Plus.\nUlepsz plan, aby odblokować wszystkie funkcje i wesprzeć usługę ProtonVPN.</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>

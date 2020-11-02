@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Contorne a censura e as restrições regionais. Não temos anúncios nem limites de banda larga e não vendemos os seus dados.</string>
   <string name="onboardingEndingSlideTitle">A sua segurança é a nossa prioridade</string>
   <string name="onboardingEndingSlideDescription">Somos uma empresa de segurança. Seja com a nossa arquitectura Secure Core ou com a encriptação avançada, a segurança vem sempre em primeiro lugar.</string>
+  <string name="onboardingNetshield">Mantém-nos protegidos contra malware, anúncios e rastreadores.\nNota: se algumas páginas não carregarem, tente desactivar o NetShield. </string>
   <string name="onboardingFAB">Ligação rápida/Perfis</string>
   <string name="onboardingFABDescription">Toque aqui para se ligar rapidamente</string>
   <string name="onboardingSignup">Registe-se</string>
@@ -311,9 +312,11 @@ versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não o
   <string name="netShieldFullBlock">Bloquear malware, rastreio, anúncios</string>
   <string name="dialogDontShowAgain">Não mostrar novamente</string>
   <string name="paidFeature">Funcionalidade paga</string>
+  <string name="upgradeRequired">Actualização requerida</string>
   <string name="netShieldReconnectionNeeded">Requerida nova ligação</string>
-  <string name="netShieldReconnectionDescription">Tem de reiniciar a ligação para alterar o estado do NetShield.</string>
-  <string name="netShieldPaidFeature">Está a tentar activar uma funcionalidade que requer uma subscrição ProtonVPN Plus.</string>
+  <string name="netShieldReconnectionDescription">A sua ligação será reiniciada para alterar o modo NetShield.\n\nNota: se algumas páginas não carregarem, tente desactivar o NetShield.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Tem de reiniciar a ligação para desactivar o NetShield.</string>
+  <string name="netShieldPaidFeature">Esta funcionalidade requer o ProtonVPN Plus.\nActualize online para desbloquear todas as funcionalidades e apoiar o ProtonVPN.</string>
   <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado na sua zona, a ligação será mais demorada do que o normal. Por favor, aguarde.</string>
   <string name="onMaintenanceDetected">O servidor VPN ao qual tinha ligação está em manutenção. Reestabeleceremos ligação automaticamente ao servidor mais rápido disponível.</string>
   <string name="errorTunMultiUserPermission">Não foi possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Por favor, desactive um desses e reinicie o dispositivo.</string>

@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">سانسور و محدودیت‌های منطقه‌ای را از بین ببرید. ما تبلیغات و محدودیت پهنای باند نداریم و داده‌های شما را نمی‌فروشیم.</string>
   <string name="onboardingEndingSlideTitle">امنیت شما، اولویت ماست</string>
   <string name="onboardingEndingSlideDescription">ما یک شرکت امنیتی هستیم. چه در معماری Secure Core و چه در رمزگذاری پیشرفته، امنیت همیشه اولویت اول ماست.</string>
+  <string name="onboardingNetshield">شما را از بدافزار، آگهی، و ردیابها محافظت می‌‌کند.\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیر فعال کردن NetShield را امتحان کنید. </string>
   <string name="onboardingFAB">اتصال سریع / پروفایل‌ها</string>
   <string name="onboardingFABDescription">برای سریع‌ترین راه اتصال، روی این دکمه ضربه بزنید</string>
   <string name="onboardingSignup">ثبت نام</string>
@@ -311,9 +312,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
   <string name="dialogDontShowAgain">دوباره نشان نده</string>
   <string name="paidFeature">قابلیت غیررایگان</string>
+  <string name="upgradeRequired">ارتقاء لازم است</string>
   <string name="netShieldReconnectionNeeded">اتصال مجدد لازم است</string>
-  <string name="netShieldReconnectionDescription">اتصال شما احتیاج به راه‌اندازی دوباره دارد تا حالت NetShield تغییر کند.</string>
-  <string name="netShieldPaidFeature">شما در حال فعال‌سازی قابلیتی هستید که نیاز به اشتراک ProtonVPN Plus دارد.</string>
+  <string name="netShieldReconnectionDescription">اتصال شما احتیاج دارد که راه‌اندازی مجدد شود تا وضعیت NetSheild تغییر کند.\n\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیرفعال کردن NetShield را امتحان کنید.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">اتصال شما برای غیرفعال کردن حالت NetShield احتیاج به راه‌اندازی مجدد دارد.</string>
+  <string name="netShieldPaidFeature">این ویژگی نیاز به ProtonVPN Plus دارد.\nآنلاین ارتقا دهید تا همه امکانات را باز کرده و ProtonVPN را پشتیبانی کنید.</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">اتصال VPN شروع نشد به دلیل یک مغایرت بین dual-app ( برای مثال Dual Messenger) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را ریست کنید.</string>

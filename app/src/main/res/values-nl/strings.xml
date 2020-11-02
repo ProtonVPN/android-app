@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Ga censuur en regionale beperkingen tegen. We hebben geen advertenties, geen bandbreedtelimiet en we verkopen nooit uw data.</string>
   <string name="onboardingEndingSlideTitle">Uw veiligheid is onze prioriteit</string>
   <string name="onboardingEndingSlideDescription">Wij zijn een beveiligingsbedrijf. Of het nu onze Secure Core architectuur is, of onze geavanceerde versleuteling, veiligheid staat altijd voorop.</string>
+  <string name="onboardingNetshield">Houdt u beschermd tegen malware, advertenties en trackers.\nOpmerking: als sommige sites niet laden, probeer NetShield uit te schakelen. </string>
   <string name="onboardingFAB">Snel verbinden / Profielen</string>
   <string name="onboardingFABDescription">Druk op deze knop voor de snelste manier om te verbinden</string>
   <string name="onboardingSignup">Registreren</string>
@@ -311,9 +312,11 @@ oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel 
   <string name="netShieldFullBlock">Malware, tracking, advertenties blokkeren</string>
   <string name="dialogDontShowAgain">Niet meer weergeven</string>
   <string name="paidFeature">Functie tegen betaling</string>
+  <string name="upgradeRequired">Upgrade vereist</string>
   <string name="netShieldReconnectionNeeded">Opnieuw verbinden nodig</string>
-  <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw worden gestart om NetShield status te veranderen.</string>
-  <string name="netShieldPaidFeature">U probeert functie in te schakelen waarvoor ProtonVPN Plus abonnement nodig is.</string>
+  <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw gestart worden om NetShield modus te veranderen.\n\nOpmerking: Als sommige sites niet geladen worden, probeer NetShield uit te schakelen.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Uw verbinding moet opnieuw worden gestart om NetShield modus te deactiveren.</string>
+  <string name="netShieldPaidFeature">Deze functie vereist ProtonVPN Plus.\nUpgrade online om alle functies te ontgrendelen en ProtonVPN te ondersteunen.</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
   <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>

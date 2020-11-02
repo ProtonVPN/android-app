@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Lassen Sie Zensur und regionale Beschränkungen hinter sich. Wir schalten keine Werbung, haben keine Bandweitenbeschränkungen und verkaufen auch keinerlei Daten an Dritte.</string>
   <string name="onboardingEndingSlideTitle">Ihre Sicherheit ist unsere Priorität</string>
   <string name="onboardingEndingSlideDescription">Wir sind ein Sicherheitsunternehmen. Ob es unsere „Secure Core”‐Architektur, oder unsere fortgeschrittene Verschlüsselung ist, Sicherheit kommt immer zuerst.</string>
+  <string name="onboardingNetshield">Schützt Sie vor Schadprogrammen, Werbung und Trackern.\nHinweis: Wenn einige Webseiten nicht geladen werden, versuchen Sie, NetShield zu deaktivieren. </string>
   <string name="onboardingFAB">Schnellverbindung/Profile</string>
   <string name="onboardingFABDescription">Tippen Sie auf diese Schaltfläche, um sich schnell zu verbinden</string>
   <string name="onboardingSignup">Registrieren</string>
@@ -308,9 +309,11 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="netShieldFullBlock">Malware, Tracking und Werbung sperren</string>
   <string name="dialogDontShowAgain">Nicht erneut anzeigen</string>
   <string name="paidFeature">Kostenpflichtige Funktion</string>
+  <string name="upgradeRequired">Umstieg erforderlich</string>
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
-  <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu gestartet werden, um den NetShield-Status zu ändern.</string>
-  <string name="netShieldPaidFeature">Sie versuchen eine Funktion zu aktivieren, die ein ProtonVPN Plus Abonnement erfordert.</string>
+  <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu gestartet werden, um den NetShield-Modus zu ändern.\n\nHinweis: Wenn einige Webseiten nicht geladen werden, versuchen Sie, NetShield zu deaktivieren.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Ihre Verbindung muss neu aufgebaut werden, um den NetShield-Modus zu deaktivieren.</string>
+  <string name="netShieldPaidFeature">Diese Funktion erfordert ProtonVPN Plus.\nFühren Sie Online ein Umstieg durch, um alle Funktionen freizuschalten und ProtonVPN zu unterstützen.</string>
   <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
   <string name="onMaintenanceDetected">Der VPN-Server, mit dem Sie verbunden waren, wird derzeit gewartet. Wir haben Sie automatisch wieder mit dem schnellsten verfügbaren Server verbunden.</string>
   <string name="errorTunMultiUserPermission">Die VPN-Verbindung konnte aufgrund eines Konflikts zwischen Dual-App (z.B. Dual Messenger) und Split-Tunneling nicht initialisiert werden. Bitte deaktivieren Sie eine davon und starten Sie Ihr Gerät neu.</string>

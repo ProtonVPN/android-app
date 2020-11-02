@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Победите цензуру и региональные ограничения. У нас нет рекламы, нет ограничений пропускной способности и мы не продаём ваши данные.</string>
   <string name="onboardingEndingSlideTitle">Ваша безопасность является нашим приоритетом</string>
   <string name="onboardingEndingSlideDescription">Наша компания специализируется на безопасности. Идёт ли речь о нашей архитектуре Secure Core или о передовом шифровании — безопасность всегда находится на первом месте.</string>
+  <string name="onboardingNetshield">Защищает вас от вредоносных программ, рекламы и трекеров.\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield. </string>
   <string name="onboardingFAB">Быстрое подключение / Профили</string>
   <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
   <string name="onboardingSignup">Зарегистрироваться</string>
@@ -317,9 +318,11 @@ Kill Switch не позволяет вашему устройству совер
   <string name="netShieldFullBlock">Блокировать вредоносные программы, отслеживание, рекламу</string>
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
+  <string name="upgradeRequired">Требуется улучшение</string>
   <string name="netShieldReconnectionNeeded">Требуется переподключение</string>
-  <string name="netShieldReconnectionDescription">Для изменения состояния NetShield необходимо перезапустить соединение.</string>
-  <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
+  <string name="netShieldReconnectionDescription">Для изменения режима NetShield требуется перезапуск подключения.\n\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Для отключения NetShield требуется перезапуск подключения.</string>
+  <string name="netShieldPaidFeature">Эта функция требует ProtonVPN Plus.\nУлучшите тариф, чтобы разблокировать все функции и поддержать ProtonVPN.</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
   <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
