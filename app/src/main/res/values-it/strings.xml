@@ -134,6 +134,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingMiddleSlideDescription">Batti la censura e le restrizioni regionali. Non abbiamo annunci, limiti di larghezza di banda e non vendiamo i tuoi dati.</string>
   <string name="onboardingEndingSlideTitle">La tua sicurezza è la nostra priorità</string>
   <string name="onboardingEndingSlideDescription">Siamo una società di sicurezza. Che si tratti della nostra architettura di base sicura o di una crittografia avanzata, la sicurezza viene sempre al primo posto.</string>
+  <string name="onboardingNetshield">Ti protegge da malware, annunci e tracker.\nNota: se alcuni siti non vengono caricati, prova a disabilitare NetShield. </string>
   <string name="onboardingFAB">Connessione rapida / Profili</string>
   <string name="onboardingFABDescription">Tocca questo pulsante per connetterti nel modo più rapido</string>
   <string name="onboardingSignup">Iscriviti</string>
@@ -311,9 +312,11 @@ versioni precedenti del sistema operativo Android o su tutti i dispositivi Andro
   <string name="netShieldFullBlock">Blocca malware, tracciamento, pubblicità</string>
   <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
   <string name="paidFeature">Funzione a pagamento</string>
+  <string name="upgradeRequired">Aggiornamento richiesto</string>
   <string name="netShieldReconnectionNeeded">Riconnessione necessaria</string>
-  <string name="netShieldReconnectionDescription">La tua connessione deve essere riavviata per cambiare lo stato di NetShield.</string>
-  <string name="netShieldPaidFeature">Stai cercando di abilitare la funzionalità che richiede l\'abbonamento a ProtonVPN Plus.</string>
+  <string name="netShieldReconnectionDescription">La tua connessione deve essere riavviata per cambiare la modalità NetShield.\n\nNota: se alcuni siti non vengono caricati, prova a disabilitare NetShield.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">La tua connessione deve essere riavviata per disattivare la modalità NetShield.</string>
+  <string name="netShieldPaidFeature">Questa funzione richiede ProtonVPN Plus.\nAggiorna online per sbloccare tutte le funzionalità e supportare ProtonVPN.</string>
   <string name="guestHoleActivated">L\'accesso a ProtonVPN può essere limitato nella tua zona, quindi ci vorrà più tempo del solito. Per favore attendi mentre aggiriamo questo problema.</string>
   <string name="onMaintenanceDetected">Il server VPN a cui sei stato connesso è in manutenzione. Ti abbiamo ricollegato automaticamente al server più veloce disponibile.</string>
   <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>
