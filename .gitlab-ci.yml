@@ -50,6 +50,8 @@ stages:
 create-ci-image-auto:
   extends: .common-image
   only:
+    refs:     
+      - development 
     changes:
       - entrypoint
       - Dockerfile
