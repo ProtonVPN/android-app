@@ -17,7 +17,6 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutNetshield"
     android:layout_width="match_parent"
@@ -55,10 +54,10 @@
                 android:id="@+id/imageExpand"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:clickable="false"
-                android:checked="true"
                 android:background="@android:color/transparent"
                 android:button="@drawable/ic_expandable_selector"
+                android:checked="true"
+                android:clickable="false"
                 android:textOff=""
                 android:textOn="" />
 
@@ -86,7 +85,7 @@
             android:layout_width="3dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="4dp"
-            android:background="@color/grey"/>
+            android:background="@color/grey" />
 
         <TextView
             android:id="@+id/textNetDescription"
@@ -102,43 +101,45 @@
         android:id="@+id/netShieldSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <com.protonvpn.android.components.RadioButtonEx
-            android:id="@+id/radioSimpleBlocking"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:layout_marginLeft="-3dp"
-            android:text="@string/netShieldBlockMalwareOnly"
-            android:textColor="@color/white"
-            android:theme="@style/RadioButton.Branded" />
+            android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <com.protonvpn.android.components.RadioButtonEx
+                android:id="@+id/radioSimpleBlocking"
+                android:layout_width="match_parent"
+                android:layout_height="36sp"
+                android:layout_marginStart="-3dp"
+                android:checked="true"
+                android:text="@string/netShieldBlockMalwareOnly"
+                android:textColor="@color/white"
+                android:theme="@style/RadioButton.Branded" />
 
             <com.protonvpn.android.components.RadioButtonEx
                 android:id="@+id/radioFullBlocking"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="-3dp"
+                android:layout_width="match_parent"
+                android:layout_height="36sp"
+                android:layout_marginStart="-3dp"
                 android:text="@string/netShieldFullBlock"
                 android:textColor="@color/white"
                 android:theme="@style/RadioButton.Branded" />
 
-            <TextView
-                android:id="@+id/plusFeature"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="8dp"
-                android:text="@string/upgrade"
-                android:textColor="@color/white" />
+        </RadioGroup>
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/plusFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="36sp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/upgrade"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

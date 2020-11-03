@@ -69,7 +69,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             return binding.switchNetshield.isChecked
         }
 
-    private var extendedProtocol: Boolean = false
+    private val extendedProtocol: Boolean
+        get() {
+            return binding.radioGroup.checkedRadioButtonId == R.id.radioFullBlocking
+        }
 
     fun isSwitchVisible() = binding.root.isVisible
 
@@ -82,8 +85,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             switchNetshield.isChecked = newProtocol != NetShieldProtocol.DISABLED
             netShieldSettings.isVisible = newProtocol != NetShieldProtocol.DISABLED
             if (newProtocol != NetShieldProtocol.DISABLED) {
-                radioSimpleBlocking.isChecked = newProtocol == NetShieldProtocol.ENABLED
-                radioFullBlocking.isChecked = newProtocol == NetShieldProtocol.ENABLED_EXTENDED
+                val buttonId =
+                    if (newProtocol == NetShieldProtocol.ENABLED) R.id.radioSimpleBlocking else R.id.radioFullBlocking
+                radioGroup.check(buttonId)
             }
             if (isInConnectedScreen) {
                 val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
@@ -199,22 +203,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         })
         onStateChange(initialValue)
         initUserTier(userData)
-        val checkedChangeListener = CompoundButton.OnCheckedChangeListener { view, _ ->
-            if (view.isPressed) {
-                onStateChange(currentState)
-                changeCallback(currentState)
-                checkForReconnection(stateMonitor)
-            }
+        val checkedChangeListener = {
+            onStateChange(currentState)
+            changeCallback(currentState)
+            checkForReconnection(stateMonitor)
         }
-        radioFullBlocking.setOnCheckedChangeListener { buttonView, isChecked ->
-            extendedProtocol = isChecked
-            checkedChangeListener.onCheckedChanged(buttonView, isChecked)
-        }
-        radioSimpleBlocking.setOnCheckedChangeListener { buttonView, isChecked ->
-            extendedProtocol = !isChecked
-            checkedChangeListener.onCheckedChanged(buttonView, isChecked)
-        }
-        switchNetshield.setOnCheckedChangeListener(checkedChangeListener)
+        radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+        switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
 
         val dialogInterceptor: CompoundButton.() -> Boolean = {
             val needsReconnectDialog = withReconnectDialog &&
