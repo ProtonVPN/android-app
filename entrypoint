@@ -44,10 +44,5 @@ if [ -n "$http_proxy" ]; then
   export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$proxyHost -Dhttp.proxyPort=$proxyPort -Dhttps.proxyHost=$proxyHost -Dhttps.proxyPort=$proxyPort -Dhttp.nonProxyHosts=$noProxyHost";
 fi
 
-if [ -d '.git' ]; then
-  echo '[run] detect git ~ fetch development'
-  git fetch origin development
-fi
-
 
 exec "$@"

@@ -11,6 +11,7 @@ default:
     - md5sum app/protonkey.jks
     - md5sum app/service_account.json
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
+    - git fetch origin development
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
