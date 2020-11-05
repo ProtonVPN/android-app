@@ -19,14 +19,17 @@
 package com.protonvpn.android.ui.home
 
 import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.CountryCard
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -42,6 +45,7 @@ class TvHomeViewModel @Inject constructor(
     val selectedCountry = MutableLiveData<VpnCountry>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
+    val vpnStatus = vpnStateMonitor.vpnStatus.map { it.state }
 
     init {
         vpnStateMonitor.vpnStatus.observeForever {
@@ -59,11 +63,27 @@ class TvHomeViewModel @Inject constructor(
 
     fun disconnect() = vpnStateMonitor.disconnect()
 
+    fun isConnected() = vpnStateMonitor.isConnected
+
+    fun quickConnectBackground(context: Context): Int {
+        val server =
+            if (isConnected()) vpnStateMonitor.connectingToServer else serverManager.defaultConnection.server
+        return CountryTools.getFlagResource(context, server?.flag)
+    }
+
+    fun onQuickConnectAction(activity: Activity) {
+        if (vpnStateMonitor.isConnected) {
+            vpnStateMonitor.disconnect()
+        } else {
+            vpnStateMonitor.connect(activity, serverManager.defaultConnection)
+        }
+    }
+
     fun connect(activity: Activity, card: CountryCard?) {
-        val profile = if (card != null)
-            Profile.getTempProfile(serverManager.getBestScoreServer(card.vpnCountry), serverManager)
-        else
-            serverManager.defaultConnection
+        val profile = if (card != null) Profile.getTempProfile(
+            serverManager.getBestScoreServer(card.vpnCountry), serverManager
+        )
+        else serverManager.defaultConnection
         vpnStateMonitor.connect(activity, profile)
     }
 
@@ -75,7 +95,8 @@ class TvHomeViewModel @Inject constructor(
         userData.defaultConnection?.wrapper?.country == vpnCountry.flag
 
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
-        userData.defaultConnection = if (checked) Profile(vpnCountry.countryName, "",
-                ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)) else null
+        userData.defaultConnection = if (checked) Profile(
+            vpnCountry.countryName, "", ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)
+        ) else null
     }
 }

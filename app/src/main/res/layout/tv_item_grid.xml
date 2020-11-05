@@ -1,0 +1,86 @@
+<!--
+ Copyright (c) 2020 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lb="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="@dimen/tv_item_size"
+    android:layout_height="@dimen/tv_item_size"
+    android:background="@color/grey"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imageBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/imageIcon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        lb:layout_constraintBottom_toBottomOf="parent"
+        lb:layout_constraintEnd_toEndOf="parent"
+        lb:layout_constraintStart_toStartOf="parent"
+        lb:layout_constraintTop_toTopOf="@+id/textTitle"
+        lb:layout_viewType="main" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        style="@style/Widget.Leanback.ImageCardView.TitleStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif"
+        android:maxLines="2"
+        android:textSize="14sp"
+        lb:layout_constraintEnd_toEndOf="parent"
+        lb:layout_constraintStart_toStartOf="parent"
+        lb:layout_constraintTop_toTopOf="parent"
+        tools:text="Action title" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        style="@style/Widget.Leanback.ImageCardView.TitleStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:textSize="14sp"
+        lb:layout_constraintBottom_toBottomOf="parent"
+        lb:layout_constraintEnd_toEndOf="parent"
+        lb:layout_constraintStart_toStartOf="parent"
+        lb:layout_constraintTop_toBottomOf="@+id/imageIcon"
+        tools:text="Detailed description" />
+
+    <TextView
+        android:id="@+id/textSubDescription"
+        style="@style/Widget.Leanback.ImageCardView.TitleStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:textSize="10sp"
+        lb:layout_constraintBottom_toBottomOf="parent"
+        lb:layout_constraintEnd_toEndOf="parent"
+        lb:layout_constraintStart_toStartOf="parent"
+        lb:layout_constraintTop_toBottomOf="@+id/textDescription"
+        tools:text="Detailed description" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

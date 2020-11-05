@@ -34,21 +34,25 @@ import androidx.leanback.widget.OnItemViewSelectedListener
 import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.main.TvMapRenderer
+import com.protonvpn.android.tv.models.BackgroundImage
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
 import com.protonvpn.android.tv.models.CountryCard
+import com.protonvpn.android.tv.models.DetailedIconCard
 import com.protonvpn.android.tv.models.IconCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.vpn.VpnState
 import javax.inject.Inject
 
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -71,7 +75,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
 
         setupUi()
-
+        monitorVpnState()
         postponeEnterTransition()
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
@@ -113,6 +117,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         addToBackStack(null)
                     }
                 }
+                is DetailedIconCard -> {
+                    viewModel.onQuickConnectAction(requireActivity())
+                }
+
             }
         }
     }
@@ -125,27 +133,76 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
     }
 
+    private fun monitorVpnState() {
+        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                VpnState.Connected -> {
+                    updateQuickConnect(true)
+                }
+                VpnState.Disabled -> {
+                    updateQuickConnect(false)
+                }
+            }
+        })
+    }
+
+    private fun updateQuickConnect(isConnected: Boolean) {
+        val recentsRow = CardRow(
+            title = R.string.recents,
+            icon = R.drawable.ic_recent,
+            cards = listOf(
+                DetailedIconCard(
+                    title = getString(if (isConnected) R.string.disconnect else R.string.quickConnect),
+                    image =
+                        if (isConnected) R.drawable.ic_notification_disconnected
+                        else R.drawable.ic_tv_quick_connect,
+                    backgroundImage = BackgroundImage(
+                        resId = viewModel.quickConnectBackground(requireContext()),
+                        opacity = if (isConnected) 0.5f else 1.0f
+                    ),
+                    description = if (isConnected) "" else getString(R.string.tvQuickConnectDescription),
+                    subDescription = if (isConnected) "" else getString(R.string.tvQuickConnectSubDescription)
+                )
+            )
+        )
+        if (rowsAdapter!!.size() == 0) {
+            rowsAdapter!!.add(createRow(recentsRow, 0))
+        } else {
+            rowsAdapter!!.replace(0, createRow(recentsRow, 0))
+        }
+    }
+
     private fun createRows() {
-        var index = 0
+        var index = 1
         rowsAdapter?.clear()
+        updateQuickConnect(viewModel.isConnected())
         val cards = viewModel.serverManager.getVpnCountries().groupBy({
             val continent = CountryTools.locationMap[it.flag]?.continent
             debugAssert { continent != null }
             continent
         }, { country ->
-            CountryCard(country.countryName, CountryTools.getFlagResource(requireContext(), country.flag), country)
+            CountryCard(
+                country.countryName,
+                CountryTools.getFlagResource(requireContext(), country.flag),
+                country
+            )
         })
 
         CountryTools.Continent.values().forEach {
             cards[it]?.let { cards ->
-                rowsAdapter!!.add(createRow(CardRow(title = it.nameRes, icon = it.iconRes, cards = cards), index++))
+                rowsAdapter!!.add(
+                    createRow(
+                        CardRow(title = it.nameRes, icon = it.iconRes, cards = cards),
+                        index++
+                    )
+                )
             }
         }
 
         val settingsRow = CardRow(
             title = R.string.drawerSettings,
             icon = 0,
-            cards = listOf(IconCard(getString(R.string.drawerLogout), R.drawable.ic_drawer_logout))) //TODO:
+            cards = listOf(IconCard(getString(R.string.drawerLogout), R.drawable.ic_drawer_logout)))
         rowsAdapter!!.add(createRow(settingsRow, index++))
     }
 
