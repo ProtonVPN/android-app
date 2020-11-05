@@ -31,4 +31,6 @@
     <dimen name="lb_browse_expanded_selected_row_top_padding">8dp</dimen>
     <dimen name="lb_browse_expanded_row_no_hovercard_bottom_padding">8dp</dimen>
     <dimen name="lb_browse_padding_start">16dp</dimen>
+
+    <dimen name="tv_item_size">134dp</dimen>
 </resources>

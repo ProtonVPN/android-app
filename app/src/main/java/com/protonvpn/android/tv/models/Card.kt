@@ -31,3 +31,12 @@ sealed class Card(
 class CountryCard(title: String, @DrawableRes image: Int, val vpnCountry: VpnCountry) : Card(title, image)
 class ServerCard(title: String, @DrawableRes image: Int, val server: Server) : Card(title, image)
 class IconCard(title: String, @DrawableRes image: Int) : Card(title, image)
+class DetailedIconCard(
+    title: String,
+    @DrawableRes image: Int,
+    val backgroundImage: BackgroundImage,
+    val description: String,
+    val subDescription: String
+) : Card(title, image)
+
+class BackgroundImage(@DrawableRes val resId: Int, val opacity: Float)

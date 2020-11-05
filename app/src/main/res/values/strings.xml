@@ -347,6 +347,9 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
     <string name="stateConnectedTo">Connected to %1$s</string>
     <string name="stateNotConnected">You are not connected</string>
+    <string name="recents">Recents</string>
+    <string name="tvQuickConnectDescription">Nearby countries</string>
+    <string name="tvQuickConnectSubDescription">Streaming server</string>
 
     <string name="nameEurope">Europe</string>
     <string name="nameAmerica">America</string>

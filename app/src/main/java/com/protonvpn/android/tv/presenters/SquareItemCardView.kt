@@ -19,26 +19,25 @@
 package com.protonvpn.android.tv.presenters
 
 import android.content.Context
-import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.PresenterSelector
+import android.view.LayoutInflater
+import androidx.leanback.widget.BaseCardView
+import com.protonvpn.android.R
+import com.protonvpn.android.databinding.TvItemGridBinding
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.DetailedIconCard
-import com.protonvpn.android.tv.models.IconCard
-import java.util.HashMap
 
-class CardPresenterSelector(private val context: Context) : PresenterSelector() {
+class SquareItemCardView(context: Context?) : BaseCardView(context, null, R.style.DefaultCardTheme) {
 
-    private val presenters = HashMap<Class<*>, Presenter>()
+    val binding: TvItemGridBinding = TvItemGridBinding.inflate(LayoutInflater.from(getContext()), this, true)
 
-    override fun getPresenter(item: Any): Presenter {
-        require(item is Card) { "Expected item of type '${Card::class.java.name}'" }
-
-        return presenters.getOrPut(item.javaClass) {
-            when (item) {
-                is IconCard -> IconCardPresenter(context)
-                is DetailedIconCard -> SquareItemPresenter(context)
-                else -> ImageCardViewPresenter(context)
-            }
+    fun updateUi(card: Card) = with(binding) {
+        textTitle.text = card.title
+        imageIcon.setImageResource(card.image)
+        if (card is DetailedIconCard) {
+            textDescription.text = card.description
+            textSubDescription.text = card.subDescription
+            imageBackground.setImageResource(card.backgroundImage.resId)
+            imageBackground.alpha = card.backgroundImage.opacity
         }
     }
 }

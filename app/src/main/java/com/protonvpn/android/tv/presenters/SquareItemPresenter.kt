@@ -19,26 +19,13 @@
 package com.protonvpn.android.tv.presenters
 
 import android.content.Context
-import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.PresenterSelector
 import com.protonvpn.android.tv.models.Card
-import com.protonvpn.android.tv.models.DetailedIconCard
-import com.protonvpn.android.tv.models.IconCard
-import java.util.HashMap
 
-class CardPresenterSelector(private val context: Context) : PresenterSelector() {
+class SquareItemPresenter(context: Context?) : AbstractCardPresenter<SquareItemCardView>(context!!) {
 
-    private val presenters = HashMap<Class<*>, Presenter>()
+    override fun onCreateView(): SquareItemCardView = SquareItemCardView(context)
 
-    override fun getPresenter(item: Any): Presenter {
-        require(item is Card) { "Expected item of type '${Card::class.java.name}'" }
-
-        return presenters.getOrPut(item.javaClass) {
-            when (item) {
-                is IconCard -> IconCardPresenter(context)
-                is DetailedIconCard -> SquareItemPresenter(context)
-                else -> ImageCardViewPresenter(context)
-            }
-        }
+    override fun onBindViewHolder(card: Card, cardView: SquareItemCardView) {
+        cardView.updateUi(card)
     }
 }
