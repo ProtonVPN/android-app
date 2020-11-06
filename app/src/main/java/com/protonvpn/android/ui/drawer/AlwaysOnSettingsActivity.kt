@@ -83,7 +83,7 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
 
     private fun SpannableString.insertDrawable(placeholder: String, @DrawableRes drawableRes: Int, sizePx: Float) {
         val start = indexOf(placeholder)
-        val drawable = getDrawable(drawableRes).mutate().apply {
+        val drawable = getDrawable(drawableRes)!!.mutate().apply {
             setBounds(0, 0, sizePx.toInt(), sizePx.toInt())
         }
         setSpan(ImageSpan(drawable), start, start + placeholder.length, 0)

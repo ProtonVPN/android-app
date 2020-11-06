@@ -17,48 +17,101 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutNetshield"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dimmedGrey"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingStart="16dp"
     android:paddingTop="6dp"
     android:paddingEnd="16dp"
     android:paddingBottom="6dp">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchNetshield"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/netshield"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:theme="@style/SCSwitch" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textNetDescription"
+        <LinearLayout
+            android:id="@+id/layoutNetshieldTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textNetShieldTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/netshield"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatToggleButton
+                android:id="@+id/imageExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:clickable="false"
+                android:checked="true"
+                android:background="@android:color/transparent"
+                android:button="@drawable/ic_expandable_selector"
+                android:textOff=""
+                android:textOn="" />
+
+        </LinearLayout>
+
+        <com.protonvpn.android.components.SwitchEx
+            android:id="@+id/switchNetshield"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotationX="2"
+            android:textSize="14sp"
+            android:theme="@style/SCSwitch" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/lightGrey"
-        android:textSize="14sp"
-        tools:text="@string/netShieldEnabledWarning" />
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/textCollapsedMark"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="4dp"
+            android:background="@color/grey"/>
+
+        <TextView
+            android:id="@+id/textNetDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightGrey"
+            android:textSize="14sp"
+            tools:text="@string/netShieldEnabledWarning" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/netShieldSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
+        <com.protonvpn.android.components.RadioButtonEx
             android:id="@+id/radioSimpleBlocking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:layout_marginLeft="-3dp"
             android:text="@string/netShieldBlockMalwareOnly"
-            android:textColor="@color/lightGrey"
+            android:textColor="@color/white"
             android:theme="@style/RadioButton.Branded" />
 
         <LinearLayout
@@ -66,21 +119,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <com.protonvpn.android.components.RadioButtonEx
                 android:id="@+id/radioFullBlocking"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="-3dp"
                 android:text="@string/netShieldFullBlock"
-                android:textColor="@color/lightGrey"
+                android:textColor="@color/white"
                 android:theme="@style/RadioButton.Branded" />
 
             <TextView
                 android:id="@+id/plusFeature"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded_white_normal"
-                android:text="@string/plus"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:text="@string/upgrade"
                 android:textColor="@color/white" />
 
         </LinearLayout>

@@ -34,6 +34,8 @@ import androidx.annotation.StringRes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
+
 @ContentLayout(R.layout.activity_account)
 public class AccountActivity extends BaseActivity {
 
@@ -80,7 +82,7 @@ public class AccountActivity extends BaseActivity {
 
     @OnClick(R.id.buttonManageAccount)
     public void drawerButtonAccount() {
-        openUrl("https://account.protonvpn.com/login");
+        openProtonUrl(this, "https://account.protonvpn.com/login");
     }
 
 }

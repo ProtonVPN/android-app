@@ -29,5 +29,7 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = false
+    @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = false,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false
 ) : java.io.Serializable

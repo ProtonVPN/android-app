@@ -20,6 +20,7 @@ package com.protonvpn.di
 
 import android.content.Context
 import android.content.Intent
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -39,7 +40,8 @@ class MockVpnStateMonitor(
     networkManager: NetworkManager,
     maintenanceTracker: MaintenanceTracker,
     scope: CoroutineScope
-) : VpnStateMonitor(userData, api, vpnBackendProvider, serverListUpdater, trafficMonitor, networkManager, maintenanceTracker, scope) {
+) : VpnStateMonitor(ProtonApplication.getAppContext(), userData, api, vpnBackendProvider,
+        serverListUpdater, trafficMonitor, networkManager, maintenanceTracker, scope) {
 
     override fun prepare(context: Context): Intent? = null
 }

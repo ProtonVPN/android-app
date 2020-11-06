@@ -712,6 +712,9 @@ public class CharonVpnService extends VpnService implements Runnable {
                 }
             }
             catch (Exception ex) {
+                if (ex instanceof SecurityException && ex.getMessage().contains("INTERACT_ACROSS_USERS")) {
+                    setErrorDisconnect(ErrorState.MULTI_USER_PERMISSION);
+                }
                 ex.printStackTrace();
                 return null;
             }

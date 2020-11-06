@@ -187,6 +187,10 @@ public class UIActionsTestHelper {
         onView(Matchers.allOf(withText(text))).equals(nullValue());
     }
 
+    protected void checkIfObjectWithIdAndTextIsNotDisplayed(@IdRes int objectId, String text) {
+        onView(Matchers.allOf(withId(objectId), withText(text), isDisplayed())).equals(nullValue());
+    }
+
     protected void checkIfObjectWithTextIsDisplayed(String text) {
         onView(isRoot()).perform(waitText(text));
         ViewInteraction object = onView(Matchers.allOf(withText(text), isDisplayed()));

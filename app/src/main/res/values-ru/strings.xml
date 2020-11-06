@@ -318,8 +318,9 @@ Kill Switch не позволяет вашему устройству совер
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
   <string name="netShieldReconnectionNeeded">Требуется переподключение</string>
-  <string name="netShieldReconnectionDescription">Для отключения NetShield необходимо перезапустить соединение.</string>
+  <string name="netShieldReconnectionDescription">Для изменения состояния NetShield необходимо перезапустить соединение.</string>
   <string name="netShieldPaidFeature">Вы пытаетесь включить функцию, для которой требуется подписка ProtonVPN plus.</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
+  <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
 </resources>

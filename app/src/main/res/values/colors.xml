@@ -40,6 +40,7 @@
     <color name="grey">#2D2C32</color>
     <color name="dimmedGrey">#2e2e34</color>
     <color name="lightGrey">#97979a</color>
+    <color name="brightGrey">#797979</color>
     <color name="transparent">#00000000</color>
     <color name="bgDrawer">@color/grey</color>
     <color name="bgMap">#2e2e34</color>

@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static com.protonvpn.android.utils.Constants.SIGNUP_URL;
 
 @ContentLayout(R.layout.onboarding_intro)
@@ -133,7 +134,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @OnClick(R.id.buttonSignup)
     public void buttonSignup() {
-        openUrl(SIGNUP_URL);
+        openProtonUrl(this, SIGNUP_URL);
     }
 
     @OnClick(R.id.textSkip)

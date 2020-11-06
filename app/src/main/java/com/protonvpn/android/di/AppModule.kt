@@ -20,11 +20,13 @@ package com.protonvpn.android.di
 
 import android.os.SystemClock
 import com.google.gson.Gson
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.AuthManager
@@ -73,7 +75,12 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideAppConfig(api: ProtonApiRetroFit): AppConfig = AppConfig(scope, api)
+    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData): AppConfig = AppConfig(scope, api, userData)
+
+    @Singleton
+    @Provides
+    fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
+        ApiNotificationManager(scope, System::currentTimeMillis, appConfig)
 
     @Singleton
     @Provides
@@ -91,7 +98,12 @@ class AppModule {
         val logger = CoreLogger()
         val apiFactory = ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
                 NetworkPrefs(appContext), scope)
-        return apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
+        return if (BuildConfig.DEBUG) {
+            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class,
+                certificatePins = emptyArray(), alternativeApiPins = emptyList())
+        } else {
+            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
+        }
     }
 
     @Singleton
@@ -122,6 +134,7 @@ class AppModule {
         maintenanceTracker: MaintenanceTracker,
         apiClient: VpnApiClient
     ) = VpnStateMonitor(
+        ProtonApplication.getAppContext(),
         userData,
         api,
         backendManager,

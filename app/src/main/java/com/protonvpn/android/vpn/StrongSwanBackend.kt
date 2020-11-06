@@ -134,6 +134,7 @@ class StrongSwanBackend(
         VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
         VpnStateService.ErrorState.SESSION_IN_USE -> ErrorType.SESSION_IN_USE
         VpnStateService.ErrorState.MAX_SESSIONS -> ErrorType.MAX_SESSIONS
+        VpnStateService.ErrorState.MULTI_USER_PERMISSION -> ErrorType.MULTI_USER_PERMISSION
         else -> ErrorType.GENERIC_ERROR
     }
 

@@ -55,7 +55,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="loaderNotConnected">Nie połączono (nie jesteś chroniony)</string>
   <string name="loaderConnectedTo">Połączono z %1$s</string>
   <string name="loaderDisconnecting">Rozłączanie</string>
-  <string name="loaderReconnecting">Łączenie ponowne</string>
+  <string name="loaderReconnecting">Ponowne łączenie</string>
   <string name="loaderReconnectNoNetwork">Oczekiwanie na sieć</string>
   <string name="loaderCheckingAvailability">Sprawdzanie dostępności serwera</string>
   <string name="loaderCancel">Anuluj połączenie</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Próbujesz połączyć się z serwerem, który wymaga płatnej subskrypcji.\nUlepsz swoją subskrypcję, aby uzyskać dostęp do szybkich serwerów we wszystkich krajach. </string>
   <string name="restrictedPlus">Próbujesz połączyć się z serwerem, który wymaga subskrypcji ProtonVPN Plus lub wyższej.\nUlepsz swoją subskrypcję, aby uzyskać dostęp do serwerów we wszystkich krajach.</string>
   <string name="restrictedSecureCore">Secure Core to funkcja premium, która wymaga planu ProtonVPN Plus lub wyższego. Funkcja Secure Core dodaje zaawansowaną ochronę przed monitorowaniem serwera VPN.\nAby móc korzystać z funkcji Secure Core, sprawdź inne plany subskrypcji, które zawierają tę opcję.</string>
-  <string name="errorUserDelinquent">Twoje konto ma obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent">Twoje konto posiada obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
   <string name="errorMaxSessions">Osiągnąłeś maksymalną liczbę jednoczesnych połączeń, dozwolonych dla Twojego konta. Aby zwiększyć liczbę połączeń, ulepsz swój plan ProtonVPN.</string>
   <string name="errorEmptyName">Nazwa profilu nie może być pusta</string>
   <string name="errorEmptyCountry">Pole kraju nie może być puste</string>
@@ -318,8 +318,9 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
   <string name="paidFeature">Płatna funkcja</string>
   <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
-  <string name="netShieldReconnectionDescription">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
+  <string name="netShieldReconnectionDescription">Aby zmienić ustawienia funkcji NetShield, musisz ponownie nawiązać połączenie.</string>
   <string name="netShieldPaidFeature">Próbujesz włączyć funkcję, która wymaga subskrypcji ProtonVPN Plus.</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
-  <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
+  <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
+  <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
 </resources>

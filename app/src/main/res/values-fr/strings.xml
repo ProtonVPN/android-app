@@ -96,7 +96,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsShowIconTitle">Icône d\'état</string>
   <string name="settingsShowIconDescription">Affiche une icône dans la barre d\'état pour indiquer l\'état du VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN démarrera automatiquement à chaque démarrage du système</string>
-  <string name="settingsBypassLocalTitle">Autoriser les connections LAN</string>
+  <string name="settingsBypassLocalTitle">Autoriser les connexions LAN</string>
   <string name="settingsBypassLocalDetails">Cela vous permettra de contourner le VPN et de vous connecter à des périphériques sur votre réseau local, comme votre imprimante. Ces connexions ne sont pas cryptées</string>
   <string name="settingsDnsLeakTitle">Fuites DNS</string>
   <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif)</string>
@@ -311,8 +311,9 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="dialogDontShowAgain">Ne plus afficher</string>
   <string name="paidFeature">Fonctionnalité payante</string>
   <string name="netShieldReconnectionNeeded">Reconnexion nécessaire</string>
-  <string name="netShieldReconnectionDescription">Votre connexion doit être relancée pour désactiver NetShield.</string>
+  <string name="netShieldReconnectionDescription">Votre connexion doit être relancée pour appliquer les nouveaux paramètres de Netshield.</string>
   <string name="netShieldPaidFeature">Vous essayez d\'activer une fonctionnalité qui nécessite un abonnement ProtonVPN PLUS.</string>
   <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
   <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
+  <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Veuillez désactiver l\'un d\'entre eux et redémarrer votre appareil.</string>
 </resources>
