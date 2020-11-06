@@ -25,7 +25,7 @@ buildscript {
 
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.7.2'
+    id 'com.github.triplet.play' version '3.0.0'
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
 }
 
@@ -283,9 +283,9 @@ android {
 }
 
 play {
-    serviceAccountCredentials = file(serviceAccountCredentialsPath)
-    track = 'internal'
-    releaseName = Helpers.fullVersionName
+    serviceAccountCredentials.set(file(serviceAccountCredentialsPath))
+    track.set('internal')
+    releaseName.set(Helpers.fullVersionName)
 }
 
 task publishGenerateReleaseNotes {
