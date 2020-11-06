@@ -7,7 +7,7 @@
 -include .env
 
 branch ?= development
-NAME_IMAGE ?= "$(CI_REGISTRY_IMAGE)"
+NAME_IMAGE ?= $(CI_REGISTRY_IMAGE)
 TAG_IMAGE := branch-$(subst /,-,$(branch))
 MAIN_BRANCH_FOR_LATEST ?= development
 
