@@ -74,7 +74,10 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @Override
     public void onBackPressed() {
-        navigateTo(LoginActivity.class);
+        if (AndroidUtils.INSTANCE.isTV(this))
+            navigateTo(TvLoginActivity.class);
+        else
+            navigateTo(LoginActivity.class);
         finish();
     }
 
