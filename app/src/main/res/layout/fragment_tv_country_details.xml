@@ -85,6 +85,8 @@
         android:layout_height="wrap_content"
         android:text="@string/tv_detail_connect_streaming"
         android:visibility="gone"
+        android:drawableStart="@drawable/connect_streaming_drawable"
+        android:drawablePadding="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/flag"
         app:layout_constraintStart_toStartOf="@+id/countryName" />
 
