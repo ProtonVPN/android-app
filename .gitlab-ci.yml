@@ -75,8 +75,8 @@ create-ci-image-latest:
 cache:
   key: gradle
   paths:
-    - .gradle/wrapper
     - .gradle/caches
+  policy: pull
 
 java style:
   stage: analyze
@@ -99,6 +99,20 @@ detekt analysis:
     expire_in: 4 weeks
     reports:
         codequality: app/build/reports/detekt.json
+
+build cache:
+  stage: build
+  script:
+    - ./gradlew assemble
+  only:
+    changes:
+      - "*.gradle"
+      - gradle.properties
+  cache:
+    key: gradle-
+    paths:
+      - .gradle/caches
+    policy: push
 
 build debug:
   stage: build
