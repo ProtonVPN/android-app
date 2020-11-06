@@ -42,9 +42,6 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 #RUN echo 'deb http://http.us.debian.org/debian/ testing non-free contrib main' >> /etc/apt/sources.list && \
 #  apt-get update && apt-get install -y swig
 
-WORKDIR /root
-
-COPY entrypoint /usr/local/bin
 RUN useradd -ms /bin/bash pedro
 WORKDIR /home/pedro
 USER pedro
@@ -68,20 +65,14 @@ RUN mkdir android-sdk-linux && \
     "cmake;3.10.2.4988404" \
     "cmake;3.6.4111459" \
     "extras;android;m2repository" \
-    "ndk;21.3.6528147" >/dev/null && \
-   export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/ && \
-   export ANDROID_SDK_ROOT=$PWD/android-sdk-linux && \
-   echo "export ANDROID_SDK_ROOT=${PWD}/android-sdk-linux" >> $HOME/.bashrc && \
-   echo "export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/" >> $HOME/.bashrc && \
-   echo "export ANDROID_HOME=$PWD/android-sdk-linux/" >> $HOME/.bashrc
+    "ndk;21.3.6528147" >/dev/null
 
-RUN wget https://services.gradle.org/distributions/gradle-6.5-bin.zip -P /tmp && \
-  unzip -d $HOME/gradle /tmp/gradle-6.5-bin.zip && \
-  rm /tmp/gradle-6.5-bin.zip && \
-  mkdir -p "$HOME/.local/bin/gradlew" && \
-  "$HOME/gradle/gradle-6.5/bin/gradle" wrapper --gradle-version 6.5 --distribution-type all -p "$HOME/.local/bin/gradlew" && \
-  "$HOME/gradle/gradle-6.5/bin/gradle" wrapper -p "$HOME/.local/bin/gradlew" && \
-  export GRADLE_HOME="$HOME/gradle/gradle-6.5" && \
-  echo "export GRADLE_HOME=$HOME/gradle/gradle-6.5" >> $HOME/.bashrc
+ENV ANDROID_HOME /home/pedro/android-sdk-linux
+ENV ANDROID_SDK_ROOT /home/pedro/android-sdk-linux
+ENV ANDROID_CLI $ANDROID_HOME/cmdline-tools
+ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
 
+COPY entrypoint /usr/local/bin
+
+WORKDIR /home/pedro/project
 ENTRYPOINT ["/usr/local/bin/entrypoint"]

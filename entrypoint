@@ -2,7 +2,7 @@
 set -eo pipefail
 
 
-source .bashrc
+source "${HOME}/.bashrc"
 
 if [ -n "$CI_SERVER_HOST" ]; then
 
@@ -26,10 +26,7 @@ fi
 
 ls -lha
 
-export ANDROID_HOME="$HOME/android-sdk-linux/"
-export PATH="$PATH:${ANDROID_HOME}cmdline-tools/tools/bin"
-export GRADLE_USER_HOME="${PWD}/.gradle"
-export ANDROID_SDK_ROOT="$HOME/android-sdk-linux"
+#export GRADLE_USER_HOME="${HOME}/.gradle"
 
 if [ -f "$GRADLE_USER_HOME" ]; then
   chmod +x ./gradlew
@@ -44,5 +41,7 @@ if [ -n "$http_proxy" ]; then
   export JAVA_TOOL_OPTIONS="-Dhttp.proxyHost=$proxyHost -Dhttp.proxyPort=$proxyPort -Dhttps.proxyHost=$proxyHost -Dhttps.proxyPort=$proxyPort -Dhttp.nonProxyHosts=$noProxyHost";
 fi
 
+export GRADLE_USER_HOME="${CI_PROJECT_DIR:-$PWD}/.gradle"
 
-exec "$@"
+"$@"
+

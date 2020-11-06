@@ -1,8 +1,8 @@
 default:
   image:
     # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
-    # name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
-    name: $CI_REGISTRY_IMAGE:branch-development
+    name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
+    #name: $CI_REGISTRY_IMAGE:branch-development
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -18,6 +18,7 @@ variables:
 
 stages:
   - image
+  - cache-gradle
   - analyze
   - build
   - test
@@ -30,13 +31,15 @@ stages:
 
 ########## Manage the Image ##########
 .common-image:
+  cache: {}
   stage: image
-  image: docker:stable
+  image: $CI_REGISTRY/infra/kubernetes/images/docker:stable
   interruptible: true
   variables:
     DOCKER_HOST: tcp://docker:2375
   services:
-    - docker:dind
+    - name: $CI_REGISTRY/infra/kubernetes/images/docker:dind
+      alias: docker
   before_script:
     - apk update
     - apk add make bash
@@ -51,8 +54,8 @@ stages:
 create-ci-image-auto:
   extends: .common-image
   only:
-    refs:     
-      - development 
+    refs:
+      - development
     changes:
       - entrypoint
       - Dockerfile
@@ -78,7 +81,20 @@ cache:
     - .gradle/caches
   policy: pull
 
+
+generate-cache:
+  cache: {}
+  stage: cache-gradle
+  before_script: []
+  script:
+    - ./gradlew --refresh-dependencies
+  artifacts:
+    expire_in: 2 hours
+    paths:
+      - .gradle
+
 java style:
+  cache: {}
   stage: analyze
   tags:
     - android
@@ -90,6 +106,7 @@ java style:
     - app/build/reports/checkstyle
 
 detekt analysis:
+  cache: {}
   stage: analyze
   tags:
     - android
@@ -102,6 +119,9 @@ detekt analysis:
 
 build cache:
   stage: build
+  needs:
+    - job: generate-cache
+      artifacts: true
   script:
     - ./gradlew assemble
   only:
@@ -118,6 +138,9 @@ build debug:
   stage: build
   tags:
     - android
+  needs:
+    - job: generate-cache
+      artifacts: true
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
@@ -135,6 +158,9 @@ build blue:
   stage: build
   tags:
     - android
+  needs:
+    - job: generate-cache
+      artifacts: true
   script:
     - ./gradlew assembleBlueDebug
   when: manual
@@ -145,6 +171,9 @@ build blue:
 
 build google play release:
   stage: build
+  needs:
+    - job: generate-cache
+      artifacts: true
   except:
     - master
   tags:
@@ -160,6 +189,9 @@ build google play release:
 
 build release (auto):
   stage: build
+  needs:
+    - job: generate-cache
+      artifacts: true
   only:
     refs:
       - master
@@ -175,6 +207,9 @@ build release (auto):
 
 unit tests:
   stage: test
+  needs:
+    - job: generate-cache
+      artifacts: true
   tags:
     - android
   script:
@@ -182,6 +217,9 @@ unit tests:
 
 .tests_preparation_script: &tests_preparation_script
   stage: test
+  needs:
+    - job: generate-cache
+      artifacts: true
   tags:
     - android
   script:
