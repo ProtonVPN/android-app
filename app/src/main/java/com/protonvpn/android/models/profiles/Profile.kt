@@ -37,7 +37,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
-    private var netShieldProtocol: NetShieldProtocol? = null
+
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
     else
@@ -69,14 +69,10 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
 
     fun getNetShieldProtocol(userData: UserData, appConfig: AppConfig): NetShieldProtocol {
         return if (appConfig.getFeatureFlags().netShieldEnabled) {
-            netShieldProtocol ?: userData.netShieldProtocol
+            userData.netShieldProtocol
         } else {
             NetShieldProtocol.DISABLED
         }
-    }
-
-    fun setNetShieldProtocol(value: NetShieldProtocol) {
-        netShieldProtocol = value
     }
 
     fun getProtocol(userData: UserData): VpnProtocol =

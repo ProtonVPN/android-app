@@ -58,6 +58,7 @@
     <string name="state_user_vpn_password" translatable="false">Waiting for user VPN password</string>
     <string name="state_user_vpn_password_cancelled" translatable="false">VPN password input dialog cancelled</string>
     <string name="state_user_vpn_permission_cancelled" translatable="false">VPN API permission dialog cancelled</string>
+    <string name="state_multiuser_permission_error" translatable="false">Multiuser permission problem (conflict between Dual Apps and Split Tunneling)</string>
     <string name="default_cipherlist_test" translatable="false">aes-256-gcm bf-cbc sha1</string>
 
     <!-- APP restriction strings -->

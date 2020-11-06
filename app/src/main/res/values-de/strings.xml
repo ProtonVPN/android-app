@@ -309,8 +309,9 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="dialogDontShowAgain">Nicht erneut anzeigen</string>
   <string name="paidFeature">Kostenpflichtige Funktion</string>
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
-  <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu aufgebaut werden, um NetShield zu deaktivieren.</string>
+  <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu gestartet werden, um den NetShield-Status zu ändern.</string>
   <string name="netShieldPaidFeature">Sie versuchen eine Funktion zu aktivieren, die ein ProtonVPN Plus Abonnement erfordert.</string>
   <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
   <string name="onMaintenanceDetected">Der VPN-Server, mit dem Sie verbunden waren, wird derzeit gewartet. Wir haben Sie automatisch wieder mit dem schnellsten verfügbaren Server verbunden.</string>
+  <string name="errorTunMultiUserPermission">Die VPN-Verbindung konnte aufgrund eines Konflikts zwischen Dual-App (z.B. Dual Messenger) und Split-Tunneling nicht initialisiert werden. Bitte deaktivieren Sie eine davon und starten Sie Ihr Gerät neu.</string>
 </resources>

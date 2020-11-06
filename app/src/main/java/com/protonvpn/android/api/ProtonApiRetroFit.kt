@@ -34,7 +34,7 @@ import okhttp3.RequestBody
 //TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
 open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: ApiManager<ProtonVPNRetrofit>) {
 
-    suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
+    open suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         manager { getAppConfig() }
 
     suspend fun getLocation() =
@@ -66,6 +66,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
 
     open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
         makeCall(callback) { it.getVPNInfo() }
+
+    open suspend fun getApiNotifications() =
+        manager { getApiNotifications() }
 
     open suspend fun logout() =
         manager { postLogout() }

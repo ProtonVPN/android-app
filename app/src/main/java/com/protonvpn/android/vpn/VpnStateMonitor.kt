@@ -39,6 +39,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.AndroidUtils.isChromeOS
+import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Log
@@ -62,6 +64,7 @@ import javax.inject.Singleton
 
 @Singleton
 open class VpnStateMonitor(
+    private val appContext: Context,
     private val userData: UserData,
     private val api: ProtonApiRetroFit,
     private val backendProvider: VpnBackendProvider,
@@ -146,7 +149,7 @@ open class VpnStateMonitor(
         Log.i("create state monitor")
         bindTrafficMonitor()
         maintenanceTracker.initWithStateMonitor(this)
-        ProtonApplication.getAppContext().registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
+        appContext.registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
                 DISCONNECT_ACTION -> disconnect()
             }
@@ -180,8 +183,10 @@ open class VpnStateMonitor(
 
     private fun bindTrafficMonitor() {
         trafficMonitor.init(vpnStatus)
-        trafficMonitor.trafficStatus.observeForever {
-            updateNotification(it)
+        if (!(appContext.isChromeOS() || appContext.isTV())) {
+            trafficMonitor.trafficStatus.observeForever {
+                updateNotification(it)
+            }
         }
     }
 

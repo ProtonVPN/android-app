@@ -18,11 +18,13 @@
  */
 package com.protonvpn.android.vpn;
 
+import android.animation.LayoutTransition;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,7 +51,6 @@ import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.TrafficUpdate;
-import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.NetShieldSwitch;
@@ -58,6 +59,8 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
+import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.DebugUtils;
@@ -79,6 +82,8 @@ import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @ContentLayout(R.layout.vpn_state_fragment)
 public class VpnStateFragment extends BaseFragment {
@@ -153,8 +158,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.textSupport)
     public void textSupport() {
-        ((BaseActivity) getActivity()).openUrl(
-            "https://protonvpn.com/support/solutions-android-vpn-app-issues/");
+        openProtonUrl(getActivity(), "https://protonvpn.com/support/solutions-android-vpn-app-issues/");
     }
 
     @OnClick(R.id.buttonSaveToProfile)
@@ -187,20 +191,31 @@ public class VpnStateFragment extends BaseFragment {
     public void onViewCreated() {
         registerForEvents();
         updateNotConnectedView();
-
+        forceAnimeNestedLayouts();
         serverListUpdater.getIpAddress()
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
-        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, userData, stateMonitor, s -> {
+        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, getViewLifecycleOwner(), userData, stateMonitor, s -> {
             userData.setNetShieldProtocol(s);
             return null;
         });
+        userData.getNetShieldLiveData().observe(getViewLifecycleOwner(), state -> {
+            if (state != null) {
+                switchNetShield.setNetShieldValue(state);
+            }
+        });
         initChart();
+
         stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
             .getTrafficStatus()
             .observe(getViewLifecycleOwner(), this::onTrafficUpdate);
+    }
+
+    private void forceAnimeNestedLayouts() {
+        LayoutTransition layoutTransition = ((ViewGroup) layoutConnected).getLayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
     @Override
@@ -258,7 +273,12 @@ public class VpnStateFragment extends BaseFragment {
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
+                if (newState == BottomSheetBehavior.STATE_EXPANDED && appConfig.getFeatureFlags().getNetShieldEnabled()
+                    && switchNetShield.isSwitchVisible()) {
+                    OnboardingDialogs.showDialogOnView(getContext(), switchNetShield,
+                        getString(R.string.netshield), getString(R.string.onboardingNetshield),
+                        OnboardingPreferences.NETSHIELD_DIALOG);
+                }
             }
 
             @Override
@@ -454,11 +474,6 @@ public class VpnStateFragment extends BaseFragment {
                 && stateMonitor.getConnectingToServer() != null ?
                 stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
             connectedServer = vpnState.getServer();
-            switchNetShield.init(profile.getNetShieldProtocol(userData, appConfig), appConfig, userData,
-                stateMonitor, s -> {
-                    userData.setNetShieldProtocol(s);
-                    return null;
-                });
         }
         if (isAdded()) {
             statusDivider.setVisibility(View.VISIBLE);
@@ -538,6 +553,10 @@ public class VpnStateFragment extends BaseFragment {
             case UNPAID:
                 showAuthError(R.string.errorUserDelinquent);
                 Log.exception(new VPNException("Overdue payment"));
+            case MULTI_USER_PERMISSION:
+                stateMonitor.disconnect();
+                showAuthError(R.string.errorTunMultiUserPermission);
+                Log.exception(new VPNException("Dual-apps permission error"));
             default:
                 showErrorDialog(R.string.error_generic);
                 Log.exception(new VPNException("Unspecified failure while connecting"));

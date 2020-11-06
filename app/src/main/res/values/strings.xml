@@ -150,6 +150,7 @@
     <string name="onboardingMiddleSlideDescription">Beat censorship and regional restrictions. We have no ads, no bandwidth limits, and don\'t sell your data.</string>
     <string name="onboardingEndingSlideTitle">Your security is our priority</string>
     <string name="onboardingEndingSlideDescription">We are a security company. Whether it is our secure core architecture or advanced encryption, security always comes first.</string>
+    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield. </string>
     <string name="onboardingFAB">Quick connect / Profiles</string>
     <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>
     <string name="onboardingSignup">Sign up</string>
@@ -335,9 +336,12 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="netShieldFullBlock">Block malware, tracking, ads</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="paidFeature">Paid feature</string>
+    <string name="upgradeRequired">Upgrade required</string>
     <string name="netShieldReconnectionNeeded">Reconnection needed</string>
-    <string name="netShieldReconnectionDescription">Your connection needs to be restarted to disable NetShield.</string>
-    <string name="netShieldPaidFeature">You are trying to enable feature which requires ProtonVPN Plus subscription.</string>
+    <string name="netShieldReconnectionDescription">Your connection needs to be restarted to change NetShield mode.\n\nNote: If some sites don\'t load, try disabling NetShield.</string>
+    <string name="netShieldReconnectionDescriptionDisabling">Your connection needs to be restarted to deactivate NetShield mode.</string>
+    <string name="netShieldPaidFeature">This feature requires ProtonVPN Plus.\nUpgrade online to unlock all features and support ProtonVPN.</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
 </resources>

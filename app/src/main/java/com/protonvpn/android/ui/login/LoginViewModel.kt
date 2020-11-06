@@ -89,6 +89,7 @@ class LoginViewModel @Inject constructor(
             loginWithGuestHole(context, password, prepareIntentHandler)?.let { result = it }
         }
         loginState.postValue(result)
+        appConfig.update()
     }
 
     private suspend fun loginWithGuestHole(

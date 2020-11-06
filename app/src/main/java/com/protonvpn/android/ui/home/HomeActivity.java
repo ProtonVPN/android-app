@@ -39,6 +39,7 @@ import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.ProtonApiRetroFit;
+import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -50,11 +51,14 @@ import com.protonvpn.android.components.MinimizedNetworkLayout;
 import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SecureCoreCallback;
+import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
+import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
@@ -69,6 +73,7 @@ import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.ViewModelFactory;
 import com.protonvpn.android.vpn.LogActivity;
 import com.protonvpn.android.vpn.VpnStateFragment;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -86,6 +91,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -93,6 +99,8 @@ import butterknife.OnClick;
 import io.sentry.Sentry;
 import io.sentry.event.UserBuilder;
 import kotlin.Unit;
+
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @ContentLayout(R.layout.activity_home)
 public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
@@ -106,8 +114,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
+    @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
     VpnStateFragment fragment;
-    public @BindView(R.id.switchSecureCore) SwitchCompat switchSecureCore;
+    public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
 
     @Inject ProtonApiRetroFit api;
@@ -116,17 +125,24 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject AuthManager authManager;
+    @Inject AppConfig appConfig;
+
+    @Inject ViewModelFactory viewModelFactory;
+    private HomeViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         registerForEvents();
         super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(HtmlTools.fromHtml(getString(R.string.toolbar_app_title)));
         initDrawer();
         initDrawerView();
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        initSecureCoreSwitch();
         Sentry.getContext().setUser(new UserBuilder().setUsername(userData.getUser()).build());
         checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
@@ -159,6 +175,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             finish();
             navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
+        });
+
+        viewModel.getHaveNonVisitedOffers().observe(this, (unreadNotifications) ->
+            toggleDrawable.setShowIndicator(unreadNotifications));
+
+        viewModel.getOffersViewModel().observe(this, (notifications) -> {
+            drawerNotifications.updateNotifications(this, notifications);
         });
 
         serverListUpdater.onHomeActivityCreated(this);
@@ -201,6 +224,29 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (getIntent().getBooleanExtra("OpenStatus", false)) {
             fragment.openBottomSheet();
         }
+    }
+
+    private void initSecureCoreSwitch() {
+        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        switchSecureCore.setSwitchClickInterceptor((switchView) -> {
+            if (vpnStateMonitor.isConnected() && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
+                new MaterialDialog.Builder(getContext()).title(R.string.warning)
+                    .theme(Theme.DARK)
+                    .content(R.string.disconnectDialogDescription)
+                    .cancelable(false)
+                    .positiveText(R.string.yes)
+                    .negativeText(R.string.no)
+                    .negativeColor(ContextCompat.getColor(this, R.color.white))
+                    .onPositive((dialog, which) -> {
+                        switchView.toggle();
+                        postSecureCoreSwitched(switchView);
+                        vpnStateMonitor.disconnect();
+                    })
+                    .show();
+                return true;
+            }
+            return false;
+        });
     }
 
     @SuppressLint("CheckResult")
@@ -288,7 +334,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @OnClick(R.id.drawerButtonHelp)
     public void drawerButtonHelp() {
-        openUrl("https://protonvpn.com/support");
+        openProtonUrl(this, "https://protonvpn.com/support");
     }
 
     @OnClick(R.id.drawerButtonLogout)
@@ -409,25 +455,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @OnCheckedChanged(R.id.switchSecureCore)
     public void switchSecureCore(final SwitchCompat switchCompat, final boolean isChecked) {
-        if (vpnStateMonitor.isConnected() && (!vpnStateMonitor.isConnectingToSecureCore() && isChecked) || (
-            vpnStateMonitor.isConnectingToSecureCore() && !isChecked)) {
-            new MaterialDialog.Builder(getContext()).title(R.string.warning)
-                .theme(Theme.DARK)
-                .content(R.string.disconnectDialogDescription)
-                .cancelable(false)
-                .positiveText(R.string.yes)
-                .negativeText(R.string.no)
-                .negativeColor(ContextCompat.getColor(this, R.color.white))
-                .onPositive((dialog, which) -> {
-                    postSecureCoreSwitched(switchCompat);
-                    vpnStateMonitor.disconnect();
-                })
-                .onNegative((materialDialog, dialogAction) -> switchCompat.setChecked(!isChecked))
-                .show();
-        }
-        else {
-            postSecureCoreSwitched(switchCompat);
-        }
+        postSecureCoreSwitched(switchCompat);
     }
 
     // FIXME: API needs to inform app of changes, not other way
@@ -531,7 +559,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void showSecureCoreChangeDialog(Profile profileToConnect) {
         String disconnect =
             vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : ".";
-        boolean isSecureCoreServer = profileToConnect.getServer().isSecureCoreServer();
+        boolean isSecureCoreServer = profileToConnect.isSecureCore();
         new MaterialDialog.Builder(this).title(R.string.warning)
             .theme(Theme.DARK)
             .content(HtmlTools.fromHtml(

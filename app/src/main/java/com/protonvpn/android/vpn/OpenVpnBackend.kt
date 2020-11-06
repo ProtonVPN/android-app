@@ -220,6 +220,8 @@ class OpenVpnBackend(
                 VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
             ConnectionStatus.UNKNOWN_LEVEL ->
                 VpnState.Error(ErrorType.GENERIC_ERROR)
+            ConnectionStatus.LEVEL_MULTI_USER_PERMISSION ->
+                VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
         }
         DebugUtils.debugAssert {
             (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)

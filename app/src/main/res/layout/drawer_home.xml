@@ -154,6 +154,13 @@
                 android:text="@string/drawerLogout"
                 android:drawableStart="@drawable/ic_drawer_logout" />
 
+            <com.protonvpn.android.ui.drawer.DrawerNotificationsContainer
+                android:id="@+id/drawerNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:orientation="vertical"/>
         </LinearLayout>
 
     </ScrollView>

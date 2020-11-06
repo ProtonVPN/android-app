@@ -52,6 +52,8 @@ import de.blinkt.openpvpn.core.IOpenVPNServiceInternal;
 import de.blinkt.openpvpn.core.OpenVPNService;
 import kotlin.Unit;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
+
 public abstract class VpnActivity extends BaseActivity {
 
     private static final int PREPARE_VPN_SERVICE = 0;
@@ -153,7 +155,7 @@ public abstract class VpnActivity extends BaseActivity {
                 .content(server.isSecureCoreServer() ? R.string.restrictedSecureCore :
                     server.isPlusServer() ? R.string.restrictedPlus : R.string.restrictedBasic)
                 .positiveText(R.string.upgrade)
-                .onPositive((dialog, which) -> openUrl(Constants.DASHBOARD_URL))
+                .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
                 .negativeText(R.string.cancel)
                 .show();
         }

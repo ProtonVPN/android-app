@@ -80,7 +80,7 @@
                     android:text="@string/mapSwitchSecureCore"
                     android:textColor="@color/white" />
 
-                <androidx.appcompat.widget.SwitchCompat
+                <com.protonvpn.android.components.SwitchEx
                     android:id="@+id/switchSecureCore"
                     android:layout_width="wrap_content"
                     android:layout_height="52dp"

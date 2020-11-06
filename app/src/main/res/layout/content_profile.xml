@@ -91,14 +91,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/palette" />
 
-            <com.protonvpn.android.components.NetShieldSwitch
-                android:id="@+id/netShieldSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:descriptionText="@string/netShieldEnabledWarning"
-                app:withReconnectConfirmation="false"
-                app:withPadding="true" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutCountry"
                 android:layout_width="match_parent"

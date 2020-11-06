@@ -18,24 +18,29 @@
  */
 package com.protonvpn.android.utils
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.annotation.DimenRes
+import com.protonvpn.android.R
 
 object AndroidUtils {
 
     fun isPackageSignedWith(
-            context: Context,
-            packageName: String,
-            expectedSignature: String
+        context: Context,
+        packageName: String,
+        expectedSignature: String
     ): Boolean = with(context) {
         val oldAppInfo = packageManager.getPackageInfo(packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
@@ -50,10 +55,15 @@ object AndroidUtils {
         }
     }
 
-    inline fun <reified T : Any> Context.launchActivity(
-            options: Bundle? = null,
-            noinline init: Intent.() -> Unit = {}) {
+    fun Context.isTV(): Boolean {
+        val uiMode: Int = resources.configuration.uiMode
+        return uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION
+    }
 
+    inline fun <reified T : Any> Context.launchActivity(
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
+    ) {
         val intent = Intent(this, T::class.java)
         intent.init()
         startActivity(intent, options)
@@ -92,4 +102,22 @@ object AndroidUtils {
     fun Resources.getFloatRes(@DimenRes id: Int) = TypedValue().also {
         getValue(id, it, true)
     }.float
+
+    fun Context.isChromeOS() =
+            packageManager.hasSystemFeature("org.chromium.arc.device_management")
 }
+
+fun Context.openUrl(url: Uri) {
+    try {
+        val browserIntent = Intent(Intent.ACTION_VIEW, url)
+        if (this !is Activity)
+            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        browserIntent.addCategory(Intent.CATEGORY_BROWSABLE)
+        startActivity(browserIntent)
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
+    }
+}
+
+fun Context.openProtonUrl(url: String) =
+    openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())
