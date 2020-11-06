@@ -71,8 +71,6 @@ RUN mkdir android-sdk-linux && \
     "cmake;3.10.2.4988404" \
     "cmake;3.6.4111459" \
     "extras;android;m2repository" \
-    "ndk;20.0.5594570" \
-    "ndk;21.0.6113669" \
     "ndk;21.3.6528147" >/dev/null && \
 
    export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/ && \
