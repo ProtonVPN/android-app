@@ -58,8 +58,16 @@ RUN mkdir android-sdk-linux && \
   unzip -d android-sdk-linux/cmdline-tools android-sdk.zip && \
   rm android-sdk.zip && \
 
+  wget https://services.gradle.org/distributions/gradle-6.5-bin.zip -P /tmp \
+  && unzip -d $HOME/gradle /tmp/gradle-6.5-bin.zip \
+
+  mkdir "$HOME/.local/bin/gradlew" \
+  && $HOME/gradle/gradle-6.5/bin/gradle wrapper --gradle-version 6.5 --distribution-type all -p "$HOME/.local/bin/gradlew" \
+  && $HOME/gradle/gradle-6.5/bin/gradle wrapper -p "$HOME/.local/bin/gradlew" && \
+
   export ANDROID_HOME=$PWD/android-sdk-linux && \
   export ANDROID_CLI="${ANDROID_HOME}/cmdline-tools" && \
+  export GRADLE_HOME=$HOME/gradle/gradle-6.5 && \
 
   yes | "${ANDROID_CLI}/tools/bin/sdkmanager" \
     --sdk_root="${ANDROID_HOME}" \
