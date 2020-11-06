@@ -58,6 +58,8 @@ class TvHomeViewModel @Inject constructor(
         serverListUpdater.getServersList(null)
     }
 
+    val haveAccessToStreaming get() = userData.isUserPlusOrAbove
+
     fun isConnectedToCountry(card: CountryCard) =
         vpnStateMonitor.isConnectedToAny(card.vpnCountry.connectableServers)
 

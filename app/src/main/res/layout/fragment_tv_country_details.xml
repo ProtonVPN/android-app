@@ -36,17 +36,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/au_flag_hd" />
 
-    <CheckBox
-        android:id="@+id/defaultConnection"
-        style="@style/LeanbackPreference.CheckBoxPreference"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:buttonTint="@color/tvAccent"
-        android:text="@string/tv_detail_default_connection_checkbox"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/flag" />
-
     <TextView
         android:id="@+id/countryName"
         android:layout_width="wrap_content"
@@ -100,6 +89,17 @@
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@+id/connectStreaming"
         app:layout_constraintTop_toTopOf="@+id/connectStreaming" />
+
+    <CheckBox
+        android:id="@+id/defaultConnection"
+        style="@style/LeanbackPreference.CheckBoxPreference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:buttonTint="@color/tvAccent"
+        android:text="@string/tv_detail_default_connection_checkbox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/flag" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

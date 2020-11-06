@@ -117,10 +117,21 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         }
 
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
-            val connectedHere = viewModel.isConnectedToCountry(card)
-            binding.connectFastest.isVisible = !connectedHere
-            binding.connectStreaming.isVisible = !connectedHere
-            binding.disconnect.isVisible = connectedHere
+            val showConnectButtons = !viewModel.isConnectedToCountry(card)
+
+            with(binding) {
+                if (connectStreaming.isVisible != showConnectButtons) {
+                    connectFastest.isVisible = showConnectButtons
+                    connectStreaming.isVisible = showConnectButtons
+                    if (showConnectButtons) {
+                        if (viewModel.haveAccessToStreaming)
+                            connectStreaming.requestFocus()
+                        else
+                            connectFastest.requestFocus()
+                    }
+                    disconnect.isVisible = !showConnectButtons
+                }
+            }
         })
     }
 
