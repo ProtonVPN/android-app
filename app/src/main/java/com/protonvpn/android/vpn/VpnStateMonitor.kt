@@ -141,6 +141,9 @@ open class VpnStateMonitor(
     fun isConnectedTo(server: Server?) =
             isConnected && connectionParams?.server?.serverId == server?.serverId
 
+    fun isConnectingToCountry(country: String) =
+        connectingToServer?.exitCountry == country
+
     fun isConnectedToAny(servers: List<Server>) =
             isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
                 connectingToDomain in servers.asSequence().map { it.domain }

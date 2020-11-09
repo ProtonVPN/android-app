@@ -24,6 +24,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
@@ -63,8 +64,8 @@ class TvHomeViewModel @Inject constructor(
 
     val haveAccessToStreaming get() = userData.isUserPlusOrAbove
 
-    fun isConnectedToCountry(card: CountryCard) =
-        vpnStateMonitor.isConnectedToAny(card.vpnCountry.connectableServers)
+    fun showConnectButtons(card: CountryCard) =
+        !vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
 
     fun disconnect() = vpnStateMonitor.disconnect()
 
