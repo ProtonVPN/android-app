@@ -28,10 +28,11 @@
 
     <ImageView
         android:id="@+id/flag"
-        android:layout_width="wrap_content"
-        android:layout_height="128dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginStart="64dp"
         android:layout_marginBottom="48dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/defaultConnection"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/au_flag_hd" />
