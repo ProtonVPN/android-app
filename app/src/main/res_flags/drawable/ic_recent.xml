@@ -16,37 +16,45 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="63dp"
-    android:height="74.541468dp"
-    android:viewportWidth="71.236"
-    android:viewportHeight="87.684">
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M1.5,45.105a35.153,35.153 0,0 1,35.153 -35.153"
-        android:strokeWidth="3"
-        android:strokeColor="#595d66"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M26.866,17.855l13.688,-7.9 -13.688,-7.9"
-        android:strokeWidth="3"
-        android:strokeColor="#595d66"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M69.736,42.579a35.153,35.153 0,0 1,-35.153 35.153"
-        android:strokeWidth="3"
-        android:strokeColor="#595d66"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M44.37,69.829l-13.688,7.9 13.688,7.9"
-        android:strokeWidth="3"
-        android:strokeColor="#595d66"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="24dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp">
+        <vector
+            android:width="63dp"
+            android:height="74.541468dp"
+            android:viewportWidth="71.236"
+            android:viewportHeight="87.684">
+            <path
+                android:fillColor="#00000000"
+                android:pathData="M1.5,45.105a35.153,35.153 0,0 1,35.153 -35.153"
+                android:strokeWidth="3"
+                android:strokeColor="#595d66"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+            <path
+                android:fillColor="#00000000"
+                android:pathData="M26.866,17.855l13.688,-7.9 -13.688,-7.9"
+                android:strokeWidth="3"
+                android:strokeColor="#595d66"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+            <path
+                android:fillColor="#00000000"
+                android:pathData="M69.736,42.579a35.153,35.153 0,0 1,-35.153 35.153"
+                android:strokeWidth="3"
+                android:strokeColor="#595d66"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+            <path
+                android:fillColor="#00000000"
+                android:pathData="M44.37,69.829l-13.688,7.9 13.688,7.9"
+                android:strokeWidth="3"
+                android:strokeColor="#595d66"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+        </vector>
+    </item>
+</layer-list>
