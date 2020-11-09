@@ -32,6 +32,7 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import okhttp3.RequestBody
@@ -50,6 +51,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/loads")
     suspend fun getLoads(@Query("IP") ip: String?): LoadsResponse
+
+    @GET("vpn/streamingservices")
+    suspend fun getStreamingServices(): StreamingServicesResponse
 
     @GET("vpn/servers/{serverId}")
     suspend fun getServerDomain(@Path(value = "serverId", encoded = true) serverId: String): ConnectingDomainResponse

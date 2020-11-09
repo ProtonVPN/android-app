@@ -52,6 +52,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     open suspend fun getLoads(ip: String?) =
         manager { getLoads(ip) }
 
+    open suspend fun getStreamingServices() =
+        manager { getStreamingServices() }
+
     suspend fun postLogin(body: LoginBody) =
         manager { postLogin(body) }
 

@@ -18,8 +18,11 @@
  */
 package com.protonvpn.android.tv.detailed
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -32,10 +35,12 @@ import androidx.transition.ChangeTransform
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
+import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
+import com.protonvpn.android.databinding.StreamingIconBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import javax.inject.Inject
@@ -116,23 +121,43 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
             viewModel.disconnect()
         }
 
-        viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
-            val showConnectButtons = !viewModel.isConnectedToCountry(card)
+        val streamingIcons = viewModel.streamingServicesIcons(card.vpnCountry)
+        if (streamingIcons.isNullOrEmpty())
+            binding.streamingServicesContainer.isVisible = false
+        else {
+            for (iconUrl in streamingIcons)
+                addServiceIconView(binding.streamingServices, iconUrl)
+        }
 
-            with(binding) {
-                if (connectStreaming.isVisible != showConnectButtons) {
-                    connectFastest.isVisible = showConnectButtons
-                    connectStreaming.isVisible = showConnectButtons
-                    if (showConnectButtons) {
-                        if (viewModel.haveAccessToStreaming)
-                            connectStreaming.requestFocus()
-                        else
-                            connectFastest.requestFocus()
-                    }
-                    disconnect.isVisible = !showConnectButtons
-                }
-            }
+        viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
+            updateFocus()
         })
+    }
+
+    private fun updateFocus() {
+        val showConnectButtons = !viewModel.isConnectedToCountry(card)
+        if (binding.connectStreaming.isVisible == showConnectButtons)
+            return
+
+        val focusOnButtons = binding.buttons.findFocus() != null
+        binding.connectFastest.isVisible = showConnectButtons
+        binding.connectStreaming.isVisible = showConnectButtons
+        binding.disconnect.isVisible = !showConnectButtons
+        if (focusOnButtons) {
+            if (showConnectButtons) {
+                if (viewModel.haveAccessToStreaming)
+                    binding.connectStreaming.requestFocus()
+                else
+                    binding.connectFastest.requestFocus()
+            } else {
+                binding.disconnect.requestFocus()
+            }
+        }
+    }
+
+    private fun addServiceIconView(parent: ViewGroup, iconUrl: String) {
+        val binding = StreamingIconBinding.inflate(layoutInflater, parent, true)
+        Glide.with(this).load(iconUrl).into(binding.root as ImageView)
     }
 
     companion object {

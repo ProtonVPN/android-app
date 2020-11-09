@@ -28,6 +28,7 @@ import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
 import org.jetbrains.annotations.TestOnly
@@ -42,6 +43,12 @@ class ServerManager(
     private val vpnCountries = mutableListOf<VpnCountry>()
     private val secureCoreEntryCountries = mutableListOf<VpnCountry>()
     private val secureCoreExitCountries = mutableListOf<VpnCountry>()
+
+    var streamingServices: StreamingServicesResponse? = null
+        set(value) {
+            field = value
+            Storage.save(this)
+        }
 
     var updatedAt: DateTime? = null
         private set
