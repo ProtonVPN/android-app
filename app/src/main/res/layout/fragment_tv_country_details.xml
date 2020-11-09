@@ -23,8 +23,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/flag"
@@ -48,48 +47,82 @@
         tools:text="Australia" />
 
     <TextView
+        android:id="@+id/countryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:ellipsize="end"
+        android:singleLine="true"
         android:text="@string/tv_detail_decription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/countryName"
         app:layout_constraintTop_toBottomOf="@+id/countryName"/>
 
-    <Button
-        android:id="@+id/disconnect"
-        style="@style/TvButtonAlert"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/disconnect"
-        android:visibility="gone"
+        android:maxHeight="30dp"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/flag"
-        app:layout_constraintStart_toStartOf="@+id/countryName" />
+        app:layout_constraintStart_toStartOf="@id/countryName">
 
-    <Button
-        android:id="@+id/connectStreaming"
-        style="@style/TvButtonCTA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_detail_connect_streaming"
-        android:visibility="gone"
-        android:drawableStart="@drawable/connect_streaming_drawable"
-        android:drawablePadding="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/flag"
-        app:layout_constraintStart_toStartOf="@+id/countryName" />
+        <Button
+            android:id="@+id/disconnect"
+            style="@style/TvButtonAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnect"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/connectFastest"
-        style="@style/TvButton"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/connectStreaming"
+            style="@style/TvButtonCTA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_detail_connect_streaming"
+            android:visibility="gone"
+            android:drawableStart="@drawable/connect_streaming_drawable"
+            android:drawablePadding="4dp"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/connectFastest"
+            style="@style/TvButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/tv_detail_connect_fastest"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/streamingServicesContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/tv_detail_connect_fastest"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/connectStreaming"
-        app:layout_constraintTop_toTopOf="@+id/connectStreaming" />
+        android:layout_marginEnd="37dp"
+        android:focusable="true"
+        android:scrollbars="none"
+        android:requiresFadingEdge="horizontal"
+        android:fadingEdgeLength="32dp"
+        android:paddingVertical="3dp"
+        android:background="@drawable/tv_focus_foreground"
+        app:layout_constraintBottom_toTopOf="@id/buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/countryDescription"
+        app:layout_constraintTop_toBottomOf="@id/countryDescription">
+
+        <LinearLayout
+            android:id="@+id/streamingServices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+    </HorizontalScrollView>
+
 
     <CheckBox
         android:id="@+id/defaultConnection"
@@ -97,6 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:paddingEnd="4dp"
         android:buttonTint="@color/tvAccent"
         android:text="@string/tv_detail_default_connection_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"

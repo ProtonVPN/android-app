@@ -24,7 +24,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
@@ -43,7 +42,8 @@ class ServerListUpdater(
     val scope: CoroutineScope,
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
-    val userData: UserData
+    val userData: UserData,
+    val updateStreaming: Boolean
 ) {
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
@@ -179,6 +179,11 @@ class ServerListUpdater(
         val result = api.getServerList(loaderUI, strippedIP)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
+            if (updateStreaming) {
+                val streamingServices = api.getStreamingServices().valueOrNull
+                if (streamingServices != null)
+                    serverManager.streamingServices = streamingServices
+            }
             return true
         }
         return false

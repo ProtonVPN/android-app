@@ -20,9 +20,11 @@ package com.protonvpn.android.ui.home
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -36,6 +38,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
 class TvHomeViewModel @Inject constructor(
+    val appConfig: AppConfig,
     val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
@@ -101,4 +104,13 @@ class TvHomeViewModel @Inject constructor(
             vpnCountry.countryName, "", ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)
         ) else null
     }
+
+    fun streamingServicesIcons(vpnCountry: VpnCountry): List<String>? =
+        if (!appConfig.getFeatureFlags().displayTVLogos)
+            null
+        else serverManager.streamingServices?.let { response ->
+            response.filter(userData.userTier, vpnCountry.flag)?.map {
+                Uri.parse(response.resourceBaseURL).buildUpon().appendPath(it.iconName).toString()
+            }
+        }
 }
