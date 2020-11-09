@@ -46,6 +46,11 @@ object ViewUtils {
         }
     }
 
+    fun View.requestAllFocus() {
+        requestFocus()
+        requestFocusFromTouch()
+    }
+
     private fun convertDpToPixel(dp: Int): Int =
             (dp * Resources.getSystem().displayMetrics.density).roundToInt()
 

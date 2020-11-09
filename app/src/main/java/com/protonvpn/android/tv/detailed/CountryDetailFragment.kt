@@ -18,12 +18,12 @@
  */
 package com.protonvpn.android.tv.detailed
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -43,6 +43,7 @@ import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
 import com.protonvpn.android.databinding.StreamingIconBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
+import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import javax.inject.Inject
 
 @ContentLayout(R.layout.fragment_tv_country_details)
@@ -78,13 +79,6 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         setupUi()
     }
 
-    private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-        v.pivotX = v.width / 2f
-        v.pivotY = v.height / 2f
-        v.animate().scaleX(if (hasFocus) 1.1f else 1f)
-        v.animate().scaleY(if (hasFocus) 1.1f else 1f)
-    }
-
     private fun setupUi() {
         val extras = arguments
         if (extras != null && extras.containsKey(EXTRA_CARD)) {
@@ -100,23 +94,19 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
             startPostponedEnterTransition()
         }
 
-        binding.defaultConnection.onFocusChangeListener = focusChangeListener
         binding.defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
         binding.defaultConnection.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAsDefaultCountry(isChecked, card.vpnCountry)
         }
 
-        binding.connectStreaming.onFocusChangeListener = focusChangeListener
         binding.connectStreaming.setOnClickListener {
             Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
         }
 
-        binding.connectFastest.onFocusChangeListener = focusChangeListener
         binding.connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
         }
 
-        binding.disconnect.onFocusChangeListener = focusChangeListener
         binding.disconnect.setOnClickListener {
             viewModel.disconnect()
         }
@@ -130,27 +120,26 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         }
 
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
-            updateFocus()
+            updateButtons()
         })
     }
 
-    private fun updateFocus() {
-        val showConnectButtons = !viewModel.isConnectedToCountry(card)
-        if (binding.connectStreaming.isVisible == showConnectButtons)
-            return
-
+    private fun updateButtons() {
+        val showConnectButtons = viewModel.showConnectButtons(card)
         val focusOnButtons = binding.buttons.findFocus() != null
+        val emptyFocus = binding.root.findFocus() == null
+
         binding.connectFastest.isVisible = showConnectButtons
         binding.connectStreaming.isVisible = showConnectButtons
         binding.disconnect.isVisible = !showConnectButtons
-        if (focusOnButtons) {
+        if (focusOnButtons || emptyFocus) {
             if (showConnectButtons) {
                 if (viewModel.haveAccessToStreaming)
-                    binding.connectStreaming.requestFocus()
+                    binding.connectStreaming.requestAllFocus()
                 else
-                    binding.connectFastest.requestFocus()
+                    binding.connectFastest.requestAllFocus()
             } else {
-                binding.disconnect.requestFocus()
+                binding.disconnect.requestAllFocus()
             }
         }
     }

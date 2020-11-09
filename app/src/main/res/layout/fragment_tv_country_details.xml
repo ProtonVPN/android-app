@@ -84,10 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_detail_connect_streaming"
-            android:visibility="gone"
             android:drawableStart="@drawable/connect_streaming_drawable"
-            android:drawablePadding="4dp"
-            tools:visibility="visible" />
+            android:drawablePadding="4dp" />
 
         <Button
             android:id="@+id/connectFastest"
@@ -95,9 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/tv_detail_connect_fastest"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:text="@string/tv_detail_connect_fastest" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -123,16 +119,16 @@
             android:orientation="horizontal"/>
     </HorizontalScrollView>
 
-
     <CheckBox
         android:id="@+id/defaultConnection"
         style="@style/LeanbackPreference.CheckBoxPreference"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:paddingEnd="4dp"
+        android:paddingEnd="6dp"
         android:buttonTint="@color/tvAccent"
         android:text="@string/tv_detail_default_connection_checkbox"
+        android:foreground="@drawable/tv_focus_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/flag" />
 

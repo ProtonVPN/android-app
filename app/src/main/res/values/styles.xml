@@ -229,6 +229,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:backgroundTint">@color/tvButtonBg</item>
+        <item name="android:foreground">@drawable/tv_focus_foreground</item>
     </style>
 
     <style name="TvButtonCTA" parent="TvButton">
