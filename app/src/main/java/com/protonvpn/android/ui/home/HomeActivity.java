@@ -81,6 +81,7 @@ import com.squareup.otto.Subscribe;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -421,7 +422,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 });
         }
 
-        List<Profile> profileList = serverManager.getSavedProfiles();
+        List<Profile> profileList = new ArrayList<>(serverManager.getSavedProfiles());
         for (final Profile profile : ReversedList.reverse(
             profileList.subList(0, profileList.size() >= 6 ? 6 : profileList.size()))) {
             addActionButtonToFab(fabQuickConnect, Color.parseColor(profile.getColor()), profile.getDisplayName(getContext()),
