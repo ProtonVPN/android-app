@@ -32,6 +32,7 @@ import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -45,6 +46,7 @@ public class TrialUserRobotTests {
         new SetUserPreferencesRule(TestUser.getTrialUser());
 
     @Test
+    @SdkSuppress(minSdkVersion = 26) //When https://jira.protontech.ch/browse/VPNAND-268 is fixed remove it.
     public void checkIfDialogWelcomeIsVisibleAndButtonWorks() {
         result.dialogWelcomeIsVisible();
         homeRobot.clickButtonGotIt().isSuccessful();

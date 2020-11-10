@@ -56,6 +56,7 @@ public class SettingsRobot extends UIActionsTestHelper {
     public SettingsResults toggleOnSplitTunneling() {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(R.id.scrollView,
             "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic.");
+        waitUntilObjectWithContentDescriptionAppearsInView(R.string.splitTunnellingSwitch);
         clickOnObjectWithContentDescription(R.string.splitTunnellingSwitch);
         return new SettingsResults();
     }

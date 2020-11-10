@@ -23,6 +23,7 @@ import com.protonvpn.android.ui.drawer.SettingsActivity;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 public class ProtonSettingsActivityTestRule extends TestWatcher {
@@ -32,6 +33,8 @@ public class ProtonSettingsActivityTestRule extends TestWatcher {
 
     @Override
     protected void starting(Description description) {
+        InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("echo \"chrome --disable-fre --no-default-browser-check --no-first-run\" > /data/local/tmp/chrome-command-line");
+        InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("am set-debug-app --persistent com.android.chrome ");
         activityTestRule.launchActivity(null);
     }
 

@@ -28,7 +28,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.FlakyTest;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
 
 @LargeTest
@@ -73,23 +75,26 @@ public class OnboardingRobotTests extends UIActionsTestHelper {
 
     @Test
     public void checkIfFinalPageDisplayed() {
-        onboardingRobot.swipeLeft();
-        OnboardingResults result = onboardingRobot.swipeLeft();
+        onboardingRobot.clickNext();
+        OnboardingResults result = onboardingRobot.clickNext();
         result.isFinalPageDisplayed();
     }
 
     @Test
+    @FlakyTest
     public void checkIfSignUpNavigatesToCorrectLink() {
-        onboardingRobot.swipeLeft();
-        onboardingRobot.swipeLeft();
+        onboardingRobot.clickNext();
+        onboardingRobot.clickNext();
         OnboardingResults result = onboardingRobot.pressSignUp();
         result.signUpButtonHasLink();
     }
 
+    //Currently skipped on Android 5-6, because animation Fails to load button fully
+    @SdkSuppress(minSdkVersion = 24)
     @Test
     public void checkIfLoginButtonWorks() {
-        onboardingRobot.swipeLeft();
-        onboardingRobot.swipeLeft();
+        onboardingRobot.clickNext();
+        onboardingRobot.clickNext();
         OnboardingResults result = onboardingRobot.pressLogin();
         result.isLoginPageDisplayed();
     }

@@ -39,6 +39,7 @@ import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ServiceTestRule;
 
 @LargeTest
@@ -104,6 +105,7 @@ public class ConnectionRobotTests {
         connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
     }
 
+    @SdkSuppress(minSdkVersion = 24)
     @Test
     public void cancelWhileConnecting() {
         testRule.mockStatusOnConnect(VpnState.Connecting.INSTANCE);
