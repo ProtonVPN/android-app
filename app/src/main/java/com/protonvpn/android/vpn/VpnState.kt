@@ -31,16 +31,18 @@ interface VpnStateSource {
     }
 }
 
-sealed class VpnState {
-    object Disabled : VpnState()
-    object ScanningPorts : VpnState()
-    object CheckingAvailability : VpnState()
-    object WaitingForNetwork : VpnState()
-    object Connecting : VpnState()
-    object Connected : VpnState()
-    object Reconnecting : VpnState()
-    object Disconnecting : VpnState()
-    data class Error(val type: ErrorType) : VpnState()
+sealed class VpnState(val isEstablishingConnection: Boolean) {
+    object Disabled : VpnState(false)
+
+    object ScanningPorts : VpnState(true)
+    object CheckingAvailability : VpnState(true)
+    object WaitingForNetwork : VpnState(true)
+    object Connecting : VpnState(true)
+    object Reconnecting : VpnState(true)
+
+    object Connected : VpnState(false)
+    object Disconnecting : VpnState(false)
+    data class Error(val type: ErrorType) : VpnState(false)
 
     val name = javaClass.simpleName.toUpperCase(Locale.ROOT)
 }

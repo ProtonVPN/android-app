@@ -132,6 +132,8 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         binding.connectFastest.isVisible = showConnectButtons
         binding.connectStreaming.isVisible = showConnectButtons
         binding.disconnect.isVisible = !showConnectButtons
+        binding.disconnect.setText(viewModel.disconnectText(card))
+
         if (focusOnButtons || emptyFocus) {
             if (showConnectButtons) {
                 if (viewModel.haveAccessToStreaming)
