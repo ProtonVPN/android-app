@@ -67,6 +67,12 @@ class TvHomeViewModel @Inject constructor(
     fun showConnectButtons(card: CountryCard) =
         !vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
 
+    fun disconnectText(card: CountryCard) =
+        if (!showConnectButtons(card) && vpnStateMonitor.vpnStatus.value?.state?.isEstablishingConnection == true)
+            R.string.cancel
+        else
+            R.string.disconnect
+
     fun disconnect() = vpnStateMonitor.disconnect()
 
     fun isConnected() = vpnStateMonitor.isConnected
