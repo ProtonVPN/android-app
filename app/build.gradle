@@ -599,7 +599,7 @@ dependencies {
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
 
-    def leanback_version = "1.1.0-alpha04"
+    def leanback_version = "1.1.0-alpha05"
 
     // TV
     implementation "androidx.leanback:leanback:$leanback_version"
