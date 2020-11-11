@@ -119,9 +119,6 @@ detekt analysis:
 
 build cache:
   stage: build
-  needs:
-    - job: generate-cache
-      artifacts: true
   script:
     - ./gradlew assemble
   only:
@@ -138,9 +135,6 @@ build debug:
   stage: build
   tags:
     - android
-  needs:
-    - job: generate-cache
-      artifacts: true
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
@@ -158,9 +152,6 @@ build blue:
   stage: build
   tags:
     - android
-  needs:
-    - job: generate-cache
-      artifacts: true
   script:
     - ./gradlew assembleBlueDebug
   when: manual
@@ -171,9 +162,6 @@ build blue:
 
 build google play release:
   stage: build
-  needs:
-    - job: generate-cache
-      artifacts: true
   except:
     - master
   tags:
@@ -189,9 +177,6 @@ build google play release:
 
 build release (auto):
   stage: build
-  needs:
-    - job: generate-cache
-      artifacts: true
   only:
     refs:
       - master
@@ -207,9 +192,6 @@ build release (auto):
 
 unit tests:
   stage: test
-  needs:
-    - job: generate-cache
-      artifacts: true
   tags:
     - android
   script:
@@ -217,9 +199,6 @@ unit tests:
 
 .tests_preparation_script: &tests_preparation_script
   stage: test
-  needs:
-    - job: generate-cache
-      artifacts: true
   tags:
     - android
   script:
