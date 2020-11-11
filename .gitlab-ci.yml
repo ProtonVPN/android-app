@@ -116,20 +116,6 @@ detekt analysis:
     reports:
         codequality: app/build/reports/detekt.json
 
-build cache:
-  stage: build
-  script:
-    - ./gradlew assemble
-  only:
-    changes:
-      - "*.gradle"
-      - gradle.properties
-  cache:
-    key: gradle-
-    paths:
-      - .gradle/caches
-    policy: push
-
 build debug:
   stage: build
   tags:
