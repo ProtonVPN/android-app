@@ -44,7 +44,9 @@ class NetworkUserData : UserData {
     override val sessionUid: String
         get() = loginResponse?.uid ?: ""
 
-    override val accessToken: String get() = loginResponse?.accessToken ?: ""
+    // This will be solved in the network module but before we migrate to new version let's set
+    // "Bearer" prefix here (as it's required by some backends).
+    override val accessToken: String get() = loginResponse?.accessToken?.let { "Bearer $it" } ?: ""
     override val refreshToken: String get() = loginResponse?.refreshToken ?: ""
 
     override fun updateTokens(access: String, refresh: String) {
