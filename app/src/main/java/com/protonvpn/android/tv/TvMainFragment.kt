@@ -200,8 +200,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
 
         val settingsRow = CardRow(
-            title = R.string.drawerSettings,
-            icon = 0,
+            title = R.string.tvRowMore,
+            icon = R.drawable.row_more_icon,
             cards = listOf(IconCard(getString(R.string.drawerLogout), R.drawable.ic_drawer_logout)))
         rowsAdapter!!.add(createRow(settingsRow, index++))
     }
