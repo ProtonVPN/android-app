@@ -354,8 +354,9 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="nameEurope">Europe</string>
     <string name="nameAmerica">America</string>
     <string name="nameAsia">Asia</string>
-    <string name="nameAfrica">Africa</string>
+    <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
     <string name="nameOceania">Oceania</string>
+    <string name="tvRowMore">More</string>
 
     <string name="tvMainTitle">VPN</string>
     <string name="tv_detail_default_connection_checkbox">Use as default quick connection</string>

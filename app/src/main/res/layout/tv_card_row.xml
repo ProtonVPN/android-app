@@ -36,8 +36,8 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="67dp"
+                android:layout_height="67dp"
                 android:scaleType="centerInside"
                 tools:src="@drawable/europe" />
 
