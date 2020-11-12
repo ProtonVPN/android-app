@@ -41,6 +41,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
@@ -86,6 +87,15 @@ class MockAppModule {
     @Provides
     fun provideNetworkManager(): NetworkManager = MockNetworkManager()
 
+    @Singleton
+    @Provides
+    fun provideRecentManager(
+        vpnStateMonitor: VpnStateMonitor,
+        serverManager: ServerManager
+    ) = RecentsManager(
+        vpnStateMonitor,
+        serverManager
+    )
     @Singleton
     @Provides
     fun provideProtonApiManager(

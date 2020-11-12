@@ -19,7 +19,7 @@
 package com.protonvpn.android.tv.models
 
 import androidx.annotation.DrawableRes
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.VpnCountry
 import java.io.Serializable
 
@@ -29,7 +29,7 @@ sealed class Card(
 ) : Serializable
 
 class CountryCard(title: String, @DrawableRes image: Int, val vpnCountry: VpnCountry) : Card(title, image)
-class ServerCard(title: String, @DrawableRes image: Int, val server: Server) : Card(title, image)
+class ProfileCard(title: String, @DrawableRes image: Int, val profile: Profile) : Card(title, image)
 class IconCard(title: String, @DrawableRes image: Int) : Card(title, image)
 class DetailedIconCard(
     title: String,

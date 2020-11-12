@@ -31,9 +31,14 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.TvMapRenderer
+import com.protonvpn.android.tv.models.BackgroundImage
+import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
+import com.protonvpn.android.tv.models.DetailedIconCard
+import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
@@ -43,6 +48,7 @@ class TvHomeViewModel @Inject constructor(
     val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
+    private val recentsManager: RecentsManager,
     val userData: UserData
 ) : ViewModel() {
 
@@ -73,6 +79,33 @@ class TvHomeViewModel @Inject constructor(
         else
             R.string.disconnect
 
+    fun getRecentCardList(context: Context): List<Card> {
+        val recentsList = mutableListOf<Card>()
+        val quickConnectCard = DetailedIconCard(
+            title = context.getString(if (isConnected()) R.string.disconnect else R.string.quickConnect),
+            image = if (isConnected())
+                R.drawable.ic_notification_disconnected
+            else
+                R.drawable.ic_tv_quick_connect,
+            backgroundImage = BackgroundImage(
+                resId = quickConnectBackground(context), opacity = if (isConnected()) 0.5f else 1.0f
+            ),
+            description = if (isConnected()) "" else context.getString(R.string.tvQuickConnectDescription),
+            subDescription = if (isConnected()) "" else context.getString(R.string.tvQuickConnectSubDescription)
+        )
+        recentsList.add(quickConnectCard)
+        recentsManager.getRecentConnections().forEach {
+            recentsList.add(
+                ProfileCard(
+                    it.name,
+                    CountryTools.getFlagResource(context, it.wrapper.country),
+                    it
+                )
+            )
+        }
+        return recentsList
+    }
+
     fun disconnect() = vpnStateMonitor.disconnect()
 
     fun isConnected() = vpnStateMonitor.isConnected
@@ -97,6 +130,10 @@ class TvHomeViewModel @Inject constructor(
         )
         else serverManager.defaultConnection
         vpnStateMonitor.connect(activity, profile)
+    }
+
+    fun connect(activity: Activity, card: ProfileCard?) {
+        card?.let { vpnStateMonitor.connect(activity, it.profile) }
     }
 
     fun resetMap() {

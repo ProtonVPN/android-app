@@ -40,6 +40,7 @@ import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.OpenVpnBackend
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.MaintenanceTracker
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -114,6 +115,16 @@ class AppModule {
     @Singleton
     @Provides
     fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>) = ProtonApiRetroFit(scope, apiManager)
+
+    @Singleton
+    @Provides
+    fun provideRecentManager(
+        vpnStateMonitor: VpnStateMonitor,
+        serverManager: ServerManager
+    ) = RecentsManager(
+        vpnStateMonitor,
+        serverManager
+    )
 
     @Singleton
     @Provides
