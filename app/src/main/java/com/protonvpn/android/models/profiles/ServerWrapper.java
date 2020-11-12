@@ -113,7 +113,7 @@ public final class ServerWrapper implements Listable, Serializable {
     }
 
     public static ServerWrapper makeWithServer(Server server, ServerDeliver deliver) {
-        return new ServerWrapper(ProfileType.DIRECT, "", server.getServerId(), deliver);
+        return new ServerWrapper(ProfileType.DIRECT, server.getExitCountry(), server.getServerId(), deliver);
     }
 
     public static ServerWrapper makeFastestForCountry(String country, ServerDeliver deliver) {

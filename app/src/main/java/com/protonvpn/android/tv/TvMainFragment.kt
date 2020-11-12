@@ -41,12 +41,12 @@ import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.main.TvMapRenderer
-import com.protonvpn.android.tv.models.BackgroundImage
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DetailedIconCard
 import com.protonvpn.android.tv.models.IconCard
+import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
@@ -117,6 +117,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         addToBackStack(null)
                     }
                 }
+                is ProfileCard -> {
+                    viewModel.connect(requireActivity(), item)
+                }
                 is DetailedIconCard -> {
                     viewModel.onQuickConnectAction(requireActivity())
                 }
@@ -137,33 +140,20 @@ class TvMainFragment : BaseTvBrowseFragment() {
         viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
             when (it) {
                 VpnState.Connected -> {
-                    updateQuickConnect(true)
+                    updateRecentsRow()
                 }
                 VpnState.Disabled -> {
-                    updateQuickConnect(false)
+                    updateRecentsRow()
                 }
             }
         })
     }
 
-    private fun updateQuickConnect(isConnected: Boolean) {
+    private fun updateRecentsRow() {
         val recentsRow = CardRow(
             title = R.string.recents,
             icon = R.drawable.ic_recent,
-            cards = listOf(
-                DetailedIconCard(
-                    title = getString(if (isConnected) R.string.disconnect else R.string.quickConnect),
-                    image =
-                        if (isConnected) R.drawable.ic_notification_disconnected
-                        else R.drawable.ic_tv_quick_connect,
-                    backgroundImage = BackgroundImage(
-                        resId = viewModel.quickConnectBackground(requireContext()),
-                        opacity = if (isConnected) 0.5f else 1.0f
-                    ),
-                    description = if (isConnected) "" else getString(R.string.tvQuickConnectDescription),
-                    subDescription = if (isConnected) "" else getString(R.string.tvQuickConnectSubDescription)
-                )
-            )
+            cards = viewModel.getRecentCardList(requireContext())
         )
         if (rowsAdapter!!.size() == 0) {
             rowsAdapter!!.add(createRow(recentsRow, 0))
@@ -175,7 +165,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private fun createRows() {
         var index = 1
         rowsAdapter?.clear()
-        updateQuickConnect(viewModel.isConnected())
+        updateRecentsRow()
         val cards = viewModel.serverManager.getVpnCountries().groupBy({
             val continent = CountryTools.locationMap[it.flag]?.continent
             debugAssert { continent != null }

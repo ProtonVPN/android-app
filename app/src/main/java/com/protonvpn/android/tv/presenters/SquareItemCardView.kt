@@ -30,6 +30,11 @@ class SquareItemCardView(context: Context?) : BaseCardView(context, null, R.styl
 
     val binding: TvItemGridBinding = TvItemGridBinding.inflate(LayoutInflater.from(getContext()), this, true)
 
+    override fun setSelected(selected: Boolean) {
+        super.setSelected(selected)
+        alpha = if (selected) 1f else 0.5f
+    }
+
     fun updateUi(card: Card) = with(binding) {
         textTitle.text = card.title
         imageIcon.setImageResource(card.image)
