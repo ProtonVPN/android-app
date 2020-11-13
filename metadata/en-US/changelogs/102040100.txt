@@ -1,0 +1,5 @@
+What's new:
+* Fixes flashing notifications on ChromeBook
+* Fixes persistent notifications on Android 10 and above
+* Detects split-tunnel conflict with dual-app on newer Samsung devices
+* Various UI improvements

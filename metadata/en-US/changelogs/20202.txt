@@ -1,0 +1,5 @@
+What's new:
+* The app is now available in Farsi, German, and Russian.
+* Adds support for upcoming NetShield feature.
+* Improves the Alternative Routing logic.
+* Improves the user interface.
