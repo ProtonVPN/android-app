@@ -63,6 +63,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     private var rowsAdapter: ArrayObjectAdapter? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        headersState = HEADERS_DISABLED
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -131,7 +136,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private fun setupRowAdapter() {
         createRows()
         view?.doOnPreDraw {
-            headersState = HEADERS_DISABLED
             startPostponedEnterTransition()
         }
     }
