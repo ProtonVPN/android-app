@@ -1,0 +1,5 @@
+What's new:
+* Automatically connects user to a new server when their current server undergoes maintenance
+* Automatically reconnects users to VPN if the Android OS restarts VPN service
+* Fixes layout issues in RTL languages
+* Improves overall app stability
