@@ -36,6 +36,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/dimmedGrey</item>
         <item name="guidedActionsBackground">@color/pickerColor1</item>
