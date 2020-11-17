@@ -89,9 +89,11 @@ public class OnboardingRobotTests extends UIActionsTestHelper {
         result.signUpButtonHasLink();
     }
 
-    //Currently skipped on Android 5-6, because animation Fails to load button fully
+    // Currently skipped on Android 5-6, because animation Fails to load button fully. Flaky also on higher
+    // versions.
     @SdkSuppress(minSdkVersion = 24)
     @Test
+    @FlakyTest
     public void checkIfLoginButtonWorks() {
         onboardingRobot.clickNext();
         onboardingRobot.clickNext();
