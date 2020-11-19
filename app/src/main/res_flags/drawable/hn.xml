@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h640v480h-640z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M0,160h640v160h-640z"
+      android:fillColor="#fff"/>
+  <path
+      android:pathData="M311.733,238.667l12.72,4.16 -4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M328.267,238.667l-12.72,4.16 4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M318.714,231.726l-0.026,13.383 26.674,-13.349z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M323.823,247.45l-7.887,-10.812 29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M316.177,247.45l7.887,-10.812 -29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M327.472,236.22l-12.736,4.111 20.939,21.243z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M314.096,245.938l7.846,-10.842 13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M325.904,245.938l-7.846,-10.842 -13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M312.528,236.22l12.736,4.111 -20.939,21.243z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M445.066,196.001l12.72,4.16 -4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M449.51,204.784l7.887,-10.812 -29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M445.066,276l12.72,4.16 -4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M461.6,276l-12.72,4.16 4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M449.51,284.783l7.887,-10.812 -29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M459.237,283.271l-7.846,-10.842 -13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M445.861,273.553l12.736,4.111 -20.939,21.243z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M178.4,196.001l12.72,4.16 -4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M194.934,196.001l-12.72,4.16 4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M182.844,204.784l7.887,-10.812 -29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M192.571,203.272l-7.846,-10.842 -13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M179.195,193.554l12.736,4.111 -20.939,21.243z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M178.4,276l12.72,4.16 -4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M194.934,276l-12.72,4.16 4.453,-29.494z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M185.381,269.059l-0.026,13.383 26.674,-13.349z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M190.49,284.783l-7.887,-10.812 29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M182.844,284.783l7.887,-10.812 -29.426,-4.879z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M194.139,273.553l-12.736,4.111 20.939,21.243z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M180.763,283.271l7.846,-10.842 13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M192.571,283.271l-7.846,-10.842 -13.733,26.479z"
+      android:fillColor="#0073cf"/>
+  <path
+      android:pathData="M179.195,273.553l12.736,4.111 -20.939,21.243z"
+      android:fillColor="#0073cf"/>
+</vector>

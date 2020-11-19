@@ -34,7 +34,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/defaultConnection"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/au_flag_hd" />
+        tools:srcCompat="@drawable/au" />
 
     <TextView
         android:id="@+id/countryName"

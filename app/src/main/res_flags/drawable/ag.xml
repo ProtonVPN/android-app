@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <group>
+    <clip-path
+        android:pathData="M0,0l640.003,0l0,480l-640.003,0z"/>
+    <path
+        android:pathData="M-37.783,0l715.566,0l0,479.522L-37.783,479.522z"
+        android:fillColor="#fff"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M-36.199,0.578l713.325,0l0,202.584l-713.325,0z"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M94.686,190.528l473.447,0l0,106.706L94.686,297.234z"
+        android:fillColor="#0061ff"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M677.295,1.643l0,478.359L320.37,480.003L677.295,1.643z"
+        android:fillColor="#e20000"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M-36.555,1.643l0,478.359l356.925,0L-36.555,1.643z"
+        android:fillColor="#e20000"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M487.564,190.631l-71.541,-18.153L476.886,126.563l-74.743,10.678 38.44,-65.133 -66.202,38.44 11.747,-75.813 -44.847,59.797L323.126,25.125l-20.287,71.541 -44.847,-60.862 12.813,77.948 -66.202,-40.577 38.44,65.134 -72.609,-11.747 59.797,44.848 -74.744,19.219l332.081,0z"
+        android:fillColor="#ffd600"
+        android:fillType="evenOdd"/>
+  </group>
+</vector>

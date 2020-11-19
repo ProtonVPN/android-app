@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h640v480h-640z"
+      android:fillColor="#006233"/>
+  <path
+      android:pathData="M320,180m-155,0a155,155 0,1 1,310 0a155,155 0,1 1,-310 0"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M243.425,11.216a150,150 0,0 0,-73.425 128.784,150 150,0 0,0 150,150 150,150 0,0 0,150 -150,150 150,0 0,0 -73.433,-128.784h-153.142z"
+      android:fillColor="#006233"/>
+  <path
+      android:pathData="M320,80l-18.54,57.065 28.53,9.27"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M320,80l18.54,57.065 -28.53,9.27"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M377.063,121.459l-60.001,0.001 -0,29.998"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M355.267,188.541l-18.543,-57.064 -28.53,9.27"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M284.733,188.541l48.541,-35.269 -17.632,-24.269"
+      android:fillColor="#ffc400"/>
+  <path
+      android:pathData="M262.937,121.459l48.543,35.267 17.633,-24.269"
+      android:fillColor="#ffc400"/>
+</vector>

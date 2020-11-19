@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <group>
+    <clip-path
+        android:pathData="M0,0h682.67v512h-682.67z"/>
+    <path
+        android:pathData="M0,0h720v480h-720z"
+        android:fillColor="#de2110"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M0,0h361.584v240h-361.584z"
+        android:fillColor="#08399c"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M264.467,167.395l-44.374,-9.125 9.453,44.306 -33.875,-30.082 -13.973,43.097 -14.291,-43 -33.643,30.344 9.125,-44.374 -44.306,9.443 30.082,-33.865 -43.096,-13.973 42.989,-14.291 -30.334,-33.647 44.374,9.122 -9.443,-44.308 33.865,30.087 13.973,-43.097 14.291,42.993 33.643,-30.337 -9.125,44.377 44.306,-9.45 -30.082,33.874 43.097,13.962 -42.99,14.291z"
+        android:fillColor="#fff"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M223.566,163.991l-14.002,7.436 -13.659,8.07 -15.861,-0.547 -15.862,0.186 -13.462,-8.382 -13.837,-7.758 -7.456,-13.974 -8.092,-13.612 0.538,-15.819 -0.176,-15.828 8.405,-13.425 7.779,-13.796 14.002,-7.438 13.659,-8.069 15.862,0.544 15.87,-0.181 13.464,8.381 13.825,7.758 7.456,13.97 8.092,13.612 -0.538,15.819 0.175,15.828 -8.405,13.428z"
+        android:fillColor="#005387"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M229.347,120.263c0,26.856 -21.771,48.625 -48.624,48.625s-48.625,-21.77 -48.625,-48.624 21.771,-48.624 48.625,-48.624 48.624,21.77 48.624,48.624z"
+        android:fillColor="#fff"
+        android:fillType="evenOdd"/>
+  </group>
+</vector>

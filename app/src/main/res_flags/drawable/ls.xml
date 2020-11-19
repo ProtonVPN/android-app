@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h640v480h-640z"
+      android:fillColor="#fff"/>
+  <path
+      android:pathData="M0,336h640v144h-640z"
+      android:fillColor="#009543"/>
+  <path
+      android:pathData="M0,0h640v144h-640z"
+      android:fillColor="#00209f"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M319.622,152.91c-2.736,0.06 -5.404,3.088 -5.404,3.088l0.236,32.375 -10.22,10.707h8.272l-0.07,18.563 -48.945,65.909 -7.235,-2.5 -12.648,26.977s31.28,19.585 76.682,19.051c49.828,-0.592 76.902,-19.955 76.902,-19.955l-13.069,-26.63 -6.4,2.783 -49.573,-65.568 -0.068,-19.116h8.272l-11.26,-10.576 0.068,-32.255s-2.804,-2.912 -5.54,-2.853z"
+      android:strokeWidth="1.601"
+      android:strokeColor="#000"/>
+  <path
+      android:pathData="M336.688,230.416h-33.845s-12.285,-25.883 -10.293,-43.978c2.028,-18.425 12.557,-27.14 26.557,-27.296 16.552,-0.184 25.227,8.112 27.848,26.559 2.597,18.278 -10.269,44.713 -10.269,44.713z"
+      android:strokeWidth="8"
+      android:fillColor="#00000000"
+      android:strokeColor="#000"/>
+  <path
+      android:pathData="M260.46,292.112c-0.553,0.736 -4.61,8.851 -4.61,8.851l7.008,-1.475 -2.397,-7.376zM264.518,302.624l-7.376,2.397 8.852,3.504 -1.476,-5.901zM267.837,292.296l3.69,10.88 9.036,-2.58 -2.398,-5.166 -10.328,-3.136zM273.555,307.05l1.29,4.425 11.989,2.952 -4.796,-10.144 -8.483,2.767zM286.832,297.829l4.243,10.144 9.037,-3.504 -2.952,-4.427 -10.326,-2.213zM292.734,311.661l1.476,3.872 14.016,2.029 -5.901,-9.221 -9.59,3.32zM306.197,300.779l5.165,9.037 13.092,-4.795 -1.475,-3.504 -16.782,-0.736zM313.758,313.136l2.767,4.795 16.229,-0.553 -6.087,-9.037 -12.909,4.795zM330.91,301.149l4.426,7.56 10.328,-4.98 -2.768,-4.057 -11.986,1.477zM347.877,306.864l-10.328,5.165 2.766,4.425 13.832,-2.212 -6.272,-7.376zM351.197,298.934l5.347,6.64 8.669,-6.824 -2.952,-3.136 -11.064,3.32zM367.056,302.438l-8.3,6.272 2.215,3.872 11.434,-2.95 -5.349,-7.194zM378.491,289.344l2.027,2.952 -5.716,8.483 -5.901,-7.561 9.59,-3.872zM382.363,296.722l3.504,7.008 -7.008,2.398 -0.553,-3.32 4.057,-6.086z"
+      android:fillColor="#fff"/>
+</vector>

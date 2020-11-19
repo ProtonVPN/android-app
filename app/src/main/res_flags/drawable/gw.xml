@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h320v480h-320z"
+      android:fillColor="#ce1126"/>
+  <path
+      android:pathData="M320,0h320v240h-320z"
+      android:fillColor="#fcd116"/>
+  <path
+      android:pathData="M320,240h320v240h-320z"
+      android:fillColor="#009e49"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M184.72,163.92l-24.72,76.08 38.08,12.4"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M135.28,163.92l24.72,76.08 -38.08,12.4"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M239.995,240l-79.995,-0 -0.026,40.048"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M184.72,316.08l-24.72,-76.08 -38.096,12.351"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M224.718,287.02l-64.718,-47.02 23.519,-32.415"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M95.282,287.02l64.718,-47.02 -23.519,-32.415"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M135.28,316.08l24.72,-76.08 38.096,12.351"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M95.283,192.98l64.717,47.02 23.56,-32.384"/>
+</vector>

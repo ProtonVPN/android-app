@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2020 Proton Technologies AG
+ Copyright (c) 2018 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -17,12 +18,14 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:tint="#96FFFFFF"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-    <path
-        android:fillColor="@android:color/white"
-        android:pathData="M16.59,8.59L12,13.17 7.41,8.59 6,10l6,6 6,-6z" />
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h640v480H0L0,0z"
+      android:fillColor="#EC0015"/>
+  <path
+      android:pathData="M407.9,357.4l-84,-62.7L240.3,358l31.1,-103l-83.5,-63.6l103.3,-0.9l32,-102.7l32.7,102.4l103.3,0.1l-83,64.2L407.9,357.4L407.9,357.4z"
+      android:fillColor="#FFFF00"/>
 </vector>
