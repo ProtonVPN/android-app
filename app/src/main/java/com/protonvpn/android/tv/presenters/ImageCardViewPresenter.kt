@@ -20,11 +20,10 @@ package com.protonvpn.android.tv.presenters
 
 import android.content.Context
 import android.view.ContextThemeWrapper
+import android.widget.ImageView
 import androidx.leanback.widget.ImageCardView
 import com.protonvpn.android.R
-import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.models.Card
-import com.protonvpn.android.tv.models.CountryCard
 
 open class ImageCardViewPresenter @JvmOverloads constructor(
     context: Context?,
@@ -47,12 +46,10 @@ open class ImageCardViewPresenter @JvmOverloads constructor(
     override fun onBindViewHolder(card: Card, cardView: ImageCardView) {
         with(cardView) {
             tag = card
-            titleText = card.title
-            mainImageView.setImageResource(card.image)
-            if (card is CountryCard) {
-                mainImageView.transitionName =
-                    CountryDetailFragment.transitionNameForCountry(card.vpnCountry.flag)
-            }
+            titleText = card.title!!.text
+            mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            mainImageView.setImageResource(card.backgroundImage!!.resId)
+            mainImageView.adjustViewBounds = true
         }
     }
 }

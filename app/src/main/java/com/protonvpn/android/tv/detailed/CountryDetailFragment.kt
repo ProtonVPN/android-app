@@ -78,44 +78,46 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         setupUi()
     }
 
-    private fun setupUi() {
+    private fun setupUi() = with(binding) {
         val extras = arguments
         if (extras != null && extras.containsKey(EXTRA_CARD)) {
             card = extras[EXTRA_CARD] as CountryCard
         }
 
         postponeEnterTransition()
-        binding.countryName.text = card.title
+        countryName.text = card.countryName
 
-        binding.flag.transitionName = transitionNameForCountry(card.vpnCountry.flag)
-        binding.flag.setImageResource(card.image)
-        binding.flag.doOnPreDraw {
-            startPostponedEnterTransition()
+        card.backgroundImage?.let {
+            flag.transitionName = transitionNameForCountry(card.vpnCountry.flag)
+            flag.setImageResource(it.resId)
+            flag.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
         }
 
-        binding.defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
-        binding.defaultConnection.setOnCheckedChangeListener { _, isChecked ->
+        defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
+        defaultConnection.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAsDefaultCountry(isChecked, card.vpnCountry)
         }
 
-        binding.connectStreaming.setOnClickListener {
+        connectStreaming.setOnClickListener {
             Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
         }
 
-        binding.connectFastest.setOnClickListener {
+        connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
         }
 
-        binding.disconnect.setOnClickListener {
+        disconnect.setOnClickListener {
             viewModel.disconnect()
         }
 
         val streamingIcons = viewModel.streamingServicesIcons(card.vpnCountry)
         if (streamingIcons.isNullOrEmpty())
-            binding.streamingServicesContainer.isVisible = false
+            streamingServicesContainer.isVisible = false
         else {
             for (iconUrl in streamingIcons)
-                addServiceIconView(binding.streamingServices, iconUrl)
+                addServiceIconView(streamingServices, iconUrl)
         }
 
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {

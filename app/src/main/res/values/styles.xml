@@ -155,8 +155,8 @@
     </style>
 
     <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">164dp</item>
-        <item name="android:layout_height">84dp</item>
+        <item name="android:layout_width">@dimen/tv_item_size_width</item>
+        <item name="android:layout_height">@dimen/tv_item_size_height</item>
     </style>
 
     <style name="DefaultCardStyle" parent="Widget.Leanback.ImageCardViewStyle">

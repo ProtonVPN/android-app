@@ -19,24 +19,41 @@
 package com.protonvpn.android.tv.models
 
 import androidx.annotation.DrawableRes
+import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.VpnCountry
 import java.io.Serializable
 
 sealed class Card(
-    var title: String,
-    @DrawableRes val image: Int
+    var title: Title? = null,
+    var bottomTitle: Title? = null,
+    val backgroundImage: DrawableImage?
 ) : Serializable
 
-class CountryCard(title: String, @DrawableRes image: Int, val vpnCountry: VpnCountry) : Card(title, image)
-class ProfileCard(title: String, @DrawableRes image: Int, val profile: Profile) : Card(title, image)
-class IconCard(title: String, @DrawableRes image: Int) : Card(title, image)
-class DetailedIconCard(
-    title: String,
+class CountryCard(
+    val countryName: String,
+    hasStreamingService: Boolean = false,
     @DrawableRes image: Int,
-    val backgroundImage: BackgroundImage,
-    val description: String,
-    val subDescription: String
-) : Card(title, image)
+    val vpnCountry: VpnCountry
+) : Card(
+    title = if (hasStreamingService) Title("", R.drawable.ic_play) else null,
+    bottomTitle = Title(countryName),
+    backgroundImage = DrawableImage(image)
+)
 
-class BackgroundImage(@DrawableRes val resId: Int, val opacity: Float)
+class ProfileCard(title: String? = null, @DrawableRes backgroundImage: Int, val profile: Profile) : Card(
+    bottomTitle = Title("", R.drawable.ic_thunder),
+    backgroundImage = DrawableImage(backgroundImage)
+)
+
+class QuickConnectCard(title: Title, backgroundImage: DrawableImage) : Card(
+    bottomTitle = title,
+    backgroundImage = backgroundImage
+)
+
+class IconCard(title: String, @DrawableRes image: Int) : Card(
+    title = Title(title), backgroundImage = DrawableImage(image)
+)
+
+class Title(val text: String, @DrawableRes val resId: Int? = null)
+class DrawableImage(@DrawableRes val resId: Int, val opacity: Float = 1f)
