@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <group>
+    <clip-path
+        android:pathData="M0,0h682.67v512h-682.67z"/>
+    <path
+        android:pathData="M0,0h719.653v480h-719.653z"
+        android:fillColor="#ffe300"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M0,195.131h719.653v96.384h-719.653zM0,0.232h719.653v96.384h-719.653z"
+        android:fillColor="#118600"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M0,0.232h287.353v291.291h-287.353z"
+        android:fillColor="#d80000"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M126.019,120.403c0,-0.802 17.659,-49.765 17.659,-49.765l16.054,48.963s53.78,1.606 53.78,0.802l-42.542,32.107s20.066,56.187 19.265,54.582c-0.802,-1.605 -46.555,-33.712 -46.555,-33.712s-46.554,32.107 -45.752,32.107c0.802,0 17.658,-52.976 17.658,-52.976l-41.739,-31.305 52.174,-0.802z"
+        android:fillColor="#fff"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M0,383.616h719.653v96.384h-719.653z"
+        android:fillColor="#118600"
+        android:fillType="evenOdd"/>
+  </group>
+</vector>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <group>
+    <clip-path
+        android:pathData="M-0.153,0l641.71,0l0,481.28l-641.71,0z"/>
+    <path
+        android:pathData="M-166.231,3.29l975.626,0l0,468.12l-975.626,0z"
+        android:fillColor="#ffc621"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M-168.12,321.95l976.942,0l0,159.33l-976.942,0z"
+        android:fillColor="#ef2118"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M-166.231,0l975.72,0l0,169.2l-975.72,0z"
+        android:fillColor="#298c08"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M203.046,248.681a101.342,101.342 0,1 0,202.685 0a101.342,101.342 45,1 0,-202.685 0z"
+        android:fillColor="#006bc6"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M258.875,176.908l-6.046,4.251 22.084,31.039 5.89,-3.755 -21.93,-31.533zM286.52,250.173l-9.08,-6.332 3.751,-11.915 -45.233,0.632 -13.094,-10.024 61.749,-0.666 11.453,-34.694 6.152,14.029 -15.698,48.972zM358.451,183.734l-5.879,-4.478 -22.915,30.432 5.361,4.48 23.434,-30.433zM296.964,232.227l3.293,-10.57 12.493,-0.023 -14.271,-42.93 5.601,-15.51 19.293,58.664 36.532,0.432 -11.513,10.103 -51.427,-0.165zM382.195,280.322l2.458,-6.97 -35.997,-12.466 -2.618,6.477 36.157,12.959zM317.166,236.691l11.071,-0.113 3.858,11.882 36.475,-26.76 16.48,0.568 -49.907,36.371 10.803,34.899 -13.151,-7.856 -15.63,-48.993zM298.603,332.646l7.39,0.107 0.341,-38.093 -6.975,-0.416 -0.758,38.402zM319.231,257.102l3.635,10.457 -10.033,7.442 36.992,26.043 4.715,15.801 -50.38,-35.711 -29.636,21.366 3.254,-14.969 41.454,-30.433zM222.157,269.31l2.186,7.059 36.327,-11.47 -1.764,-6.76 -36.746,11.171zM300.374,265.531l-8.817,6.693 -10.185,-7.233 -13.308,43.237 -13.566,9.377 18.354,-58.963 -29.493,-21.564 15.24,-1.54 41.774,29.994z"
+        android:fillColor="#ffc621"
+        android:fillType="evenOdd"/>
+  </group>
+</vector>

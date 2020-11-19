@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <path
+      android:pathData="M0,0h640v480h-640z"
+      android:fillColor="#00267f"/>
+  <path
+      android:pathData="M213.333,0h213.333v480h-213.333z"
+      android:fillColor="#ffc726"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M319.77,135.527c-6.933,18.907 -14,38.587 -29.12,53.654 4.694,-1.546 12.907,-2.933 18.187,-2.8v79.52l-22.453,3.334c-0.8,-0.08 -1.067,-1.333 -1.067,-3.04 -2.16,-24.693 -8,-45.44 -14.72,-66.907 -0.48,-2.933 -8.987,-14.133 -2.427,-12.16 0.8,0.107 9.574,3.68 8.187,1.974 -11.947,-12.373 -29.413,-21.28 -46.373,-23.92 -1.494,-0.373 -2.374,0.374 -1.04,2.107 22.506,34.64 41.333,75.52 41.173,124.027 8.747,0 29.947,-5.173 38.72,-5.173v56.107h11.067l2.533,-156.693z"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M319.77,135.527c6.933,18.907 14,38.587 29.12,53.654 -4.694,-1.546 -12.907,-2.933 -18.187,-2.8l-0,79.52l22.453,3.334c0.8,-0.08 1.067,-1.333 1.067,-3.04 2.16,-24.693 8,-45.44 14.72,-66.907 0.48,-2.933 8.987,-14.133 2.427,-12.16 -0.8,0.107 -9.574,3.68 -8.187,1.974 11.947,-12.373 29.413,-21.28 46.373,-23.92 1.494,-0.373 2.374,0.374 1.04,2.107 -22.506,34.64 -41.333,75.52 -41.173,124.027 -8.747,0 -29.947,-5.173 -38.72,-5.173l-0,56.107l-11.067,0l-2.533,-156.693z"/>
+</vector>

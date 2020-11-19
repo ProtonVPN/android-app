@@ -30,13 +30,12 @@ import java.util.Locale
 object CountryTools {
 
     fun getFlagResource(context: Context, flag: String?): Int {
-        val flagPrefix = if (context.isTV()) "_flag_hd" else "_flag"
         val desiredFlag = context.resources.getIdentifier(
-                flag?.toLowerCase(Locale.ROOT) + flagPrefix, "drawable", context.packageName)
+                flag?.toLowerCase(Locale.ROOT), "drawable", context.packageName)
         return if (desiredFlag > 0)
             desiredFlag
         else
-            context.resources.getIdentifier("zz_flag", "drawable", context.packageName)
+            context.resources.getIdentifier("un", "drawable", context.packageName)
     }
 
     fun getPreferredLocale(context: Context): Locale {

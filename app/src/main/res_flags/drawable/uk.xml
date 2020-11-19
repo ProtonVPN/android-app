@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2018 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="144dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+  <group>
+    <clip-path
+        android:pathData="M-0.213,0l641.71,0l0,481.28l-641.71,0z"/>
+    <path
+        android:pathData="M-160.64,0L801.939,0l0,481.289L-160.64,481.289z"
+        android:strokeWidth="1"
+        android:fillColor="#006"/>
+    <path
+        android:pathData="M-160.64,0l0,53.809l854.963,427.482L801.939,481.291L801.939,427.484L-53.024,0L-160.64,0zM801.939,0l0,53.808L-53.024,481.289L-160.64,481.289l0,-53.808L694.323,0L801.939,0z"
+        android:strokeWidth="1"
+        android:fillColor="#fff"/>
+    <path
+        android:pathData="M240.435,0l0,481.289l160.43,0L400.864,0l-160.43,0zM-160.64,160.43l0,160.43L801.939,320.86L801.939,160.43L-160.64,160.43z"
+        android:strokeWidth="1"
+        android:fillColor="#fff"/>
+    <path
+        android:pathData="M-160.64,192.516l0,96.258L801.939,288.774L801.939,192.516L-160.64,192.516zM272.521,0l0,481.289l96.256,0L368.777,0l-96.256,0zM-160.64,481.289L160.22,320.86l71.745,0l-320.86,160.43L-160.64,481.289zM-160.64,0L160.22,160.43L88.475,160.43L-160.64,35.874L-160.64,0zM409.335,160.43L730.194,0l71.745,0L481.079,160.43l-71.745,0zM801.939,481.289L481.079,320.86l71.745,0L801.939,445.417l0,35.872z"
+        android:strokeWidth="1"
+        android:fillColor="#c00"/>
+  </group>
+</vector>
