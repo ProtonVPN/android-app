@@ -20,13 +20,15 @@ package com.protonvpn.android.tv.presenters
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseCardView
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvItemGridBinding
+import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.models.Card
-import com.protonvpn.android.tv.models.DetailedIconCard
+import com.protonvpn.android.tv.models.CountryCard
 
-class SquareItemCardView(context: Context?) : BaseCardView(context, null, R.style.DefaultCardTheme) {
+class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.DefaultCardTheme) {
 
     val binding: TvItemGridBinding = TvItemGridBinding.inflate(LayoutInflater.from(getContext()), this, true)
 
@@ -36,13 +38,26 @@ class SquareItemCardView(context: Context?) : BaseCardView(context, null, R.styl
     }
 
     fun updateUi(card: Card) = with(binding) {
-        textTitle.text = card.title
-        imageIcon.setImageResource(card.image)
-        if (card is DetailedIconCard) {
-            textDescription.text = card.description
-            textSubDescription.text = card.subDescription
-            imageBackground.setImageResource(card.backgroundImage.resId)
-            imageBackground.alpha = card.backgroundImage.opacity
+        alpha = if (isSelected) 1f else 0.5f
+        card.title?.let { title ->
+            textTitle.text = title.text
+            titleLayout.setBackgroundResource(R.drawable.tv_item_top_gradient)
+            imageTitle.isVisible = title.resId != null
+            title.resId?.let { imageTitle.setImageResource(title.resId) }
+        }
+        card.backgroundImage?.let {
+            imageBackground.setImageResource(it.resId)
+            imageBackground.alpha = it.opacity
+        }
+        card.bottomTitle?.let { title ->
+            textDescription.text = title.text
+            bottomTitle.setBackgroundResource(R.drawable.tv_item_bottom_gradient)
+            imageBottomTitle.isVisible = title.resId != null
+            title.resId?.let { imageBottomTitle.setImageResource(it) }
+        }
+        if (card is CountryCard) {
+            imageBackground.transitionName =
+                CountryDetailFragment.transitionNameForCountry(card.vpnCountry.flag)
         }
     }
 }

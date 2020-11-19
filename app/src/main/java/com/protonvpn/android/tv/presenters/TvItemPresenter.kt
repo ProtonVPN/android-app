@@ -21,11 +21,11 @@ package com.protonvpn.android.tv.presenters
 import android.content.Context
 import com.protonvpn.android.tv.models.Card
 
-class SquareItemPresenter(context: Context?) : AbstractCardPresenter<SquareItemCardView>(context!!) {
+class TvItemPresenter(context: Context?) : AbstractCardPresenter<TvItemCardView>(context!!) {
 
-    override fun onCreateView(): SquareItemCardView = SquareItemCardView(context)
+    override fun onCreateView(): TvItemCardView = TvItemCardView(context)
 
-    override fun onBindViewHolder(card: Card, cardView: SquareItemCardView) {
+    override fun onBindViewHolder(card: Card, cardView: TvItemCardView) {
         cardView.updateUi(card)
     }
 }

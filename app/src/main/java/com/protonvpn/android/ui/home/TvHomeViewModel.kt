@@ -31,11 +31,12 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.TvMapRenderer
-import com.protonvpn.android.tv.models.BackgroundImage
+import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.tv.models.DetailedIconCard
 import com.protonvpn.android.tv.models.ProfileCard
+import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.RecentsManager
@@ -81,25 +82,23 @@ class TvHomeViewModel @Inject constructor(
 
     fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()
-        val quickConnectCard = DetailedIconCard(
-            title = context.getString(if (isConnected()) R.string.disconnect else R.string.quickConnect),
-            image = if (isConnected())
-                R.drawable.ic_notification_disconnected
-            else
-                R.drawable.ic_tv_quick_connect,
-            backgroundImage = BackgroundImage(
-                resId = quickConnectBackground(context), opacity = if (isConnected()) 0.5f else 1.0f
+        val quickConnectCard = QuickConnectCard(
+            title = Title(
+                text = context.getString(if (isConnected()) R.string.disconnect else R.string.quickConnect),
+                resId = if (isConnected())
+                    R.drawable.ic_notification_disconnected else R.drawable.ic_thunder
             ),
-            description = if (isConnected()) "" else context.getString(R.string.tvQuickConnectDescription),
-            subDescription = if (isConnected()) "" else context.getString(R.string.tvQuickConnectSubDescription)
+            backgroundImage = DrawableImage(
+                resId = quickConnectBackground(context), opacity = if (isConnected()) 0.5f else 1.0f
+            )
         )
         recentsList.add(quickConnectCard)
         recentsManager.getRecentConnections().forEach {
             recentsList.add(
                 ProfileCard(
-                    it.name,
-                    CountryTools.getFlagResource(context, it.wrapper.country),
-                    it
+                    title = it.name,
+                    backgroundImage = CountryTools.getFlagResource(context, it.wrapper.country),
+                    profile = it
                 )
             )
         }

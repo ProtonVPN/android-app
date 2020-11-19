@@ -27,7 +27,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.commit
 import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.OnItemViewSelectedListener
@@ -44,10 +43,11 @@ import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
 import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.tv.models.DetailedIconCard
 import com.protonvpn.android.tv.models.IconCard
 import com.protonvpn.android.tv.models.ProfileCard
+import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
+import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
@@ -104,7 +104,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         onItemViewClickedListener = OnItemViewClickedListener { viewHolder, item, _, _ ->
             when (item) {
                 is CountryCard -> {
-                    val imageView = (viewHolder.view as ImageCardView).mainImageView
+                    val imageView = (viewHolder.view as TvItemCardView).binding.imageBackground
                     val bundle = Bundle().apply { putSerializable(CountryDetailFragment.EXTRA_CARD, item) }
 
                     CountryTools.locationMap[item.vpnCountry.flag]?.let {
@@ -125,7 +125,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is ProfileCard -> {
                     viewModel.connect(requireActivity(), item)
                 }
-                is DetailedIconCard -> {
+                is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity())
                 }
 
@@ -177,6 +177,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }, { country ->
             CountryCard(
                 country.countryName,
+                !viewModel.streamingServicesIcons(country).isNullOrEmpty(),
                 CountryTools.getFlagResource(requireContext(), country.flag),
                 country
             )

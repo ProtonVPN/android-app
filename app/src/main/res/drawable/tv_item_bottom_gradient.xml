@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="@color/tvGridItemOverlay"
+        android:endColor="@color/tvGridItemOverlayEnd"
+        android:angle="-270" />
+</shape>
