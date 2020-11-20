@@ -28,6 +28,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class AuthManager(
     val scope: CoroutineScope,
@@ -50,12 +51,16 @@ class AuthManager(
     }
 
     fun logout(forced: Boolean) = scope.launch {
-        if (!forced)
+        vpnStateMonitor.disconnectSync()
+
+        // Temporary solution for timeouting logout calls, proper solution will come from core auth.
+        if (!forced) withTimeoutOrNull(300) {
             api.logout()
+        }
 
         userData.logout()
         serverManager.clearCache()
-        vpnStateMonitor.disconnect()
+
         logoutEvent.emit()
     }
 }
