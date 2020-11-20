@@ -51,9 +51,11 @@ class QuickConnectCard(title: Title, backgroundImage: DrawableImage) : Card(
     backgroundImage = backgroundImage
 )
 
-class IconCard(title: String, @DrawableRes image: Int) : Card(
+open class IconCard(title: String, @DrawableRes image: Int) : Card(
     title = Title(title), backgroundImage = DrawableImage(image)
 )
+
+class LogoutCard(title: String) : IconCard(title, R.drawable.ic_tv_icon_logout)
 
 class Title(val text: String, @DrawableRes val resId: Int? = null)
 class DrawableImage(@DrawableRes val resId: Int, val opacity: Float = 1f)

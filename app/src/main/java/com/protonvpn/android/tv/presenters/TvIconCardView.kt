@@ -19,13 +19,24 @@
 package com.protonvpn.android.tv.presenters
 
 import android.content.Context
+import android.view.LayoutInflater
+import androidx.leanback.widget.BaseCardView
+import com.protonvpn.android.R
+import com.protonvpn.android.databinding.TvIconCardBinding
 import com.protonvpn.android.tv.models.Card
 
-class IconCardPresenter(context: Context) : AbstractCardPresenter<TvIconCardView>(context) {
+class TvIconCardView(context: Context) : BaseCardView(context, null, R.style.DefaultCardTheme) {
 
-    override fun onCreateView(): TvIconCardView = TvIconCardView(context)
+    val binding: TvIconCardBinding = TvIconCardBinding.inflate(LayoutInflater.from(getContext()), this, true)
 
-    override fun onBindViewHolder(card: Card, cardView: TvIconCardView) {
-        cardView.updateUi(card)
+    override fun setSelected(selected: Boolean) {
+        super.setSelected(selected)
+        alpha = if (selected) 1f else 0.5f
+    }
+
+    fun updateUi(card: Card) = with(binding) {
+        alpha = if (isSelected) 1f else 0.5f
+        card.backgroundImage?.resId?.let(icon::setImageResource)
+        card.title?.text?.let { title.text = it }
     }
 }
