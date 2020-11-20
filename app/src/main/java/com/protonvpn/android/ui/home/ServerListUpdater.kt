@@ -25,6 +25,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
@@ -162,7 +163,7 @@ class ServerListUpdater(
 
     suspend fun updateServerList(
         networkLoader: NetworkLoader? = null
-    ): Boolean {
+    ): ApiResult<ServerList> {
         val loaderUI = networkLoader?.networkFrameLayout
 
         loaderUI?.setRetryListener {
@@ -184,8 +185,7 @@ class ServerListUpdater(
                 if (streamingServices != null)
                     serverManager.streamingServices = streamingServices
             }
-            return true
         }
-        return false
+        return result
     }
 }

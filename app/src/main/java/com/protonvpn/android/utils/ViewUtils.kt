@@ -18,12 +18,14 @@
  */
 package com.protonvpn.android.utils
 
+import android.animation.Animator
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.airbnb.lottie.LottieAnimationView
 import kotlin.math.roundToInt
 
 object ViewUtils {
@@ -61,3 +63,11 @@ object ViewUtils {
 
     fun Int.toDp(): Float = convertPixelsToDp(this)
 }
+
+fun LottieAnimationView.onAnimationEnd(onEnd: (Animator?) -> Unit) =
+    addAnimatorListener(object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(animation: Animator?) {}
+        override fun onAnimationStart(animation: Animator?) {}
+        override fun onAnimationCancel(animation: Animator?) {}
+        override fun onAnimationEnd(animation: Animator?) = onEnd(animation)
+    })

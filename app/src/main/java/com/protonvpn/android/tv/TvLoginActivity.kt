@@ -27,6 +27,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieDrawable
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
@@ -36,6 +37,7 @@ import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.onAnimationEnd
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
@@ -71,6 +73,7 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
     private fun updateState(state: TvLoginViewState) = with(binding) {
         loginWaitContainer.isVisible = state is TvLoginViewState.PollingSession
         retryButton.isVisible = state is TvLoginViewState.Error
+        loadingView.isVisible = state == TvLoginViewState.Loading || state == TvLoginViewState.Success
         when (state) {
             TvLoginViewState.FetchingCode -> {
                 title.setText(R.string.tv_login_title_loading)
@@ -84,10 +87,16 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
             is TvLoginViewState.Error -> {
                 title.text = state.errorTitle ?: getString(state.errorTitleRes)
                 retryButton.setText(state.errorButtonLabelRes)
+                loadingView.cancelAnimation()
             }
-            TvLoginViewState.Success -> {
-                startActivity(Intent(this@TvLoginActivity, TvMainActivity::class.java))
-                finish()
+            is TvLoginViewState.Loading -> {
+                startLoadingAnimation()
+            }
+            is TvLoginViewState.Success -> {
+                if (loadingView.isAnimating)
+                    finishLoadingAnimation()
+                else
+                    navigateToMain()
             }
         }
     }
@@ -98,5 +107,32 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
             if (it.id != R.id.codeSeparator)
                 (it as TextView).text = code[i++].toString()
         }
+    }
+
+    private fun startLoadingAnimation() = with(binding.loadingView) {
+        setAnimation(R.raw.loading_animation)
+        setMinAndMaxFrame(0, LOADING_ANIMATION_LOOP_END_FRAME)
+        repeatCount = LottieDrawable.INFINITE
+        repeatMode = LottieDrawable.RESTART
+        playAnimation()
+    }
+
+    private fun finishLoadingAnimation() = with(binding.loadingView) {
+        setMinAndMaxFrame(frame, LOADING_ANIMATION_FRAME_COUNT)
+        repeatCount = 0
+        playAnimation()
+        onAnimationEnd {
+            navigateToMain()
+        }
+    }
+
+    private fun navigateToMain() {
+        startActivity(Intent(this, TvMainActivity::class.java))
+        finish()
+    }
+
+    companion object {
+        const val LOADING_ANIMATION_LOOP_END_FRAME = 92
+        const val LOADING_ANIMATION_FRAME_COUNT = 180
     }
 }
