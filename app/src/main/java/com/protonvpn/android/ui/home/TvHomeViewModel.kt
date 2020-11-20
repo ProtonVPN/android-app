@@ -50,13 +50,15 @@ class TvHomeViewModel @Inject constructor(
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
     private val recentsManager: RecentsManager,
-    val userData: UserData
+    val userData: UserData,
+    val authManager: AuthManager
 ) : ViewModel() {
 
     val selectedCountry = MutableLiveData<VpnCountry>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
     val vpnStatus = vpnStateMonitor.vpnStatus.map { it.state }
+    val logoutEvent get() = authManager.logoutEvent
 
     init {
         vpnStateMonitor.vpnStatus.observeForever {
@@ -156,4 +158,6 @@ class TvHomeViewModel @Inject constructor(
                 Uri.parse(response.resourceBaseURL).buildUpon().appendPath(it.iconName).toString()
             }
         }
+
+    fun logout() = authManager.logout(false)
 }

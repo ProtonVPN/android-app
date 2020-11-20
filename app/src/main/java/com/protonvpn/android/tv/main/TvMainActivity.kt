@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
@@ -28,6 +29,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTvMainBinding
+import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
@@ -56,6 +58,11 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
         viewModel.mapRegion.observe(this, Observer {
             binding.mapView.setMapRegion(lifecycleScope, it)
         })
+
+        viewModel.logoutEvent.observe(this) {
+            finish()
+            startActivity(Intent(this, TvLoginActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {

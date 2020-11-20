@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2020 Proton Technologies AG
+  ~
+  ~ This file is part of ProtonVPN.
+  ~
+  ~ ProtonVPN is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonVPN is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="@dimen/tv_item_size_height"
+    android:layout_height="@dimen/tv_item_size_height"
+    android:background="#191b21">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Widget.Leanback.ImageCardView.TitleStyle"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:fontFamily="sans-serif"
+        android:maxLines="2"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_gravity="bottom"
+        tools:text="@string/drawerLogout" />
+
+</FrameLayout>

@@ -35,6 +35,8 @@ import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
@@ -43,7 +45,7 @@ import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
 import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.tv.models.IconCard
+import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
@@ -128,7 +130,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity())
                 }
-
+                is LogoutCard -> {
+                    logout()
+                }
             }
         }
     }
@@ -151,6 +155,20 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 }
             }
         })
+    }
+
+    private fun logout() {
+        if (viewModel.isConnected()) {
+            MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
+                .title(R.string.warning)
+                .content(R.string.logoutDescription)
+                .positiveText(R.string.ok)
+                .onPositive { _, _ -> viewModel.logout() }
+                .negativeText(R.string.cancel)
+                .show()
+        } else {
+            viewModel.logout()
+        }
     }
 
     private fun updateRecentsRow() {
@@ -197,7 +215,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
             icon = R.drawable.row_more_icon,
-            cards = listOf(IconCard(getString(R.string.drawerLogout), R.drawable.ic_drawer_logout)))
+            cards = listOf(LogoutCard(getString(R.string.drawerLogout))))
         rowsAdapter!!.add(createRow(settingsRow, index++))
     }
 
