@@ -30,6 +30,8 @@ import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
+import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.ServerManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,15 +43,21 @@ import javax.inject.Inject
 class TvLoginViewModel @Inject constructor(
     val userData: UserData,
     val appConfig: AppConfig,
-    val api: ProtonApiRetroFit
+    val api: ProtonApiRetroFit,
+    val serverListUpdater: ServerListUpdater,
+    val serverManager: ServerManager
 ) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
 
     fun startLogin(scope: CoroutineScope) {
-        if (userData.isLoggedIn)
-            state.value = TvLoginViewState.Success
-        else scope.launch {
+        if (userData.isLoggedIn) {
+            if (serverManager.isDownloadedAtLeastOnce)
+                state.value = TvLoginViewState.Success
+            else scope.launch {
+                loadInitialConfig()
+            }
+        } else scope.launch {
             state.value = TvLoginViewState.FetchingCode
             when (val selectorResult = api.getSessionForkSelector()) {
                 is ApiResult.Success -> {
@@ -102,16 +110,28 @@ class TvLoginViewModel @Inject constructor(
                     }
                     is ApiResult.Success -> {
                         userData.setLoggedIn(infoResult.valueOrNull)
-                        appConfig.update()
-                        state.value = TvLoginViewState.Success
+                        loadInitialConfig()
                     }
                 }
             }
         }
     }
 
-    private suspend fun pollSession(selector: String) = // TODO: condition
-        api.getForkedSession(selector).takeIf { it is ApiResult.Success || it is ApiResult.Error.Connection }
+    private suspend fun loadInitialConfig() {
+        state.value = TvLoginViewState.Loading
+        appConfig.update()
+        when (val result = serverListUpdater.updateServerList()) {
+            is ApiResult.Success ->
+                state.value = TvLoginViewState.Success
+            is ApiResult.Error ->
+                state.value = result.toLoginError()
+        }
+    }
+
+    private suspend fun pollSession(selector: String) =
+        api.getForkedSession(selector).takeIf {
+            !(it is ApiResult.Error.Http && it.httpCode == HTTP_CODE_KEEP_POLLING)
+        }
 
     private suspend fun <T : Any> repeatWithTimeoutOrNull(timeoutMs: Long, block: suspend () -> T?): T? =
         withTimeoutOrNull(timeoutMs) {
@@ -127,6 +147,7 @@ class TvLoginViewModel @Inject constructor(
     companion object {
         val POLL_TIMEOUT_MS = TimeUnit.MINUTES.toMillis(5)
         val POLL_DELAY_MS = TimeUnit.SECONDS.toMillis(5)
+        const val HTTP_CODE_KEEP_POLLING = 422
         const val CODE_LENGTH = 8
     }
 }
@@ -135,6 +156,7 @@ sealed class TvLoginViewState {
 
     object Success : TvLoginViewState()
     object FetchingCode : TvLoginViewState()
+    object Loading : TvLoginViewState()
     class PollingSession(val code: String, val secondsLeft: Long) : TvLoginViewState()
     class Error(
         val errorTitle: String?,
