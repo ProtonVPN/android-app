@@ -45,9 +45,10 @@
                 android:id="@+id/label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_horizontal"
+                android:lines="2"
                 android:textSize="11sp"
-                tools:text="Europe" />
+                tools:text="@string/nameAfricaAndMiddleEast" />
         </LinearLayout>
 
         <androidx.leanback.widget.HorizontalGridView
