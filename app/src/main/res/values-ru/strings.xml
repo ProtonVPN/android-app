@@ -187,7 +187,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="report_message">Комментарий к отчету</string>
   <string name="contact_email">Контактная эл. почта</string>
   <string name="your_message">Ваше сообщение…</string>
-  <string name="send_report">Отправить отчёт</string>
+  <string name="send_report">Отправить сообщение</string>
   <string name="excludeIpTitle">Исключенные IP-адреса</string>
   <string name="discardChanges">Есть несохраненные изменения. Вы уверены, что хотите отказаться от них?</string>
   <string name="discard">Не сохранять</string>

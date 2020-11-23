@@ -168,7 +168,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="reconnect">Połącz ponownie</string>
   <string name="connect">Połącz</string>
   <string name="upgrade">Ulepsz</string>
-  <string name="retry">Ponów próbę</string>
+  <string name="retry">Spróbuj ponownie</string>
   <plurals name="retry_in">
     <item quantity="one">Ponowne łączenie za %1$d sekundę</item>
     <item quantity="few">Ponowne łączenie za %1$d sekundy</item>
