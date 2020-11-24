@@ -187,13 +187,17 @@ class TvMainFragment : BaseTvBrowseFragment() {
         var index = 1
         rowsAdapter?.clear()
         updateRecentsRow()
-        val cards = viewModel.getCountryCardMap(requireContext())
+        val continentMap = viewModel.getCountryCardMap(requireContext())
 
         CountryTools.Continent.values().forEach { continent ->
-            cards[continent]?.let { cards ->
+            continentMap[continent]?.let { cards ->
                 rowsAdapter!!.add(
                     createRow(
-                        CardRow(title = it.nameRes, icon = it.iconRes, cards = cards),
+                        CardRow(
+                            title = continent.nameRes,
+                            icon = continent.iconRes,
+                            cards = cards
+                        ),
                         index++
                     )
                 )

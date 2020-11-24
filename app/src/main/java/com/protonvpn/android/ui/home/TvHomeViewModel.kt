@@ -83,11 +83,10 @@ class TvHomeViewModel @Inject constructor(
         else
             R.string.disconnect
 
-    private fun countryListItemIcon(country: VpnCountry): Int? {
-        if (userData.isFreeUser) {
-            return if (country.hasAccessibleServer(userData)) R.drawable.ic_free else R.drawable.ic_lock
-        }
-        return null
+    private fun countryListItemIcon(country: VpnCountry) = when {
+        !userData.isFreeUser -> null
+        country.hasAccessibleServer(userData) -> R.drawable.ic_free
+        else -> R.drawable.ic_lock
     }
 
     fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
@@ -103,7 +102,11 @@ class TvHomeViewModel @Inject constructor(
                 bottomTitleResId = countryListItemIcon(country),
                 vpnCountry = country
             )
-        })
+        }).mapValues { continent ->
+            continent.value.sortedWith(compareBy<CountryCard> {
+                !it.vpnCountry.hasAccessibleOnlineServer(userData)
+            }.thenBy { it.countryName })
+        }
     }
 
     fun getRecentCardList(context: Context): List<Card> {
