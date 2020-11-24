@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv.models
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
@@ -33,12 +34,13 @@ sealed class Card(
 class CountryCard(
     val countryName: String,
     hasStreamingService: Boolean = false,
-    @DrawableRes image: Int,
+    backgroundImage: DrawableImage,
+    @DrawableRes bottomTitleResId: Int?,
     val vpnCountry: VpnCountry
 ) : Card(
     title = if (hasStreamingService) Title("", R.drawable.ic_play) else null,
-    bottomTitle = Title(countryName),
-    backgroundImage = DrawableImage(image)
+    bottomTitle = Title(countryName, bottomTitleResId),
+    backgroundImage = backgroundImage
 )
 
 class ProfileCard(title: String? = null, @DrawableRes backgroundImage: Int, val profile: Profile) : Card(
@@ -58,4 +60,4 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 class LogoutCard(title: String) : IconCard(title, R.drawable.ic_tv_icon_logout)
 
 class Title(val text: String, @DrawableRes val resId: Int? = null)
-class DrawableImage(@DrawableRes val resId: Int, val opacity: Float = 1f)
+class DrawableImage(@DrawableRes val resId: Int, @ColorRes val tint: Int? = null)

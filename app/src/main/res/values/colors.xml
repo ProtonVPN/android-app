@@ -49,6 +49,7 @@
     <color name="bgDrawer">@color/grey</color>
     <color name="bgMap">#2e2e34</color>
     <color name="accountTitles">#4b4b56</color>
+    <color name="tvDisconnectButtonTint">#AA2e2e34</color>
     <color name="tvGridItemOverlay">#774b4b56</color>
     <color name="tvGridItemOverlayEnd">#774b4b56</color>
 
