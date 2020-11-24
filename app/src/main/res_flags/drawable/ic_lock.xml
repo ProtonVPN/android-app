@@ -1,0 +1,38 @@
+<!--
+ Copyright (c) 2020 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector android:height="24dp"
+    android:viewportHeight="16"
+    android:viewportWidth="16"
+    android:width="24dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#dde6ec"
+        android:fillType="evenOdd"
+        android:pathData="M11,8H4V13H11V8ZM3,7V14H12V7H3Z" />
+    <path
+        android:fillColor="#dde6ec"
+        android:fillType="evenOdd"
+        android:pathData="M10,6C10,5.6547 9.9339,5.3135 9.806,4.9959C9.6781,4.6784 9.4914,4.3917 9.2579,4.1515C9.0244,3.9114 8.7487,3.7224 8.4474,3.594C8.1462,3.4657 7.8243,3.4 7.5,3.4C7.1757,3.4 6.8538,3.4657 6.5526,3.594C6.2512,3.7224 5.9756,3.9114 5.7421,4.1515C5.5086,4.3917 5.3219,4.6784 5.194,4.9959C5.0662,5.3135 5,5.6547 5,6V7.0001H10V6ZM11,6C11,5.5273 10.9095,5.0591 10.7336,4.6224C10.5577,4.1856 10.2999,3.7887 9.9749,3.4544C9.6499,3.1202 9.264,2.855 8.8394,2.6741C8.4148,2.4931 7.9596,2.4 7.5,2.4C7.0404,2.4 6.5852,2.4931 6.1606,2.6741C5.736,2.855 5.3501,3.1202 5.0251,3.4544C4.7001,3.7887 4.4423,4.1856 4.2664,4.6224C4.0905,5.0591 4,5.5273 4,6V8H11V6Z" />
+    <path
+        android:fillColor="#dde6ec"
+        android:pathData="M8.5,10C8.5,10.5523 8.0523,11 7.5,11C6.9477,11 6.5,10.5523 6.5,10C6.5,9.4477 6.9477,9 7.5,9C8.0523,9 8.5,9.4477 8.5,10Z" />
+    <path
+        android:fillColor="#dde6ec"
+        android:pathData="M7,10H8V12H7V10Z" />
+</vector>

@@ -38,6 +38,7 @@ import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
@@ -81,6 +82,29 @@ class TvHomeViewModel @Inject constructor(
             R.string.cancel
         else
             R.string.disconnect
+
+    private fun countryListItemIcon(country: VpnCountry): Int? {
+        if (userData.isFreeUser) {
+            return if (country.hasAccessibleServer(userData)) R.drawable.ic_free else R.drawable.ic_lock
+        }
+        return null
+    }
+
+    fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
+        return serverManager.getVpnCountries().groupBy({
+            val continent = CountryTools.locationMap[it.flag]?.continent
+            DebugUtils.debugAssert { continent != null }
+            continent
+        }, { country ->
+            CountryCard(
+                countryName = country.countryName,
+                hasStreamingService = !streamingServicesIcons(country).isNullOrEmpty(),
+                backgroundImage = DrawableImage(CountryTools.getFlagResource(context, country.flag)),
+                bottomTitleResId = countryListItemIcon(country),
+                vpnCountry = country
+            )
+        })
+    }
 
     fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()

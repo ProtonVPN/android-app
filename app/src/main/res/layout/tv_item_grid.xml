@@ -25,12 +25,12 @@
     android:background="@color/grey"
     android:orientation="horizontal">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/gr_flag_hd" />
+        tools:src="@drawable/gr" />
 
     <LinearLayout
         android:id="@+id/titleLayout"
@@ -72,14 +72,15 @@
 
         <ImageView
             android:id="@+id/imageBottomTitle"
-            android:layout_width="16dp"
+            android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginEnd="4dp"
             lb:layout_constraintBottom_toBottomOf="parent"
             lb:layout_constraintEnd_toEndOf="parent"
             lb:layout_constraintStart_toStartOf="parent"
             lb:layout_constraintTop_toTopOf="@+id/imageBackground"
-            lb:layout_viewType="main" />
+            lb:layout_viewType="main"
+            tools:src="@drawable/ic_free" />
 
         <TextView
             android:id="@+id/textDescription"
