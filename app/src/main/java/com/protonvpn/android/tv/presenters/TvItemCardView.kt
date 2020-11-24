@@ -43,7 +43,6 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         card.title?.let { title ->
             textTitle.text = title.text
             titleLayout.setBackgroundResource(R.drawable.tv_item_top_gradient)
-            imageTitle.isVisible = title.resId != null
             title.resId?.let { imageTitle.setImageResource(title.resId) }
         }
         imageTitle.isVisible = card.title?.resId != null
@@ -58,9 +57,10 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         card.bottomTitle?.let { title ->
             textDescription.text = title.text
             bottomTitle.setBackgroundResource(R.drawable.tv_item_bottom_gradient)
-            imageBottomTitle.isVisible = title.resId != null
             title.resId?.let { imageBottomTitle.setImageResource(it) }
         }
+        imageBottomTitle.isVisible = card.bottomTitle?.resId != null
+
         if (card is CountryCard) {
             imageBackground.transitionName =
                 CountryDetailFragment.transitionNameForCountry(card.vpnCountry.flag)

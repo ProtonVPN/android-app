@@ -52,7 +52,6 @@ import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.vpn.VpnState
 import javax.inject.Inject
@@ -188,21 +187,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
         var index = 1
         rowsAdapter?.clear()
         updateRecentsRow()
-        val cards = viewModel.serverManager.getVpnCountries().groupBy({
-            val continent = CountryTools.locationMap[it.flag]?.continent
-            debugAssert { continent != null }
-            continent
-        }, { country ->
-            CountryCard(
-                country.countryName,
-                !viewModel.streamingServicesIcons(country).isNullOrEmpty(),
-                CountryTools.getFlagResource(requireContext(), country.flag),
-                country
-            )
-        })
+        val cards = viewModel.getCountryCardMap(requireContext())
 
-        CountryTools.Continent.values().forEach {
-            cards[it]?.let { cards ->
+        CountryTools.Continent.values().forEach { continent ->
+            cards[continent]?.let { cards ->
                 rowsAdapter!!.add(
                     createRow(
                         CardRow(title = it.nameRes, icon = it.iconRes, cards = cards),

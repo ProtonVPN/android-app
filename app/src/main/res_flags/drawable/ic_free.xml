@@ -1,0 +1,30 @@
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="16dp"
+    android:viewportWidth="300"
+    android:viewportHeight="129">
+    <group>
+        <clip-path android:pathData="M0,0h300v129h-300z" />
+        <path
+            android:fillColor="#fff"
+            android:pathData="M227,126L72,126a60.716,60.716 0,0 1,-34.106 -10.418,61.178 61.178,0 0,1 -22.1,-26.838 60.92,60.92 0,0 1,5.624 -57.85,61.178 61.178,0 0,1 26.838,-22.1A60.619,60.619 0,0 1,72 4L227,4a60.715,60.715 0,0 1,34.106 10.418,61.178 61.178,0 0,1 22.1,26.838 60.919,60.919 0,0 1,-5.624 57.849,61.178 61.178,0 0,1 -26.838,22.1A60.619,60.619 0,0 1,227 126ZM189.74,45.625L189.74,87.2h27.541L217.281,80.023L198.44,80.023L198.44,69.536h17.775L216.215,62.824L198.44,62.824L198.44,52.8h18.841L217.281,45.625ZM155.688,45.625L155.688,87.2h27.542L183.23,80.023L164.388,80.023L164.388,69.536h17.775L182.163,62.824L164.388,62.824L164.388,52.8h18.841L183.229,45.625ZM126.388,72.014h7.115L141.226,87.2h9.881L142.35,70.689a11.02,11.02 0,0 0,5.575 -4.6,13.566 13.566,0 0,0 1.974,-7.216 14.521,14.521 0,0 0,-0.987 -5.492,11.412 11.412,0 0,0 -2.961,-4.2 12.975,12.975 0,0 0,-4.674 -2.669,19.641 19.641,0 0,0 -6.129,-0.89L117.69,45.622L117.69,87.2h8.7L126.39,72.015ZM85.107,45.625L85.107,87.2h8.7L93.807,70.833L110.718,70.833L110.718,63.947L93.807,63.947L93.807,52.8h18.524L112.331,45.625ZM134.024,65.5L126.39,65.5L126.39,52.453h7.547a7.28,7.28 0,0 1,5.143 1.757,6.244 6.244,0 0,1 1.887,4.783 6.269,6.269 0,0 1,-1.83 4.81A7.259,7.259 0,0 1,134.024 65.5Z" />
+    </group>
+</vector>
