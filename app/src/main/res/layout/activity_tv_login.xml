@@ -29,14 +29,14 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginTop="64dp"
         android:tint="@color/colorAccent"
-        android:src="@drawable/ic_bug"
+        android:src="@drawable/ic_proton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" /> <!-- TODO: icon -->
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/logoLabel"
