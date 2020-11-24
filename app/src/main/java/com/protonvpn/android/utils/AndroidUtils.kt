@@ -31,8 +31,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.protonvpn.android.R
 
 object AndroidUtils {
@@ -121,3 +126,10 @@ fun Context.openUrl(url: Uri) {
 
 fun Context.openProtonUrl(url: String) =
     openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())
+
+fun ImageView.setColorTint(@ColorRes colorRes: Int) {
+    this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+        ContextCompat.getColor(context, colorRes),
+        BlendModeCompat.SRC_OVER
+    )
+}

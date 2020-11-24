@@ -91,7 +91,8 @@ class TvHomeViewModel @Inject constructor(
                     R.drawable.ic_notification_disconnected else R.drawable.ic_thunder
             ),
             backgroundImage = DrawableImage(
-                resId = quickConnectBackground(context), opacity = if (isConnected()) 0.5f else 1.0f
+                resId = quickConnectBackground(context),
+                tint = if (isConnected()) R.color.tvDisconnectButtonTint else R.color.transparent
             )
         )
         recentsList.add(quickConnectCard)
