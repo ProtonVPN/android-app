@@ -54,7 +54,18 @@ class TvMapView @JvmOverloads constructor(
     private var currentZoomAnimation: Job? = null
     private var currentAnimator: ValueAnimator? = null
 
+    init {
+        alpha = 0f
+    }
+
     private val mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope) {
+        if (renderedMap == null) {
+            animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(MAP_SHOW_DELAY)
+                .duration = MAP_FADE_IN_DURATION
+        }
         renderedMap = it
         invalidate()
     }
@@ -135,5 +146,7 @@ class TvMapView @JvmOverloads constructor(
 
     companion object {
         const val ZOOM_DURATION_MS = 300L
+        const val MAP_SHOW_DELAY = 500L
+        const val MAP_FADE_IN_DURATION = 400L
     }
 }
