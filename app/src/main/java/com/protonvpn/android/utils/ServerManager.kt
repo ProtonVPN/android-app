@@ -85,6 +85,7 @@ class ServerManager(
             vpnCountries.addAll(oldManager.getVpnCountries())
             secureCoreExitCountries.addAll(oldManager.getSecureCoreExitCountries())
             secureCoreEntryCountries.addAll(oldManager.getSecureCoreEntryCountries())
+            streamingServices = oldManager.streamingServices
             updatedAt = oldManager.updatedAt
         }
         reInitProfiles()
