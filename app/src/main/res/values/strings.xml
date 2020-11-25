@@ -358,7 +358,6 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="nameOceania">Oceania</string>
     <string name="tvRowMore">More</string>
 
-    <string name="tvMainTitle">VPN</string>
     <string name="tv_detail_default_connection_checkbox">Use as default quick connection</string>
     <string name="tv_detail_connect_streaming">Connect to streaming server</string>
     <string name="tv_detail_connect_fastest">Connect to fastest server</string>
