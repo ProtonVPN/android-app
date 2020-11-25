@@ -43,6 +43,7 @@ import com.protonvpn.android.databinding.StreamingIconBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
+import com.protonvpn.android.utils.setStartDrawable
 import javax.inject.Inject
 
 @ContentLayout(R.layout.fragment_tv_country_details)
@@ -96,14 +97,22 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         }
 
         defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
+        defaultConnection.isVisible = viewModel.hasAccessibleServers(card.vpnCountry)
         defaultConnection.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAsDefaultCountry(isChecked, card.vpnCountry)
         }
 
+        connectStreaming.setStartDrawable(
+            if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
         connectStreaming.setOnClickListener {
-            Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
+            if (viewModel.hasAccessibleServers(card.vpnCountry)) {
+                viewModel.connect(requireActivity(), card)
+            } else {
+                viewModel.onUpgradeClicked(requireContext())
+            }
         }
 
+        connectFastest.isVisible = viewModel.hasAccessibleServers(card.vpnCountry)
         connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
         }
@@ -131,8 +140,8 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         val emptyFocus = binding.root.findFocus() == null
 
         binding.connectFastest.isVisible = showConnectButtons
-        binding.connectStreaming.isVisible = showConnectButtons
-        binding.disconnect.isVisible = !showConnectButtons
+        binding.connectStreaming.isVisible = viewModel.showConnectToStreamingButton(card)
+        binding.disconnect.isVisible = viewModel.isConnectedToThisCountry(card)
         binding.disconnect.setText(viewModel.disconnectText(card))
 
         if (focusOnButtons || emptyFocus) {
