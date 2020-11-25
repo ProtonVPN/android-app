@@ -18,11 +18,10 @@
  */
 package com.protonvpn.android.tv.detailed
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -43,6 +42,7 @@ import com.protonvpn.android.databinding.StreamingIconBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
+import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.setStartDrawable
 import javax.inject.Inject
 
@@ -121,12 +121,12 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
             viewModel.disconnect()
         }
 
-        val streamingIcons = viewModel.streamingServicesIcons(card.vpnCountry)
-        if (streamingIcons.isNullOrEmpty())
+        val streamingServices = viewModel.streamingServices(card.vpnCountry)
+        if (streamingServices.isNullOrEmpty())
             streamingServicesContainer.isVisible = false
         else {
-            for (iconUrl in streamingIcons)
-                addServiceIconView(streamingServices, iconUrl)
+            for (streamingService in streamingServices)
+                addStreamingServiceView(this.streamingServices, streamingService)
         }
 
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
@@ -156,9 +156,23 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         }
     }
 
-    private fun addServiceIconView(parent: ViewGroup, iconUrl: String) {
+    private fun addStreamingServiceView(parent: ViewGroup, service: TvHomeViewModel.StreamingService) {
         val binding = StreamingIconBinding.inflate(layoutInflater, parent, true)
-        Glide.with(this).load(iconUrl).into(binding.root as ImageView)
+        if (service.iconUrl != null) {
+            Glide.with(this).load(service.iconUrl).addListener(
+                onFail = {
+                    binding.fallbackToStreamingServiceName(service.name)
+                })
+                .into(binding.icon)
+        } else {
+            binding.fallbackToStreamingServiceName(service.name)
+        }
+    }
+
+    private fun StreamingIconBinding.fallbackToStreamingServiceName(name: String) {
+        icon.isVisible = false
+        text.isVisible = true
+        text.text = name
     }
 
     companion object {

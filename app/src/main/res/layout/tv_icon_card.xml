@@ -22,7 +22,7 @@
     android:id="@+id/container"
     android:layout_width="@dimen/tv_item_size_height"
     android:layout_height="@dimen/tv_item_size_height"
-    android:background="#191b21">
+    android:background="@color/tvGradientDark">
 
     <ImageView
         android:id="@+id/icon"

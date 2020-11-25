@@ -103,7 +103,7 @@ class TvHomeViewModel @Inject constructor(
         }, { country ->
             CountryCard(
                 countryName = country.countryName,
-                hasStreamingService = !streamingServicesIcons(country).isNullOrEmpty(),
+                hasStreamingService = !streamingServices(country).isNullOrEmpty(),
                 backgroundImage = DrawableImage(CountryTools.getFlagResource(context, country.flag)),
                 bottomTitleResId = countryListItemIcon(country),
                 vpnCountry = country
@@ -194,12 +194,17 @@ class TvHomeViewModel @Inject constructor(
         ) else null
     }
 
-    fun streamingServicesIcons(vpnCountry: VpnCountry): List<String>? =
-        if (!appConfig.getFeatureFlags().displayTVLogos)
-            null
-        else serverManager.streamingServices?.let { response ->
-            response.filter(userData.userTier, vpnCountry.flag)?.map {
-                Uri.parse(response.resourceBaseURL).buildUpon().appendPath(it.iconName).toString()
+    data class StreamingService(val name: String, val iconUrl: String?)
+    fun streamingServices(vpnCountry: VpnCountry): List<StreamingService>? =
+        serverManager.streamingServices?.let { response ->
+            response.filter(userData.userTier, vpnCountry.flag)?.mapIndexed { i, x ->
+                StreamingService(
+                    x.name,
+                    if (appConfig.getFeatureFlags().displayTVLogos)
+                        Uri.parse(response.resourceBaseURL).buildUpon().appendPath(x.iconName).toString()
+                    else
+                        null
+                )
             }
         }
 
