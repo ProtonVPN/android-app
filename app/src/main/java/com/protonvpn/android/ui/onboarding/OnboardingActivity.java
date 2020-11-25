@@ -28,9 +28,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ViewPagerAdapter;
-import com.protonvpn.android.tv.TvLoginActivity;
 import com.protonvpn.android.ui.login.LoginActivity;
-import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 
 import androidx.viewpager.widget.ViewPager;
@@ -74,10 +72,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @Override
     public void onBackPressed() {
-        if (AndroidUtils.INSTANCE.isTV(this))
-            navigateTo(TvLoginActivity.class);
-        else
-            navigateTo(LoginActivity.class);
+        navigateTo(LoginActivity.class);
         finish();
     }
 
@@ -88,10 +83,6 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     private void arrangeButtons() {
         transformButtons(viewPager.getCurrentItem() == 2 ? 1 : 0);
-        if (AndroidUtils.INSTANCE.isTV(this)) {
-            textSkip.setVisibility(View.GONE);
-            textNext.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -113,8 +104,8 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
     }
 
     private void translateButton(int position, float positionOffset, View view, boolean translateLeft) {
-        boolean tvOrTablet = getResources().getBoolean(R.bool.isTablet) || AndroidUtils.INSTANCE.isTV(this);
-        float leftOrRight = AnimationTools.convertDpToPixel(tvOrTablet ? 640 : 220);
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        float leftOrRight = AnimationTools.convertDpToPixel(isTablet ? 640 : 220);
         if (translateLeft) {
             leftOrRight = -leftOrRight;
         }
@@ -137,13 +128,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @OnClick(R.id.buttonLogin)
     public void buttonLogin() {
-        if (AndroidUtils.INSTANCE.isTV(this)) {
-            navigateTo(TvLoginActivity.class);
-        }
-        else {
-            navigateTo(LoginActivity.class);
-        }
-
+        navigateTo(LoginActivity.class);
         finish();
     }
 
