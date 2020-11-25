@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -75,7 +76,12 @@ class TvHomeViewModel @Inject constructor(
     val haveAccessToStreaming get() = userData.isUserPlusOrAbove
 
     fun showConnectButtons(card: CountryCard) =
-        !vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
+        !isConnectedToThisCountry(card) && card.vpnCountry.hasAccessibleServer(userData)
+
+    fun showConnectToStreamingButton(card: CountryCard) = showConnectButtons(card) || isFreeUser()
+
+    fun isConnectedToThisCountry(card: CountryCard) =
+        vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
 
     fun disconnectText(card: CountryCard) =
         if (!showConnectButtons(card) && vpnStateMonitor.vpnStatus.value?.state?.isEstablishingConnection == true)
@@ -139,7 +145,17 @@ class TvHomeViewModel @Inject constructor(
 
     fun isConnected() = vpnStateMonitor.isConnected
 
-    fun quickConnectBackground(context: Context): Int {
+    fun isFreeUser() = userData.isFreeUser
+
+    fun isPlusUser() = userData.isUserPlusOrAbove
+
+    fun hasAccessibleServers(country: VpnCountry) = country.hasAccessibleServer(userData)
+
+    fun onUpgradeClicked(context: Context) {
+        Toast.makeText(context, "Upgrade not yet implemented", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun quickConnectBackground(context: Context): Int {
         val server =
             if (isConnected()) vpnStateMonitor.connectingToServer else serverManager.defaultConnection.server
         return CountryTools.getFlagResource(context, server?.flag)

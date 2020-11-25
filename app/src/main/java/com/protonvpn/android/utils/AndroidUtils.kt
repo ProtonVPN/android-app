@@ -31,10 +31,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -132,4 +134,8 @@ fun ImageView.setColorTint(@ColorRes colorRes: Int) {
         ContextCompat.getColor(context, colorRes),
         BlendModeCompat.SRC_OVER
     )
+}
+
+fun Button.setStartDrawable(@DrawableRes id: Int = 0) {
+    this.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0)
 }
