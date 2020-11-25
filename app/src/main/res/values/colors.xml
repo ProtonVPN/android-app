@@ -24,7 +24,7 @@
 
     <color name="tvAccent">#4da358</color>
     <color name="tvAlert">#ec5858</color>
-    <color name="tvButtonBg">#262a33</color>
+    <color name="tvButtonBg">@color/tvGradientDark</color>
 
     <color name="white">#FFFFFF</color>
     <color name="transparentWhite">#55FFFFFF</color>
@@ -82,5 +82,7 @@
     <color name="tvMapSelected">#5f6575</color>
     <color name="tvMapCountry">#3c414e</color>
     <color name="tvMapConnected">#4da358</color>
-    <color name="tvMapBorder">#262a33</color>
+    <color name="tvGradientDark">#262a33</color>
+    <color name="tvGradientLight">#3c414e</color>
+    <color name="tvMapBorder">@color/tvGradientDark</color>
 </resources>

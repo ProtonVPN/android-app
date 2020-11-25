@@ -24,7 +24,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import java.util.Locale
 
 object CountryTools {
