@@ -57,10 +57,15 @@ class TvStatusFragment : DaggerFragment() {
         val statusColor = if (status.state == VpnState.Connected) R.color.colorAccent else R.color.white
         binding.textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
 
-        val ipToDisplay =
-            if (status.state == VpnState.Connected) status.connectionParams?.exitIpAddress
-            else serverListUpdater.ipAddress.value ?: R.string.stateFragmentUnknownIp
-        binding.textIp.text = getString(R.string.ipWithPlaceholder, ipToDisplay)
+
+        serverListUpdater.ipAddress.observe(viewLifecycleOwner, Observer {
+            val ipToDisplay = when {
+                status.state == VpnState.Connected -> status.connectionParams?.exitIpAddress
+                it.isEmpty() -> getString(R.string.stateFragmentUnknownIp)
+                else -> it
+            }
+            binding.textIp.text = getString(R.string.ipWithPlaceholder, ipToDisplay)
+        })
 
         when (status.state) {
             VpnState.Connected -> {
