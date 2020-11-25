@@ -49,9 +49,9 @@ class TvMapRenderer(
     val bitmapCallback: (RenderedMap) -> Unit
 ) {
     class RenderTarget(w: Int, h: Int) {
-        val map: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565)
+        val map: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas: Canvas = Canvas(map)
-        val outMap: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565)
+        val outMap: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val outCanvas: Canvas = Canvas(outMap)
 
         fun isSize(w: Int, h: Int) = map.width == w && map.height == h

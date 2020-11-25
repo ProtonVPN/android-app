@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1538.434" height="1538.434" viewport-fill="#262a33">
+<svg xmlns="http://www.w3.org/2000/svg" width="1538.434" height="1538.434">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#262a33;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#3c414e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1538.434" height="1538.434" fill="url(#bg)" />
   <g id="Gruppe6078" transform="translate(-121.566 -213.28)">
     <g id="Gruppe6077" transform="translate(121.566 213.28)">
       <g id="Zimbabwe" transform="translate(806.894 473.245)">
