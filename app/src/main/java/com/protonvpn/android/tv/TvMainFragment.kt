@@ -100,8 +100,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun setupUi() {
-        title = getString(R.string.tvMainTitle)
-
         onItemViewClickedListener = OnItemViewClickedListener { viewHolder, item, _, _ ->
             when (item) {
                 is CountryCard -> {
