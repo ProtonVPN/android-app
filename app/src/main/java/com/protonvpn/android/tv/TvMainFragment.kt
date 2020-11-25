@@ -135,7 +135,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun setupRowAdapter() {
-        createRows()
+        rowsAdapter?.createRows()
         view?.doOnPreDraw {
             startPostponedEnterTransition()
         }
@@ -145,10 +145,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
         viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
             when (it) {
                 VpnState.Connected -> {
-                    updateRecentsRow()
+                    rowsAdapter?.updateRecentsRow()
                 }
                 VpnState.Disabled -> {
-                    updateRecentsRow()
+                    rowsAdapter?.updateRecentsRow()
                 }
             }
         })
@@ -168,37 +168,33 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun updateRecentsRow() {
+    private fun ArrayObjectAdapter.updateRecentsRow() {
         val recentsRow = CardRow(
             title = R.string.recents,
             icon = R.drawable.ic_recent,
             cards = viewModel.getRecentCardList(requireContext())
         )
-        if (rowsAdapter!!.size() == 0) {
-            rowsAdapter!!.add(createRow(recentsRow, 0))
-        } else {
-            rowsAdapter!!.replace(0, createRow(recentsRow, 0))
-        }
+        addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun createRows() {
+    private fun ArrayObjectAdapter.createRows() {
         var index = 1
-        rowsAdapter?.clear()
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap(requireContext())
 
         CountryTools.Continent.values().forEach { continent ->
             continentMap[continent]?.let { cards ->
-                rowsAdapter!!.add(
+                addOrReplace(index,
                     createRow(
                         CardRow(
                             title = continent.nameRes,
                             icon = continent.iconRes,
                             cards = cards
                         ),
-                        index++
+                        index
                     )
                 )
+                index++
             }
         }
 
@@ -206,7 +202,15 @@ class TvMainFragment : BaseTvBrowseFragment() {
             title = R.string.tvRowMore,
             icon = R.drawable.row_more_icon,
             cards = listOf(LogoutCard(getString(R.string.drawerLogout))))
-        rowsAdapter!!.add(createRow(settingsRow, index++))
+        addOrReplace(index, createRow(settingsRow, index))
+        index++
+    }
+
+    private fun ArrayObjectAdapter.addOrReplace(index: Int, row: Row) {
+        if (size() > index)
+            replace(index, row)
+        else
+            add(row)
     }
 
     private fun createRow(cardRow: CardRow, index: Int): Row {
