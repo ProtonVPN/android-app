@@ -26,6 +26,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import kotlin.math.roundToInt
 
 object ViewUtils {
@@ -71,3 +76,29 @@ fun LottieAnimationView.onAnimationEnd(onEnd: (Animator?) -> Unit) =
         override fun onAnimationCancel(animation: Animator?) {}
         override fun onAnimationEnd(animation: Animator?) = onEnd(animation)
     })
+
+fun <T> RequestBuilder<T>.addListener(
+    onSuccess: (() -> Unit)? = null,
+    onFail: ((e: GlideException?) -> Unit)? = null
+) = listener(object : RequestListener<T> {
+    override fun onLoadFailed(
+        e: GlideException?,
+        model: Any?,
+        target: Target<T>?,
+        isFirstResource: Boolean
+    ): Boolean {
+        onFail?.invoke(e)
+        return false
+    }
+
+    override fun onResourceReady(
+        resource: T?,
+        model: Any?,
+        target: Target<T>?,
+        dataSource: DataSource?,
+        isFirstResource: Boolean
+    ): Boolean {
+        onSuccess?.invoke()
+        return false
+    }
+})

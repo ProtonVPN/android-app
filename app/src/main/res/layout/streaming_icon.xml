@@ -18,11 +18,31 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-<ImageView
-    android:layout_height="24dp"
+<FrameLayout
     android:layout_width="wrap_content"
-    android:adjustViewBounds="true"/>
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp">
+
+    <ImageView
+        android:id="@id/icon"
+        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:adjustViewBounds="true"
+        android:tint="@color/white"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#5000"
+        android:paddingVertical="3dp"
+        android:paddingHorizontal="5dp"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+</FrameLayout>
 
 </layout>
