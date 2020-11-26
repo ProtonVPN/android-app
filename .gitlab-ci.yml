@@ -96,7 +96,7 @@ java style:
   cache: {}
   stage: analyze
   tags:
-    - android
+    - small
   script:
     - ./gradlew checkstyle
   artifacts:
@@ -108,7 +108,7 @@ detekt analysis:
   cache: {}
   stage: analyze
   tags:
-    - android
+    - small
   script:
     - ./gradlew detekt
   artifacts:
@@ -119,7 +119,7 @@ detekt analysis:
 build debug:
   stage: build
   tags:
-    - android
+    - large
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
@@ -136,7 +136,7 @@ build debug:
 build blue:
   stage: build
   tags:
-    - android
+    - large
   script:
     - ./gradlew assembleBlueDebug
   when: manual
@@ -150,7 +150,7 @@ build google play release:
   except:
     - master
   tags:
-    - android
+    - large
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
@@ -166,7 +166,7 @@ build release (auto):
     refs:
       - master
   tags:
-    - android
+    - large
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleDirectRelease -PabiSplit -PbuildUniversalApk
@@ -178,14 +178,14 @@ build release (auto):
 unit tests:
   stage: test
   tags:
-    - android
+    - large
   script:
     - ./gradlew test
 
 .tests_preparation_script: &tests_preparation_script
   stage: test
   tags:
-    - android
+    - small
   script:
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
@@ -247,7 +247,7 @@ firebase full tests:
 coverage report:
   stage: report
   tags:
-    - android
+    - small
   script:
     - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
@@ -263,7 +263,7 @@ coverage report:
 owasp check:
   stage: report
   tags:
-    - android
+    - small
   script:
     - ./gradlew dependencyCheckAggregate
   when: manual
