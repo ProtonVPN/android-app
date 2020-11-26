@@ -247,7 +247,7 @@ firebase full tests:
 coverage report:
   stage: report
   tags:
-    - small
+    - large
   script:
     - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
@@ -263,7 +263,7 @@ coverage report:
 owasp check:
   stage: report
   tags:
-    - small
+    - large
   script:
     - ./gradlew dependencyCheckAggregate
   when: manual
