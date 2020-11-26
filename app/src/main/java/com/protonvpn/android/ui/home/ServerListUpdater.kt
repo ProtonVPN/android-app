@@ -59,7 +59,7 @@ class ServerListUpdater(
         private fun now() = SystemClock.elapsedRealtime()
     }
 
-    private var homeActivity: HomeActivity? = null
+    private var networkLoader: NetworkLoader? = null
     private var inForeground = false
     var isVpnDisconnected = true
 
@@ -74,10 +74,10 @@ class ServerListUpdater(
         if (userData.isLoggedIn) {
             if (isVpnDisconnected && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocation())
-                    updateServerList(homeActivity)
+                    updateServerList(networkLoader)
             }
             if (serverManager.isOutdated || inForeground && now() >= lastServerListUpdate + LIST_CALL_DELAY)
-                updateServerList(homeActivity)
+                updateServerList(networkLoader)
             else if (inForeground && now() >= lastLoadsUpdate + LOADS_CALL_DELAY)
                 updateLoads()
 
@@ -101,12 +101,12 @@ class ServerListUpdater(
         lastLoadsUpdateInternal = dateToRealtime(Storage.getLong(KEY_LOADS_UPDATE_DATE, 0L))
     }
 
-    fun onHomeActivityCreated(activity: HomeActivity) {
-        homeActivity = activity
+    fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
+        networkLoader = loader
         if (serverManager.isOutdated)
             task.scheduleIn(0)
 
-        activity.lifecycle.addObserver(object : LifecycleObserver {
+        lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume() {
                 inForeground = true
@@ -121,7 +121,7 @@ class ServerListUpdater(
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                homeActivity = null
+                networkLoader = null
             }
         })
     }
@@ -146,7 +146,7 @@ class ServerListUpdater(
     }
 
     // Returns true if IP has changed
-    private suspend fun updateLocation(): Boolean {
+    suspend fun updateLocation(): Boolean {
         val result = api.getLocation()
         var ipChanged = false
         if (result is ApiResult.Success) {

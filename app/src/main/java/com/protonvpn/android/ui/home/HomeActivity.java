@@ -185,7 +185,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             drawerNotifications.updateNotifications(this, notifications);
         });
 
-        serverListUpdater.onHomeActivityCreated(this);
+        serverListUpdater.startSchedule(getLifecycle(), this);
 
         if (Storage.getBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD)) {
             if (AndroidUtils.INSTANCE.isPackageInstalled(this, NewAppMigrator.OLD_APP_ID)) {

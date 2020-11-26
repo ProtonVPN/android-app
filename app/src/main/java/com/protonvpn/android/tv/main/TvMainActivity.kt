@@ -63,6 +63,8 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
             finish()
             startActivity(Intent(this, TvLoginActivity::class.java))
         }
+
+        viewModel.onViewInit(lifecycle)
     }
 
     override fun onBackPressed() {
