@@ -180,7 +180,7 @@ unit tests:
   tags:
     - large
   script:
-    - ./gradlew test
+    - ./gradlew testDirectDebug
 
 .tests_preparation_script: &tests_preparation_script
   stage: test
