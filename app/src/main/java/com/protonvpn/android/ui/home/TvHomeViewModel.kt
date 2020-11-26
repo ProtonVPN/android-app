@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -32,9 +33,9 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.TvMapRenderer
-import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
+import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
@@ -71,6 +72,10 @@ class TvHomeViewModel @Inject constructor(
             }
         }
         serverListUpdater.getServersList(null)
+    }
+
+    fun onViewInit(lifecycle: Lifecycle) {
+        serverListUpdater.startSchedule(lifecycle, null)
     }
 
     val haveAccessToStreaming get() = userData.isUserPlusOrAbove

@@ -120,6 +120,7 @@ class TvLoginViewModel @Inject constructor(
     private suspend fun loadInitialConfig() {
         state.value = TvLoginViewState.Loading
         appConfig.update()
+        serverListUpdater.updateLocation()
         when (val result = serverListUpdater.updateServerList()) {
             is ApiResult.Success ->
                 state.value = TvLoginViewState.Success
