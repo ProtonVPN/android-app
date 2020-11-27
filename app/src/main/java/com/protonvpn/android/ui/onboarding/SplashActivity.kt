@@ -31,10 +31,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val nextActivity = when {
-            !OnboardingPreferences.wasOnboardingShown() ->
-                OnboardingActivity::class.java
             isTV() ->
                 TvLoginActivity::class.java
+            !OnboardingPreferences.wasOnboardingShown() ->
+                OnboardingActivity::class.java
             else ->
                 LoginActivity::class.java
         }

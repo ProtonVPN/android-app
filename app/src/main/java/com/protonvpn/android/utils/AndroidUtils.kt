@@ -30,7 +30,9 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -41,6 +43,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.protonvpn.android.R
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 object AndroidUtils {
 
@@ -64,7 +68,20 @@ object AndroidUtils {
 
     fun Context.isTV(): Boolean {
         val uiMode: Int = resources.configuration.uiMode
-        return uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION
+        return uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION ||
+            packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION) ||
+            packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK) ||
+            packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
+    }
+
+    fun Context.displayDiagonalApprox(): Float {
+        val defaultDisplay = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val realMetrics = DisplayMetrics()
+        defaultDisplay.getRealMetrics(realMetrics)
+
+        val widthInches = realMetrics.widthPixels / realMetrics.xdpi
+        val heightInches = realMetrics.heightPixels / realMetrics.ydpi
+        return sqrt(widthInches.pow(2f) + heightInches.pow(2f))
     }
 
     inline fun <reified T : Any> Context.launchActivity(
