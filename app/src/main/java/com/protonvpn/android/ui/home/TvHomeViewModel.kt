@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.home
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +31,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
@@ -39,6 +39,7 @@ import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
@@ -101,6 +102,8 @@ class TvHomeViewModel @Inject constructor(
         else -> R.drawable.ic_lock
     }
 
+    fun shouldDisplayStreamingIcons() = appConfig.getFeatureFlags().displayTVLogos
+
     fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
         return serverManager.getVpnCountries().groupBy({
             val continent = CountryTools.locationMap[it.flag]?.continent
@@ -161,7 +164,7 @@ class TvHomeViewModel @Inject constructor(
         !isPlusUser() && !isConnectedToThisCountry(card)
 
     fun onUpgradeClicked(context: Context) {
-        Toast.makeText(context, "Upgrade not yet implemented", Toast.LENGTH_SHORT).show()
+        context.launchActivity<TvUpgradeActivity>()
     }
 
     private fun quickConnectBackground(context: Context): Int {

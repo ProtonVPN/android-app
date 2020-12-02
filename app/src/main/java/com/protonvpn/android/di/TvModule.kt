@@ -4,6 +4,7 @@ import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.tv.TvMainFragment
 import com.protonvpn.android.tv.TvStatusFragment
+import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -16,6 +17,9 @@ abstract class TvModule {
 
     @ContributesAndroidInjector
     abstract fun bindTvMain(): TvMainActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindUpgradeActivity(): TvUpgradeActivity
 
     @ContributesAndroidInjector
     abstract fun provideMainFragment(): TvMainFragment

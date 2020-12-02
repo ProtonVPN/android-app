@@ -370,4 +370,8 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_login_refresh">Refresh</string>
     <string name="tv_login_title_loading">Loading…</string>
     <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
+    <string name="tv_upgrade_title">Upgrade to continue</string>
+    <string name="back">Back</string>
+    <string name="tv_upgrade_url_details">Visit <font fgcolor='#59B268'>www.protonvpn.com/account</font> to upgrade and find more information</string>
+    <string name="tv_upgrade_description">With a ProtonVPN premium subscription you get access to 500+ servers worldwide, with optimized streaming options for Netflix, Prime Video, Disney+ and many more.</string>
 </resources>
