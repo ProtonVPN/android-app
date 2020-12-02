@@ -22,11 +22,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.android.support.DaggerFragment
@@ -54,9 +58,13 @@ class TvStatusFragment : DaggerFragment() {
     }
 
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
-        val statusColor = if (status.state == VpnState.Connected) R.color.colorAccent else R.color.white
-        binding.textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
-
+        val state = status.state
+        val statusColor = when (state) {
+            VpnState.Connected -> R.color.colorAccent
+            is VpnState.Error -> R.color.tvAlert
+            else -> R.color.white
+        }
+        textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
 
         serverListUpdater.ipAddress.observe(viewLifecycleOwner, Observer {
             val ipToDisplay = when {
@@ -64,10 +72,9 @@ class TvStatusFragment : DaggerFragment() {
                 it.isEmpty() -> getString(R.string.stateFragmentUnknownIp)
                 else -> it
             }
-            binding.textIp.text = getString(R.string.ipWithPlaceholder, ipToDisplay)
+            textIp.text = getString(R.string.ipWithPlaceholder, ipToDisplay)
         })
-
-        when (status.state) {
+        when (state) {
             VpnState.Connected -> {
                 textStatus.text = getString(R.string.stateConnectedTo, status.server?.displayName)
             }
@@ -80,6 +87,50 @@ class TvStatusFragment : DaggerFragment() {
             VpnState.Reconnecting -> {
                 textStatus.text = getString(R.string.state_reconnecting)
             }
+            VpnState.ScanningPorts, VpnState.CheckingAvailability -> {
+                textStatus.text = getString(R.string.loaderCheckingAvailability)
+            }
+            VpnState.WaitingForNetwork -> {
+                textStatus.text = getString(R.string.loaderReconnectNoNetwork)
+            }
+            VpnState.Disconnecting -> {
+                textStatus.text = getString(R.string.loaderDisconnecting)
+            }
+            is VpnState.Error -> {
+                onError(state.type)
+            }
         }
+    }
+
+    private fun onError(error: ErrorType) = with(binding) {
+        when (error) {
+            ErrorType.LOOKUP_FAILED ->
+                textStatus.setText(R.string.error_lookup_failed)
+            ErrorType.UNREACHABLE ->
+                textStatus.setText(R.string.error_unreachable)
+
+            // dialog
+            ErrorType.AUTH_FAILED ->
+                showErrorDialog(R.string.error_auth_failed)
+            ErrorType.PEER_AUTH_FAILED ->
+                showErrorDialog(R.string.error_peer_auth_failed)
+            ErrorType.MAX_SESSIONS ->
+                showErrorDialog(R.string.errorMaxSessions)
+            ErrorType.UNPAID ->
+                showErrorDialog(R.string.errorUserDelinquent)
+            ErrorType.MULTI_USER_PERMISSION ->
+                showErrorDialog(R.string.errorTunMultiUserPermission)
+            else -> {}
+        }
+    }
+
+    private fun showErrorDialog(@StringRes stringRes: Int) {
+        vpnStateMonitor.disconnect()
+        MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
+            .title(R.string.tv_vpn_error_dialog_title)
+            .content(stringRes)
+            .cancelable(false)
+            .negativeText(R.string.close)
+            .show()
     }
 }
