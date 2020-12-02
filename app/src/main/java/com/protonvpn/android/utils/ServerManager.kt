@@ -45,10 +45,7 @@ class ServerManager(
     private val secureCoreExitCountries = mutableListOf<VpnCountry>()
 
     var streamingServices: StreamingServicesResponse? = null
-        set(value) {
-            field = value
-            Storage.save(this)
-        }
+        private set
 
     var updatedAt: DateTime? = null
         private set
@@ -289,6 +286,11 @@ class ServerManager(
 
     override fun hasAccessToServer(server: Server): Boolean =
         userData.hasAccessToServer(server)
+
+    fun setStreamingServices(value: StreamingServicesResponse) {
+        streamingServices = value
+        Storage.save(this)
+    }
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
         getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }

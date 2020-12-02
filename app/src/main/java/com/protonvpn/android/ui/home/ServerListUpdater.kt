@@ -183,7 +183,7 @@ class ServerListUpdater(
             if (updateStreaming) {
                 val streamingServices = api.getStreamingServices().valueOrNull
                 if (streamingServices != null)
-                    serverManager.streamingServices = streamingServices
+                    serverManager.setStreamingServices(streamingServices)
             }
         }
         return result
