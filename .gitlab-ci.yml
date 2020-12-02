@@ -209,6 +209,7 @@ unit tests:
         run firebase-device-config.yml:${TESTS_TYPE}
         --app "$APP"
         --test "$TEST_APP"
+        --num-flaky-test-attempts=2
         --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"
         --directories-to-pull /sdcard
     - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
