@@ -205,8 +205,8 @@ open class VpnStateMonitor(
         if (activeBackend != newBackend) {
             activeBackend?.active = false
             newBackend.active = true
+            newBackend.setSelfState(Connecting)
             activeBackendObservable.value = newBackend
-            activeBackend?.setSelfState(Connecting)
             setSelfState(Disabled)
         }
     }
@@ -253,7 +253,7 @@ open class VpnStateMonitor(
         }
 
         val newBackend = preparedConnection.backend
-        if (activeBackend != newBackend)
+        if (activeBackend != null && activeBackend != newBackend)
             disconnectBlocking()
 
         connectionParams = preparedConnection.connectionParams
