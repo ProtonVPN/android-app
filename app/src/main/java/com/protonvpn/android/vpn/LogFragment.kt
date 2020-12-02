@@ -35,12 +35,9 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @ContentLayout(R.layout.fragment_log)
 class LogFragment : BaseFragment() {
@@ -88,9 +85,7 @@ class LogFragment : BaseFragment() {
             holder.bindData(log[position])
         }
 
-        override fun getItemCount(): Int {
-            return log.size
-        }
+        override fun getItemCount() = log.size
     }
 
     inner class LogLineViewHolder internal constructor(view: View) : BaseViewHolder<String>(view) {

@@ -209,11 +209,11 @@ class TvHomeViewModel @Inject constructor(
     data class StreamingService(val name: String, val iconUrl: String?)
     fun streamingServices(vpnCountry: VpnCountry): List<StreamingService>? =
         serverManager.streamingServices?.let { response ->
-            response.filter(userData.userTier, vpnCountry.flag)?.mapIndexed { i, x ->
+            response[vpnCountry.flag]?.map { streamingService ->
                 StreamingService(
-                    x.name,
+                    streamingService.name,
                     if (appConfig.getFeatureFlags().displayTVLogos)
-                        Uri.parse(response.resourceBaseURL).buildUpon().appendPath(x.iconName).toString()
+                        Uri.parse(response.resourceBaseURL).buildUpon().appendPath(streamingService.iconName).toString()
                     else
                         null
                 )
