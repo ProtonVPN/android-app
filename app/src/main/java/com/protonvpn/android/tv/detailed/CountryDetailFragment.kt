@@ -104,14 +104,13 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         connectStreaming.setStartDrawable(
             if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
         connectStreaming.setOnClickListener {
-            if (viewModel.hasAccessibleServers(card.vpnCountry)) {
+            if (viewModel.isPlusUser()) {
                 viewModel.connect(requireActivity(), card)
             } else {
                 viewModel.onUpgradeClicked(requireContext())
             }
         }
 
-        connectFastest.isVisible = viewModel.hasAccessibleServers(card.vpnCountry)
         connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
         }
@@ -138,7 +137,7 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         val focusOnButtons = binding.buttons.findFocus() != null
         val emptyFocus = binding.root.findFocus() == null
 
-        binding.connectFastest.isVisible = showConnectButtons
+        binding.connectFastest.isVisible = viewModel.showConnectToFastest(card)
         binding.connectStreaming.isVisible = viewModel.showConnectToStreamingButton(card)
         binding.disconnect.isVisible = viewModel.isConnectedToThisCountry(card)
         binding.disconnect.setText(viewModel.disconnectText(card))
