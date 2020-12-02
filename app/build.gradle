@@ -518,8 +518,9 @@ dependencies {
     debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude module: 'support-annotations'
     }
-    //TODO: re-enable
-    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+
+    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 
     detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
     detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.9.1'

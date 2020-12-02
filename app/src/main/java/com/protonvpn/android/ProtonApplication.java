@@ -28,6 +28,7 @@ import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.migration.NewAppMigrator;
+import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
 
@@ -41,6 +42,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
+import leakcanary.AppWatcher;
 import rx_activity_result2.RxActivityResult;
 
 public class ProtonApplication extends StrongSwanApplication {
@@ -80,6 +82,9 @@ public class ProtonApplication extends StrongSwanApplication {
 
         RxActivityResult.register(this);
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
+
+        if (BuildConfig.DEBUG)
+            initLeakCanary();
     }
 
     private void initPreferences() {
@@ -91,6 +96,16 @@ public class ProtonApplication extends StrongSwanApplication {
     private void initSentry() {
         String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
         Sentry.init(sentryDsn, new AndroidSentryClientFactory(getContext()));
+    }
+
+    private void initLeakCanary() {
+         if (AndroidUtils.INSTANCE.isTV(this)) {
+            // Leanback seems to have issues with leaking fragment views
+            AppWatcher.Config config = AppWatcher.getConfig().newBuilder()
+                .watchFragmentViews(false)
+                .build();
+            AppWatcher.setConfig(config);
+        }
     }
 
     @Override
