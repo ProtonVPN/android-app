@@ -167,7 +167,7 @@ open class VpnStateMonitor(
             if (initialized) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-                ProtonLogger.log("VpnStateMonitor state=${it.name} backend=${activeBackend?.name}")
+                ProtonLogger.log("VpnStateMonitor state=$it backend=${activeBackend?.name}")
                 debugAssert {
                     (state in arrayOf(Connecting, Connected, Reconnecting))
                             .implies(connectionParams != null && activeBackend != null)

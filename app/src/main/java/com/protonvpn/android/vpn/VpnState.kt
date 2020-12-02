@@ -39,12 +39,15 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     object WaitingForNetwork : VpnState(true)
     object Connecting : VpnState(true)
     object Reconnecting : VpnState(true)
+    data class Error(val type: ErrorType) : VpnState(true) {
+        override fun toString() = "$name($type)"
+    }
 
     object Connected : VpnState(false)
     object Disconnecting : VpnState(false)
-    data class Error(val type: ErrorType) : VpnState(false)
 
     val name = javaClass.simpleName.toUpperCase(Locale.ROOT)
+    override fun toString() = name
 }
 
 enum class ErrorType {
