@@ -40,7 +40,8 @@ import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 @ExperimentalCoroutinesApi
@@ -50,7 +51,7 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
     protected val fileName = "Data.log"
     protected val fileName2 = "Data1.log"
     val newItemsChannel = BroadcastChannel<String>(Channel.BUFFERED)
-    private val simpleDateFormat = SimpleDateFormat("HH:mm:ss")
+    private val simpleDateFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
     private val logger = LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
 
     init {

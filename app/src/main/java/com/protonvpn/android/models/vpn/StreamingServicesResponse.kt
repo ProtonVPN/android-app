@@ -26,12 +26,8 @@ class StreamingServicesResponse(
     @SerialName(value = "ResourceBaseURL") val resourceBaseURL: String,
     @SerialName(value = "StreamingServices") val countryToServices: Map<String, Map<String, List<StreamingService>>>
 ) {
-    fun filter(userTier: Int, country: String) = countryToServices[country]?.filter {
-        val tier = it.key.toIntOrNull()
-        tier != null && tier <= userTier
-    }?.flatMap {
-        it.value
-    }?.distinctBy { it.name }
+    infix operator fun get(country: String) =
+        countryToServices[country]?.flatMap { it.value }?.distinctBy { it.name }
 }
 
 @Serializable
