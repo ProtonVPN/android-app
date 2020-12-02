@@ -83,7 +83,8 @@ class TvHomeViewModel @Inject constructor(
     fun showConnectButtons(card: CountryCard) =
         !isConnectedToThisCountry(card) && card.vpnCountry.hasAccessibleServer(userData)
 
-    fun showConnectToStreamingButton(card: CountryCard) = showConnectButtons(card) || isFreeUser()
+    fun showConnectToStreamingButton(card: CountryCard) = (showConnectButtons(card) ||
+        isFreeUser()) && !isConnectedToThisCountry(card)
 
     fun isConnectedToThisCountry(card: CountryCard) =
         vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
@@ -155,6 +156,9 @@ class TvHomeViewModel @Inject constructor(
     fun isPlusUser() = userData.isUserPlusOrAbove
 
     fun hasAccessibleServers(country: VpnCountry) = country.hasAccessibleServer(userData)
+
+    fun showConnectToFastest(card: CountryCard) = card.vpnCountry.hasAccessibleServer(userData) &&
+        !isPlusUser() && !isConnectedToThisCountry(card)
 
     fun onUpgradeClicked(context: Context) {
         Toast.makeText(context, "Upgrade not yet implemented", Toast.LENGTH_SHORT).show()
