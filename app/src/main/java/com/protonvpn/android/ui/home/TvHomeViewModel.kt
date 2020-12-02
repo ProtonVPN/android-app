@@ -24,7 +24,8 @@ import android.net.Uri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
@@ -46,6 +47,8 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TvHomeViewModel @Inject constructor(
@@ -61,18 +64,25 @@ class TvHomeViewModel @Inject constructor(
     val selectedCountry = MutableLiveData<VpnCountry>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
-    val vpnStatus = vpnStateMonitor.vpnStatus.map { it.state }
     val logoutEvent get() = authManager.logoutEvent
+
+    // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
+    enum class ConnectionState { None, Connecting, Connected }
+    val vpnConnectionState = vpnStateMonitor.vpnStatus.asFlow().map {
+        it.state
+    }.map {
+        when {
+            it == VpnState.Disabled -> ConnectionState.None
+            it.isEstablishingConnection -> ConnectionState.Connecting
+            else -> ConnectionState.Connected
+        }
+    }.distinctUntilChanged().asLiveData()
 
     init {
         vpnStateMonitor.vpnStatus.observeForever {
-            if (it.state == VpnState.Connected) {
-                connectedCountryFlag.value = it.server!!.flag
-            } else {
-                connectedCountryFlag.value = ""
-            }
+            connectedCountryFlag.value = if (isConnected())
+                it.server!!.flag else ""
         }
-        serverListUpdater.getServersList(null)
     }
 
     fun onViewInit(lifecycle: Lifecycle) {
@@ -126,16 +136,23 @@ class TvHomeViewModel @Inject constructor(
 
     fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()
+        val label = context.getString(when {
+            isConnected() -> R.string.disconnect
+            isEstablishingConnection() -> R.string.cancel
+            else -> R.string.quickConnect
+        })
         val quickConnectCard = QuickConnectCard(
             title = Title(
-                text = context.getString(if (isConnected()) R.string.disconnect else R.string.quickConnect),
-                resId = if (isConnected())
-                    R.drawable.ic_notification_disconnected else R.drawable.ic_thunder
+                text = label,
+                resId = if (isConnected() || isEstablishingConnection())
+                    R.drawable.ic_notification_disconnected else R.drawable.ic_thunder,
+                backgroundColorRes = if (isConnected() || isEstablishingConnection())
+                    R.color.tvAlert else R.color.tvGridItemOverlay
             ),
             backgroundImage = DrawableImage(
                 resId = quickConnectBackground(context),
-                tint = if (isConnected()) R.color.tvDisconnectButtonTint else R.color.transparent
-            )
+                tint = if (isConnected() || isEstablishingConnection())
+                    R.color.tvDisconnectButtonTint else R.color.transparent)
         )
         recentsList.add(quickConnectCard)
         recentsManager.getRecentConnections().forEach {
@@ -154,6 +171,8 @@ class TvHomeViewModel @Inject constructor(
 
     fun isConnected() = vpnStateMonitor.isConnected
 
+    fun isEstablishingConnection() = vpnStateMonitor.isEstablishingConnection
+
     fun isFreeUser() = userData.isFreeUser
 
     fun isPlusUser() = userData.isUserPlusOrAbove
@@ -168,13 +187,15 @@ class TvHomeViewModel @Inject constructor(
     }
 
     private fun quickConnectBackground(context: Context): Int {
-        val server =
-            if (isConnected()) vpnStateMonitor.connectingToServer else serverManager.defaultConnection.server
+        val server = if (isConnected())
+            vpnStateMonitor.connectingToServer
+        else
+            serverManager.defaultConnection.server
         return CountryTools.getFlagResource(context, server?.flag)
     }
 
     fun onQuickConnectAction(activity: Activity) {
-        if (vpnStateMonitor.isConnected) {
+        if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
             vpnStateMonitor.disconnect()
         } else {
             vpnStateMonitor.connect(activity, serverManager.defaultConnection)

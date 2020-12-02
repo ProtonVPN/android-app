@@ -42,8 +42,8 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         alpha = if (isSelected) 1f else 0.5f
         card.title?.let { title ->
             textTitle.text = title.text
-            titleLayout.setBackgroundResource(R.drawable.tv_item_top_gradient)
-            title.resId?.let { imageTitle.setImageResource(title.resId) }
+            titleLayout.setBackgroundResource(title.backgroundColorRes)
+            title.resId?.let { imageTitle.setImageResource(it) }
         }
         imageTitle.isVisible = card.title?.resId != null
 
@@ -56,7 +56,7 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         }
         card.bottomTitle?.let { title ->
             textDescription.text = title.text
-            bottomTitle.setBackgroundResource(R.drawable.tv_item_bottom_gradient)
+            bottomTitle.setBackgroundResource(title.backgroundColorRes)
             title.resId?.let { imageBottomTitle.setImageResource(it) }
         }
         imageBottomTitle.isVisible = card.bottomTitle?.resId != null

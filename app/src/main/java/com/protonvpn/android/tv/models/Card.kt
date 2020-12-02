@@ -59,5 +59,9 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 
 class LogoutCard(title: String) : IconCard(title, R.drawable.ic_tv_icon_logout)
 
-class Title(val text: String, @DrawableRes val resId: Int? = null)
+class Title(
+    val text: String,
+    @DrawableRes val resId: Int? = null,
+    @ColorRes var backgroundColorRes: Int = R.color.tvGridItemOverlay
+)
 class DrawableImage(@DrawableRes val resId: Int, @ColorRes val tint: Int? = null)
