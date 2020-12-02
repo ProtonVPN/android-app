@@ -20,7 +20,6 @@ package com.protonvpn.android.tv.detailed
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -32,16 +31,14 @@ import androidx.transition.ChangeTransform
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
-import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
-import com.protonvpn.android.databinding.StreamingIconBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
-import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.setStartDrawable
 import javax.inject.Inject
 
@@ -123,8 +120,11 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         if (streamingServices.isNullOrEmpty())
             streamingServicesContainer.isVisible = false
         else {
-            for (streamingService in streamingServices)
-                addStreamingServiceView(this.streamingServices, streamingService)
+            for (streamingService in streamingServices) {
+                val streamingIcon = StreamingIcon(requireContext())
+                streamingIcon.addStreamingView(streamingService)
+                streamingServicesLayout.addView(streamingIcon)
+            }
         }
 
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
@@ -152,25 +152,6 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
                 binding.disconnect.requestAllFocus()
             }
         }
-    }
-
-    private fun addStreamingServiceView(parent: ViewGroup, service: TvHomeViewModel.StreamingService) {
-        val binding = StreamingIconBinding.inflate(layoutInflater, parent, true)
-        if (service.iconUrl != null) {
-            Glide.with(this).load(service.iconUrl).addListener(
-                onFail = {
-                    binding.fallbackToStreamingServiceName(service.name)
-                })
-                .into(binding.icon)
-        } else {
-            binding.fallbackToStreamingServiceName(service.name)
-        }
-    }
-
-    private fun StreamingIconBinding.fallbackToStreamingServiceName(name: String) {
-        icon.isVisible = false
-        text.isVisible = true
-        text.text = name
     }
 
     companion object {
