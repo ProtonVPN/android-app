@@ -53,7 +53,6 @@ import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
-import com.protonvpn.android.vpn.VpnState
 import javax.inject.Inject
 
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -142,15 +141,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun monitorVpnState() {
-        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                VpnState.Connected -> {
-                    rowsAdapter?.updateRecentsRow()
-                }
-                VpnState.Disabled -> {
-                    rowsAdapter?.updateRecentsRow()
-                }
-            }
+        viewModel.vpnConnectionState.observe(viewLifecycleOwner, Observer {
+            rowsAdapter?.updateRecentsRow()
         })
     }
 

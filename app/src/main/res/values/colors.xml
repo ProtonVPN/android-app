@@ -51,7 +51,6 @@
     <color name="accountTitles">#4b4b56</color>
     <color name="tvDisconnectButtonTint">#AA2e2e34</color>
     <color name="tvGridItemOverlay">#774b4b56</color>
-    <color name="tvGridItemOverlayEnd">#774b4b56</color>
 
     <color name="pickerColor1">#E01623</color>
     <color name="pickerColor2">#BD6566</color>
