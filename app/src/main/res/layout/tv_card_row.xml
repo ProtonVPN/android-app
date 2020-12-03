@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:lines="2"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 tools:text="@string/nameAfricaAndMiddleEast" />
         </LinearLayout>
 

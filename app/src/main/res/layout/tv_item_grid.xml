@@ -54,7 +54,7 @@
             style="@style/Widget.Leanback.ImageCardView.TitleStyle"
             android:fontFamily="sans-serif"
             android:maxLines="2"
-            android:textSize="10sp"
+            android:textSize="12sp"
             tools:text="Action title" />
 
     </LinearLayout>
@@ -88,7 +88,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:textSize="10sp"
+            android:textSize="12sp"
             tools:text="Detailed description" />
     </LinearLayout>
 
