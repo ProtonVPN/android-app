@@ -24,6 +24,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="32dp"
     android:background="@drawable/tv_background"
     android:theme="@style/AppTheme.TV.Leanback">
 
@@ -31,7 +32,7 @@
         android:id="@+id/logo"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:tint="@color/colorAccent"
         android:src="@drawable/ic_proton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +43,7 @@
         android:id="@+id/logoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:text="@string/app_name"
         android:textColor="@color/colorAccent"
         android:textSize="16sp"
@@ -59,13 +60,24 @@
         android:textColor="?primaryText"
         android:textSize="22sp"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@id/loginWaitContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoLabel" />
 
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxWidth="500dp"
+        android:text="@string/tv_login_welcome_description"
+        android:textColor="?primaryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
     <Button
-        android:id="@+id/retryButton"
+        android:id="@+id/actionButton"
         style="@style/TvButtonCTA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,19 +86,29 @@
         android:foreground="@drawable/tv_focus_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
+        app:layout_constraintTop_toBottomOf="@+id/description"/>
+
+    <TextView
+        android:id="@+id/createAccountDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/tv_login_welcome_description_bottom"
+        android:textColor="?primaryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <LinearLayout
         android:id="@+id/loginWaitContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
@@ -203,6 +225,11 @@
             </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <LinearLayout
             android:id="@+id/timerContainer"
             android:layout_width="wrap_content"
@@ -216,13 +243,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_login_timer_label"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-thin"
                 android:textSize="22sp"
                 tools:text="1:31" />
