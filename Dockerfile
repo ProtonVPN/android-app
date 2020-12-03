@@ -32,7 +32,8 @@ RUN apt update && apt-get install -y \
   bison \
   flex \
   gperf \
-  curl
+  curl \
+  openssh-client
 
 # Because the alias is not there out of the box
 RUN ln -s /usr/bin/python3 /usr/bin/python
