@@ -358,10 +358,10 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="nameOceania">Oceania</string>
     <string name="tvRowMore">More</string>
 
-    <string name="tv_detail_default_connection_checkbox">Use as default quick connection</string>
-    <string name="tv_detail_connect_streaming">Connect to streaming server</string>
-    <string name="tv_detail_connect_fastest">Connect to fastest server</string>
-    <string name="tv_detail_decription">Our streaming servers are the best solution to unblock content from your favorite apps.</string>
+    <string name="tv_detail_default_connection_checkbox">My favorite country</string>
+    <string name="tv_detail_connect_streaming">Connect for streaming</string>
+    <string name="tv_detail_connect">Connect</string>
+    <string name="tv_detail_description">Stream and unblock content from your favorite apps.</string>
     <string name="tv_login_title_signin">Sign in to your ProtonVPN</string>
     <string name="tv_login_title_welcome">Stream your favorite video content</string>
     <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>
@@ -374,12 +374,16 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_login_refresh">Refresh</string>
     <string name="tv_login_title_loading">Loading…</string>
     <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
-    <string name="tv_upgrade_title">Upgrade to continue</string>
+    <string name="tv_upgrade_title">Start streaming with Plus</string>
     <string name="back">Back</string>
-    <string name="tv_upgrade_url_details">Visit <font fgcolor='#59B268'>www.protonvpn.com/account</font> to upgrade and find more information</string>
-    <string name="tv_upgrade_description">With a ProtonVPN premium subscription you get access to 500+ servers worldwide, with optimized streaming options for Netflix, Prime Video, Disney+ and many more.</string>
+    <string name="tv_upgrade_url_details">Visit <font fgcolor='#59B268'>www.protonvpn.com/account</font> to upgrade to ProtonVPN Plus now.</string>
+    <string name="tv_upgrade_description">Get a ProtonVPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
     <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
     <string name="tv_signout_label">Sign out</string>
     <string name="tv_signout_dialog_title">Are you sure you want to sign out?</string>
     <string name="tv_signout_dialog_description_connected">This will disconnect your TV from any VPN server.</string>
+    <string name="tv_signout_dialog_ok">Sign out</string>
+    <string name="tv_quick_connect_recommened">Recommended</string>
+    <string name="tv_quick_connect_favourite">Favourite</string>
+
 </resources>

@@ -39,22 +39,25 @@
 
     <TextView
         android:id="@+id/countryName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/flag"
         app:layout_constraintTop_toTopOf="@+id/flag"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Australia" />
 
     <TextView
         android:id="@+id/countryDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:text="@string/tv_detail_decription"
+        android:text="@string/tv_detail_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/countryName"
@@ -94,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/tv_detail_connect_fastest" />
+            android:text="@string/tv_detail_connect" />
     </LinearLayout>
 
     <HorizontalScrollView
