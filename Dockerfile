@@ -3,6 +3,7 @@ FROM openjdk:8-jdk-slim-buster
 ENV ANDROID_COMPILE_SDK "30"
 ENV ANDROID_BUILD_TOOLS "30.0.2"
 ENV ANDROID_SDK_TOOLS "30.0.2"
+ENV ANDROID_NDK_VERSION "21.3.6528147"
 
 RUN apt update && apt-get install -y \
   swig \
@@ -65,12 +66,13 @@ RUN mkdir android-sdk-linux && \
     "cmake;3.10.2.4988404" \
     "cmake;3.6.4111459" \
     "extras;android;m2repository" \
-    "ndk;21.3.6528147" >/dev/null
+    "ndk;${ANDROID_NDK_VERSION}" >/dev/null
 
 ENV ANDROID_HOME /home/pedro/android-sdk-linux
 ENV ANDROID_SDK_ROOT /home/pedro/android-sdk-linux
+ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION};
 ENV ANDROID_CLI $ANDROID_HOME/cmdline-tools
-ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
+ENV PATH ${ANDROID_HOME}/tools:${ANDROID_NDK_HOME}:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
 
 COPY entrypoint /usr/local/bin
 
