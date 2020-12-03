@@ -22,6 +22,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -52,9 +53,9 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.startLogin(lifecycleScope)
+        viewModel.onEnterScreen(lifecycleScope)
         with(binding) {
-            retryButton.setOnClickListener {
+            actionButton.setOnClickListener {
                 viewModel.startLogin(lifecycleScope)
             }
 
@@ -63,30 +64,39 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
             stepNumber2.text = numberFormat.format(2)
             stepNumber3.text = numberFormat.format(3)
 
-            step1Description.setText(HtmlTools.fromHtml(
-                getString(R.string.tv_login_step1_description, Constants.TV_LOGIN_URL)))
+            step1Description.text = HtmlTools.fromHtml(
+                getString(R.string.tv_login_step1_description, Constants.TV_LOGIN_URL))
+
+            createAccountDescription.text =
+                HtmlTools.fromHtml(getString(R.string.tv_login_welcome_description_bottom))
         }
 
         viewModel.state.observe(this, Observer { updateState(it) })
     }
 
+    private fun TextView.init(@StringRes contentRes: Int = 0, content: String? = null) {
+        isVisible = content != null || contentRes != 0
+        if (content != null)
+            text = content
+        else if (contentRes != 0)
+            setText(contentRes)
+    }
+
     private fun updateState(state: TvLoginViewState) = with(binding) {
         loginWaitContainer.isVisible = state is TvLoginViewState.PollingSession
-        retryButton.isVisible = state is TvLoginViewState.Error
+        title.init(state.titleRes, state.title)
+        description.init(state.descriptionRes)
+        actionButton.init(state.buttonLabelRes)
         loadingView.isVisible = state == TvLoginViewState.Loading || state == TvLoginViewState.Success
+        createAccountDescription.isVisible = state == TvLoginViewState.Welcome
         when (state) {
-            TvLoginViewState.FetchingCode -> {
-                title.setText(R.string.tv_login_title_loading)
-            }
+            TvLoginViewState.Welcome, TvLoginViewState.FetchingCode -> {}
             is TvLoginViewState.PollingSession -> {
-                title.setText(R.string.tv_login_title_signin)
                 timer.text = DurationFormatUtils.formatDuration(
                     TimeUnit.SECONDS.toMillis(state.secondsLeft), "m:ss")
                 updateCode(state.code)
             }
             is TvLoginViewState.Error -> {
-                title.text = state.errorTitle ?: getString(state.errorTitleRes)
-                retryButton.setText(state.errorButtonLabelRes)
                 loadingView.cancelAnimation()
             }
             is TvLoginViewState.Loading -> {

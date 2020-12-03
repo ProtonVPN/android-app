@@ -50,19 +50,25 @@ class TvLoginViewModel @Inject constructor(
 
     val state = MutableLiveData<TvLoginViewState>()
 
-    fun startLogin(scope: CoroutineScope) {
+    fun onEnterScreen(scope: CoroutineScope) {
         if (userData.isLoggedIn) {
             if (serverManager.isDownloadedAtLeastOnce)
                 state.value = TvLoginViewState.Success
             else scope.launch {
                 loadInitialConfig()
             }
-        } else scope.launch {
+        } else {
+            state.value = TvLoginViewState.Welcome
+        }
+    }
+
+    fun startLogin(scope: CoroutineScope) {
+        scope.launch {
             state.value = TvLoginViewState.FetchingCode
             when (val selectorResult = api.getSessionForkSelector()) {
                 is ApiResult.Success -> {
                     if (selectorResult.value.userCode.length != CODE_LENGTH)
-                        state.value = TvLoginViewState.Error(null, R.string.loaderErrorGeneric, R.string.try_again)
+                        state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
                     else
                         pollLogin(selectorResult.value)
                 }
@@ -94,7 +100,7 @@ class TvLoginViewModel @Inject constructor(
         when (result) {
             null -> {
                 state.value = TvLoginViewState.Error(
-                    null, R.string.tv_login_title_refresh, R.string.tv_login_refresh)
+                    R.string.tv_login_title_refresh, R.string.tv_login_refresh)
             }
             is ApiResult.Error -> {
                 state.value = result.toLoginError()
@@ -153,33 +159,43 @@ class TvLoginViewModel @Inject constructor(
     }
 }
 
-sealed class TvLoginViewState {
+sealed class TvLoginViewState(
+    val title: String? = null,
+    @StringRes val titleRes: Int = 0,
+    @StringRes val buttonLabelRes: Int = 0,
+    @StringRes val descriptionRes: Int = 0
+) {
+    object Welcome : TvLoginViewState(
+        titleRes = R.string.tv_login_title_welcome,
+        buttonLabelRes = R.string.tv_login_welcome_button,
+        descriptionRes = R.string.tv_login_welcome_description)
 
     object Success : TvLoginViewState()
-    object FetchingCode : TvLoginViewState()
+    object FetchingCode : TvLoginViewState(titleRes = R.string.tv_login_title_loading)
     object Loading : TvLoginViewState()
-    class PollingSession(val code: String, val secondsLeft: Long) : TvLoginViewState()
+    class PollingSession(val code: String, val secondsLeft: Long) :
+        TvLoginViewState(titleRes = R.string.tv_login_title_signin)
     class Error(
-        val errorTitle: String?,
-        @StringRes val errorTitleRes: Int,
-        @StringRes val errorButtonLabelRes: Int
-    ) : TvLoginViewState()
+        @StringRes errorTitleRes: Int,
+        @StringRes errorButtonLabelRes: Int,
+        errorTitle: String? = null
+    ) : TvLoginViewState(errorTitle, errorTitleRes, errorButtonLabelRes)
 
     companion object {
 
         fun ApiResult.Error.toLoginError(): Error = when (this) {
             is ApiResult.Error.NoInternet ->
-                Error(null, R.string.loaderErrorNoInternet, R.string.try_again)
+                Error(R.string.loaderErrorNoInternet, R.string.try_again)
             is ApiResult.Error.Http -> {
                 if (proton?.error != null)
-                    Error(proton?.error, 0, R.string.try_again)
+                    Error(0, R.string.try_again, proton?.error)
                 else
-                    Error(null, R.string.loaderErrorGeneric, R.string.try_again)
+                    Error(R.string.loaderErrorGeneric, R.string.try_again)
             }
             is ApiResult.Error.Timeout ->
-                Error(null, R.string.loaderErrorTimeout, R.string.try_again)
+                Error(R.string.loaderErrorTimeout, R.string.try_again)
             else ->
-                Error(null, R.string.loaderErrorGeneric, R.string.try_again)
+                Error(R.string.loaderErrorGeneric, R.string.try_again)
         }
     }
 }
