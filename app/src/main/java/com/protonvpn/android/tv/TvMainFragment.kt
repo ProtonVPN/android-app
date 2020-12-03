@@ -147,17 +147,16 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun logout() {
-        if (viewModel.isConnected()) {
-            MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
-                .title(R.string.warning)
-                .content(R.string.logoutDescription)
-                .positiveText(R.string.ok)
-                .onPositive { _, _ -> viewModel.logout() }
-                .negativeText(R.string.cancel)
-                .show()
-        } else {
-            viewModel.logout()
-        }
+        MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
+            .title(R.string.tv_signout_dialog_title)
+            .apply {
+                if (viewModel.isConnected())
+                    content(R.string.tv_signout_dialog_description_connected)
+            }
+            .positiveText(R.string.ok)
+            .onPositive { _, _ -> viewModel.logout() }
+            .negativeText(R.string.cancel)
+            .show()
     }
 
     private fun ArrayObjectAdapter.updateRecentsRow() {
@@ -193,7 +192,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
             icon = R.drawable.row_more_icon,
-            cards = listOf(LogoutCard(getString(R.string.drawerLogout))))
+            cards = listOf(LogoutCard(getString(R.string.tv_signout_label))))
         addOrReplace(index, createRow(settingsRow, index))
         index++
     }

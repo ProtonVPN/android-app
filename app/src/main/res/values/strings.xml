@@ -379,4 +379,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_upgrade_url_details">Visit <font fgcolor='#59B268'>www.protonvpn.com/account</font> to upgrade and find more information</string>
     <string name="tv_upgrade_description">With a ProtonVPN premium subscription you get access to 500+ servers worldwide, with optimized streaming options for Netflix, Prime Video, Disney+ and many more.</string>
     <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
+    <string name="tv_signout_label">Sign out</string>
+    <string name="tv_signout_dialog_title">Are you sure you want to sign out?</string>
+    <string name="tv_signout_dialog_description_connected">This will disconnect your TV from any VPN server.</string>
 </resources>

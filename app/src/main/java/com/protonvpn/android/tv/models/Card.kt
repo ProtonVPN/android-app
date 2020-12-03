@@ -57,7 +57,7 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
     title = Title(title), backgroundImage = DrawableImage(image)
 )
 
-class LogoutCard(title: String) : IconCard(title, R.drawable.ic_tv_icon_logout)
+class LogoutCard(title: String) : IconCard(title, R.drawable.ic_sign_out)
 
 class Title(
     val text: String,
