@@ -150,6 +150,7 @@ def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 android {
     def helpers = new Helpers()
 
+    ndkVersion "21.3.6528147"
     compileSdkVersion 30
     useLibrary 'org.apache.http.legacy'
     flavorDimensions "default"

@@ -60,6 +60,7 @@ tasks.register<Exec>("generateOpenVPN3Swig")
 
 android {
     compileSdkVersion(30)
+    ndkVersion = "21.3.6528147"
 
     defaultConfig {
         minSdkVersion(19)
