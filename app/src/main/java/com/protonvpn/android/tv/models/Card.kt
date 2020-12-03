@@ -63,5 +63,9 @@ class Title(
     val text: String,
     @DrawableRes val resId: Int? = null,
     @ColorRes var backgroundColorRes: Int = R.color.tvGridItemOverlay
-)
-class DrawableImage(@DrawableRes val resId: Int, @ColorRes val tint: Int? = null)
+) : Serializable
+
+class DrawableImage(
+    @DrawableRes val resId: Int,
+    @ColorRes val tint: Int? = null
+) : Serializable
