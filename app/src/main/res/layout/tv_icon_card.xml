@@ -38,7 +38,7 @@
         android:layout_margin="8dp"
         android:fontFamily="sans-serif"
         android:maxLines="2"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:gravity="center"
         android:textAlignment="center"
         android:layout_gravity="bottom"
