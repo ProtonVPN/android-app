@@ -139,7 +139,8 @@ class TvHomeViewModel @Inject constructor(
         val label = context.getString(when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
-            else -> R.string.quickConnect
+            serverManager.defaultConnection.isPreBakedProfile -> R.string.tv_quick_connect_recommened
+            else -> R.string.tv_quick_connect_favourite
         })
         val quickConnectCard = QuickConnectCard(
             title = Title(

@@ -153,7 +153,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 if (viewModel.isConnected())
                     content(R.string.tv_signout_dialog_description_connected)
             }
-            .positiveText(R.string.ok)
+            .positiveText(R.string.tv_signout_dialog_ok)
             .onPositive { _, _ -> viewModel.logout() }
             .negativeText(R.string.cancel)
             .show()
