@@ -365,7 +365,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_login_title_signin">Sign in to your ProtonVPN</string>
     <string name="tv_login_title_welcome">Stream your favorite video content</string>
     <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>account.protonvpn/signup</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Sign in</string>
     <string name="tv_login_step1_description"><![CDATA[Go to <b>%1$s</b> on your mobile device or computer]]></string>
     <string name="tv_login_step2_description">Sign in to ProtonVPN account</string>

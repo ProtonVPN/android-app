@@ -28,6 +28,7 @@ object Constants {
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
     const val SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile"
+    const val TV_SIGNUP_LINK = "account.protonvpn.com/signup"
     const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
