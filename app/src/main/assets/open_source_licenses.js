@@ -2,7 +2,7 @@ dependencies = [
   {
     "project": "Activity",
     "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
-    "version": "1.1.0",
+    "version": "1.2.0-alpha07",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -14,12 +14,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.activity:activity:1.1.0"
+    "dependency": "androidx.activity:activity:1.2.0-alpha07"
   },
   {
     "project": "Activity",
     "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
-    "version": "1.0.0",
+    "version": "1.1.0-alpha01",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -31,12 +31,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.savedstate:savedstate:1.0.0"
+    "dependency": "androidx.savedstate:savedstate:1.1.0-alpha01"
   },
   {
     "project": "Activity Kotlin Extensions",
     "description": "Kotlin extensions for \u0027activity\u0027 artifact",
-    "version": "1.1.0",
+    "version": "1.2.0-alpha07",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -48,7 +48,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.activity:activity-ktx:1.1.0"
+    "dependency": "androidx.activity:activity-ktx:1.2.0-alpha07"
   },
   {
     "project": "AES-Crypto",
@@ -189,7 +189,7 @@ dependencies = [
   {
     "project": "Android Lifecycle Kotlin Extensions",
     "description": "Kotlin extensions for \u0027lifecycle\u0027 artifact",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -201,7 +201,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle LiveData",
@@ -223,7 +223,7 @@ dependencies = [
   {
     "project": "Android Lifecycle LiveData Core",
     "description": "Android Lifecycle LiveData Core",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -235,7 +235,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-livedata-core:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-livedata-core:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle Process",
@@ -257,7 +257,7 @@ dependencies = [
   {
     "project": "Android Lifecycle Runtime",
     "description": "Android Lifecycle Runtime",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -269,7 +269,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-runtime:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-runtime:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle Service",
@@ -291,7 +291,7 @@ dependencies = [
   {
     "project": "Android Lifecycle ViewModel",
     "description": "Android Lifecycle ViewModel",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -303,12 +303,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle ViewModel Kotlin Extensions",
     "description": "Kotlin extensions for \u0027viewmodel\u0027 artifact",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -320,12 +320,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle ViewModel with SavedState",
     "description": "Android Lifecycle ViewModel",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -337,12 +337,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0-alpha06"
   },
   {
     "project": "Android Lifecycle-Common",
     "description": "Android Lifecycle-Common",
-    "version": "2.2.0",
+    "version": "2.3.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -354,7 +354,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-common:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-common:2.3.0-alpha06"
   },
   {
     "project": "Android Multi-Dex Library",
@@ -508,6 +508,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.exifinterface:exifinterface:1.0.0"
+  },
+  {
+    "project": "Android Support Leanback v17",
+    "description": "Android Support Leanback v17",
+    "version": "1.1.0-alpha05",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/leanback#1.1.0-alpha05",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.leanback:leanback:1.1.0-alpha05"
   },
   {
     "project": "Android Support Library Annotations",
@@ -716,7 +733,7 @@ dependencies = [
   {
     "project": "Android Support Library fragment",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.2.4",
+    "version": "1.3.0-alpha07",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -728,7 +745,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.fragment:fragment:1.2.4"
+    "dependency": "androidx.fragment:fragment:1.3.0-alpha07"
   },
   {
     "project": "Android Support Library Interpolators",
@@ -867,13 +884,13 @@ dependencies = [
     "dependency": "androidx.viewpager:viewpager:1.0.0"
   },
   {
-    "project": "Android Support RecyclerView v7",
-    "description": "Android Support RecyclerView v7",
-    "version": "1.1.0",
+    "project": "Android Support RecyclerView",
+    "description": "Android Support RecyclerView",
+    "version": "1.2.0-alpha06",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx",
+    "url": "https://developer.android.com/jetpack/androidx/releases/recyclerview#1.2.0-alpha06",
     "year": "2014",
     "licenses": [
       {
@@ -881,7 +898,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.recyclerview:recyclerview:1.1.0"
+    "dependency": "androidx.recyclerview:recyclerview:1.2.0-alpha06"
   },
   {
     "project": "Android Support SQLite - Framework Implementation",
@@ -967,6 +984,40 @@ dependencies = [
       }
     ],
     "dependency": "com.daimajia.easing:library:2.4"
+  },
+  {
+    "project": "AndroidSVG",
+    "description": "SVG rendering library for Android.",
+    "version": "1.4",
+    "developers": [
+      "Paul LeBeau"
+    ],
+    "url": "https://github.com/BigBadaboom/androidsvg",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.caverock:androidsvg:1.4"
+  },
+  {
+    "project": "AndroidX Leanback Preference",
+    "description": "AndroidX Leanback Preference",
+    "version": "1.1.0-alpha05",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/leanback#1.1.0-alpha05",
+    "year": "2015",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.leanback:leanback-preference:1.1.0-alpha05"
   },
   {
     "project": "AndroidX Preference",
@@ -1273,7 +1324,7 @@ dependencies = [
   {
     "project": "Data Binding Base Library",
     "description": "Shared library between Data Binding runtime lib and compiler",
-    "version": "4.0.1",
+    "version": "4.1.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1285,12 +1336,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-common:4.0.1"
+    "dependency": "androidx.databinding:databinding-common:4.1.0"
   },
   {
     "project": "databinding-adapters",
     "description": null,
-    "version": "4.0.1",
+    "version": "4.1.0",
     "developers": [],
     "url": null,
     "year": null,
@@ -1300,12 +1351,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-adapters:4.0.1"
+    "dependency": "androidx.databinding:databinding-adapters:4.1.0"
   },
   {
     "project": "databinding-runtime",
     "description": null,
-    "version": "4.0.1",
+    "version": "4.1.0",
     "developers": [],
     "url": null,
     "year": null,
@@ -1315,7 +1366,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:databinding-runtime:4.0.1"
+    "dependency": "androidx.databinding:databinding-runtime:4.1.0"
   },
   {
     "project": "douglasjunior/android-simple-tooltip",
@@ -1352,23 +1403,6 @@ dependencies = [
     "dependency": "ru.egslava:MaskedEditText:1.0.5"
   },
   {
-    "project": "Experimental annotation",
-    "description": "Java annotation for use on unstable Android API surfaces. When used in conjunction with the Experimental annotation lint checks, this annotation provides functional parity with Kotlin\u0027s Experimental annotation.",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx",
-    "year": "2019",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.annotation:annotation-experimental:1.0.0"
-  },
-  {
     "project": "Floating Action Button Library",
     "description": "Floating Action Button implementation for Android",
     "version": "1.6.4",
@@ -1388,7 +1422,7 @@ dependencies = [
   {
     "project": "Fragment Kotlin Extensions",
     "description": "Kotlin extensions for \u0027fragment\u0027 artifact",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1400,7 +1434,91 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.fragment:fragment-ktx:1.2.4"
+    "dependency": "androidx.fragment:fragment-ktx:1.2.5"
+  },
+  {
+    "project": "Glide",
+    "description": "A fast and efficient image loading library for Android focused on smooth scrolling.",
+    "version": "4.11.0",
+    "developers": [
+      "Sam Judd"
+    ],
+    "url": "https://github.com/bumptech/glide",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Simplified BSD License",
+        "license_url": "http://www.opensource.org/licenses/bsd-license"
+      },
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.github.bumptech.glide:glide:4.11.0"
+  },
+  {
+    "project": "Glide Annotations",
+    "description": "A set of annotations for configuring Glide.",
+    "version": "4.11.0",
+    "developers": [
+      "Sam Judd"
+    ],
+    "url": "https://github.com/bumptech/glide",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Simplified BSD License",
+        "license_url": "http://www.opensource.org/licenses/bsd-license"
+      },
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.github.bumptech.glide:annotations:4.11.0"
+  },
+  {
+    "project": "Glide Disk LRU Cache Library",
+    "description": "A cache that uses a bounded amount of space on a filesystem. Based on Jake Wharton\u0027s tailored for Glide.",
+    "version": "4.11.0",
+    "developers": [
+      "Sam Judd"
+    ],
+    "url": "https://github.com/bumptech/glide",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Simplified BSD License",
+        "license_url": "http://www.opensource.org/licenses/bsd-license"
+      },
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.github.bumptech.glide:disklrucache:4.11.0"
+  },
+  {
+    "project": "Glide GIF Decoder Library",
+    "description": "Implementation of GifDecoder that is more memory efficient to animate for Android devices.",
+    "version": "4.11.0",
+    "developers": [
+      "Sam Judd"
+    ],
+    "url": "https://github.com/bumptech/glide",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Simplified BSD License",
+        "license_url": "http://www.opensource.org/licenses/bsd-license"
+      },
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.github.bumptech.glide:gifdecoder:4.11.0"
   },
   {
     "project": "Groupie",
@@ -1603,6 +1721,40 @@ dependencies = [
     "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
   },
   {
+    "project": "LeakCanary Object Watcher",
+    "description": "LeakCanary",
+    "version": "2.5",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "http://github.com/square/leakcanary/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.squareup.leakcanary:leakcanary-object-watcher:2.5"
+  },
+  {
+    "project": "LeakCanary Object Watcher for Android",
+    "description": "LeakCanary",
+    "version": "2.5",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "http://github.com/square/leakcanary/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.squareup.leakcanary:leakcanary-object-watcher-android:2.5"
+  },
+  {
     "project": "LiveData Core Kotlin Extensions",
     "description": "Kotlin extensions for \u0027livedata-core\u0027 artifact",
     "version": "2.2.0",
@@ -1654,6 +1806,23 @@ dependencies = [
     "dependency": "com.github.tony19:logback-android:2.0.0"
   },
   {
+    "project": "Lottie",
+    "description": "Lottie is an animation library that renders Adobe After Effects animations natively in realtime.",
+    "version": "3.5.0",
+    "developers": [
+      "Airbnb"
+    ],
+    "url": "https://github.com/airbnb/lottie-android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License 2.0",
+        "license_url": "https://github.com/airbnb/lottie-android/blob/master/LICENSE"
+      }
+    ],
+    "dependency": "com.airbnb.android:lottie:3.5.0"
+  },
+  {
     "project": "lzyzsd/CircleProgress",
     "description": "CircleProgress, DonutProgress, ArcProgress",
     "version": "1.2.1",
@@ -1668,11 +1837,11 @@ dependencies = [
   {
     "project": "Material Components for Android",
     "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
-    "version": "1.2.1",
+    "version": "1.1.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://github.com/material-components/material-components-android",
+    "url": "http://developer.android.com/tools/extras/support-library.html",
     "year": "2015",
     "licenses": [
       {
@@ -1680,7 +1849,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.android.material:material:1.2.1"
+    "dependency": "com.google.android.material:material:1.1.0"
   },
   {
     "project": "MaterialProgressBar Library",
@@ -2214,6 +2383,23 @@ dependencies = [
     "dependency": "io.sentry:sentry-android:1.7.30"
   },
   {
+    "project": "Shark Log",
+    "description": "LeakCanary",
+    "version": "2.5",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "http://github.com/square/leakcanary/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.squareup.leakcanary:shark-log:2.5"
+  },
+  {
     "project": "shts/TriangleLabelView",
     "description": "Show triangle view.",
     "version": "1.1.2",
@@ -2332,7 +2518,7 @@ dependencies = [
   {
     "project": "viewbinding",
     "description": null,
-    "version": "4.0.1",
+    "version": "4.1.0",
     "developers": [],
     "url": null,
     "year": null,
@@ -2342,6 +2528,6 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:viewbinding:4.0.1"
+    "dependency": "androidx.databinding:viewbinding:4.1.0"
   }
 ]
