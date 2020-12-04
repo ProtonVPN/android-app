@@ -32,31 +32,37 @@ if [ -f "$GRADLE_USER_HOME" ]; then
   chmod +x ./gradlew
 fi
 
-eval $(ssh-agent -s)
+if [ -n "$SSH_PRIVATE_KEY" ]; then
+  eval $(ssh-agent -s)
 
-echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
 
-git config --global user.email "$GIT_CI_EMAIL"
-git config --global user.name $"GIT_CI_USERNAME"
-git config --global url."https://".insteadOf git://
+  git config --global user.email "$GIT_CI_EMAIL"
+  git config --global user.name $"GIT_CI_USERNAME"
+  git config --global url."https://".insteadOf git://
 
 
-# Ensure we can push to github via the image as we need a proxy
-mkdir "$HOME/.ssh" 2> /dev/null
-cat <<EOF > "$HOME/.ssh/config"
-    Host github.com
-        Hostname ssh.github.com
-        User git
-        Port 443
-        ProxyCommand connect-proxy -H $http_proxy %h %p
-    EOF
-  - ssh-keyscan -t rsa ${CI_SERVER_HOST} > $HOME/.ssh/known_hosts
-  ## ssh-keyscan doesn't support proxies so we can't fetch the fingerprint online
-  - |
-    cat <<EOF >> ~/.ssh/known_hosts
-    # ssh.github.com:443 SSH-2.0-babeld-2e9d163d
-    [ssh.github.com]:443 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+  # Ensure we can push to github via the image as we need a proxy
+  mkdir "$HOME/.ssh" 2> /dev/null
+  cat <<EOF > "$HOME/.ssh/config"
+Host github.com
+    Hostname ssh.github.com
+    User git
+    Port 443
+    ProxyCommand connect-proxy -H $http_proxy %h %p
 EOF
+
+  ssh-keyscan -t rsa ${CI_SERVER_HOST} > "$HOME/.ssh/known_hosts"
+
+  ## ssh-keyscan doesn't support proxies so we can't fetch the fingerprint online
+  cat <<EOF >> "$HOME/.ssh/known_hosts"
+# ssh.github.com:443 SSH-2.0-babeld-2e9d163d
+[ssh.github.com]:443 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+EOF
+else
+  echo "[WARNING] no variable SSH_PRIVATE_KEY available. You will not be able to push to github or push to gitlab"
+fi
+
 
 
 if [ -n "$http_proxy" ]; then
