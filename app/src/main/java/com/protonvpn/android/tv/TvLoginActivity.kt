@@ -68,7 +68,7 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
                 getString(R.string.tv_login_step1_description, Constants.TV_LOGIN_URL))
 
             createAccountDescription.text =
-                HtmlTools.fromHtml(getString(R.string.tv_login_welcome_description_bottom))
+                HtmlTools.fromHtml(getString(R.string.tv_login_welcome_description_bottom, Constants.TV_SIGNUP_LINK))
         }
 
         viewModel.state.observe(this, Observer { updateState(it) })
