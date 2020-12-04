@@ -44,6 +44,7 @@
         <item name="android:colorControlActivated">@color/colorAccent</item>
         <item name="android:colorForeground">@color/colorPrimary</item>
         <item name="primaryText">@color/white</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.Leanback.Browse">
@@ -53,6 +54,7 @@
         <item name="defaultSearchIconColor">@color/white</item>
         <item name="defaultSearchBrightColor">@color/colorAccent</item>
         <item name="colorAccent">@color/tvAccent</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TransparentCompat" parent="@style/Theme.AppCompat.Light.DarkActionBar">
