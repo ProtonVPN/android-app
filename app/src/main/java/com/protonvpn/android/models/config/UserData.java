@@ -172,6 +172,7 @@ public final class UserData implements Serializable {
         setTrialDialogShownAt(null);
         clearNetworkUserData();
         Storage.delete(RecentsManager.class);
+        setDefaultConnection(null);
     }
 
     public boolean isMaxSessionReached(int currentSessionCount) {
