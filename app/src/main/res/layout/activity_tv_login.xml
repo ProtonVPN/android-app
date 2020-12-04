@@ -57,8 +57,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
         android:text="@string/tv_login_title_signin"
-        android:textColor="?primaryText"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,6 @@
         android:layout_marginTop="20dp"
         android:maxWidth="500dp"
         android:text="@string/tv_login_welcome_description"
-        android:textColor="?primaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"/>
@@ -94,7 +92,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/tv_login_welcome_description_bottom"
-        android:textColor="?primaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
