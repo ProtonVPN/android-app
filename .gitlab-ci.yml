@@ -293,6 +293,8 @@ sync-app:
 
 publish-apk-internal:
   stage: publish
+  tags:
+    - large
   only:
     refs:
       - development
