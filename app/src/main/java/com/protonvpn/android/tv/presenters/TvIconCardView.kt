@@ -29,6 +29,11 @@ class TvIconCardView(context: Context) : BaseCardView(context, null, R.style.Def
 
     val binding: TvIconCardBinding = TvIconCardBinding.inflate(LayoutInflater.from(getContext()), this, true)
 
+    init {
+        isFocusable = true
+        isFocusableInTouchMode = true
+    }
+
     override fun setSelected(selected: Boolean) {
         super.setSelected(selected)
         alpha = if (selected) 1f else 0.5f

@@ -41,7 +41,6 @@ class CardPresenterSelector(private val context: Context) : PresenterSelector() 
                 is QuickConnectCard -> TvItemPresenter(context)
                 is ProfileCard -> TvItemPresenter(context)
                 is CountryCard -> TvItemPresenter(context)
-                else -> ImageCardViewPresenter(context)
             }
         }
     }
