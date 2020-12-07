@@ -44,10 +44,6 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 #RUN echo 'deb http://http.us.debian.org/debian/ testing non-free contrib main' >> /etc/apt/sources.list && \
 #  apt-get update && apt-get install -y swig
 
-RUN useradd -ms /bin/bash pedro
-WORKDIR /home/pedro
-USER pedro
-
 RUN mkdir android-sdk-linux && \
   curl \
     --silent \
@@ -69,13 +65,12 @@ RUN mkdir android-sdk-linux && \
     "extras;android;m2repository" \
     "ndk;${ANDROID_NDK_VERSION}" >/dev/null
 
-ENV ANDROID_HOME /home/pedro/android-sdk-linux
-ENV ANDROID_SDK_ROOT /home/pedro/android-sdk-linux
+ENV ANDROID_HOME /root/android-sdk-linux
+ENV ANDROID_SDK_ROOT /root/android-sdk-linux
 ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION};
 ENV ANDROID_CLI $ANDROID_HOME/cmdline-tools
 ENV PATH ${ANDROID_HOME}/tools:${ANDROID_NDK_HOME}:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
 
 COPY entrypoint /usr/local/bin
 
-WORKDIR /home/pedro/project
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
