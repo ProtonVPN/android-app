@@ -75,8 +75,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val haveCountries = viewModel.serverManager.getVpnCountries().isNotEmpty()
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
-            if (item != null)
-                viewModel.selectedCountry.value = (item as? CountryCard)?.vpnCountry
+            if (item != null) {
+                viewModel.selectedCountryFlag.value = when (item) {
+                    is CountryCard -> item.vpnCountry.flag
+                    is QuickConnectCard -> viewModel.quickConnectFlag
+                    is ProfileCard -> item.profile.wrapper.country
+                    else -> null
+                }
+            }
         }
 
         setupUi()
