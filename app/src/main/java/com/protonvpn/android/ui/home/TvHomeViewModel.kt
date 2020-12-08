@@ -61,7 +61,7 @@ class TvHomeViewModel @Inject constructor(
     val authManager: AuthManager
 ) : ViewModel() {
 
-    val selectedCountry = MutableLiveData<VpnCountry>()
+    val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
     val logoutEvent get() = authManager.logoutEvent
@@ -187,13 +187,13 @@ class TvHomeViewModel @Inject constructor(
         context.launchActivity<TvUpgradeActivity>()
     }
 
-    private fun quickConnectBackground(context: Context): Int {
-        val server = if (isConnected())
-            vpnStateMonitor.connectingToServer
-        else
-            serverManager.defaultConnection.server
-        return CountryTools.getFlagResource(context, server?.flag)
-    }
+    val quickConnectFlag get() = (if (isConnected())
+        vpnStateMonitor.connectingToServer
+    else
+        serverManager.defaultConnection.server)?.flag
+
+    private fun quickConnectBackground(context: Context) =
+        CountryTools.getFlagResource(context, quickConnectFlag)
 
     fun onQuickConnectAction(activity: Activity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
