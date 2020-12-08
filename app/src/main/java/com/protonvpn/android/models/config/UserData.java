@@ -27,7 +27,6 @@ import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
-import com.protonvpn.android.vpn.RecentsManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -171,7 +170,6 @@ public final class UserData implements Serializable {
         setLoggedIn(false);
         setTrialDialogShownAt(null);
         clearNetworkUserData();
-        Storage.delete(RecentsManager.class);
         setDefaultConnection(null);
     }
 

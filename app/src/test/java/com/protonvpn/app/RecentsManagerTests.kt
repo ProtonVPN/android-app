@@ -33,7 +33,7 @@ class RecentsManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         every { vpnStateMonitor.vpnStatus }.returns(vpnStatus)
-        manager = RecentsManager(vpnStateMonitor, mockk(relaxed = true))
+        manager = RecentsManager(vpnStateMonitor, mockk(relaxed = true), mockk(relaxed = true))
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

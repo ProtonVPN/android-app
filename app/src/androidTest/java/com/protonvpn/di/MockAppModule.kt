@@ -91,11 +91,14 @@ class MockAppModule {
     @Provides
     fun provideRecentManager(
         vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager
+        serverManager: ServerManager,
+        authManager: AuthManager
     ) = RecentsManager(
         vpnStateMonitor,
-        serverManager
+        serverManager,
+        authManager
     )
+
     @Singleton
     @Provides
     fun provideProtonApiManager(
