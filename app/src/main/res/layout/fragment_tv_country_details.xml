@@ -29,9 +29,10 @@
     <ImageView
         android:id="@+id/flag"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:layout_marginStart="64dp"
         android:layout_marginBottom="48dp"
+        android:paddingVertical="6dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toTopOf="@+id/defaultConnection"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:ellipsize="end"
-        android:text="@string/tv_detail_description"
+        android:text="@string/tv_detail_description_plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/countryName"
@@ -75,6 +76,14 @@
         app:layout_constraintStart_toStartOf="@id/countryName">
 
         <Button
+            android:id="@+id/connectFastest"
+            style="@style/TvButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/tv_detail_connect" />
+
+        <Button
             android:id="@+id/disconnect"
             style="@style/TvButtonAlert"
             android:layout_width="wrap_content"
@@ -90,14 +99,6 @@
             android:text="@string/tv_detail_connect_streaming"
             android:drawableStart="@drawable/connect_streaming_drawable"
             android:drawablePadding="4dp" />
-
-        <Button
-            android:id="@+id/connectFastest"
-            style="@style/TvButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/tv_detail_connect" />
     </LinearLayout>
 
     <HorizontalScrollView
