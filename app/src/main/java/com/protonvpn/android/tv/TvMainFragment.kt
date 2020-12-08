@@ -72,7 +72,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvHomeViewModel::class.java)
-        val haveCountries = viewModel.serverManager.getVpnCountries().isNotEmpty()
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {
@@ -90,8 +89,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         postponeEnterTransition()
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
-        if (haveCountries)
-            setupRowAdapter()
+        setupRowAdapter()
         viewModel.serverManager.updateEvent.observe(viewLifecycleOwner) {
             setupRowAdapter()
         }

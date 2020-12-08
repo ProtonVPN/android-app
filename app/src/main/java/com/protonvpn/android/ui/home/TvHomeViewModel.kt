@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -203,6 +204,14 @@ class TvHomeViewModel @Inject constructor(
     fun isPlusUser() = userData.isUserPlusOrAbove
 
     fun hasAccessibleServers(country: VpnCountry) = country.hasAccessibleServer(userData)
+
+    @StringRes
+    fun getCountryDescription(vpnCountry: VpnCountry) = when {
+        isPlusUser() -> R.string.tv_detail_description_plus
+        !hasAccessibleServers(vpnCountry) -> R.string.tv_detail_description_country_not_available
+        streamingServices(vpnCountry).isNullOrEmpty() -> R.string.tv_detail_description_no_streaming_country
+        else -> R.string.tv_detail_description_streaming_country
+    }
 
     fun showConnectToFastest(card: CountryCard) = card.vpnCountry.hasAccessibleServer(userData) &&
         !isPlusUser() && !isConnectedToThisCountry(card)

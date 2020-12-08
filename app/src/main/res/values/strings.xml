@@ -359,9 +359,12 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tvRowMore">More</string>
 
     <string name="tv_detail_default_connection_checkbox">My favorite country</string>
-    <string name="tv_detail_connect_streaming">Connect for streaming</string>
+    <string name="tv_detail_connect_streaming">Stream with Plus</string>
     <string name="tv_detail_connect">Connect</string>
-    <string name="tv_detail_description">Stream and unblock content from your favorite apps.</string>
+    <string name="tv_detail_description_streaming_country">Stream your favorite content. Access more apps with a ProtonVPN Plus plan.</string>
+    <string name="tv_detail_description_no_streaming_country">Stream more of your favourite content with a ProtonVPN Plus plan.</string>
+    <string name="tv_detail_description_country_not_available">This country isn’t available. Get more streaming options with a ProtonVPN Plus plan.</string>
+    <string name="tv_detail_description_plus">Stream your favourite videos, movies, or sports with your apps.</string>
     <string name="tv_login_title_signin">Sign in to your ProtonVPN</string>
     <string name="tv_login_title_welcome">Stream your favorite video content</string>
     <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>

@@ -107,6 +107,8 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
                 viewModel.onUpgradeClicked(requireContext())
             }
         }
+        if (viewModel.isPlusUser())
+            connectStreaming.setText(R.string.tv_detail_connect)
 
         connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
@@ -116,12 +118,17 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
             viewModel.disconnect()
         }
 
+        countryDescription.setText(viewModel.getCountryDescription(card.vpnCountry))
+        val dimStreamingIcons = !viewModel.isPlusUser()
+
         val streamingServices = viewModel.streamingServices(card.vpnCountry)
         if (streamingServices.isNullOrEmpty())
             streamingServicesContainer.isVisible = false
         else {
             for (streamingService in streamingServices) {
                 val streamingIcon = StreamingIcon(requireContext())
+                if (dimStreamingIcons)
+                    streamingIcon.alpha = 0.3f
                 streamingIcon.addStreamingView(streamingService)
                 streamingServicesLayout.addView(streamingIcon)
             }
