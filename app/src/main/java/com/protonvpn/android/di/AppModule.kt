@@ -120,10 +120,12 @@ class AppModule {
     @Provides
     fun provideRecentManager(
         vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager
+        serverManager: ServerManager,
+        authManager: AuthManager
     ) = RecentsManager(
         vpnStateMonitor,
-        serverManager
+        serverManager,
+        authManager
     )
 
     @Singleton

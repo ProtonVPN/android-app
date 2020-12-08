@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.home.AuthManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import me.proton.core.util.kotlin.removeFirst
@@ -28,7 +29,8 @@ import javax.inject.Singleton
 @Singleton
 class RecentsManager(
     @Transient private val stateMonitor: VpnStateMonitor,
-    @Transient private val serverManager: ServerManager
+    @Transient private val serverManager: ServerManager,
+    @Transient private val authManager: AuthManager
 ) {
 
     private val recentConnections = LinkedList<Profile>()
@@ -53,6 +55,11 @@ class RecentsManager(
                     Storage.save(this)
                 }
             }
+        }
+        authManager.logoutEvent.observeForever {
+            recentConnections.clear()
+            connectionOnHold = null
+            Storage.delete(RecentsManager::class.java)
         }
     }
 
