@@ -19,6 +19,8 @@
 package com.protonvpn.android.components
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -31,7 +33,6 @@ import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnState
@@ -52,9 +53,9 @@ object NotificationHelper {
 
     fun initNotificationChannel(context: Context) {
         val channelOneName = "ProtonChannel"
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val notificationChannel = android.app.NotificationChannel(CHANNEL_ID, channelOneName,
-                    android.app.NotificationManager.IMPORTANCE_LOW)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(CHANNEL_ID, channelOneName,
+                    NotificationManager.IMPORTANCE_LOW)
             notificationChannel.enableLights(true)
             notificationChannel.setShowBadge(true)
             notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
@@ -83,7 +84,7 @@ object NotificationHelper {
             builder.setContentIntent(
                     PendingIntent.getActivity(
                             context, 0,
-                            Intent(context, HomeActivity::class.java),
+                            Intent(context, Constants.MAIN_ACTIVITY_CLASS),
                             PendingIntent.FLAG_UPDATE_CURRENT))
 
             notify(Constants.NOTIFICATION_INFO_ID, builder.build())
@@ -117,7 +118,7 @@ object NotificationHelper {
             else -> builder.color = ContextCompat.getColor(context, R.color.red)
         }
 
-        val intent = Intent(context, HomeActivity::class.java)
+        val intent = Intent(context, Constants.MAIN_ACTIVITY_CLASS)
         intent.putExtra("OpenStatus", true)
         val pending =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

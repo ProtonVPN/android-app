@@ -27,7 +27,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnState
@@ -76,7 +76,7 @@ class QuickTileService : TileService() {
                     stateMonitor.connect(this, profile)
                 }
             } else {
-                val intent = Intent(applicationContext, LoginActivity::class.java)
+                val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
