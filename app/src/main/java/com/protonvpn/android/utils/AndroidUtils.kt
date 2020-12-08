@@ -74,6 +74,8 @@ object AndroidUtils {
             packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
     }
 
+    fun Boolean.toInt() = if (this) 1 else 0
+
     fun Context.displayDiagonalApprox(): Float {
         val defaultDisplay = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         val realMetrics = DisplayMetrics()

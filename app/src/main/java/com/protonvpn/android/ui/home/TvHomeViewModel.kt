@@ -41,6 +41,7 @@ import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
@@ -136,13 +137,47 @@ class TvHomeViewModel @Inject constructor(
 
     fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()
+        recentsList.add(constructQuickConnect(context))
+
+        val defaultConnection = serverManager.defaultConnection
+        val shouldAddFavorite = isConnected() &&
+            !vpnStateMonitor.isConnectingToCountry(defaultConnection.wrapper.country)
+
+        if (shouldAddFavorite) {
+            recentsList.add(
+                ProfileCard(
+                    title = context.getString(
+                        if (serverManager.defaultConnection.isPreBakedProfile)
+                            R.string.tv_quick_connect_recommened
+                        else
+                            R.string.tv_quick_connect_favourite
+                    ),
+                    backgroundImage = CountryTools.getFlagResource(context, defaultConnection.server?.exitCountry),
+                    profile = defaultConnection
+                )
+            )
+        }
+        recentsManager.getRecentConnections()
+            .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
+            .forEach {
+                recentsList.add(
+                    ProfileCard(
+                        backgroundImage = CountryTools.getFlagResource(context, it.wrapper.country),
+                        profile = it
+                    )
+                )
+        }
+        return recentsList
+    }
+
+    private fun constructQuickConnect(context: Context): Card {
         val label = context.getString(when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
             serverManager.defaultConnection.isPreBakedProfile -> R.string.tv_quick_connect_recommened
             else -> R.string.tv_quick_connect_favourite
         })
-        val quickConnectCard = QuickConnectCard(
+        return QuickConnectCard(
             title = Title(
                 text = label,
                 resId = if (isConnected() || isEstablishingConnection())
@@ -155,17 +190,6 @@ class TvHomeViewModel @Inject constructor(
                 tint = if (isConnected() || isEstablishingConnection())
                     R.color.tvDisconnectButtonTint else R.color.transparent)
         )
-        recentsList.add(quickConnectCard)
-        recentsManager.getRecentConnections().forEach {
-            recentsList.add(
-                ProfileCard(
-                    title = it.name,
-                    backgroundImage = CountryTools.getFlagResource(context, it.wrapper.country),
-                    profile = it
-                )
-            )
-        }
-        return recentsList
     }
 
     fun disconnect() = vpnStateMonitor.disconnect()
@@ -187,7 +211,7 @@ class TvHomeViewModel @Inject constructor(
         context.launchActivity<TvUpgradeActivity>()
     }
 
-    val quickConnectFlag get() = (if (isConnected())
+    val quickConnectFlag get() = (if (isConnected() || isEstablishingConnection())
         vpnStateMonitor.connectingToServer
     else
         serverManager.defaultConnection.server)?.flag

@@ -58,9 +58,9 @@ class RecentsManager(
 
     fun getRecentConnections(): List<Profile> = recentConnections
         .filter {
-            it != serverManager.defaultConnection
+            it.server?.exitCountry != serverManager.defaultConnection.server?.exitCountry &&
+                it.server?.exitCountry != stateMonitor.connectingToServer?.exitCountry
         }
-        .take(RECENT_MAX_SIZE)
 
     private fun addLastConnectionToRecents(profile: Profile) {
         recentConnections.removeFirst { profile.name == it.name }
@@ -71,6 +71,6 @@ class RecentsManager(
     }
 
     companion object {
-        private const val RECENT_MAX_SIZE = 3
+        const val RECENT_MAX_SIZE = 3
     }
 }
