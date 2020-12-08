@@ -23,8 +23,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.protonvpn.android.ui.login.LoginActivity;
-
 public class DeepLinkActivity extends Activity {
 
     public static String FROM_DEEPLINK = "DeepLink";
@@ -38,7 +36,7 @@ public class DeepLinkActivity extends Activity {
         Uri data = in.getData();
         if (data != null && data.toString().contains("protonvpn://registered")) {
             String id = data.getQueryParameter("username");
-            Intent login = new Intent(this, LoginActivity.class);
+            Intent login = new Intent(this, Constants.INSTANCE.getLOGIN_ACTIVITY_CLASS());
             login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             login.putExtra(FROM_DEEPLINK, true);

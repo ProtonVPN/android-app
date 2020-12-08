@@ -44,7 +44,6 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.ConnectionParams;
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2;
-import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -644,7 +643,7 @@ public class CharonVpnService extends VpnService implements Runnable {
             /* even though the option displayed in the system dialog says "Configure"
              * we just use our main Activity */
             Context context = getApplicationContext();
-            Intent intent = new Intent(context, HomeActivity.class);
+            Intent intent = new Intent(context, Constants.INSTANCE.getMAIN_ACTIVITY_CLASS());
             PendingIntent pending =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setConfigureIntent(pending);
