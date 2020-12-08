@@ -42,7 +42,7 @@
         lb:layout_constraintStart_toStartOf="parent"
         lb:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageTitle"
             android:layout_width="16dp"
             android:layout_height="16dp"
@@ -70,7 +70,7 @@
         lb:layout_constraintEnd_toEndOf="parent"
         lb:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageBottomTitle"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
