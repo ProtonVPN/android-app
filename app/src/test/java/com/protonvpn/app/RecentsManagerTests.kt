@@ -41,24 +41,30 @@ class RecentsManagerTests {
         vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, connectionParams)
     }
 
+    private fun mockedConnectionParams(name: String): ConnectionParams {
+        val profile = Profile(name, "", mockk(relaxed = true))
+        every { profile.server?.exitCountry }.returns(name)
+        return ConnectionParams(profile, mockk(), mockk(), mockk())
+    }
+
     @Test
     fun testAddingNewServerOnlyAfterDisconnectingState() {
-        vpnStatus.value = VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true))
+        val connectionParams = mockedConnectionParams("Test")
+        vpnStatus.value = VpnStateMonitor.Status(VpnState.Connected, connectionParams)
         Assert.assertEquals(0, manager.getRecentConnections().size)
-        vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, mockk(relaxed = true))
+        vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, connectionParams)
         Assert.assertEquals(1, manager.getRecentConnections().size)
     }
 
     @Test
     fun testNewlyUsedRecentsMovedToFront() {
-        val profile = Profile("Test", "", mockk(relaxed = true))
-        val connectionParams = ConnectionParams(profile, mockk(), mockk(), mockk())
+        val connectionParams = mockedConnectionParams("Test")
         addRecent(mockk(relaxed = true))
         addRecent(mockk(relaxed = true))
         addRecent(connectionParams)
-        addRecent(mockk(relaxed = true))
-        Assert.assertNotEquals(profile.name, manager.getRecentConnections()[0].name)
+        addRecent(mockedConnectionParams("Test2"))
+        Assert.assertNotEquals(connectionParams.profile.name, manager.getRecentConnections()[0].name)
         addRecent(connectionParams)
-        Assert.assertEquals(profile.name, manager.getRecentConnections()[0].name)
+        Assert.assertEquals(connectionParams.profile.name, manager.getRecentConnections()[0].name)
     }
 }
