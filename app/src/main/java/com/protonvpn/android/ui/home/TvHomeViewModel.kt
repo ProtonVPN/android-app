@@ -27,6 +27,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
@@ -109,6 +111,7 @@ class TvHomeViewModel @Inject constructor(
             R.string.disconnect
 
     private fun countryListItemIcon(country: VpnCountry) = when {
+        country.isUnderMaintenance() -> R.drawable.ic_wrench
         !userData.isFreeUser -> null
         country.hasAccessibleServer(userData) -> R.drawable.ic_free
         else -> R.drawable.ic_lock
@@ -232,7 +235,7 @@ class TvHomeViewModel @Inject constructor(
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
             vpnStateMonitor.disconnect()
         } else {
-            vpnStateMonitor.connect(activity, serverManager.defaultConnection)
+            connect(activity, serverManager.defaultConnection)
         }
     }
 
@@ -241,11 +244,19 @@ class TvHomeViewModel @Inject constructor(
             serverManager.getBestScoreServer(card.vpnCountry), serverManager
         )
         else serverManager.defaultConnection
-        vpnStateMonitor.connect(activity, profile)
+        connect(activity, profile)
+    }
+
+    private fun connect(activity: Activity, profile: Profile) {
+        if (profile.server?.online == true) {
+            vpnStateMonitor.connect(activity, profile)
+        } else {
+            showMaintenanceDialog(activity)
+        }
     }
 
     fun connect(activity: Activity, card: ProfileCard?) {
-        card?.let { vpnStateMonitor.connect(activity, it.profile) }
+        card?.let { connect(activity, it.profile) }
     }
 
     fun resetMap() {
@@ -259,6 +270,16 @@ class TvHomeViewModel @Inject constructor(
         userData.defaultConnection = if (checked) Profile(
             vpnCountry.countryName, "", ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)
         ) else null
+    }
+
+    fun showMaintenanceDialog(context: Context) {
+        MaterialDialog.Builder(context)
+            .theme(Theme.DARK)
+            .negativeFocus(true)
+            .title(R.string.restrictedMaintenanceTitle)
+            .content(R.string.restrictedMaintenanceDescription)
+            .negativeText(R.string.cancel)
+            .show()
     }
 
     data class StreamingService(val name: String, val iconUrl: String?)

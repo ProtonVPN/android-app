@@ -106,6 +106,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
         onItemViewClickedListener = OnItemViewClickedListener { viewHolder, item, _, _ ->
             when (item) {
                 is CountryCard -> {
+                    if (item.vpnCountry.isUnderMaintenance()) {
+                        viewModel.showMaintenanceDialog(requireContext())
+                        return@OnItemViewClickedListener
+                    }
                     val imageView = (viewHolder.view as TvItemCardView).binding.imageBackground
                     val bundle = Bundle().apply { putSerializable(CountryDetailFragment.EXTRA_CARD, item) }
 
