@@ -47,9 +47,9 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         alpha = if (isSelected) 1f else 0.5f
         card.title?.let { title ->
             textTitle.text = title.text
-            titleLayout.setBackgroundResource(title.backgroundColorRes)
             title.resId?.let { imageTitle.setImageResource(it) }
         }
+        titleLayout.setBackgroundResource(card.title?.backgroundColorRes ?: 0)
         imageTitle.isVisible = card.title?.resId != null
 
         card.backgroundImage?.let { drawableImage ->
@@ -61,9 +61,9 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         }
         card.bottomTitle?.let { title ->
             textDescription.text = title.text
-            bottomTitle.setBackgroundResource(title.backgroundColorRes)
             title.resId?.let { imageBottomTitle.setImageResource(it) }
         }
+        bottomTitle.setBackgroundResource(card.bottomTitle?.backgroundColorRes ?: 0)
         imageBottomTitle.isVisible = card.bottomTitle?.resId != null
 
         if (card is CountryCard) {
