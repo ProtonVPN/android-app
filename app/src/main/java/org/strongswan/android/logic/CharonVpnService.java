@@ -640,6 +640,9 @@ public class CharonVpnService extends VpnService implements Runnable {
             VpnService.Builder builder = new CharonVpnService.Builder();
             builder.setSession(name);
 
+            // Metered state will be inherited from underlying connection.
+            builder.setMetered(false);
+
             /* even though the option displayed in the system dialog says "Configure"
              * we just use our main Activity */
             Context context = getApplicationContext();
