@@ -741,6 +741,9 @@ public abstract class OpenVPNService extends VpnService implements StateListener
 
         Builder builder = new Builder();
 
+        // Metered state will be inherited from underlying connection.
+        builder.setMetered(false);
+
         VpnStatus.logInfo(R.string.last_openvpn_tun_config);
 
         boolean allowUnsetAF = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !mProfile.mBlockUnusedAddressFamilies;
