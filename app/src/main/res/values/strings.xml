@@ -388,5 +388,17 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_signout_dialog_ok">Sign out</string>
     <string name="tv_quick_connect_recommened">Recommended</string>
     <string name="tv_quick_connect_favourite">Favourite</string>
-
+    <string name="tv_trial_counter_label">Trial</string>
+    <string name="tv_trial_title">7 days of full streaming</string>
+    <string name="tv_trial_description">As a welcome gift, you get access to all ProtonVPN servers and streaming services for the first 7 days with a Plus plan trial. Your plan will then change back to Free and the access to some services might be limited.Your trial ends in:</string>
+    <plurals name="counter_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="counter_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
+    <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
 </resources>
