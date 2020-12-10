@@ -98,8 +98,7 @@ class TvHomeViewModel @Inject constructor(
     fun showConnectButtons(card: CountryCard) =
         !isConnectedToThisCountry(card) && card.vpnCountry.hasAccessibleServer(userData)
 
-    fun showConnectToStreamingButton(card: CountryCard) = (showConnectButtons(card) ||
-        isFreeUser()) && !isConnectedToThisCountry(card)
+    fun showConnectToStreamingButton(card: CountryCard) = showConnectButtons(card) || !isPlusUser()
 
     fun isConnectedToThisCountry(card: CountryCard) =
         vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
@@ -201,8 +200,6 @@ class TvHomeViewModel @Inject constructor(
     fun isConnected() = vpnStateMonitor.isConnected
 
     fun isEstablishingConnection() = vpnStateMonitor.isEstablishingConnection
-
-    fun isFreeUser() = userData.isFreeUser
 
     fun isPlusUser() = userData.isUserPlusOrAbove
 
