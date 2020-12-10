@@ -43,8 +43,13 @@ class CountryCard(
     backgroundImage = backgroundImage
 )
 
-class ProfileCard(title: String = "", @DrawableRes backgroundImage: Int, val profile: Profile) : Card(
-    bottomTitle = Title(title, R.drawable.ic_thunder),
+class ProfileCard(
+    title: String = "",
+    @DrawableRes titleDrawable: Int = R.drawable.ic_thunder,
+    @DrawableRes backgroundImage: Int,
+    val profile: Profile
+) : Card(
+    bottomTitle = Title(title, titleDrawable),
     backgroundImage = DrawableImage(backgroundImage)
 )
 

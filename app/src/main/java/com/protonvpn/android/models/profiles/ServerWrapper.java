@@ -112,7 +112,7 @@ public final class ServerWrapper implements Listable, Serializable {
         return new ServerWrapper(ProfileType.RANDOM, "", "", deliver);
     }
 
-    public static ServerWrapper makeWithServer(Server server, ServerDeliver deliver) {
+    public static ServerWrapper makeWithServer(@NotNull Server server, ServerDeliver deliver) {
         return new ServerWrapper(ProfileType.DIRECT, server.getExitCountry(), server.getServerId(), deliver);
     }
 
@@ -131,6 +131,19 @@ public final class ServerWrapper implements Listable, Serializable {
     @Nullable
     public Server getServer() {
         return deliver.getServer(this);
+    }
+
+    // Country to which this profile would connect
+    @NotNull
+    public String getConnectCountry() {
+        switch (type) {
+            case FASTEST:
+                return getServer().getExitCountry();
+            case RANDOM:
+                return "";
+            default:
+                return country;
+        }
     }
 
     @Override

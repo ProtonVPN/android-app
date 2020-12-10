@@ -232,7 +232,7 @@ class ServerManager(
         }
     }
 
-    fun addToProfileList(serverName: String?, color: String?, server: Server?) {
+    fun addToProfileList(serverName: String?, color: String?, server: Server) {
         val newProfile =
                 Profile(serverName!!, color!!, ServerWrapper.makeWithServer(server, this))
         newProfile.wrapper.setSecureCoreCountry(userData.isSecureCoreEnabled)

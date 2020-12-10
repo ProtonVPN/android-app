@@ -56,6 +56,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
         return wrapper.server
     }
 
+    val connectCountry: String get() = wrapper.connectCountry
+
     val isSecureCore get() = wrapper.isSecureCoreServer
 
     override fun getLabel(context: Context) = getDisplayName(context)
@@ -83,8 +85,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     }
 
     companion object {
-        fun getTempProfile(server: Server?, manager: ServerManager?) =
-                Profile(server?.exitCountry.orEmpty(), "", ServerWrapper.makeWithServer(server, manager))
+        fun getTempProfile(server: Server, manager: ServerManager?) =
+                Profile(server.exitCountry, "", ServerWrapper.makeWithServer(server, manager))
 
         fun getRandomProfileColor(context: Context): String {
             val name = "pickerColor" + (Random().nextInt(18 - 1) + 1)

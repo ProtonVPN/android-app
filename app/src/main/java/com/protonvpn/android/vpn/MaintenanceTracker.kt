@@ -66,9 +66,9 @@ class MaintenanceTracker(
                     .withExtra("Server", result.value.connectingDomain.entryDomain)
                     .build()
                 ProtonLogger.logSentryEvent(sentryEvent)
-                stateMonitor.connect(
-                    context, Profile.getTempProfile(serverManager.getBestScoreServer(), serverManager)
-                )
+                serverManager.getBestScoreServer()?.let {
+                    stateMonitor.connect(context, Profile.getTempProfile(it, serverManager))
+                }
                 NotificationHelper.showInformationNotification(
                     context, context.getString(R.string.onMaintenanceDetected)
                 )
