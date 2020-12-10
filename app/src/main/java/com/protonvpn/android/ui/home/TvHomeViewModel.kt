@@ -144,7 +144,7 @@ class TvHomeViewModel @Inject constructor(
 
         val defaultConnection = serverManager.defaultConnection
         val shouldAddFavorite = isConnected() &&
-            !vpnStateMonitor.isConnectingToCountry(defaultConnection.wrapper.country)
+            !vpnStateMonitor.isConnectingToCountry(defaultConnection.connectCountry)
 
         if (shouldAddFavorite) {
             recentsList.add(
@@ -155,7 +155,8 @@ class TvHomeViewModel @Inject constructor(
                         else
                             R.string.tv_quick_connect_favourite
                     ),
-                    backgroundImage = CountryTools.getFlagResource(context, defaultConnection.server?.exitCountry),
+                    titleDrawable = profileCardTitleIcon(defaultConnection),
+                    backgroundImage = CountryTools.getFlagResource(context, defaultConnection.connectCountry),
                     profile = defaultConnection
                 )
             )
@@ -165,12 +166,24 @@ class TvHomeViewModel @Inject constructor(
             .forEach {
                 recentsList.add(
                     ProfileCard(
-                        backgroundImage = CountryTools.getFlagResource(context, it.wrapper.country),
+                        titleDrawable = profileCardTitleIcon(it),
+                        backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
                         profile = it
                     )
                 )
         }
         return recentsList
+    }
+
+    private fun profileCardTitleIcon(profile: Profile) = if (profile.server?.online == true)
+        R.drawable.ic_thunder
+    else
+        R.drawable.ic_wrench
+
+    private fun quickConnectTitleIcon() = when {
+        isConnected() || isEstablishingConnection() -> R.drawable.ic_notification_disconnected
+        serverManager.defaultConnection.server?.online == true -> R.drawable.ic_thunder
+        else -> R.drawable.ic_wrench
     }
 
     private fun constructQuickConnect(context: Context): Card {
@@ -183,8 +196,7 @@ class TvHomeViewModel @Inject constructor(
         return QuickConnectCard(
             title = Title(
                 text = label,
-                resId = if (isConnected() || isEstablishingConnection())
-                    R.drawable.ic_notification_disconnected else R.drawable.ic_thunder,
+                resId = quickConnectTitleIcon(),
                 backgroundColorRes = if (isConnected() || isEstablishingConnection())
                     R.color.tvAlert else R.color.tvGridItemOverlay
             ),
@@ -220,10 +232,10 @@ class TvHomeViewModel @Inject constructor(
         context.launchActivity<TvUpgradeActivity>()
     }
 
-    val quickConnectFlag get() = (if (isConnected() || isEstablishingConnection())
-        vpnStateMonitor.connectingToServer
+    val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
+        vpnStateMonitor.connectingToServer?.flag
     else
-        serverManager.defaultConnection.server)?.flag
+        serverManager.defaultConnection.connectCountry
 
     private fun quickConnectBackground(context: Context) =
         CountryTools.getFlagResource(context, quickConnectFlag)
@@ -237,23 +249,25 @@ class TvHomeViewModel @Inject constructor(
     }
 
     fun connect(activity: Activity, card: CountryCard?) {
-        val profile = if (card != null) Profile.getTempProfile(
-            serverManager.getBestScoreServer(card.vpnCountry), serverManager
-        )
-        else serverManager.defaultConnection
+        val profile = if (card != null)
+            serverManager.getBestScoreServer(card.vpnCountry)?.let {
+                Profile.getTempProfile(it, serverManager)
+            }
+        else
+            serverManager.defaultConnection
         connect(activity, profile)
     }
 
-    private fun connect(activity: Activity, profile: Profile) {
-        if (profile.server?.online == true) {
+    private fun connect(activity: Activity, profile: Profile?) {
+        if (profile?.server?.online == true) {
             vpnStateMonitor.connect(activity, profile)
         } else {
             showMaintenanceDialog(activity)
         }
     }
 
-    fun connect(activity: Activity, card: ProfileCard?) {
-        card?.let { connect(activity, it.profile) }
+    fun connect(activity: Activity, card: ProfileCard) {
+        connect(activity, card.profile)
     }
 
     fun resetMap() {
@@ -273,9 +287,9 @@ class TvHomeViewModel @Inject constructor(
         MaterialDialog.Builder(context)
             .theme(Theme.DARK)
             .negativeFocus(true)
-            .title(R.string.restrictedMaintenanceTitle)
-            .content(R.string.restrictedMaintenanceDescription)
-            .negativeText(R.string.cancel)
+            .title(R.string.tv_country_maintenance_dialog_title)
+            .content(R.string.tv_country_maintenance_dialog_description)
+            .negativeText(R.string.ok)
             .show()
     }
 
