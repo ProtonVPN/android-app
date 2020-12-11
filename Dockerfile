@@ -67,8 +67,8 @@ RUN mkdir android-sdk-linux && \
     "extras;android;m2repository" \
     "ndk;${ANDROID_NDK_VERSION}" >/dev/null
 
-ENV ANDROID_HOME ${HOME}/android-sdk-linux
-ENV ANDROID_SDK_ROOT ${HOME}/android-sdk-linux
+ENV ANDROID_HOME /root/android-sdk-linux
+ENV ANDROID_SDK_ROOT /root/android-sdk-linux
 ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION}
 ENV ANDROID_CLI $ANDROID_HOME/cmdline-tools
 ENV PATH ${ANDROID_HOME}/tools:${ANDROID_NDK_HOME}:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
