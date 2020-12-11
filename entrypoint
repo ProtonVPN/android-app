@@ -14,6 +14,7 @@ if [ -n "$CI_SERVER_HOST" ]; then
     exit 0;
   fi
 
+  ls -lha
 # debug env
   env | grep 'CI_' || true
   echo 123 > ~/lockfilerun
@@ -24,7 +25,6 @@ if [ -f "$HOME/app/.env" ]; then
   source "$HOME/app/.env";
 fi
 
-ls -lha
 
 #export GRADLE_USER_HOME="${HOME}/.gradle"
 
