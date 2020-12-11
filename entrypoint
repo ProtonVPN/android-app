@@ -33,12 +33,13 @@ if [ -f "$GRADLE_USER_HOME" ]; then
 fi
 
 if [ -n "$SSH_PRIVATE_KEY" ]; then
+  echo "[run] load private ssh key"
   eval $(ssh-agent -s)
 
   echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
 
   git config --global user.email "$GIT_CI_EMAIL"
-  git config --global user.name $"GIT_CI_USERNAME"
+  git config --global user.name "$GIT_CI_USERNAME"
   git config --global url."https://".insteadOf git://
 
 
