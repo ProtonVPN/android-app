@@ -38,6 +38,8 @@ RUN apt update && apt-get install -y \
 # Because the alias is not there out of the box
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+WORKDIR /root
+
 # IF we want swig 4
 # Add this so we can install swig 4.0 instead of the old 3.0.12 from 3 years old
 # Cannot group it before has it creates an issue with libc6 during the install :/
@@ -51,7 +53,7 @@ RUN mkdir android-sdk-linux && \
     --output android-sdk.zip && \
   unzip -d android-sdk-linux/cmdline-tools android-sdk.zip && \
   rm android-sdk.zip && \
-  export ANDROID_HOME="$PWD/android-sdk-linux" && \
+  export ANDROID_HOME="${HOME}/android-sdk-linux" && \
   export ANDROID_CLI="${ANDROID_HOME}/cmdline-tools" && \
   yes | "${ANDROID_CLI}/tools/bin/sdkmanager" \
     --sdk_root="${ANDROID_HOME}" \
@@ -65,9 +67,9 @@ RUN mkdir android-sdk-linux && \
     "extras;android;m2repository" \
     "ndk;${ANDROID_NDK_VERSION}" >/dev/null
 
-ENV ANDROID_HOME ${PWD}/android-sdk-linux
-ENV ANDROID_SDK_ROOT ${PWD}/android-sdk-linux
-ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION};
+ENV ANDROID_HOME ${HOME}/android-sdk-linux
+ENV ANDROID_SDK_ROOT ${HOME}/android-sdk-linux
+ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION}
 ENV ANDROID_CLI $ANDROID_HOME/cmdline-tools
 ENV PATH ${ANDROID_HOME}/tools:${ANDROID_NDK_HOME}:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin:$PATH
 
