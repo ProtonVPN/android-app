@@ -38,6 +38,7 @@ import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.ui.home.TvHomeViewModel
+import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
 import javax.inject.Inject
@@ -92,12 +93,14 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
             }
         }
 
+        defaultConnection.initLolipopButtonFocus()
         defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
         defaultConnection.isVisible = viewModel.hasAccessibleServers(card.vpnCountry)
         defaultConnection.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAsDefaultCountry(isChecked, card.vpnCountry)
         }
 
+        connectStreaming.initLolipopButtonFocus()
         connectStreaming.setStartDrawable(
             if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
         connectStreaming.setOnClickListener {
@@ -110,10 +113,12 @@ class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryD
         if (viewModel.isPlusUser())
             connectStreaming.setText(R.string.tv_detail_connect)
 
+        connectFastest.initLolipopButtonFocus()
         connectFastest.setOnClickListener {
             viewModel.connect(requireActivity(), card)
         }
 
+        disconnect.initLolipopButtonFocus()
         disconnect.setOnClickListener {
             viewModel.disconnect()
         }

@@ -22,15 +22,18 @@ import android.animation.Animator
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.res.ResourcesCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.protonvpn.android.R
 import kotlin.math.roundToInt
 
 object ViewUtils {
@@ -56,6 +59,23 @@ object ViewUtils {
     fun View.requestAllFocus() {
         requestFocus()
         requestFocusFromTouch()
+    }
+
+    // Lolipop can't into android:foreground
+    fun View.initLolipopButtonFocus() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            val focusDrawable =
+                ResourcesCompat.getDrawable(resources, R.drawable.tv_focus_foreground_focused, null)!!
+            addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                focusDrawable.setBounds(0, 0, width, height)
+            }
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus)
+                    overlay.add(focusDrawable)
+                else
+                    overlay.clear()
+            }
+        }
     }
 
     private fun convertDpToPixel(dp: Int): Int =

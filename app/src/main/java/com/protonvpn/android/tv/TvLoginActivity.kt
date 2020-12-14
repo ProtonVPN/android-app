@@ -38,6 +38,7 @@ import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.onAnimationEnd
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
@@ -55,6 +56,7 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
 
         viewModel.onEnterScreen(lifecycleScope)
         with(binding) {
+            actionButton.initLolipopButtonFocus()
             actionButton.setOnClickListener {
                 viewModel.startLogin(lifecycleScope)
             }
