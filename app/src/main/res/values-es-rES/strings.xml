@@ -317,7 +317,7 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
   <string name="netShieldReconnectionDescription">Tu conexión se reiniciará para cambiar el modo NetShield.\n\nNota: Si algunos sitios no se cargan, intenta deshabilitar NetShield.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Es necesario reiniciar tu conexión para desactivar el modo NetShield.</string>
-  <string name="netShieldPaidFeature">Esta función requiere ProtonVPN Plus.\nActualiza cuando estés en línea para desbloquear todas las funciones y apoyar a ProtonVPN.</string>
+  <string name="netShieldPaidFeature">Esta función requiere ProtonVPN Plus.\nMejora tu plan cuando estés en línea para desbloquear todas las funciones y apoyar a ProtonVPN.</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>
@@ -329,19 +329,22 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="nameEurope">Europa</string>
   <string name="nameAmerica">América</string>
   <string name="nameAsia">Asia</string>
-  <string name="nameAfricaAndMiddleEast">África &amp; Medio Oriente</string>
+  <string name="nameAfricaAndMiddleEast">África &amp; Oriente Medio</string>
   <string name="nameOceania">Oceanía</string>
   <string name="tvRowMore">Más</string>
   <string name="tv_detail_default_connection_checkbox">Mi país favorito</string>
-  <string name="tv_detail_connect_streaming">Conectarse para transmitir</string>
+  <string name="tv_detail_connect_streaming">Transmisión con Plus</string>
   <string name="tv_detail_connect">Conectar</string>
-  <string name="tv_detail_description">Transmite y desbloquea el contenido de tus aplicaciones favoritas.</string>
+  <string name="tv_detail_description_streaming_country">Transmite tu contenido favorito. Accede a más aplicaciones con un plan ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Transmite más de tu contenido favorito con un plan ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Este país no está disponible. Obtén más opciones de transmisión con un plan ProtonVPN Plus.</string>
+  <string name="tv_detail_description_plus">Transmite tus videos, películas o deportes favoritos con tus aplicaciones.</string>
   <string name="tv_login_title_signin">Inicia sesión en tu ProtonVPN</string>
   <string name="tv_login_title_welcome">Transmite tu contenido de vídeo favorito</string>
-  <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>account.protonvpn/signup</b>]]></string>
+  <string name="tv_login_welcome_description">Vea contenido de video de más de 50 países, incluidos YouTube y Twitch. Transmita Netflix, Amazon Prime y Hulu con ProtonVPN Plus.</string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenga su cuenta ProtonVPN en<b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Iniciar sesión</string>
-  <string name="tv_login_step1_description"><![CDATA[Go to <b>%1$s</b> on your mobile device or computer]]></string>
+  <string name="tv_login_step1_description"><![CDATA[Ve a <b>%1$s</b>en tu dispositivo móvil u ordenador]]></string>
   <string name="tv_login_step2_description">Inicia sesión con tu cuenta</string>
   <string name="tv_login_step3_description">Introduce el código:</string>
   <string name="tv_login_timer_label">Este código expira en:</string>
@@ -350,8 +353,8 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="tv_login_title_refresh">Tu sesión ha caducado. Haz clic en actualizar para volver a empezar.</string>
   <string name="tv_upgrade_title">Iniciar transmisión con Plus</string>
   <string name="back">Volver</string>
-  <string name="tv_upgrade_url_details">Visit <font fgcolor="#59B268">www.protonvpn.com/account</font> to upgrade to ProtonVPN Plus now.</string>
-  <string name="tv_upgrade_description">Get a ProtonVPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
+  <string name="tv_upgrade_url_details">Visita<font fgcolor="#59B268">www.protonvpn.com/account</font>para mejorar a ProtonVPN Plus ahora.</string>
+  <string name="tv_upgrade_description">Obtenga un plan ProtonVPN Plus para acceder a más de 500 servidores en todo el mundo y opciones de transmisión optimizadas para Netflix, Amazon Prime Video, Disney + y muchos más.</string>
   <string name="tv_vpn_error_dialog_title">Conexión VPN fallida</string>
   <string name="tv_signout_label">Cerrar sesión</string>
   <string name="tv_signout_dialog_title">¿Estás seguro de que quieres cerrar sesión?</string>
@@ -359,4 +362,17 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="tv_signout_dialog_ok">Cerrar sesión</string>
   <string name="tv_quick_connect_recommened">Recomendado</string>
   <string name="tv_quick_connect_favourite">Favorito</string>
+  <string name="tv_trial_counter_label">Prueba</string>
+  <string name="tv_trial_title">7 días de streaming completo</string>
+  <string name="tv_trial_description">Como regalo de bienvenida, tienes acceso a todos los servidores ProtonVPN y servicios de streaming durante los primeros 7 días con una prueba de plan Plus. Tu plan volverá a ser gratis y el acceso a algunos servicios podría ser limitado. Tu prueba termina en:</string>
+  <plurals name="counter_hours">
+    <item quantity="one">%d hora</item>
+    <item quantity="other">%d horas</item>
+</plurals>
+  <plurals name="counter_minutes">
+    <item quantity="one">%d minuto</item>
+    <item quantity="other">%d minutos</item>
+</plurals>
+  <string name="tv_country_maintenance_dialog_title">País no disponible</string>
+  <string name="tv_country_maintenance_dialog_description">Por favor, inténtalo más tarde o selecciona un país diferente.</string>
 </resources>

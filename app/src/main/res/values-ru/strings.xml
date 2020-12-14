@@ -339,13 +339,16 @@ Kill Switch не позволяет вашему устройству совер
   <string name="nameOceania">Океания</string>
   <string name="tvRowMore">Больше</string>
   <string name="tv_detail_default_connection_checkbox">Моя избранная страна</string>
-  <string name="tv_detail_connect_streaming">Подключиться для трансляции</string>
+  <string name="tv_detail_connect_streaming">Стримить с Plus</string>
   <string name="tv_detail_connect">Подключиться</string>
-  <string name="tv_detail_description">Пользуйтесь стриминговыми сервисами и разблокируйте контент ваших любимых приложений.</string>
+  <string name="tv_detail_description_streaming_country">Потоковая передача вашего любимого контента. Получите доступ к большему количеству приложений на тарифе ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Принимайте больше любимого контента с тарифным планом ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Страна недоступна. Получите больше возможностей стриминга с планом ProtonVPN Plus.</string>
+  <string name="tv_detail_description_plus">Смотрите ваши любимые видео, фильмы или спортивные передачи в ваших приложениях.</string>
   <string name="tv_login_title_signin">Войдите в свой ProtonVPN</string>
   <string name="tv_login_title_welcome">Стриминг вашего любимого видеоконтента</string>
   <string name="tv_login_welcome_description">Смотрите видеоконтент из более чем 50 стран, включая YouTube и Twitch. Сриминг Netflix, Amazon Prime и Hulu с помощью ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт ProtonVPN по адресу <b>account.protonvpn/signup</b>]]></string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт ProtonVPN по адресу <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Войти</string>
   <string name="tv_login_step1_description"><![CDATA[Перейдите на <b>%1$s</b> на вашем мобильном устройстве или компьютере]]></string>
   <string name="tv_login_step2_description">Войдите в аккаунт ProtonVPN</string>
@@ -365,4 +368,21 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_signout_dialog_ok">Выйти</string>
   <string name="tv_quick_connect_recommened">Рекомендованное</string>
   <string name="tv_quick_connect_favourite">Избранное</string>
+  <string name="tv_trial_counter_label">Пробная версия</string>
+  <string name="tv_trial_title">7 дней полного стриминга</string>
+  <string name="tv_trial_description">В качестве приветственного подарка вы получаете доступ ко всем серверам ProtonVPN и сервисам потокового видео в течение первых 7 дней с пробной версией Plus. Ваш план затем изменится на Free и доступ к некоторым сервисам может быть ограничен. Пробный период заканчивается через:</string>
+  <plurals name="counter_hours">
+    <item quantity="one">%d час</item>
+    <item quantity="few">%d часа</item>
+    <item quantity="many">%d часов</item>
+    <item quantity="other">%d часов</item>
+</plurals>
+  <plurals name="counter_minutes">
+    <item quantity="one">%d минута</item>
+    <item quantity="few">%d минуты</item>
+    <item quantity="many">%d минут</item>
+    <item quantity="other">%d минут</item>
+</plurals>
+  <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
+  <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>
 </resources>

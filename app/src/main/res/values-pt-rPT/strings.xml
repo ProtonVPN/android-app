@@ -128,8 +128,8 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="onboardingDialogSecureCoreDescription">Utilize esta funcionalidade paga e ligue-se aos servidores mais seguros do planeta. Pode vê-los no separador Países e na vista Mapa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
   <string name="onboardingListDescription">Nesta lista pode escolher um país e um servidor a que se deseje ligar</string>
-  <string name="onboardingStartSlideTitle">Boas vindas a uma Internet melhor</string>
-  <string name="onboardingStartSlideDescription">Dos cientistas e engenheiros que criaram o ProtonMail, boas vindas a uma Internet mais segura e privada.</string>
+  <string name="onboardingStartSlideTitle">Boas-vindas a uma Internet melhor</string>
+  <string name="onboardingStartSlideDescription">Dos cientistas e engenheiros que criaram o ProtonMail, boas-vindas a uma Internet mais segura e privada.</string>
   <string name="onboardingMiddleSlideTitle">Acreditamos que a Internet deve ser livre</string>
   <string name="onboardingMiddleSlideDescription">Contorne a censura e as restrições regionais. Não temos anúncios nem limites de banda larga e não vendemos os seus dados.</string>
   <string name="onboardingEndingSlideTitle">A sua segurança é a nossa prioridade</string>
@@ -195,7 +195,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="add">ADICIONAR</string>
   <string name="the_list_is_empty">A lista está vazia</string>
   <string name="got_it">Percebi</string>
-  <string name="onboardingWelcome">Boas vindas a bordo</string>
+  <string name="onboardingWelcome">Boas-vindas a bordo</string>
   <string name="proton_log">Diário Proton</string>
   <string name="something_went_wrong">Ocorreu um erro</string>
   <string name="try_again">Tente de novo</string>
@@ -333,13 +333,16 @@ versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não o
   <string name="nameOceania">Oceania</string>
   <string name="tvRowMore">Mais</string>
   <string name="tv_detail_default_connection_checkbox">O meu país favorito</string>
-  <string name="tv_detail_connect_streaming">Ligar para transmissão</string>
+  <string name="tv_detail_connect_streaming">Assista com o Plus</string>
   <string name="tv_detail_connect">Ligar</string>
-  <string name="tv_detail_description">Transmita e desbloqueia conteúdo das suas aplicações favoritas.</string>
+  <string name="tv_detail_description_streaming_country">Transmita o seu conteúdo favorito. Aceda a mais aplicações com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Transmita mais do seu conteúdo favorito com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Este país não está disponível. Obtenha mais opções de transmissão com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_plus">Transmita os seus vídeos, filmes ou desportos favoritos com as suas aplicações.</string>
   <string name="tv_login_title_signin">Inicie sessão no ProtonVPN</string>
   <string name="tv_login_title_welcome">Transmita o seu conteúdo de vídeo favorito</string>
   <string name="tv_login_welcome_description">Assista ao conteúdo de vídeo de mais de 50 países, incluindo YouTube e Twitch. Assista à Netflix, Amazon Prime, e Hulu com o ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenha sua conta ProtonVPN em <b>account.protonvpn/signup</b>]]></string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenha a sua conta ProtonVPN em <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Iniciar sessão</string>
   <string name="tv_login_step1_description"><![CDATA[Vá para <b>%1$s</b> no seu dispositivo móvel ou computador]]></string>
   <string name="tv_login_step2_description">Iniciar sessão na conta ProtonVPN</string>
@@ -359,4 +362,17 @@ versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não o
   <string name="tv_signout_dialog_ok">Terminar sessão</string>
   <string name="tv_quick_connect_recommened">Recomendado</string>
   <string name="tv_quick_connect_favourite">Favorito</string>
+  <string name="tv_trial_counter_label">Avaliação</string>
+  <string name="tv_trial_title">7 dias de transmissão completa</string>
+  <string name="tv_trial_description">Como presente de boas-vindas, terá acesso a todos os servidores ProtonVPN e serviços de transmissão nos primeiros 7 dias de avaliação do plano Plus. O seu plano voltará a ser Free e o acesso a alguns serviços pode ser limitado. A avaliação termina em:</string>
+  <plurals name="counter_hours">
+    <item quantity="one">%d hora</item>
+    <item quantity="other">%d horas</item>
+</plurals>
+  <plurals name="counter_minutes">
+    <item quantity="one">%d minuto</item>
+    <item quantity="other">%d minutos</item>
+</plurals>
+  <string name="tv_country_maintenance_dialog_title">O país está indisponível</string>
+  <string name="tv_country_maintenance_dialog_description">Por favor, tente novamente mais tarde ou seleccione outro país.</string>
 </resources>
