@@ -27,6 +27,7 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvUpgradeBinding
 import com.protonvpn.android.ui.home.TvHomeViewModel
+import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import javax.inject.Inject
 
 @ContentLayout(R.layout.dialog_tv_upgrade)
@@ -41,6 +42,7 @@ class TvUpgradeActivity : BaseTvActivity<DialogTvUpgradeBinding>() {
     }
 
     private fun initUI() = with(binding) {
+        backButton.initLolipopButtonFocus()
         backButton.setOnClickListener { finish() }
         textUpgradeDetails.text = getText(R.string.tv_upgrade_url_details)
 
