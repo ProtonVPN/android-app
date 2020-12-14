@@ -78,7 +78,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 viewModel.selectedCountryFlag.value = when (item) {
                     is CountryCard -> item.vpnCountry.flag
                     is QuickConnectCard -> viewModel.quickConnectFlag
-                    is ProfileCard -> item.profile.wrapper.country
+                    is ProfileCard -> item.profile.connectCountry
                     else -> null
                 }
             }
