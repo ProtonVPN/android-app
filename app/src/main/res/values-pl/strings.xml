@@ -243,8 +243,8 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="loaderLoadingServers">Ładowanie serwerów…</string>
   <string name="settingsExcludeIPAddresses">Wyklucz adresy IP</string>
   <string name="settingsExcludeApps">Wyklucz aplikacje</string>
-  <string name="settingsExcludeAppsInfo">Liczba wykluczonych aplikacji: %1$d</string>
-  <string name="settingsExcludeIPAddressesInfo">Liczba wykluczonych adresów: %1$d</string>
+  <string name="settingsExcludeAppsInfo">Wykluczone aplikacje: %1$d</string>
+  <string name="settingsExcludeIPAddressesInfo">Wykluczone adresy: %1$d</string>
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d aplikacja została wykluczona</item>
     <item quantity="few">%1$d aplikacje zostały wykluczone</item>
@@ -339,13 +339,16 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="nameOceania">Oceania</string>
   <string name="tvRowMore">Więcej</string>
   <string name="tv_detail_default_connection_checkbox">Mój ulubiony kraj</string>
-  <string name="tv_detail_connect_streaming">Połącz dla streamingu</string>
+  <string name="tv_detail_connect_streaming">Rozpocznij streaming z planem Plus</string>
   <string name="tv_detail_connect">Połącz</string>
-  <string name="tv_detail_description">Uzyskaj dostęp do streamingu i zablokowanych treści ze swoich ulubionych aplikacji.</string>
+  <string name="tv_detail_description_streaming_country">Odtwarzaj swoje ulubione treści. Uzyskaj dostęp do dodatkowych aplikacji z planem ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Odtwarzaj więcej swoich ulubionych treści z planem ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Ten kraj nie jest dostępny. Uzyskaj więcej opcji streamingu z planem ProtonVPN Plus.</string>
+  <string name="tv_detail_description_plus">Odtwarzaj swoje ulubione nagrania, filmy i wydarzenia sportowe w swoich aplikacjach.</string>
   <string name="tv_login_title_signin">Zaloguj się do ProtonVPN</string>
   <string name="tv_login_title_welcome">Uzyskaj dostęp do streamingu swoich ulubionych treści wideo</string>
   <string name="tv_login_welcome_description">Oglądaj treści wideo z serwisów takich jak YouTube, Twitch, Netflix, Amazon Prime i Hulu z planem ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Załóż konto ProtonVPN na <b>account.protonvpn.com/signup</b>]]></string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Załóż konto ProtonVPN na <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Zaloguj się</string>
   <string name="tv_login_step1_description"><![CDATA[Przejdź do strony <b>%1$s</b> na telefonie lub komputerze]]></string>
   <string name="tv_login_step2_description">Zaloguj się do konta ProtonVPN</string>
@@ -365,4 +368,21 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="tv_signout_dialog_ok">Wyloguj</string>
   <string name="tv_quick_connect_recommened">Zalecane</string>
   <string name="tv_quick_connect_favourite">Ulubiony</string>
+  <string name="tv_trial_counter_label">Wersja próbna</string>
+  <string name="tv_trial_title">7 dni nieograniczonego streamingu</string>
+  <string name="tv_trial_description">W ramach prezentu powitalnego, otrzymujesz 7-dniowy dostęp do wszystkich serwerów ProtonVPN i wsparcie dla streamingu z planu Plus. Po tym czasie, Twój plan zostanie ponownie zmieniony do wersji Free i dostęp do niektórych usług zostanie ograniczony. Twój okres próbny zakończy się za:</string>
+  <plurals name="counter_hours">
+    <item quantity="one">%d godzina</item>
+    <item quantity="few">%d godziny</item>
+    <item quantity="many">%d godzin</item>
+    <item quantity="other">%d godziny</item>
+</plurals>
+  <plurals name="counter_minutes">
+    <item quantity="one">%d minuta</item>
+    <item quantity="few">%d minuty</item>
+    <item quantity="many">%d minut</item>
+    <item quantity="other">%d minuty</item>
+</plurals>
+  <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
+  <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
 </resources>

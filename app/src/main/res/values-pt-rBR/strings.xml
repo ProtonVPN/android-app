@@ -333,13 +333,16 @@ em versões mais antigas do sistema operacional Android e/ou em todos os disposi
   <string name="nameOceania">Oceania</string>
   <string name="tvRowMore">More</string>
   <string name="tv_detail_default_connection_checkbox">My favorite country</string>
-  <string name="tv_detail_connect_streaming">Connect for streaming</string>
+  <string name="tv_detail_connect_streaming">Stream with Plus</string>
   <string name="tv_detail_connect">Connect</string>
-  <string name="tv_detail_description">Stream and unblock content from your favorite apps.</string>
+  <string name="tv_detail_description_streaming_country">Stream your favorite content. Access more apps with a ProtonVPN Plus plan.</string>
+  <string name="tv_detail_description_no_streaming_country">Stream more of your favourite content with a ProtonVPN Plus plan.</string>
+  <string name="tv_detail_description_country_not_available">This country isn’t available. Get more streaming options with a ProtonVPN Plus plan.</string>
+  <string name="tv_detail_description_plus">Stream your favourite videos, movies, or sports with your apps.</string>
   <string name="tv_login_title_signin">Sign in to your ProtonVPN</string>
   <string name="tv_login_title_welcome">Stream your favorite video content</string>
   <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>account.protonvpn/signup</b>]]></string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Sign in</string>
   <string name="tv_login_step1_description"><![CDATA[Go to <b>%1$s</b> on your mobile device or computer]]></string>
   <string name="tv_login_step2_description">Sign in to ProtonVPN account</string>
@@ -359,4 +362,17 @@ em versões mais antigas do sistema operacional Android e/ou em todos os disposi
   <string name="tv_signout_dialog_ok">Sign out</string>
   <string name="tv_quick_connect_recommened">Recommended</string>
   <string name="tv_quick_connect_favourite">Favourite</string>
+  <string name="tv_trial_counter_label">Trial</string>
+  <string name="tv_trial_title">7 days of full streaming</string>
+  <string name="tv_trial_description">As a welcome gift, you get access to all ProtonVPN servers and streaming services for the first 7 days with a Plus plan trial. Your plan will then change back to Free and the access to some services might be limited.Your trial ends in:</string>
+  <plurals name="counter_hours">
+    <item quantity="one">%d hour</item>
+    <item quantity="other">%d hours</item>
+</plurals>
+  <plurals name="counter_minutes">
+    <item quantity="one">%d minute</item>
+    <item quantity="other">%d minutes</item>
+</plurals>
+  <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
+  <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
 </resources>
