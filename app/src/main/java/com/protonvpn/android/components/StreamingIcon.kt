@@ -26,7 +26,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.protonvpn.android.databinding.StreamingIconBinding
-import com.protonvpn.android.ui.home.TvHomeViewModel
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.addListener
 
 class StreamingIcon(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet) {
@@ -38,7 +38,7 @@ class StreamingIcon(context: Context, attributeSet: AttributeSet? = null) : Fram
         binding = StreamingIconBinding.inflate(inflater, this, true)
     }
 
-    fun addStreamingView(streamingService: TvHomeViewModel.StreamingService) {
+    fun addStreamingView(streamingService: TvMainViewModel.StreamingService) {
         loadIcon(streamingService.name, streamingService.iconUrl)
     }
 

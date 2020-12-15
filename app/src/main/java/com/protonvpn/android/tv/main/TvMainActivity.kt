@@ -31,7 +31,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
-import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.CountryTools
 import javax.inject.Inject
 
@@ -40,7 +39,7 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: TvHomeViewModel by viewModels { viewModelFactory }
+    private val viewModel: TvMainViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
