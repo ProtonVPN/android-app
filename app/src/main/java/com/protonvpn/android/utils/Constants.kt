@@ -83,5 +83,5 @@ object Constants {
             "16672ea16c012664f8a9f11255518deb\n"
 
     // TV
-    const val TV_LOGIN_URL = "account.protonvpn.com/tv"
+    const val TV_LOGIN_URL = "protonvpn.com/tv"
 }
