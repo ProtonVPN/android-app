@@ -50,7 +50,7 @@ import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
-import com.protonvpn.android.ui.home.TvHomeViewModel
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import javax.inject.Inject
@@ -59,7 +59,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: TvHomeViewModel
+    private lateinit var viewModel: TvMainViewModel
 
     private var rowsAdapter: ArrayObjectAdapter? = null
 
@@ -71,7 +71,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvHomeViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {

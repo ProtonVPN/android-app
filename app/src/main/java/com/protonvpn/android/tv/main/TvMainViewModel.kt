@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.home
+package com.protonvpn.android.tv.main
 
 import android.app.Activity
 import android.content.Context
@@ -36,13 +36,14 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.TvUpgradeActivity
-import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
+import com.protonvpn.android.ui.home.AuthManager
+import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
@@ -55,7 +56,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TvHomeViewModel @Inject constructor(
+class TvMainViewModel @Inject constructor(
     val appConfig: AppConfig,
     val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,

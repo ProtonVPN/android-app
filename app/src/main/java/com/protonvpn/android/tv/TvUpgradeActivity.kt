@@ -26,15 +26,15 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvUpgradeBinding
-import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
+import com.protonvpn.android.tv.main.TvMainViewModel
 import javax.inject.Inject
 
 @ContentLayout(R.layout.dialog_tv_upgrade)
 class TvUpgradeActivity : BaseTvActivity<DialogTvUpgradeBinding>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<TvHomeViewModel> { viewModelFactory }
+    val viewModel by viewModels<TvMainViewModel> { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

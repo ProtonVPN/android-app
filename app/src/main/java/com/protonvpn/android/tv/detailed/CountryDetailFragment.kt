@@ -37,19 +37,19 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
 import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.ui.home.TvHomeViewModel
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
 import javax.inject.Inject
 
 @ContentLayout(R.layout.fragment_tv_country_details)
-class CountryDetailFragment : BaseFragmentV2<TvHomeViewModel, FragmentTvCountryDetailsBinding>() {
+class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryDetailsBinding>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvHomeViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
     }
 
     lateinit var card: CountryCard
