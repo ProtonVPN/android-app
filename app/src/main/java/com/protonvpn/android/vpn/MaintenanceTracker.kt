@@ -53,7 +53,7 @@ class MaintenanceTracker(
             return false
 
         ProtonLogger.log("Check if server is not in maintenance")
-        val domainId = stateMonitor.connectionParams!!.connectingDomain.id ?: return false
+        val domainId = stateMonitor.connectionParams!!.connectingDomain?.id ?: return false
         val result = api.getConnectingDomain(domainId)
         if (result is ApiResult.Success) {
             val connectingDomain = result.value.connectingDomain

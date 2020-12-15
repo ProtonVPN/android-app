@@ -124,7 +124,7 @@ open class VpnStateMonitor(
 
     val connectingToServer
         get() = connectionParams?.server?.takeIf {
-            state == Connected || state == Connecting
+            state == Connected || state.isEstablishingConnection
         }
 
     val connectionProfile
@@ -236,6 +236,7 @@ open class VpnStateMonitor(
         lastProfile = profile
         val server = profile.server!!
         ProtonLogger.log("Connect: ${server.domain}")
+        connectionParams = ConnectionParams(profile, server, null, null)
 
         if (profile.getProtocol(userData) == VpnProtocol.Smart)
             setSelfState(ScanningPorts)

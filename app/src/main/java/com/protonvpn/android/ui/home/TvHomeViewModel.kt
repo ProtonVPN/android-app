@@ -143,7 +143,7 @@ class TvHomeViewModel @Inject constructor(
         recentsList.add(constructQuickConnect(context))
 
         val defaultConnection = serverManager.defaultConnection
-        val shouldAddFavorite = isConnected() &&
+        val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
             !vpnStateMonitor.isConnectingToCountry(defaultConnection.connectCountry)
 
         if (shouldAddFavorite) {
