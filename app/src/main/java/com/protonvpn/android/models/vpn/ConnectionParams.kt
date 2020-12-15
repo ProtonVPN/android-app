@@ -24,12 +24,12 @@ import com.protonvpn.android.models.profiles.Profile
 open class ConnectionParams(
     val profile: Profile,
     val server: Server,
-    val connectingDomain: ConnectingDomain,
-    val protocol: VpnProtocol
+    val connectingDomain: ConnectingDomain?,
+    val protocol: VpnProtocol?
 ) : java.io.Serializable {
 
-    open val info get() = "${connectingDomain.entryDomain} $protocol"
+    open val info get() = "Profile: ${profile.name} IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
 
-    val exitIpAddress: String
-        get() = connectingDomain.getExitIP()
+    val exitIpAddress: String?
+        get() = connectingDomain?.getExitIP()
 }

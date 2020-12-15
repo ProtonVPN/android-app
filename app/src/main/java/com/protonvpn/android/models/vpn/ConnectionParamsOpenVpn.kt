@@ -56,7 +56,7 @@ class ConnectionParamsOpenVpn(
         mExpectTLSCert = true
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
-        mRemoteCN = connectingDomain.entryDomain
+        mRemoteCN = connectingDomain!!.entryDomain
         mAllowLocalLAN = userData.bypassLocalTraffic()
         if (userData.useSplitTunneling && userData.splitTunnelIpAddresses.isNotEmpty()) {
             mUseDefaultRoute = false
