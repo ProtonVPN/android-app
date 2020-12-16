@@ -352,7 +352,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="tv_login_title_refresh">Votre session a expiré. Cliquez sur Actualiser pour recommencer.</string>
   <string name="tv_upgrade_title">Commencez à regarder avec PLUS</string>
   <string name="back">Retour</string>
-  <string name="tv_upgrade_url_details">Visitez <font fgcolor="#59B268">www.protonvpn.com/account</font> pour passer à ProtonVPN PLUS maintenant.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visitez <font color="%1$s">%2$s</font> pour passer à ProtonVPN PLUS maintenant.]]></string>
   <string name="tv_upgrade_description">Obtenez un plan ProtonVPN PLUS pour accéder à plus de 500 serveurs dans le monde entier et optimiser les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
   <string name="tv_vpn_error_dialog_title">Échec de la connexion au VPN</string>
   <string name="tv_signout_label">Se déconnecter</string>
