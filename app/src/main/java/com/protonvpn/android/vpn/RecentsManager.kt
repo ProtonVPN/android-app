@@ -48,8 +48,7 @@ class RecentsManager(
             }
             if (status.state == VpnState.Disconnecting) {
                 connectionOnHold?.let { profile ->
-                    if (!profile.isPreBakedProfile)
-                        addLastConnectionToRecents(profile)
+                    addLastConnectionToRecents(profile)
 
                     connectionOnHold = null
                     Storage.save(this)
@@ -70,7 +69,7 @@ class RecentsManager(
         }
 
     private fun addLastConnectionToRecents(profile: Profile) {
-        recentConnections.removeFirst { profile.name == it.name }
+        recentConnections.removeFirst { profile.name == it.name || profile.connectCountry == it.connectCountry }
         if (recentConnections.size > RECENT_MAX_SIZE) {
             recentConnections.removeLast()
         }
