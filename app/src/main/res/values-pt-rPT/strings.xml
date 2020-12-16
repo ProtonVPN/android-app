@@ -353,7 +353,7 @@ versões Android OS ou nalguns dispositivos Android. Se o seu dispositivo não o
   <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Actualizar para começar novamente.</string>
   <string name="tv_upgrade_title">Iniciar transmissão com o Plus</string>
   <string name="back">Recuar</string>
-  <string name="tv_upgrade_url_details">Visite <font fgcolor="#59B268">www.protonvpn.com/account</font> para actualizar para o ProtonVPN Plus agora.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visite <font color="%1$s">%2$s</font> para actualizar para o ProtonVPN Plus agora.]]></string>
   <string name="tv_upgrade_description">Obtenha um plano ProtonVPN Plus para aceder a mais de 500 servidores em todo o mundo e optimizar as opções para Netflix, Amazon Prime Vídeo, Disney+ e muitos outros.</string>
   <string name="tv_vpn_error_dialog_title">Falha na ligação VPN</string>
   <string name="tv_signout_label">Terminar sessão</string>

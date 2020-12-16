@@ -353,7 +353,7 @@ versiones antiguas del sistema operativo Android OS o en todos los dispositivos 
   <string name="tv_login_title_refresh">Tu sesión ha caducado. Haz clic en actualizar para volver a empezar.</string>
   <string name="tv_upgrade_title">Iniciar transmisión con Plus</string>
   <string name="back">Volver</string>
-  <string name="tv_upgrade_url_details">Visita<font fgcolor="#59B268">www.protonvpn.com/account</font>para mejorar a ProtonVPN Plus ahora.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visita <font color="%1$s">%2$s</font> para mejorar a ProtonVPN Plus ahora.]]></string>
   <string name="tv_upgrade_description">Obtenga un plan ProtonVPN Plus para acceder a más de 500 servidores en todo el mundo y opciones de transmisión optimizadas para Netflix, Amazon Prime Video, Disney + y muchos más.</string>
   <string name="tv_vpn_error_dialog_title">Conexión VPN fallida</string>
   <string name="tv_signout_label">Cerrar sesión</string>

@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.protonvpn.android.R
+import okhttp3.internal.toHexString
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -144,6 +145,12 @@ fun Context.openUrl(url: Uri) {
         Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
     }
 }
+
+// Need to drop alpha channel as android won't handle it properly in TextView
+fun Int.toStringHtmlColorNoAlpha() = "#${toHexString().padStart(8, '0').drop(2)}"
+
+fun Context.getStringHtmlColorNoAlpha(@ColorRes res: Int) =
+    ContextCompat.getColor(this, res).toStringHtmlColorNoAlpha()
 
 fun Context.openProtonUrl(url: String) =
     openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())

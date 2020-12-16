@@ -359,7 +359,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_login_title_refresh">Ваша сессия истекла. Нажмите обновить, чтобы начать снова.</string>
   <string name="tv_upgrade_title">Начать трансляцию с Plus</string>
   <string name="back">Назад</string>
-  <string name="tv_upgrade_url_details">Посетите <font fgcolor="#59B268">www.protonvpn.com/account</font>, чтобы перейти на ProtonVPN Plus прямо сейчас.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Посетите <font color="%1$s">%2$s</font>, чтобы перейти на ProtonVPN Plus прямо сейчас.]]></string>
   <string name="tv_upgrade_description">Подключите план ProtonVPN Plus для доступа к 500+ серверам по всему миру и оптимизированные возможности стриминга для Netflix, Amazon Prime Video, Disney+ и многих других.</string>
   <string name="tv_vpn_error_dialog_title">Сбой VPN-подключения</string>
   <string name="tv_signout_label">Выйти</string>

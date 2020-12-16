@@ -353,7 +353,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="tv_login_title_refresh">نشست شما منقضی شده است. دکمه نوسازی را زده تا دوباره از نو شروع کنید.</string>
   <string name="tv_upgrade_title">شروع به پخش کنید با Plus</string>
   <string name="back">بازگشت</string>
-  <string name="tv_upgrade_url_details">بروید به <font fgcolor="#59B268">www.protonvpn.com/account</font> تا هم‌اکنون ارتقا به ProtonVPN Plus دهید.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[بروید به <font color="%1$s">%2$s</font> تا هم‌اکنون ارتقا به ProtonVPN Plus دهید.]]></string>
   <string name="tv_upgrade_description">یک طرح ProtonVPN Plus بگیرید تا به +۵۰۰ سرور در سراسر جهان و انتخابهای بهینه شده برای پخش و دیدن Netflix, Amazon Prime Video, Disney+, و خیلی موارد دیگر دست یابید.</string>
   <string name="tv_vpn_error_dialog_title">ﺍﺗﺼﺎﻝ VPN ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
   <string name="tv_signout_label">خروج</string>

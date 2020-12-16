@@ -353,7 +353,7 @@ em versões mais antigas do sistema operacional Android e/ou em todos os disposi
   <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
   <string name="tv_upgrade_title">Start streaming with Plus</string>
   <string name="back">Back</string>
-  <string name="tv_upgrade_url_details">Visit <font fgcolor="#59B268">www.protonvpn.com/account</font> to upgrade to ProtonVPN Plus now.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visit <font color="%1$s">%2$s</font> to upgrade to ProtonVPN Plus now.]]></string>
   <string name="tv_upgrade_description">Get a ProtonVPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
   <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
   <string name="tv_signout_label">Sign out</string>

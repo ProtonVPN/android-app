@@ -359,7 +359,7 @@ na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli T
   <string name="tv_login_title_refresh">Sesja wygasła. Kliknij przycisk Odśwież, aby spróbować ponownie.</string>
   <string name="tv_upgrade_title">Rozpocznij streaming z planem Plus</string>
   <string name="back">Wstecz</string>
-  <string name="tv_upgrade_url_details">Odwiedź stronę <font fgcolor="#59B268">www.protonvpn.com/account</font>, aby ulepszyć ProtonVPN do planu Plus.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Odwiedź stronę <font color="%1$s">%2$s</font>, aby ulepszyć ProtonVPN do planu Plus.]]></string>
   <string name="tv_upgrade_description">Ulepsz ProtonVPN do planu Plus, aby uzyskać dostęp do ponad 500 serwerów na całym świecie i wsparcie dla streamingu w serwisach takich jak Netflix, Amazon Prime Video, Disney+ i wielu innych.</string>
   <string name="tv_vpn_error_dialog_title">Połączenie VPN nie powiodło się</string>
   <string name="tv_signout_label">Wyloguj</string>

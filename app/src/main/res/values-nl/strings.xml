@@ -353,7 +353,7 @@ oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel 
   <string name="tv_login_title_refresh">Uw sessie is verlopen. Klik op vernieuwen om opnieuw te starten.</string>
   <string name="tv_upgrade_title">Start streamen met Plus</string>
   <string name="back">Vorige</string>
-  <string name="tv_upgrade_url_details">Bezoek <font fgcolor="#59B268">www.protonvpn.com/account</font> om nu te upgraden naar ProtonVPN Plus.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Bezoek <font color="%1$s">%2$s</font> om nu te upgraden naar ProtonVPN Plus.]]></string>
   <string name="tv_upgrade_description">Neem een ProtonVPN Plus-plan om wereldwijd toegang te krijgen tot 500+ servers en geoptimaliseerde streaming-opties voor Netflix, Amazon Prime Video, Disney+ en nog veel meer.</string>
   <string name="tv_vpn_error_dialog_title">VPN-verbinding mislukt</string>
   <string name="tv_signout_label">Uitloggen</string>
