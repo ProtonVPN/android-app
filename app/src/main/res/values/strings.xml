@@ -286,7 +286,6 @@
     <string name="welcomeDialogTitle">Thanks for joining ever growing ProtonVPN community.</string>
     <string name="welcomeDialogDescription">Use your newly created account credentials to login.</string>
     <string name="welcomeDialogTitleTrial">To say thanks, we are giving you a free 7 day trial of our Plus plan. It lets you use advanced features and Plus servers. At the end of the trial, you will return to a Free plan and only have access to Free servers.</string>
-    <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
     <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
     <string name="buttonTroubleshoot"><![CDATA[<u>Troubleshoot</u>]]></string>
@@ -390,14 +389,23 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_quick_connect_favourite">Favourite</string>
     <string name="tv_trial_counter_label">Trial</string>
     <string name="tv_trial_title">7 days of full streaming</string>
-    <string name="tv_trial_description">As a welcome gift, you get access to all ProtonVPN servers and streaming services for the first 7 days with a Plus plan trial. Your plan will then change back to Free and the access to some services might be limited.Your trial ends in:</string>
+    <string name="tv_trial_summary"><![CDATA[As a welcome gift, access all ProtonVPN servers and streaming services for the first 7 days with a <b>Plus plan trial</b>.<br>Your plan will then change to <b>Free</b> and your access to certain services might be limited.]]></string>
+    <string name="tv_trial_ends_in">Your trial ends in</string>
+    <plurals name="counter_days">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
+    </plurals>
     <plurals name="counter_hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%1$s hour</item>
+        <item quantity="other">%1$s hours</item>
     </plurals>
     <plurals name="counter_minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%1$s minute</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <plurals name="counter_seconds">
+        <item quantity="one">%1$s second</item>
+        <item quantity="other">%1$s seconds</item>
     </plurals>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>

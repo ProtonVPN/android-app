@@ -48,6 +48,9 @@
         <activity android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse"/>
 
+        <activity android:name=".tv.TvTrialDialogActivity"
+            android:theme="@style/AppTheme.TV.Browse"/>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
