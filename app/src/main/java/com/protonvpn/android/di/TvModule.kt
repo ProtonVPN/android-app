@@ -1,5 +1,6 @@
 package com.protonvpn.android.di
 
+import com.protonvpn.android.tv.TvTrialDialogActivity
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.tv.TvMainFragment
@@ -29,4 +30,7 @@ abstract class TvModule {
 
     @ContributesAndroidInjector
     abstract fun provideDetailsFragment(): CountryDetailFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindTvTrialDialogActivity(): TvTrialDialogActivity
 }

@@ -52,8 +52,11 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class TvMainViewModel @Inject constructor(
@@ -115,6 +118,21 @@ class TvMainViewModel @Inject constructor(
         !userData.isFreeUser -> null
         country.hasAccessibleServer(userData) -> R.drawable.ic_free
         else -> R.drawable.ic_lock
+    }
+
+    fun shouldShowTrialDialog(): Boolean {
+        if ("trial" == userData.vpnInfoResponse?.userTierName && !userData.wasTrialDialogRecentlyShowed()) {
+            userData.setTrialDialogShownAt(DateTime())
+            return true
+        }
+        return false
+    }
+
+    fun getTrialPeriodFlow(context: Context) = flow {
+        while (true) {
+            emit(userData.vpnInfoResponse?.getTrialRemainingTimeString(context))
+            delay(TRIAL_UPDATE_DELAY_MILLIS)
+        }
     }
 
     fun shouldDisplayStreamingIcons() = appConfig.getFeatureFlags().displayTVLogos
@@ -309,4 +327,8 @@ class TvMainViewModel @Inject constructor(
         }
 
     fun logout() = logoutHandler.logout(false)
+
+    companion object {
+        private const val TRIAL_UPDATE_DELAY_MILLIS: Long = 1000
+    }
 }
