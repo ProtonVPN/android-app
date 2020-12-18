@@ -120,8 +120,10 @@ class TvMainViewModel @Inject constructor(
         else -> R.drawable.ic_lock
     }
 
+    fun shouldShowTrial() = "trial" == userData.vpnInfoResponse?.userTierName
+
     fun shouldShowTrialDialog(): Boolean {
-        if ("trial" == userData.vpnInfoResponse?.userTierName && !userData.wasTrialDialogRecentlyShowed()) {
+        if (shouldShowTrial() && !userData.wasTrialDialogRecentlyShowed()) {
             userData.setTrialDialogShownAt(DateTime())
             return true
         }
