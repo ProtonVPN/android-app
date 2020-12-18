@@ -24,30 +24,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class TvStatusFragment : DaggerFragment() {
     private lateinit var binding: TvStatusViewBinding
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
     @Inject lateinit var serverListUpdater: ServerListUpdater
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private lateinit var viewModel: TvMainViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
+        initTrial()
 
         vpnStateMonitor.vpnStatus.observe(
             viewLifecycleOwner,
@@ -56,6 +65,16 @@ class TvStatusFragment : DaggerFragment() {
             }
         )
         return binding.root
+    }
+
+    private fun initTrial() = with(binding) {
+        textTrialTitle.isVisible = viewModel.shouldShowTrial()
+        textTrialPeriod.isVisible = viewModel.shouldShowTrial()
+        if (viewModel.shouldShowTrial()) {
+            lifecycleScope.launchWhenResumed {
+                viewModel.getTrialPeriodFlow(requireContext()).collect { textTrialPeriod.text = it }
+            }
+        }
     }
 
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
