@@ -158,7 +158,9 @@ class StrongSwanBackend(
     }
 
     override fun stateChanged() {
-        selfStateObservable.postValue(translateState(vpnService!!.state, vpnService!!.errorState))
+        vpnService?.let {
+            selfStateObservable.postValue(translateState(it.state, it.errorState))
+        }
         debugAssert {
             (selfState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
