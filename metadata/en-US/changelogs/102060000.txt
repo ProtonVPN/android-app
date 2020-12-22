@@ -1,0 +1,3 @@
+What's new:
+* Introduces support for Android TV
+* Fixes bug that made other apps see all VPN connections as "metered" on Android 10+
