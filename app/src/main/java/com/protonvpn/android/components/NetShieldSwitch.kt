@@ -233,8 +233,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun initUserTier(userData: UserData) = with(binding) {
-        plusFeature.isVisible = !userData.isUserPlusOrAbove
-        if (!userData.isUserPlusOrAbove) {
+        val netshieldPartialMode = userData.isFreeUser
+        plusFeature.isVisible = netshieldPartialMode
+        if (netshieldPartialMode) {
             radioFullBlocking.isEnabled = false
             val disabledColor = if (isInConnectedScreen) R.color.brightGrey else R.color.lightGrey
             radioFullBlocking.setTextColor(ContextCompat.getColor(context, disabledColor))
