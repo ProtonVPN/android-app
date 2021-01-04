@@ -182,9 +182,12 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
     </application>
 
 </manifest>
