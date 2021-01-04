@@ -20,7 +20,7 @@ package com.protonvpn.android.models.config;
 
 import android.os.Build;
 
-import com.protonvpn.android.api.NetworkUserData;
+import com.protonvpn.android.api.ApiSessionProvider;
 import com.protonvpn.android.models.login.LoginResponse;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
@@ -69,7 +69,7 @@ public final class UserData implements Serializable {
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
-    private transient NetworkUserData networkUserData = new NetworkUserData();
+    private transient ApiSessionProvider apiSessionProvider = new ApiSessionProvider();
 
     public UserData() {
         user = "";
@@ -383,15 +383,15 @@ public final class UserData implements Serializable {
             netShieldProtocol == null ? NetShieldProtocol.ENABLED : getNetShieldProtocol();
     }
 
-    public NetworkUserData getNetworkUserData() {
-        return networkUserData;
+    public ApiSessionProvider getApiSessionProvider() {
+        return apiSessionProvider;
     }
 
     public void clearNetworkUserData() {
-        networkUserData.clear();
+        apiSessionProvider.clear();
     }
 
     public void setLoginResponse(LoginResponse value) {
-        networkUserData.setLoginResponse(value);
+        apiSessionProvider.setLoginResponse(value);
     }
 }

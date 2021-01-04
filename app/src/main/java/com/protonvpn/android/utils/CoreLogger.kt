@@ -21,17 +21,53 @@ package com.protonvpn.android.utils
 
 import com.protonvpn.android.BuildConfig
 import me.proton.core.util.kotlin.Logger
+import me.proton.core.util.kotlin.LoggerLogTag
 
 class CoreLogger : Logger {
 
-    override fun e(tag: String, msg: String?, e: Throwable?) {
-        msg?.let { ProtonLogger.log("[$tag] $msg") }
-        e?.let { ProtonLogger.log(e.toString()) }
-        if (BuildConfig.DEBUG)
-            e?.printStackTrace()
+    override fun log(tag: LoggerLogTag, message: String) {
+        ProtonLogger.log("[${tag.name}] $message")
     }
 
-    override fun i(tag: String, msg: String) {
-        ProtonLogger.log("[$tag] $msg")
+    override fun e(tag: String, e: Throwable) {
+        ProtonLogger.log(e.toString())
+        if (BuildConfig.DEBUG)
+            e.printStackTrace()
+    }
+
+    override fun e(tag: String, e: Throwable, message: String) {
+        e(tag, e)
+        ProtonLogger.log("[$tag] $message")
+    }
+
+    override fun i(tag: String, message: String) {
+        ProtonLogger.log("[$tag] $message")
+    }
+
+    override fun i(tag: String, e: Throwable, message: String) {
+        ProtonLogger.log("[$tag] $message")
+        if (BuildConfig.DEBUG)
+            e.printStackTrace()
+    }
+
+    override fun d(tag: String, message: String) {
+        if (BuildConfig.DEBUG)
+            ProtonLogger.log("[$tag] $message")
+    }
+
+    override fun d(tag: String, e: Throwable, message: String) {
+        d(tag, message)
+        if (BuildConfig.DEBUG)
+            e.printStackTrace()
+    }
+
+    override fun v(tag: String, message: String) {
+        ProtonLogger.log("[$tag] $message")
+    }
+
+    override fun v(tag: String, e: Throwable, message: String) {
+        v(tag, message)
+        if (BuildConfig.DEBUG)
+            e.printStackTrace()
     }
 }

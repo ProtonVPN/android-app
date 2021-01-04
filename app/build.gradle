@@ -273,6 +273,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        // There are internal compiler errors with new inference engine. Let's wait with enabling
+        // that.
+        freeCompilerArgs += ["-XXLanguage:-NewInference"]
     }
     splits {
         abi {
@@ -573,9 +576,8 @@ dependencies {
     implementation 'ru.egslava:MaskedEditText:1.0.5'
     implementation 'com.evernote:android-state:1.4.1'
     implementation 'androidx.work:work-runtime:2.4.0'
-    implementation 'com.github.akarnokd:rxjava2-extensions:0.20.10'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     implementation "com.datatheorem.android.trustkit:trustkit:1.1.3"
     implementation 'com.xwray:groupie:2.7.2'
     implementation 'com.xwray:groupie-databinding:2.7.2'
@@ -583,7 +585,7 @@ dependencies {
     implementation 'org.minidns:minidns-hla:1.0.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
     implementation "androidx.preference:preference-ktx:1.1.1"
     implementation 'com.airbnb.android:lottie:3.6.0'
 
@@ -592,8 +594,9 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Proton Core libs
-    implementation "me.proton.core:network:0.2.3"
-    implementation "me.proton.core:util-kotlin:0.1.5"
+    implementation "me.proton.core:domain:0.2.4"
+    implementation "me.proton.core:network:0.4.5"
+    implementation "me.proton.core:util-kotlin:0.2.4"
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
@@ -635,7 +638,7 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.3.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1'
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.3.0'

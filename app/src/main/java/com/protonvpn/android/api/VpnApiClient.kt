@@ -22,15 +22,16 @@ import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiClient
-import me.proton.core.network.domain.humanverification.HumanVerificationDetails
 import java.util.Locale
 
-class VpnApiClient(val userData: UserData) : ApiClient {
+class VpnApiClient(val scope: CoroutineScope, val userData: UserData) : ApiClient {
 
-    val forceUpdateEvent = LiveEvent()
+    val forceUpdateEvent = MutableSharedFlow<String>()
 
     private var vpnStateMonitor: VpnStateMonitor? = null
 
@@ -47,10 +48,9 @@ class VpnApiClient(val userData: UserData) : ApiClient {
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
                 BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND, Build.MODEL)
 
-    override fun forceUpdate() {
-        forceUpdateEvent.emit()
+    override fun forceUpdate(errorMessage: String) {
+        scope.launch {
+            forceUpdateEvent.emit(errorMessage)
+        }
     }
-
-    // To be implemeted in VPNAND-210
-    override suspend fun humanVerification(humanVerificationDetails: HumanVerificationDetails) = false
 }

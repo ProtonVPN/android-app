@@ -27,11 +27,12 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.ui.home.AuthManager
+import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
@@ -50,6 +51,7 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.data.di.NetworkPrefs
 import me.proton.core.network.domain.ApiManager
@@ -89,41 +91,50 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideRecentManager(
-        vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager,
-        authManager: AuthManager
-    ) = RecentsManager(
-        vpnStateMonitor,
-        serverManager,
-        authManager
-    )
-
-    @Singleton
-    @Provides
-    fun provideProtonApiManager(
+    fun provideVpnApiManager(
         networkManager: NetworkManager,
         apiClient: VpnApiClient,
         userData: UserData
-    ): ApiManager<ProtonVPNRetrofit> {
+    ): VpnApiManager {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
+        val sessionProvider = userData.apiSessionProvider
+        val cookieStore = ProtonCookieStore(appContext)
         val apiFactory = ApiFactory(Constants.PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
-                NetworkPrefs(appContext), scope)
+                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope)
+
         val resource: IdlingResource =
-                IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
+            IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
         IdlingRegistry.getInstance().register(resource)
 
-        return apiFactory.ApiManager(userData.getNetworkUserData(), ProtonVPNRetrofit::class)
+        return VpnApiManager(apiFactory, userData.apiSessionProvider)
     }
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData): VpnApiClient = VpnApiClient(userData)
+    fun provideApiManager(
+        vpnApiManager: VpnApiManager
+    ): ApiManager<ProtonVPNRetrofit> = vpnApiManager
+
+    @Singleton
+    @Provides
+    fun provideApiClient(userData: UserData): VpnApiClient = VpnApiClient(scope, userData)
 
     @Singleton
     @Provides
     fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>): ProtonApiRetroFit = MockApi(scope, apiManager)
+
+    @Singleton
+    @Provides
+    fun provideRecentManager(
+        vpnStateMonitor: VpnStateMonitor,
+        serverManager: ServerManager,
+        logoutHandler: LogoutHandler
+    ) = RecentsManager(
+        vpnStateMonitor,
+        serverManager,
+        logoutHandler
+    )
 
     @Singleton
     @Provides
@@ -178,12 +189,12 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideAuthManager(
+    fun provideLogoutHandler(
         userData: UserData,
         serverManager: ServerManager,
-        api: ProtonApiRetroFit,
+        vpnApiManager: VpnApiManager,
         vpnStateMonitor: VpnStateMonitor,
         vpnApiClient: VpnApiClient
-    ): AuthManager = AuthManager(
-            scope, userData, serverManager, api, vpnStateMonitor, vpnApiClient, userData.networkUserData)
+    ): LogoutHandler = LogoutHandler(
+        scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider, vpnStateMonitor, vpnApiClient)
 }

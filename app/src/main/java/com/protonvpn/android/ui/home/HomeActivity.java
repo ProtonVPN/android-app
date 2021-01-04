@@ -125,7 +125,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
-    @Inject AuthManager authManager;
+    @Inject LogoutHandler logoutHandler;
     @Inject AppConfig appConfig;
 
     @Inject ViewModelFactory viewModelFactory;
@@ -172,7 +172,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        authManager.getLogoutEvent().observe(this, () -> {
+        logoutHandler.getLogoutEvent().observe(this, () -> {
             finish();
             navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
@@ -345,12 +345,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 .title(R.string.warning)
                 .content(R.string.logoutDescription)
                 .positiveText(R.string.ok)
-                .onPositive((dialog, which) -> authManager.logout(false))
+                .onPositive((dialog, which) -> logoutHandler.logout(false))
                 .negativeText(R.string.cancel)
                 .show();
         }
         else {
-            authManager.logout(false);
+            logoutHandler.logout(false);
         }
     }
 
