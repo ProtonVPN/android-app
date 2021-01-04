@@ -30,7 +30,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import kotlin.coroutines.resume
 
 class GuestHole(
@@ -57,7 +57,7 @@ class GuestHole(
     }
 
     private fun getGuestHoleServers(): List<Server> {
-        val servers = FileUtils.getObjectFromAssets(Server.serializer().list, GUEST_HOLE_SERVERS_ASSET)
+        val servers = FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
         val shuffledServers = servers.shuffled().take(GUEST_HOLE_SERVER_COUNT)
         serverManager.setGuestHoleServers(shuffledServers)
         return shuffledServers

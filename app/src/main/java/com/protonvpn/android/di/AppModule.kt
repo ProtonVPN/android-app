@@ -22,6 +22,7 @@ import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
@@ -29,7 +30,7 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.ui.home.AuthManager
+import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
@@ -48,6 +49,7 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.data.di.NetworkManager
 import me.proton.core.network.data.di.NetworkPrefs
@@ -91,26 +93,35 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideProtonApiManager(
+    fun provideVpnApiManager(
         networkManager: NetworkManager,
         apiClient: VpnApiClient,
         userData: UserData
-    ): ApiManager<ProtonVPNRetrofit> {
+    ): VpnApiManager {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
-        val apiFactory = ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
-                NetworkPrefs(appContext), scope)
-        return if (BuildConfig.DEBUG) {
-            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class,
+        val sessionProvider = userData.apiSessionProvider
+        val cookieStore = ProtonCookieStore(appContext)
+        val apiFactory = if (BuildConfig.DEBUG) {
+            ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
+                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope,
                 certificatePins = emptyArray(), alternativeApiPins = emptyList())
         } else {
-            apiFactory.ApiManager(userData.networkUserData, ProtonVPNRetrofit::class)
+            ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
+                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope)
         }
+        return VpnApiManager(apiFactory, userData.apiSessionProvider)
     }
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData): VpnApiClient = VpnApiClient(userData)
+    fun provideApiManager(
+        vpnApiManager: VpnApiManager
+    ): ApiManager<ProtonVPNRetrofit> = vpnApiManager
+
+    @Singleton
+    @Provides
+    fun provideApiClient(userData: UserData): VpnApiClient = VpnApiClient(scope, userData)
 
     @Singleton
     @Provides
@@ -121,11 +132,11 @@ class AppModule {
     fun provideRecentManager(
         vpnStateMonitor: VpnStateMonitor,
         serverManager: ServerManager,
-        authManager: AuthManager
+        logoutHandler: LogoutHandler
     ) = RecentsManager(
         vpnStateMonitor,
         serverManager,
-        authManager
+        logoutHandler
     )
 
     @Singleton
@@ -193,12 +204,12 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideAuthManager(
+    fun provideLogoutHandler(
         userData: UserData,
         serverManager: ServerManager,
-        api: ProtonApiRetroFit,
+        vpnApiManager: VpnApiManager,
         vpnStateMonitor: VpnStateMonitor,
         vpnApiClient: VpnApiClient
-    ): AuthManager = AuthManager(
-            scope, userData, serverManager, api, vpnStateMonitor, vpnApiClient, userData.networkUserData)
+    ): LogoutHandler = LogoutHandler(
+            scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider, vpnStateMonitor, vpnApiClient)
 }

@@ -42,7 +42,7 @@ import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
-import com.protonvpn.android.ui.home.AuthManager
+import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.AndroidUtils.toInt
@@ -63,13 +63,13 @@ class TvMainViewModel @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     private val recentsManager: RecentsManager,
     val userData: UserData,
-    val authManager: AuthManager
+    val logoutHandler: LogoutHandler
 ) : ViewModel() {
 
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
-    val logoutEvent get() = authManager.logoutEvent
+    val logoutEvent get() = logoutHandler.logoutEvent
 
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
     enum class ConnectionState { None, Connecting, Connected }
@@ -308,5 +308,5 @@ class TvMainViewModel @Inject constructor(
             }
         }
 
-    fun logout() = authManager.logout(false)
+    fun logout() = logoutHandler.logout(false)
 }
