@@ -82,7 +82,6 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
-        netShieldProtocol = NetShieldProtocol.ENABLED;
     }
 
     public String getUser() {
@@ -171,6 +170,7 @@ public final class UserData implements Serializable {
         setTrialDialogShownAt(null);
         clearNetworkUserData();
         setDefaultConnection(null);
+        setNetShieldProtocol(null);
     }
 
     public boolean isMaxSessionReached(int currentSessionCount) {
@@ -202,6 +202,9 @@ public final class UserData implements Serializable {
 
     public void setVpnInfoResponse(VpnInfoResponse vpnInfoResponse) {
         this.vpnInfoResponse = vpnInfoResponse;
+        if (isFreeUser()) {
+            setNetShieldProtocol(NetShieldProtocol.DISABLED);
+        }
         this.setVpnInfoUpdatedAt(new DateTime());
         saveToStorage();
     }
@@ -367,7 +370,7 @@ public final class UserData implements Serializable {
 
     public void setNetShieldProtocol(NetShieldProtocol value) {
         netShieldProtocol = value;
-        netShieldProtocolLiveData.setValue(value);
+        netShieldProtocolLiveData.postValue(value);
         saveToStorage();
     }
 
@@ -376,7 +379,8 @@ public final class UserData implements Serializable {
     }
 
     public NetShieldProtocol getNetShieldProtocol() {
-        return netShieldProtocol;
+        return isFreeUser() ? NetShieldProtocol.DISABLED :
+            netShieldProtocol == null ? NetShieldProtocol.ENABLED : getNetShieldProtocol();
     }
 
     public NetworkUserData getNetworkUserData() {

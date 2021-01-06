@@ -63,6 +63,18 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/plusFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/button_rounded_green"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/upgrade"
+            android:textColor="@color/colorAccent" />
+
         <com.protonvpn.android.components.SwitchEx
             android:id="@+id/switchNetshield"
             android:layout_width="wrap_content"
@@ -114,7 +126,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="36sp"
                 android:layout_marginStart="-3dp"
-                android:checked="true"
                 android:text="@string/netShieldBlockMalwareOnly"
                 android:textColor="@color/white"
                 android:theme="@style/RadioButton.Branded" />
@@ -129,17 +140,6 @@
                 android:theme="@style/RadioButton.Branded" />
 
         </RadioGroup>
-
-        <TextView
-            android:id="@+id/plusFeature"
-            android:layout_width="wrap_content"
-            android:layout_height="36sp"
-            android:layout_gravity="bottom"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/upgrade"
-            android:textColor="@color/white" />
 
     </LinearLayout>
 
