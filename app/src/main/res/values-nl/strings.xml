@@ -79,13 +79,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Actief abonnement:</string>
   <string name="accountTrialExpires"><![CDATA[Uw proefperiode eindigt in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Versie:</string>
-  <string name="accountSubscriptionDetails">U kunt uw abonnement beheren via het <font fgcolor="#59B268">protonvpn.com</font> webpanel.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
   <string name="accountButtonManage">Account beheren</string>
   <string name="accountTrial">ProtonVPN Plus Proefversie</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="accountBasic">ProtonVPN Basic</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Uw 7 dagen gratis proefperiode van ProtonVPN Plus is verlopen. U kunt ProtonVPN Free blijven gebruiken, maar als u het project wilt steunen en hogere snelheden en meer functies wilt krijgen, upgrade dan naar een betaald abonnement."</string>
   <string name="activityProfileTitle">Profiel</string>
   <string name="activityAccountTitle">Account</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">U probeert verbinding te maken met een server waar een betaald abonnement voor nodig is.\nOm toegang te krijgen tot snelle servers in alle landen, upgrade uw abonnement. </string>
   <string name="restrictedPlus">U probeert verbinding te maken met een server waar een ProtonVPN Plus abonnement of hoger voor nodig is.\nOm toegang te krijgen tot meer servers in alle landen, upgrade uw abonnement.</string>
   <string name="restrictedSecureCore">Secure Core is een premium functie die ProtonVPN Plus of hoger vereist. Secure Core voegt geavanceerde bescherming toe tegen VPN server monitoring.\nOm toegang te krijgen tot Secure Core, bekijk dan onze andere abonnementsplannen die deze functie bevatten.</string>
-  <string name="errorUserDelinquent">Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op <a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw ProtonVPN-abonnement om meer verbindingen te krijgen.</string>
   <string name="errorEmptyName">Het profielnaam veld kan niet leeg zijn</string>
   <string name="errorEmptyCountry">Het land veld mag niet leeg zijn</string>

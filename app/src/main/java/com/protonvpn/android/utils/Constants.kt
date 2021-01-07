@@ -39,6 +39,7 @@ object Constants {
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
     const val DASHBOARD_URL = "https://account.protonvpn.com/dashboard"
+    const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"

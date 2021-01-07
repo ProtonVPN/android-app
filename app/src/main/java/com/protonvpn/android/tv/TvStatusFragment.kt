@@ -30,6 +30,7 @@ import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -45,7 +46,7 @@ class TvStatusFragment : DaggerFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
 
         vpnStateMonitor.vpnStatus.observe(
@@ -117,7 +118,7 @@ class TvStatusFragment : DaggerFragment() {
             ErrorType.MAX_SESSIONS ->
                 showErrorDialog(R.string.errorMaxSessions)
             ErrorType.UNPAID ->
-                showErrorDialog(R.string.errorUserDelinquent)
+                showErrorDialog(HtmlTools.fromHtml(getString(R.string.errorUserDelinquent)))
             ErrorType.MULTI_USER_PERMISSION ->
                 showErrorDialog(R.string.errorTunMultiUserPermission)
             else -> {}
@@ -125,10 +126,14 @@ class TvStatusFragment : DaggerFragment() {
     }
 
     private fun showErrorDialog(@StringRes stringRes: Int) {
+        showErrorDialog(getString(stringRes))
+    }
+
+    private fun showErrorDialog(content: CharSequence) {
         vpnStateMonitor.disconnect()
         MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
             .title(R.string.tv_vpn_error_dialog_title)
-            .content(stringRes)
+            .content(content)
             .cancelable(false)
             .negativeText(R.string.close)
             .show()

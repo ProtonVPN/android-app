@@ -79,13 +79,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Suscripción activa:</string>
   <string name="accountTrialExpires"><![CDATA[Tu prueba termina en <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Versión:</string>
-  <string name="accountSubscriptionDetails">Para administrar su suscripción, tiene que ir al panel web <font fgcolor="#59B268">protonvpn.com</font>.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[Para administrar su suscripción, tiene que ir al panel web <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Administrar cuenta</string>
   <string name="accountTrial">Prueba de ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="accountBasic">ProtonVPN Basic</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Su prueba gratuita de 7 días de ProtonVPN Plus ha expirado. Puede continuar usando ProtonVPN Free, pero si desea apoyar el proyecto y tener velocidades más altas y más funciones, por favor mejore a un plan de pago."</string>
   <string name="activityProfileTitle">Perfil</string>
   <string name="activityAccountTitle">Cuenta</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Estás intentando conectar a un servidor que requiere una suscripción de pago.\nPara acceder a servidores de alta velocidad en todos los países, por favor mejora tu suscripción. </string>
   <string name="restrictedPlus">Estás intentando conectar a un servidor que requiere una suscripción ProtonVPN Plus o superior.\nPara acceder a más servidores en todos los países, por favor mejora tu suscripción.</string>
   <string name="restrictedSecureCore">Secure Core es una característica premium que requiere ProtonVPN Plus o superior. Secure Core añade protección avanzada contra el monitoreo de servidores VPN.\nPara acceder a Secure Core, compruebe nuestros otros planes de suscripción que incluyen esta característica.</string>
-  <string name="errorUserDelinquent">Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes de pago en <a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes de pago en <a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Has alcanzado el número máximo de conexiones simultáneas permitidas para tu cuenta. Por favor, mejora tu plan ProtonVPN para obtener más conexiones.</string>
   <string name="errorEmptyName">El campo del nombre del perfil no puede estar vacío</string>
   <string name="errorEmptyCountry">El campo del país no puede estar vacío</string>

@@ -79,13 +79,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">اشتراک فعال:</string>
   <string name="accountTrialExpires"><![CDATA[مهلت آزمایشی شما در تاریخ <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
   <string name="accountVersion">نسخه:</string>
-  <string name="accountSubscriptionDetails">برای مدیریت اشتراکتان، به پنل وب <font fgcolor="#59B268">protonvpn.com</font> بروید.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراکتان، به پنل وب <font color="%1$s">protonvpn.com</font> بروید.]]></string>
   <string name="accountButtonManage">مدیریت حساب کاربری</string>
   <string name="accountTrial">طرح ProtonVPN Plus آزمایشی</string>
   <string name="accountFree">طرح ProtonVPN رایگان</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">طرح ProtonVPN پایه</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="accountBasic">طرح ProtonVPN پایه</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"طرح آزمایشی ۷ روزۀ ProtonVPN Plus شما به پایان رسید. شما می‌توانید به استفاده از طرح ProtonVPN رایگان ادامه دهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفاً اشتراک خود را به یک طرح غیررایگان ارتقا دهید."</string>
   <string name="activityProfileTitle">پروفایل</string>
   <string name="activityAccountTitle">حساب کاربری</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">شما قصد اتصال به یک سرور غیررایگان را دارید.\n برای دسترسی به سرورهای تمامی کشورها با سرعت بالا، لطفاً اشتراک خود را ارتقا دهید. </string>
   <string name="restrictedPlus">شما قصد اتصال به یک سرور که به اشتراک ProtonVPN Plus یا بالاتر نیاز دارد را دارید.\nبرای دسترسی به سرورهای بیشتر در تمامی کشورها، لطفا اشتراک خود را ارتقا دهید.</string>
   <string name="restrictedSecureCore">قابلیت Secure Core یک قابلیت ویژه است که نیاز به اشتراک ProtonVPN پلاس یا بالاتر دارد. Secure Core حفاظت پیشرفته را در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، طرح‌های اشتراک دیگر ما را که شامل این امکان هستند بررسی کنید.</string>
-  <string name="errorUserDelinquent">حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.</string>
+  <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
   <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح ProtonVPN خود را ارتقا دهید.</string>
   <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
   <string name="errorEmptyCountry">وارد کردن نام کشور الزامی است</string>

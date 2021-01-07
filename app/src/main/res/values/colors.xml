@@ -77,6 +77,10 @@
     <color name="white50">#80FFFFFF</color>
     <color name="white30">#4dFFFFFF</color>
 
+    <color name="accountTypeBasic">#FB7554</color>
+    <color name="accountTypePlus">#59B268</color>
+    <color name="accountTypeVisionary">#32b3dd</color>
+
     <!-- TV -->
     <color name="tvMapSelected">#5f6575</color>
     <color name="tvMapCountry">#3c414e</color>
