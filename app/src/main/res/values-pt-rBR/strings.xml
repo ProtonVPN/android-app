@@ -79,13 +79,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Assinatura ativa:</string>
   <string name="accountTrialExpires"><![CDATA[Sua versão de avaliação termina em <br/><font color=#FFFFFF> %1$s</font><br/>]]></string>
   <string name="accountVersion">Versão:</string>
-  <string name="accountSubscriptionDetails">Para gerenciar sua assinatura, vá para <font fgcolor="#59B268">protonvpn.com</font>.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, vá para <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Gerenciar conta</string>
   <string name="accountTrial">Avaliação do ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Gratuito</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Básico</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionário</font></string>
+  <string name="accountBasic">ProtonVPN Básico</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionário</string>
   <string name="freeTrialExpired">"A sua avaliação gratuita de 7 dias do ProtonVPN Plus expirou. Você pode continuar usando o ProtonVPN Gratuito, mas se você quer apoiar o projeto e ter acesso a mais países e recursos, por favor, faça o upgrade para um plano pago."</string>
   <string name="activityProfileTitle">Perfil</string>
   <string name="activityAccountTitle">Conta</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Você está tentando conectar-se a um servidor que requer uma assinatura paga.\nPara acessar os servidores com alta velocidade em todos os países, faça o upgrade da sua assinatura. </string>
   <string name="restrictedPlus">Você está tentando conectar-se a um servidor que requer uma assinatura paga.\nPara acessar os servidores com alta velocidade em todos os países, faça o upgrade da sua assinatura.</string>
   <string name="restrictedSecureCore">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Por favor, faça o upgrade do seu plano do ProtonVPN para obter mais conexões.</string>
-  <string name="errorUserDelinquent">A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em <a href="http://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em <a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Por favor, faça o upgrade do seu plano ProtonVPN para ter mais conexões.</string>
   <string name="errorEmptyName">O nome do perfil não pode estar vazio</string>
   <string name="errorEmptyCountry">O campo do país não pode estar vazio</string>

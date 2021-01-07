@@ -79,13 +79,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Активная подписка:</string>
   <string name="accountTrialExpires"><![CDATA[Пробная версия заканчивается через <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Версия:</string>
-  <string name="accountSubscriptionDetails">Чтобы управлять подпиской, вам нужно перейти на веб-панель <font fgcolor="#59B268">protonvpn.com</font>.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вам нужно перейти на веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Управление аккаунтом</string>
   <string name="accountTrial">Пробная версия ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="accountBasic">ProtonVPN Basic</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Срок действия вашей 7-дневной бесплатной пробной версии ProtonVPN Plus истек. Вы можете продолжать использовать ProtonVPN Free, но если вы хотите поддержать проект и иметь доступ к большему количеству стран и функций, пожалуйста, перейдите на платный план."</string>
   <string name="activityProfileTitle">Профиль</string>
   <string name="activityAccountTitle">Аккаунт</string>
@@ -116,7 +116,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Вы пытаетесь подключиться к серверу, который требует платной подписки.\nДля доступа к высокоскоростным серверам во всех странах, пожалуйста, улучшите свою подписку. </string>
   <string name="restrictedPlus">Вы пытаетесь подключиться к серверу, который требует требует подписки ProtonVPN Plus или выше.\nДля доступа к большему количеству серверов во всех странах, улучшите подписку.</string>
   <string name="restrictedSecureCore">Secure Core является премиум-функцией, которая требует ProtonVPN или выше. Secure Core обеспечивает расширенную защиту от мониторинга VPN-серверов.\nДля доступа к Secure Core, ознакомьтесь с другими нашими планами подписки, которые включают эту функцию.</string>
-  <string name="errorUserDelinquent">Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на  <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на  <a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Вы достигли максимального количества одновременных подключений, разрешенных для вашего аккаунта. Пожалуйста, улучшите свой тарифный план ProtonVPN, чтобы иметь больше количество одновременных подключений.</string>
   <string name="errorEmptyName">Поле названия профиля не может быть пустым</string>
   <string name="errorEmptyCountry">Поле страны не может быть пустым</string>
