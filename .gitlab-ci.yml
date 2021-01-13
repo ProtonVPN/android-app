@@ -96,18 +96,6 @@ generate-cache:
     paths:
       - .gradle
 
-java style:
-  cache: {}
-  stage: analyze
-  tags:
-    - small
-  script:
-    - ./gradlew checkstyle
-  artifacts:
-    expire_in: 1 week
-    paths:
-    - app/build/reports/checkstyle
-
 detekt analysis:
   cache: {}
   stage: analyze
