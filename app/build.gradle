@@ -493,15 +493,6 @@ tasks.register("getArchivesName"){
     }
 }
 
-task checkstyle(type: Checkstyle) {
-    configFile = file("${rootDir}/app/config/checkstyle/checkstyle.xml")
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    classpath = files()
-    ignoreFailures = false
-}
-
 ext.daggerVersion = '2.26'
 
 repositories {
@@ -512,8 +503,6 @@ repositories {
 configurations {
     detekt
 }
-
-apply plugin: 'checkstyle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
