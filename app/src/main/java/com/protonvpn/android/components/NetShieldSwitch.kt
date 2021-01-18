@@ -51,6 +51,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val binding: ItemNetshieldBinding
     private val isInConnectedScreen: Boolean
     private val withReconnectDialog: Boolean
+    private var netshieldFreeMode: Boolean = true
     val currentState: NetShieldProtocol
         get() {
             return if (isSwitchedOn) {
@@ -91,9 +92,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
             if (isInConnectedScreen) {
                 val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
-                imageExpand.isVisible = netShieldEnabled
+                imageExpand.isVisible = netShieldEnabled || netshieldFreeMode
                 layoutSummary.isVisible = netShieldEnabled && imageExpand.isChecked
-                netShieldSettings.isVisible = netShieldEnabled && !imageExpand.isChecked
+                netShieldSettings.isVisible =
+                    (netShieldEnabled || netshieldFreeMode) && !imageExpand.isChecked
                 textCollapsedMark.isVisible = netShieldEnabled && imageExpand.isChecked
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
@@ -201,55 +203,70 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
             root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         })
+        netshieldFreeMode = userData.isFreeUser
         onStateChange(initialValue)
-        initUserTier(userData)
-        val checkedChangeListener = {
-            onStateChange(currentState)
-            changeCallback(currentState)
-            checkForReconnection(stateMonitor)
-        }
-        radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
-        switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+        initUserTier()
 
-        val dialogInterceptor: CompoundButton.() -> Boolean = {
-            val needsReconnectDialog = withReconnectDialog &&
-                Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)
-            if (stateMonitor.isConnected && needsReconnectDialog) {
-                showReconnectDialog(this is RadioButtonEx) { agreedToReconnect ->
-                    if (agreedToReconnect) {
-                        isChecked = !isChecked
-                        onStateChange(currentState)
-                        changeCallback(currentState)
-                        checkForReconnection(stateMonitor)
+        if (netshieldFreeMode) {
+            initUserTier()
+        } else {
+            val checkedChangeListener = {
+                onStateChange(currentState)
+                changeCallback(currentState)
+                checkForReconnection(stateMonitor)
+            }
+            radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+            switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+
+            val dialogInterceptor: CompoundButton.() -> Boolean = {
+                val needsReconnectDialog =
+                    withReconnectDialog && Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)
+                if (stateMonitor.isConnected && needsReconnectDialog) {
+                    showReconnectDialog(this is RadioButtonEx) { agreedToReconnect ->
+                        if (agreedToReconnect) {
+                            isChecked = !isChecked
+                            onStateChange(currentState)
+                            changeCallback(currentState)
+                            checkForReconnection(stateMonitor)
+                        }
                     }
-                }
-                true
-            } else
-                false
+                    true
+                } else false
+            }
+            radioFullBlocking.switchClickInterceptor = dialogInterceptor
+            radioSimpleBlocking.switchClickInterceptor = dialogInterceptor
+            switchNetshield.switchClickInterceptor = dialogInterceptor
         }
-        radioFullBlocking.switchClickInterceptor = dialogInterceptor
-        radioSimpleBlocking.switchClickInterceptor = dialogInterceptor
-        switchNetshield.switchClickInterceptor = dialogInterceptor
     }
 
-    private fun initUserTier(userData: UserData) = with(binding) {
-        plusFeature.isVisible = !userData.isUserPlusOrAbove
-        if (!userData.isUserPlusOrAbove) {
-            radioFullBlocking.isEnabled = false
-            val disabledColor = if (isInConnectedScreen) R.color.brightGrey else R.color.lightGrey
-            radioFullBlocking.setTextColor(ContextCompat.getColor(context, disabledColor))
-            val colorStateList = ColorStateList(
-                arrayOf(
-                    intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
-                ), intArrayOf(
-                    ContextCompat.getColor(context, disabledColor),
-                    ContextCompat.getColor(context, disabledColor)
-                )
-            )
-
-            radioFullBlocking.buttonTintList = colorStateList
+    private fun initUserTier() = with(binding) {
+        plusFeature.isVisible = netshieldFreeMode
+        switchNetshield.isVisible = !netshieldFreeMode
+        if (netshieldFreeMode) {
+            netShieldSettings.isVisible = !isInConnectedScreen
+            imageExpand.isVisible = isInConnectedScreen
+            imageExpand.isChecked = true
+            disableCheckBox(radioFullBlocking)
+            disableCheckBox(radioSimpleBlocking)
             plusFeature.setOnClickListener { showUpgradeDialog() }
         }
+    }
+
+    private fun disableCheckBox(view: RadioButtonEx) {
+        view.setTextColor(ContextCompat.getColor(context, R.color.white))
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
+            ), intArrayOf(
+                ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.white)
+            )
+        )
+        view.switchClickInterceptor = {
+            showUpgradeDialog()
+            true
+        }
+
+        view.buttonTintList = colorStateList
     }
 
     private fun showUpgradeDialog() {

@@ -1,0 +1,2 @@
+What's new:
+* Block malware, ads, and trackers with NetShield
