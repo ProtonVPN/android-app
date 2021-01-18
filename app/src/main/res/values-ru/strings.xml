@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright (c) 2017 Proton Technologies AG
+ Copyright (c) 2017 Proton Technologies AG
 
-This file is part of ProtonVPN.
+ This file is part of ProtonVPN.
 
-ProtonVPN is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-ProtonVPN is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources><!-- Strings related to login -->
+<resources>
+  <!-- Strings related to login -->
   <string name="hintUsername">Имя пользователя</string>
   <string name="hintPassword">Пароль</string>
   <string name="splitTunnellingSwitch">Переключатель Split Tunneling</string>
@@ -79,7 +80,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Активная подписка:</string>
   <string name="accountTrialExpires"><![CDATA[Пробная версия заканчивается через <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Версия:</string>
-  <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вам нужно перейти на веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
+  <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вы должны перейти в веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Управление аккаунтом</string>
   <string name="accountTrial">Пробная версия ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Free</string>
@@ -116,7 +117,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Вы пытаетесь подключиться к серверу, который требует платной подписки.\nДля доступа к высокоскоростным серверам во всех странах, пожалуйста, улучшите свою подписку. </string>
   <string name="restrictedPlus">Вы пытаетесь подключиться к серверу, который требует требует подписки ProtonVPN Plus или выше.\nДля доступа к большему количеству серверов во всех странах, улучшите подписку.</string>
   <string name="restrictedSecureCore">Secure Core является премиум-функцией, которая требует ProtonVPN или выше. Secure Core обеспечивает расширенную защиту от мониторинга VPN-серверов.\nДля доступа к Secure Core, ознакомьтесь с другими нашими планами подписки, которые включают эту функцию.</string>
-  <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на  <a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+  <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Вы достигли максимального количества одновременных подключений, разрешенных для вашего аккаунта. Пожалуйста, улучшите свой тарифный план ProtonVPN, чтобы иметь больше количество одновременных подключений.</string>
   <string name="errorEmptyName">Поле названия профиля не может быть пустым</string>
   <string name="errorEmptyCountry">Поле страны не может быть пустым</string>
@@ -174,7 +175,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
     <item quantity="few">Повторное подключение через %1$d секунды</item>
     <item quantity="many">Повторное подключение через %1$d секунд</item>
     <item quantity="other">Повторное подключение через %1$d секунд</item>
-</plurals>
+  </plurals>
   <string name="connection_failed">Сбой подключения</string>
   <string name="support_page">Страница поддержки</string>
   <string name="create_new_profile">СОЗДАТЬ НОВЫЙ ПРОФИЛЬ</string>
@@ -221,7 +222,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Неизвестно</string>
   <string name="successful_migration_message">Добро пожаловать в ProtonVPN 2.0! Все ваши настройки и профили были перенесены, и теперь вы можете безопасно удалить старое приложение.</string>
   <string name="successful_migration_uninstall">Удалить сейчас</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href=\"%1$s\">Подробнее</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
   <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
   <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
   <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -250,13 +251,13 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
     <item quantity="few">%1$d приложения исключено</item>
     <item quantity="many">%1$d приложений исключено</item>
     <item quantity="other">%1$d приложений исключено</item>
-</plurals>
+  </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d IP адрес исключен</item>
     <item quantity="few">%1$d IP адреса исключено</item>
     <item quantity="many">%1$d IP адресов исключено</item>
     <item quantity="other">%1$d IP адресов исключено</item>
-</plurals>
+  </plurals>
   <string name="settingsCannotChangeWhileConnected">Нельзя изменить это при подключении</string>
   <string name="excludeAlreadyExcluded">Уже исключено</string>
   <string name="removeExcludedIpDialogDescription">Вы уверены, что хотите удалить этот IP из списка?</string>
@@ -300,7 +301,8 @@ Kill Switch не позволяет вашему устройству совер
 Операционная система Android контролирует эти функции, и вы должны выйти из приложения, чтобы их активировать.
 
 Выполните следующие действия, чтобы включить Постоянный VPN и Kill Switch:"</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string><!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
+  <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Найдите ProtonVPN и нажмите %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Нажмите переключатель рядом с пунктом <b>постоянный VPN</b>, чтобы включить его]]></string>
   <string name="settingsAlwaysOnWindowStep4Intro">Выполните также этот шаг, чтобы активировать Kill Switch</string>
@@ -309,7 +311,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Имейте в виду, что если и Kill Switch, и раздельное туннелирование активированы, раздельное туннелирование не будет работать. Kill Switch блокирует все соединения без VPN туннеля, в том числе созданные раздельным туннелированием.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Некоторые параметры отсутствуют? <a href=\"%1$s\">Нажмите здесь, чтобы узнать больше</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны
-на старых версиях ОС Android и на разных устройствах с Android. Если ваше устройство не предоставляет постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить. Вы можете обновить свою операционную систему до последней версии Android и попробовать снова."</string>
+    на старых версиях ОС Android и на разных устройствах с Android. Если ваше устройство не предоставляет постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить. Вы можете обновить свою операционную систему до последней версии Android и попробовать снова."</string>
   <string name="settingsSmartProtocolTitle">Умный протокол</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
@@ -345,13 +347,13 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_detail_description_no_streaming_country">Принимайте больше любимого контента с тарифным планом ProtonVPN Plus.</string>
   <string name="tv_detail_description_country_not_available">Страна недоступна. Получите больше возможностей стриминга с планом ProtonVPN Plus.</string>
   <string name="tv_detail_description_plus">Смотрите ваши любимые видео, фильмы или спортивные передачи в ваших приложениях.</string>
-  <string name="tv_login_title_signin">Войдите в свой ProtonVPN</string>
+  <string name="tv_login_title_signin">Войдите в ProtonVPN</string>
   <string name="tv_login_title_welcome">Стриминг вашего любимого видеоконтента</string>
   <string name="tv_login_welcome_description">Смотрите видеоконтент из более чем 50 стран, включая YouTube и Twitch. Сриминг Netflix, Amazon Prime и Hulu с помощью ProtonVPN Plus.</string>
   <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт ProtonVPN по адресу <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Войти</string>
   <string name="tv_login_step1_description"><![CDATA[Перейдите на <b>%1$s</b> на вашем мобильном устройстве или компьютере]]></string>
-  <string name="tv_login_step2_description">Войдите в аккаунт ProtonVPN</string>
+  <string name="tv_login_step2_description">Войдите в ProtonVPN</string>
   <string name="tv_login_step3_description">Введите код:</string>
   <string name="tv_login_timer_label">Срок действия этого кода истекает через:</string>
   <string name="tv_login_refresh">Обновить</string>
@@ -359,7 +361,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_login_title_refresh">Ваша сессия истекла. Нажмите обновить, чтобы начать снова.</string>
   <string name="tv_upgrade_title">Начать трансляцию с Plus</string>
   <string name="back">Назад</string>
-  <string name="tv_upgrade_url_details"><![CDATA[Посетите <font color="%1$s">%2$s</font>, чтобы перейти на ProtonVPN Plus прямо сейчас.]]></string>
+  <string name="tv_upgrade_url_details"><![CDATA[Посетите <font color="%1$s">%2$s</font> и перейдите на ProtonVPN Plus.]]></string>
   <string name="tv_upgrade_description">Подключите план ProtonVPN Plus для доступа к 500+ серверам по всему миру и оптимизированные возможности стриминга для Netflix, Amazon Prime Video, Disney+ и многих других.</string>
   <string name="tv_vpn_error_dialog_title">Сбой VPN-подключения</string>
   <string name="tv_signout_label">Выйти</string>
@@ -376,13 +378,13 @@ Kill Switch не позволяет вашему устройству совер
     <item quantity="few">%d часа</item>
     <item quantity="many">%d часов</item>
     <item quantity="other">%d часов</item>
-</plurals>
+  </plurals>
   <plurals name="counter_minutes">
     <item quantity="one">%d минута</item>
     <item quantity="few">%d минуты</item>
     <item quantity="many">%d минут</item>
     <item quantity="other">%d минут</item>
-</plurals>
+  </plurals>
   <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
   <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>
 </resources>

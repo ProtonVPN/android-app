@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright (c) 2017 Proton Technologies AG
+ Copyright (c) 2017 Proton Technologies AG
 
-This file is part of ProtonVPN.
+ This file is part of ProtonVPN.
 
-ProtonVPN is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-ProtonVPN is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources><!-- Strings related to login -->
+<resources>
+  <!-- Strings related to login -->
   <string name="hintUsername">نام کاربری</string>
   <string name="hintPassword">رمز عبور</string>
   <string name="splitTunnellingSwitch">کلید Split tunneling</string>
@@ -35,7 +36,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="helpCommonProblems">مشکلات متداول ورود به حساب کاربری</string>
   <string name="helpGetSupport">دریافت پشتیبانی</string>
   <string name="mapCalloutConnect">اتصال</string>
-  <string name="mapCalloutDisconnect">قطع ارتباط</string>
+  <string name="mapCalloutDisconnect">قطع اتصال</string>
   <string name="mapSwitchSecureCore">استفاده از Secure Core</string>
   <string name="warning">هشدار</string>
   <string name="secureCoreSwitchOn">شما قصد اتصال به سرور Secure Core را دارید. این کار حالت Secure Core را فعال می‌کند%1$s ادامه می‌دهید؟</string>
@@ -79,11 +80,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">اشتراک فعال:</string>
   <string name="accountTrialExpires"><![CDATA[مهلت آزمایشی شما در تاریخ <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
   <string name="accountVersion">نسخه:</string>
-  <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراکتان، به پنل وب <font color="%1$s">protonvpn.com</font> بروید.]]></string>
+  <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
   <string name="accountButtonManage">مدیریت حساب کاربری</string>
   <string name="accountTrial">طرح ProtonVPN Plus آزمایشی</string>
   <string name="accountFree">طرح ProtonVPN رایگان</string>
-  <string name="accountBasic">طرح ProtonVPN پایه</string>
+  <string name="accountBasic">ProtonVPN پایه</string>
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"طرح آزمایشی ۷ روزۀ ProtonVPN Plus شما به پایان رسید. شما می‌توانید به استفاده از طرح ProtonVPN رایگان ادامه دهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفاً اشتراک خود را به یک طرح غیررایگان ارتقا دهید."</string>
@@ -116,7 +117,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">شما قصد اتصال به یک سرور غیررایگان را دارید.\n برای دسترسی به سرورهای تمامی کشورها با سرعت بالا، لطفاً اشتراک خود را ارتقا دهید. </string>
   <string name="restrictedPlus">شما قصد اتصال به یک سرور که به اشتراک ProtonVPN Plus یا بالاتر نیاز دارد را دارید.\nبرای دسترسی به سرورهای بیشتر در تمامی کشورها، لطفا اشتراک خود را ارتقا دهید.</string>
   <string name="restrictedSecureCore">قابلیت Secure Core یک قابلیت ویژه است که نیاز به اشتراک ProtonVPN پلاس یا بالاتر دارد. Secure Core حفاظت پیشرفته را در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، طرح‌های اشتراک دیگر ما را که شامل این امکان هستند بررسی کنید.</string>
-  <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در <a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
+  <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
   <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح ProtonVPN خود را ارتقا دهید.</string>
   <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
   <string name="errorEmptyCountry">وارد کردن نام کشور الزامی است</string>
@@ -172,7 +173,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="retry_in">
     <item quantity="one">اتصال دوباره در %1$d ثانیه</item>
     <item quantity="other">اتصال دوباره در %1$d ثانیه</item>
-</plurals>
+  </plurals>
   <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
   <string name="support_page">صفحهٔ پشتیبانی</string>
   <string name="create_new_profile">ایجاد پروفایل جدید</string>
@@ -219,7 +220,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">ناشناخته</string>
   <string name="successful_migration_message">به ProtonVPN 2.0 خوش آمدید! همهٔ تنظیمات و پروفایل‌های شما منتقل شده‌اند و اکنون می‌توانید با خیال راحت برنامهٔ قدیمی را حذف کنید.</string>
   <string name="successful_migration_uninstall">حالا حذف شود</string>
-  <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعّال کنید، زیرا مانع برقراری اتصال ProtonVPN می‌شود. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحهٔ درخواست اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href=\"%1$s\">بیشتر یاد بگیرید</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعّال کنید، زیرا مانع برقراری اتصال ProtonVPN می‌شود. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحهٔ درخواست اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
   <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
   <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>
   <string name="error_server_not_set">سرور دیگر در دسترس نیست</string>
@@ -246,11 +247,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d برنامه جدا شد</item>
     <item quantity="other">%1$d برنامه جدا شده</item>
-</plurals>
+  </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d آدرس IP جدا شد</item>
     <item quantity="other">%1$d آدرس IP جدا شد</item>
-</plurals>
+  </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
   <string name="removeExcludedIpDialogDescription">آیا مطمئن هستید که می‌خواهید این IP را از لیست حذف کنید؟</string>
@@ -294,7 +295,8 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 سیستم‌عامل اندروید این قابلیت‌ها را کنترل می‌کند و شما برای فعال کردن آن‌ها باید از برنامه خارج شوید.
 
 این مراحل را دنبال کنید تا VPN همیشه روشن و Kill Switch را فعال کنید:</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با لمس دکمهً زیر باز نمایید]]></string><!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با لمس دکمهً زیر باز نمایید]]></string>
+  <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">برنامه ProtonVPN را بیابید و بر روی %1$s ضربه بزنید</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[دکمهٔ کنار <b>VPN همیشه روشن</b> را لمس کنید تا آن را فعال کنید]]></string>
   <string name="settingsAlwaysOnWindowStep4Intro">این مرحله را نیز دنبال کنید تا Kill Switch فعال شود</string>
@@ -303,7 +305,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">در نظر داشته باشید که اگر Kill Switch و Split Tunneling هر دو فعال باشند، Split Tunneling عمل نخواهد کرد. Kill Switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند، حتی آن‌هایی را که Split Tunneling ایجاد کرده است.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه‌ها؟ <a href=\"%1$s\">برای یادگیری بیشتر ضربه بزنید</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">قابلیت Kill Switch و VPN همیشه-روشن همواره بر روی
-نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.</string>
+    نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.</string>
   <string name="settingsSmartProtocolTitle">پروتکل هوشمند</string>
   <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
   <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
@@ -325,7 +327,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateNotConnected">شما متصل نیستید</string>
   <string name="recents">اخیر</string>
   <string name="tvQuickConnectDescription">کشورهای اطراف</string>
-  <string name="tvQuickConnectSubDescription">سرور استریم</string>
+  <string name="tvQuickConnectSubDescription">سرور پخش زنده</string>
   <string name="nameEurope">اروپا</string>
   <string name="nameAmerica">آمریکا</string>
   <string name="nameAsia">آسیا</string>
@@ -345,7 +347,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="tv_login_welcome_description_bottom"><![CDATA[دریافت حساب ProtonVPN خود از <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">ورود</string>
   <string name="tv_login_step1_description"><![CDATA[در دستگاه موبایل یا رایانه خود بروید به <b>%1$s</b>]]></string>
-  <string name="tv_login_step2_description">ورود به حساب ProtonVPN</string>
+  <string name="tv_login_step2_description">ورود به ProtonVPN</string>
   <string name="tv_login_step3_description">کد را وارد کنید:</string>
   <string name="tv_login_timer_label">این کد منقضی می‌شود در:</string>
   <string name="tv_login_refresh">نوسازی</string>
@@ -353,11 +355,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="tv_login_title_refresh">نشست شما منقضی شده است. دکمه نوسازی را زده تا دوباره از نو شروع کنید.</string>
   <string name="tv_upgrade_title">شروع به پخش کنید با Plus</string>
   <string name="back">بازگشت</string>
-  <string name="tv_upgrade_url_details"><![CDATA[بروید به <font color="%1$s">%2$s</font> تا هم‌اکنون ارتقا به ProtonVPN Plus دهید.]]></string>
+  <string name="tv_upgrade_url_details"><![CDATA[بروید به <font color="%1$s">%2$s</font> تا هم اکنون به ProtonVPN Plus ارتقا دهید.]]></string>
   <string name="tv_upgrade_description">یک طرح ProtonVPN Plus بگیرید تا به +۵۰۰ سرور در سراسر جهان و انتخابهای بهینه شده برای پخش و دیدن Netflix, Amazon Prime Video, Disney+, و خیلی موارد دیگر دست یابید.</string>
   <string name="tv_vpn_error_dialog_title">ﺍﺗﺼﺎﻝ VPN ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
   <string name="tv_signout_label">خروج</string>
-  <string name="tv_signout_dialog_title">آیا مطمئنید که می‌خواهید خارج شوید?</string>
+  <string name="tv_signout_dialog_title">آیا مطمئنید که می‌خواهید خارج شوید؟</string>
   <string name="tv_signout_dialog_description_connected">این تلویزیون شما را از هر سرور VPN قطع خواهد کرد.</string>
   <string name="tv_signout_dialog_ok">خروج</string>
   <string name="tv_quick_connect_recommened">توصیه شده</string>
@@ -368,11 +370,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="counter_hours">
     <item quantity="one">%d ساعت</item>
     <item quantity="other">%d ساعت</item>
-</plurals>
+  </plurals>
   <plurals name="counter_minutes">
     <item quantity="one">%d دقیقه</item>
     <item quantity="other">%d دقیقه</item>
-</plurals>
+  </plurals>
   <string name="tv_country_maintenance_dialog_title">کشور غیر قابل دسترس است</string>
   <string name="tv_country_maintenance_dialog_description">لطفاً بعداً دوباره امتحان کنید یا کشور دیگری انتخاب کنید.</string>
 </resources>
