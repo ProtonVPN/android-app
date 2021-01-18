@@ -196,10 +196,11 @@ class TvMainViewModel @Inject constructor(
         return recentsList
     }
 
-    private fun profileCardTitleIcon(profile: Profile) = if (profile.server?.online == true)
-        R.drawable.ic_thunder
-    else
-        R.drawable.ic_wrench
+    private fun profileCardTitleIcon(profile: Profile) =
+        if (!userData.hasAccessToServer(profile.server))
+            R.drawable.ic_lock
+        else
+            if (profile.server?.online == true) R.drawable.ic_thunder else R.drawable.ic_wrench
 
     private fun quickConnectTitleIcon() = when {
         isConnected() || isEstablishingConnection() -> R.drawable.ic_notification_disconnected
@@ -280,10 +281,15 @@ class TvMainViewModel @Inject constructor(
     }
 
     private fun connect(activity: Activity, profile: Profile?) {
-        if (profile?.server?.online == true) {
-            vpnStateMonitor.connect(activity, profile)
-        } else {
+        if (profile?.server?.online != true) {
             showMaintenanceDialog(activity)
+        } else {
+            if (userData.hasAccessToServer(profile.server)) {
+                vpnStateMonitor.connect(activity, profile)
+            }
+            else {
+                activity.launchActivity<TvUpgradeActivity>()
+            }
         }
     }
 
