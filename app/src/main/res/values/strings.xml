@@ -100,6 +100,7 @@
     <string name="accountPlus">ProtonVPN Plus</string>
     <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Your 7 day free trial of ProtonVPN Plus has expired. You can continue to use ProtonVPN Free, but if you would like to support the project and have higher speeds and more features, please upgrade to a paid plan."</string>
+    <string name="freeTVTrialExpired"><![CDATA[Your 7 day free ProtonVPN Plus trial has expired.<br>You can continue to use ProtonVPN Free, or you can enjoy all the streaming services we provide by upgrading to Plus.<br>Visit <font color="%1$s">%2$s</font> for managing your subscription.]]></string>
     <string name="activityProfileTitle">Profile</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Settings</string>

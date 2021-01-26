@@ -56,6 +56,7 @@ class UserPlanManager(
                 when {
                     newInfo.userTier < oldInfo.userTier ->
                         planChangeFlow.emit(if (oldInfo.userTierName == "trial") {
+                            Storage.saveBoolean(PREF_EXPIRATION_DIALOG_DUE, true)
                             InfoChange.PlanChange.TrialEnded
                         } else {
                             InfoChange.PlanChange.Downgrade
@@ -84,5 +85,6 @@ class UserPlanManager(
 
     companion object {
         private const val TRIAL_UPDATE_DELAY_MILLIS: Long = 1000
+        const val PREF_EXPIRATION_DIALOG_DUE = "ProtonApplication.EXPIRATION_DIALOG_DUE"
     }
 }

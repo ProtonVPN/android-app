@@ -1,5 +1,6 @@
 package com.protonvpn.android.di
 
+import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvTrialDialogActivity
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.main.TvMainActivity
@@ -33,4 +34,7 @@ abstract class TvModule {
 
     @ContributesAndroidInjector
     abstract fun bindTvTrialDialogActivity(): TvTrialDialogActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindTvGenericActivity(): TvGenericDialogActivity
 }

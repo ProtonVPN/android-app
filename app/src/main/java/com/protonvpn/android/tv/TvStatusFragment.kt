@@ -35,7 +35,11 @@ import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.AndroidUtils.launchTvDialog
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.getStringHtmlColorNoAlpha
+import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -58,11 +62,19 @@ class TvStatusFragment : DaggerFragment() {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
         lifecycleScope.launchWhenResumed {
-            viewModel.userPlanChangeEvent.collect {
-                initTrial()
+            viewModel.userPlanChangeEvent.collect { infoChange ->
+                infoChange.takeIf { it is PlanChange }?.let {
+                    if (infoChange is PlanChange.TrialEnded) {
+                        showTrialExpiredDialog()
+                    }
+                    initTrial()
+                }
             }
         }
         initTrial()
+        if (viewModel.shouldShowExpirationDialog()) {
+            showTrialExpiredDialog()
+        }
 
         vpnStateMonitor.vpnStatus.observe(
             viewLifecycleOwner,
@@ -71,6 +83,16 @@ class TvStatusFragment : DaggerFragment() {
             }
         )
         return binding.root
+    }
+
+    private fun showTrialExpiredDialog() {
+        requireContext().launchTvDialog(
+            titleRes = getString(R.string.freeTrialExpiredTitle),
+            descriptionRes = getString(R.string.freeTVTrialExpired,
+                requireContext().getStringHtmlColorNoAlpha(R.color.colorAccent), Constants.TV_UPGRADE_LINK),
+            iconRes = R.drawable.ic_proton_green
+        )
+        viewModel.setExpirationDialogAsShown()
     }
 
     private fun initTrial() = with(binding) {
