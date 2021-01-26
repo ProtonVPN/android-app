@@ -31,6 +31,7 @@ import androidx.annotation.RequiresApi;
 
 public class Scheduler extends BroadcastReceiver
 {
+
 	private final String EXECUTE_JOB = "org.strongswan.android.Scheduler.EXECUTE_JOB";
 	private final Context mContext;
 	private final AlarmManager mManager;
@@ -39,7 +40,7 @@ public class Scheduler extends BroadcastReceiver
 	public Scheduler(Context context)
 	{
 		mContext = context;
-		mManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mJobs = new PriorityQueue<>();
 
 		IntentFilter filter = new IntentFilter();
@@ -100,7 +101,7 @@ public class Scheduler extends BroadcastReceiver
 			mJobs.add(job);
 
 			if (job == mJobs.peek())
-			{	/* update the alarm if the job has to be executed before all others */
+			{    /* update the alarm if the job has to be executed before all others */
 				PendingIntent pending = createIntent();
 				mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
 			}
@@ -151,6 +152,7 @@ public class Scheduler extends BroadcastReceiver
 	 */
 	private static class ScheduledJob implements Comparable<ScheduledJob>
 	{
+
 		String Id;
 		long Time;
 

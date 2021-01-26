@@ -35,29 +35,33 @@ import java.util.LinkedList;
  * |   Reserved  |B|    Protocol   |         Port Number           |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
-public class PortFilterAttribute implements Attribute {
+public class PortFilterAttribute implements Attribute
+{
 
-    private final LinkedList<Pair<Protocol, Short>> mPorts = new LinkedList<Pair<Protocol, Short>>();
+	private final LinkedList<Pair<Protocol, Short>> mPorts = new LinkedList<Pair<Protocol, Short>>();
 
-    /**
-     * Add an open port with the given protocol and port number
-     *
-     * @param protocol transport protocol
-     * @param port     port number
-     */
-    public void addPort(Protocol protocol, short port) {
-        mPorts.add(new Pair<Protocol, Short>(protocol, port));
-    }
+	/**
+	 * Add an open port with the given protocol and port number
+	 *
+	 * @param protocol transport protocol
+	 * @param port     port number
+	 */
+	public void addPort(Protocol protocol, short port)
+	{
+		mPorts.add(new Pair<Protocol, Short>(protocol, port));
+	}
 
-    @Override
-    public byte[] getEncoding() {
-        BufferedByteWriter writer = new BufferedByteWriter();
-        for (Pair<Protocol, Short> port : mPorts) {
-            /* we report open ports, so the BLOCKED flag is not set */
-            writer.put((byte) 0);
-            writer.put(port.first.getValue());
-            writer.put16(port.second);
-        }
-        return writer.toByteArray();
-    }
+	@Override
+	public byte[] getEncoding()
+	{
+		BufferedByteWriter writer = new BufferedByteWriter();
+		for (Pair<Protocol, Short> port : mPorts)
+		{
+			/* we report open ports, so the BLOCKED flag is not set */
+			writer.put((byte) 0);
+			writer.put(port.first.getValue());
+			writer.put16(port.second);
+		}
+		return writer.toByteArray();
+	}
 }

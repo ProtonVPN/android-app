@@ -32,36 +32,40 @@ import org.strongswan.android.utils.BufferedByteWriter;
  * |  Config. Len  | Configuration Version Number (Variable Length)|
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
-public class StringVersionAttribute implements Attribute {
+public class StringVersionAttribute implements Attribute
+{
 
-    private String mVersionNumber;
-    private String mBuildNumber;
+	private String mVersionNumber;
+	private String mBuildNumber;
 
-    /**
-     * Set the product version number
-     *
-     * @param version version number
-     */
-    public void setProductVersionNumber(String version) {
-        this.mVersionNumber = version;
-    }
+	/**
+	 * Set the product version number
+	 *
+	 * @param version version number
+	 */
+	public void setProductVersionNumber(String version)
+	{
+		this.mVersionNumber = version;
+	}
 
-    /**
-     * Set the internal build number
-     *
-     * @param build build number
-     */
-    public void setInternalBuildNumber(String build) {
-        this.mBuildNumber = build;
-    }
+	/**
+	 * Set the internal build number
+	 *
+	 * @param build build number
+	 */
+	public void setInternalBuildNumber(String build)
+	{
+		this.mBuildNumber = build;
+	}
 
-    @Override
-    public byte[] getEncoding() {
-        BufferedByteWriter writer = new BufferedByteWriter();
-        writer.putLen8(mVersionNumber.getBytes());
-        writer.putLen8(mBuildNumber.getBytes());
-        /* we don't provide a configuration number */
-        writer.put((byte) 0);
-        return writer.toByteArray();
-    }
+	@Override
+	public byte[] getEncoding()
+	{
+		BufferedByteWriter writer = new BufferedByteWriter();
+		writer.putLen8(mVersionNumber.getBytes());
+		writer.putLen8(mBuildNumber.getBytes());
+		/* we don't provide a configuration number */
+		writer.put((byte) 0);
+		return writer.toByteArray();
+	}
 }

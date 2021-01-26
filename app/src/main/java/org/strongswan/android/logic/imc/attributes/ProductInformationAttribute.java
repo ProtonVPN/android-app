@@ -30,17 +30,19 @@ import org.strongswan.android.utils.BufferedByteWriter;
  * |  Product ID   |         Product Name (Variable Length)        |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
-public class ProductInformationAttribute implements Attribute {
+public class ProductInformationAttribute implements Attribute
+{
 
-    private final String productName = "Android";
-    private final short productId = 0;
+	private final String productName = "Android";
+	private final short productId = 0;
 
-    @Override
-    public byte[] getEncoding() {
-        BufferedByteWriter writer = new BufferedByteWriter();
-        writer.put24(PrivateEnterpriseNumber.GOOGLE.getValue());
-        writer.put16(productId);
-        writer.put(productName.getBytes());
-        return writer.toByteArray();
-    }
+	@Override
+	public byte[] getEncoding()
+	{
+		BufferedByteWriter writer = new BufferedByteWriter();
+		writer.put24(PrivateEnterpriseNumber.GOOGLE.getValue());
+		writer.put16(productId);
+		writer.put(productName.getBytes());
+		return writer.toByteArray();
+	}
 }

@@ -24,34 +24,39 @@ import java.security.Security;
 
 import dagger.android.support.DaggerApplication;
 
-public abstract class StrongSwanApplication extends DaggerApplication {
+public abstract class StrongSwanApplication extends DaggerApplication
+{
 
-    private static Context mContext;
+	private static Context mContext;
 
-    public static final boolean USE_BYOD = true;
+	public static final boolean USE_BYOD = true;
 
-    static {
-        Security.addProvider(new LocalCertificateKeyStoreProvider());
-    }
+	static
+	{
+		Security.addProvider(new LocalCertificateKeyStoreProvider());
+	}
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        StrongSwanApplication.mContext = getApplicationContext();
-        TrustedCertificateManager.storeCertificate(
-            TrustedCertificateManager.parseCertificate(getBaseContext()));
-    }
+	@Override
+	public void onCreate()
+	{
+		super.onCreate();
+		StrongSwanApplication.mContext = getApplicationContext();
+		TrustedCertificateManager.storeCertificate(
+			TrustedCertificateManager.parseCertificate(getBaseContext()));
+	}
 
-    /**
-     * Returns the current application context
-     *
-     * @return context
-     */
-    public static Context getContext() {
-        return StrongSwanApplication.mContext;
-    }
+	/**
+	 * Returns the current application context
+	 *
+	 * @return context
+	 */
+	public static Context getContext()
+	{
+		return StrongSwanApplication.mContext;
+	}
 
-    public static void setAppContextForTest(@NotNull Context c) {
-        mContext = c;
-    }
+	public static void setAppContextForTest(@NotNull Context c)
+	{
+		mContext = c;
+	}
 }
