@@ -133,7 +133,7 @@ public final class UserData implements Serializable {
     }
 
     public boolean isTrialUser() {
-        return getVpnInfoResponse().getUserTierName() == "trial";
+        return getVpnInfoResponse().getUserTierName().equals("trial");
     }
 
     public boolean hasAccessToAnyServer(List<Server> serverList) {

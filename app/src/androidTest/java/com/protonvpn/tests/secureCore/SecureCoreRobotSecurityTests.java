@@ -26,7 +26,7 @@ import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 
 import org.junit.ClassRule;
 import org.junit.Rule;

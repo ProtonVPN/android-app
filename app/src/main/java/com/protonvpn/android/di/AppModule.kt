@@ -38,6 +38,7 @@ import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.OpenVpnBackend
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.MaintenanceTracker
@@ -146,6 +147,14 @@ class AppModule {
     @Singleton
     @Provides
     fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData())
+
+    @Singleton
+    @Provides
+    fun provideUserPlanManager(
+        api: ProtonApiRetroFit,
+        userData: UserData,
+        vpnStateMonitor: VpnStateMonitor,
+    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
 
     @Singleton
     @Provides

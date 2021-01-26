@@ -19,7 +19,7 @@
 package com.protonvpn.tests.testRules;
 
 import com.protonvpn.testsHelper.TestSetup;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.testsHelper.UserDataHelper;
 
 import org.junit.rules.TestWatcher;

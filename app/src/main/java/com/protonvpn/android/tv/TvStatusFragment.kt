@@ -32,6 +32,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
+import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.HtmlTools
@@ -48,7 +49,7 @@ class TvStatusFragment : DaggerFragment() {
     @Inject lateinit var serverListUpdater: ServerListUpdater
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: TvMainViewModel
+    private lateinit var viewModel: MainViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,6 +57,11 @@ class TvStatusFragment : DaggerFragment() {
     ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
+        lifecycleScope.launchWhenResumed {
+            viewModel.userPlanChangeEvent.collect {
+                initTrial()
+            }
+        }
         initTrial()
 
         vpnStateMonitor.vpnStatus.observe(
@@ -68,9 +74,9 @@ class TvStatusFragment : DaggerFragment() {
     }
 
     private fun initTrial() = with(binding) {
-        textTrialTitle.isVisible = viewModel.shouldShowTrial()
-        textTrialPeriod.isVisible = viewModel.shouldShowTrial()
-        if (viewModel.shouldShowTrial()) {
+        textTrialTitle.isVisible = viewModel.isTrialUser()
+        textTrialPeriod.isVisible = viewModel.isTrialUser()
+        if (viewModel.isTrialUser()) {
             lifecycleScope.launchWhenResumed {
                 viewModel.getTrialPeriodFlow(requireContext()).collect { textTrialPeriod.text = it }
             }

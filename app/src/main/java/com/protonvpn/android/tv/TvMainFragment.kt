@@ -35,6 +35,7 @@ import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
@@ -52,7 +53,9 @@ import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.ViewUtils.toPx
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -90,9 +93,18 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
-        viewModel.serverManager.updateEvent.observe(viewLifecycleOwner) {
-            setupRowAdapter()
+        lifecycleScope.launchWhenResumed {
+            viewModel.userPlanChangeEvent.collect {
+                if (it is UserPlanManager.InfoChange.PlanChange) {
+                    setupRowAdapter()
+                }
+            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshVPNInfo()
     }
 
     override fun onDestroyView() {
