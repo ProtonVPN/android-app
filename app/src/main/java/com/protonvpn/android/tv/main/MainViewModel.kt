@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -44,6 +45,10 @@ open class MainViewModel @Inject constructor(
         }
         return false
     }
+
+    fun shouldShowExpirationDialog() = Storage.getBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE)
+
+    fun setExpirationDialogAsShown() = Storage.saveBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE, false)
 
     fun refreshVPNInfo() {
         if (!userData.wasVpnInfoRecentlyUpdated(Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES)) {
