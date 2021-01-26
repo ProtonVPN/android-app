@@ -24,7 +24,6 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
@@ -49,14 +48,12 @@ import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.DateTime
 import javax.inject.Inject
 
 class TvMainViewModel @Inject constructor(
@@ -66,8 +63,9 @@ class TvMainViewModel @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     private val recentsManager: RecentsManager,
     val userData: UserData,
-    val logoutHandler: LogoutHandler
-) : ViewModel() {
+    val logoutHandler: LogoutHandler,
+    userPlanManager: UserPlanManager
+) : MainViewModel(userData, userPlanManager) {
 
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
@@ -118,23 +116,6 @@ class TvMainViewModel @Inject constructor(
         !userData.isFreeUser -> null
         country.hasAccessibleServer(userData) -> R.drawable.ic_free
         else -> R.drawable.ic_lock
-    }
-
-    fun shouldShowTrial() = "trial" == userData.vpnInfoResponse?.userTierName
-
-    fun shouldShowTrialDialog(): Boolean {
-        if (shouldShowTrial() && !userData.wasTrialDialogRecentlyShowed()) {
-            userData.setTrialDialogShownAt(DateTime())
-            return true
-        }
-        return false
-    }
-
-    fun getTrialPeriodFlow(context: Context) = flow {
-        while (true) {
-            emit(userData.vpnInfoResponse?.getTrialRemainingTimeString(context))
-            delay(TRIAL_UPDATE_DELAY_MILLIS)
-        }
     }
 
     fun shouldDisplayStreamingIcons() = appConfig.getFeatureFlags().displayTVLogos
@@ -286,8 +267,7 @@ class TvMainViewModel @Inject constructor(
         } else {
             if (userData.hasAccessToServer(profile.server)) {
                 vpnStateMonitor.connect(activity, profile)
-            }
-            else {
+            } else {
                 activity.launchActivity<TvUpgradeActivity>()
             }
         }
@@ -335,8 +315,4 @@ class TvMainViewModel @Inject constructor(
         }
 
     fun logout() = logoutHandler.logout(false)
-
-    companion object {
-        private const val TRIAL_UPDATE_DELAY_MILLIS: Long = 1000
-    }
 }

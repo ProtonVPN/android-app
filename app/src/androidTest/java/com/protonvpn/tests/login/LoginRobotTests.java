@@ -26,7 +26,7 @@ import com.protonvpn.results.LoginResult;
 import com.protonvpn.results.LogoutResult;
 import com.protonvpn.tests.testRules.ProtonLoginActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import org.junit.After;

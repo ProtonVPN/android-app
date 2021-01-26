@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.drawer.AccountActivityViewModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
@@ -66,6 +67,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TvMainViewModel::class)
     abstract fun bindsTvHomeViewModel(viewModel: TvMainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindsMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
     @IntoMap

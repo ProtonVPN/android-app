@@ -27,7 +27,7 @@ import org.joda.time.Days
 @Serializable
 data class VpnInfoResponse(
     @SerialName(value = "Code") val code: Int,
-    @SerialName(value = "VPN") private val vpnInfo: VPNInfo,
+    @SerialName(value = "VPN") val vpnInfo: VPNInfo,
     @SerialName(value = "Subscribed") private val subscribed: Int,
     @SerialName(value = "Services") private val services: Int,
     @SerialName(value = "Delinquent") private val delinquent: Int
@@ -48,6 +48,8 @@ data class VpnInfoResponse(
     val userTierName: String get() = vpnInfo.tierName
 
     val userTier: Int get() = vpnInfo.maxTier
+
+    val isTrialExpired get() = vpnInfo.isTrialExpired()
 
     fun getTrialRemainingTimeString(context: Context): String {
         val period = if (vpnInfo.isRemainingTimeAccessible)

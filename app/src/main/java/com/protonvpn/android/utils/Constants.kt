@@ -46,6 +46,7 @@ object Constants {
     val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 30L
+    const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3
 
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String

@@ -39,6 +39,8 @@ data class VPNInfo(
     val isRemainingTimeAccessible: Boolean
         get() = expirationTime != 0
 
+    fun isTrialExpired(): Boolean = DateTime(expirationTime * 1000L).isBeforeNow
+
     val trialRemainingTime: Period
         get() = try {
             val interval =
