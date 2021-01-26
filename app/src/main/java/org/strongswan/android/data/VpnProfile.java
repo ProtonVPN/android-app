@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2012 Tobias Brunner
+ * Copyright (C) 2012-2019 Tobias Brunner
  * Copyright (C) 2012 Giuliano Grassi
  * Copyright (C) 2012 Ralf Sager
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,65 +17,41 @@
 
 package org.strongswan.android.data;
 
+
 import android.text.TextUtils;
 
-import com.protonvpn.android.models.config.UserData;
-
 import java.util.Arrays;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
 
 public class VpnProfile implements Cloneable
 {
-
 	/* While storing this as EnumSet would be nicer this simplifies storing it in a database */
 	public static final int SPLIT_TUNNELING_BLOCK_IPV4 = 1;
 	public static final int SPLIT_TUNNELING_BLOCK_IPV6 = 2;
 
-	public static final int FLAGS_SUPPRESS_CERT_REQS = 1;
+	public static final int FLAGS_SUPPRESS_CERT_REQS = 1 << 0;
 	public static final int FLAGS_DISABLE_CRL = 1 << 1;
 	public static final int FLAGS_DISABLE_OCSP = 1 << 2;
 	public static final int FLAGS_STRICT_REVOCATION = 1 << 3;
 	public static final int FLAGS_RSA_PSS = 1 << 4;
+	public static final int FLAGS_IPv6_TRANSPORT = 1 << 5;
 
-	private String mName;
-	private String mGateway;
-	private String mCertificate;
-	private String mUserCertificate;
+	private String mName, mGateway, mUsername, mPassword, mCertificate, mUserCertificate;
 	private String mRemoteId, mLocalId, mExcludedSubnets, mIncludedSubnets, mSelectedApps;
-	private String mIkeProposal, mEspProposal;
-	private String userName, userPassword;
+	private String mIkeProposal, mEspProposal, mDnsServers;
 	private Integer mMTU, mPort, mSplitTunneling, mNATKeepAlive, mFlags;
 	private SelectedAppsHandling mSelectedAppsHandling = SelectedAppsHandling.SELECTED_APPS_DISABLE;
 	private VpnType mVpnType;
 	private UUID mUUID;
 	private long mId = -1;
 
-	public String getUserName()
-	{
-		return userName;
-	}
-
-	public void setUserName(String userName)
-	{
-		this.userName = userName;
-	}
-
-	public String getUserPassword()
-	{
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword)
-	{
-		this.userPassword = userPassword;
-	}
-
 	public enum SelectedAppsHandling
 	{
-		SELECTED_APPS_DISABLE(0), SELECTED_APPS_EXCLUDE(1), SELECTED_APPS_ONLY(2);
+		SELECTED_APPS_DISABLE(0),
+		SELECTED_APPS_EXCLUDE(1),
+		SELECTED_APPS_ONLY(2);
 
 		private Integer mValue;
 
@@ -165,6 +141,36 @@ public class VpnProfile implements Cloneable
 		this.mEspProposal = proposal;
 	}
 
+	public String getDnsServers()
+	{
+		return mDnsServers;
+	}
+
+	public void setDnsServers(String dns)
+	{
+		this.mDnsServers = dns;
+	}
+
+	public String getUsername()
+	{
+		return mUsername;
+	}
+
+	public void setUsername(String username)
+	{
+		this.mUsername = username;
+	}
+
+	public String getPassword()
+	{
+		return mPassword;
+	}
+
+	public void setPassword(String password)
+	{
+		this.mPassword = password;
+	}
+
 	public String getCertificateAlias()
 	{
 		return mCertificate;
@@ -227,7 +233,7 @@ public class VpnProfile implements Cloneable
 
 	public Integer getNATKeepAlive()
 	{
-		return 10;
+		return mNATKeepAlive;
 	}
 
 	public void setNATKeepAlive(Integer keepalive)
@@ -235,14 +241,14 @@ public class VpnProfile implements Cloneable
 		this.mNATKeepAlive = keepalive;
 	}
 
-	public void setExcludedSubnets(List<String> excludedSubnets)
+	public void setExcludedSubnets(String excludedSubnets)
 	{
-		this.mExcludedSubnets = excludedSubnets.size() > 0 ? TextUtils.join(" ", excludedSubnets) : "";
+		this.mExcludedSubnets = excludedSubnets;
 	}
 
 	public String getExcludedSubnets()
 	{
-		return mExcludedSubnets == null ? "" : mExcludedSubnets;
+		return mExcludedSubnets;
 	}
 
 	public void setIncludedSubnets(String includedSubnets)
@@ -260,7 +266,7 @@ public class VpnProfile implements Cloneable
 		this.mSelectedApps = selectedApps;
 	}
 
-	public void setSelectedApps(List<String> selectedApps)
+	public void setSelectedApps(SortedSet<String> selectedApps)
 	{
 		this.mSelectedApps = selectedApps.size() > 0 ? TextUtils.join(" ", selectedApps) : null;
 	}
@@ -298,10 +304,9 @@ public class VpnProfile implements Cloneable
 		}
 	}
 
-	public SelectedAppsHandling getSelectedAppsHandling(UserData userData)
+	public SelectedAppsHandling getSelectedAppsHandling()
 	{
-		return userData.getUseSplitTunneling() ? SelectedAppsHandling.SELECTED_APPS_EXCLUDE :
-			SelectedAppsHandling.SELECTED_APPS_DISABLE;
+		return mSelectedAppsHandling;
 	}
 
 	public Integer getSplitTunneling()
@@ -335,7 +340,7 @@ public class VpnProfile implements Cloneable
 	{
 		if (o != null && o instanceof VpnProfile)
 		{
-			VpnProfile other = (VpnProfile) o;
+			VpnProfile other = (VpnProfile)o;
 			if (this.mUUID != null && other.getUUID() != null)
 			{
 				return this.mUUID.equals(other.getUUID());
@@ -350,7 +355,7 @@ public class VpnProfile implements Cloneable
 	{
 		try
 		{
-			return (VpnProfile) super.clone();
+			return (VpnProfile)super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{

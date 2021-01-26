@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,8 +15,6 @@
 
 package org.strongswan.android.logic.imc;
 
-import android.content.Context;
-
 import org.strongswan.android.logic.imc.attributes.Attribute;
 import org.strongswan.android.logic.imc.attributes.AttributeType;
 import org.strongswan.android.logic.imc.collectors.Collector;
@@ -27,9 +25,10 @@ import org.strongswan.android.logic.imc.collectors.ProductInformationCollector;
 import org.strongswan.android.logic.imc.collectors.SettingsCollector;
 import org.strongswan.android.logic.imc.collectors.StringVersionCollector;
 
+import android.content.Context;
+
 public class AndroidImc
 {
-
 	private final Context mContext;
 
 	public AndroidImc(Context context)
@@ -42,7 +41,7 @@ public class AndroidImc
 	 * the given vendor specific attribute type.
 	 *
 	 * @param vendor vendor ID
-	 * @param type   vendor specific attribute type
+	 * @param type vendor specific attribute type
 	 * @return encoded attribute, or null if not available or failed
 	 */
 	public byte[] getMeasurement(int vendor, int type)
@@ -55,8 +54,8 @@ public class AndroidImc
 	 * the given vendor specific attribute type.
 	 *
 	 * @param vendor vendor ID
-	 * @param type   vendor specific attribute type
-	 * @param args   optional arguments for a measurement
+	 * @param type vendor specific attribute type
+	 * @param args optional arguments for a measurement
 	 * @return encoded attribute, or null if not available or failed
 	 */
 	public byte[] getMeasurement(int vendor, int type, String[] args)

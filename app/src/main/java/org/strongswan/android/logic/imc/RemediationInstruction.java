@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,22 +15,21 @@
 
 package org.strongswan.android.logic.imc;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Xml;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class RemediationInstruction implements Parcelable
-{
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Xml;
+
+public class RemediationInstruction implements Parcelable
+{
 	private String mTitle;
 	private String mDescription;
 	private String mHeader;
@@ -51,22 +50,20 @@ public final class RemediationInstruction implements Parcelable
 		dest.writeStringList(mItems);
 	}
 
-	public static final Parcelable.Creator<RemediationInstruction> CREATOR =
-		new Creator<RemediationInstruction>()
+	public static final Parcelable.Creator<RemediationInstruction> CREATOR = new Creator<RemediationInstruction>() {
+
+		@Override
+		public RemediationInstruction[] newArray(int size)
 		{
+			return new RemediationInstruction[size];
+		}
 
-			@Override
-			public RemediationInstruction[] newArray(int size)
-			{
-				return new RemediationInstruction[size];
-			}
-
-			@Override
-			public RemediationInstruction createFromParcel(Parcel source)
-			{
-				return new RemediationInstruction(source);
-			}
-		};
+		@Override
+		public RemediationInstruction createFromParcel(Parcel source)
+		{
+			return new RemediationInstruction(source);
+		}
+	};
 
 	private RemediationInstruction()
 	{
@@ -156,8 +153,7 @@ public final class RemediationInstruction implements Parcelable
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static void readInstructions(XmlPullParser parser,
-	                                     List<RemediationInstruction> instructions) throws XmlPullParserException, IOException
+	private static void readInstructions(XmlPullParser parser, List<RemediationInstruction> instructions) throws XmlPullParserException, IOException
 	{
 		parser.require(XmlPullParser.START_TAG, null, "remediationinstructions");
 		while (parser.next() != XmlPullParser.END_TAG)
@@ -188,8 +184,7 @@ public final class RemediationInstruction implements Parcelable
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static void readInstruction(XmlPullParser parser,
-	                                    RemediationInstruction instruction) throws XmlPullParserException, IOException
+	private static void readInstruction(XmlPullParser parser, RemediationInstruction instruction) throws XmlPullParserException, IOException
 	{
 		parser.require(XmlPullParser.START_TAG, null, "instruction");
 		while (parser.next() != XmlPullParser.END_TAG)
@@ -231,8 +226,7 @@ public final class RemediationInstruction implements Parcelable
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static void readItems(XmlPullParser parser,
-	                              RemediationInstruction instruction) throws XmlPullParserException, IOException
+	private static void readItems(XmlPullParser parser, RemediationInstruction instruction) throws XmlPullParserException, IOException
 	{
 		while (parser.next() != XmlPullParser.END_TAG)
 		{

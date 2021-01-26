@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,18 +17,20 @@ package org.strongswan.android.logic.imc;
 
 public enum ImcState
 {
-	UNKNOWN(0), ALLOW(1), BLOCK(2), ISOLATE(3);
+	UNKNOWN(0),
+	ALLOW(1),
+	BLOCK(2),
+	ISOLATE(3);
 
 	private final int mValue;
 
-	ImcState(int value)
+	private ImcState(int value)
 	{
 		mValue = value;
 	}
 
 	/**
 	 * Get the numeric value of the IMC state.
-	 *
 	 * @return numeric value
 	 */
 	public int getValue()

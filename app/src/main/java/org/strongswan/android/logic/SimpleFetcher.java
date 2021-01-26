@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2017-2018 Tobias Brunner
+ * HSR Hochschule fuer Technik Rapperswil
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.  See <http://www.fsf.org/copyleft/gpl.txt>.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ */
+
 package org.strongswan.android.logic;
 
 import java.io.BufferedOutputStream;
@@ -22,9 +37,8 @@ import androidx.annotation.Keep;
 @Keep
 public class SimpleFetcher
 {
-
 	private static ExecutorService mExecutor = Executors.newCachedThreadPool();
-	private static final Object LOCK = new Object();
+	private static Object mLock = new Object();
 	private static ArrayList<Future> mFutures = new ArrayList<>();
 	private static boolean mDisabled;
 
@@ -32,7 +46,7 @@ public class SimpleFetcher
 	{
 		Future<byte[]> future;
 
-		synchronized (LOCK)
+		synchronized (mLock)
 		{
 			if (mDisabled)
 			{
@@ -77,13 +91,13 @@ public class SimpleFetcher
 			/* this enforces a timeout as the ones set on HttpURLConnection might not work reliably */
 			return future.get(10000, TimeUnit.MILLISECONDS);
 		}
-		catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e)
+		catch (InterruptedException|ExecutionException|TimeoutException|CancellationException e)
 		{
 			return null;
 		}
 		finally
 		{
-			synchronized (LOCK)
+			synchronized (mLock)
 			{
 				mFutures.remove(future);
 			}
@@ -95,7 +109,7 @@ public class SimpleFetcher
 	 */
 	public static void enable()
 	{
-		synchronized (LOCK)
+		synchronized (mLock)
 		{
 			mDisabled = false;
 		}
@@ -103,18 +117,18 @@ public class SimpleFetcher
 
 	/**
 	 * Disable the fetcher and abort any future requests.
-	 * <p>
+	 *
 	 * The native thread is not cancelable as it is working on an IKE_SA (cancelling the methods of
 	 * HttpURLConnection is not reliably possible anyway), so to abort while fetching we cancel the
 	 * Future (causing a return from fetch() immediately) and let the executor thread continue its
 	 * thing in the background.
-	 * <p>
+	 *
 	 * Also prevents future fetches until enabled again (e.g. if we aborted OCSP but would then
 	 * block in the subsequent fetch for a CRL).
 	 */
 	public static void disable()
 	{
-		synchronized (LOCK)
+		synchronized (mLock)
 		{
 			mDisabled = true;
 			for (Future future : mFutures)

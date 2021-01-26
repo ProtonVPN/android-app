@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,7 +19,6 @@ import java.security.Provider;
 
 public class LocalCertificateKeyStoreProvider extends Provider
 {
-
 	private static final long serialVersionUID = 3515038332469843219L;
 
 	public LocalCertificateKeyStoreProvider()

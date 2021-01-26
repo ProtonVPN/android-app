@@ -2,7 +2,7 @@
  * Copyright (C) 2013 Tobias Brunner
  * Copyright (C) 2012 Christoph Buehler
  * Copyright (C) 2012 Patrick Loetscher
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,19 +17,18 @@
 
 package org.strongswan.android.logic.imc.collectors;
 
+import java.util.List;
+
+import org.strongswan.android.logic.imc.attributes.Attribute;
+import org.strongswan.android.logic.imc.attributes.InstalledPackagesAttribute;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import org.strongswan.android.logic.imc.attributes.Attribute;
-import org.strongswan.android.logic.imc.attributes.InstalledPackagesAttribute;
-
-import java.util.List;
-
 public class InstalledPackagesCollector implements Collector
 {
-
 	private final PackageManager mPackageManager;
 
 	public InstalledPackagesCollector(Context context)
@@ -44,9 +43,9 @@ public class InstalledPackagesCollector implements Collector
 		List<PackageInfo> packages = mPackageManager.getInstalledPackages(0);
 		for (PackageInfo info : packages)
 		{
-			if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 || info.packageName == null
-				|| info.versionName == null)
-			{    /* ignore packages installed in the system image */
+			if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 ||
+				info.packageName == null || info.versionName == null)
+			{	/* ignore packages installed in the system image */
 				continue;
 			}
 			attribute.addPackage(info.packageName, info.versionName);

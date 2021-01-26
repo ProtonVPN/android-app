@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2012-2014 Tobias Brunner
+ * Copyright (C) 2012-2015 Tobias Brunner
  * Copyright (C) 2012 Giuliano Grassi
  * Copyright (C) 2012 Ralf Sager
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,25 +17,20 @@
 
 package org.strongswan.android.logic;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Observable;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public final class TrustedCertificateManager
+public class TrustedCertificateManager extends Observable
 {
-
 	private static final String TAG = TrustedCertificateManager.class.getSimpleName();
 	private final ReentrantReadWriteLock mLock = new ReentrantReadWriteLock();
 	private Hashtable<String, X509Certificate> mCACerts = new Hashtable<String, X509Certificate>();
@@ -45,11 +40,13 @@ public final class TrustedCertificateManager
 
 	public enum TrustedCertificateSource
 	{
-		SYSTEM("system:"), USER("user:"), LOCAL("local:");
+		SYSTEM("system:"),
+		USER("user:"),
+		LOCAL("local:");
 
 		private final String mPrefix;
 
-		TrustedCertificateSource(String prefix)
+		private TrustedCertificateSource(String prefix)
 		{
 			mPrefix = prefix;
 		}
@@ -65,7 +62,7 @@ public final class TrustedCertificateManager
 	 */
 	private TrustedCertificateManager()
 	{
-		for (String name : new String[] {"LocalCertificateStore", "AndroidCAStore"})
+		for (String name : new String[]{"LocalCertificateStore", "AndroidCAStore"})
 		{
 			KeyStore store;
 			try
@@ -87,8 +84,7 @@ public final class TrustedCertificateManager
 	 */
 	private static class Singleton
 	{
-
-		public static final TrustedCertificateManager INSTANCE = new TrustedCertificateManager();
+		public static final TrustedCertificateManager mInstance = new TrustedCertificateManager();
 	}
 
 	/**
@@ -98,12 +94,14 @@ public final class TrustedCertificateManager
 	 */
 	public static TrustedCertificateManager getInstance()
 	{
-		return Singleton.INSTANCE;
+		return Singleton.mInstance;
 	}
 
 	/**
 	 * Invalidates the current load state so that the next call to load()
 	 * will force a reload of the cached CA certificates.
+	 *
+	 * Observers are notified when this method is called.
 	 *
 	 * @return reference to itself
 	 */
@@ -111,6 +109,8 @@ public final class TrustedCertificateManager
 	{
 		Log.d(TAG, "Force reload of cached CA certificates on next load");
 		this.mReload = true;
+		this.setChanged();
+		this.notifyObservers();
 		return this;
 	}
 
@@ -118,6 +118,8 @@ public final class TrustedCertificateManager
 	 * Ensures that the certificates are loaded but does not force a reload.
 	 * As this takes a while if the certificates are not loaded yet it should
 	 * be called asynchronously.
+	 *
+	 * Observers are only notified when the certificates are initially loaded, not when reloaded.
 	 *
 	 * @return reference to itself
 	 */
@@ -147,7 +149,12 @@ public final class TrustedCertificateManager
 			fetchCertificates(certs, store);
 		}
 		this.mCACerts = certs;
-		this.mLoaded = true;
+		if (!this.mLoaded)
+		{
+			this.setChanged();
+			this.notifyObservers();
+			this.mLoaded = true;
+		}
 		Log.d(TAG, "Cached CA certificates loaded");
 	}
 
@@ -169,7 +176,7 @@ public final class TrustedCertificateManager
 				cert = store.getCertificate(alias);
 				if (cert != null && cert instanceof X509Certificate)
 				{
-					certs.put(alias, (X509Certificate) cert);
+					certs.put(alias, (X509Certificate)cert);
 				}
 			}
 		}
@@ -195,8 +202,8 @@ public final class TrustedCertificateManager
 			this.mLock.readLock().unlock();
 		}
 		else
-		{    /* if we cannot get the lock load it directly from the KeyStore,
-		 * should be fast for a single certificate */
+		{	/* if we cannot get the lock load it directly from the KeyStore,
+			 * should be fast for a single certificate */
 			for (KeyStore store : this.mKeyStores)
 			{
 				try
@@ -204,7 +211,7 @@ public final class TrustedCertificateManager
 					Certificate cert = store.getCertificate(alias);
 					if (cert != null && cert instanceof X509Certificate)
 					{
-						certificate = (X509Certificate) cert;
+						certificate = (X509Certificate)cert;
 						break;
 					}
 				}
@@ -227,7 +234,7 @@ public final class TrustedCertificateManager
 	{
 		Hashtable<String, X509Certificate> certs;
 		this.mLock.readLock().lock();
-		certs = (Hashtable<String, X509Certificate>) this.mCACerts.clone();
+		certs = (Hashtable<String, X509Certificate>)this.mCACerts.clone();
 		this.mLock.readLock().unlock();
 		return certs;
 	}
@@ -251,50 +258,5 @@ public final class TrustedCertificateManager
 		}
 		this.mLock.readLock().unlock();
 		return certs;
-	}
-
-	/**
-	 * Load the file from the given URI and try to parse it as X.509 certificate.
-	 *
-	 * @return certificate or null
-	 */
-	public static X509Certificate parseCertificate(Context context)
-	{
-		X509Certificate certificate = null;
-		try
-		{
-			CertificateFactory factory = CertificateFactory.getInstance("X.509");
-			InputStream in = context.getAssets().open("pro-root.der");
-			certificate = (X509Certificate) factory.generateCertificate(in);
-			/* we don't check whether it's actually a CA certificate or not */
-		}
-		catch (CertificateException | IOException e)
-		{
-			e.printStackTrace();
-		}
-		return certificate;
-	}
-
-	/**
-	 * Try to store the given certificate in the KeyStore.
-	 *
-	 * @param certificate
-	 * @return whether it was successfully stored
-	 */
-	public static boolean storeCertificate(X509Certificate certificate)
-	{
-		try
-		{
-			KeyStore store = KeyStore.getInstance("LocalCertificateStore");
-			store.load(null, null);
-			store.setCertificateEntry(null, certificate);
-			TrustedCertificateManager.getInstance().reset();
-			return true;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return false;
-		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -23,7 +23,6 @@ import java.nio.ByteBuffer;
  */
 public class BufferedByteWriter
 {
-
 	/**
 	 * The underlying byte buffer
 	 */
@@ -45,7 +44,6 @@ public class BufferedByteWriter
 	/**
 	 * Create a writer with the given initial capacity (helps avoid expensive
 	 * resizing if known).
-	 *
 	 * @param capacity initial capacity
 	 */
 	public BufferedByteWriter(int capacity)
@@ -58,7 +56,6 @@ public class BufferedByteWriter
 	/**
 	 * Ensure that there is enough space available to write the requested
 	 * number of bytes. If necessary the internal buffer is resized.
-	 *
 	 * @param required required number of bytes
 	 */
 	private void ensureCapacity(int required)
@@ -77,7 +74,6 @@ public class BufferedByteWriter
 
 	/**
 	 * Write the given byte array to the buffer
-	 *
 	 * @param value
 	 * @return the writer
 	 */
@@ -90,7 +86,6 @@ public class BufferedByteWriter
 
 	/**
 	 * Write the given byte to the buffer
-	 *
 	 * @param value
 	 * @return the writer
 	 */
@@ -103,35 +98,42 @@ public class BufferedByteWriter
 
 	/**
 	 * Write the 8-bit length of the given data followed by the data itself
-	 *
 	 * @param value
 	 * @return the writer
 	 */
 	public BufferedByteWriter putLen8(byte[] value)
 	{
 		ensureCapacity(1 + value.length);
-		mWriter.put((byte) value.length);
+		mWriter.put((byte)value.length);
 		mWriter.put(value);
 		return this;
 	}
 
 	/**
 	 * Write the 16-bit length of the given data followed by the data itself
-	 *
 	 * @param value
 	 * @return the writer
 	 */
 	public BufferedByteWriter putLen16(byte[] value)
 	{
 		ensureCapacity(2 + value.length);
-		mWriter.putShort((short) value.length);
+		mWriter.putShort((short)value.length);
 		mWriter.put(value);
 		return this;
 	}
 
 	/**
 	 * Write the given short value (16-bit) in big-endian order to the buffer
-	 *
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put16(byte value)
+	{
+		return this.put16((short)(value & 0xFF));
+	}
+
+	/**
+	 * Write the given short value (16-bit) in big-endian order to the buffer
 	 * @param value
 	 * @return the writer
 	 */
@@ -144,21 +146,65 @@ public class BufferedByteWriter
 
 	/**
 	 * Write 24-bit of the given value in big-endian order to the buffer
-	 *
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put24(byte value)
+	{
+		ensureCapacity(3);
+		mWriter.putShort((short)0);
+		mWriter.put(value);
+		return this;
+	}
+
+	/**
+	 * Write 24-bit of the given value in big-endian order to the buffer
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put24(short value)
+	{
+		ensureCapacity(3);
+		mWriter.put((byte)0);
+		mWriter.putShort(value);
+		return this;
+	}
+
+	/**
+	 * Write 24-bit of the given value in big-endian order to the buffer
 	 * @param value
 	 * @return the writer
 	 */
 	public BufferedByteWriter put24(int value)
 	{
 		ensureCapacity(3);
-		mWriter.put((byte) (value >> 16));
-		mWriter.putShort((short) value);
+		mWriter.put((byte)(value >> 16));
+		mWriter.putShort((short)value);
 		return this;
 	}
 
 	/**
 	 * Write the given int value (32-bit) in big-endian order to the buffer
-	 *
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put32(byte value)
+	{
+		return put32(value & 0xFF);
+	}
+
+	/**
+	 * Write the given int value (32-bit) in big-endian order to the buffer
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put32(short value)
+	{
+		return put32(value & 0xFFFF);
+	}
+
+	/**
+	 * Write the given int value (32-bit) in big-endian order to the buffer
 	 * @param value
 	 * @return the writer
 	 */
@@ -171,7 +217,36 @@ public class BufferedByteWriter
 
 	/**
 	 * Write the given long value (64-bit) in big-endian order to the buffer
-	 *
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put64(byte value)
+	{
+		return put64(value & 0xFFL);
+	}
+
+	/**
+	 * Write the given long value (64-bit) in big-endian order to the buffer
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put64(short value)
+	{
+		return put64(value & 0xFFFFL);
+	}
+
+	/**
+	 * Write the given long value (64-bit) in big-endian order to the buffer
+	 * @param value
+	 * @return the writer
+	 */
+	public BufferedByteWriter put64(int value)
+	{
+		return put64(value & 0xFFFFFFFFL);
+	}
+
+	/**
+	 * Write the given long value (64-bit) in big-endian order to the buffer
 	 * @param value
 	 * @return the writer
 	 */
@@ -184,7 +259,6 @@ public class BufferedByteWriter
 
 	/**
 	 * Convert the internal buffer to a new byte array.
-	 *
 	 * @return byte array
 	 */
 	public byte[] toByteArray()
