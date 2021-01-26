@@ -52,7 +52,8 @@ class ConnectionParamsOpenVpn(
         mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
                 Constants.VPN_USERNAME_PRODUCT_SUFFIX
         mUseTLSAuth = true
-        mTunMtu = userData.mtuSize
+        mTunMtu = 1500
+        mMssFix = userData.mtuSize - 40
         mExpectTLSCert = true
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
