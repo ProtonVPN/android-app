@@ -24,21 +24,24 @@ package org.strongswan.android.logic.imc.attributes;
  * | Device ID (Variable Length)                                   |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
-public class DeviceIdAttribute implements Attribute {
+public class DeviceIdAttribute implements Attribute
+{
 
-    private String mDeviceId;
+	private String mDeviceId;
 
-    /**
-     * Set the device ID
-     *
-     * @param version version number
-     */
-    public void setDeviceId(String deviceId) {
-        this.mDeviceId = deviceId;
-    }
+	/**
+	 * Set the device ID
+	 *
+	 * @param version version number
+	 */
+	public void setDeviceId(String deviceId)
+	{
+		this.mDeviceId = deviceId;
+	}
 
-    @Override
-    public byte[] getEncoding() {
-        return mDeviceId.getBytes();
-    }
+	@Override
+	public byte[] getEncoding()
+	{
+		return mDeviceId.getBytes();
+	}
 }

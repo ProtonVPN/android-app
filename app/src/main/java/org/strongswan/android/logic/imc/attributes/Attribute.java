@@ -18,12 +18,13 @@ package org.strongswan.android.logic.imc.attributes;
 /**
  * Interface to be implemented by attribute classes
  */
-public interface Attribute {
+public interface Attribute
+{
 
-    /**
-     * Returns the binary encoding of the attribute
-     *
-     * @return binary encoding
-     */
-    byte[] getEncoding();
+	/**
+	 * Returns the binary encoding of the attribute
+	 *
+	 * @return binary encoding
+	 */
+	byte[] getEncoding();
 }

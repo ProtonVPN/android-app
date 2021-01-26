@@ -27,25 +27,30 @@ import org.strongswan.android.logic.imc.attributes.InstalledPackagesAttribute;
 
 import java.util.List;
 
-public class InstalledPackagesCollector implements Collector {
+public class InstalledPackagesCollector implements Collector
+{
 
-    private final PackageManager mPackageManager;
+	private final PackageManager mPackageManager;
 
-    public InstalledPackagesCollector(Context context) {
-        mPackageManager = context.getPackageManager();
-    }
+	public InstalledPackagesCollector(Context context)
+	{
+		mPackageManager = context.getPackageManager();
+	}
 
-    @Override
-    public Attribute getMeasurement() {
-        InstalledPackagesAttribute attribute = new InstalledPackagesAttribute();
-        List<PackageInfo> packages = mPackageManager.getInstalledPackages(0);
-        for (PackageInfo info : packages) {
-            if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 || info.packageName == null
-                || info.versionName == null) {    /* ignore packages installed in the system image */
-                continue;
-            }
-            attribute.addPackage(info.packageName, info.versionName);
-        }
-        return attribute;
-    }
+	@Override
+	public Attribute getMeasurement()
+	{
+		InstalledPackagesAttribute attribute = new InstalledPackagesAttribute();
+		List<PackageInfo> packages = mPackageManager.getInstalledPackages(0);
+		for (PackageInfo info : packages)
+		{
+			if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 || info.packageName == null
+				|| info.versionName == null)
+			{    /* ignore packages installed in the system image */
+				continue;
+			}
+			attribute.addPackage(info.packageName, info.versionName);
+		}
+		return attribute;
+	}
 }

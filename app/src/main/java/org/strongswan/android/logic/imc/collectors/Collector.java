@@ -20,12 +20,13 @@ import org.strongswan.android.logic.imc.attributes.Attribute;
 /**
  * Interface for measurement collectors
  */
-public interface Collector {
+public interface Collector
+{
 
-    /**
-     * This method shall return the result of a measurement, if available
-     *
-     * @return attribute or null
-     */
-    Attribute getMeasurement();
+	/**
+	 * This method shall return the result of a measurement, if available
+	 *
+	 * @return attribute or null
+	 */
+	Attribute getMeasurement();
 }

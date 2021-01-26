@@ -15,40 +15,47 @@
 
 package org.strongswan.android.logic.imc.collectors;
 
-public enum Protocol {
-    TCP((byte) 6, "tcp", "tcp6"), UDP((byte) 17, "udp", "udp6");
+public enum Protocol
+{
+	TCP((byte) 6, "tcp", "tcp6"), UDP((byte) 17, "udp", "udp6");
 
-    private final byte mValue;
-    private String[] mNames;
+	private final byte mValue;
+	private String[] mNames;
 
-    Protocol(byte value, String... names) {
-        mValue = value;
-        mNames = names;
-    }
+	Protocol(byte value, String... names)
+	{
+		mValue = value;
+		mNames = names;
+	}
 
-    /**
-     * Get the numeric value of the protocol.
-     *
-     * @return numeric value
-     */
-    public byte getValue() {
-        return mValue;
-    }
+	/**
+	 * Get the numeric value of the protocol.
+	 *
+	 * @return numeric value
+	 */
+	public byte getValue()
+	{
+		return mValue;
+	}
 
-    /**
-     * Get the protocol from the given protocol name, if found.
-     *
-     * @param name protocol name (e.g. "udp" or "tcp")
-     * @return enum entry or null
-     */
-    public static Protocol fromName(String name) {
-        for (Protocol protocol : Protocol.values()) {
-            for (String keyword : protocol.mNames) {
-                if (keyword.equalsIgnoreCase(name)) {
-                    return protocol;
-                }
-            }
-        }
-        return null;
-    }
+	/**
+	 * Get the protocol from the given protocol name, if found.
+	 *
+	 * @param name protocol name (e.g. "udp" or "tcp")
+	 * @return enum entry or null
+	 */
+	public static Protocol fromName(String name)
+	{
+		for (Protocol protocol : Protocol.values())
+		{
+			for (String keyword : protocol.mNames)
+			{
+				if (keyword.equalsIgnoreCase(name))
+				{
+					return protocol;
+				}
+			}
+		}
+		return null;
+	}
 }

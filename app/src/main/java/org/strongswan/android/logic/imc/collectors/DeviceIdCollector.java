@@ -21,22 +21,26 @@ import android.content.Context;
 import org.strongswan.android.logic.imc.attributes.Attribute;
 import org.strongswan.android.logic.imc.attributes.DeviceIdAttribute;
 
-public class DeviceIdCollector implements Collector {
+public class DeviceIdCollector implements Collector
+{
 
-    private final ContentResolver mContentResolver;
+	private final ContentResolver mContentResolver;
 
-    public DeviceIdCollector(Context context) {
-        mContentResolver = context.getContentResolver();
-    }
+	public DeviceIdCollector(Context context)
+	{
+		mContentResolver = context.getContentResolver();
+	}
 
-    @Override
-    public Attribute getMeasurement() {
-        String id = android.provider.Settings.Secure.getString(mContentResolver, "android_id");
-        if (id != null) {
-            DeviceIdAttribute attribute = new DeviceIdAttribute();
-            attribute.setDeviceId(id);
-            return attribute;
-        }
-        return null;
-    }
+	@Override
+	public Attribute getMeasurement()
+	{
+		String id = android.provider.Settings.Secure.getString(mContentResolver, "android_id");
+		if (id != null)
+		{
+			DeviceIdAttribute attribute = new DeviceIdAttribute();
+			attribute.setDeviceId(id);
+			return attribute;
+		}
+		return null;
+	}
 }

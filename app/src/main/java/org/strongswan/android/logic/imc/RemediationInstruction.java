@@ -28,214 +28,252 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class RemediationInstruction implements Parcelable {
+public final class RemediationInstruction implements Parcelable
+{
 
-    private String mTitle;
-    private String mDescription;
-    private String mHeader;
-    private final List<String> mItems = new LinkedList<String>();
+	private String mTitle;
+	private String mDescription;
+	private String mHeader;
+	private final List<String> mItems = new LinkedList<String>();
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+	@Override
+	public int describeContents()
+	{
+		return 0;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mTitle);
-        dest.writeString(mDescription);
-        dest.writeString(mHeader);
-        dest.writeStringList(mItems);
-    }
+	@Override
+	public void writeToParcel(Parcel dest, int flags)
+	{
+		dest.writeString(mTitle);
+		dest.writeString(mDescription);
+		dest.writeString(mHeader);
+		dest.writeStringList(mItems);
+	}
 
-    public static final Parcelable.Creator<RemediationInstruction> CREATOR =
-        new Creator<RemediationInstruction>() {
+	public static final Parcelable.Creator<RemediationInstruction> CREATOR =
+		new Creator<RemediationInstruction>()
+		{
 
-            @Override
-            public RemediationInstruction[] newArray(int size) {
-                return new RemediationInstruction[size];
-            }
+			@Override
+			public RemediationInstruction[] newArray(int size)
+			{
+				return new RemediationInstruction[size];
+			}
 
-            @Override
-            public RemediationInstruction createFromParcel(Parcel source) {
-                return new RemediationInstruction(source);
-            }
-        };
+			@Override
+			public RemediationInstruction createFromParcel(Parcel source)
+			{
+				return new RemediationInstruction(source);
+			}
+		};
 
-    private RemediationInstruction() {
-    }
+	private RemediationInstruction()
+	{
+	}
 
-    private RemediationInstruction(Parcel source) {
-        mTitle = source.readString();
-        mDescription = source.readString();
-        mHeader = source.readString();
-        source.readStringList(mItems);
-    }
+	private RemediationInstruction(Parcel source)
+	{
+		mTitle = source.readString();
+		mDescription = source.readString();
+		mHeader = source.readString();
+		source.readStringList(mItems);
+	}
 
-    public String getTitle() {
-        return mTitle;
-    }
+	public String getTitle()
+	{
+		return mTitle;
+	}
 
-    private void setTitle(String title) {
-        mTitle = title;
-    }
+	private void setTitle(String title)
+	{
+		mTitle = title;
+	}
 
-    public String getDescription() {
-        return mDescription;
-    }
+	public String getDescription()
+	{
+		return mDescription;
+	}
 
-    private void setDescription(String description) {
-        mDescription = description;
-    }
+	private void setDescription(String description)
+	{
+		mDescription = description;
+	}
 
-    public String getHeader() {
-        return mHeader;
-    }
+	public String getHeader()
+	{
+		return mHeader;
+	}
 
-    private void setHeader(String header) {
-        mHeader = header;
-    }
+	private void setHeader(String header)
+	{
+		mHeader = header;
+	}
 
-    public List<String> getItems() {
-        return Collections.unmodifiableList(mItems);
-    }
+	public List<String> getItems()
+	{
+		return Collections.unmodifiableList(mItems);
+	}
 
-    private void addItem(String item) {
-        mItems.add(item);
-    }
+	private void addItem(String item)
+	{
+		mItems.add(item);
+	}
 
-    /**
-     * Create a list of RemediationInstruction objects from the given XML data.
-     *
-     * @param xml XML data
-     * @return list of RemediationInstruction objects
-     */
-    public static List<RemediationInstruction> fromXml(String xml) {
-        List<RemediationInstruction> instructions = new LinkedList<RemediationInstruction>();
-        XmlPullParser parser = Xml.newPullParser();
-        try {
-            parser.setInput(new StringReader(xml));
-            parser.nextTag();
-            readInstructions(parser, instructions);
-        }
-        catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return instructions;
-    }
+	/**
+	 * Create a list of RemediationInstruction objects from the given XML data.
+	 *
+	 * @param xml XML data
+	 * @return list of RemediationInstruction objects
+	 */
+	public static List<RemediationInstruction> fromXml(String xml)
+	{
+		List<RemediationInstruction> instructions = new LinkedList<RemediationInstruction>();
+		XmlPullParser parser = Xml.newPullParser();
+		try
+		{
+			parser.setInput(new StringReader(xml));
+			parser.nextTag();
+			readInstructions(parser, instructions);
+		}
+		catch (XmlPullParserException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return instructions;
+	}
 
-    /**
-     * Read a &lt;remediationinstructions&gt; element and store the extracted
-     * RemediationInstruction objects in the given list.
-     *
-     * @param parser
-     * @param instructions
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
-    private static void readInstructions(XmlPullParser parser,
-                                         List<RemediationInstruction> instructions) throws
-        XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, null, "remediationinstructions");
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            if (parser.getName().equals("instruction")) {
-                RemediationInstruction instruction = new RemediationInstruction();
-                readInstruction(parser, instruction);
-                instructions.add(instruction);
-            }
-            else {
-                skipTag(parser);
-            }
-        }
-    }
+	/**
+	 * Read a &lt;remediationinstructions&gt; element and store the extracted
+	 * RemediationInstruction objects in the given list.
+	 *
+	 * @param parser
+	 * @param instructions
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static void readInstructions(XmlPullParser parser,
+	                                     List<RemediationInstruction> instructions) throws XmlPullParserException, IOException
+	{
+		parser.require(XmlPullParser.START_TAG, null, "remediationinstructions");
+		while (parser.next() != XmlPullParser.END_TAG)
+		{
+			if (parser.getEventType() != XmlPullParser.START_TAG)
+			{
+				continue;
+			}
+			if (parser.getName().equals("instruction"))
+			{
+				RemediationInstruction instruction = new RemediationInstruction();
+				readInstruction(parser, instruction);
+				instructions.add(instruction);
+			}
+			else
+			{
+				skipTag(parser);
+			}
+		}
+	}
 
-    /**
-     * Read an &lt;instruction&gt; element and store the information in the
-     * given RemediationInstruction object.
-     *
-     * @param parser
-     * @param instruction
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
-    private static void readInstruction(XmlPullParser parser,
-                                        RemediationInstruction instruction) throws XmlPullParserException,
-        IOException {
-        parser.require(XmlPullParser.START_TAG, null, "instruction");
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equals("title")) {
-                instruction.setTitle(parser.nextText());
-            }
-            else if (name.equals("description")) {
-                instruction.setDescription(parser.nextText());
-            }
-            else if (name.equals("itemsheader")) {
-                instruction.setHeader(parser.nextText());
-            }
-            else if (name.equals("items")) {
-                readItems(parser, instruction);
-            }
-            else {
-                skipTag(parser);
-            }
-        }
-    }
+	/**
+	 * Read an &lt;instruction&gt; element and store the information in the
+	 * given RemediationInstruction object.
+	 *
+	 * @param parser
+	 * @param instruction
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static void readInstruction(XmlPullParser parser,
+	                                    RemediationInstruction instruction) throws XmlPullParserException, IOException
+	{
+		parser.require(XmlPullParser.START_TAG, null, "instruction");
+		while (parser.next() != XmlPullParser.END_TAG)
+		{
+			if (parser.getEventType() != XmlPullParser.START_TAG)
+			{
+				continue;
+			}
+			String name = parser.getName();
+			if (name.equals("title"))
+			{
+				instruction.setTitle(parser.nextText());
+			}
+			else if (name.equals("description"))
+			{
+				instruction.setDescription(parser.nextText());
+			}
+			else if (name.equals("itemsheader"))
+			{
+				instruction.setHeader(parser.nextText());
+			}
+			else if (name.equals("items"))
+			{
+				readItems(parser, instruction);
+			}
+			else
+			{
+				skipTag(parser);
+			}
+		}
+	}
 
-    /**
-     * Read all items of an &lt;items&gt; node and add them to the given
-     * RemediationInstruction object.
-     *
-     * @param parser
-     * @param instruction
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
-    private static void readItems(XmlPullParser parser,
-                                  RemediationInstruction instruction) throws XmlPullParserException,
-        IOException {
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            if (parser.getName().equals("item")) {
-                instruction.addItem(parser.nextText());
-            }
-            else {
-                skipTag(parser);
-            }
-        }
-    }
+	/**
+	 * Read all items of an &lt;items&gt; node and add them to the given
+	 * RemediationInstruction object.
+	 *
+	 * @param parser
+	 * @param instruction
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static void readItems(XmlPullParser parser,
+	                              RemediationInstruction instruction) throws XmlPullParserException, IOException
+	{
+		while (parser.next() != XmlPullParser.END_TAG)
+		{
+			if (parser.getEventType() != XmlPullParser.START_TAG)
+			{
+				continue;
+			}
+			if (parser.getName().equals("item"))
+			{
+				instruction.addItem(parser.nextText());
+			}
+			else
+			{
+				skipTag(parser);
+			}
+		}
+	}
 
-    /**
-     * Skip the current tag and all child elements.
-     *
-     * @param parser
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
-    private static void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
-        int depth = 1;
+	/**
+	 * Skip the current tag and all child elements.
+	 *
+	 * @param parser
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException
+	{
+		int depth = 1;
 
-        parser.require(XmlPullParser.START_TAG, null, null);
-        while (depth != 0) {
-            switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
-            }
-        }
-    }
+		parser.require(XmlPullParser.START_TAG, null, null);
+		while (depth != 0)
+		{
+			switch (parser.next())
+			{
+				case XmlPullParser.END_TAG:
+					depth--;
+					break;
+				case XmlPullParser.START_TAG:
+					depth++;
+					break;
+			}
+		}
+	}
 }

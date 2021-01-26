@@ -27,67 +27,74 @@ import org.strongswan.android.logic.imc.collectors.ProductInformationCollector;
 import org.strongswan.android.logic.imc.collectors.SettingsCollector;
 import org.strongswan.android.logic.imc.collectors.StringVersionCollector;
 
-public class AndroidImc {
+public class AndroidImc
+{
 
-    private final Context mContext;
+	private final Context mContext;
 
-    public AndroidImc(Context context) {
-        mContext = context;
-    }
+	public AndroidImc(Context context)
+	{
+		mContext = context;
+	}
 
-    /**
-     * Get a measurement (the binary encoding of the requested attribute) for
-     * the given vendor specific attribute type.
-     *
-     * @param vendor vendor ID
-     * @param type   vendor specific attribute type
-     * @return encoded attribute, or null if not available or failed
-     */
-    public byte[] getMeasurement(int vendor, int type) {
-        return getMeasurement(vendor, type, null);
-    }
+	/**
+	 * Get a measurement (the binary encoding of the requested attribute) for
+	 * the given vendor specific attribute type.
+	 *
+	 * @param vendor vendor ID
+	 * @param type   vendor specific attribute type
+	 * @return encoded attribute, or null if not available or failed
+	 */
+	public byte[] getMeasurement(int vendor, int type)
+	{
+		return getMeasurement(vendor, type, null);
+	}
 
-    /**
-     * Get a measurement (the binary encoding of the requested attribute) for
-     * the given vendor specific attribute type.
-     *
-     * @param vendor vendor ID
-     * @param type   vendor specific attribute type
-     * @param args   optional arguments for a measurement
-     * @return encoded attribute, or null if not available or failed
-     */
-    public byte[] getMeasurement(int vendor, int type, String[] args) {
-        AttributeType attributeType = AttributeType.fromValues(vendor, type);
-        Collector collector = null;
+	/**
+	 * Get a measurement (the binary encoding of the requested attribute) for
+	 * the given vendor specific attribute type.
+	 *
+	 * @param vendor vendor ID
+	 * @param type   vendor specific attribute type
+	 * @param args   optional arguments for a measurement
+	 * @return encoded attribute, or null if not available or failed
+	 */
+	public byte[] getMeasurement(int vendor, int type, String[] args)
+	{
+		AttributeType attributeType = AttributeType.fromValues(vendor, type);
+		Collector collector = null;
 
-        switch (attributeType) {
-            case IETF_PRODUCT_INFORMATION:
-                collector = new ProductInformationCollector();
-                break;
-            case IETF_STRING_VERSION:
-                collector = new StringVersionCollector();
-                break;
-            case IETF_PORT_FILTER:
-                collector = new PortFilterCollector();
-                break;
-            case IETF_INSTALLED_PACKAGES:
-                collector = new InstalledPackagesCollector(mContext);
-                break;
-            case ITA_SETTINGS:
-                collector = new SettingsCollector(mContext, args);
-                break;
-            case ITA_DEVICE_ID:
-                collector = new DeviceIdCollector(mContext);
-                break;
-            default:
-                break;
-        }
-        if (collector != null) {
-            Attribute attribute = collector.getMeasurement();
-            if (attribute != null) {
-                return attribute.getEncoding();
-            }
-        }
-        return null;
-    }
+		switch (attributeType)
+		{
+			case IETF_PRODUCT_INFORMATION:
+				collector = new ProductInformationCollector();
+				break;
+			case IETF_STRING_VERSION:
+				collector = new StringVersionCollector();
+				break;
+			case IETF_PORT_FILTER:
+				collector = new PortFilterCollector();
+				break;
+			case IETF_INSTALLED_PACKAGES:
+				collector = new InstalledPackagesCollector(mContext);
+				break;
+			case ITA_SETTINGS:
+				collector = new SettingsCollector(mContext, args);
+				break;
+			case ITA_DEVICE_ID:
+				collector = new DeviceIdCollector(mContext);
+				break;
+			default:
+				break;
+		}
+		if (collector != null)
+		{
+			Attribute attribute = collector.getMeasurement();
+			if (attribute != null)
+			{
+				return attribute.getEncoding();
+			}
+		}
+		return null;
+	}
 }
