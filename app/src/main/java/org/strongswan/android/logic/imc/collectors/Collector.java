@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -22,11 +22,9 @@ import org.strongswan.android.logic.imc.attributes.Attribute;
  */
 public interface Collector
 {
-
 	/**
 	 * This method shall return the result of a measurement, if available
-	 *
 	 * @return attribute or null
 	 */
-	Attribute getMeasurement();
+	public abstract Attribute getMeasurement();
 }

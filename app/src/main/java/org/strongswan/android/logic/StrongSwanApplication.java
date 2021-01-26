@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,24 +15,20 @@
 
 package org.strongswan.android.logic;
 
-import android.content.Context;
-
-import org.jetbrains.annotations.NotNull;
-import org.strongswan.android.security.LocalCertificateKeyStoreProvider;
-
 import java.security.Security;
 
-import dagger.android.support.DaggerApplication;
+import org.strongswan.android.security.LocalCertificateKeyStoreProvider;
+import org.strongswan.android.ui.MainActivity;
 
-public abstract class StrongSwanApplication extends DaggerApplication
+import android.app.Application;
+import android.content.Context;
+import android.os.Build;
+
+public class StrongSwanApplication extends Application
 {
-
 	private static Context mContext;
 
-	public static final boolean USE_BYOD = true;
-
-	static
-	{
+	static {
 		Security.addProvider(new LocalCertificateKeyStoreProvider());
 	}
 
@@ -41,13 +37,10 @@ public abstract class StrongSwanApplication extends DaggerApplication
 	{
 		super.onCreate();
 		StrongSwanApplication.mContext = getApplicationContext();
-		TrustedCertificateManager.storeCertificate(
-			TrustedCertificateManager.parseCertificate(getBaseContext()));
 	}
 
 	/**
 	 * Returns the current application context
-	 *
 	 * @return context
 	 */
 	public static Context getContext()
@@ -55,8 +48,27 @@ public abstract class StrongSwanApplication extends DaggerApplication
 		return StrongSwanApplication.mContext;
 	}
 
-	public static void setAppContextForTest(@NotNull Context c)
+	/*
+	 * The libraries are extracted to /data/data/org.strongswan.android/...
+	 * during installation.  On newer releases most are loaded in JNI_OnLoad.
+	 */
+	static
 	{
-		mContext = c;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2)
+		{
+			System.loadLibrary("strongswan");
+
+			if (MainActivity.USE_BYOD)
+			{
+				System.loadLibrary("tpmtss");
+				System.loadLibrary("tncif");
+				System.loadLibrary("tnccs");
+				System.loadLibrary("imcv");
+			}
+
+			System.loadLibrary("charon");
+			System.loadLibrary("ipsec");
+		}
+		System.loadLibrary("androidbridge");
 	}
 }

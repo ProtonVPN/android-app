@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2012-2017 Tobias Brunner
+ * HSR Hochschule fuer Technik Rapperswil
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.  See <http://www.fsf.org/copyleft/gpl.txt>.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ */
+
 package org.strongswan.android.utils;
 
 import java.util.ArrayList;
@@ -12,7 +27,6 @@ import java.util.TreeSet;
  */
 public class IPRangeSet implements Iterable<IPRange>
 {
-
 	private TreeSet<IPRange> mRanges = new TreeSet<>();
 
 	/**
@@ -23,7 +37,7 @@ public class IPRangeSet implements Iterable<IPRange>
 	public static IPRangeSet fromString(String ranges)
 	{
 		IPRangeSet set = new IPRangeSet();
-		if (ranges != null && !ranges.isEmpty())
+		if (ranges != null)
 		{
 			for (String range : ranges.split("\\s+"))
 			{
@@ -32,9 +46,8 @@ public class IPRangeSet implements Iterable<IPRange>
 					set.add(new IPRange(range));
 				}
 				catch (Exception unused)
-				{    /* besides due to invalid strings exceptions might get thrown
-                 if the string
-                 * contains a hostname (NetworkOnMainThreadException) */
+				{	/* besides due to invalid strings exceptions might get thrown if the string
+					 * contains a hostname (NetworkOnMainThreadException) */
 					return null;
 				}
 			}
@@ -102,7 +115,7 @@ public class IPRangeSet implements Iterable<IPRange>
 	 */
 	public void remove(IPRange range)
 	{
-		ArrayList<IPRange> additions = new ArrayList<>();
+		ArrayList <IPRange> additions = new ArrayList<>();
 		Iterator<IPRange> iterator = mRanges.iterator();
 		while (iterator.hasNext())
 		{
@@ -195,7 +208,7 @@ public class IPRangeSet implements Iterable<IPRange>
 
 	@Override
 	public String toString()
-	{    /* we could use TextUtils, but that causes the unit tests to fail */
+	{	/* we could use TextUtils, but that causes the unit tests to fail */
 		StringBuilder sb = new StringBuilder();
 		for (IPRange range : mRanges)
 		{

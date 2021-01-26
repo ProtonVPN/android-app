@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2012-2017 Tobias Brunner
+ * HSR Hochschule fuer Technik Rapperswil
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.  See <http://www.fsf.org/copyleft/gpl.txt>.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * for more details.
+ */
+
 package org.strongswan.android.utils;
 
 import java.net.InetAddress;
@@ -15,8 +30,7 @@ import androidx.annotation.NonNull;
  */
 public class IPRange implements Comparable<IPRange>
 {
-
-	private final byte[] mBitmask = {(byte) 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+	private final byte[] mBitmask = { (byte)0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 	private byte[] mFrom;
 	private byte[] mTo;
 	private Integer mPrefix;
@@ -62,7 +76,7 @@ public class IPRange implements Comparable<IPRange>
 
 	public IPRange(String from, String to) throws UnknownHostException
 	{
-		this(InetAddress.getByName(from), InetAddress.getByName(to));
+		this(Utils.parseInetAddress(from), Utils.parseInetAddress(to));
 	}
 
 	public IPRange(InetAddress from, InetAddress to)
@@ -92,7 +106,7 @@ public class IPRange implements Comparable<IPRange>
 
 	public IPRange(String base, int prefix) throws UnknownHostException
 	{
-		this(InetAddress.getByName(base), prefix);
+		this(Utils.parseInetAddress(base), prefix);
 	}
 
 	public IPRange(InetAddress base, int prefix)
@@ -116,15 +130,15 @@ public class IPRange implements Comparable<IPRange>
 			throw new IllegalArgumentException("Invalid prefix");
 		}
 		byte[] to = from.clone();
-		byte mask = (byte) (0xff << (8 - prefix % 8));
+		byte mask = (byte)(0xff << (8 - prefix % 8));
 		int i = prefix / 8;
 
 		if (i < from.length)
 		{
-			from[i] = (byte) (from[i] & mask);
-			to[i] = (byte) (to[i] | ~mask);
-			Arrays.fill(from, i + 1, from.length, (byte) 0);
-			Arrays.fill(to, i + 1, to.length, (byte) 0xff);
+			from[i] = (byte)(from[i] & mask);
+			to[i] = (byte)(to[i] | ~mask);
+			Arrays.fill(from, i+1, from.length, (byte)0);
+			Arrays.fill(to, i+1, to.length, (byte)0xff);
 		}
 		mFrom = from;
 		mTo = to;
@@ -202,7 +216,7 @@ public class IPRange implements Comparable<IPRange>
 	{
 		int cmp = compareAddr(mFrom, other.mFrom);
 		if (cmp == 0)
-		{    /* smaller ranges first */
+		{	/* smaller ranges first */
 			cmp = compareAddr(mTo, other.mTo);
 		}
 		return cmp;
@@ -215,7 +229,7 @@ public class IPRange implements Comparable<IPRange>
 		{
 			return false;
 		}
-		return this == o || compareTo((IPRange) o) == 0;
+		return this == o || compareTo((IPRange)o) == 0;
 	}
 
 	@Override
@@ -227,8 +241,8 @@ public class IPRange implements Comparable<IPRange>
 			{
 				return InetAddress.getByAddress(mFrom).getHostAddress() + "/" + mPrefix;
 			}
-			return InetAddress.getByAddress(mFrom).getHostAddress() + "-" + InetAddress.getByAddress(mTo)
-				.getHostAddress();
+			return InetAddress.getByAddress(mFrom).getHostAddress() + "-" +
+				   InetAddress.getByAddress(mTo).getHostAddress();
 		}
 		catch (UnknownHostException ignored)
 		{
@@ -236,7 +250,7 @@ public class IPRange implements Comparable<IPRange>
 		}
 	}
 
-	private int compareAddr(byte[] a, byte[] b)
+	private int compareAddr(byte a[], byte b[])
 	{
 		if (a.length != b.length)
 		{
@@ -246,7 +260,7 @@ public class IPRange implements Comparable<IPRange>
 		{
 			if (a[i] != b[i])
 			{
-				if (((int) a[i] & 0xff) < ((int) b[i] & 0xff))
+				if (((int)a[i] & 0xff) < ((int)b[i] & 0xff))
 				{
 					return -1;
 				}
@@ -279,7 +293,7 @@ public class IPRange implements Comparable<IPRange>
 	{
 		for (int i = addr.length - 1; i >= 0; i--)
 		{
-			if (--addr[i] != (byte) 0xff)
+			if (--addr[i] != (byte)0xff)
 			{
 				break;
 			}
@@ -309,25 +323,25 @@ public class IPRange implements Comparable<IPRange>
 	{
 		ArrayList<IPRange> list = new ArrayList<>();
 		if (!overlaps(range))
-		{    /*           | this | or | this |
-		 * | range |                     | range | */
+		{	/*           | this | or | this |
+		     * | range |                     | range | */
 			list.add(this);
 		}
 		else if (!range.contains(this))
-		{    /* we are not completely removed, so none of these cases applies:
-		 * | this  | or  | this  |   or   | this  |
-		 * | range |     | range   |    |   range | */
+		{	/* we are not completely removed, so none of these cases applies:
+			 * | this  | or  | this  |   or   | this  |
+		     * | range |     | range   |    |   range | */
 			if (compareAddr(mFrom, range.mFrom) < 0 && compareAddr(range.mTo, mTo) < 0)
-			{    /* the removed range is completely within our boundaries:
-			 * |    this    |
-			 *   | range |   */
+			{	/* the removed range is completely within our boundaries:
+				 * |    this    |
+				 *   | range |   */
 				list.add(new IPRange(mFrom, dec(range.mFrom.clone())));
 				list.add(new IPRange(inc(range.mTo.clone()), mTo));
 			}
 			else
-			{    /* one end is within our boundaries the other at or outside it:
-			 * | this     | or    | this     | or | this    |  or  | this    |
-			 * | range |       | range |            | range |           | range | */
+			{	/* one end is within our boundaries the other at or outside it:
+			     * | this     | or    | this     | or | this    |  or  | this    |
+			     * | range |       | range |            | range |           | range | */
 				byte[] from = compareAddr(mFrom, range.mFrom) < 0 ? mFrom : inc(range.mTo.clone());
 				byte[] to = compareAddr(mTo, range.mTo) > 0 ? mTo : dec(range.mFrom.clone());
 				list.add(new IPRange(from, to));
@@ -384,9 +398,9 @@ public class IPRange implements Comparable<IPRange>
 		}
 		else
 		{
-			int i = 0, bit = 0, prefix, netmask, commonByte, commonBit;
-			int fromCur, fromPrev = 0, toCur, toPrev = 1;
-			boolean fromFull = true, toFull = true;
+			int i = 0, bit = 0, prefix, netmask, common_byte, common_bit;
+			int from_cur, from_prev = 0, to_cur, to_prev = 1;
+			boolean from_full = true, to_full = true;
 
 			byte[] from = mFrom.clone();
 			byte[] to = mTo.clone();
@@ -430,64 +444,62 @@ public class IPRange implements Comparable<IPRange>
 				bit = 0;
 				i++;
 			}
-			commonByte = i;
-			commonBit = bit;
+			common_byte = i;
+			common_bit = bit;
 			netmask = from.length * 8;
-			for (i = from.length - 1; i >= commonByte; i--)
+			for (i = from.length - 1; i >= common_byte; i--)
 			{
-				int bitMin = (i == commonByte) ? commonBit : 0;
-				for (bit = 7; bit >= bitMin; bit--)
+				int bit_min = (i == common_byte) ? common_bit : 0;
+				for (bit = 7; bit >= bit_min; bit--)
 				{
 					byte mask = mBitmask[bit];
 
-					fromCur = from[i] & mask;
-					if (fromPrev == 0 && fromCur != 0)
-					{    /* 0 -> 1: subnet is the whole current (right) subtree */
+					from_cur = from[i] & mask;
+					if (from_prev == 0 && from_cur != 0)
+					{	/* 0 -> 1: subnet is the whole current (right) subtree */
 						list.add(new IPRange(from.clone(), netmask));
-						fromFull = false;
+						from_full = false;
 					}
-					else if (fromPrev != 0 && fromCur == 0)
-					{    /* 1 -> 0: invert bit to switch to right subtree and add it */
+					else if (from_prev != 0 && from_cur == 0)
+					{	/* 1 -> 0: invert bit to switch to right subtree and add it */
 						from[i] ^= mask;
 						list.add(new IPRange(from.clone(), netmask));
-						fromCur = 1;
+						from_cur = 1;
 					}
 					/* clear the current bit */
 					from[i] &= ~mask;
-					fromPrev = fromCur;
+					from_prev = from_cur;
 
-					toCur = to[i] & mask;
-					if (toPrev != 0 && toCur == 0)
-					{    /* 1 -> 0: subnet is the whole current (left) subtree */
+					to_cur = to[i] & mask;
+					if (to_prev != 0 && to_cur == 0)
+					{	/* 1 -> 0: subnet is the whole current (left) subtree */
 						list.add(new IPRange(to.clone(), netmask));
-						toFull = false;
+						to_full = false;
 					}
-					else if (toPrev == 0 && toCur != 0)
-					{    /* 0 -> 1: invert bit to switch to left subtree and add it */
+					else if (to_prev == 0 && to_cur != 0)
+					{	/* 0 -> 1: invert bit to switch to left subtree and add it */
 						to[i] ^= mask;
 						list.add(new IPRange(to.clone(), netmask));
-						toCur = 0;
+						to_cur = 0;
 					}
 					/* clear the current bit */
 					to[i] &= ~mask;
-					toPrev = toCur;
+					to_prev = to_cur;
 					netmask--;
 				}
 			}
 
-			if (fromFull && toFull)
-			{    /* full subnet (from=to or from=0.. and to=1.. after common
-            prefix) - not
-                reachable
-             * due to the shortcut at the top */
+			if (from_full && to_full)
+			{	/* full subnet (from=to or from=0.. and to=1.. after common prefix) - not reachable
+				 * due to the shortcut at the top */
 				list.add(new IPRange(from.clone(), prefix));
 			}
-			else if (fromFull)
-			{    /* full from subnet (from=0.. after prefix) */
+			else if (from_full)
+			{	/* full from subnet (from=0.. after prefix) */
 				list.add(new IPRange(from.clone(), prefix + 1));
 			}
-			else if (toFull)
-			{    /* full to subnet (to=1.. after prefix) */
+			else if (to_full)
+			{	/* full to subnet (to=1.. after prefix) */
 				list.add(new IPRange(to.clone(), prefix + 1));
 			}
 		}

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -14,11 +14,6 @@
  */
 
 package org.strongswan.android.security;
-
-import android.content.Context;
-
-import org.strongswan.android.logic.StrongSwanApplication;
-import org.strongswan.android.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,23 +31,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import org.strongswan.android.logic.StrongSwanApplication;
+import org.strongswan.android.utils.Utils;
+
+import android.content.Context;
+
 public class LocalCertificateStore
 {
-
 	private static final String FILE_PREFIX = "certificate-";
 	private static final String ALIAS_PREFIX = "local:";
 	private static final Pattern ALIAS_PATTERN = Pattern.compile("^" + ALIAS_PREFIX + "[0-9a-f]{40}$");
 
 	/**
 	 * Add the given certificate to the store
-	 *
 	 * @param cert the certificate to add
 	 * @return true if successful
 	 */
 	public boolean addCertificate(Certificate cert)
 	{
 		if (!(cert instanceof X509Certificate))
-		{    /* only accept X.509 certificates */
+		{	/* only accept X.509 certificates */
 			return false;
 		}
 		String keyid = getKeyId(cert);
@@ -64,8 +62,7 @@ public class LocalCertificateStore
 		try
 		{
 			/* we replace any existing file with the same alias */
-			out =
-				StrongSwanApplication.getContext().openFileOutput(FILE_PREFIX + keyid, Context.MODE_PRIVATE);
+			out = StrongSwanApplication.getContext().openFileOutput(FILE_PREFIX + keyid, Context.MODE_PRIVATE);
 			try
 			{
 				out.write(cert.getEncoded());
@@ -100,7 +97,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Delete the certificate with the given alias
-	 *
 	 * @param alias a certificate's alias
 	 */
 	public void deleteCertificate(String alias)
@@ -114,7 +110,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Retrieve the certificate with the given alias
-	 *
 	 * @param alias a certificate's alias
 	 * @return certificate object or null
 	 */
@@ -131,7 +126,7 @@ public class LocalCertificateStore
 			try
 			{
 				CertificateFactory factory = CertificateFactory.getInstance("X.509");
-				X509Certificate certificate = (X509Certificate) factory.generateCertificate(in);
+				X509Certificate certificate = (X509Certificate)factory.generateCertificate(in);
 				return certificate;
 			}
 			catch (CertificateException e)
@@ -159,7 +154,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Returns the creation date of the certificate with the given alias
-	 *
 	 * @param alias certificate alias
 	 * @return creation date or null if not found
 	 */
@@ -176,7 +170,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Returns a list of all known certificate aliases
-	 *
 	 * @return list of aliases
 	 */
 	public ArrayList<String> aliases()
@@ -194,7 +187,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Check if the store contains a certificate with the given alias
-	 *
 	 * @param alias certificate alias
 	 * @return true if the store contains the certificate
 	 */
@@ -217,7 +209,6 @@ public class LocalCertificateStore
 
 	/**
 	 * Calculates the SHA-1 hash of the public key of the given certificate.
-	 *
 	 * @param cert certificate to get the key ID from
 	 * @return hex encoded SHA-1 hash of the public key or null if failed
 	 */

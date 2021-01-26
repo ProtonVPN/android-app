@@ -2,7 +2,7 @@
  * Copyright (C) 2013 Tobias Brunner
  * Copyright (C) 2012 Christoph Buehler
  * Copyright (C) 2012 Patrick Loetscher
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,18 +17,17 @@
 
 package org.strongswan.android.logic.imc.collectors;
 
-import org.strongswan.android.logic.imc.attributes.Attribute;
-import org.strongswan.android.logic.imc.attributes.PortFilterAttribute;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.strongswan.android.logic.imc.attributes.Attribute;
+import org.strongswan.android.logic.imc.attributes.PortFilterAttribute;
+
 public class PortFilterCollector implements Collector
 {
-
 	private static Pattern LISTEN = Pattern.compile("\\bLISTEN\\b");
 	private static Pattern PROTOCOL = Pattern.compile("\\b(tcp|udp)6?\\b");
 	private static Pattern PORT = Pattern.compile("[:]{1,3}(\\d{1,5})\\b(?!\\.)");
@@ -61,7 +60,7 @@ public class PortFilterCollector implements Collector
 							continue;
 						}
 						int port = Integer.parseInt(portMatcher.group(1));
-						attribute.addPort(protocol, (short) port);
+						attribute.addPort(protocol, (short)port);
 					}
 				}
 			}

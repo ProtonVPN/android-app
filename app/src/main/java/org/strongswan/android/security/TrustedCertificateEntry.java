@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2012 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * Copyright (C) 2012-2016 Tobias Brunner
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,11 +17,15 @@ package org.strongswan.android.security;
 
 import android.net.http.SslCertificate;
 
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class TrustedCertificateEntry implements Comparable<TrustedCertificateEntry>
 {
-
 	private final X509Certificate mCert;
 	private final String mAlias;
 	private String mSubjectPrimary;
@@ -32,36 +36,45 @@ public class TrustedCertificateEntry implements Comparable<TrustedCertificateEnt
 	 * Create an entry for certificate lists.
 	 *
 	 * @param alias alias of the certificate (as used in the KeyStore)
-	 * @param cert  certificate associated with that alias
+	 * @param cert certificate associated with that alias
 	 */
 	public TrustedCertificateEntry(String alias, X509Certificate cert)
 	{
 		mCert = cert;
 		mAlias = alias;
 
-		SslCertificate ssl = new SslCertificate(mCert);
-		String o = ssl.getIssuedTo().getOName();
-		String ou = ssl.getIssuedTo().getUName();
-		String cn = ssl.getIssuedTo().getCName();
-		if (!o.isEmpty())
+		try
 		{
-			mSubjectPrimary = o;
-			if (!cn.isEmpty())
+			SslCertificate ssl = new SslCertificate(mCert);
+			String o = ssl.getIssuedTo().getOName();
+			String ou = ssl.getIssuedTo().getUName();
+			String cn = ssl.getIssuedTo().getCName();
+			if (!o.isEmpty())
 			{
-				mSubjectSecondary = cn;
+				mSubjectPrimary = o;
+				if (!cn.isEmpty())
+				{
+					mSubjectSecondary = cn;
+				}
+				else if (!ou.isEmpty())
+				{
+					mSubjectSecondary = ou;
+				}
 			}
-			else if (!ou.isEmpty())
+			else if (!cn.isEmpty())
 			{
-				mSubjectSecondary = ou;
+				mSubjectPrimary = cn;
+			}
+			else
+			{
+				mSubjectPrimary = ssl.getIssuedTo().getDName();
 			}
 		}
-		else if (!cn.isEmpty())
+		catch (NullPointerException ex)
 		{
-			mSubjectPrimary = cn;
-		}
-		else
-		{
-			mSubjectPrimary = ssl.getIssuedTo().getDName();
+			/* this has been seen in Play Console for certificates for which notBefore apparently
+			 * can't be parsed (which SslCertificate() does) */
+			mSubjectPrimary = cert.getSubjectDN().getName();
 		}
 	}
 
@@ -88,6 +101,40 @@ public class TrustedCertificateEntry implements Comparable<TrustedCertificateEnt
 	}
 
 	/**
+	 * Get a sorted list of all rfc822Name, dnSName and iPAddress subjectAltNames
+	 *
+	 * @return sorted list of selected SANs
+	 */
+	public List<String> getSubjectAltNames()
+	{
+		List<String> list = new ArrayList<>();
+		try
+		{
+			Collection<List<?>> sans = mCert.getSubjectAlternativeNames();
+			if (sans != null)
+			{
+				for (List<?> san : sans)
+				{
+					switch ((Integer)san.get(0))
+					{
+						case 1: /* rfc822Name */
+						case 2: /* dnSName */
+						case 7: /* iPAddress */
+							list.add((String)san.get(1));
+							break;
+					}
+				}
+			}
+			Collections.sort(list);
+		}
+		catch(CertificateParsingException ex)
+		{
+			ex.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
 	 * The alias associated with this certificate.
 	 *
 	 * @return KeyStore alias of this certificate
@@ -109,7 +156,7 @@ public class TrustedCertificateEntry implements Comparable<TrustedCertificateEnt
 
 	@Override
 	public String toString()
-	{    /* combination of both subject lines, used for filtering lists */
+	{	/* combination of both subject lines, used for filtering lists */
 		if (mString == null)
 		{
 			mString = mSubjectPrimary;

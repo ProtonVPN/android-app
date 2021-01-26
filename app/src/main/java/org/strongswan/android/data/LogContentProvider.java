@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,6 +15,14 @@
 
 package org.strongswan.android.data;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.strongswan.android.logic.CharonVpnService;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -24,17 +32,8 @@ import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.provider.OpenableColumns;
 
-import org.strongswan.android.logic.CharonVpnService;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class LogContentProvider extends ContentProvider
 {
-
 	private static final String AUTHORITY = "org.strongswan.android.content.log";
 	/* an Uri is valid for 30 minutes */
 	private static final long URI_VALIDITY = 30 * 60 * 1000;
@@ -54,7 +53,6 @@ public class LogContentProvider extends ContentProvider
 
 	/**
 	 * The log file can only be accessed by Uris created with this method
-	 *
 	 * @return null if failed to create the Uri
 	 */
 	public static Uri createContentUri()
@@ -81,8 +79,8 @@ public class LogContentProvider extends ContentProvider
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-	                    String sortOrder)
+	public Cursor query(Uri uri, String[] projection, String selection,
+						String[] selectionArgs, String sortOrder)
 	{
 		/* this is called by apps to find out the name and size of the file.
 		 * since we only provide a single file this is simple to implement */
@@ -92,7 +90,7 @@ public class LogContentProvider extends ContentProvider
 		}
 		Long timestamp = mUris.get(uri);
 		if (timestamp == null)
-		{    /* don't check the validity as this information is not really private */
+		{	/* don't check the validity as this information is not really private */
 			return null;
 		}
 		MatrixCursor cursor = new MatrixCursor(projection, 1);
@@ -119,9 +117,8 @@ public class LogContentProvider extends ContentProvider
 		{
 			long elapsed = SystemClock.uptimeMillis() - timestamp;
 			if (elapsed > 0 && elapsed < URI_VALIDITY)
-			{    /* we fail if clock wrapped, should happen rarely though */
-				return ParcelFileDescriptor.open(mLogFile,
-					ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_READ_ONLY);
+			{	/* we fail if clock wrapped, should happen rarely though */
+				return ParcelFileDescriptor.open(mLogFile, ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_READ_ONLY);
 			}
 			mUris.remove(uri);
 		}
@@ -143,7 +140,8 @@ public class LogContentProvider extends ContentProvider
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+	public int update(Uri uri, ContentValues values, String selection,
+					  String[] selectionArgs)
 	{
 		/* not supported */
 		return 0;

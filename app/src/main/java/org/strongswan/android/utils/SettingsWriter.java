@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+
 /**
  * Simple generator for data/files that may be parsed by libstrongswan's
  * settings_t class.
  */
 public class SettingsWriter
 {
-
 	/**
 	 * Top-level section
 	 */
@@ -34,7 +34,6 @@ public class SettingsWriter
 
 	/**
 	 * Set a string value
-	 *
 	 * @param key
 	 * @param value
 	 * @return the writer
@@ -48,14 +47,13 @@ public class SettingsWriter
 		}
 		String[] keys = key.split("\\.");
 		SettingsSection section = mTop;
-		section = findOrCreateSection(Arrays.copyOfRange(keys, 0, keys.length - 1));
-		section.settings.put(keys[keys.length - 1], value);
+		section = findOrCreateSection(Arrays.copyOfRange(keys, 0, keys.length-1));
+		section.Settings.put(keys[keys.length-1], value);
 		return this;
 	}
 
 	/**
 	 * Set an integer value
-	 *
 	 * @param key
 	 * @param value
 	 * @return the writer
@@ -67,7 +65,6 @@ public class SettingsWriter
 
 	/**
 	 * Set a boolean value
-	 *
 	 * @param key
 	 * @param value
 	 * @return the writer
@@ -80,7 +77,6 @@ public class SettingsWriter
 	/**
 	 * Serializes the settings to a string in the format understood by
 	 * libstrongswan's settings_t parser.
-	 *
 	 * @return serialized settings
 	 */
 	public String serialize()
@@ -92,13 +88,12 @@ public class SettingsWriter
 
 	/**
 	 * Serialize the settings in a section and recursively serialize sub-sections
-	 *
 	 * @param section
 	 * @param builder
 	 */
 	private void serializeSection(SettingsSection section, StringBuilder builder)
 	{
-		for (Entry<String, String> setting : section.settings.entrySet())
+		for (Entry<String, String> setting : section.Settings.entrySet())
 		{
 			builder.append(setting.getKey()).append('=');
 			if (setting.getValue() != null)
@@ -108,7 +103,7 @@ public class SettingsWriter
 			builder.append('\n');
 		}
 
-		for (Entry<String, SettingsSection> subsection : section.sections.entrySet())
+		for (Entry<String, SettingsSection> subsection : section.Sections.entrySet())
 		{
 			builder.append(subsection.getKey()).append(" {\n");
 			serializeSection(subsection.getValue(), builder);
@@ -118,7 +113,6 @@ public class SettingsWriter
 
 	/**
 	 * Escape value so it may be wrapped in "
-	 *
 	 * @param value
 	 * @return
 	 */
@@ -129,7 +123,6 @@ public class SettingsWriter
 
 	/**
 	 * Find or create the nested sections with the given names
-	 *
 	 * @param sections list of section names
 	 * @return final section
 	 */
@@ -138,11 +131,11 @@ public class SettingsWriter
 		SettingsSection section = mTop;
 		for (String name : sections)
 		{
-			SettingsSection subsection = section.sections.get(name);
+			SettingsSection subsection = section.Sections.get(name);
 			if (subsection == null)
 			{
 				subsection = new SettingsSection();
-				section.sections.put(name, subsection);
+				section.Sections.put(name, subsection);
 			}
 			section = subsection;
 		}
@@ -154,16 +147,14 @@ public class SettingsWriter
 	 */
 	private class SettingsSection
 	{
-
 		/**
 		 * Assigned key/value pairs
 		 */
-		LinkedHashMap<String, String> settings = new LinkedHashMap<String, String>();
+		LinkedHashMap<String,String> Settings = new LinkedHashMap<String, String>();
 
 		/**
 		 * Assigned sub-sections
 		 */
-		LinkedHashMap<String, SettingsSection> sections =
-			new LinkedHashMap<String, SettingsWriter.SettingsSection>();
+		LinkedHashMap<String,SettingsSection> Sections = new LinkedHashMap<String, SettingsWriter.SettingsSection>();
 	}
 }
