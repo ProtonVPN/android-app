@@ -195,7 +195,6 @@ android {
         dev {
             versionNameSuffix "-dev"
             applicationIdSuffix '.dev'
-            resConfigs "en", "xxhdpi"
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", productionServer
         }
