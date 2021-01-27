@@ -73,7 +73,7 @@ class LoginViewModel @Inject constructor(
                 when (val infoResult = api.getVPNInfo()) {
                     is ApiResult.Error -> LoginState.Error(infoResult, true)
                     is ApiResult.Success -> {
-                        userData.setLoggedIn(infoResult.valueOrNull)
+                        userData.setLoggedIn(infoResult.value)
                         LoginState.Success
                     }
                 }

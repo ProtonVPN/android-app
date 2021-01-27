@@ -108,7 +108,7 @@ class StrongSwanBackend(
         vpnService?.reconnect()
     }
 
-    override val retryInfo: RetryInfo?
+    override val retryInfo: RetryInfo
         get() = RetryInfo(vpnService!!.retryTimeout, vpnService!!.retryIn)
 
     private fun bindCharonMonitor() = mainScope.launch {
