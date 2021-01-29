@@ -40,7 +40,6 @@ import android.security.KeyChainException;
 import android.system.OsConstants;
 import android.util.Log;
 
-import org.strongswan.android.R;
 import org.strongswan.android.data.VpnProfile;
 import org.strongswan.android.data.VpnProfile.SelectedAppsHandling;
 import org.strongswan.android.data.VpnProfileDataSource;
@@ -49,8 +48,6 @@ import org.strongswan.android.logic.VpnStateService.ErrorState;
 import org.strongswan.android.logic.VpnStateService.State;
 import org.strongswan.android.logic.imc.ImcState;
 import org.strongswan.android.logic.imc.RemediationInstruction;
-import org.strongswan.android.ui.MainActivity;
-import org.strongswan.android.ui.VpnProfileControlActivity;
 import org.strongswan.android.utils.Constants;
 import org.strongswan.android.utils.IPRange;
 import org.strongswan.android.utils.IPRangeSet;
@@ -78,7 +75,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
-public class CharonVpnService extends VpnService implements Runnable, VpnStateService.VpnStateListener
+public abstract class CharonVpnService extends VpnService implements Runnable, VpnStateService.VpnStateListener
 {
 	private static final String TAG = CharonVpnService.class.getSimpleName();
 	private static final String VPN_SERVICE_ACTION = "android.net.VpnService";
@@ -86,7 +83,6 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 	private static final String NOTIFICATION_CHANNEL = "org.strongswan.android.CharonVpnService.VPN_STATE_NOTIFICATION";
 	public static final String LOG_FILE = "charon.log";
 	public static final String KEY_IS_RETRY = "retry";
-	public static final int VPN_STATE_NOTIFICATION_ID = 1;
 
 	private String mLogFile;
 	private String mAppDir;
@@ -138,6 +134,11 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 	static final int STATE_UNREACHABLE_ERROR = 6;
 	static final int STATE_CERTIFICATE_UNAVAILABLE = 7;
 	static final int STATE_GENERIC_ERROR = 8;
+
+	abstract protected Class<?> getMainActivityClass();
+	abstract protected void initializeBuilder(VpnService.Builder builder);
+	abstract protected Notification buildNotification(boolean publicVersion);
+	abstract protected int getNotificationID();
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
@@ -238,7 +239,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 	 *
 	 * @param profile the profile to initiate
 	 */
-	private void setNextProfile(VpnProfile profile)
+	public void setNextProfile(VpnProfile profile)
 	{
 		synchronized (this)
 		{
@@ -380,7 +381,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			public void run()
 			{
 				mShowNotification = true;
-				startForeground(VPN_STATE_NOTIFICATION_ID, buildNotification(false));
+				startForeground(getNotificationID(), buildNotification(false));
 			}
 		});
 	}
@@ -396,7 +397,10 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			public void run()
 			{
 				mShowNotification = false;
-				stopForeground(true);
+
+				// Notification will be removed in NotificationHelper. Calling stopForeground(true) causes
+				// subsequent NotificationManager.cancel to fail.
+				stopForeground(false);
 			}
 		});
 	}
@@ -406,6 +410,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 	 */
 	private void createNotificationChannel()
 	{
+		/*
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 		{
 			NotificationChannel channel;
@@ -417,12 +422,14 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			NotificationManager notificationManager = getSystemService(NotificationManager.class);
 			notificationManager.createNotificationChannel(channel);
 		}
+		*/
 	}
 
 
 	/**
 	 * Build a notification matching the current state
 	 */
+	/*
 	private Notification buildNotification(boolean publicVersion)
 	{
 		VpnProfile profile = mService.getProfile();
@@ -513,13 +520,14 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 		builder.setContentIntent(pending);
 		return builder.build();
 	}
+	*/
 
 	@Override
 	public void stateChanged() {
 		if (mShowNotification)
 		{
 			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			manager.notify(VPN_STATE_NOTIFICATION_ID, buildNotification(false));
+			manager.notify(getNotificationID(), buildNotification(false));
 		}
 	}
 
@@ -813,12 +821,13 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 		private VpnService.Builder createBuilder(String name)
 		{
 			VpnService.Builder builder = new CharonVpnService.Builder();
+			initializeBuilder(builder);
 			builder.setSession(name);
 
 			/* even though the option displayed in the system dialog says "Configure"
 			 * we just use our main Activity */
 			Context context = getApplicationContext();
-			Intent intent = new Intent(context, MainActivity.class);
+			Intent intent = new Intent(context, getMainActivityClass());
 			PendingIntent pending = PendingIntent.getActivity(context, 0, intent,
 															  PendingIntent.FLAG_UPDATE_CURRENT);
 			builder.setConfigureIntent(pending);
@@ -904,6 +913,10 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			}
 			catch (Exception ex)
 			{
+				if (ex instanceof SecurityException && ex.getMessage().contains("INTERACT_ACROSS_USERS"))
+				{
+					setErrorDisconnect(ErrorState.MULTI_USER_PERMISSION);
+				}
 				ex.printStackTrace();
 				return null;
 			}

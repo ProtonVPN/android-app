@@ -299,6 +299,7 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
+    @NotNull
     public List<String> getSplitTunnelIpAddresses() {
         return splitTunnelIpAddresses;
     }

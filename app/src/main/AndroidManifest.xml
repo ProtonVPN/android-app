@@ -92,7 +92,7 @@
             android:exported="false" />
 
         <service
-            android:name="org.strongswan.android.logic.CharonVpnService"
+            android:name=".vpn.ikev2.ProtonCharonVpnService"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
