@@ -22,7 +22,6 @@ package com.protonvpn.android.vpn.ikev2
 import android.app.Notification
 import android.content.Intent
 import android.net.VpnService
-import android.os.Build
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
@@ -79,12 +78,6 @@ class ProtonCharonVpnService : CharonVpnService() {
     }
 
     override fun getMainActivityClass(): Class<*> = MAIN_ACTIVITY_CLASS
-
-    override fun initializeBuilder(builder: Builder) {
-        // Metered state will be inherited from underlying connection.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            builder.setMetered(false)
-    }
 
     override fun buildNotification(unused: Boolean): Notification =
         notificationHelper.buildNotification()
