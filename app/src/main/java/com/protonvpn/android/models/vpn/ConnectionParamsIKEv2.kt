@@ -22,7 +22,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.utils.Constants
 import org.strongswan.android.data.VpnProfile
 import org.strongswan.android.data.VpnProfile.SelectedAppsHandling
 import org.strongswan.android.data.VpnType
@@ -40,8 +39,7 @@ class ConnectionParamsIKEv2(
         natKeepAlive = NAT_KEEP_ALIVE_SECONDS
         vpnType = VpnType.IKEV2_EAP
         id = 1
-        username = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
-                Constants.VPN_USERNAME_PRODUCT_SUFFIX
+        username = getVpnUsername(userData, appConfig)
         password = userData.vpnPassword
         splitTunneling = VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
         flags = VpnProfile.FLAGS_SUPPRESS_CERT_REQS
