@@ -49,8 +49,7 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
-                Constants.VPN_USERNAME_PRODUCT_SUFFIX
+        mUsername = getVpnUsername(userData, appConfig)
         mUseTLSAuth = true
         mTunMtu = 1500
         mMssFix = userData.mtuSize - 40
