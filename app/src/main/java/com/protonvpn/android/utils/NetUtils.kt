@@ -76,8 +76,8 @@ object NetUtils {
             continuation.invokeOnCancellation {
                 socket.close()
             }
-            socket.connect(socketAddress)
             socket.soTimeout = timeout
+            socket.connect(socketAddress, timeout)
             socket.getOutputStream().apply {
                 write(pingData)
                 flush()
