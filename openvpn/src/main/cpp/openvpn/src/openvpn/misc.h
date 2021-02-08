@@ -50,7 +50,8 @@ void save_inetd_socket_descriptor(void);
 
 const char **make_arg_array(const char *first, const char *parms, struct gc_arena *gc);
 
-const char **make_extended_arg_array(char **p, struct gc_arena *gc);
+const char **make_extended_arg_array(char **p, bool is_inline,
+                                     struct gc_arena *gc);
 
 /* prepend a random prefix to hostname */
 const char *hostname_randomize(const char *hostname, struct gc_arena *gc);
@@ -166,13 +167,24 @@ const char *sanitize_control_message(const char *str, struct gc_arena *gc);
 extern const char *iproute_path;
 #endif
 
-#if P2MP_SERVER
 /* helper to parse peer_info received from multi client, validate
  * (this is untrusted data) and put into environment */
 bool validate_peer_info_line(char *line);
 
 void output_peer_info_env(struct env_set *es, const char *peer_info);
 
-#endif /* P2MP_SERVER */
+/**
+ * Returns the occurrences of 'delimiter' in a string +1
+ * This is typically used to find out the number elements in a
+ * cipher string or similar that is separated by : like
+ *
+ *   X25519:secp256r1:X448:secp512r1:secp384r1:brainpoolP384r1
+ *
+ * @param string        the string to work on
+ * @param delimiter     the delimiter to count, typically ':'
+ * @return              occrrences of delimiter + 1
+ */
+int
+get_num_elements(const char *string, char delimiter);
 
 #endif /* ifndef MISC_H */

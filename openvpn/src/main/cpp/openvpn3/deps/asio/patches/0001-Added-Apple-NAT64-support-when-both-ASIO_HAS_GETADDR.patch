@@ -1,4 +1,4 @@
-From 28cdfe3f923affa87420a47f8ac71e791c77bcde Mon Sep 17 00:00:00 2001
+From 00c0b1b7076ebc24735071f587f9501c1595a02b Mon Sep 17 00:00:00 2001
 From: James Yonan <james@openvpn.net>
 Date: Mon, 19 Mar 2018 11:24:10 +0800
 Subject: [PATCH] Added Apple NAT64 support when both ASIO_HAS_GETADDRINFO and
@@ -16,10 +16,10 @@ Subject: [PATCH] Added Apple NAT64 support when both ASIO_HAS_GETADDRINFO and
  1 file changed, 17 insertions(+)
 
 diff --git a/asio/include/asio/detail/impl/socket_ops.ipp b/asio/include/asio/detail/impl/socket_ops.ipp
-index b3b1a0cf..e1a07e06 100644
+index ad203b74..b17a60ed 100644
 --- a/asio/include/asio/detail/impl/socket_ops.ipp
 +++ b/asio/include/asio/detail/impl/socket_ops.ipp
-@@ -3338,6 +3338,23 @@ asio::error_code getaddrinfo(const char* host,
+@@ -3339,6 +3339,23 @@ asio::error_code getaddrinfo(const char* host,
  # endif
  #elif !defined(ASIO_HAS_GETADDRINFO)
    int error = getaddrinfo_emulation(host, service, &hints, result);
@@ -44,5 +44,5 @@ index b3b1a0cf..e1a07e06 100644
  #else
    int error = ::getaddrinfo(host, service, &hints, result);
 -- 
-2.16.2
+2.21.0
 

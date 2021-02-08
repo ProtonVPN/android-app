@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,6 +32,7 @@
 #include <openvpn/common/hostport.hpp>
 #include <openvpn/common/number.hpp>
 #include <openvpn/common/string.hpp>
+#include <openvpn/common/format.hpp>
 #include <openvpn/common/to_string.hpp>
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/transport/protocol.hpp>
@@ -85,7 +86,10 @@ namespace openvpn {
       Item port_offset(const unsigned int offset) const
       {
 	Item ret(*this);
-	ret.port = openvpn::to_string(HostPort::parse_port(ret.port, "offset") + offset);
+	if (ret.proto.is_unix()) // unix socket filenames should contain %s for "port" substitution
+	  ret.addr = printfmt(ret.addr, offset);
+	else
+	  ret.port = openvpn::to_string(HostPort::parse_port(ret.port, "offset") + offset);
 	ret.n_threads = 0;
 	return ret;
       }
@@ -136,7 +140,7 @@ namespace openvpn {
 		    o.touch();
 
 		    unsigned int mult = 1;
-		    int local = 0;
+		    unsigned int local = 0;
 
 		    Item e;
 
@@ -297,7 +301,7 @@ namespace openvpn {
 	return std::string();
       }
 
-      List expand_ports(const size_t max_size) const
+      List expand_ports_by_n_threads(const size_t max_size) const
       {
 	List ret;
 	for (const auto &e : *this)
@@ -309,6 +313,14 @@ namespace openvpn {
 	      ret.emplace_back(e.port_offset(offset));
 	    } while (++offset < e.n_threads);
 	  }
+	return ret;
+      }
+
+      List expand_ports_by_unit(const unsigned int unit) const
+      {
+	List ret;
+	for (const auto &e : *this)
+	  ret.emplace_back(e.port_offset(unit));
 	return ret;
       }
 

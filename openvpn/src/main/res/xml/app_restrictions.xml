@@ -11,7 +11,7 @@
 
             android:key="version"
             android:title="@string/apprest_ver"
-            android:restrictionType="hidden"
+            android:restrictionType="string"
             android:defaultValue="1"
     />
 

@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_snprintf        snprintf
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -54,11 +55,11 @@ int main( void )
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/md.h"
 #include "mbedtls/rsa.h"
-#include "mbedtls/md.h"
-#include "mbedtls/x509.h"
+#include "mbedtls/pk.h"
 
 #include <stdio.h>
 #include <string.h>
+
 
 int main( int argc, char *argv[] )
 {

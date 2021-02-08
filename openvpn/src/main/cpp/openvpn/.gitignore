@@ -49,14 +49,14 @@ version.sh
 msvc-env-local.bat
 config-msvc-local.h
 config-msvc-version.h
+doc/openvpn.8
 doc/openvpn.8.html
 /doc/doxygen/html/
 /doc/doxygen/latex/
 /doc/doxygen/openvpn.doxyfile
-distro/rpm/openvpn.spec
 distro/systemd/*.service
 sample/sample-keys/sample-ca/
-vendor/.build
+vendor/cmocka_build
 vendor/dist
 build/msvc/msvc-generate/version.m4
 

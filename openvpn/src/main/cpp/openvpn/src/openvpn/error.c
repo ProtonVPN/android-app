@@ -439,9 +439,9 @@ void
 assert_failed(const char *filename, int line, const char *condition)
 {
 #ifdef GOOGLE_BREAKPAD
- int level = M_ERR;
+    int level = M_ERR;
 #else
- int level = M_FATAL;
+    int level = M_FATAL;
 #endif
     if (condition)
     {
@@ -454,9 +454,9 @@ assert_failed(const char *filename, int line, const char *condition)
     _exit(1);
 
 #ifdef GOOGLE_BREAKPAD
-  breakpad_dodump();
+    breakpad_dodump();
 #endif
-  _exit(1);
+    _exit(1);
 }
 
 /*
@@ -702,7 +702,10 @@ x_check_status(int status,
         }
 #elif defined(_WIN32)
         /* get possible driver error from TAP-Windows driver */
-        extended_msg = tap_win_getinfo(tt, &gc);
+        if (tuntap_defined(tt))
+        {
+            extended_msg = tap_win_getinfo(tt, &gc);
+        }
 #endif
         if (!ignore_sys_error(my_errno))
         {
@@ -754,6 +757,7 @@ openvpn_exit(const int status)
 #ifdef _WIN32
         uninit_win32();
 #endif
+        remove_pid_file();
 
         close_syslog();
 

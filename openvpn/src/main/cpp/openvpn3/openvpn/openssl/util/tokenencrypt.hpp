@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -66,20 +66,22 @@ namespace openvpn {
     TokenEncrypt(const Key& key, const int mode)
     {
       ctx = EVP_CIPHER_CTX_new ();
-      EVP_CIPHER_CTX_init (ctx);
+      EVP_CIPHER_CTX_reset (ctx);
       if (!EVP_CipherInit_ex(ctx, EVP_aes_128_ecb(), nullptr, key.data, nullptr, mode))
-	throw OpenSSLException("TokenEncrypt: EVP_CipherInit_ex[1] failed");
+	{
+	  EVP_CIPHER_CTX_free(ctx);
+	  throw OpenSSLException("TokenEncrypt: EVP_CipherInit_ex[1] failed");
+	}
       EVP_CIPHER_CTX_set_padding(ctx, 0);
     }
 
     ~TokenEncrypt()
     {
-      EVP_CIPHER_CTX_cleanup(ctx);
       EVP_CIPHER_CTX_free(ctx);
     }
 
     // Do the encrypt/decrypt
-    void operator()(std::uint8_t* dest, const std::uint8_t* src, const size_t size)
+    void operator()(std::uint8_t* dest, const std::uint8_t* src, const int size)
     {
       // NOTE: since this algorithm uses the ECB block cipher mode,
       // it should only be used to encrypt/decrypt a message which

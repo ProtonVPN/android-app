@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -48,6 +48,16 @@ namespace openvpn {
       {
 	peer_info.parse_from_peer_info(peer_info_str, nullptr);
 	peer_info.update_map();
+      }
+
+      // for unit test
+      AuthCreds(std::string username_arg,
+		SafeString password_arg,
+		OptionList peer_info_arg)
+	: username(std::move(username_arg)),
+	  password(std::move(password_arg)),
+	  peer_info(std::move(peer_info_arg))
+      {
       }
 
       bool defined() const

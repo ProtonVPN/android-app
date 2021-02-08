@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2018 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,7 +38,7 @@ namespace openvpn {
 
     inline static const std::uint16_t* get_addr16(const struct in6_addr *addr)
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
       return addr->u.Word;
 #elif defined(__APPLE__)
       return addr->__u6_addr.__u6_addr16;

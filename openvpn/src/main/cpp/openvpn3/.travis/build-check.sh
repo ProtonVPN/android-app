@@ -4,6 +4,10 @@ set -eux
 PREFIX="${PREFIX:-${HOME}/opt}"
 RUN_COVERITY_SCAN="${RUN_COVERITY_SCAN:-0}"
 
+if [ -n "${MINGW-}" ]; then
+    exit 0
+fi
+
 if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
     export LD_LIBRARY_PATH="${PREFIX}/lib:${LD_LIBRARY_PATH:-}"
 fi
@@ -25,11 +29,11 @@ else
 fi
 
 LIBS="${SSL_LIBS} -llz4"
-CXXFLAGS="-O3 -std=c++11 -Wall -pthread \
+CXXFLAGS="-O3 -std=c++14 -Wall -pthread \
           -DOPENVPN_SHOW_SESSION_TOKEN -DHAVE_LZ4 \
           -DUSE_ASIO -DASIO_STANDALONE -DASIO_NO_DEPRECATED ${SSL_CFLAGS}"
 
-if [[ "${CC}" == "gcc"* ]]; then
+if [ "${CC}" = "gcc" ]; then
     CXXFLAGS="${CXXFLAGS} -fwhole-program -flto=4"
 fi
 

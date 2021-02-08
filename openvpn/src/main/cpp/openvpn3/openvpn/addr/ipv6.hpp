@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -34,6 +34,7 @@
 #include <openvpn/common/socktypes.hpp>
 #include <openvpn/common/ffs.hpp>
 #include <openvpn/common/hexstr.hpp>
+#include <openvpn/common/hash.hpp>
 #include <openvpn/addr/ipv4.hpp>
 #include <openvpn/addr/iperr.hpp>
 
@@ -99,7 +100,8 @@ namespace openvpn {
 	return ret;
       }
 
-      static Addr from_string(const std::string& ipstr, const char *title = nullptr)
+      template <typename TITLE>
+      static Addr from_string(const std::string& ipstr, const TITLE& title)
       {
 	openvpn_io::error_code ec;
 	openvpn_io::ip::address_v6 a = openvpn_io::ip::make_address_v6(ipstr, ec);
@@ -108,11 +110,20 @@ namespace openvpn {
 	return from_asio(a);
       }
 
+      static Addr from_string(const std::string& ipstr)
+      {
+	return from_string(ipstr, nullptr);
+      }
+
       std::string to_string() const
       {
 	const openvpn_io::ip::address_v6 a = to_asio();
 	std::string ret = a.to_string();
+#ifdef UNIT_TEST
+	return string::to_lower_copy(ret);
+#else
 	return ret;
+#endif
       }
 
       static Addr from_hex(const std::string& s)

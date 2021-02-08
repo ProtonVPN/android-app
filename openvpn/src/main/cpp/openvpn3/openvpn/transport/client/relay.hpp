@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -116,8 +116,6 @@ namespace openvpn {
       {
 	OPENVPN_LOG("TransportRelayFactory: Proxy Error in null parent: " << Error::name(fatal_err) << " : " << err_text);
       }
-
-      virtual void ip_hole_punch(const IP::Addr& addr) {}
 
       // Return true if we are transporting OpenVPN protocol
       virtual bool transport_is_openvpn_protocol() { return is_openvpn_protocol; }

@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_snprintf        snprintf
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -55,6 +56,7 @@ int main( void )
 #include <stdio.h>
 #include <string.h>
 
+
 int main( int argc, char *argv[] )
 {
     FILE *f;
@@ -63,7 +65,7 @@ int main( int argc, char *argv[] )
     size_t i;
     mbedtls_pk_context pk;
     unsigned char hash[32];
-    unsigned char buf[MBEDTLS_MPI_MAX_SIZE];
+    unsigned char buf[MBEDTLS_PK_SIGNATURE_MAX_SIZE];
     char filename[512];
 
     mbedtls_pk_init( &pk );
@@ -84,7 +86,7 @@ int main( int argc, char *argv[] )
 
     if( ( ret = mbedtls_pk_parse_public_keyfile( &pk, argv[1] ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_pk_parse_public_keyfile returned -0x%04x\n", -ret );
+        mbedtls_printf( " failed\n  ! mbedtls_pk_parse_public_keyfile returned -0x%04x\n", (unsigned int) -ret );
         goto exit;
     }
 
@@ -98,7 +100,6 @@ int main( int argc, char *argv[] )
         mbedtls_printf( "\n  ! Could not open %s\n\n", filename );
         goto exit;
     }
-
 
     i = fread( buf, 1, sizeof(buf), f );
 
@@ -122,7 +123,7 @@ int main( int argc, char *argv[] )
     if( ( ret = mbedtls_pk_verify( &pk, MBEDTLS_MD_SHA256, hash, 0,
                            buf, i ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_pk_verify returned -0x%04x\n", -ret );
+        mbedtls_printf( " failed\n  ! mbedtls_pk_verify returned -0x%04x\n", (unsigned int) -ret );
         goto exit;
     }
 

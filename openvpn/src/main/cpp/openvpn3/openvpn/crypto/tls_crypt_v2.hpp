@@ -33,6 +33,9 @@
 #include <openvpn/ssl/sslchoose.hpp>
 
 namespace openvpn {
+  constexpr static const char* tls_crypt_v2_server_key_name = "OpenVPN tls-crypt-v2 server key";
+  constexpr static const char* tls_crypt_v2_client_key_name = "OpenVPN tls-crypt-v2 client key";
+
   class TLSCryptV2ServerKey
   {
   public:
@@ -79,10 +82,8 @@ namespace openvpn {
   private:
     const size_t key_size;
     BufferAllocated key;
-    static const std::string tls_crypt_v2_server_key_name;
   };
 
-  const std::string TLSCryptV2ServerKey::tls_crypt_v2_server_key_name = "OpenVPN tls-crypt-v2 server key";
 
   class TLSCryptV2ClientKey
   {
@@ -133,7 +134,8 @@ namespace openvpn {
       BufferAllocated in(key, BufferAllocated::GROW);
       in.append(wkc);
 
-      if (!SSLLib::PEMAPI::pem_encode(data, in.c_data(), in.size(), tls_crypt_v2_client_key_name))
+      if (!SSLLib::PEMAPI::pem_encode(data, in.c_data(), in.size(),
+				      tls_crypt_v2_client_key_name))
 	throw tls_crypt_v2_client_key_encode_error();
 
       return std::string((const char *)data.c_data());
@@ -150,11 +152,7 @@ namespace openvpn {
 
     const size_t key_size;
     const size_t tag_size;
-
-    static const std::string tls_crypt_v2_client_key_name;
   };
-
-  const std::string TLSCryptV2ClientKey::tls_crypt_v2_client_key_name = "OpenVPN tls-crypt-v2 client key";
 
   // the user can extend the TLSCryptMetadata and the TLSCryptMetadataFactory
   // classes to implement its own metadata verification method.

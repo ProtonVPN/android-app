@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,13 +21,13 @@
 
 // Wrap an OpenSSL DH object
 
-#ifndef OPENVPN_OPENSSL_PKI_DH_H
-#define OPENVPN_OPENSSL_PKI_DH_H
+#pragma once
 
 #include <string>
 
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
+#include <openssl/dh.h>
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
@@ -57,7 +57,10 @@ namespace openvpn {
     class DH
     {
     public:
-      DH() : dh_(nullptr) {}
+      DH()
+	: dh_(nullptr)
+      {
+      }
 
       explicit DH(const std::string& dh_txt)
 	: dh_(nullptr)
@@ -66,14 +69,34 @@ namespace openvpn {
       }
 
       DH(const DH& other)
-	: dh_(nullptr)
       {
-	assign(other.dh_);
+	dup(other.dh_);
+      }
+
+      DH(DH&& other) noexcept
+	: dh_(other.dh_)
+      {
+	other.dh_ = nullptr;
       }
 
       void operator=(const DH& other)
       {
-	assign(other.dh_);
+	if (this != &other)
+	  {
+	    erase();
+	    dup(other.dh_);
+	  }
+      }
+
+      DH& operator=(DH&& other) noexcept
+      {
+	if (this != &other)
+	  {
+	    erase();
+	    dh_ = other.dh_;
+	    other.dh_ = nullptr;
+	  }
+	return *this;
       }
 
       bool defined() const { return dh_ != nullptr; }
@@ -81,12 +104,12 @@ namespace openvpn {
 
       void parse_pem(const std::string& dh_txt)
       {
-	BIO *bio = BIO_new_mem_buf(const_cast<char *>(dh_txt.c_str()), dh_txt.length());
+	BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(dh_txt.c_str()), dh_txt.length());
 	if (!bio)
 	  throw OpenSSLException();
 
-	::DH *dh = PEM_read_bio_DHparams(bio, nullptr, nullptr, nullptr);
-	BIO_free(bio);
+	::DH *dh = ::PEM_read_bio_DHparams(bio, nullptr, nullptr, nullptr);
+	::BIO_free(bio);
 	if (!dh)
 	  throw OpenSSLException("DH::parse_pem");
 
@@ -98,33 +121,24 @@ namespace openvpn {
       {
 	if (dh_)
 	  {
-	    BIO *bio = BIO_new(BIO_s_mem());
-	    const int ret = PEM_write_bio_DHparams(bio, dh_);
+	    BIO *bio = ::BIO_new(BIO_s_mem());
+	    const int ret = ::PEM_write_bio_DHparams(bio, dh_);
 	    if (ret == 0)
 	      {
-		BIO_free(bio);
+		::BIO_free(bio);
 		throw OpenSSLException("DH::render_pem");
 	      }
 
 	    {
 	      char *temp;
-	      const int buf_len = BIO_get_mem_data(bio, &temp);
+	      const int buf_len = ::BIO_get_mem_data(bio, &temp);
 	      std::string ret = std::string(temp, buf_len);
-	      BIO_free(bio);
+	      ::BIO_free(bio);
 	      return ret;
 	    }
 	  }
 	else
 	  return "";
-      }
-
-      void erase()
-      {
-	if (dh_)
-	  {
-	    DH_free(dh_);
-	    dh_ = nullptr;
-	  }
       }
 
       ~DH()
@@ -133,16 +147,18 @@ namespace openvpn {
       }
 
     private:
-      void assign(const ::DH *dh)
+      void erase()
       {
-	erase();
+	if (dh_)
+	  ::DH_free(dh_);
+      }
+
+      void dup(const ::DH *dh)
+      {
 	dh_ = DH_private::dup(dh);
       }
 
       ::DH *dh_;
     };
   }
-} // namespace openvpn
-
-#endif // OPENVPN_OPENSSL_PKI_DH_H
-
+}

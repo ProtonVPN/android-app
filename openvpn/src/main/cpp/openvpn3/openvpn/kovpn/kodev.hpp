@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2018 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,8 +21,9 @@
 
 // OpenVPN 3 kovpn-based tun interface
 
-#ifndef OPENVPN_KOVPN_KODEV_H
-#define OPENVPN_KOVPN_KODEV_H
+#pragma once
+
+#ifndef UNIT_TEST
 
 #include <sys/ioctl.h>
 
@@ -43,30 +44,10 @@
 #include <openvpn/kovpn/koroute.hpp>
 #include <openvpn/kovpn/kostats.hpp>
 #include <openvpn/linux/procfs.hpp>
+#include <openvpn/kovpn/kovpn_devconf.hpp>
 
 namespace openvpn {
   namespace KoTun {
-
-    OPENVPN_EXCEPTION(kotun_error);
-
-    struct DevConf
-    {
-      DevConf()
-      {
-	std::memset(&dc, 0, sizeof(dc));
-      }
-
-      void set_dev_name(const std::string& name)
-      {
-	if (name.length() < IFNAMSIZ)
-	  ::strcpy(dc.dev_name, name.c_str());
-	else
-	  OPENVPN_THROW(kotun_error, "ovpn dev name too long");
-      }
-
-      struct ovpn_dev_init dc;
-    };
-
     // kovpn API methods
     namespace API {
 
@@ -200,6 +181,19 @@ namespace openvpn {
 	    return false;
 	  }
       }
+
+      // Simulate mesh keepalive failures
+      inline void set_simulate_mesh_keepalive_failures(const int kovpn_fd,
+						       const bool enabled)
+      {
+	struct ovpn_simulate_mesh_keepalive_failures smkf;
+	smkf.enabled = enabled;
+	if (::ioctl(kovpn_fd, OVPN_SIMULATE_MESH_KEEPALIVE_FAILURES, &smkf) < 0)
+	  {
+	    const int eno = errno;
+	    OPENVPN_THROW(kotun_error, "OVPN_SIMULATE_MESH_KEEPALIVE_FAILURES failed, errno=" << eno << ' ' << KovpnStats::errstr(eno));
+	  }
+      }
     }
 
     struct PacketFrom
@@ -259,15 +253,6 @@ namespace openvpn {
 	return fd;
       }
 
-      static void set_rps_xps(const std::string& dev_name, const unsigned int dev_queue_index, Stop* async_stop)
-      {
-	// set RPS/XPS on iface
-	ProcFS::write_sys(fmt_qfn(dev_name, "rx", dev_queue_index, "rps_cpus"), "ffffffff\n", async_stop);
-	ProcFS::write_sys(fmt_qfn(dev_name, "rx", dev_queue_index, "rps_cpus"), "ffffffff\n", async_stop);
-	ProcFS::write_sys(fmt_qfn(dev_name, "rx", dev_queue_index, "rps_flow_cnt"), "1024\n", async_stop);
-	ProcFS::write_sys(fmt_qfn(dev_name, "tx", dev_queue_index, "xps_cpus"), "0\n", async_stop);
-      }
-
       static void disable_reverse_path_filter(const std::string& dev_name, Stop* async_stop)
       {
 	// disable reverse path filter on iface
@@ -304,13 +289,6 @@ namespace openvpn {
       {
 	return ver_string(OVPN_VER_MAJOR, OVPN_VER_MINOR, OVPN_VER_BUILD);
       }
-
-      static std::string fmt_qfn(const std::string& dev, const std::string& type, int qnum, const std::string& bn)
-      {
-	std::ostringstream os;
-	os << "/sys/class/net/" << dev << "/queues/" << type << "-" << qnum << '/' << bn;
-	return os.str();
-      }
     };
 
     template <typename ReadHandler>
@@ -331,6 +309,18 @@ namespace openvpn {
 	ScopedFD fd(open_kovpn(devconf, kovpn_stats, first));
 	Base::name_ = devconf.dc.dev_name;
 	Base::stream = new openvpn_io::posix::stream_descriptor(io_context, fd.release());
+      }
+
+      // variant that is used when tun builder is in use
+      TunClient(openvpn_io::io_context& io_context,
+		const int kovpnfd,
+		std::string dev_name,
+		ReadHandler read_handler,
+		const Frame::Ptr& frame)
+	  : Base(read_handler, frame, SessionStats::Ptr())
+      {
+	Base::name_ = dev_name;
+	Base::stream = new openvpn_io::posix::stream_descriptor(io_context, kovpnfd);
       }
 
       // Attach UDP socket to ovpn instance

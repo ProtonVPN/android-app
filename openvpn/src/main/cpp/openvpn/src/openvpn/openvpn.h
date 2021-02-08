@@ -68,6 +68,7 @@ struct key_schedule
     struct key_ctx_bi tls_wrap_key;
     struct key_ctx tls_crypt_v2_server_key;
     struct buffer tls_crypt_v2_wkc;             /**< Wrapped client key */
+    struct key_ctx auth_token_key;
 };
 
 /*
@@ -189,12 +190,9 @@ struct context_1
     bool socks_proxy_owned;
 
 #if P2MP
-
-#if P2MP_SERVER
     /* persist --ifconfig-pool db to file */
     struct ifconfig_pool_persist *ifconfig_pool_persist;
     bool ifconfig_pool_persist_owned;
-#endif
 
     /* if client mode, hash of option strings we pulled from server */
     struct sha256_digest pulled_options_digest_save;
@@ -211,6 +209,25 @@ struct context_1
     int keysize;                /**< Data channel keysize from config file */
 #endif
 };
+
+
+/* client authentication state, CAS_SUCCEEDED must be 0 since
+ * non multi code path still checks this variable but does not initialise it
+ * so the code depends on zero initialisation */
+enum client_connect_status {
+    CAS_SUCCEEDED=0,
+    CAS_PENDING,
+    CAS_PENDING_DEFERRED,
+    CAS_PENDING_DEFERRED_PARTIAL,   /**< at least handler succeeded, no result yet*/
+    CAS_FAILED,
+};
+
+static inline bool
+is_cas_pending(enum client_connect_status cas)
+{
+    return cas == CAS_PENDING || cas == CAS_PENDING_DEFERRED
+           || cas == CAS_PENDING_DEFERRED_PARTIAL;
+}
 
 /**
  * Level 2 %context containing state that is reset on both \c SIGHUP and
@@ -303,7 +320,6 @@ struct context_2
     struct event_timeout inactivity_interval;
     int inactivity_bytes;
 
-#ifdef ENABLE_OCC
     /* the option strings must match across peers */
     char *options_string_local;
     char *options_string_remote;
@@ -311,7 +327,6 @@ struct context_2
     int occ_op;                 /* INIT to -1 */
     int occ_n_tries;
     struct event_timeout occ_interval;
-#endif
 
     /*
      * Keep track of maximum packet size received so far
@@ -323,13 +338,12 @@ struct context_2
     int max_send_size_local;    /* max packet size sent */
     int max_send_size_remote;   /* max packet size sent by remote */
 
-#ifdef ENABLE_OCC
+
     /* remote wants us to send back a load test packet of this size */
     int occ_mtu_load_size;
 
     struct event_timeout occ_mtu_load_test_interval;
     int occ_mtu_load_n_tries;
-#endif
 
     /*
      * TLS-mode crypto objects.
@@ -416,13 +430,11 @@ struct context_2
     /* indicates that the do_up_delay function has run */
     bool do_up_ran;
 
-#ifdef ENABLE_OCC
     /* indicates that we have received a SIGTERM when
      * options->explicit_exit_notification is enabled,
      * but we have not exited yet */
     time_t explicit_exit_notification_time_wait;
     struct event_timeout explicit_exit_notification_interval;
-#endif
 
     /* environmental variables to pass to scripts */
     struct env_set *es;
@@ -433,12 +445,8 @@ struct context_2
 
 #if P2MP
 
-#if P2MP_SERVER
     /* --ifconfig endpoints to be pushed to client */
-    bool push_reply_deferred;
-#ifdef ENABLE_ASYNC_PUSH
     bool push_request_received;
-#endif
     bool push_ifconfig_defined;
     time_t sent_push_reply_expiry;
     in_addr_t push_ifconfig_local;
@@ -450,14 +458,8 @@ struct context_2
     int push_ifconfig_ipv6_netbits;
     struct in6_addr push_ifconfig_ipv6_remote;
 
-    /* client authentication state, CAS_SUCCEEDED must be 0 */
-#define CAS_SUCCEEDED 0
-#define CAS_PENDING   1
-#define CAS_FAILED    2
-#define CAS_PARTIAL   3  /* at least one client-connect script/plugin
-                          * succeeded while a later one in the chain failed */
-    int context_auth;
-#endif /* if P2MP_SERVER */
+
+    enum client_connect_status context_auth;
 
     struct event_timeout push_request_interval;
     int n_sent_push_requests;
@@ -522,6 +524,8 @@ struct context
                                  *   context structure. */
 
     struct env_set *es;         /**< Set of environment variables. */
+
+    openvpn_net_ctx_t net_ctx;  /**< Networking API opaque context */
 
     struct signal_info *sig;    /**< Internal error signaling object. */
 

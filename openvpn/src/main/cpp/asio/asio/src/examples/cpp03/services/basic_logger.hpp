@@ -2,7 +2,7 @@
 // basic_logger.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -34,13 +34,13 @@ public:
   /**
    * This constructor creates a logger.
    *
-   * @param io_context The io_context object used to locate the logger service.
+   * @param context The execution context used to locate the logger service.
    *
    * @param identifier An identifier for this logger.
    */
-  explicit basic_logger(asio::io_context& io_context,
+  explicit basic_logger(asio::execution_context& context,
       const std::string& identifier)
-    : service_(asio::use_service<Service>(io_context)),
+    : service_(asio::use_service<Service>(context)),
       impl_(service_.null())
   {
     service_.create(impl_, identifier);

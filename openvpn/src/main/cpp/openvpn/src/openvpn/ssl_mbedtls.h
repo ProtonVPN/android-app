@@ -33,6 +33,7 @@
 
 #include <mbedtls/ssl.h>
 #include <mbedtls/x509_crt.h>
+#include <mbedtls/version.h>
 
 #if defined(ENABLE_PKCS11)
 #include <pkcs11-helper-1.0/pkcs11h-certificate.h>
@@ -81,6 +82,19 @@ struct external_context {
     void *sign_ctx;
 };
 
+#ifdef HAVE_EXPORT_KEYING_MATERIAL
+/** struct to cache TLS secrets for keying material exporter (RFC 5705).
+ * The constants (64 and 48) are inherent to TLS version and
+ * the whole keying material export will likely change when they change */
+struct tls_key_cache {
+    unsigned char client_server_random[64];
+    mbedtls_tls_prf_types tls_prf_type;
+    unsigned char master_secret[48];
+};
+#else
+struct tls_key_cache { };
+#endif
+
 /**
  * Structure that wraps the TLS context. Contents differ depending on the
  * SSL library used.
@@ -104,13 +118,16 @@ struct tls_root_ctx {
 #endif
     struct external_context external_key; /**< External key context */
     int *allowed_ciphers;       /**< List of allowed ciphers for this connection */
+    mbedtls_ecp_group_id *groups;     /**< List of allowed groups for this connection */
     mbedtls_x509_crt_profile cert_profile; /**< Allowed certificate types */
 };
 
 struct key_state_ssl {
-    mbedtls_ssl_config ssl_config;      /**< mbedTLS global ssl config */
+    mbedtls_ssl_config *ssl_config;     /**< mbedTLS global ssl config */
     mbedtls_ssl_context *ctx;           /**< mbedTLS connection context */
-    bio_ctx bio_ctx;
+    bio_ctx *bio_ctx;
+
+    struct tls_key_cache tls_key_cache;
 };
 
 /**

@@ -28,10 +28,11 @@ struct EVP_PKEY
   } pkey;
 };
 
-# define RSA_PKCS1_PADDING       1
+#define RSA_PKCS1_PADDING       1
+#define RSA_NO_PADDING		3
 
 extern "C" {
-    jbyteArray Java_de_blinkt_openpvpn_core_NativeUtils_rsasign(JNIEnv* env, jclass, jbyteArray from, jint pkeyRef);
+    jbyteArray Java_de_blinkt_openvpn_core_NativeUtils_rsasign(JNIEnv* env, jclass, jbyteArray from, jint pkeyRef, jboolean pkcs1padding);
     int jniThrowException(JNIEnv* env, const char* className, const char* msg);
 
     int (*RSA_size_dyn)(const RSA *);
@@ -65,7 +66,7 @@ int jniThrowException(JNIEnv* env, const char* className, const char* msg) {
 }
 
 static char opensslerr[1024];
-jbyteArray Java_de_blinkt_openpvpn_core_NativeUtils_rsasign (JNIEnv* env, jclass, jbyteArray from, jint pkeyRef) {
+jbyteArray Java_de_blinkt_openvpn_core_NativeUtils_rsasign (JNIEnv* env, jclass, jbyteArray from, jint pkeyRef, jboolean pkcs1padding) {
 
 
 	//	EVP_MD_CTX* ctx = reinterpret_cast<EVP_MD_CTX*>(ctxRef);
@@ -96,7 +97,8 @@ jbyteArray Java_de_blinkt_openpvpn_core_NativeUtils_rsasign (JNIEnv* env, jclass
         sigret, &siglen, pkey->pkey.rsa) <= 0 ) */
 
     RSA_private_encrypt_dyn=(int (*)(int, const unsigned char *, unsigned char *, RSA *, int)) dlsym(RTLD_DEFAULT, "RSA_private_encrypt");
-    siglen = RSA_private_encrypt_dyn(datalen,(unsigned char*) data,sigret,pkey->pkey.rsa,RSA_PKCS1_PADDING);
+    int paddding = pkcs1padding ? RSA_PKCS1_PADDING : RSA_NO_PADDING;
+    siglen = RSA_private_encrypt_dyn(datalen,(unsigned char*) data,sigret,pkey->pkey.rsa, paddding);
 
     if (siglen < 0)
 	{

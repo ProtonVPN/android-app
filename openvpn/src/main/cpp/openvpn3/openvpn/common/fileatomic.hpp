@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -55,7 +55,7 @@ namespace openvpn {
     // generate temporary filename
     unsigned char data[16];
     rng.rand_fill(data);
-    const std::string tfn = path::join(tmpdir, '.' + path::basename(fn) + '.' + render_hex(data, sizeof(data)));
+    const std::string tfn = path::join(tmpdir, '.' + path::basename(fn).substr(0, 64) + '.' + render_hex(data, sizeof(data)));
 
     // write to temporary file
     write_binary_unix(tfn, mode, mtime_ns, buf);

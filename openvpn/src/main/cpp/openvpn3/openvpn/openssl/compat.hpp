@@ -1,13 +1,24 @@
-/*
- * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
- *
- * Licensed under the OpenSSL license (the "License").  You may not use
- * this file except in compliance with the License.  You can obtain a copy
- * in the file LICENSE in the source distribution or at
- * https://www.openssl.org/source/license.html
- */
+//    OpenVPN -- An application to securely tunnel IP networks
+//               over a single port, with support for SSL/TLS-based
+//               session authentication and key exchange,
+//               packet encryption, packet authentication, and
+//               packet compression.
+//
+//    Copyright (C) 2012-2020 OpenVPN Inc.
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Affero General Public License Version 3
+//    as published by the Free Software Foundation.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Affero General Public License for more details.
+//
+//    You should have received a copy of the GNU Affero General Public License
+//    along with this program in the COPYING file.
+//    If not, see <http://www.gnu.org/licenses/>.
 
-/* The methods in this file are copied from OpenSSL 1.1.1 source code */
 
 #pragma once
 
@@ -18,8 +29,7 @@
 #include <openssl/rsa.h>
 #include <openssl/dsa.h>
 #include <openssl/hmac.h>
-
-/* Reimplemented/adjusted for 1.0.2 */
+#include <openssl/err.h>
 
 // make sure type 94 doesn't collide with anything in bio.h
 // Start with the same number as before
@@ -27,7 +37,7 @@
 static int lastindex = 94;
 inline int BIO_get_new_index(void)
 {
-  int newval = lastindex|BIO_TYPE_SOURCE_SINK;
+  int newval = lastindex | BIO_TYPE_SOURCE_SINK;
   lastindex++;
   return newval;
 }
@@ -36,7 +46,8 @@ inline BIO_METHOD *BIO_meth_new(int type, const char *name)
 {
   BIO_METHOD *biom = new BIO_METHOD();
 
-  if ((biom->name = OPENSSL_strdup(name)) == nullptr) {
+  if ((biom->name = OPENSSL_strdup(name)) == nullptr)
+    {
       delete biom;
       BIOerr(BIO_F_BIO_NEW, ERR_R_MALLOC_FAILURE);
       return nullptr;
@@ -47,7 +58,8 @@ inline BIO_METHOD *BIO_meth_new(int type, const char *name)
 
 inline void BIO_meth_free(BIO_METHOD *biom)
 {
-  if (biom != nullptr) {
+  if (biom != nullptr)
+    {
       OPENSSL_free((void *)biom->name);
       delete biom;
     }
@@ -58,8 +70,8 @@ inline RSA_METHOD *RSA_meth_new(const char *name, int flags)
   RSA_METHOD *meth = new RSA_METHOD();
 
   meth->flags = flags;
-
   meth->name = name;
+
   return meth;
 }
 
@@ -70,26 +82,17 @@ inline void RSA_meth_free(RSA_METHOD *meth)
 
 inline HMAC_CTX *HMAC_CTX_new()
 {
-  HMAC_CTX* ctx = new HMAC_CTX();
+  HMAC_CTX *ctx = new HMAC_CTX();
   HMAC_CTX_init(ctx);
   return ctx;
 }
 
 inline void HMAC_CTX_free(HMAC_CTX *ctx)
 {
-  HMAC_CTX_cleanup(ctx);
-  delete ctx;
-}
-
-inline EVP_CIPHER_CTX *EVP_CIPHER_CTX_new(void)
-{
-  return new EVP_CIPHER_CTX ();
-}
-
-inline void EVP_CIPHER_CTX_free (EVP_CIPHER_CTX* ctx)
-{
-  EVP_CIPHER_CTX_cleanup(ctx);
-  delete ctx;
+  if (ctx) {
+    HMAC_CTX_cleanup(ctx);
+    delete ctx;
+  }
 }
 
 inline EVP_MD_CTX *EVP_MD_CTX_new()
@@ -97,12 +100,11 @@ inline EVP_MD_CTX *EVP_MD_CTX_new()
   return new EVP_MD_CTX();
 }
 
-void EVP_MD_CTX_free(EVP_MD_CTX *ctx)
+inline void EVP_MD_CTX_free(EVP_MD_CTX *ctx)
 {
   delete ctx;
 }
 
-/* Copied verbatim */
 inline void BIO_set_shutdown(BIO *a, int shut)
 {
   a->shutdown = shut;
@@ -154,7 +156,6 @@ inline int BIO_meth_set_puts(BIO_METHOD *biom,
   return 1;
 }
 
-
 inline int BIO_meth_set_gets(BIO_METHOD *biom,
 			     int (*bgets)(BIO *, char *, int))
 {
@@ -186,16 +187,6 @@ inline RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
   return pkey->pkey.rsa;
 }
 
-inline const BIGNUM *RSA_get0_n(const RSA *r)
-{
-  return r->n;
-}
-
-inline const BIGNUM *RSA_get0_e(const RSA *r)
-{
-  return r->e;
-}
-
 inline int RSA_meth_set_pub_enc(RSA_METHOD *meth,
 				int (*pub_enc)(int flen, const unsigned char *from,
 					       unsigned char *to, RSA *rsa,
@@ -223,10 +214,10 @@ inline int RSA_meth_set_priv_enc(RSA_METHOD *meth,
   return 1;
 }
 
-int RSA_meth_set_priv_dec(RSA_METHOD *meth,
-			  int (*priv_dec)(int flen, const unsigned char *from,
-					  unsigned char *to, RSA *rsa,
-					  int padding))
+inline int RSA_meth_set_priv_dec(RSA_METHOD *meth,
+				 int (*priv_dec)(int flen, const unsigned char *from,
+				 unsigned char *to, RSA *rsa,
+				 int padding))
 {
   meth->rsa_priv_dec = priv_dec;
   return 1;
@@ -246,13 +237,13 @@ inline int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
 
 inline int RSA_meth_set0_app_data(RSA_METHOD *meth, void *app_data)
 {
-  meth->app_data = (char *)app_data;
+  meth->app_data = (char *) app_data;
   return 1;
 }
 
 inline void *RSA_meth_get0_app_data(const RSA_METHOD *meth)
 {
-  return (void *)meth->app_data;
+  return (void *) meth->app_data;
 }
 
 inline DSA *EVP_PKEY_get0_DSA(EVP_PKEY *pkey)
@@ -260,9 +251,16 @@ inline DSA *EVP_PKEY_get0_DSA(EVP_PKEY *pkey)
   return pkey->pkey.dsa;
 }
 
-inline const BIGNUM *DSA_get0_p(const DSA *d)
+inline void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
 {
-  return d->p;
+  if (p != nullptr)
+    *p = d->p;
+
+  if (q != nullptr)
+    *q = d->q;
+
+  if (g != nullptr)
+    *g = d->g;
 }
 
 inline void RSA_set_flags(RSA *r, int flags)
@@ -270,33 +268,107 @@ inline void RSA_set_flags(RSA *r, int flags)
   r->flags |= flags;
 }
 
-inline int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
+inline int RSA_set0_key(RSA *rsa, BIGNUM *n, BIGNUM *e, BIGNUM *d)
 {
-  /* If the fields n and e in r are NULL, the corresponding input
-   * parameters MUST be non-NULL for n and e.  d may be
-   * left NULL (in case only the public key is used).
-   */
-  if ((r->n == NULL && n == NULL)
-      || (r->e == NULL && e == NULL))
+  if ((rsa->n == nullptr && n == nullptr)
+      || (rsa->e == nullptr && e == nullptr))
     return 0;
 
-  if (n != NULL) {
-      BN_free(r->n);
-      r->n = n;
+  if (n != nullptr)
+    {
+      BN_free(rsa->n);
+      rsa->n = n;
     }
-  if (e != NULL) {
-      BN_free(r->e);
-      r->e = e;
+
+  if (e != nullptr)
+    {
+      BN_free(rsa->e);
+      rsa->e = e;
     }
-  if (d != NULL) {
-      BN_free(r->d);
-      r->d = d;
+
+  if (d != nullptr)
+    {
+      BN_free(rsa->d);
+      rsa->d = d;
     }
 
   return 1;
 }
 
+inline void RSA_get0_key(const RSA *rsa, const BIGNUM **n, const BIGNUM **e, const BIGNUM **d)
+{
+  if (n != nullptr)
+    *n = rsa->n;
+
+  if (e != nullptr)
+    *e = rsa->e;
+
+  if (d != nullptr)
+    *d = rsa->d;
+}
+
+inline EC_KEY *EVP_PKEY_get0_EC_KEY(EVP_PKEY *pkey)
+{
+    if (pkey->type != EVP_PKEY_EC) {
+        return NULL;
+    }
+    return pkey->pkey.ec;
+}
+
+inline int EC_GROUP_order_bits(const EC_GROUP *group)
+{
+    BIGNUM *order = BN_new();
+    EC_GROUP_get_order(group, order, NULL);
+    int bits = BN_num_bits(order);
+    BN_free(order);
+    return bits;
+}
+
 /* Renamed in OpenSSL 1.1 */
 #define X509_get0_pubkey X509_get_pubkey
 #define RSA_F_RSA_OSSL_PRIVATE_ENCRYPT RSA_F_RSA_EAY_PRIVATE_ENCRYPT
+
+/*
+ * EVP_CIPHER_CTX_init and EVP_CIPHER_CTX_cleanup are both replaced by
+ * EVP_CIPHER_CTX_reset in OpenSSL 1.1 but replacing them both with
+ * reset is wrong for older version. The man page mention cleanup
+ * being officially removed and init to be an alias for reset.
+ *
+ * So we only use reset as alias for init in older versions.
+ *
+ * EVP_CIPHER_CTX_free already implicitly calls EVP_CIPHER_CTX_cleanup in
+ * 1.0.2, so we can avoid using the old API.
+ */
+#define EVP_CIPHER_CTX_reset	EVP_CIPHER_CTX_init
+#endif
+
+#if OPENSSL_VERSION_NUMBER < 0x10101000L
+#include <openssl/rsa.h>
+#include <openssl/dsa.h>
+
+inline const BIGNUM *RSA_get0_n(const RSA *r)
+{
+    const BIGNUM *n;
+    RSA_get0_key(r, &n, nullptr, nullptr);
+    return n;
+}
+
+inline const BIGNUM *RSA_get0_e(const RSA *r)
+{
+    const BIGNUM *e;
+    RSA_get0_key(r, nullptr, &e, nullptr);
+    return e;
+}
+
+inline const BIGNUM *DSA_get0_p(const DSA *d)
+{
+    const BIGNUM *p;
+    DSA_get0_pqg(d, &p, nullptr, nullptr);
+    return p;
+}
+
+inline int SSL_CTX_set1_groups(SSL_CTX *ctx, int *glist, int glistlen)
+{
+    return SSL_CTX_set1_curves(ctx, glist, glistlen);
+}
 #endif

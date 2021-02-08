@@ -2,7 +2,7 @@
 // defer.hpp
 // ~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -31,6 +31,11 @@ namespace asio {
  * executor. The function object is queued for execution, and is never called
  * from the current thread prior to returning from <tt>defer()</tt>.
  *
+ * The use of @c defer(), rather than @ref post(), indicates the caller's
+ * preference that the executor defer the queueing of the function object. This
+ * may allow the executor to optimise queueing for cases when the function
+ * object represents a continuation of the current call context.
+ *
  * This function has the following effects:
  *
  * @li Constructs a function object handler of type @c Handler, initialized
@@ -49,8 +54,8 @@ namespace asio {
  *
  * @li Returns <tt>result.get()</tt>.
  */
-template <typename CompletionToken>
-ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) defer(
+template <ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken>
+ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) defer(
     ASIO_MOVE_ARG(CompletionToken) token);
 
 /// Submits a completion token or function object for execution.
@@ -58,6 +63,11 @@ ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) defer(
  * This function submits an object for execution using the specified executor.
  * The function object is queued for execution, and is never called from the
  * current thread prior to returning from <tt>defer()</tt>.
+ *
+ * The use of @c defer(), rather than @ref post(), indicates the caller's
+ * preference that the executor defer the queueing of the function object. This
+ * may allow the executor to optimise queueing for cases when the function
+ * object represents a continuation of the current call context.
  *
  * This function has the following effects:
  *
@@ -83,18 +93,28 @@ ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) defer(
  *
  * @li Returns <tt>result.get()</tt>.
  */
-template <typename Executor, typename CompletionToken>
-ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) defer(
-    const Executor& ex, ASIO_MOVE_ARG(CompletionToken) token,
+template <typename Executor,
+    ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken
+      ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(Executor)>
+ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) defer(
+    const Executor& ex,
+    ASIO_MOVE_ARG(CompletionToken) token
+      ASIO_DEFAULT_COMPLETION_TOKEN(Executor),
     typename enable_if<is_executor<Executor>::value>::type* = 0);
 
 /// Submits a completion token or function object for execution.
 /**
  * @returns <tt>defer(ctx.get_executor(), forward<CompletionToken>(token))</tt>.
  */
-template <typename ExecutionContext, typename CompletionToken>
-ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) defer(
-    ExecutionContext& ctx, ASIO_MOVE_ARG(CompletionToken) token,
+template <typename ExecutionContext,
+    ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken
+      ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(
+        typename ExecutionContext::executor_type)>
+ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) defer(
+    ExecutionContext& ctx,
+    ASIO_MOVE_ARG(CompletionToken) token
+      ASIO_DEFAULT_COMPLETION_TOKEN(
+        typename ExecutionContext::executor_type),
     typename enable_if<is_convertible<
       ExecutionContext&, execution_context&>::value>::type* = 0);
 

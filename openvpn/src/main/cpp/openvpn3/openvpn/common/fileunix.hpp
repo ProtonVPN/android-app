@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -42,6 +42,7 @@
 #include <openvpn/common/scoped_fd.hpp>
 #include <openvpn/common/write.hpp>
 #include <openvpn/common/strerror.hpp>
+#include <openvpn/common/stat.hpp>
 #include <openvpn/common/modstat.hpp>
 #include <openvpn/buffer/bufread.hpp>
 
@@ -53,7 +54,7 @@ namespace openvpn {
 				const mode_t mode,
 				const std::uint64_t mtime_ns,  // set explicit modification-time in nanoseconds since epoch, or 0 to defer to system
 				const void *buf,
-				const size_t size)
+				const ssize_t size)
   {
     // open
     ScopedFD fd(::open(fn.c_str(), O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, mode));
@@ -68,7 +69,15 @@ namespace openvpn {
       {
 	const ssize_t len = write_retry(fd(), buf, size);
 	if (len != size)
-	  throw file_unix_error(fn + " : incomplete write");
+	  {
+	    if (len == -1)
+	      {
+		const int eno = errno;
+		throw file_unix_error(fn + " : write error : " + strerror_str(eno));
+	      }
+	    else
+	      throw file_unix_error(fn + " : incomplete write, request_size=" + std::to_string(size) + " actual_size=" + std::to_string(len));
+	  }
       }
 
     // explicit modification time
@@ -112,7 +121,8 @@ namespace openvpn {
   };
   inline BufferPtr read_binary_unix(const std::string& fn,
 				    const std::uint64_t max_size = 0,
-				    const unsigned int buffer_flags = 0)
+				    const unsigned int buffer_flags = 0,
+				    std::uint64_t* mtime_ns = nullptr)
   {
     // open
     ScopedFD fd(::open(fn.c_str(), O_RDONLY|O_CLOEXEC));
@@ -123,6 +133,10 @@ namespace openvpn {
 	  return BufferPtr();
 	throw file_unix_error(fn + " : open for read : " + strerror_str(eno));
       }
+
+    // get file timestamp
+    if (mtime_ns)
+      *mtime_ns = fd_mod_time_nanoseconds(fd());
 
     // get file length
     const off_t length = ::lseek(fd(), 0, SEEK_END);
@@ -158,24 +172,36 @@ namespace openvpn {
     return bp;
   }
 
-  inline bool read_binary_unix_fast(const std::string& fn,
-				    Buffer& out)
+  // read file into a fixed buffer, return zero or errno
+  inline int read_binary_unix_fast(const std::string& fn,
+				   Buffer& out,
+				   std::uint64_t* mtime_ns = nullptr)
   {
     ScopedFD fd(::open(fn.c_str(), O_RDONLY|O_CLOEXEC));
     if (!fd.defined())
-	return errno;
-    const ssize_t status = ::read(fd(), out.data_end(), out.remaining(0));
-    if (status < 0)
       return errno;
-    out.inc_size(status);
-    return 0;
+    if (mtime_ns)
+      *mtime_ns = fd_mod_time_nanoseconds(fd());
+    while (true)
+      {
+	const size_t remaining = out.remaining(0);
+	if (!remaining)
+	  return EAGAIN; // note that we also return EAGAIN if buffer is exactly the same size as content
+	const ssize_t status = ::read(fd(), out.data_end(), remaining);
+	if (status == 0)
+	  return 0;
+	else if (status < 0)
+	  return errno;
+	out.inc_size(status);
+      }
   }
 
   inline std::string read_text_unix(const std::string& filename,
 				    const std::uint64_t max_size = 0,
-				    const unsigned int buffer_flags = 0)
+				    const unsigned int buffer_flags = 0,
+				    std::uint64_t* mtime_ns = nullptr)
   {
-    BufferPtr bp = read_binary_unix(filename, max_size, buffer_flags);
+    BufferPtr bp = read_binary_unix(filename, max_size, buffer_flags, mtime_ns);
     if (bp)
       return buf_to_string(*bp);
     else

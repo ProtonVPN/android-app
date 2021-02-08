@@ -68,35 +68,35 @@ extern counter_type link_read_bytes_global;
 
 extern counter_type link_write_bytes_global;
 
-void check_tls_dowork(struct context *c);
+void check_tls(struct context *c);
 
 void check_tls_errors_co(struct context *c);
 
 void check_tls_errors_nco(struct context *c);
 
 #if P2MP
-void check_incoming_control_channel_dowork(struct context *c);
+void check_incoming_control_channel(struct context *c);
 
-void check_scheduled_exit_dowork(struct context *c);
+void check_scheduled_exit(struct context *c);
 
-void check_push_request_dowork(struct context *c);
+void check_push_request(struct context *c);
 
 #endif /* P2MP */
 
 #ifdef ENABLE_FRAGMENT
-void check_fragment_dowork(struct context *c);
+void check_fragment(struct context *c);
 
 #endif /* ENABLE_FRAGMENT */
 
-void check_connection_established_dowork(struct context *c);
+void check_connection_established(struct context *c);
 
-void check_add_routes_dowork(struct context *c);
+void check_add_routes(struct context *c);
 
-void check_inactivity_timeout_dowork(struct context *c);
+void check_inactivity_timeout(struct context *c);
 
-void check_server_poll_timeout_dowork(struct context *c);
+void check_server_poll_timeout(struct context *c);
 
-void check_status_file_dowork(struct context *c);
+void check_status_file(struct context *c);
 
 void io_wait_dowork(struct context *c, const unsigned int flags);
 
@@ -375,6 +375,12 @@ p2p_iow_flags(const struct context *c)
     {
         flags |= IOW_TO_TUN;
     }
+#ifdef _WIN32
+    if (tuntap_ring_empty(c->c1.tuntap))
+    {
+        flags &= ~IOW_READ_TUN;
+    }
+#endif
     return flags;
 }
 
@@ -403,8 +409,36 @@ io_wait(struct context *c, const unsigned int flags)
     }
     else
     {
-        /* slow path */
-        io_wait_dowork(c, flags);
+#ifdef _WIN32
+        bool skip_iowait = flags & IOW_TO_TUN;
+        if (flags & IOW_READ_TUN)
+        {
+            /*
+             * don't read from tun if we have pending write to link,
+             * since every tun read overwrites to_link buffer filled
+             * by previous tun read
+             */
+            skip_iowait = !(flags & IOW_TO_LINK);
+        }
+        if (tuntap_is_wintun(c->c1.tuntap) && skip_iowait)
+        {
+            unsigned int ret = 0;
+            if (flags & IOW_TO_TUN)
+            {
+                ret |= TUN_WRITE;
+            }
+            if (flags & IOW_READ_TUN)
+            {
+                ret |= TUN_READ;
+            }
+            c->c2.event_set_status = ret;
+        }
+        else
+#endif /* ifdef _WIN32 */
+        {
+            /* slow path */
+            io_wait_dowork(c, flags);
+        }
     }
 }
 

@@ -28,8 +28,6 @@
 #ifndef MULTI_H
 #define MULTI_H
 
-#if P2MP_SERVER
-
 #include "init.h"
 #include "forward.h"
 #include "mroute.h"
@@ -40,6 +38,7 @@
 #include "mudp.h"
 #include "mtcp.h"
 #include "perf.h"
+#include "vlan.h"
 
 #define MULTI_PREFIX_MAX_LENGTH 256
 
@@ -64,6 +63,31 @@ struct deferred_signal_schedule_entry
 };
 
 /**
+ * Detached client connection state.  This is the state that is tracked while
+ * the client connect hooks are executed.
+ */
+struct client_connect_defer_state
+{
+    /* Index of currently executed handler.  */
+    int cur_handler_index;
+    /* Remember which option classes where processed for delayed option
+     * handling. */
+    unsigned int option_types_found;
+
+    /**
+     * The temporary file name that contains the return status of the
+     * client-connect script if it exits with defer as status
+     */
+    char *deferred_ret_file;
+
+    /**
+     * The temporary file name that contains the config directives
+     * returned by the client-connect script
+     */
+    char *config_file;
+};
+
+/**
  * Server-mode state structure for one single VPN tunnel.
  *
  * This structure is used by OpenVPN processes running in server-mode to
@@ -76,7 +100,6 @@ struct deferred_signal_schedule_entry
 struct multi_instance {
     struct schedule_entry se;  /* this must be the first element of the structure */
     struct gc_arena gc;
-    bool defined;
     bool halt;
     int refcount;
     int route_count;           /* number of routes (including cached routes) owned by this instance */
@@ -98,20 +121,18 @@ struct multi_instance {
     in_addr_t reporting_addr;     /* IP address shown in status listing */
     struct in6_addr reporting_addr_ipv6; /* IPv6 address in status listing */
 
-    bool did_open_context;
     bool did_real_hash;
     bool did_iter;
 #ifdef MANAGEMENT_DEF_AUTH
     bool did_cid_hash;
     struct buffer_list *cc_config;
 #endif
-    bool connection_established_flag;
     bool did_iroutes;
     int n_clients_delta; /* added to multi_context.n_clients when instance is closed */
 
     struct context context;     /**< The context structure storing state
                                  *   for this VPN tunnel. */
-
+    struct client_connect_defer_state client_connect_defer_state;
 #ifdef ENABLE_ASYNC_PUSH
     int inotify_watch; /* watch descriptor for acf */
 #endif
@@ -189,6 +210,17 @@ struct multi_context {
 #endif
 
     struct deferred_signal_schedule_entry deferred_shutdown_signal;
+};
+
+/**
+ * Return values used by the client connect call-back functions.
+ */
+enum client_connect_return
+{
+    CC_RET_FAILED,
+    CC_RET_SUCCEEDED,
+    CC_RET_DEFERRED,
+    CC_RET_SKIPPED
 };
 
 /*
@@ -346,9 +378,6 @@ void multi_close_instance_on_signal(struct multi_context *m, struct multi_instan
 
 void init_management_callback_multi(struct multi_context *m);
 
-void uninit_management_callback_multi(struct multi_context *m);
-
-
 #ifdef ENABLE_ASYNC_PUSH
 /**
  * Called when inotify event is fired, which happens when acf file is closed or deleted.
@@ -403,7 +432,7 @@ multi_process_outgoing_link_pre(struct multi_context *m)
  * Per-client route quota management
  */
 
-void route_quota_exceeded(const struct multi_context *m, const struct multi_instance *mi);
+void route_quota_exceeded(const struct multi_instance *mi);
 
 static inline void
 route_quota_inc(struct multi_instance *mi)
@@ -419,11 +448,11 @@ route_quota_dec(struct multi_instance *mi)
 
 /* can we add a new route? */
 static inline bool
-route_quota_test(const struct multi_context *m, const struct multi_instance *mi)
+route_quota_test(const struct multi_instance *mi)
 {
     if (mi->route_count >= mi->context.options.max_routes_per_client)
     {
-        route_quota_exceeded(m, mi);
+        route_quota_exceeded(mi);
         return false;
     }
     else
@@ -623,13 +652,16 @@ multi_process_outgoing_tun(struct multi_context *m, const unsigned int mpp_flags
            mi->context.c2.to_tun.len);
 #endif
     set_prefix(mi);
+    vlan_process_outgoing_tun(m, mi);
     process_outgoing_tun(&mi->context);
     ret = multi_process_post(m, mi, mpp_flags);
     clear_prefix();
     return ret;
 }
 
-
+#define CLIENT_CONNECT_OPT_MASK (OPT_P_INSTANCE | OPT_P_INHERIT   \
+                                 |OPT_P_PUSH | OPT_P_TIMER | OPT_P_CONFIG   \
+                                 |OPT_P_ECHO | OPT_P_COMP | OPT_P_SOCKFLAGS)
 
 static inline bool
 multi_process_outgoing_link_dowork(struct multi_context *m, struct multi_instance *mi, const unsigned int mpp_flags)
@@ -653,5 +685,4 @@ multi_set_pending(struct multi_context *m, struct multi_instance *mi)
     m->pending = mi;
 }
 
-#endif /* P2MP_SERVER */
 #endif /* MULTI_H */

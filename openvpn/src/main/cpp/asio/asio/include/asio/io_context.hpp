@@ -2,7 +2,7 @@
 // io_context.hpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -532,7 +532,7 @@ public:
    * throws an exception.
    */
   template <typename LegacyCompletionHandler>
-  ASIO_INITFN_RESULT_TYPE(LegacyCompletionHandler, void ())
+  ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
   dispatch(ASIO_MOVE_ARG(LegacyCompletionHandler) handler);
 
   /// (Deprecated: Use asio::post().) Request the io_context to invoke
@@ -559,7 +559,7 @@ public:
    * throws an exception.
    */
   template <typename LegacyCompletionHandler>
-  ASIO_INITFN_RESULT_TYPE(LegacyCompletionHandler, void ())
+  ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
   post(ASIO_MOVE_ARG(LegacyCompletionHandler) handler);
 
   /// (Deprecated: Use asio::bind_executor().) Create a new handler that
@@ -594,6 +594,11 @@ public:
 #endif // !defined(ASIO_NO_DEPRECATED)
 
 private:
+#if !defined(ASIO_NO_DEPRECATED)
+  struct initiate_dispatch;
+  struct initiate_post;
+#endif // !defined(ASIO_NO_DEPRECATED)
+
   // Helper function to add the implementation.
   ASIO_DECL impl_type& add_impl(impl_type* impl);
 
@@ -768,10 +773,6 @@ public:
   /// Get the io_context associated with the work.
   asio::io_context& get_io_context();
 
-  /// (Deprecated: Use get_io_context().) Get the io_context associated with the
-  /// work.
-  asio::io_context& get_io_service();
-
 private:
   // Prevent assignment.
   void operator=(const work& other);
@@ -788,11 +789,6 @@ class io_context::service
 public:
   /// Get the io_context object that owns the service.
   asio::io_context& get_io_context();
-
-#if !defined(ASIO_NO_DEPRECATED)
-  /// Get the io_context object that owns the service.
-  asio::io_context& get_io_service();
-#endif // !defined(ASIO_NO_DEPRECATED)
 
 private:
   /// Destroy all user-defined handler objects owned by the service.

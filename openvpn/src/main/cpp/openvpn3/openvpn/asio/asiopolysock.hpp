@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -48,6 +48,12 @@
 
 namespace openvpn {
   namespace AsioPolySock {
+    // for shutdown()
+    enum ShutdownFlags {
+      SHUTDOWN_SEND = (1<<0),
+      SHUTDOWN_RECV = (1<<1),
+    };
+
     class Base : public RC<thread_unsafe_refcount>
     {
     public:
@@ -65,6 +71,8 @@ namespace openvpn {
       virtual void non_blocking(const bool state) = 0;
 
       virtual void close() = 0;
+
+      virtual void shutdown(const unsigned int flags) {}
 
       virtual void tcp_nodelay() {}
       virtual void set_cloexec() {}
@@ -171,6 +179,14 @@ namespace openvpn {
       }
 #endif
 
+      virtual void shutdown(const unsigned int flags) override
+      {
+	if (flags & SHUTDOWN_SEND)
+	  socket.shutdown(openvpn_io::ip::tcp::socket::shutdown_send);
+	else if (flags & SHUTDOWN_RECV)
+	  socket.shutdown(openvpn_io::ip::tcp::socket::shutdown_receive);
+      }
+
       virtual void close() override
       {
 	socket.close();
@@ -194,7 +210,8 @@ namespace openvpn {
 #if defined(OPENVPN_POLYSOCK_SUPPORTS_ALT_ROUTING)
       virtual std::string remote_endpoint_str() const override
       {
-	return "TCP ALT " + socket.to_string();
+	const char *proto = (socket.alt_routing_enabled() ? "TCP ALT " : "TCP ");
+	return proto + socket.to_string();
       }
 
       virtual bool alt_routing_enabled() override
@@ -260,6 +277,19 @@ namespace openvpn {
 	if (fd >= 0)
 	  SockOpt::set_cloexec(fd);
       }
+
+#if !defined(OPENVPN_PLATFORM_MAC)
+      // shutdown() throws "socket is not connected" exception
+      // on macos if another side has called close() - this behavior
+      // breaks communication with agent, and hence disabled
+      virtual void shutdown(const unsigned int flags) override
+      {
+	if (flags & SHUTDOWN_SEND)
+	  socket.shutdown(openvpn_io::ip::tcp::socket::shutdown_send);
+	else if (flags & SHUTDOWN_RECV)
+	  socket.shutdown(openvpn_io::ip::tcp::socket::shutdown_receive);
+      }
+#endif
 
       virtual void close() override
       {

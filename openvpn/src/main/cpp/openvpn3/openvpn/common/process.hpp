@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -45,7 +45,8 @@ namespace openvpn {
   inline pid_t system_cmd_async(const std::string& cmd,
 				const Argv& argv,
 				const Environ* env,
-				RedirectBase* redir)
+				RedirectBase* redir,
+				const sigset_t* sigmask)
   {
     ArgvWrapper argv_wrap(argv);
     std::unique_ptr<ArgvWrapper> env_wrap;
@@ -54,9 +55,13 @@ namespace openvpn {
     auto fn = cmd.c_str();
     auto av = argv_wrap.c_argv();
     auto ev = env_wrap ? env_wrap->c_argv() : ::environ;
-    const pid_t pid = redir ? ::fork() : ::vfork();
+    const pid_t pid = (redir || sigmask) ? ::fork() : ::vfork();
     if (pid == pid_t(0)) /* child side */
       {
+	// Only Async-signal-safe functions as specified by
+	// SIGNAL(7) can be called between here and _exit().
+	if (sigmask)
+	  ::pthread_sigmask(SIG_SETMASK, sigmask, 0);
 	if (redir)
 	  redir->redirect();
 	::execve(fn, av, ev);
@@ -88,9 +93,10 @@ namespace openvpn {
   inline int system_cmd(const std::string& cmd,
 			const Argv& argv,
 			RedirectBase* redir,
-			const Environ* env)
+			const Environ* env,
+			const sigset_t* sigmask)
   {
-    const pid_t pid = system_cmd_async(cmd, argv, env, redir);
+    const pid_t pid = system_cmd_async(cmd, argv, env, redir, sigmask);
     if (pid < pid_t(0))
       return -1;
     return system_cmd_post(pid);
@@ -99,7 +105,7 @@ namespace openvpn {
   // simple command execution
   inline int system_cmd(const std::string& cmd, const Argv& argv)
   {
-    return system_cmd(cmd, argv, nullptr, nullptr);
+    return system_cmd(cmd, argv, nullptr, nullptr, nullptr);
   }
 
   // simple command execution
@@ -118,14 +124,15 @@ namespace openvpn {
 			const Argv& argv,
 			const Environ* env,
 			RedirectPipe::InOut& inout,
-			unsigned int redirect_pipe_flags)
+			unsigned int redirect_pipe_flags,
+			const sigset_t* sigmask)
   {
     SignalBlockerPipe sbpipe;
     RedirectPipe remote;
     if (!inout.in.empty())
       redirect_pipe_flags |= RedirectPipe::ENABLE_IN;
     RedirectPipe local(remote, redirect_pipe_flags);
-    const pid_t pid = system_cmd_async(cmd, argv, env, &remote);
+    const pid_t pid = system_cmd_async(cmd, argv, env, &remote, sigmask);
     if (pid < pid_t(0))
       return -1;
     local.transact(inout);
@@ -161,7 +168,7 @@ namespace openvpn {
 	    os << "Error: command failed to execute" << std::endl;
 #else
 	  RedirectPipe::InOut inout;
-	  const int status = system_cmd(argv[0], argv, nullptr, inout, RedirectPipe::COMBINE_OUT_ERR);
+	  const int status = system_cmd(argv[0], argv, nullptr, inout, RedirectPipe::COMBINE_OUT_ERR, nullptr);
 	  if (status < 0)
 	    os << "Error: command failed to execute" << std::endl;
 	  os << inout.out;

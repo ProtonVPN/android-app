@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -41,7 +41,7 @@ namespace openvpn {
      * On success, return.
      * On fail, throw exception.
      */
-    inline void verify_pkcs7(const OpenSSLPKI::X509Base& cert,
+    inline void verify_pkcs7(const std::list<OpenSSLPKI::X509>& certs,
 			     const std::string& sig,
 			     const std::string& data)
     {
@@ -60,7 +60,8 @@ namespace openvpn {
 
       /* create x509_stack from cert */
       x509_stack = sk_X509_new_null();
-      sk_X509_push(x509_stack, cert.obj());
+      for (const auto& cert : certs)
+	sk_X509_push(x509_stack, cert.obj());
 
       /* get signature */
       in = BIO_new_mem_buf(sig.c_str(), sig.length());

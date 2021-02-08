@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -63,23 +63,23 @@ namespace openvpn {
 	return ctx != nullptr;
       }
 
-      SSLConfigAPI::PKType key_type() const
+      PKType::Type key_type() const
       {
 	switch (mbedtls_pk_get_type(ctx))
 	{
 	case MBEDTLS_PK_RSA:
 	case MBEDTLS_PK_RSA_ALT:
 	case MBEDTLS_PK_RSASSA_PSS:
-	  return SSLConfigAPI::PK_RSA;
+	  return PKType::PK_RSA;
 	case MBEDTLS_PK_ECKEY:
 	case MBEDTLS_PK_ECKEY_DH:
-	  return SSLConfigAPI::PK_EC;
+	  return PKType::PK_EC;
 	case MBEDTLS_PK_ECDSA:
-	  return SSLConfigAPI::PK_ECDSA;
+	  return PKType::PK_ECDSA;
 	case MBEDTLS_PK_NONE:
-	  return SSLConfigAPI::PK_NONE;
+	  return PKType::PK_NONE;
 	default:
-	  return SSLConfigAPI::PK_UNKNOWN;
+	  return PKType::PK_UNKNOWN;
 	}
       }
 

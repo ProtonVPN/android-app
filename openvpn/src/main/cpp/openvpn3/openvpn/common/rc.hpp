@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -196,6 +196,19 @@ namespace openvpn {
       return px != rhs.px;
     }
 
+    RCPtr<T> move_strong() noexcept
+    {
+      T* p = px;
+      px = nullptr;
+      return RCPtr<T>(p, false);
+    }
+
+    template <typename U>
+    RCPtr<U> static_pointer_cast() const noexcept
+    {
+      return RCPtr<U>(static_cast<U*>(px));
+    }
+
     template <typename U>
     RCPtr<U> dynamic_pointer_cast() const noexcept
     {
@@ -271,6 +284,16 @@ namespace openvpn {
     {
       if (controller)
 	return controller->template lock<Strong>();
+      else
+	return Strong();
+    }
+
+    Strong move_strong() noexcept
+    {
+      typename T::Controller::Ptr c;
+      c.swap(controller);
+      if (c)
+	return c->template lock<Strong>();
       else
 	return Strong();
     }

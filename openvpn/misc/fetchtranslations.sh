@@ -29,9 +29,9 @@ do
         rlang=$lang
     fi
 
-    mkdir -p src/main/res/values-$rlang/
+    mkdir -p src/ui/res/values-$rlang/
     echo "$alang -> $rlang"
-    tar -xv -C src/main/res/values-$rlang/ --strip-components 2 -f ics-openvpn.zip res/values-$alang/
+    tar -xv -C src/ui/res/values-$rlang/ --strip-components 2 -f ics-openvpn.zip res/values-$alang/
 done
 
 rm ics-openvpn.zip

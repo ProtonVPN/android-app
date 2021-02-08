@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,7 +35,7 @@ namespace openvpn {
 
   // Parse a concatenated list of certs and CRLs (PEM format).
   // Abstracts CertList and CRLList, so can be used with any crypto lib.
-  // CertList and CRLList must define Item and ItemPtr types.
+  // CertList and CRLList must define Item type.
   template <typename CertList, typename CRLList>
   class CertCRLListTemplate
   {
@@ -109,8 +109,7 @@ namespace openvpn {
 	  if (state == S_IN_CERT && line == cert_end)
 	    {
 	      try {
-		typename CertList::ItemPtr x509(new typename CertList::Item(item, title));
-		cert_list->push_back(x509);
+		cert_list->emplace_back(item, title);
 	      }
 	      catch (const std::exception& e)
 		{
@@ -122,8 +121,7 @@ namespace openvpn {
 	  if (state == S_IN_CRL && line == crl_end)
 	    {
 	      try {
-		typename CRLList::ItemPtr crl(new typename CRLList::Item(item));
-		crl_list->push_back(crl);
+		crl_list->emplace_back(item);
 	      }
 	      catch (const std::exception& e)
 		{

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -100,7 +100,7 @@
 #include <openvpn/pt/ptproxy.hpp>
 #endif
 
-#if defined(ENABLE_DCO)
+#if defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO)
 #include <openvpn/dco/dcocli.hpp>
 #endif
 
@@ -120,8 +120,11 @@ namespace openvpn {
     struct Config
     {
       std::string gui_version;
+      std::string sso_methods;
       std::string server_override;
       std::string port_override;
+      std::string hw_addr_override;
+      std::string platform_version;
       Protocol proto_override;
       IPv6Setting ipv6;
       int conn_timeout = 0;
@@ -134,18 +137,20 @@ namespace openvpn {
       bool echo = false;
       bool info = false;
       bool tun_persist = false;
+      bool wintun = false;
       bool google_dns_fallback = false;
       bool synchronous_dns_lookup = false;
       std::string private_key_password;
       bool disable_client_cert = false;
       int ssl_debug_level = 0;
       int default_key_direction = -1;
-      bool force_aes_cbc_ciphersuites = false;
       bool autologin_sessions = false;
       bool retry_on_auth_failed = false;
       bool allow_local_lan_access = false;
       std::string tls_version_min_override;
       std::string tls_cert_profile_override;
+      std::string tls_cipher_list;
+      std::string tls_ciphersuite_list;
       PeerInfo::Set::Ptr extra_peer_info;
 #ifdef OPENVPN_GREMLIN
       Gremlin::Config::Ptr gremlin_config;
@@ -216,7 +221,7 @@ namespace openvpn {
       rng.reset(new SSLLib::RandomAPI(false));
       prng.reset(new SSLLib::RandomAPI(true));
 
-#if defined(ENABLE_DCO) && !defined(OPENVPN_FORCE_TUN_NULL) && !defined(OPENVPN_EXTERNAL_TUN_FACTORY)
+#if (defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO)) && !defined(OPENVPN_FORCE_TUN_NULL) && !defined(OPENVPN_EXTERNAL_TUN_FACTORY)
       if (config.dco)
 	dco = DCOTransport::new_controller();
 #else
@@ -307,6 +312,13 @@ namespace openvpn {
 
       synchronous_dns_lookup = config.synchronous_dns_lookup;
 
+#ifdef OPENVPN_TLS_LINK
+      if (opt.exists("tls-ca"))
+	{
+	  tls_ca = opt.cat("tls-ca");
+	}
+#endif
+
       // init transport config
       const std::string session_name = load_transport_config();
 
@@ -314,6 +326,9 @@ namespace openvpn {
       if (dco)
 	{
 	  DCO::TunConfig tunconf;
+#if defined(USE_TUN_BUILDER)
+	  dco->builder = config.builder;
+#endif
 	  tunconf.tun_prop.layer = layer;
 	  tunconf.tun_prop.session_name = session_name;
 	  if (tun_mtu)
@@ -366,6 +381,9 @@ namespace openvpn {
         // OpenVPN for Android does this on its own, so we allow to disable this here
         tunconf->eer_factory.reset(new EmulateExcludeRouteFactoryImpl(false));
 #endif
+#if defined(OPENVPN_PLATFORM_MAC)
+	    tunconf->tun_prefix = true;
+#endif
 	    if (config.tun_persist)
 	      tunconf->tun_persist.reset(new TunBuilderClient::TunPersist(true, tunconf->retain_sd, config.builder));
 	    tun_factory = tunconf;
@@ -400,9 +418,11 @@ namespace openvpn {
 	    if (config.tun_persist)
 	    {
 	      tunconf->tun_persist.reset(new TunMac::TunPersist(true, false, nullptr));
-	      tunconf->tun_prop.remote_bypass = true;
+#ifndef OPENVPN_COMMAND_AGENT
 	      /* remote_list is required by remote_bypass to work */
+	      tunconf->tun_prop.remote_bypass = true;
 	      tunconf->tun_prop.remote_list = remote_list;
+#endif
 	    }
 	    client_lifecycle.reset(new MacLifeCycle);
 #ifdef OPENVPN_COMMAND_AGENT
@@ -421,13 +441,16 @@ namespace openvpn {
 	    tunconf->frame = frame;
 	    tunconf->stats = cli_stats;
 	    tunconf->stop = config.stop;
+	    tunconf->wintun = config.wintun;
 	    if (config.tun_persist)
-	    {
-	      tunconf->tun_persist.reset(new TunWin::TunPersist(true, false, nullptr));
-	      tunconf->tun_prop.remote_bypass = true;
-	      /* remote_list is required by remote_bypass to work */
-	      tunconf->tun_prop.remote_list = remote_list;
-	    }
+	      {
+		tunconf->tun_persist.reset(new TunWin::TunPersist(true, false, nullptr));
+#ifndef OPENVPN_COMMAND_AGENT
+		/* remote_list is required by remote_bypass to work */
+		tunconf->tun_prop.remote_bypass = true;
+		tunconf->tun_prop.remote_list = remote_list;
+#endif
+	      }
 #ifdef OPENVPN_COMMAND_AGENT
 	    tunconf->tun_setup_factory = WinCommandAgent::new_agent(opt);
 #endif
@@ -443,8 +466,9 @@ namespace openvpn {
 #endif
 	}
 
-      // verify that tun implementation can handle OSI layer declared by config
-      if (layer == Layer(Layer::OSI_LAYER_2) && !tun_factory->layer_2_supported())
+      // The Core Library itself does not handle TAP/OSI_LAYER_2 currently,
+      // so we bail out early whenever someone tries to use TAP configurations
+      if (layer == Layer(Layer::OSI_LAYER_2))
 	throw ErrorCode(Error::TAP_NOT_SUPPORTED, true, "OSI layer 2 tunnels are not currently supported");
 
       // server-poll-timeout
@@ -529,14 +553,27 @@ namespace openvpn {
       // setenv UV_ options
       pi->append_foreign_set_ptr(pcc.peerInfoUV());
 
+      // UI version
+      if (!config.gui_version.empty())
+	pi->emplace_back("IV_GUI_VER", config.gui_version);
+
+      // Supported SSO methods
+      if (!config.sso_methods.empty())
+	pi->emplace_back("IV_SSO", config.sso_methods);
+
       // MAC address
       if (pcc.pushPeerInfo())
 	{
 	  std::string hwaddr = get_hwaddr();
-	  if (!hwaddr.empty())
+	  if (!config.hw_addr_override.empty())
+	    pi->emplace_back("IV_HWADDR", config.hw_addr_override);
+	  else if (!hwaddr.empty())
 	    pi->emplace_back("IV_HWADDR", hwaddr);
-	}
+	  pi->emplace_back ("IV_SSL", get_ssl_library_version());
 
+	  if (!config.platform_version.empty())
+	    pi->emplace_back("IV_PLAT_VER", config.platform_version);
+	}
       return pi;
     }
 
@@ -692,10 +729,11 @@ namespace openvpn {
       cc->set_rng(rng);
       cc->set_local_cert_enabled(pcc.clientCertEnabled() && !config.disable_client_cert);
       cc->set_private_key_password(config.private_key_password);
-      cc->set_force_aes_cbc_ciphersuites(config.force_aes_cbc_ciphersuites);
       cc->load(opt, lflags);
       cc->set_tls_version_min_override(config.tls_version_min_override);
       cc->set_tls_cert_profile_override(config.tls_cert_profile_override);
+      cc->set_tls_cipher_list(config.tls_cipher_list);
+      cc->set_tls_ciphersuite_list(config.tls_ciphersuite_list);
       if (!cc->get_mode().is_client())
 	throw option_error("only client configuration supported");
 
@@ -711,8 +749,6 @@ namespace openvpn {
       cp->ssl_factory = cc->new_factory();
       cp->load(opt, *proto_context_options, config.default_key_direction, false);
       cp->set_xmit_creds(!autologin || pcc.hasEmbeddedPassword() || autologin_sessions);
-      cp->gui_version = config.gui_version;
-      cp->force_aes_cbc_ciphersuites = config.force_aes_cbc_ciphersuites; // also used to disable proto V2
       cp->extra_peer_info = build_peer_info(config, pcc, autologin_sessions);
       cp->frame = frame;
       cp->now = &now_;
@@ -755,6 +791,7 @@ namespace openvpn {
 	  transconf.frame = frame;
 	  transconf.stats = cli_stats;
 	  transconf.server_addr_float = server_addr_float;
+	  transconf.socket_protect = socket_protect;
 	  transport_factory = dco->new_transport_factory(transconf);
 	}
       else if (alt_proxy)
@@ -820,6 +857,7 @@ namespace openvpn {
 #ifdef OPENVPN_TLS_LINK
 	      if (transport_protocol.is_tls())
 		tcpconf->use_tls = true;
+	      tcpconf->tls_ca = tls_ca;
 #endif
 #ifdef OPENVPN_GREMLIN
 	      tcpconf->gremlin_config = gremlin_config;
@@ -876,6 +914,9 @@ namespace openvpn {
     DCO::Ptr dco;
 #ifdef OPENVPN_EXTERNAL_TRANSPORT_FACTORY
     ExternalTransport::Factory* extern_transport_factory;
+#endif
+#ifdef OPENVPN_TLS_LINK
+    std::string tls_ca;
 #endif
   };
 }

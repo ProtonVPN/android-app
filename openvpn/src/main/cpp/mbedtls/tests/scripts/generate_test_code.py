@@ -184,7 +184,13 @@ BEGIN_CASE_REGEX = r'/\*\s*BEGIN_CASE\s*(?P<depends_on>.*?)\s*\*/'
 END_CASE_REGEX = r'/\*\s*END_CASE\s*\*/'
 
 DEPENDENCY_REGEX = r'depends_on:(?P<dependencies>.*)'
-C_IDENTIFIER_REGEX = r'!?[a-z_][a-z0-9_]*$'
+C_IDENTIFIER_REGEX = r'!?[a-z_][a-z0-9_]*'
+CONDITION_OPERATOR_REGEX = r'[!=]=|[<>]=?'
+# forbid 0ddd which might be accidentally octal or accidentally decimal
+CONDITION_VALUE_REGEX = r'[-+]?(0x[0-9a-f]+|0|[1-9][0-9]*)'
+CONDITION_REGEX = r'({})(?:\s*({})\s*({}))?$'.format(C_IDENTIFIER_REGEX,
+                                                     CONDITION_OPERATOR_REGEX,
+                                                     CONDITION_VALUE_REGEX)
 TEST_FUNCTION_VALIDATION_REGEX = r'\s*void\s+(?P<func_name>\w+)\s*\('
 INT_CHECK_REGEX = r'int\s+.*'
 CHAR_CHECK_REGEX = r'char\s*\*\s*.*'
@@ -202,7 +208,7 @@ class GeneratorInputError(Exception):
     pass
 
 
-class FileWrapper(io.FileIO, object):
+class FileWrapper(io.FileIO):
     """
     This class extends built-in io.FileIO class with attribute line_no,
     that indicates line number for the line that is read.
@@ -232,7 +238,7 @@ class FileWrapper(io.FileIO, object):
         if hasattr(parent, '__next__'):
             line = parent.__next__()  # Python 3
         else:
-            line = parent.next()  # Python 2
+            line = parent.next()  # Python 2 # pylint: disable=no-member
         if line is not None:
             self._line_no += 1
             # Convert byte array to string with correct encoding and
@@ -383,7 +389,7 @@ def validate_dependency(dependency):
     :return: input dependency stripped of leading & trailing white spaces.
     """
     dependency = dependency.strip()
-    if not re.match(C_IDENTIFIER_REGEX, dependency, re.I):
+    if not re.match(CONDITION_REGEX, dependency, re.I):
         raise GeneratorInputError('Invalid dependency %s' % dependency)
     return dependency
 
@@ -396,8 +402,7 @@ def parse_dependencies(inp_str):
     :param inp_str: Input string with macros delimited by ':'.
     :return: list of dependencies
     """
-    dependencies = [dep for dep in map(validate_dependency,
-                                       inp_str.split(':'))]
+    dependencies = list(map(validate_dependency, inp_str.split(':')))
     return dependencies
 
 
@@ -733,16 +738,27 @@ def gen_dep_check(dep_id, dep):
     _not, dep = ('!', dep[1:]) if dep[0] == '!' else ('', dep)
     if not dep:
         raise GeneratorInputError("Dependency should not be an empty string.")
+
+    dependency = re.match(CONDITION_REGEX, dep, re.I)
+    if not dependency:
+        raise GeneratorInputError('Invalid dependency %s' % dep)
+
+    _defined = '' if dependency.group(2) else 'defined'
+    _cond = dependency.group(2) if dependency.group(2) else ''
+    _value = dependency.group(3) if dependency.group(3) else ''
+
     dep_check = '''
         case {id}:
             {{
-#if {_not}defined({macro})
+#if {_not}{_defined}({macro}{_cond}{_value})
                 ret = DEPENDENCY_SUPPORTED;
 #else
                 ret = DEPENDENCY_NOT_SUPPORTED;
 #endif
             }}
-            break;'''.format(_not=_not, macro=dep, id=dep_id)
+            break;'''.format(_not=_not, _defined=_defined,
+                             macro=dependency.group(1), id=dep_id,
+                             _cond=_cond, _value=_value)
     return dep_check
 
 

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2018 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,27 +21,128 @@
 
 #pragma once
 
-#include <Windows.h>
-#include <Lmcons.h>
+#include <windows.h>
+#include <lmcons.h>
 #include <wtsapi32.h>
 
 #include <openvpn/win/winerr.hpp>
 
 namespace openvpn {
   namespace Win {
-    class ImpersonateAsUser {
+
+    class Impersonate
+    {
     public:
-      ImpersonateAsUser() : local_system(is_local_system_())
+      explicit Impersonate(bool as_local_system)
+	: local_system_(is_local_system_())
       {
-	if (local_system)
-	  OPENVPN_LOG("ImpersonateAsUser: running under SYSTEM account, need to impersonate");
+	if (as_local_system)
+	  {
+	    if (local_system_)
+	      OPENVPN_LOG("ImpersonateAsSystem: running under SYSTEM account, no need to impersonate");
+	    else
+	      impersonate_as_local_system();
+	  }
 	else
 	  {
-	    OPENVPN_LOG("ImpersonateAsUser: running under user account, no need to impersonate");
+	    if (local_system_)
+	      impersonate_as_user();
+	    else
+	      OPENVPN_LOG("ImpersonateAsUser: running under user account, no need to impersonate");
+	  }
+      }
+
+      ~Impersonate()
+      {
+	if (impersonated)
+	  {
+	    if (!RevertToSelf())
+	      {
+		const Win::LastError err;
+		OPENVPN_LOG("Impersonate: RevertToSelf() failed: " << err.message());
+	      }
+	  }
+      }
+
+      bool is_local_system() const
+      {
+	return local_system_;
+      }
+
+    private:
+      void impersonate_as_local_system()
+      {
+	HANDLE thread_token, process_snapshot, winlogon_process, winlogon_token, duplicated_token;
+	PROCESSENTRY32 entry = {};
+	entry.dwSize = sizeof(PROCESSENTRY32);
+	BOOL ret;
+	DWORD pid = 0;
+	TOKEN_PRIVILEGES privileges = {};
+	privileges.PrivilegeCount = 1;
+	privileges.Privileges->Attributes = SE_PRIVILEGE_ENABLED;
+
+	if (!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &privileges.Privileges[0].Luid))
+	  return;
+
+	if (!ImpersonateSelf(SecurityImpersonation))
+	  return;
+
+	impersonated = true;
+
+	if (!OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES, FALSE, &thread_token))
+	  return;
+	if (!AdjustTokenPrivileges(thread_token, FALSE, &privileges, sizeof(privileges), NULL, NULL))
+	  {
+	    CloseHandle(thread_token);
 	    return;
 	  }
+	CloseHandle(thread_token);
 
-        DWORD sessId = WTSGetActiveConsoleSessionId();
+	process_snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (process_snapshot == INVALID_HANDLE_VALUE)
+	  return;
+
+	for (ret = Process32First(process_snapshot, &entry); ret; ret = Process32Next(process_snapshot, &entry))
+	  {
+	    if (!_stricmp(entry.szExeFile, "winlogon.exe"))
+	      {
+		pid = entry.th32ProcessID;
+		break;
+	      }
+	  }
+	CloseHandle(process_snapshot);
+	if (!pid)
+	  return;
+
+	winlogon_process = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+	if (!winlogon_process)
+	  return;
+
+	if (!OpenProcessToken(winlogon_process, TOKEN_IMPERSONATE | TOKEN_DUPLICATE, &winlogon_token))
+	  {
+	    CloseHandle(winlogon_process);
+	    return;
+	  }
+	CloseHandle(winlogon_process);
+
+	if (!DuplicateToken(winlogon_token, SecurityImpersonation, &duplicated_token))
+	  {
+	    CloseHandle(winlogon_token);
+	    return;
+	  }
+	CloseHandle(winlogon_token);
+
+	if (!SetThreadToken(NULL, duplicated_token))
+	  {
+	    CloseHandle(duplicated_token);
+	    return;
+	  }
+	CloseHandle(duplicated_token);
+      }
+
+      void impersonate_as_user()
+      {
+	DWORD sessId = WTSGetActiveConsoleSessionId();
 	if (sessId == 0xFFFFFFFF)
 	  {
 	    const Win::LastError err;
@@ -76,23 +177,6 @@ namespace openvpn {
 	OPENVPN_LOG("ImpersonateAsUser: impersonated as " << uname);
       }
 
-      ~ImpersonateAsUser() {
-	if (impersonated)
-	  {
-	    if (!RevertToSelf())
-	      {
-	        const Win::LastError err;
-	        OPENVPN_LOG("ImpersonateAsUser: RevertToSelf() failed: " << err.message());
-	      }
-	  }
-      }
-
-      bool is_local_system() const
-      {
-	return local_system;
-      }
-
-    private:
       // https://stackoverflow.com/a/4024388/227024
       BOOL is_local_system_() const
       {
@@ -129,8 +213,8 @@ namespace openvpn {
 	return bSystem;
       }
 
+      bool local_system_ = false;
       bool impersonated = false;
-      bool local_system = false;
     };
   }
 }

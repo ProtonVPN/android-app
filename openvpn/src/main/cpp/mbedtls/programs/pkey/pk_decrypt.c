@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -47,7 +48,6 @@
 #include <string.h>
 #endif
 
-
 #if !defined(MBEDTLS_BIGNUM_C) || !defined(MBEDTLS_PK_PARSE_C) ||  \
     !defined(MBEDTLS_FS_IO) || !defined(MBEDTLS_ENTROPY_C) || \
     !defined(MBEDTLS_CTR_DRBG_C)
@@ -59,6 +59,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( int argc, char *argv[] )
 {
     FILE *f;
@@ -98,7 +100,7 @@ int main( int argc, char *argv[] )
                                        strlen( pers ) ) ) != 0 )
     {
         mbedtls_printf( " failed\n  ! mbedtls_ctr_drbg_seed returned -0x%04x\n",
-                        -ret );
+                        (unsigned int) -ret );
         goto exit;
     }
 
@@ -107,7 +109,7 @@ int main( int argc, char *argv[] )
 
     if( ( ret = mbedtls_pk_parse_keyfile( &pk, argv[1], "" ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_pk_parse_keyfile returned -0x%04x\n", -ret );
+        mbedtls_printf( " failed\n  ! mbedtls_pk_parse_keyfile returned -0x%04x\n", (unsigned int) -ret );
         goto exit;
     }
 
@@ -122,7 +124,7 @@ int main( int argc, char *argv[] )
     }
 
     i = 0;
-    while( fscanf( f, "%02X", &c ) > 0 &&
+    while( fscanf( f, "%02X", (unsigned int*) &c ) > 0 &&
            i < (int) sizeof( buf ) )
     {
         buf[i++] = (unsigned char) c;
@@ -140,7 +142,7 @@ int main( int argc, char *argv[] )
                             mbedtls_ctr_drbg_random, &ctr_drbg ) ) != 0 )
     {
         mbedtls_printf( " failed\n  ! mbedtls_pk_decrypt returned -0x%04x\n",
-                        -ret );
+                        (unsigned int) -ret );
         goto exit;
     }
 

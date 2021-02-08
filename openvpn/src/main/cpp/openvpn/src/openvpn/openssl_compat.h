@@ -89,6 +89,18 @@ EVP_MD_CTX_new(void)
 }
 #endif
 
+#if !defined(HAVE_EVP_CIPHER_CTX_RESET)
+#define EVP_CIPHER_CTX_reset EVP_CIPHER_CTX_init
+#endif
+
+#if !defined(HAVE_X509_GET0_NOTBEFORE)
+#define X509_get0_notBefore X509_get_notBefore
+#endif
+
+#if !defined(HAVE_X509_GET0_NOTAFTER)
+#define X509_get0_notAfter X509_get_notAfter
+#endif
+
 #if !defined(HAVE_HMAC_CTX_RESET)
 /**
  * Reset a HMAC context
@@ -169,6 +181,12 @@ SSL_CTX_get_default_passwd_cb(SSL_CTX *ctx)
 {
     return ctx ? ctx->default_passwd_callback : NULL;
 }
+#endif
+
+/* This function is implemented as macro, so the configure check for the
+ * function may fail, so we check for both variants here */
+#if !defined(HAVE_SSL_CTX_SET1_GROUPS) && !defined(SSL_CTX_set1_groups)
+#define SSL_CTX_set1_groups SSL_CTX_set1_curves
 #endif
 
 #if !defined(HAVE_X509_GET0_PUBKEY)
@@ -256,20 +274,6 @@ static inline EC_KEY *
 EVP_PKEY_get0_EC_KEY(EVP_PKEY *pkey)
 {
     return (pkey && pkey->type == EVP_PKEY_EC) ? pkey->pkey.ec : NULL;
-}
-#endif
-
-#if !defined(HAVE_EVP_PKEY_ID)
-/**
- * Get the PKEY type
- *
- * @param pkey                Public key object
- * @return                    The key type
- */
-static inline int
-EVP_PKEY_id(const EVP_PKEY *pkey)
-{
-    return pkey ? pkey->type : EVP_PKEY_NONE;
 }
 #endif
 

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,8 +21,7 @@
 
 // Parse the tls-version-min option.
 
-#ifndef OPENVPN_SSL_TLSVER_H
-#define OPENVPN_SSL_TLSVER_H
+#pragma once
 
 #include <string>
 
@@ -68,9 +67,9 @@ namespace openvpn {
       else if (ver == "1.1" && V1_1 <= max_version)
 	return V1_1;
       else if (ver == "1.2" && V1_2 <= max_version)
-	return V1_2;
+        return V1_2;
       else if (ver == "1.3" && V1_3 <= max_version)
-	return V1_3;
+        return V1_2;
       else if (or_highest)
 	return max_version;
       else
@@ -113,5 +112,3 @@ namespace openvpn {
     }
   }
 }
-
-#endif

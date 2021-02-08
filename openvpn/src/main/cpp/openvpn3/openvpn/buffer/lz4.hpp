@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -86,7 +86,7 @@ namespace openvpn {
 						  (int)src.size(), size);
       if (decomp_size <= 0)
 	OPENVPN_THROW(lz4_error, "LZ4_decompress_safe returned error status=" << decomp_size);
-      if (decomp_size != size)
+      if (static_cast<unsigned int>(decomp_size) != size)
 	OPENVPN_THROW(lz4_error, "decompress size inconsistency expected_size=" << size << " actual_size=" << decomp_size);
       dest->inc_size(decomp_size);
       return dest;

@@ -58,6 +58,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( int argc, char *argv[] )
 {
     FILE *f;
@@ -158,7 +160,7 @@ int main( int argc, char *argv[] )
 
     i = 0;
 
-    while( fscanf( f, "%02X", &c ) > 0 &&
+    while( fscanf( f, "%02X", (unsigned int*) &c ) > 0 &&
            i < (int) sizeof( buf ) )
         buf[i++] = (unsigned char) c;
 
