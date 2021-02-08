@@ -1,4 +1,4 @@
-From c6cb856ac923472e56d8dd631585b4ca58e71c31 Mon Sep 17 00:00:00 2001
+From fe57c9127cfc95b4673c6530f86edab5e6538425 Mon Sep 17 00:00:00 2001
 From: James Yonan <james@openvpn.net>
 Date: Wed, 2 Sep 2015 12:18:48 -0700
 Subject: [PATCH] Added randomize() method to
@@ -9,7 +9,7 @@ Subject: [PATCH] Added randomize() method to
  1 file changed, 7 insertions(+)
 
 diff --git a/asio/include/asio/ip/basic_resolver_results.hpp b/asio/include/asio/ip/basic_resolver_results.hpp
-index 4146a46b..f0ae258c 100644
+index 3b3fad49..c070f7da 100644
 --- a/asio/include/asio/ip/basic_resolver_results.hpp
 +++ b/asio/include/asio/ip/basic_resolver_results.hpp
 @@ -18,6 +18,7 @@
@@ -34,5 +34,5 @@ index 4146a46b..f0ae258c 100644
    typedef std::vector<basic_resolver_entry<InternetProtocol> > values_type;
  };
 -- 
-2.16.2
+2.21.0
 

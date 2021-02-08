@@ -39,6 +39,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <winsock2.h>
+#include <tlhelp32.h>
 #define sleep(x) Sleep((x)*1000)
 #define random rand
 #define srandom srand
@@ -179,8 +180,8 @@
 #include <resolv.h>
 #endif
 
-#ifdef HAVE_SYS_POLL_H
-#include <sys/poll.h>
+#ifdef HAVE_POLL_H
+#include <poll.h>
 #endif
 
 #ifdef HAVE_SYS_EPOLL_H
@@ -520,16 +521,10 @@ socket_defined(const socket_descriptor_t sd)
 #define P2MP 0
 #endif
 
-#if P2MP && !defined(ENABLE_CLIENT_ONLY)
-#define P2MP_SERVER 1
-#else
-#define P2MP_SERVER 0
-#endif
-
 /*
  * HTTPS port sharing capability
  */
-#if defined(ENABLE_PORT_SHARE) && P2MP_SERVER && defined(SCM_RIGHTS) && defined(HAVE_MSGHDR) && defined(HAVE_CMSGHDR) && defined(HAVE_IOVEC) && defined(CMSG_FIRSTHDR) && defined(CMSG_NXTHDR) && defined(HAVE_RECVMSG) && defined(HAVE_SENDMSG)
+#if defined(ENABLE_PORT_SHARE) && defined(SCM_RIGHTS) && defined(HAVE_MSGHDR) && defined(HAVE_CMSGHDR) && defined(HAVE_IOVEC) && defined(CMSG_FIRSTHDR) && defined(CMSG_NXTHDR) && defined(HAVE_RECVMSG) && defined(HAVE_SENDMSG)
 #define PORT_SHARE 1
 #else
 #define PORT_SHARE 0
@@ -538,17 +533,16 @@ socket_defined(const socket_descriptor_t sd)
 /*
  * Enable deferred authentication?
  */
-#if defined(ENABLE_DEF_AUTH) && P2MP_SERVER && defined(ENABLE_PLUGIN)
+#if defined(ENABLE_DEF_AUTH) && defined(ENABLE_PLUGIN)
 #define PLUGIN_DEF_AUTH
 #endif
-#if defined(ENABLE_DEF_AUTH) && P2MP_SERVER && defined(ENABLE_MANAGEMENT)
+#if defined(ENABLE_DEF_AUTH) && defined(ENABLE_MANAGEMENT)
 #define MANAGEMENT_DEF_AUTH
 #endif
 #if !defined(PLUGIN_DEF_AUTH) && !defined(MANAGEMENT_DEF_AUTH)
 #undef ENABLE_DEF_AUTH
 #endif
 
-/* Enable mbed TLS RNG prediction resistance support */
 #ifdef ENABLE_CRYPTO_MBEDTLS
 #define ENABLE_PREDICTION_RESISTANCE
 #endif /* ENABLE_CRYPTO_MBEDTLS */
@@ -556,10 +550,10 @@ socket_defined(const socket_descriptor_t sd)
 /*
  * Enable packet filter?
  */
-#if defined(ENABLE_PF) && P2MP_SERVER && defined(ENABLE_PLUGIN) && defined(HAVE_STAT)
+#if defined(ENABLE_PF) && defined(ENABLE_PLUGIN) && defined(HAVE_STAT)
 #define PLUGIN_PF
 #endif
-#if defined(ENABLE_PF) && P2MP_SERVER && defined(MANAGEMENT_DEF_AUTH)
+#if defined(ENABLE_PF) && defined(MANAGEMENT_DEF_AUTH)
 #define MANAGEMENT_PF
 #endif
 #if !defined(PLUGIN_PF) && !defined(MANAGEMENT_PF)
@@ -574,11 +568,6 @@ socket_defined(const socket_descriptor_t sd)
 #else
 #define UNIX_SOCK_SUPPORT 0
 #endif
-
-/*
- * Should we include OCC (options consistency check) code?
- */
-#define ENABLE_OCC
 
 /*
  * Should we include NTLM proxy functionality
@@ -600,7 +589,7 @@ socket_defined(const socket_descriptor_t sd)
 /*
  * Is poll available on this platform?
  */
-#if defined(HAVE_POLL) && defined(HAVE_SYS_POLL_H)
+#if defined(HAVE_POLL) && defined(HAVE_POLL_H)
 #define POLL 1
 #else
 #define POLL 0

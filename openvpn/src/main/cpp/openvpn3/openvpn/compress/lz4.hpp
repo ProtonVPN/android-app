@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -71,8 +71,8 @@ namespace openvpn {
 	}
 
       // do compress
-      const int comp_size = LZ4_compress_default((const char *)buf.c_data(), (char *)work.data(),
-                                                 (int)buf.size(), (int)work.capacity());
+      const unsigned int comp_size = LZ4_compress_default((const char *)buf.c_data(), (char *)work.data(),
+                                                          (int)buf.size(), (int)work.capacity());
 
       // did compression actually reduce data length?
       if (comp_size < buf.size())

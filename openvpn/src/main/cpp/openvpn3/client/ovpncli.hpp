@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -91,6 +91,9 @@ namespace openvpn {
 
       // optional list of user-selectable VPN servers
       std::vector<ServerEntry> serverList;
+
+      // optional, values are "tap-windows6" and "wintun"
+      std::string windowsDriver;
     };
 
     // used to pass credentials to VPN core
@@ -168,6 +171,20 @@ namespace openvpn {
       // Format should be "<gui_identifier><space><version>"
       // Passed to server as IV_GUI_VER.
       std::string guiVersion;
+
+      // Set to a comma seperated list of supported SSO mechanisms that may
+      // be signalled via INFO_PRE to the client.
+      // "openurl" is to continue authentication by opening an url in a browser
+      // "crtext" gives a challenge response in text format that needs to
+      // responded via control channel. (
+      // Passed to the server as IV_SSO
+      std::string ssoMethods;
+
+      // Override the string that is passed as IV_HWADDR to the server
+      std::string hwAddrOverride;
+
+      // Set the string that is passed to the server as IV_PLAT_VER
+      std::string platformVersion;
 
       // Use a different server than that specified in "remote"
       // option of profile
@@ -260,6 +277,13 @@ namespace openvpn {
       //                        doesn't specify tls-cert-profile
       std::string tlsCertProfileOverride;
 
+      // Overrides the list of tls ciphers like the tls-cipher option
+      std::string tlsCipherList;
+
+      // Overrides the list of TLS 1.3 ciphersuites like the tls-ciphersuites
+      // option
+      std::string tlsCiphersuitesList;
+
       // Pass custom key/value pairs to OpenVPN server.
       std::vector<KeyValue> peerInfo;
 
@@ -282,7 +306,7 @@ namespace openvpn {
       // pass through control channel INFO notifications via "INFO" event
       bool info = false;
 
-      // Allow access to local LAN access. This is for platforms like
+      // Allow access to local LAN. This is for platforms like
       // Android that disable local LAN access by default.
       bool allowLocalLanAccess = false;
 
@@ -293,6 +317,9 @@ namespace openvpn {
 
       // Gremlin configuration (requires that the core is built with OPENVPN_GREMLIN)
       std::string gremlinConfig;
+
+      // Use wintun instead of tap-windows6 on Windows
+      bool wintun = false;
     };
 
     // used to communicate VPN events such as connect, disconnect, etc.
@@ -403,15 +430,16 @@ namespace openvpn {
     };
 
     // Used to request an RSA signature.
-    // padding will determinate what signature is expected:
-    // RSA_PKCS1_PADDING    data should be padded with
-    //                      PKCS1 padding as per RFC 3447.
-    // RSA_NO_PADDING       no padding should be done be the callee
+    // algorithm will determinate what signature is expected:
+    // RSA_PKCS1_PADDING means that
+    // data will be prefixed by an optional PKCS#1 digest prefix
+    // per RFC 3447.
+    // RSA_NO_PADDING mean so no padding should be done be the callee
     struct ExternalPKISignRequest : public ExternalPKIRequestBase
     {
-      std::string data;    // data rendered as base64 (client reads)
-      std::string sig;     // RSA signature, rendered as base64 (client writes)
-      std::string padding; // padding algorithm to be used
+      std::string data;  // data rendered as base64 (client reads)
+      std::string sig;   // RSA signature, rendered as base64 (client writes)
+      std::string algorithm;
     };
 
     // used to override "remote" directives
@@ -440,13 +468,6 @@ namespace openvpn {
       OpenVPNClient();
       virtual ~OpenVPNClient();
 
-      // Call me first, before calling any other method (static or instance methods)
-      // in this class.
-      static void init_process();
-
-      // Release any resources allocated by init_process.
-      static void uninit_process();
-
       // Read an OpenVPN profile that might contain external
       // file references, returning a unified profile.
       static MergeConfig merge_config_static(const std::string& path, bool follow_references);
@@ -474,7 +495,7 @@ namespace openvpn {
       // Callback to "protect" a socket from being routed through the tunnel.
       // Will be called from the thread executing connect().
       // The remote and ipv6 are the remote host this socket will connect to
-      virtual bool socket_protect(int socket, std::string remote, bool ipv6) = 0;
+      virtual bool socket_protect(int socket, std::string remote, bool ipv6);
 
       // Primary VPN client connect method, doesn't return until disconnect.
       // Should be called by a worker thread.  This method will make callbacks

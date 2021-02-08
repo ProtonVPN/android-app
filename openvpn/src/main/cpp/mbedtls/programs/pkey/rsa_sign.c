@@ -33,6 +33,7 @@
 #define mbedtls_fprintf         fprintf
 #define mbedtls_printf          printf
 #define mbedtls_snprintf        snprintf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -54,6 +55,7 @@ int main( void )
 
 #include <stdio.h>
 #include <string.h>
+
 
 int main( int argc, char *argv[] )
 {
@@ -127,7 +129,7 @@ int main( int argc, char *argv[] )
     fflush( stdout );
     if( ( ret = mbedtls_rsa_check_privkey( &rsa ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_rsa_check_privkey failed with -0x%0x\n", -ret );
+        mbedtls_printf( " failed\n  ! mbedtls_rsa_check_privkey failed with -0x%0x\n", (unsigned int) -ret );
         goto exit;
     }
 
@@ -149,7 +151,7 @@ int main( int argc, char *argv[] )
     if( ( ret = mbedtls_rsa_pkcs1_sign( &rsa, NULL, NULL, MBEDTLS_RSA_PRIVATE, MBEDTLS_MD_SHA256,
                                 20, hash, buf ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_rsa_pkcs1_sign returned -0x%0x\n\n", -ret );
+        mbedtls_printf( " failed\n  ! mbedtls_rsa_pkcs1_sign returned -0x%0x\n\n", (unsigned int) -ret );
         goto exit;
     }
 

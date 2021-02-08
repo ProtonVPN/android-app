@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,9 +31,12 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <thread>
 
 #include <openvpn/io/io.hpp>
+#include <openvpn/asio/asiowork.hpp>
 
+#include <openvpn/common/bigmutex.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/options.hpp>
@@ -45,6 +48,7 @@
 #include <openvpn/transport/protocol.hpp>
 #include <openvpn/client/cliconstants.hpp>
 #include <openvpn/log/sessionstats.hpp>
+#include <openvpn/client/async_resolve.hpp>
 
 #if OPENVPN_DEBUG_REMOTELIST >= 1
 #define OPENVPN_LOG_REMOTELIST(x) OPENVPN_LOG(x)
@@ -53,7 +57,6 @@
 #endif
 
 namespace openvpn {
-
   class RemoteList : public RC<thread_unsafe_refcount>
   {
     // A single IP address that is part of a list of IP addresses
@@ -262,7 +265,7 @@ namespace openvpn {
     // This is useful in tun_persist mode, where it may be necessary
     // to pre-resolve all potential remote server items prior
     // to initial tunnel establishment.
-    class PreResolve : public RC<thread_unsafe_refcount>
+    class PreResolve : public virtual RC<thread_unsafe_refcount>, AsyncResolvableTCP
     {
     public:
       typedef RCPtr<PreResolve> Ptr;
@@ -276,7 +279,7 @@ namespace openvpn {
       PreResolve(openvpn_io::io_context& io_context_arg,
 		 const RemoteList::Ptr& remote_list_arg,
 		 const SessionStats::Ptr& stats_arg)
-	:  resolver(io_context_arg),
+	:  AsyncResolvableTCP(io_context_arg),
 	   notify_callback(nullptr),
 	   remote_list(remote_list_arg),
 	   stats(stats_arg),
@@ -301,6 +304,7 @@ namespace openvpn {
 		notify_callback = notify_callback_arg;
 		remote_list->index.reset();
 		index = 0;
+		async_resolve_lock();
 		next();
 	      }
 	    else
@@ -312,7 +316,7 @@ namespace openvpn {
       {
 	notify_callback = nullptr;
 	index = 0;
-	resolver.cancel();
+	async_resolve_cancel();
       }
 
     private:
@@ -335,14 +339,8 @@ namespace openvpn {
 		  }
 		else
 		  {
-		    // call into Asio to do the resolve operation
 		    OPENVPN_LOG_REMOTELIST("*** PreResolve RESOLVE on " << item.server_host << " : " << item.server_port);
-		    resolver.async_resolve(item.server_host, item.server_port,
-					   [self=Ptr(this)](const openvpn_io::error_code& error, openvpn_io::ip::tcp::resolver::results_type results)
-					   {
-					     OPENVPN_ASYNC_HANDLER;
-					     self->resolve_callback(error, results);
-					   });
+		    async_resolve_name(item.server_host, item.server_port);
 		    return;
 		  }
 	      }
@@ -353,6 +351,7 @@ namespace openvpn {
 	// resolve unless doing so would result in an empty list.
 	// Then call client's callback method.
 	{
+	  async_resolve_cancel();
 	  NotifyCallback* ncb = notify_callback;
 	  if (remote_list->cached_item_exists())
 	    remote_list->prune_uncached();
@@ -363,7 +362,7 @@ namespace openvpn {
 
       // callback on resolve completion
       void resolve_callback(const openvpn_io::error_code& error,
-			    openvpn_io::ip::tcp::resolver::results_type results)
+			    openvpn_io::ip::tcp::resolver::results_type results) override
       {
 	if (notify_callback && index < remote_list->list.size())
 	  {
@@ -384,7 +383,6 @@ namespace openvpn {
 	  }
       }
 
-      openvpn_io::ip::tcp::resolver resolver;
       NotifyCallback* notify_callback;
       RemoteList::Ptr remote_list;
       SessionStats::Ptr stats;
@@ -761,7 +759,7 @@ namespace openvpn {
 
     // return the current primary index (into list) and raise an exception
     // if it is undefined
-    const size_t primary_index() const
+    size_t primary_index() const
     {
       const size_t pri = index.primary();
       if (pri < list.size())
@@ -892,7 +890,7 @@ namespace openvpn {
 		  }
 		else
 		  e->server_port = default_port;
-		if (o.size() >= 4+adj)
+		if (o.size() >= (size_t)(4+adj))
 		  e->transport_protocol = Protocol::parse(o.get(3+adj, 16), Protocol::CLIENT_SUFFIX);
 		else
 		  e->transport_protocol = default_proto;

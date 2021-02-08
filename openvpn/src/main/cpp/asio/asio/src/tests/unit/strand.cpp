@@ -2,7 +2,7 @@
 // strand.cpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 #include "asio/strand.hpp"
 
 #include <sstream>
+#include "asio/executor.hpp"
 #include "asio/io_context.hpp"
 #include "asio/dispatch.hpp"
 #include "asio/post.hpp"
@@ -30,7 +31,7 @@
 #endif // defined(ASIO_HAS_BOOST_DATE_TIME)
 
 #if defined(ASIO_HAS_BOOST_BIND)
-# include <boost/bind.hpp>
+# include <boost/bind/bind.hpp>
 #else // defined(ASIO_HAS_BOOST_BIND)
 # include <functional>
 #endif // defined(ASIO_HAS_BOOST_BIND)
@@ -56,7 +57,7 @@ void increment(int* count)
   ++(*count);
 }
 
-void increment_without_lock(io_context::strand* s, int* count)
+void increment_without_lock(strand<io_context::executor_type>* s, int* count)
 {
   ASIO_CHECK(!s->running_in_this_thread());
 
@@ -69,7 +70,7 @@ void increment_without_lock(io_context::strand* s, int* count)
   ASIO_CHECK(*count == original_count + 1);
 }
 
-void increment_with_lock(io_context::strand* s, int* count)
+void increment_with_lock(strand<io_context::executor_type>* s, int* count)
 {
   ASIO_CHECK(s->running_in_this_thread());
 
@@ -110,7 +111,8 @@ void increment_by_a_b_c_d(int* count, int a, int b, int c, int d)
   (*count) += a + b + c + d;
 }
 
-void start_sleep_increments(io_context* ioc, io_context::strand* s, int* count)
+void start_sleep_increments(io_context* ioc,
+    strand<io_context::executor_type>* s, int* count)
 {
   // Give all threads a chance to start.
   timer t(*ioc, chronons::seconds(2));
@@ -135,7 +137,7 @@ void io_context_run(io_context* ioc)
 void strand_test()
 {
   io_context ioc;
-  io_context::strand s(ioc);
+  strand<io_context::executor_type> s = make_strand(ioc);
   int count = 0;
 
   post(ioc, bindns::bind(increment_without_lock, &s, &count));
@@ -227,7 +229,7 @@ void strand_test()
   // Check for clean shutdown when handlers posted through an orphaned strand
   // are abandoned.
   {
-    io_context::strand s2(ioc);
+    strand<io_context::executor_type> s2 = make_strand(ioc.get_executor());
     post(s2, bindns::bind(increment, &count));
     post(s2, bindns::bind(increment, &count));
     post(s2, bindns::bind(increment, &count));
@@ -237,89 +239,25 @@ void strand_test()
   ASIO_CHECK(count == 0);
 }
 
-void strand_wrap_test()
+void strand_conversion_test()
 {
-#if !defined(ASIO_NO_DEPRECATED)
   io_context ioc;
-  io_context::strand s(ioc);
-  int count = 0;
+  strand<io_context::executor_type> s1 = make_strand(ioc);
 
-  s.wrap(bindns::bind(increment, &count))();
+  // Converting constructors.
 
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
+  strand<executor> s2(s1);
+  strand<executor> s3 = strand<io_context::executor_type>(s1);
 
-  ioc.restart();
-  ioc.run();
+  // Converting assignment.
 
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 1);
-
-  count = 0;
-  s.wrap(increment)(&count);
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
-
-  ioc.restart();
-  ioc.run();
-
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 1);
-
-  count = 0;
-  s.wrap(increment_by_a)(&count, 1);
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
-
-  ioc.restart();
-  ioc.run();
-
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 1);
-
-  count = 0;
-  s.wrap(increment_by_a_b)(&count, 1, 2);
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
-
-  ioc.restart();
-  ioc.run();
-
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 3);
-
-  count = 0;
-  s.wrap(increment_by_a_b_c)(&count, 1, 2, 3);
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
-
-  ioc.restart();
-  ioc.run();
-
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 6);
-
-  count = 0;
-  s.wrap(increment_by_a_b_c_d)(&count, 1, 2, 3, 4);
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(count == 0);
-
-  ioc.restart();
-  ioc.run();
-
-  // The run() calls will not return until all work has finished.
-  ASIO_CHECK(count == 10);
-#endif // !defined(ASIO_NO_DEPRECATED)
+  s3 = s1;
+  s3 = strand<io_context::executor_type>(s1);
 }
 
 ASIO_TEST_SUITE
 (
   "strand",
   ASIO_TEST_CASE(strand_test)
-  ASIO_TEST_CASE(strand_wrap_test)
+  ASIO_COMPILE_TEST_CASE(strand_conversion_test)
 )

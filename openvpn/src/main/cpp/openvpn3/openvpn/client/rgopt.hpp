@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -71,6 +71,11 @@ namespace openvpn {
     bool redirect_gateway_ipv6_enabled() const
     {
       return rg_enabled() && (flags_ & RG_IPv6);
+    }
+
+    bool redirect_gateway_local() const
+    {
+      return flags_ & RG_LOCAL;
     }
 
     std::string to_string() const

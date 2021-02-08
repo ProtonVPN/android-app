@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -97,7 +97,7 @@ namespace openvpn {
 		  if (arg1 == "GENERIC_CONFIG")
 		    {
 		      error_ = true;
-		      message_ = "SERVER_LOCKED_UNSUPPORTED: server locked profiles are currently unsupported";
+		      message_ = "ERR_PROFILE_SERVER_LOCKED_UNSUPPORTED: server locked profiles are currently unsupported";
 		      return;
 		    }
 		  else if (arg1 == "ALLOW_PASSWORD_SAVE")
@@ -215,6 +215,7 @@ namespace openvpn {
 		const std::string& key_txt = o->get(1, Option::MULTILINE);
 		privateKeyPasswordRequired_ = (
 	            key_txt.find("-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\n") != std::string::npos
+	         || key_txt.find("-----BEGIN EC PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\n") != std::string::npos
 		 || key_txt.find("-----BEGIN ENCRYPTED PRIVATE KEY-----") != std::string::npos
 		);
 	      }
@@ -238,6 +239,15 @@ namespace openvpn {
 	      if (remoteList)
 		profileName_ = remoteList->first_server_host();
 	    }
+
+	  // windows-driver
+	  {
+	    const Option* o = options.get_ptr("windows-driver");
+	    if (o)
+	      {
+		windowsDriver_ = o->get(1, 256);
+	      }
+	  }
 	}
 
 	// friendly name
@@ -304,10 +314,15 @@ namespace openvpn {
 	  sslConfig.reset();
 	}
       }
+      catch (const option_error& e)
+	{
+	  error_ = true;
+	  message_ = Unicode::utf8_printable<std::string>(std::string("ERR_PROFILE_OPTION: ") + e.what(), 256);
+	}
       catch (const std::exception& e)
 	{
 	  error_ = true;
-	  message_ = Unicode::utf8_printable<std::string>(e.what(), 256);
+	  message_ = Unicode::utf8_printable<std::string>(std::string("ERR_PROFILE_GENERIC: ") + e.what(), 256);
 	}
     }
 
@@ -374,7 +389,7 @@ namespace openvpn {
 	{
 	  ParseClientConfig ret;
 	  ret.error_ = true;
-	  ret.message_ = Unicode::utf8_printable<std::string>(e.what(), 256);
+	  ret.message_ = Unicode::utf8_printable<std::string>(std::string("ERR_PROFILE_GENERIC: ") + e.what(), 256);
           return ret;
 	}
     }
@@ -430,6 +445,8 @@ namespace openvpn {
 
     // return first remote directive in config
     const RemoteItem& firstRemoteListItem() const { return firstRemoteListItem_; }
+
+    const std::string& windowsDriver() const { return windowsDriver_; }
 
     std::string to_string() const
     {
@@ -558,8 +575,8 @@ namespace openvpn {
 
         // JSON config is aimed to users, therefore we do not export the raw private
         // key, but only some basic info
-        SSLConfigAPI::PKType priv_key_type = sslConfig->private_key_type();
-        if (priv_key_type != SSLConfigAPI::PK_NONE)
+        PKType::Type priv_key_type = sslConfig->private_key_type();
+        if (priv_key_type != PKType::PK_NONE)
         {
 	  root["key"] = Json::Value(Json::objectValue);
 	  root["key"]["type"] = Json::Value(sslConfig->private_key_type_string());
@@ -711,6 +728,7 @@ namespace openvpn {
     ProtoContext::Config::Ptr protoConfig;
     SSLLib::SSLAPI::Config::Ptr sslConfig;
     std::string dev;
+    std::string windowsDriver_;
   };
 }
 

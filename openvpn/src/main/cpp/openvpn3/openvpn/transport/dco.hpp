@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -53,20 +53,22 @@ namespace openvpn {
       bool server_addr_float;
       Frame::Ptr frame;
       SessionStats::Ptr stats;
+      SocketProtect* socket_protect = nullptr;
     };
 
     struct TunConfig
     {
-      TunConfig()
-      {
-      }
+      TunConfig() = default;
 
       TunProp::Config tun_prop;
       Stop* stop = nullptr;
     };
 
+
     virtual TunClientFactory::Ptr new_tun_factory(const TunConfig& conf, const OptionList& opt) = 0;
     virtual TransportClientFactory::Ptr new_transport_factory(const TransportConfig& conf) = 0;
+
+    TunBuilderBase* builder = nullptr;
   };
 }
 

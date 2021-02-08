@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,6 +31,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/wstring.hpp>
 #include <openvpn/win/winerr.hpp>
+#include <openvpn/win/reg.hpp>
 
 namespace openvpn {
   namespace Win {
@@ -50,6 +51,28 @@ namespace openvpn {
     inline std::string module_name_utf8()
     {
       return wstring::to_utf8(module_name());
+    }
+
+    inline std::string omiclient_path()
+    {
+      char strbuf[256] = {0};
+      DWORD len = sizeof(strbuf);
+      DWORD data_type;
+      auto status = ::RegGetValueA(HKEY_LOCAL_MACHINE,
+				   "SOFTWARE\\OpenVPN",
+				   "omi_exe_path",
+				   RRF_RT_REG_SZ,
+				   &data_type,
+				   (LPBYTE)strbuf,
+				   &len);
+
+      if (status != ERROR_SUCCESS)
+	{
+	  const Win::Error err(status);
+	  OPENVPN_THROW_EXCEPTION("Cannot read HKLM\\SOFTWARE\\OpenVPN\\omi_exe_path: " << err.message());
+	}
+
+      return strbuf;
     }
   }
 }

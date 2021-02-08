@@ -104,6 +104,12 @@ plugin_type_name(const int type)
         case OPENVPN_PLUGIN_CLIENT_CONNECT_V2:
             return "PLUGIN_CLIENT_CONNECT";
 
+        case OPENVPN_PLUGIN_CLIENT_CONNECT_DEFER:
+            return "PLUGIN_CLIENT_CONNECT_DEFER";
+
+        case OPENVPN_PLUGIN_CLIENT_CONNECT_DEFER_V2:
+            return "PLUGIN_CLIENT_CONNECT_DEFER_V2";
+
         case OPENVPN_PLUGIN_CLIENT_DISCONNECT:
             return "PLUGIN_CLIENT_DISCONNECT";
 
@@ -161,12 +167,13 @@ plugin_option_list_new(struct gc_arena *gc)
 }
 
 bool
-plugin_option_list_add(struct plugin_option_list *list, char **p, struct gc_arena *gc)
+plugin_option_list_add(struct plugin_option_list *list, char **p,
+                       struct gc_arena *gc)
 {
     if (list->n < MAX_PLUGINS)
     {
         struct plugin_option *o = &list->plugins[list->n++];
-        o->argv = make_extended_arg_array(p, gc);
+        o->argv = make_extended_arg_array(p, false, gc);
         if (o->argv[0])
         {
             o->so_pathname = o->argv[0];
@@ -586,7 +593,7 @@ plugin_call_item(const struct plugin *p,
                 p->so_pathname);
         }
 
-        argv_reset(&a);
+        argv_free(&a);
         gc_free(&gc);
     }
     return status;

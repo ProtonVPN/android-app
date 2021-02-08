@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -78,7 +78,6 @@ namespace openvpn {
 		         S_SIGINT
 		       | S_SIGTERM
 #ifndef OPENVPN_PLATFORM_WIN
-		       | S_SIGQUIT
 		       | S_SIGHUP
 		       | S_SIGUSR1
 		       | S_SIGUSR2

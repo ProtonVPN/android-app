@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,8 +21,7 @@
 
 // Wrap an OpenSSL X509_CRL object
 
-#ifndef OPENVPN_OPENSSL_PKI_CRL_H
-#define OPENVPN_OPENSSL_PKI_CRL_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -32,16 +31,18 @@
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
-#include <openvpn/common/rc.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
 namespace openvpn {
   namespace OpenSSLPKI {
 
-    class CRL : public RC<thread_unsafe_refcount>
+    class CRL
     {
     public:
-      CRL() : crl_(nullptr) {}
+      CRL()
+	: crl_(nullptr)
+      {
+      }
 
       explicit CRL(const std::string& crl_txt)
 	: crl_(nullptr)
@@ -50,27 +51,48 @@ namespace openvpn {
       }
 
       CRL(const CRL& other)
-	: crl_(nullptr)
+	: crl_(dup(other.crl_))
       {
-	assign(other.crl_);
       }
 
-      void operator=(const CRL& other)
+      CRL(CRL&& other) noexcept
+	: crl_(other.crl_)
       {
-	assign(other.crl_);
+	other.crl_ = nullptr;
+      }
+
+      CRL& operator=(const CRL& other)
+      {
+	if (this != &other)
+	  {
+	    erase();
+	    crl_ = dup(other.crl_);
+	  }
+	return *this;
+      }
+
+      CRL& operator=(CRL&& other) noexcept
+      {
+	if (this != &other)
+	  {
+	    erase();
+	    crl_ = other.crl_;
+	    other.crl_ = nullptr;
+	  }
+	return *this;
       }
 
       bool defined() const { return crl_ != nullptr; }
-      X509_CRL* obj() const { return crl_; }
+      ::X509_CRL* obj() const { return crl_; }
 
       void parse_pem(const std::string& crl_txt)
       {
-	BIO *bio = BIO_new_mem_buf(const_cast<char *>(crl_txt.c_str()), crl_txt.length());
+	BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(crl_txt.c_str()), crl_txt.length());
 	if (!bio)
 	  throw OpenSSLException();
 
-	X509_CRL *crl = PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
-	BIO_free(bio);
+	::X509_CRL *crl = ::PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
+	::BIO_free(bio);
 	if (!crl)
 	  throw OpenSSLException("CRL::parse_pem");
 
@@ -82,33 +104,24 @@ namespace openvpn {
       {
 	if (crl_)
 	  {
-	    BIO *bio = BIO_new(BIO_s_mem());
-	    const int ret = PEM_write_bio_X509_CRL(bio, crl_);
+	    BIO *bio = ::BIO_new(BIO_s_mem());
+	    const int ret = ::PEM_write_bio_X509_CRL(bio, crl_);
 	    if (ret == 0)
 	      {
-		BIO_free(bio);
+		::BIO_free(bio);
 		throw OpenSSLException("CRL::render_pem");
 	      }
 
 	    {
 	      char *temp;
-	      const int buf_len = BIO_get_mem_data(bio, &temp);
+	      const int buf_len = ::BIO_get_mem_data(bio, &temp);
 	      std::string ret = std::string(temp, buf_len);
-	      BIO_free(bio);
+	      ::BIO_free(bio);
 	      return ret;
 	    }
 	  }
 	else
 	  return "";
-      }
-
-      void erase()
-      {
-	if (crl_)
-	  {
-	    X509_CRL_free(crl_);
-	    crl_ = nullptr;
-	  }
       }
 
       ~CRL()
@@ -117,44 +130,40 @@ namespace openvpn {
       }
 
     private:
+      void erase()
+      {
+	if (crl_)
+	  ::X509_CRL_free(crl_);
+      }
+
       static X509_CRL *dup(const X509_CRL *crl)
       {
 	if (crl)
-	  {
-	    return X509_CRL_dup(const_cast<X509_CRL *>(crl));
-	  }
+	  return ::X509_CRL_dup(const_cast<X509_CRL *>(crl));
 	else
 	  return nullptr;
       }
 
-      void assign(const X509_CRL *crl)
-      {
-	erase();
-	crl_ = dup(crl);
-      }
-
-      X509_CRL *crl_;
+      ::X509_CRL *crl_;
     };
 
-    typedef RCPtr<CRL> CRLPtr;
-
-    class CRLList : public std::vector<CRLPtr>
+    class CRLList : public std::vector<CRL>
     {
     public:
-      typedef CRL Item;
-      typedef CRLPtr ItemPtr;
+      typedef X509 CRL;
 
-      bool defined() const { return !empty(); }
+      bool defined() const
+      {
+	return !empty();
+      }
 
       std::string render_pem() const
       {
 	std::string ret;
-	for (const_iterator i = begin(); i != end(); ++i)
-	  ret += (*i)->render_pem();
+	for (const auto &e : *this)
+	  ret += e.render_pem();
 	return ret;
       }
     };
   }
-} // namespace openvpn
-
-#endif // OPENVPN_OPENSSL_PKI_CRL_H
+}

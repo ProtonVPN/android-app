@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,14 +33,23 @@ namespace openvpn {
 
     inline std::wstring from_utf8(const std::string& str)
     {
+#ifdef __MINGW32__
+      // https://sourceforge.net/p/mingw-w64/bugs/538/
+      typedef std::codecvt_utf8<wchar_t, 0x10ffff, std::little_endian> cvt_type;
+#else
       typedef std::codecvt_utf8<wchar_t> cvt_type;
+#endif
       std::wstring_convert<cvt_type, wchar_t> cvt;
       return cvt.from_bytes(str);
     }
 
     inline std::string to_utf8(const std::wstring& wstr)
     {
+#ifdef __MINGW32__
+      typedef std::codecvt_utf8<wchar_t, 0x10ffff, std::little_endian> cvt_type;
+#else
       typedef std::codecvt_utf8<wchar_t> cvt_type;
+#endif
       std::wstring_convert<cvt_type, wchar_t> cvt;
       return cvt.to_bytes(wstr);
     }

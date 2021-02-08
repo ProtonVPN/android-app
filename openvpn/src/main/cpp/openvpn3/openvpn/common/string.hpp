@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,6 +28,7 @@
 #include <vector>
 #include <cstring>
 #include <cctype>
+#include <algorithm>
 
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/size.hpp>
@@ -68,12 +69,25 @@ namespace openvpn {
 	dest[maxlen - 1] = 0;
     }
 
+    // Copy string to dest, make sure dest is always null terminated,
+    // and fill out trailing chars in dest with '\0' up to dest_size.
+    inline void copy_fill (void *dest, const std::string& src, const size_t dest_size)
+    {
+      if (dest_size > 0)
+	{
+	  const size_t ncopy = std::min(dest_size - 1, src.length());
+	  std::memcpy(dest, src.c_str(), ncopy);
+	  std::memset(static_cast<unsigned char *>(dest) + ncopy, 0, dest_size - ncopy);
+	}
+    }
+
     inline bool is_true(const std::string& str)
     {
       return str == "1" || !strcasecmp(str.c_str(), "true");
     }
 
-    inline bool starts_with(const std::string& str, const std::string& prefix)
+    template <typename STRING>
+    inline bool starts_with(const STRING& str, const std::string& prefix)
     {
       const size_t len = str.length();
       const size_t plen = prefix.length();
@@ -83,7 +97,8 @@ namespace openvpn {
 	return false;
     }
 
-    inline bool starts_with(const std::string& str, const char *prefix)
+    template <typename STRING>
+    inline bool starts_with(const STRING& str, const char *prefix)
     {
       const size_t len = str.length();
       const size_t plen = std::strlen(prefix);
@@ -93,7 +108,18 @@ namespace openvpn {
 	return false;
     }
 
-    inline bool ends_with(const std::string& str, const std::string& suffix)
+    // Return true if str == prefix or if str starts with prefix + delim
+    template <typename STRING>
+    inline bool starts_with_delim(const STRING& str, const std::string& prefix, const char delim)
+    {
+      if (prefix.length() < str.length())
+	return str[prefix.length()] == delim && string::starts_with(str, prefix);
+      else
+	return prefix == str;
+    }
+
+    template <typename STRING>
+    inline bool ends_with(const STRING& str, const std::string& suffix)
     {
       const size_t len = str.length();
       const size_t slen = suffix.length();
@@ -103,7 +129,8 @@ namespace openvpn {
 	return false;
     }
 
-    inline bool ends_with(const std::string& str, const char *suffix)
+    template <typename STRING>
+    inline bool ends_with(const STRING& str, const char *suffix)
     {
       const size_t len = str.length();
       const size_t slen = std::strlen(suffix);
@@ -114,19 +141,22 @@ namespace openvpn {
     }
 
     // return true if string ends with char c
-    inline bool ends_with(const std::string& str, const char c)
+    template <typename STRING>
+    inline bool ends_with(const STRING& str, const char c)
     {
       return str.length() && str.back() == c;
     }
 
     // return true if string ends with a newline
-    inline bool ends_with_newline(const std::string& str)
+    template <typename STRING>
+    inline bool ends_with_newline(const STRING& str)
     {
       return ends_with(str, '\n');
     }
 
     // return true if string ends with a CR or LF
-    inline bool ends_with_crlf(const std::string& str)
+    template <typename STRING>
+    inline bool ends_with_crlf(const STRING& str)
     {
       if (str.length())
 	{
@@ -135,6 +165,21 @@ namespace openvpn {
 	}
       else
 	return false;
+    }
+
+    // Prepend leading characters (c) to str to obtain a minimum string length (min_len).
+    // Useful for adding leading zeros to numeric values or formatting tables.
+    inline std::string add_leading(const std::string& str, const size_t min_len, const char c)
+    {
+      if (min_len <= str.length())
+	return str;
+      size_t len = min_len - str.length();
+      std::string ret;
+      ret.reserve(min_len);
+      while (len--)
+	ret += c;
+      ret += str;
+      return ret;
     }
 
     // make sure that string ends with char c, if not append it
@@ -186,7 +231,8 @@ namespace openvpn {
     }
 
     // remove trailing \r or \n chars
-    inline void trim_crlf(std::string& str)
+    template <typename STRING>
+    inline void trim_crlf(STRING& str)
     {
       while (ends_with_crlf(str))
 	str.pop_back();
@@ -222,14 +268,21 @@ namespace openvpn {
       return str.find_first_of('\n') != std::string::npos;
     }
 
-    // return the first line (without newline) of a multi-line string
-    inline std::string first_line(const std::string& str)
+    // Return string up to a delimiter (without the delimiter).
+    // Returns the entire string if no delimiter is found.
+    inline std::string to_delim(const std::string& str, const char delim)
     {
-      const size_t pos = str.find_first_of('\n');
+      const size_t pos = str.find_first_of(delim);
       if (pos != std::string::npos)
 	return str.substr(0, pos);
       else
 	return str;
+    }
+
+    // return the first line (without newline) of a multi-line string
+    inline std::string first_line(const std::string& str)
+    {
+      return to_delim(str, '\n');
     }
 
     // Define a common interpretation of what constitutes a space character.
@@ -359,25 +412,35 @@ namespace openvpn {
       return ret;
     }
 
-    // generate a string with spaces
-    inline std::string spaces(int n)
+    // generate a string with n instances of char c
+    inline std::string repeat(const char c, int n)
     {
       std::string ret;
       ret.reserve(n);
       while (n-- > 0)
-	ret += ' ';
+	ret += c;
       return ret;
+    }
+
+    // generate a string with spaces
+    inline std::string spaces(int n)
+    {
+      return repeat(' ', n);
     }
 
     // indent a multiline string
     inline std::string indent(const std::string& str, const int first, const int remaining)
     {
-      std::string ret = spaces(first);
+      std::string ret;
+      int n_spaces = first;
       for (auto &c : str)
 	{
+	  if (n_spaces)
+	    ret += spaces(n_spaces);
+	  n_spaces = 0;
 	  ret += c;
 	  if (c == '\n')
-	    ret += spaces(remaining);
+	    n_spaces = remaining;
 	}
       return ret;
     }
@@ -434,7 +497,8 @@ namespace openvpn {
     }
 
     // Split a string on sep delimiter.  The size of the
-    // returned string list will be at most maxsplit + 1.
+    // returned string vector will be at least 1 and at
+    // most maxsplit + 1 (unless maxsplit is passed as -1).
     inline std::vector<std::string> split(const std::string& str,
 					  const char sep,
 					  const int maxsplit = -1)
@@ -443,13 +507,16 @@ namespace openvpn {
       int nterms = 0;
       std::string term;
 
-      for (auto &c : str)
+      if (maxsplit >= 0)
+	ret.reserve(maxsplit + 1);
+
+      for (const auto c : str)
 	{
 	  if (c == sep && (maxsplit < 0 || nterms < maxsplit))
 	    {
 	      ret.push_back(std::move(term));
 	      ++nterms;
-	      term = "";
+	      term.clear();
 	    }
 	  else
 	    term += c;

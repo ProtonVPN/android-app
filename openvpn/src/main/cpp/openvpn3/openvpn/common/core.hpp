@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -22,8 +22,9 @@
 // Linux methods for enumerating the number of cores on machine,
 // and binding a thread to a particular core.
 
-#ifndef OPENVPN_COMMON_CORE_H
-#define OPENVPN_COMMON_CORE_H
+#pragma once
+
+#include <thread>
 
 #include <openvpn/common/platform.hpp>
 
@@ -66,5 +67,3 @@ namespace openvpn {
   }
 
 }
-
-#endif

@@ -1,0 +1,8 @@
+macro(my_pragma_once)
+    set(__filename "${CMAKE_CURRENT_LIST_FILE}")
+    get_property(already_included GLOBAL PROPERTY "pr_${__filename}")
+    if(already_included)
+        return()
+    endif()
+    set_property(GLOBAL PROPERTY "pr_${__filename}" TRUE)
+endmacro()

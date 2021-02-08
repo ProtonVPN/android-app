@@ -317,8 +317,11 @@ print_status(const struct context *c, struct status_output *so)
 #ifdef _WIN32
     if (tuntap_defined(c->c1.tuntap))
     {
-        status_printf(so, "TAP-WIN32 driver status,\"%s\"",
-                      tap_win_getinfo(c->c1.tuntap, &gc));
+        const char *extended_msg = tap_win_getinfo(c->c1.tuntap, &gc);
+        if (extended_msg)
+        {
+            status_printf(so, "TAP-WIN32 driver status,\"%s\"", extended_msg);
+        }
     }
 #endif
 
@@ -327,7 +330,6 @@ print_status(const struct context *c, struct status_output *so)
     gc_free(&gc);
 }
 
-#ifdef ENABLE_OCC
 /*
  * Handle the triggering and time-wait of explicit
  * exit notification.
@@ -364,7 +366,6 @@ process_explicit_exit_notification_timer_wakeup(struct context *c)
         }
     }
 }
-#endif /* ifdef ENABLE_OCC */
 
 /*
  * Process signals
@@ -392,14 +393,12 @@ static bool
 process_sigterm(struct context *c)
 {
     bool ret = true;
-#ifdef ENABLE_OCC
     if (c->options.ce.explicit_exit_notification
         && !c->c2.explicit_exit_notification_time_wait)
     {
         process_explicit_exit_notification_init(c);
         ret = false;
     }
-#endif
     return ret;
 }
 
@@ -412,7 +411,6 @@ static bool
 ignore_restart_signals(struct context *c)
 {
     bool ret = false;
-#ifdef ENABLE_OCC
     if ( (c->sig->signal_received == SIGUSR1 || c->sig->signal_received == SIGHUP)
          && event_timeout_defined(&c->c2.explicit_exit_notification_interval) )
     {
@@ -431,7 +429,6 @@ ignore_restart_signals(struct context *c)
             ret = false;
         }
     }
-#endif
     return ret;
 }
 

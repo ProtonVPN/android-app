@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,6 +21,12 @@
 
 #ifndef OPENVPN_COMMON_TEMPFILE_H
 #define OPENVPN_COMMON_TEMPFILE_H
+
+#include <openvpn/common/platform.hpp>
+
+#if defined(OPENVPN_PLATFORM_WIN)
+#error temporary file methods not supported on Windows
+#endif
 
 #include <stdlib.h>
 #include <errno.h>
@@ -103,7 +109,7 @@ namespace openvpn {
 	  const int eno = errno;
 	  OPENVPN_THROW(tempfile_exception, "error writing to temporary file: " << filename() << " : " << strerror_str(eno));
 	}
-      else if (size != content.length())
+      else if (static_cast<std::string::size_type>(size) != content.length())
 	{
 	  OPENVPN_THROW(tempfile_exception, "incomplete write to temporary file: " << filename());
 	}

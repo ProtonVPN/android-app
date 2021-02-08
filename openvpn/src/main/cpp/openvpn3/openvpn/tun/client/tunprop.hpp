@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -126,42 +126,44 @@ namespace openvpn {
       if (config.remote_list && config.remote_bypass)
 	add_remote_bypass_routes(tb, *config.remote_list, server_addr, eer.get(), quiet);
 
-
       // add routes
       if (config.allow_local_lan_access)
-        {
-          // query local lan exclude routes and them
-          // Copy option list to construct a copy with the excluded routes as route options
-          OptionList excludedRoutesOptions = opt;
+	{
+	  // query local lan exclude routes and then
+	  // copy option list to construct a copy with the excluded routes as route options
+	  OptionList excludedRoutesOptions = opt;
+	  for (const std::string& exRoute: tb->tun_builder_get_local_networks(false))
+	    {
+	      excludedRoutesOptions.add_item(Option{"route", exRoute, "", "net_gateway"});
+	    }
 
-          for (const std::string & exRoute: tb->tun_builder_get_local_networks(false))
-            {
-              excludedRoutesOptions.add_item(Option{"route", exRoute, "", "vpn_gateway"});
-            }
+	  for (const std::string& exRoute:  tb->tun_builder_get_local_networks(true))
+	    {
+	      excludedRoutesOptions.add_item(Option{"route-ipv6", exRoute, "", "net_gateway"});
+	    }
 
-          for (const std::string & exRoute:  tb->tun_builder_get_local_networks(true))
-            {
-              excludedRoutesOptions.add_item(Option{"route-ipv6", exRoute, "", "vpn_gateway"});
-            }
-
-          add_routes(tb, excludedRoutesOptions, ipv, eer.get(), quiet);
-        }
+	  add_routes(tb, excludedRoutesOptions, ipv, eer.get(), quiet);
+	}
       else
-        {
-          add_routes(tb, opt, ipv, eer.get(), quiet);
-        }
+	{
+	  add_routes(tb, opt, ipv, eer.get(), quiet);
+	}
 
-      // Route emulation needs to know if default routes are included from
-      // redirect-gateway
-      if(eer) {
-	eer->add_default_routes(ipv.rgv4(), ipv.rgv6());
-	// emulate exclude routes
-	eer->emulate(tb, ipv, server_addr);
-      }
 
-      // configure redirect-gateway
-      if (!tb->tun_builder_reroute_gw(ipv.rgv4(), ipv.rgv6(), ipv.api_flags()))
-	throw tun_prop_route_error("tun_builder_reroute_gw for redirect-gateway failed");
+      if (eer)
+	{
+	  // Route emulation needs to know if default routes are included
+	  // from redirect-gateway
+	  eer->add_default_routes(ipv.rgv4(), ipv.rgv6());
+	  // emulate exclude routes
+	  eer->emulate(tb, ipv, server_addr);
+	}
+      else
+	{
+	  // configure redirect-gateway
+	  if (!tb->tun_builder_reroute_gw(ipv.rgv4(), ipv.rgv6(), ipv.api_flags()))
+	      throw tun_prop_route_error("tun_builder_reroute_gw for redirect-gateway failed");
+	}
 
       // add DNS servers and domain prefixes
       const unsigned int dhcp_option_flags = add_dhcp_options(tb, opt, quiet);
@@ -353,7 +355,7 @@ namespace openvpn {
       }
     }
 
-    static void add_exclude_route(TunBuilderBase* tb, 
+    static void add_route_tunbuilder(TunBuilderBase* tb,
 				  bool add,
 				  const IP::Addr& addr,
 				  int prefix_length,
@@ -418,7 +420,7 @@ namespace openvpn {
 		    if (pair.version() != IP::Addr::V4)
 		      throw tun_prop_error("route is not IPv4");
 		    const bool add = route_target(o, 3);
-		    add_exclude_route(tb, add, pair.addr, pair.netmask.prefix_len(), metric, false, eer);
+		    add_route_tunbuilder(tb, add, pair.addr, pair.netmask.prefix_len(), metric, false, eer);
 		  }
 		  catch (const std::exception& e)
 		    {
@@ -446,7 +448,7 @@ namespace openvpn {
 		    if (pair.version() != IP::Addr::V6)
 		      throw tun_prop_error("route is not IPv6");
 		    const bool add = route_target(o, 2);
-		    add_exclude_route(tb, add, pair.addr, pair.netmask.prefix_len(), metric, true, eer);
+		    add_route_tunbuilder(tb, add, pair.addr, pair.netmask.prefix_len(), metric, true, eer);
 		  }
 		  catch (const std::exception& e)
 		    {
@@ -473,7 +475,7 @@ namespace openvpn {
 	    {
 	      try {
 		const IP::Addr::Version ver = addr.version();
-		add_exclude_route(tb, false, addr, IP::Addr::version_size(ver), -1, ver == IP::Addr::V6, eer);
+		add_route_tunbuilder(tb, false, addr, IP::Addr::version_size(ver), -1, ver == IP::Addr::V6, eer);
 	      }
 	      catch (const std::exception& e)
 		{

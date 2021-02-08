@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -46,6 +46,16 @@ namespace openvpn {
 
     OPENVPN_EXCEPTION(aead_error);
 
+    /**
+     * Check if a specific algorithm is support or not in the underlying
+     * crypto library
+     */
+    template  <typename CRYPTO_API>
+    static inline bool is_algorithm_supported(const CryptoAlgs::Type cipher)
+    {
+      return CRYPTO_API::CipherContextAEAD::is_supported(cipher);
+    }
+
     template <typename CRYPTO_API>
     class Crypto : public CryptoDCInstance
     {
@@ -53,7 +63,7 @@ namespace openvpn {
       public:
 	Nonce()
 	{
-	  static_assert(4 + CRYPTO_API::CipherContextGCM::IV_LEN == sizeof(data),
+	  static_assert(4 + CRYPTO_API::CipherContextAEAD::IV_LEN == sizeof(data),
 			"AEAD IV_LEN inconsistency");
 	  ad_op32 = false;
 	  std::memset(data, 0, sizeof(data));
@@ -136,14 +146,14 @@ namespace openvpn {
       };
 
       struct Encrypt {
-	typename CRYPTO_API::CipherContextGCM impl;
+	typename CRYPTO_API::CipherContextAEAD impl;
 	Nonce nonce;
 	PacketIDSend pid_send;
 	BufferAllocated work;
       };
 
       struct Decrypt {
-	typename CRYPTO_API::CipherContextGCM impl;
+	typename CRYPTO_API::CipherContextAEAD impl;
 	Nonce nonce;
 	PacketIDReceive pid_recv;
 	BufferAllocated work;
@@ -171,13 +181,13 @@ namespace openvpn {
 	    // build nonce/IV/AD
 	    Nonce nonce(e.nonce, e.pid_send, now, op32);
 
-	    if (CRYPTO_API::CipherContextGCM::SUPPORTS_IN_PLACE_ENCRYPT)
+	    if (CRYPTO_API::CipherContextAEAD::SUPPORTS_IN_PLACE_ENCRYPT)
 	      {
 		unsigned char *data = buf.data();
 		const size_t size = buf.size();
 
 		// alloc auth tag in buffer
-		unsigned char *auth_tag = buf.prepend_alloc(CRYPTO_API::CipherContextGCM::AUTH_TAG_LEN);
+		unsigned char *auth_tag = buf.prepend_alloc(CRYPTO_API::CipherContextAEAD::AUTH_TAG_LEN);
 
 		// encrypt in-place
 		e.impl.encrypt(data, data, size, nonce.iv(), auth_tag, nonce.ad(), nonce.ad_len());
@@ -190,7 +200,7 @@ namespace openvpn {
 		  throw aead_error("encrypt work buffer too small");
 
 		// alloc auth tag in buffer
-		unsigned char *auth_tag = e.work.prepend_alloc(CRYPTO_API::CipherContextGCM::AUTH_TAG_LEN);
+		unsigned char *auth_tag = e.work.prepend_alloc(CRYPTO_API::CipherContextAEAD::AUTH_TAG_LEN);
 
 		// prepare output buffer
 		unsigned char *work_data = e.work.write_alloc(buf.size());
@@ -215,7 +225,7 @@ namespace openvpn {
 	    Nonce nonce(d.nonce, buf, op32);
 
 	    // get auth tag
-	    unsigned char *auth_tag = buf.read_alloc(CRYPTO_API::CipherContextGCM::AUTH_TAG_LEN);
+	    unsigned char *auth_tag = buf.read_alloc(CRYPTO_API::CipherContextAEAD::AUTH_TAG_LEN);
 
 	    // initialize work buffer
 	    frame->prepare(Frame::DECRYPT_WORK, d.work);
@@ -249,8 +259,8 @@ namespace openvpn {
       virtual void init_cipher(StaticKey&& encrypt_key,
 			       StaticKey&& decrypt_key)
       {
-	e.impl.init(cipher, encrypt_key.data(), encrypt_key.size(), CRYPTO_API::CipherContextGCM::ENCRYPT);
-	d.impl.init(cipher, decrypt_key.data(), decrypt_key.size(), CRYPTO_API::CipherContextGCM::DECRYPT);
+	e.impl.init(cipher, encrypt_key.data(), encrypt_key.size(), CRYPTO_API::CipherContextAEAD::ENCRYPT);
+	d.impl.init(cipher, decrypt_key.data(), decrypt_key.size(), CRYPTO_API::CipherContextAEAD::DECRYPT);
       }
 
       virtual void init_hmac(StaticKey&& encrypt_key,
@@ -310,9 +320,11 @@ namespace openvpn {
       typedef RCPtr<CryptoContext> Ptr;
 
       CryptoContext(const CryptoAlgs::Type cipher_arg,
+		    const CryptoAlgs::KeyDerivation key_method,
 		    const Frame::Ptr& frame_arg,
 		    const SessionStats::Ptr& stats_arg)
-	: cipher(CryptoAlgs::legal_dc_cipher(cipher_arg)),
+	: CryptoDCContext(key_method),
+	  cipher(CryptoAlgs::legal_dc_cipher(cipher_arg)),
 	  frame(frame_arg),
 	  stats(stats_arg)
       {
@@ -329,6 +341,7 @@ namespace openvpn {
 	Info ret;
 	ret.cipher_alg = cipher;
 	ret.hmac_alg = CryptoAlgs::NONE;
+	ret.key_derivation = key_derivation;
 	return ret;
       }
 
@@ -336,7 +349,7 @@ namespace openvpn {
 
       virtual size_t encap_overhead() const
       {
-	return CRYPTO_API::CipherContextGCM::AUTH_TAG_LEN;
+	return CRYPTO_API::CipherContextAEAD::AUTH_TAG_LEN;
       }
 
     private:

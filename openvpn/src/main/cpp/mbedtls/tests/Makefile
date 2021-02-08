@@ -3,14 +3,17 @@
 # To compile with PKCS11: add "-lpkcs11-helper" to LDFLAGS
 
 CFLAGS	?= -O2
-WARNING_CFLAGS ?= -Wall -W -Wdeclaration-after-statement -Wno-unused-function -Wno-unused-value
+WARNING_CFLAGS ?= -Wall -Wextra
 LDFLAGS ?=
 
-LOCAL_CFLAGS = $(WARNING_CFLAGS) -I../include -D_FILE_OFFSET_BITS=64
+LOCAL_CFLAGS = $(WARNING_CFLAGS) -I../include -I../library -D_FILE_OFFSET_BITS=64
 LOCAL_LDFLAGS = -L../library			\
 		-lmbedtls$(SHARED_SUFFIX)	\
 		-lmbedx509$(SHARED_SUFFIX)	\
 		-lmbedcrypto$(SHARED_SUFFIX)
+
+include ../3rdparty/Makefile.inc
+LOCAL_CFLAGS+=$(THIRDPARTY_INCLUDES)
 
 # Enable definition of various functions used throughout the testsuite
 # (gethostname, strdup, fileno...) even when compiling with -std=c99. Harmless
@@ -25,6 +28,10 @@ endif
 
 ifdef DEBUG
 LOCAL_CFLAGS += -g3
+endif
+
+ifdef RECORD_PSA_STATUS_COVERAGE_LOG
+LOCAL_CFLAGS += -Werror -DRECORD_PSA_STATUS_COVERAGE_LOG
 endif
 
 # if we're running on Windows, build for Windows
@@ -102,19 +109,27 @@ $(BINARIES): %$(EXEXT): %.c $(DEP)
 	echo "  CC    $<"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) $<	$(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
+# Some test suites require additional header files.
+$(filter test_suite_psa_crypto%, $(BINARIES)): psa_crypto_helpers.h
+$(addprefix embedded_,$(filter test_suite_psa_crypto%, $(APPS))): embedded_%: TESTS/mbedtls/%/psa_crypto_helpers.h
+$(filter test_suite_psa_%, $(BINARIES)): psa_helpers.h
+$(addprefix embedded_,$(filter test_suite_psa_%, $(APPS))): embedded_%: TESTS/mbedtls/%/psa_helpers.h
 
 clean:
 ifndef WINDOWS
-	rm -rf $(APPS) *.c *.datax TESTS
+	rm -rf $(BINARIES) *.c *.datax TESTS
 else
-	del /Q /F *.c *.exe *.datax
+	if exist *.c del /Q /F *.c
+	if exist *.exe del /Q /F *.exe
+	if exist *.datax del /Q /F *.datax
 ifneq ($(wildcard TESTS/.*),)
 	rmdir /Q /S TESTS
 endif
 endif
 
+# Test suites caught by SKIP_TEST_SUITES are built but not executed.
 check: $(BINARIES)
-	perl scripts/run-test-suites.pl
+	perl scripts/run-test-suites.pl --skip=$(SKIP_TEST_SUITES)
 
 test: check
 
@@ -136,3 +151,23 @@ $(EMBEDDED_TESTS): embedded_%: suites/$$(firstword $$(subst ., ,$$*)).function s
 
 generate-target-tests: $(EMBEDDED_TESTS)
 
+define copy_header_to_target
+TESTS/mbedtls/$(1)/$(2): $(2)
+	echo "  Copy ./$$@"
+ifndef WINDOWS
+	mkdir -p $$(@D)
+	cp $$< $$@
+else
+	mkdir $$(@D)
+	copy $$< $$@
+endif
+
+endef
+$(foreach app, $(APPS), $(foreach file, $(wildcard *.h), \
+	$(eval $(call copy_header_to_target,$(app),$(file)))))
+
+ifdef RECORD_PSA_STATUS_COVERAGE_LOG
+$(BINARIES): instrument_record_status.h
+instrument_record_status.h: ../include/psa/crypto.h Makefile
+	sed <../include/psa/crypto.h >$@ -n 's/^psa_status_t \([A-Za-z0-9_]*\)(.*/#define \1(...) RECORD_STATUS("\1", \1(__VA_ARGS__))/p'
+endif

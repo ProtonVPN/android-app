@@ -1,0 +1,44 @@
+From b8f6e3c4db6cd86657a3cbc97d17f268c7d6555a Mon Sep 17 00:00:00 2001
+From: James Yonan <james@openvpn.net>
+Date: Sun, 19 Jul 2020 18:38:07 -0600
+Subject: basic_resolver_results: added data() and cdata() members for access
+ to underlying storage vector
+
+This commit also removes the randomize() method
+since data() provides a more general solution
+for arbitrary mutate methods.
+
+Signed-off-by: James Yonan <james@openvpn.net>
+---
+ asio/include/asio/ip/basic_resolver_results.hpp | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/asio/include/asio/ip/basic_resolver_results.hpp b/asio/include/asio/ip/basic_resolver_results.hpp
+index 29898542..9483a774 100644
+--- a/asio/include/asio/ip/basic_resolver_results.hpp
++++ b/asio/include/asio/ip/basic_resolver_results.hpp
+@@ -300,10 +300,18 @@ public:
+     return !a.equal(b);
+   }
+ 
+-  template <typename Random>
+-  void randomize(Random& r)
++#define HAVE_ASIO_RESOLVER_RESULTS_DATA
++
++  /// Return a pointer to the underlying results vector.
++  auto* data()
++  {
++    return this->values_.get();
++  }
++
++  /// Return a const pointer to the underlying results vector.
++  const auto* cdata() const
+   {
+-    std::shuffle(this->values_->begin(), this->values_->end(), r);
++    return this->values_.get();
+   }
+ 
+ private:
+-- 
+2.25.1
+

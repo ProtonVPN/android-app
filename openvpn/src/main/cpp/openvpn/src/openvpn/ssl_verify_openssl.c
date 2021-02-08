@@ -67,10 +67,11 @@ verify_callback(int preverify_ok, X509_STORE_CTX *ctx)
     cert_hash_remember(session, X509_STORE_CTX_get_error_depth(ctx), &cert_hash);
 
     /* did peer present cert which was signed by our root cert? */
-    if (!preverify_ok)
+    if (!preverify_ok && !session->opt->verify_hash_no_ca)
     {
         /* get the X509 name */
         char *subject = x509_get_subject(current_cert, &gc);
+        char *serial = backend_x509_get_serial(current_cert, &gc);
 
         if (!subject)
         {
@@ -89,10 +90,10 @@ verify_callback(int preverify_ok, X509_STORE_CTX *ctx)
         }
 
         /* Remote site specified a certificate, but it's not correct */
-        msg(D_TLS_ERRORS, "VERIFY ERROR: depth=%d, error=%s: %s",
+        msg(D_TLS_ERRORS, "VERIFY ERROR: depth=%d, error=%s: %s, serial=%s",
             X509_STORE_CTX_get_error_depth(ctx),
             X509_verify_cert_error_string(X509_STORE_CTX_get_error(ctx)),
-            subject);
+            subject, serial ? serial : "<not available>");
 
         ERR_clear_error();
 
@@ -364,48 +365,6 @@ err:
     return subject;
 }
 
-bool
-x509v3_is_host_in_alternative_names(X509 *cert, const char *host, bool *has_alt_names)
-{
-    GENERAL_NAMES* altnames = X509_get_ext_d2i(cert, NID_subject_alt_name, NULL, NULL);
-    if (has_alt_names != NULL)
-    {
-        *has_alt_names = altnames != NULL;
-    }
-    if (altnames == NULL)
-    {
-        return false;
-    }
-
-    int n = sk_GENERAL_NAME_num(altnames);
-    for (int i = 0; i < n; i++)
-    {
-        GENERAL_NAME* altname = sk_GENERAL_NAME_value(altnames, i);
-        ASN1_STRING *altname_asn1 = NULL;
-        if (altname->type == GEN_DNS)
-        {
-            altname_asn1 = altname->d.dNSName;
-        }
-        else if (altname->type == GEN_IPADD)
-        {
-            altname_asn1 = altname->d.iPAddress;
-        }
-
-        if (altname_asn1 != NULL)
-        {
-            char* altname_cstr = NULL;
-            if (ASN1_STRING_to_UTF8((unsigned char **)&altname_cstr, altname_asn1) >= 0) {
-                bool match = strcmp(host, altname_cstr) == 0;
-                OPENSSL_free(altname_cstr);
-                if (match)
-                {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 /*
  * x509-track implementation -- save X509 fields to environment,

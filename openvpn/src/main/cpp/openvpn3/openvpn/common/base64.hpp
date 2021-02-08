@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,7 +25,9 @@
 #define OPENVPN_COMMON_BASE64_H
 
 #include <string>
-#include <cstring> // for std::memset, std::strlen
+#include <cstring>   // for std::memset, std::strlen
+#include <algorithm> // for std::min
+#include <cstddef>   // for ptrdiff_t
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
@@ -35,10 +37,10 @@ namespace openvpn {
 
   class Base64 {
 
-    class UCharWrap
+    class ConstUCharWrap
     {
     public:
-      UCharWrap(const unsigned char *data, size_t size)
+      ConstUCharWrap(const unsigned char *data, size_t size)
 	: data_(data),
 	  size_(size)
       {}
@@ -46,10 +48,37 @@ namespace openvpn {
       size_t size() const { return size_; }
       unsigned char operator[](const size_t i) const { return data_[i]; }
 
+
     private:
       const unsigned char *data_;
       size_t size_;
     };
+
+    public:
+      OPENVPN_SIMPLE_EXCEPTION(base64_decode_out_of_bound_error);
+
+    private:
+      // Minimal class to minic the container our decode method expects
+      class UCharWrap
+      {
+      public:
+	UCharWrap(unsigned char *data, size_t size):
+	  data(data), size(size), index(0)
+	{
+	}
+
+	void push_back(unsigned char c)
+	{
+	  if (index >= size)
+	    throw base64_decode_out_of_bound_error();
+
+	  data[index++]=c;
+	}
+
+	unsigned char *data;
+	size_t size;
+	size_t index;
+      };
 
   public:
     OPENVPN_SIMPLE_EXCEPTION(base64_bad_map);
@@ -75,9 +104,9 @@ namespace openvpn {
 	  altmap = "+/=";
 	if (std::strlen(altmap) != 3)
 	  throw base64_bad_map();
-	enc[62] = altmap[0];
-	enc[63] = altmap[1];
-	equal = altmap[2];
+	enc[62] = (unsigned char)altmap[0];
+	enc[63] = (unsigned char)altmap[1];
+	equal = (unsigned char)altmap[2];
       }
 
       // build decoding map
@@ -88,7 +117,7 @@ namespace openvpn {
 	    const unsigned char c = enc[i];
 	    if (c >= 128)
 	      throw base64_bad_map();
-	    dec[c] = i;
+	    dec[c] = (unsigned char)i;
 	  }
       }
     }
@@ -139,7 +168,22 @@ namespace openvpn {
 
     std::string encode(const void *data, size_t size) const
     {
-      return encode(UCharWrap((const unsigned char *)data, size));
+      return encode(ConstUCharWrap((const unsigned char *)data, size));
+    }
+
+    /**
+     * Decodes data from the passed string and stores the
+     * result in data
+     * @param data 	Destination of the decoded data
+     * @param len	Length of the region in data
+     * @param str	Base64 string to decode
+     * @return 		Number of bytes written to data
+     */
+    size_t decode(void *data, size_t len, const std::string& str) const
+    {
+      UCharWrap ret((unsigned char*)data, len);
+      decode(ret, str);
+      return ret.index;
     }
 
     std::string decode(const std::string& str) const
@@ -153,10 +197,11 @@ namespace openvpn {
     template <typename V>
     void decode(V& dest, const std::string& str) const
     {
-      for (const char *p = str.c_str(); *p != '\0' && (*p == equal || is_base64_char(*p)); p += 4)
+      const char *endp = str.c_str() + str.length();
+      for (const char *p = str.c_str(); p < endp; p += 4)
 	{
 	  unsigned int marker;
-	  const unsigned int val = token_decode(p, marker);
+	  const unsigned int val = token_decode(p, std::min(endp - p, ptrdiff_t(4)), marker);
 	  dest.push_back((val >> 16) & 0xff);
 	  if (marker < 2)
 	    dest.push_back((val >> 8) & 0xff);
@@ -207,12 +252,12 @@ namespace openvpn {
       return v;
     }
 
-    unsigned int token_decode(const char *token, unsigned int& marker) const
+    unsigned int token_decode(const char *token, const ptrdiff_t len, unsigned int& marker) const
     {
       size_t i;
       unsigned int val = 0;
       marker = 0; // number of equal chars seen
-      if (std::strlen(token) < 4)
+      if (len < 4)
 	throw base64_decode_error();
       for (i = 0; i < 4; i++)
 	{

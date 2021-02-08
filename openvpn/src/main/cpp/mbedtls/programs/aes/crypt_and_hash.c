@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #define mbedtls_fprintf         fprintf
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -46,6 +47,7 @@
  defined(MBEDTLS_FS_IO)
 #include "mbedtls/cipher.h"
 #include "mbedtls/md.h"
+#include "mbedtls/platform_util.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -79,6 +81,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( int argc, char *argv[] )
 {
     int ret = 1, i, n;
@@ -215,7 +219,7 @@ int main( int argc, char *argv[] )
             p = &argv[6][4];
             keylen = 0;
 
-            while( sscanf( p, "%02X", &n ) > 0 &&
+            while( sscanf( p, "%02X", (unsigned int*) &n ) > 0 &&
                    keylen < (int) sizeof( key ) )
             {
                 key[keylen++] = (unsigned char) n;
@@ -413,7 +417,7 @@ int main( int argc, char *argv[] )
             ( ( filesize - mbedtls_md_get_size( md_info ) ) %
                 mbedtls_cipher_get_block_size( &cipher_ctx ) ) != 0 )
         {
-            mbedtls_fprintf( stderr, "File content not a multiple of the block size (%d).\n",
+            mbedtls_fprintf( stderr, "File content not a multiple of the block size (%u).\n",
                      mbedtls_cipher_get_block_size( &cipher_ctx ));
             goto exit;
         }
@@ -480,7 +484,7 @@ int main( int argc, char *argv[] )
 
             if( fread( buffer, 1, ilen, fin ) != ilen )
             {
-                mbedtls_fprintf( stderr, "fread(%d bytes) failed\n",
+                mbedtls_fprintf( stderr, "fread(%u bytes) failed\n",
                     mbedtls_cipher_get_block_size( &cipher_ctx ) );
                 goto exit;
             }
@@ -547,13 +551,13 @@ exit:
        the case when the user has missed or reordered some,
        in which case the key might not be in argv[6]. */
     for( i = 0; i < argc; i++ )
-        memset( argv[i], 0, strlen( argv[i] ) );
+        mbedtls_platform_zeroize( argv[i], strlen( argv[i] ) );
 
-    memset( IV,     0, sizeof( IV ) );
-    memset( key,    0, sizeof( key ) );
-    memset( buffer, 0, sizeof( buffer ) );
-    memset( output, 0, sizeof( output ) );
-    memset( digest, 0, sizeof( digest ) );
+    mbedtls_platform_zeroize( IV,     sizeof( IV ) );
+    mbedtls_platform_zeroize( key,    sizeof( key ) );
+    mbedtls_platform_zeroize( buffer, sizeof( buffer ) );
+    mbedtls_platform_zeroize( output, sizeof( output ) );
+    mbedtls_platform_zeroize( digest, sizeof( digest ) );
 
     mbedtls_cipher_free( &cipher_ctx );
     mbedtls_md_free( &md_ctx );

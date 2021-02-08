@@ -2,7 +2,7 @@
 // detail/variadic_templates.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -58,6 +58,20 @@
 # define ASIO_VARIADIC_BYVAL_ARGS_4 x1, x2, x3, x4
 # define ASIO_VARIADIC_BYVAL_ARGS_5 x1, x2, x3, x4, x5
 
+# define ASIO_VARIADIC_CONSTREF_PARAMS(n) \
+  ASIO_VARIADIC_CONSTREF_PARAMS_##n
+
+# define ASIO_VARIADIC_CONSTREF_PARAMS_1 \
+  const T1& x1
+# define ASIO_VARIADIC_CONSTREF_PARAMS_2 \
+  const T1& x1, const T2& x2
+# define ASIO_VARIADIC_CONSTREF_PARAMS_3 \
+  const T1& x1, const T2& x2, const T3& x3
+# define ASIO_VARIADIC_CONSTREF_PARAMS_4 \
+  const T1& x1, const T2& x2, const T3& x3, const T4& x4
+# define ASIO_VARIADIC_CONSTREF_PARAMS_5 \
+  const T1& x1, const T2& x2, const T3& x3, const T4& x4, const T5& x5
+
 # define ASIO_VARIADIC_MOVE_PARAMS(n) \
   ASIO_VARIADIC_MOVE_PARAMS_##n
 
@@ -93,6 +107,24 @@
   ASIO_MOVE_CAST(T1)(x1), ASIO_MOVE_CAST(T2)(x2), \
   ASIO_MOVE_CAST(T3)(x3), ASIO_MOVE_CAST(T4)(x4), \
   ASIO_MOVE_CAST(T5)(x5)
+
+# define ASIO_VARIADIC_MOVE_DECLVAL(n) \
+  ASIO_VARIADIC_MOVE_DECLVAL_##n
+
+# define ASIO_VARIADIC_MOVE_DECLVAL_1 \
+  declval<ASIO_MOVE_ARG(T1)>()
+# define ASIO_VARIADIC_MOVE_DECLVAL_2 \
+  declval<ASIO_MOVE_ARG(T1)>(), declval<ASIO_MOVE_ARG(T2)>()
+# define ASIO_VARIADIC_MOVE_DECLVAL_3 \
+  declval<ASIO_MOVE_ARG(T1)>(), declval<ASIO_MOVE_ARG(T2)>(), \
+  declval<ASIO_MOVE_ARG(T3)>()
+# define ASIO_VARIADIC_MOVE_DECLVAL_4 \
+  declval<ASIO_MOVE_ARG(T1)>(), declval<ASIO_MOVE_ARG(T2)>(), \
+  declval<ASIO_MOVE_ARG(T3)>(), declval<ASIO_MOVE_ARG(T4)>()
+# define ASIO_VARIADIC_MOVE_DECLVAL_5 \
+  declval<ASIO_MOVE_ARG(T1)>(), declval<ASIO_MOVE_ARG(T2)>(), \
+  declval<ASIO_MOVE_ARG(T3)>(), declval<ASIO_MOVE_ARG(T4)>(), \
+  declval<ASIO_MOVE_ARG(T5)>()
 
 # define ASIO_VARIADIC_DECAY(n) \
   ASIO_VARIADIC_DECAY_##n

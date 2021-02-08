@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -100,20 +100,25 @@ namespace openvpn {
   class CryptoDCContext : public RC<thread_unsafe_refcount>
   {
   public:
+    explicit CryptoDCContext(const CryptoAlgs::KeyDerivation method): key_derivation(method) {}
+
     typedef RCPtr<CryptoDCContext> Ptr;
 
     virtual CryptoDCInstance::Ptr new_obj(const unsigned int key_id) = 0;
 
     // cipher/HMAC/key info
     struct Info {
-      Info() : cipher_alg(CryptoAlgs::NONE), hmac_alg(CryptoAlgs::NONE) {}
-      CryptoAlgs::Type cipher_alg;
-      CryptoAlgs::Type hmac_alg;
+      Info() {}
+      CryptoAlgs::Type cipher_alg = CryptoAlgs::NONE;
+      CryptoAlgs::Type hmac_alg = CryptoAlgs::NONE;
+      CryptoAlgs::KeyDerivation key_derivation = CryptoAlgs::KeyDerivation::OPENVPN_PRF;
     };
     virtual Info crypto_info() = 0;
 
     // Info for ProtoContext::link_mtu_adjust
     virtual size_t encap_overhead() const = 0;
+  protected:
+    CryptoAlgs::KeyDerivation key_derivation = CryptoAlgs::KeyDerivation::OPENVPN_PRF;;
   };
 
   // Factory for CryptoDCContext objects
@@ -123,7 +128,8 @@ namespace openvpn {
     typedef RCPtr<CryptoDCFactory> Ptr;
 
     virtual CryptoDCContext::Ptr new_obj(const CryptoAlgs::Type cipher,
-					 const CryptoAlgs::Type digest) = 0;
+					 const CryptoAlgs::Type digest,
+					 const CryptoAlgs::KeyDerivation method) = 0;
   };
 
   // Manage cipher/digest settings, DC factory, and DC context.
@@ -133,9 +139,6 @@ namespace openvpn {
     OPENVPN_SIMPLE_EXCEPTION(no_data_channel_factory);
 
     CryptoDCSettings()
-      : cipher_(CryptoAlgs::NONE),
-	digest_(CryptoAlgs::NONE),
-	dirty(false)
     {
     }
 
@@ -170,7 +173,7 @@ namespace openvpn {
 	{
 	  if (!factory_)
 	    throw no_data_channel_factory();
-	  context_ = factory_->new_obj(cipher_, digest_);
+	  context_ = factory_->new_obj(cipher_, digest_, key_derivation_);
 	  dirty = false;
 	}
       return *context_;
@@ -184,16 +187,40 @@ namespace openvpn {
     }
 
     CryptoAlgs::Type cipher() const { return cipher_; }
-    CryptoAlgs::Type digest() const { return digest_; }
+
+    /**
+     *  Retrieve the digest configured for the data channel.
+     *  If the configured data channel cipher does not use any
+     *  additional digest, CryptoAlgs::NONE is returned.
+     *
+     * @return  Returns the cipher digest in use
+     */
+    CryptoAlgs::Type digest() const
+    {
+      return (CryptoAlgs::use_cipher_digest(cipher_) ? digest_ : CryptoAlgs::NONE);
+    }
+
 
     CryptoDCFactory::Ptr factory() const { return factory_; }
 
+    void set_key_derivation(CryptoAlgs::KeyDerivation method)
+    {
+	key_derivation_ = method;
+    }
+
+    CryptoAlgs::KeyDerivation key_derivation() const
+    {
+      return key_derivation_;
+    }
+
   private:
-    CryptoAlgs::Type cipher_;
-    CryptoAlgs::Type digest_;
+    CryptoAlgs::Type cipher_ = CryptoAlgs::NONE;
+    CryptoAlgs::Type digest_ = CryptoAlgs::NONE;
+    CryptoAlgs::KeyDerivation key_derivation_ = CryptoAlgs::KeyDerivation::OPENVPN_PRF;
+
     CryptoDCFactory::Ptr factory_;
     CryptoDCContext::Ptr context_;
-    bool dirty;
+    bool dirty = false;
   };
 }
 

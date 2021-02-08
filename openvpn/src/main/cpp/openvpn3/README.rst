@@ -117,6 +117,7 @@ not required for Mac builds.
 
 Build the dependencies::
 
+    $ DL=~/Downloads
     $ OSX_ONLY=1 $O3/core/scripts/mac/build-all
 
 Now build the OpenVPN 3 client executable::
@@ -125,7 +126,7 @@ Now build the OpenVPN 3 client executable::
     $ . vars/vars-osx64
     $ . vars/setpath
     $ cd test/ovpncli
-    $ MTLS=1 LZ4=1 build cli
+    $ MTLS=1 LZ4=1 ASIO=1 build cli
 
 This will build the OpenVPN 3 client library with a small client
 wrapper (``cli``).  It will also statically link in all external
@@ -151,28 +152,23 @@ Building the OpenVPN 3 client on Windows
 
 Prerequisites:
 
- - Visual Studio 2017
- - Python 2.7
-
-Clone the OpenVPN 3 source repo::
-
-  > c:\Temp>mkdir O3
-  > c:\Temp>cd O3
-  > c:\Temp\O3>git clone https://github.com/OpenVPN/openvpn3.git core
+* Visual Studio 2019
+* CMake
+* vcpkg
 
 Download and build dependencies::
 
-  > c:\Temp\O3>cd core\win
-  > c:\Temp\O3\core\win>set O3=C:\Temp\O3 && python buildep.py
+  > git clone https://github.com/Microsoft/vcpkg.git
+  > cd vcpkg
+  > bootstrap-vcpkg.bat
+  > vcpkg integrate install
+  > vcpkg install openssl-windows:x64-windows asio:x64-windows tap-windows6:x64-windows lz4:x64-windows gtest:x64-windows
 
-Build test client::
+Download and build core test client::
 
-  > c:\Temp\O3\core\win>set O3=C:\Temp\O3 && python build.py
-
-Visual Studio 2015 project and solution files are located in ``O3\core\win`` directory.
-Before opening project you need to build dependencies and define OVPN3_ROOT
-environmental variable (``C:\Temp\O3`` from example above).
-
+  > git clone https://github.com/OpenVPN/openvpn3.git
+  > cmake -DCMAKE_TOOLCHAIN_FILE=<path_to_vcpkg>\scripts\buildsystems\vcpkg.cmake -A x64 -B build openvpn3
+  > cmake --build build --config Release --target ovpncli
 
 Testing
 -------

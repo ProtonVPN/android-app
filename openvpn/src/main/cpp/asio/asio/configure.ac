@@ -1,4 +1,4 @@
-AC_INIT(asio, [1.12.1])
+AC_INIT(asio, [1.16.1])
 AC_CONFIG_SRCDIR(include/asio.hpp)
 AM_MAINTAINER_MODE
 AM_INIT_AUTOMAKE([tar-ustar])
@@ -17,20 +17,12 @@ AC_ARG_WITH(boost,
   if test "${withval}" = no; then
     STANDALONE="yes"
   else
-    CPPFLAGS="$CPPFLAGS -I${withval} -DBOOST_CHRONO_HEADER_ONLY -DBOOST_CHRONO_DONT_PROVIDE_HYBRID_ERROR_HANDLING"
+    CPPFLAGS="$CPPFLAGS -I${withval} -DASIO_ENABLE_BOOST -DBOOST_CHRONO_HEADER_ONLY -DBOOST_CHRONO_DONT_PROVIDE_HYBRID_ERROR_HANDLING"
     LIBS="$LIBS -L${withval}/stage/lib"
   fi
 ],
 [
-  BOOSTDIR=`ls -1d ../boost_*_*_*/ 2>/dev/null | sort -t "_" -k 2nr -k 3nr -k 4nr | head -n 1 | sed -e 's/\/$//'`
-  if test "${BOOSTDIR}" != ""; then
-    BOOSTDIR="`pwd`/${BOOSTDIR}"
-    if test -d "${BOOSTDIR}"; then
-      echo "using automatically detected boost from ${BOOSTDIR}"
-      CPPFLAGS="$CPPFLAGS -I${BOOSTDIR} -DBOOST_CHRONO_HEADER_ONLY -DBOOST_CHRONO_DONT_PROVIDE_HYBRID_ERROR_HANDLING"
-      LIBS="$LIBS -L${BOOSTDIR}/stage/lib"
-    fi
-  fi
+  STANDALONE="yes"
 ])
 
 AC_ARG_ENABLE(separate-compilation,
@@ -102,7 +94,7 @@ case $host in
     WINDOWS=yes
     ;;
   *-pc-cygwin*)
-    CXXFLAGS="$CXXFLAGS -D__USE_W32_SOCKETS -D_WIN32_WINNT=0x0501"
+    CXXFLAGS="$CXXFLAGS -D__USE_W32_SOCKETS -D_WIN32_WINNT=0x0601"
     LIBS="$LIBS -lws2_32 -lmswsock"
     WINDOWS=yes
     ;;
@@ -118,6 +110,10 @@ case $host in
     CXXFLAGS="$CXXFLAGS -pthread"
     LDFLAGS="$LDFLAGS -pthread"
     ;;
+  *-*-haiku*)
+    CXXFLAGS="$CXXFLAGS -lnetwork"
+    LDFLAGS="$LDFLAGS -lnetwork"
+
 esac
 
 if test "$GXX" = yes; then

@@ -1,0 +1,155 @@
+From df7759c141a31159d0ca4267b63f64dfd2a385b1 Mon Sep 17 00:00:00 2001
+From: James Yonan <james@openvpn.net>
+Date: Wed, 27 Jun 2018 23:12:31 -0600
+Subject: Added kovpn route_id support to endpoints for sendto/recvfrom.
+
+Signed-off-by: James Yonan <james@openvpn.net>
+---
+ asio/include/asio/ip/basic_endpoint.hpp       | 12 ++++++
+ asio/include/asio/ip/detail/endpoint.hpp      | 55 +++++++++++++++++++++++++++
+ asio/include/asio/ip/detail/impl/endpoint.ipp | 12 ++++++
+ 3 files changed, 79 insertions(+)
+
+diff --git a/asio/include/asio/ip/basic_endpoint.hpp b/asio/include/asio/ip/basic_endpoint.hpp
+index 4418ee7..179a021 100644
+--- a/asio/include/asio/ip/basic_endpoint.hpp
++++ b/asio/include/asio/ip/basic_endpoint.hpp
+@@ -185,6 +185,18 @@ public:
+     impl_.address(addr);
+   }
+ 
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++  int get_route_id() const
++  {
++    return impl_.get_route_id();
++  }
++
++  void set_route_id(const int route_id)
++  {
++    impl_.set_route_id(route_id);
++  }
++#endif
++
+   /// Compare two endpoints for equality.
+   friend bool operator==(const basic_endpoint<InternetProtocol>& e1,
+       const basic_endpoint<InternetProtocol>& e2) ASIO_NOEXCEPT
+diff --git a/asio/include/asio/ip/detail/endpoint.hpp b/asio/include/asio/ip/detail/endpoint.hpp
+index 9acefe5..7ba5983 100644
+--- a/asio/include/asio/ip/detail/endpoint.hpp
++++ b/asio/include/asio/ip/detail/endpoint.hpp
+@@ -24,6 +24,11 @@
+ 
+ #include "asio/detail/push_options.hpp"
+ 
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++#include <cstdint>
++#include <uapi/ovpn/mark.h>
++#endif
++
+ namespace asio {
+ namespace ip {
+ namespace detail {
+@@ -116,6 +121,47 @@ public:
+   ASIO_DECL std::string to_string() const;
+ #endif // !defined(ASIO_NO_IOSTREAM)
+ 
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++  int get_route_id() const
++  {
++    if (is_v4())
++      {
++	if (data_.v4_sin_ovpn_magic == SIN_OVPN_MAGIC)
++	  return OVPN_MARK_ROUTE_ID(data_.v4_sin_ovpn_route_id);
++      }
++    else
++      {
++	if ((data_.v6.sin6_flowinfo & htonl(SIN6_FLOWINFO_OVPN_MASK)) == htonl(SIN6_FLOWINFO_OVPN_MAGIC))
++	  return OVPN_MARK_ROUTE_ID(ntohl(data_.v6.sin6_flowinfo));
++      }
++    return -1;
++  }
++
++  void set_route_id(const int route_id)
++  {
++    if (is_v4())
++      {
++	if (route_id >= 0)
++	  {
++	    data_.v4_sin_ovpn_magic = SIN_OVPN_MAGIC;
++	    data_.v4_sin_ovpn_route_id = OVPN_MARK_ROUTE_ID(route_id);
++	  }
++	else
++	  {
++	    data_.v4_sin_ovpn_magic = 0;
++	    data_.v4_sin_ovpn_route_id = 0;
++	  }
++      }
++    else
++      {
++	if (route_id >= 0)
++	  data_.v6.sin6_flowinfo = htonl(OVPN_MARK_ROUTE_ID(route_id) | SIN6_FLOWINFO_OVPN_MAGIC);
++	else
++	  data_.v6.sin6_flowinfo = 0;
++      }
++  }
++#endif
++
+ private:
+   // The underlying IP socket address.
+   union data_union
+@@ -123,6 +169,15 @@ private:
+     asio::detail::socket_addr_type base;
+     asio::detail::sockaddr_in4_type v4;
+     asio::detail::sockaddr_in6_type v6;
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++    struct {
++      std::uint8_t head_[8];
++
++      // mirrors definition in <linux-kernel>/include/uapi/linux/in.h
++      std::uint32_t v4_sin_ovpn_magic;
++      std::uint32_t v4_sin_ovpn_route_id;
++    };
++#endif
+   } data_;
+ };
+ 
+diff --git a/asio/include/asio/ip/detail/impl/endpoint.ipp b/asio/include/asio/ip/detail/impl/endpoint.ipp
+index 304bdf3..a72fefc 100644
+--- a/asio/include/asio/ip/detail/impl/endpoint.ipp
++++ b/asio/include/asio/ip/detail/impl/endpoint.ipp
+@@ -37,6 +37,10 @@ endpoint::endpoint()
+   data_.v4.sin_family = ASIO_OS_DEF(AF_INET);
+   data_.v4.sin_port = 0;
+   data_.v4.sin_addr.s_addr = ASIO_OS_DEF(INADDR_ANY);
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++  data_.v4_sin_ovpn_magic = 0;
++  data_.v4_sin_ovpn_route_id = 0;
++#endif
+ }
+ 
+ endpoint::endpoint(int family, unsigned short port_num) ASIO_NOEXCEPT
+@@ -49,6 +53,10 @@ endpoint::endpoint(int family, unsigned short port_num)
+     data_.v4.sin_port =
+       asio::detail::socket_ops::host_to_network_short(port_num);
+     data_.v4.sin_addr.s_addr = ASIO_OS_DEF(INADDR_ANY);
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++    data_.v4_sin_ovpn_magic = 0;
++    data_.v4_sin_ovpn_route_id = 0;
++#endif
+   }
+   else
+   {
+@@ -81,6 +89,10 @@ endpoint::endpoint(const asio::ip::address& addr,
+     data_.v4.sin_addr.s_addr =
+       asio::detail::socket_ops::host_to_network_long(
+         addr.to_v4().to_uint());
++#if defined(ASIO_USE_KOVPN_ROUTE_ID)
++    data_.v4_sin_ovpn_magic = 0;
++    data_.v4_sin_ovpn_route_id = 0;
++#endif
+   }
+   else
+   {
+-- 
+2.7.4
+

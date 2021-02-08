@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -128,7 +128,7 @@ namespace openvpn {
 	argv.emplace_back("-6");
       argv.emplace_back("route");
       argv.emplace_back("show");
-      const int status = system_cmd(argv[0], argv, nullptr, pipe, 0);
+      const int status = system_cmd(argv[0], argv, nullptr, pipe, 0, nullptr);
       if (status != 0)
 	OPENVPN_THROW(linux_gw_error, "command returned error status " << status << " : " << argv.to_string());
       return pipe.out;

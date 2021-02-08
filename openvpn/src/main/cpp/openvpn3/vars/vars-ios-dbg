@@ -4,7 +4,7 @@ export DEBUG_BUILD=1
 export GPP_CMD=clang++
 export GCC_CMD=clang
 export IOS_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
-export PLATFORM_FLAGS="-arch armv7 -arch armv7s -arch arm64 -mthumb -miphoneos-version-min=5.1.1 -isysroot $IOS_SDK"
+export PLATFORM_FLAGS="-arch armv7 -arch armv7s -arch arm64 -mthumb -miphoneos-version-min=9.0 -isysroot $IOS_SDK"
 export OTHER_COMPILER_FLAGS="-g"
 export CXX_COMPILER_FLAGS="-std=c++11 -stdlib=libc++"
 export LIB_OPT_LEVEL="-O0"

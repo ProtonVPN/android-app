@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -60,26 +60,28 @@ namespace openvpn {
     public:
       typedef RCPtr<Setup> Ptr;
 
-      Setup(openvpn_io::io_context& io_context_arg)
-	: delete_route_timer(io_context_arg) {}
+      Setup(openvpn_io::io_context& io_context_arg, bool wintun_arg=false)
+	: delete_route_timer(io_context_arg),
+	  wintun(wintun_arg) {}
 
       // Set up the TAP device
       virtual HANDLE establish(const TunBuilderCapture& pull,
 			       const std::wstring& openvpn_app_path,
 			       Stop* stop,
-			       std::ostream& os) override // defined by SetupBase
+			       std::ostream& os,
+			       RingBuffer::Ptr ring_buffer) override // defined by SetupBase
       {
 	// close out old remove cmds, if they exist
 	destroy(os);
 
 	// enumerate available TAP adapters
-	Util::TapNameGuidPairList guids;
+	Util::TapNameGuidPairList guids(wintun);
 	os << "TAP ADAPTERS:" << std::endl << guids.to_string() << std::endl;
 
 	// open TAP device handle
 	std::string path_opened;
 	Util::TapNameGuidPair tap;
-	Win::ScopedHANDLE th(Util::tap_open(guids, path_opened, tap));
+	Win::ScopedHANDLE th(Util::tap_open(guids, path_opened, tap, wintun));
 	const std::string msg = "Open TAP device \"" + tap.name + "\" PATH=\"" + path_opened + '\"';
 
 	if (!th.defined())
@@ -89,8 +91,11 @@ namespace openvpn {
 	  }
 
 	os << msg << " SUCCEEDED" << std::endl;
-	Util::TAPDriverVersion version(th());
-	os << version.to_string() << std::endl;
+	if (!wintun)
+	  {
+	    Util::TAPDriverVersion version(th());
+	    os << version.to_string() << std::endl;
+	  }
 
 	// create ActionLists for setting up and removing adapter properties
 	ActionList::Ptr add_cmds(new ActionList());
@@ -118,6 +123,9 @@ namespace openvpn {
 	// if layer 2, save state
 	if (pull.layer() == Layer::OSI_LAYER_2)
 	  l2_state.reset(new L2State(tap, openvpn_app_path));
+
+	if (ring_buffer)
+	  register_rings(th(), ring_buffer);
 
 	return th.release();
       }
@@ -196,6 +204,20 @@ namespace openvpn {
 	destroy(os);
       }
 
+      static void add_bypass_route(const std::string& route,
+				   bool ipv6,
+				   ActionList& add_cmds,
+				   ActionList& remove_cmds_bypass_gw)
+      {
+	const Util::DefaultGateway gw;
+
+	if (!ipv6)
+	  {
+	    add_cmds.add(new WinCmd("netsh interface ip add route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+	    remove_cmds_bypass_gw.add(new WinCmd("netsh interface ip delete route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+	  }
+      }
+
     private:
       struct L2State
       {
@@ -246,6 +268,32 @@ namespace openvpn {
 	int indices[2] = {0, 0};
       };
 
+      void register_rings(HANDLE handle, RingBuffer::Ptr ring_buffer)
+      {
+	TUN_REGISTER_RINGS rings;
+
+	ZeroMemory(&rings, sizeof(rings));
+
+	rings.receive.ring = ring_buffer->receive_ring();
+	rings.receive.tail_moved = ring_buffer->receive_ring_tail_moved();
+	rings.receive.ring_size = sizeof(rings.receive.ring->data);
+
+	rings.send.ring = ring_buffer->send_ring();
+	rings.send.tail_moved = ring_buffer->send_ring_tail_moved();
+	rings.send.ring_size = sizeof(rings.send.ring->data);
+
+	{
+	  Win::Impersonate imp(true);
+
+	  DWORD len;
+	  if (!DeviceIoControl(handle, TUN_IOCTL_REGISTER_RINGS, &rings, sizeof(rings), NULL, 0, &len, NULL))
+	    {
+	      const Win::LastError err;
+	      throw ErrorCode(Error::TUN_REGISTER_RINGS_ERROR, true, "Error registering ring buffers: " + err.message());
+	    }
+	}
+      }
+
 #if _WIN32_WINNT >= 0x0600
       // Configure TAP adapter on Vista and higher
       void adapter_config(HANDLE th,
@@ -273,7 +321,8 @@ namespace openvpn {
 	if (!l2_post)
 	  {
 	    // set TAP media status to CONNECTED
-	    Util::tap_set_media_status(th, true);
+	    if (!wintun)
+	      Util::tap_set_media_status(th, true);
 
 	    // try to delete any stale routes on interface left over from previous session
 	    create.add(new Util::ActionDeleteAllRoutesOnInterface(tap.index));
@@ -302,10 +351,14 @@ namespace openvpn {
 		const std::string metric = route_metric_opt(pull, *local4, MT_IFACE);
 		const std::string netmask = IPv4::Addr::netmask_from_prefix_len(local4->prefix_length).to_string();
 		const IP::Addr localaddr = IP::Addr::from_string(local4->address);
-		if (local4->net30)
-		  Util::tap_configure_topology_net30(th, localaddr, local4->prefix_length);
-		else
-		  Util::tap_configure_topology_subnet(th, localaddr, local4->prefix_length);
+		const IP::Addr remoteaddr = IP::Addr::from_string(local4->gateway);
+		if (!wintun)
+		  {
+		    if (local4->net30)
+		      Util::tap_configure_topology_net30(th, localaddr, remoteaddr);
+		    else
+		      Util::tap_configure_topology_subnet(th, localaddr, local4->prefix_length);
+		  }
 		create.add(new WinCmd("netsh interface ip set address " + tap_index_name + " static " + local4->address + ' ' + netmask + " gateway=" + local4->gateway + metric + " store=active"));
 		destroy.add(new WinCmd("netsh interface ip delete address " + tap_index_name + ' ' + local4->address + " gateway=all store=active"));
 
@@ -436,7 +489,7 @@ namespace openvpn {
 	    // add server bypass route
 	    if (gw.defined())
 	      {
-		if (!pull.remote_address.ipv6)
+		if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
 		  {
 		    create.add(new WinCmd("netsh interface ip add route " + pull.remote_address.address + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
 		    destroy.add(new WinCmd("netsh interface ip delete route " + pull.remote_address.address + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
@@ -671,7 +724,8 @@ namespace openvpn {
 	    }
 
 	    // set TAP media status to CONNECTED
-	    Util::tap_set_media_status(th, true);
+	    if (!wintun)
+	      Util::tap_set_media_status(th, true);
 
 	    // ARP
 	    Util::flush_arp(tap.index, os);
@@ -803,7 +857,7 @@ namespace openvpn {
 	// We must do DHCP release/renew in a background thread
 	// so the foreground can forward the DHCP negotiation packets
 	// over the tunnel.
-	l2_thread.reset(new std::thread([this, logwrap=Log::Context::Wrapper(), tap]() {
+	l2_thread.reset(new std::thread([tap, logwrap=Log::Context::Wrapper()]() {
 	      Log::Context logctx(logwrap);
 	      ::Sleep(250);
 	      const Util::InterfaceInfoList ii;
@@ -859,6 +913,8 @@ namespace openvpn {
       ActionList::Ptr remove_cmds;
 
       AsioTimer delete_route_timer;
+
+      bool wintun = false;
     };
   }
 }

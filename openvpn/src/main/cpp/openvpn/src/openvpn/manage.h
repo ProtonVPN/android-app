@@ -164,6 +164,7 @@ struct management_callback
     int (*kill_by_addr) (void *arg, const in_addr_t addr, const int port);
     void (*delete_event) (void *arg, event_t event);
     int (*n_clients) (void *arg);
+    bool (*send_cc_message) (void *arg, const char *message, const char *parameter);
 #ifdef MANAGEMENT_DEF_AUTH
     bool (*kill_by_cid)(void *arg, const unsigned long cid, const char *kill_msg);
     bool (*client_auth) (void *arg,
@@ -173,6 +174,9 @@ struct management_callback
                          const char *reason,
                          const char *client_reason,
                          struct buffer_list *cc_config); /* ownership transferred */
+    bool (*client_pending_auth) (void *arg,
+                                 const unsigned long cid,
+                                 const char *url);
     char *(*get_peer_info) (void *arg, const unsigned long cid);
 #endif
 #ifdef MANAGEMENT_PF
@@ -229,7 +233,6 @@ struct man_settings {
     struct sockaddr_un local_unix;
 #endif
     bool management_over_tunnel;
-    const char* management_over_tunnel_port;
     struct user_pass up;
     int log_history_cache;
     int echo_buffer_size;
@@ -351,10 +354,6 @@ struct management *management_init(void);
 #define MF_QUERY_PROXY              (1<<14)
 #define MF_EXTERNAL_CERT            (1<<15)
 
-#define MF_RSA_PKCS1_PADDING       1
-#define MF_RSA_NO_PADDING          2
-
-
 bool management_open(struct management *man,
                      const char *addr,
                      const char *port,
@@ -435,10 +434,15 @@ void management_learn_addr(struct management *management,
                            const struct mroute_addr *addr,
                            const bool primary);
 
-#endif
+void management_notify_client_cr_response(unsigned mda_key_id,
+                                          const struct man_def_auth_context *mdac,
+                                          const struct env_set *es,
+                                          const char *response);
+
+#endif /* ifdef MANAGEMENT_DEF_AUTH */
 
 char *management_query_pk_sig(struct management *man, const char *b64_data,
-                              const char* pading);
+                              const char *algorithm);
 
 char *management_query_cert(struct management *man, const char *cert_name);
 

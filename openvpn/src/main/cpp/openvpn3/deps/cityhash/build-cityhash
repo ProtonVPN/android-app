@@ -33,11 +33,11 @@ CSUM=${CITYHASH_CSUM}
 
 download
 
-CC=cc
+CXX=c++
 LD=ld
 AR=ar
 RANLIB=ranlib
-[ "$GCC_CMD" ] && CC=$GCC_CMD
+[ "$GPP_CMD" ] && CXX=$GPP_CMD
 [ "$LD_CMD" ] && LD=$LD_CMD
 [ "$AR_CMD" ] && AR=$AR_CMD
 [ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
@@ -52,10 +52,17 @@ rm -rf $DIST
 mkdir -p $DIST/include
 mkdir $DIST/lib
 cd cityhash-$CITYHASH_VERSION
-CMD=./configure
-echo $CMD
+
+# The autconf tools in cityhash are from 2009 and have no idea what arm64 is and fail.
+# The configure otherwise not really useful anyway, as only HAVE_BUILTIN_EXPECT
+# and if the arch is big endian is used by cityhash source code
+#CMD=./configure
+#echo $CMD
+# fake config.h
+touch config.h
+
 $CMD
-CMD="$CC $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -I. -Isrc -c src/city.cc"
+CMD="$CXX $CXX_COMPILER_FLAGS $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -DHAVE_BUILTIN_EXPECT=1 -I. -Isrc -c src/city.cc"
 echo $CMD
 $CMD
 $AR rc $DIST/lib/libcityhash.a city.o

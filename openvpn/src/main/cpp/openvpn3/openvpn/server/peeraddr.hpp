@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,6 +26,7 @@
 
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/to_string.hpp>
+#include <openvpn/common/jsonlib.hpp>
 #include <openvpn/addr/ip.hpp>
 
 namespace openvpn {
@@ -38,11 +39,21 @@ namespace openvpn {
       return addr.to_string_bracket_ipv6() + ':' + openvpn::to_string(port);
     }
 
+#ifdef HAVE_JSON
+    Json::Value to_json() const
+    {
+      Json::Value jret(Json::objectValue);
+      jret["addr"] = Json::Value(addr.to_string());
+      jret["port"] = Json::Value(port);
+      return jret;
+    }
+#endif
+
     IP::Addr addr;
     std::uint16_t port;
   };
 
-  struct PeerAddr : public RC<thread_unsafe_refcount>
+  struct PeerAddr : public RCCopyable<thread_unsafe_refcount>
   {
     typedef RCPtr<PeerAddr> Ptr;
 
@@ -60,6 +71,17 @@ namespace openvpn {
 	proto = "UDP ";
       return proto + remote.to_string() + " -> " + local.to_string();
     }
+
+#ifdef HAVE_JSON
+    Json::Value to_json() const
+    {
+      Json::Value jret(Json::objectValue);
+      jret["tcp"] = Json::Value(tcp);
+      jret["local"] = local.to_json();
+      jret["remote"] = remote.to_json();
+      return jret;
+    }
+#endif
 
     AddrPort remote;
     AddrPort local;

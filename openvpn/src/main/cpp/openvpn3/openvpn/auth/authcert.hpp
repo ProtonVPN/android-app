@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,6 +26,7 @@
 #include <vector>
 #include <sstream>
 #include <cstring>
+#include <cstdint>
 #include <memory>
 #include <utility>
 
@@ -35,14 +36,16 @@
 #include <openvpn/common/binprefix.hpp>
 #include <openvpn/common/to_string.hpp>
 #include <openvpn/pki/x509track.hpp>
+#include <openvpn/ssl/sni_metadata.hpp>
 
 namespace openvpn {
 
     class OpenSSLContext;
     class MbedTLSContext;
 
-    struct AuthCert : public RC<thread_unsafe_refcount>
+    class AuthCert : public RC<thread_unsafe_refcount>
     {
+    public:
       // AuthCert needs to friend SSL implementation classes
       friend class OpenSSLContext;
       friend class MbedTLSContext;
@@ -52,16 +55,18 @@ namespace openvpn {
       class Fail
       {
       public:
-	// ordered by priority
+	// Ordered by severity.  If many errors are present, the
+	// most severe error will be returned by get_code().
 	enum Type {
-	  OK=0, // OK MUST be 0
-	  OTHER,
+	  OK=0,                // OK MUST be 0
+	  EXPIRED,             // less severe...
 	  BAD_CERT_TYPE,
-	  EXPIRED,
+	  CERT_FAIL,
+	  SNI_ERROR,           // more severe...
 	  N
 	};
 
-	void add_fail(const size_t depth, const Type new_code, const char *reason)
+	void add_fail(const size_t depth, const Type new_code, std::string reason)
 	{
 	  if (new_code > code)
 	    code = new_code;
@@ -69,7 +74,7 @@ namespace openvpn {
 	    errors.emplace_back();
 	  std::string& err = errors[depth];
 	  if (err.empty())
-	    err = reason;
+	    err = std::move(reason);
 	  else if (err.find(reason) == std::string::npos)
 	    {
 	      err += ", ";
@@ -111,19 +116,21 @@ namespace openvpn {
 	  return ret;
 	}
 
-	static const char *render_code(const Type code)
+	static std::string render_code(const Type code)
 	{
 	  switch (code)
 	    {
 	    case OK:
 	      return "OK";
-	    case OTHER:
+	    case CERT_FAIL:
 	    default:
 	      return "CERT_FAIL";
 	    case BAD_CERT_TYPE:
 	      return "BAD_CERT_TYPE";
 	    case EXPIRED:
 	      return "EXPIRED";
+	    case SNI_ERROR:
+	      return "SNI_ERROR";
 	    }
 	}
 
@@ -143,9 +150,19 @@ namespace openvpn {
 	return sn >= 0;
       }
 
+      bool sni_defined() const
+      {
+	return !sni.empty();
+      }
+
       bool cn_defined() const
       {
 	return !cn.empty();
+      }
+
+      bool is_uninitialized() const
+      {
+	return cn.empty() && sn < 0 && !fail;
       }
 
       template <typename T>
@@ -156,7 +173,7 @@ namespace openvpn {
 
       bool operator==(const AuthCert& other) const
       {
-	return cn == other.cn && sn == other.sn && !std::memcmp(issuer_fp, other.issuer_fp, sizeof(issuer_fp));
+	return sni == other.sni && cn == other.cn && sn == other.sn && !std::memcmp(issuer_fp, other.issuer_fp, sizeof(issuer_fp));
       }
 
       bool operator!=(const AuthCert& other) const
@@ -167,6 +184,10 @@ namespace openvpn {
       std::string to_string() const
       {
 	std::ostringstream os;
+	if (!sni.empty())
+	  os << "SNI=" << sni << ' ';
+	if (sni_metadata)
+	  os << "SNI_CN=" << sni_metadata->sni_client_name(*this) << ' ';
 	os << "CN=" << cn
 	   << " SN=" << sn
 	   << " ISSUER_FP=" << issuer_fp_str(false);
@@ -189,12 +210,27 @@ namespace openvpn {
 	  return cn;
       }
 
+      // Allow sni_metadata object, if it exists, to generate the client name.
+      // Otherwise fall back to normalize_cn().
+      std::string sni_client_name() const
+      {
+	if (sni_metadata)
+	  return sni_metadata->sni_client_name(*this);
+	else
+	  return normalize_cn();
+      }
+
+      const std::string& get_sni() const
+      {
+	return sni;
+      }
+
       const std::string& get_cn() const
       {
 	return cn;
       }
 
-      long get_sn() const
+      std::int64_t get_sn() const
       {
 	return sn;
       }
@@ -209,11 +245,11 @@ namespace openvpn {
 	return std::move(x509_track);
       }
 
-      void add_fail(const size_t depth, const Fail::Type new_code, const char *reason)
+      void add_fail(const size_t depth, const Fail::Type new_code, std::string reason)
       {
 	if (!fail)
 	  fail.reset(new Fail());
-	fail->add_fail(depth, new_code, reason);
+	fail->add_fail(depth, new_code, std::move(reason));
       }
 
       bool is_fail() const
@@ -226,13 +262,25 @@ namespace openvpn {
 	return fail.get();
       }
 
+      std::string fail_str() const
+      {
+	if (fail)
+	  return fail->to_string(true);
+	else
+	  return "OK";
+      }
+
+#ifndef UNIT_TEST
     private:
+#endif
+      std::string sni;               // SNI (server name indication)
       std::string cn;                // common name
-      long sn;                       // serial number
+      std::int64_t sn;               // serial number
       unsigned char issuer_fp[20];   // issuer cert fingerprint
 
       std::unique_ptr<Fail> fail;
       std::unique_ptr<X509Track::Set> x509_track;
+      SNI::Metadata::UPtr sni_metadata;
     };
 }
 

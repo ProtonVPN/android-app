@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,17 +38,23 @@ namespace openvpn {
       SERVER
     };
 
-    inline Type ns_cert_type(const OptionList& opt, const std::string& relay_prefix) {
+    inline Type ns_cert_type(const std::string& ct)
+    {
+      if (ct == "server")
+	return SERVER;
+      else if (ct == "client")
+	return CLIENT;
+      else
+	throw option_error("ns-cert-type must be 'client' or 'server'");
+    }
+
+    inline Type ns_cert_type(const OptionList& opt, const std::string& relay_prefix)
+    {
       const Option* o = opt.get_ptr(relay_prefix + "ns-cert-type");
       if (o)
 	{
 	  const std::string ct = o->get_optional(1, 16);
-	  if (ct == "server")
-	    return SERVER;
-	  else if (ct == "client")
-	    return CLIENT;
-	  else
-	    throw option_error("ns-cert-type must be 'client' or 'server'");
+	  return ns_cert_type(ct);
 	}
       return NONE;
     }

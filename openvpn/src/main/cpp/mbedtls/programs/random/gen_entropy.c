@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_fprintf         fprintf
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -49,6 +50,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( int argc, char *argv[] )
 {
     FILE *f;
@@ -77,7 +80,7 @@ int main( int argc, char *argv[] )
         if( ret != 0 )
         {
             mbedtls_printf( "  failed\n  !  mbedtls_entropy_func returned -%04X\n",
-                            ret );
+                            (unsigned int) ret );
             goto cleanup;
         }
 
