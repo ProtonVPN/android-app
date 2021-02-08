@@ -80,7 +80,7 @@
   <string name="accountTier">Assinatura ativa:</string>
   <string name="accountTrialExpires"><![CDATA[Sua versão de avaliação termina em <br/><font color=#FFFFFF> %1$s</font><br/>]]></string>
   <string name="accountVersion">Versão:</string>
-  <string name="accountSubscriptionDetails"><![CDATA[To manage your subscription, you have to go to the <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
+  <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
   <string name="accountButtonManage">Gerenciar conta</string>
   <string name="accountTrial">Avaliação do ProtonVPN Plus</string>
   <string name="accountFree">ProtonVPN Gratuito</string>
@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"A sua avaliação gratuita de 7 dias do ProtonVPN Plus expirou. Você pode continuar usando o ProtonVPN Gratuito, mas se você quer apoiar o projeto e ter acesso a mais países e recursos, por favor, faça o upgrade para um plano pago."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Sua avaliação gratuita de 7 dias do ProtonVPN Plus expirou. <br> Você pode continuar a usar o ProtonVPN Free ou pode aproveitar todos os serviços de streaming que oferecemos atualizando para o Plus. <br>Visite <font color="%1$s">%2$s</font> para gerenciar sua assinatura.]]></string>
   <string name="activityProfileTitle">Perfil</string>
   <string name="activityAccountTitle">Conta</string>
   <string name="activitySettingsTitle">Configurações</string>
@@ -265,7 +266,6 @@
   <string name="welcomeDialogTitle">Obrigado por se juntar à comunidade do ProtonVPN que está em constante crescimento.</string>
   <string name="welcomeDialogDescription">Use as credenciais da sua conta criada recentemente para iniciar a sessão.</string>
   <string name="welcomeDialogTitleTrial">Como agradecimento, estamos lhe oferecendo uma avaliação gratuita por 7 dias do nosso plano Plus. Ele lhe permite usar recursos avançados e servidores Plus. No final do período de avaliação, você retornará ao plano Free e terá acesso somente aos servidores gratuitos.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> dias <b>%2$d</b> horas <b>%3$d</b> minutos <b>%4$d</b> segundos]]></string>
   <string name="toastLoginAuthVersionError">Não foi possível fazer login devido a versão de autenticação não suportada. Por favor, entre em contato com o suporte.</string>
   <string name="loaderErrorTimeout">A conexão expirou. Por favor, tente novamente.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Solução de problemas</u>]]></string>
@@ -315,66 +315,75 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="netShieldFullBlock">Bloquear malware, rastreadores e anúncios</string>
   <string name="dialogDontShowAgain">Não mostrar novamente</string>
   <string name="paidFeature">Recurso pago</string>
-  <string name="upgradeRequired">Upgrade required</string>
+  <string name="upgradeRequired">Requer atualização</string>
   <string name="netShieldReconnectionNeeded">Reconexão necessária</string>
-  <string name="netShieldReconnectionDescription">Your connection needs to be restarted to change NetShield mode.\n\nNote: If some sites don\'t load, try disabling NetShield.</string>
-  <string name="netShieldReconnectionDescriptionDisabling">Your connection needs to be restarted to deactivate NetShield mode.</string>
-  <string name="netShieldPaidFeature">This feature requires ProtonVPN Plus.\nUpgrade online to unlock all features and support ProtonVPN.</string>
+  <string name="netShieldReconnectionDescription">Sua conexão precisa ser reiniciada para alterar o modo NetShield.\n\nObservação: Se alguns sites não carregarem, tente desativar o NetShield.</string>
+  <string name="netShieldReconnectionDescriptionDisabling">Sua conexão precisa ser reiniciada para desativar o modo NetShield.</string>
+  <string name="netShieldPaidFeature">Este recurso requer ProtonVPN Plus.\nAtualize online para desbloquear todos os recursos e oferecer suporte ao ProtonVPN.</string>
   <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
   <string name="onMaintenanceDetected">O servidor VPN ao qual você estava conectado está passando por uma manutenção. Vamos conectar você automaticamente ao servidor mais rápido disponível.</string>
   <string name="errorTunMultiUserPermission">Não foi possível inicializar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicialize seu dispositivo.</string>
-  <string name="stateConnectedTo">Connected to %1$s</string>
-  <string name="stateNotConnected">You are not connected</string>
-  <string name="recents">Recents</string>
-  <string name="tvQuickConnectDescription">Nearby countries</string>
-  <string name="tvQuickConnectSubDescription">Streaming server</string>
-  <string name="nameEurope">Europe</string>
-  <string name="nameAmerica">America</string>
-  <string name="nameAsia">Asia</string>
-  <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
+  <string name="stateConnectedTo">Conectado a %1$s</string>
+  <string name="stateNotConnected">Você não está conectado</string>
+  <string name="recents">Recentes</string>
+  <string name="tvQuickConnectDescription">Países próximos</string>
+  <string name="tvQuickConnectSubDescription">Servidor de transmissão</string>
+  <string name="nameEurope">Europa</string>
+  <string name="nameAmerica">América</string>
+  <string name="nameAsia">Ásia</string>
+  <string name="nameAfricaAndMiddleEast">África &amp; Médio Oriente</string>
   <string name="nameOceania">Oceania</string>
-  <string name="tvRowMore">More</string>
-  <string name="tv_detail_default_connection_checkbox">My favorite country</string>
-  <string name="tv_detail_connect_streaming">Stream with Plus</string>
-  <string name="tv_detail_connect">Connect</string>
-  <string name="tv_detail_description_streaming_country">Stream your favorite content. Access more apps with a ProtonVPN Plus plan.</string>
-  <string name="tv_detail_description_no_streaming_country">Stream more of your favourite content with a ProtonVPN Plus plan.</string>
-  <string name="tv_detail_description_country_not_available">This country isn’t available. Get more streaming options with a ProtonVPN Plus plan.</string>
-  <string name="tv_detail_description_plus">Stream your favourite videos, movies, or sports with your apps.</string>
-  <string name="tv_login_title_signin">Sign in to ProtonVPN</string>
-  <string name="tv_login_title_welcome">Stream your favorite video content</string>
-  <string name="tv_login_welcome_description">Watch video content from over 50 countries, including YouTube and Twitch. Stream Netflix, Amazon Prime, and Hulu with ProtonVPN Plus.</string>
-  <string name="tv_login_welcome_description_bottom"><![CDATA[Get your ProtonVPN account at <b>%1$s</b>]]></string>
-  <string name="tv_login_welcome_button">Sign in</string>
-  <string name="tv_login_step1_description"><![CDATA[Go to <b>%1$s</b> on your mobile device or computer]]></string>
-  <string name="tv_login_step2_description">Sign in to ProtonVPN</string>
-  <string name="tv_login_step3_description">Enter the code:</string>
-  <string name="tv_login_timer_label">This code expires in:</string>
-  <string name="tv_login_refresh">Refresh</string>
-  <string name="tv_login_title_loading">Loading…</string>
-  <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
-  <string name="tv_upgrade_title">Start streaming with Plus</string>
-  <string name="back">Back</string>
-  <string name="tv_upgrade_url_details"><![CDATA[Visit <font color="%1$s">%2$s</font> to upgrade to ProtonVPN Plus now.]]></string>
-  <string name="tv_upgrade_description">Get a ProtonVPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
-  <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
-  <string name="tv_signout_label">Sign out</string>
-  <string name="tv_signout_dialog_title">Are you sure you want to sign out?</string>
-  <string name="tv_signout_dialog_description_connected">This will disconnect your TV from any VPN server.</string>
-  <string name="tv_signout_dialog_ok">Sign out</string>
-  <string name="tv_quick_connect_recommened">Recommended</string>
-  <string name="tv_quick_connect_favourite">Favourite</string>
-  <string name="tv_trial_counter_label">Trial</string>
-  <string name="tv_trial_title">7 days of full streaming</string>
-  <string name="tv_trial_description">As a welcome gift, you get access to all ProtonVPN servers and streaming services for the first 7 days with a Plus plan trial. Your plan will then change back to Free and the access to some services might be limited.Your trial ends in:</string>
+  <string name="tvRowMore">Mais</string>
+  <string name="tv_detail_default_connection_checkbox">Meu país favorito</string>
+  <string name="tv_detail_connect_streaming">Stream com Plus</string>
+  <string name="tv_detail_connect">Conectar</string>
+  <string name="tv_detail_description_streaming_country">Transmita seu conteúdo favorito. Acesse mais aplicativos com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Transmita mais do seu conteúdo favorito com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Este país não está disponível. Obtenha mais opções de streaming com um plano ProtonVPN Plus.</string>
+  <string name="tv_detail_description_plus">Transmita seus vídeos, filmes ou esportes favoritos com seus aplicativos.</string>
+  <string name="tv_login_title_signin">Registre-se no ProtonVPN</string>
+  <string name="tv_login_title_welcome">Transmita seu conteúdo de vídeo favorito</string>
+  <string name="tv_login_welcome_description">Assista ao conteúdo de vídeo de mais de 50 países, incluindo YouTube e Twitch. Assista Netflix, Amazon Prime, e Hulu com o ProtonVPN Plus.</string>
+  <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenha sua conta ProtonVPN em <b>%1$s </b>]]></string>
+  <string name="tv_login_welcome_button">Iniciar sessão</string>
+  <string name="tv_login_step1_description"><![CDATA[Vá para <b>%1$s</b> em seu dispositivo móvel ou computador]]></string>
+  <string name="tv_login_step2_description">Registre-se no ProtonVPN</string>
+  <string name="tv_login_step3_description">Insira o código:</string>
+  <string name="tv_login_timer_label">Esse código expira em:</string>
+  <string name="tv_login_refresh">Recarregar</string>
+  <string name="tv_login_title_loading">Carregando…</string>
+  <string name="tv_login_title_refresh">Sua sessão expirou. Clique em Atualizar para começar novamente.</string>
+  <string name="tv_upgrade_title">Comece a transmitir com Plus</string>
+  <string name="back">Voltar</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visite <font color="%1$s">%2$s</font> para atualizar agora para o ProtonVPN Plus.]]></string>
+  <string name="tv_upgrade_description">Obtenha um plano ProtonVPN Plus para acessar mais de 500 servidores em todo o mundo e opções de streaming otimizadas para Netflix, Amazon Prime Video, Disney + e muitos mais.</string>
+  <string name="tv_vpn_error_dialog_title">Falha na conexão VPN</string>
+  <string name="tv_signout_label">Sair</string>
+  <string name="tv_signout_dialog_title">Você tem certeza que deseja sair?</string>
+  <string name="tv_signout_dialog_description_connected">Isso desconectará sua TV de qualquer servidor VPN.</string>
+  <string name="tv_signout_dialog_ok">Sair</string>
+  <string name="tv_quick_connect_recommened">Recomendado</string>
+  <string name="tv_quick_connect_favourite">Favorito</string>
+  <string name="tv_trial_counter_label">Avaliação</string>
+  <string name="tv_trial_title">7 dias de streaming completo</string>
+  <string name="tv_trial_summary"><![CDATA[Como um presente de boas-vindas, acesse todos os servidores ProtonVPN e serviços de streaming durante os primeiros 7 dias com um <b> teste do plano Plus </b>. <br> Seu plano será alterado para <b> Gratuito </b> e seu acesso a certos serviços pode ser limitado.]]></string>
+  <string name="tv_trial_ends_in">Sua avaliação termina em</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s dia</item>
+    <item quantity="other">%1$s dias</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d hour</item>
-    <item quantity="other">%d hours</item>
+    <item quantity="one">%1$s hora</item>
+    <item quantity="other">%1$s horas</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d minute</item>
-    <item quantity="other">%d minutes</item>
+    <item quantity="one">%1$s minuto</item>
+    <item quantity="other">%1$s minutos</item>
   </plurals>
-  <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
-  <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s segundo</item>
+    <item quantity="other">%1$s segundos</item>
+  </plurals>
+  <string name="tv_country_maintenance_dialog_title">País indisponível</string>
+  <string name="tv_country_maintenance_dialog_description">Tente novamente mais tarde ou selecione um país diferente.</string>
 </resources>

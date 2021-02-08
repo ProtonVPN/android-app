@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Twoja 7-dniowa wersja próbna planu ProtonVPN Plus wygasła. Możesz nadal korzystać z planu ProtonVPN Free. Ulepsz do płatnego planu, aby wesprzeć projekt oraz uzyskać dostęp do większej liczby krajów i funkcji."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Twoja 7-dniowa wersja próbna planu ProtonVPN Plus wygasła.<br>Możesz nadal korzystać z planu ProtonVPN Free. Ulepsz do planu Plus, aby cieszyć się wsparciem dla streamingu.<br>Odwiedź stronę <font color="%1$s">%2$s</font>, aby zarządzać swoją subskrypcją.]]></string>
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Konto</string>
   <string name="activitySettingsTitle">Ustawienia</string>
@@ -271,7 +272,6 @@
   <string name="welcomeDialogTitle">Dziękujemy za dołączenie do stale rosnącej społeczności ProtonVPN.</string>
   <string name="welcomeDialogDescription">Użyj nowo utworzonych danych logowania, aby się zalogować.</string>
   <string name="welcomeDialogTitleTrial">W ramach podziękowania otrzymujesz 7-dniową wersję próbną planu ProtonVPN Plus, który pozwoli Ci skorzystać z zaawansowanych funkcji i dodatkowych serwerów. Pod koniec okresu próbnego powrócisz do planu Free i uzyskasz dostęp tylko do darmowych serwerów.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> dni <b>%2$d</b> godzin <b>%3$d</b> minut <b>%4$d</b> sekund]]></string>
   <string name="toastLoginAuthVersionError">Nie można się zalogować z powodu nieobsługiwanej wersji protokołu uwierzytelniania. Skontaktuj się ze wsparciem.</string>
   <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Rozwiązywanie problemów</u>]]></string>
@@ -372,18 +372,31 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="tv_quick_connect_favourite">Ulubiony</string>
   <string name="tv_trial_counter_label">Wersja próbna</string>
   <string name="tv_trial_title">7 dni nieograniczonego streamingu</string>
-  <string name="tv_trial_description">W ramach prezentu powitalnego otrzymujesz 7-dniową wersję próbną planu Plus, w tym dostęp do wszystkich serwerów ProtonVPN i wsparcie dla streamingu. Po tym czasie Twój plan zostanie ponownie zmieniony do wersji Free i dostęp do niektórych usług zostanie ograniczony. Twój okres próbny zakończy się za:</string>
+  <string name="tv_trial_summary"><![CDATA[W ramach prezentu powitalnego otrzymujesz 7-dniową <b>wersję próbną planu Plus</b>, w tym dostęp do wszystkich serwerów ProtonVPN i wsparcie dla streamingu.<br>Po tym czasie Twój plan zostanie zmieniony do <b>wersji Free</b> i dostęp do niektórych usług zostanie ograniczony.]]></string>
+  <string name="tv_trial_ends_in">Twój okres próbny kończy się za</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s dzień</item>
+    <item quantity="few">%1$s dni</item>
+    <item quantity="many">%1$s dni</item>
+    <item quantity="other">%1$s dnia</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d godzina</item>
-    <item quantity="few">%d godziny</item>
-    <item quantity="many">%d godzin</item>
-    <item quantity="other">%d godziny</item>
+    <item quantity="one">%1$s godzinę</item>
+    <item quantity="few">%1$s godziny</item>
+    <item quantity="many">%1$s godzin</item>
+    <item quantity="other">%1$s godziny</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d minuta</item>
-    <item quantity="few">%d minuty</item>
-    <item quantity="many">%d minut</item>
-    <item quantity="other">%d minuty</item>
+    <item quantity="one">%1$s minutę</item>
+    <item quantity="few">%1$s minuty</item>
+    <item quantity="many">%1$s minut</item>
+    <item quantity="other">%1$s minuty</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s sekundę</item>
+    <item quantity="few">%1$s sekundy</item>
+    <item quantity="many">%1$s sekund</item>
+    <item quantity="other">%1$s sekundy</item>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
   <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
