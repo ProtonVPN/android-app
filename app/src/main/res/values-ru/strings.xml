@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Срок действия вашей 7-дневной бесплатной пробной версии ProtonVPN Plus истек. Вы можете продолжать использовать ProtonVPN Free, но если вы хотите поддержать проект и иметь доступ к большему количеству стран и функций, пожалуйста, перейдите на платный план."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Ваш 7-дневный пробный период ProtonVPN Plus истёк.<br>Вы можете продолжать использовать ProtonVPN Free, или вы можете наслаждаться всеми услугами потокового вещания, которые мы предоставляем, сменив тариф на Plus.<br>Посетите <font color="%1$s">%2$s</font> для управления вашей подпиской.]]></string>
   <string name="activityProfileTitle">Профиль</string>
   <string name="activityAccountTitle">Аккаунт</string>
   <string name="activitySettingsTitle">Настройки</string>
@@ -271,7 +272,6 @@
   <string name="welcomeDialogTitle">Спасибо за присоединение к постоянно растущему сообществу ProtonVPN.</string>
   <string name="welcomeDialogDescription">Используйте только что созданные учетные данные для входа.</string>
   <string name="welcomeDialogTitleTrial">Чтобы сказать спасибо, мы дадим вам бесплатную 7-дневную пробную версию нашего плана Plus, которая позволяет использовать расширенные возможности и серверы Plus. В конце пробного периода вы вернетесь к бесплатному плану и сохраните доступ только к серверам тарифа Free.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> дн. <b>%2$d</b> час. <b>%3$d</b> мин. <b>%4$d</b> с]]></string>
   <string name="toastLoginAuthVersionError">Вход невозможен по причине неподдерживаемой версии аутентификации. Пожалуйста, свяжитесь со службой поддержки.</string>
   <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Устранение неисправностей</u>]]></string>
@@ -352,14 +352,14 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_login_welcome_description">Смотрите видеоконтент из более чем 50 стран, включая YouTube и Twitch. Сриминг Netflix, Amazon Prime и Hulu с помощью ProtonVPN Plus.</string>
   <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт ProtonVPN по адресу <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Войти</string>
-  <string name="tv_login_step1_description"><![CDATA[Перейдите на <b>%1$s</b> на вашем мобильном устройстве или компьютере]]></string>
+  <string name="tv_login_step1_description"><![CDATA[Откройте <b>%1$s</b> на вашем мобильном устройстве или компьютере]]></string>
   <string name="tv_login_step2_description">Войдите в ProtonVPN</string>
   <string name="tv_login_step3_description">Введите код:</string>
   <string name="tv_login_timer_label">Срок действия этого кода истекает через:</string>
   <string name="tv_login_refresh">Обновить</string>
   <string name="tv_login_title_loading">Загрузка…</string>
   <string name="tv_login_title_refresh">Ваша сессия истекла. Нажмите обновить, чтобы начать снова.</string>
-  <string name="tv_upgrade_title">Начать трансляцию с Plus</string>
+  <string name="tv_upgrade_title">Смотрите трансляции с Plus</string>
   <string name="back">Назад</string>
   <string name="tv_upgrade_url_details"><![CDATA[Посетите <font color="%1$s">%2$s</font> и перейдите на ProtonVPN Plus.]]></string>
   <string name="tv_upgrade_description">Подключите план ProtonVPN Plus для доступа к 500+ серверам по всему миру и оптимизированные возможности стриминга для Netflix, Amazon Prime Video, Disney+ и многих других.</string>
@@ -372,18 +372,31 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_quick_connect_favourite">Избранное</string>
   <string name="tv_trial_counter_label">Пробная версия</string>
   <string name="tv_trial_title">7 дней полного стриминга</string>
-  <string name="tv_trial_description">В качестве приветственного подарка вы получаете доступ ко всем серверам ProtonVPN и сервисам потокового видео в течение первых 7 дней с пробной версией Plus. Ваш план затем изменится на Free и доступ к некоторым сервисам может быть ограничен. Пробный период заканчивается через:</string>
+  <string name="tv_trial_summary"><![CDATA[В качестве приветственного подарка, получите доступ ко всем серверам ProtonVPN и сервисам трансляции в течение первых 7 дней с <b>пробной версией тарифа Plus</b>.<br>После этого Ваш план изменится на <b>бесплатный</b>, и доступ к определенным сервисам может быть ограничен.]]></string>
+  <string name="tv_trial_ends_in">Пробный период заканчивается через</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s день</item>
+    <item quantity="few">%1$s дня</item>
+    <item quantity="many">%1$s дней</item>
+    <item quantity="other">%1$s дней</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d час</item>
-    <item quantity="few">%d часа</item>
-    <item quantity="many">%d часов</item>
-    <item quantity="other">%d часов</item>
+    <item quantity="one">%1$s час</item>
+    <item quantity="few">%1$s часа</item>
+    <item quantity="many">%1$s часов</item>
+    <item quantity="other">%1$s часов</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d минута</item>
-    <item quantity="few">%d минуты</item>
-    <item quantity="many">%d минут</item>
-    <item quantity="other">%d минут</item>
+    <item quantity="one">%1$s минута</item>
+    <item quantity="few">%1$s минуты</item>
+    <item quantity="many">%1$s минут</item>
+    <item quantity="other">%1$s минут</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s секунда</item>
+    <item quantity="few">%1$s секунды</item>
+    <item quantity="many">%1$s секунд</item>
+    <item quantity="other">%1$s секунд</item>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
   <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>

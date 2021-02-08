@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"طرح آزمایشی ۷ روزۀ ProtonVPN Plus شما به پایان رسید. شما می‌توانید به استفاده از طرح ProtonVPN رایگان ادامه دهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفاً اشتراک خود را به یک طرح غیررایگان ارتقا دهید."</string>
+  <string name="freeTVTrialExpired"><![CDATA[دورهٔ ۷ روزهٔ آزمایشی رایگان شما به پایان رسید.<br>می‌توانید به استفاده از ProtonVPN به صورت رایگان ادامه دهید، یا می‌توانید از تمامی سرویس‌های پخش آنلاینی که ما ارائه می‌دهیم با ارتقا به طرح Plus لذت ببرید.<br>از <font color="%1$s">%2$s</font> جهت مدیریت اشتراک خود بازدید نمایید.]]></string>
   <string name="activityProfileTitle">پروفایل</string>
   <string name="activityAccountTitle">حساب کاربری</string>
   <string name="activitySettingsTitle">تنظیمات</string>
@@ -265,7 +266,6 @@
   <string name="welcomeDialogTitle">ممنون از شما برای پیوستن به اجتماع رو به رشد ProtonVPN.</string>
   <string name="welcomeDialogDescription">برای ورود از اعتبارنامهٔ به‌تازگی ایجاد شدهٔ خود، استفاده کنید.</string>
   <string name="welcomeDialogTitleTrial">برای تشکر از شما، ما طرح آزمایشی ۷ روزهٔ Plus خود را به صورت رایگان در اختیار شما قرار می‌دهیم. این طرح به شما قابلیت استفاده از امکانات پیشرفته و سرورهای Plus را می‌دهد. در انتهای دورهٔ آزمایشی، شما به طرح رایگان بازمی‌گردید و تنها به سرورهای رایگان دسترسی خواهید داشت.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> روز و <b>%2$d</b> ساعت و <b>%3$d</b> دقیقه و <b>%4$d</b> ثانیه]]></string>
   <string name="toastLoginAuthVersionError">به دلیل نسخهٔ پشتیبانی نشده تایید هویت، قادر به ورود نیست. لطفاً با پشتیبانی تماس بگیرید.</string>
   <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>اشکال‌زدایی</u>]]></string>
@@ -366,14 +366,23 @@
   <string name="tv_quick_connect_favourite">علاقه‌مندی</string>
   <string name="tv_trial_counter_label">آزمایشی</string>
   <string name="tv_trial_title">۷ روز کامل پخش کردن</string>
-  <string name="tv_trial_description">بعنوان یک هدیه خوش‌آمدگویی، شما به همه سرورها و سرویسهای پخش ProtonVPN برای ۷ روز اول با یک طرح آزمایشی Plus دسترسی دارید. طرح شما سپس به Free برمی‌گردد و دسترسی به بعضی سرویسها ممکن است‌ محدود شود. دوره آزمایشی شما به انتها می‌رسد در:</string>
+  <string name="tv_trial_summary"><![CDATA[به عنوان هدیهٔ خوش‌آمدگویی، شما به تمامی سرورها و سرویس‌های پخش آنلاین ProtonVPN برای ۷ روز اول با <b>طرح آزمایشی Plus</b><br>دسترسی دارید. اشتراک شما سپس به طرح <b>رایگان</b> تغییر می‌کند و ممکن است دسترسی شما به برخی سرویس‌ها محدود شود.]]></string>
+  <string name="tv_trial_ends_in">دوره آزمایشی شما به پایان می‌رسد در</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s روز</item>
+    <item quantity="other">%1$s روز</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d ساعت</item>
-    <item quantity="other">%d ساعت</item>
+    <item quantity="one">%1$s ساعت</item>
+    <item quantity="other">%1$s ساعت</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d دقیقه</item>
-    <item quantity="other">%d دقیقه</item>
+    <item quantity="one">%1$s دقیقه</item>
+    <item quantity="other">%1$s دقیقه</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s ثانیه</item>
+    <item quantity="other">%1$s ثانیه</item>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">کشور غیر قابل دسترس است</string>
   <string name="tv_country_maintenance_dialog_description">لطفاً بعداً دوباره امتحان کنید یا کشور دیگری انتخاب کنید.</string>

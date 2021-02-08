@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN Plus</string>
   <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Uw 7 dagen gratis proefperiode van ProtonVPN Plus is verlopen. U kunt ProtonVPN Free blijven gebruiken, maar als u het project wilt steunen en hogere snelheden en meer functies wilt krijgen, upgrade dan naar een betaald abonnement."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Uw 7 dagen gratis ProtonVPN Plus proefperiode is verlopen.<br>U kunt doorgaan met ProtonVPN te gebruiken, of u kunt genieten van alle streaming-diensten die we aanbieden door te upgraden naar Plus.<br>Bezoek <font color="%1$s">%2$s</font> voor het beheren van uw abonnement.]]></string>
   <string name="activityProfileTitle">Profiel</string>
   <string name="activityAccountTitle">Account</string>
   <string name="activitySettingsTitle">Instellingen</string>
@@ -265,7 +266,6 @@
   <string name="welcomeDialogTitle">Bedankt voor het lid worden van een steeds groter wordende ProtonVPN gemeenschap.</string>
   <string name="welcomeDialogDescription">Gebruik uw nieuwe accountgegevens om in te loggen.</string>
   <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het stelt u in staat om geavanceerde functies en Plus servers te proberen. Aan het einde van de proefperiode keert u terug naar een gratis abonnement en heeft u alleen toegang tot de gratis servers.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> dagen <b>%2$d</b> uur <b>%3$d</b> minuten <b>%4$d</b> seconden]]></string>
   <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
   <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Probleemoplossing</u>]]></string>
@@ -366,14 +366,23 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_quick_connect_favourite">Favoriet</string>
   <string name="tv_trial_counter_label">Proefperiode</string>
   <string name="tv_trial_title">7 dagen volledig streamen</string>
-  <string name="tv_trial_description">Als welkomstgeschenk, krijgt u toegang tot alle ProtonVPN servers en streamingdiensten voor de eerste 7 dagen met een Plus abonnement proefversie. Uw abonnement zal dan weer worden gewijzigd naar Gratis en de toegang tot sommige diensten kan beperkt zijn. Uw proefperiode eindigt in:</string>
+  <string name="tv_trial_summary"><![CDATA[Als welkomstgeschenk, krijg toegang tot alle ProtonVPN servers en streamingdiensten gedurende de eerste 7 dagen met een <b>proef Plus abonnement</b>.<br>Uw plan zal veranderen in <b>Gratis</b> en uw toegang tot bepaalde diensten kan beperkt zijn.]]></string>
+  <string name="tv_trial_ends_in">Uw proefperiode loopt af in</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s dag</item>
+    <item quantity="other">%1$s dagen</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d uur</item>
-    <item quantity="other">%d uren</item>
+    <item quantity="one">%1$s uur</item>
+    <item quantity="other">%1$s uren</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d minuut</item>
-    <item quantity="other">%d minuten</item>
+    <item quantity="one">%1$s minuut</item>
+    <item quantity="other">%1$s minuten</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s seconde</item>
+    <item quantity="other">%1$s seconden</item>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Land is niet beschikbaar</string>
   <string name="tv_country_maintenance_dialog_description">Probeer het later opnieuw of selecteer een ander land.</string>

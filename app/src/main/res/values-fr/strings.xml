@@ -88,6 +88,7 @@
   <string name="accountPlus">ProtonVPN PLUS</string>
   <string name="accountVisionary">Proton VISIONARY</string>
   <string name="freeTrialExpired">"Votre essai gratuit de 7 jours de ProtonVPN PLUS a expiré. Vous pouvez continuer à utiliser ProtonVPN FREE, mais si vous souhaitez soutenir le projet et avoir plus de débit et de fonctionnalités, veuillez mettre à niveau vers une offre payante."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Votre essai gratuit de 7 jours pour ProtonVPN PLUS a expiré.<br>Vous pouvez continuer à utiliser ProtonVPN FREE ou profiter de tous les services de streaming que nous proposons en passant à ProtonVPN PLUS.<br>Rendez-vous sur<font color="%1$s">%2$s</font> pour gérer votre abonnement.]]></string>
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Compte</string>
   <string name="activitySettingsTitle">Paramètres</string>
@@ -265,7 +266,6 @@
   <string name="welcomeDialogTitle">Merci de rejoindre la communauté toujours plus nombreuse de ProtonVPN.</string>
   <string name="welcomeDialogDescription">Utilisez les identifiants de votre nouveau compte pour vous connecter.</string>
   <string name="welcomeDialogTitleTrial">Afin de vous remercier, nous vous offrons une période d\'essai de 7 jours avec l\'offre Plus. Vous pourrez ainsi utiliser les fonctionnalités et les serveurs spécifiques à l\'offre Plus. A l\'issue de cette période d\'essai, vous reviendrez sur l\'offre Free, limitant donc l\'accès aux serveurs disponibles pour l\'offre Free uniquement.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> jours <b>%2$d</b> heures <b>%3$d</b> minutes <b>%4$d</b> secondes]]></string>
   <string name="toastLoginAuthVersionError">Connexion impossible en raison d\'une version d\'authentification non prise en charge. Veuillez contacter l’assistance.</string>
   <string name="loaderErrorTimeout">La connexion a expiré. Veuillez réessayer.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Dépannage</u>]]></string>
@@ -365,14 +365,23 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="tv_quick_connect_favourite">Favori</string>
   <string name="tv_trial_counter_label">Essai</string>
   <string name="tv_trial_title">7 jours de streaming complet</string>
-  <string name="tv_trial_description">En guise de cadeau de bienvenue, vous avez accès à tous les serveurs ProtonVPN et aux services de streaming pendant les 7 premiers jours avec une offre d\'essai PLUS. Votre formule va ensuite revenir à l’offre FREE et l\'accès à certains services pourrait être limité. Votre essai se termine dans :</string>
+  <string name="tv_trial_summary"><![CDATA[En guise de cadeau de bienvenue, vous avez accès à tous les serveurs ProtonVPN et aux services de streaming pendant les 7 premiers jours avec une offre d\'essai PLUS. Votre formule va ensuite revenir à l’offre FREE et l\'accès à certains services pourrait être limité.]]></string>
+  <string name="tv_trial_ends_in">Votre essai gratuit se termine dans</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s jour</item>
+    <item quantity="other">%1$s jours</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d heure</item>
-    <item quantity="other">%d heures</item>
+    <item quantity="one">%1$s heure</item>
+    <item quantity="other">%1$s heures</item>
   </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d minute</item>
-    <item quantity="other">%d minutes</item>
+    <item quantity="one">%1$s minute</item>
+    <item quantity="other">%1$s minutes</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s seconde</item>
+    <item quantity="other">%1$s secondes</item>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Le pays n\'est pas disponible</string>
   <string name="tv_country_maintenance_dialog_description">Veuillez réessayer plus tard ou sélectionner un autre pays.</string>
