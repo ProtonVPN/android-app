@@ -40,7 +40,7 @@ open class ConnectionParams(
         var username = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
         if (!connectingDomain?.label.isNullOrBlank())
-            username += "+${connectingDomain?.label}"
+            username += "+b:${connectingDomain?.label}"
         return username
     }
 }

@@ -79,7 +79,7 @@ class ConnectionParamsTests {
     @Test
     fun testUsernameSuffixes() {
         Assert.assertEquals(
-            setOf("user", "f2", "pa", "label"),
+            setOf("user", "f2", "pa", "b:label"),
             params.getVpnUsername(userData, appConfig).split("+").toSet())
     }
 
@@ -89,7 +89,7 @@ class ConnectionParamsTests {
         val result = params.getVpnUsername(userData, appConfig).split("+")
 
         Assert.assertEquals(
-            setOf("user", "f2", "pt", "label"),
+            setOf("user", "f2", "pt", "b:label"),
             result.toSet())
     }
 
