@@ -52,7 +52,7 @@ class CoreLogger : Logger {
 
     override fun d(tag: String, message: String) {
         if (BuildConfig.DEBUG)
-            ProtonLogger.log("[$tag] $message")
+            ProtonLogger.log("[$tag] ${message.take(500)}")
     }
 
     override fun d(tag: String, e: Throwable, message: String) {
