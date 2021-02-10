@@ -59,7 +59,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
+        rowsAdapter = ArrayObjectAdapter(ServerListRowPresenter())
         adapter = rowsAdapter
 
         viewModel.servers.observe(viewLifecycleOwner, Observer {
@@ -104,6 +104,13 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         TvServerListViewModel.ServerGroup.Locked -> getString(R.string.tv_locked_servers, count)
         TvServerListViewModel.ServerGroup.Other -> getString(R.string.tv_other_servers, count)
         is TvServerListViewModel.ServerGroup.City -> "$name ($count)"
+    }
+
+    class ServerListRowPresenter : ListRowPresenter() {
+
+        init {
+            shadowEnabled = false
+        }
     }
 
     inner class ServersPresenterSelector(context: Context) : PresenterSelector() {
@@ -195,7 +202,8 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
         override fun setSelected(selected: Boolean) = with(binding) {
             super.setSelected(selected)
-            actionButton.isVisible = selected
+            actionButton.visibility = if (selected) VISIBLE else INVISIBLE
+            root.setBackgroundResource(if (selected) R.drawable.tv_focused_server_background else 0)
             if (selected) {
                 if (actionStateObserver == null) {
                     val observer = Observer<TvServerListViewModel.ServerActionState> { updateAction(it) }

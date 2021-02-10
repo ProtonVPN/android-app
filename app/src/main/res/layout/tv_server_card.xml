@@ -20,85 +20,93 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_width="186dp"
-    android:paddingTop="12dp"
     android:orientation="vertical"
-    android:background="@color/tvGradientDark">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:gravity="center_vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/serverName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textSize="18sp"
-            android:drawableEnd="@drawable/ic_plus_label"
-            android:drawablePadding="4dp"
-            tools:text="US-NY#40" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/lock"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:layout_marginStart="4dp"
-            android:tint="?android:attr/textColorPrimary"
-            android:src="@drawable/ic_lock"/>
-    </LinearLayout>
+    android:padding="3.5dp"
+    tools:background="@drawable/tv_focused_server_background">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/container"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="12dp"
-        android:paddingHorizontal="16dp"
-        android:gravity="center_vertical">
+        android:layout_width="186dp"
+        android:paddingTop="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/tv_server_list_card_background">
 
-        <FrameLayout
-            android:id="@+id/serverState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/serverLoadColor"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/oval"
-                app:tint="@color/tvServerLoadLow"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/serverMaintenanceIcon"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_wrench_icon"/>
-        </FrameLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/serverLoadLabel"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:ellipsize="end"
-            android:lines="1"
-            tools:text="13% Server Load"/>
+            android:paddingHorizontal="16dp"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/serverName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/ic_plus_label"
+                android:drawablePadding="4dp"
+                tools:text="US-NY#40" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/lock"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp"
+                android:tint="?android:attr/textColorPrimary"
+                android:src="@drawable/ic_lock"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:id="@+id/serverState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/serverLoadColor"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/oval"
+                    app:tint="@color/tvServerLoadLow"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/serverMaintenanceIcon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_wrench_icon"/>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/serverLoadLabel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                android:lines="1"
+                tools:text="13% Server Load"/>
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:padding="2dp"
         android:textSize="16sp"
         android:gravity="center"
