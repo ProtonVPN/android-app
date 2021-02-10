@@ -8,6 +8,8 @@ import com.protonvpn.android.tv.TvMainFragment
 import com.protonvpn.android.tv.TvStatusFragment
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
+import com.protonvpn.android.tv.detailed.TvServerListFragment
+import com.protonvpn.android.tv.detailed.TvServerListScreenFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -31,6 +33,12 @@ abstract class TvModule {
 
     @ContributesAndroidInjector
     abstract fun provideDetailsFragment(): CountryDetailFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideServerListFragment(): TvServerListFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideServerListScreenFragment(): TvServerListScreenFragment
 
     @ContributesAndroidInjector
     abstract fun bindTvTrialDialogActivity(): TvTrialDialogActivity

@@ -20,12 +20,31 @@ package com.protonvpn.android.components
 
 import android.os.Bundle
 import androidx.leanback.app.BrowseSupportFragment
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.Row
+import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
+
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
+        headersState = HEADERS_DISABLED
+    }
+
+    override fun onDestroyView() {
+        adapter = null
+        super.onDestroyView()
+    }
+
+    protected fun ArrayObjectAdapter.addOrReplace(index: Int, row: Row) {
+        if (size() > index)
+            replace(index, row)
+        else
+            add(row)
     }
 }

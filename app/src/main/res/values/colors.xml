@@ -88,4 +88,9 @@
     <color name="tvGradientDark">#262a33</color>
     <color name="tvGradientLight">#3c414e</color>
     <color name="tvMapBorder">@color/tvGradientDark</color>
+    <color name="tvInMaintenance">#989DA9</color>
+    <color name="tvServerLoadLow">#4DA358</color>
+    <color name="tvServerLoadMedium">#EAC819</color>
+    <color name="tvServerLoadHigh">@color/tvAlert</color>
+    <color name="tvDisconnect">@color/tvAlert</color>
 </resources>

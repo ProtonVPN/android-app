@@ -21,7 +21,7 @@ package com.protonvpn.android.tv.presenters
 import android.content.Context
 import com.protonvpn.android.tv.models.Card
 
-class IconCardPresenter(context: Context) : AbstractCardPresenter<TvIconCardView>(context) {
+class IconCardPresenter(context: Context) : AbstractCardPresenter<Card, TvIconCardView>(context) {
 
     override fun onCreateView(): TvIconCardView = TvIconCardView(context)
 

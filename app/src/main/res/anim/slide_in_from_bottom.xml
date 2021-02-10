@@ -19,11 +19,12 @@
 -->
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/decelerate_interpolator"
-    android:fillAfter="true">
+    android:fillBefore="true"
+    android:duration="300">
 
     <translate
-        android:fromXDelta="0"
-        android:toXDelta="100%" />
+        android:fromYDelta="100%"
+        android:toYDelta="0"/>
 
-    <alpha android:fromAlpha="1" android:toAlpha="0"/>
+    <alpha android:fromAlpha="0" android:toAlpha="1"/>
 </set>
