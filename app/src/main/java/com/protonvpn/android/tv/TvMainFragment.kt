@@ -216,29 +216,16 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private class RowViewHolder(val binding: TvCardRowBinding, presenter: ListRowPresenter) :
             ListRowPresenter.ViewHolder(binding.root, binding.rowContent, presenter)
 
-    private inner class FadeTopListRowPresenter : ListRowPresenter() {
+    private inner class FadeTopListRowPresenter : FadeListRowPresenter(true) {
 
-        private var selectedIndex: Int? = null
-
-        init {
-            shadowEnabled = false
+        override fun rowAlpha(index: Int, selectedIdx: Int) = when {
+            index < selectedIdx - 1 -> 0f
+            index == selectedIdx - 1 -> TOP_ROW_ALPHA
+            else -> 1f
         }
 
-        private fun RowPresenter.ViewHolder.setupAlpha(animated: Boolean) {
-            val index = (rowObject as CardListRow).index
-            val selectedIdx = selectedIndex ?: -1
-            val targetAlpha = when {
-                index < selectedIdx - 1 -> 0f
-                index == selectedIdx - 1 -> 0.5f
-                else -> 1f
-            }
-            (this.view.parent as? ViewGroup)?.apply {
-                if (animated)
-                    animate().alpha(targetAlpha).duration = ROW_FADE_DURATION
-                else
-                    alpha = targetAlpha
-            }
-        }
+        override fun RowPresenter.ViewHolder.getRowIndex() =
+            (rowObject as CardListRow).index
 
         override fun createRowViewHolder(parent: ViewGroup): RowPresenter.ViewHolder {
             super.createRowViewHolder(parent)
@@ -265,28 +252,16 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
         override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
             super.onBindRowViewHolder(holder, item)
-            holder.setupAlpha(false)
             val row = (item as CardListRow).cardRow
             with(holder as RowViewHolder) {
                 binding.icon.setImageResource(row.icon)
                 binding.label.setText(row.title)
             }
         }
-
-        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
-            super.onRowViewSelected(holder, selected)
-
-            if (selected) {
-                selectedIndex = (holder?.rowObject as CardListRow).index
-                (0 until adapter.size()).forEach { i ->
-                    rowsSupportFragment.getRowViewHolder(i)?.setupAlpha(true)
-                }
-            }
-        }
     }
 
     companion object {
-        private const val ROW_FADE_DURATION = 300L
         private const val ROW_FADING_EDGE_DP = 16
+        private const val TOP_ROW_ALPHA = 0.5f
     }
 }

@@ -21,30 +21,24 @@ package com.protonvpn.android.tv.detailed
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.BaseCardView
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.ObjectAdapter
 import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
+import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
-import com.protonvpn.android.databinding.TvServerCardBinding
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
-import com.protonvpn.android.utils.setColorTint
 
 class TvServerListFragment : BaseTvBrowseFragment() {
 
@@ -106,11 +100,16 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         is TvServerListViewModel.ServerGroup.City -> "$name ($count)"
     }
 
-    class ServerListRowPresenter : ListRowPresenter() {
-
-        init {
-            shadowEnabled = false
+    private inner class ServerListRowPresenter : FadeListRowPresenter(false) {
+        override fun rowAlpha(index: Int, selectedIdx: Int) = when {
+            index < selectedIdx - 1 -> 0f
+            index == selectedIdx - 1 -> BASE_INACTIVE_ROW_ALPHA
+            index > selectedIdx -> BASE_INACTIVE_ROW_ALPHA / (index - selectedIdx)
+            else -> 1f
         }
+
+        override fun RowPresenter.ViewHolder.getRowIndex() =
+            (rowObject as ServersListRow).index
     }
 
     inner class ServersPresenterSelector(context: Context) : PresenterSelector() {
@@ -123,7 +122,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
     inner class ServerPresenter(context: Context) :
         AbstractCardPresenter<TvServerListViewModel.ServerViewModel, TvServerCardView>(context) {
 
-        override fun onCreateView() = TvServerCardView(context)
+        override fun onCreateView() = TvServerCardView(context, viewLifecycleOwner)
 
         override fun onBindViewHolder(card: TvServerListViewModel.ServerViewModel, cardView: TvServerCardView) {
             cardView.bind(card)
@@ -134,98 +133,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         }
     }
 
-    inner class TvServerCardView(context: Context) : BaseCardView(context, null, R.style.DefaultCardTheme) {
-
-        val binding = TvServerCardBinding.inflate(LayoutInflater.from(getContext()), this, true)
-
-        private var currentServer: TvServerListViewModel.ServerViewModel? = null
-        private var actionStateObserver: Observer<TvServerListViewModel.ServerActionState>? = null
-
-        init {
-            isFocusable = true
-            isFocusableInTouchMode = true
-        }
-
-        fun bind(server: TvServerListViewModel.ServerViewModel) = with(binding) {
-            currentServer = server
-            serverName.text = server.name
-            serverName.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, server.planDrawable(context), null)
-
-            lock.isVisible = server.locked
-            val alpha = if (server.locked) 0.5f else 1f
-            serverName.alpha = alpha
-            serverState.alpha = alpha
-
-            serverLoadLabel.alpha = alpha
-            serverLoadLabel.text = server.stateText(context)
-            val stateColorRes = when (server.loadState) {
-                TvServerListViewModel.ServerLoadState.MAINTENANCE -> R.color.tvInMaintenance
-                TvServerListViewModel.ServerLoadState.LOW_LOAD -> R.color.tvServerLoadLow
-                TvServerListViewModel.ServerLoadState.MEDIUM_LOAD -> R.color.tvServerLoadMedium
-                TvServerListViewModel.ServerLoadState.HIGH_LOAD -> R.color.tvServerLoadHigh
-            }
-            serverLoadColor.setColorTint(stateColorRes)
-            serverMaintenanceIcon.isVisible = server.loadState == TvServerListViewModel.ServerLoadState.MAINTENANCE
-        }
-
-        fun unbind() {
-            removeObservers()
-        }
-
-        private fun updateAction(actionState: TvServerListViewModel.ServerActionState) = with(binding) {
-            val bgColorRes = when (actionState) {
-                TvServerListViewModel.ServerActionState.DISCONNECTED -> {
-                    actionButton.setText(R.string.connect)
-                    R.color.tvAccent
-                }
-                TvServerListViewModel.ServerActionState.CONNECTING -> {
-                    actionButton.setText(R.string.cancel)
-                    R.color.tvDisconnect
-                }
-                TvServerListViewModel.ServerActionState.CONNECTED -> {
-                    actionButton.setText(R.string.disconnect)
-                    R.color.tvDisconnect
-                }
-                TvServerListViewModel.ServerActionState.UPGRADE -> {
-                    actionButton.setText(R.string.upgrade)
-                    R.color.tvAccent
-                }
-                TvServerListViewModel.ServerActionState.UNAVAILABLE -> {
-                    actionButton.setText(R.string.tv_server_list_action_unavailable)
-                    R.color.tvInMaintenance
-                }
-            }
-            actionButton.background = actionButton.background.mutate().apply {
-                setTint(ContextCompat.getColor(context, bgColorRes))
-            }
-        }
-
-        override fun setSelected(selected: Boolean) = with(binding) {
-            super.setSelected(selected)
-            actionButton.visibility = if (selected) VISIBLE else INVISIBLE
-            root.setBackgroundResource(if (selected) R.drawable.tv_focused_server_background else 0)
-            if (selected) {
-                if (actionStateObserver == null) {
-                    val observer = Observer<TvServerListViewModel.ServerActionState> { updateAction(it) }
-                    actionStateObserver = observer
-                    requireServer().actionStateObservable.observe(viewLifecycleOwner, observer)
-                }
-            } else {
-                removeObservers()
-            }
-        }
-
-        private fun removeObservers() {
-            actionStateObserver?.let {
-                requireServer().actionStateObservable.removeObserver(it)
-                actionStateObserver = null
-            }
-        }
-
-        private fun requireServer() = currentServer ?: error("Action on unbind server view")
+    companion object {
+        private const val BASE_INACTIVE_ROW_ALPHA = 0.6f
     }
 }
-
-
-
-
