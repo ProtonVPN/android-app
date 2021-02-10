@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
+                android:textStyle="bold"
                 android:lines="1"
                 android:textSize="18sp"
                 android:drawableEnd="@drawable/ic_plus_label"
@@ -79,7 +80,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/oval"
-                    app:tint="@color/tvServerLoadLow"/>
+                    tools:tint="@color/tvServerLoadLow"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/serverMaintenanceIcon"
@@ -95,7 +96,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:ellipsize="end"
                 android:lines="1"
                 tools:text="13% Server Load"/>
@@ -109,6 +110,7 @@
         android:visibility="invisible"
         android:padding="2dp"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:gravity="center"
         android:background="@drawable/tv_server_list_button_bg"
         android:textAllCaps="true"

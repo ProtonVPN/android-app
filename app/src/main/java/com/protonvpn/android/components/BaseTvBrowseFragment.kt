@@ -19,9 +19,12 @@
 package com.protonvpn.android.components
 
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Row
+import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -46,5 +49,49 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
             replace(index, row)
         else
             add(row)
+    }
+
+    protected abstract inner class FadeListRowPresenter(private val animateAlpha: Boolean) : ListRowPresenter() {
+
+        private var selectedIndex: Int? = null
+
+        init {
+            shadowEnabled = false
+        }
+
+        abstract fun rowAlpha(index: Int, selectedIdx: Int): Float
+        abstract fun RowPresenter.ViewHolder.getRowIndex(): Int
+
+        private fun RowPresenter.ViewHolder.setupAlpha(animated: Boolean) {
+            val index = getRowIndex()
+            val selectedIdx = selectedIndex ?: 0
+            val targetAlpha = rowAlpha(index, selectedIdx)
+            (this.view.parent as? ViewGroup)?.apply {
+                if (animated)
+                    animate().alpha(targetAlpha).duration = ROW_FADE_DURATION
+                else
+                    alpha = targetAlpha
+            }
+        }
+
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+            super.onBindRowViewHolder(holder, item)
+            holder.setupAlpha(false)
+        }
+
+        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
+            super.onRowViewSelected(holder, selected)
+
+            if (selected) {
+                selectedIndex = holder?.getRowIndex()
+                (0 until adapter.size()).forEach { i ->
+                    rowsSupportFragment.getRowViewHolder(i)?.setupAlpha(animateAlpha)
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val ROW_FADE_DURATION = 300L
     }
 }
