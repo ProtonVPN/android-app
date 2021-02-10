@@ -25,6 +25,7 @@ import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ListRowPresenter
@@ -34,7 +35,6 @@ import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -56,25 +56,15 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.ViewUtils.toPx
 import kotlinx.coroutines.flow.collect
-import javax.inject.Inject
 
 class TvMainFragment : BaseTvBrowseFragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var viewModel: TvMainViewModel
+    private val viewModel by activityViewModels<TvMainViewModel> { viewModelFactory }
 
     private var rowsAdapter: ArrayObjectAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        headersState = HEADERS_DISABLED
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {
@@ -104,12 +94,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshVPNInfo()
+        viewModel.resetMap()
     }
 
     override fun onDestroyView() {
-        adapter = null
-        rowsAdapter?.unregisterAllObservers()
         rowsAdapter = null
         super.onDestroyView()
     }
@@ -215,13 +203,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
             cards = listOf(LogoutCard(getString(R.string.tv_signout_label))))
         addOrReplace(index, createRow(settingsRow, index))
         index++
-    }
-
-    private fun ArrayObjectAdapter.addOrReplace(index: Int, row: Row) {
-        if (size() > index)
-            replace(index, row)
-        else
-            add(row)
     }
 
     private fun createRow(cardRow: CardRow, index: Int): Row {

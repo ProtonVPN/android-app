@@ -359,6 +359,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tvRowMore">More</string>
 
     <string name="tv_detail_default_connection_checkbox">My favorite country</string>
+    <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
     <string name="tv_detail_connect">Connect</string>
     <string name="tv_detail_description_streaming_country">Stream your favorite content. Access more apps with a ProtonVPN Plus plan.</string>
@@ -410,4 +411,12 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     </plurals>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
+    <string name="tv_server_list_load">%1$s%% Server Load</string>
+    <string name="tv_recently_used_servers">Recently used servers (%1$d)</string>
+    <string name="tv_available_servers">Available servers (%1$d)</string>
+    <string name="tv_locked_servers">Locked servers (%1$d)</string>
+    <string name="tv_other_servers">Other servers (%1$d)</string>
+    <string name="tv_server_under_maintenance">Under Maintenance</string>
+    <string name="tv_server_list">Server list</string>
+    <string name="tv_server_list_action_unavailable">Unavailable</string>
 </resources>

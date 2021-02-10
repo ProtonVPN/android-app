@@ -57,6 +57,7 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.login.LoginActivity;
@@ -363,12 +364,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Subscribe
-    public void onConnectToServer(ConnectToServer server) {
-        if (server.getServer() == null) {
+    public void onConnectToServer(ConnectToServer connectTo) {
+        if (connectTo.getServer() == null) {
             vpnStateMonitor.disconnect();
         }
         else {
-            onConnect(Profile.Companion.getTempProfile(server.getServer(), serverManager));
+            Server server = connectTo.getServer();
+            onConnect(Profile.Companion.getTempProfile(server, serverManager, server.getExitCountry()));
         }
     }
 

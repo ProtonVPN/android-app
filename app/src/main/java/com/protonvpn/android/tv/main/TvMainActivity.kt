@@ -71,9 +71,9 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
         viewModel.onViewInit(lifecycle)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        viewModel.resetMap()
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshVPNInfo()
     }
 
     private fun updateMapSelection() {
