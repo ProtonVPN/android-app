@@ -23,7 +23,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -42,6 +41,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
@@ -51,7 +51,7 @@ import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
-import com.protonvpn.android.tv.main.TvMainViewModel
+import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -235,17 +235,21 @@ class TvMainFragment : BaseTvBrowseFragment() {
             // Clip cards with fading edge before icon begins
             rowView.rowContent.outlineProvider = object : ViewOutlineProvider() {
                 override fun getOutline(view: View, outline: Outline) {
-                    val ltr = ViewCompat.getLayoutDirection(rowView.root) == ViewCompat.LAYOUT_DIRECTION_LTR
-                    if (ltr)
-                        outline.setRect(0, Int.MIN_VALUE, Int.MAX_VALUE, Int.MAX_VALUE)
-                    else
+                    if (requireActivity().isRtl())
                         outline.setRect(Int.MIN_VALUE, Int.MIN_VALUE, view.right, Int.MAX_VALUE)
+                    else
+                        outline.setRect(0, Int.MIN_VALUE, Int.MAX_VALUE, Int.MAX_VALUE)
                 }
 
             }
             rowView.rowContent.clipToOutline = true
-            rowView.rowContent.fadingLeftEdge = true
-            rowView.rowContent.fadingLeftEdgeLength = ROW_FADING_EDGE_DP.toPx()
+            if (requireActivity().isRtl()) {
+                rowView.rowContent.fadingRightEdge = true
+                rowView.rowContent.fadingRightEdgeLength = ROW_FADING_EDGE_DP.toPx()
+            } else {
+                rowView.rowContent.fadingLeftEdge = true
+                rowView.rowContent.fadingLeftEdgeLength = ROW_FADING_EDGE_DP.toPx()
+            }
             rowView.rowContent.setHasFixedSize(false)
             return RowViewHolder(rowView, this)
         }
