@@ -42,6 +42,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
@@ -78,6 +79,9 @@ object AndroidUtils {
             packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK) ||
             packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
     }
+
+    fun Context.isRtl() =
+        resources.configuration.layoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
 
     fun Boolean.toInt() = if (this) 1 else 0
 
