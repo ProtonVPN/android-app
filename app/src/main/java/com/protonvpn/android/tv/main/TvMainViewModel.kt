@@ -163,11 +163,12 @@ class TvMainViewModel @Inject constructor(
                 )
             )
         }
-        recentsManager.getRecentConnections()
+        recentsManager.getRecentCountries()
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
             .forEach {
                 recentsList.add(
                     ProfileCard(
+                        title = it.name,
                         titleDrawable = profileCardTitleIcon(it),
                         backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
                         profile = it
@@ -254,7 +255,7 @@ class TvMainViewModel @Inject constructor(
     fun connect(activity: Activity, card: CountryCard?) {
         val profile = if (card != null)
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
-                Profile.getTempProfile(it, serverManager)
+                Profile.getTempProfile(it, serverManager, card.countryName)
             }
         else
             serverManager.defaultConnection

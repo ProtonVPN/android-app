@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.view.View
+import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
@@ -122,3 +123,14 @@ fun <T> RequestBuilder<T>.addListener(
         return false
     }
 })
+
+fun ViewPropertyAnimator.whenCancelled(action: () -> Unit) {
+    setListener(object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator?) {}
+        override fun onAnimationEnd(animation: Animator?) {}
+        override fun onAnimationRepeat(animation: Animator?) {}
+        override fun onAnimationCancel(animation: Animator?) {
+            action()
+        }
+    })
+}

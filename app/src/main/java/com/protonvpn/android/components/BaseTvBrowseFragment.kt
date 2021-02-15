@@ -19,13 +19,13 @@
 package com.protonvpn.android.components
 
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.ViewModelProvider
+import com.protonvpn.android.utils.whenCancelled
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -53,7 +53,7 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
 
     protected abstract inner class FadeListRowPresenter(private val animateAlpha: Boolean) : ListRowPresenter() {
 
-        private var selectedIndex: Int? = null
+        private var selectedHolder: RowPresenter.ViewHolder? = null
 
         init {
             shadowEnabled = false
@@ -64,14 +64,15 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
 
         private fun RowPresenter.ViewHolder.setupAlpha(animated: Boolean) {
             val index = getRowIndex()
-            val selectedIdx = selectedIndex ?: 0
+            val selectedIdx = selectedHolder?.getRowIndex() ?: index
             val targetAlpha = rowAlpha(index, selectedIdx)
-            (this.view.parent as? ViewGroup)?.apply {
-                if (animated)
-                    animate().alpha(targetAlpha).duration = ROW_FADE_DURATION
-                else
-                    alpha = targetAlpha
-            }
+            if (animated) {
+                view.animate()
+                    .alpha(targetAlpha)
+                    .setDuration(ROW_FADE_DURATION)
+                    .whenCancelled { setupAlpha(false) }
+            } else
+                view.alpha = targetAlpha
         }
 
         override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
@@ -79,14 +80,25 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
             holder.setupAlpha(false)
         }
 
+        override fun onUnbindRowViewHolder(holder: RowPresenter.ViewHolder?) {
+            if (holder == selectedHolder)
+                selectedHolder = null
+
+            super.onUnbindRowViewHolder(holder)
+        }
+
+        private fun updateRowsAlpha() {
+            (0 until adapter.size()).forEach { i ->
+                rowsSupportFragment.getRowViewHolder(i)?.setupAlpha(animateAlpha)
+            }
+        }
+
         override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
             super.onRowViewSelected(holder, selected)
 
             if (selected) {
-                selectedIndex = holder?.getRowIndex()
-                (0 until adapter.size()).forEach { i ->
-                    rowsSupportFragment.getRowViewHolder(i)?.setupAlpha(animateAlpha)
-                }
+                selectedHolder = holder
+                updateRowsAlpha()
             }
         }
     }
