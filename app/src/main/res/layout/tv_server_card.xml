@@ -22,6 +22,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:orientation="vertical"
     android:padding="3.5dp"
     tools:background="@drawable/tv_focused_server_background">
@@ -103,21 +105,44 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/actionButton"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:padding="2dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:background="@drawable/tv_server_list_button_bg"
-        android:textAllCaps="true"
-        android:lines="1"
-        android:ellipsize="end"
-        android:textColor="@color/white"
-        tools:text="@string/disconnect"
-        tools:visibility="visible"
-        tools:backgroundTint="@color/tvInMaintenance"/>
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/connectionIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:elevation="2dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/tvAccent"
+            android:background="@drawable/tv_server_list_connected_indicator_background"
+            android:text="@string/connected"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:padding="2dp"
+            android:elevation="2dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/tv_server_list_button_bg"
+            android:textAllCaps="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            tools:text="@string/disconnect"
+            tools:visibility="visible"
+            tools:backgroundTint="@color/tvInMaintenance"/>
+    </FrameLayout>
 </LinearLayout>
