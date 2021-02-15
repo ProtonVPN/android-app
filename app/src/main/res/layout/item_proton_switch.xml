@@ -20,49 +20,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:foreground="?attr/selectableItemBackground"
     tools:background="@color/dimmedGrey">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchProton"
-        style="@style/SCSwitch.Green"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginVertical="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintTop_toTopOf="@+id/textTitle"
-        app:layout_constraintVertical_bias="0.578" />
-
-    <ImageView
-        android:id="@+id/imageChevron"
+    <FrameLayout
+        android:id="@+id/switchContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginVertical="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textDescription"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textTitle"
-        app:layout_constraintVertical_bias="0.578"
-        app:srcCompat="@drawable/ic_chevron_right" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="imageChevron,switchProton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchProton"
+            style="@style/SCSwitch.Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"/>
+
+        <ImageView
+            android:id="@+id/imageChevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_chevron_right" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textTitle"
@@ -71,7 +57,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintEnd_toStartOf="@id/switchContainer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +72,7 @@
         android:lineSpacingMultiplier="1.2"
         android:textColor="@color/white50"
         android:textDirection="locale"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
+        app:layout_constraintEnd_toStartOf="@id/switchContainer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textTitle"
         app:layout_constraintTop_toBottomOf="@+id/textTitle"
@@ -99,7 +85,5 @@
         android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescription" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
