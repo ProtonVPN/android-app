@@ -31,6 +31,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -41,27 +42,35 @@ class TvServerListViewModel @Inject constructor(
     private val planManager: UserPlanManager,
     val serverManager: ServerManager,
     val vpnStateMonitor: VpnStateMonitor,
-    val userData: UserData
+    val userData: UserData,
+    private val recentsManager: RecentsManager
 ) : ViewModel() {
 
-    private var initialized = false
-
     val servers = MutableLiveData<ServersViewModel>()
+    val recents = MutableLiveData<List<ServerViewModel>>()
 
     fun init(country: String) {
-        if (initialized)
-            return
-
-        initialized = true
+        populateServerList(country)
         viewModelScope.launch {
-            populateServerList(country)
             planManager.planChangeFlow.collect {
                 if (it is UserPlanManager.InfoChange.PlanChange) {
                     populateServerList(country)
                 }
             }
         }
+        viewModelScope.launch {
+            recentsManager.update.collect {
+                updateRecents(country)
+            }
+        }
     }
+
+    private fun updateRecents(country: String) {
+        recents.value = getRecents(country) ?: emptyList()
+    }
+
+    private fun getRecents(country: String) =
+        recentsManager.getRecentServers(country)?.map(::ServerViewModel)
 
     private fun populateServerList(country: String) {
         val vpnCountry = serverManager.getVpnExitCountry(country, false) ?: return
@@ -80,7 +89,6 @@ class TvServerListViewModel @Inject constructor(
                 serversVM[group] = servers.sortedByDescending { it.isPlusServer }.map { ServerViewModel(it) }
             }
         } else {
-            vpnCountry.serverList
             val groups = vpnCountry.serverList.groupBy {
                 userData.hasAccessToServer(it)
             }.mapKeys { (available, _) ->
@@ -90,6 +98,7 @@ class TvServerListViewModel @Inject constructor(
             }
             serversVM.putAll(groups)
         }
+        updateRecents(country)
         servers.value = ServersViewModel(country, serversVM)
     }
 
@@ -103,7 +112,7 @@ class TvServerListViewModel @Inject constructor(
 
     class ServersViewModel(
         val country: String,
-        val servers: MutableMap<ServerGroup, List<ServerViewModel>>
+        val servers: Map<ServerGroup, List<ServerViewModel>>
     )
 
     inner class ServerViewModel(
@@ -147,7 +156,7 @@ class TvServerListViewModel @Inject constructor(
 
         fun click(context: Context, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
-                val profile = Profile.getTempProfile(server, serverManager, server.displayName)
+                val profile = Profile.getTempProfile(server, serverManager, server.serverName)
                 vpnStateMonitor.connect(context, profile)
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->

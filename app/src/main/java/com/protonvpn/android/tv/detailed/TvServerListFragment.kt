@@ -22,10 +22,12 @@ package com.protonvpn.android.tv.detailed
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.ObjectAdapter
 import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.Presenter
@@ -35,6 +37,7 @@ import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
+import com.protonvpn.android.databinding.TvServerRowBinding
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
@@ -47,7 +50,8 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.init(requireArguments()[EXTRA_COUNTRY] as String)
+        if (savedInstanceState == null)
+            viewModel.init(requireArguments()[EXTRA_COUNTRY] as String)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,15 +60,18 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(ServerListRowPresenter())
         adapter = rowsAdapter
 
+        viewModel.recents.observe(viewLifecycleOwner, Observer {
+            updateRecents(it)
+        })
         viewModel.servers.observe(viewLifecycleOwner, Observer {
             updateServerList(it)
         })
 
         onItemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
             require(item is TvServerListViewModel.ServerViewModel)
-            item.click(requireContext()) {
+            item.click(requireContext(), onUpgrade = {
                 requireContext().launchActivity<TvUpgradeActivity>()
-            }
+            })
         }
 
         startEntranceTransition()
@@ -75,9 +82,33 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         super.onDestroyView()
     }
 
-    private fun updateServerList(viewModel: TvServerListViewModel.ServersViewModel) {
-        viewModel.servers.onEachIndexed { i, (group, servers) ->
-            rowsAdapter?.add(i, createRow(group, servers, i))
+    private fun haveRecentsRow(): Boolean = rowsAdapter?.run {
+        size() > 0 && (get(0) as ServersListRow).group == TvServerListViewModel.ServerGroup.Recents
+    } ?: false
+
+    private fun updateRecents(recents: List<TvServerListViewModel.ServerViewModel>) {
+        if (recents.isEmpty()) {
+            if (haveRecentsRow())
+                rowsAdapter?.removeItems(0, 1)
+        } else {
+            val newRow = createRow(TvServerListViewModel.ServerGroup.Recents, recents, 0)
+            if (haveRecentsRow())
+                rowsAdapter?.replace(0, newRow)
+            else
+                rowsAdapter?.add(0, newRow)
+        }
+
+        // Update indices in all rows
+        rowsAdapter?.unmodifiableList<ServersListRow>()?.forEachIndexed { index, serversListRow ->
+            serversListRow.index = index
+        }
+    }
+
+    private fun updateServerList(serverModel: TvServerListViewModel.ServersViewModel) = rowsAdapter?.apply {
+        clear()
+        viewModel.recents.value?.let(::updateRecents)
+        serverModel.servers.onEach { (group, servers) ->
+            add(createRow(group, servers, size()))
         }
     }
 
@@ -89,7 +120,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         val listRowAdapter = ArrayObjectAdapter(ServersPresenterSelector(requireContext()))
         for (server in servers)
             listRowAdapter.add(server)
-        return ServersListRow(HeaderItem(group.toLabel(servers.size)), listRowAdapter, index)
+        return ServersListRow(null, listRowAdapter, group, servers.size, index)
     }
 
     private fun TvServerListViewModel.ServerGroup.toLabel(count: Int) = when (this) {
@@ -99,6 +130,9 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         TvServerListViewModel.ServerGroup.Other -> getString(R.string.tv_other_servers, count)
         is TvServerListViewModel.ServerGroup.City -> "$name ($count)"
     }
+
+    private class RowViewHolder(val binding: TvServerRowBinding, presenter: ListRowPresenter) :
+        ListRowPresenter.ViewHolder(binding.root, binding.rowContent, presenter)
 
     private inner class ServerListRowPresenter : FadeListRowPresenter(false) {
         override fun rowAlpha(index: Int, selectedIdx: Int) = when {
@@ -110,6 +144,23 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
         override fun RowPresenter.ViewHolder.getRowIndex() =
             (rowObject as ServersListRow).index
+
+        override fun createRowViewHolder(parent: ViewGroup): RowPresenter.ViewHolder {
+            super.createRowViewHolder(parent)
+            val rowView = TvServerRowBinding.inflate(layoutInflater).apply {
+                rowContent.setHasFixedSize(false)
+            }
+            return RowViewHolder(rowView, this)
+        }
+
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+            super.onBindRowViewHolder(holder, item)
+            with((holder as RowViewHolder).binding) {
+                this.rowLabel.text = (item as? ServersListRow)?.run {
+                    group.toLabel(count)
+                } ?: ""
+            }
+        }
     }
 
     inner class ServersPresenterSelector(context: Context) : PresenterSelector() {
@@ -117,7 +168,13 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         override fun getPresenter(item: Any): Presenter = presenter
     }
 
-    class ServersListRow(header: HeaderItem?, adapter: ObjectAdapter, val index: Int) : ListRow(header, adapter)
+    class ServersListRow(
+        header: HeaderItem?,
+        adapter: ObjectAdapter,
+        val group: TvServerListViewModel.ServerGroup,
+        val count: Int,
+        var index: Int = 0,
+    ) : ListRow(header, adapter)
 
     inner class ServerPresenter(context: Context) :
         AbstractCardPresenter<TvServerListViewModel.ServerViewModel, TvServerCardView>(context) {

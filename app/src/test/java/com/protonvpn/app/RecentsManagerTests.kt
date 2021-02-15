@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
@@ -41,19 +42,22 @@ class RecentsManagerTests {
         vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, connectionParams)
     }
 
-    private fun mockedConnectionParams(name: String): ConnectionParams {
-        val profile = Profile(name, "", mockk(relaxed = true))
-        every { profile.server?.exitCountry }.returns(name)
-        return ConnectionParams(profile, mockk(), mockk(), mockk())
+    private fun mockedConnectionParams(country: String, serverName: String = country): ConnectionParams {
+        val profile = Profile(country, "", mockk(relaxed = true))
+        every { profile.server?.exitCountry }.returns(country)
+        val server = mockk<Server>()
+        every { server.flag }.returns(country)
+        every { server.serverName }.returns(serverName)
+        return ConnectionParams(profile, server, mockk(), mockk())
     }
 
     @Test
     fun testAddingNewServerOnlyAfterDisconnectingState() {
         val connectionParams = mockedConnectionParams("Test")
         vpnStatus.value = VpnStateMonitor.Status(VpnState.Connected, connectionParams)
-        Assert.assertEquals(0, manager.getRecentConnections().size)
+        Assert.assertEquals(0, manager.getRecentCountries().size)
         vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, connectionParams)
-        Assert.assertEquals(1, manager.getRecentConnections().size)
+        Assert.assertEquals(1, manager.getRecentCountries().size)
     }
 
     @Test
@@ -63,8 +67,21 @@ class RecentsManagerTests {
         addRecent(mockk(relaxed = true))
         addRecent(connectionParams)
         addRecent(mockedConnectionParams("Test2"))
-        Assert.assertNotEquals(connectionParams.profile.name, manager.getRecentConnections()[0].name)
+        Assert.assertNotEquals(connectionParams.profile.name, manager.getRecentCountries()[0].name)
         addRecent(connectionParams)
-        Assert.assertEquals(connectionParams.profile.name, manager.getRecentConnections()[0].name)
+        Assert.assertEquals(connectionParams.profile.name, manager.getRecentCountries()[0].name)
+    }
+
+    @Test
+    fun testRecentServers() {
+        addRecent(mockedConnectionParams("A", "A1"))
+        addRecent(mockedConnectionParams("A", "A2"))
+        addRecent(mockedConnectionParams("A", "A3"))
+        addRecent(mockedConnectionParams("A", "A4"))
+        addRecent(mockedConnectionParams("A", "A3"))
+        addRecent(mockedConnectionParams("B", "B1"))
+
+        Assert.assertEquals(listOf("A3", "A4", "A2"), manager.getRecentServers("A")?.map { it.serverName })
+        Assert.assertEquals(listOf("B1"), manager.getRecentServers("B")?.map { it.serverName })
     }
 }

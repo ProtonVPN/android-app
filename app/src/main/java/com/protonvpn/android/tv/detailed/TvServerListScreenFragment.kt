@@ -32,8 +32,10 @@ class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, Fragmen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        childFragmentManager.commit {
-            add(R.id.container, TvServerListFragment::class.java, arguments)
+        if (savedInstanceState == null) {
+            childFragmentManager.commit {
+                add(R.id.container, TvServerListFragment::class.java, arguments)
+            }
         }
     }
 
