@@ -28,6 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvServerCardBinding
+import com.protonvpn.android.utils.DebugUtils.debugAssert
 
 class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
     BaseCardView(context, null, R.style.DefaultCardTheme) {
@@ -62,13 +63,18 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
         }
         serverLoadColor.setColorFilter(ContextCompat.getColor(context, stateColorRes))
         serverMaintenanceIcon.isVisible = server.loadState == TvServerListViewModel.ServerLoadState.MAINTENANCE
+
+        debugAssert { actionStateObserver == null }
+        val observer = Observer<TvServerListViewModel.ServerActionState> { updateState(it) }
+        actionStateObserver = observer
+        requireServer().actionStateObservable.observe(lifecycleOwner, observer)
     }
 
     fun unbind() {
         removeObservers()
     }
 
-    private fun updateAction(actionState: TvServerListViewModel.ServerActionState) = with(binding) {
+    private fun updateState(actionState: TvServerListViewModel.ServerActionState) = with(binding) {
         val bgColorRes = when (actionState) {
             TvServerListViewModel.ServerActionState.DISCONNECTED -> {
                 actionButton.setText(R.string.connect)
@@ -94,21 +100,13 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
         actionButton.background = actionButton.background.mutate().apply {
             setTint(ContextCompat.getColor(context, bgColorRes))
         }
+        connectionIndicator.isVisible = actionState == TvServerListViewModel.ServerActionState.CONNECTED
     }
 
     override fun setSelected(selected: Boolean) = with(binding) {
         super.setSelected(selected)
         actionButton.visibility = if (selected) VISIBLE else INVISIBLE
         root.setBackgroundResource(if (selected) R.drawable.tv_focused_server_background else 0)
-        if (selected) {
-            if (actionStateObserver == null) {
-                val observer = Observer<TvServerListViewModel.ServerActionState> { updateAction(it) }
-                actionStateObserver = observer
-                requireServer().actionStateObservable.observe(lifecycleOwner, observer)
-            }
-        } else {
-            removeObservers()
-        }
     }
 
     private fun removeObservers() {
