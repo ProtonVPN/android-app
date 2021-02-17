@@ -112,7 +112,7 @@ object NotificationHelper {
                 builder.color = ContextCompat.getColor(context, R.color.orange)
             Connecting, Connected -> {
                 builder.color = ContextCompat.getColor(context, R.color.greenBright)
-                builder.addAction(NotificationCompat.Action(R.drawable.ic_close_white_24dp,
+                builder.addAction(NotificationCompat.Action(R.drawable.ic_clear,
                         context.getString(R.string.disconnect), disconnectPendingIntent))
             }
             else -> builder.color = ContextCompat.getColor(context, R.color.red)

@@ -1,15 +1,19 @@
-import com.android.build.gradle.api.ApplicationVariant
+
+/*
+ * Copyright (c) 2012-2016 Arne Schwabe
+ * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+ */
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("checkstyle")
-
     kotlin("android")
     kotlin("android.extensions")
 }
 
 android {
     compileSdkVersion(30)
+    ndkVersion = "21.3.6528147"
 
     defaultConfig {
         minSdkVersion(14)
@@ -40,7 +44,7 @@ android {
             assets.srcDirs("src/main/assets", "build/ovpnassets")
 
         }
-
+/*
         create("ui") {
         }
 
@@ -51,10 +55,10 @@ android {
         }
 
         getByName("release") {
-        }
+        }*/
     }
 
-    signingConfigs {
+/*    signingConfigs {
         create("release") {
             // ~/.gradle/gradle.properties
             val keystoreFile: String? by project
@@ -87,14 +91,16 @@ android {
             }
         }
     }
-
+*/
     flavorDimensions("implementation")
 
     productFlavors {
+        /*
         create("ui") {
             setDimension("implementation")
             buildConfigField("boolean", "openvpn3", "true")
         }
+        */
         create("skeleton") {
             setDimension("implementation")
             buildConfigField("boolean", "openvpn3", "false")
@@ -144,14 +150,14 @@ fun registerGenTask(variantName: String, variantDirName: String): File {
     return baseDir
 }
 
-android.applicationVariants.all(object : Action<ApplicationVariant> {
+/* android.applicationVariants.all(object : Action<ApplicationVariant> {
     override fun execute(variant: ApplicationVariant) {
         val sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
         val task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
 
         variant.registerJavaGeneratingTask(task, sourceDir)
     }
-})
+}) */
 
 
 dependencies {
@@ -165,7 +171,7 @@ dependencies {
 
     implementation("androidx.annotation:annotation:1.1.0")
     implementation("androidx.core:core:$coreVersion")
-
+/*
     // Is there a nicer way to do this?
     dependencies.add("uiImplementation", "androidx.constraintlayout:constraintlayout:1.1.3")
     dependencies.add("uiImplementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72")
@@ -182,7 +188,7 @@ dependencies {
     dependencies.add("uiImplementation", "androidx.preference:preference-ktx:$preferenceVersion")
     dependencies.add("uiImplementation", "com.google.android.material:material:$materialVersion")
     dependencies.add("uiImplementation", "androidx.webkit:webkit:1.2.0")
-
+*/
     testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72")
     testImplementation("junit:junit:4.13")
     testImplementation("org.mockito:mockito-core:3.3.3")

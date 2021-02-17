@@ -27,9 +27,9 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import dagger.android.AndroidInjection
-import de.blinkt.openpvpn.VpnProfile
-import de.blinkt.openpvpn.core.OpenVPNService
-import de.blinkt.openpvpn.core.VpnStatus.StateListener
+import de.blinkt.openvpn.VpnProfile
+import de.blinkt.openvpn.core.OpenVPNService
+import de.blinkt.openvpn.core.VpnStatus.StateListener
 import javax.inject.Inject
 
 class OpenVPNWrapperService : OpenVPNService(), StateListener {

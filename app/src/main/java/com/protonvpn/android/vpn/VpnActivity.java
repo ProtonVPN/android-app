@@ -20,7 +20,6 @@ package com.protonvpn.android.vpn;
 
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
@@ -46,9 +45,6 @@ import java.io.File;
 
 import javax.inject.Inject;
 
-import de.blinkt.openpvpn.core.IOpenVPNServiceInternal;
-import de.blinkt.openpvpn.core.OpenVPNService;
-
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 public abstract class VpnActivity extends BaseActivity {
@@ -69,21 +65,6 @@ public abstract class VpnActivity extends BaseActivity {
             mService = ((VpnStateService.LocalBinder) service).getService();
         }
     };
-    private IOpenVPNServiceInternal oVPNService;
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-
-            oVPNService = IOpenVPNServiceInternal.Stub.asInterface(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            oVPNService = null;
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,20 +74,6 @@ public abstract class VpnActivity extends BaseActivity {
         registerForEvents();
         Log.checkForLogTruncation(getFilesDir() + File.separator + CharonVpnService.LOG_FILE);
         new LoadCertificatesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Intent intent = new Intent(this, OpenVPNService.class);
-        intent.setAction(OpenVPNService.START_SERVICE);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unbindService(mConnection);
     }
 
     @Override
