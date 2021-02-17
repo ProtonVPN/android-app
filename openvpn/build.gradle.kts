@@ -1,4 +1,5 @@
 import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.LibraryVariant
 
 /*
  * Copyright (c) 2012-2016 Arne Schwabe
@@ -6,8 +7,8 @@ import com.android.build.gradle.api.ApplicationVariant
  */
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.library")
+    id("kotlin-android")
     id("checkstyle")
 }
 
@@ -25,13 +26,16 @@ android {
 
     defaultConfig {
         minSdk = 21
+/*
         targetSdk = 35
         //targetSdkPreview = "UpsideDownCake"
         versionCode = 210
         versionName = "0.7.55"
+*/
         externalNativeBuild {
             cmake {
                 //arguments+= "-DCMAKE_VERBOSE_MAKEFILE=1"
+                version = "3.18.1"
             }
         }
     }
@@ -41,6 +45,7 @@ android {
 
     externalNativeBuild {
         cmake {
+            version = "3.18.1"
             path = File("${projectDir}/src/main/cpp/CMakeLists.txt")
         }
     }
@@ -50,7 +55,7 @@ android {
             assets.srcDirs("src/main/assets", "build/ovpnassets")
 
         }
-
+/*
         create("ui") {
         }
 
@@ -62,8 +67,10 @@ android {
 
         getByName("release") {
         }
+*/
     }
 
+/*
     signingConfigs {
         create("release") {
             // ~/.gradle/gradle.properties
@@ -100,14 +107,16 @@ android {
         checkOnly += setOf("ImpliedQuantity", "MissingQuantity")
         disable += setOf("MissingTranslation", "UnsafeNativeCodeLocation")
     }
-
+*/
 
     flavorDimensions += listOf("implementation", "ovpnimpl")
 
     productFlavors {
+/*
         create("ui") {
             dimension = "implementation"
         }
+*/
 
         create("skeleton") {
             dimension = "implementation"
@@ -119,14 +128,16 @@ android {
             buildConfigField("boolean", "openvpn3", "true")
         }
 
+/*
         create("ovpn2")
         {
             dimension = "ovpnimpl"
             versionNameSuffix = "-o2"
             buildConfigField("boolean", "openvpn3", "false")
         }
+ */
     }
-
+/*
     buildTypes {
         getByName("release") {
             if (project.hasProperty("icsopenvpnDebugSign")) {
@@ -138,6 +149,7 @@ android {
             }
         }
     }
+ */
 
     compileOptions {
         targetCompatibility = JavaVersion.VERSION_17
@@ -163,6 +175,7 @@ android {
         }
     }
 
+/*
     bundle {
         codeTransparency {
             signing {
@@ -187,6 +200,7 @@ android {
             }
         }
     }
+ */
 }
 
 var swigcmd = "swig"
@@ -220,8 +234,8 @@ fun registerGenTask(variantName: String, variantDirName: String): File {
     return baseDir
 }
 
-android.applicationVariants.all(object : Action<ApplicationVariant> {
-    override fun execute(variant: ApplicationVariant) {
+android.libraryVariants.all(object : Action<LibraryVariant> {
+    override fun execute(variant: LibraryVariant) {
         val sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
         val task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
 
@@ -235,6 +249,7 @@ dependencies {
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.core.ktx)
 
+/*
     uiImplementation(libs.android.view.material)
     uiImplementation(libs.androidx.activity)
     uiImplementation(libs.androidx.activity.ktx)
@@ -253,6 +268,7 @@ dependencies {
     uiImplementation(libs.kotlin)
     uiImplementation(libs.mpandroidchart)
     uiImplementation(libs.square.okhttp)
+ */
 
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit)
@@ -261,5 +277,7 @@ dependencies {
     testImplementation(libs.robolectric)
 }
 
+/*
 fun DependencyHandler.uiImplementation(dependencyNotation: Any): Dependency? =
     add("uiImplementation", dependencyNotation)
+ */
