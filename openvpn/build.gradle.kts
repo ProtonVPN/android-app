@@ -1,4 +1,4 @@
-import com.android.build.gradle.api.ApplicationVariant
+//import com.android.build.gradle.api.ApplicationVariant
 
 /*
  * Copyright (c) 2012-2016 Arne Schwabe
@@ -6,7 +6,7 @@ import com.android.build.gradle.api.ApplicationVariant
  */
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("checkstyle")
 
     id("kotlin-android")
@@ -20,17 +20,21 @@ android {
     compileSdk = 33
 
     // Also update runcoverity.sh
-    ndkVersion = "25.1.8937393"
+    buildToolsVersion = "31.0.0"
+    ndkVersion = "23.1.7779620"
 
     defaultConfig {
         minSdk = 21
         targetSdk = 33
+/* In gradle 7.x versionCode and name are not available for libraries
         versionCode = 198
         versionName = "0.7.43"
         versionCode = 199
         versionName = "0.7.44"
+ */
         externalNativeBuild {
             cmake {
+                version = "3.18.1"
             }
         }
     }
@@ -40,6 +44,7 @@ android {
 
     externalNativeBuild {
         cmake {
+            version = "3.18.1"
             path = File("${projectDir}/src/main/cpp/CMakeLists.txt")
         }
     }
@@ -49,7 +54,7 @@ android {
             assets.srcDirs("src/main/assets", "build/ovpnassets")
 
         }
-
+/*
         create("ui") {
         }
 
@@ -61,8 +66,10 @@ android {
 
         getByName("release") {
         }
+*/
     }
 
+/*
     signingConfigs {
         create("release") {
             // ~/.gradle/gradle.properties
@@ -96,13 +103,16 @@ android {
             }
         }
     }
+*/
     flavorDimensions += listOf("implementation")
 
     productFlavors {
+        /*
         create("ui") {
             dimension = "implementation"
             buildConfigField("boolean", "openvpn3", "true")
         }
+        */
         create("skeleton") {
             dimension = "implementation"
             buildConfigField("boolean", "openvpn3", "false")
@@ -157,6 +167,7 @@ fun registerGenTask(variantName: String, variantDirName: String): File {
     return baseDir
 }
 
+/*
 android.applicationVariants.all(object : Action<ApplicationVariant> {
     override fun execute(variant: ApplicationVariant) {
         val sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
@@ -165,6 +176,7 @@ android.applicationVariants.all(object : Action<ApplicationVariant> {
         variant.registerJavaGeneratingTask(task, sourceDir)
     }
 })
+*/
 
 
 dependencies {
@@ -203,5 +215,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.9.0")
     testImplementation("org.robolectric:robolectric:4.10")
-    testImplementation("androidx.test:core:1.4.0")
+    testImplementation("androidx.test:core:1.5.0")
 }
