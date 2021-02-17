@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
@@ -15,7 +14,7 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
             tools:ignore="QueryAllPackagesPermission" />
 
-
+<!--
     <application
         android:name=".core.ICSOpenVPNApplication"
         android:allowBackup="true"
@@ -107,13 +106,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--
+
         <receiver android:name="core.GetRestrictionReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.GET_RESTRICTION_ENTRIES" />
             </intent-filter>
         </receiver>
-        -->
+
         <activity android:name=".api.RemoteAction"
                 android:launchMode="singleInstance"
                 android:autoRemoveFromRecents="true"
@@ -141,5 +140,6 @@
                 android:targetActivity=".api.RemoteAction" />
 
     </application>
+-->
 
 </manifest>
