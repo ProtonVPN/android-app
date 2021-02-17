@@ -35,9 +35,9 @@ import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.implies
 import com.protonvpn.android.utils.randomNullable
-import de.blinkt.openpvpn.core.ConnectionStatus
-import de.blinkt.openpvpn.core.OpenVPNService.PAUSE_VPN
-import de.blinkt.openpvpn.core.VpnStatus
+import de.blinkt.openvpn.core.ConnectionStatus
+import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
+import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.apache.commons.codec.binary.Hex
@@ -192,7 +192,13 @@ class OpenVpnBackend(
         }
     }
 
-    override fun updateState(openVpnState: String, logmessage: String, localizedResId: Int, level: ConnectionStatus) {
+    override fun updateState(
+        openVpnState: String?,
+        logmessage: String?,
+        localizedResId: Int,
+        level: ConnectionStatus?,
+        Intent: Intent?
+    ) {
         if (level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET &&
                 (selfState as? VpnState.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
             // On tls-error OpenVPN will send a single RECONNECTING state update with tls-error in
@@ -202,7 +208,7 @@ class OpenVpnBackend(
             return
         }
 
-        val translatedState = if (openVpnState == "RECONNECTING" && logmessage.startsWith("tls-error")) {
+        val translatedState = if (openVpnState == "RECONNECTING" && logmessage?.startsWith("tls-error") == true) {
             VpnState.Error(ErrorType.PEER_AUTH_FAILED)
         } else if (openVpnState == "RECONNECTING") {
             VpnState.Reconnecting
@@ -222,6 +228,7 @@ class OpenVpnBackend(
                 VpnState.Error(ErrorType.GENERIC_ERROR)
             ConnectionStatus.LEVEL_MULTI_USER_PERMISSION ->
                 VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
+            null -> VpnState.Disabled
         }
         DebugUtils.debugAssert {
             (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)

@@ -25,8 +25,8 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
-import de.blinkt.openpvpn.VpnProfile
-import de.blinkt.openpvpn.core.Connection
+import de.blinkt.openvpn.VpnProfile
+import de.blinkt.openvpn.core.Connection
 
 class ConnectionParamsOpenVpn(
     profile: Profile,
@@ -66,7 +66,7 @@ class ConnectionParamsOpenVpn(
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
             mServerName = if (server.isSecureCoreServer)
-                connectingDomain.entryIp else connectingDomain.getExitIP()
+                connectingDomain!!.entryIp else connectingDomain!!.getExitIP()
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
             mCustomConfiguration = ""
