@@ -87,6 +87,7 @@ public class VpnProfile implements Serializable, Cloneable {
     public static final int X509_VERIFY_TLSREMOTE_DN = 2;
     public static final int X509_VERIFY_TLSREMOTE_RDN = 3;
     public static final int X509_VERIFY_TLSREMOTE_RDN_PREFIX = 4;
+    public static final int X509_VERIFY_TLSREMOTE_SAN = 5;
     public static final int AUTH_RETRY_NONE_FORGET = 0;
     public static final int AUTH_RETRY_NOINTERACT = 2;
     public static final boolean mIsOpenVPN22 = false;
@@ -697,6 +698,11 @@ public class VpnProfile implements Serializable, Cloneable {
                         case X509_VERIFY_TLSREMOTE_DN:
                             cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append("\n");
                             break;
+
+                        case X509_VERIFY_TLSREMOTE_SAN:
+                            cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append(" subject-alt-name\n");
+                            break;
+
                     }
                 if (!TextUtils.isEmpty(mx509UsernameField))
                     cfg.append("x509-username-field ").append(openVpnEscape(mx509UsernameField)).append("\n");
