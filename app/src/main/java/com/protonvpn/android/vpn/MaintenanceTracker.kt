@@ -1,7 +1,7 @@
 package com.protonvpn.android.vpn
 
+import android.content.Context
 import android.os.SystemClock
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
@@ -20,6 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class MaintenanceTracker(
     val scope: CoroutineScope,
+    val appContext: Context,
     private val api: ProtonApiRetroFit,
     private val serverManager: ServerManager,
     private val serverListUpdater: ServerListUpdater,
@@ -34,7 +35,9 @@ class MaintenanceTracker(
 
     private val task = ReschedulableTask(scope, ::now) {
         if (stateMonitor.isConnected && appConfig.isMaintenanceTrackerEnabled()) {
-            checkMaintenanceReconnect()
+            getMaintenanceFallbackProfile()?.let {
+                stateMonitor.connect(appContext, it)
+            }
             scheduleIn(getScheduleDelay())
         }
     }
@@ -48,33 +51,29 @@ class MaintenanceTracker(
         }
     }
 
-    suspend fun checkMaintenanceReconnect(): Boolean {
+    suspend fun getMaintenanceFallbackProfile(): Profile? {
         if (!appConfig.isMaintenanceTrackerEnabled())
-            return false
+            return null
 
         ProtonLogger.log("Check if server is not in maintenance")
-        val domainId = stateMonitor.connectionParams!!.connectingDomain?.id ?: return false
+        val domainId = stateMonitor.connectionParams!!.connectingDomain?.id ?: return null
         val result = api.getConnectingDomain(domainId)
         if (result is ApiResult.Success) {
             val connectingDomain = result.value.connectingDomain
             if (!connectingDomain.isOnline) {
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
-                val context = ProtonApplication.getAppContext()
                 val sentryEvent = EventBuilder()
                     .withMessage("Maintenance detected")
                     .withExtra("Server", result.value.connectingDomain.entryDomain)
                     .build()
                 ProtonLogger.logSentryEvent(sentryEvent)
-                serverManager.getBestScoreServer()?.let {
-                    stateMonitor.connect(context, Profile.getTempProfile(it, serverManager))
-                }
                 NotificationHelper.showInformationNotification(
-                    context, context.getString(R.string.onMaintenanceDetected)
+                    appContext, appContext.getString(R.string.onMaintenanceDetected)
                 )
-                return true
+                return serverManager.defaultFallbackConnection
             }
         }
-        return false
+        return null
     }
 }

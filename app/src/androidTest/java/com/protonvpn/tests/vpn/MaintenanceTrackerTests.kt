@@ -2,8 +2,10 @@ package com.protonvpn.tests.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SdkSuppress
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -16,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import me.proton.core.network.domain.ApiResult
@@ -48,15 +49,15 @@ class MaintenanceTrackerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        maintenanceTracker =
-            MaintenanceTracker(scope, apiRetroFit, serverManager, serverListUpdater, appConfig)
+        maintenanceTracker = MaintenanceTracker(scope, ProtonApplication.getAppContext(), apiRetroFit, serverManager,
+            serverListUpdater, appConfig)
         maintenanceTracker.initWithStateMonitor(vpnStateMonitor)
     }
 
     @Test
     fun featureFlagDisablesMaintenanceChecking() = runBlocking {
         every { appConfig.isMaintenanceTrackerEnabled() } returns false
-        Assert.assertEquals(false, maintenanceTracker.checkMaintenanceReconnect())
+        Assert.assertNull(maintenanceTracker.getMaintenanceFallbackProfile())
     }
 
     @Test
@@ -70,7 +71,6 @@ class MaintenanceTrackerTests {
             )
         )
 
-        Assert.assertEquals(true, maintenanceTracker.checkMaintenanceReconnect())
-        verify { vpnStateMonitor.connect(any(), any()) }
+        Assert.assertTrue(maintenanceTracker.getMaintenanceFallbackProfile() is Profile)
     }
 }

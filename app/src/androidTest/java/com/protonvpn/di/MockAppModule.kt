@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
@@ -74,8 +75,10 @@ class MockAppModule {
     fun provideServerListUpdater(
         api: ProtonApiRetroFit,
         serverManager: ServerManager,
-        userData: UserData
-    ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV())
+        userData: UserData,
+        userPlanManager: UserPlanManager,
+    ) = ServerListUpdater(
+        scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV(), userPlanManager)
 
     @Singleton
     @Provides
@@ -121,9 +124,8 @@ class MockAppModule {
     @Provides
     fun provideUserPlanManager(
         api: ProtonApiRetroFit,
-        userData: UserData,
-        vpnStateMonitor: VpnStateMonitor
-    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
+        userData: UserData
+    ): UserPlanManager = UserPlanManager(api, userData)
 
 
     @Singleton
@@ -132,7 +134,8 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>): ProtonApiRetroFit = MockApi(scope, apiManager)
+    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>, userData: UserData): ProtonApiRetroFit =
+        MockApi(scope, apiManager, userData)
 
     @Singleton
     @Provides
@@ -158,17 +161,28 @@ class MockAppModule {
 
     @Singleton
     @Provides
+    fun provideVpnConnectionErrorHandler(
+        api: ProtonApiRetroFit,
+        userData: UserData,
+        userPlanManager: UserPlanManager,
+        serverManager: ServerManager,
+        maintenanceTracker: MaintenanceTracker
+    ) = VpnConnectionErrorHandler(api, userData, userPlanManager, serverManager, maintenanceTracker)
+
+    @Singleton
+    @Provides
     fun provideVpnStateMonitor(
         userData: UserData,
-        api: ProtonApiRetroFit,
         backendManager: VpnBackendProvider,
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        maintenanceTracker: MaintenanceTracker
-    ): VpnStateMonitor = MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
-                trafficMonitor, networkManager, maintenanceTracker, scope).apply {
+        userPlanManager: UserPlanManager,
+        maintenanceTracker: MaintenanceTracker,
+        vpnErrorHandler: VpnConnectionErrorHandler,
+        apiClient: VpnApiClient
+    ): VpnStateMonitor = MockVpnStateMonitor(userData, backendManager, serverListUpdater,
+                trafficMonitor, networkManager, userPlanManager, maintenanceTracker, vpnErrorHandler, scope).apply {
         apiClient.init(this)
     }
 
@@ -185,7 +199,7 @@ class MockAppModule {
         api: ProtonApiRetroFit,
         serverListUpdater: ServerListUpdater,
         appConfig: AppConfig
-    ) = MaintenanceTracker(scope, api, serverManager, serverListUpdater, appConfig)
+    ) = MaintenanceTracker(scope, ProtonApplication.getAppContext(), api, serverManager, serverListUpdater, appConfig)
 
     @Singleton
     @Provides

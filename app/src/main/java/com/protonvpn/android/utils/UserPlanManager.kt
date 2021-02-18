@@ -21,51 +21,71 @@ package com.protonvpn.android.utils
 import android.content.Context
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 
 class UserPlanManager(
     private val api: ProtonApiRetroFit,
-    private val userData: UserData,
-    private val vpnStateMonitor: VpnStateMonitor,
+    private val userData: UserData
 ) {
-
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
             object TrialEnded : PlanChange()
             object Downgrade : PlanChange()
             object Upgrade : PlanChange()
         }
-
+        object UserBecameDelinquent : InfoChange()
         object VpnCredentials : InfoChange()
+    }
+
+    lateinit var vpnStateMonitor: VpnStateMonitor
+
+    fun initVpnStateMonitor(monitor: VpnStateMonitor) {
+        vpnStateMonitor = monitor
     }
 
     fun isTrialUser() = "trial" == userData.vpnInfoResponse?.userTierName
 
-    val planChangeFlow = MutableSharedFlow<InfoChange>()
+    val infoChangeFlow = MutableSharedFlow<List<InfoChange>>()
 
-    suspend fun refreshVpnInfo() {
-        api.getVPNInfo().valueOrNull?.let { newInfo ->
+    val planChangeFlow = infoChangeFlow.mapNotNull { changes ->
+        changes.firstOrNull { it is InfoChange.PlanChange } as? InfoChange.PlanChange
+    }
+
+    // Will return list of changes (can be empty) or null if refresh failed.
+    suspend fun refreshVpnInfo(): List<InfoChange>? {
+        val changes = api.getVPNInfo().valueOrNull?.let { newInfo ->
+            val changes = mutableListOf<InfoChange>()
             val oldInfo = userData.vpnInfoResponse
             userData.vpnInfoResponse = newInfo
             if (oldInfo != null) {
                 if (newInfo.password != oldInfo.password || newInfo.vpnUserName != oldInfo.vpnUserName)
-                    planChangeFlow.emit(InfoChange.VpnCredentials)
+                    changes += InfoChange.VpnCredentials
+                if (newInfo.isUserDelinquent && !oldInfo.isUserDelinquent)
+                    changes += InfoChange.UserBecameDelinquent
                 when {
-                    newInfo.userTier < oldInfo.userTier ->
-                        planChangeFlow.emit(if (oldInfo.userTierName == "trial") {
+                    newInfo.userTier < oldInfo.userTier -> {
+                        changes += if (oldInfo.userTierName == "trial") {
                             Storage.saveBoolean(PREF_EXPIRATION_DIALOG_DUE, true)
                             InfoChange.PlanChange.TrialEnded
                         } else {
                             InfoChange.PlanChange.Downgrade
-                        })
+                        }
+                    }
                     newInfo.userTier > oldInfo.userTier ->
-                        planChangeFlow.emit(InfoChange.PlanChange.Upgrade)
+                        changes += InfoChange.PlanChange.Upgrade
                 }
             }
+            changes
         }
+        changes.whenNotNullNorEmpty {
+            infoChangeFlow.emit(it)
+        }
+        return changes
     }
 
     fun getTrialPeriodFlow(context: Context) = flow {

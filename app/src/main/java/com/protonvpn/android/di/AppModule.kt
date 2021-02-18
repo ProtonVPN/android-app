@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Module
 import dagger.Provides
@@ -75,8 +76,10 @@ class AppModule {
     fun provideServerListUpdater(
         api: ProtonApiRetroFit,
         serverManager: ServerManager,
-        userData: UserData
-    ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV())
+        userData: UserData,
+        userPlanManager: UserPlanManager,
+    ) = ServerListUpdater(
+            scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV(), userPlanManager)
 
     @Singleton
     @Provides
@@ -152,30 +155,41 @@ class AppModule {
     @Provides
     fun provideUserPlanManager(
         api: ProtonApiRetroFit,
+        userData: UserData
+    ): UserPlanManager = UserPlanManager(api, userData)
+
+    @Singleton
+    @Provides
+    fun provideVpnConnectionErrorHandler(
+        api: ProtonApiRetroFit,
         userData: UserData,
-        vpnStateMonitor: VpnStateMonitor,
-    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
+        userPlanManager: UserPlanManager,
+        serverManager: ServerManager,
+        maintenanceTracker: MaintenanceTracker
+    ) = VpnConnectionErrorHandler(api, userData, userPlanManager, serverManager, maintenanceTracker)
 
     @Singleton
     @Provides
     fun provideVpnStateMonitor(
         userData: UserData,
-        api: ProtonApiRetroFit,
         backendManager: VpnBackendProvider,
         serverListUpdater: ServerListUpdater,
         trafficMonitor: TrafficMonitor,
         networkManager: NetworkManager,
+        userPlanManager: UserPlanManager,
         maintenanceTracker: MaintenanceTracker,
+        vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         apiClient: VpnApiClient
     ) = VpnStateMonitor(
         ProtonApplication.getAppContext(),
         userData,
-        api,
         backendManager,
         serverListUpdater,
         trafficMonitor,
         networkManager,
+        userPlanManager,
         maintenanceTracker,
+        vpnConnectionErrorHandler,
         scope
     ).apply {
         apiClient.init(this)
@@ -199,7 +213,7 @@ class AppModule {
         api: ProtonApiRetroFit,
         serverListUpdater: ServerListUpdater,
         appConfig: AppConfig
-    ) = MaintenanceTracker(scope, api, serverManager, serverListUpdater, appConfig)
+    ) = MaintenanceTracker(scope, ProtonApplication.getAppContext(), api, serverManager, serverListUpdater, appConfig)
 
     @Singleton
     @Provides

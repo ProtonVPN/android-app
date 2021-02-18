@@ -53,9 +53,7 @@ class TvServerListViewModel @Inject constructor(
         populateServerList(country)
         viewModelScope.launch {
             planManager.planChangeFlow.collect {
-                if (it is UserPlanManager.InfoChange.PlanChange) {
-                    populateServerList(country)
-                }
+                populateServerList(country)
             }
         }
         viewModelScope.launch {

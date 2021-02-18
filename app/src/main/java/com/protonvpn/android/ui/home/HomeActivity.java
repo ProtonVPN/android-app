@@ -38,8 +38,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
-import com.protonvpn.android.api.ProtonApiRetroFit;
-import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -55,7 +53,6 @@ import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
-import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
@@ -74,6 +71,7 @@ import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.UserPlanManager;
 import com.protonvpn.android.utils.ViewModelFactory;
 import com.protonvpn.android.vpn.LogActivity;
 import com.protonvpn.android.vpn.VpnStateFragment;
@@ -121,13 +119,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
 
-    @Inject ProtonApiRetroFit api;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject LogoutHandler logoutHandler;
-    @Inject AppConfig appConfig;
 
     @Inject ViewModelFactory viewModelFactory;
     private HomeViewModel viewModel;
@@ -138,6 +134,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
+        getLifecycle().addObserver(viewModel);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(HtmlTools.fromHtml(getString(R.string.toolbar_app_title)));
@@ -186,6 +183,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             drawerNotifications.updateNotifications(this, notifications);
         });
 
+        viewModel.collectPlanChange(this, changes -> {
+            onPlanChanged(changes);
+            return Unit.INSTANCE;
+        });
+
         serverListUpdater.startSchedule(getLifecycle(), this);
 
         if (Storage.getBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD)) {
@@ -204,12 +206,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             (dialogInterface, button) -> startActivity(oldAppIntent));
         dialog.setNegativeButton(R.string.ok, null);
         dialog.create().show();
-    }
-
-    @Override
-    public void onTrialEnded() {
-        vpnStateMonitor.disconnect();
-        switchSecureCore.setChecked(false);
     }
 
     private void checkForUpdate() {
@@ -393,9 +389,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             else {
                 if (!vpnStateMonitor.isConnected()) {
                     Profile profile = serverManager.getDefaultConnection();
-                    if (profile != null) {
-                        onConnectToProfile(new ConnectToProfile(profile));
-                    }
+                    onConnectToProfile(new ConnectToProfile(profile));
                 }
                 else {
                     vpnStateMonitor.disconnect();
@@ -461,23 +455,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         postSecureCoreSwitched(switchCompat);
     }
 
-    // FIXME: API needs to inform app of changes, not other way
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!userData.wasVpnInfoRecentlyUpdated(3)) {
-            api.getVPNInfo(this::checkTrialChange);
-        }
-    }
+    private void onPlanChanged(UserPlanManager.InfoChange.PlanChange change) {
+        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
+            showExpiredDialog();
 
-    private void checkTrialChange(VpnInfoResponse result) {
-        if (!result.equals(userData.getVpnInfoResponse())) {
-            serverListUpdater.getServersList(this);
-            initDrawerView();
-            shouldExpiredDialog(result);
-            userData.setVpnInfoResponse(result);
-            EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
-        }
+        initDrawerView();
+        EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
     }
 
     private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
