@@ -50,7 +50,9 @@ class RecentsManager(
     init {
         Storage.load(RecentsManager::class.java)?.let {
             recentConnections.addAll(it.recentConnections)
-            recentServers.putAll(it.recentServers)
+            // Older version might have this field missing
+            if (it.recentServers != null)
+                recentServers.putAll(it.recentServers)
         }
         recentConnections.forEach { it.wrapper.setDeliverer(serverManager) }
 
