@@ -28,6 +28,7 @@ import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.components.LoaderUI
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
@@ -40,7 +41,7 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
 
-class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>) : ProtonApiRetroFit(scope, manager) {
+class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val userData: UserData) : ProtonApiRetroFit(scope, manager) {
 
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(featureFlags = FeatureFlags(
@@ -61,10 +62,10 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>) : P
             super.getServerList(loader, ip)
 
     override suspend fun getVPNInfo(): ApiResult<VpnInfoResponse> =
-        ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
+        ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
 
     override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
-        ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
+        ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
     }
 
     override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =

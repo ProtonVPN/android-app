@@ -93,6 +93,7 @@ class TvMainViewModel @Inject constructor(
 
     fun onViewInit(lifecycle: Lifecycle) {
         serverListUpdater.startSchedule(lifecycle, null)
+        lifecycle.addObserver(this)
     }
 
     val haveAccessToStreaming get() = userData.isUserPlusOrAbove

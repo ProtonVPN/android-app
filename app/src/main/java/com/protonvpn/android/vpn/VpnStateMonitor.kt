@@ -30,7 +30,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.TrafficUpdate
@@ -51,6 +50,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import com.protonvpn.android.vpn.PermissionContract.Companion.VPN_PERMISSION_ACTIVITY
@@ -63,6 +63,8 @@ import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
@@ -71,12 +73,13 @@ import javax.inject.Singleton
 open class VpnStateMonitor(
     private val appContext: Context,
     private val userData: UserData,
-    private val api: ProtonApiRetroFit,
     private val backendProvider: VpnBackendProvider,
     private val serverListUpdater: ServerListUpdater,
     private val trafficMonitor: TrafficMonitor,
     private val networkManager: NetworkManager,
-    private val maintenanceTracker: MaintenanceTracker,
+    userPlanManager: UserPlanManager,
+    maintenanceTracker: MaintenanceTracker,
+    private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val scope: CoroutineScope
 ) : VpnStateSource {
 
@@ -118,6 +121,8 @@ open class VpnStateMonitor(
         Status(newState, connectionParams)
     }
 
+    val fallbackConnectionFlow = MutableSharedFlow<SwitchServerReason>()
+
     val isConnected get() = state == Connected && connectionParams != null
     val isEstablishingConnection get() = state.isEstablishingConnection
     val isDisabled get() = state == Disabled
@@ -157,6 +162,7 @@ open class VpnStateMonitor(
     init {
         Log.i("create state monitor")
         bindTrafficMonitor()
+        userPlanManager.initVpnStateMonitor(this)
         maintenanceTracker.initWithStateMonitor(this)
         appContext.registerBroadcastReceiver(IntentFilter(DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
@@ -187,6 +193,13 @@ open class VpnStateMonitor(
             }
         }
 
+        scope.launch {
+            vpnErrorHandler.switchConnectionFlow.collect { fallback ->
+                if (isConnected || isEstablishingConnection)
+                    fallbackConnect(fallback)
+            }
+        }
+
         initialized = true
     }
 
@@ -213,22 +226,22 @@ open class VpnStateMonitor(
     }
 
     private suspend fun checkAuthFailedReason() {
-        var errorType = ErrorType.AUTH_FAILED
-        val vpnInfoResponse = userData.vpnInfoResponse
-        if (vpnInfoResponse != null) {
-            if (vpnInfoResponse.isUserDelinquent) {
-                errorType = ErrorType.UNPAID
-            } else {
-                activeBackend?.setSelfState(CheckingAvailability)
-                val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-                if (vpnInfoResponse.maxSessionCount <= sessionCount)
-                    errorType = ErrorType.MAX_SESSIONS
+        activeBackend?.setSelfState(CheckingAvailability)
+        when (val result = vpnErrorHandler.onAuthError(lastProfile!!)) {
+            is VpnFallbackResult.SwitchProfile ->
+                fallbackConnect(result)
+            is VpnFallbackResult.Error -> {
+                ongoingConnect = null
+                activeBackend?.setSelfState(Error(result.type))
             }
         }
-        if (!maintenanceTracker.checkMaintenanceReconnect()) {
-            ongoingConnect = null
-            activeBackend?.setSelfState(Error(errorType))
+    }
+
+    private suspend fun fallbackConnect(fallback: VpnFallbackResult.SwitchProfile) {
+        fallback.notificationReason?.let {
+            fallbackConnectionFlow.emit(it)
         }
+        connect(appContext, fallback.profile)
     }
 
     private suspend fun coroutineConnect(profile: Profile) {

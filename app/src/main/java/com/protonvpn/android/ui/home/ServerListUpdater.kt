@@ -31,9 +31,11 @@ import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.StorageStringObservable
+import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import org.joda.time.DateTime
@@ -44,7 +46,8 @@ class ServerListUpdater(
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
     val userData: UserData,
-    val updateStreaming: Boolean
+    val updateStreaming: Boolean,
+    userPlanManager: UserPlanManager
 ) {
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
@@ -69,6 +72,14 @@ class ServerListUpdater(
     private var lastLoadsUpdateInternal = Long.MIN_VALUE
 
     val ipAddress = StorageStringObservable(KEY_IP_ADDRESS)
+
+    init {
+        scope.launch {
+            userPlanManager.planChangeFlow.collect {
+                updateServerList()
+            }
+        }
+    }
 
     private val task = ReschedulableTask(scope, ::now) {
         if (userData.isLoggedIn) {

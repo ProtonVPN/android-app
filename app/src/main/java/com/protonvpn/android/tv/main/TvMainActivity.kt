@@ -71,11 +71,6 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
         viewModel.onViewInit(lifecycle)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.refreshVPNInfo()
-    }
-
     private fun updateMapSelection() {
         binding.mapView.setSelection(
                 CountryTools.codeToMapCountryName[viewModel.selectedCountryFlag.value],

@@ -205,6 +205,9 @@ public final class UserData implements Serializable {
         if (isFreeUser()) {
             setNetShieldProtocol(NetShieldProtocol.DISABLED);
         }
+        if (!isUserPlusOrAbove()) {
+            setSecureCoreEnabled(false);
+        }
         this.setVpnInfoUpdatedAt(new DateTime());
         saveToStorage();
     }
@@ -240,7 +243,7 @@ public final class UserData implements Serializable {
         return vpnInfoUpdatedAt;
     }
 
-    public void setVpnInfoUpdatedAt(DateTime vpnInfoUpdatedAt) {
+    private void setVpnInfoUpdatedAt(DateTime vpnInfoUpdatedAt) {
         this.vpnInfoUpdatedAt = vpnInfoUpdatedAt;
         saveToStorage();
     }

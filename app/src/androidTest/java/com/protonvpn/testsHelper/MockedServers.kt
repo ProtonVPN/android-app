@@ -40,8 +40,8 @@ object MockedServers {
         FileUtils.getObjectFromAssetsWithGson<List<Server>>("MockedServers/Servers.json")
     }
 
-    fun getProfile(protocol: VpnProtocol, server: Server) =
-        Profile(protocol.name, "", ServerWrapper.makeWithServer(server, object : ServerDeliver {
+    fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
+        Profile(name, "", ServerWrapper.makeWithServer(server, object : ServerDeliver {
             override fun hasAccessToServer(server: Server?) = true
             override fun getServer(wrapper: ServerWrapper?): Server = server
         })).apply {

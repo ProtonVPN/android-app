@@ -19,6 +19,9 @@
 package com.protonvpn.android.tv.main
 
 import android.content.Context
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.models.config.UserData
@@ -32,9 +35,14 @@ import javax.inject.Inject
 open class MainViewModel @Inject constructor(
     private val userData: UserData,
     private val userPlanManager: UserPlanManager,
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
     val userPlanChangeEvent = userPlanManager.planChangeFlow
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResumed() {
+        refreshVPNInfo()
+    }
 
     fun isTrialUser() = userPlanManager.isTrialUser()
 
@@ -50,7 +58,7 @@ open class MainViewModel @Inject constructor(
 
     fun setExpirationDialogAsShown() = Storage.saveBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE, false)
 
-    fun refreshVPNInfo() {
+    private fun refreshVPNInfo() {
         if (!userData.wasVpnInfoRecentlyUpdated(Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES)) {
             viewModelScope.launch {
                 userPlanManager.refreshVpnInfo()

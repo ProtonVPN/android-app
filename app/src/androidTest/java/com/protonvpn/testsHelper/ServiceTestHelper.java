@@ -149,8 +149,6 @@ public class ServiceTestHelper {
     }
 
     public static void getExpiredTrialUserNotification(HomeActivity activity) {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            activity.shouldExpiredDialog(TestUser.setTrialUserAsExpired().getVpnInfoResponse());
-        }, 0);
+        new Handler(Looper.getMainLooper()).postDelayed(activity::showExpiredDialog, 0);
     }
 }

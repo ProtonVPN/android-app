@@ -171,6 +171,8 @@ class ServerManager(
 
     fun getVpnCountries(): List<VpnCountry> = vpnCountries
 
+    val defaultFallbackConnection = getSavedProfiles()[0]
+
     val defaultConnection: Profile get() = (if (userData.defaultConnection == null)
                 getSavedProfiles()[0] else userData.defaultConnection).also {
         it.wrapper.setDeliverer(this)

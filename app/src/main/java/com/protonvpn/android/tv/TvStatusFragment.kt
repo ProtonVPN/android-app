@@ -63,12 +63,10 @@ class TvStatusFragment : DaggerFragment() {
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect { infoChange ->
-                infoChange.takeIf { it is PlanChange }?.let {
-                    if (infoChange is PlanChange.TrialEnded) {
-                        showTrialExpiredDialog()
-                    }
-                    initTrial()
+                if (infoChange is PlanChange.TrialEnded) {
+                    showTrialExpiredDialog()
                 }
+                initTrial()
             }
         }
         initTrial()
