@@ -52,8 +52,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
 
     suspend fun update() {
         val result = api.getAppConfig()
-        val config = result.valueOrNull
-        if (config != null) {
+        result.valueOrNull?.let { config ->
             Storage.save(config)
             appConfigResponseObservable.value = config
             if (userData.isLoggedIn) {
