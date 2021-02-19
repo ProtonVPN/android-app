@@ -220,8 +220,10 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     }
 
     private fun login() = with(binding) {
-        loginJob = lifecycleScope.launch {
-            viewModel.login(this@LoginActivity, editEmail.text.toString(), editPassword.text.toString())
+        if (loginJob?.isActive != true) {
+            loginJob = lifecycleScope.launch {
+                viewModel.login(this@LoginActivity, editEmail.text.toString(), editPassword.text.toString())
+            }
         }
     }
 
