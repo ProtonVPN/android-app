@@ -1120,10 +1120,12 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 					mSelectedApps.clear();
 					/* fall-through */
 				case SELECTED_APPS_EXCLUDE:
-					mSelectedApps.add(getPackageName());
+					// We never want our app bypass own VPN tunnel, that'd break our connectivity when
+					// Kill-Switch is enabled.
+					// mSelectedApps.add(getPackageName());
 					break;
 				case SELECTED_APPS_ONLY:
-					mSelectedApps.remove(getPackageName());
+					// mSelectedApps.remove(getPackageName());
 					break;
 			}
 			mAppHandling = appHandling;
