@@ -319,7 +319,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="netShieldReconnectionNeeded">Opnieuw verbinden nodig</string>
   <string name="netShieldReconnectionDescription">Uw verbinding moet opnieuw gestart worden om NetShield modus te veranderen.\n\nOpmerking: Als sommige sites niet geladen worden, probeer NetShield uit te schakelen.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Uw verbinding moet opnieuw worden gestart om NetShield modus te deactiveren.</string>
-  <string name="netShieldPaidFeature">Deze functie vereist ProtonVPN Plus.\nUpgrade online om alle functies te ontgrendelen en ProtonVPN te ondersteunen.</string>
+  <string name="netShieldPaidFeature">This feature requires a ProtonVPN paid subscription.\nUpgrade online to unlock all features and support ProtonVPN</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
   <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
@@ -335,6 +335,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="nameOceania">Oceanië</string>
   <string name="tvRowMore">Meer</string>
   <string name="tv_detail_default_connection_checkbox">Mijn favoriete land</string>
+  <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
   <string name="tv_detail_connect_streaming">Stream met Plus</string>
   <string name="tv_detail_connect">Verbind</string>
   <string name="tv_detail_description_streaming_country">Stream uw favoriete inhoud. Krijg toegang tot meer apps met een ProtonVPN Plus abonnement.</string>
@@ -386,4 +387,12 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Land is niet beschikbaar</string>
   <string name="tv_country_maintenance_dialog_description">Probeer het later opnieuw of selecteer een ander land.</string>
+  <string name="tv_server_list_load">%1$s%% Server Load</string>
+  <string name="tv_recently_used_servers">Recently used servers (%1$d)</string>
+  <string name="tv_available_servers">Available servers (%1$d)</string>
+  <string name="tv_locked_servers">Locked servers (%1$d)</string>
+  <string name="tv_other_servers">Other servers (%1$d)</string>
+  <string name="tv_server_under_maintenance">Under Maintenance</string>
+  <string name="tv_server_list">Server list</string>
+  <string name="tv_server_list_action_unavailable">Unavailable</string>
 </resources>

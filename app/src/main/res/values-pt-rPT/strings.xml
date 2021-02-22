@@ -319,7 +319,7 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="netShieldReconnectionNeeded">Requerida nova ligação</string>
   <string name="netShieldReconnectionDescription">A sua ligação será reiniciada para alterar o modo NetShield.\n\nNota: se algumas páginas não carregarem, tente desactivar o NetShield.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Tem de reiniciar a ligação para desactivar o NetShield.</string>
-  <string name="netShieldPaidFeature">Esta funcionalidade requer o ProtonVPN Plus.\nActualize online para desbloquear todas as funcionalidades e apoiar o ProtonVPN.</string>
+  <string name="netShieldPaidFeature">Esta funcionalidade requer um plano pago do ProtonVPN.\nActualize online para desbloquear todas as funcionalidades e apoiar o ProtonVPN</string>
   <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado na sua zona, a ligação será mais demorada do que o normal. Por favor, aguarde.</string>
   <string name="onMaintenanceDetected">O servidor VPN ao qual tinha ligação está em manutenção. Reestabeleceremos ligação automaticamente ao servidor mais rápido disponível.</string>
   <string name="errorTunMultiUserPermission">Não foi possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Por favor, desactive um desses e reinicie o dispositivo.</string>
@@ -335,6 +335,7 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="nameOceania">Oceania</string>
   <string name="tvRowMore">Mais</string>
   <string name="tv_detail_default_connection_checkbox">O meu país favorito</string>
+  <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
   <string name="tv_detail_connect_streaming">Assista com o Plus</string>
   <string name="tv_detail_connect">Ligar</string>
   <string name="tv_detail_description_streaming_country">Transmita o seu conteúdo favorito. Aceda a mais aplicações com um plano ProtonVPN Plus.</string>
@@ -386,4 +387,12 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">O país está indisponível</string>
   <string name="tv_country_maintenance_dialog_description">Por favor, tente novamente mais tarde ou seleccione outro país.</string>
+  <string name="tv_server_list_load">Carga do servidor %1$s%%</string>
+  <string name="tv_recently_used_servers">Servidores recentemente utilizados (%1$d)</string>
+  <string name="tv_available_servers">Servidores disponíveis (%1$d)</string>
+  <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
+  <string name="tv_other_servers">Outros servidores (%1$d)</string>
+  <string name="tv_server_under_maintenance">Em manutenção</string>
+  <string name="tv_server_list">Lista de servidores</string>
+  <string name="tv_server_list_action_unavailable">Indisponível</string>
 </resources>

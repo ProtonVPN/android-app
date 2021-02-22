@@ -325,7 +325,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="netShieldReconnectionDescription">Twoje połączenie musi zostać ponownie nawiązane, aby zmienić ustawienie funkcji NetShield.\n\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
-  <string name="netShieldPaidFeature">Ta funkcja wymaga planu ProtonVPN Plus.\nUlepsz plan, aby odblokować wszystkie funkcje i wesprzeć usługę ProtonVPN.</string>
+  <string name="netShieldPaidFeature">Ta funkcja wymaga płatnego planu ProtonVPN.\nUlepsz plan, aby odblokować wszystkie funkcje i wesprzeć usługę ProtonVPN</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
@@ -341,6 +341,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="nameOceania">Oceania</string>
   <string name="tvRowMore">Więcej</string>
   <string name="tv_detail_default_connection_checkbox">Mój ulubiony kraj</string>
+  <string name="tv_detail_default_connection_checkbox_short">Ulubione</string>
   <string name="tv_detail_connect_streaming">Rozpocznij streaming z planem Plus</string>
   <string name="tv_detail_connect">Połącz</string>
   <string name="tv_detail_description_streaming_country">Odtwarzaj swoje ulubione treści. Uzyskaj dostęp do dodatkowych aplikacji z planem ProtonVPN Plus.</string>
@@ -400,4 +401,12 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
   <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
+  <string name="tv_server_list_load">Obciążenie serwera %1$s%%</string>
+  <string name="tv_recently_used_servers">Ostatnio używane serwery (%1$d)</string>
+  <string name="tv_available_servers">Dostępne serwery (%1$d)</string>
+  <string name="tv_locked_servers">Zablokowane serwery (%1$d)</string>
+  <string name="tv_other_servers">Inne serwery (%1$d)</string>
+  <string name="tv_server_under_maintenance">W trakcie przerwy technicznej</string>
+  <string name="tv_server_list">Lista serwerów</string>
+  <string name="tv_server_list_action_unavailable">Niedostępny</string>
 </resources>
