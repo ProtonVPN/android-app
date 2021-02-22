@@ -318,7 +318,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="netShieldReconnectionNeeded">Reconnexion nécessaire</string>
   <string name="netShieldReconnectionDescription">Votre connexion doit être relancée pour changer le mode NetShield.\n\nNote: si certains sites ne se chargent pas, essayez de désactiver NetShield.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Votre connexion doit être relancée pour désactiver le mode NetShield.</string>
-  <string name="netShieldPaidFeature">Cette fonctionnalité nécessite ProtonVPN PLUS.\nPassez à l’offre supérieure en ligne pour débloquer toutes les fonctionnalités et soutenir ProtonVPN.</string>
+  <string name="netShieldPaidFeature">Cette fonctionnalité nécessite un abonnement ProtonVPN payant.\nPassez à l’offre supérieure en ligne pour débloquer toutes les fonctionnalités et soutenir ProtonVPN</string>
   <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
   <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
   <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Veuillez désactiver l\'un d\'entre eux et redémarrer votre appareil.</string>
@@ -334,6 +334,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="nameOceania">Océanie</string>
   <string name="tvRowMore">Plus</string>
   <string name="tv_detail_default_connection_checkbox">Mon pays favori</string>
+  <string name="tv_detail_default_connection_checkbox_short">Favori</string>
   <string name="tv_detail_connect_streaming">Regardez avec PLUS</string>
   <string name="tv_detail_connect">Connecter</string>
   <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement ProtonVPN PLUS.</string>
@@ -385,4 +386,12 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Le pays n\'est pas disponible</string>
   <string name="tv_country_maintenance_dialog_description">Veuillez réessayer plus tard ou sélectionner un autre pays.</string>
+  <string name="tv_server_list_load">%1$s%% de charge serveur</string>
+  <string name="tv_recently_used_servers">Serveurs récemment utilisés (%1$d)</string>
+  <string name="tv_available_servers">Serveurs disponibles (%1$d)</string>
+  <string name="tv_locked_servers">Serveurs verrouillés (%1$d)</string>
+  <string name="tv_other_servers">Autres serveurs (%1$d)</string>
+  <string name="tv_server_under_maintenance">En maintenance</string>
+  <string name="tv_server_list">Liste de serveurs</string>
+  <string name="tv_server_list_action_unavailable">Indisponible</string>
 </resources>
