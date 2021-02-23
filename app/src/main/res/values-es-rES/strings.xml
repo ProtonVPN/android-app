@@ -319,7 +319,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
   <string name="netShieldReconnectionDescription">Tu conexión se reiniciará para cambiar el modo NetShield.\n\nNota: Si algunos sitios no se cargan, intenta deshabilitar NetShield.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Es necesario reiniciar tu conexión para desactivar el modo NetShield.</string>
-  <string name="netShieldPaidFeature">Esta función requiere ProtonVPN Plus.\nMejora tu plan cuando estés en línea para desbloquear todas las funciones y apoyar a ProtonVPN.</string>
+  <string name="netShieldPaidFeature">This feature requires a ProtonVPN paid subscription.\nUpgrade online to unlock all features and support ProtonVPN</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>

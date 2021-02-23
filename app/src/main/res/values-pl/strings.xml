@@ -325,7 +325,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="netShieldReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="netShieldReconnectionDescription">Twoje połączenie musi zostać ponownie nawiązane, aby zmienić ustawienie funkcji NetShield.\n\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Aby wyłączyć funkcję NetShield, musisz ponownie nawiązać połączenie.</string>
-  <string name="netShieldPaidFeature">Ta funkcja wymaga planu ProtonVPN Plus.\nUlepsz plan, aby odblokować wszystkie funkcje i wesprzeć usługę ProtonVPN.</string>
+  <string name="netShieldPaidFeature">Ta funkcja wymaga płatnego planu ProtonVPN.\nUlepsz plan, aby odblokować wszystkie funkcje i wesprzeć usługę ProtonVPN</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
