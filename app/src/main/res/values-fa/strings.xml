@@ -319,7 +319,7 @@
   <string name="netShieldReconnectionNeeded">اتصال مجدد لازم است</string>
   <string name="netShieldReconnectionDescription">اتصال شما احتیاج دارد که راه‌اندازی مجدد شود تا وضعیت NetSheild تغییر کند.\n\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیرفعال کردن NetShield را امتحان کنید.</string>
   <string name="netShieldReconnectionDescriptionDisabling">اتصال شما لازم است مجدداً راه‌اندازی شود تا حالت NetShield غیرفعال شود.</string>
-  <string name="netShieldPaidFeature">این ویژگی نیاز به ProtonVPN Plus دارد.\nآنلاین ارتقا دهید تا همه امکانات را باز کرده و ProtonVPN را پشتیبانی کنید.</string>
+  <string name="netShieldPaidFeature">این ویژگی نیاز به یک اشتراک پرداختی ProtonVPN دارد. \n آنلاین ارتقا دهید تا همه امکانات را باز کنید و ProtonVPN را پشتیبانی کنید</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
