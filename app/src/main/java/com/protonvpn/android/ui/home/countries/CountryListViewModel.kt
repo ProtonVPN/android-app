@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.home.countries
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -41,6 +42,8 @@ class CountryListViewModel @Inject constructor(
     val userData: UserData,
     val api: ProtonApiRetroFit
 ) : ViewModel() {
+
+    val vpnStatus = vpnStateMonitor.status.asLiveData()
 
     val selectedServer = MutableLiveData<Server>()
     val selectedCountryFlag = MutableLiveData<String>()

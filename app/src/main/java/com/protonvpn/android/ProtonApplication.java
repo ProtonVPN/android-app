@@ -51,7 +51,7 @@ public class ProtonApplication extends DaggerApplication {
         super.onCreate();
         initSentry();
         initStrongSwan();
-        NotificationHelper.INSTANCE.initNotificationChannel(this);
+        NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
         new ANRWatchDog(15000).start();

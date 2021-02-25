@@ -23,6 +23,7 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider;
 import com.protonvpn.android.vpn.VpnBackendProvider;
+import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.mocks.MockVpnBackend;
 
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 public class ServerManagerHelper {
 
     @Inject public VpnStateMonitor vpnStateMonitor;
+    @Inject public VpnConnectionManager vpnConnectionManager;
     @Inject public ServerManager serverManager;
     @Inject public UserData userData;
     @Inject public VpnBackendProvider mockVpnBackendProvider;

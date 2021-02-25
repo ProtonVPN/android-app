@@ -27,10 +27,10 @@ import com.azimolabs.conditionwatcher.ConditionWatcher;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.utils.ServerManager;
+import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.conditions.NetworkInstruction;
 import com.protonvpn.mocks.MockVpnBackend;
-import com.protonvpn.test.shared.TestUser;
 
 import org.strongswan.android.logic.VpnStateService;
 
@@ -42,6 +42,7 @@ public class ServiceTestHelper {
     private VpnStateService service;
     static ServerManagerHelper helper = new ServerManagerHelper();
     public static VpnStateMonitor stateMonitor = helper.vpnStateMonitor;
+    public static VpnConnectionManager connectionManager = helper.vpnConnectionManager;
     static ServerManager serverManager = helper.serverManager;
     static UserData userData = helper.userData;
     public MockVpnBackend mockVpnBackend = helper.getBackend();

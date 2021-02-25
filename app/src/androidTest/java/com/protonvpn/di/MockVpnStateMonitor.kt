@@ -21,29 +21,25 @@ package com.protonvpn.di
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 
-class MockVpnStateMonitor(
+class MockVpnConnectionManager(
     userData: UserData,
     vpnBackendProvider: VpnBackendProvider,
-    serverListUpdater: ServerListUpdater,
-    trafficMonitor: TrafficMonitor,
     networkManager: NetworkManager,
-    userPlanManager: UserPlanManager,
-    maintenanceTracker: MaintenanceTracker,
     vpnErrorHandler: VpnConnectionErrorHandler,
+    vpnStateMonitor: VpnStateMonitor,
+    notificationHelper: NotificationHelper,
     scope: CoroutineScope
-) : VpnStateMonitor(ProtonApplication.getAppContext(), userData, vpnBackendProvider, serverListUpdater,
-        trafficMonitor, networkManager, userPlanManager, maintenanceTracker, vpnErrorHandler, scope) {
+) : VpnConnectionManager(ProtonApplication.getAppContext(), userData, vpnBackendProvider, networkManager,
+        vpnErrorHandler, vpnStateMonitor, notificationHelper, scope) {
 
     override fun prepare(context: Context): Intent? = null
 }

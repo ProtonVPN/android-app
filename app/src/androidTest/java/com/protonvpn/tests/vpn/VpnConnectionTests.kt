@@ -27,26 +27,24 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.di.MockNetworkManager
-import com.protonvpn.di.MockVpnStateMonitor
+import com.protonvpn.di.MockVpnConnectionManager
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -77,22 +75,11 @@ class VpnConnectionTests {
     private lateinit var scope: CoroutineScope
     private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
+    private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
 
     @RelaxedMockK
-    lateinit var serverListUpdater: ServerListUpdater
-
-    @RelaxedMockK
-    lateinit var trafficMonitor: TrafficMonitor
-
-    @RelaxedMockK
     lateinit var serverManager: ServerManager
-
-    @RelaxedMockK
-    lateinit var maintenanceTracker: MaintenanceTracker
-
-    @RelaxedMockK
-    lateinit var userPlanManager: UserPlanManager
 
     @RelaxedMockK
     lateinit var vpnErrorHandler: VpnConnectionErrorHandler
@@ -120,8 +107,10 @@ class VpnConnectionTests {
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
         val backendProvider = ProtonVpnBackendProvider(strongSwan = mockStrongSwan, openVpn = mockOpenVpn)
-        monitor = MockVpnStateMonitor(userData, backendProvider, serverListUpdater, trafficMonitor, networkManager,
-            userPlanManager, maintenanceTracker, vpnErrorHandler, scope)
+
+        monitor = VpnStateMonitor()
+        manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
+            mockk(relaxed = true), scope)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -134,12 +123,11 @@ class VpnConnectionTests {
     @Test
     fun testSmartFallbackToOpenVPN() = runBlockingTest {
         mockStrongSwan.failScanning = true
-        monitor.connect(context, profileSmart)
+        manager.connect(context, profileSmart)
         yield()
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Connected, vpnState.state)
-        Assert.assertEquals(VpnProtocol.OpenVPN, vpnState.connectionParams?.protocol)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+        Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocol)
     }
 
     @Test
@@ -147,7 +135,7 @@ class VpnConnectionTests {
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
         userData.manualProtocol = VpnProtocol.OpenVPN
-        monitor.connect(context, profileSmart)
+        manager.connect(context, profileSmart)
         yield()
 
         // When scanning fails we'll fallback to attempt connecting with default manual protocol
@@ -156,15 +144,14 @@ class VpnConnectionTests {
             mockOpenVpn.connect()
         }
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Connected, vpnState.state)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
     }
 
     @Test
     fun smartNoInternet() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userData.manualProtocol = VpnProtocol.OpenVPN
-        monitor.connect(context, profileSmart)
+        manager.connect(context, profileSmart)
         yield()
 
         coVerify(exactly = 0) {
@@ -175,13 +162,12 @@ class VpnConnectionTests {
             mockOpenVpn.connect()
         }
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Connected, vpnState.state)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
     }
 
     @Test
     fun executeInGuestHole() = runBlockingTest {
-        val guestHole = GuestHole(serverManager, monitor)
+        val guestHole = GuestHole(this, serverManager, monitor, manager)
         val wasConnected = guestHole.call(context) {
             monitor.isConnected
         }
@@ -195,7 +181,7 @@ class VpnConnectionTests {
         mockOpenVpn.failScanning = true
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
-        val guestHole = GuestHole(serverManager, monitor)
+        val guestHole = GuestHole(scope, serverManager, monitor, manager)
         val result = guestHole.call(context) {
             Assert.fail()
         }
@@ -218,7 +204,7 @@ class VpnConnectionTests {
             }
         }
 
-        monitor.connect(context, profileIKEv2)
+        manager.connect(context, profileIKEv2)
         advanceUntilIdle()
         collectJob.cancel()
 
@@ -229,9 +215,8 @@ class VpnConnectionTests {
             mockOpenVpn.connect()
         }
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Connected, vpnState.state)
-        Assert.assertEquals(fallbackOpenVpnProfile, vpnState.profile)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+        Assert.assertEquals(fallbackOpenVpnProfile, monitor.connectionProfile)
         Assert.assertEquals(listOf(SwitchServerReason.DowngradeToFree), fallbacks)
     }
 
@@ -247,7 +232,7 @@ class VpnConnectionTests {
             }
         }
 
-        monitor.connect(context, profileIKEv2)
+        manager.connect(context, profileIKEv2)
         advanceUntilIdle()
         collectJob.cancel()
 
@@ -255,8 +240,7 @@ class VpnConnectionTests {
             mockStrongSwan.connect()
         }
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Error(ErrorType.MAX_SESSIONS), vpnState.state)
+        Assert.assertEquals(VpnState.Error(ErrorType.MAX_SESSIONS), monitor.state)
         Assert.assertTrue(fallbacks.isEmpty())
     }
 
@@ -269,10 +253,10 @@ class VpnConnectionTests {
             }
         }
 
-        monitor.connect(context, profileIKEv2)
+        manager.connect(context, profileIKEv2)
         advanceUntilIdle()
 
-        Assert.assertEquals(VpnState.Connected, monitor.vpnStatus.value!!.state)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
 
         switchServerFlow.emit(
             VpnFallbackResult.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
@@ -280,8 +264,7 @@ class VpnConnectionTests {
 
         collectJob.cancel()
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Connected, vpnState.state)
+        Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(listOf(SwitchServerReason.DowngradeToFree), fallbacks)
     }
 
@@ -300,8 +283,7 @@ class VpnConnectionTests {
 
         collectJob.cancel()
 
-        val vpnState = monitor.vpnStatus.value!!
-        Assert.assertEquals(VpnState.Disabled, vpnState.state)
+        Assert.assertEquals(VpnState.Disabled, monitor.state)
         Assert.assertTrue(fallbacks.isEmpty())
     }
 }

@@ -238,7 +238,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                     .onPositive((dialog, which) -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
-                        vpnStateMonitor.disconnect();
+                        vpnConnectionManager.disconnect();
                     })
                     .show();
                 return true;
@@ -362,7 +362,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Subscribe
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
-            vpnStateMonitor.disconnect();
+            vpnConnectionManager.disconnect();
         }
         else {
             Server server = connectTo.getServer();
@@ -392,7 +392,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                     onConnectToProfile(new ConnectToProfile(profile));
                 }
                 else {
-                    vpnStateMonitor.disconnect();
+                    vpnConnectionManager.disconnect();
                 }
 
                 if (!vpnStateMonitor.isConnected()) {
@@ -431,7 +431,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (vpnStateMonitor.isConnected()) {
             addActionButtonToFab(fabQuickConnect, Color.RED, getString(R.string.disconnect),
                 R.drawable.ic_notification_disconnected, v -> {
-                    vpnStateMonitor.disconnect();
+                    vpnConnectionManager.disconnect();
                     fabQuickConnect.close(true);
                 });
         }

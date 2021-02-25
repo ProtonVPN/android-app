@@ -128,6 +128,7 @@ public class VpnStateFragment extends BaseFragment {
     @Inject UserData userData;
     @Inject AppConfig appConfig;
     @Inject VpnStateMonitor stateMonitor;
+    @Inject VpnConnectionManager vpnConnectionManager;
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -143,13 +144,13 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.buttonCancel)
     public void buttonCancel() {
-        stateMonitor.disconnect();
+        vpnConnectionManager.disconnect();
         changeBottomSheetState(false);
     }
 
     @OnClick(R.id.buttonCancelRetry)
     public void buttonCancelRetry() {
-        stateMonitor.disconnect();
+        vpnConnectionManager.disconnect();
     }
 
     @OnClick(R.id.buttonDisconnect)
@@ -185,7 +186,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.buttonRetry)
     public void buttonRetry() {
-        stateMonitor.reconnect(getContext());
+        vpnConnectionManager.reconnect(getContext());
     }
 
     @Override
@@ -197,10 +198,11 @@ public class VpnStateFragment extends BaseFragment {
             .observe(getViewLifecycleOwner(), (ip) -> textCurrentIp.setText(textCurrentIp.getContext()
                 .getString(R.string.notConnectedCurrentIp,
                     ip.isEmpty() ? getString(R.string.stateFragmentUnknownIp) : ip)));
-        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, getViewLifecycleOwner(), userData, stateMonitor, s -> {
-            userData.setNetShieldProtocol(s);
-            return null;
-        });
+        switchNetShield.init(userData.getNetShieldProtocol(), appConfig, getViewLifecycleOwner(), userData,
+            stateMonitor, vpnConnectionManager, s -> {
+                userData.setNetShieldProtocol(s);
+                return null;
+            });
         userData.getNetShieldLiveData().observe(getViewLifecycleOwner(), state -> {
             if (state != null) {
                 switchNetShield.setNetShieldValue(state);
@@ -208,7 +210,7 @@ public class VpnStateFragment extends BaseFragment {
         });
         initChart();
 
-        stateMonitor.getVpnStatus().observe(getViewLifecycleOwner(), state -> updateView(false, state));
+        stateMonitor.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
             .getTrafficStatus()
             .observe(getViewLifecycleOwner(), this::onTrafficUpdate);
@@ -556,7 +558,7 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Overdue payment"));
                 break;
             case MULTI_USER_PERMISSION:
-                stateMonitor.disconnect();
+                vpnConnectionManager.disconnect();
                 showAuthError(R.string.errorTunMultiUserPermission);
                 Log.exception(new VPNException("Dual-apps permission error"));
                 break;
@@ -579,7 +581,7 @@ public class VpnStateFragment extends BaseFragment {
             .content(content)
             .cancelable(false)
             .negativeText(R.string.close)
-            .onNegative((dialog, which) -> stateMonitor.disconnect())
+            .onNegative((dialog, which) -> vpnConnectionManager.disconnect())
             .show();
     }
 
@@ -591,7 +593,7 @@ public class VpnStateFragment extends BaseFragment {
         progressBar.setVisibility(View.GONE);
         textError.setText(textId);
 
-        RetryInfo retryInfo = stateMonitor.getRetryInfo();
+        RetryInfo retryInfo = vpnConnectionManager.getRetryInfo();
         progressBarError.setVisibility(retryInfo != null ? View.VISIBLE : View.INVISIBLE);
         if (retryInfo != null) {
             progressBarError.setMax(retryInfo.getTimeoutSeconds());

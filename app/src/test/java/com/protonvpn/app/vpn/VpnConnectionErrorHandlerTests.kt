@@ -19,22 +19,31 @@
 package com.protonvpn.app.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.models.vpn.ConnectingDomainResponse
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnFallbackResult
+import com.protonvpn.android.vpn.VpnStateMonitor
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,6 +51,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Before
@@ -59,8 +69,10 @@ class VpnConnectionErrorHandlerTests {
     @MockK private lateinit var api: ProtonApiRetroFit
     @MockK private lateinit var userData: UserData
     @MockK private lateinit var userPlanManager: UserPlanManager
-    @MockK private lateinit var serverManager: ServerManager
-    @MockK private lateinit var maintenanceTracker: MaintenanceTracker
+    @MockK private lateinit var vpnStateMonitor: VpnStateMonitor
+    @MockK private lateinit var appConfig: AppConfig
+    @RelaxedMockK private lateinit var serverManager: ServerManager
+    @RelaxedMockK private lateinit var serverListUpdater: ServerListUpdater
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
@@ -70,8 +82,12 @@ class VpnConnectionErrorHandlerTests {
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
         every { serverManager.defaultFallbackConnection } returns fastest
         every { userData.vpnInfoResponse?.maxSessionCount } returns 2
+        every { appConfig.isMaintenanceTrackerEnabled() } returns true
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
-        handler = VpnConnectionErrorHandler(api, userData, userPlanManager, serverManager, maintenanceTracker)
+
+        ProtonApplication.setAppContextForTest(mockk(relaxed = true))
+        handler = VpnConnectionErrorHandler(TestCoroutineScope(), mockk(relaxed = true), api, appConfig,
+            userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater, mockk(relaxed = true))
     }
 
     @Test
@@ -129,10 +145,16 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testAuthErrorMaintenance() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
-        coEvery { maintenanceTracker.getMaintenanceFallbackProfile() } returns fastest
+
+        val mockedDomain = mockk<ConnectingDomain>(relaxed = true)
+        every { mockedDomain.isOnline } returns false
+        every { vpnStateMonitor.connectionParams } returns ConnectionParams(profile, mockk(relaxed = true), mockedDomain, VpnProtocol.IKEv2)
+        coEvery { api.getConnectingDomain(any()) } returns ApiResult.Success(ConnectingDomainResponse(mockedDomain))
         assertEquals(
             VpnFallbackResult.SwitchProfile(fastest, SwitchServerReason.ServerInMaintenance),
             handler.onAuthError(profile))
+
+        coVerify(exactly = 1) { serverListUpdater.updateServerList() }
     }
 
     @Test

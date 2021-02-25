@@ -34,6 +34,7 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
@@ -45,53 +46,33 @@ import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnState.Error
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-object NotificationHelper {
-
-    const val CHANNEL_ID = "com.protonvpn.android"
-    const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
-
-    fun initNotificationChannel(context: Context) {
-        val channelOneName = "ProtonChannel"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(CHANNEL_ID, channelOneName,
-                    NotificationManager.IMPORTANCE_LOW)
-            notificationChannel.enableLights(true)
-            notificationChannel.setShowBadge(true)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            val manager =
-                    context.getSystemService(NOTIFICATION_SERVICE) as android.app.NotificationManager
-            manager.createNotificationChannel(notificationChannel)
+class NotificationHelper(
+    val appContext: Context,
+    val scope: CoroutineScope,
+    val vpnStateMonitor: VpnStateMonitor,
+    val trafficMonitor: TrafficMonitor,
+) {
+    init {
+        scope.launch {
+            vpnStateMonitor.status.collect {
+                updateNotification()
+            }
+        }
+        scope.launch {
+            trafficMonitor.trafficStatus.observeForever {
+                updateNotification()
+            }
         }
     }
 
-    fun showInformationNotification(
-        context: Context,
-        content: String,
-        title: String? = null,
-        @DrawableRes icon: Int = R.drawable.ic_info
-    ) {
-        with(NotificationManagerCompat.from(context)) {
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(icon)
-                    .setContentText(content)
-                    .setStyle(NotificationCompat.BigTextStyle())
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setAutoCancel(true)
-            if (title != null)
-                builder.setContentTitle(title)
-
-            builder.setContentIntent(
-                    PendingIntent.getActivity(
-                            context, 0,
-                            Intent(context, Constants.MAIN_ACTIVITY_CLASS),
-                            PendingIntent.FLAG_UPDATE_CURRENT))
-
-            notify(Constants.NOTIFICATION_INFO_ID, builder.build())
-        }
-    }
-
-    fun buildStatusNotification(vpnStatus: VpnStateMonitor.Status, trafficUpdate: TrafficUpdate?): Notification {
+    private fun buildStatusNotification(
+        vpnStatus: VpnStateMonitor.Status,
+        trafficUpdate: TrafficUpdate?
+    ): Notification {
         val context = ProtonApplication.getAppContext()
         val disconnectIntent = Intent(DISCONNECT_ACTION)
         val disconnectPendingIntent = PendingIntent.getBroadcast(
@@ -126,7 +107,7 @@ object NotificationHelper {
         return builder.build()
     }
 
-    fun updateStatusNotification(
+    private fun updateStatusNotification(
         context: Context,
         vpnStatus: VpnStateMonitor.Status,
         trafficUpdate: TrafficUpdate?
@@ -173,5 +154,58 @@ object NotificationHelper {
         val server = vpnStatus.server!!
         return if (profile.isPreBakedProfile || profile.getDisplayName(context).isEmpty())
             server.displayName else profile.getDisplayName(context)
+    }
+
+    fun buildNotification() =
+        buildStatusNotification(vpnStateMonitor.status.value, null)
+
+    private fun updateNotification() {
+        updateStatusNotification(
+            appContext, vpnStateMonitor.status.value, trafficMonitor.trafficStatus.value)
+    }
+
+    fun showInformationNotification(
+        context: Context,
+        content: String,
+        title: String? = null,
+        @DrawableRes icon: Int = R.drawable.ic_info
+    ) {
+        with(NotificationManagerCompat.from(context)) {
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(icon)
+                .setContentText(content)
+                .setStyle(NotificationCompat.BigTextStyle())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+            if (title != null)
+                builder.setContentTitle(title)
+
+            builder.setContentIntent(
+                PendingIntent.getActivity(
+                    context, 0,
+                    Intent(context, Constants.MAIN_ACTIVITY_CLASS),
+                    PendingIntent.FLAG_UPDATE_CURRENT))
+
+            notify(Constants.NOTIFICATION_INFO_ID, builder.build())
+        }
+    }
+
+    companion object {
+        const val CHANNEL_ID = "com.protonvpn.android"
+        const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
+
+        fun initNotificationChannel(context: Context) {
+            val channelOneName = "ProtonChannel"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationChannel = NotificationChannel(CHANNEL_ID, channelOneName,
+                    NotificationManager.IMPORTANCE_LOW)
+                notificationChannel.enableLights(true)
+                notificationChannel.setShowBadge(true)
+                notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                val manager =
+                    context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                manager.createNotificationChannel(notificationChannel)
+            }
+        }
     }
 }

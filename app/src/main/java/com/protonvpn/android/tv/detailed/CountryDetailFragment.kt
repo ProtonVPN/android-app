@@ -145,7 +145,7 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
             }
         }
 
-        viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
             updateButtons()
         })
     }

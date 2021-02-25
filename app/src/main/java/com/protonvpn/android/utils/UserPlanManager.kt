@@ -30,7 +30,8 @@ import kotlinx.coroutines.flow.mapNotNull
 
 class UserPlanManager(
     private val api: ProtonApiRetroFit,
-    private val userData: UserData
+    private val userData: UserData,
+    private val vpnStateMonitor: VpnStateMonitor
 ) {
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
@@ -40,12 +41,6 @@ class UserPlanManager(
         }
         object UserBecameDelinquent : InfoChange()
         object VpnCredentials : InfoChange()
-    }
-
-    lateinit var vpnStateMonitor: VpnStateMonitor
-
-    fun initVpnStateMonitor(monitor: VpnStateMonitor) {
-        vpnStateMonitor = monitor
     }
 
     fun isTrialUser() = "trial" == userData.vpnInfoResponse?.userTierName

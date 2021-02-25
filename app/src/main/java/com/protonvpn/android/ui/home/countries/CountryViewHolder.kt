@@ -72,7 +72,7 @@ abstract class CountryViewHolder(
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
-            viewModel.vpnStateMonitor.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
+            viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
             badgeP2P.isVisible = vpnCountry.getKeywords().contains("p2p")
@@ -110,7 +110,7 @@ abstract class CountryViewHolder(
 
     override fun clear() {
         viewModel.selectedCountryFlag.removeObserver(countrySelectionObserver)
-        viewModel.vpnStateMonitor.vpnStatus.removeObserver(vpnStateObserver)
+        viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
     override fun getLayout(): Int {
