@@ -383,7 +383,7 @@ public final class UserData implements Serializable {
     }
 
     public NetShieldProtocol getNetShieldProtocol() {
-        return isFreeUser() ? NetShieldProtocol.DISABLED :
+        return !isLoggedIn || isFreeUser() ? NetShieldProtocol.DISABLED :
             netShieldProtocol == null ? NetShieldProtocol.ENABLED : netShieldProtocol;
     }
 
