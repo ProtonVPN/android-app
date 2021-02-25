@@ -65,8 +65,7 @@ class ConnectionParamsOpenVpn(
         mConnections[0] = Connection().apply {
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
-            mServerName = if (server.isSecureCoreServer)
-                connectingDomain!!.entryIp else connectingDomain!!.getExitIP()
+            mServerName = connectingDomain.entryIp
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
             mCustomConfiguration = ""
