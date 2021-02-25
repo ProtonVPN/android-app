@@ -25,7 +25,7 @@ import android.content.Intent;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.utils.ServerManager;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnConnectionManager;
 
 import javax.inject.Inject;
 
@@ -35,7 +35,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Inject ServerManager manager;
     @Inject UserData userData;
-    @Inject VpnStateMonitor vpnStateMonitor;
+    @Inject VpnConnectionManager vpnConnectionManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -43,7 +43,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (userData.getConnectOnBoot() && userData.isLoggedIn()) {
             Profile defaultProfile = manager.getDefaultConnection();
             if (defaultProfile != null) {
-                vpnStateMonitor.connect(context, defaultProfile);
+                vpnConnectionManager.connect(context, defaultProfile);
             }
         }
     }

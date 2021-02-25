@@ -32,6 +32,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.StorageStringObservable
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,7 +48,8 @@ class ServerListUpdater(
     val serverManager: ServerManager,
     val userData: UserData,
     val updateStreaming: Boolean,
-    userPlanManager: UserPlanManager
+    val vpnStateMonitor: VpnStateMonitor,
+    userPlanManager: UserPlanManager,
 ) {
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
@@ -64,7 +66,6 @@ class ServerListUpdater(
 
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
-    var isVpnDisconnected = true
 
     private var lastIpCheck = Long.MIN_VALUE
     private val lastServerListUpdate get() =
@@ -79,11 +80,16 @@ class ServerListUpdater(
                 updateServerList()
             }
         }
+        scope.launch {
+            vpnStateMonitor.onDisconnectedByUser.collect {
+                task.scheduleIn(0)
+            }
+        }
     }
 
     private val task = ReschedulableTask(scope, ::now) {
         if (userData.isLoggedIn) {
-            if (isVpnDisconnected && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
+            if (vpnStateMonitor.isDisabled && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocation())
                     updateServerList(networkLoader)
             }
@@ -135,10 +141,6 @@ class ServerListUpdater(
                 networkLoader = null
             }
         })
-    }
-
-    fun onDisconnectedByUser() {
-        task.scheduleIn(0)
     }
 
     fun getServersList(networkLoader: NetworkLoader?): Job = scope.launch(Dispatchers.Main) {

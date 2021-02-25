@@ -50,9 +50,8 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 public abstract class VpnActivity extends BaseActivity {
 
     private VpnStateService mService;
-    @Inject ServerManager serverManager;
     @Inject UserData userData;
-    @Inject VpnStateMonitor vpnStateMonitor;
+    @Inject protected VpnConnectionManager vpnConnectionManager;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -87,7 +86,7 @@ public abstract class VpnActivity extends BaseActivity {
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
-            vpnStateMonitor.connect(this, profileToConnect);
+            vpnConnectionManager.connect(this, profileToConnect);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());

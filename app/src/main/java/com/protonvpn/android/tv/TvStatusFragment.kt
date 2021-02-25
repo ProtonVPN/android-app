@@ -32,7 +32,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
-import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.launchTvDialog
@@ -53,7 +52,7 @@ class TvStatusFragment : DaggerFragment() {
     @Inject lateinit var serverListUpdater: ServerListUpdater
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: TvMainViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,12 +73,9 @@ class TvStatusFragment : DaggerFragment() {
             showTrialExpiredDialog()
         }
 
-        vpnStateMonitor.vpnStatus.observe(
-            viewLifecycleOwner,
-            Observer {
-                updateState(it)
-            }
-        )
+        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
+            updateState(it)
+        })
         return binding.root
     }
 
@@ -175,7 +171,7 @@ class TvStatusFragment : DaggerFragment() {
     }
 
     private fun showErrorDialog(content: CharSequence) {
-        vpnStateMonitor.disconnect()
+        viewModel.disconnect()
         MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
             .title(R.string.tv_vpn_error_dialog_title)
             .content(content)

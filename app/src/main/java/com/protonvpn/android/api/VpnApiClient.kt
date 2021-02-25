@@ -29,20 +29,18 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiClient
 import java.util.Locale
 
-class VpnApiClient(val scope: CoroutineScope, val userData: UserData) : ApiClient {
+class VpnApiClient(
+    val scope: CoroutineScope,
+    val userData: UserData,
+    val vpnStateMonitor: VpnStateMonitor
+) : ApiClient {
 
     val forceUpdateEvent = MutableSharedFlow<String>()
-
-    private var vpnStateMonitor: VpnStateMonitor? = null
-
-    fun init(monitor: VpnStateMonitor) {
-        vpnStateMonitor = monitor
-    }
 
     override val appVersionHeader get() =
         "${Constants.CLIENT_ID}_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
-    override val shouldUseDoh get() = userData.apiUseDoH && vpnStateMonitor?.isConnected != true
+    override val shouldUseDoh get() = userData.apiUseDoH && !vpnStateMonitor.isConnected
 
     override val userAgent: String
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",

@@ -25,6 +25,7 @@ import android.net.VpnService
 import android.os.Build
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
@@ -34,7 +35,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +56,8 @@ class ProtonCharonVpnService : CharonVpnService() {
     @Inject lateinit var userData: UserData
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var manager: ServerManager
-    @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnConnectionManager: VpnConnectionManager
+    @Inject lateinit var notificationHelper: NotificationHelper
 
     override fun onCreate() {
         super.onCreate()
@@ -66,7 +68,7 @@ class ProtonCharonVpnService : CharonVpnService() {
 
         // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
         // let's keep it in foreground to protect it from being killed by the system.
-        startForeground(Constants.NOTIFICATION_ID, stateMonitor.buildNotification())
+        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
     }
 
     override fun onDestroy() {
@@ -85,7 +87,7 @@ class ProtonCharonVpnService : CharonVpnService() {
     }
 
     override fun buildNotification(unused: Boolean): Notification =
-        stateMonitor.buildNotification()
+        notificationHelper.buildNotification()
 
     override fun getNotificationID() =
         Constants.NOTIFICATION_ID
@@ -105,7 +107,7 @@ class ProtonCharonVpnService : CharonVpnService() {
                 setNextProfile(serverToConnect?.getStrongSwanProfile(userData, appConfig))
                 Log.i("[IKEv2] start next profile: " + serverToConnect?.server?.displayName)
                 return if (serverToConnect != null) {
-                    startForeground(Constants.NOTIFICATION_ID, stateMonitor.buildNotification())
+                    startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
                     START_STICKY
                 } else
                     START_NOT_STICKY
@@ -121,14 +123,14 @@ class ProtonCharonVpnService : CharonVpnService() {
             stopSelf()
         else {
             lastServer.profile.wrapper.setDeliverer(manager)
-            if (!stateMonitor.onRestoreProcess(this, lastServer.profile))
+            if (!vpnConnectionManager.onRestoreProcess(this, lastServer.profile))
                 stopSelf()
         }
     }
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        stateMonitor.connect(this, manager.defaultConnection)
+        vpnConnectionManager.connect(this, manager.defaultConnection)
     }
 
     private fun startCaptureLogFile() {

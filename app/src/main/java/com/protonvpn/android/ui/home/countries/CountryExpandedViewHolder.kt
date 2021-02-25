@@ -102,7 +102,7 @@ open class CountryExpandedViewHolder(
 
     override fun clear() {
         viewModel.selectedServer.removeObserver(serverSelectionObserver)
-        viewModel.vpnStateMonitor.vpnStatus.removeObserver(vpnStateObserver)
+        viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
     private fun initSelection() {
@@ -184,7 +184,7 @@ open class CountryExpandedViewHolder(
     }
 
     private fun initConnectedStatus() {
-        viewModel.vpnStateMonitor.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
+        viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
     }
 
     override fun getLayout() = R.layout.item_country_expanded

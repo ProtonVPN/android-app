@@ -53,6 +53,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
@@ -78,6 +79,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
 
@@ -100,7 +102,7 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor) {
+        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor, connectionManager) {
             userPrefs.netShieldProtocol = it
         }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()

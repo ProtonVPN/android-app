@@ -52,7 +52,7 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
     protected void finished(Description description) {
         super.finished(description);
         service.enableSecureCore(false);
-        ServiceTestHelper.stateMonitor.disconnect();
+        ServiceTestHelper.connectionManager.disconnect();
         service.disconnectFromServer();
         userDataHelper.userData.logout();
         ServiceTestHelper.deleteCreatedProfiles();

@@ -36,14 +36,15 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
     @Inject lateinit var userData: UserData
     @Inject lateinit var appConfig: AppConfig
-    @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var notificationHelper: NotificationHelper
 
     override fun onCreate() {
         super.onCreate()
         AndroidInjection.inject(this)
         NotificationHelper.initNotificationChannel(applicationContext)
-        startForeground(Constants.NOTIFICATION_ID, stateMonitor.buildNotification())
+        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
     }
 
     override fun getProfile(): VpnProfile? =
@@ -54,6 +55,6 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
                 ?: return false
         lastServer.profile.wrapper.setDeliverer(serverManager)
-        return stateMonitor.onRestoreProcess(this, lastServer.profile)
+        return vpnConnectionManager.onRestoreProcess(this, lastServer.profile)
     }
 }

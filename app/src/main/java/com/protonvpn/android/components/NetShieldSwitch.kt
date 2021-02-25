@@ -44,6 +44,7 @@ import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -198,6 +199,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         lifecycleOwner: LifecycleOwner,
         userData: UserData,
         stateMonitor: VpnStateMonitor,
+        connectionManager: VpnConnectionManager,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
@@ -213,7 +215,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             val checkedChangeListener = {
                 onStateChange(currentState)
                 changeCallback(currentState)
-                checkForReconnection(stateMonitor)
+                checkForReconnection(stateMonitor, connectionManager)
             }
             radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
             switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
@@ -227,7 +229,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                             isChecked = !isChecked
                             onStateChange(currentState)
                             changeCallback(currentState)
-                            checkForReconnection(stateMonitor)
+                            checkForReconnection(stateMonitor, connectionManager)
                         }
                     }
                     true
@@ -284,9 +286,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .show()
     }
 
-    private fun checkForReconnection(stateMonitor: VpnStateMonitor) {
+    private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
         if (stateMonitor.isConnected) {
-            stateMonitor.reconnect(context)
+            connectionManager.reconnect(context)
         }
     }
 

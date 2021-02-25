@@ -71,8 +71,7 @@ class UserPlanManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(mockk(relaxed = true))
         userData = UserData()
-        manager = UserPlanManager(apiRetroFit, userData)
-        manager.initVpnStateMonitor(vpnStateMonitor)
+        manager = UserPlanManager(apiRetroFit, userData, vpnStateMonitor)
     }
 
     @Test

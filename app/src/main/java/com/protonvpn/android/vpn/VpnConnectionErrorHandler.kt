@@ -19,15 +19,26 @@
 
 package com.protonvpn.android.vpn
 
+import android.content.Context
+import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
-import kotlinx.coroutines.flow.mapNotNull
+import io.sentry.event.EventBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiResult
 
 enum class SwitchServerReason {
     DowngradeToBasic,
@@ -51,21 +62,32 @@ sealed class VpnFallbackResult {
 }
 
 class VpnConnectionErrorHandler(
+    scope: CoroutineScope,
+    private val appContext: Context,
     private val api: ProtonApiRetroFit,
+    private val appConfig: AppConfig,
     private val userData: UserData,
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager,
-    private val maintenanceTracker: MaintenanceTracker
+    private val stateMonitor: VpnStateMonitor,
+    private val serverListUpdater: ServerListUpdater,
+    private val notificationHelper: NotificationHelper
 ) {
     var handlingAuthError = false
 
-    val switchConnectionFlow = userPlanManager.infoChangeFlow
-        .mapNotNull { changes ->
-            if (!handlingAuthError)
-                getCommonFallbackForInfoChanges(changes)
-            else
-                null
+    val switchConnectionFlow = MutableSharedFlow<VpnFallbackResult.SwitchProfile>()
+
+    init {
+        scope.launch {
+            userPlanManager.infoChangeFlow.collect { changes ->
+                if (!handlingAuthError) {
+                    getCommonFallbackForInfoChanges(changes)?.let {
+                        switchConnectionFlow.emit(it)
+                    }
+                }
+            }
         }
+    }
 
     @SuppressWarnings("ReturnCount")
     private fun getCommonFallbackForInfoChanges(
@@ -114,13 +136,45 @@ class VpnConnectionErrorHandler(
                     return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
             }
 
-            val maintenanceProfile = maintenanceTracker.getMaintenanceFallbackProfile()
+            val maintenanceProfile = getMaintenanceFallbackProfile()
             return if (maintenanceProfile != null)
                 VpnFallbackResult.SwitchProfile(maintenanceProfile, SwitchServerReason.ServerInMaintenance)
             else
                 VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
         } finally {
             handlingAuthError = false
+        }
+    }
+
+    private suspend fun getMaintenanceFallbackProfile(): Profile? {
+        if (!appConfig.isMaintenanceTrackerEnabled())
+            return null
+
+        ProtonLogger.log("Check if server is not in maintenance")
+        val domainId = stateMonitor.connectionParams!!.connectingDomain?.id ?: return null
+        val result = api.getConnectingDomain(domainId)
+        if (result is ApiResult.Success) {
+            val connectingDomain = result.value.connectingDomain
+            if (!connectingDomain.isOnline) {
+                serverManager.updateServerDomainStatus(connectingDomain)
+                serverListUpdater.updateServerList()
+                val sentryEvent = EventBuilder()
+                    .withMessage("Maintenance detected")
+                    .withExtra("Server", result.value.connectingDomain.entryDomain)
+                    .build()
+                ProtonLogger.logSentryEvent(sentryEvent)
+                notificationHelper.showInformationNotification(
+                    appContext, appContext.getString(R.string.onMaintenanceDetected)
+                )
+                return serverManager.defaultFallbackConnection
+            }
+        }
+        return null
+    }
+
+    suspend fun maintenanceCheck() {
+        getMaintenanceFallbackProfile()?.let {
+            switchConnectionFlow.emit(VpnFallbackResult.SwitchProfile(it, SwitchServerReason.ServerInMaintenance))
         }
     }
 }

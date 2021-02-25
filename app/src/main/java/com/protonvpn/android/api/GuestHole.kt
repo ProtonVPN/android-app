@@ -19,23 +19,28 @@
 package com.protonvpn.android.api
 
 import android.content.Context
-import android.content.Intent
-import androidx.lifecycle.Observer
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.builtins.ListSerializer
 import kotlin.coroutines.resume
 
 class GuestHole(
+    private val scope: CoroutineScope,
     private val serverManager: ServerManager,
-    private val vpnMonitor: VpnStateMonitor
+    private val vpnMonitor: VpnStateMonitor,
+    private val vpnConnectionManager: VpnConnectionManager,
 ) {
 
     suspend fun <T> call(
@@ -51,7 +56,7 @@ class GuestHole(
             }
         } finally {
             if (!vpnMonitor.isDisabled)
-                vpnMonitor.disconnectSync()
+                vpnConnectionManager.disconnectSync()
         }
         return result
     }
@@ -70,25 +75,25 @@ class GuestHole(
     ): Boolean {
         var connected = vpnMonitor.isConnected
         if (!connected) {
-            val vpnStatus = vpnMonitor.vpnStatus
+            val vpnStatus = vpnMonitor.status
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 suspendCancellableCoroutine<Boolean> { continuation ->
-                    var observer: Observer<VpnStateMonitor.Status>? = null
-                    observer = Observer { newState ->
-                        if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {
-                            vpnStatus.removeObserver(observer!!)
-                            continuation.resume(newState.state == VpnState.Connected)
-                        }
-                    }
                     val profile = Profile.getTempProfile(server, serverManager).apply {
                         // Using OpenVPN instead of Smart due to memory corruption bug on native level
                         // with gosrp and Strongswan
                         setProtocol(VpnProtocol.OpenVPN)
                     }
-                    vpnMonitor.connect(context, profile)
-                    vpnStatus.observeForever(observer)
+                    vpnConnectionManager.connect(context, profile)
+                    val observerJob = scope.launch {
+                        vpnStatus.collect { newState ->
+                            if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {
+                                coroutineContext.cancel()
+                                continuation.resume(newState.state == VpnState.Connected)
+                            }
+                        }
+                    }
                     continuation.invokeOnCancellation {
-                        vpnStatus.removeObserver(observer)
+                        observerJob.cancel()
                     }
                 }
             } == true
