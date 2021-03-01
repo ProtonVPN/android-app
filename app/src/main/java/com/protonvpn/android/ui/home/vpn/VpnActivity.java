@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn;
+package com.protonvpn.android.ui.home.vpn;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -35,7 +35,7 @@ import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.Log;
-import com.protonvpn.android.utils.ServerManager;
+import com.protonvpn.android.vpn.VpnConnectionManager;
 
 import org.strongswan.android.logic.CharonVpnService;
 import org.strongswan.android.logic.TrustedCertificateManager;

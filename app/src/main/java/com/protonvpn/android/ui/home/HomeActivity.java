@@ -73,8 +73,8 @@ import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
 import com.protonvpn.android.utils.ViewModelFactory;
-import com.protonvpn.android.vpn.LogActivity;
-import com.protonvpn.android.vpn.VpnStateFragment;
+import com.protonvpn.android.ui.drawer.LogActivity;
+import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
 

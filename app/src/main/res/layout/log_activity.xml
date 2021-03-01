@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/log_frag"
-        class="com.protonvpn.android.vpn.LogFragment"
+        class="com.protonvpn.android.ui.drawer.LogFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
