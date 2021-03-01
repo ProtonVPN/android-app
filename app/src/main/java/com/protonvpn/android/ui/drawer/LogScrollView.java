@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn;
+package com.protonvpn.android.ui.drawer;
 
 import android.content.Context;
 import android.util.AttributeSet;

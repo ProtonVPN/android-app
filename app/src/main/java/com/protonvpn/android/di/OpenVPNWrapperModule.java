@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import android.app.Service;
 
-import com.protonvpn.android.vpn.OpenVPNWrapperService;
+import com.protonvpn.android.vpn.openvpn.OpenVPNWrapperService;
 
 import dagger.Binds;
 import dagger.Module;

@@ -18,7 +18,7 @@
  */
 package com.protonvpn.android.di;
 
-import com.protonvpn.android.vpn.LogFragment;
+import com.protonvpn.android.ui.drawer.LogFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

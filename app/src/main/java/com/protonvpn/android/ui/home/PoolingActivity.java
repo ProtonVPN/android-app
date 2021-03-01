@@ -24,10 +24,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.protonvpn.android.R;
 import com.protonvpn.android.models.config.UserData;
-import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.utils.Constants;
-import com.protonvpn.android.vpn.VpnActivity;
+import com.protonvpn.android.ui.home.vpn.VpnActivity;
 
 import org.joda.time.DateTime;
 

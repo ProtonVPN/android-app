@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn
+package com.protonvpn.android.vpn.openvpn
 
 import android.content.Intent
 import android.os.Build
@@ -35,6 +35,11 @@ import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.implies
 import com.protonvpn.android.utils.randomNullable
+import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.VpnBackend
+import com.protonvpn.android.vpn.VpnState
 import de.blinkt.openvpn.core.ConnectionStatus
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus

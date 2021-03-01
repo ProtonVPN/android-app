@@ -109,7 +109,7 @@
 
         <fragment
             android:id="@+id/vpnStatusBar"
-            class="com.protonvpn.android.vpn.VpnStateFragment"
+            class="com.protonvpn.android.ui.home.vpn.VpnStateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.protonvpn.android.components.ProtonStatusBehaviour"

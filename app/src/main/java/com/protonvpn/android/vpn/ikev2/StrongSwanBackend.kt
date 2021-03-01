@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn
+package com.protonvpn.android.vpn.ikev2
 
 import android.app.Service
 import android.content.ComponentName
@@ -30,6 +30,11 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.implies
+import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.VpnBackend
+import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect

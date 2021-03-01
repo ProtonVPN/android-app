@@ -40,11 +40,11 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.vpn.OpenVpnBackend
+import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.RecentsManager
-import com.protonvpn.android.vpn.StrongSwanBackend
+import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager

@@ -30,8 +30,8 @@ import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.ui.home.profiles.ProfileActivity;
 import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
-import com.protonvpn.android.vpn.LogActivity;
-import com.protonvpn.android.vpn.OpenVPNWrapperService;
+import com.protonvpn.android.ui.drawer.LogActivity;
+import com.protonvpn.android.vpn.openvpn.OpenVPNWrapperService;
 import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
 
 import androidx.annotation.RequiresApi;
