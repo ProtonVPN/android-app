@@ -346,11 +346,17 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 	{
 		synchronized (this)
 		{
+			// establishBlocking causes application to maintain fake tunnel during connection process that
+			// prevents ProtonVPN API calls (that we make in response to VPN errors) from completing.
+			// Bypassing VPN tunnel by our app would help here, but that in turn breaks API calls when
+			// kill switch is enabled.
+			/*
 			if (mNextProfile != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 			{
 				mBuilderAdapter.setProfile(mNextProfile);
 				mBuilderAdapter.establishBlocking();
 			}
+			 */
 
 			if (mCurrentProfile != null)
 			{
