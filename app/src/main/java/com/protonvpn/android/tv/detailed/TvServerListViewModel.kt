@@ -159,7 +159,7 @@ class TvServerListViewModel @Inject constructor(
         fun click(context: Context, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager, server.serverName)
-                vpnConnectionManager.connect(context, profile)
+                vpnConnectionManager.connect(context, profile, "TV server list")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
                 vpnConnectionManager.disconnect()

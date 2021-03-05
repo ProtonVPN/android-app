@@ -83,7 +83,7 @@ class GuestHole(
                         // with gosrp and Strongswan
                         setProtocol(VpnProtocol.OpenVPN)
                     }
-                    vpnConnectionManager.connect(context, profile)
+                    vpnConnectionManager.connect(context, profile, "Guest hole")
                     val observerJob = scope.launch {
                         vpnStatus.collect { newState ->
                             if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {

@@ -86,7 +86,7 @@ public abstract class VpnActivity extends BaseActivity {
     public void onConnect(Profile profileToConnect) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
-            vpnConnectionManager.connect(this, profileToConnect);
+            vpnConnectionManager.connect(this, profileToConnect, "mobile home screen (unspecified)");
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());

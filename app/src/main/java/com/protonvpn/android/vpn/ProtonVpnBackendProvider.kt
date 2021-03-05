@@ -21,6 +21,7 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.ProtonLogger
 
 class ProtonVpnBackendProvider(
     val strongSwan: VpnBackend,
@@ -31,11 +32,13 @@ class ProtonVpnBackendProvider(
         protocol: VpnProtocol,
         profile: Profile,
         server: Server
-    ): PrepareResult? = when (protocol) {
-        VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
-        VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
-        VpnProtocol.Smart ->
-            strongSwan.prepareForConnection(profile, server, scan = true)
-                    ?: openVpn.prepareForConnection(profile, server, scan = true)
+    ): PrepareResult? {
+        ProtonLogger.log("Preparing connection with protocol: " + protocol.name)
+        return when (protocol) {
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.Smart -> strongSwan.prepareForConnection(profile, server, scan = true)
+                ?: openVpn.prepareForConnection(profile, server, scan = true)
+        }
     }
 }
