@@ -19,6 +19,8 @@
 package com.protonvpn.android;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.PowerManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -80,6 +82,10 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onForeground() {
         ProtonLogger.INSTANCE.log("App in foreground");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
+        }
     }
 
     private void initStrongSwan() {
