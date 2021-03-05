@@ -40,6 +40,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.MaintenanceTracker
@@ -199,6 +200,10 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
+
+    @Singleton
+    @Provides
     fun provideNotificationHelper(
         vpnStateMonitor: VpnStateMonitor,
         trafficMonitor: TrafficMonitor,
@@ -225,8 +230,16 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideTrafficMonitor(vpnStateMonitor: VpnStateMonitor) =
-        TrafficMonitor(ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime, vpnStateMonitor)
+    fun provideTrafficMonitor(
+        vpnStateMonitor: VpnStateMonitor,
+        connectivityMonitor: ConnectivityMonitor
+    ) = TrafficMonitor(
+        ProtonApplication.getAppContext(),
+        scope,
+        SystemClock::elapsedRealtime,
+        vpnStateMonitor,
+        connectivityMonitor
+    )
 
     @Singleton
     @Provides
