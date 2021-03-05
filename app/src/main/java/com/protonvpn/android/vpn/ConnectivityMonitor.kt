@@ -19,6 +19,8 @@
 package com.protonvpn.android.vpn
 
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -44,6 +46,7 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P
 import android.net.NetworkCapabilities.NET_CAPABILITY_XCAP
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -124,6 +127,9 @@ class ConnectivityMonitor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             cm.registerDefaultNetworkCallback(networkCallback)
+        }
+        context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
+            ProtonLogger.log("Airplane mode: " + it?.getBooleanExtra("state", false))
         }
     }
 
