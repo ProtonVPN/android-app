@@ -66,6 +66,7 @@ import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.Log;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
@@ -149,6 +150,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.buttonCancel)
     public void buttonCancel() {
+        ProtonLogger.INSTANCE.log("Canceling connection");
         vpnConnectionManager.disconnect();
         changeBottomSheetState(false);
     }

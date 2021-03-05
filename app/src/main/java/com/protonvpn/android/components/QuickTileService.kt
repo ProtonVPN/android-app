@@ -81,7 +81,7 @@ class QuickTileService : TileService() {
         if (qsTile.state == Tile.STATE_INACTIVE) {
             if (userData.isLoggedIn) {
                 ProtonLogger.log("Connecting via quick tile")
-                vpnConnectionManager.connect(this, manager.defaultConnection)
+                vpnConnectionManager.connect(this, manager.defaultConnection, "Quick tile service")
             } else {
                 val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -276,7 +276,7 @@ class TvMainViewModel @Inject constructor(
             showMaintenanceDialog(activity)
         } else {
             if (userData.hasAccessToServer(profile.server)) {
-                vpnConnectionManager.connect(activity, profile)
+                vpnConnectionManager.connect(activity, profile, "TV home view")
             } else {
                 activity.launchActivity<TvUpgradeActivity>()
             }

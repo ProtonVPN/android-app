@@ -166,7 +166,7 @@ open class VpnConnectionManager(
         fallback.notificationReason?.let {
             vpnStateMonitor.fallbackConnectionFlow.emit(it)
         }
-        connect(appContext, fallback.profile)
+        connect(appContext, fallback.profile, "automatic fallback")
     }
 
     private suspend fun coroutineConnect(profile: Profile) {
@@ -197,7 +197,7 @@ open class VpnConnectionManager(
             disconnectBlocking()
 
         connectionParams = preparedConnection.connectionParams
-        ProtonLogger.log("Smart protocol: using ${connectionParams?.info}")
+        ProtonLogger.log("Connecting using ${connectionParams?.info}")
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
@@ -212,13 +212,14 @@ open class VpnConnectionManager(
 
     fun onRestoreProcess(context: Context, profile: Profile): Boolean {
         if (state == VpnState.Disabled && Storage.getString(STORAGE_KEY_STATE, null) == VpnState.Connected.name) {
-            connect(context, profile)
+            connect(context, profile, "Process restore")
             return true
         }
         return false
     }
 
-    fun connect(context: Context, profile: Profile) {
+    fun connect(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+        connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
         val intent = prepare(context)
         if (intent != null) {
             if (context is ActivityResultRegistryOwner) {
@@ -274,6 +275,7 @@ open class VpnConnectionManager(
     }
 
     open fun disconnect() {
+        ProtonLogger.log("Manually disconnecting")
         disconnectWithCallback()
     }
 
@@ -296,6 +298,6 @@ open class VpnConnectionManager(
         if (activeBackend != null)
             activeBackend?.reconnect()
         else
-            lastProfile?.let { connect(context, it) }
+            lastProfile?.let { connect(context, it, "reconnection") }
     }
 }

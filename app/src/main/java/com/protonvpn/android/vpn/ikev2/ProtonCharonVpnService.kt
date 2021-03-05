@@ -130,7 +130,7 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connect(this, manager.defaultConnection)
+        vpnConnectionManager.connect(this, manager.defaultConnection, "always-on")
     }
 
     private fun startCaptureLogFile() {
