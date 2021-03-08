@@ -311,7 +311,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="netShieldDescription">Bloquer les publicités, les trackers et les logiciels malveillants </string>
   <string name="netshield">NetShield</string>
   <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
-  <string name="netShieldFullBlock">Bloquer seulement les malwares</string>
+  <string name="netShieldFullBlock">Bloquer malwares, trackers et pubs</string>
   <string name="dialogDontShowAgain">Ne plus afficher</string>
   <string name="paidFeature">Fonctionnalité payante</string>
   <string name="upgradeRequired">Offre supérieure requise</string>
