@@ -53,7 +53,7 @@ class StrongSwanBackend(
         bindCharonMonitor()
         mainScope.launch {
             networkManager.observe().collect { status ->
-                if (status == NetworkStatus.Disconnected) {
+                if (status == NetworkStatus.Disconnected && selfState != VpnState.Disabled) {
                     selfStateObservable.value = VpnState.WaitingForNetwork
                 } else {
                     stateChanged()
@@ -108,7 +108,7 @@ class StrongSwanBackend(
         vpnService?.reconnect()
     }
 
-    override val retryInfo: RetryInfo?
+    override val retryInfo: RetryInfo
         get() = RetryInfo(vpnService!!.retryTimeout, vpnService!!.retryIn)
 
     private fun bindCharonMonitor() = mainScope.launch {
@@ -132,16 +132,9 @@ class StrongSwanBackend(
     private fun translateState(state: VpnStateService.State, error: VpnStateService.ErrorState): VpnState =
         if (error == VpnStateService.ErrorState.NO_ERROR) when (state) {
             VpnStateService.State.DISABLED -> VpnState.Disabled
-            VpnStateService.State.CHECKING_AVAILABILITY -> VpnState.CheckingAvailability
-            VpnStateService.State.WAITING_FOR_NETWORK -> VpnState.WaitingForNetwork
             VpnStateService.State.CONNECTING -> VpnState.Connecting
             VpnStateService.State.CONNECTED -> VpnState.Connected
-            VpnStateService.State.RECONNECTING -> VpnState.Reconnecting
             VpnStateService.State.DISCONNECTING -> VpnState.Disconnecting
-            VpnStateService.State.ERROR -> {
-                debugAssert("inconsistent strongswan state") { false }
-                VpnState.Error(translateError(error))
-            }
         } else {
             VpnState.Error(translateError(error))
         }
@@ -151,8 +144,6 @@ class StrongSwanBackend(
         VpnStateService.ErrorState.PEER_AUTH_FAILED -> ErrorType.PEER_AUTH_FAILED
         VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED
         VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
-        VpnStateService.ErrorState.SESSION_IN_USE -> ErrorType.SESSION_IN_USE
-        VpnStateService.ErrorState.MAX_SESSIONS -> ErrorType.MAX_SESSIONS
         VpnStateService.ErrorState.MULTI_USER_PERMISSION -> ErrorType.MULTI_USER_PERMISSION
         else -> ErrorType.GENERIC_ERROR
     }

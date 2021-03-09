@@ -30,6 +30,7 @@ import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.conditions.NetworkInstruction;
 import com.protonvpn.mocks.MockVpnBackend;
+import com.protonvpn.test.shared.TestUser;
 
 import org.strongswan.android.logic.VpnStateService;
 

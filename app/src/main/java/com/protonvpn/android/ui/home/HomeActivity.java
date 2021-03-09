@@ -57,6 +57,7 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.login.LoginActivity;
@@ -125,7 +126,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
-    @Inject AuthManager authManager;
+    @Inject LogoutHandler logoutHandler;
     @Inject AppConfig appConfig;
 
     @Inject ViewModelFactory viewModelFactory;
@@ -172,7 +173,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        authManager.getLogoutEvent().observe(this, () -> {
+        logoutHandler.getLogoutEvent().observe(this, () -> {
             finish();
             navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
@@ -345,12 +346,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 .title(R.string.warning)
                 .content(R.string.logoutDescription)
                 .positiveText(R.string.ok)
-                .onPositive((dialog, which) -> authManager.logout(false))
+                .onPositive((dialog, which) -> logoutHandler.logout(false))
                 .negativeText(R.string.cancel)
                 .show();
         }
         else {
-            authManager.logout(false);
+            logoutHandler.logout(false);
         }
     }
 
@@ -363,12 +364,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Subscribe
-    public void onConnectToServer(ConnectToServer server) {
-        if (server.getServer() == null) {
+    public void onConnectToServer(ConnectToServer connectTo) {
+        if (connectTo.getServer() == null) {
             vpnStateMonitor.disconnect();
         }
         else {
-            onConnect(Profile.Companion.getTempProfile(server.getServer(), serverManager));
+            Server server = connectTo.getServer();
+            onConnect(Profile.Companion.getTempProfile(server, serverManager, server.getExitCountry()));
         }
     }
 

@@ -29,8 +29,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTvMainBinding
+import com.protonvpn.android.tv.TvTrialDialogActivity
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
 import javax.inject.Inject
 
@@ -63,12 +65,15 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
             startActivity(Intent(this, TvLoginActivity::class.java))
         }
 
+        if (viewModel.shouldShowTrialDialog()) {
+            launchActivity<TvTrialDialogActivity>()
+        }
         viewModel.onViewInit(lifecycle)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        viewModel.resetMap()
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshVPNInfo()
     }
 
     private fun updateMapSelection() {

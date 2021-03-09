@@ -92,14 +92,15 @@
     <string name="accountTier">Active subscription:</string>
     <string name="accountTrialExpires"><![CDATA[Your trial ends in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Version:</string>
-    <string name="accountSubscriptionDetails">To manage your subscription, you have to go to the <font fgcolor='#59B268'>protonvpn.com</font> webpanel.</string>
+    <string name="accountSubscriptionDetails"><![CDATA[To manage your subscription, you have to go to the <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
     <string name="accountButtonManage">Manage account</string>
     <string name="accountTrial">ProtonVPN Plus Trial</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="accountBasic"><font fgcolor='#FB7554'>ProtonVPN Basic</font></string>
-    <string name="accountPlus"><font fgcolor='#59B268'>ProtonVPN Plus</font></string>
-    <string name="accountVisionary"><font fgcolor='#32b3dd'>Proton Visionary</font></string>
+    <string name="accountBasic">ProtonVPN Basic</string>
+    <string name="accountPlus">ProtonVPN Plus</string>
+    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Your 7 day free trial of ProtonVPN Plus has expired. You can continue to use ProtonVPN Free, but if you would like to support the project and have higher speeds and more features, please upgrade to a paid plan."</string>
+    <string name="freeTVTrialExpired"><![CDATA[Your 7 day free ProtonVPN Plus trial has expired.<br>You can continue to use ProtonVPN Free, or you can enjoy all the streaming services we provide by upgrading to Plus.<br>Visit <font color="%1$s">%2$s</font> for managing your subscription.]]></string>
     <string name="activityProfileTitle">Profile</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Settings</string>
@@ -131,7 +132,7 @@
     <string name="restrictedBasic">You are trying to connect to a server which requires a paid subscription.\nTo access high speed servers in all countries, please upgrade your subscription. </string>
     <string name="restrictedPlus">You are trying to connect to a server which requires a ProtonVPN Plus subscription or higher.\nTo access more servers in all countries, please upgrade your subscription.</string>
     <string name="restrictedSecureCore">Secure Core is a premium feature which requires ProtonVPN Plus or higher. Secure Core adds advanced protection against VPN server monitoring.\nTo access Secure Core, check out our other subscription plans which include this feature.</string>
-    <string name="errorUserDelinquent">Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+    <string name="errorUserDelinquent"><![CDATA[Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">You have hit the maximum number of simultaneous connections allowed for your account. Please upgrade your ProtonVPN plan to get more connections.</string>
     <string name="errorEmptyName">Profile name field cannot be empty</string>
     <string name="errorEmptyCountry">Country field cannot be empty</string>
@@ -286,7 +287,6 @@
     <string name="welcomeDialogTitle">Thanks for joining ever growing ProtonVPN community.</string>
     <string name="welcomeDialogDescription">Use your newly created account credentials to login.</string>
     <string name="welcomeDialogTitleTrial">To say thanks, we are giving you a free 7 day trial of our Plus plan. It lets you use advanced features and Plus servers. At the end of the trial, you will return to a Free plan and only have access to Free servers.</string>
-    <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> days <b>%2$d</b> hours <b>%3$d</b> minutes <b>%4$d</b> seconds]]></string>
     <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
     <string name="buttonTroubleshoot"><![CDATA[<u>Troubleshoot</u>]]></string>
@@ -341,7 +341,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="netShieldReconnectionNeeded">Reconnection needed</string>
     <string name="netShieldReconnectionDescription">Your connection needs to be restarted to change NetShield mode.\n\nNote: If some sites don\'t load, try disabling NetShield.</string>
     <string name="netShieldReconnectionDescriptionDisabling">Your connection needs to be restarted to deactivate NetShield mode.</string>
-    <string name="netShieldPaidFeature">This feature requires ProtonVPN Plus.\nUpgrade online to unlock all features and support ProtonVPN.</string>
+    <string name="netShieldPaidFeature">This feature requires a ProtonVPN paid subscription.\nUpgrade online to unlock all features and support ProtonVPN</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
@@ -359,6 +359,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tvRowMore">More</string>
 
     <string name="tv_detail_default_connection_checkbox">My favorite country</string>
+    <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
     <string name="tv_detail_connect">Connect</string>
     <string name="tv_detail_description_streaming_country">Stream your favorite content. Access more apps with a ProtonVPN Plus plan.</string>
@@ -390,15 +391,32 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_quick_connect_favourite">Favourite</string>
     <string name="tv_trial_counter_label">Trial</string>
     <string name="tv_trial_title">7 days of full streaming</string>
-    <string name="tv_trial_description">As a welcome gift, you get access to all ProtonVPN servers and streaming services for the first 7 days with a Plus plan trial. Your plan will then change back to Free and the access to some services might be limited.Your trial ends in:</string>
+    <string name="tv_trial_summary"><![CDATA[As a welcome gift, access all ProtonVPN servers and streaming services for the first 7 days with a <b>Plus plan trial</b>.<br>Your plan will then change to <b>Free</b> and your access to certain services might be limited.]]></string>
+    <string name="tv_trial_ends_in">Your trial ends in</string>
+    <plurals name="counter_days">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
+    </plurals>
     <plurals name="counter_hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%1$s hour</item>
+        <item quantity="other">%1$s hours</item>
     </plurals>
     <plurals name="counter_minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%1$s minute</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <plurals name="counter_seconds">
+        <item quantity="one">%1$s second</item>
+        <item quantity="other">%1$s seconds</item>
     </plurals>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
+    <string name="tv_server_list_load">%1$s%% Server Load</string>
+    <string name="tv_recently_used_servers">Recently used servers (%1$d)</string>
+    <string name="tv_available_servers">Available servers (%1$d)</string>
+    <string name="tv_locked_servers">Locked servers (%1$d)</string>
+    <string name="tv_other_servers">Other servers (%1$d)</string>
+    <string name="tv_server_under_maintenance">Under Maintenance</string>
+    <string name="tv_server_list">Server list</string>
+    <string name="tv_server_list_action_unavailable">Unavailable</string>
 </resources>

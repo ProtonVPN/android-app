@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,43 +15,66 @@
 
 package org.strongswan.android.logic;
 
-import android.content.Context;
-
-import org.jetbrains.annotations.NotNull;
-import org.strongswan.android.security.LocalCertificateKeyStoreProvider;
-
 import java.security.Security;
 
-import dagger.android.support.DaggerApplication;
+import org.strongswan.android.security.LocalCertificateKeyStoreProvider;
 
-public abstract class StrongSwanApplication extends DaggerApplication {
+import android.app.Application;
+import android.content.Context;
+import android.os.Build;
 
-    private static Context mContext;
+public class StrongSwanApplication extends Application
+{
+	private static Context mContext;
 
-    public static final boolean USE_BYOD = true;
+	static {
+		Security.addProvider(new LocalCertificateKeyStoreProvider());
+	}
 
-    static {
-        Security.addProvider(new LocalCertificateKeyStoreProvider());
-    }
+	@Override
+	public void onCreate()
+	{
+		super.onCreate();
+		StrongSwanApplication.mContext = getApplicationContext();
+	}
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        StrongSwanApplication.mContext = getApplicationContext();
-        TrustedCertificateManager.storeCertificate(
-            TrustedCertificateManager.parseCertificate(getBaseContext()));
-    }
+	/**
+	 * Returns the current application context
+	 * @return context
+	 */
+	public static Context getContext()
+	{
+		return StrongSwanApplication.mContext;
+	}
 
-    /**
-     * Returns the current application context
-     *
-     * @return context
-     */
-    public static Context getContext() {
-        return StrongSwanApplication.mContext;
-    }
+	public static void setContext(Context c)
+	{
+		mContext = c;
+	}
 
-    public static void setAppContextForTest(@NotNull Context c) {
-        mContext = c;
-    }
+	/*
+	 * The libraries are extracted to /data/data/org.strongswan.android/...
+	 * during installation.  On newer releases most are loaded in JNI_OnLoad.
+	 */
+	/*
+	static
+	{
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2)
+		{
+			System.loadLibrary("strongswan");
+
+			if (MainActivity.USE_BYOD)
+			{
+				System.loadLibrary("tpmtss");
+				System.loadLibrary("tncif");
+				System.loadLibrary("tnccs");
+				System.loadLibrary("imcv");
+			}
+
+			System.loadLibrary("charon");
+			System.loadLibrary("ipsec");
+		}
+		System.loadLibrary("androidbridge");
+	}
+	*/
 }

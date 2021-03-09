@@ -22,7 +22,7 @@ import com.protonvpn.actions.SettingsRobot;
 import com.protonvpn.results.SettingsResults;
 import com.protonvpn.tests.testRules.ProtonSettingsActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 
 import org.junit.ClassRule;
 import org.junit.Rule;

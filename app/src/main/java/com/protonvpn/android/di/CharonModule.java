@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import android.app.Service;
 
-import org.strongswan.android.logic.CharonVpnService;
+import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
 
 import dagger.Binds;
 import dagger.Module;
@@ -29,5 +29,5 @@ import dagger.Module;
 public abstract class CharonModule {
 
     @Binds
-    abstract Service provideCharon(CharonVpnService activity);
+    abstract Service provideCharon(ProtonCharonVpnService service);
 }

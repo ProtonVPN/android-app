@@ -20,12 +20,90 @@ package com.protonvpn.android.components
 
 import android.os.Bundle
 import androidx.leanback.app.BrowseSupportFragment
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.Row
+import androidx.leanback.widget.RowPresenter
+import androidx.lifecycle.ViewModelProvider
+import com.protonvpn.android.utils.whenCancelled
 import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
+
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
+        headersState = HEADERS_DISABLED
+    }
+
+    override fun onDestroyView() {
+        adapter = null
+        super.onDestroyView()
+    }
+
+    protected fun ArrayObjectAdapter.addOrReplace(index: Int, row: Row) {
+        if (size() > index)
+            replace(index, row)
+        else
+            add(row)
+    }
+
+    protected abstract inner class FadeListRowPresenter(private val animateAlpha: Boolean) : ListRowPresenter() {
+
+        private var selectedHolder: RowPresenter.ViewHolder? = null
+
+        init {
+            shadowEnabled = false
+        }
+
+        abstract fun rowAlpha(index: Int, selectedIdx: Int): Float
+        abstract fun RowPresenter.ViewHolder.getRowIndex(): Int
+
+        private fun RowPresenter.ViewHolder.setupAlpha(animated: Boolean) {
+            val index = getRowIndex()
+            val selectedIdx = selectedHolder?.getRowIndex() ?: index
+            val targetAlpha = rowAlpha(index, selectedIdx)
+            if (animated) {
+                view.animate()
+                    .alpha(targetAlpha)
+                    .setDuration(ROW_FADE_DURATION)
+                    .whenCancelled { setupAlpha(false) }
+            } else
+                view.alpha = targetAlpha
+        }
+
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+            super.onBindRowViewHolder(holder, item)
+            holder.setupAlpha(false)
+        }
+
+        override fun onUnbindRowViewHolder(holder: RowPresenter.ViewHolder?) {
+            if (holder == selectedHolder)
+                selectedHolder = null
+
+            super.onUnbindRowViewHolder(holder)
+        }
+
+        private fun updateRowsAlpha() {
+            (0 until adapter.size()).forEach { i ->
+                rowsSupportFragment.getRowViewHolder(i)?.setupAlpha(animateAlpha)
+            }
+        }
+
+        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
+            super.onRowViewSelected(holder, selected)
+
+            if (selected) {
+                selectedHolder = holder
+                updateRowsAlpha()
+            }
+        }
+    }
+
+    companion object {
+        private const val ROW_FADE_DURATION = 300L
     }
 }

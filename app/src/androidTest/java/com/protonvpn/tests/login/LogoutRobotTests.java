@@ -23,7 +23,7 @@ import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.LogoutResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 
 import org.junit.ClassRule;
 import org.junit.Rule;

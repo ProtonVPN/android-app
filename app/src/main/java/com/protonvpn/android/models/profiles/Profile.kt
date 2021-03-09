@@ -85,8 +85,8 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     }
 
     companion object {
-        fun getTempProfile(server: Server, manager: ServerManager?) =
-                Profile(server.exitCountry, "", ServerWrapper.makeWithServer(server, manager))
+        fun getTempProfile(server: Server, manager: ServerManager?, name: String = server.exitCountry) =
+                Profile(name, "", ServerWrapper.makeWithServer(server, manager))
 
         fun getRandomProfileColor(context: Context): String {
             val name = "pickerColor" + (Random().nextInt(18 - 1) + 1)

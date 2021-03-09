@@ -34,5 +34,5 @@ class ForkedSessionResponse(
     @SerialName(value = "UserID") val userId: String
 ) {
     fun toLoginResponse(accessToken: String): LoginResponse =
-        LoginResponse(accessToken, expiresIn, tokenType, scopes.joinToString(" "), uid, refreshToken)
+        LoginResponse(accessToken, expiresIn, tokenType, scopes.joinToString(" "), uid, refreshToken, userId)
 }

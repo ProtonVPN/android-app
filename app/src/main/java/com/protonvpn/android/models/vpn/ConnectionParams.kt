@@ -18,8 +18,11 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.Constants
 
 open class ConnectionParams(
     val profile: Profile,
@@ -32,4 +35,12 @@ open class ConnectionParams(
 
     val exitIpAddress: String?
         get() = connectingDomain?.getExitIP()
+
+    fun getVpnUsername(userData: UserData, appConfig: AppConfig): String {
+        var username = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
+            Constants.VPN_USERNAME_PRODUCT_SUFFIX
+        if (!connectingDomain?.label.isNullOrBlank())
+            username += "+b:${connectingDomain?.label}"
+        return username
+    }
 }

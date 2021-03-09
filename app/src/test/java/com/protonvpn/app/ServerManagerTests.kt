@@ -12,7 +12,7 @@ import com.protonvpn.app.mocks.MockSharedPreference
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
 import org.junit.Before
@@ -40,7 +40,7 @@ class ServerManagerTests {
         every { CountryTools.getPreferredLocale(any()) } returns Locale.US
         manager = ServerManager(contextMock, userData)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
-        val list = serversFile.readText().deserialize(Server.serializer().list)
+        val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
         manager.setServers(list)
     }

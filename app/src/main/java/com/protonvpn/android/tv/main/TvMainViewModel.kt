@@ -24,7 +24,6 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
@@ -42,13 +41,14 @@ import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
-import com.protonvpn.android.ui.home.AuthManager
+import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -63,13 +63,14 @@ class TvMainViewModel @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     private val recentsManager: RecentsManager,
     val userData: UserData,
-    val authManager: AuthManager
-) : ViewModel() {
+    val logoutHandler: LogoutHandler,
+    userPlanManager: UserPlanManager
+) : MainViewModel(userData, userPlanManager) {
 
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
-    val logoutEvent get() = authManager.logoutEvent
+    val logoutEvent get() = logoutHandler.logoutEvent
 
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
     enum class ConnectionState { None, Connecting, Connected }
@@ -162,11 +163,12 @@ class TvMainViewModel @Inject constructor(
                 )
             )
         }
-        recentsManager.getRecentConnections()
+        recentsManager.getRecentCountries()
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
             .forEach {
                 recentsList.add(
                     ProfileCard(
+                        title = it.name,
                         titleDrawable = profileCardTitleIcon(it),
                         backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
                         profile = it
@@ -176,10 +178,11 @@ class TvMainViewModel @Inject constructor(
         return recentsList
     }
 
-    private fun profileCardTitleIcon(profile: Profile) = if (profile.server?.online == true)
-        R.drawable.ic_thunder
-    else
-        R.drawable.ic_wrench
+    private fun profileCardTitleIcon(profile: Profile) =
+        if (!userData.hasAccessToServer(profile.server))
+            R.drawable.ic_lock
+        else
+            if (profile.server?.online == true) R.drawable.ic_thunder else R.drawable.ic_wrench
 
     private fun quickConnectTitleIcon() = when {
         isConnected() || isEstablishingConnection() -> R.drawable.ic_notification_disconnected
@@ -252,7 +255,7 @@ class TvMainViewModel @Inject constructor(
     fun connect(activity: Activity, card: CountryCard?) {
         val profile = if (card != null)
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
-                Profile.getTempProfile(it, serverManager)
+                Profile.getTempProfile(it, serverManager, card.countryName)
             }
         else
             serverManager.defaultConnection
@@ -260,10 +263,14 @@ class TvMainViewModel @Inject constructor(
     }
 
     private fun connect(activity: Activity, profile: Profile?) {
-        if (profile?.server?.online == true) {
-            vpnStateMonitor.connect(activity, profile)
-        } else {
+        if (profile?.server?.online != true) {
             showMaintenanceDialog(activity)
+        } else {
+            if (userData.hasAccessToServer(profile.server)) {
+                vpnStateMonitor.connect(activity, profile)
+            } else {
+                activity.launchActivity<TvUpgradeActivity>()
+            }
         }
     }
 
@@ -308,5 +315,5 @@ class TvMainViewModel @Inject constructor(
             }
         }
 
-    fun logout() = authManager.logout(false)
+    fun logout() = logoutHandler.logout(false)
 }

@@ -173,9 +173,9 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         view.findViewById<View>(R.id.buttonForgotUser)
                 .setOnClickListener { openUrl("https://account.protonvpn.com/forgot-username") }
         view.findViewById<View>(R.id.buttonLoginProblems)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/support/login-problems/") }
+                .setOnClickListener { openUrl("https://protonvpn.com/support/login-problems/") }
         view.findViewById<View>(R.id.buttonGetSupport)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/support") }
+                .setOnClickListener { openUrl("https://protonvpn.com/support") }
     }
 
     private fun attemptLogin() = with(binding) {

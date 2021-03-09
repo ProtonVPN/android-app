@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,12 +17,13 @@ package org.strongswan.android.security;
 
 import java.security.Provider;
 
-public class LocalCertificateKeyStoreProvider extends Provider {
+public class LocalCertificateKeyStoreProvider extends Provider
+{
+	private static final long serialVersionUID = 3515038332469843219L;
 
-    private static final long serialVersionUID = 3515038332469843219L;
-
-    public LocalCertificateKeyStoreProvider() {
-        super("LocalCertificateKeyStoreProvider", 1.0, "KeyStore provider for local certificates");
-        put("KeyStore.LocalCertificateStore", LocalCertificateKeyStoreSpi.class.getName());
-    }
+	public LocalCertificateKeyStoreProvider()
+	{
+		super("LocalCertificateKeyStoreProvider", 1.0, "KeyStore provider for local certificates");
+		put("KeyStore.LocalCertificateStore", LocalCertificateKeyStoreSpi.class.getName());
+	}
 }

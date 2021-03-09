@@ -37,6 +37,7 @@
         <item name="android:windowBackground">@drawable/tv_background</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/dimmedGrey</item>
         <item name="guidedActionsBackground">@color/pickerColor1</item>
@@ -54,6 +55,7 @@
         <item name="defaultSearchIconColor">@color/white</item>
         <item name="defaultSearchBrightColor">@color/colorAccent</item>
         <item name="colorAccent">@color/tvAccent</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 

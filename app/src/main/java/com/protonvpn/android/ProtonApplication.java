@@ -19,7 +19,6 @@
 package com.protonvpn.android;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -31,13 +30,13 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDex;
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import io.sentry.Sentry;
@@ -45,35 +44,15 @@ import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import rx_activity_result2.RxActivityResult;
 
-public class ProtonApplication extends StrongSwanApplication {
-
-    private void initLibraries() {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        try {
-            ReLinker.loadLibrary(ProtonApplication.getAppContext(), "androidbridge");
-        }
-        catch (Exception e) {
-            Log.e("Native", "could not load openpgp library", e);
-        }
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    public static Context getAppContext() {
-        return getContext();
-    }
+public class ProtonApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
         initSentry();
+        initStrongSwan();
         NotificationHelper.INSTANCE.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
-        initLibraries();
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
         new ANRWatchDog(15000).start();
 
@@ -87,6 +66,15 @@ public class ProtonApplication extends StrongSwanApplication {
             initLeakCanary();
     }
 
+    private void initStrongSwan() {
+        ReLinker.loadLibrary(this, "androidbridge");
+
+        // Static blocks from StrongSwanApplication will execute here loading native library and initializing
+        // certificate store.
+        StrongSwanApplication.setContext(getApplicationContext());
+        StrongswanCertificateManager.INSTANCE.init(getBaseContext());
+    }
+
     private void initPreferences() {
         ProtonPreferences preferences =
             new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
@@ -95,7 +83,7 @@ public class ProtonApplication extends StrongSwanApplication {
 
     private void initSentry() {
         String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
-        Sentry.init(sentryDsn, new AndroidSentryClientFactory(getContext()));
+        Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
     }
 
     private void initLeakCanary() {
@@ -113,4 +101,12 @@ public class ProtonApplication extends StrongSwanApplication {
         return DaggerAppComponent.builder().application(this).build();
     }
 
+    @NotNull
+    public static Context getAppContext() {
+        return StrongSwanApplication.getContext();
+    }
+
+    public static void setAppContextForTest(@NotNull Context context) {
+        StrongSwanApplication.setContext(context);
+    }
 }

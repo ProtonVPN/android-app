@@ -24,29 +24,57 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
+import com.protonvpn.android.tv.main.MainViewModel
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.AndroidUtils.launchTvDialog
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.getStringHtmlColorNoAlpha
+import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class TvStatusFragment : DaggerFragment() {
     private lateinit var binding: TvStatusViewBinding
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
     @Inject lateinit var serverListUpdater: ServerListUpdater
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private lateinit var viewModel: MainViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
+        lifecycleScope.launchWhenResumed {
+            viewModel.userPlanChangeEvent.collect { infoChange ->
+                infoChange.takeIf { it is PlanChange }?.let {
+                    if (infoChange is PlanChange.TrialEnded) {
+                        showTrialExpiredDialog()
+                    }
+                    initTrial()
+                }
+            }
+        }
+        initTrial()
+        if (viewModel.shouldShowExpirationDialog()) {
+            showTrialExpiredDialog()
+        }
 
         vpnStateMonitor.vpnStatus.observe(
             viewLifecycleOwner,
@@ -55,6 +83,26 @@ class TvStatusFragment : DaggerFragment() {
             }
         )
         return binding.root
+    }
+
+    private fun showTrialExpiredDialog() {
+        requireContext().launchTvDialog(
+            titleRes = getString(R.string.freeTrialExpiredTitle),
+            descriptionRes = getString(R.string.freeTVTrialExpired,
+                requireContext().getStringHtmlColorNoAlpha(R.color.colorAccent), Constants.TV_UPGRADE_LINK),
+            iconRes = R.drawable.ic_proton_green
+        )
+        viewModel.setExpirationDialogAsShown()
+    }
+
+    private fun initTrial() = with(binding) {
+        textTrialTitle.isVisible = viewModel.isTrialUser()
+        textTrialPeriod.isVisible = viewModel.isTrialUser()
+        if (viewModel.isTrialUser()) {
+            lifecycleScope.launchWhenResumed {
+                viewModel.getTrialPeriodFlow(requireContext()).collect { textTrialPeriod.text = it }
+            }
+        }
     }
 
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
@@ -117,7 +165,7 @@ class TvStatusFragment : DaggerFragment() {
             ErrorType.MAX_SESSIONS ->
                 showErrorDialog(R.string.errorMaxSessions)
             ErrorType.UNPAID ->
-                showErrorDialog(R.string.errorUserDelinquent)
+                showErrorDialog(HtmlTools.fromHtml(getString(R.string.errorUserDelinquent)))
             ErrorType.MULTI_USER_PERMISSION ->
                 showErrorDialog(R.string.errorTunMultiUserPermission)
             else -> {}
@@ -125,10 +173,14 @@ class TvStatusFragment : DaggerFragment() {
     }
 
     private fun showErrorDialog(@StringRes stringRes: Int) {
+        showErrorDialog(getString(stringRes))
+    }
+
+    private fun showErrorDialog(content: CharSequence) {
         vpnStateMonitor.disconnect()
         MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
             .title(R.string.tv_vpn_error_dialog_title)
-            .content(stringRes)
+            .content(content)
             .cancelable(false)
             .negativeText(R.string.close)
             .show()

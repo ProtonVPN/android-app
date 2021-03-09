@@ -49,10 +49,10 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
-                Constants.VPN_USERNAME_PRODUCT_SUFFIX
+        mUsername = getVpnUsername(userData, appConfig)
         mUseTLSAuth = true
-        mTunMtu = userData.mtuSize
+        mTunMtu = 1500
+        mMssFix = userData.mtuSize - 40
         mExpectTLSCert = true
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
@@ -65,8 +65,7 @@ class ConnectionParamsOpenVpn(
         mConnections[0] = Connection().apply {
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
-            mServerName = if (server.isSecureCoreServer)
-                connectingDomain.entryIp else connectingDomain.getExitIP()
+            mServerName = connectingDomain.entryIp
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
             mCustomConfiguration = ""

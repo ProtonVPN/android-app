@@ -34,7 +34,7 @@
         android:layout_marginBottom="48dp"
         android:paddingVertical="6dp"
         android:adjustViewBounds="true"
-        app:layout_constraintBottom_toTopOf="@+id/defaultConnection"
+        app:layout_constraintBottom_toTopOf="@+id/openServerList"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@drawable/au" />
 
@@ -69,6 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxHeight="30dp"
+        android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,6 +100,17 @@
             android:text="@string/tv_detail_connect_streaming"
             android:drawableStart="@drawable/connect_streaming_drawable"
             android:drawablePadding="4dp" />
+
+        <CheckBox
+            android:id="@+id/defaultConnection"
+            style="@style/LeanbackPreference.CheckBoxPreference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="6dp"
+            android:layout_marginStart="32dp"
+            android:buttonTint="@color/tvAccent"
+            android:text="@string/tv_detail_default_connection_checkbox_short"
+            android:foreground="@drawable/tv_focus_foreground" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -124,18 +136,20 @@
             android:orientation="horizontal"/>
     </HorizontalScrollView>
 
-    <CheckBox
-        android:id="@+id/defaultConnection"
-        style="@style/LeanbackPreference.CheckBoxPreference"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/openServerList"
+        style="@style/TvButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:paddingEnd="6dp"
-        android:buttonTint="@color/tvAccent"
-        android:text="@string/tv_detail_default_connection_checkbox"
-        android:foreground="@drawable/tv_focus_foreground"
+        android:layout_marginBottom="16dp"
+        android:text="@string/tv_server_list"
+        android:backgroundTint="@color/transparent"
+        android:textAllCaps="false"
+        android:drawableEnd="@drawable/ic_white_down"
+        android:drawableTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/flag" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

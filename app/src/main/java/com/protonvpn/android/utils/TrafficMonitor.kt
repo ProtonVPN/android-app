@@ -42,7 +42,7 @@ class TrafficMonitor(
     val scope: CoroutineScope,
     val now: () -> Long
 ) {
-    val trafficStatus = MutableLiveData<TrafficUpdate>()
+    val trafficStatus = MutableLiveData<TrafficUpdate?>()
 
     private var sessionStart = 0L
     private var sessionDownloaded = 0L
