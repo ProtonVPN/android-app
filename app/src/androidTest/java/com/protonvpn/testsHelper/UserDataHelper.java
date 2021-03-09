@@ -20,6 +20,7 @@ package com.protonvpn.testsHelper;
 
 import com.protonvpn.TestApplication;
 import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.test.shared.TestUser;
 
 import javax.inject.Inject;
 

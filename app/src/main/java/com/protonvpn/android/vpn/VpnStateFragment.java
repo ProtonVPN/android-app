@@ -64,6 +64,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.DebugUtils;
+import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
@@ -551,7 +552,7 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Maximum number of sessions used"));
                 break;
             case UNPAID:
-                showAuthError(R.string.errorUserDelinquent);
+                showAuthError(HtmlTools.fromHtml(getString(R.string.errorUserDelinquent)));
                 Log.exception(new VPNException("Overdue payment"));
                 break;
             case MULTI_USER_PERMISSION:
@@ -569,9 +570,13 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void showAuthError(@StringRes int stringRes) {
+        showAuthError(getString(stringRes));
+    }
+
+    private void showAuthError(CharSequence content) {
         new MaterialDialog.Builder(getActivity()).theme(Theme.DARK)
             .title(R.string.dialogTitleAttention)
-            .content(stringRes)
+            .content(content)
             .cancelable(false)
             .negativeText(R.string.close)
             .onNegative((dialog, which) -> stateMonitor.disconnect())

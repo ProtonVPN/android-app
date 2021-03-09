@@ -17,6 +17,8 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
+<layout>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -158,7 +160,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/subscriptionDetails"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -187,7 +189,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
 
     <View
         style="@style/Divider.Small"
@@ -203,3 +205,5 @@
         app:constraint_referenced_ids="userLabel,accountLabel,subscriptionLabel,versionLabel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

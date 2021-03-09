@@ -21,7 +21,7 @@ package com.protonvpn.actions;
 import com.protonvpn.android.R;
 import com.protonvpn.results.LoginFormResult;
 import com.protonvpn.results.LoginResult;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class LoginRobot extends UIActionsTestHelper {

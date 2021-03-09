@@ -25,7 +25,7 @@ import com.protonvpn.results.ProfilesResult;
 import com.protonvpn.results.SettingsResults;
 import com.protonvpn.tests.testRules.ProtonLoginActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesForUpgradeRule;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 
 import org.junit.ClassRule;
 import org.junit.Ignore;

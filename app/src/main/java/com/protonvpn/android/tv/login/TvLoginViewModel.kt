@@ -115,7 +115,7 @@ class TvLoginViewModel @Inject constructor(
                         state.value = infoResult.toLoginError()
                     }
                     is ApiResult.Success -> {
-                        userData.setLoggedIn(infoResult.valueOrNull)
+                        userData.setLoggedIn(infoResult.value)
                         loadInitialConfig()
                     }
                 }

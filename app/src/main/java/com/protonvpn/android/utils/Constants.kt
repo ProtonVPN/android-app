@@ -33,18 +33,20 @@ object Constants {
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
     const val SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile"
-    const val TV_SIGNUP_LINK = "account.protonvpn.com/signup"
+    const val TV_SIGNUP_LINK = "protonvpn.com/signup"
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"
     const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
     const val DASHBOARD_URL = "https://account.protonvpn.com/dashboard"
+    const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 30L
+    const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3
 
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String

@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.ChangeBounds
@@ -123,6 +124,11 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
             viewModel.disconnect()
         }
 
+        openServerList.initLolipopButtonFocus()
+        openServerList.setOnClickListener {
+            navigateToServerList()
+        }
+
         countryDescription.setText(viewModel.getCountryDescription(card.vpnCountry))
         val dimStreamingIcons = !viewModel.isPlusUser()
 
@@ -142,6 +148,18 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
         viewModel.vpnStateMonitor.vpnStatus.observe(viewLifecycleOwner, Observer {
             updateButtons()
         })
+    }
+
+    private fun navigateToServerList() {
+        val bundle = Bundle().apply { putSerializable(TvServerListScreenFragment.EXTRA_COUNTRY, card.vpnCountry.flag) }
+        activity?.supportFragmentManager?.commit {
+            setCustomAnimations(
+                R.anim.slide_in_from_bottom, R.anim.slide_out_to_top,
+                R.anim.slide_in_from_top, R.anim.slide_out_to_bottom)
+            addSharedElement(binding.flag, transitionNameForCountry(card.vpnCountry.flag))
+            replace(R.id.container, TvServerListScreenFragment::class.java, bundle)
+            addToBackStack(null)
+        }
     }
 
     private fun updateButtons() {

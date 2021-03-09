@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2013 Tobias Brunner
- * Hochschule fuer Technik Rapperswil
+ * HSR Hochschule fuer Technik Rapperswil
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,12 +18,11 @@ package org.strongswan.android.logic.imc.attributes;
 /**
  * Interface to be implemented by attribute classes
  */
-public interface Attribute {
-
-    /**
-     * Returns the binary encoding of the attribute
-     *
-     * @return binary encoding
-     */
-    byte[] getEncoding();
+public interface Attribute
+{
+	/**
+	 * Returns the binary encoding of the attribute
+	 * @return binary encoding
+	 */
+	public byte[] getEncoding();
 }

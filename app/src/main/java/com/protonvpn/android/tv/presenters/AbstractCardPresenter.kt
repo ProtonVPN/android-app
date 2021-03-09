@@ -22,15 +22,14 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.leanback.widget.BaseCardView
 import androidx.leanback.widget.Presenter
-import com.protonvpn.android.tv.models.Card
 
-abstract class AbstractCardPresenter<T : BaseCardView>(val context: Context) : Presenter() {
+abstract class AbstractCardPresenter<C, T : BaseCardView>(val context: Context) : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup) =
         ViewHolder(onCreateView())
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
-        onBindViewHolder(item as Card, viewHolder.view as T)
+        onBindViewHolder(item as C, viewHolder.view as T)
     }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder) {
@@ -38,6 +37,6 @@ abstract class AbstractCardPresenter<T : BaseCardView>(val context: Context) : P
     }
 
     protected abstract fun onCreateView(): T
-    protected abstract fun onBindViewHolder(card: Card, cardView: T)
+    protected abstract fun onBindViewHolder(card: C, cardView: T)
     protected open fun onUnbindViewHolder(cardView: T) {}
 }

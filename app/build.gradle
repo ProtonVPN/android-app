@@ -195,7 +195,6 @@ android {
         dev {
             versionNameSuffix "-dev"
             applicationIdSuffix '.dev'
-            resConfigs "en", "xxhdpi"
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", productionServer
         }
@@ -273,6 +272,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        // There are internal compiler errors with new inference engine. Let's wait with enabling
+        // that.
+        freeCompilerArgs += ["-XXLanguage:-NewInference"]
     }
     splits {
         abi {
@@ -490,15 +492,6 @@ tasks.register("getArchivesName"){
     }
 }
 
-task checkstyle(type: Checkstyle) {
-    configFile = file("${rootDir}/app/config/checkstyle/checkstyle.xml")
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    classpath = files()
-    ignoreFailures = false
-}
-
 ext.daggerVersion = '2.26'
 
 repositories {
@@ -510,8 +503,6 @@ configurations {
     detekt
 }
 
-apply plugin: 'checkstyle'
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
@@ -519,8 +510,8 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.5'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.6'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
     detekt 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
     detekt 'io.gitlab.arturbosch.detekt:detekt-cli:1.9.1'
@@ -539,16 +530,14 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.core:core:1.3.1'
-    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation "androidx.activity:activity-ktx:1.2.0-alpha07"
+    implementation "androidx.activity:activity-ktx:1.2.0-rc01"
     implementation 'com.daimajia.easing:library:2.4@aar'
     implementation "androidx.activity:activity-ktx:1.1.0"
-    implementation "androidx.fragment:fragment-ktx:1.2.5"
-    implementation 'androidx.fragment:fragment:1.3.0-alpha07'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-rc01'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'io.sentry:sentry-android:1.7.30'
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -556,10 +545,9 @@ dependencies {
     implementation 'com.github.shts:TriangleLabelView:1.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
     implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
@@ -576,9 +564,8 @@ dependencies {
     implementation 'ru.egslava:MaskedEditText:1.0.5'
     implementation 'com.evernote:android-state:1.4.1'
     implementation 'androidx.work:work-runtime:2.4.0'
-    implementation 'com.github.akarnokd:rxjava2-extensions:0.20.10'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     implementation "com.datatheorem.android.trustkit:trustkit:1.1.3"
     implementation 'com.xwray:groupie:2.7.2'
     implementation 'com.xwray:groupie-databinding:2.7.2'
@@ -586,24 +573,24 @@ dependencies {
     implementation 'org.minidns:minidns-hla:1.0.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
     implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.airbnb.android:lottie:3.6.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Proton Core libs
-    implementation "me.proton.core:network:0.2.3"
-    implementation "me.proton.core:util-kotlin:0.1.5"
+    implementation "me.proton.core:domain:0.2.4"
+    implementation "me.proton.core:network:0.4.5"
+    implementation "me.proton.core:util-kotlin:0.2.4"
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
 
-    def leanback_version = "1.1.0-alpha05"
-
     // TV
+    def leanback_version = "1.1.0-beta01"
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"
     implementation 'com.caverock:androidsvg:1.4'
@@ -625,10 +612,10 @@ dependencies {
     kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     testImplementation 'joda-time:joda-time:2.10.6'
-    testImplementation 'junit:junit:4.13'
-    testImplementation 'io.mockk:mockk:1.10.0'
-    androidTestImplementation 'io.mockk:mockk-android:1.10.0'
-    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'io.mockk:mockk:1.10.4'
+    androidTestImplementation 'io.mockk:mockk-android:1.10.4'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1'
 
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.3.0') {
         exclude module: 'support-annotations'
@@ -639,7 +626,7 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.3.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1'
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.3.0'
@@ -648,7 +635,7 @@ dependencies {
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.ext:truth:1.3.0'
-    androidTestImplementation 'com.google.truth:truth:1.0.1'
+    androidTestImplementation 'com.google.truth:truth:1.1'
 
     // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

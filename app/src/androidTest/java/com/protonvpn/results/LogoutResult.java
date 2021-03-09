@@ -20,7 +20,7 @@ package com.protonvpn.results;
 
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.android.R;
-import com.protonvpn.testsHelper.TestUser;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class LogoutResult extends UIActionsTestHelper {

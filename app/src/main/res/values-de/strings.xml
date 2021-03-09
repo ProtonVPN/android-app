@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright (c) 2017 Proton Technologies AG
+ Copyright (c) 2017 Proton Technologies AG
 
-This file is part of ProtonVPN.
+ This file is part of ProtonVPN.
 
-ProtonVPN is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-ProtonVPN is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources><!-- Strings related to login -->
+<resources>
+  <!-- Strings related to login -->
   <string name="hintUsername">Benutzername</string>
   <string name="hintPassword">Passwort</string>
   <string name="splitTunnellingSwitch">Tunnel-Schalter teilen</string>
@@ -79,14 +80,15 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="accountTier">Aktives Abonnement:</string>
   <string name="accountTrialExpires"><![CDATA[Ihre Probephase endet in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Version:</string>
-  <string name="accountSubscriptionDetails">Um Ihr Abonnement zu verwalten, gehen Sie auf <font fgcolor="#59B268">protonvpn.com</font>.</string>
+  <string name="accountSubscriptionDetails"><![CDATA[Um Ihr Abonnement verwalten zu können, öffnen Sie bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
   <string name="accountButtonManage">Konto verwalten</string>
   <string name="accountTrial">ProtonVPN‐Plus‐Probephase</string>
   <string name="accountFree">ProtonVPN Free</string>
-  <string name="accountBasic"><font fgcolor="#FB7554">ProtonVPN Basic</font></string>
-  <string name="accountPlus"><font fgcolor="#59B268">ProtonVPN Plus</font></string>
-  <string name="accountVisionary"><font fgcolor="#32b3dd">Proton Visionary</font></string>
+  <string name="accountBasic">ProtonVPN Basic</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
   <string name="freeTrialExpired">"Ihre 7‐tägige, kostenlose Probephase von ProtonVPN Plus ist abgelaufen. Sie können ProtonVPN Free allerdings weiterhin nutzen. Um jedoch das Projekt zu unterstützen und höhere Geschwindigkeiten und mehr Funktionen zu erhalten, upgraden Sie bitte Ihr Abonnement."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Ihre 7-tägige kostenlose ProtonVPN Plus Testversion ist abgelaufen.<br>Sie können ProtonVPN Free weiterhin nutzen, oder Sie können alle von uns angebotenen Streaming-Dienste nutzen, indem Sie auf ProtonVPN Plus umsteigen.<br>Besuchen Sie <font color="%1$s">%2$s</font>, um Ihr Abonnement zu verwalten.]]></string>
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Konto</string>
   <string name="activitySettingsTitle">Einstellungen</string>
@@ -116,7 +118,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="restrictedBasic">Sie versuchen sich zu einem Server zu verbinden, der ein kostenpflichtiges Abonnement benötigt.\nUm High‐Speed‐Server in allen Ländern nutzen zu können, upgraden Sie bitte Ihr Abonnement. </string>
   <string name="restrictedPlus">Sie versuchen sich mit einem Server zu verbinden, der mindestens ein ProtonVPN‐Plus‐Abonnement benötigt.\nUm Zugriff auf mehr Server in allen Ländern zu erhalten, sollten Sie Ihr Abonnement upgraden.</string>
   <string name="restrictedSecureCore">Secure Core ist eine Premium‐Funktion, welche mindestens ProtonVPN Plus benötigt. Secure Core fügt erweiterten Schutz gegen die Überwachung von VPN‐Servern hinzu.\nUm Zugriff auf Secure Core zu erhalten, sehen Sie sich unsere anderen Abonnements an, die diese Funktion enthalten.</string>
-  <string name="errorUserDelinquent">Ihr Konto enthält derzeit eine überfällige Rechnung. Bitte begleichen Sie alle unbezahlten Rechnungen unter <a href="https://account.protonvpn.com">account.protonvpn.com</a></string>
+  <string name="errorUserDelinquent"><![CDATA[Ihr Konto enthält derzeit eine überfällige Rechnung. Bitte begleichen Sie alle unbezahlten Rechnungen unter&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Sie haben das Maximum an gleichzeitigen Verbindungen für Ihr Konto erreicht. Upgraden Sie Ihr ProtonVPN‐Abonnement, um zusätzliche Verbindungen zu erhalten.</string>
   <string name="errorEmptyName">Der Profilname darf nicht leer sein</string>
   <string name="errorEmptyCountry">Land darf nicht leer sein</string>
@@ -172,7 +174,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="retry_in">
     <item quantity="one">Neuverbindung in 1 Sekunde</item>
     <item quantity="other">Neuverbindung in %1$d Sekunden</item>
-</plurals>
+  </plurals>
   <string name="connection_failed">Verbindung fehlgeschlagen</string>
   <string name="support_page">Support-Seite</string>
   <string name="create_new_profile">NEUES PROFIL ERSTELLEN</string>
@@ -219,7 +221,7 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="stateFragmentUnknownIp">Unbekannt</string>
   <string name="successful_migration_message">Willkommen bei ProtonVPN 2.0! Alle Ihre Einstellungen und Profile wurden übertragen, und Sie können die alte Anwendung jetzt sicher deinstallieren.</string>
   <string name="successful_migration_uninstall">Jetzt deinstallieren</string>
-  <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktivieren Sie Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähren Sie auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuchen Sie es danach bitte erneut. <a href=\"%1$s\">Mehr erfahren</a>]]></string>
+  <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktivieren Sie Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähren Sie auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuchen Sie es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
   <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
   <string name="error_prepare_vpn_title">Fehler: VPN-Berechtigungsproblem</string>
   <string name="error_server_not_set">Server nicht mehr verfügbar</string>
@@ -246,11 +248,11 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d App nicht enthalten</item>
     <item quantity="other">%1$d Apps nicht enthalten</item>
-</plurals>
+  </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d IP-Adresse ausgeschlossen</item>
     <item quantity="other">%1$d IP-Adressen ausgeschlossen</item>
-</plurals>
+  </plurals>
   <string name="settingsCannotChangeWhileConnected">Kann nicht während einer Verbindung geändert werden</string>
   <string name="excludeAlreadyExcluded">Bereits ausgeschlossen</string>
   <string name="removeExcludedIpDialogDescription">Möchten Sie diese IP wirklich aus der Liste entfernen?</string>
@@ -264,7 +266,6 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="welcomeDialogTitle">Vielen Dank für den Beitritt zur ständig wachsenden ProtonVPN-Gemeinschaft.</string>
   <string name="welcomeDialogDescription">Verwenden Sie Ihre neu erstellten Konten-Zugangsdaten zur Anmeldung.</string>
   <string name="welcomeDialogTitleTrial">Als Dankeschön geben wir Ihnen einen kostenlosen 7-Tage-Testversion unseres Plus-Pakets. Sie können damit erweiterte Funktionen und Plus-Server nutzen. Am Ende der Probezeit kehren Sie zu einem kostenlosen Plan zurück und haben nur Zugang zu frei verfügbaren Servern.</string>
-  <string name="trialRemainingTimeString"><![CDATA[<b>%1$d</b> Tage <b>%2$d</b> Stunden <b>%3$d</b> Minuten <b>%4$d</b> Sekunden]]></string>
   <string name="toastLoginAuthVersionError">Anmeldung aufgrund nicht unterstützter Authentifizierungsversion nicht möglich. Bitte kontaktieren Sie den Support.</string>
   <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuchen Sie es erneut.</string>
   <string name="buttonTroubleshoot"><![CDATA[<u>Problembehebung</u>]]></string>
@@ -285,22 +286,23 @@ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Für den Fall, dass Proton-Websites gesperrt sind, ermöglicht diese Einstellung der App, ein alternative Netzwerkweiterleitung auszuprobieren, um Proton zu erreichen, was zur Umgehung von Firewalls oder Netzwerkproblemen nützlich sein kann. Wir empfehlen, diese Einstellung für eine größere Zuverlässigkeit beizubehalten. <a href=\"%1$s\">Mehr erfahren</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
-  <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktivieren • VPN und Kill Switch</string>
+  <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktives VPN und Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Richtet ProtonVPN so ein, dass bei einer Unterbrechung Ihrer VPN-Verbindung die Verbindung automatisch wiederhergestellt oder externe Verbindungen deaktiviert werden.</string>
   <string name="settingsAlwaysOnWindowDescription">„Dauerhaft aktiviertes VPN verbindet Sie automatisch erneut mit Ihrem VPN-Server, wenn Ihre Verbindung unterbrochen wurde.
 
-Kill Switch verhindert, dass Ihr Gerät externe Verbindungen herstellt, wenn Sie vom VPN getrennt sind, und sorgt so für die Sicherheit Ihres Internetdatenstroms.
+Kill Switch (Not‐Trennung) verhindert, dass Ihr Gerät externe Verbindungen herstellt, wenn Sie vom VPN getrennt wurden, und sorgt so für die Sicherheit Ihres Internetdatenstroms.
 
 Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Öffnen Sie die <b>Einstellungen</b> Ihres Geräts, indem Sie auf die untere Schaltfläche tippen]]></string><!-- %1$s here will be replaced by "gear" icon -->
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Öffnen Sie die <b>Einstellungen</b> Ihres Geräts, indem Sie auf die untere Schaltfläche tippen]]></string>
+  <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Suchen Sie ProtonVPN und tippen Sie auf %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Tippen Sie auf den Schalter neben <b>VPN dauerhaft aktivieren</b>, um dies zu erreichen]]></string>
   <string name="settingsAlwaysOnWindowStep4Intro">Verfahren Sie ebenso, um „Kill Switch” zu aktivieren</string>
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tippen Sie auf den Schalter neben <b>Verbindungen ohne VPN sperren</b>, um Kill Switch zu aktivieren.]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tippen Sie auf den Schalter neben <b>Verbindungen ohne VPN sperren</b>, um Kill Switch (Not‐Trennung) zu aktivieren.]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android Einstellungen öffnen</string>
-  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Seien Sie sich bewusst, dass Split-Tunneling nicht funktioniert, wenn sowohl Kill Switch als auch Split-Tunneling aktiviert sind. Kill Switch sperrt alle Verbindungen außerhalb des VPN-Tunnels, einschließlich der durch Split-Tunneling aufgebauten Verbindungen.</string>
+  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Seien Sie sich bewusst, dass Split-Tunneling nicht funktioniert, wenn sowohl Kill Switch (Not‐Trennung) als auch Split-Tunneling aktiviert sind. Kill Switch sperrt alle Verbindungen außerhalb des VPN-Tunnels, einschließlich der durch Split-Tunneling aufgebauten Verbindungen.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Fehlen Ihnen einige Optionen? <a href=\"%1$s\">Tippen Sie hier, um mehr zu erfahren</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch und Always-On VPN sind nicht immer auf älteren Versionen des Android-Betriebssystems oder auf allen Android-Geräten verfügbar. Wenn Ihr Gerät kein Always-On VPN oder Kill Switch bietet, kann ProtonVPN nichts tun, um diese zu implementieren. Sie können Ihr Betriebssystem auf die neueste Version von Android aktualisieren und es erneut versuchen."</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">„Kill Switch (Not‐Trennung) und Always-On VPN sind nicht immer auf älteren Versionen des Android-Betriebssystems oder auf allen Android-Geräten verfügbar. Wenn Ihr Gerät kein Always-On VPN oder Kill Switch bietet, kann ProtonVPN nichts tun, um diese zu implementieren. Sie können Ihr Betriebssystem auf die neueste Version von Android aktualisieren und es erneut versuchen.”</string>
   <string name="settingsSmartProtocolTitle">Intelligentes Protokoll</string>
   <string name="settingsSmartProtocolDescription">Automatisch das Protokoll und den Port verwenden, die die beste Verbindungsqualität bieten.</string>
   <string name="netShieldEnabledWarning">Es scheint, als würden Sie häufig Be My Eyes-Anrufe tätigen. Um Ihre Vorgehensweise zu vereinfachen, können Sie einen Satz hinzufügen, um mit Siri einen Freiwilligen anzurufen.</string>
@@ -314,7 +316,7 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="netShieldReconnectionNeeded">Neuverbinden erforderlich</string>
   <string name="netShieldReconnectionDescription">Ihre Verbindung muss neu gestartet werden, um den NetShield-Modus zu ändern.\n\nHinweis: Wenn einige Webseiten nicht geladen werden, versuchen Sie, NetShield zu deaktivieren.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Ihre Verbindung muss neu aufgebaut werden, um den NetShield-Modus zu deaktivieren.</string>
-  <string name="netShieldPaidFeature">Diese Funktion erfordert ProtonVPN Plus.\nFühren Sie Online ein Umstieg durch, um alle Funktionen freizuschalten und ProtonVPN zu unterstützen.</string>
+  <string name="netShieldPaidFeature">Diese Funktion erfordert ein kostenpflichtiges ProtonVPN-Abonnement.\nErwerben Sie es online, um alle Funktionen nutzen zu können und ProtonVPN zu unterstützen.</string>
   <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
   <string name="onMaintenanceDetected">Der VPN-Server, mit dem Sie verbunden waren, wird derzeit gewartet. Wir haben Sie automatisch wieder mit dem schnellsten verfügbaren Server verbunden.</string>
   <string name="errorTunMultiUserPermission">Die VPN-Verbindung konnte aufgrund eines Konflikts zwischen Dual-App (z.B. Dual Messenger) und Split-Tunneling nicht initialisiert werden. Bitte deaktivieren Sie eine davon und starten Sie Ihr Gerät neu.</string>
@@ -336,13 +338,13 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="tv_detail_description_no_streaming_country">Streamen Sie mehr Ihrer bevorzugten Inhalte mit einem ProtonVPN Plus-Abo.</string>
   <string name="tv_detail_description_country_not_available">Dieses Land ist nicht verfügbar. Mit einem ProtonVPN Plus-Abo erhalten Sie weitere Streaming-Optionen.</string>
   <string name="tv_detail_description_plus">Streamen Sie Ihre bevorzugten Videos, Filme oder Sportarten mit Ihren Apps.</string>
-  <string name="tv_login_title_signin">Bei Ihrem ProtonVPN anmelden</string>
+  <string name="tv_login_title_signin">Bei ProtonVPN anmelden</string>
   <string name="tv_login_title_welcome">Streamen Sie Ihre bevorzugten Videoinhalte</string>
   <string name="tv_login_welcome_description">Schauen Sie sich Videoinhalte aus über 50 Ländern an, darunter YouTube und Twitch. Streamen Sie Netflix, Amazon Prime und Hulu mit ProtonVPN Plus.</string>
   <string name="tv_login_welcome_description_bottom"><![CDATA[Holen Sie sich Ihr ProtonVPN-Konto unter <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Anmelden</string>
   <string name="tv_login_step1_description"><![CDATA[Öffnen Sie <b>%1$s</b> auf Ihrem mobilen Gerät oder Computer]]></string>
-  <string name="tv_login_step2_description">In Ihrem ProtonVPN-Konto anmelden</string>
+  <string name="tv_login_step2_description">Bei ProtonVPN anmelden</string>
   <string name="tv_login_step3_description">Code eingeben:</string>
   <string name="tv_login_timer_label">Dieser Code verfällt in:</string>
   <string name="tv_login_refresh">Aktualisieren</string>
@@ -361,15 +363,24 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="tv_quick_connect_favourite">Favoriten</string>
   <string name="tv_trial_counter_label">Testversion</string>
   <string name="tv_trial_title">7 Tage uneingeschränktes Streaming</string>
-  <string name="tv_trial_description">Als Willkommensgeschenk erhalten Sie für die ersten 7 Tage Zugang zu allen ProtonVPN-Servern und Streaming-Diensten mit einem Probetarif „Plus”. Danach wird Ihr Plan wieder auf „Free” umgestellt und der Zugang zu einigen Diensten kann eingeschränkt sein. Ihre Testzeitraum endet in:</string>
+  <string name="tv_trial_summary"><![CDATA[Als Willkommensgeschenk haben Sie die ersten 7 Tage Zugang zu allen ProtonVPN-Servern und Streaming-Diensten mit einer <b>ProtonVPN Plus-Testversion</b>.<br> Danach wird Ihr Paket auf <b>ProtonVPN Free</b> zurückgestuft und Ihr Zugang zu bestimmten Diensten kann eingeschränkt sein.]]></string>
+  <string name="tv_trial_ends_in">Ihre Testversion endet in</string>
+  <plurals name="counter_days">
+    <item quantity="one">%1$s Tag</item>
+    <item quantity="other">%1$s Tagen</item>
+  </plurals>
   <plurals name="counter_hours">
-    <item quantity="one">%d Stunde</item>
-    <item quantity="other">%d Stunden</item>
-</plurals>
+    <item quantity="one">%1$s Stunde</item>
+    <item quantity="other">%1$s Stunden</item>
+  </plurals>
   <plurals name="counter_minutes">
-    <item quantity="one">%d Minute</item>
-    <item quantity="other">%d Minuten</item>
-</plurals>
+    <item quantity="one">%1$s Minute</item>
+    <item quantity="other">%1$s Minuten</item>
+  </plurals>
+  <plurals name="counter_seconds">
+    <item quantity="one">%1$s Sekunde</item>
+    <item quantity="other">%1$s Sekunden</item>
+  </plurals>
   <string name="tv_country_maintenance_dialog_title">Land derzeit nicht verfügbar</string>
   <string name="tv_country_maintenance_dialog_description">Bitte versuchen Sie es später erneut oder wählen Sie ein anderes Land.</string>
 </resources>

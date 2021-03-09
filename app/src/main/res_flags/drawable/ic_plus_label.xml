@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2021 Proton Technologies AG
+  ~
+  ~ This file is part of ProtonVPN.
+  ~
+  ~ ProtonVPN is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonVPN is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="25dp"
+    android:height="16dp"
+    android:viewportWidth="51"
+    android:viewportHeight="32">
+  <path
+      android:pathData="M4.47,0h42.05C49,0 51,2 51,4.47v23.05C51,30 49,32 46.53,32H4.47C2,32 0,30 0,27.53V4.47C0,2 2,0 4.47,0z"
+      android:fillColor="#989DA9"/>
+  <path
+      android:pathData="M11.21,17.68v4h-2.3V10.3h3.88c1.12,0 2.02,0.35 2.69,1.05s1.01,1.6 1.01,2.72s-0.33,1.99 -0.99,2.64c-0.67,0.65 -1.59,0.97 -2.76,0.97H11.21zM11.21,15.77h1.58c0.44,0 0.78,-0.14 1.02,-0.43s0.36,-0.7 0.36,-1.25c0,-0.57 -0.12,-1.02 -0.37,-1.35c-0.24,-0.34 -0.57,-0.51 -0.98,-0.52h-1.6L11.21,15.77L11.21,15.77zM20.32,19.77h4.03v1.91h-6.33V10.3h2.3V19.77zM32.89,10.3v7.88c-0.01,1.18 -0.34,2.09 -0.98,2.72c-0.64,0.62 -1.56,0.94 -2.76,0.94c-1.22,0 -2.15,-0.32 -2.8,-0.95c-0.64,-0.64 -0.96,-1.55 -0.96,-2.76v-7.82h2.31v7.83c0,0.65 0.1,1.11 0.31,1.38c0.21,0.28 0.59,0.41 1.13,0.41c0.55,0 0.92,-0.14 1.12,-0.41c0.2,-0.28 0.31,-0.73 0.31,-1.35V10.3C30.57,10.3 32.89,10.3 32.89,10.3zM39.44,18.7c0,-0.46 -0.12,-0.81 -0.36,-1.05c-0.23,-0.24 -0.66,-0.49 -1.29,-0.74c-1.14,-0.43 -1.96,-0.94 -2.46,-1.52s-0.75,-1.27 -0.75,-2.06c0,-0.96 0.34,-1.73 1.02,-2.3c0.68,-0.58 1.55,-0.88 2.59,-0.88c0.7,0 1.32,0.15 1.87,0.45c0.55,0.29 0.97,0.71 1.26,1.24c0.3,0.54 0.45,1.15 0.45,1.83h-2.29c0,-0.53 -0.11,-0.93 -0.34,-1.21c-0.22,-0.28 -0.55,-0.42 -0.98,-0.42c-0.4,0 -0.71,0.12 -0.94,0.36c-0.22,0.23 -0.34,0.55 -0.34,0.95c0,0.31 0.12,0.6 0.38,0.85c0.25,0.25 0.69,0.51 1.33,0.78c1.11,0.4 1.91,0.89 2.41,1.48c0.51,0.58 0.76,1.33 0.76,2.23c0,0.99 -0.32,1.76 -0.95,2.32s-1.49,0.84 -2.57,0.84c-0.73,0 -1.4,-0.15 -2.01,-0.45c-0.6,-0.3 -1.08,-0.73 -1.42,-1.3c-0.34,-0.56 -0.51,-1.23 -0.51,-1.99h2.3c0,0.66 0.13,1.13 0.38,1.43c0.26,0.3 0.67,0.45 1.25,0.45C39.04,19.97 39.44,19.54 39.44,18.7z"
+      android:fillColor="#262A33"/>
+</vector>

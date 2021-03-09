@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.testsHelper;
+package com.protonvpn.test.shared;
 
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.models.login.VPNInfo;

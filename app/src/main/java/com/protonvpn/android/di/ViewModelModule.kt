@@ -20,8 +20,11 @@ package com.protonvpn.android.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.protonvpn.android.tv.detailed.TvServerListViewModel
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
+import com.protonvpn.android.ui.drawer.AccountActivityViewModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
 import com.protonvpn.android.ui.home.profiles.ProfileViewModel
@@ -68,6 +71,16 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(TvServerListViewModel::class)
+    abstract fun bindsTvServerListViewModel(viewModel: TvServerListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindsMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(TvLoginViewModel::class)
     abstract fun bindsTvLoginViewModel(viewModel: TvLoginViewModel): ViewModel
 
@@ -75,6 +88,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TroubleshootViewModel::class)
     abstract fun bindsTroubleshootViewModel(viewModel: TroubleshootViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountActivityViewModel::class)
+    abstract fun bindsAccountActivityViewModel(viewModel: AccountActivityViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(vmFactory: ViewModelFactory): ViewModelProvider.Factory

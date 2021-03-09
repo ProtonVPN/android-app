@@ -42,7 +42,12 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
+import com.protonvpn.android.tv.TvGenericDialogActivity
+import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
+import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_ICON_RES
+import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_TITLE
 import okhttp3.internal.toHexString
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -75,6 +80,9 @@ object AndroidUtils {
             packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
     }
 
+    fun Context.isRtl() =
+        resources.configuration.layoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
+
     fun Boolean.toInt() = if (this) 1 else 0
 
     fun Context.displayDiagonalApprox(): Float {
@@ -94,6 +102,18 @@ object AndroidUtils {
         val intent = Intent(this, T::class.java)
         intent.init()
         startActivity(intent, options)
+    }
+
+    fun Context.launchTvDialog(
+        titleRes: String? = null,
+        descriptionRes: String? = null,
+        iconRes: Int? = null,
+    ) {
+        val intent = Intent(this, TvGenericDialogActivity::class.java)
+        titleRes?.let { intent.putExtra(EXTRA_TITLE, titleRes) }
+        descriptionRes?.let { intent.putExtra(EXTRA_DESCRIPTION, descriptionRes) }
+        iconRes?.let { intent.putExtra(EXTRA_ICON_RES, iconRes) }
+        startActivity(intent)
     }
 
     fun isPackageInstalled(context: Context, packageName: String) =

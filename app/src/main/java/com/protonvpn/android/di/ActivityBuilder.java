@@ -32,8 +32,7 @@ import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.vpn.LogActivity;
 import com.protonvpn.android.vpn.OpenVPNWrapperService;
-
-import org.strongswan.android.logic.CharonVpnService;
+import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
 
 import androidx.annotation.RequiresApi;
 import dagger.Module;
@@ -78,7 +77,7 @@ public abstract class ActivityBuilder {
     abstract TroubleshootActivity bindTroubleshootActivity();
 
     @ContributesAndroidInjector(modules = {CharonModule.class})
-    abstract CharonVpnService bindCharon();
+    abstract ProtonCharonVpnService bindCharon();
 
     @ContributesAndroidInjector(modules = {OpenVPNWrapperModule.class})
     abstract OpenVPNWrapperService bindOpenVPN();

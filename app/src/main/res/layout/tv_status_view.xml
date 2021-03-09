@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Proton Technologies AG
   ~
   ~ This file is part of ProtonVPN.
@@ -17,29 +16,58 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_horizontal"
-    android:paddingTop="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/textStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textStyle="bold"
         android:textSize="18sp"
-        tools:text="You are not connected"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="You are not connected" />
 
     <TextView
         android:id="@+id/textIp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        tools:text="IP: 127.0.0.1"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textStatus"
+        tools:text="IP: 127.0.0.1" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textTrialTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:alpha="0.5"
+        android:text="@string/tv_trial_ends_in"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textStatus" />
+
+    <TextView
+        android:id="@+id/textTrialPeriod"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.5"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTrialTitle"
+        tools:text="2 days 3 hours 15 minutes 23 seconds" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

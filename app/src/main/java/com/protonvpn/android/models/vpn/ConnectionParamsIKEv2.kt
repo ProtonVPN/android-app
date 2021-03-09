@@ -22,8 +22,8 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.utils.Constants
 import org.strongswan.android.data.VpnProfile
+import org.strongswan.android.data.VpnProfile.SelectedAppsHandling
 import org.strongswan.android.data.VpnType
 
 class ConnectionParamsIKEv2(
@@ -36,18 +36,28 @@ class ConnectionParamsIKEv2(
         name = server.displayName
 
         mtu = userData.mtuSize
+        natKeepAlive = NAT_KEEP_ALIVE_SECONDS
         vpnType = VpnType.IKEV2_EAP
         id = 1
-        userName = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
-                Constants.VPN_USERNAME_PRODUCT_SUFFIX
-        userPassword = userData.vpnPassword
-        splitTunneling =
-                VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
+        username = getVpnUsername(userData, appConfig)
+        password = userData.vpnPassword
+        splitTunneling = VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
         flags = VpnProfile.FLAGS_SUPPRESS_CERT_REQS
-        gateway = if (server.isSecureCoreServer) connectingDomain!!.entryIp else connectingDomain!!.getExitIP()
+        gateway = connectingDomain!!.entryIp
         remoteId = connectingDomain.entryDomain
 
-        setExcludedSubnets(if (userData.useSplitTunneling) userData.splitTunnelIpAddresses else ArrayList())
-        setSelectedApps(if (userData.useSplitTunneling) userData.splitTunnelApps else ArrayList())
+        if (userData.useSplitTunneling) {
+            userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
+                excludedSubnets = it.joinToString(" ")
+            }
+            userData.splitTunnelApps?.takeIf { it.isNotEmpty() }?.let {
+                selectedAppsHandling = SelectedAppsHandling.SELECTED_APPS_EXCLUDE
+                setSelectedApps(it.toSortedSet())
+            }
+        }
+    }
+
+    companion object {
+        private const val NAT_KEEP_ALIVE_SECONDS = 10
     }
 }

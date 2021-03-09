@@ -255,7 +255,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/subscriptionDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -270,10 +270,10 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textView12"
+            app:layout_constraintBottom_toBottomOf="@+id/subscriptionDetails"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView12"
+            app:layout_constraintStart_toEndOf="@+id/subscriptionDetails"
             tools:text="1m 25s" />
 
         <TextView
@@ -284,7 +284,7 @@
             android:text="@string/download_volume"
             android:textColor="@color/lightGrey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
 
         <TextView
             android:id="@+id/textView14"
