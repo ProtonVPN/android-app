@@ -25,13 +25,13 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 
-import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
-
+import org.strongswan.android.R;
 import org.strongswan.android.data.VpnProfile;
 import org.strongswan.android.data.VpnProfileDataSource;
 import org.strongswan.android.data.VpnType;
 import org.strongswan.android.logic.imc.ImcState;
 import org.strongswan.android.logic.imc.RemediationInstruction;
+import org.strongswan.android.ui.VpnProfileControlActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.Collections;
@@ -77,7 +77,6 @@ public class VpnStateService extends Service
 		LOOKUP_FAILED,
 		UNREACHABLE,
 		GENERIC_ERROR,
-		MULTI_USER_PERMISSION,
 		PASSWORD_MISSING,
 		CERTIFICATE_UNAVAILABLE,
 	}
@@ -209,7 +208,6 @@ public class VpnStateService extends Service
 	 *
 	 * @return error description text id
 	 */
-	/*
 	public int getErrorText()
 	{
 		switch (mError)
@@ -237,7 +235,6 @@ public class VpnStateService extends Service
 				return R.string.error_generic;
 		}
 	}
-	*/
 
 	/**
 	 * Get the current IMC state, if any.
@@ -277,7 +274,7 @@ public class VpnStateService extends Service
 		 * instead we call startService() with a specific action which shuts down
 		 * the daemon (and closes the TUN device, if any) */
 		Context context = getApplicationContext();
-		Intent intent = new Intent(context, ProtonCharonVpnService.class);
+		Intent intent = new Intent(context, CharonVpnService.class);
 		intent.setAction(CharonVpnService.DISCONNECT_ACTION);
 		context.startService(intent);
 	}
@@ -292,16 +289,13 @@ public class VpnStateService extends Service
 	{
 		/* we assume we have the necessary permission */
 		Context context = getApplicationContext();
-		Intent intent = new Intent(context, ProtonCharonVpnService.class);
+		Intent intent = new Intent(context, CharonVpnService.class);
 		if (profileInfo == null)
 		{
 			profileInfo = new Bundle();
-			if (mProfile != null)
-			{
-				profileInfo.putString(VpnProfileDataSource.KEY_UUID, mProfile.getUUID().toString());
-				/* pass the previous password along */
-				profileInfo.putString(VpnProfileDataSource.KEY_PASSWORD, mProfile.getPassword());
-			}
+			profileInfo.putString(VpnProfileDataSource.KEY_UUID, mProfile.getUUID().toString());
+			/* pass the previous password along */
+			profileInfo.putString(VpnProfileDataSource.KEY_PASSWORD, mProfile.getPassword());
 		}
 		if (fromScratch)
 		{
@@ -331,13 +325,11 @@ public class VpnStateService extends Service
 				mError == ErrorState.AUTH_FAILED)
 			{	/* show a dialog if we either don't have the password or if it might be the wrong
 				 * one (which is or isn't stored with the profile, let the activity decide)  */
-				/*
 				Intent intent = new Intent(this, VpnProfileControlActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.setAction(VpnProfileControlActivity.START_PROFILE);
 				intent.putExtra(VpnProfileControlActivity.EXTRA_VPN_PROFILE_ID, mProfile.getUUID().toString());
 				startActivity(intent);
-				*/
 				/* reset the retry timer immediately in case the user needs more time to enter the password */
 				notifyListeners(() -> {
 					resetRetryTimer();
@@ -555,13 +547,6 @@ public class VpnStateService extends Service
 			/* handle retry countdown */
 			if (mService.get().mRetryTimeout <= 0)
 			{
-				return;
-			}
-			// Don't retry on AUTH_FAILED
-			if (mService.get().getErrorState() == ErrorState.AUTH_FAILED)
-			{
-				mService.get().setError(ErrorState.NO_ERROR);
-				mService.get().setState(State.DISABLED);
 				return;
 			}
 			mService.get().mRetryIn -= RETRY_INTERVAL;
