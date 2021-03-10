@@ -102,7 +102,12 @@ public class Scheduler extends BroadcastReceiver
 			if (job == mJobs.peek())
 			{	/* update the alarm if the job has to be executed before all others */
 				PendingIntent pending = createIntent();
-				mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+					mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				else
+					// setExactAndAllowWhileIdle seems to be the source of battery drain on android 8/9, let's
+					// use setExact instead.
+					mManager.setExact(AlarmManager.RTC_WAKEUP, job.Time, pending);
 			}
 		}
 	}
@@ -129,7 +134,10 @@ public class Scheduler extends BroadcastReceiver
 			if (job != null)
 			{
 				PendingIntent pending = createIntent();
-				mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+					mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				else
+					mManager.setExact(AlarmManager.RTC_WAKEUP, job.Time, pending);
 			}
 		}
 
