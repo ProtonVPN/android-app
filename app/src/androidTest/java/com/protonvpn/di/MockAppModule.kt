@@ -171,8 +171,11 @@ class MockAppModule {
         vpnStateMonitor: VpnStateMonitor,
         serverListUpdater: ServerListUpdater,
         notificationHelper: NotificationHelper,
+        networkManager: NetworkManager,
+        vpnBackendProvider: VpnBackendProvider,
     ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-        serverManager, vpnStateMonitor, serverListUpdater, notificationHelper)
+        serverManager, vpnStateMonitor, serverListUpdater, notificationHelper, networkManager, vpnBackendProvider
+    )
 
     @Singleton
     @Provides
@@ -210,9 +213,10 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(): VpnBackendProvider = ProtonVpnBackendProvider(
+    fun provideVpnBackendManager(serverManager: ServerManager): VpnBackendProvider = ProtonVpnBackendProvider(
             strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(VpnProtocol.OpenVPN))
+            openVpn = MockVpnBackend(VpnProtocol.OpenVPN),
+            serverDeliver = serverManager)
 
     @Singleton
     @Provides

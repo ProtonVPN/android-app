@@ -46,6 +46,7 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
+import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -67,9 +68,15 @@ open class VpnConnectionManager(
 
     companion object {
         private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
+
+        private val RECOVERABLE_ERRORS = listOf(
+            ErrorType.AUTH_FAILED_INTERNAL,
+            ErrorType.LOOKUP_FAILED_INTERNAL,
+            ErrorType.UNREACHABLE_INTERNAL)
     }
 
     private var ongoingConnect: Job? = null
+    private var ongoingFallback: Job? = null
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
 
@@ -100,17 +107,24 @@ open class VpnConnectionManager(
             if (initialized) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-                var newState = it ?: VpnState.Disabled
-                if ((newState as? VpnState.Error)?.type == ErrorType.AUTH_FAILED_INTERNAL) {
-                    newState = VpnState.CheckingAvailability
-                    DebugUtils.debugAssert { ongoingConnect == null }
-                    ongoingConnect = scope.launch {
-                        checkAuthFailedReason()
-                    }
-                }
-                vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
+                val newState = it ?: VpnState.Disabled
+                val errorType = (newState as? VpnState.Error)?.type
 
-                ProtonLogger.log("VpnStateMonitor state=$it backend=${activeBackend?.name}")
+                if (errorType != null && errorType in RECOVERABLE_ERRORS) {
+                    if (ongoingFallback?.isActive != true) {
+                        ongoingFallback = scope.launch {
+                            handleRecoverableError(errorType, connectionParams!!)
+                            ongoingFallback = null
+                        }
+                    }
+                } else {
+                    if (!newState.isEstablishingConnection)
+                        clearOngoingFallback()
+
+                    vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
+                }
+
+                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.name}")
                 DebugUtils.debugAssert {
                     (state in arrayOf(VpnState.Connecting, VpnState.Connected, VpnState.Reconnecting))
                         .implies(connectionParams != null && activeBackend != null)
@@ -129,7 +143,7 @@ open class VpnConnectionManager(
 
         scope.launch {
             vpnErrorHandler.switchConnectionFlow.collect { fallback ->
-                if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection)
+                if (vpnStateMonitor.isEstablishingOrConnected)
                     fallbackConnect(fallback)
             }
         }
@@ -150,28 +164,56 @@ open class VpnConnectionManager(
         }
     }
 
-    private suspend fun checkAuthFailedReason() {
-        activeBackend?.setSelfState(VpnState.CheckingAvailability)
-        when (val result = vpnErrorHandler.onAuthError(lastProfile!!)) {
-            is VpnFallbackResult.SwitchProfile ->
+    private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
+        ProtonLogger.log("Attempting to recover from error: $errorType")
+        vpnStateMonitor.status.value = VpnStateMonitor.Status(VpnState.CheckingAvailability, params)
+        val result = when (errorType) {
+            ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
+                vpnErrorHandler.onUnreachableError(params)
+            ErrorType.AUTH_FAILED_INTERNAL ->
+                vpnErrorHandler.onAuthError(params)
+            else ->
+                VpnFallbackResult.Error(errorType)
+        }
+        when (result) {
+            is VpnFallbackResult.Switch ->
                 fallbackConnect(result)
             is VpnFallbackResult.Error -> {
-                ongoingConnect = null
+                ProtonLogger.log("Failed to recover, entering $result")
                 activeBackend?.setSelfState(VpnState.Error(result.type))
             }
         }
     }
 
-    private suspend fun fallbackConnect(fallback: VpnFallbackResult.SwitchProfile) {
+    private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
         fallback.notificationReason?.let {
             vpnStateMonitor.fallbackConnectionFlow.emit(it)
         }
-        connect(appContext, fallback.profile, "automatic fallback")
+
+        val sentryEvent = EventBuilder()
+            .withMessage("Fallback connect")
+            .withExtra("From", connectionParams?.connectingDomain?.entryDomain)
+            .withExtra("Info", fallback.log)
+            .build()
+        ProtonLogger.logSentryEvent(sentryEvent)
+        ProtonLogger.log("Fallback connect: ${fallback.log}")
+
+        when (fallback) {
+            is VpnFallbackResult.Switch.SwitchProfile ->
+                connectWithPermission(appContext, fallback.profile)
+            is VpnFallbackResult.Switch.SwitchServer ->
+                switchServerConnect(fallback)
+        }
     }
 
-    private suspend fun coroutineConnect(profile: Profile) {
-        // If smart profile fails we need this to handle reconnect request
-        lastProfile = profile
+    private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
+        clearOngoingConnection()
+        ongoingConnect = scope.launch {
+            preparedConnect(switch.preparedConnection)
+        }
+    }
+
+    private suspend fun smartConnect(profile: Profile) {
         val server = profile.server!!
         ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
@@ -192,6 +234,13 @@ open class VpnConnectionManager(
             preparedConnection = backendProvider.prepareConnection(userData.manualProtocol, profile, server)!!
         }
 
+        preparedConnect(preparedConnection)
+    }
+
+    private suspend fun preparedConnect(preparedConnection: PrepareResult) {
+        // If smart profile fails we need this to handle reconnect request
+        lastProfile = preparedConnection.connectionParams.profile
+
         val newBackend = preparedConnection.backend
         if (activeBackend != null && activeBackend != newBackend)
             disconnectBlocking()
@@ -205,7 +254,13 @@ open class VpnConnectionManager(
         ongoingConnect = null
     }
 
+    private fun clearOngoingFallback() {
+        ongoingFallback?.cancel()
+        ongoingFallback = null
+    }
+
     private fun clearOngoingConnection() {
+        clearOngoingFallback()
         ongoingConnect?.cancel()
         ongoingConnect = null
     }
@@ -245,7 +300,7 @@ open class VpnConnectionManager(
         if (profile.server != null) {
             clearOngoingConnection()
             ongoingConnect = scope.launch {
-                coroutineConnect(profile)
+                smartConnect(profile)
             }
         } else {
             notificationHelper.showInformationNotification(

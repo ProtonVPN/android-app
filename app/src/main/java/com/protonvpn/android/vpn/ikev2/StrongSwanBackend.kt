@@ -44,15 +44,18 @@ import me.proton.core.network.domain.NetworkStatus
 import org.strongswan.android.logic.VpnStateService
 import java.io.ByteArrayOutputStream
 import java.util.Random
+import java.util.concurrent.TimeUnit
 
 class StrongSwanBackend(
     val random: Random,
     private val networkManager: NetworkManager,
-    val mainScope: CoroutineScope
+    val mainScope: CoroutineScope,
+    val now: () -> Long,
 ) : VpnBackend("StrongSwan"), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
+    private var lastUnreachable = 0L
 
     init {
         bindCharonMonitor()
@@ -72,14 +75,13 @@ class StrongSwanBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        scan: Boolean
-    ): PrepareResult? {
+        scan: Boolean,
+        numberOfPorts: Int
+    ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        if (!scan || isServerAvailable(connectingDomain.entryIp)) return PrepareResult(
-            this,
-            ConnectionParamsIKEv2(profile, server, connectingDomain)
-        )
-        return null
+        if (!scan || isServerAvailable(connectingDomain.entryIp)) return listOf(
+            PrepareResult(this, ConnectionParamsIKEv2(profile, server, connectingDomain)))
+        return emptyList()
     }
 
     private suspend fun isServerAvailable(ip: String) =
@@ -147,22 +149,32 @@ class StrongSwanBackend(
     private fun translateError(error: VpnStateService.ErrorState) = when (error) {
         VpnStateService.ErrorState.AUTH_FAILED -> ErrorType.AUTH_FAILED_INTERNAL
         VpnStateService.ErrorState.PEER_AUTH_FAILED -> ErrorType.PEER_AUTH_FAILED
-        VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED
-        VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE
+        VpnStateService.ErrorState.LOOKUP_FAILED -> ErrorType.LOOKUP_FAILED_INTERNAL
+        VpnStateService.ErrorState.UNREACHABLE -> ErrorType.UNREACHABLE_INTERNAL
         VpnStateService.ErrorState.MULTI_USER_PERMISSION -> ErrorType.MULTI_USER_PERMISSION
         else -> ErrorType.GENERIC_ERROR
     }
 
     override fun stateChanged() {
         vpnService?.let {
-            selfStateObservable.postValue(translateState(it.state, it.errorState))
+            val newState = translateState(it.state, it.errorState)
+            if (newState.isUnreachable()) {
+                // Limit frequency of unreachable notifications
+                if (selfState.isUnreachable() && now() - lastUnreachable < UNREACHABLE_MIN_INTERVAL_MS)
+                    return
+                lastUnreachable = now()
+            }
+            selfStateObservable.postValue(newState)
         }
         debugAssert {
             (selfState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
     }
 
+    private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type == ErrorType.UNREACHABLE_INTERNAL
+
     companion object {
         private const val STRONGSWAN_PORT = 500
+        private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
     }
 }

@@ -29,11 +29,16 @@ import com.protonvpn.android.vpn.VpnState
 
 class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
 
-    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean) =
+    override suspend fun prepareForConnection(
+        profile: Profile,
+        server: Server,
+        scan: Boolean,
+        numberOfPorts: Int
+    ): List<PrepareResult> =
         if (scan && failScanning)
-            null
-        else PrepareResult(this, object : ConnectionParams(
-                profile, server, server.getRandomConnectingDomain(), protocol) {})
+            emptyList()
+        else listOf(PrepareResult(this, object : ConnectionParams(
+                profile, server, server.getRandomConnectingDomain(), protocol) {}))
 
     override suspend fun connect() {
         setSelfState(VpnState.Connecting)

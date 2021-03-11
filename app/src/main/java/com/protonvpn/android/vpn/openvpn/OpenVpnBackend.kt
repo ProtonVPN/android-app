@@ -21,13 +21,13 @@ package com.protonvpn.android.vpn.openvpn
 import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
@@ -68,41 +68,71 @@ class OpenVpnBackend(
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
 
-    override suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult? {
+    override suspend fun prepareForConnection(
+        profile: Profile,
+        server: Server,
+        scan: Boolean,
+        numberOfPorts: Int
+    ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val protocolInfo = if (!scan) {
             val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
                 openVpnPorts.getUdpPorts() else openVpnPorts.getTcpPorts()).random()
-            ProtocolInfo(transmissionProtocol, port)
+            listOf(ProtocolInfo(transmissionProtocol, port))
         } else {
-            scanPorts(connectingDomain)
+            scanPorts(connectingDomain, numberOfPorts)
         }
-        return protocolInfo?.let {
+        return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
                     profile, server, connectingDomain, it.transmissionProtocol, it.port))
         }
     }
 
-    private suspend fun scanPorts(connectingDomain: ConnectingDomain): ProtocolInfo? {
+    private suspend fun scanPorts(
+        connectingDomain: ConnectingDomain,
+        numberOfPorts: Int = Int.MAX_VALUE
+    ): List<ProtocolInfo> {
         val openVpnPorts = appConfig.getOpenVPNPorts()
-        val udpPingData = getPingData(tcp = false)
-        var transmissionProtocol = TransmissionProtocol.UDP
-        var availablePort = scanInParallel(
-                openVpnPorts.getUdpPorts().shuffled(), connectingDomain.entryIp, udpPingData, withTcp = false)
+        val result = mutableListOf<ProtocolInfo>()
+        coroutineScope {
+            val udpPingData = getPingData(tcp = false)
+            val udpPort = async {
+                scanInParallel(
+                    samplePorts(openVpnPorts.getUdpPorts(), numberOfPorts),
+                    connectingDomain.entryIp,
+                    udpPingData,
+                    withTcp = false)
+            }
 
-        if (availablePort == null) {
             val tcpPingData = getPingData(tcp = true)
-            transmissionProtocol = TransmissionProtocol.TCP
-            availablePort = scanInParallel(
-                    openVpnPorts.getTcpPorts().shuffled(), connectingDomain.entryIp, tcpPingData, withTcp = true)
+            val tcpPort = async {
+                scanInParallel(
+                    samplePorts(openVpnPorts.getTcpPorts(), numberOfPorts),
+                    connectingDomain.entryIp,
+                    tcpPingData,
+                    withTcp = true)
+            }
+
+            udpPort.await()?.let {
+                result += ProtocolInfo(TransmissionProtocol.UDP, it)
+            }
+            tcpPort.await()?.let {
+                result += ProtocolInfo(TransmissionProtocol.TCP, it)
+            }
         }
-        return availablePort?.let { ProtocolInfo(transmissionProtocol, it) }
+        return result
     }
 
+    private fun samplePorts(list: List<Int>, count: Int) =
+        if (list.contains(PRIMARY_PORT))
+            list.filter { it != PRIMARY_PORT }.shuffled().take(count - 1).toSet() + setOf(PRIMARY_PORT)
+        else
+            list.shuffled().take(count).toSet()
+
     private suspend fun scanInParallel(
-        ports: List<Int>,
+        ports: Set<Int>,
         ip: String,
         data: ByteArray,
         withTcp: Boolean
@@ -110,7 +140,7 @@ class OpenVpnBackend(
         val available = ports.map { port ->
             async {
                 port.takeIf {
-                    NetUtils.ping(ip, port, data, withTcp, timeout = 3000)
+                    NetUtils.ping(ip, port, data, withTcp)
                 }
             }
         }.mapNotNull {
@@ -213,27 +243,29 @@ class OpenVpnBackend(
             return
         }
 
-        val translatedState = if (openVpnState == "RECONNECTING" && logmessage?.startsWith("tls-error") == true) {
-            VpnState.Error(ErrorType.PEER_AUTH_FAILED)
-        } else if (openVpnState == "RECONNECTING") {
-            VpnState.Reconnecting
-        } else when (level) {
-            ConnectionStatus.LEVEL_CONNECTED ->
-                VpnState.Connected
-            ConnectionStatus.LEVEL_CONNECTING_SERVER_REPLIED, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET,
-            ConnectionStatus.LEVEL_START, ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT ->
-                VpnState.Connecting
-            ConnectionStatus.LEVEL_NONETWORK ->
-                VpnState.WaitingForNetwork
-            ConnectionStatus.LEVEL_NOTCONNECTED, ConnectionStatus.LEVEL_VPNPAUSED ->
-                VpnState.Disabled
-            ConnectionStatus.LEVEL_AUTH_FAILED ->
-                VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
-            ConnectionStatus.UNKNOWN_LEVEL ->
-                VpnState.Error(ErrorType.GENERIC_ERROR)
-            ConnectionStatus.LEVEL_MULTI_USER_PERMISSION ->
-                VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
-            null -> VpnState.Disabled
+        val translatedState = when {
+            openVpnState == "CONNECTRETRY" && level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET ->
+                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+            openVpnState == "RECONNECTING" -> if (logmessage?.startsWith("tls-error") == true)
+                VpnState.Error(ErrorType.PEER_AUTH_FAILED) else VpnState.Reconnecting
+            else -> when (level) {
+                ConnectionStatus.LEVEL_CONNECTED ->
+                    VpnState.Connected
+                ConnectionStatus.LEVEL_CONNECTING_SERVER_REPLIED, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET,
+                ConnectionStatus.LEVEL_START, ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT ->
+                    VpnState.Connecting
+                ConnectionStatus.LEVEL_NONETWORK ->
+                    VpnState.WaitingForNetwork
+                ConnectionStatus.LEVEL_NOTCONNECTED, ConnectionStatus.LEVEL_VPNPAUSED ->
+                    VpnState.Disabled
+                ConnectionStatus.LEVEL_AUTH_FAILED ->
+                    VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
+                ConnectionStatus.UNKNOWN_LEVEL ->
+                    VpnState.Error(ErrorType.GENERIC_ERROR)
+                ConnectionStatus.LEVEL_MULTI_USER_PERMISSION ->
+                    VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
+                null -> VpnState.Disabled
+            }
         }
         DebugUtils.debugAssert {
             (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
@@ -243,5 +275,9 @@ class OpenVpnBackend(
 
     override fun setConnectedVPN(uuid: String) {
         Log.e("set connected vpn: $uuid")
+    }
+
+    companion object {
+        private const val PRIMARY_PORT = 443
     }
 }

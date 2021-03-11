@@ -40,6 +40,7 @@ class VpnStateMonitor {
 
     val isConnected get() = state == Connected && connectionParams != null
     val isEstablishingConnection get() = state.isEstablishingConnection
+    val isEstablishingOrConnected get() = isConnected || state.isEstablishingConnection
     val isDisabled get() = state == Disabled
 
     val connectingToServer

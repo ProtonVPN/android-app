@@ -45,8 +45,8 @@ class ProfileViewModel @Inject constructor(
     fun initWithProfile(profile: Profile?) {
         editableProfile = profile
         if (profile != null) {
-            secureCoreEnabled = profile.isSecureCore
             profile.wrapper.setDeliverer(serverManager)
+            secureCoreEnabled = profile.isSecureCore
         }
     }
 

@@ -35,7 +35,7 @@ public final class ServerWrapper implements Listable, Serializable {
     @NotNull public ProfileType type;
     public String country;
     public String serverId;
-    public boolean secureCoreCountry;
+    private boolean secureCoreCountry;
     private transient ServerDeliver deliver;
 
     @Override
@@ -73,8 +73,14 @@ public final class ServerWrapper implements Listable, Serializable {
                 context.getString(R.string.serverLabelUpgrade, name);
     }
 
-    public void setSecureCoreCountry(boolean secureCoreCountry) {
+    public void setSecureCore(boolean secureCoreCountry) {
         this.secureCoreCountry = secureCoreCountry;
+    }
+
+    public boolean isSecureCore() {
+        if (type == ProfileType.DIRECT)
+            return getDirectServer().isSecureCoreServer();
+        return secureCoreCountry;
     }
 
     public enum ProfileType {
@@ -97,7 +103,7 @@ public final class ServerWrapper implements Listable, Serializable {
         return type.equals(ProfileType.FASTEST) || type.equals(ProfileType.RANDOM);
     }
 
-    private ServerWrapper(ProfileType type, String country, String serverId, ServerDeliver deliver) {
+    private ServerWrapper(@NotNull ProfileType type, String country, String serverId, ServerDeliver deliver) {
         this.type = type;
         this.country = country;
         this.serverId = serverId;
@@ -124,13 +130,19 @@ public final class ServerWrapper implements Listable, Serializable {
         return new ServerWrapper(ProfileType.RANDOM_IN_COUNTRY, country, "", deliver);
     }
 
-    boolean isSecureCoreServer() {
-        return secureCoreCountry;
-    }
-
     @Nullable
     public Server getServer() {
         return deliver.getServer(this);
+    }
+
+    @Nullable
+    public Server getDirectServer() {
+        return type == ProfileType.DIRECT? getServer() : null;
+    }
+
+    @Nullable
+    public String getCity() {
+        return type == ProfileType.DIRECT? getDirectServer().getCity() : null;
     }
 
     // Country to which this profile would connect
