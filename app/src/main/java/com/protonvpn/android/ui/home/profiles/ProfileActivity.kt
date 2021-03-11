@@ -115,7 +115,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                     newProfile.apply {
                         setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
                         setProtocol(protocolSelection.protocol)
-                        wrapper.setSecureCoreCountry(switchSecureCore.isChecked)
+                        wrapper.setSecureCore(switchSecureCore.isChecked)
                     }
                     viewModel.saveProfile(newProfile)
                     setResult(Activity.RESULT_OK)

@@ -44,7 +44,7 @@ data class Server(
     @SerialName(value = "Tier") val tier: Int,
     @SerialName(value = "Region") val region: String?,
     @SerialName(value = "City") val city: String?,
-    @SerialName(value = "Features") private val features: Int,
+    @SerialName(value = "Features") val features: Int,
     @SerialName(value = "Location") private val location: Location,
 
     @SerialName(value = "Score") var score: Float,
@@ -132,8 +132,9 @@ data class Server(
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 
-    fun getRandomConnectingDomain() =
-            connectingDomains.filter(ConnectingDomain::isOnline).random()
+    val onlineConnectingDomains get() = connectingDomains.filter(ConnectingDomain::isOnline)
+
+    fun getRandomConnectingDomain() = onlineConnectingDomains.random()
 
     override fun toString() = "$domain $entryCountry"
 

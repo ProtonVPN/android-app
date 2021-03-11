@@ -171,8 +171,10 @@ class AppModule {
         vpnStateMonitor: VpnStateMonitor,
         serverListUpdater: ServerListUpdater,
         notificationHelper: NotificationHelper,
+        networkManager: NetworkManager,
+        vpnBackendProvider: VpnBackendProvider,
     ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-            serverManager, vpnStateMonitor, serverListUpdater, notificationHelper)
+            serverManager, vpnStateMonitor, serverListUpdater, notificationHelper, networkManager, vpnBackendProvider)
 
     @Singleton
     @Provides
@@ -214,11 +216,13 @@ class AppModule {
     fun provideVpnBackendManager(
         userData: UserData,
         networkManager: NetworkManager,
-        appConfig: AppConfig
+        appConfig: AppConfig,
+        serverManager: ServerManager
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
-                StrongSwanBackend(random, networkManager, scope),
-                OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis))
+                StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
+                OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
+                serverManager)
 
     @Singleton
     @Provides

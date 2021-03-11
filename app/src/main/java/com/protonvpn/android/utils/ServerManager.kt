@@ -237,7 +237,7 @@ class ServerManager(
     fun addToProfileList(serverName: String?, color: String?, server: Server) {
         val newProfile =
                 Profile(serverName!!, color!!, ServerWrapper.makeWithServer(server, this))
-        newProfile.wrapper.setSecureCoreCountry(userData.isSecureCoreEnabled)
+        newProfile.wrapper.setSecureCore(userData.isSecureCoreEnabled)
         addToProfileList(newProfile)
     }
 
@@ -275,11 +275,11 @@ class ServerManager(
         ProfileType.RANDOM ->
             getRandomServer()
         ProfileType.RANDOM_IN_COUNTRY ->
-            getVpnExitCountry(wrapper.country, wrapper.secureCoreCountry)?.let {
+            getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
                 getRandomServer(it)
             }
         ProfileType.FASTEST_IN_COUNTRY ->
-            getVpnExitCountry(wrapper.country, wrapper.secureCoreCountry)?.let {
+            getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
                 getBestScoreServer(it)
             }
         ProfileType.DIRECT ->
@@ -293,6 +293,12 @@ class ServerManager(
         streamingServices = value
         Storage.save(this)
     }
+
+    // Sorted by score (best at front)
+    fun getOnlineServers(secureCore: Boolean): List<Server> =
+        getExitCountries(secureCore).asSequence().flatMap { country ->
+            country.serverList.filter { it.online }.asSequence()
+        }.sortedBy { it.score }.toList()
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
         getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }

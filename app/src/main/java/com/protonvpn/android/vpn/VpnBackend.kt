@@ -32,11 +32,21 @@ data class PrepareResult(val backend: VpnBackend, val connectionParams: Connecti
 
 interface VpnBackendProvider {
     suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?
+
+    // Returns first from [preferenceList] that responded in a given time frame or null
+    suspend fun pingAll(preferenceList: List<PhysicalServer>): PingResult?
+    data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 
 abstract class VpnBackend(val name: String) : VpnStateSource {
 
-    abstract suspend fun prepareForConnection(profile: Profile, server: Server, scan: Boolean): PrepareResult?
+    abstract suspend fun prepareForConnection(
+        profile: Profile,
+        server: Server,
+        scan: Boolean,
+        numberOfPorts: Int = Int.MAX_VALUE // Max number of ports to be scanned
+    ): List<PrepareResult>
+
     abstract suspend fun connect()
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()

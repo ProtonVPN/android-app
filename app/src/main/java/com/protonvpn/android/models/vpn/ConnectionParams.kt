@@ -19,6 +19,7 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -32,6 +33,7 @@ open class ConnectionParams(
 ) : java.io.Serializable {
 
     open val info get() = "Profile: ${profile.name} IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
+    open val transmission: TransmissionProtocol? get() = null
 
     val exitIpAddress: String?
         get() = connectingDomain?.getExitIP()
@@ -43,4 +45,9 @@ open class ConnectionParams(
             username += "+b:${connectingDomain?.label}"
         return username
     }
+
+    override fun toString() = info
+
+    open fun hasSameProtocolParams(other: ConnectionParams) =
+        other.protocol == protocol
 }

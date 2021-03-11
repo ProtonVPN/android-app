@@ -34,7 +34,7 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.test.shared.ApiNotificationTestHelper
-import com.protonvpn.testsHelper.MockedServers
+import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

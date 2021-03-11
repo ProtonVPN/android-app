@@ -39,7 +39,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.di.MockNetworkManager
 import com.protonvpn.di.MockVpnConnectionManager
 import com.protonvpn.mocks.MockVpnBackend
-import com.protonvpn.testsHelper.MockedServers
+import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -91,7 +91,7 @@ class VpnConnectionTests {
     private lateinit var profileIKEv2: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
-    private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.SwitchProfile>()
+    private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
     @Before
     fun setup() {
@@ -106,7 +106,8 @@ class VpnConnectionTests {
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
-        val backendProvider = ProtonVpnBackendProvider(strongSwan = mockStrongSwan, openVpn = mockOpenVpn)
+        val backendProvider = ProtonVpnBackendProvider(
+            strongSwan = mockStrongSwan, openVpn = mockOpenVpn, serverDeliver = serverManager)
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
@@ -195,7 +196,7 @@ class VpnConnectionTests {
         mockOpenVpn.stateOnConnect = VpnState.Connected
 
         coEvery { vpnErrorHandler.onAuthError(any()) } returns
-            VpnFallbackResult.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree)
+            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree)
 
         val fallbacks = mutableListOf<SwitchServerReason>()
         val collectJob = launch {
@@ -245,6 +246,35 @@ class VpnConnectionTests {
     }
 
     @Test
+    fun handleUnreachableFallbackToOtherProtocol() = runBlockingTest {
+        mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+
+        val fallbackConnection = mockOpenVpn.prepareForConnection(
+            fallbackOpenVpnProfile, fallbackOpenVpnProfile.server!!, true).first()
+        coEvery { vpnErrorHandler.onUnreachableError(any()) } returns VpnFallbackResult.Switch.SwitchServer(
+            fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
+            compatibleProtocol = false, switchedSecureCore = false
+        )
+
+        val fallbacks = mutableListOf<SwitchServerReason>()
+        val collectJob = launch {
+            monitor.fallbackConnectionFlow.collect {
+                fallbacks += it
+            }
+        }
+
+        manager.connect(context, profileIKEv2)
+        advanceUntilIdle()
+        collectJob.cancel()
+
+        coVerify(exactly = 1) {
+            mockStrongSwan.connect()
+        }
+
+        Assert.assertEquals(listOf(SwitchServerReason.ServerUnreachable), fallbacks)
+    }
+
+    @Test
     fun testSwitchingConnection() = runBlockingTest {
         val fallbacks = mutableListOf<SwitchServerReason>()
         val collectJob = launch {
@@ -259,7 +289,7 @@ class VpnConnectionTests {
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
         switchServerFlow.emit(
-            VpnFallbackResult.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
+            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
         advanceUntilIdle()
 
         collectJob.cancel()
@@ -278,7 +308,7 @@ class VpnConnectionTests {
         }
 
         switchServerFlow.emit(
-            VpnFallbackResult.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
+            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
         advanceUntilIdle()
 
         collectJob.cancel()
