@@ -107,12 +107,12 @@ build debug:
     paths:
     - app/build/outputs/apk
 
-build blue:
+build black:
   stage: build
   tags:
     - large
   script:
-    - ./gradlew assembleBlueDebug
+    - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
     expire_in: 1 week
