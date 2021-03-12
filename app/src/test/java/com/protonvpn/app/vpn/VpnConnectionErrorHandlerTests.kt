@@ -110,7 +110,9 @@ class VpnConnectionErrorHandlerTests {
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { userData.vpnInfoResponse?.maxSessionCount } returns 2
         every { userData.userTier } returns 2
+        every { userData.isSmartReconnectEnabled } returns true
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
+        every { appConfig.getFeatureFlags().smartReconnect } returns true
         every { networkManager.isConnectedToNetwork() } returns true
         every { userData.isSecureCoreEnabled } returns false
         every { vpnStateMonitor.isEstablishingOrConnected } returns false

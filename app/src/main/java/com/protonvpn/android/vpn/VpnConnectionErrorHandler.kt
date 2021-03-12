@@ -151,6 +151,9 @@ class VpnConnectionErrorHandler(
         Features, Tier, City, Country, SecureCore
     }
 
+    private val smartReconnectEnabled get() =
+        appConfig.getFeatureFlags().smartReconnect && userData.isSmartReconnectEnabled
+
     suspend fun onUnreachableError(connectionParams: ConnectionParams): VpnFallbackResult =
         fallbackToCompatibleServer(connectionParams.profile, connectionParams, SwitchServerReason.ServerUnreachable)
             ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
@@ -160,6 +163,11 @@ class VpnConnectionErrorHandler(
         orgParams: ConnectionParams?,
         reason: SwitchServerReason
     ): VpnFallbackResult.Switch? {
+        if (!smartReconnectEnabled) {
+            ProtonLogger.log("Smart Reconnect disabled")
+            return null
+        }
+
         if (!networkManager.isConnectedToNetwork()) {
             ProtonLogger.log("No internet: aborting fallback")
             return null
@@ -370,8 +378,10 @@ class VpnConnectionErrorHandler(
                 notificationHelper.showInformationNotification(
                     appContext, appContext.getString(R.string.onMaintenanceDetected)
                 )
-                return fallbackToCompatibleServer(connectionParams.profile,
-                    null, SwitchServerReason.ServerInMaintenance)
+                return if (smartReconnectEnabled)
+                    fallbackToCompatibleServer(connectionParams.profile, null, SwitchServerReason.ServerInMaintenance)
+                else
+                    VpnFallbackResult.Switch.SwitchProfile(serverManager.defaultFallbackConnection)
             }
         }
         return null

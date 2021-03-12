@@ -33,5 +33,6 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "DisplayTVLogos") val displayTVLogos: Boolean = true
+    @SerialName(value = "DisplayTVLogos") val displayTVLogos: Boolean = true,
+    @SerialName(value = "SmartReconnect") val smartReconnect: Boolean = false,
 ) : java.io.Serializable

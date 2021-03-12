@@ -138,6 +138,20 @@
             app:textDescription="@string/settingsAllowAlternativeRoutingDescription"
             app:textTitle="@string/settingsAllowAlternativeRoutingTitle" />
 
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/smartReconnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textDescription="@string/settingsSmartReconnectDescription"
+            app:textTitle="@string/settingsSmartReconnectTitle" />
+
+        <com.protonvpn.android.components.ProtonSwitch
+            android:id="@+id/smartReconnectNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textDescription="@string/settingsSmartReconnectNotificationsDescription"
+            app:textTitle="@string/settingsSmartReconnectNotificationsTitle" />
+
         <com.protonvpn.android.components.ProtocolSelection
             android:id="@+id/protocolSelection"
             android:layout_width="match_parent"
