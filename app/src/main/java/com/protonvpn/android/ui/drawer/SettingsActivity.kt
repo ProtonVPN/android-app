@@ -48,7 +48,6 @@ import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
@@ -77,6 +76,8 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
+    @BindView(R.id.smartReconnect) lateinit var smartReconnect: ProtonSwitch
+    @BindView(R.id.smartReconnectNotifications) lateinit var smartReconnectNotifications: ProtonSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
@@ -174,8 +175,29 @@ class SettingsActivity : BaseActivity() {
             userPrefs.setBypassLocalTraffic(isChecked)
         }
 
+        initSmartReconnectToggles()
+
         buttonLicenses.setOnClickListener {
             navigateTo(OssLicensesActivity::class.java)
+        }
+    }
+
+    private fun initSmartReconnectToggles() {
+        if (appConfig.getFeatureFlags().smartReconnect) {
+            smartReconnect.switchProton.isChecked = userPrefs.isSmartReconnectEnabled
+            smartReconnect.switchProton.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.isSmartReconnectEnabled = isChecked
+                smartReconnectNotifications.isVisible = isChecked
+            }
+
+            smartReconnectNotifications.isVisible = userPrefs.isSmartReconnectEnabled
+            smartReconnectNotifications.switchProton.isChecked = userPrefs.showSmartReconnectNotifications()
+            smartReconnectNotifications.switchProton.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.setShowSmartReconnectNotifications(isChecked)
+            }
+        } else {
+            smartReconnect.isVisible = false
+            smartReconnectNotifications.isVisible = false
         }
     }
 

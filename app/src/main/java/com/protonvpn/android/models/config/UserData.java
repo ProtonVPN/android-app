@@ -66,6 +66,8 @@ public final class UserData implements Serializable {
     private boolean apiUseDoH;
     private NetShieldProtocol netShieldProtocol;
     private boolean useSmartProtocol;
+    private boolean smartReconnect;
+    private boolean showSmartReconnectNotifications;
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
@@ -82,6 +84,8 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
+        smartReconnect = true;
+        showSmartReconnectNotifications = true;
     }
 
     public String getUser() {
@@ -321,6 +325,24 @@ public final class UserData implements Serializable {
 
     public void setUseSmartProtocol(boolean value) {
         useSmartProtocol = value;
+        saveToStorage();
+    }
+
+    public boolean isSmartReconnectEnabled() {
+        return smartReconnect;
+    }
+
+    public void setSmartReconnectEnabled(boolean value) {
+        smartReconnect = value;
+        saveToStorage();
+    }
+
+    public boolean showSmartReconnectNotifications() {
+        return showSmartReconnectNotifications;
+    }
+
+    public void setShowSmartReconnectNotifications(boolean value) {
+        showSmartReconnectNotifications = value;
         saveToStorage();
     }
 
