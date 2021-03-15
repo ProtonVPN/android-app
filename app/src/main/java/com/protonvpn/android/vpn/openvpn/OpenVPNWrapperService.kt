@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn.openvpn
 
+import android.content.Intent
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
@@ -45,7 +46,11 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
         super.onCreate()
         AndroidInjection.inject(this)
         NotificationHelper.initNotificationChannel(applicationContext)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun getProfile(): VpnProfile? =

@@ -64,10 +64,6 @@ class ProtonCharonVpnService : CharonVpnService() {
         Log.i("[IKEv2] onCreate")
         AndroidInjection.inject(this)
         startCaptureLogFile()
-
-        // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
-        // let's keep it in foreground to protect it from being killed by the system.
-        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
     }
 
     override fun onDestroy() {
@@ -86,6 +82,9 @@ class ProtonCharonVpnService : CharonVpnService() {
         Constants.NOTIFICATION_ID
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
+        // let's keep it in foreground to protect it from being killed by the system.
+        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
         when {
             intent == null ->
                 handleRestoreState()
@@ -100,7 +99,6 @@ class ProtonCharonVpnService : CharonVpnService() {
                 setNextProfile(serverToConnect?.getStrongSwanProfile(userData, appConfig))
                 Log.i("[IKEv2] start next profile: " + serverToConnect?.server?.displayName)
                 return if (serverToConnect != null) {
-                    startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
                     START_STICKY
                 } else
                     START_NOT_STICKY
