@@ -234,7 +234,7 @@
   <string name="profileFastest">Schnellster</string>
   <string name="profileRandom">Zufällig</string>
   <string name="settingsSplitTunnelingDescription">Durch geteiltes Tunneln können bestimmte Anwendungen oder IPs vom VPN-Verkehr ausgeschlossen werden.</string>
-  <string name="settingsSplitTunnelingTitle">Geteiltes Tunneln</string>
+  <string name="settingsSplitTunnelingTitle">Split‐Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s im Wartungsmodus</string>
   <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
   <string name="loaderAuthenticatingUser">Benutzer wird authentifiziert …</string>
