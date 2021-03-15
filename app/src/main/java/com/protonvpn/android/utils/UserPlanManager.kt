@@ -41,6 +41,8 @@ class UserPlanManager(
         }
         object UserBecameDelinquent : InfoChange()
         object VpnCredentials : InfoChange()
+
+        override fun toString(): String = this.javaClass.simpleName
     }
 
     fun isTrialUser() = "trial" == userData.vpnInfoResponse?.userTierName
@@ -78,6 +80,7 @@ class UserPlanManager(
             changes
         }
         changes.whenNotNullNorEmpty {
+            ProtonLogger.log("VPN info change $it")
             infoChangeFlow.emit(it)
         }
         return changes
