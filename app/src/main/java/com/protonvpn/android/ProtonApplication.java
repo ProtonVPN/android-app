@@ -72,6 +72,8 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
 
         if (BuildConfig.DEBUG)
             initLeakCanary();
+
+        ProtonLogger.INSTANCE.log("App start");
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
