@@ -46,7 +46,6 @@ import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
@@ -126,7 +125,6 @@ class SettingsActivity : BaseActivity() {
             userPrefs.useSmartProtocol = protocolSelection.useSmart
             userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
-            switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
             initSplitTunneling(userPrefs.useSplitTunneling)
         }
         spinnerDefaultConnection.setItems(serverManager.getSavedProfiles())
@@ -168,7 +166,6 @@ class SettingsActivity : BaseActivity() {
             scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
         }
 
-        switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
         switchBypassLocal.switchProton.isChecked = userPrefs.bypassLocalTraffic()
         switchBypassLocal.switchProton.setOnTouchListener(disableWhenConnectedListener)
         switchBypassLocal.switchProton.setOnCheckedChangeListener { _, isChecked ->

@@ -96,7 +96,7 @@ class ProtonCharonVpnService : CharonVpnService() {
             }
             else -> {
                 val serverToConnect = Storage.load(ConnectionParams::class.java, ConnectionParamsIKEv2::class.java)
-                setNextProfile(serverToConnect?.getStrongSwanProfile(userData, appConfig))
+                setNextProfile(serverToConnect?.getStrongSwanProfile(this, userData, appConfig))
                 Log.i("[IKEv2] start next profile: " + serverToConnect?.server?.displayName)
                 return if (serverToConnect != null) {
                     START_STICKY
