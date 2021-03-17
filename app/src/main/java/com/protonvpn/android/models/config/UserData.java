@@ -20,11 +20,13 @@ package com.protonvpn.android.models.config;
 
 import android.os.Build;
 
+import com.protonvpn.android.ProtonApplication;
 import com.protonvpn.android.api.ApiSessionProvider;
 import com.protonvpn.android.models.login.LoginResponse;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
 
@@ -366,7 +368,7 @@ public final class UserData implements Serializable {
     }
 
     public boolean bypassLocalTraffic() {
-        return bypassLocalTraffic;
+        return AndroidUtils.INSTANCE.isTV(ProtonApplication.getAppContext()) || bypassLocalTraffic;
     }
 
     public void setBypassLocalTraffic(boolean bypassLocalTraffic) {
