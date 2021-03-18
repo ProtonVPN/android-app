@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
+import com.protonvpn.android.vpn.ikev2.TimerScheduler;
+
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.UUID;
@@ -34,12 +36,14 @@ public class Scheduler extends BroadcastReceiver
 	private final String EXECUTE_JOB = "org.strongswan.android.Scheduler.EXECUTE_JOB";
 	private final Context mContext;
 	private final AlarmManager mManager;
+	private final TimerScheduler mTimerScheduler;
 	private final PriorityQueue<ScheduledJob> mJobs;
 
 	public Scheduler(Context context)
 	{
 		mContext = context;
 		mManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		mTimerScheduler = new TimerScheduler();
 		mJobs = new PriorityQueue<>();
 
 		IntentFilter filter = new IntentFilter();
@@ -58,6 +62,7 @@ public class Scheduler extends BroadcastReceiver
 			mJobs.clear();
 		}
 		mManager.cancel(createIntent());
+		mTimerScheduler.terminate();
 		mContext.unregisterReceiver(this);
 	}
 
@@ -102,14 +107,19 @@ public class Scheduler extends BroadcastReceiver
 			if (job == mJobs.peek())
 			{	/* update the alarm if the job has to be executed before all others */
 				PendingIntent pending = createIntent();
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-					mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
-				else
-					// setExactAndAllowWhileIdle seems to be the source of battery drain on android 8/9, let's
-					// use setExact instead.
-					mManager.setExact(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				scheduleRTC(job.Time, pending);
 			}
 		}
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	private void scheduleRTC(long time, PendingIntent pending) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q || Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1)
+			mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending);
+		else
+			// setExactAndAllowWhileIdle seems to be the source of excessive wakeup warnings in
+			// google play for android 8/9, let's use coroutine-based scheduler.
+			mTimerScheduler.scheduleRTC(time, () -> onReceive(mContext, new Intent(EXECUTE_JOB)));
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
@@ -134,10 +144,7 @@ public class Scheduler extends BroadcastReceiver
 			if (job != null)
 			{
 				PendingIntent pending = createIntent();
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-					mManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, job.Time, pending);
-				else
-					mManager.setExact(AlarmManager.RTC_WAKEUP, job.Time, pending);
+				scheduleRTC(job.Time, pending);
 			}
 		}
 
