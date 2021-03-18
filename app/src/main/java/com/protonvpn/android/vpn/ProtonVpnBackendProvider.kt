@@ -49,15 +49,19 @@ class ProtonVpnBackendProvider(
         }.firstOrNull()
     }
 
-    override suspend fun pingAll(preferenceList: List<PhysicalServer>): VpnBackendProvider.PingResult? {
+    override suspend fun pingAll(
+        preferenceList: List<PhysicalServer>,
+        fullScanServer: PhysicalServer?
+    ): VpnBackendProvider.PingResult? {
         val responses = coroutineScope {
             preferenceList.mapAsync { server ->
                 val profile = Profile.getTempProfile(server.server, serverDeliver)
+                val portsLimit = if (server === fullScanServer) Int.MAX_VALUE else PING_ALL_MAX_PORTS
                 val strongSwanResponse = async {
-                    strongSwan.prepareForConnection(profile, server.server, true, PING_ALL_MAX_PORTS)
+                    strongSwan.prepareForConnection(profile, server.server, true, portsLimit)
                 }
                 val openVpnResponse = async {
-                    openVpn.prepareForConnection(profile, server.server, true, PING_ALL_MAX_PORTS)
+                    openVpn.prepareForConnection(profile, server.server, true, portsLimit)
                 }
                 val responses = strongSwanResponse.await() + openVpnResponse.await()
                 server to responses

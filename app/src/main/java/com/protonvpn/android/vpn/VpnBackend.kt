@@ -34,7 +34,8 @@ interface VpnBackendProvider {
     suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?
 
     // Returns first from [preferenceList] that responded in a given time frame or null
-    suspend fun pingAll(preferenceList: List<PhysicalServer>): PingResult?
+    // [fullScanServer] when set will have all ports scanned.
+    suspend fun pingAll(preferenceList: List<PhysicalServer>, fullScanServer: PhysicalServer? = null): PingResult?
     data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 

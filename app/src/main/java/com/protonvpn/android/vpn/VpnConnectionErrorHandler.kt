@@ -180,7 +180,7 @@ class VpnConnectionErrorHandler(
             ProtonLogger.log("Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}")
         }
 
-        val pingResult = vpnBackendProvider.pingAll(candidates) ?: run {
+        val pingResult = vpnBackendProvider.pingAll(candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log("No server responded")
             return null
         }
