@@ -283,7 +283,7 @@ class ServerManager(
                 getBestScoreServer(it)
             }
         ProfileType.DIRECT ->
-            getServerById(wrapper.serverId)
+            getServerById(wrapper.serverId!!)
     }
 
     override fun hasAccessToServer(server: Server): Boolean =

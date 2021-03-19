@@ -51,10 +51,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     val isPreBakedProfile: Boolean
         get() = wrapper.isPreBakedProfile
 
-    val server: Server? get() {
-        return wrapper.server
-    }
-
+    val server: Server? get() = wrapper.server
     val city: String? get() = wrapper.city
     val country: String get() = wrapper.country
     val connectCountry: String get() = wrapper.connectCountry
