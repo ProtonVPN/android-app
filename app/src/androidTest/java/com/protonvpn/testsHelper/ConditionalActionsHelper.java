@@ -27,8 +27,12 @@ import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.protonvpn.testsHelper.ScrollToExKt.scrollToEx;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
 public class ConditionalActionsHelper extends UIActionsTestHelper {
@@ -81,47 +85,11 @@ public class ConditionalActionsHelper extends UIActionsTestHelper {
 
     public static void scrollDownInViewWithIdUntilObjectWithIdAppears(@IdRes int viewId,
                                                                       @IdRes int objectId) {
-        Instruction instruction = new Instruction() {
-            @Override
-            public String getDescription() {
-                return "Waiting until object appears";
-            }
-
-            @Override
-            public boolean checkCondition() {
-                try {
-                    onView(withId(viewId)).perform(swipeUp());
-                    return isObjectWithIdVisible(objectId);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-        };
-        checkCondition(instruction);
+        onView(withId(objectId)).perform(scrollToEx()).check(matches(isDisplayed()));
     }
 
     public static void scrollDownInViewWithIdUntilObjectWithTextAppears(@IdRes int viewId, String text) {
-        Instruction instruction = new Instruction() {
-            @Override
-            public String getDescription() {
-                return "Waiting until object appears";
-            }
-
-            @Override
-            public boolean checkCondition() {
-                try {
-                    onView(withId(viewId)).perform(swipeUp());
-                    return isObjectWithTextVisible(text);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-        };
-        checkCondition(instruction);
+        onView(withText(equalToIgnoringCase(text))).perform(scrollToEx()).check(matches(isDisplayed()));
     }
 
     public static void scrollDownInViewWithIdUntilObjectWithTextAppears(@IdRes int viewId,
