@@ -83,7 +83,7 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onForeground() {
-        ProtonLogger.INSTANCE.log("App in foreground");
+        ProtonLogger.INSTANCE.log("App in foreground " + BuildConfig.VERSION_NAME);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
