@@ -186,6 +186,7 @@ class MockAppModule {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ): VpnConnectionManager = MockVpnConnectionManager(
         userData,
         backendManager,
@@ -238,7 +239,7 @@ class MockAppModule {
         vpnStateMonitor,
         connectivityMonitor
     )
-    
+
     @Singleton
     @Provides
     fun provideGuestHole(
