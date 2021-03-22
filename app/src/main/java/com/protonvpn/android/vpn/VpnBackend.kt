@@ -28,7 +28,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
-data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams)
+data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
 interface VpnBackendProvider {
     suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?

@@ -95,9 +95,9 @@ class UserPlanManagerTests {
     fun planDowngradeFiresDowngrade() = runBlockingTest {
         launch {
             val planChange = manager.planChangeFlow.first()
-            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade, planChange)
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"), planChange)
         }
-        changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
+        changePlan(TestUser.getPlusUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
     }
 
     @Test
@@ -118,7 +118,7 @@ class UserPlanManagerTests {
     fun trialStartFiresVpnInfo() = runBlockingTest {
         launch {
             val planChange = manager.planChangeFlow.first()
-            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade, planChange)
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnbasic", "free"), planChange)
         }
         changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
     }

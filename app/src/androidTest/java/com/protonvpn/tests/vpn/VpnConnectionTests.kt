@@ -200,11 +200,12 @@ class VpnConnectionTests {
     fun authErrorHandleDowngrade() = runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected
+        val fallbackResult =
+            VpnFallbackResult.Switch.SwitchProfile(profileIKEv2, fallbackOpenVpnProfile, SwitchServerReason.Downgrade("PLUS", "FREE"))
+        coEvery { vpnErrorHandler.onAuthError(any()) } returns fallbackResult
 
-        coEvery { vpnErrorHandler.onAuthError(any()) } returns
-            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree)
 
-        val fallbacks = mutableListOf<SwitchServerReason>()
+        val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
                 fallbacks += it
@@ -224,7 +225,7 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(fallbackOpenVpnProfile, monitor.connectionProfile)
-        Assert.assertEquals(listOf(SwitchServerReason.DowngradeToFree), fallbacks)
+        Assert.assertEquals(listOf(fallbackResult), fallbacks)
     }
 
     @Test
@@ -232,7 +233,7 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
 
-        val fallbacks = mutableListOf<SwitchServerReason>()
+        val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
                 fallbacks += it
@@ -248,7 +249,7 @@ class VpnConnectionTests {
         }
 
         Assert.assertEquals(VpnState.Error(ErrorType.MAX_SESSIONS), monitor.state)
-        Assert.assertTrue(fallbacks.isEmpty())
+        Assert.assertTrue(fallbacks.isNotEmpty())
     }
 
     @Test
@@ -257,12 +258,12 @@ class VpnConnectionTests {
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
             fallbackOpenVpnProfile, fallbackOpenVpnProfile.server!!, true).first()
-        coEvery { vpnErrorHandler.onUnreachableError(any()) } returns VpnFallbackResult.Switch.SwitchServer(
+        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(profileIKEv2,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
-            compatibleProtocol = false, switchedSecureCore = false
-        )
+            compatibleProtocol = false, switchedSecureCore = false)
+        coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
 
-        val fallbacks = mutableListOf<SwitchServerReason>()
+        val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
                 fallbacks += it
@@ -277,12 +278,12 @@ class VpnConnectionTests {
             mockStrongSwan.connect()
         }
 
-        Assert.assertEquals(listOf(SwitchServerReason.ServerUnreachable), fallbacks)
+        Assert.assertEquals(listOf(fallbackResult), fallbacks)
     }
 
     @Test
     fun testSwitchingConnection() = runBlockingTest {
-        val fallbacks = mutableListOf<SwitchServerReason>()
+        val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
                 fallbacks += it
@@ -294,21 +295,25 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
-        switchServerFlow.emit(
-            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
+        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+            profileIKEv2,
+            fallbackOpenVpnProfile,
+            SwitchServerReason.Downgrade("PLUS", "FREE")
+        )
+        switchServerFlow.emit(fallbackResult)
         advanceUntilIdle()
 
         collectJob.cancel()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
-        Assert.assertEquals(listOf(SwitchServerReason.DowngradeToFree), fallbacks)
+        Assert.assertEquals(listOf(fallbackResult), fallbacks)
     }
 
     @Test
     fun testSwitchOfflineServer() = runBlockingTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
         val profile = Profile.getTempProfile(offlineServer, serverManager)
-        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(
+        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(profile,
             profileIKEv2, SwitchServerReason.ServerInMaintenance)
 
         manager.connect(context, profile)
@@ -320,15 +325,18 @@ class VpnConnectionTests {
 
     @Test
     fun testDontSwitchWhenDisconnected() = runBlockingTest {
-        val fallbacks = mutableListOf<SwitchServerReason>()
+        val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
                 fallbacks += it
             }
         }
-
-        switchServerFlow.emit(
-            VpnFallbackResult.Switch.SwitchProfile(fallbackOpenVpnProfile, SwitchServerReason.DowngradeToFree))
+        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+            profileIKEv2,
+            fallbackOpenVpnProfile,
+            SwitchServerReason.Downgrade("PLUS", "FREE")
+        )
+        switchServerFlow.emit(fallbackResult)
         advanceUntilIdle()
 
         collectJob.cancel()

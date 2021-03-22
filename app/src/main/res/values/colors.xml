@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton Technologies AG
+ Copyright (c) 2021 Proton Technologies AG
  
  This file is part of ProtonVPN.
  
@@ -51,6 +51,10 @@
     <color name="accountTitles">#4b4b56</color>
     <color name="tvDisconnectButtonTint">#AA2e2e34</color>
     <color name="tvGridItemOverlay">#774b4b56</color>
+
+    <color name="notificationDetailsStroke">#EAECF1</color>
+    <color name="notificationArrow">@color/black</color>
+    <color name="notificationDisabled">#9CA0AA</color>
 
     <color name="pickerColor1">#E01623</color>
     <color name="pickerColor2">#BD6566</color>

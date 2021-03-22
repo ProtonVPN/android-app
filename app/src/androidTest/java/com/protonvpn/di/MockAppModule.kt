@@ -31,6 +31,7 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.di.AppModule
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.LogoutHandler
@@ -49,6 +50,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
@@ -170,12 +172,23 @@ class MockAppModule {
         serverManager: ServerManager,
         vpnStateMonitor: VpnStateMonitor,
         serverListUpdater: ServerListUpdater,
-        notificationHelper: NotificationHelper,
+        errorUIManager: VpnErrorUIManager,
         networkManager: NetworkManager,
         vpnBackendProvider: VpnBackendProvider,
     ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-        serverManager, vpnStateMonitor, serverListUpdater, notificationHelper, networkManager, vpnBackendProvider
+        serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider
     )
+
+    @Singleton
+    @Provides
+    fun provideVpnErrorUIManager(
+        appConfig: AppConfig,
+        userData: UserData,
+        userPlanManager: UserPlanManager,
+        vpnStateMonitor: VpnStateMonitor,
+        notificationHelper: NotificationHelper,
+    ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
+        vpnStateMonitor, notificationHelper)
 
     @Singleton
     @Provides

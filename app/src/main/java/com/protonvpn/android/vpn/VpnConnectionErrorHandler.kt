@@ -20,10 +20,8 @@
 package com.protonvpn.android.vpn
 
 import android.content.Context
-import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -45,36 +43,38 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
 
-enum class SwitchServerReason {
-    DowngradeToBasic,
-    DowngradeToFree,
-    Downgrade,
-    TrialEnded,
-    UserBecameDelinquent,
-    ServerInMaintenance,
-    ServerUnreachable,
-    UnknownAuthFailure,
-    ServerUnavailable
+sealed class SwitchServerReason : java.io.Serializable {
+
+    data class Downgrade(val fromTier: String, val toTier: String) : SwitchServerReason()
+    object TrialEnded : SwitchServerReason()
+    object UserBecameDelinquent : SwitchServerReason()
+    object ServerInMaintenance : SwitchServerReason()
+    object ServerUnreachable : SwitchServerReason()
+    object ServerUnavailable : SwitchServerReason()
+    object UnknownAuthFailure : SwitchServerReason()
 }
 
-sealed class VpnFallbackResult {
+sealed class VpnFallbackResult : java.io.Serializable {
 
-    sealed class Switch : VpnFallbackResult() {
+    sealed class Switch() : VpnFallbackResult() {
 
         // null means change should be transparent for the user (no notification)
-        abstract val notificationReason: SwitchServerReason?
         abstract val log: String
-        abstract val profile: Profile
+        abstract val notificationReason: SwitchServerReason?
+        abstract val fromProfile: Profile
+        abstract val toProfile: Profile
 
         data class SwitchProfile(
-            override val profile: Profile,
-            override val notificationReason: SwitchServerReason? = null
+            override val fromProfile: Profile,
+            override val toProfile: Profile,
+            override val notificationReason: SwitchServerReason? = null,
         ) : Switch() {
-            override val log get() = "SwitchProfile ${profile.name} reason=$notificationReason"
+            override val log get() = "SwitchProfile ${toProfile.name} reason=$notificationReason"
         }
 
         data class SwitchServer(
-            override val profile: Profile,
+            override val fromProfile: Profile,
+            override val toProfile: Profile,
             val preparedConnection: PrepareResult,
             override val notificationReason: SwitchServerReason?,
             val compatibleProtocol: Boolean,
@@ -100,7 +100,7 @@ class VpnConnectionErrorHandler(
     private val serverManager: ServerManager,
     private val stateMonitor: VpnStateMonitor,
     private val serverListUpdater: ServerListUpdater,
-    private val notificationHelper: NotificationHelper,
+    private val errorUIManager: VpnErrorUIManager,
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: VpnBackendProvider,
 ) {
@@ -112,7 +112,7 @@ class VpnConnectionErrorHandler(
         scope.launch {
             userPlanManager.infoChangeFlow.collect { changes ->
                 if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
-                    getCommonFallbackForInfoChanges(changes)?.let {
+                    getCommonFallbackForInfoChanges(stateMonitor.connectionProfile!!, changes)?.let {
                         switchConnectionFlow.emit(it)
                     }
                 }
@@ -122,27 +122,29 @@ class VpnConnectionErrorHandler(
 
     @SuppressWarnings("ReturnCount")
     private fun getCommonFallbackForInfoChanges(
+        currentProfile: Profile,
         changes: List<UserPlanManager.InfoChange>
     ): VpnFallbackResult.Switch? {
         for (change in changes) when (change) {
             PlanChange.TrialEnded ->
                 return VpnFallbackResult.Switch.SwitchProfile(
+                    currentProfile,
                     serverManager.defaultFallbackConnection,
-                    SwitchServerReason.TrialEnded)
-            PlanChange.Downgrade -> {
-                val reason = when {
-                    userData.isFreeUser -> SwitchServerReason.DowngradeToFree
-                    userData.isBasicUser -> SwitchServerReason.DowngradeToBasic
-                    else -> SwitchServerReason.Downgrade
-                }
+                    SwitchServerReason.TrialEnded
+                )
+            is PlanChange.Downgrade -> {
                 return VpnFallbackResult.Switch.SwitchProfile(
+                    currentProfile,
                     serverManager.defaultFallbackConnection,
-                    reason)
+                    SwitchServerReason.Downgrade(change.fromPlan, change.toPlan)
+                )
             }
             UserBecameDelinquent ->
                 return VpnFallbackResult.Switch.SwitchProfile(
+                    currentProfile,
                     serverManager.defaultFallbackConnection,
-                    SwitchServerReason.UserBecameDelinquent)
+                    SwitchServerReason.UserBecameDelinquent
+                )
             else -> {}
         }
         return null
@@ -209,6 +211,7 @@ class VpnConnectionErrorHandler(
             expectedProtocolConnection != null && !switchedSecureCore
 
         return VpnFallbackResult.Switch.SwitchServer(
+            orgProfile,
             pingResult.profile,
             expectedProtocolConnection ?: pingResult.responses.first(),
             if (isCompatible) null else reason,
@@ -339,13 +342,13 @@ class VpnConnectionErrorHandler(
         try {
             handlingAuthError = true
             userPlanManager.refreshVpnInfo()?.let { infoChanges ->
-                getCommonFallbackForInfoChanges(infoChanges)?.let {
+                getCommonFallbackForInfoChanges(connectionParams.profile, infoChanges)?.let {
                     return it
                 }
 
                 if (VpnCredentials in infoChanges)
                     // Now that credentials are refreshed we can try reconnecting.
-                    return VpnFallbackResult.Switch.SwitchProfile(connectionParams.profile)
+                    return VpnFallbackResult.Switch.SwitchProfile(connectionParams.profile, connectionParams.profile)
 
                 val vpnInfo = requireNotNull(userData.vpnInfoResponse)
                 val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
@@ -382,13 +385,17 @@ class VpnConnectionErrorHandler(
                     .withExtra("Server", result.value.connectingDomain.entryDomain)
                     .build()
                 ProtonLogger.logSentryEvent(sentryEvent)
-                notificationHelper.showInformationNotification(
-                    appContext, appContext.getString(R.string.onMaintenanceDetected)
-                )
-                return if (smartReconnectEnabled)
+                return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile)
+                    fallbackToCompatibleServer(
+                        connectionParams.profile, null, SwitchServerReason.ServerInMaintenance
+                    )
+                }
                 else
-                    VpnFallbackResult.Switch.SwitchProfile(serverManager.defaultFallbackConnection)
+                    VpnFallbackResult.Switch.SwitchProfile(
+                        connectionParams.profile,
+                        serverManager.defaultFallbackConnection
+                    )
             }
         }
         return null

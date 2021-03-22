@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright (c) 2021 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:layout_below="@id/notification_main"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/bg_square_rounded_theme_aware"
+    android:padding="14dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageLock"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/ic_circle_white" />
+
+        <TextView
+            android:id="@+id/textFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/reconnect_from_server"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageArrow"
+        android:layout_width="24dp"
+        android:layout_height="16dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_arrow_forward_theme_aware" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageFromCountry"
+            android:layout_width="16dp"
+            android:layout_height="10dp"
+            android:src="@drawable/lt" />
+
+        <TextView
+            android:id="@+id/textFromServer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="LT#5"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageCircle"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:src="@drawable/ic_green_circle" />
+
+        <TextView
+            android:id="@+id/textTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toRightOf="@id/imageLock"
+            android:text="@string/reconnect_to_server"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageToCountry"
+            android:layout_width="16dp"
+            android:layout_height="10dp"
+            android:src="@drawable/lt" />
+
+        <TextView
+            android:id="@+id/textToServer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="LT#5"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

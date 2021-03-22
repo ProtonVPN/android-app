@@ -49,6 +49,7 @@ import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Module
 import dagger.Provides
@@ -170,11 +171,22 @@ class AppModule {
         serverManager: ServerManager,
         vpnStateMonitor: VpnStateMonitor,
         serverListUpdater: ServerListUpdater,
-        notificationHelper: NotificationHelper,
+        errorUIManager: VpnErrorUIManager,
         networkManager: NetworkManager,
         vpnBackendProvider: VpnBackendProvider,
     ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-            serverManager, vpnStateMonitor, serverListUpdater, notificationHelper, networkManager, vpnBackendProvider)
+            serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider)
+
+    @Singleton
+    @Provides
+    fun provideVpnErrorUIManager(
+        appConfig: AppConfig,
+        userData: UserData,
+        userPlanManager: UserPlanManager,
+        vpnStateMonitor: VpnStateMonitor,
+        notificationHelper: NotificationHelper,
+    ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
+         vpnStateMonitor, notificationHelper)
 
     @Singleton
     @Provides

@@ -69,6 +69,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
+import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
@@ -118,7 +119,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
-
+    public static final String INTENT_UPSELL_DIALOG = "UpsellDialog";
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
@@ -287,6 +288,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         initStatusBar();
         fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
+        initUpsell();
+    }
+
+    private void initUpsell() {
+        if (getIntent().getBooleanExtra(INTENT_UPSELL_DIALOG, false)) {
+            // TODO open upsell dialog
+        }
     }
 
     private void initOnboarding() {
