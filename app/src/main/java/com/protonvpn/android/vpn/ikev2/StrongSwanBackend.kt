@@ -171,7 +171,9 @@ class StrongSwanBackend(
         }
     }
 
-    private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type == ErrorType.UNREACHABLE_INTERNAL
+    private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type.let {
+        it == ErrorType.UNREACHABLE_INTERNAL || it == ErrorType.UNREACHABLE
+    }
 
     companion object {
         private const val STRONGSWAN_PORT = 500
