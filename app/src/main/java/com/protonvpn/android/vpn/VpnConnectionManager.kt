@@ -206,6 +206,23 @@ open class VpnConnectionManager(
         }
     }
 
+    private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
+        val fallback = if (server == null) {
+            ProtonLogger.log("Server not available. Finding alternative...")
+            vpnErrorHandler.onServerNotAvailable(profile)
+        } else {
+            ProtonLogger.log("Server in maintenance. Finding alternative...")
+            vpnErrorHandler.onServerInMaintenance(profile)
+        }
+        if (fallback != null) {
+            fallbackConnect(fallback)
+        } else {
+            notificationHelper.showInformationNotification(
+                context, context.getString(if (server == null)
+                    R.string.error_server_not_set else R.string.restrictedMaintenanceDescription))
+        }
+    }
+
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection()
         ongoingConnect = scope.launch {
@@ -213,8 +230,7 @@ open class VpnConnectionManager(
         }
     }
 
-    private suspend fun smartConnect(profile: Profile) {
-        val server = profile.server!!
+    private suspend fun smartConnect(profile: Profile, server: Server) {
         ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
 
@@ -297,15 +313,18 @@ open class VpnConnectionManager(
     }
 
     private fun connectWithPermission(context: Context, profile: Profile) {
-        if (profile.server != null) {
+        val server = profile.server
+        if (server?.online == true) {
             clearOngoingConnection()
             ongoingConnect = scope.launch {
-                smartConnect(profile)
+                smartConnect(profile, server)
+                ongoingConnect = null
             }
         } else {
-            notificationHelper.showInformationNotification(
-                context, context.getString(R.string.error_server_not_set)
-            )
+            ongoingFallback = scope.launch {
+                onServerNotAvailable(context, profile, server)
+                ongoingFallback = null
+            }
         }
     }
 
