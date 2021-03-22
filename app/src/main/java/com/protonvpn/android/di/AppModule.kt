@@ -185,6 +185,7 @@ class AppModule {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ) = VpnConnectionManager(
         ProtonApplication.getAppContext(),
         userData,
@@ -193,7 +194,7 @@ class AppModule {
         vpnConnectionErrorHandler,
         vpnStateMonitor,
         notificationHelper,
-        scope
+        scope,
     )
 
     @Singleton
