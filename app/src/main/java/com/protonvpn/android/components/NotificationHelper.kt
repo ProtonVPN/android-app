@@ -25,7 +25,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -33,29 +35,34 @@ import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.SwitchServerReason
+import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Connecting
 import com.protonvpn.android.vpn.VpnState.Disabled
 import com.protonvpn.android.vpn.VpnState.Disconnecting
+import com.protonvpn.android.vpn.VpnState.Error
 import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
-import com.protonvpn.android.vpn.VpnState.Error
+import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class NotificationHelper(
-    val appContext: Context,
+    private val appContext: Context,
     val scope: CoroutineScope,
     val vpnStateMonitor: VpnStateMonitor,
-    val trafficMonitor: TrafficMonitor,
+    private val trafficMonitor: TrafficMonitor,
 ) {
+
     init {
         scope.launch {
             vpnStateMonitor.status.collect {
@@ -67,6 +74,106 @@ class NotificationHelper(
                 updateNotification()
             }
         }
+    }
+
+    fun getContentTitle(switch: SwitchServerReason): String = appContext.getString(
+        when (switch) {
+            is SwitchServerReason.Downgrade -> R.string.notification_subscription_expired_title
+            SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_title
+            SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_title
+            SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_title
+            SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_title
+            SwitchServerReason.TrialEnded -> R.string.freeTrialExpiredTitle
+            SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_title
+        }
+    )
+
+    fun getContentString(switch: SwitchServerReason): String = appContext.getString(
+        when (switch) {
+            is SwitchServerReason.Downgrade -> R.string.notification_subscription_expired_content
+            SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_content
+            SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_content
+            SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
+            SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_content
+            SwitchServerReason.TrialEnded -> R.string.freeTrialExpired
+            SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_content
+        }
+    )
+
+    data class ReconnectionNotification(
+        val title: String,
+        val content: String,
+        val reconnectionInformation: VpnFallbackResult.Switch? = null,
+        val action: ActionItem? = null,
+        val hasUpsellDialog: Boolean = false
+    ) : java.io.Serializable
+
+    data class ActionItem(val title: String, val actionUrl: String)
+
+    fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
+        val notificationBuilder =
+            NotificationCompat.Builder(appContext, CHANNEL_ID).setSmallIcon(R.drawable.ic_proton)
+                .setColor(ContextCompat.getColor(appContext, R.color.colorAccent))
+
+        // Build complex notification with custom UI for reconnection information
+        if (notificationInfo.reconnectionInformation != null) {
+            val fromProfile = notificationInfo.reconnectionInformation.fromProfile
+            val toProfile = notificationInfo.reconnectionInformation.toProfile
+            val collapsedLayout = RemoteViews(appContext.packageName, R.layout.notification_reconnect_small)
+            val expandedLayout = RemoteViews(appContext.packageName, R.layout.notification_reconnect_expanded)
+
+            collapsedLayout.setTextViewText(R.id.content_title, notificationInfo.title)
+            collapsedLayout.setTextViewText(
+                R.id.content_text, notificationInfo.content
+            )
+
+            expandedLayout.setTextViewText(R.id.content_title, notificationInfo.title)
+            expandedLayout.setTextViewText(R.id.content_text, notificationInfo.content)
+            expandedLayout.setTextViewText(R.id.textTo, appContext.getString(R.string.reconnect_to_server))
+            expandedLayout.setTextViewText(
+                R.id.textFrom, appContext.getString(R.string.reconnect_from_server)
+            )
+            expandedLayout.setTextViewText(R.id.textFromServer, fromProfile.server?.serverName)
+            expandedLayout.setTextViewText(R.id.textToServer, toProfile.server?.serverName)
+            expandedLayout.setImageViewResource(
+                R.id.imageToCountry, CountryTools.getFlagResource(appContext, toProfile.country)
+            )
+            expandedLayout.setImageViewResource(
+                R.id.imageFromCountry, CountryTools.getFlagResource(appContext, fromProfile.country)
+            )
+
+            notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            notificationBuilder.setCustomContentView(collapsedLayout)
+            notificationBuilder.setCustomBigContentView(expandedLayout)
+        } else {
+            // Build classic simple notification since there is no reconnection information
+            notificationBuilder.setContentTitle(notificationInfo.title)
+            notificationBuilder.setContentText(notificationInfo.content)
+            notificationBuilder.setStyle(NotificationCompat.BigTextStyle())
+        }
+
+        notificationInfo.action?.let {
+            val urlIntent = Intent(Intent.ACTION_VIEW)
+            urlIntent.data = Uri.parse(it.actionUrl)
+            val actionPendingIntent: PendingIntent = PendingIntent.getActivity(
+                appContext, Constants.NOTIFICATION_INFO_ID, urlIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            )
+            notificationBuilder.addAction(
+                NotificationCompat.Action(
+                    null, it.title, actionPendingIntent
+                )
+            )
+        }
+
+        if (notificationInfo.hasUpsellDialog) {
+            val intent = Intent(appContext, Constants.MAIN_ACTIVITY_CLASS)
+            intent.putExtra(HomeActivity.INTENT_UPSELL_DIALOG, notificationInfo)
+            val pending = PendingIntent.getActivity(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            notificationBuilder.setContentIntent(pending)
+        }
+
+        NotificationManagerCompat.from(appContext)
+            .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
 
     private fun buildStatusNotification(

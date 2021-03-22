@@ -36,7 +36,7 @@ class UserPlanManager(
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
             object TrialEnded : PlanChange()
-            object Downgrade : PlanChange()
+            data class Downgrade(val fromPlan: String, val toPlan: String) : PlanChange()
             object Upgrade : PlanChange()
         }
         object UserBecameDelinquent : InfoChange()
@@ -70,7 +70,7 @@ class UserPlanManager(
                             Storage.saveBoolean(PREF_EXPIRATION_DIALOG_DUE, true)
                             InfoChange.PlanChange.TrialEnded
                         } else {
-                            InfoChange.PlanChange.Downgrade
+                            InfoChange.PlanChange.Downgrade(oldInfo.userTierName, newInfo.userTierName)
                         }
                     }
                     newInfo.userTier > oldInfo.userTier ->

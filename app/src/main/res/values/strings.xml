@@ -423,4 +423,20 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="settingsSmartReconnectDescription">Automatically connect to a similar server if the one you selected is inaccessible.</string>
     <string name="settingsSmartReconnectNotificationsTitle">Smart Reconnect notifications</string>
     <string name="settingsSmartReconnectNotificationsDescription">Be notified when ProtonVPN connects to a server other than the one you selected.</string>
+
+    <string name="notification_subscription_expired_title">Your subscription has expired</string>
+    <string name="notification_subscription_expired_content">You downgraded your subscription, so we are reconnecting to the best available server. Upgrade again to enjoy all the features.</string>
+    <string name="notification_delinquent_title">Your VPN account has pending invoices</string>
+    <string name="notification_delinquent_content">You will be able to access PLUS/BASIC features again after these are paid. To protect your online activity, we are reconnecting you to the fastest FREE plan server available based on your location.</string>
+    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
+    <string name="notification_server_unreachable_content">The server you selected is currently unavailable, so we are reconnecting you to the fastest server available based on your location.</string>
+    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
+    <string name="notification_server_maintenance_content">The server you selected is currently under maintenance, so we are reconnecting you to the fastest server available based on your location.</string>
+    <string name="notification_max_sessions_title">You have reached your maximum device limit</string>
+    <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
+    <string name="notification_max_sessions_content">Please disconnect another device to connect this one.</string>
+    <string name="vpn_accelerator">VPN accelerator</string>
+    <string name="reconnect_from_server">From server: </string>
+    <string name="reconnect_to_server">To server: </string>
+
 </resources>

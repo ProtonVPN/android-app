@@ -181,6 +181,7 @@ open class VpnConnectionManager(
             is VpnFallbackResult.Switch ->
                 fallbackConnect(result)
             is VpnFallbackResult.Error -> {
+                vpnStateMonitor.fallbackConnectionFlow.emit(result)
                 ProtonLogger.log("Failed to recover, entering $result")
                 activeBackend?.setSelfState(VpnState.Error(result.type))
             }
@@ -189,7 +190,7 @@ open class VpnConnectionManager(
 
     private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
         fallback.notificationReason?.let {
-            vpnStateMonitor.fallbackConnectionFlow.emit(it)
+            vpnStateMonitor.fallbackConnectionFlow.emit(fallback)
         }
 
         val sentryEvent = EventBuilder()
@@ -202,7 +203,7 @@ open class VpnConnectionManager(
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(appContext, fallback.profile)
+                connectWithPermission(appContext, fallback.toProfile)
             is VpnFallbackResult.Switch.SwitchServer ->
                 switchServerConnect(fallback)
         }
