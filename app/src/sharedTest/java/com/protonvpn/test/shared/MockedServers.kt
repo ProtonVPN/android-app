@@ -416,7 +416,7 @@ object MockedServers {
             },
             "exitCountry": "SE",
             "features": 4,
-            "isOnline": true,
+            "isOnline": false,
             "keywords": [
               "p2p"
             ],
@@ -428,7 +428,7 @@ object MockedServers {
             "score": 3.434756,
             "selectedAsFastest": false,
             "serverId": "13",
-            "serverName": "SE#1",
+            "serverName": "SE#3",
             "tier": 0,
             "translatedCoordinates": {
               "positionX": 2485.0,

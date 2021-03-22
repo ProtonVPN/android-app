@@ -27,6 +27,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -43,10 +44,11 @@ import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.spyk
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
@@ -72,7 +74,7 @@ class VpnConnectionTests {
     var rule = InstantTaskExecutorRule()
 
     private lateinit var context: Context
-    private lateinit var scope: CoroutineScope
+    private lateinit var scope: TestCoroutineScope
     private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
@@ -119,6 +121,10 @@ class VpnConnectionTests {
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
         profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, server)
         fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, server, "fallback")
+        val wrapperSlot = slot<ServerWrapper>()
+        every { serverManager.getServer(capture(wrapperSlot)) } answers {
+            MockedServers.serverList.find { it.serverId == wrapperSlot.captured.serverId } ?: server
+        }
     }
 
     @Test
@@ -296,6 +302,20 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(listOf(SwitchServerReason.DowngradeToFree), fallbacks)
+    }
+
+    @Test
+    fun testSwitchOfflineServer() = runBlockingTest {
+        val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
+        val profile = Profile.getTempProfile(offlineServer, serverManager)
+        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(
+            profileIKEv2, SwitchServerReason.ServerInMaintenance)
+
+        manager.connect(context, profile)
+        scope.advanceUntilIdle()
+
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+        Assert.assertEquals(profileIKEv2, monitor.connectionProfile)
     }
 
     @Test

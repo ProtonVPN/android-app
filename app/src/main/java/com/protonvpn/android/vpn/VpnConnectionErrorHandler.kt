@@ -54,6 +54,7 @@ enum class SwitchServerReason {
     ServerInMaintenance,
     ServerUnreachable,
     UnknownAuthFailure,
+    ServerUnavailable
 }
 
 sealed class VpnFallbackResult {
@@ -153,6 +154,12 @@ class VpnConnectionErrorHandler(
 
     private val smartReconnectEnabled get() =
         appConfig.getFeatureFlags().smartReconnect && userData.isSmartReconnectEnabled
+
+    suspend fun onServerNotAvailable(profile: Profile) =
+        fallbackToCompatibleServer(profile, null, SwitchServerReason.ServerUnavailable)
+
+    suspend fun onServerInMaintenance(profile: Profile) =
+        fallbackToCompatibleServer(profile, null, SwitchServerReason.ServerInMaintenance)
 
     suspend fun onUnreachableError(connectionParams: ConnectionParams): VpnFallbackResult =
         fallbackToCompatibleServer(connectionParams.profile, connectionParams, SwitchServerReason.ServerUnreachable)
@@ -379,7 +386,7 @@ class VpnConnectionErrorHandler(
                     appContext, appContext.getString(R.string.onMaintenanceDetected)
                 )
                 return if (smartReconnectEnabled)
-                    fallbackToCompatibleServer(connectionParams.profile, null, SwitchServerReason.ServerInMaintenance)
+                    onServerInMaintenance(connectionParams.profile)
                 else
                     VpnFallbackResult.Switch.SwitchProfile(serverManager.defaultFallbackConnection)
             }
