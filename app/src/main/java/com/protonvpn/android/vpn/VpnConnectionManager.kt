@@ -192,7 +192,7 @@ open class VpnConnectionManager(
 
         val sentryEvent = EventBuilder()
             .withMessage("Fallback connect")
-            .withExtra("From", connectionParams?.connectingDomain?.entryDomain)
+            .withExtra("From", connectionParams?.info)
             .withExtra("Info", fallback.log)
             .build()
         ProtonLogger.logSentryEvent(sentryEvent)
