@@ -93,11 +93,11 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
             if (isInConnectedScreen) {
                 val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
-                imageExpand.isVisible = netShieldEnabled || netshieldFreeMode
-                layoutSummary.isVisible = netShieldEnabled && imageExpand.isChecked
+                toggleExpand.isVisible = netShieldEnabled || netshieldFreeMode
+                layoutSummary.isVisible = netShieldEnabled && toggleExpand.isChecked
                 netShieldSettings.isVisible =
-                    (netShieldEnabled || netshieldFreeMode) && !imageExpand.isChecked
-                textCollapsedMark.isVisible = netShieldEnabled && imageExpand.isChecked
+                    (netShieldEnabled || netshieldFreeMode) && !toggleExpand.isChecked
+                textCollapsedMark.isVisible = netShieldEnabled && toggleExpand.isChecked
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
@@ -137,7 +137,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
                 layoutNetshield.setOnClickListener {
-                    imageExpand.isChecked = !imageExpand.isChecked
+                    toggleExpand.isChecked = !toggleExpand.isChecked
                     onStateChange(currentState)
                 }
                 textNetDescription.setTextColor(ContextCompat.getColor(context, R.color.grey))
@@ -145,7 +145,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             } else {
                 switchNetshield.trackTintList = ContextCompat.getColorStateList(context, R.color.switch_track)
             }
-            imageExpand.isVisible = isInConnectedScreen
+            toggleExpand.isVisible = isInConnectedScreen
             tintRadioButtons()
         }
     }
@@ -246,8 +246,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         switchNetshield.isVisible = !netshieldFreeMode
         if (netshieldFreeMode) {
             netShieldSettings.isVisible = !isInConnectedScreen
-            imageExpand.isVisible = isInConnectedScreen
-            imageExpand.isChecked = true
+            toggleExpand.isVisible = isInConnectedScreen
+            toggleExpand.isChecked = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
             plusFeature.setOnClickListener { showUpgradeDialog() }
