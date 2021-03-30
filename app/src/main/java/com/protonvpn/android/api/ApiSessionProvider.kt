@@ -65,6 +65,9 @@ class ApiSessionProvider : SessionProvider, SessionListener {
     override suspend fun getSessionId(userId: UserId) =
         getLoginResponse(userId)?.uid?.let { SessionId(it) }
 
+    override suspend fun getUserId(sessionId: SessionId) =
+        getLoginResponse(sessionId)?.userId?.let { UserId(it) }
+
     // To be implemeted in VPNAND-210
     override suspend fun onHumanVerificationNeeded(session: Session, details: HumanVerificationDetails):
         SessionListener.HumanVerificationResult = SessionListener.HumanVerificationResult.Failure
