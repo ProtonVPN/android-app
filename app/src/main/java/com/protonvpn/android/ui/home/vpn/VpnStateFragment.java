@@ -557,7 +557,6 @@ public class VpnStateFragment extends BaseFragment {
                 Log.exception(new VPNException("Gateway is unreachable"));
                 break;
             case MAX_SESSIONS:
-                showAuthError(R.string.errorMaxSessions);
                 Log.exception(new VPNException("Maximum number of sessions used"));
                 break;
             case UNPAID:

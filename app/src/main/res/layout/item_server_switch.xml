@@ -16,117 +16,160 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="68dp"
-    android:layout_below="@id/notification_main"
-    android:layout_marginTop="16dp"
-    android:background="@drawable/bg_square_rounded_theme_aware"
-    android:padding="14dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_square_rounded_theme_aware"
+        android:padding="14dp">
 
         <ImageView
-            android:id="@+id/imageLock"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:src="@drawable/ic_circle_white" />
+            android:id="@+id/imageArrow"
+            android:layout_width="24dp"
+            android:layout_height="16dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_arrow_forward_theme_aware" />
 
-        <TextView
-            android:id="@+id/textFrom"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/reconnect_from_server"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-            android:textSize="14sp" />
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/imageArrow">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageArrow"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_arrow_forward_theme_aware" />
+                <TextView
+                    android:id="@+id/textFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reconnect_from_server"
+                    android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                    android:textSize="14sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageFromCountry"
-            android:layout_width="16dp"
-            android:layout_height="10dp"
-            android:src="@drawable/lt" />
+                    <ImageView
+                        android:id="@+id/imageFromCountry"
+                        android:layout_width="16dp"
+                        android:layout_height="10dp"
+                        tools:src="@drawable/lt" />
 
-        <TextView
-            android:id="@+id/textFromServer"
+                    <ImageView
+                        android:id="@+id/arrowFromSc"
+                        android:layout_width="8dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_secure_core_arrow_grey"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imageFromCountrySc"
+                        android:layout_width="16dp"
+                        android:layout_height="10dp"
+                        android:visibility="gone"
+                        tools:src="@drawable/lt" />
+
+                    <TextView
+                        android:id="@+id/textFromServer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                        android:textSize="14sp"
+                        tools:text="LT#5" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="LT#5"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-            android:textSize="14sp" />
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/imageArrow">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageCircle"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:src="@drawable/ic_green_circle" />
+                    <TextView
+                        android:id="@+id/textTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reconnect_to_server"
+                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textTo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_toRightOf="@id/imageLock"
-            android:text="@string/reconnect_to_server"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-            android:textSize="14sp" />
-
-    </LinearLayout>
+                </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageToCountry"
-            android:layout_width="16dp"
-            android:layout_height="10dp"
-            android:src="@drawable/lt" />
+                    <ImageView
+                        android:id="@+id/imageToCountry"
+                        android:layout_width="16dp"
+                        android:layout_height="10dp"
+                        tools:src="@drawable/lt" />
 
-        <TextView
-            android:id="@+id/textToServer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="LT#5"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-            android:textSize="14sp" />
+                    <ImageView
+                        android:id="@+id/arrowToSc"
+                        android:layout_width="8dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_secure_core_arrow_green"
+                        android:visibility="gone" />
 
-    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageToCountrySc"
+                        android:layout_width="16dp"
+                        android:layout_height="10dp"
+                        android:visibility="gone"
+                        tools:src="@drawable/lt" />
 
-</RelativeLayout>
+                    <TextView
+                        android:id="@+id/textToServer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
+                        android:textSize="14sp"
+                        tools:text="LT#5" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</layout>

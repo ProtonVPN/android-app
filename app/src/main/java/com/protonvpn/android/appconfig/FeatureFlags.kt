@@ -35,5 +35,5 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "DisplayTVLogos") val displayTVLogos: Boolean = true,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "SmartReconnect_DISABLED") val smartReconnect: Boolean = false,
+    @SerialName(value = "SmartReconnect") val smartReconnect: Boolean = false,
 ) : java.io.Serializable

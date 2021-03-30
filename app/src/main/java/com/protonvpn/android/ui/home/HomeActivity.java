@@ -55,27 +55,27 @@ import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
-import com.protonvpn.android.ui.home.profiles.HomeViewModel;
-import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
+import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
+import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
+import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
+import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
+import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
+import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
-import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
 import com.protonvpn.android.utils.ViewModelFactory;
-import com.protonvpn.android.ui.drawer.LogActivity;
-import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
 
@@ -119,7 +119,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
-    public static final String INTENT_UPSELL_DIALOG = "UpsellDialog";
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
@@ -288,12 +287,14 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         initStatusBar();
         fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
-        initUpsell();
+        initUpsell(getIntent());
     }
 
-    private void initUpsell() {
-        if (getIntent().getBooleanExtra(INTENT_UPSELL_DIALOG, false)) {
-            // TODO open upsell dialog
+    private void initUpsell(Intent newIntent) {
+        if (newIntent.getSerializableExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS) != null) {
+            Intent intent = new Intent(this, SwitchDialogActivity.class);
+            intent.putExtras(newIntent);
+            startActivity(intent);
         }
     }
 
@@ -364,6 +365,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (intent.getBooleanExtra("OpenStatus", false)) {
             fragment.openBottomSheet();
         }
+        initUpsell(intent);
         super.onNewIntent(intent);
     }
 
