@@ -110,7 +110,8 @@ class NotificationHelper(
 
     data class FullScreenDialog(
         val fullScreenIcon: Int? = null,
-        val hasUpsellLayout: Boolean = false
+        val hasUpsellLayout: Boolean = false,
+        val cancelToastMessage: String? = null
     ) : java.io.Serializable
 
     data class ActionItem(val title: String, val actionUrl: String) : java.io.Serializable

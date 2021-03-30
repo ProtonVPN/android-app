@@ -19,19 +19,16 @@
 package com.protonvpn.android.ui.home.vpn
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnFallbackResult
 import javax.inject.Inject
 
@@ -53,8 +50,14 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         }
         textDescription.text = reconnectionNotification.content
         textTitle.text = reconnectionNotification.title
-        reconnectionNotification.fullScreenDialog?.let {
-            it.fullScreenIcon?.let { it1 -> image.setImageResource(it1) }
+        reconnectionNotification.fullScreenDialog?.let { fullScreenDialog ->
+            buttonBack.setOnClickListener {
+                fullScreenDialog.cancelToastMessage?.let {
+                    Toast.makeText(baseContext, it, Toast.LENGTH_LONG).show()
+                }
+                finish()
+            }
+            fullScreenDialog.fullScreenIcon?.let { it1 -> image.setImageResource(it1) }
         }
 
         layoutUpsell.root.isVisible = reconnectionNotification.fullScreenDialog?.hasUpsellLayout == true
@@ -63,7 +66,6 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         reconnectionNotification.action?.let { actionItem ->
             buttonUpgrade.text = actionItem.title
             buttonUpgrade.setOnClickListener { openUrl(actionItem.actionUrl) }
-            buttonBack.setOnClickListener { finish() }
         } ?: run {
             buttonBack.isVisible = false
             buttonUpgrade.text = getString(R.string.got_it)

@@ -61,7 +61,8 @@ class VpnErrorUIManager(
                             ) else null,
                         fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
                             NotificationHelper.FullScreenDialog(
-                                hasUpsellLayout = true
+                                hasUpsellLayout = true,
+                                cancelToastMessage = getCancelToastMessage(it)
                             ) else null
                     )
                 }
@@ -82,5 +83,16 @@ class VpnErrorUIManager(
                 } else null
             }
         }
+    }
+
+    private fun getCancelToastMessage(reason: SwitchServerReason) = when (reason) {
+        is SwitchServerReason.Downgrade -> appContext.getString(
+            if (reason.toTier == "free")
+                R.string.notification_cancel_to_free
+            else
+                R.string.notification_cancel_to_basic
+        )
+        SwitchServerReason.UserBecameDelinquent -> appContext.getString(R.string.notification_cancel_to_delinquent)
+        else -> null
     }
 }

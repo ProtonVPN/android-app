@@ -434,6 +434,9 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="notification_max_sessions_title">You have reached your maximum device limit</string>
     <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
     <string name="notification_max_sessions_content">Please disconnect another device to connect this one.</string>
+    <string name="notification_cancel_to_free">You are on the FREE plan. FREE servers and features are available.</string>
+    <string name="notification_cancel_to_basic">You are on the BASIC plan. BASIC &amp; FREE servers and features are available.</string>
+    <string name="notification_cancel_to_delinquent">You will be able to access premium features again after pending invoices are paid.</string>
     <string name="vpn_accelerator">VPN accelerator</string>
     <string name="reconnect_from_server">From server: </string>
     <string name="reconnect_to_server">To server: </string>
