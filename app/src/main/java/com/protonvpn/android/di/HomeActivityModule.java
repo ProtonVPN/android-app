@@ -24,6 +24,7 @@ import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
+import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 
@@ -36,6 +37,9 @@ public abstract class HomeActivityModule {
 
     @Binds
     abstract Activity provideActivity(HomeActivity activity);
+
+    @Binds
+    abstract Activity providesSwitchActivity(SwitchDialogActivity activity);
 
     @ContributesAndroidInjector
     abstract VpnStateFragment provideStateFragment();

@@ -27,6 +27,7 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
@@ -35,7 +36,7 @@ import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.TrafficMonitor
@@ -92,8 +93,7 @@ class NotificationHelper(
         when (switch) {
             is SwitchServerReason.Downgrade -> R.string.notification_subscription_expired_content
             SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_content
-            SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_content
-            SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
+            SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
             SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_content
             SwitchServerReason.TrialEnded -> R.string.freeTrialExpired
             SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_content
@@ -105,14 +105,20 @@ class NotificationHelper(
         val content: String,
         val reconnectionInformation: VpnFallbackResult.Switch? = null,
         val action: ActionItem? = null,
-        val hasUpsellDialog: Boolean = false
+        val fullScreenDialog: FullScreenDialog? = null,
     ) : java.io.Serializable
 
-    data class ActionItem(val title: String, val actionUrl: String)
+    data class FullScreenDialog(
+        val fullScreenIcon: Int? = null,
+        val hasUpsellLayout: Boolean = false
+    ) : java.io.Serializable
+
+    data class ActionItem(val title: String, val actionUrl: String) : java.io.Serializable
 
     fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
         val notificationBuilder =
-            NotificationCompat.Builder(appContext, CHANNEL_ID).setSmallIcon(R.drawable.ic_proton)
+            NotificationCompat.Builder(appContext, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_proton)
                 .setColor(ContextCompat.getColor(appContext, R.color.colorAccent))
 
         // Build complex notification with custom UI for reconnection information
@@ -135,11 +141,29 @@ class NotificationHelper(
             )
             expandedLayout.setTextViewText(R.id.textFromServer, fromProfile.server?.serverName)
             expandedLayout.setTextViewText(R.id.textToServer, toProfile.server?.serverName)
+            if (toProfile.isSecureCore) {
+                expandedLayout.setImageViewResource(
+                    R.id.imageToCountrySc,
+                    CountryTools.getFlagResource(appContext, toProfile.server?.exitCountry)
+                )
+                expandedLayout.setViewVisibility(R.id.imageToCountrySc, View.VISIBLE)
+                expandedLayout.setViewVisibility(R.id.arrowToSc, View.VISIBLE)
+            }
+            if (fromProfile.isSecureCore) {
+                expandedLayout.setImageViewResource(
+                    R.id.imageFromCountrySc,
+                    CountryTools.getFlagResource(appContext, fromProfile.server?.exitCountry)
+                )
+                expandedLayout.setViewVisibility(R.id.imageFromCountrySc, View.VISIBLE)
+                expandedLayout.setViewVisibility(R.id.arrowFromSc, View.VISIBLE)
+            }
             expandedLayout.setImageViewResource(
-                R.id.imageToCountry, CountryTools.getFlagResource(appContext, toProfile.country)
+                R.id.imageToCountry, CountryTools.getFlagResource(appContext, toProfile.server?.entryCountry)
             )
             expandedLayout.setImageViewResource(
-                R.id.imageFromCountry, CountryTools.getFlagResource(appContext, fromProfile.country)
+                R.id.imageFromCountry, CountryTools.getFlagResource(
+                    appContext, toProfile.server?.entryCountry
+                )
             )
 
             notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
@@ -156,7 +180,7 @@ class NotificationHelper(
             val urlIntent = Intent(Intent.ACTION_VIEW)
             urlIntent.data = Uri.parse(it.actionUrl)
             val actionPendingIntent: PendingIntent = PendingIntent.getActivity(
-                appContext, Constants.NOTIFICATION_INFO_ID, urlIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                appContext, Constants.NOTIFICATION_INFO_ID, urlIntent, PendingIntent.FLAG_UPDATE_CURRENT
             )
             notificationBuilder.addAction(
                 NotificationCompat.Action(
@@ -165,13 +189,13 @@ class NotificationHelper(
             )
         }
 
-        if (notificationInfo.hasUpsellDialog) {
+        if (notificationInfo.fullScreenDialog != null) {
             val intent = Intent(appContext, Constants.MAIN_ACTIVITY_CLASS)
-            intent.putExtra(HomeActivity.INTENT_UPSELL_DIALOG, notificationInfo)
-            val pending = PendingIntent.getActivity(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
+            val pending = PendingIntent.getActivity(appContext, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             notificationBuilder.setContentIntent(pending)
+            notificationBuilder.setAutoCancel(true)
         }
-
         NotificationManagerCompat.from(appContext)
             .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }

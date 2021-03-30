@@ -419,24 +419,33 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_server_under_maintenance">Under Maintenance</string>
     <string name="tv_server_list">Server list</string>
     <string name="tv_server_list_action_unavailable">Unavailable</string>
-    <string name="settingsSmartReconnectTitle">Smart Reconnect</string>
-    <string name="settingsSmartReconnectDescription">Automatically connect to a similar server if the one you selected is inaccessible.</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Smart Reconnect notifications</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Be notified when ProtonVPN connects to a server other than the one you selected.</string>
+    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <string name="settingsSmartReconnectDescription">Switch automatically to a faster server similar to the one you selected</string>
+    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
+    <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
 
     <string name="notification_subscription_expired_title">Your subscription has expired</string>
-    <string name="notification_subscription_expired_content">You downgraded your subscription, so we are reconnecting to the best available server. Upgrade again to enjoy all the features.</string>
+    <string name="notification_subscription_expired_content">Your subscription has been downgraded, so we are reconnecting to the fastest available server. </string>
     <string name="notification_delinquent_title">Your VPN account has pending invoices</string>
-    <string name="notification_delinquent_content">You will be able to access PLUS/BASIC features again after these are paid. To protect your online activity, we are reconnecting you to the fastest FREE plan server available based on your location.</string>
+    <string name="notification_delinquent_content">You will be able to access premium features again after these are paid. For now, we are reconnecting to the fastest FREE plan server available.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
-    <string name="notification_server_unreachable_content">The server you selected is currently unavailable, so we are reconnecting you to the fastest server available based on your location.</string>
+    <string name="notification_server_unreachable_content">You have been switched to a faster server that is similar to the one you selected.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_server_maintenance_content">The server you selected is currently under maintenance, so we are reconnecting you to the fastest server available based on your location.</string>
     <string name="notification_max_sessions_title">You have reached your maximum device limit</string>
     <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
     <string name="notification_max_sessions_content">Please disconnect another device to connect this one.</string>
     <string name="vpn_accelerator">VPN accelerator</string>
     <string name="reconnect_from_server">From server: </string>
     <string name="reconnect_to_server">To server: </string>
+    <string name="no_thanks">No thanks</string>
+
+    <string name="enable">Enable</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol is currently disabled</string>
+    <string name="notification_smart_protocol_disabled_content">ProtonVPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
+    <string name="device_count" translatable="false">10</string>
+    <string name="upsell_device_count">Connect up to %1$s devices at the same time</string>
+    <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
+    <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
 
 </resources>

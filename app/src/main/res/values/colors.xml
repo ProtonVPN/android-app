@@ -97,4 +97,6 @@
     <color name="tvServerLoadMedium">#EAC819</color>
     <color name="tvServerLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
+
+    <color name="textWeak">#9CA0AA</color>
 </resources>
