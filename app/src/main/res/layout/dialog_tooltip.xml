@@ -50,6 +50,7 @@
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/grey"
             tools:text="Onboarding dialog title"
             android:textSize="18sp" />
 
@@ -57,6 +58,7 @@
             android:id="@+id/textDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/grey"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             tools:text="Use the Map View to connect and virtually see where the VPN server is." />
