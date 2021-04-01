@@ -2,7 +2,7 @@
 // impl/dispatch.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,46 +23,81 @@
 #include "asio/detail/push_options.hpp"
 
 namespace asio {
+namespace detail {
 
-template <typename CompletionToken>
-ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) dispatch(
+class initiate_dispatch
+{
+public:
+  template <typename CompletionHandler>
+  void operator()(ASIO_MOVE_ARG(CompletionHandler) handler) const
+  {
+    typedef typename decay<CompletionHandler>::type DecayedHandler;
+
+    typename associated_executor<DecayedHandler>::type ex(
+        (get_associated_executor)(handler));
+
+    typename associated_allocator<DecayedHandler>::type alloc(
+        (get_associated_allocator)(handler));
+
+    ex.dispatch(ASIO_MOVE_CAST(CompletionHandler)(handler), alloc);
+  }
+};
+
+template <typename Executor>
+class initiate_dispatch_with_executor
+{
+public:
+  typedef Executor executor_type;
+
+  explicit initiate_dispatch_with_executor(const Executor& ex)
+    : ex_(ex)
+  {
+  }
+
+  executor_type get_executor() const ASIO_NOEXCEPT
+  {
+    return ex_;
+  }
+
+  template <typename CompletionHandler>
+  void operator()(ASIO_MOVE_ARG(CompletionHandler) handler) const
+  {
+    typedef typename decay<CompletionHandler>::type DecayedHandler;
+
+    typename associated_allocator<DecayedHandler>::type alloc(
+        (get_associated_allocator)(handler));
+
+    ex_.dispatch(detail::work_dispatcher<DecayedHandler>(
+          ASIO_MOVE_CAST(CompletionHandler)(handler)), alloc);
+  }
+
+private:
+  Executor ex_;
+};
+
+} // namespace detail
+
+template <ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken>
+ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) dispatch(
     ASIO_MOVE_ARG(CompletionToken) token)
 {
-  typedef ASIO_HANDLER_TYPE(CompletionToken, void()) handler;
-
-  async_completion<CompletionToken, void()> init(token);
-
-  typename associated_executor<handler>::type ex(
-      (get_associated_executor)(init.completion_handler));
-
-  typename associated_allocator<handler>::type alloc(
-      (get_associated_allocator)(init.completion_handler));
-
-  ex.dispatch(ASIO_MOVE_CAST(handler)(init.completion_handler), alloc);
-
-  return init.result.get();
+  return async_initiate<CompletionToken, void()>(
+      detail::initiate_dispatch(), token);
 }
 
-template <typename Executor, typename CompletionToken>
-ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) dispatch(
+template <typename Executor,
+    ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken>
+ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) dispatch(
     const Executor& ex, ASIO_MOVE_ARG(CompletionToken) token,
     typename enable_if<is_executor<Executor>::value>::type*)
 {
-  typedef ASIO_HANDLER_TYPE(CompletionToken, void()) handler;
-
-  async_completion<CompletionToken, void()> init(token);
-
-  typename associated_allocator<handler>::type alloc(
-      (get_associated_allocator)(init.completion_handler));
-
-  ex.dispatch(detail::work_dispatcher<handler>(
-        init.completion_handler), alloc);
-
-  return init.result.get();
+  return async_initiate<CompletionToken, void()>(
+      detail::initiate_dispatch_with_executor<Executor>(ex), token);
 }
 
-template <typename ExecutionContext, typename CompletionToken>
-inline ASIO_INITFN_RESULT_TYPE(CompletionToken, void()) dispatch(
+template <typename ExecutionContext,
+    ASIO_COMPLETION_TOKEN_FOR(void()) CompletionToken>
+inline ASIO_INITFN_AUTO_RESULT_TYPE(CompletionToken, void()) dispatch(
     ExecutionContext& ctx, ASIO_MOVE_ARG(CompletionToken) token,
     typename enable_if<is_convertible<
       ExecutionContext&, execution_context&>::value>::type*)

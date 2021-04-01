@@ -212,6 +212,7 @@ struct link_socket
 #define SF_GETADDRINFO_DGRAM (1<<4)
     unsigned int sockflags;
     int mark;
+    const char *bind_dev;
 
     /* for stream sockets */
     struct stream_buf stream_buf;
@@ -296,7 +297,8 @@ int openvpn_connect(socket_descriptor_t sd,
 /*
  * Initialize link_socket object.
  */
-
+/* *INDENT-OFF* uncrustify misparses this function declarion because of
+ * embedded #if/#endif tell it to skip this section */
 void
 link_socket_init_phase1(struct link_socket *sock,
                         const char *local_host,
@@ -325,8 +327,10 @@ link_socket_init_phase1(struct link_socket *sock,
                         int rcvbuf,
                         int sndbuf,
                         int mark,
+                        const char *bind_dev,
                         struct event_timeout *server_poll_timeout,
                         unsigned int sockflags);
+/* Reenable uncrustify *INDENT-ON* */
 
 void link_socket_init_phase2(struct link_socket *sock,
                              const struct frame *frame,
@@ -431,8 +435,7 @@ in_addr_t link_socket_current_remote(const struct link_socket_info *info);
 const struct in6_addr *link_socket_current_remote_ipv6
     (const struct link_socket_info *info);
 
-void link_socket_connection_initiated(const struct buffer *buf,
-                                      struct link_socket_info *info,
+void link_socket_connection_initiated(struct link_socket_info *info,
                                       const struct link_socket_actual *addr,
                                       const char *common_name,
                                       struct env_set *es);
@@ -980,29 +983,25 @@ link_socket_get_outgoing_addr(struct buffer *buf,
 }
 
 static inline void
-link_socket_set_outgoing_addr(const struct buffer *buf,
-                              struct link_socket_info *info,
+link_socket_set_outgoing_addr(struct link_socket_info *info,
                               const struct link_socket_actual *act,
                               const char *common_name,
                               struct env_set *es)
 {
-    if (!buf || buf->len > 0)
+    struct link_socket_addr *lsa = info->lsa;
+    if (
+        /* new or changed address? */
+        (!info->connection_established
+         || !addr_match_proto(&act->dest, &lsa->actual.dest, info->proto)
+        )
+        &&
+        /* address undef or address == remote or --float */
+        (info->remote_float
+         || (!lsa->remote_list || addrlist_match_proto(&act->dest, lsa->remote_list, info->proto))
+        )
+        )
     {
-        struct link_socket_addr *lsa = info->lsa;
-        if (
-            /* new or changed address? */
-            (!info->connection_established
-             || !addr_match_proto(&act->dest, &lsa->actual.dest, info->proto)
-            )
-            &&
-            /* address undef or address == remote or --float */
-            (info->remote_float
-             || (!lsa->remote_list || addrlist_match_proto(&act->dest, lsa->remote_list, info->proto))
-            )
-            )
-        {
-            link_socket_connection_initiated(buf, info, act, common_name, es);
-        }
+        link_socket_connection_initiated(info, act, common_name, es);
     }
 }
 

@@ -58,7 +58,7 @@ namespace openvpn {
       {
 	std::string header = "-----BEGIN " + key_name + "-----";
 	std::string footer = "-----END " + key_name + "-----";
-	mbedtls_pem_context ctx = { 0 };
+	mbedtls_pem_context ctx = { };
 	size_t out_len = 0;
 
 	int ret = mbedtls_pem_read_buffer(&ctx, header.c_str(), footer.c_str(),

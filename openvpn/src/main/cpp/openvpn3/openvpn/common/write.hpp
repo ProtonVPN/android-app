@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,7 +35,7 @@ namespace openvpn {
 	const ssize_t status = ::write(fd, buf, count);
 	if (status < 0)
 	  return status;
-	if (status > count) // should never happen
+	if (static_cast<size_t>(status) > count) // should never happen
 	  std::abort();
 	total += status;
 	count -= status;

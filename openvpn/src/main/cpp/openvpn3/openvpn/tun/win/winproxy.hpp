@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -24,11 +24,11 @@
 
 #pragma once
 
-#include <WinInet.h>
+#include <wininet.h>
 
-#include <openvpn\win\impersonate.hpp>
-#include <openvpn\tun\proxy.hpp>
-#include <openvpn\win\reg.hpp>
+#include <openvpn/win/impersonate.hpp>
+#include <openvpn/tun/proxy.hpp>
+#include <openvpn/win/reg.hpp>
 
 using namespace openvpn::Win;
 
@@ -43,7 +43,7 @@ namespace openvpn {
 
       void set_proxy(bool del) override
       {
-	ImpersonateAsUser imp;
+	Impersonate imp{false};
 
   	LONG status;
 	RegKey hkcu;

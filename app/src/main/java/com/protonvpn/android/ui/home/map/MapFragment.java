@@ -40,6 +40,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
 import com.protonvpn.android.utils.ServerManager;
+import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.qozix.tileview.TileView;
 import com.qozix.tileview.markers.MarkerLayout;
@@ -70,6 +71,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     @BindView(R.id.mapView) TileView mapView;
     @Inject ServerManager serverManager;
     @Inject VpnStateMonitor stateMonitor;
+    @Inject VpnConnectionManager vpnConnectionManager;
     @Inject UserData userData;
     private List<CompositePathView.DrawablePath> paths = new ArrayList<>();
     private ImageView secureCoreMarker = null;
@@ -281,7 +283,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         buttonConnect.setText(currentConnection ? R.string.mapCalloutDisconnect : R.string.mapCalloutConnect);
         buttonConnect.setOnClickListener(v -> {
             if (currentConnection) {
-                stateMonitor.disconnect();
+                vpnConnectionManager.disconnect();
             }
             else {
                 EventBus.post(

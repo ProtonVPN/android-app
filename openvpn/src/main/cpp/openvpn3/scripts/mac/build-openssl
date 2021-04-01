@@ -14,19 +14,26 @@ cd $DEP_DIR
 rm -rf openssl
 mkdir openssl
 
-for target in osx ; do
-    echo '***************' OpenSSL-32 $target
-    TARGET=$target OPENSSL_TARGET=darwin-i386-cc ARCH=i386 $O3/core/deps/openssl/build-openssl
+for target in ios osx; do
     echo '***************' OpenSSL-64 $target
-    TARGET=$target OPENSSL_TARGET=darwin64-x86_64-cc ARCH=x86_64 $O3/core/deps/openssl/build-openssl
-    cd openssl/openssl-$target
-    cp -a x86_64/include .
-    rm include/openssl/opensslconf.h # contains 32/64-bit specific references
-    for l in libcrypto.a libssl.a ; do
-	lipo -create */lib/$l -output $l
-    done
-    mkdir lib
-    mv *.a lib
-    cd ../..
+
+    if [ "$target" = "osx" ]; then
+        TARGET=$target OPENSSL_TARGET=darwin64-x86_64-cc $O3/core/deps/openssl/build-openssl
+    else
+        ARCH=arm64 CROSS_TOP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer \
+                 CROSS_SDK=iPhoneOS.sdk TARGET=$target OPENSSL_TARGET="ios64-cross no-dso no-engine" \
+                 $O3/core/deps/openssl/build-openssl
+
+        ARCH=armv7 CROSS_TOP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer \
+                 CROSS_SDK=iPhoneOS.sdk TARGET=$target OPENSSL_TARGET="ios-cross no-dso no-engine" \
+                 $O3/core/deps/openssl/build-openssl
+    fi
 done
+
+cd openssl/openssl-ios
+mkdir -p fat/lib
+for l in libcrypto.a libssl.a ; do
+    lipo -create arm64/lib/$l armv7/lib/$l -output fat/lib/$l
+done
+
 exit 0

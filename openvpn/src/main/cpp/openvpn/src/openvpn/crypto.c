@@ -64,7 +64,6 @@ static void
 openvpn_encrypt_aead(struct buffer *buf, struct buffer work,
                      struct crypto_options *opt)
 {
-#ifdef HAVE_AEAD_CIPHER_MODES
     struct gc_arena gc;
     int outlen = 0;
     const struct key_ctx *ctx = &opt->key_ctx_bi.encrypt;
@@ -152,9 +151,6 @@ err:
     buf->len = 0;
     gc_free(&gc);
     return;
-#else /* HAVE_AEAD_CIPHER_MODES */
-    ASSERT(0);
-#endif /* ifdef HAVE_AEAD_CIPHER_MODES */
 }
 
 static void
@@ -361,7 +357,6 @@ openvpn_decrypt_aead(struct buffer *buf, struct buffer work,
                      struct crypto_options *opt, const struct frame *frame,
                      const uint8_t *ad_start)
 {
-#ifdef HAVE_AEAD_CIPHER_MODES
     static const char error_prefix[] = "AEAD Decrypt error";
     struct packet_id_net pin = { 0 };
     const struct key_ctx *ctx = &opt->key_ctx_bi.decrypt;
@@ -482,10 +477,6 @@ error_exit:
     buf->len = 0;
     gc_free(&gc);
     return false;
-#else /* HAVE_AEAD_CIPHER_MODES */
-    ASSERT(0);
-    return false;
-#endif /* ifdef HAVE_AEAD_CIPHER_MODES */
 }
 
 /*
@@ -729,6 +720,20 @@ crypto_max_overhead(void)
            +max_int(OPENVPN_MAX_HMAC_SIZE, OPENVPN_AEAD_TAG_LENGTH);
 }
 
+static void
+warn_insecure_key_type(const char *ciphername, const cipher_kt_t *cipher)
+{
+    if (cipher_kt_insecure(cipher))
+    {
+        msg(M_WARN, "WARNING: INSECURE cipher (%s) with block size less than 128"
+            " bit (%d bit).  This allows attacks like SWEET32.  Mitigate by "
+            "using a --cipher with a larger block size (e.g. AES-256-CBC). "
+            "Support for these insecure ciphers will be removed in "
+            "OpenVPN 2.6.",
+            ciphername, cipher_kt_block_size(cipher)*8);
+    }
+}
+
 /*
  * Build a struct key_type.
  */
@@ -744,7 +749,7 @@ init_key_type(struct key_type *kt, const char *ciphername,
     CLEAR(*kt);
     if (strcmp(ciphername, "none") != 0)
     {
-        kt->cipher = cipher_kt_get(translate_cipher_name_from_openvpn(ciphername));
+        kt->cipher = cipher_kt_get(ciphername);
         if (!kt->cipher)
         {
             msg(M_FATAL, "Cipher %s not supported", ciphername);
@@ -771,6 +776,10 @@ init_key_type(struct key_type *kt, const char *ciphername,
         if (OPENVPN_MAX_CIPHER_BLOCK_SIZE < cipher_kt_block_size(kt->cipher))
         {
             msg(M_FATAL, "Cipher '%s' not allowed: block size too big.", ciphername);
+        }
+        if (warn)
+        {
+            warn_insecure_key_type(ciphername, kt->cipher);
         }
     }
     else
@@ -824,9 +833,10 @@ init_key_ctx(struct key_ctx *ctx, const struct key *key,
         cipher_ctx_init(ctx->cipher, key->cipher, kt->cipher_length,
                         kt->cipher, enc);
 
+        const char *ciphername = cipher_kt_name(kt->cipher);
         msg(D_HANDSHAKE, "%s: Cipher '%s' initialized with %d bit key",
             prefix,
-            translate_cipher_name_to_openvpn(cipher_kt_name(kt->cipher)),
+            ciphername,
             kt->cipher_length *8);
 
         dmsg(D_SHOW_KEYS, "%s: CIPHER KEY: %s", prefix,
@@ -834,13 +844,7 @@ init_key_ctx(struct key_ctx *ctx, const struct key *key,
         dmsg(D_CRYPTO_DEBUG, "%s: CIPHER block_size=%d iv_size=%d",
              prefix, cipher_kt_block_size(kt->cipher),
              cipher_kt_iv_size(kt->cipher));
-        if (cipher_kt_insecure(kt->cipher))
-        {
-            msg(M_WARN, "WARNING: INSECURE cipher with block size less than 128"
-                " bit (%d bit).  This allows attacks like SWEET32.  Mitigate by "
-                "using a --cipher with a larger block size (e.g. AES-256-CBC).",
-                cipher_kt_block_size(kt->cipher)*8);
-        }
+        warn_insecure_key_type(ciphername, kt->cipher);
     }
     if (kt->digest && kt->hmac_length > 0)
     {
@@ -888,7 +892,6 @@ free_key_ctx(struct key_ctx *ctx)
 {
     if (ctx->cipher)
     {
-        cipher_ctx_cleanup(ctx->cipher);
         cipher_ctx_free(ctx->cipher);
         ctx->cipher = NULL;
     }
@@ -1094,7 +1097,6 @@ test_crypto(struct crypto_options *co, struct frame *frame)
     /* init work */
     ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
 
-#ifdef HAVE_AEAD_CIPHER_MODES
     /* init implicit IV */
     {
         const cipher_kt_t *cipher =
@@ -1116,7 +1118,6 @@ test_crypto(struct crypto_options *co, struct frame *frame)
             co->key_ctx_bi.decrypt.implicit_iv_len = impl_iv_len;
         }
     }
-#endif /* ifdef HAVE_AEAD_CIPHER_MODES */
 
     msg(M_INFO, "Entering " PACKAGE_NAME " crypto self-test mode.");
     for (i = 1; i <= TUN_MTU_SIZE(frame); ++i)
@@ -1167,27 +1168,38 @@ test_crypto(struct crypto_options *co, struct frame *frame)
     gc_free(&gc);
 }
 
+const char *
+print_key_filename(const char *str, bool is_inline)
+{
+    if (is_inline)
+    {
+        return "[[INLINE]]";
+    }
+
+    return np(str);
+}
+
 void
 crypto_read_openvpn_key(const struct key_type *key_type,
-                        struct key_ctx_bi *ctx, const char *key_file, const char *key_inline,
-                        const int key_direction, const char *key_name, const char *opt_name)
+                        struct key_ctx_bi *ctx, const char *key_file,
+                        bool key_inline, const int key_direction,
+                        const char *key_name, const char *opt_name)
 {
     struct key2 key2;
     struct key_direction_state kds;
+    unsigned int flags = RKF_MUST_SUCCEED;
 
     if (key_inline)
     {
-        read_key_file(&key2, key_inline, RKF_MUST_SUCCEED|RKF_INLINE);
+        flags |= RKF_INLINE;
     }
-    else
-    {
-        read_key_file(&key2, key_file, RKF_MUST_SUCCEED);
-    }
+    read_key_file(&key2, key_file, flags);
 
     if (key2.n != 2)
     {
         msg(M_ERR, "File '%s' does not have OpenVPN Static Key format.  Using "
-            "free-form passphrase file is not supported anymore.", key_file);
+            "free-form passphrase file is not supported anymore.",
+            print_key_filename(key_file, key_inline));
     }
 
     /* check for and fix highly unlikely key problems */
@@ -1221,7 +1233,6 @@ read_key_file(struct key2 *key2, const char *file, const unsigned int flags)
     struct buffer in;
     int size;
     uint8_t hex_byte[3] = {0, 0, 0};
-    const char *error_filename = file;
 
     /* parse info */
     const unsigned char *cp;
@@ -1259,7 +1270,6 @@ read_key_file(struct key2 *key2, const char *file, const unsigned int flags)
     {
         size = strlen(file) + 1;
         buf_set_read(&in, (const uint8_t *)file, size);
-        error_filename = INLINE_FILE_TAG;
     }
     else /* 'file' is a filename which refers to a file containing the ascii key */
     {
@@ -1355,7 +1365,9 @@ read_key_file(struct key2 *key2, const char *file, const unsigned int flags)
                 {
                     msg(M_FATAL,
                         (isprint(c) ? printable_char_fmt : unprintable_char_fmt),
-                        c, line_num, error_filename, count, onekeylen, keylen);
+                        c, line_num,
+                        print_key_filename(file, flags & RKF_INLINE), count,
+                        onekeylen, keylen);
                 }
             }
             ++line_index;
@@ -1376,13 +1388,15 @@ read_key_file(struct key2 *key2, const char *file, const unsigned int flags)
         if (!key2->n)
         {
             msg(M_FATAL, "Insufficient key material or header text not found in file '%s' (%d/%d/%d bytes found/min/max)",
-                error_filename, count, onekeylen, keylen);
+                print_key_filename(file, flags & RKF_INLINE), count, onekeylen,
+                keylen);
         }
 
         if (state != PARSE_FINISHED)
         {
             msg(M_FATAL, "Footer text not found in file '%s' (%d/%d/%d bytes found/min/max)",
-                error_filename, count, onekeylen, keylen);
+                print_key_filename(file, flags & RKF_INLINE), count, onekeylen,
+                keylen);
         }
     }
 
@@ -1458,8 +1472,13 @@ write_key_file(const int nkeys, const char *filename)
 
     buf_printf(&out, "%s\n", static_key_foot);
 
+    /* write key file to stdout if no filename given */
+    if (!filename || strcmp(filename, "")==0)
+    {
+        printf("%.*s\n", BLEN(&out), BPTR(&out));
+    }
     /* write key file, now formatted in out, to file */
-    if (!buffer_write_file(filename, &out))
+    else if (!buffer_write_file(filename, &out))
     {
         nbits = -1;
     }
@@ -1481,7 +1500,7 @@ must_have_n_keys(const char *filename, const char *option, const struct key2 *ke
 #ifdef ENABLE_SMALL
         msg(M_FATAL, "Key file '%s' used in --%s contains insufficient key material [keys found=%d required=%d]", filename, option, key2->n, n);
 #else
-        msg(M_FATAL, "Key file '%s' used in --%s contains insufficient key material [keys found=%d required=%d] -- try generating a new key file with '" PACKAGE " --genkey --secret [file]', or use the existing key file in bidirectional mode by specifying --%s without a key direction parameter", filename, option, key2->n, n, option);
+        msg(M_FATAL, "Key file '%s' used in --%s contains insufficient key material [keys found=%d required=%d] -- try generating a new key file with '" PACKAGE " --genkey secret [file]', or use the existing key file in bidirectional mode by specifying --%s without a key direction parameter", filename, option, key2->n, n, option);
 #endif
     }
 }
@@ -1775,7 +1794,7 @@ print_cipher(const cipher_kt_t *cipher)
                                " by default" : "";
 
     printf("%s  (%d bit key%s, ",
-           translate_cipher_name_to_openvpn(cipher_kt_name(cipher)),
+           cipher_kt_name(cipher),
            cipher_kt_key_size(cipher) * 8, var_key_size);
 
     if (cipher_kt_block_size(cipher) == 1)
@@ -1863,7 +1882,11 @@ write_pem_key_file(const char *filename, const char *pem_name)
         goto cleanup;
     }
 
-    if (!buffer_write_file(filename, &server_key_pem))
+    if (!filename || strcmp(filename, "")==0)
+    {
+        printf("%.*s", BLEN(&server_key_pem), BPTR(&server_key_pem));
+    }
+    else if (!buffer_write_file(filename, &server_key_pem))
     {
         msg(M_ERR, "ERROR: could not write key file");
         goto cleanup;
@@ -1877,14 +1900,32 @@ cleanup:
 }
 
 bool
+generate_ephemeral_key(struct buffer *key, const char *key_name)
+{
+    const int len = BCAP(key);
+
+    msg(M_INFO, "Using random %s.", key_name);
+
+    if (!rand_bytes(BEND(key), len))
+    {
+        msg(M_WARN, "ERROR: could not generate random key");
+        return false;
+    }
+
+    buf_inc_len(key, len);
+
+    return true;
+}
+
+bool
 read_pem_key_file(struct buffer *key, const char *pem_name,
-                  const char *key_file, const char *key_inline)
+                  const char *key_file, bool key_inline)
 {
     bool ret = false;
     struct buffer key_pem = { 0 };
     struct gc_arena gc = gc_new();
 
-    if (strcmp(key_file, INLINE_FILE_TAG))
+    if (!key_inline)
     {
         key_pem = buffer_read_from_file(key_file, &gc);
         if (!buf_valid(&key_pem))
@@ -1896,7 +1937,7 @@ read_pem_key_file(struct buffer *key, const char *pem_name,
     }
     else
     {
-        buf_set_read(&key_pem, (const void *)key_inline, strlen(key_inline) + 1);
+        buf_set_read(&key_pem, (const void *)key_file, strlen(key_file) + 1);
     }
 
     if (!crypto_pem_decode(pem_name, key, &key_pem))
@@ -1907,7 +1948,7 @@ read_pem_key_file(struct buffer *key, const char *pem_name,
 
     ret = true;
 cleanup:
-    if (strcmp(key_file, INLINE_FILE_TAG))
+    if (!key_inline)
     {
         buf_clear(&key_pem);
     }

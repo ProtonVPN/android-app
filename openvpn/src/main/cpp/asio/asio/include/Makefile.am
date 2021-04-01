@@ -3,6 +3,7 @@ nobase_include_HEADERS = \
 	asio/associated_allocator.hpp \
 	asio/associated_executor.hpp \
 	asio/async_result.hpp \
+	asio/awaitable.hpp \
 	asio/basic_datagram_socket.hpp \
 	asio/basic_deadline_timer.hpp \
 	asio/basic_io_object.hpp \
@@ -27,13 +28,14 @@ nobase_include_HEADERS = \
 	asio/buffered_write_stream.hpp \
 	asio/buffer.hpp \
 	asio/buffers_iterator.hpp \
+	asio/co_spawn.hpp \
 	asio/completion_condition.hpp \
+	asio/compose.hpp \
 	asio/connect.hpp \
 	asio/coroutine.hpp \
-	asio/datagram_socket_service.hpp \
 	asio/deadline_timer.hpp \
-	asio/deadline_timer_service.hpp \
 	asio/defer.hpp \
+	asio/detached.hpp \
 	asio/detail/array_fwd.hpp \
 	asio/detail/array.hpp \
 	asio/detail/assert.hpp \
@@ -64,6 +66,7 @@ nobase_include_HEADERS = \
 	asio/detail/epoll_reactor.hpp \
 	asio/detail/eventfd_select_interrupter.hpp \
 	asio/detail/event.hpp \
+	asio/detail/executor_function.hpp \
 	asio/detail/executor_op.hpp \
 	asio/detail/fd_set_adapter.hpp \
 	asio/detail/fenced_block.hpp \
@@ -132,6 +135,8 @@ nobase_include_HEADERS = \
 	asio/detail/impl/win_thread.ipp \
 	asio/detail/impl/win_tss_ptr.ipp \
 	asio/detail/io_control.hpp \
+	asio/detail/io_object_executor.hpp \
+	asio/detail/io_object_impl.hpp \
 	asio/detail/is_buffer_sequence.hpp \
 	asio/detail/is_executor.hpp \
 	asio/detail/keyword_tss_ptr.hpp \
@@ -141,6 +146,7 @@ nobase_include_HEADERS = \
 	asio/detail/macos_fenced_block.hpp \
 	asio/detail/memory.hpp \
 	asio/detail/mutex.hpp \
+	asio/detail/non_const_lvalue.hpp \
 	asio/detail/noncopyable.hpp \
 	asio/detail/null_event.hpp \
 	asio/detail/null_fenced_block.hpp \
@@ -287,13 +293,6 @@ nobase_include_HEADERS = \
 	asio/execution_context.hpp \
 	asio/executor.hpp \
 	asio/executor_work_guard.hpp \
-	asio/experimental/co_spawn.hpp \
-	asio/experimental/detached.hpp \
-	asio/experimental.hpp \
-	asio/experimental/impl/co_spawn.hpp \
-	asio/experimental/impl/detached.hpp \
-	asio/experimental/impl/redirect_error.hpp \
-	asio/experimental/redirect_error.hpp \
 	asio/generic/basic_endpoint.hpp \
 	asio/generic/datagram_protocol.hpp \
 	asio/generic/detail/endpoint.hpp \
@@ -304,13 +303,16 @@ nobase_include_HEADERS = \
 	asio/handler_alloc_hook.hpp \
 	asio/handler_continuation_hook.hpp \
 	asio/handler_invoke_hook.hpp \
-	asio/handler_type.hpp \
 	asio/high_resolution_timer.hpp \
 	asio.hpp \
+	asio/impl/awaitable.hpp \
 	asio/impl/buffered_read_stream.hpp \
 	asio/impl/buffered_write_stream.hpp \
+	asio/impl/co_spawn.hpp \
+	asio/impl/compose.hpp \
 	asio/impl/connect.hpp \
 	asio/impl/defer.hpp \
+	asio/impl/detached.hpp \
 	asio/impl/dispatch.hpp \
 	asio/impl/error_code.ipp \
 	asio/impl/error.ipp \
@@ -325,6 +327,7 @@ nobase_include_HEADERS = \
 	asio/impl/read_at.hpp \
 	asio/impl/read.hpp \
 	asio/impl/read_until.hpp \
+	asio/impl/redirect_error.hpp \
 	asio/impl/serial_port_base.hpp \
 	asio/impl/serial_port_base.ipp \
 	asio/impl/spawn.hpp \
@@ -335,6 +338,7 @@ nobase_include_HEADERS = \
 	asio/impl/system_executor.hpp \
 	asio/impl/thread_pool.hpp \
 	asio/impl/thread_pool.ipp \
+	asio/impl/use_awaitable.hpp \
 	asio/impl/use_future.hpp \
 	asio/impl/write_at.hpp \
 	asio/impl/write.hpp \
@@ -378,7 +382,6 @@ nobase_include_HEADERS = \
 	asio/ip/network_v6.hpp \
 	asio/ip/resolver_base.hpp \
 	asio/ip/resolver_query_base.hpp \
-	asio/ip/resolver_service.hpp \
 	asio/ip/tcp.hpp \
 	asio/ip/udp.hpp \
 	asio/ip/unicast.hpp \
@@ -399,19 +402,14 @@ nobase_include_HEADERS = \
 	asio/posix/descriptor_base.hpp \
 	asio/posix/descriptor.hpp \
 	asio/posix/stream_descriptor.hpp \
-	asio/posix/stream_descriptor_service.hpp \
 	asio/post.hpp \
-	asio/raw_socket_service.hpp \
 	asio/read_at.hpp \
 	asio/read.hpp \
 	asio/read_until.hpp \
-	asio/seq_packet_socket_service.hpp \
+	asio/redirect_error.hpp \
 	asio/serial_port_base.hpp \
 	asio/serial_port.hpp \
-	asio/serial_port_service.hpp \
 	asio/signal_set.hpp \
-	asio/signal_set_service.hpp \
-	asio/socket_acceptor_service.hpp \
 	asio/socket_base.hpp \
 	asio/spawn.hpp \
 	asio/ssl/context_base.hpp \
@@ -432,9 +430,11 @@ nobase_include_HEADERS = \
 	asio/ssl/detail/write_op.hpp \
 	asio/ssl/error.hpp \
 	asio/ssl.hpp \
+	asio/ssl/host_name_verification.hpp \
 	asio/ssl/impl/context.hpp \
 	asio/ssl/impl/context.ipp \
 	asio/ssl/impl/error.ipp \
+	asio/ssl/impl/host_name_verification.ipp \
 	asio/ssl/impl/rfc2818_verification.ipp \
 	asio/ssl/impl/src.hpp \
 	asio/ssl/rfc2818_verification.hpp \
@@ -445,11 +445,11 @@ nobase_include_HEADERS = \
 	asio/steady_timer.hpp \
 	asio/strand.hpp \
 	asio/streambuf.hpp \
-	asio/stream_socket_service.hpp \
 	asio/system_context.hpp \
 	asio/system_error.hpp \
 	asio/system_executor.hpp \
 	asio/system_timer.hpp \
+	asio/this_coro.hpp \
 	asio/thread.hpp \
 	asio/thread_pool.hpp \
 	asio/time_traits.hpp \
@@ -462,23 +462,20 @@ nobase_include_HEADERS = \
 	asio/ts/socket.hpp \
 	asio/ts/timer.hpp \
 	asio/unyield.hpp \
+	asio/use_awaitable.hpp \
 	asio/use_future.hpp \
 	asio/uses_executor.hpp \
 	asio/version.hpp \
-	asio/waitable_timer_service.hpp \
 	asio/wait_traits.hpp \
-	asio/windows/basic_handle.hpp \
 	asio/windows/basic_object_handle.hpp \
+	asio/windows/basic_overlapped_handle.hpp \
 	asio/windows/basic_random_access_handle.hpp \
 	asio/windows/basic_stream_handle.hpp \
 	asio/windows/object_handle.hpp \
-	asio/windows/object_handle_service.hpp \
 	asio/windows/overlapped_handle.hpp \
 	asio/windows/overlapped_ptr.hpp \
 	asio/windows/random_access_handle.hpp \
-	asio/windows/random_access_handle_service.hpp \
 	asio/windows/stream_handle.hpp \
-	asio/windows/stream_handle_service.hpp \
 	asio/write_at.hpp \
 	asio/write.hpp \
 	asio/yield.hpp

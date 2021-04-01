@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -59,6 +60,7 @@ int main( void )
     "\n acceptable parameters:\n"                       \
     "    filename=%%s         default: crl.pem\n"      \
     "\n"
+
 
 /*
  * global options

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -44,22 +44,33 @@ namespace openvpn {
       // Disable peer verification
       NO_VERIFY_PEER=(1<<1),
 
-      // Enable SNI (Server Name Indication) when hostname is provided
-      ENABLE_SNI=(1<<2),
+      // [client only] Enable client-side SNI (Server Name Indication)
+      // when hostname is provided
+      ENABLE_CLIENT_SNI=(1<<2),
+
+      // [client only] Don't require that the hostname matches
+      // the common name in the certificate.
+      NO_VERIFY_HOSTNAME=(1<<3),
 
       // [server only] Don't automatically fail connections on
       // bad peer cert.  Succeed the connection, but pass the
       // fail status data via AuthCert so the higher layers
       // can handle it.
-      DEFERRED_CERT_VERIFY=(1<<3),
+      DEFERRED_CERT_VERIFY=(1<<4),
 
       // [server only] When running as a server, require that
       // clients that connect to us have their certificate
       // purpose set to server.
-      SERVER_TO_SERVER=(1<<4),
+      SERVER_TO_SERVER=(1<<5),
+
+      // Peer certificate is optional
+      PEER_CERT_OPTIONAL=(1<<6),
+
+      // [server only] Send a list of client CAs to the client
+      SEND_CLIENT_CA_LIST=(1<<7),
 
       // last flag marker
-      LAST=(1<<5),
+      LAST=(1<<8)
     };
 
     // filter all but SSL flags

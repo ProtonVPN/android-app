@@ -58,7 +58,6 @@
     <string name="state_user_vpn_password" translatable="false">Waiting for user VPN password</string>
     <string name="state_user_vpn_password_cancelled" translatable="false">VPN password input dialog cancelled</string>
     <string name="state_user_vpn_permission_cancelled" translatable="false">VPN API permission dialog cancelled</string>
-    <string name="state_multiuser_permission_error" translatable="false">Multiuser permission problem (conflict between Dual Apps and Split Tunneling)</string>
     <string name="default_cipherlist_test" translatable="false">aes-256-gcm bf-cbc sha1</string>
 
     <!-- APP restriction strings -->
@@ -72,6 +71,6 @@
     <string name="apprest_name">Name</string>
     <string name="apprest_vpnlist">List of VPN configurations</string>
     <string name="apprest_vpnconf">VPN configuration</string>
-    <string name="apprest_ver">Version of the managed configuration schema</string>
+    <string name="apprest_ver">Version of the managed configuration schema (Currently always 1)</string>
 
 </resources>

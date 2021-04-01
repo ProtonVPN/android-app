@@ -15,5 +15,5 @@ if [ "$LINK_MODE" = "shared" ]; then
 else
     SHARED=0
 fi
-VERBOSE=1 TARGET=linux ENABLE_SERVER=1 SHARED=$SHARED $O3/core/deps/mbedtls/build-mbedtls
+VERBOSE=1 TARGET=${TARGET:-linux} ENABLE_SERVER=1 SHARED=$SHARED $O3/core/deps/mbedtls/build-mbedtls
 exit 0

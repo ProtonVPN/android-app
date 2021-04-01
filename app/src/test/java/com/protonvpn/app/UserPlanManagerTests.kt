@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
@@ -76,8 +77,8 @@ class UserPlanManagerTests {
     @Test
     fun planUpgradeFiresCorrectEvent() = runBlockingTest {
         launch {
-            val planChange = manager.planChangeFlow.first { it is UserPlanManager.InfoChange.PlanChange }
-            Assert.assertTrue(planChange is UserPlanManager.InfoChange.PlanChange.Upgrade)
+            val planChange = manager.planChangeFlow.first()
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Upgrade, planChange)
         }
         changePlan(TestUser.getFreeUser().vpnInfoResponse, TestUser.getPlusUser().vpnInfoResponse)
     }
@@ -85,7 +86,7 @@ class UserPlanManagerTests {
     @Test
     fun credentialChangeFiresEvent() = runBlockingTest {
         launch {
-            Assert.assertTrue(manager.planChangeFlow.first() is UserPlanManager.InfoChange.VpnCredentials)
+            Assert.assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
         changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getBadUser().vpnInfoResponse)
     }
@@ -93,17 +94,31 @@ class UserPlanManagerTests {
     @Test
     fun planDowngradeFiresDowngrade() = runBlockingTest {
         launch {
-            val planChange = manager.planChangeFlow.first { it is UserPlanManager.InfoChange.PlanChange }
-            Assert.assertTrue(planChange is UserPlanManager.InfoChange.PlanChange.Downgrade)
+            val planChange = manager.planChangeFlow.first()
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade, planChange)
         }
         changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
     }
 
     @Test
+    fun planDowngradeDisablesSecureCore() = runBlockingTest {
+        userData.isSecureCoreEnabled = true
+        changePlan(TestUser.getPlusUser().vpnInfoResponse, TestUser.getBasicUser().vpnInfoResponse)
+        Assert.assertFalse(userData.isSecureCoreEnabled)
+    }
+
+    @Test
+    fun planDowngradeDisablesNetshield() = runBlockingTest {
+        userData.netShieldProtocol = NetShieldProtocol.ENABLED
+        changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
+        Assert.assertEquals(NetShieldProtocol.DISABLED, userData.netShieldProtocol)
+    }
+
+    @Test
     fun trialStartFiresVpnInfo() = runBlockingTest {
         launch {
-            val planChange = manager.planChangeFlow.first { it is UserPlanManager.InfoChange.PlanChange }
-            Assert.assertTrue(planChange is UserPlanManager.InfoChange.PlanChange.Downgrade)
+            val planChange = manager.planChangeFlow.first()
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade, planChange)
         }
         changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
     }
@@ -112,8 +127,8 @@ class UserPlanManagerTests {
     fun testManagerCallsVpnInfoAfterExpiration() = runBlockingTest {
         mockContext()
         launch {
-            val planChange = manager.planChangeFlow.first { it is UserPlanManager.InfoChange.PlanChange }
-            Assert.assertTrue(planChange is UserPlanManager.InfoChange.PlanChange.TrialEnded)
+            val planChange = manager.planChangeFlow.first()
+            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.TrialEnded, planChange)
         }
         userData.vpnInfoResponse = mockVpnTrialResponse((DateTime().plusSeconds(2).millis / 1000L).toInt())
         coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.getFreeUser().vpnInfoResponse)
@@ -132,7 +147,7 @@ class UserPlanManagerTests {
         coVerify(exactly = 1) { apiRetroFit.getVPNInfo() }
     }
 
-    private suspend fun changePlan(oldResponse: VpnInfoResponse,newResponse: VpnInfoResponse) {
+    private suspend fun changePlan(oldResponse: VpnInfoResponse, newResponse: VpnInfoResponse) {
         userData.vpnInfoResponse = oldResponse
         coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(newResponse)
         manager.refreshVpnInfo()

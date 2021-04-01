@@ -31,8 +31,8 @@ my $error_format_file = $data_dir.'/error.fmt';
 
 my @low_level_modules = qw( AES ARC4 ARIA ASN1 BASE64 BIGNUM BLOWFISH
                             CAMELLIA CCM CHACHA20 CHACHAPOLY CMAC CTR_DRBG DES
-                            ENTROPY GCM HKDF HMAC_DRBG MD2 MD4 MD5
-                            NET OID PADLOCK PBKDF2 POLY1305 RIPEMD160
+                            ENTROPY ERROR GCM HKDF HMAC_DRBG MD2 MD4 MD5
+                            NET OID PADLOCK PBKDF2 PLATFORM POLY1305 RIPEMD160
                             SHA1 SHA256 SHA512 THREADING XTEA );
 my @high_level_modules = qw( CIPHER DHM ECP MD
                              PEM PK PKCS12 PKCS5
@@ -119,7 +119,7 @@ foreach my $line (@matches)
     {
         $code_check = \$ll_code_check;
         $old_define = \$ll_old_define;
-        $white_space = '    ';
+        $white_space = '        ';
     }
     else
     {
@@ -160,19 +160,9 @@ foreach my $line (@matches)
         ${$old_define} = $define_name;
     }
 
-    if ($error_name eq "MBEDTLS_ERR_SSL_FATAL_ALERT_MESSAGE")
-    {
-        ${$code_check} .= "${white_space}if( use_ret == -($error_name) )\n".
-                          "${white_space}\{\n".
-                          "${white_space}    mbedtls_snprintf( buf, buflen, \"$module_name - $description\" );\n".
-                          "${white_space}    return;\n".
-                          "${white_space}}\n"
-    }
-    else
-    {
-        ${$code_check} .= "${white_space}if( use_ret == -($error_name) )\n".
-                          "${white_space}    mbedtls_snprintf( buf, buflen, \"$module_name - $description\" );\n"
-    }
+    ${$code_check} .= "${white_space}case -($error_name):\n".
+                      "${white_space}    error_description = \"$module_name - $description\";\n".
+                      "${white_space}    break;\n"
 };
 
 if ($ll_old_define ne "")

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,6 +35,8 @@
 #include <openvpn/common/stop.hpp>
 #include <openvpn/tun/builder/capture.hpp>
 
+#include <openvpn/tun/win/ringbuffer.hpp>
+
 namespace openvpn {
   namespace TunWin {
     struct SetupBase : public DestructorBase
@@ -46,7 +48,8 @@ namespace openvpn {
       virtual HANDLE establish(const TunBuilderCapture& pull,
 			       const std::wstring& openvpn_app_path,
 			       Stop* stop,
-			       std::ostream& os) = 0;
+			       std::ostream& os,
+			       RingBuffer::Ptr rings) = 0;
 
       virtual bool l2_ready(const TunBuilderCapture& pull) = 0;
 
@@ -67,7 +70,7 @@ namespace openvpn {
     {
       typedef RCPtr<SetupFactory> Ptr;
 
-      virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context) = 0;
+      virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context, bool wintun) = 0;
     };
   }
 }

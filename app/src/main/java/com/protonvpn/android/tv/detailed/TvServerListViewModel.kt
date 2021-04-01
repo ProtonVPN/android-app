@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
@@ -32,8 +33,10 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -42,6 +45,7 @@ class TvServerListViewModel @Inject constructor(
     private val planManager: UserPlanManager,
     val serverManager: ServerManager,
     val vpnStateMonitor: VpnStateMonitor,
+    val vpnConnectionManager: VpnConnectionManager,
     val userData: UserData,
     private val recentsManager: RecentsManager
 ) : ViewModel() {
@@ -53,9 +57,7 @@ class TvServerListViewModel @Inject constructor(
         populateServerList(country)
         viewModelScope.launch {
             planManager.planChangeFlow.collect {
-                if (it is UserPlanManager.InfoChange.PlanChange) {
-                    populateServerList(country)
-                }
+                populateServerList(country)
             }
         }
         viewModelScope.launch {
@@ -122,9 +124,9 @@ class TvServerListViewModel @Inject constructor(
         val locked get() = !serverManager.hasAccessToServer(server)
         val load get() = server.load
 
-        val actionStateObservable = vpnStateMonitor.vpnStatus.map {
+        val actionStateObservable = vpnStateMonitor.status.map {
             actionState
-        }
+        }.asLiveData()
 
         private val actionState get() = when {
             locked ->
@@ -157,10 +159,10 @@ class TvServerListViewModel @Inject constructor(
         fun click(context: Context, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager, server.serverName)
-                vpnStateMonitor.connect(context, profile)
+                vpnConnectionManager.connect(context, profile, "TV server list")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
-                vpnStateMonitor.disconnect()
+                vpnConnectionManager.disconnect()
             ServerActionState.UPGRADE ->
                 onUpgrade()
             ServerActionState.UNAVAILABLE -> {}

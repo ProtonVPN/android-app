@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -45,14 +45,15 @@ namespace openvpn {
 
     TunIO(ReadHandler read_handler_arg,
 	  const Frame::Ptr& frame_arg,
-	  const SessionStats::Ptr& stats_arg)
+	  const SessionStats::Ptr& stats_arg,
+	  const size_t frame_context_type=Frame::READ_TUN)
       : stream(nullptr),
 	retain_stream(false),
 	tun_prefix(false),
 	halt(false),
 	read_handler(read_handler_arg),
 	frame(frame_arg),
-	frame_context((*frame_arg)[Frame::READ_TUN]),
+	frame_context((*frame_arg)[frame_context_type]),
 	stats(stats_arg)
       {
       }
@@ -115,7 +116,8 @@ namespace openvpn {
 	  catch (openvpn_io::system_error& e)
 	    {
 	      OPENVPN_LOG_TUN_ERROR("TUN write exception: " << e.what());
-	      tun_error(Error::TUN_WRITE_ERROR, &e.code());
+	      const openvpn_io::error_code code(e.code());
+	      tun_error(Error::TUN_WRITE_ERROR, &code);
 	      return false;
 	    }
 	}
@@ -148,7 +150,8 @@ namespace openvpn {
 	  catch (openvpn_io::system_error& e)
 	    {
 	      OPENVPN_LOG_TUN_ERROR("TUN write exception: " << e.what());
-	      tun_error(Error::TUN_WRITE_ERROR, &e.code());
+	      const openvpn_io::error_code code(e.code());
+	      tun_error(Error::TUN_WRITE_ERROR, &code);
 	      return false;
 	    }
 	}

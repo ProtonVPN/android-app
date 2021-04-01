@@ -10,5 +10,5 @@ fi
 cd $DEP_DIR
 rm -rf lz4
 mkdir lz4
-TARGET=linux $O3/core/deps/lz4/build-lz4
+TARGET=${TARGET:-linux} $O3/core/deps/lz4/build-lz4
 exit 0

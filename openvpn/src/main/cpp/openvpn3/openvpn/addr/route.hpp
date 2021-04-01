@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -55,16 +55,6 @@ namespace openvpn {
       {
       }
 
-      RouteType(const std::string& rtstr, const char *title = nullptr)
-	: RouteType(RouteType::from_string(rtstr, title))
-      {
-      }
-
-      RouteType(const std::string& rtstr, const std::string& title)
-	: RouteType(RouteType::from_string(rtstr, title.c_str()))
-      {
-      }
-
       RouteType(const ADDR& addr_arg,
 		const unsigned int prefix_len_arg)
 	: addr(addr_arg),
@@ -72,7 +62,19 @@ namespace openvpn {
       {
       }
 
-      static RouteType from_string(const std::string& rtstr, const char *title = nullptr)
+      template <typename TITLE>
+      RouteType(const std::string& rtstr, const TITLE& title)
+	: RouteType(RouteType::from_string(rtstr, title))
+      {
+      }
+
+      RouteType(const std::string& rtstr)
+	: RouteType(RouteType::from_string(rtstr, nullptr))
+      {
+      }
+
+      template <typename TITLE>
+      static RouteType from_string(const std::string& rtstr, const TITLE& title)
       {
 	RouteType r;
 	std::vector<std::string> pair;
@@ -83,11 +85,16 @@ namespace openvpn {
 	  {
 	    r.prefix_len = parse_number_throw<unsigned int>(pair[1], "prefix length");
 	    if (r.prefix_len > r.addr.size())
-	      OPENVPN_THROW(route_error, (title ? title : "route") << " : bad prefix length : " << rtstr);
+	      OPENVPN_THROW(route_error, (!StringTempl::empty(title) ? title : "route") << " : bad prefix length : " << rtstr);
 	  }
 	else
 	  r.prefix_len = r.addr.size();
 	return r;
+      }
+
+      static RouteType from_string(const std::string& rtstr)
+      {
+	return from_string(rtstr, nullptr);
       }
 
       bool defined() const
@@ -191,6 +198,14 @@ namespace openvpn {
       std::string to_string_by_netmask() const
       {
 	return addr.to_string() + ' ' + netmask().to_string();
+      }
+
+      std::string to_string_optional_prefix_len() const
+      {
+	if (prefix_len == addr.size())
+	  return addr.to_string();
+	else
+	  return addr.to_string() + '/' + openvpn::to_string(prefix_len);
       }
 
       bool operator==(const RouteType& other) const
@@ -311,27 +326,30 @@ namespace openvpn {
     OPENVPN_OSTREAM(Route4List, to_string);
     OPENVPN_OSTREAM(Route6List, to_string);
 
+    template <typename TITLE>
     inline Route route_from_string_prefix(const std::string& addrstr,
 					  const unsigned int prefix_len,
-					  const std::string& title,
+					  const TITLE& title,
 					  const IP::Addr::Version required_version = IP::Addr::UNSPEC)
-      {
-	Route r;
-	r.addr = IP::Addr(addrstr, title, required_version);
-	r.prefix_len = prefix_len;
-	if (r.prefix_len > r.addr.size())
-	  OPENVPN_THROW(Route::route_error, title << " : bad prefix length : " << addrstr);
-	return r;
-      }
+    {
+      Route r;
+      r.addr = IP::Addr(addrstr, title, required_version);
+      r.prefix_len = prefix_len;
+      if (r.prefix_len > r.addr.size())
+	OPENVPN_THROW(Route::route_error, title << " : bad prefix length : " << addrstr);
+      return r;
+    }
 
+    template <typename TITLE>
     inline Route route_from_string(const std::string& rtstr,
-				   const std::string& title,
+				   const TITLE& title,
 				   const IP::Addr::Version required_version = IP::Addr::UNSPEC)
     {
       Route r(rtstr, title);
       r.addr.validate_version(title, required_version);
       return r;
     }
+
   }
 }
 

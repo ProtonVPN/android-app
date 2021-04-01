@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,7 +31,7 @@ namespace openvpn {
 
   // TunPersistTemplate adds persistence capabilities onto TunWrapTemplate,
   // in order to implement logic for the persist-tun directive.
-  template <typename SCOPED_OBJ>
+  template <typename SCOPED_OBJ, typename STATE=TunProp::State::Ptr>
   class TunPersistTemplate : public TunWrapTemplate<SCOPED_OBJ>
   {
   public:
@@ -47,7 +47,7 @@ namespace openvpn {
     }
 
     // Current persisted state
-    const TunProp::State::Ptr& state() const
+    const STATE& state() const
     {
       return state_;
     }
@@ -124,7 +124,7 @@ namespace openvpn {
 
     // Possibly save tunnel fd/handle, state, and options.
     bool persist_tun_state(const typename SCOPED_OBJ::base_type obj,
-			   const TunProp::State::Ptr& state)
+			   const STATE& state)
     {
       if (!enable_persistence_ || !use_persisted_tun_)
 	{
@@ -151,7 +151,7 @@ namespace openvpn {
 
     const bool enable_persistence_;
     TunBuilderBase * const tb_;
-    TunProp::State::Ptr state_;
+    STATE state_;
     std::string options_;
 
     TunBuilderCapture::Ptr copt_;

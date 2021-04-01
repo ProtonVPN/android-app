@@ -1,8 +1,7 @@
-From c6963e33209e7fd40d65513e06c1bbb20319abe3 Mon Sep 17 00:00:00 2001
+From 076f1437fe82de0b1f0ecf9a7ca031cd94c0c579 Mon Sep 17 00:00:00 2001
 From: Lev Stipakov <lev@openvpn.net>
 Date: Fri, 23 Feb 2018 17:12:49 +0200
-Subject: [PATCH 2/2] Enable allowing unsupported critical extensions in
- runtime
+Subject: [PATCH] Enable allowing unsupported critical extensions in runtime
 
 When compile time flag MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION
 is not set, certificate parsing fails if certificate contains unsupported critical extension.
@@ -55,7 +54,7 @@ index 408645ece..b116736f8 100644
  
  /**
 diff --git a/include/mbedtls/ssl.h b/include/mbedtls/ssl.h
-index c6e453274..72374e36b 100644
+index 5fd6969da..1087ea166 100644
 --- a/include/mbedtls/ssl.h
 +++ b/include/mbedtls/ssl.h
 @@ -696,6 +696,10 @@ struct mbedtls_ssl_config
@@ -69,7 +68,7 @@ index c6e453274..72374e36b 100644
  #if defined(MBEDTLS_SSL_RENEGOTIATION)
      int renego_max_records;         /*!< grace period for renegotiation     */
      unsigned char renego_period[8]; /*!< value of the record counters
-@@ -2275,6 +2279,24 @@ void mbedtls_ssl_conf_renegotiation_period( mbedtls_ssl_config *conf,
+@@ -2298,6 +2302,24 @@ void mbedtls_ssl_conf_renegotiation_period( mbedtls_ssl_config *conf,
                                     const unsigned char period[8] );
  #endif /* MBEDTLS_SSL_RENEGOTIATION */
  
@@ -95,7 +94,7 @@ index c6e453274..72374e36b 100644
   * \brief          Return the number of data bytes available to read
   *
 diff --git a/include/mbedtls/x509_crt.h b/include/mbedtls/x509_crt.h
-index ac23cffe8..2e489915f 100644
+index e72231ee8..9df19e52c 100644
 --- a/include/mbedtls/x509_crt.h
 +++ b/include/mbedtls/x509_crt.h
 @@ -90,6 +90,8 @@ typedef struct mbedtls_x509_crt
@@ -220,10 +219,10 @@ index edea950f8..a756d2801 100644
  static const mbedtls_oid_descriptor_t oid_ext_key_usage[] =
  {
 diff --git a/library/ssl_tls.c b/library/ssl_tls.c
-index ca9b8c432..dba0d5122 100644
+index 1270ee9b8..2ce3f9b7d 100644
 --- a/library/ssl_tls.c
 +++ b/library/ssl_tls.c
-@@ -4656,6 +4656,9 @@ int mbedtls_ssl_parse_certificate( mbedtls_ssl_context *ssl )
+@@ -4668,6 +4668,9 @@ int mbedtls_ssl_parse_certificate( mbedtls_ssl_context *ssl )
  
      mbedtls_x509_crt_init( ssl->session_negotiate->peer_cert );
  
@@ -233,7 +232,7 @@ index ca9b8c432..dba0d5122 100644
      i += 3;
  
      while( i < ssl->in_hslen )
-@@ -6586,6 +6589,11 @@ void mbedtls_ssl_conf_renegotiation_period( mbedtls_ssl_config *conf,
+@@ -6626,6 +6629,11 @@ void mbedtls_ssl_conf_renegotiation_period( mbedtls_ssl_config *conf,
  }
  #endif /* MBEDTLS_SSL_RENEGOTIATION */
  
@@ -246,18 +245,18 @@ index ca9b8c432..dba0d5122 100644
  #if defined(MBEDTLS_SSL_CLI_C)
  void mbedtls_ssl_conf_session_tickets( mbedtls_ssl_config *conf, int use_tickets )
 diff --git a/library/x509_crt.c b/library/x509_crt.c
-index 6751da0d2..149149b96 100644
+index 3ad53a715..130b3ad1b 100644
 --- a/library/x509_crt.c
 +++ b/library/x509_crt.c
-@@ -530,6 +530,7 @@ static int x509_get_crt_ext( unsigned char **p,
+@@ -539,6 +539,7 @@ static int x509_get_crt_ext( unsigned char **p,
      int ret;
      size_t len;
      unsigned char *end_ext_data, *end_ext_octet;
 +    int is_supported;
  
-     if( ( ret = mbedtls_x509_get_ext( p, end, &crt->v3_ext, 3 ) ) != 0 )
-     {
-@@ -589,9 +590,9 @@ static int x509_get_crt_ext( unsigned char **p,
+     if( *p == end )
+         return( 0 );
+@@ -593,9 +594,9 @@ static int x509_get_crt_ext( unsigned char **p,
          /*
           * Detect supported extensions
           */
@@ -269,7 +268,7 @@ index 6751da0d2..149149b96 100644
          {
              /* No parser found, skip extension */
              *p = end_ext_octet;
-@@ -599,6 +600,10 @@ static int x509_get_crt_ext( unsigned char **p,
+@@ -603,6 +604,10 @@ static int x509_get_crt_ext( unsigned char **p,
  #if !defined(MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION)
              if( is_critical )
              {
@@ -280,7 +279,7 @@ index 6751da0d2..149149b96 100644
                  /* Data is marked as critical: fail */
                  return( MBEDTLS_ERR_X509_INVALID_EXTENSIONS +
                          MBEDTLS_ERR_ASN1_UNEXPECTED_TAG );
-@@ -952,6 +957,7 @@ int mbedtls_x509_crt_parse_der( mbedtls_x509_crt *chain, const unsigned char *bu
+@@ -956,6 +961,7 @@ int mbedtls_x509_crt_parse_der( mbedtls_x509_crt *chain, const unsigned char *bu
  
          prev = crt;
          mbedtls_x509_crt_init( crt->next );
@@ -315,10 +314,10 @@ index 000000000..7e0c56134
 +OwQ6w1HweApjB46bGyILpGUi9MZhvCnoLWg+cN3/wQ==
 +-----END CERTIFICATE-----
 diff --git a/tests/suites/test_suite_x509parse.data b/tests/suites/test_suite_x509parse.data
-index 406cf5931..212a2825a 100644
+index 0fe68cb06..e39f065e2 100644
 --- a/tests/suites/test_suite_x509parse.data
 +++ b/tests/suites/test_suite_x509parse.data
-@@ -1766,6 +1766,12 @@ X509 File parse (trailing spaces, OK)
+@@ -1798,6 +1798,12 @@ X509 File parse (trailing spaces, OK)
  depends_on:MBEDTLS_ECDSA_C:MBEDTLS_ECP_DP_SECP256R1_ENABLED:MBEDTLS_SHA256_C:MBEDTLS_RSA_C
  x509parse_crt_file:"data_files/server7_trailing_space.crt":0
  
@@ -332,10 +331,10 @@ index 406cf5931..212a2825a 100644
  depends_on:MBEDTLS_X509_USE_C
  x509_get_time:MBEDTLS_ASN1_UTC_TIME:"500101000000Z":0:1950:1:1:0:0:0
 diff --git a/tests/suites/test_suite_x509parse.function b/tests/suites/test_suite_x509parse.function
-index 06f010828..75936010f 100644
+index 584ee822b..c12a0e0ef 100644
 --- a/tests/suites/test_suite_x509parse.function
 +++ b/tests/suites/test_suite_x509parse.function
-@@ -437,6 +437,21 @@ exit:
+@@ -448,6 +448,21 @@ exit:
  }
  /* END_CASE */
  
@@ -358,5 +357,5 @@ index 06f010828..75936010f 100644
  void x509parse_crt( char *crt_data, char *result_str, int result )
  {
 -- 
-2.18.0
+2.22.0.windows.1
 

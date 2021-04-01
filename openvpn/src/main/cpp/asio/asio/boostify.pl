@@ -530,8 +530,14 @@ sub copy_examples
       "src/examples/cpp11/local",
       "src/examples/cpp11/multicast",
       "src/examples/cpp11/nonblocking",
+      "src/examples/cpp11/operations",
+      "src/examples/cpp11/socks4",
       "src/examples/cpp11/spawn",
+      "src/examples/cpp11/ssl",
+      "src/examples/cpp11/timeouts",
+      "src/examples/cpp11/timers",
       "src/examples/cpp14/executors",
+      "src/examples/cpp14/operations",
       "src/examples/cpp17/coroutines_ts");
 
   our $boost_dir;

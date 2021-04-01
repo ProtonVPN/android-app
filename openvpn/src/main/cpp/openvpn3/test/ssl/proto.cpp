@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -814,7 +814,7 @@ int test(const int thread_num)
 {
   try {
     // frame
-    Frame::Ptr frame(new Frame(Frame::Context(128, 256, 128, 0, 16, 0)));
+    Frame::Ptr frame(new Frame(Frame::Context(128, 378, 128, 0, 16, 0)));
 
     // RNG
     ClientRandomAPI::Ptr rng_cli(new ClientRandomAPI(false));
@@ -842,9 +842,6 @@ int test(const int thread_num)
     ClientSSLAPI::Config::Ptr cc(new ClientSSLAPI::Config());
     cc->set_mode(Mode(Mode::CLIENT));
     cc->set_frame(frame);
-#ifdef FORCE_AES_CBC
-    cc->set_force_aes_cbc_ciphersuites(true);
-#endif
 #ifdef USE_APPLE_SSL
     cc->load_identity("etest");
 #else
@@ -1109,7 +1106,7 @@ int main(int argc, char* argv[])
 {
   int ret = 0;
   // process-wide initialization
-  InitProcess::init();
+  InitProcess::Init init;
 
   // set global MbedTLS debug level
 #if defined(USE_MBEDTLS)
@@ -1142,7 +1139,5 @@ int main(int argc, char* argv[])
 #endif
 
 out:
-  InitProcess::uninit();
-
   return ret;
 }

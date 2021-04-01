@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,6 +38,18 @@ namespace openvpn {
     return stat(filename.c_str(), &buffer) == 0; 
   }
 
+  // Return true if dirname is a directory
+  inline bool is_directory(const std::string& pathname, const bool follow_symlinks=false)
+  {
+    if (pathname.empty())
+      return false;
+    struct stat sb;
+    if (follow_symlinks)
+      return ::stat(pathname.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode);
+    else
+      return ::lstat(pathname.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode);
+  }
+
   // Return file modification time (in seconds since unix epoch) or 0 on error
   inline time_t file_mod_time(const std::string& filename)
   {
@@ -48,13 +60,33 @@ namespace openvpn {
       return buffer.st_mtime;
   }
 
-  // Return file modification time (in nanoseconds since unix epoch) or 0 on error
-  inline std::uint64_t file_mod_time_nanoseconds(const std::string& filename)
+  // Return file modification time from a struct stat
+  inline std::uint64_t stat_mod_time_nanoseconds(const struct stat& s)
   {
     typedef std::uint64_t T;
+#if defined(__APPLE__)
+    return T(s.st_mtimespec.tv_sec) * T(1000000000) + T(s.st_mtimespec.tv_nsec);
+#else
+    return T(s.st_mtim.tv_sec) * T(1000000000) + T(s.st_mtim.tv_nsec);
+#endif
+  }
+
+  // Return file modification time from a file path (in nanoseconds since unix epoch) or 0 on error
+  inline std::uint64_t file_mod_time_nanoseconds(const std::string& filename)
+  {
     struct stat s;
     if (::stat(filename.c_str(), &s) == 0)
-      return T(s.st_mtim.tv_sec) * T(1000000000) + T(s.st_mtim.tv_nsec);
+      return stat_mod_time_nanoseconds(s);
+    else
+      return 0;
+  }
+
+  // Return file modification time from a file descriptor (in nanoseconds since unix epoch) or 0 on error
+  inline std::uint64_t fd_mod_time_nanoseconds(const int fd)
+  {
+    struct stat s;
+    if (::fstat(fd, &s) == 0)
+      return stat_mod_time_nanoseconds(s);
     else
       return 0;
   }

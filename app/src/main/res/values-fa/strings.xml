@@ -161,7 +161,7 @@
   <string name="state_connected">متصل</string>
   <string name="state_disconnecting">در حال قطع اتصال از…</string>
   <string name="state_error">خطا</string>
-  <string name="error_lookup_failed">پیدا کردن آدرس دروازهٔ خروجی با مشکل مواجه شد.</string>
+  <string name="error_lookup_failed">پیدا کردن نشانی دروازهٔ خروجی با اشکال مواجه شد.</string>
   <string name="error_unreachable">دروازهٔ خروجی در دسترس نیست.</string>
   <string name="error_peer_auth_failed">تأیید هویت دروازهٔ خروجی نا‌موفق بود.</string>
   <string name="error_auth_failed">احراز هویت موفق نبود.</string>
@@ -188,11 +188,11 @@
   <string name="contact_email">ایمیل</string>
   <string name="your_message">پیام شما…</string>
   <string name="send_report">ارسال گزارش</string>
-  <string name="excludeIpTitle">جدا کردن آدرس‌های IP</string>
+  <string name="excludeIpTitle">جدا کردن نشانی‌های IP</string>
   <string name="discardChanges">تغییرات ذخیره نشده‌ای وجود دارند. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟</string>
   <string name="discard">لغو</string>
   <string name="selectedProfileColor">لطفاً رنگ پروفایل را انتخاب کنید</string>
-  <string name="excludeIpDescription">آدرس‌های IP را که می‌خواهید از ترافیک VPN جدا شوند اضافه کنید.</string>
+  <string name="excludeIpDescription">نشانی‌های IP را که می‌خواهید از ترافیک VPN جدا شوند اضافه کنید.</string>
   <string name="done">انجام شد</string>
   <string name="add">اضافه کردن</string>
   <string name="the_list_is_empty">لیست خالی است</string>
@@ -227,7 +227,7 @@
   <string name="error_server_not_set">سرور دیگر در دسترس نیست</string>
   <string name="bugReportThankYouToast">از گزارش شما متشکریم</string>
   <string name="bugReportErrorEmptyEmail">ایمیل نمی‌تواند خالی باشد</string>
-  <string name="bugReportErrorInvalidEmail">آدرس ایمیل نامعتبر است</string>
+  <string name="bugReportErrorInvalidEmail">نشانی ایمیل نامعتبر است</string>
   <string name="bugReportErrorEmptyDescription">در مورد اشکال به ما توضیح دهید</string>
   <string name="bugReportLabelVpnLogsTitle">گزارش‌های VPN</string>
   <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه لاگ‌های VPN سمت کاربر را به این گزارش می‌افزاید</string>
@@ -241,17 +241,17 @@
   <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
-  <string name="settingsExcludeIPAddresses">جدا کردن آدرس‌های IP</string>
+  <string name="settingsExcludeIPAddresses">جدا کردن نشانی‌های IP</string>
   <string name="settingsExcludeApps">جدا کردن برنامه‌ها</string>
   <string name="settingsExcludeAppsInfo">%1$d برنامه جدا شدند</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d آدرس IP جدا شدند</string>
+  <string name="settingsExcludeIPAddressesInfo">%1$d نشانی IP جدا شدند</string>
   <plurals name="settingsExcludedAppsCount">
     <item quantity="one">%1$d برنامه جدا شد</item>
     <item quantity="other">%1$d برنامه جدا شده</item>
   </plurals>
   <plurals name="settingsExcludedIPAddressesCount">
     <item quantity="one">%1$d آدرس IP جدا شد</item>
-    <item quantity="other">%1$d آدرس IP جدا شد</item>
+    <item quantity="other">%1$d نشانی IP جدا شد</item>
   </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
@@ -335,6 +335,7 @@
   <string name="nameOceania">اقیانوسیه</string>
   <string name="tvRowMore">بیشتر</string>
   <string name="tv_detail_default_connection_checkbox">کشور مورد علاقه من</string>
+  <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
   <string name="tv_detail_connect_streaming">پخش با Plus</string>
   <string name="tv_detail_connect">اتصال</string>
   <string name="tv_detail_description_streaming_country">محتوای مورد‌ علاقه خود را پخش کنید. به برنامکهای بیشتر با یک طرح ProtonVPN Plus دسترسی داشته باشید.</string>
@@ -386,4 +387,12 @@
   </plurals>
   <string name="tv_country_maintenance_dialog_title">کشور غیر قابل دسترس است</string>
   <string name="tv_country_maintenance_dialog_description">لطفاً بعداً دوباره امتحان کنید یا کشور دیگری انتخاب کنید.</string>
+  <string name="tv_server_list_load">%1$s%% بار سرور</string>
+  <string name="tv_recently_used_servers">سرورهای تازه استفاده شده (%1$d)</string>
+  <string name="tv_available_servers">سرورهای در دسترس (%1$d)</string>
+  <string name="tv_locked_servers">سرورهای قفل شده (%1$d)</string>
+  <string name="tv_other_servers">سرورهای دیگر (%1$d)</string>
+  <string name="tv_server_under_maintenance">تحت تعمیرات</string>
+  <string name="tv_server_list">لیست سرور</string>
+  <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
 </resources>

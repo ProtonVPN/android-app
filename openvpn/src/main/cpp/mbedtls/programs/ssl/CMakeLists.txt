@@ -8,12 +8,12 @@ set(libs
 set(targets
     dtls_client
     dtls_server
+    mini_client
     ssl_client1
     ssl_client2
-    ssl_server
     ssl_fork_server
     ssl_mail_client
-    mini_client
+    ssl_server
 )
 
 if(USE_PKCS11_HELPER_LIBRARY)
@@ -34,13 +34,18 @@ add_executable(ssl_client1 ssl_client1.c)
 target_link_libraries(ssl_client1 ${libs})
 
 add_executable(ssl_client2 ssl_client2.c)
+target_sources(ssl_client2 PUBLIC ../test/query_config.c)
 target_link_libraries(ssl_client2 ${libs})
 
 add_executable(ssl_server ssl_server.c)
 target_link_libraries(ssl_server ${libs})
 
 add_executable(ssl_server2 ssl_server2.c)
+target_sources(ssl_server2 PUBLIC ../test/query_config.c)
 target_link_libraries(ssl_server2 ${libs})
+
+add_executable(ssl_context_info ssl_context_info.c)
+target_link_libraries(ssl_context_info ${libs})
 
 add_executable(ssl_fork_server ssl_fork_server.c)
 target_link_libraries(ssl_fork_server ${libs})

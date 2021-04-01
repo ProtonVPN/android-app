@@ -10,5 +10,5 @@ fi
 cd $DEP_DIR
 rm -rf cityhash
 mkdir cityhash
-TARGET=linux $O3/core/deps/cityhash/build-cityhash
+TARGET=${TARGET:-linux} $O3/core/deps/cityhash/build-cityhash
 exit 0

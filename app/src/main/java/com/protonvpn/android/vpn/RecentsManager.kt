@@ -24,14 +24,17 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.removeFirst
 import java.util.LinkedList
 import javax.inject.Singleton
 
 @Singleton
 class RecentsManager(
+    @Transient private val scope: CoroutineScope,
     @Transient private val stateMonitor: VpnStateMonitor,
     @Transient private val serverManager: ServerManager,
     @Transient private val logoutHandler: LogoutHandler
@@ -42,8 +45,7 @@ class RecentsManager(
     // Country code -> Servers
     private val recentServers = LinkedHashMap<String, ArrayDeque<Server>>()
 
-    @Transient val update = MutableSharedFlow<Unit>(
-        extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    @Transient val update = MutableSharedFlow<Unit>()
 
     private var connectionOnHold: ConnectionParams? = null
 
@@ -56,15 +58,17 @@ class RecentsManager(
         }
         recentConnections.forEach { it.wrapper.setDeliverer(serverManager) }
 
-        stateMonitor.vpnStatus.observeForever { status ->
-            if (status.state == VpnState.Connected) {
-                connectionOnHold = status.connectionParams
-            } else if (status.state == VpnState.Disconnecting) {
-                connectionOnHold?.let { params ->
-                    addToRecentServers(params.server)
-                    addToRecentCountries(params.profile)
-                    Storage.save(this)
-                    update.tryEmit(Unit)
+        scope.launch {
+            stateMonitor.status.collect { status ->
+                if (status.state == VpnState.Connected) {
+                    connectionOnHold = status.connectionParams
+                } else if (status.state == VpnState.Disconnecting) {
+                    connectionOnHold?.let { params ->
+                        addToRecentServers(params.server)
+                        addToRecentCountries(params.profile)
+                        Storage.save(this@RecentsManager)
+                        update.emit(Unit)
+                    }
                 }
             }
         }

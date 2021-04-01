@@ -58,6 +58,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( int argc, char *argv[] )
 {
     FILE *f;

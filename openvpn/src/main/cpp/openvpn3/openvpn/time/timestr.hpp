@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -179,8 +179,10 @@ namespace openvpn {
 #if defined(OPENVPN_PLATFORM_WIN)
     if (gmtime_s(&lt, &t))
       return "";
+    // MinGW doesn't yet support %T, so use %H:%M:%S
+    // https://sourceforge.net/p/mingw-w64/bugs/793/
     if (!strftime(buf, sizeof(buf),
-		  "%a, %d %b %Y %T GMT",
+		  "%a, %d %b %Y %H:%M:%S GMT",
 		  &lt))
       return "";
 #else

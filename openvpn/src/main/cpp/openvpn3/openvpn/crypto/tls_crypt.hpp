@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -192,17 +192,17 @@ namespace openvpn {
 
     virtual TLSCryptInstance::Ptr new_obj_recv() = 0;
 
-    static const size_t hmac_offset;
+    // This is the size of the header in a TLSCrypt-wrapped packets,
+    // excluding the HMAC. Format:
+    //
+    // [OP]  [PSID]  [PID]  [HMAC] [...]
+    //
+
+    constexpr const static size_t hmac_offset = 1 + ProtoSessionID::SIZE + PacketID::longidsize;
+
   };
 
-  // initialize static member with non-constexpr.
-  // This is the size of the header in a TLSCrypt-wrapped packets,
-  // excluding the HMAC. Format:
-  //
-  // [OP]  [PSID]  [PID]  [HMAC] [...]
-  //
-  const size_t TLSCryptContext::hmac_offset = 1 + ProtoSessionID::SIZE +
-						  PacketID::size(PacketID::LONG_FORM);
+
 
   class TLSCryptFactory : public RC<thread_unsafe_refcount>
   {

@@ -14,22 +14,23 @@ add_executable(selftest selftest.c)
 target_link_libraries(selftest ${libs})
 
 add_executable(benchmark benchmark.c)
-target_link_libraries(benchmark ${libs})
+target_link_libraries(benchmark mbedcrypto)
 
 if(TEST_CPP)
     add_executable(cpp_dummy_build cpp_dummy_build.cpp)
-    target_link_libraries(cpp_dummy_build ${libs})
+    target_link_libraries(cpp_dummy_build mbedcrypto)
 endif()
-
-add_executable(ssl_cert_test ssl_cert_test.c)
-target_link_libraries(ssl_cert_test ${libs})
 
 add_executable(udp_proxy udp_proxy.c)
 target_link_libraries(udp_proxy ${libs})
 
 add_executable(zeroize zeroize.c)
-target_link_libraries(zeroize ${libs})
+target_link_libraries(zeroize mbedcrypto)
 
-install(TARGETS selftest benchmark ssl_cert_test udp_proxy
+add_executable(query_compile_time_config query_compile_time_config.c)
+target_sources(query_compile_time_config PUBLIC query_config.c)
+target_link_libraries(query_compile_time_config mbedcrypto)
+
+install(TARGETS selftest benchmark udp_proxy query_compile_time_config
         DESTINATION "bin"
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)

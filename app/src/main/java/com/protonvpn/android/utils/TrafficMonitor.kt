@@ -24,23 +24,26 @@ import android.content.IntentFilter
 import android.net.TrafficStats
 import android.os.PowerManager
 import androidx.core.content.getSystemService
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnState
-import kotlin.math.roundToLong
+import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.math.roundToLong
 
-class TrafficMonitor(
+class TrafficMonitor constructor(
     val context: Context,
     val scope: CoroutineScope,
-    val now: () -> Long
+    val now: () -> Long,
+    val vpnStateMonitor: VpnStateMonitor,
+    private val connectivityMonitor: ConnectivityMonitor,
 ) {
     val trafficStatus = MutableLiveData<TrafficUpdate?>()
 
@@ -53,15 +56,28 @@ class TrafficMonitor(
 
     private var updateJob: Job? = null
 
-    fun init(vpnStatus: LiveData<VpnStateMonitor.Status>) {
-        vpnStatus.observeForever {
-            stateChanged(it.state)
+    init {
+        scope.launch {
+            vpnStateMonitor.status.collect {
+                stateChanged(it.state)
+            }
         }
+        scope.launch {
+            connectivityMonitor.networkCapabilitiesFlow.collect {
+                ProtonLogger.log("Network changes")
+                ProtonLogger.log("---------------")
+                ProtonLogger.log(it.toString())
+                ProtonLogger.log("---------------")
+            }
+        }
+
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_OFF)) {
+            ProtonLogger.log("Screen off")
             stopUpdateJob()
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_ON)) {
-            if (vpnStatus.value?.state == VpnState.Connected)
+            ProtonLogger.log("Screen on")
+            if (vpnStateMonitor.state == VpnState.Connected)
                 startUpdateJob()
         }
     }

@@ -25,8 +25,8 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
-import de.blinkt.openpvpn.VpnProfile
-import de.blinkt.openpvpn.core.Connection
+import de.blinkt.openvpn.VpnProfile
+import de.blinkt.openvpn.core.Connection
 
 class ConnectionParamsOpenVpn(
     profile: Profile,
@@ -37,6 +37,7 @@ class ConnectionParamsOpenVpn(
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port=$port"
+    override val transmission get() = transmissionProtocol
 
     fun openVpnProfile(
         context: Context,
@@ -57,6 +58,7 @@ class ConnectionParamsOpenVpn(
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain!!.entryDomain
+        mPersistTun = true
         mAllowLocalLAN = userData.bypassLocalTraffic()
         if (userData.useSplitTunneling && userData.splitTunnelIpAddresses.isNotEmpty()) {
             mUseDefaultRoute = false
@@ -72,6 +74,9 @@ class ConnectionParamsOpenVpn(
         }
         mPassword = userData.vpnPassword
     }
+
+    override fun hasSameProtocolParams(other: ConnectionParams) =
+        other is ConnectionParamsOpenVpn && other.transmissionProtocol == transmissionProtocol && other.port == port
 
     companion object {
 

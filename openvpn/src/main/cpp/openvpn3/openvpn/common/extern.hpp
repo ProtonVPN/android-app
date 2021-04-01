@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -23,6 +23,10 @@
 #define OPENVPN_COMMON_EXTERN_H
 
 #ifndef OPENVPN_EXTERN
+// Remember that OPENVPN_EXTERN was not defined since something like
+// #if OPENVPN_EXTERN == extern or OPENVPN_EXTERN == "" is not allowed
+// in C/C++ preprocessor
+#define OPENVPN_NO_EXTERN
 #define OPENVPN_EXTERN
 #endif
 

@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_printf          printf
 #define mbedtls_time_t          time_t
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -67,6 +68,7 @@ int main( void )
  * so it is a generator of order Q (with P = 2*Q+1).
  */
 #define GENERATOR "4"
+
 
 int main( int argc, char **argv )
 {
@@ -156,7 +158,7 @@ int main( int argc, char **argv )
         goto exit;
     }
 
-    if( ( ret = mbedtls_mpi_is_prime( &Q, mbedtls_ctr_drbg_random, &ctr_drbg ) ) != 0 )
+    if( ( ret = mbedtls_mpi_is_prime_ext( &Q, 50, mbedtls_ctr_drbg_random, &ctr_drbg ) ) != 0 )
     {
         mbedtls_printf( " failed\n  ! mbedtls_mpi_is_prime returned %d\n\n", ret );
         goto exit;

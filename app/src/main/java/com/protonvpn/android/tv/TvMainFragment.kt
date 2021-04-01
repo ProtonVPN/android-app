@@ -53,7 +53,6 @@ import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.ViewUtils.toPx
 import kotlinx.coroutines.flow.collect
 
@@ -85,9 +84,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         setupRowAdapter()
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
-                if (it is UserPlanManager.InfoChange.PlanChange) {
-                    setupRowAdapter()
-                }
+                setupRowAdapter()
             }
         }
     }

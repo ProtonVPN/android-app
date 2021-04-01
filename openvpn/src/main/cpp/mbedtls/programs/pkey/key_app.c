@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -39,7 +40,7 @@
     defined(MBEDTLS_PK_PARSE_C) && defined(MBEDTLS_FS_IO)
 #include "mbedtls/error.h"
 #include "mbedtls/rsa.h"
-#include "mbedtls/x509.h"
+#include "mbedtls/pk.h"
 
 #include <string.h>
 #endif
@@ -63,7 +64,6 @@
     "    password_file=%%s    default: \"\"\n"          \
     "\n"
 
-
 #if !defined(MBEDTLS_BIGNUM_C) ||                                  \
     !defined(MBEDTLS_PK_PARSE_C) || !defined(MBEDTLS_FS_IO)
 int main( void )
@@ -73,6 +73,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 /*
  * global options
  */
@@ -185,7 +187,7 @@ int main( int argc, char *argv[] )
 
         if( ret != 0 )
         {
-            mbedtls_printf( " failed\n  !  mbedtls_pk_parse_keyfile returned -0x%04x\n", -ret );
+            mbedtls_printf( " failed\n  !  mbedtls_pk_parse_keyfile returned -0x%04x\n", (unsigned int) -ret );
             goto cleanup;
         }
 
@@ -246,7 +248,7 @@ int main( int argc, char *argv[] )
 
         if( ret != 0 )
         {
-            mbedtls_printf( " failed\n  !  mbedtls_pk_parse_public_keyfile returned -0x%04x\n", -ret );
+            mbedtls_printf( " failed\n  !  mbedtls_pk_parse_public_keyfile returned -0x%04x\n", (unsigned int) -ret );
             goto cleanup;
         }
 

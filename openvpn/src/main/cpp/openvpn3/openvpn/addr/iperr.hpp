@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -19,57 +19,54 @@
 //    along with this program in the COPYING file.
 //    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_ADDR_IPERR_H
-#define OPENVPN_ADDR_IPERR_H
+// Called internally by IP, IPv4, and IPv6 classes
+
+#pragma once
 
 #include <string>
 
 #include <openvpn/io/io.hpp>
 
+#include <openvpn/common/stringtempl2.hpp>
+
 namespace openvpn {
   namespace IP {
     namespace internal {
-      // Called internally by IP, IPv4, and IPv6 classes
 
-      inline std::string format_error(const std::string& ipstr, const char *title, const char *ipver, const openvpn_io::error_code& ec)
+      template <typename TITLE>
+      inline std::string format_error(const std::string& ipstr,
+				      const TITLE& title,
+				      const char *ipver,
+				      const std::string& message)
       {
 	std::string err = "error parsing";
-	if (title)
+	if (!StringTempl::empty(title))
 	  {
 	    err += ' ';
-	    err += title;
-	  }
-	err += " IP";
-	err += ipver;
-	err += " address '";
-	err += ipstr;
-	err += "' : ";
-	err += ec.message();
-	return err;
-      }
-
-      inline std::string format_error(const std::string& ipstr, const char *title, const char *ipver, const char *message)
-      {
-	std::string err = "error parsing";
-	if (title)
-	  {
-	    err += ' ';
-	    err += title;
+	    err += StringTempl::to_string(title);
 	  }
 	err += " IP";
 	err += ipver;
 	err += " address '";
 	err += ipstr;
 	err += '\'';
-	if (message)
+	if (!message.empty())
 	  {
 	    err += " : ";
 	    err += message;
 	  }
 	return err;
       }
+
+      template <typename TITLE>
+      inline std::string format_error(const std::string& ipstr,
+				      const TITLE& title,
+				      const char *ipver,
+				      const openvpn_io::error_code& ec)
+      {
+	return format_error(ipstr, title, ipver, ec.message());
+      }
+
     }
   }
 }
-
-#endif

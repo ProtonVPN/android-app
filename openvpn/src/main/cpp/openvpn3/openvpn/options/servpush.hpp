@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,6 +30,11 @@
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/options.hpp>
+#include <openvpn/common/jsonlib.hpp>
+
+#ifdef HAVE_JSON
+#include <openvpn/common/jsonhelper.hpp>
+#endif
 
 namespace openvpn {
   class ServerPushList : public std::vector<std::string>
@@ -49,6 +54,47 @@ namespace openvpn {
 	    }
 	}
     }
+
+#ifdef HAVE_JSON
+    // Parse JSON representation of a push list.
+    // Each push list array element can be one of:
+    // 1. simple JSON string,
+    // 2. dictionary containing an "item" string, or
+    // 3. dictionary containing an "item" array of strings.
+    void parse(const std::string& title, const Json::Value& push_list) // push_list is JSON array
+    {
+      reserve(16); // arbitrary, just a guess
+      const auto& ja = json::cast_array(push_list, false, title).array();
+      for (size_t i = 0; i < ja.size(); ++i)
+	{
+	  const Json::Value& jv = ja[i];
+	  if (jv.isString())
+	    push_back(jv.asStringRef());
+	  else if (jv.isObject())
+	    {
+	      const Json::Value& ji = jv["item"];
+	      if (ji.isString())
+		push_back(ji.asStringRef());
+	      else if (ji.isArray())
+		{
+		  const auto& ia = ji.array();
+		  for (size_t j = 0; j < ia.size(); ++j)
+		    {
+		      const Json::Value& iv = ia[j];
+		      if (iv.isString())
+			push_back(iv.asStringRef());
+		      else
+			throw json::json_parse(json::fmt_name(i, title) + " object contains 'item' array that includes non-string element at index=" + std::to_string(j));
+		    }
+		}
+	      else
+		throw json::json_parse(json::fmt_name(i, title) + " object must contain 'item' string or array");
+	    }
+	  else
+	    throw json::json_parse(json::fmt_name(i, title) + " must be of type string or object");
+	}
+    }
+#endif
 
     void extend(const std::vector<std::string>& other)
     {

@@ -1,7 +1,6 @@
 package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -14,6 +13,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -25,7 +26,7 @@ class RecentsManagerTests {
 
     @RelaxedMockK private lateinit var vpnStateMonitor: VpnStateMonitor
 
-    private var vpnStatus: MutableLiveData<VpnStateMonitor.Status> = MutableLiveData()
+    private val vpnStatus = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
@@ -33,8 +34,8 @@ class RecentsManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
-        every { vpnStateMonitor.vpnStatus }.returns(vpnStatus)
-        manager = RecentsManager(vpnStateMonitor, mockk(relaxed = true), mockk(relaxed = true))
+        every { vpnStateMonitor.status } returns vpnStatus
+        manager = RecentsManager(TestCoroutineScope(), vpnStateMonitor, mockk(relaxed = true), mockk(relaxed = true))
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

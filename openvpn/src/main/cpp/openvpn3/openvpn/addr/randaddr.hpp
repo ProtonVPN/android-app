@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -53,6 +53,7 @@ namespace openvpn {
 	}
     }
 
+    // bit positions between templ.prefix_len and prefix_len are randomized
     inline Route random_subnet(const Route& templ,
 			       const unsigned int prefix_len,
 			       RandomAPI& prng)

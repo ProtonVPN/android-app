@@ -24,15 +24,19 @@ import android.os.Build.VERSION_CODES
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @RequiresApi(VERSION_CODES.N)
@@ -41,8 +45,10 @@ class QuickTileService : TileService() {
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var userData: UserData
     @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnConnectionManager: VpnConnectionManager
 
-    private val stateInfoObserver = Observer(::stateChanged)
+    private val job = Job()
+    private val lifecycleScope = CoroutineScope(job)
 
     override fun onCreate() {
         super.onCreate()
@@ -50,7 +56,7 @@ class QuickTileService : TileService() {
     }
 
     override fun onDestroy() {
-        stateMonitor.vpnStatus.removeObserver(stateInfoObserver)
+        job.cancel()
         super.onDestroy()
     }
 
@@ -64,17 +70,18 @@ class QuickTileService : TileService() {
     }
 
     private fun bindToListener() {
-        stateMonitor.vpnStatus.observeForever(stateInfoObserver)
+        lifecycleScope.launch {
+            stateMonitor.status.collect {
+                stateChanged(it)
+            }
+        }
     }
 
     override fun onClick() {
         if (qsTile.state == Tile.STATE_INACTIVE) {
             if (userData.isLoggedIn) {
-                val profile = manager.defaultConnection
-                if (profile != null) {
-                    ProtonLogger.log("Connecting via quick tile")
-                    stateMonitor.connect(this, profile)
-                }
+                ProtonLogger.log("Connecting via quick tile")
+                vpnConnectionManager.connect(this, manager.defaultConnection, "Quick tile service")
             } else {
                 val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -82,7 +89,7 @@ class QuickTileService : TileService() {
             }
         } else {
             ProtonLogger.log("Disconnecting via quick tile")
-            stateMonitor.disconnect()
+            vpnConnectionManager.disconnect()
         }
     }
 
@@ -93,7 +100,9 @@ class QuickTileService : TileService() {
                 qsTile.state = Tile.STATE_INACTIVE
             }
             VpnState.CheckingAvailability,
+            VpnState.WaitingForNetwork,
             VpnState.ScanningPorts,
+            VpnState.Reconnecting,
             VpnState.Connecting -> {
                 qsTile.label = getString(R.string.state_connecting)
                 qsTile.state = Tile.STATE_UNAVAILABLE

@@ -35,7 +35,9 @@ if [ -z "$1" ]; then
     echo " MTLS_SYS=1 -- use system mbedTLS"
     echo " MTLS_PATH=path -- use user specified mbedTLS source folder"
     echo " MTLS_LIBS=ldflags -- user specific mbedTLS LDFLAGS"
+    echo " MTLS_DIST=path -- use user-specified mbedTLS distribution"
     echo " MA_HYBRID=1 -- use mbedTLS/AppleCrypto hybrid"
+    echo " OPENSSL_DIST=<dir> -- specify custom OpenSSL build"
     echo " NOSSL=1 -- don't include OpenSSL"
     echo " OPENSSL_SYS=1 -- include system OpenSSL"
     echo " MINI=1 -- link with OpenSSL mini crypto lib"
@@ -48,14 +50,28 @@ if [ -z "$1" ]; then
     echo " LZ4_SYS=1 -- build with system LZ4 compression library"
     echo " SNAP=1 -- build with Snappy compression library"
     echo " CITY=1 -- build with Cityhash hash library"
+    echo " CAP=1 -- build with libcap"
     echo " VAL=1 -- build with valgrind run-time extensions"
     echo " JAVA=1 -- build with JVM"
     echo ' EXTRA_CPP="foo1.cpp foo2.cpp" -- add extra .cpp files'
     echo " GTEST_DIR=<dir> -- specify googletest tree, required for building unit tests"
+    echo " PCRE=1 -- build with PCRE library"
     for s in $(enum_build_extras) ; do
 	. $s args
     done
     exit 1
+fi
+
+# determine platform if PROF is set to "auto"
+if [ "$PROF" = "auto" ]; then
+    if [ "$(uname)" == "Darwin" ]; then
+	export PROF=osx64
+    elif [ "$(uname)" == "Linux" ]; then
+	export PROF=linux
+    else
+	echo "PROF=auto : cannot determine platform"
+	exit 1
+    fi
 fi
 
 # source vars file
@@ -122,7 +138,12 @@ FLAGS="$FLAGS -Wno-sign-compare -Wno-unused-parameter"
 #fi
 
 # MbedTLS
-if [ "$MTLS_SYS" = "1" ]; then
+if [ -n "$MTLS_DIST" ]; then
+    CPPFLAGS="$CPPFLAGS -DUSE_MBEDTLS -I$MTLS_DIST/include"
+    LIBDIRS="$LIBDIRS -L$MTLS_DIST/library"
+    LIBS="$LIBS -lmbedtls -lmbedx509 -lmbedcrypto"
+    MTLS=1
+elif [ "$MTLS_SYS" = "1" ]; then
     CPPFLAGS="$CPPFLAGS -DUSE_MBEDTLS"
     LIBS="$LIBS -lmbedtls -lmbedx509 -lmbedcrypto"
 elif [ "$MTLS" = "1" ]; then
@@ -148,7 +169,11 @@ elif [ "$MTLS" = "1" ]; then
 fi
 
 # OpenSSL
-if [ "$APPLE_FAMILY" = "1" ]; then
+if [ "$OPENSSL_DIST" ]; then
+    CPPFLAGS="$CPPFLAGS -DUSE_OPENSSL -I$OPENSSL_DIST/include"
+    LIBDIRS="$LIBDIRS -L$OPENSSL_DIST/lib"
+    LIBS="$LIBS -lssl -lcrypto"
+elif [ "$APPLE_FAMILY" = "1" ]; then
     # On Mac, only link with OpenSSL if OSSL is defined.
     # On other platforms, usually link with OpenSSL.
     if [ "$OPENSSL_SYS" == "1" ]; then
@@ -181,7 +206,7 @@ else
 	LIBS="$LIBS -lssl -lcrypto -ldl"
     fi
 fi
-if [ "$OPENSSL_SYS" != "1" ] && [ "$OPENSSL_LINK" != "1" ] && [ "$NOSSL" != "1" ]; then
+if [ "$OPENSSL_SYS" != "1" ] && [ "$OPENSSL_LINK" != "1" ] && [ "$NOSSL" != "1" ] && [ -z "$OPENSSL_DIST" ]; then
     CPPFLAGS="$CPPFLAGS -I$DEP_DIR/openssl/openssl-$PLATFORM/include"
     LIBDIRS="$LIBDIRS -L$DEP_DIR/openssl/openssl-$PLATFORM/lib"
 fi
@@ -211,7 +236,7 @@ fi
 # gtest
 if [ "$GTEST_DIR" ]; then
     CPPFLAGS="$CPPFLAGS -I$GTEST_DIR/googletest/include"
-    LIBDIRS="$LIBDIRS -L$GTEST_DIR/googlemock/gtest"
+    LIBDIRS="$LIBDIRS -L$GTEST_DIR/lib"
     LIBS="$LIBS -lgtest"
 fi
 
@@ -250,6 +275,17 @@ if [ "$CITY" = "1" ]; then
     fi
     LIBS="$LIBS -lcityhash"
     CPPFLAGS="$CPPFLAGS -DHAVE_CITYHASH"
+fi
+
+# libcap
+if [ "$CAP" = "1" ]; then
+    LIBS="$LIBS -lcap"
+    CPPFLAGS="$CPPFLAGS -DHAVE_LIBCAP"
+fi
+
+# PCRE
+if [ "$PCRE" = "1" ]; then
+    LIBS="$LIBS -lpcre"
 fi
 
 # Valgrind
@@ -323,10 +359,20 @@ else
     OUTPUT="-o $OUTBIN"
 fi
 
+# main source file
+MAIN_CPP="$1.cpp"
+if ! [ -e "$MAIN_CPP" ] && [ "$EXTRA_CPP" ]; then
+    MAIN_CPP=""
+fi
+
 # release/debug builds
 if [ "$DEBUG" = "1" ]; then
-    # debug build
-    FLAGS="-g $FLAGS"
+    # build with debug symbols
+    if [ "$PLATFORM" = "linux" ]; then
+	FLAGS="-ggdb $FLAGS"
+    else
+	FLAGS="-g $FLAGS"
+    fi
 else
     # release build
     [ "$LTO" = "1" ] && [ "$CLANG" != "1" ] && FLAGS="$FLAGS -flto=4 -Wl,--no-as-needed"
@@ -340,7 +386,7 @@ if [ "$OBJC" == "1" ]; then
     SRC="$1.mm"
     CMD="$GPP_CMD $FLAGS $GCC_EXTRA $CPPFLAGS $LIBDIRS $SRC $EXTRA_CPP $EXTRA_SRC_OBJ $OUTPUT $LIBS"
 else
-    CMD="$GPP_CMD $FLAGS $GCC_EXTRA $CPPFLAGS $LIBDIRS $1.cpp $EXTRA_CPP $EXTRA_SRC_OBJ $OUTPUT $LIBS"
+    CMD="$GPP_CMD $FLAGS $GCC_EXTRA $CPPFLAGS $LIBDIRS $MAIN_CPP $EXTRA_CPP $EXTRA_SRC_OBJ $OUTPUT $LIBS"
 fi
 
 # execute CMD

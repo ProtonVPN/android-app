@@ -24,10 +24,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.protonvpn.android.R;
 import com.protonvpn.android.models.config.UserData;
-import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.utils.Constants;
-import com.protonvpn.android.vpn.VpnActivity;
+import com.protonvpn.android.ui.home.vpn.VpnActivity;
 
 import org.joda.time.DateTime;
 
@@ -49,27 +48,16 @@ public abstract class PoolingActivity extends VpnActivity {
         }
     }
 
-    public void shouldExpiredDialog(VpnInfoResponse newVpnInfo) {
+    public void showExpiredDialog() {
         WelcomeDialog dialog = (WelcomeDialog) WelcomeDialog.getDialog(getSupportFragmentManager());
         if (dialog != null) {
             dialog.dismissAllowingStateLoss();
         }
-        if (newVpnInfo.getUserTierName().equals("free") && userData.getVpnInfoResponse()
-            .getUserTierName()
-            .equals("trial")) {
-            showExpiredDialog();
-        }
-    }
-
-    public abstract void onTrialEnded();
-
-    public void showExpiredDialog() {
-        onTrialEnded();
         new MaterialDialog.Builder(this).theme(Theme.DARK)
             .title(R.string.freeTrialExpiredTitle)
             .content(R.string.freeTrialExpired)
             .positiveText(R.string.upgrade)
-            .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
+            .onPositive((dlg, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
             .negativeText(R.string.cancel)
             .show();
     }

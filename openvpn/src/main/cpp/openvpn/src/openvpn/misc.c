@@ -116,6 +116,38 @@ hostname_randomize(const char *hostname, struct gc_arena *gc)
 #undef n_rnd_bytes
 }
 
+#ifdef ENABLE_MANAGEMENT
+/* Get username/password from the management interface */
+static bool
+auth_user_pass_mgmt(struct user_pass *up, const char *prefix, const unsigned int flags,
+                    const char *auth_challenge)
+{
+    const char *sc = NULL;
+
+    if (flags & GET_USER_PASS_PREVIOUS_CREDS_FAILED)
+    {
+        management_auth_failure(management, prefix, "previous auth credentials failed");
+    }
+
+    if (auth_challenge && (flags & GET_USER_PASS_STATIC_CHALLENGE))
+    {
+        sc = auth_challenge;
+    }
+    if (!management_query_user_pass(management, up, prefix, flags, sc))
+    {
+        if ((flags & GET_USER_PASS_NOFATAL) != 0)
+        {
+            return false;
+        }
+        else
+        {
+            msg(M_FATAL, "ERROR: could not read %s username/password/ok/string from management interface", prefix);
+        }
+    }
+    return true;
+}
+#endif /* ifdef ENABLE_MANAGEMENT */
+
 /*
  * Get and store a username/password
  */
@@ -149,28 +181,10 @@ get_user_pass_cr(struct user_pass *up,
             && (!from_authfile && (flags & GET_USER_PASS_MANAGEMENT))
             && management_query_user_pass_enabled(management))
         {
-            const char *sc = NULL;
             response_from_stdin = false;
-
-            if (flags & GET_USER_PASS_PREVIOUS_CREDS_FAILED)
+            if (!auth_user_pass_mgmt(up, prefix, flags, auth_challenge))
             {
-                management_auth_failure(management, prefix, "previous auth credentials failed");
-            }
-
-            if (auth_challenge && (flags & GET_USER_PASS_STATIC_CHALLENGE))
-            {
-                sc = auth_challenge;
-            }
-            if (!management_query_user_pass(management, up, prefix, flags, sc))
-            {
-                if ((flags & GET_USER_PASS_NOFATAL) != 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    msg(M_FATAL, "ERROR: could not read %s username/password/ok/string from management interface", prefix);
-                }
+                return false;
             }
         }
         else
@@ -247,6 +261,22 @@ get_user_pass_cr(struct user_pass *up,
             {
                 strncpy(up->password, password_buf, USER_PASS_LEN);
             }
+            /* The auth-file does not have the password: get both username
+             * and password from the management interface if possible.
+             * Otherwise set to read password from console.
+             */
+#if defined(ENABLE_MANAGEMENT)
+            else if (management
+                     && (flags & GET_USER_PASS_MANAGEMENT)
+                     && management_query_user_pass_enabled(management))
+            {
+                msg(D_LOW, "No password found in %s authfile '%s'. Querying the management interface", prefix, auth_file);
+                if (!auth_user_pass_mgmt(up, prefix, flags, auth_challenge))
+                {
+                    return false;
+                }
+            }
+#endif
             else
             {
                 password_from_stdin = 1;
@@ -581,12 +611,12 @@ make_arg_copy(char **p, struct gc_arena *gc)
 }
 
 const char **
-make_extended_arg_array(char **p, struct gc_arena *gc)
+make_extended_arg_array(char **p, bool is_inline, struct gc_arena *gc)
 {
     const int argc = string_array_len((const char **)p);
-    if (!strcmp(p[0], INLINE_FILE_TAG) && argc == 2)
+    if (is_inline)
     {
-        return make_inline_array(p[1], gc);
+        return make_inline_array(p[0], gc);
     }
     else if (argc == 0)
     {
@@ -670,8 +700,6 @@ sanitize_control_message(const char *src, struct gc_arena *gc)
     return ret;
 }
 
-#if P2MP_SERVER
-
 /* helper to parse peer_info received from multi client, validate
  * (this is untrusted data) and put into environment
  */
@@ -735,4 +763,22 @@ output_peer_info_env(struct env_set *es, const char *peer_info)
     }
 }
 
-#endif /* P2MP_SERVER */
+int
+get_num_elements(const char *string, char delimiter)
+{
+    int string_len = strlen(string);
+
+    ASSERT(0 != string_len);
+
+    int element_count = 1;
+    /* Get number of ciphers */
+    for (int i = 0; i < string_len; i++)
+    {
+        if (string[i] == delimiter)
+        {
+            element_count++;
+        }
+    }
+
+    return element_count;
+}

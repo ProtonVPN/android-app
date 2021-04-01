@@ -46,13 +46,12 @@ import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
@@ -76,8 +75,11 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
+    @BindView(R.id.smartReconnect) lateinit var smartReconnect: ProtonSwitch
+    @BindView(R.id.smartReconnectNotifications) lateinit var smartReconnectNotifications: ProtonSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
 
@@ -100,7 +102,7 @@ class SettingsActivity : BaseActivity() {
                 .setOnCheckedChangeListener { _, isChecked ->
                     userPrefs.connectOnBoot = isChecked
                 }
-        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor) {
+        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor, connectionManager) {
             userPrefs.netShieldProtocol = it
         }
         switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()
@@ -123,7 +125,6 @@ class SettingsActivity : BaseActivity() {
             userPrefs.useSmartProtocol = protocolSelection.useSmart
             userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
-            switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
             initSplitTunneling(userPrefs.useSplitTunneling)
         }
         spinnerDefaultConnection.setItems(serverManager.getSavedProfiles())
@@ -165,15 +166,35 @@ class SettingsActivity : BaseActivity() {
             scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
         }
 
-        switchBypassLocal.isVisible = userPrefs.selectedProtocol == VpnProtocol.OpenVPN
         switchBypassLocal.switchProton.isChecked = userPrefs.bypassLocalTraffic()
         switchBypassLocal.switchProton.setOnTouchListener(disableWhenConnectedListener)
         switchBypassLocal.switchProton.setOnCheckedChangeListener { _, isChecked ->
             userPrefs.setBypassLocalTraffic(isChecked)
         }
 
+        initSmartReconnectToggles()
+
         buttonLicenses.setOnClickListener {
             navigateTo(OssLicensesActivity::class.java)
+        }
+    }
+
+    private fun initSmartReconnectToggles() {
+        if (appConfig.getFeatureFlags().smartReconnect) {
+            smartReconnect.switchProton.isChecked = userPrefs.isSmartReconnectEnabled
+            smartReconnect.switchProton.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.isSmartReconnectEnabled = isChecked
+                smartReconnectNotifications.isVisible = isChecked
+            }
+
+            smartReconnectNotifications.isVisible = userPrefs.isSmartReconnectEnabled
+            smartReconnectNotifications.switchProton.isChecked = userPrefs.showSmartReconnectNotifications()
+            smartReconnectNotifications.switchProton.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.setShowSmartReconnectNotifications(isChecked)
+            }
+        } else {
+            smartReconnect.isVisible = false
+            smartReconnectNotifications.isVisible = false
         }
     }
 

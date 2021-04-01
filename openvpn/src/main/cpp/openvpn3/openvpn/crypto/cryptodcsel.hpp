@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -50,13 +50,14 @@ namespace openvpn {
     }
 
     virtual CryptoDCContext::Ptr new_obj(const CryptoAlgs::Type cipher,
-					 const CryptoAlgs::Type digest)
+					 const CryptoAlgs::Type digest,
+					 const CryptoAlgs::KeyDerivation method)
     {
       const CryptoAlgs::Alg& alg = CryptoAlgs::get(cipher);
       if (alg.flags() & CryptoAlgs::CBC_HMAC)
-	return new CryptoContextCHM<CRYPTO_API>(cipher, digest, frame, stats, prng);
+	return new CryptoContextCHM<CRYPTO_API>(cipher, digest, method, frame, stats, prng);
       else if (alg.flags() & CryptoAlgs::AEAD)
-	return new AEAD::CryptoContext<CRYPTO_API>(cipher, frame, stats);
+	return new AEAD::CryptoContext<CRYPTO_API>(cipher, method, frame, stats);
       else
 	OPENVPN_THROW(crypto_dc_select, alg.name() << ": only CBC/HMAC and AEAD cipher modes supported");
     }

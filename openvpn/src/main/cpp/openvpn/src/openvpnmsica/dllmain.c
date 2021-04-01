@@ -1,5 +1,6 @@
 /*
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
+ *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
  *  Copyright (C) 2018 Simon Rozman <simon@rozman.si>
  *
@@ -36,7 +37,7 @@
 #include <tchar.h>
 
 
-DWORD openvpnmsica_tlsidx_session = TLS_OUT_OF_INDEXES;
+DWORD openvpnmsica_thread_data_idx = TLS_OUT_OF_INDEXES;
 
 
 /**
@@ -54,9 +55,9 @@ DllMain(
     switch (dwReason)
     {
         case DLL_PROCESS_ATTACH:
-            /* Allocate TLS index. */
-            openvpnmsica_tlsidx_session = TlsAlloc();
-            if (openvpnmsica_tlsidx_session == TLS_OUT_OF_INDEXES)
+            /* Allocate thread local storage index. */
+            openvpnmsica_thread_data_idx = TlsAlloc();
+            if (openvpnmsica_thread_data_idx == TLS_OUT_OF_INDEXES)
             {
                 return FALSE;
             }
@@ -64,25 +65,29 @@ DllMain(
 
         case DLL_THREAD_ATTACH:
         {
-            /* Create TLS data. */
-            struct openvpnmsica_tls_data *s = (struct openvpnmsica_tls_data *)malloc(sizeof(struct openvpnmsica_tls_data));
-            memset(s, 0, sizeof(struct openvpnmsica_tls_data));
-            TlsSetValue(openvpnmsica_tlsidx_session, s);
+            /* Create thread local storage data. */
+            struct openvpnmsica_thread_data *s = (struct openvpnmsica_thread_data *)calloc(1, sizeof(struct openvpnmsica_thread_data));
+            if (s == NULL)
+            {
+                return FALSE;
+            }
+
+            TlsSetValue(openvpnmsica_thread_data_idx, s);
             break;
         }
 
         case DLL_PROCESS_DETACH:
-            if (openvpnmsica_tlsidx_session != TLS_OUT_OF_INDEXES)
+            if (openvpnmsica_thread_data_idx != TLS_OUT_OF_INDEXES)
             {
-                /* Free TLS data and TLS index. */
-                free(TlsGetValue(openvpnmsica_tlsidx_session));
-                TlsFree(openvpnmsica_tlsidx_session);
+                /* Free thread local storage data and index. */
+                free(TlsGetValue(openvpnmsica_thread_data_idx));
+                TlsFree(openvpnmsica_thread_data_idx);
             }
             break;
 
         case DLL_THREAD_DETACH:
-            /* Free TLS data. */
-            free(TlsGetValue(openvpnmsica_tlsidx_session));
+            /* Free thread local storage data. */
+            free(TlsGetValue(openvpnmsica_thread_data_idx));
             break;
     }
 
@@ -105,7 +110,7 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
     /* Secure last error before it is overridden. */
     DWORD dwResult = (flags & M_ERRNO) != 0 ? GetLastError() : ERROR_SUCCESS;
 
-    struct openvpnmsica_tls_data *s = (struct openvpnmsica_tls_data *)TlsGetValue(openvpnmsica_tlsidx_session);
+    struct openvpnmsica_thread_data *s = (struct openvpnmsica_thread_data *)TlsGetValue(openvpnmsica_thread_data_idx);
     if (s->hInstall == 0)
     {
         /* No MSI session, no fun. */
@@ -128,9 +133,18 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
         {
             /* Allocate on heap and retry. */
             char *szMessage = (char *)malloc(++iResultLen * sizeof(char));
-            vsnprintf(szMessage, iResultLen, format, arglist);
-            MsiRecordSetStringA(hRecordProg, 2, szMessage);
-            free(szMessage);
+            if (szMessage != NULL)
+            {
+                vsnprintf(szMessage, iResultLen, format, arglist);
+                MsiRecordSetStringA(hRecordProg, 2, szMessage);
+                free(szMessage);
+            }
+            else
+            {
+                /* Use stack variant anyway, but make sure it's zero-terminated. */
+                szBufStack[_countof(szBufStack) - 1] = 0;
+                MsiRecordSetStringA(hRecordProg, 2, szBufStack);
+            }
         }
     }
 
@@ -179,6 +193,6 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
         }
     }
 
-    MsiProcessMessage(s->hInstall, INSTALLMESSAGE_ERROR, hRecordProg);
+    MsiProcessMessage(s->hInstall, (flags & M_WARN) ? INSTALLMESSAGE_INFO : INSTALLMESSAGE_ERROR, hRecordProg);
     MsiCloseHandle(hRecordProg);
 }

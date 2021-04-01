@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,6 +31,8 @@
 #define OPENVPN_COMPRESS_LZOASYM_IMPL_H
 
 #include <cstdint> // for std::uint32_t, etc.
+#include <cstring> // for memcpy, memmove
+#include <algorithm>
 
 #include <openvpn/common/size.hpp>  // for ssize_t
 #include <openvpn/common/likely.hpp> // for likely/unlikely
@@ -76,28 +78,6 @@ namespace openvpn {
       return *cptr(p);
     }
 
-    template <typename T>
-    inline T set_mem(void *p, const T value)
-    {
-      typedef volatile T* ptr;
-      *ptr(p) = value;
-    }
-
-    template <typename T>
-    inline void copy_mem(void *dest, const void *src)
-    {
-      typedef volatile T* ptr;
-      typedef volatile const T* cptr;
-      *ptr(dest) = *cptr(src);
-    }
-
-    template <typename T>
-    inline bool ptr_aligned_4(const T* a, const T* b)
-    {
-      return ((size_t(a) | size_t(b)) & 3) == 0;
-    }
-
-
     // take the number of objects difference between two pointers
     template <typename T>
     inline size_t ptr_diff(const T* a, const T* b)
@@ -113,76 +93,37 @@ namespace openvpn {
       return get_mem<std::uint16_t>(p);
     }
 
-    // copy 64 bits
-    inline void copy_64(unsigned char *dest, const unsigned char *src)
+    /**
+     * This function emulates copying bytes one by one from src to dest.
+     * if src+len and dest+len overlap it repeats the non-overlapping
+     * section of src until it copied 'len' bytes
+     *
+     * A slow simple version of this method looks like this:
+     *
+     *    do {
+     *     *dest++ = *src++;
+     *    } while (--len);
+     *
+     * @param src Source of the memory
+     * @param dest Destination of the memory, must be >= src
+     * @param len Number of bytes to copy from src to dest
+     */
+    inline void incremental_copy(unsigned char* dest, const unsigned char* src, ssize_t len)
     {
-      // NOTE: assumes that 64-bit machines can do 64-bit unaligned access, and
-      // 32-bit machines can do 32-bit unaligned access.
-      if (sizeof(void *) == 8)
-	{
-	  copy_mem<std::uint64_t>(dest, src);
-	}
-      else
-	{
-	  copy_mem<std::uint32_t>(dest, src);
-	  copy_mem<std::uint32_t>(dest+4, src+4);
-	}
-    }
-
-    // Fast version of incremental copy.
-    // NOTE: we might write up to ten extra bytes after the end of the copy.
-    inline void incremental_copy_fast(unsigned char *dest, const unsigned char *src, ssize_t len)
-    {
-      while (LZOASYM_UNLIKELY(dest - src < 8))
-	{
-	  copy_64(dest, src);
-	  len -= dest - src;
-	  dest += dest - src;
-	}
+      size_t copylen = dest - src;
       while (len > 0)
 	{
-	  copy_64(dest, src);
-	  src += 8;
-	  dest += 8;
-	  len -= 8;
+	  memcpy(dest, src, std::min((size_t)len, (size_t)copylen));
+	  dest += copylen;
+	  len -= copylen;
+
+	  /* we can double copylen every time
+	   * we copied the pattern */
+	  copylen = copylen * 2;
 	}
     }
 
-    // Slow version of incremental copy
-    inline void incremental_copy(unsigned char *dest, const unsigned char *src, ssize_t len)
-    {
-      do {
-	*dest++ = *src++;
-      } while (--len);
-    }
 
-    // Faster version of memcpy
-    inline void copy_fast(unsigned char *dest, const unsigned char *src, ssize_t len)
-    {
-      while (len >= 8)
-	{
-	  copy_64(dest, src);
-	  src += 8;
-	  dest += 8;
-	  len -= 8;
-	}
-      if (len >= 4)
-	{
-	  copy_mem<std::uint32_t>(dest, src);
-	  src += 4;
-	  dest += 4;
-	  len -= 4;
-	}
-      switch (len)
-	{
-	case 3:
-	  *dest++ = *src++;
-	case 2:
-	  *dest++ = *src++;
-	case 1:
-	  *dest = *src;
-	}
-    }
 
     inline int lzo1x_decompress_safe(const unsigned char *input,
 				     size_t input_length,
@@ -229,7 +170,7 @@ namespace openvpn {
 		    const size_t len = z + 3;
 		    LZOASYM_CHECK_OUTPUT_OVERFLOW(len);
 		    LZOASYM_CHECK_INPUT_OVERFLOW(len+1);
-		    copy_fast(output_ptr, input_ptr, len);
+		    memcpy(output_ptr, input_ptr, len);
 		    input_ptr += len;
 		    output_ptr += len;
 		  }
@@ -322,13 +263,7 @@ namespace openvpn {
 		  LZOASYM_CHECK_OUTPUT_OVERFLOW(z+3-1);
 
 		  const size_t len = z + 2;
-		  // Should we use optimized incremental copy?
-		  // incremental_copy_fast might copy 10 more bytes than needed, so
-		  // don't use it unless we have enough trailing space in buffer.
-		  if (LZOASYM_LIKELY(size_t(output_ptr_end - output_ptr) >= len + 10))
-		    incremental_copy_fast(output_ptr, match_ptr, len);
-		  else
-		    incremental_copy(output_ptr, match_ptr, len);
+		  incremental_copy(output_ptr, match_ptr, len);
 		  match_ptr += len;
 		  output_ptr += len;
 		}

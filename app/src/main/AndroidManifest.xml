@@ -71,7 +71,7 @@
             android:resizeableActivity="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".vpn.LogActivity"
+            android:name=".ui.drawer.LogActivity"
             android:label="@string/log_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -101,7 +101,7 @@
         </service>
 
         <service
-            android:name=".vpn.OpenVPNWrapperService"
+            android:name=".vpn.openvpn.OpenVPNWrapperService"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>

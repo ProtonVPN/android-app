@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -509,6 +509,26 @@ namespace openvpn {
 	default:
 	  return COMP_STUB;
 	}
+    }
+
+    /**
+     *  Checks if the compression type is one of the available stub modes
+     *
+     * @param t  The CompressContext::Type value
+     * @return   Returns true if the type is one of the *_STUB{,v2} types,
+     *           otherwise false.
+     */
+    static bool is_any_stub(const Type t)
+    {
+      switch (t)
+      {
+        case LZO_STUB:
+        case COMP_STUB:
+        case COMP_STUBv2:
+          return true;
+        default:
+          return false;
+      }
     }
 
     static void init_static()

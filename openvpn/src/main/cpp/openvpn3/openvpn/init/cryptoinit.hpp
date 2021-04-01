@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -19,8 +19,9 @@
 //    along with this program in the COPYING file.
 //    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_INIT_CRYPTOINIT_H
-#define OPENVPN_INIT_CRYPTOINIT_H
+#pragma once
+
+#include <string>
 
 #ifdef USE_OPENSSL
 #include <openvpn/openssl/util/init.hpp>
@@ -31,11 +32,15 @@ namespace openvpn {
   // process-wide initialization for crypto subsystem
   class crypto_init
   {
-#if defined(USE_OPENSSL)
+#if defined(OPENSSL_NEEDS_INIT)
     openssl_init openssl_init_;
-#endif    
+#endif
+    /*
+     * We add a dummy member so this class does not count as trivial
+     * class. Otherwise it will trigger:
+     *  warning: private field 'crypto_init_' is not used [-Wunused-private-field]
+     */
+    std::string dummy;
   };
 
 }
-
-#endif

@@ -18,7 +18,6 @@ variables:
 
 stages:
   - image
-  - cache-gradle
   - analyze
   - build
   - test
@@ -80,24 +79,12 @@ create-ci-image-latest:
     - make latest
 
 cache:
-  key: gradle
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .gradle/caches
-  policy: pull
-
-generate-cache:
-  cache: {}
-  stage: cache-gradle
-  before_script: []
-  script:
-    - ./gradlew --refresh-dependencies
-  artifacts:
-    expire_in: 2 hours
-    paths:
-      - .gradle
+    - .gradle
+    - '**/build'
 
 detekt analysis:
-  cache: {}
   stage: analyze
   tags:
     - small
@@ -115,22 +102,17 @@ build debug:
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
-  cache:
-    key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-    paths:
-      - app/build/
-      - openvpn/build/
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
 
-build blue:
+build black:
   stage: build
   tags:
     - large
   script:
-    - ./gradlew assembleBlueDebug
+    - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
     expire_in: 1 week

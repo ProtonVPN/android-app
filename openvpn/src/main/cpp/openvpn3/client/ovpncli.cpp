@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -259,10 +259,23 @@ namespace openvpn {
 	parent = parent_arg;
       }
 
+      void set_rg_local(bool rg_local_arg)
+      {
+        rg_local = rg_local_arg;
+      }
+
       bool socket_protect(int socket, IP::Addr endpoint) override
       {
 	if (parent)
-	  return parent->socket_protect(socket, endpoint.to_string(), endpoint.is_ipv6());
+	  {
+#if defined(OPENVPN_COMMAND_AGENT) && defined(OPENVPN_PLATFORM_WIN)
+	    return rg_local ? true : WinCommandAgent::add_bypass_route(endpoint);
+#elif defined(OPENVPN_COMMAND_AGENT) && defined(OPENVPN_PLATFORM_MAC)
+	    return rg_local ? true : UnixCommandAgent::add_bypass_route(endpoint);
+#else
+	    return parent->socket_protect(socket, endpoint.to_string(), endpoint.is_ipv6());
+#endif
+	  }
 	else
 	  return true;
       }
@@ -274,6 +287,7 @@ namespace openvpn {
 
     private:
       OpenVPNClient* parent;
+      bool rg_local = false; // do not add bypass route if true
     };
 
     class MyReconnectNotify : public ReconnectNotify
@@ -422,6 +436,7 @@ namespace openvpn {
 	IPv6Setting ipv6;
 	int conn_timeout = 0;
 	bool tun_persist = false;
+	bool wintun = false;
 	bool google_dns_fallback = false;
 	bool synchronous_dns_lookup = false;
 	bool autologin_sessions = false;
@@ -431,11 +446,15 @@ namespace openvpn {
 	bool disable_client_cert = false;
 	int ssl_debug_level = 0;
 	int default_key_direction = -1;
-	bool force_aes_cbc_ciphersuites = false;
 	std::string tls_version_min_override;
 	std::string tls_cert_profile_override;
+	std::string tls_cipher_list;
+	std::string tls_ciphersuite_list;
 	std::string gui_version;
+	std::string sso_methods;
 	bool allow_local_lan_access;
+	std::string hw_addr_override;
+	std::string platform_version;
 	ProtoContextOptions::Ptr proto_context_options;
 	PeerInfo::Set::Ptr extra_peer_info;
 	HTTPProxyTransport::Options::Ptr http_proxy_options;
@@ -447,6 +466,9 @@ namespace openvpn {
 	bool dco = false;
 	bool echo = false;
 	bool info = false;
+
+	// Ensure that init is called
+	InitProcess::Init init;
 
 	template <typename SESSION_STATS, typename CLIENT_EVENTS>
 	void attach(OpenVPNClient* parent,
@@ -478,6 +500,8 @@ namespace openvpn {
 
 	  // socket protect
 	  socket_protect.set_parent(parent);
+	  RedirectGatewayFlags rg_flags{ options };
+	  socket_protect.set_rg_local(rg_flags.redirect_gateway_local());
 
 	  // reconnect notifications
 	  reconnect_notify.set_parent(parent);
@@ -581,16 +605,6 @@ namespace openvpn {
       };
     };
 
-    OPENVPN_CLIENT_EXPORT void OpenVPNClient::init_process()
-    {
-      InitProcess::init();
-    }
-
-    OPENVPN_CLIENT_EXPORT void OpenVPNClient::uninit_process()
-    {
-      InitProcess::uninit();
-    }
-
     OPENVPN_CLIENT_EXPORT OpenVPNClient::OpenVPNClient()
     {
 #ifndef OPENVPN_NORESET_TIME
@@ -644,6 +658,7 @@ namespace openvpn {
 	eval.remoteHost = config.serverOverride.empty() ? cc.firstRemoteListItem().host : config.serverOverride;
 	eval.remotePort = cc.firstRemoteListItem().port;
 	eval.remoteProto = cc.firstRemoteListItem().proto;
+	eval.windowsDriver = cc.windowsDriver();
 	for (ParseClientConfig::ServerList::const_iterator i = cc.serverList().begin(); i != cc.serverList().end(); ++i)
 	  {
 	    ServerEntry se;
@@ -655,7 +670,7 @@ namespace openvpn {
       catch (const std::exception& e)
 	{
 	  eval.error = true;
-	  eval.message = Unicode::utf8_printable<std::string>(e.what(), 256);
+	  eval.message = Unicode::utf8_printable<std::string>(std::string("ERR_PROFILE_GENERIC: ") + e.what(), 256);
 	}
     }
 
@@ -666,6 +681,7 @@ namespace openvpn {
 	state->port_override = config.portOverride;
 	state->conn_timeout = config.connTimeout;
 	state->tun_persist = config.tunPersist;
+	state->wintun = config.wintun;
 	state->google_dns_fallback = config.googleDnsFallback;
 	state->synchronous_dns_lookup = config.synchronousDnsLookup;
 	state->autologin_sessions = config.autologinSessions;
@@ -682,11 +698,15 @@ namespace openvpn {
 	state->disable_client_cert = config.disableClientCert;
 	state->ssl_debug_level = config.sslDebugLevel;
 	state->default_key_direction = config.defaultKeyDirection;
-	state->force_aes_cbc_ciphersuites = config.forceAesCbcCiphersuites;
 	state->tls_version_min_override = config.tlsVersionMinOverride;
 	state->tls_cert_profile_override = config.tlsCertProfileOverride;
-    state->allow_local_lan_access = config.allowLocalLanAccess;
+	state->tls_cipher_list = config.tlsCipherList;
+	state->tls_ciphersuite_list = config.tlsCiphersuitesList;
+	state->allow_local_lan_access = config.allowLocalLanAccess;
 	state->gui_version = config.guiVersion;
+	state->sso_methods = config.ssoMethods;
+	state->platform_version = config.platformVersion;
+	state->hw_addr_override = config.hwAddrOverride;
 	state->alt_proxy = config.altProxy;
 	state->dco = config.dco;
 	state->echo = config.echo;
@@ -799,6 +819,11 @@ namespace openvpn {
       return ret;
     }
 
+    OPENVPN_CLIENT_EXPORT bool OpenVPNClient::socket_protect(int socket, std::string remote, bool ipv6)
+    {
+      return true;
+    }
+
     OPENVPN_CLIENT_EXPORT bool OpenVPNClient::parse_dynamic_challenge(const std::string& cookie, DynamicChallenge& dc)
     {
       try {
@@ -860,6 +885,9 @@ namespace openvpn {
 #endif
       Log::Context log_context(this);
 #endif
+
+      OPENVPN_LOG(ClientAPI::OpenVPNClient::platform());
+
       return do_connect();
     }
 
@@ -935,6 +963,7 @@ namespace openvpn {
       cc.ipv6 = state->ipv6;
       cc.conn_timeout = state->conn_timeout;
       cc.tun_persist = state->tun_persist;
+      cc.wintun = state->wintun;
       cc.google_dns_fallback = state->google_dns_fallback;
       cc.synchronous_dns_lookup = state->synchronous_dns_lookup;
       cc.autologin_sessions = state->autologin_sessions;
@@ -952,18 +981,22 @@ namespace openvpn {
       cc.disable_client_cert = state->disable_client_cert;
       cc.ssl_debug_level = state->ssl_debug_level;
       cc.default_key_direction = state->default_key_direction;
-      cc.force_aes_cbc_ciphersuites = state->force_aes_cbc_ciphersuites;
       cc.tls_version_min_override = state->tls_version_min_override;
       cc.tls_cert_profile_override = state->tls_cert_profile_override;
+      cc.tls_cipher_list = state->tls_cipher_list;
+      cc.tls_ciphersuite_list = state->tls_ciphersuite_list;
       cc.gui_version = state->gui_version;
+      cc.sso_methods = state->sso_methods;
+      cc.hw_addr_override = state->hw_addr_override;
+      cc.platform_version = state->platform_version;
       cc.extra_peer_info = state->extra_peer_info;
       cc.stop = state->async_stop_local();
       cc.allow_local_lan_access = state->allow_local_lan_access;
 #ifdef OPENVPN_GREMLIN
       cc.gremlin_config = state->gremlin_config;
 #endif
-#if defined(USE_TUN_BUILDER)
       cc.socket_protect = &state->socket_protect;
+#if defined(USE_TUN_BUILDER)
       cc.builder = this;
 #endif
 #if defined(OPENVPN_EXTERNAL_TUN_FACTORY)
@@ -1140,12 +1173,12 @@ namespace openvpn {
 	}
     }
 
-    OPENVPN_CLIENT_EXPORT bool OpenVPNClient::sign(const std::string& data, std::string& sig, const std::string& padding)
+    OPENVPN_CLIENT_EXPORT bool OpenVPNClient::sign(const std::string& data, std::string& sig, const std::string& algorithm)
     {
       ExternalPKISignRequest req;
       req.data = data;
       req.alias = state->external_pki_alias;
-      req.padding = padding;
+      req.algorithm = algorithm;
       external_pki_sign_request(req); // call out to derived class for RSA signature
       if (!req.error)
 	{
@@ -1372,13 +1405,17 @@ namespace openvpn {
 #ifdef PRIVATE_TUNNEL_PROXY
       ret += " PT_PROXY";
 #endif
-#ifdef ENABLE_DCO
-      ret += " DCO";
+#ifdef ENABLE_KOVPN
+      ret += " KOVPN";
+#elif ENABLE_OVPNDCO
+      ret += " OVPN-DCO";
 #endif
 #ifdef OPENVPN_GREMLIN
       ret += " GREMLIN";
 #endif
+#ifdef OPENVPN_DEBUG
       ret += " built on " __DATE__ " " __TIME__;
+#endif
       return ret;
     }
 

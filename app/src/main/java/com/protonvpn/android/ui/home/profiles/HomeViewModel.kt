@@ -18,18 +18,26 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.map
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.eagerMapNotNull
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    private val apiNotificationManager: ApiNotificationManager
-) : ViewModel() {
+    userData: UserData,
+    private val apiNotificationManager: ApiNotificationManager,
+    userPlanManager: UserPlanManager,
+) : MainViewModel(userData, userPlanManager) {
 
     inner class OfferViewModel(
         private val id: String,
@@ -69,5 +77,14 @@ class HomeViewModel @Inject constructor(
         visitedOffers.add(id)
         visitedOffersObservable.value = visitedOffersObservable.value
         Storage.save(visitedOffersObservable.value)
+    }
+
+    // Temporary method to help java activity collect a flow
+    fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {
+        activity.lifecycleScope.launch {
+            userPlanChangeEvent.collect {
+                onChange(it)
+            }
+        }
     }
 }

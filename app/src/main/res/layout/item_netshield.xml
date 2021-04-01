@@ -51,7 +51,7 @@
                 android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatToggleButton
-                android:id="@+id/imageExpand"
+                android:id="@+id/toggleExpand"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:background="@android:color/transparent"

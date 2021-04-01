@@ -26,7 +26,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.protonvpn.android.components.RetainableDialog;
-import com.protonvpn.android.vpn.LogActivity;
+import com.protonvpn.android.ui.drawer.LogActivity;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

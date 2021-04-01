@@ -21,27 +21,25 @@ package com.protonvpn.di
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 
-class MockVpnStateMonitor(
+class MockVpnConnectionManager(
     userData: UserData,
-    api: ProtonApiRetroFit,
     vpnBackendProvider: VpnBackendProvider,
-    serverListUpdater: ServerListUpdater,
-    trafficMonitor: TrafficMonitor,
     networkManager: NetworkManager,
-    maintenanceTracker: MaintenanceTracker,
+    vpnErrorHandler: VpnConnectionErrorHandler,
+    vpnStateMonitor: VpnStateMonitor,
+    notificationHelper: NotificationHelper,
     scope: CoroutineScope
-) : VpnStateMonitor(ProtonApplication.getAppContext(), userData, api, vpnBackendProvider,
-        serverListUpdater, trafficMonitor, networkManager, maintenanceTracker, scope) {
+) : VpnConnectionManager(ProtonApplication.getAppContext(), userData, vpnBackendProvider, networkManager,
+        vpnErrorHandler, vpnStateMonitor, notificationHelper, scope) {
 
     override fun prepare(context: Context): Intent? = null
 }

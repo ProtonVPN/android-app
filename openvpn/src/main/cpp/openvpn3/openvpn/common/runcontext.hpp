@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -37,6 +37,7 @@
 #include <mutex>
 #include <memory>
 #include <type_traits> // for std::is_nothrow_move_constructible
+#include <utility>
 
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/exception.hpp>
@@ -45,10 +46,12 @@
 #include <openvpn/common/stop.hpp>
 #include <openvpn/common/environ.hpp>
 #include <openvpn/common/number.hpp>
+#include <openvpn/common/signal_name.hpp>
 #include <openvpn/asio/asiosignal.hpp>
 #include <openvpn/time/time.hpp>
 #include <openvpn/time/asiotimer.hpp>
 #include <openvpn/time/timestr.hpp>
+#include <openvpn/common/logsetup.hpp>
 
 #ifdef ASIO_HAS_LOCAL_SOCKETS
 #include <openvpn/common/scoped_fd.hpp>
@@ -131,6 +134,11 @@ namespace openvpn {
       async_stop_ = async_stop;
     }
 
+    void set_log_reopen(LogSetup::Ptr lr)
+    {
+      log_reopen = std::move(lr);
+    }
+
     void set_thread(const unsigned int unit, std::thread* thread)
     {
       while (threadlist.size() <= unit)
@@ -164,6 +172,18 @@ namespace openvpn {
       auto lu = std::find(log_observers.begin(), log_observers.end(), unit);
       if (lu != log_observers.end())
 	log_observers.erase(lu);
+    }
+
+    std::vector<typename ServerThread::Ptr> get_servers()
+    {
+      std::lock_guard<std::recursive_mutex> lock(mutex);
+      std::vector<typename ServerThread::Ptr> ret;
+      if (halt)
+	return ret;
+      ret.reserve(servlist.size());
+      for (auto sp : servlist)
+	ret.emplace_back(sp);
+      return ret;
     }
 
     void enable_log_history()
@@ -300,7 +320,7 @@ namespace openvpn {
       stats = stats_arg;
     }
 
-    virtual Stop* async_stop()
+    virtual Stop* async_stop() override
     {
       return async_stop_;
     }
@@ -330,20 +350,22 @@ namespace openvpn {
     {
       if (!error && !halt)
 	{
-	  OPENVPN_LOG("ASIO SIGNAL " << signum);
+	  OPENVPN_LOG("ASIO SIGNAL: " << signal_name(signum));
 	  switch (signum)
 	    {
 	    case SIGINT:
 	    case SIGTERM:
-#if !defined(OPENVPN_PLATFORM_WIN)
-	    case SIGQUIT:
-#endif
 	      cancel();
 	      break;
 #if !defined(OPENVPN_PLATFORM_WIN)
 	    case SIGUSR2:
 	      if (stats)
 		OPENVPN_LOG(stats->dump());
+	      signal_rearm();
+	      break;
+	    case SIGHUP:
+	      if (log_reopen)
+		log_reopen->reopen();
 	      signal_rearm();
 	      break;
 #endif
@@ -373,7 +395,7 @@ namespace openvpn {
       exit_timer.expires_after(Time::Duration::seconds(n_sec));
       exit_timer.async_wait([self=Ptr(this)](const openvpn_io::error_code& error)
                             {
-			      if (error)
+			      if (error || self->halt)
 				return;
 			      OPENVPN_LOG("DEBUG EXIT");
 			      self->cancel();
@@ -408,6 +430,7 @@ namespace openvpn {
     // logging
     Log::Context log_context;
     Log::Context::Wrapper log_wrap; // must be constructed after log_context
+    LogSetup::Ptr log_reopen;
 
   protected:
     volatile bool halt = false;

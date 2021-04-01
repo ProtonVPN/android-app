@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -53,6 +53,7 @@ namespace openvpn {
 
 #ifdef OPENVPN_TLS_LINK
       bool use_tls = false;
+      std::string tls_ca;
 #endif
 
 #ifdef OPENVPN_GREMLIN
@@ -74,7 +75,7 @@ namespace openvpn {
       {}
     };
 
-    class Client : public TransportClient
+    class Client : public TransportClient, AsyncResolvableTCP
     {
       typedef RCPtr<Client> Ptr;
 
@@ -87,7 +88,7 @@ namespace openvpn {
       friend LinkImpl::Base;             // calls tcp_read_handler
 
     public:
-      virtual void transport_start()
+      void transport_start() override
       {
 	if (!impl)
 	  {
@@ -102,27 +103,23 @@ namespace openvpn {
 	    else
 	      {
 		parent->transport_pre_resolve();
-		resolver.async_resolve(server_host, server_port,
-				       [self=Ptr(this)](const openvpn_io::error_code& error, openvpn_io::ip::tcp::resolver::results_type results)
-				       {
-					 OPENVPN_ASYNC_HANDLER;
-					 self->do_resolve_(error, results);
-				       });
+
+		async_resolve_name(server_host, server_port);
 	      }
 	  }
       }
 
-      virtual bool transport_send_const(const Buffer& buf)
+      bool transport_send_const(const Buffer& buf) override
       {
 	return send_const(buf);
       }
 
-      virtual bool transport_send(BufferAllocated& buf)
+      bool transport_send(BufferAllocated& buf) override
       {
 	return send(buf);
       }
 
-      virtual bool transport_send_queue_empty()
+      bool transport_send_queue_empty() override
       {
 	if (impl)
 	  return impl->send_queue_empty();
@@ -130,12 +127,12 @@ namespace openvpn {
 	  return false;
       }
 
-      virtual bool transport_has_send_queue()
+      bool transport_has_send_queue() override
       {
 	return true;
       }
 
-      virtual unsigned int transport_send_queue_size()
+      unsigned int transport_send_queue_size() override
       {
 	if (impl)
 	  return impl->send_queue_size();
@@ -143,13 +140,13 @@ namespace openvpn {
 	  return 0;
       }
 
-      virtual void reset_align_adjust(const size_t align_adjust)
+      void reset_align_adjust(const size_t align_adjust) override
       {
 	if (impl)
 	  impl->reset_align_adjust(align_adjust);
       }
 
-      virtual void server_endpoint_info(std::string& host, std::string& port, std::string& proto, std::string& ip_addr) const
+      void server_endpoint_info(std::string& host, std::string& port, std::string& proto, std::string& ip_addr) const override
       {
 	host = server_host;
 	port = server_port;
@@ -158,24 +155,25 @@ namespace openvpn {
 	ip_addr = addr.to_string();
       }
 
-      virtual IP::Addr server_endpoint_addr() const
+      IP::Addr server_endpoint_addr() const override
       {
 	return IP::Addr::from_asio(server_endpoint.address());
       }
 
-      virtual Protocol transport_protocol() const
+      Protocol transport_protocol() const override
       {
 	return server_protocol;
       }
 
-      virtual void stop() { stop_(); }
-      virtual ~Client() { stop_(); }
+      void stop() override { stop_(); }
+      ~Client() override { stop_(); }
 
     private:
       Client(openvpn_io::io_context& io_context_arg,
 	     ClientConfig* config_arg,
 	     TransportClientParent* parent_arg)
-	:  io_context(io_context_arg),
+	:  AsyncResolvableTCP(io_context_arg),
+	   io_context(io_context_arg),
 	   socket(io_context_arg),
 	   config(config_arg),
 	   parent(parent_arg),
@@ -185,12 +183,12 @@ namespace openvpn {
       {
       }
 
-      virtual void transport_reparent(TransportClientParent* parent_arg)
+      void transport_reparent(TransportClientParent* parent_arg) override
       {
 	parent = parent_arg;
       }
 
-      virtual void transport_stop_requeueing()
+      void transport_stop_requeueing() override
       {
 	stop_requeueing = true;
       }
@@ -249,12 +247,13 @@ namespace openvpn {
 
 	    socket.close();
 	    resolver.cancel();
+	    async_resolve_cancel();
 	  }
       }
 
       // do DNS resolve
-      void do_resolve_(const openvpn_io::error_code& error,
-		       openvpn_io::ip::tcp::resolver::results_type results)
+      void resolve_callback(const openvpn_io::error_code& error,
+			    openvpn_io::ip::tcp::resolver::results_type results) override
       {
 	if (!halt)
 	  {
@@ -282,9 +281,8 @@ namespace openvpn {
 	OPENVPN_LOG("Contacting " << server_endpoint << " via "
 		    << server_protocol.str());
 	parent->transport_wait();
-	parent->ip_hole_punch(server_endpoint_addr());
 	socket.open(server_endpoint.protocol());
-#if defined(OPENVPN_PLATFORM_TYPE_UNIX) || defined(OPENVPN_PLATFORM_UWP)
+
 	if (config->socket_protect)
 	  {
 	    if (!config->socket_protect->socket_protect(socket.native_handle(), server_endpoint_addr()))
@@ -295,7 +293,7 @@ namespace openvpn {
 		return;
 	      }
 	  }
-#endif
+
 	socket.set_option(openvpn_io::ip::tcp::no_delay(true));
 	socket.async_connect(server_endpoint, [self=Ptr(this)](const openvpn_io::error_code& error)
                                               {
@@ -314,13 +312,25 @@ namespace openvpn {
 #ifdef OPENVPN_TLS_LINK
 		if (config->use_tls)
 		{
+		  int flags = SSLConst::LOG_VERIFY_STATUS|SSLConst::ENABLE_CLIENT_SNI;
 		  SSLLib::SSLAPI::Config::Ptr ssl_conf;
 		  ssl_conf.reset(new SSLLib::SSLAPI::Config());
 		  ssl_conf->set_mode(Mode(Mode::CLIENT));
-		  ssl_conf->set_flags(SSLConst::LOG_VERIFY_STATUS|SSLConst::NO_VERIFY_PEER);
 		  ssl_conf->set_local_cert_enabled(false);
 		  ssl_conf->set_frame(config->frame);
 		  ssl_conf->set_rng(new SSLLib::RandomAPI(false));
+
+		  if (!config->tls_ca.empty())
+		  {
+		    ssl_conf->load_ca(config->tls_ca, true);
+		  }
+		  else
+		  {
+		    flags |= SSLConst::NO_VERIFY_PEER;
+		  }
+
+		  ssl_conf->set_flags(flags);
+		  ssl_factory = ssl_conf->new_factory();
 
 		  impl.reset(new LinkImplTLS(this,
 					     io_context,
@@ -329,7 +339,7 @@ namespace openvpn {
 					     config->free_list_max_size,
 					     config->frame,
 					     config->stats,
-					     ssl_conf->new_factory()));
+					     ssl_factory));
 		}
 		else
 #endif
@@ -372,6 +382,10 @@ namespace openvpn {
       LinkImpl::Base::protocol::endpoint server_endpoint;
       bool halt;
       bool stop_requeueing;
+
+#ifdef OPENVPN_TLS_LINK
+      SSLFactoryAPI::Ptr ssl_factory;
+#endif
     };
 
     inline TransportClient::Ptr ClientConfig::new_transport_client_obj(openvpn_io::io_context& io_context,

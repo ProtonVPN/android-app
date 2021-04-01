@@ -79,7 +79,7 @@ tls_crypt_buf_overhead(void)
 
 void
 tls_crypt_init_key(struct key_ctx_bi *key, const char *key_file,
-                   const char *key_inline, bool tls_server)
+                   bool key_inline, bool tls_server)
 {
     const int key_direction = tls_server ?
                               KEY_DIRECTION_NORMAL : KEY_DIRECTION_INVERSE;
@@ -295,7 +295,7 @@ tls_crypt_v2_load_client_key(struct key_ctx_bi *key, const struct key2 *key2,
 
 void
 tls_crypt_v2_init_client_key(struct key_ctx_bi *key, struct buffer *wkc_buf,
-                             const char *key_file, const char *key_inline)
+                             const char *key_file, bool key_inline)
 {
     struct buffer client_key = alloc_buf(TLS_CRYPT_V2_CLIENT_KEY_LEN
                                          + TLS_CRYPT_V2_MAX_WKC_LEN);
@@ -320,7 +320,7 @@ tls_crypt_v2_init_client_key(struct key_ctx_bi *key, struct buffer *wkc_buf,
 
 void
 tls_crypt_v2_init_server_key(struct key_ctx *key_ctx, bool encrypt,
-                             const char *key_file, const char *key_inline)
+                             const char *key_file, bool key_inline)
 {
     struct key srv_key;
     struct buffer srv_key_buf;
@@ -544,7 +544,7 @@ tls_crypt_v2_verify_metadata(const struct tls_wrap_ctx *ctx,
 
     ret = openvpn_run_script(&argv, es, 0, "--tls-crypt-v2-verify");
 
-    argv_reset(&argv);
+    argv_free(&argv);
     env_set_destroy(es);
 
     if (!platform_unlink(tmp_file))
@@ -638,7 +638,7 @@ void
 tls_crypt_v2_write_client_key_file(const char *filename,
                                    const char *b64_metadata,
                                    const char *server_key_file,
-                                   const char *server_key_inline)
+                                   bool server_key_inline)
 {
     struct gc_arena gc = gc_new();
     struct key_ctx server_key = { 0 };
@@ -664,7 +664,7 @@ tls_crypt_v2_write_client_key_file(const char *filename,
                 (int)strlen(b64_metadata), TLS_CRYPT_V2_MAX_B64_METADATA_LEN);
         }
         ASSERT(buf_write(&metadata, &TLS_CRYPT_METADATA_TYPE_USER, 1));
-        int decoded_len = openvpn_base64_decode(b64_metadata, BPTR(&metadata),
+        int decoded_len = openvpn_base64_decode(b64_metadata, BEND(&metadata),
                                                 BCAP(&metadata));
         if (decoded_len < 0)
         {
@@ -697,7 +697,16 @@ tls_crypt_v2_write_client_key_file(const char *filename,
         goto cleanup;
     }
 
-    if (!buffer_write_file(filename, &client_key_pem))
+    const char *client_file = filename;
+    bool client_inline = false;
+
+    if (!filename || streq(filename, ""))
+    {
+        printf("%.*s\n", BLEN(&client_key_pem), BPTR(&client_key_pem));
+        client_file = (const char *)BPTR(&client_key_pem);
+        client_inline = true;
+    }
+    else if (!buffer_write_file(filename, &client_key_pem))
     {
         msg(M_FATAL, "ERROR: could not write client key file");
         goto cleanup;
@@ -708,7 +717,7 @@ tls_crypt_v2_write_client_key_file(const char *filename,
     struct buffer test_wrapped_client_key;
     msg(D_GENKEY, "Testing client-side key loading...");
     tls_crypt_v2_init_client_key(&test_client_key, &test_wrapped_client_key,
-                                 filename, NULL);
+                                 client_file, client_inline);
     free_key_ctx_bi(&test_client_key);
 
     /* Sanity check: unwrap and load client key (as "server") */

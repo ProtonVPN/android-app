@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,7 +35,6 @@ public class Client implements OpenVPNClientThread.EventReceiver {
     // Load OpenVPN core (implements ClientAPI_OpenVPNClient) from shared library 
     static {
 	System.loadLibrary("ovpncli");
-	ClientAPI_OpenVPNClient.init_process();
 	String test = ClientAPI_OpenVPNClient.crypto_self_test();
 	System.out.format("CRYPTO SELF TEST: %s", test);
     }

@@ -25,7 +25,7 @@ import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
-import com.protonvpn.android.vpn.VpnStateFragment;
+import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 
 import dagger.Binds;
 import dagger.Module;

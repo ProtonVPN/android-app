@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -94,7 +94,7 @@ namespace openvpn {
 	  return;
 
 	const int MAX_KEY_LENGTH = 255;
-	for (auto i = 0; i < subkeys_num; ++ i)
+	for (DWORD i = 0; i < subkeys_num; ++ i)
 	  {
 	    DWORD subkey_size = MAX_KEY_LENGTH;
 	    char subkey[MAX_KEY_LENGTH];

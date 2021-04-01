@@ -30,6 +30,20 @@ fi
 . $O3/core/vars/vars-$TARGET
 . $O3/core/deps/lib-versions
 
+
+# source vars
+. $O3/core/vars/vars-${TARGET}
+. $O3/core/deps/lib-versions
+
+# source helper functions
+. $O3/core/deps/functions.sh
+
+FNAME=openssl-${OPENSSL_VERSION}.tar.gz
+URL=https://www.openssl.org/source/${OPENSSL_VERSION}.tar.gz
+CSUM=${OPENSSL_CSUM}
+
+download
+
 AR=ar
 RANLIB=ranlib
 [ "$AR_CMD" ] && AR=$AR_CMD
@@ -44,7 +58,7 @@ DIST=$(pwd)/openssl/openssl-$PLATFORM
 [ "$ARCH" ] && DIST=$DIST/$ARCH
 rm -rf $OPENSSL $DIST
 mkdir -p $DIST
-tar xfz $DL/$OPENSSL.tar.gz
+tar xfz $DL/$FNAME
 pushd $OPENSSL
 CMD="./Configure $OPENSSL_TARGET $LINK_MODE threads no-idea no-mdc2 no-rc5 --prefix=$DIST"
 echo $CMD

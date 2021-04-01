@@ -2,7 +2,7 @@
 // detail/impl/socket_ops.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -330,14 +330,14 @@ int close(socket_type s, state_type& state,
       ioctl_arg_type arg = 0;
       ::ioctlsocket(s, FIONBIO, &arg);
 #else // defined(ASIO_WINDOWS) || defined(__CYGWIN__)
-# if defined(__SYMBIAN32__)
+# if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
       int flags = ::fcntl(s, F_GETFL, 0);
       if (flags >= 0)
         ::fcntl(s, F_SETFL, flags & ~O_NONBLOCK);
-# else // defined(__SYMBIAN32__)
+# else // defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
       ioctl_arg_type arg = 0;
       ::ioctl(s, FIONBIO, &arg);
-# endif // defined(__SYMBIAN32__)
+# endif // defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
 #endif // defined(ASIO_WINDOWS) || defined(__CYGWIN__)
       state &= ~non_blocking;
 
@@ -368,7 +368,7 @@ bool set_user_non_blocking(socket_type s,
 #if defined(ASIO_WINDOWS) || defined(__CYGWIN__)
   ioctl_arg_type arg = (value ? 1 : 0);
   int result = error_wrapper(::ioctlsocket(s, FIONBIO, &arg), ec);
-#elif defined(__SYMBIAN32__)
+#elif defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
   int result = error_wrapper(::fcntl(s, F_GETFL, 0), ec);
   if (result >= 0)
   {
@@ -421,7 +421,7 @@ bool set_internal_non_blocking(socket_type s,
 #if defined(ASIO_WINDOWS) || defined(__CYGWIN__)
   ioctl_arg_type arg = (value ? 1 : 0);
   int result = error_wrapper(::ioctlsocket(s, FIONBIO, &arg), ec);
-#elif defined(__SYMBIAN32__)
+#elif defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
   int result = error_wrapper(::fcntl(s, F_GETFL, 0), ec);
   if (result >= 0)
   {
@@ -771,7 +771,7 @@ signed_size_type recv(socket_type s, buf* bufs, size_t count,
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = asio::error::connection_refused;
   else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
-    ec.assign(0, ec.category());
+    result = 0;
   if (result != 0)
     return socket_error_retval;
   ec = asio::error_code();
@@ -925,7 +925,7 @@ signed_size_type recvfrom(socket_type s, buf* bufs, size_t count,
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = asio::error::connection_refused;
   else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
-    ec.assign(0, ec.category());
+    result = 0;
   if (result != 0)
     return socket_error_retval;
   ec = asio::error_code();
@@ -1502,7 +1502,8 @@ int setsockopt(socket_type s, state_type& state, int level, int optname,
     ec = asio::error_code();
 
 #if defined(__MACH__) && defined(__APPLE__) \
-  || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__)
+  || defined(__NetBSD__) || defined(__FreeBSD__) \
+  || defined(__OpenBSD__) || defined(__QNX__)
     // To implement portable behaviour for SO_REUSEADDR with UDP sockets we
     // need to also set SO_REUSEPORT on BSD-based platforms.
     if ((state & datagram_oriented)
@@ -1761,6 +1762,9 @@ int select(int nfds, fd_set* readfds, fd_set* writefds,
     fd_set* exceptfds, timeval* timeout, asio::error_code& ec)
 {
   clear_last_error();
+#if defined(__EMSCRIPTEN__)
+  exceptfds = 0;
+#endif // defined(__EMSCRIPTEN__)
 #if defined(ASIO_WINDOWS) || defined(__CYGWIN__)
   if (!readfds && !writefds && !exceptfds && timeout)
   {

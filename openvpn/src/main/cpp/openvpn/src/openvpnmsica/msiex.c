@@ -1,5 +1,6 @@
 /*
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
+ *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
  *  Copyright (C) 2018 Simon Rozman <simon@rozman.si>
  *
@@ -54,6 +55,12 @@ msi_get_string(
     {
         /* Copy from stack. */
         *pszValue = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (*pszValue == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         memcpy(*pszValue, szBufStack, dwLength * sizeof(TCHAR));
         return ERROR_SUCCESS;
     }
@@ -61,6 +68,12 @@ msi_get_string(
     {
         /* Allocate on heap and retry. */
         LPTSTR szBufHeap = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (szBufHeap == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", __FUNCTION__, dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         uiResult = MsiGetProperty(hInstall, szName, szBufHeap, &dwLength);
         if (uiResult == ERROR_SUCCESS)
         {
@@ -100,6 +113,12 @@ msi_get_record_string(
     {
         /* Copy from stack. */
         *pszValue = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (*pszValue == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", __FUNCTION__, dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         memcpy(*pszValue, szBufStack, dwLength * sizeof(TCHAR));
         return ERROR_SUCCESS;
     }
@@ -107,6 +126,12 @@ msi_get_record_string(
     {
         /* Allocate on heap and retry. */
         LPTSTR szBufHeap = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (szBufHeap == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", __FUNCTION__, dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         uiResult = MsiRecordGetString(hRecord, iField, szBufHeap, &dwLength);
         if (uiResult == ERROR_SUCCESS)
         {
@@ -146,6 +171,12 @@ msi_format_record(
     {
         /* Copy from stack. */
         *pszValue = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (*pszValue == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", __FUNCTION__, dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         memcpy(*pszValue, szBufStack, dwLength * sizeof(TCHAR));
         return ERROR_SUCCESS;
     }
@@ -153,6 +184,12 @@ msi_format_record(
     {
         /* Allocate on heap and retry. */
         LPTSTR szBufHeap = (LPTSTR)malloc(++dwLength * sizeof(TCHAR));
+        if (szBufHeap == NULL)
+        {
+            msg(M_FATAL, "%s: malloc(%u) failed", __FUNCTION__, dwLength * sizeof(TCHAR));
+            return ERROR_OUTOFMEMORY;
+        }
+
         uiResult = MsiFormatRecord(hInstall, hRecord, szBufHeap, &dwLength);
         if (uiResult == ERROR_SUCCESS)
         {

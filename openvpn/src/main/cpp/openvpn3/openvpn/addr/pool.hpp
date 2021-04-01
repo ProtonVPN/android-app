@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -42,7 +42,7 @@ namespace openvpn {
     class PoolType
     {
     public:
-      PoolType() {}
+      PoolType() = default;
 
       // Add range of addresses to pool (pool will own the addresses).
       void add_range(const RangeType<ADDR>& range)
@@ -151,6 +151,8 @@ namespace openvpn {
 	  }
 	return ret;
       }
+
+      virtual ~PoolType<ADDR>() = default;
 
     private:
       std::deque<ADDR> freelist;

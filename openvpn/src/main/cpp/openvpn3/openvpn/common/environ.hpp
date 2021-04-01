@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -74,7 +74,7 @@ namespace openvpn {
 
     int find_index(const std::string& name) const
     {
-      for (int i = 0; i < size(); ++i)
+      for (size_type i = 0; i < size(); ++i)
 	{
 	  const std::string& s = (*this)[i];
 	  const size_t pos = s.find_first_of('=');

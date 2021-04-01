@@ -234,7 +234,7 @@
   <string name="profileFastest">Schnellster</string>
   <string name="profileRandom">Zufällig</string>
   <string name="settingsSplitTunnelingDescription">Durch geteiltes Tunneln können bestimmte Anwendungen oder IPs vom VPN-Verkehr ausgeschlossen werden.</string>
-  <string name="settingsSplitTunnelingTitle">Geteiltes Tunneln</string>
+  <string name="settingsSplitTunnelingTitle">Split‐Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s im Wartungsmodus</string>
   <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
   <string name="loaderAuthenticatingUser">Benutzer wird authentifiziert …</string>
@@ -332,6 +332,7 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="nameOceania">Ozeanien</string>
   <string name="tvRowMore">Weitere</string>
   <string name="tv_detail_default_connection_checkbox">Meine bevorzugten Länder</string>
+  <string name="tv_detail_default_connection_checkbox_short">Bevorzugen</string>
   <string name="tv_detail_connect_streaming">Streaming mit Plus</string>
   <string name="tv_detail_connect">Verbinden</string>
   <string name="tv_detail_description_streaming_country">Streamen Sie Ihre bevorzugten Inhalte. Greifen Sie auf mehr Apps mit einem ProtonVPN Plus-Abo zu.</string>
@@ -383,4 +384,12 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Land derzeit nicht verfügbar</string>
   <string name="tv_country_maintenance_dialog_description">Bitte versuchen Sie es später erneut oder wählen Sie ein anderes Land.</string>
+  <string name="tv_server_list_load">%1$s%% Serverauslastung</string>
+  <string name="tv_recently_used_servers">Zuletzt genutzte Server (%1$d)</string>
+  <string name="tv_available_servers">Verfügbare Server (%1$d)</string>
+  <string name="tv_locked_servers">Gesperrte Server (%1$d)</string>
+  <string name="tv_other_servers">Weitere Server (%1$d)</string>
+  <string name="tv_server_under_maintenance">Wartungsarbeiten</string>
+  <string name="tv_server_list">Serverliste</string>
+  <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
 </resources>

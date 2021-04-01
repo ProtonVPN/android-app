@@ -2,7 +2,7 @@
 // system_timer.cpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,7 @@
 #include "asio/thread.hpp"
 
 #if defined(ASIO_HAS_BOOST_BIND)
-# include <boost/bind.hpp>
+# include <boost/bind/bind.hpp>
 #else // defined(ASIO_HAS_BOOST_BIND)
 # include <functional>
 #endif // defined(ASIO_HAS_BOOST_BIND)
@@ -90,12 +90,11 @@ void system_timer_test()
 {
   using asio::chrono::seconds;
   using asio::chrono::microseconds;
-#if !defined(ASIO_HAS_BOOST_BIND)
-  using std::placeholders::_1;
-  using std::placeholders::_2;
-#endif // !defined(ASIO_HAS_BOOST_BIND)
+  using bindns::placeholders::_1;
+  using bindns::placeholders::_2;
 
   asio::io_context ioc;
+  const asio::io_context::executor_type ioc_ex = ioc.get_executor();
   int count = 0;
 
   asio::system_timer::time_point start = now();
@@ -110,7 +109,7 @@ void system_timer_test()
 
   start = now();
 
-  asio::system_timer t2(ioc, seconds(1) + microseconds(500000));
+  asio::system_timer t2(ioc_ex, seconds(1) + microseconds(500000));
   t2.wait();
 
   // The timer must block until after its expiry time.
