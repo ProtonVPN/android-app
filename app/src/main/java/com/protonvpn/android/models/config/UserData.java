@@ -123,7 +123,7 @@ public final class UserData implements Serializable {
     }
 
     public boolean isFreeUser() {
-        return getVpnInfoResponse().getUserTier() == 0;
+        return getUserTier() == 0;
     }
 
     public boolean isBasicUser() {
@@ -135,7 +135,7 @@ public final class UserData implements Serializable {
     }
 
     public int getUserTier() {
-        return getVpnInfoResponse().getUserTier();
+        return getVpnInfoResponse() != null ? getVpnInfoResponse().getUserTier() : 0;
     }
 
     public boolean isTrialUser() {
