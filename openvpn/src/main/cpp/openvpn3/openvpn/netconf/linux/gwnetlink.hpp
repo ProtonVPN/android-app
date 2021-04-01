@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -37,7 +37,17 @@ namespace openvpn {
   public:
     OPENVPN_EXCEPTION(linux_gw_netlink_error);
 
-    LinuxGWNetlink(bool ipv6)
+    /**
+     * Provides gateway which is used to reach given address
+     *
+     * @param addr address which we want to reach
+     * @param iface_to_ignore this allows to exclude certain interface
+     * from discovered gateways. Used when we want to exclude VPN interface
+     * when there is active VPN connection with redirected default gateway
+     *
+     * @param ipv6 true if address is IPv6
+     */
+    LinuxGWNetlink(const std::string& addr, const std::string& iface_to_ignore, bool ipv6)
     {
       try
       {
@@ -45,8 +55,8 @@ namespace openvpn {
 	{
 	  IPv6::Addr addr6;
 
-	  if (TunNetlink::SITNL::net_route_best_gw(IP::Route6(IPv6::Addr::from_zero(), 0),
-						   addr6, dev_) < 0)
+	  if (TunNetlink::SITNL::net_route_best_gw(IP::Route6::from_string(addr),
+						   addr6, dev_, iface_to_ignore) < 0)
 	  {
 	    OPENVPN_THROW(linux_gw_netlink_error,
 			  "error retrieving default IPv6 GW");
@@ -58,8 +68,8 @@ namespace openvpn {
 	{
 	  IPv4::Addr addr4;
 
-	  if (TunNetlink::SITNL::net_route_best_gw(IP::Route4(IPv4::Addr::from_zero(), 0),
-						   addr4, dev_) < 0)
+	  if (TunNetlink::SITNL::net_route_best_gw(IP::Route4::from_string(addr),
+						   addr4, dev_, iface_to_ignore) < 0)
 	  {
 	    OPENVPN_THROW(linux_gw_netlink_error,
 			  "error retrieving default IPv4 GW");
@@ -98,11 +108,19 @@ namespace openvpn {
     std::string dev_;
   };
 
+  /**
+   * Provides IPv4/6 gateway which is used to reach given address
+   *
+   * @param iface_to_ignore this allows to exclude certain interface
+   * from discovered gateways. Used when we want to exclude VPN interface
+   * when there is active VPN connection with redirected default gateway
+   * @param addr address which we want to reach
+   */
   struct LinuxGW46Netlink
   {
-    LinuxGW46Netlink()
-      : v4(false),
-        v6(true)
+    LinuxGW46Netlink(const std::string& iface_to_ignore, const std::string& addr = "")
+      : v4(addr.empty() ? IPv4::Addr::from_zero().to_string() : addr, iface_to_ignore, false),
+        v6(addr.empty() ? IPv6::Addr::from_zero().to_string() : addr, iface_to_ignore, true)
     {
     }
 

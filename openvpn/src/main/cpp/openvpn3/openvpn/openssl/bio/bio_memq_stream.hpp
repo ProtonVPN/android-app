@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -82,15 +82,16 @@ namespace openvpn {
 	return (ret);
       }
 
-       bool return_eof_on_empty;
+       bool return_eof_on_empty = false;
     };
 
-    namespace bio_memq_internal {
+    class bio_memq_internal {
+    public:
+      static int memq_method_type;
+      static BIO_METHOD* memq_method;
 
-      static int memq_method_type=0;
-      static BIO_METHOD* memq_method = nullptr;
 
-      inline int memq_new (BIO *b)
+      static inline int memq_new (BIO *b)
       {
 	MemQ *bmq = new(std::nothrow) MemQ();
 	if (!bmq)
@@ -98,29 +99,28 @@ namespace openvpn {
 	BIO_set_shutdown(b, 1);
 	BIO_set_init(b, 1);
 	BIO_set_data(b, (void *)bmq);
-	bmq->return_eof_on_empty = false;
 	return 1;
       }
 
-      inline int memq_free (BIO *b)
+      static inline int memq_free (BIO *b)
       {
 	if (b == nullptr)
 	  return (0);
 	if (BIO_get_shutdown (b))
 	  {
-	    MemQ *bmq = (MemQ *)(BIO_get_data (b));
-	    if (BIO_get_init(b) && (bmq != nullptr))
+            MemQ *bmq = (MemQ*) (BIO_get_data (b));
+            if (BIO_get_init (b) && (bmq != nullptr))
 	      {
 		delete bmq;
-		BIO_set_data(b, nullptr);
+		BIO_set_data (b, nullptr);
 	      }
 	  }
 	return 1;
       }
 
-      inline int memq_write (BIO *b, const char *in, int len)
+      static inline int memq_write (BIO *b, const char *in, int len)
       {
-	MemQ *bmq = (MemQ *)(BIO_get_data(b));
+	MemQ *bmq = (MemQ*)(BIO_get_data(b));
 	if (in)
 	  {
 	    BIO_clear_retry_flags (b);
@@ -142,9 +142,9 @@ namespace openvpn {
 	  }
       }
 
-      inline int memq_read (BIO *b, char *out, int size)
+      static inline int memq_read (BIO *b, char *out, int size)
       {
-	MemQ *bmq = (MemQ *)(BIO_get_data(b));
+	MemQ *bmq = (MemQ*)(BIO_get_data(b));
 	int ret = -1;
 	BIO_clear_retry_flags (b);
 	if (!bmq->empty())
@@ -166,48 +166,51 @@ namespace openvpn {
 	return ret;
       }
 
-      inline long memq_ctrl (BIO *b, int cmd, long arg1, void *arg2)
+      static inline long memq_ctrl (BIO *b, int cmd, long arg1, void *arg2)
       {
-	MemQ *bmq = (MemQ *)(BIO_get_data(b));
+	MemQ *bmq = (MemQ*)(BIO_get_data(b));
 	return bmq->ctrl(b, cmd, arg1, arg2);
       }
 
-      inline int memq_puts (BIO *b, const char *str)
+      static inline int memq_puts (BIO *b, const char *str)
       {
 	const int len = std::strlen (str);
 	const int ret = memq_write (b, str, len);
 	return ret;
       }
 
-      inline void create_bio_method()
+      static inline void init_static ()
       {
-	if (memq_method)
-	  return;
-	if (!memq_method_type)
-	  memq_method_type = BIO_get_new_index();
-
-	memq_method = BIO_meth_new(memq_method_type, "stream memory queue");
-	BIO_meth_set_write(memq_method, memq_write);
-	BIO_meth_set_read(memq_method, memq_read);
-	BIO_meth_set_puts(memq_method, memq_puts);
-	BIO_meth_set_create(memq_method, memq_new);
-	BIO_meth_set_destroy(memq_method, memq_free);
-	BIO_meth_set_gets(memq_method, nullptr);
-	BIO_meth_set_ctrl(memq_method, memq_ctrl);
+	memq_method_type = BIO_get_new_index ();
+	memq_method = BIO_meth_new (memq_method_type, "stream memory queue");
+	BIO_meth_set_write (memq_method, memq_write);
+	BIO_meth_set_read (memq_method, memq_read);
+	BIO_meth_set_puts (memq_method, memq_puts);
+	BIO_meth_set_create (memq_method, memq_new);
+	BIO_meth_set_destroy (memq_method, memq_free);
+	BIO_meth_set_gets (memq_method, nullptr);
+	BIO_meth_set_ctrl (memq_method, memq_ctrl);
       }
 
-      inline void free_bio_method()
+      static inline void free_bio_method()
       {
-	BIO_meth_free(memq_method);
+	BIO_meth_free (memq_method);
 	memq_method = nullptr;
       }
-    } // namespace bio_memq_internal
+    }; // class bio_memq_internal
 
+#if defined(OPENVPN_NO_EXTERN)
+    int bio_memq_internal::memq_method_type = -1;
+    BIO_METHOD* bio_memq_internal::memq_method = nullptr;
+#endif
+
+    inline void init_static()
+    {
+      bio_memq_internal::init_static();
+    }
 
     inline BIO_METHOD *BIO_s_memq(void)
     {
-      // TODO: Somehow do deallocate of this
-      bio_memq_internal::create_bio_method();
       return (bio_memq_internal::memq_method);
     }
 

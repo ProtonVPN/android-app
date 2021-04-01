@@ -44,6 +44,7 @@ import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -92,11 +93,11 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
             if (isInConnectedScreen) {
                 val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
-                imageExpand.isVisible = netShieldEnabled || netshieldFreeMode
-                layoutSummary.isVisible = netShieldEnabled && imageExpand.isChecked
+                toggleExpand.isVisible = netShieldEnabled || netshieldFreeMode
+                layoutSummary.isVisible = netShieldEnabled && toggleExpand.isChecked
                 netShieldSettings.isVisible =
-                    (netShieldEnabled || netshieldFreeMode) && !imageExpand.isChecked
-                textCollapsedMark.isVisible = netShieldEnabled && imageExpand.isChecked
+                    (netShieldEnabled || netshieldFreeMode) && !toggleExpand.isChecked
+                textCollapsedMark.isVisible = netShieldEnabled && toggleExpand.isChecked
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
@@ -136,7 +137,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
                 layoutNetshield.setOnClickListener {
-                    imageExpand.isChecked = !imageExpand.isChecked
+                    toggleExpand.isChecked = !toggleExpand.isChecked
                     onStateChange(currentState)
                 }
                 textNetDescription.setTextColor(ContextCompat.getColor(context, R.color.grey))
@@ -144,7 +145,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             } else {
                 switchNetshield.trackTintList = ContextCompat.getColorStateList(context, R.color.switch_track)
             }
-            imageExpand.isVisible = isInConnectedScreen
+            toggleExpand.isVisible = isInConnectedScreen
             tintRadioButtons()
         }
     }
@@ -198,6 +199,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         lifecycleOwner: LifecycleOwner,
         userData: UserData,
         stateMonitor: VpnStateMonitor,
+        connectionManager: VpnConnectionManager,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
@@ -213,7 +215,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             val checkedChangeListener = {
                 onStateChange(currentState)
                 changeCallback(currentState)
-                checkForReconnection(stateMonitor)
+                checkForReconnection(stateMonitor, connectionManager)
             }
             radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
             switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
@@ -227,7 +229,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                             isChecked = !isChecked
                             onStateChange(currentState)
                             changeCallback(currentState)
-                            checkForReconnection(stateMonitor)
+                            checkForReconnection(stateMonitor, connectionManager)
                         }
                     }
                     true
@@ -244,8 +246,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         switchNetshield.isVisible = !netshieldFreeMode
         if (netshieldFreeMode) {
             netShieldSettings.isVisible = !isInConnectedScreen
-            imageExpand.isVisible = isInConnectedScreen
-            imageExpand.isChecked = true
+            toggleExpand.isVisible = isInConnectedScreen
+            toggleExpand.isChecked = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
             plusFeature.setOnClickListener { showUpgradeDialog() }
@@ -284,9 +286,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             .show()
     }
 
-    private fun checkForReconnection(stateMonitor: VpnStateMonitor) {
+    private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
         if (stateMonitor.isConnected) {
-            stateMonitor.reconnect(context)
+            connectionManager.reconnect(context)
         }
     }
 

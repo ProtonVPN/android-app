@@ -199,8 +199,8 @@ android {
             buildConfigField "String", "API_DOMAIN", productionServer
         }
 
-        blue {
-            versionNameSuffix "+blue"
+        black {
+            versionNameSuffix "-black"
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", testingServer
         }
@@ -612,9 +612,9 @@ dependencies {
     kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     testImplementation 'joda-time:joda-time:2.10.6'
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'io.mockk:mockk:1.10.4'
-    androidTestImplementation 'io.mockk:mockk-android:1.10.4'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.mockk:mockk:1.10.6'
+    androidTestImplementation 'io.mockk:mockk-android:1.10.6'
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.1'
 
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.3.0') {

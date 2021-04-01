@@ -57,7 +57,7 @@ namespace openvpn {
   int optind = 1;         /* index into parent argv vector */
   int optopt = 0;         /* character checked for validity */
   int optreset = 0;       /* reset getopt */
-  char *optarg = nullptr;    /* argument associated with option */
+  const char *optarg = nullptr;    /* argument associated with option */
 
   struct option
   {
@@ -96,7 +96,7 @@ namespace openvpn {
      */
     inline int getopt_internal(int nargc, char * const *nargv, const char *ostr)
     {
-      static char *place = GETOPT_EMSG;		/* option letter processing */
+      static const char *place = GETOPT_EMSG;	/* option letter processing */
       const char *oli;				/* option letter list index */
 
       if (!nargv || !ostr)

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,12 +21,10 @@
 
 // Wrap an OpenSSL X509Store object
 
-#ifndef OPENVPN_OPENSSL_PKI_X509STORE_H
-#define OPENVPN_OPENSSL_PKI_X509STORE_H
+#pragma once
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
-#include <openvpn/common/rc.hpp>
 #include <openvpn/pki/cclist.hpp>
 #include <openvpn/openssl/util/error.hpp>
 #include <openvpn/openssl/pki/x509.hpp>
@@ -35,16 +33,17 @@
 namespace openvpn {
   namespace OpenSSLPKI {
 
-    class X509Store : public RC<thread_unsafe_refcount>
+    class X509Store
     {
     public:
-      OPENVPN_SIMPLE_EXCEPTION(x509_store_init_error);
-      OPENVPN_SIMPLE_EXCEPTION(x509_store_add_cert_error);
-      OPENVPN_SIMPLE_EXCEPTION(x509_store_add_crl_error);
+      OPENVPN_EXCEPTION(x509_store_error);
 
       typedef CertCRLListTemplate<X509List, CRLList> CertCRLList;
 
-      X509Store() : x509_store_(nullptr) {}
+      X509Store()
+	: x509_store_(nullptr)
+      {
+      }
 
       explicit X509Store(const CertCRLList& cc)
       {
@@ -52,10 +51,10 @@ namespace openvpn {
 
 	// Load cert list
 	{
-	  for (X509List::const_iterator i = cc.certs.begin(); i != cc.certs.end(); ++i)
+	  for (const auto &e : cc.certs)
 	    {
-	      if (!X509_STORE_add_cert(x509_store_, (*i)->obj()))
-		throw x509_store_add_cert_error();
+	      if (!::X509_STORE_add_cert(x509_store_, e.obj()))
+		throw x509_store_error("X509_STORE_add_cert(");
 	    }
 	}
 
@@ -63,19 +62,22 @@ namespace openvpn {
 	{
 	  if (cc.crls.defined())
 	    {
-	      X509_STORE_set_flags(x509_store_, X509_V_FLAG_CRL_CHECK | X509_V_FLAG_CRL_CHECK_ALL);
-	      for (CRLList::const_iterator i = cc.crls.begin(); i != cc.crls.end(); ++i)
+	      ::X509_STORE_set_flags(x509_store_, X509_V_FLAG_CRL_CHECK | X509_V_FLAG_CRL_CHECK_ALL);
+	      for (const auto &e : cc.crls)
 		{
-		  if (!X509_STORE_add_crl(x509_store_, (*i)->obj()))
-		    throw x509_store_add_crl_error();
+		  if (!::X509_STORE_add_crl(x509_store_, e.obj()))
+		    throw x509_store_error("X509_STORE_add_crl");
 		}
 	    }
 	}
       }
 
-      X509_STORE* obj() const { return x509_store_; }
+      X509_STORE* obj() const
+      {
+	return x509_store_;
+      }
 
-      X509_STORE* move()
+      X509_STORE* release()
       {
 	X509_STORE* ret = x509_store_;
 	x509_store_ = nullptr;
@@ -85,20 +87,18 @@ namespace openvpn {
       ~X509Store()
       {
 	if (x509_store_)
-	  X509_STORE_free(x509_store_);
+	  ::X509_STORE_free(x509_store_);
       }
 
     private:
       void init()
       {
-	x509_store_ = X509_STORE_new();
+	x509_store_ = ::X509_STORE_new();
 	if (!x509_store_)
-	  throw x509_store_init_error();
+	  throw x509_store_error("X509_STORE_new");
       }
 
-      X509_STORE* x509_store_;
+      ::X509_STORE* x509_store_;
     };
   }
-} // namespace openvpn
-
-#endif // OPENVPN_OPENSSL_PKI_X509STORE_H
+}

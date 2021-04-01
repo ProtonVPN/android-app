@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,6 +30,7 @@
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
+#include <openvpn/common/jsonlib.hpp>
 #include <openvpn/tun/server/tunbase.hpp>
 #include <openvpn/addr/route.hpp>
 #include <openvpn/auth/authcreds.hpp>
@@ -71,7 +72,7 @@ namespace openvpn {
       virtual std::uint64_t instance_id() const = 0;
 
       // return a JSON string describing connected user
-      virtual std::string describe_user() = 0;
+      virtual std::string describe_user(const bool show_userprop) = 0;
 
       // disconnect
       virtual void disconnect_user(const HaltRestart::Type type,
@@ -89,6 +90,9 @@ namespace openvpn {
 
       // notify of local user properties update
       virtual void userprop_local_update() = 0;
+
+      // create, update, or delete a DOMA ACL
+      virtual Json::Value doma_acl(const Json::Value& root) = 0;
     };
 
     // Base class for the client instance receiver.  Note that all
@@ -126,6 +130,9 @@ namespace openvpn {
 
       // get client bandwidth stats
       virtual PeerStats stats_poll() = 0;
+
+      // return true if management layer should preserve session ID
+      virtual bool should_preserve_session_id() = 0;
 
       // get native reference to client instance
       virtual TunClientInstance::NativeHandle tun_native_handle() = 0;

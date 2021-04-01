@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,6 +35,14 @@
 #include <openvpn/buffer/bufstr.hpp>
 #include <openvpn/buffer/buflist.hpp>
 
+#if defined(OPENVPN_PLATFORM_WIN)
+#include <openvpn/win/unicode.hpp>
+#endif
+
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
+
 namespace openvpn {
 
   OPENVPN_UNTAGGED_EXCEPTION(file_exception);
@@ -61,7 +69,20 @@ namespace openvpn {
 			       const std::uint64_t max_size = 0,
 			       const unsigned int buffer_flags = 0)
   {
+#if defined(OPENVPN_PLATFORM_WIN)
+    Win::UTF16 filenamew(Win::utf16(filename));
+#if __cplusplus >= 201703L
+    std::filesystem::path path(filenamew.get());
+    std::ifstream ifs(path, std::ios::binary);
+#elif _MSC_VER
+    std::ifstream ifs(filenamew.get(), std::ios::binary);
+#else
     std::ifstream ifs(filename.c_str(), std::ios::binary);
+#endif // __cplusplus
+#else
+    std::ifstream ifs(filename.c_str(), std::ios::binary);
+#endif // OPENVPN_PLATFORM_WIN
+
     if (!ifs)
       OPENVPN_THROW(open_file_error, "cannot open for read: " << filename);
 

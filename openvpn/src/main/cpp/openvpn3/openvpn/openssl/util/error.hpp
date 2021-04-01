@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -143,6 +143,18 @@ namespace openvpn {
 	      break;
 	    case SSL_R_UNSUPPORTED_PROTOCOL:
 	      set_code(Error::TLS_VERSION_MIN, true);
+	      break;
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+            // These error codes are not available in older OpenSSL versions
+	    case SSL_R_CA_MD_TOO_WEAK:
+	      set_code(Error::SSL_CA_MD_TOO_WEAK, true);
+	      break;
+	    case SSL_R_CA_KEY_TOO_SMALL:
+	      set_code(Error::SSL_CA_KEY_TOO_SMALL, true);
+	      break;
+#endif // OpenSSL >= 1.1.0
+	    case SSL_R_DH_KEY_TOO_SMALL:
+	      set_code(Error::SSL_DH_KEY_TOO_SMALL, true);
 	      break;
 	    }
 	}

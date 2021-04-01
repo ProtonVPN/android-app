@@ -21,7 +21,7 @@ if [ "$OSX_ONLY" != "1" ]; then
     done
 fi
 
-for target in osx osx-dbg ; do
+for target in osx64 osx64-dbg ; do
     echo '***************' TARGET $target
     TARGET=$target $O3/core/deps/lzo/build-lzo
 done

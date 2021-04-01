@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -59,11 +59,21 @@ namespace openvpn {
 
     ~Signal()
     {
+      reset_to_defaults(flags_);
+    }
+
+    static void reset_all_to_defaults()
+    {
+      reset_to_defaults(F_SIGINT|F_SIGTERM|F_SIGHUP|F_SIGUSR1|F_SIGUSR2|F_SIGPIPE);
+    }
+
+    static void reset_to_defaults(const unsigned int flags)
+    {
       struct sigaction sa;
       sa.sa_handler = SIG_DFL;
       sigemptyset(&sa.sa_mask);
       sa.sa_flags = 0;
-      sigconf(sa, flags_);
+      sigconf(sa, flags);
     }
 
   private:
@@ -117,6 +127,14 @@ namespace openvpn {
       if (flags & Signal::F_SIGPIPE)
 	sigaddset(&new_mask, SIGPIPE);
       blocked_ = (pthread_sigmask(SIG_BLOCK, &new_mask, &old_mask_) == 0);
+    }
+
+    const sigset_t* orig_sigset() const
+    {
+      if (blocked_)
+	return &old_mask_;
+      else
+	return nullptr;
     }
 
     // Destructor restores the previous signal mask.

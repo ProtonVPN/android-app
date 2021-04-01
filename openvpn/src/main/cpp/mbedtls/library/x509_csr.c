@@ -38,6 +38,7 @@
 #if defined(MBEDTLS_X509_CSR_PARSE_C)
 
 #include "mbedtls/x509_csr.h"
+#include "mbedtls/error.h"
 #include "mbedtls/oid.h"
 #include "mbedtls/platform_util.h"
 
@@ -68,7 +69,7 @@ static int x509_csr_get_version( unsigned char **p,
                              const unsigned char *end,
                              int *ver )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
 
     if( ( ret = mbedtls_asn1_get_int( p, end, ver ) ) != 0 )
     {
@@ -90,7 +91,7 @@ static int x509_csr_get_version( unsigned char **p,
 int mbedtls_x509_csr_parse_der( mbedtls_x509_csr *csr,
                         const unsigned char *buf, size_t buflen )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t len;
     unsigned char *p, *end;
     mbedtls_x509_buf sig_params;
@@ -262,7 +263,7 @@ int mbedtls_x509_csr_parse_der( mbedtls_x509_csr *csr,
 int mbedtls_x509_csr_parse( mbedtls_x509_csr *csr, const unsigned char *buf, size_t buflen )
 {
 #if defined(MBEDTLS_PEM_PARSE_C)
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t use_len;
     mbedtls_pem_context pem;
 #endif
@@ -279,15 +280,24 @@ int mbedtls_x509_csr_parse( mbedtls_x509_csr *csr, const unsigned char *buf, siz
     {
         mbedtls_pem_init( &pem );
         ret = mbedtls_pem_read_buffer( &pem,
-                               "-----BEGIN CERTIFICATE REQUEST-----",
-                               "-----END CERTIFICATE REQUEST-----",
-                               buf, NULL, 0, &use_len );
+                                       "-----BEGIN CERTIFICATE REQUEST-----",
+                                       "-----END CERTIFICATE REQUEST-----",
+                                       buf, NULL, 0, &use_len );
+        if( ret == MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT )
+        {
+            ret = mbedtls_pem_read_buffer( &pem,
+                                           "-----BEGIN NEW CERTIFICATE REQUEST-----",
+                                           "-----END NEW CERTIFICATE REQUEST-----",
+                                           buf, NULL, 0, &use_len );
+        }
 
         if( ret == 0 )
+        {
             /*
              * Was PEM encoded, parse the result
              */
             ret = mbedtls_x509_csr_parse_der( csr, pem.buf, pem.buflen );
+        }
 
         mbedtls_pem_free( &pem );
         if( ret != MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT )
@@ -303,7 +313,7 @@ int mbedtls_x509_csr_parse( mbedtls_x509_csr *csr, const unsigned char *buf, siz
  */
 int mbedtls_x509_csr_parse_file( mbedtls_x509_csr *csr, const char *path )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t n;
     unsigned char *buf;
 
@@ -327,7 +337,7 @@ int mbedtls_x509_csr_parse_file( mbedtls_x509_csr *csr, const char *path )
 int mbedtls_x509_csr_info( char *buf, size_t size, const char *prefix,
                    const mbedtls_x509_csr *csr )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t n;
     char *p;
     char key_size_str[BEFORE_COLON];

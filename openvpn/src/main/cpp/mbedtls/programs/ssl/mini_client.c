@@ -26,6 +26,17 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
+#if defined(MBEDTLS_PLATFORM_C)
+#include "mbedtls/platform.h"
+#else
+#include <stdio.h>
+#include <stdlib.h>
+#define mbedtls_printf          printf
+#define mbedtls_exit            exit
+#define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
+#define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
+#endif
+
 /*
  * We're creating and connecting the socket "manually" rather than using the
  * NET module, in order to avoid the overhead of getaddrinfo() which tends to
@@ -44,13 +55,6 @@
     !defined(MBEDTLS_NET_C) || !defined(MBEDTLS_SSL_CLI_C) || \
     !defined(UNIX)
 
-#if defined(MBEDTLS_PLATFORM_C)
-#include "mbedtls/platform.h"
-#else
-#include <stdio.h>
-#define mbedtls_printf printf
-#endif
-
 int main( void )
 {
     mbedtls_printf( "MBEDTLS_CTR_DRBG_C and/or MBEDTLS_ENTROPY_C and/or "
@@ -59,12 +63,6 @@ int main( void )
     return( 0 );
 }
 #else
-
-#if defined(MBEDTLS_PLATFORM_C)
-#include "mbedtls/platform.h"
-#else
-#include <stdlib.h>
-#endif
 
 #include <string.h>
 
@@ -90,7 +88,7 @@ int main( void )
 
 const char *pers = "mini_client";
 
-#if defined(MBEDTLS_KEY_EXCHANGE__SOME__PSK_ENABLED)
+#if defined(MBEDTLS_KEY_EXCHANGE_SOME_PSK_ENABLED)
 const unsigned char psk[] = {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
     0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
@@ -168,6 +166,7 @@ enum exit_codes
     ssl_write_failed,
 };
 
+
 int main( void )
 {
     int ret = exit_ok;
@@ -212,7 +211,7 @@ int main( void )
 
     mbedtls_ssl_conf_rng( &conf, mbedtls_ctr_drbg_random, &ctr_drbg );
 
-#if defined(MBEDTLS_KEY_EXCHANGE__SOME__PSK_ENABLED)
+#if defined(MBEDTLS_KEY_EXCHANGE_SOME_PSK_ENABLED)
     mbedtls_ssl_conf_psk( &conf, psk, sizeof( psk ),
                 (const unsigned char *) psk_id, sizeof( psk_id ) - 1 );
 #endif

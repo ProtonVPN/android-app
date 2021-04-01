@@ -33,6 +33,7 @@
 #define mbedtls_fprintf         fprintf
 #define mbedtls_printf          printf
 #define mbedtls_time_t          time_t
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -85,6 +86,7 @@ int main( void )
     "<p>Successful connection using: %s</p>\r\n"
 
 #define DEBUG_LEVEL 0
+
 
 static void my_debug( void *ctx, int level,
                       const char *file, int line,
@@ -252,6 +254,7 @@ int main( void )
         if( pid != 0 )
         {
             mbedtls_printf( " ok\n" );
+            mbedtls_net_close( &client_fd );
 
             if( ( ret = mbedtls_ctr_drbg_reseed( &ctr_drbg,
                                          (const unsigned char *) "parent",
@@ -264,7 +267,7 @@ int main( void )
             continue;
         }
 
-        mbedtls_net_init( &listen_fd );
+        mbedtls_net_close( &listen_fd );
 
         pid = getpid();
 

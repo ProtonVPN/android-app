@@ -136,7 +136,6 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 	static final int STATE_GENERIC_ERROR = 8;
 
 	abstract protected Class<?> getMainActivityClass();
-	abstract protected void initializeBuilder(VpnService.Builder builder);
 	abstract protected Notification buildNotification(boolean publicVersion);
 	abstract protected int getNotificationID();
 
@@ -827,7 +826,6 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 		private VpnService.Builder createBuilder(String name)
 		{
 			VpnService.Builder builder = new CharonVpnService.Builder();
-			initializeBuilder(builder);
 			builder.setSession(name);
 
 			/* even though the option displayed in the system dialog says "Configure"
@@ -837,6 +835,12 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 			PendingIntent pending = PendingIntent.getActivity(context, 0, intent,
 															  PendingIntent.FLAG_UPDATE_CURRENT);
 			builder.setConfigureIntent(pending);
+
+			/* mark all VPN connections as unmetered (default changed for Android 10) */
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+			{
+				builder.setMetered(false);
+			}
 			return builder;
 		}
 

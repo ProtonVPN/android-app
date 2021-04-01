@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -74,6 +74,16 @@ namespace openvpn {
 	    OPENVPN_THROW(user_group_err, "group lookup failed for '" << group << '\'');
 	  group_name = group;
 	}
+    }
+
+    const std::string& user() const
+    {
+      return user_name;
+    }
+
+    const std::string& group() const
+    {
+      return group_name;
     }
 
     void activate() const

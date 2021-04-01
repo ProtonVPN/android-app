@@ -2,7 +2,7 @@
 // prioritised_handlers.cpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2018 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,7 +15,7 @@
 
 using asio::ip::tcp;
 
-class handler_priority_queue : asio::execution_context
+class handler_priority_queue : public asio::execution_context
 {
 public:
   template <typename Function>
@@ -142,7 +142,8 @@ private:
 
 //----------------------------------------------------------------------
 
-void high_priority_handler(const asio::error_code& /*ec*/)
+void high_priority_handler(const asio::error_code& /*ec*/,
+    tcp::socket /*socket*/)
 {
   std::cout << "High priority handler\n";
 }
@@ -178,8 +179,7 @@ int main()
   tcp::endpoint endpoint(asio::ip::address_v4::loopback(), 0);
   tcp::acceptor acceptor(io_context, endpoint);
   tcp::socket server_socket(io_context);
-  acceptor.async_accept(server_socket,
-      pri_queue.wrap(100, high_priority_handler));
+  acceptor.async_accept(pri_queue.wrap(100, high_priority_handler));
   tcp::socket client_socket(io_context);
   client_socket.connect(acceptor.local_endpoint());
 

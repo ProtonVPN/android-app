@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_fprintf         fprintf
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -50,6 +51,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 static int generic_wrapper( const mbedtls_md_info_t *md_info, char *filename, unsigned char *sum )
 {
     int ret = mbedtls_md_file( md_info, filename, sum );

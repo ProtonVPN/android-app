@@ -19,7 +19,7 @@ static google_breakpad::ExceptionHandler* eh;
 void breakpad_setup(void)
 {
     printf("Initializing Google Breakpad!\n");
-    desc = new google_breakpad::MinidumpDescriptor("/data/data/de.blinkt.openpvpn/cache");
+    desc = new google_breakpad::MinidumpDescriptor("/data/data/de.blinkt.openvpn/cache");
     eh = new google_breakpad::ExceptionHandler(*desc, NULL, DumpCallback, NULL, true,-1);
 }
 

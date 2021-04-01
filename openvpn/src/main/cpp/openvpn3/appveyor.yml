@@ -1,0 +1,26 @@
+version: 1.0.{build}
+
+image: Visual Studio 2019
+
+cache: c:\tools\vcpkg\installed\
+
+clone_folder: c:\ovpn3\core
+
+install:
+ - cd C:\Tools\vcpkg
+ - git pull
+ - .\bootstrap-vcpkg.bat
+ - .\vcpkg upgrade --no-dry-run --overlay-ports=%APPVEYOR_BUILD_FOLDER%\deps\vcpkg-ports
+ - .\vcpkg install asio:x64-windows openssl-windows:x64-windows tap-windows6:x64-windows lz4:x64-windows gtest:x64-windows jsoncpp:x64-windows --overlay-ports=%APPVEYOR_BUILD_FOLDER%\deps\vcpkg-ports"
+ - cd %APPVEYOR_BUILD_FOLDER%
+
+build_script:
+ - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A x64 -B build .
+ - cmake --build build --config Release
+
+artifacts:
+ - path: build\test\ovpncli\Release\*
+ - path: build\openvpn\omi\Release\*
+ - path: build\openvpn\ovpnagent\win\Release\*
+
+

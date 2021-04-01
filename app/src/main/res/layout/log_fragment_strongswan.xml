@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.protonvpn.android.vpn.LogScrollView
+    <com.protonvpn.android.ui.drawer.LogScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,6 +57,6 @@
 
         </LinearLayout>
 
-    </com.protonvpn.android.vpn.LogScrollView>
+    </com.protonvpn.android.ui.drawer.LogScrollView>
 
 </LinearLayout>

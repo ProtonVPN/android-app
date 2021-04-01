@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,16 +31,23 @@
 namespace openvpn {
 
   // Return the binary prefix of a big-endian data buffer
-  // as a 32 or 64 bit type.
-
-  template <typename T>
-  inline T bin_prefix(const unsigned char *data)
+  // as a 32 bit type.
+  template<typename T>
+  inline typename std::enable_if< 4 == sizeof(T), T>::type
+  bin_prefix(const unsigned char *data)
   {
-    static_assert(sizeof(T) == 4 || sizeof(T) == 8, "size inconsistency");
-    if (sizeof(T) == 8)
-      return (T(ntohl(*(uint32_t *)&data[0])) << 32) | T(ntohl(*(uint32_t *)&data[4]));
-    else // sizeof(T) == 4
-      return T(ntohl(*(uint32_t *)&data[0]));
+    static_assert(sizeof(T) == 4, "size inconsistency");
+    return T(ntohl(*(uint32_t *)&data[0]));
+  }
+
+  // Return the binary prefix of a big-endian data buffer
+  // as a 64 bit type.
+  template<typename T>
+  inline typename std::enable_if< 8 == sizeof(T), T>::type
+  bin_prefix(const unsigned char *data)
+  {
+    static_assert(sizeof(T) == 8, "size inconsistency");
+    return (T(ntohl(*(uint32_t *)&data[0])) << 32) | T(ntohl(*(uint32_t *)&data[4]));
   }
 
   template <typename T>

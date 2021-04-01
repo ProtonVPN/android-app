@@ -1,65 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2012-2016 Arne Schwabe
-  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
--->
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="de.blinkt.openpvpn">
+    package="de.blinkt.openvpn">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!-- <uses-permission android:name="com.android.vending.BILLING" /> -->
+    <!-- Used to show all apps in the allowed Apps selection -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
-    <uses-feature
-        android:name="android.software.leanback"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
 
+<!--    <queries>-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.GET_CONTENT" />-->
+<!--        </intent>-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.ACTION_OPEN_DOCUMENT" />-->
+<!--        </intent>-->
+<!--    </queries>-->
+
+<!--
     <application
         android:supportsRtl="true"
         tools:ignore="UnusedAttribute">
 
-
-        <meta-data android:name="android.content.APP_RESTRICTIONS"
-                   android:resource="@xml/app_restrictions" />
+        <meta-data
+            android:name="android.content.APP_RESTRICTIONS"
+            android:resource="@xml/app_restrictions" />
 
         <activity
-            android:name="de.blinkt.openpvpn.activities.VPNPreferences"
-            android:exported="false"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="de.blinkt.openpvpn.activities.DisconnectVPN"
+            android:name=".activities.DisconnectVPN"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=".DisconnectVPN"
             android:theme="@style/blinkt.dialog" />
-        <activity
-            android:name="de.blinkt.openpvpn.activities.LogWindow"
-            android:allowTaskReparenting="true"
-            android:label="@string/openvpn_log"
-            android:launchMode="singleTask" />
-        <activity android:name="de.blinkt.openpvpn.activities.FileSelect" />
 
-        <activity android:name="de.blinkt.openpvpn.api.GrantPermissionsActivity">
+
+        <service
+            android:name=".core.OpenVPNService"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:process=":openvpn">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".api.ExternalOpenVPNService"
+            android:process=":openvpn"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="de.blinkt.openvpn.api.IOpenVPNAPIService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".core.OpenVPNStatusService"
+            android:exported="false"
+            android:process=":openvpn" />
+
+        <activity android:name=".api.GrantPermissionsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name="de.blinkt.openpvpn.api.ConfirmDialog">
+        <activity android:name=".api.ConfirmDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
+        <receiver android:name=".OnBootReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+
         <activity
-            android:name="de.blinkt.openpvpn.LaunchVPN"
+            android:name=".LaunchVPN"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:label="@string/vpn_launch_title"
@@ -73,6 +94,23 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="core.GetRestrictionReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_RESTRICTION_ENTRIES" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".api.RemoteAction" />
+
+        <activity-alias
+            android:name=".api.ConnectVPN"
+            android:exported="true"
+            android:targetActivity=".api.RemoteAction" />
+        <activity-alias
+            android:name=".api.DisconnectVPN"
+            android:exported="true"
+            android:targetActivity=".api.RemoteAction" />
     </application>
+-->
 
 </manifest>

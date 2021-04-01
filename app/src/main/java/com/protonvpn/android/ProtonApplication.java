@@ -19,6 +19,8 @@
 package com.protonvpn.android;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.PowerManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -28,6 +30,7 @@ import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
@@ -37,6 +40,10 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import io.sentry.Sentry;
@@ -44,14 +51,15 @@ import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import rx_activity_result2.RxActivityResult;
 
-public class ProtonApplication extends DaggerApplication {
+public class ProtonApplication extends DaggerApplication implements LifecycleObserver {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         initSentry();
         initStrongSwan();
-        NotificationHelper.INSTANCE.initNotificationChannel(this);
+        NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
         new ANRWatchDog(15000).start();
@@ -64,6 +72,22 @@ public class ProtonApplication extends DaggerApplication {
 
         if (BuildConfig.DEBUG)
             initLeakCanary();
+
+        ProtonLogger.INSTANCE.log("App start");
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onBackground() {
+        ProtonLogger.INSTANCE.log("App in background");
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onForeground() {
+        ProtonLogger.INSTANCE.log("App in foreground " + BuildConfig.VERSION_NAME);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
+        }
     }
 
     private void initStrongSwan() {

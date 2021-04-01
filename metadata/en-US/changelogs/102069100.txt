@@ -1,0 +1,4 @@
+What's new:
+* Introduces "Allow LAN connection" feature for IKEv2
+* Improves VPN connection stability with IKEv2 and OpenVPN protocols
+* Improves app stability

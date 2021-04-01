@@ -37,6 +37,7 @@
 #include "mbedtls/asn1.h"
 #include "mbedtls/cipher.h"
 #include "mbedtls/platform_util.h"
+#include "mbedtls/error.h"
 
 #include <string.h>
 
@@ -48,10 +49,12 @@
 #include "mbedtls/des.h"
 #endif
 
+#if defined(MBEDTLS_ASN1_PARSE_C)
+
 static int pkcs12_parse_pbe_params( mbedtls_asn1_buf *params,
                                     mbedtls_asn1_buf *salt, int *iterations )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char **p = &params->p;
     const unsigned char *end = params->p + params->len;
 
@@ -143,7 +146,7 @@ int mbedtls_pkcs12_pbe_sha1_rc4_128( mbedtls_asn1_buf *pbe_params, int mode,
     ((void) output);
     return( MBEDTLS_ERR_PKCS12_FEATURE_UNAVAILABLE );
 #else
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char key[16];
     mbedtls_arc4_context ctx;
     ((void) mode);
@@ -226,6 +229,8 @@ exit:
     return( ret );
 }
 
+#endif /* MBEDTLS_ASN1_PARSE_C */
+
 static void pkcs12_fill_buffer( unsigned char *data, size_t data_len,
                                 const unsigned char *filler, size_t fill_len )
 {
@@ -246,7 +251,7 @@ int mbedtls_pkcs12_derivation( unsigned char *data, size_t datalen,
                        const unsigned char *salt, size_t saltlen,
                        mbedtls_md_type_t md_type, int id, int iterations )
 {
-    int ret;
+    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned int j;
 
     unsigned char diversifier[128];

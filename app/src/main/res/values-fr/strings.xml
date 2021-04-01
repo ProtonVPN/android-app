@@ -311,7 +311,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="netShieldDescription">Bloquer les publicités, les trackers et les logiciels malveillants </string>
   <string name="netshield">NetShield</string>
   <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
-  <string name="netShieldFullBlock">Bloquer seulement les malwares</string>
+  <string name="netShieldFullBlock">Bloquer malwares, trackers et pubs</string>
   <string name="dialogDontShowAgain">Ne plus afficher</string>
   <string name="paidFeature">Fonctionnalité payante</string>
   <string name="upgradeRequired">Offre supérieure requise</string>
@@ -334,6 +334,7 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="nameOceania">Océanie</string>
   <string name="tvRowMore">Plus</string>
   <string name="tv_detail_default_connection_checkbox">Mon pays favori</string>
+  <string name="tv_detail_default_connection_checkbox_short">Favori</string>
   <string name="tv_detail_connect_streaming">Regardez avec PLUS</string>
   <string name="tv_detail_connect">Connecter</string>
   <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement ProtonVPN PLUS.</string>
@@ -385,4 +386,12 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Le pays n\'est pas disponible</string>
   <string name="tv_country_maintenance_dialog_description">Veuillez réessayer plus tard ou sélectionner un autre pays.</string>
+  <string name="tv_server_list_load">%1$s%% de charge serveur</string>
+  <string name="tv_recently_used_servers">Serveurs récemment utilisés (%1$d)</string>
+  <string name="tv_available_servers">Serveurs disponibles (%1$d)</string>
+  <string name="tv_locked_servers">Serveurs verrouillés (%1$d)</string>
+  <string name="tv_other_servers">Autres serveurs (%1$d)</string>
+  <string name="tv_server_under_maintenance">En maintenance</string>
+  <string name="tv_server_list">Liste de serveurs</string>
+  <string name="tv_server_list_action_unavailable">Indisponible</string>
 </resources>

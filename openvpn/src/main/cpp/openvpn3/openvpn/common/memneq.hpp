@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -64,19 +64,34 @@ extern "C" void _ReadWriteBarrier();
 
 namespace openvpn {
   namespace crypto {
-    // Clang on Android seems to have a compiler bug that compiles the
-    // function in a segfaulting variant, use an alternative variant of the
-    // function
+    // Clang on Android armeabi-v7a seems to have a compiler bug that compiles
+    // the  function in a segfaulting variant, use an alternative variant of
+    // the function on all 32 bit arm to be safe
 
-#if defined(__arm__) && defined(USE_OPENSSL)
+
+    /**
+     * memneq - Compare two areas of memory in constant time
+     *
+     * @a: first area of memory
+     * @b: second area of memory
+     * @size: The length of the memory area to compare
+     *
+     * Returns false when data is equal, true otherwise
+     */
+    inline bool memneq(const void *a, const void *b, size_t size);
+
+#if defined(__arm__) && defined(USE_OPENSSL) && !defined(__aarch64__)
     inline bool memneq(const void *a, const void *b, size_t size)
     {
-      return CRYPTO_memcmp(a, b, size);
+      // memcmp does return 0 (=false) when the memory is equal. It normally
+      // returns the position of first mismatch otherwise but the crypto
+      // variants only promise to return something != 0 (=true)
+      return (bool)(CRYPTO_memcmp(a, b, size));
     }
-#elif defined(__arm__)
+#elif defined(__arm__) && !defined(__aarch64__)
     inline bool memneq(const void *a, const void *b, size_t size)
     {
-      // This is inspired by  mbedtls' internal safter_memcmp function:
+      // This is inspired by  mbedtls' internal safer_memcmp function:
       const unsigned char *x = (const unsigned char *) a;
       const unsigned char *y = (const unsigned char *) b;
       unsigned char diff = 0;

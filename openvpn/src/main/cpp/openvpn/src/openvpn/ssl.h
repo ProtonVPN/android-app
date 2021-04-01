@@ -66,8 +66,10 @@
 /* indicates key_method >= 2 and client-specific tls-crypt key */
 #define P_CONTROL_HARD_RESET_CLIENT_V3 10    /* initial key from client, forget previous state */
 
-/* define the range of legal opcodes */
-#define P_FIRST_OPCODE                 1
+/* define the range of legal opcodes
+ * Since we do no longer support key-method 1 we consider
+ * the v1 op codes invalid */
+#define P_FIRST_OPCODE                 3
 #define P_LAST_OPCODE                  10
 
 /*
@@ -89,13 +91,6 @@
 #define TLS_MULTI_HORIZON 2     /* call tls_multi_process frequently for n seconds after
                                  * every packet sent/received action */
 
-/*
- * The SSL/TLS worker thread will wait at most this many seconds for the
- * interprocess communication pipe to the main thread to be ready to accept
- * writes.
- */
-#define TLS_MULTI_THREAD_SEND_TIMEOUT 5
-
 /* Interval that tls_multi_process should call tls_authentication_status */
 #define TLS_MULTI_AUTH_STATUS_INTERVAL 10
 
@@ -106,14 +101,28 @@
 /* Maximum length of OCC options string passed as part of auth handshake */
 #define TLS_OPTIONS_LEN 512
 
+/* Definitions of the bits in the IV_PROTO bitfield
+ *
+ * In older OpenVPN versions this used in a comparison
+ * IV_PROTO >= 2 to determine if DATA_V2 is supported.
+ * Therefore any client announcing any of the flags must
+ * also announce IV_PROTO_DATA_V2. We also treat bit 0
+ * as reserved for this reason */
+
+/** Support P_DATA_V2 */
+#define IV_PROTO_DATA_V2        (1<<1)
+
+/** Assume client will send a push request and server does not need
+ * to wait for a push-request to send a push-reply */
+#define IV_PROTO_REQUEST_PUSH   (1<<2)
+
+/** Supports key derivation via TLS key material exporter [RFC5705] */
+#define IV_PROTO_TLS_KEY_EXPORT (1<<3)
+
 /* Default field in X509 to be username */
 #define X509_USERNAME_FIELD_DEFAULT "CN"
 
-/*
- * Range of key exchange methods
- */
-#define KEY_METHOD_MIN 1
-#define KEY_METHOD_MAX 2
+#define KEY_METHOD_2  2
 
 /* key method taken from lower 4 bits */
 #define KEY_METHOD_MASK 0x0F
@@ -431,6 +440,8 @@ void ssl_purge_auth(const bool auth_user_pass_only);
 
 void ssl_set_auth_token(const char *token);
 
+bool ssl_clean_auth_token(void);
+
 #ifdef ENABLE_MANAGEMENT
 /*
  * ssl_get_auth_challenge will parse the server-pushed auth-failed
@@ -438,8 +449,6 @@ void ssl_set_auth_token(const char *token);
  * auth_challenge_info struct.
  */
 void ssl_purge_auth_challenge(void);
-
-bool ssl_clean_auth_token(void);
 
 void ssl_put_auth_challenge(const char *cr_str);
 
@@ -474,7 +483,8 @@ void tls_update_remote_addr(struct tls_multi *multi,
 
 /**
  * Update TLS session crypto parameters (cipher and auth) and derive data
- * channel keys based on the supplied options.
+ * channel keys based on the supplied options. Does nothing if keys are already
+ * generated.
  *
  * @param session         The TLS session to update.
  * @param options         The options to use when updating session.
@@ -482,21 +492,12 @@ void tls_update_remote_addr(struct tls_multi *multi,
  *                        adjusted based on the selected cipher/auth).
  * @param frame_fragment  The fragment frame options.
  *
- * @return true if updating succeeded, false otherwise.
+ * @return true if updating succeeded or keys are already generated, false otherwise.
  */
 bool tls_session_update_crypto_params(struct tls_session *session,
                                       struct options *options,
                                       struct frame *frame,
                                       struct frame *frame_fragment);
-
-/**
- * "Poor man's NCP": Use peer cipher if it is an allowed (NCP) cipher.
- * Allows non-NCP peers to upgrade their cipher individually.
- *
- * Make sure to call tls_session_update_crypto_params() after calling this
- * function.
- */
-void tls_poor_mans_ncp(struct options *o, const char *remote_ciphername);
 
 #ifdef MANAGEMENT_DEF_AUTH
 static inline char *
@@ -505,28 +506,6 @@ tls_get_peer_info(const struct tls_multi *multi)
     return multi->peer_info;
 }
 #endif
-
-/**
- * Return the Negotiable Crypto Parameters version advertised in the peer info
- * string, or 0 if none specified.
- */
-int tls_peer_info_ncp_ver(const char *peer_info);
-
-/**
- * Check whether the ciphers in the supplied list are supported.
- *
- * @param list          Colon-separated list of ciphers
- *
- * @returns true iff all ciphers in list are supported.
- */
-bool tls_check_ncp_cipher_list(const char *list);
-
-/**
- * Return true iff item is present in the colon-separated zero-terminated
- * cipher list.
- */
-bool tls_item_in_cipher_list(const char *item, const char *list);
-
 
 /*
  * inline functions
@@ -615,12 +594,11 @@ void show_tls_performance_stats(void);
 void extract_x509_field_test(void);
 
 /**
- * Given a key_method, return true if opcode represents the required form of
- * hard_reset.
+ * Given a key_method, return true if opcode represents the one of the
+ * hard_reset op codes for key-method 2
  *
- * If key_method == 0, return true if any form of hard reset is used.
  */
-bool is_hard_reset(int op, int key_method);
+bool is_hard_reset_method2(int op);
 
 void delayed_auth_pass_purge(void);
 
@@ -637,4 +615,5 @@ void
 show_available_tls_ciphers(const char *cipher_list,
                            const char *cipher_list_tls13,
                            const char *tls_cert_profile);
+
 #endif /* ifndef OPENVPN_SSL_H */

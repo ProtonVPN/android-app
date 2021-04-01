@@ -5,6 +5,10 @@ if [ -z "$O3" ]; then
     echo O3 var must point to ovpn3 tree
     exit 1
 fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to dependency build folder
+    exit 1
+fi
 if [ -z "$TARGET" ]; then
     echo TARGET var must be defined
     exit 1
@@ -16,10 +20,24 @@ fi
 . $O3/core/vars/vars-${TARGET}
 . $O3/core/deps/lib-versions
 
-[ "$GCC_CMD" ] && export CC=$GCC_CMD
-[ "$LD_CMD" ] && export LD=$LD_CMD
-[ "$AR_CMD" ] && export AR=$AR_CMD
-[ "$RANLIB_CMD" ] && export RANLIB=$RANLIB_CMD
+# source helper functions
+. $O3/core/deps/functions.sh
+
+FNAME=${LZO_VERSION}.tar.gz
+PN=${LZO_VERSION#*-}
+URL=http://www.oberhumer.com/opensource/lzo/download/${LZO_VERSION}.tar.gz
+CSUM=${LZO_CSUM}
+
+download
+
+CC=cc
+LD=ld
+AR=ar
+RANLIB=ranlib
+[ "$GCC_CMD" ] && CC=$GCC_CMD
+[ "$LD_CMD" ] && LD=$LD_CMD
+[ "$AR_CMD" ] && AR=$AR_CMD
+[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
 
 case $PLATFORM in
 android*)

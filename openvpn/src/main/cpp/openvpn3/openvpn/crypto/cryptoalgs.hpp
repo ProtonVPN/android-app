@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,6 +38,27 @@ namespace openvpn {
     OPENVPN_EXCEPTION(crypto_alg);
     OPENVPN_SIMPLE_EXCEPTION(crypto_alg_index);
 
+    enum class KeyDerivation {
+      UNDEFINED,
+      OPENVPN_PRF,
+      TLS_EKM
+    };
+
+    inline const char* name(const KeyDerivation kd)
+    {
+      switch (kd)
+	{
+	  case KeyDerivation::UNDEFINED:
+	    return "[PRF undefined]";
+	  case KeyDerivation::OPENVPN_PRF:
+	    return "OpenVPN PRF";
+	  case KeyDerivation::TLS_EKM:
+	    return "TLS Keying Material Exporter [RFC5705]";
+	  default:
+	    return "Unknown";
+	}
+    }
+
     enum Type {
       NONE=0,
 
@@ -56,6 +77,7 @@ namespace openvpn {
       AES_128_GCM,
       AES_192_GCM,
       AES_256_GCM,
+      CHACHA20_POLY1305,
 
       // digests
       MD4,
@@ -80,6 +102,7 @@ namespace openvpn {
       F_CIPHER=(1<<2),    // alg is a cipher
       F_DIGEST=(1<<3),    // alg is a digest
       F_ALLOW_DC=(1<<4),  // alg may be used in OpenVPN data channel
+      F_NO_CIPHER_DIGEST=(1<<5), // cipher alg does not depend on any additional digest
     };
 
     // size in bytes of AEAD "nonce tail" normally taken from
@@ -130,9 +153,10 @@ namespace openvpn {
       { "DES-EDE3-CBC", F_CIPHER|F_ALLOW_DC|CBC_HMAC,          24,  8,  8 },
       { "BF-CBC",       F_CIPHER|F_ALLOW_DC|CBC_HMAC,          16,  8,  8 },
       { "AES-256-CTR",  F_CIPHER,                              32, 16, 16 },
-      { "AES-128-GCM",  F_CIPHER|F_ALLOW_DC|AEAD,              16, 12, 16 },
-      { "AES-192-GCM",  F_CIPHER|F_ALLOW_DC|AEAD,              24, 12, 16 },
-      { "AES-256-GCM",  F_CIPHER|F_ALLOW_DC|AEAD,              32, 12, 16 },
+      { "AES-128-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  16, 12, 16 },
+      { "AES-192-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  24, 12, 16 },
+      { "AES-256-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  32, 12, 16 },
+      { "CHACHA20-POLY1305",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  32, 12, 16 },
       { "MD4",          F_DIGEST,                              16,  0,  0 },
       { "MD5",          F_DIGEST|F_ALLOW_DC,                   16,  0,  0 },
       { "SHA1",         F_DIGEST|F_ALLOW_DC,                   20,  0,  0 },
@@ -240,6 +264,20 @@ namespace openvpn {
       return type;
     }
 
+    /**
+     *  Check if a specific algorithm depends on an additional digest or not
+     *
+     * @param type CryptoAlgs::Type to check
+     *
+     * @return Returns true if the queried algorithm depends on a digest,
+     * 	       otherwise false.  The check is done strictly against the
+     * 	       CryptoAlgs::AlgFlags F_NO_CIPHER_DIGEST flag.
+     */
+    inline bool use_cipher_digest(const Type type)
+    {
+      const Alg& alg = get(type);
+      return !(alg.flags() & F_NO_CIPHER_DIGEST);
+    }
   }
 }
 

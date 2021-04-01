@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #define mbedtls_printf          printf
 #define mbedtls_time_t          time_t
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -70,6 +71,8 @@ int main( void )
     return( 0 );
 }
 #else
+
+
 int main( void )
 {
     FILE *f;

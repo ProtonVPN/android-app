@@ -1,7 +1,0 @@
-# setup PATH for Android SDK and NDK
-[ -z "$SDK" ] && export SDK=$DEP_DIR/android-sdk
-[ -z "$NDK" ] && export NDK=$SDK/ndk-bundle
-if [ "$NO_MOD_PATH" != "1" ]; then
-   export PATH="$SDK/tools:$SDK/platform-tools:$PATH"
-fi
-export ANDROID_HOME=$SDK

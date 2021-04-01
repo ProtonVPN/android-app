@@ -20,22 +20,64 @@ package com.protonvpn.android.vpn
 
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import me.proton.core.util.kotlin.mapAsync
+import com.protonvpn.android.utils.ProtonLogger
 
 class ProtonVpnBackendProvider(
     val strongSwan: VpnBackend,
-    val openVpn: VpnBackend
+    val openVpn: VpnBackend,
+    val serverDeliver: ServerDeliver,
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(
         protocol: VpnProtocol,
         profile: Profile,
         server: Server
-    ): PrepareResult? = when (protocol) {
-        VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
-        VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
-        VpnProtocol.Smart ->
-            strongSwan.prepareForConnection(profile, server, scan = true)
+    ): PrepareResult? {
+        ProtonLogger.log("Preparing connection with protocol: " + protocol.name)
+        return when (protocol) {
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.Smart ->
+                strongSwan.prepareForConnection(profile, server, scan = true).takeIf { it.isNotEmpty() }
                     ?: openVpn.prepareForConnection(profile, server, scan = true)
+        }.firstOrNull()
+    }
+
+    override suspend fun pingAll(
+        preferenceList: List<PhysicalServer>,
+        fullScanServer: PhysicalServer?
+    ): VpnBackendProvider.PingResult? {
+        val responses = coroutineScope {
+            preferenceList.mapAsync { server ->
+                val profile = Profile.getTempProfile(server.server, serverDeliver)
+                val portsLimit = if (server === fullScanServer) Int.MAX_VALUE else PING_ALL_MAX_PORTS
+                val strongSwanResponse = async {
+                    strongSwan.prepareForConnection(profile, server.server, true, portsLimit)
+                }
+                val openVpnResponse = async {
+                    openVpn.prepareForConnection(profile, server.server, true, portsLimit)
+                }
+                val responses = strongSwanResponse.await() + openVpnResponse.await()
+                server to responses
+            }.toMap()
+        }
+
+        preferenceList.forEach { server ->
+            val serverResponses = responses[server]
+            serverResponses.whenNotNullNorEmpty { responses ->
+                return VpnBackendProvider.PingResult(responses.first().connectionParams.profile, server, responses)
+            }
+        }
+        return null
+    }
+
+    companion object {
+        private const val PING_ALL_MAX_PORTS = 3
     }
 }

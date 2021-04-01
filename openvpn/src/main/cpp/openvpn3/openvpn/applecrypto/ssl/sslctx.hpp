@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -200,11 +200,6 @@ namespace openvpn {
       virtual void set_enable_renegotiation(const bool v)
       {
 	return not_implemented("set_enable_renegotiation");
-      }
-
-      virtual void set_force_aes_cbc_ciphersuites(const bool v)
-      {
-	return not_implemented("set_force_aes_cbc_ciphersuites");
       }
 
       virtual void set_rng(const RandomAPI::Ptr& rng_arg)

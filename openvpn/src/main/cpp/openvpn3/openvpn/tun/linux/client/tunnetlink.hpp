@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2018 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,22 +27,18 @@
 #include <net/if.h>
 #include <linux/if_tun.h>
 
+#include <openvpn/asio/asioerr.hpp>
 #include <openvpn/netconf/linux/gwnetlink.hpp>
 #include <openvpn/common/action.hpp>
-#include <openvpn/tun/linux/client/sitnl.hpp>
+#include <openvpn/tun/builder/setup.hpp>
 #include <openvpn/tun/client/tunbase.hpp>
+#include <openvpn/tun/linux/client/sitnl.hpp>
+#include <openvpn/tun/linux/client/tunsetup.hpp>
 
 namespace openvpn {
   namespace TunNetlink {
 
-    OPENVPN_EXCEPTION(tun_linux_error);
-    OPENVPN_EXCEPTION(tun_open_error);
-    OPENVPN_EXCEPTION(tun_layer_error);
-    OPENVPN_EXCEPTION(tun_ioctl_error);
-    OPENVPN_EXCEPTION(tun_fcntl_error);
-    OPENVPN_EXCEPTION(tun_name_error);
-    OPENVPN_EXCEPTION(tun_tx_queue_len_error);
-    OPENVPN_EXCEPTION(tun_ifconfig_error);
+    using namespace openvpn::TunLinuxSetup;
 
     struct NetlinkLinkSet : public Action
     {
@@ -435,6 +431,58 @@ namespace openvpn {
       R_ADD_ALL=R_ADD_SYS|R_ADD_DCO,
     };
 
+    /**
+     * @brief Add new interface
+     *
+     * @param os output stream to where error message is written
+     * @param dev interface name
+     * @param type interface link type (such as "ovpn-dco")
+     * @return int 0 on success, negative error code on error
+     */
+    inline int iface_new(std::ostringstream& os, const std::string& dev, const std::string& type)
+    {
+      int ret = -1;
+
+      if (dev.empty())
+      {
+	os << "Error: can't call NetlinkLinkNew with no interface" << std::endl;
+	return ret;
+      }
+
+      if (type.empty())
+      {
+	os << "Error: can't call NetlinkLinkNew with no interfacei type" << std::endl;
+	return ret;
+      }
+
+      ret = SITNL::net_iface_new(dev, type);
+      if (ret)
+      {
+	os << "Error while executing NetlinkLinkNew " << dev << ": " << ret << std::endl;
+      }
+
+      return ret;
+    }
+
+    inline int iface_del(std::ostringstream& os, const std::string& dev)
+    {
+      int ret = -1;
+
+      if (dev.empty())
+      {
+	os << "Error: can't call NetlinkLinkDel with no interface" << std::endl;
+	return ret;
+      }
+
+      ret = SITNL::net_iface_del(dev);
+      if (ret)
+      {
+	os << "Error while executing NetlinkLinkDel " << dev << ": " << ret << std::endl;
+      }
+
+      return ret;
+    }
+
     /*inline IPv4::Addr cvt_pnr_ip_v4(const std::string& hexaddr)
     {
       BufferAllocated v(4, BufferAllocated::CONSTRUCT_ZERO);
@@ -600,222 +648,105 @@ namespace openvpn {
 	}
     }
 
-    inline void tun_config(const std::string& iface_name,
-			   const TunBuilderCapture& pull,
-			   std::vector<IP::Route>* rtvec,
-			   ActionList& create,
-			   ActionList& destroy)
+    struct TunMethods
     {
-      const LinuxGW46Netlink gw;
-
-      // set local4 and local6 to point to IPv4/6 route configurations
-      const TunBuilderCapture::RouteAddress* local4 = pull.vpn_ipv4();
-      const TunBuilderCapture::RouteAddress* local6 = pull.vpn_ipv6();
-
-      // configure interface
-      iface_up(iface_name, pull.mtu, create, destroy);
-      iface_config(iface_name, -1, pull, rtvec, create, destroy);
-
-      // Process Routes
+      static inline void tun_config(const std::string& iface_name,
+				    const TunBuilderCapture& pull,
+				    std::vector<IP::Route>* rtvec,
+				    ActionList& create,
+				    ActionList& destroy,
+				    bool add_bypass_routes)
       {
-	for (const auto &route : pull.add_routes)
-	  {
-	    if (route.ipv6)
-	      {
-		if (!pull.block_ipv6)
-		  add_del_route(route.address, route.prefix_length, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
-	      }
-	    else
-	      {
-		if (local4 && !local4->gateway.empty())
-		  add_del_route(route.address, route.prefix_length, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
-		else
-		  OPENVPN_LOG("ERROR: IPv4 route pushed without IPv4 ifconfig and/or route-gateway");
-	      }
-	  }
-      }
+	// set local4 and local6 to point to IPv4/6 route configurations
+	const TunBuilderCapture::RouteAddress* local4 = pull.vpn_ipv4();
+	const TunBuilderCapture::RouteAddress* local6 = pull.vpn_ipv6();
 
-      // Process exclude routes
-      {
-	for (const auto &route : pull.exclude_routes)
-	  {
-	    if (route.ipv6)
-	      {
-		OPENVPN_LOG("NOTE: exclude IPv6 routes not supported yet"); // fixme
-	      }
-	    else
-	      {
-		if (gw.v4.defined())
-		  add_del_route(route.address, route.prefix_length, gw.v4.addr().to_string(), gw.v4.dev(), R_ADD_SYS, rtvec, create, destroy);
-		else
-		  OPENVPN_LOG("NOTE: cannot determine gateway for exclude IPv4 routes");
-	      }
-	  }
-      }
+	// configure interface
+	iface_up(iface_name, pull.mtu, create, destroy);
+	iface_config(iface_name, -1, pull, rtvec, create, destroy);
 
-      // Process IPv4 redirect-gateway
-      if (pull.reroute_gw.ipv4)
+	// Process Routes
 	{
-	  // add bypass route
-	  if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
-	    add_del_route(pull.remote_address.address, 32, gw.v4.addr().to_string(), gw.v4.dev(), R_ADD_SYS, rtvec, create, destroy);
-
-	  add_del_route("0.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
-	  add_del_route("128.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+	  for (const auto &route : pull.add_routes)
+	    {
+	      if (route.ipv6)
+		{
+		  if (local6 && !pull.block_ipv6)
+		    add_del_route(route.address, route.prefix_length, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+		}
+	      else
+		{
+		  if (local4 && !local4->gateway.empty())
+		    add_del_route(route.address, route.prefix_length, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+		  else
+		    OPENVPN_LOG("ERROR: IPv4 route pushed without IPv4 ifconfig and/or route-gateway");
+		}
+	    }
 	}
 
-      // Process IPv6 redirect-gateway
-      if (pull.reroute_gw.ipv6 && !pull.block_ipv6)
+	// Process exclude routes
+	if (!pull.exclude_routes.empty())
 	{
-	  // add bypass route
-	  if (pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
-	    add_del_route(pull.remote_address.address, 128, gw.v6.addr().to_string(), gw.v6.dev(), R_ADD_SYS|R_IPv6, rtvec, create, destroy);
+	  LinuxGW46Netlink gw(iface_name);
 
-	  add_del_route("0000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
-	  add_del_route("8000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+	  for (const auto &route : pull.exclude_routes)
+	    {
+	      if (route.ipv6)
+		{
+		  OPENVPN_LOG("NOTE: exclude IPv6 routes not supported yet"); // fixme
+		}
+	      else
+		{
+		  if (gw.v4.defined())
+		    add_del_route(route.address, route.prefix_length, gw.v4.addr().to_string(), gw.v4.dev(), R_ADD_SYS, rtvec, create, destroy);
+		  else
+		    OPENVPN_LOG("NOTE: cannot determine gateway for exclude IPv4 routes");
+		}
+	    }
 	}
 
-      // fixme -- Process block-ipv6
-
-      // fixme -- Handle pushed DNS servers
-    }
-
-    class Setup : public TunBuilderSetup::Base
-    {
-    public:
-      typedef RCPtr<Setup> Ptr;
-
-      struct Config : public TunBuilderSetup::Config
-      {
-	std::string iface_name;
-	Layer layer; // OSI layer
-	std::string dev_name;
-	int txqueuelen;
-
-#ifdef HAVE_JSON
-	virtual Json::Value to_json() override
-	{
-	  Json::Value root(Json::objectValue);
-	  root["iface_name"] = Json::Value(iface_name);
-	  root["layer"] = Json::Value(layer.str());
-	  root["dev_name"] = Json::Value(dev_name);
-	  root["txqueuelen"] = Json::Value(txqueuelen);
-	  return root;
-	};
-
-	virtual void from_json(const Json::Value& root, const std::string& title) override
-	{
-	  json::assert_dict(root, title);
-	  json::to_string(root, iface_name, "iface_name", title);
-	  layer = Layer::from_str(json::get_string(root, "layer", title));
-	  json::to_string(root, dev_name, "dev_name", title);
-	  json::to_int(root, txqueuelen, "txqueuelen", title);
-	}
-#endif
-      };
-
-      virtual void destroy(std::ostream &os) override
-      {
-	// remove added routes
-	if (remove_cmds)
-	  remove_cmds->execute(std::cout);
-      }
-
-      virtual int establish(const TunBuilderCapture& pull, // defined by TunBuilderSetup::Base
-			    TunBuilderSetup::Config* config,
-			    Stop* stop,
-			    std::ostream& os) override
-      {
-	// get configuration
-	Config *conf = dynamic_cast<Config *>(config);
-	if (!conf)
-	  throw tun_linux_error("missing config");
-
-	static const char node[] = "/dev/net/tun";
-	ScopedFD fd(open(node, O_RDWR));
-	if (!fd.defined())
-	  OPENVPN_THROW(tun_open_error, "error opening tun device " << node << ": " << errinfo(errno));
-
-	struct ifreq ifr;
-	std::memset(&ifr, 0, sizeof(ifr));
-	ifr.ifr_flags = IFF_ONE_QUEUE;
-	ifr.ifr_flags |= IFF_NO_PI;
-	if (conf->layer() == Layer::OSI_LAYER_3)
-	  ifr.ifr_flags |= IFF_TUN;
-	else if (conf->layer() == Layer::OSI_LAYER_2)
-	  ifr.ifr_flags |= IFF_TAP;
-	else
-	  throw tun_layer_error("unknown OSI layer");
-
-	open_unit(conf->dev_name, ifr, fd);
-
-	if (fcntl (fd(), F_SETFL, O_NONBLOCK) < 0)
-	  throw tun_fcntl_error(errinfo(errno));
-
-	// Set the TX send queue size
-	if (conf->txqueuelen)
+	// Process IPv4 redirect-gateway
+	if (pull.reroute_gw.ipv4)
 	  {
-	    struct ifreq netifr;
-	    ScopedFD ctl_fd(socket (AF_INET, SOCK_DGRAM, 0));
+	    // add bypass route
+	    if (add_bypass_routes && !pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+	      add_bypass_route(iface_name, pull.remote_address.address, false, rtvec, create, destroy);
 
-	    if (ctl_fd.defined())
-	      {
-		std::memset(&netifr, 0, sizeof(netifr));
-		strcpy (netifr.ifr_name, ifr.ifr_name);
-		netifr.ifr_qlen = conf->txqueuelen;
-		if (ioctl (ctl_fd(), SIOCSIFTXQLEN, (void *) &netifr) < 0)
-		  throw tun_tx_queue_len_error(errinfo(errno));
-	      }
-	    else
-	      throw tun_tx_queue_len_error(errinfo(errno));
+	    add_del_route("0.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+	    add_del_route("128.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
 	  }
 
-	conf->iface_name = ifr.ifr_name;
+	// Process IPv6 redirect-gateway
+	if (pull.reroute_gw.ipv6 && !pull.block_ipv6)
+	  {
+	    // add bypass route
+	    if (add_bypass_routes && pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+	      add_bypass_route(iface_name, pull.remote_address.address, true, rtvec, create, destroy);
 
-	ActionList::Ptr add_cmds = new ActionList();
-	remove_cmds.reset(new ActionListReversed()); // remove commands executed in reversed order
+	    add_del_route("0000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+	    add_del_route("8000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+	  }
 
-	// configure tun properties
-	tun_config(ifr.ifr_name, pull, nullptr, *add_cmds, *remove_cmds);
+	// fixme -- Process block-ipv6
 
-	// execute commands to bring up interface
-	add_cmds->execute(std::cout);
-
-	return fd.release();
+	// fixme -- Handle pushed DNS servers
       }
 
-    private:
-      void open_unit(const std::string& name, struct ifreq& ifr, ScopedFD& fd)
+      static inline void add_bypass_route(const std::string& tun_iface_name,
+					  const std::string& address,
+					  bool ipv6,
+					  std::vector<IP::Route>* rtvec,
+					  ActionList& create,
+					  ActionList& destroy)
       {
-	if (!name.empty())
-	  {
-	    const int max_units = 256;
-	    for (int unit = 0; unit < max_units; ++unit)
-	      {
-		std::string n = name;
-		if (unit)
-		  n += openvpn::to_string(unit);
-		if (n.length() < IFNAMSIZ)
-		  ::strcpy (ifr.ifr_name, n.c_str());
-		else
-		  throw tun_name_error();
-		if (ioctl (fd(), TUNSETIFF, (void *) &ifr) == 0)
-		  return;
-	      }
-	    const int eno = errno;
-	    OPENVPN_THROW(tun_ioctl_error, "failed to open tun device '" << name << "' after trying " << max_units << " units : " << errinfo(eno));
-	  }
-	else
-	  {
-	    if (ioctl (fd(), TUNSETIFF, (void *) &ifr) < 0)
-	      {
-		const int eno = errno;
-		OPENVPN_THROW(tun_ioctl_error, "failed to open tun device '" << name << "' : " << errinfo(eno));
-	      }
-	  }
-      }
+	LinuxGW46Netlink gw(tun_iface_name, address);
 
-      ActionListReversed::Ptr remove_cmds;
+	if (!ipv6 && gw.v4.defined())
+	  add_del_route(address, 32, gw.v4.addr().to_string(), gw.dev(), R_ADD_SYS, rtvec, create, destroy);
+
+	if (ipv6 && gw.v6.defined())
+	  add_del_route(address, 128, gw.v6.addr().to_string(), gw.dev(), R_IPv6|R_ADD_SYS, rtvec, create, destroy);
+      }
     };
   }
 } // namespace openvpn

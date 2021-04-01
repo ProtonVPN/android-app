@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,7 +26,7 @@
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/tun/client/emuexr.hpp>
-#include <openvpn/addr/routeinv.hpp>
+#include <openvpn/addr/addrspacesplit.hpp>
 
 namespace openvpn {
   class EmulateExcludeRouteImpl : public EmulateExcludeRoute
@@ -36,18 +36,18 @@ namespace openvpn {
 
     typedef RCPtr<EmulateExcludeRouteImpl> Ptr;
 
-    EmulateExcludeRouteImpl(const bool exclude_server_address)
+    explicit EmulateExcludeRouteImpl(const bool exclude_server_address)
       : exclude_server_address_(exclude_server_address)
     {
     }
 
   private:
-    virtual void add_route(const bool add, const IP::Addr& addr, const int prefix_len)
+    void add_route(const bool add, const IP::Addr& addr, const int prefix_len) override
     {
       (add ? include : exclude).emplace_back(addr, prefix_len);
     }
 
-    virtual void add_default_routes(bool ipv4, bool ipv6)
+    void add_default_routes(bool ipv4, bool ipv6) override
     {
       if (ipv4)
 	add_route(true, IP::Addr::from_zero(IP::Addr::V4), 0);
@@ -55,61 +55,98 @@ namespace openvpn {
 	add_route(true, IP::Addr::from_zero(IP::Addr::V6), 0);
     }
 
-    virtual bool enabled(const IPVerFlags& ipv) const
+    bool enabled(const IPVerFlags& ipv) const override
     {
       return exclude.size() && (ipv.rgv4() || ipv.rgv6());
     }
 
-    virtual void emulate(TunBuilderBase* tb, IPVerFlags& ipv, const IP::Addr& server_addr) const
+    void emulate(TunBuilderBase* tb, IPVerFlags& ipv, const IP::Addr& server_addr) const override
     {
-      const unsigned int rg_ver_flags = ipv.rg_ver_flags();
-      if (exclude.size() && rg_ver_flags)
+      const unsigned int ip_ver_flags = ipv.ip_ver_flags();
+      IP::RouteList rl, tempExcludeList;
+      rl.reserve(include.size() + exclude.size());
+      rl.insert(rl.end(), include.begin(), include.end());
+      rl.insert(rl.end(), exclude.begin(), exclude.end());
+
+      // Check if we have to exclude the server, if yes we temporarily add it to the list
+      // of excluded networks as small individual /32 or /128 network
+      const IP::RouteList* excludedRoutes = &exclude;
+
+      if (exclude_server_address_ && (server_addr.version_mask() & ip_ver_flags) &&
+	  !exclude.contains(IP::Route(server_addr, server_addr.size())))
 	{
-	  IP::RouteList rl;
-	  rl.reserve(include.size() + exclude.size());
-	  rl.insert(rl.end(), include.begin(), include.end());
-	  rl.insert(rl.end(), exclude.begin(), exclude.end());
-
-	  if (exclude_server_address_ && (server_addr.version_mask() & rg_ver_flags))
-	    rl.emplace_back(server_addr, server_addr.size());
-
-	  const IP::RouteInverter ri(rl, rg_ver_flags);
-	  //OPENVPN_LOG("Exclude routes emulation:\n" << ri);
-	  for (IP::RouteInverter::const_iterator i = ri.begin(); i != ri.end(); ++i)
-	    {
-	      const IP::Route& r = *i;
-	      if (checkRouteShouldBeInstalled(r))
-		if (!tb->tun_builder_add_route(r.addr.to_string(), r.prefix_len, -1, r.addr.version() == IP::Addr::V6))
-		  throw emulate_exclude_route_error("tun_builder_add_route failed");
-	    }
-
-	  ipv.set_emulate_exclude_routes();
+	  rl.emplace_back(server_addr, server_addr.size());
+	  // Create a temporary list that includes all the routes + the server
+	  tempExcludeList = exclude;
+	  tempExcludeList.emplace_back(server_addr, server_addr.size());
+	  excludedRoutes = &tempExcludeList;
 	}
+
+
+      if (excludedRoutes->empty())
+      {
+	// Samsung's Android VPN API does different things if you have
+	// 0.0.0.0/0 in the list of installed routes
+	// (even if 0.0.0.0/1 and 128.0.0.0/1 and are present it behaves different)
+
+	// We normally always split the address space, breaking a 0.0.0.0/0 into
+	// smaller routes. If no routes are excluded, we install the original
+	// routes without modifying them
+
+	for (const auto& rt: include)
+	  {
+	    if (rt.version() & ip_ver_flags)
+	      {
+		if (!tb->tun_builder_add_route(rt.addr.to_string(), rt.prefix_len, -1, rt.addr.version() == IP::Addr::V6))
+		  throw emulate_exclude_route_error("tun_builder_add_route failed");
+	       }
+	  }
+	return;
+      }
+
+      // Complete address space (0.0.0.0/0 or ::/0) split into smaller networks
+      // Figure out which parts of this non overlapping address we want to install
+      for (const auto& r: IP::AddressSpaceSplitter(rl, ip_ver_flags))
+	{
+	  if (check_route_should_be_installed(r, *excludedRoutes))
+	    if (!tb->tun_builder_add_route(r.addr.to_string(), r.prefix_len, -1, r.addr.version() == IP::Addr::V6))
+	      throw emulate_exclude_route_error("tun_builder_add_route failed");
+	}
+
+      ipv.set_emulate_exclude_routes();
     }
 
-    bool checkRouteShouldBeInstalled(const IP::Route& r) const
+    bool check_route_should_be_installed(const IP::Route& r, const IP::RouteList & excludedRoutes) const
       {
+	// The whole address space was partioned into NON-overlapping routes that
+	// we get one by one with the parameter r.
+	// Therefore we already know that the whole route r either is included or
+	// excluded IPs.
+	// Figure out if this particular route should be installed or not
+
 	IP::Route const* bestroute = nullptr;
-	// Get the best (longest-prefix) route from included routes that matches
+	// Get the best (longest-prefix/smallest) route from included routes that completely
+	// matches this route
 	for (const auto& incRoute: include)
 	{
-	  if (incRoute.contains (r))
+	  if (incRoute.contains(r))
 	    {
-	      if (bestroute == nullptr || bestroute->prefix_len < incRoute.prefix_len )
-	        bestroute = &incRoute;
+	      if (!bestroute || bestroute->prefix_len < incRoute.prefix_len)
+		bestroute = &incRoute;
 	    }
 	}
-	// No postive route matches the route at all, do not install it
+
+	// No positive route matches the route at all, do not install it
 	if (!bestroute)
 	  return false;
 
 	// Check if there is a more specific exclude route
-	for (const auto& exclRoute: exclude)
+	for (const auto& exclRoute: excludedRoutes)
 	  {
-	    if (exclRoute.contains (r) && exclRoute.prefix_len > bestroute->prefix_len)
+	    if (exclRoute.contains(r) && exclRoute.prefix_len > bestroute->prefix_len)
 	      return false;
 	  }
-        return true;
+	return true;
       }
 
     const bool exclude_server_address_;

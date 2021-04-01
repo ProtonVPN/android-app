@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -238,6 +238,13 @@ namespace openvpn {
       return ssl_->ssl_handshake_details();
     }
 
+    void export_key_material(OpenVPNStaticKey& key) const
+    {
+      if (!ssl_->export_keying_material("EXPORTER-OpenVPN-datakeys", key.raw_alloc(),
+      	OpenVPNStaticKey::KEY_SIZE))
+	throw ErrorCode(Error::KEY_EXPANSION_ERROR, true, "TLS Keying material export error");
+    }
+
     const AuthCert::Ptr& auth_cert() const
     {
       return ssl_->auth_cert();
@@ -313,7 +320,7 @@ namespace openvpn {
 		  error(Error::SSL_ERROR);
 		  throw;
 		}
-	      if (size == buf->size())
+	      if (size == static_cast<ssize_t>(buf->size()))
 		app_write_queue.pop_front();
 	      else if (size == SSLConst::SHOULD_RETRY)
 		break;

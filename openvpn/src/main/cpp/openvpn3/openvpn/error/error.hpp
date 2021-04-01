@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -51,6 +51,7 @@ namespace openvpn {
       TUN_IFACE_CREATE,    // error creating tun/tap interface
       TUN_IFACE_DISABLED,  // tun/tap interface is disabled
       TUN_ERROR,           // general tun error
+      TUN_REGISTER_RINGS_ERROR, // error registering ring buffers with wintun
       TAP_NOT_SUPPORTED,   // dev tap is present in profile but not supported
       REROUTE_GW_NO_DNS,   // redirect-gateway specified without alt DNS servers
       TRANSPORT_ERROR,     // general transport error
@@ -60,6 +61,9 @@ namespace openvpn {
       UDP_CONNECT_ERROR,   // client error on UDP connect
       SSL_ERROR,           // errors resulting from read/write on SSL object
       SSL_PARTIAL_WRITE,   // SSL object did not process all written cleartext
+      SSL_CA_MD_TOO_WEAK,  // CA message digest is too weak
+      SSL_CA_KEY_TOO_SMALL, // CA key is too small
+      SSL_DH_KEY_TOO_SMALL, // DH key is too small
       ENCAPSULATION_ERROR, // exceptions thrown during packet encapsulation
       EPKI_CERT_ERROR,     // error obtaining certificate from External PKI provider
       EPKI_SIGN_ERROR,     // error obtaining RSA signature from External PKI provider
@@ -76,6 +80,7 @@ namespace openvpn {
       AUTH_FAILED,         // general authentication failure
       CLIENT_HALT,         // HALT message from server received
       CLIENT_RESTART,      // RESTART message from server received
+      TUN_HALT,            // halt command from tun interface
       RELAY,               // RELAY message from server received
       RELAY_ERROR,         // RELAY error
       N_PAUSE,             // Number of transitions to Pause state
@@ -89,6 +94,7 @@ namespace openvpn {
       KEV_NEGOTIATE_ERROR,
       KEV_PENDING_ERROR,
       N_KEV_EXPIRE,
+      KEY_EXPANSION_ERROR,
 
       // Packet ID error detail
       PKTID_INVALID,
@@ -127,6 +133,7 @@ namespace openvpn {
 	"TUN_IFACE_CREATE",
 	"TUN_IFACE_DISABLED",
 	"TUN_ERROR",
+	"TUN_REGISTER_RINGS_ERROR",
 	"TAP_NOT_SUPPORTED",
 	"REROUTE_GW_NO_DNS",
 	"TRANSPORT_ERROR",
@@ -136,6 +143,9 @@ namespace openvpn {
 	"UDP_CONNECT_ERROR",
 	"SSL_ERROR",
 	"SSL_PARTIAL_WRITE",
+	"SSL_CA_MD_TOO_WEAK",
+	"SSL_CA_KEY_TOO_SMALL",
+	"SSL_DH_KEY_TOO_SMALL",
 	"ENCAPSULATION_ERROR",
 	"EPKI_CERT_ERROR",
 	"EPKI_SIGN_ERROR",
@@ -152,6 +162,7 @@ namespace openvpn {
 	"AUTH_FAILED",
 	"CLIENT_HALT",
 	"CLIENT_RESTART",
+	"TUN_HALT",
 	"RELAY",
 	"RELAY_ERROR",
 	"N_PAUSE",
@@ -163,6 +174,7 @@ namespace openvpn {
 	"KEV_NEGOTIATE_ERROR",
 	"KEV_PENDING_ERROR",
 	"N_KEV_EXPIRE",
+	"KEV_EXPANSION_ERROR",
 	"PKTID_INVALID",
 	"PKTID_BACKTRACK",
 	"PKTID_EXPIRE",

@@ -28,9 +28,9 @@ public class SettingsResults extends UIActionsTestHelper {
     public SettingsResults settingsViewIsVisible() {
         checkIfObjectWithIdIsDisplayed(R.id.textStartOptions);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
-            R.id.buttonAlwaysOn);
+            R.id.smartProtocolSwitch);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
-            R.id.spinnerDefaultProtocol);
+            R.id.switchShowSplitTunnel);
         return new SettingsResults();
     }
 
@@ -40,7 +40,7 @@ public class SettingsResults extends UIActionsTestHelper {
     }
 
     public SettingsResults splitTunnelIPIsVisible() {
-        checkIfObjectWithIdIsDisplayed(R.id.splitTunnelIPs);
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView, R.id.splitTunnelIPs);
         return this;
     }
 

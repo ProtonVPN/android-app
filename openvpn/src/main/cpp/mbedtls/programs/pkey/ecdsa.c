@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define mbedtls_printf          printf
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -98,6 +99,7 @@ static void dump_pubkey( const char *title, mbedtls_ecdsa_context *key )
 #define dump_buf( a, b, c )
 #define dump_pubkey( a, b )
 #endif
+
 
 int main( int argc, char *argv[] )
 {
@@ -187,7 +189,7 @@ int main( int argc, char *argv[] )
                                        sig, &sig_len,
                                        mbedtls_ctr_drbg_random, &ctr_drbg ) ) != 0 )
     {
-        mbedtls_printf( " failed\n  ! mbedtls_ecdsa_genkey returned %d\n", ret );
+        mbedtls_printf( " failed\n  ! mbedtls_ecdsa_write_signature returned %d\n", ret );
         goto exit;
     }
     mbedtls_printf( " ok (signature length = %u)\n", (unsigned int) sig_len );

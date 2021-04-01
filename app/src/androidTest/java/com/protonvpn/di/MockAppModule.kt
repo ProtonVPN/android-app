@@ -30,6 +30,7 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.LogoutHandler
@@ -41,10 +42,13 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
@@ -74,8 +78,11 @@ class MockAppModule {
     fun provideServerListUpdater(
         api: ProtonApiRetroFit,
         serverManager: ServerManager,
-        userData: UserData
-    ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV())
+        userData: UserData,
+        vpnStateMonitor: VpnStateMonitor,
+        userPlanManager: UserPlanManager,
+    ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV(),
+        vpnStateMonitor, userPlanManager)
 
     @Singleton
     @Provides
@@ -122,17 +129,18 @@ class MockAppModule {
     fun provideUserPlanManager(
         api: ProtonApiRetroFit,
         userData: UserData,
-        vpnStateMonitor: VpnStateMonitor
+        vpnStateMonitor: VpnStateMonitor,
     ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
 
+    @Singleton
+    @Provides
+    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData): VpnApiClient = VpnApiClient(scope, userData)
-
-    @Singleton
-    @Provides
-    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>): ProtonApiRetroFit = MockApi(scope, apiManager)
+    fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>, userData: UserData): ProtonApiRetroFit =
+        MockApi(scope, apiManager, userData)
 
     @Singleton
     @Provides
@@ -140,11 +148,7 @@ class MockAppModule {
         vpnStateMonitor: VpnStateMonitor,
         serverManager: ServerManager,
         logoutHandler: LogoutHandler
-    ) = RecentsManager(
-        vpnStateMonitor,
-        serverManager,
-        logoutHandler
-    )
+    ) = RecentsManager(scope, vpnStateMonitor, serverManager, logoutHandler)
 
     @Singleton
     @Provides
@@ -158,44 +162,91 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnStateMonitor(
+    fun provideVpnConnectionErrorHandler(
+        api: ProtonApiRetroFit,
+        appConfig: AppConfig,
         userData: UserData,
-        api: ProtonApiRetroFit,
-        backendManager: VpnBackendProvider,
-        serverListUpdater: ServerListUpdater,
-        trafficMonitor: TrafficMonitor,
-        networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        maintenanceTracker: MaintenanceTracker
-    ): VpnStateMonitor = MockVpnStateMonitor(userData, api, backendManager, serverListUpdater,
-                trafficMonitor, networkManager, maintenanceTracker, scope).apply {
-        apiClient.init(this)
-    }
-
-    @Singleton
-    @Provides
-    fun provideVpnBackendManager(): VpnBackendProvider = ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(VpnProtocol.OpenVPN))
-
-    @Singleton
-    @Provides
-    fun provideReconnectManager(
+        userPlanManager: UserPlanManager,
         serverManager: ServerManager,
-        api: ProtonApiRetroFit,
+        vpnStateMonitor: VpnStateMonitor,
         serverListUpdater: ServerListUpdater,
-        appConfig: AppConfig
-    ) = MaintenanceTracker(scope, api, serverManager, serverListUpdater, appConfig)
+        notificationHelper: NotificationHelper,
+        networkManager: NetworkManager,
+        vpnBackendProvider: VpnBackendProvider,
+    ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
+        serverManager, vpnStateMonitor, serverListUpdater, notificationHelper, networkManager, vpnBackendProvider
+    )
 
     @Singleton
     @Provides
-    fun provideTrafficMonitor() =
-        TrafficMonitor(ProtonApplication.getAppContext(), scope, SystemClock::elapsedRealtime)
+    fun provideVpnConnectionManager(
+        userData: UserData,
+        backendManager: VpnBackendProvider,
+        networkManager: NetworkManager,
+        vpnConnectionErrorHandler: VpnConnectionErrorHandler,
+        vpnStateMonitor: VpnStateMonitor,
+        notificationHelper: NotificationHelper,
+        maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
+    ): VpnConnectionManager = MockVpnConnectionManager(
+        userData,
+        backendManager,
+        networkManager,
+        vpnConnectionErrorHandler,
+        vpnStateMonitor,
+        notificationHelper,
+        scope
+    )
 
     @Singleton
     @Provides
-    fun provideGuestHole(serverManager: ServerManager, vpnMonitor: VpnStateMonitor) =
-            GuestHole(serverManager, vpnMonitor)
+    fun provideVpnStateMonitor() = VpnStateMonitor()
+
+    @Singleton
+    @Provides
+    fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
+
+    @Singleton
+    @Provides
+    fun provideNotificationHelper(
+        vpnStateMonitor: VpnStateMonitor,
+        trafficMonitor: TrafficMonitor,
+    ) = NotificationHelper(ProtonApplication.getAppContext(), scope, vpnStateMonitor, trafficMonitor)
+
+    @Singleton
+    @Provides
+    fun provideVpnBackendManager(serverManager: ServerManager): VpnBackendProvider = ProtonVpnBackendProvider(
+            strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
+            openVpn = MockVpnBackend(VpnProtocol.OpenVPN),
+            serverDeliver = serverManager)
+
+    @Singleton
+    @Provides
+    fun provideMaintenanceTracker(
+        appConfig: AppConfig,
+        vpnStateMonitor: VpnStateMonitor,
+        vpnErrorHandler: VpnConnectionErrorHandler
+    ) = MaintenanceTracker(scope, ProtonApplication.getAppContext(), appConfig, vpnStateMonitor, vpnErrorHandler)
+
+    @Singleton
+    @Provides
+    fun provideTrafficMonitor(
+        vpnStateMonitor: VpnStateMonitor,
+        connectivityMonitor: ConnectivityMonitor
+    ) = TrafficMonitor(
+        ProtonApplication.getAppContext(),
+        scope,
+        SystemClock::elapsedRealtime,
+        vpnStateMonitor,
+        connectivityMonitor
+    )
+
+    @Singleton
+    @Provides
+    fun provideGuestHole(
+        serverManager: ServerManager,
+        vpnMonitor: VpnStateMonitor,
+        connectionManager: VpnConnectionManager
+    ) = GuestHole(scope, serverManager, vpnMonitor, connectionManager)
 
     @Singleton
     @Provides
@@ -204,7 +255,8 @@ class MockAppModule {
         serverManager: ServerManager,
         vpnApiManager: VpnApiManager,
         vpnStateMonitor: VpnStateMonitor,
+        vpnConnectionManager: VpnConnectionManager,
         vpnApiClient: VpnApiClient
-    ): LogoutHandler = LogoutHandler(
-        scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider, vpnStateMonitor, vpnApiClient)
+    ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
+        vpnStateMonitor, vpnConnectionManager, vpnApiClient)
 }

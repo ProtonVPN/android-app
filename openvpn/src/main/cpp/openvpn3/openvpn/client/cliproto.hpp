@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -424,11 +424,6 @@ namespace openvpn {
 	Base::disable_keepalive(keepalive_ping, keepalive_timeout);
       }
 
-      virtual void ip_hole_punch(const IP::Addr& addr)
-      {
-	tun_factory->ip_hole_punch(addr);
-      }
-
       virtual void transport_pre_resolve()
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::Resolve();
@@ -511,7 +506,7 @@ namespace openvpn {
 	{
 	  const Option* o = opt.get_ptr("auth-token-user");
 	  if (o)
-	    username = base64->decode(o->get(1, 256));
+	    username = base64->decode(o->get(1, 340)); // 255 chars after base64 decode
 	}
 
 	// auth-token
@@ -576,7 +571,7 @@ namespace openvpn {
 		// process auth-token
 		extract_auth_token(received_options);
 
-		// modify proto config (cipher, auth, and compression methods)
+		// modify proto config (cipher, auth, key-derivation and compression methods)
 		Base::process_push(received_options, *proto_context_options);
 
 		// initialize tun/routing
@@ -606,6 +601,20 @@ namespace openvpn {
 
 		// send the Connected event
 		cli_events->add_event(connected_);
+
+		// Issue an event if compression is enabled
+		CompressContext::Type comp_type = Base::conf().comp_ctx.type();
+		if (comp_type != CompressContext::NONE
+		    && !CompressContext::is_any_stub(comp_type))
+		{
+		  std::ostringstream msg;
+		  msg << (proto_context_options->is_comp_asym()
+			  ? "Asymmetric compression enabled.  Server may send compressed data."
+			  : "Compression enabled.");
+		  msg << "  This may be a potential security issue.";
+		  ClientEvent::Base::Ptr ev = new ClientEvent::CompressionEnabled(msg.str());
+		  cli_events->add_event(std::move(ev));
+		}
 	      }
 	    else
 	      OPENVPN_LOG("Options continuation...");
@@ -744,6 +753,8 @@ namespace openvpn {
 
       virtual void tun_error(const Error::Type fatal_err, const std::string& err_text)
       {
+	if (fatal_err == Error::TUN_HALT)
+	  send_explicit_exit_notify();
 	if (fatal_err != Error::UNDEF)
 	  {
 	    fatal_ = fatal_err;
@@ -1007,7 +1018,7 @@ namespace openvpn {
       void process_halt_restart(const ClientHalt& ch)
       {
 	if (!ch.psid() && creds)
-	  creds->can_retry_auth_with_cached_password(); // purge session ID
+	  creds->purge_session_id();
 	if (ch.restart())
 	  fatal_ = Error::CLIENT_RESTART;
 	else

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -201,6 +201,8 @@ namespace openvpn {
 
     virtual Type vtype() const = 0;
     virtual Status vstatus(const SCNetworkReachabilityFlags flags) const = 0;
+
+    virtual ~ReachabilityBase() {}
 
     CF::NetworkReachability reach;
   };

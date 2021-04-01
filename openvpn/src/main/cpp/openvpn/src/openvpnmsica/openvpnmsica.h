@@ -1,5 +1,6 @@
 /*
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
+ *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
  *  Copyright (C) 2018 Simon Rozman <simon@rozman.si>
  *
@@ -33,18 +34,28 @@
 
 
 /**
- * TLS data
+ * Thread local storage data
  */
-struct openvpnmsica_tls_data
+struct openvpnmsica_thread_data
 {
     MSIHANDLE hInstall; /** Handle to the installation session. */
 };
 
 
 /**
- * MSI session handle TLS index
+ * MSI session handle thread local storage index
  */
-extern DWORD openvpnmsica_tlsidx_session;
+extern DWORD openvpnmsica_thread_data_idx;
+
+
+/**
+ * Set MSI session handle in thread local storage.
+ */
+#define OPENVPNMSICA_SAVE_MSI_SESSION(hInstall) \
+{ \
+    struct openvpnmsica_thread_data *s = (struct openvpnmsica_thread_data *)TlsGetValue(openvpnmsica_thread_data_idx); \
+    s->hInstall = (hInstall); \
+}
 
 
 /*
@@ -65,9 +76,17 @@ extern "C" {
 
 /**
  * Determines Windows information:
- * - Sets `DriverCertification` MSI property to "", "attsgn" or "whql"
- *   according to the driver certification required by the running version of
- *   Windows.
+ *
+ * - Sets `OPENVPNSERVICE` MSI property to PID of OpenVPN Service if running, or its EXE path if
+ *   configured for auto-start.
+ *
+ * - Finds existing TAP-Windows6 adapters and set TAPWINDOWS6ADAPTERS and
+ *   ACTIVETAPWINDOWS6ADAPTERS properties with semicolon delimited list of all installed adapter
+ *   GUIDs and active adapter GUIDs respectively.
+ *
+ * - Finds existing Wintun adapters and set WINTUNADAPTERS and ACTIVEWINTUNADAPTERS properties
+ *   with semicolon delimited list of all installed adapter GUIDs and active adapter GUIDs
+ *   respectively.
  *
  * @param hInstall      Handle to the installation provided to the DLL custom action
  *
@@ -76,19 +95,6 @@ extern "C" {
  */
 DLLEXP_DECL UINT __stdcall
 FindSystemInfo(_In_ MSIHANDLE hInstall);
-
-
-/**
- * Find existing TAP interfaces and set TAPINTERFACES property with semicolon delimited list
- * of installed TAP interface GUIDs.
- *
- * @param hInstall      Handle to the installation provided to the DLL custom action
- *
- * @return ERROR_SUCCESS on success; An error code otherwise
- *         See: https://msdn.microsoft.com/en-us/library/windows/desktop/aa368072.aspx
- */
-DLLEXP_DECL UINT __stdcall
-FindTAPInterfaces(_In_ MSIHANDLE hInstall);
 
 
 /**
@@ -117,8 +123,8 @@ StartOpenVPNGUI(_In_ MSIHANDLE hInstall);
 
 
 /**
- * Evaluate the TAPInterface table of the MSI package database and prepare a list of TAP
- * interfaces to install/remove.
+ * Evaluate the TUNTAPAdapter table of the MSI package database and prepare a list of TAP
+ * adapters to install/remove.
  *
  * @param hInstall      Handle to the installation provided to the DLL custom action
  *
@@ -126,7 +132,7 @@ StartOpenVPNGUI(_In_ MSIHANDLE hInstall);
  *         See: https://msdn.microsoft.com/en-us/library/windows/desktop/aa368072.aspx
  */
 DLLEXP_DECL UINT __stdcall
-EvaluateTAPInterfaces(_In_ MSIHANDLE hInstall);
+EvaluateTUNTAPAdapters(_In_ MSIHANDLE hInstall);
 
 
 /**

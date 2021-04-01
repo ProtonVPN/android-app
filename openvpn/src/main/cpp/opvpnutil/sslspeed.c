@@ -206,7 +206,7 @@ static void* stop_run(void* arg)
     return NULL;
 }
 
-    jdoubleArray Java_de_blinkt_openpvpn_core_NativeUtils_getOpenSSLSpeed(JNIEnv* env, jclass thiz, jstring algorithm, jint testnumber)
+    jdoubleArray Java_de_blinkt_openvpn_core_NativeUtils_getOpenSSLSpeed(JNIEnv* env, jclass thiz, jstring algorithm, jint testnumber)
 {
     static const unsigned char key16[16] = {
         0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0,

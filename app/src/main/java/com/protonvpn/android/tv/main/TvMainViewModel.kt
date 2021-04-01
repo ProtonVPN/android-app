@@ -24,8 +24,8 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
@@ -50,10 +50,13 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TvMainViewModel @Inject constructor(
@@ -61,6 +64,7 @@ class TvMainViewModel @Inject constructor(
     val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
+    val vpnConnectionManager: VpnConnectionManager,
     private val recentsManager: RecentsManager,
     val userData: UserData,
     val logoutHandler: LogoutHandler,
@@ -72,9 +76,11 @@ class TvMainViewModel @Inject constructor(
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
     val logoutEvent get() = logoutHandler.logoutEvent
 
+    val vpnStatus = vpnStateMonitor.status.asLiveData()
+
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
     enum class ConnectionState { None, Connecting, Connected }
-    val vpnConnectionState = vpnStateMonitor.vpnStatus.asFlow().map {
+    val vpnConnectionState = vpnStateMonitor.status.map {
         it.state
     }.map {
         when {
@@ -85,14 +91,17 @@ class TvMainViewModel @Inject constructor(
     }.distinctUntilChanged().asLiveData()
 
     init {
-        vpnStateMonitor.vpnStatus.observeForever {
-            connectedCountryFlag.value = if (isConnected())
-                it.server!!.flag else ""
+        viewModelScope.launch {
+            vpnStateMonitor.status.collect {
+                connectedCountryFlag.value = if (isConnected())
+                    it.server!!.flag else ""
+            }
         }
     }
 
     fun onViewInit(lifecycle: Lifecycle) {
         serverListUpdater.startSchedule(lifecycle, null)
+        lifecycle.addObserver(this)
     }
 
     val haveAccessToStreaming get() = userData.isUserPlusOrAbove
@@ -106,7 +115,7 @@ class TvMainViewModel @Inject constructor(
         vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
 
     fun disconnectText(card: CountryCard) =
-        if (!showConnectButtons(card) && vpnStateMonitor.vpnStatus.value?.state?.isEstablishingConnection == true)
+        if (!showConnectButtons(card) && vpnStateMonitor.state.isEstablishingConnection)
             R.string.cancel
         else
             R.string.disconnect
@@ -211,7 +220,7 @@ class TvMainViewModel @Inject constructor(
         )
     }
 
-    fun disconnect() = vpnStateMonitor.disconnect()
+    fun disconnect() = vpnConnectionManager.disconnect()
 
     fun isConnected() = vpnStateMonitor.isConnected
 
@@ -246,7 +255,7 @@ class TvMainViewModel @Inject constructor(
 
     fun onQuickConnectAction(activity: Activity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
-            vpnStateMonitor.disconnect()
+            vpnConnectionManager.disconnect()
         } else {
             connect(activity, serverManager.defaultConnection)
         }
@@ -267,7 +276,7 @@ class TvMainViewModel @Inject constructor(
             showMaintenanceDialog(activity)
         } else {
             if (userData.hasAccessToServer(profile.server)) {
-                vpnStateMonitor.connect(activity, profile)
+                vpnConnectionManager.connect(activity, profile, "TV home view")
             } else {
                 activity.launchActivity<TvUpgradeActivity>()
             }

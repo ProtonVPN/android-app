@@ -4,6 +4,11 @@ set -eux
 # Set defaults
 PREFIX="${PREFIX:-${HOME}/opt}"
 
+if [ -n "${MINGW-}" ]; then
+    MAKEFLAGS=-j$(nproc) scripts/mingw/build
+    exit 0
+fi
+
 download_asio () {
     if [ ! -d "download-cache/asio" ]; then
         git clone https://github.com/chriskohlhoff/asio.git \

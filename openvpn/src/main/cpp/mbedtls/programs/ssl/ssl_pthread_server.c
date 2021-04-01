@@ -30,9 +30,13 @@
 #include "mbedtls/platform.h"
 #else
 #include <stdio.h>
+#include <stdlib.h>
 #define mbedtls_fprintf    fprintf
 #define mbedtls_printf     printf
 #define mbedtls_snprintf   snprintf
+#define mbedtls_exit            exit
+#define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
+#define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif
 
 #if !defined(MBEDTLS_BIGNUM_C) || !defined(MBEDTLS_CERTS_C) ||            \
@@ -76,6 +80,7 @@ int main( void )
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
 #include "mbedtls/memory_buffer_alloc.h"
 #endif
+
 
 #define HTTP_RESPONSE \
     "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n" \
@@ -446,7 +451,6 @@ int main( void )
     }
 
     mbedtls_printf( " ok\n" );
-
 
     /*
      * 2. Setup the listening TCP socket

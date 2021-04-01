@@ -18,10 +18,12 @@
  */
 package com.protonvpn.android.models.vpn
 
+import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import de.blinkt.openvpn.core.NetworkUtils
 import org.strongswan.android.data.VpnProfile
 import org.strongswan.android.data.VpnProfile.SelectedAppsHandling
 import org.strongswan.android.data.VpnType
@@ -32,7 +34,7 @@ class ConnectionParamsIKEv2(
     connectingDomain: ConnectingDomain
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), java.io.Serializable {
 
-    fun getStrongSwanProfile(userData: UserData, appConfig: AppConfig) = VpnProfile().apply {
+    fun getStrongSwanProfile(context: Context, userData: UserData, appConfig: AppConfig) = VpnProfile().apply {
         name = server.displayName
 
         mtu = userData.mtuSize
@@ -46,15 +48,20 @@ class ConnectionParamsIKEv2(
         gateway = connectingDomain!!.entryIp
         remoteId = connectingDomain.entryDomain
 
+        val excludedIPs = mutableListOf<String>()
+        if (userData.bypassLocalTraffic())
+            excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
-                excludedSubnets = it.joinToString(" ")
+                excludedIPs += it
             }
             userData.splitTunnelApps?.takeIf { it.isNotEmpty() }?.let {
                 selectedAppsHandling = SelectedAppsHandling.SELECTED_APPS_EXCLUDE
                 setSelectedApps(it.toSortedSet())
             }
         }
+        if (excludedIPs.isNotEmpty())
+            excludedSubnets = excludedIPs.joinToString(" ")
     }
 
     companion object {

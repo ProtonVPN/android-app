@@ -25,6 +25,8 @@
 #ifndef OPENVPN_WIN32_H
 #define OPENVPN_WIN32_H
 
+#include <winioctl.h>
+
 #include "mtu.h"
 #include "openvpn-msg.h"
 #include "argv.h"
@@ -67,7 +69,7 @@ struct security_attributes
 struct window_title
 {
     bool saved;
-    char old_window_title [256];
+    char old_window_title[256];
 };
 
 struct rw_handle {
@@ -296,10 +298,12 @@ bool win_wfp_block_dns(const NET_IFINDEX index, const HANDLE msg_channel);
 
 bool win_wfp_uninit(const NET_IFINDEX index, const HANDLE msg_channel);
 
-#define WIN_XP 0
+#define WIN_XP    0
 #define WIN_VISTA 1
-#define WIN_7 2
-#define WIN_8 3
+#define WIN_7     2
+#define WIN_8     3
+#define WIN_8_1   4
+#define WIN_10    5
 
 int win32_version_info(void);
 
@@ -322,6 +326,8 @@ bool send_msg_iservice(HANDLE pipe, const void *data, size_t size,
  */
 int
 openvpn_execve(const struct argv *a, const struct env_set *es, const unsigned int flags);
+
+bool impersonate_as_system();
 
 #endif /* ifndef OPENVPN_WIN32_H */
 #endif /* ifdef _WIN32 */

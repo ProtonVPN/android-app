@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -34,6 +34,77 @@
 #include <fwpmu.h>
 #include <fwpmtypes.h>
 #include <iphlpapi.h>
+#include <wchar.h>
+
+#ifdef __MINGW32__
+
+#include <initguid.h>
+
+// WFP-related defines and GUIDs not in mingw32
+
+#ifndef FWPM_SESSION_FLAG_DYNAMIC
+#define FWPM_SESSION_FLAG_DYNAMIC 0x00000001
+#endif
+
+// defines below are taken from openvpn2 code (https://github.com/OpenVPN/openvpn/blob/master/src/openvpn/block_dns.c)
+// which likely borrowed them from Windows SDK header fwpmu.h
+
+/* c38d57d1-05a7-4c33-904f-7fbceee60e82 */
+DEFINE_GUID(
+  FWPM_LAYER_ALE_AUTH_CONNECT_V4,
+  0xc38d57d1,
+  0x05a7,
+  0x4c33,
+  0x90, 0x4f, 0x7f, 0xbc, 0xee, 0xe6, 0x0e, 0x82
+);
+
+/* 4a72393b-319f-44bc-84c3-ba54dcb3b6b4 */
+DEFINE_GUID(
+  FWPM_LAYER_ALE_AUTH_CONNECT_V6,
+  0x4a72393b,
+  0x319f,
+  0x44bc,
+  0x84, 0xc3, 0xba, 0x54, 0xdc, 0xb3, 0xb6, 0xb4
+);
+
+/* d78e1e87-8644-4ea5-9437-d809ecefc971 */
+DEFINE_GUID(
+  FWPM_CONDITION_ALE_APP_ID,
+  0xd78e1e87,
+  0x8644,
+  0x4ea5,
+  0x94, 0x37, 0xd8, 0x09, 0xec, 0xef, 0xc9, 0x71
+);
+
+/* c35a604d-d22b-4e1a-91b4-68f674ee674b */
+DEFINE_GUID(
+  FWPM_CONDITION_IP_REMOTE_PORT,
+  0xc35a604d,
+  0xd22b,
+  0x4e1a,
+  0x91, 0xb4, 0x68, 0xf6, 0x74, 0xee, 0x67, 0x4b
+);
+
+/* 4cd62a49-59c3-4969-b7f3-bda5d32890a4 */
+DEFINE_GUID(
+  FWPM_CONDITION_IP_LOCAL_INTERFACE,
+  0x4cd62a49,
+  0x59c3,
+  0x4969,
+  0xb7, 0xf3, 0xbd, 0xa5, 0xd3, 0x28, 0x90, 0xa4
+);
+
+/* UUID of WFP sublayer used by all instances of openvpn
+ * 2f660d7e-6a37-11e6-a181-001e8c6e04a2 */
+DEFINE_GUID(
+  OPENVPN_BLOCK_OUTSIDE_DNS_SUBLAYER,
+  0x2f660d7e,
+  0x6a37,
+  0x11e6,
+  0xa1, 0x81, 0x00, 0x1e, 0x8c, 0x6e, 0x04, 0xa2
+);
+
+#endif
 
 namespace openvpn {
   namespace TunWin {
@@ -67,8 +138,8 @@ namespace openvpn {
 	{
 	  FWPM_SUBLAYER0 subLayer = {0};
 	  subLayer.subLayerKey = subLayerGUID;
-	  subLayer.displayData.name = L"OpenVPN";
-	  subLayer.displayData.description = L"OpenVPN";
+	  subLayer.displayData.name = const_cast<wchar_t*>(L"OpenVPN");
+	  subLayer.displayData.description = const_cast<wchar_t*>(L"OpenVPN");
 	  subLayer.flags = 0;
 	  subLayer.weight = 0x100;
 
@@ -80,7 +151,7 @@ namespace openvpn {
 
 	// Prepare filter
 	filter.subLayerKey = subLayerGUID;
-	filter.displayData.name = L"OpenVPN";
+	filter.displayData.name = const_cast<wchar_t*>(L"OpenVPN");
 	filter.weight.type = FWP_UINT8;
 	filter.weight.uint8 = 0xF;
 	filter.filterCondition = condition;

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,8 +31,14 @@
 
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/string.hpp>
+#include <openvpn/common/file.hpp>
 #include <openvpn/common/split.hpp>
 #include <openvpn/common/unicode.hpp>
+#include <openvpn/common/jsonlib.hpp>
+
+#ifdef HAVE_JSON
+#include <openvpn/common/jsonhelper.hpp>
+#endif
 
 namespace openvpn {
   namespace PeerInfo {
@@ -89,6 +95,25 @@ namespace openvpn {
 	return new Set(*this);
       }
 
+      // src may be comma-separated key=value pairs or @filename, where
+      // filename contains a JSON dictionary of key/value pairs.
+      template <typename SET>
+      static void parse_flexible(const std::string& src, SET& dest)
+      {
+	if (src.length() >= 1 && src[0] == '@')
+	  {
+	    const std::string fn = src.substr(1);
+#ifdef OPENVPN_JSON_INTERNAL
+	    const Json::Value root = json::parse_from_file(fn);
+	    parse_json(root, dest, fn);
+#else
+	    OPENVPN_THROW(peer_info_error, fn << ": JSON library not available");
+#endif
+	  }
+	else
+	  parse_csv(src, dest);
+      }
+
       // Parse src in the form K1=V1,K2=V2,...
       template <typename SET>
       static void parse_csv(const std::string& src, SET& dest)
@@ -108,6 +133,23 @@ namespace openvpn {
 	      }
 	  }
       }
+
+#ifdef OPENVPN_JSON_INTERNAL
+      template <typename SET>
+      static void parse_json(const Json::Value& src, SET& dest, const std::string& title)
+      {
+	if (!src.isObject())
+	  OPENVPN_THROW(peer_info_error, title << ": top level JSON object must be a dictionary");
+	auto m = src.map();
+	for (auto &e : m)
+	  {
+	    if (e.second.isString())
+	      dest.emplace_back(e.first, e.second.asStringRef());
+	    else
+	      dest.emplace_back(e.first, e.second.toCompactString());
+	  }
+      }
+#endif
 
       std::string to_string() const
       {

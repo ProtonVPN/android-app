@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  * Copyright 2005 Nokia. All rights reserved.
  *
@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <openssl/objects.h>
 #include "internal/nelem.h"
-#include "ssl_locl.h"
+#include "ssl_local.h"
 #include <openssl/md5.h>
 #include <openssl/dh.h>
 #include <openssl/rand.h>
@@ -3567,6 +3567,7 @@ long ssl3_ctrl(SSL *s, int cmd, long larg, void *parg)
 
     case SSL_CTRL_GET_CHAIN_CERTS:
         *(STACK_OF(X509) **)parg = s->cert->key->chain;
+        ret = 1;
         break;
 
     case SSL_CTRL_SELECT_CURRENT_CERT:
@@ -3601,8 +3602,8 @@ long ssl3_ctrl(SSL *s, int cmd, long larg, void *parg)
 
             if (!s->session)
                 return 0;
-            clist = s->session->ext.supportedgroups;
-            clistlen = s->session->ext.supportedgroups_len;
+            clist = s->ext.peer_supportedgroups;
+            clistlen = s->ext.peer_supportedgroups_len;
             if (parg) {
                 size_t i;
                 int *cptr = parg;
@@ -3716,13 +3717,12 @@ long ssl3_ctrl(SSL *s, int cmd, long larg, void *parg)
 #ifndef OPENSSL_NO_EC
     case SSL_CTRL_GET_EC_POINT_FORMATS:
         {
-            SSL_SESSION *sess = s->session;
             const unsigned char **pformat = parg;
 
-            if (sess == NULL || sess->ext.ecpointformats == NULL)
+            if (s->ext.peer_ecpointformats == NULL)
                 return 0;
-            *pformat = sess->ext.ecpointformats;
-            return (int)sess->ext.ecpointformats_len;
+            *pformat = s->ext.peer_ecpointformats;
+            return (int)s->ext.peer_ecpointformats_len;
         }
 #endif
 
@@ -4639,7 +4639,7 @@ int ssl_generate_master_secret(SSL *s, unsigned char *pms, size_t pmslen,
         OPENSSL_clear_free(s->s3->tmp.psk, psklen);
         s->s3->tmp.psk = NULL;
         if (!s->method->ssl3_enc->generate_master_secret(s,
-                    s->session->master_key,pskpms, pskpmslen,
+                    s->session->master_key, pskpms, pskpmslen,
                     &s->session->master_key_length)) {
             OPENSSL_clear_free(pskpms, pskpmslen);
             /* SSLfatal() already called */

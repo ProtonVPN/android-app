@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -55,6 +55,7 @@ namespace openvpn {
       PAUSE,
       RESUME,
       RELAY,
+      COMPRESSION_ENABLED,
       UNSUPPORTED_FEATURE,
 
       // start of nonfatal errors, must be marked by NONFATAL_ERROR_START below
@@ -68,6 +69,7 @@ namespace openvpn {
       TLS_VERSION_MIN,
       CLIENT_HALT,
       CLIENT_SETUP,
+      TUN_HALT,
       CONNECTION_TIMEOUT,
       INACTIVE_TIMEOUT,
       DYNAMIC_CHALLENGE,
@@ -108,6 +110,7 @@ namespace openvpn {
 	"PAUSE",
 	"RESUME",
 	"RELAY",
+	"COMPRESSION_ENABLED",
 	"UNSUPPORTED_FEATURE",
 
 	// nonfatal errors
@@ -121,6 +124,7 @@ namespace openvpn {
 	"TLS_VERSION_MIN",
 	"CLIENT_HALT",
 	"CLIENT_SETUP",
+	"TUN_HALT",
 	"CONNECTION_TIMEOUT",
 	"INACTIVE_TIMEOUT",
 	"DYNAMIC_CHALLENGE",
@@ -361,6 +365,11 @@ namespace openvpn {
       ClientRestart(std::string reason) : ReasonBase(CLIENT_RESTART, std::move(reason)) {}
     };
 
+    struct TunHalt : public ReasonBase
+    {
+      TunHalt(std::string reason) : ReasonBase(TUN_HALT, std::move(reason)) {}
+    };
+
     struct RelayError : public ReasonBase
     {
       RelayError(std::string reason) : ReasonBase(RELAY_ERROR, std::move(reason)) {}
@@ -454,6 +463,14 @@ namespace openvpn {
 	ret += message;
 	return ret;
       }
+    };
+
+    struct CompressionEnabled : public ReasonBase
+    {
+       CompressionEnabled(std::string msg)
+         : ReasonBase(COMPRESSION_ENABLED, std::move(msg))
+       {
+       }
     };
 
     class Queue : public RC<thread_unsafe_refcount>

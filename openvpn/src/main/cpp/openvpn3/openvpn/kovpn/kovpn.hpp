@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2018 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,8 +21,7 @@
 
 // OpenVPN 3 wrapper for kovpn
 
-#ifndef OPENVPN_KOVPN_KOVPN_HPP
-#define OPENVPN_KOVPN_KOVPN_HPP
+#pragma once
 
 // Not including this file causes redefinition errors
 // when the sys/ and linux/ headers below are included
@@ -32,7 +31,7 @@
 #include <sys/socket.h>
 
 extern "C" {
+#include <linux/types.h>
+#include <uapi/ovpn/shim.h> // for OVPN_SHIM_MAX
 #include <kovpn/kovpn.h>
 }
-
-#endif

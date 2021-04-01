@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,12 +27,18 @@
 
 #include <string>
 #include <cstring>
+#include <cstdint>
 #include <sstream>
 #include <utility>
 
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 #include <openssl/rsa.h>
+#include <openssl/dsa.h>
+#include <openssl/ec.h>
+#include <openssl/bn.h>
+#include <openssl/rand.h>
+#include <openssl/evp.h>
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
@@ -43,6 +49,7 @@
 #include <openvpn/common/uniqueptr.hpp>
 #include <openvpn/common/hexstr.hpp>
 #include <openvpn/common/to_string.hpp>
+#include <openvpn/common/unicode.hpp>
 #include <openvpn/frame/frame.hpp>
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/pki/cclist.hpp>
@@ -51,16 +58,28 @@
 #include <openvpn/ssl/nscert.hpp>
 #include <openvpn/ssl/tlsver.hpp>
 #include <openvpn/ssl/tls_remote.hpp>
+#include <openvpn/ssl/verify_x509_name.hpp>
 #include <openvpn/ssl/sslconsts.hpp>
 #include <openvpn/ssl/sslapi.hpp>
 #include <openvpn/ssl/ssllog.hpp>
+#include <openvpn/ssl/sni_handler.hpp>
+#include <openvpn/ssl/iana_ciphers.hpp>
 #include <openvpn/openssl/util/error.hpp>
+#include <openvpn/openssl/pki/extpki.hpp>
 #include <openvpn/openssl/pki/x509.hpp>
 #include <openvpn/openssl/pki/crl.hpp>
 #include <openvpn/openssl/pki/pkey.hpp>
 #include <openvpn/openssl/pki/dh.hpp>
 #include <openvpn/openssl/pki/x509store.hpp>
+#include <openvpn/openssl/pki/x509certinfo.hpp>
 #include <openvpn/openssl/bio/bio_memq_stream.hpp>
+#include <openvpn/openssl/ssl/sess_cache.hpp>
+#include <openvpn/openssl/ssl/tlsver.hpp>
+
+
+#ifdef HAVE_JSON
+#include <openvpn/common/jsonhelper.hpp>
+#endif
 
 // An SSL Context is essentially a configuration that can be used
 // to generate an arbitrary number of actual SSL connections objects.
@@ -90,229 +109,251 @@ namespace openvpn {
     public:
       typedef RCPtr<Config> Ptr;
 
-      Config() : external_pki(nullptr),
-		 ssl_debug_level(0),
-		 flags(0),
-		 ns_cert_type(NSCert::NONE),
-		 tls_version_min(TLSVersion::UNDEF),
-		 tls_cert_profile(TLSCertProfile::UNDEF),
-		 local_cert_enabled(true),
-		 force_aes_cbc_ciphersuites(false),
-		 enable_renegotiation(false) {}
-
-      virtual SSLFactoryAPI::Ptr new_factory()
+      SSLFactoryAPI::Ptr new_factory() override
       {
 	return SSLFactoryAPI::Ptr(new OpenSSLContext(this));
       }
 
-      virtual void set_mode(const Mode& mode_arg)
+      void set_mode(const Mode& mode_arg) override
       {
 	mode = mode_arg;
       }
 
-      virtual const Mode& get_mode() const
+      const Mode& get_mode() const override
       {
 	return mode;
       }
 
       // if this callback is defined, no private key needs to be loaded
-      virtual void set_external_pki_callback(ExternalPKIBase* external_pki_arg)
+      void set_external_pki_callback(ExternalPKIBase* external_pki_arg) override
       {
 	external_pki = external_pki_arg;
       }
 
-      virtual void set_private_key_password(const std::string& pwd)
+      // server side
+      void set_session_ticket_handler(TLSSessionTicketBase* session_ticket_handler_arg) override
+      {
+	session_ticket_handler = session_ticket_handler_arg;
+      }
+
+      // client side
+      void set_client_session_tickets(const bool v) override
+      {
+	client_session_tickets = v;
+      }
+
+      // server side
+      void set_sni_handler(SNI::HandlerBase* sni_handler_arg) override
+      {
+	sni_handler = sni_handler_arg;
+      }
+
+      // client side
+      void set_sni_name(const std::string& sni_name_arg) override
+      {
+	sni_name = sni_name_arg;
+      }
+
+      void set_private_key_password(const std::string& pwd) override
       {
 	pkey.set_private_key_password(pwd);
       }
 
-      virtual void load_ca(const std::string& ca_txt, bool strict)
+      void load_ca(const std::string& ca_txt, bool strict) override
       {
 	ca.parse_pem(ca_txt, "ca");
       }
 
-      virtual void load_crl(const std::string& crl_txt)
+      void load_crl(const std::string& crl_txt) override
       {
 	ca.parse_pem(crl_txt, "crl");
       }
 
-      virtual void load_cert(const std::string& cert_txt)
+      void load_cert(const std::string& cert_txt) override
       {
 	cert.parse_pem(cert_txt, "cert");
       }
 
-      virtual void load_cert(const std::string& cert_txt, const std::string& extra_certs_txt)
+      void load_cert(const std::string& cert_txt, const std::string& extra_certs_txt) override
       {
 	load_cert(cert_txt);
 	if (!extra_certs_txt.empty())
 	  CertCRLList::from_string(extra_certs_txt, "extra-certs", &extra_certs, nullptr);
       }
 
-      virtual void load_private_key(const std::string& key_txt)
+      void load_private_key(const std::string& key_txt) override
       {
 	pkey.parse_pem(key_txt, "private key");
       }
 
-      virtual void load_dh(const std::string& dh_txt)
+      void load_dh(const std::string& dh_txt) override
       {
 	dh.parse_pem(dh_txt);
       }
 
-      virtual std::string extract_ca() const
+      std::string extract_ca() const override
       {
 	return ca.certs.render_pem();
       }
 
-      virtual std::string extract_crl() const
+      std::string extract_crl() const override
       {
 	return ca.crls.render_pem();
       }
 
-      virtual std::string extract_cert() const
+      std::string extract_cert() const override
       {
 	return cert.render_pem();
       }
 
-      virtual std::vector<std::string> extract_extra_certs() const
+      std::vector<std::string> extract_extra_certs() const override
       {
 	std::vector<std::string> ret;
 
 	for (auto const& cert : extra_certs)
-	  ret.push_back(cert->render_pem());
+	  ret.push_back(cert.render_pem());
 
 	return ret;
       }
 
-      virtual std::string extract_private_key() const
+      std::string extract_private_key() const override
       {
 	return pkey.render_pem();
       }
 
-      virtual std::string extract_dh() const
+      std::string extract_dh() const override
       {
 	return dh.render_pem();
       }
 
-      virtual PKType private_key_type() const
+      PKType::Type private_key_type() const override
       {
 	if (!pkey.defined())
-	  return PK_NONE;
+	  return PKType::PK_NONE;
 	return pkey.key_type();
       }
 
-      virtual size_t private_key_length() const
+      size_t private_key_length() const override
       {
 	return pkey.key_length();
       }
 
-      virtual void set_frame(const Frame::Ptr& frame_arg)
+      void set_frame(const Frame::Ptr& frame_arg) override
       {
 	frame = frame_arg;
       }
 
-      virtual void set_debug_level(const int debug_level)
+      void set_debug_level(const int debug_level) override
       {
 	ssl_debug_level = debug_level;
       }
 
-      virtual void set_flags(const unsigned int flags_arg)
+      void set_flags(const unsigned int flags_arg) override
       {
 	flags = flags_arg;
       }
 
-      virtual void set_ns_cert_type(const NSCert::Type ns_cert_type_arg)
+      void set_ns_cert_type(const NSCert::Type ns_cert_type_arg) override
       {
 	ns_cert_type = ns_cert_type_arg;
       }
 
-      virtual void set_remote_cert_tls(const KUParse::TLSWebType wt)
+      void set_remote_cert_tls(const KUParse::TLSWebType wt) override
       {
 	KUParse::remote_cert_tls(wt, ku, eku);
       }
 
-      virtual void set_tls_remote(const std::string& tls_remote_arg)
+      void set_tls_remote(const std::string& tls_remote_arg) override
       {
 	tls_remote = tls_remote_arg;
       }
 
-      virtual void set_tls_version_min(const TLSVersion::Type tvm)
+      void set_tls_version_min(const TLSVersion::Type tvm) override
       {
 	tls_version_min = tvm;
       }
 
-      virtual void set_tls_version_min_override(const std::string& override)
+      void set_tls_version_min_override(const std::string& override) override
       {
 	TLSVersion::apply_override(tls_version_min, override);
       }
 
-      virtual void set_tls_cert_profile(const TLSCertProfile::Type type)
+      void set_tls_cert_profile(const TLSCertProfile::Type type) override
       {
 	tls_cert_profile = type;
       }
 
-      virtual void set_tls_cert_profile_override(const std::string& override)
+      void set_tls_cert_profile_override(const std::string& override) override
       {
 	TLSCertProfile::apply_override(tls_cert_profile, override);
       }
 
-      virtual void set_local_cert_enabled(const bool v)
+      virtual void set_tls_cipher_list(const std::string& override)
+      {
+	if(!override.empty())
+	  tls_cipher_list = override;
+      }
+
+      virtual void set_tls_ciphersuite_list(const std::string& override)
+      {
+	if(!override.empty())
+	  tls_ciphersuite_list = override;
+      }
+
+      virtual void set_tls_groups(const std::string& groups)
+      {
+        if (!groups.empty())
+          tls_groups = groups;
+      }
+
+      void set_local_cert_enabled(const bool v) override
       {
 	local_cert_enabled = v;
       }
 
-      virtual void set_enable_renegotiation(const bool v)
-      {
-	enable_renegotiation = v;
-      }
-
-      virtual void set_force_aes_cbc_ciphersuites(const bool v)
-      {
-	force_aes_cbc_ciphersuites = v;
-      }
-
-      virtual void set_x509_track(X509Track::ConfigSet x509_track_config_arg)
+      void set_x509_track(X509Track::ConfigSet x509_track_config_arg) override
       {
 	x509_track_config = std::move(x509_track_config_arg);
       }
 
-      virtual void set_rng(const RandomAPI::Ptr& rng_arg)
+      void set_rng(const RandomAPI::Ptr& rng_arg) override
       {
 	// Not implemented (other than assert_crypto check)
 	// because OpenSSL is hardcoded to use its own RNG.
 	rng_arg->assert_crypto();
       }
 
-      virtual std::string validate_cert(const std::string& cert_txt) const
+      std::string validate_cert(const std::string& cert_txt) const override
       {
 	OpenSSLPKI::X509 cert(cert_txt, "cert");
 	return cert.render_pem();
       }
 
-      virtual std::string validate_cert_list(const std::string& certs_txt) const
+      std::string validate_cert_list(const std::string& certs_txt) const override
       {
 	CertCRLList certs(certs_txt, "cert list");
 	return certs.render_pem();
       }
 
-      virtual std::string validate_private_key(const std::string& key_txt) const
+      std::string validate_private_key(const std::string& key_txt) const override
       {
 	OpenSSLPKI::PKey pkey(key_txt, "private key");
 	return pkey.render_pem();
       }
 
-      virtual std::string validate_dh(const std::string& dh_txt) const
+      std::string validate_dh(const std::string& dh_txt) const override
       {
 	OpenSSLPKI::DH dh(dh_txt);
 	return dh.render_pem();
       }
 
-      virtual std::string validate_crl(const std::string& crl_txt) const
+      std::string validate_crl(const std::string& crl_txt) const override
       {
 	OpenSSLPKI::CRL crl(crl_txt);
 	return crl.render_pem();
       }
 
-      virtual void load(const OptionList& opt, const unsigned int lflags)
+      void load(const OptionList& opt, const unsigned int lflags) override
       {
 	// client/server
 	if (lflags & LF_PARSE_MODE)
@@ -322,6 +363,13 @@ namespace openvpn {
 	if ((lflags & LF_ALLOW_CLIENT_CERT_NOT_REQUIRED)
 	    && opt.exists("client-cert-not-required"))
 	  flags |= SSLConst::NO_VERIFY_PEER;
+
+	// sni
+	{
+	  const std::string name = opt.get_optional("sni", 1, 256);
+	  if (!name.empty())
+	    set_sni_name(name);
+	}
 
 	// ca
 	{
@@ -379,49 +427,173 @@ namespace openvpn {
 	// parse tls-remote
 	tls_remote = opt.get_optional(relay_prefix + "tls-remote", 1, 256);
 
+	// parse verify-x509-name
+	verify_x509_name.init(opt, relay_prefix);
+
 	// Parse tls-version-min option.
-	// Assume that presence of SSL_OP_NO_TLSvX macro indicates
-	// that local OpenSSL library implements TLSvX.
-	{
-#         if defined(SSL_OP_NO_TLSv1_2)
-	    const TLSVersion::Type maxver = TLSVersion::V1_2;
-#         elif defined(SSL_OP_NO_TLSv1_1)
-	    const TLSVersion::Type maxver = TLSVersion::V1_1;
-#         else
-            const TLSVersion::Type maxver = TLSVersion::V1_0;
-#         endif
-	  tls_version_min = TLSVersion::parse_tls_version_min(opt, relay_prefix, maxver);
-	}
+	tls_version_min = TLSVersion::parse_tls_version_min(opt, relay_prefix, maxver());
 
 	// parse tls-cert-profile
 	tls_cert_profile = TLSCertProfile::parse_tls_cert_profile(opt, relay_prefix);
+
+	// Overrides for tls cipher suites
+	if (opt.exists("tls-cipher"))
+	  tls_cipher_list = opt.get_optional("tls-cipher", 1, 256);
+
+	if (opt.exists("tls-ciphersuites"))
+	  tls_ciphersuite_list = opt.get_optional("tls-ciphersuites", 1, 256);
+
+	if (opt.exists("tls-groups"))
+	  tls_groups = opt.get_optional("tls-groups", 1, 256);
 
 	// unsupported cert checkers
 	{
 	}
       }
 
+#ifdef OPENVPN_JSON_INTERNAL
+      // The get_string_ref methods require internal JSON and do not work with jsoncpp
+      SSLConfigAPI::Ptr json_override(const Json::Value& root, const bool load_cert_key) const override
+      {
+	static const char title[] = "json_override";
+
+	Config::Ptr ret(new Config);
+
+	// inherit from self
+	ret->mode = mode;
+	ret->dh = dh;
+	ret->frame = frame;
+	ret->ssl_debug_level = ssl_debug_level;
+	ret->flags = flags;
+	ret->local_cert_enabled = local_cert_enabled;
+
+	// ca
+	{
+	  const std::string& ca_txt = json::get_string_ref(root, "ca", title);
+	  ret->load_ca(ca_txt, true);
+	}
+
+	// CRL
+	{
+	  const std::string crl_txt = json::get_string_optional(root, "crl_verify", std::string(), title);
+	  if (!crl_txt.empty())
+	    ret->load_crl(crl_txt);
+	}
+
+	// cert/key
+	if (load_cert_key && local_cert_enabled)
+	  {
+	    bool loaded_cert = false;
+
+	    // cert/extra_certs
+	    {
+	      const std::string cert_txt = json::get_string_optional(root, "cert", std::string(), title);
+	      if (!cert_txt.empty())
+		{
+		  const std::string ec_txt = json::get_string_optional(root, "extra_certs", std::string(), title);
+		  ret->load_cert(cert_txt, ec_txt);
+		  loaded_cert = true;
+		}
+	      else
+		{
+		  ret->cert = cert;
+		  ret->extra_certs = extra_certs;
+		}
+	    }
+
+	    // private key
+	    if (loaded_cert && !external_pki)
+	      {
+		const std::string& key_txt = json::get_string_ref(root, "key", title);
+		if (!key_txt.empty())
+		  ret->load_private_key(key_txt);
+		else
+		  ret->pkey = pkey;
+	      }
+	  }
+	else
+	  {
+	    // inherit from self
+	    ret->cert = cert;
+	    ret->extra_certs = extra_certs;
+	    ret->pkey = pkey;
+	  }
+
+	// ns_cert_type
+	{
+	  const std::string ct = json::get_string_optional(root, "ns_cert_type", std::string(), title);
+	  if (!ct.empty())
+	    ret->ns_cert_type = NSCert::ns_cert_type(ct);
+	}
+
+	// ku, eku
+	{
+	  const std::string ct = json::get_string_optional(root, "remote_cert_tls", std::string(), title);
+	  if (!ct.empty())
+	    KUParse::remote_cert_tls(ct, ret->ku, ret->eku);
+	}
+
+	// tls_version_min
+	{
+	  const std::string tvm = json::get_string_optional(root, "tls_version_min", std::string(), title);
+	  if (!tvm.empty())
+	    ret->tls_version_min = TLSVersion::parse_tls_version_min(tvm, false, maxver());
+	}
+
+	// tls_cert_profile
+	{
+	  const std::string prof = json::get_string_optional(root, "tls_cert_profile", std::string(), title);
+	  if (!prof.empty())
+	    ret->tls_cert_profile = TLSCertProfile::parse_tls_cert_profile(prof);
+	}
+
+	return ret;
+      }
+#endif
+
     private:
+      static TLSVersion::Type maxver()
+      {
+	// Return maximum TLS version supported by OpenSSL.
+	// Assume that presence of SSL_OP_NO_TLSvX macro indicates
+	// that local OpenSSL library implements TLSvX.
+#if defined(SSL_OP_NO_TLSv1_3)
+	return TLSVersion::V1_3;
+#elif defined(SSL_OP_NO_TLSv1_2)
+	return TLSVersion::V1_2;
+#elif defined(SSL_OP_NO_TLSv1_1)
+	return TLSVersion::V1_1;
+#else
+	return TLSVersion::V1_0;
+#endif
+      }
+
       Mode mode;
       CertCRLList ca;                   // from OpenVPN "ca" and "crl-verify" option
       OpenSSLPKI::X509 cert;            // from OpenVPN "cert" option
       OpenSSLPKI::X509List extra_certs; // from OpenVPN "extra-certs" option
       OpenSSLPKI::PKey pkey;            // private key
       OpenSSLPKI::DH dh;                // diffie-hellman parameters (only needed in server mode)
-      ExternalPKIBase* external_pki;
+      ExternalPKIBase* external_pki = nullptr;
+      TLSSessionTicketBase* session_ticket_handler = nullptr; // server side only
+      SNI::HandlerBase* sni_handler = nullptr; // server side only
       Frame::Ptr frame;
-      int ssl_debug_level;
-      unsigned int flags;           // defined in sslconsts.hpp
-      NSCert::Type ns_cert_type;
+      int ssl_debug_level = 0;
+      unsigned int flags = 0;           // defined in sslconsts.hpp
+      std::string sni_name;             // client side only
+      NSCert::Type ns_cert_type{NSCert::NONE};
       std::vector<unsigned int> ku; // if defined, peer cert X509 key usage must match one of these values
       std::string eku;              // if defined, peer cert X509 extended key usage must match this OID/string
       std::string tls_remote;
-      TLSVersion::Type tls_version_min; // minimum TLS version that we will negotiate
-      TLSCertProfile::Type tls_cert_profile;
+      VerifyX509Name verify_x509_name;   // --verify-x509-name feature
+      TLSVersion::Type tls_version_min{TLSVersion::UNDEF}; // minimum TLS version that we will negotiate
+      TLSCertProfile::Type tls_cert_profile{TLSCertProfile::UNDEF};
+      std::string tls_cipher_list;
+      std::string tls_ciphersuite_list;
+      std::string tls_groups;
       X509Track::ConfigSet x509_track_config;
-      bool local_cert_enabled;
-      bool force_aes_cbc_ciphersuites;
-      bool enable_renegotiation;
+      bool local_cert_enabled = true;
+      bool client_session_tickets = false;
     };
 
     // Represents an actual SSL session.
@@ -433,12 +605,12 @@ namespace openvpn {
     public:
       typedef RCPtr<SSL> Ptr;
 
-      virtual void start_handshake()
+      void start_handshake() override
       {
 	SSL_do_handshake(ssl);
       }
 
-      virtual ssize_t write_cleartext_unbuffered(const void *data, const size_t size)
+      ssize_t write_cleartext_unbuffered(const void *data, const size_t size) override
       {
 	const int status = BIO_write(ssl_bio, data, size);
 	if (status < 0)
@@ -446,13 +618,16 @@ namespace openvpn {
 	    if (status == -1 && BIO_should_retry(ssl_bio))
 	      return SSLConst::SHOULD_RETRY;
 	    else
-	      OPENVPN_THROW(OpenSSLException, "OpenSSLContext::SSL::write_cleartext: BIO_write failed, size=" << size << " status=" << status);
+	      {
+		mark_no_cache();
+		OPENVPN_THROW(OpenSSLException, "OpenSSLContext::SSL::write_cleartext: BIO_write failed, size=" << size << " status=" << status);
+	      }
 	  }
 	else
 	  return status;
       }
 
-      virtual ssize_t read_cleartext(void *data, const size_t capacity)
+      ssize_t read_cleartext(void *data, const size_t capacity) override
       {
 	if (!overflow)
 	  {
@@ -462,7 +637,10 @@ namespace openvpn {
 		if (status == -1 && BIO_should_retry(ssl_bio))
 		  return SSLConst::SHOULD_RETRY;
 		else
-		  OPENVPN_THROW(OpenSSLException, "OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=" << capacity << " status=" << status);
+		  {
+		    mark_no_cache();
+		    OPENVPN_THROW(OpenSSLException, "OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=" << capacity << " status=" << status);
+		  }
 	      }
 	    else
 	      return status;
@@ -471,12 +649,12 @@ namespace openvpn {
 	  throw ssl_ciphertext_in_overflow();
       }
 
-      virtual bool read_cleartext_ready() const
+      bool read_cleartext_ready() const override
       {
 	return !bmq_stream::memq_from_bio(ct_in)->empty() || SSL_pending(ssl) > 0;
       }
 
-      virtual void write_ciphertext(const BufferPtr& buf)
+      void write_ciphertext(const BufferPtr& buf) override
       {
 	bmq_stream::MemQ* in = bmq_stream::memq_from_bio(ct_in);
 	if (in->size() < MAX_CIPHERTEXT_IN)
@@ -485,7 +663,7 @@ namespace openvpn {
 	  overflow = true;
       }
 
-      virtual void write_ciphertext_unbuffered(const unsigned char *data, const size_t size)
+      void write_ciphertext_unbuffered(const unsigned char *data, const size_t size) override
       {
 	bmq_stream::MemQ* in = bmq_stream::memq_from_bio(ct_in);
 	if (in->size() < MAX_CIPHERTEXT_IN)
@@ -494,24 +672,49 @@ namespace openvpn {
 	  overflow = true;
       }
 
-      virtual bool read_ciphertext_ready() const
+      bool read_ciphertext_ready() const override
       {
 	return !bmq_stream::memq_from_bio(ct_out)->empty();
       }
 
-      virtual BufferPtr read_ciphertext()
+      BufferPtr read_ciphertext() override
       {
 	return bmq_stream::memq_from_bio(ct_out)->read_buf();
       }
 
-      virtual std::string ssl_handshake_details() const
+      std::string ssl_handshake_details() const override
       {
 	return ssl_handshake_details(ssl);
       }
 
-      virtual const AuthCert::Ptr& auth_cert() const
+      virtual bool export_keying_material(const std::string& label, unsigned char *dest, size_t size) override
       {
+         return SSL_export_keying_material(ssl, dest, size, label.c_str(), label.size(), nullptr, 0, 0) == 1;
+      }
+
+      // Return true if we did a full SSL handshake/negotiation.
+      // Return false for cached, reused, or persisted sessions.
+      // Also returns false if previously called on this session.
+      virtual bool did_full_handshake() override
+      {
+	if (called_did_full_handshake)
+	  return false;
+	called_did_full_handshake = true;
+	return !SSL_session_reused(ssl);
+      }
+
+      const AuthCert::Ptr& auth_cert() const override
+      {
+	// Reused sessions don't call the cert verify callbacks,
+	// so we must use an alternative method to build authcert.
+	if (authcert && authcert->is_uninitialized())
+	  rebuild_authcert();
 	return authcert;
+      }
+
+      void mark_no_cache() override
+      {
+	sess_cache_key.reset();
       }
 
       ~SSL()
@@ -521,9 +724,13 @@ namespace openvpn {
 
       static void init_static()
       {
-	SSL_library_init();
+	bmq_stream::init_static();
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(OPENSSL_NO_EC)
+	ExternalPKIECImpl::init_static();
+#endif
 
-	mydata_index = SSL_get_ex_new_index(0, (char *)"OpenSSLContext::SSL", nullptr, nullptr, nullptr);
+
+	ssl_data_index = SSL_get_ex_new_index(0, (char *)"OpenSSLContext::SSL", nullptr, nullptr, nullptr);
 	context_data_index = SSL_get_ex_new_index(0, (char *)"OpenSSLContext", nullptr, nullptr, nullptr);
 
 	/*
@@ -536,13 +743,11 @@ namespace openvpn {
 	 *
 	 * This depends on SSL23 being a generic method and OpenSSL later
 	 * switching to a spefic TLS method (TLS10method etc..) with
-	 * ssl23_get_client_method that has the proper ssl3_pending pending
-	 * method.
+	 * ssl23_get_client_method that has the proper ssl3_pending pending method.
 	 *
-	 * OpenSSL 1.1.x does not allow hacks like this anymore. So overriding
-	 * is not possible. Fortunately OpenSSL 1.1 also always defines
-	 * ssl_pending method to be ssl3_pending, so this hack is no
-	 * longer needed.
+	 * OpenSSL 1.1.x does not allow hacks like this anymore. So overriding is not
+	 * possible. Fortunately OpenSSL 1.1 also always defines ssl_pending method to
+	 * be ssl3_pending, so this hack is no longer needed.
 	 */
 
 #if OPENSSL_VERSION_NUMBER < 0x10100000L
@@ -555,7 +760,7 @@ namespace openvpn {
       }
 
     private:
-      SSL(const OpenSSLContext& ctx, const char *hostname)
+      SSL(const OpenSSLContext& ctx, const std::string* hostname, const std::string* cache_key)
       {
 	ssl_clear();
 	try {
@@ -568,11 +773,11 @@ namespace openvpn {
 	  SSL_set_mode(ssl, SSL_MODE_RELEASE_BUFFERS);
 
 	  // verify hostname
-	  if (hostname)
+	  if (hostname && !(ctx.config->flags & SSLConst::NO_VERIFY_HOSTNAME))
 	    {
 	      X509_VERIFY_PARAM *param = SSL_get0_param(ssl);
 	      X509_VERIFY_PARAM_set_hostflags(param, 0);
-	      X509_VERIFY_PARAM_set1_host(param, hostname, 0);
+	      X509_VERIFY_PARAM_set1_host(param, hostname->c_str(), 0);
 	    }
 
 	  // init BIOs
@@ -592,10 +797,30 @@ namespace openvpn {
 	    }
 	  else if (ctx.config->mode.is_client())
 	    {
+	      if (cache_key && ctx.sess_cache)
+		{
+		  // see if a cached session already exists for our cache_key
+		  ctx.sess_cache->extract(*cache_key, [this](SSL_SESSION* sess) {
+		      if (!SSL_set_session(ssl, sess))
+			throw OpenSSLException("SSL_set_session failed");
+		    });
+
+		  // cache the session before its end-of-life if no errors occur
+		  sess_cache_key.reset(new OpenSSLSessionCache::Key(*cache_key, ctx.sess_cache));
+		}
 	      SSL_set_connect_state(ssl);
-	      if (ctx.config->flags & SSLConst::ENABLE_SNI)
-		if (SSL_set_tlsext_host_name(ssl, hostname) != 1)
-		  throw OpenSSLException("OpenSSLContext::SSL: SSL_set_tlsext_host_name failed");
+
+	      // client-side SNI
+	      if (!ctx.config->sni_name.empty())
+		{
+		  if (SSL_set_tlsext_host_name(ssl, ctx.config->sni_name.c_str()) != 1)
+		    throw OpenSSLException("OpenSSLContext::SSL: SSL_set_tlsext_host_name failed (sni_name)");
+		}
+	      else if ((ctx.config->flags & SSLConst::ENABLE_CLIENT_SNI) && hostname)
+		{
+		  if (SSL_set_tlsext_host_name(ssl, hostname->c_str()) != 1)
+		    throw OpenSSLException("OpenSSLContext::SSL: SSL_set_tlsext_host_name failed (hostname)");
+		}
 	    }
 	  else
 	    OPENVPN_THROW(ssl_context_error, "OpenSSLContext::SSL: unknown client/server mode");
@@ -605,17 +830,44 @@ namespace openvpn {
 	  SSL_set_bio (ssl, ct_in, ct_out);
 	  BIO_set_ssl (ssl_bio, ssl, BIO_NOCLOSE);
 
-	  if (mydata_index < 0)
-	    throw ssl_context_error("OpenSSLContext::SSL: mydata_index is uninitialized");
-	  if (context_data_index < 0)
-	    throw ssl_context_error("OpenSSLContext::SSL: context_data_index is uninitialized");
-	  SSL_set_ex_data (ssl, mydata_index, this);
-	  SSL_set_ex_data (ssl, context_data_index, (void*) &ctx);
+	  if (ssl_data_index < 0)
+	    throw ssl_context_error("OpenSSLContext::SSL: ssl_data_index is uninitialized");
+	  SSL_set_ex_data (ssl, ssl_data_index, this);
+	  set_parent(&ctx);
 	}
 	catch (...)
 	  {
 	    ssl_erase();
 	    throw;
+	  }
+      }
+
+      void set_parent(const OpenSSLContext* ctx)
+      {
+	if (context_data_index < 0)
+	  throw ssl_context_error("OpenSSLContext::SSL: context_data_index is uninitialized");
+	SSL_set_ex_data(ssl, context_data_index, (void *)ctx);
+      }
+
+      void rebuild_authcert() const
+      {
+	::X509 *cert = SSL_get_peer_certificate(ssl);
+	if (cert)
+	  {
+	    // save the issuer cert fingerprint
+	    static_assert(sizeof(AuthCert::issuer_fp) == SHA_DIGEST_LENGTH, "size inconsistency");
+
+	    unsigned int md_len = sizeof(AuthCert::issuer_fp);
+	    X509_digest (cert, EVP_sha1 (), authcert->issuer_fp, &md_len);
+
+	    // save the Common Name
+	    authcert->cn = OpenSSLPKI::x509_get_field(cert, NID_commonName);
+
+	    // save the leaf cert serial number
+	    const ASN1_INTEGER *ai = X509_get_serialNumber(cert);
+	    authcert->sn = extract_serial_number(ai);
+
+	    X509_free (cert);
 	  }
       }
 
@@ -630,25 +882,79 @@ namespace openvpn {
       {
 	std::ostringstream os;
 
-	const SSL_CIPHER *ciph = SSL_get_current_cipher (c_ssl);
-	os << SSL_get_version (c_ssl) << ", cipher " << SSL_CIPHER_get_version (ciph) << ' ' << SSL_CIPHER_get_name (ciph);
-
 	::X509 *cert = SSL_get_peer_certificate (c_ssl);
+
+	if (cert)
+	  os << "peer certificate: CN=" << OpenSSLPKI::x509_get_field(cert, NID_commonName);
+
 	if (cert != nullptr)
 	  {
 	    EVP_PKEY *pkey = X509_get_pubkey (cert);
 	    if (pkey != nullptr)
 	      {
-		if (EVP_PKEY_id(pkey) == EVP_PKEY_RSA && EVP_PKEY_get0_RSA(pkey) != nullptr && RSA_get0_n(EVP_PKEY_get0_RSA(pkey)) != nullptr)
-		  os << ", " << BN_num_bits (RSA_get0_n(EVP_PKEY_get0_RSA(pkey))) << " bit RSA";
-#ifndef OPENSSL_NO_DSA
-		else if (EVP_PKEY_id(pkey) == EVP_PKEY_DSA && EVP_PKEY_get0_DSA(pkey) != nullptr && DSA_get0_p(EVP_PKEY_get0_DSA(pkey))!= nullptr)
-		  os << ", " << BN_num_bits (DSA_get0_p(EVP_PKEY_get0_DSA(pkey))) << " bit DSA";
+#ifndef OPENSSL_NO_EC
+		if ((EVP_PKEY_id(pkey) == EVP_PKEY_EC) && (EVP_PKEY_get0_EC_KEY(pkey) != nullptr &&
+		  EVP_PKEY_get0_EC_KEY(pkey) != nullptr))
+		  {
+		    EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
+		    const EC_GROUP* group = EC_KEY_get0_group(ec);
+		    const char* curve = nullptr;
+
+		    int nid = EC_GROUP_get_curve_name(group);
+
+		    if (nid != 0)
+		      {
+			curve = OBJ_nid2sn(nid);
+		      }
+
+		    if(!curve)
+		      {
+			curve = "Error getting curve name";
+		      }
+
+		    os << ", " << EC_GROUP_order_bits(group) << " bit EC, curve:" << curve;
+		  }
+
+		else
 #endif
-		EVP_PKEY_free (pkey);
+		  {
+		    int pkeyId = EVP_PKEY_id(pkey);
+		    const char* pkeySN = OBJ_nid2sn(pkeyId);
+		    if (!pkeySN)
+		      pkeySN = "Unknown";
+
+		    // Nicer names instead of rsaEncryption and dsaEncryption
+		    if (pkeyId == EVP_PKEY_RSA)
+		      pkeySN = "RSA";
+		    else if (pkeyId == EVP_PKEY_DSA)
+		      pkeySN = "DSA";
+
+		    os << ", " << EVP_PKEY_bits(pkey) << " bit " << pkeySN;
+		  }
+		EVP_PKEY_free(pkey);
 	      }
 	    X509_free (cert);
 	  }
+
+	const SSL_CIPHER *ciph = SSL_get_current_cipher (c_ssl);
+	if (ciph)
+	  {
+	    char* desc = SSL_CIPHER_description(ciph, nullptr, 0);
+	    if (!desc)
+	      {
+		os << ", cipher: Error getting TLS cipher description from SSL_CIPHER_description";
+	      }
+	    else
+	      {
+		os << ", cipher: " << desc;
+		OPENSSL_free(desc);
+	      }
+	  }
+	// This has been changed in upstream SSL to have a const
+	// parameter, so we cast away const for older versions compatibility
+	// (Upstream commit: c04b66b18d1a90f0c6326858e4b8367be5444582)
+	if (SSL_session_reused(const_cast<::SSL *>(c_ssl)))
+	  os << " [REUSED]";
 	return os.str();
       }
 
@@ -660,6 +966,8 @@ namespace openvpn {
 	ct_in = nullptr;
 	ct_out = nullptr;
 	overflow = false;
+	called_did_full_handshake = false;
+	sess_cache_key.reset();
       }
 
       void ssl_erase()
@@ -674,7 +982,14 @@ namespace openvpn {
 	if (ssl_bio)
 	  BIO_free_all(ssl_bio);
 	if (ssl)
-	  SSL_free(ssl);
+	  {
+	    if (sess_cache_key)
+	      {
+		SSL_set_shutdown(ssl, SSL_SENT_SHUTDOWN|SSL_RECEIVED_SHUTDOWN);
+		sess_cache_key->commit(SSL_get1_session(ssl));
+	      }
+	    SSL_free(ssl);
+	  }
 	openssl_clear_error_stack();
 	ssl_clear();
       }
@@ -703,19 +1018,15 @@ namespace openvpn {
       {
 	return &ssl23_method_server_;
       }
-
-      // Modified SSLv23 methods
-      static SSL_METHOD ssl23_method_client_;
-      static SSL_METHOD ssl23_method_server_;
 #else
-      static const SSL_METHOD* tls_method_client()
+      static const SSL_METHOD* tls_method_client ()
       {
-	return TLS_client_method();
+        return TLS_client_method ();
       }
 
-      static const SSL_METHOD* tls_method_server()
+      static const SSL_METHOD* tls_method_server ()
       {
-	return TLS_server_method();
+        return TLS_server_method ();
       }
 #endif
       ::SSL *ssl;	   // OpenSSL SSL object
@@ -723,192 +1034,64 @@ namespace openvpn {
       BIO *ct_in;          // write ciphertext to here
       BIO *ct_out;         // read ciphertext from here
       AuthCert::Ptr authcert;
+      OpenSSLSessionCache::Key::UPtr sess_cache_key; // client-side only
+      OpenSSLContext::Ptr sni_ctx;
       bool ssl_bio_linkage;
       bool overflow;
+      bool called_did_full_handshake;
 
       // Helps us to store pointer to self in ::SSL object
-      static int mydata_index;
+      static int ssl_data_index;
       static int context_data_index;
-    };
 
-  private:
-    class ExternalPKIImpl {
-    public:
-      ExternalPKIImpl(SSL_CTX* ssl_ctx, ::X509* cert, ExternalPKIBase* external_pki_arg)
-	: external_pki(external_pki_arg), n_errors(0)
-      {
-	RSA *rsa = nullptr;
-	RSA *pub_rsa = nullptr;
-	RSA_METHOD *rsa_meth = nullptr;
-	const char *errtext = "";
-
-	/* allocate custom RSA method object */
-	rsa_meth = RSA_meth_new ("OpenSSLContext::ExternalPKIImpl private key RSA Method", RSA_METHOD_FLAG_NO_CHECK);
-
-	RSA_meth_set_pub_enc (rsa_meth, rsa_pub_enc);
-	RSA_meth_set_pub_dec (rsa_meth, rsa_pub_dec);
-	RSA_meth_set_priv_enc (rsa_meth, rsa_priv_enc);
-	RSA_meth_set_priv_dec (rsa_meth, rsa_priv_dec);
-	RSA_meth_set_init (rsa_meth, nullptr);
-	RSA_meth_set_finish (rsa_meth, rsa_finish);
-	RSA_meth_set0_app_data (rsa_meth, this);
-
-	/* allocate RSA object */
-	rsa = RSA_new();
-	if (rsa == nullptr)
-	  {
-	    SSLerr(SSL_F_SSL_USE_PRIVATEKEY, ERR_R_MALLOC_FAILURE);
-	    errtext = "RSA_new";
-	    goto err;
-	  }
-
-	/* get the public key */
-	if (X509_get0_pubkey(cert) == nullptr) /* nullptr before SSL_CTX_use_certificate() is called */
-	  {
-	    errtext = "pkey is NULL";
-	    goto err;
-	  }
-
-	if (EVP_PKEY_id(X509_get0_pubkey(cert)) != EVP_PKEY_RSA)
-	  {
-	    errtext = "pkey is not RSA";
-	    goto err;
-	  }
-	pub_rsa = EVP_PKEY_get0_RSA (X509_get0_pubkey(cert));
-
-	/* only set e and n as d (private key) is outside our control */
-	RSA_set0_key(rsa, BN_dup(RSA_get0_n(pub_rsa)), BN_dup(RSA_get0_e(pub_rsa)), nullptr);
-	RSA_set_flags(rsa, RSA_FLAG_EXT_PKEY);
-
-	if (!RSA_set_method(rsa, rsa_meth))
-	  {
-	    errtext = "RSA_set_method";
-	    goto err;
-	  }
-
-	/* bind our custom RSA object to ssl_ctx */
-	if (!SSL_CTX_use_RSAPrivateKey(ssl_ctx, rsa))
-	  {
-	    errtext = "SSL_CTX_use_RSAPrivateKey";
-	    goto err;
-	  }
-
-	RSA_free(rsa); /* doesn't necessarily free, just decrements refcount */
-	return;
-
-      err:
-	if (rsa)
-	  RSA_free(rsa);
-	else
-	  {
-	    if (rsa_meth)
-	      RSA_meth_free (rsa_meth);
-	  }
-	OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: " << errtext);
-      }
-
-      unsigned int get_n_errors() const { return n_errors; }
-
-    private:
-      OPENVPN_EXCEPTION(openssl_external_pki);
-
-      /* called at RSA_free */
-      static int rsa_finish(RSA *rsa)
-      {
-	RSA_meth_free (const_cast<RSA_METHOD*>(RSA_get_method (rsa)));
-	return 1;
-      }
-
-      /* sign arbitrary data */
-      static int rsa_priv_enc(int flen, const unsigned char *from, unsigned char *to, RSA *rsa, int padding)
-      {
-	ExternalPKIImpl* self = (ExternalPKIImpl*)(RSA_meth_get0_app_data (RSA_get_method(rsa)));
-
-	try {
-	  if (padding != RSA_PKCS1_PADDING && padding != RSA_NO_PADDING)
-	    {
-	      RSAerr (RSA_F_RSA_OSSL_PRIVATE_ENCRYPT, RSA_R_UNKNOWN_PADDING_TYPE);
-	      throw ssl_external_pki("OpenSSL: bad padding type");
-	    }
-	  std::string padding_algo;
-	  if (padding == RSA_PKCS1_PADDING)
-	    {
-	      padding_algo = openvpn::OVPN_RSA_PKCS1_PADDING;
-	    }
-	  else if (padding == RSA_NO_PADDING)
-	    {
-	      padding_algo = openvpn::OVPN_RSA_NO_PADDING;
-	    }
-
-	  /* convert 'from' to base64 */
-	  ConstBuffer from_buf(from, flen, true);
-	  const std::string from_b64 = base64->encode(from_buf);
-
-	  /* get signature */
-	  std::string sig_b64;
-	  const bool status = self->external_pki->sign(from_b64, sig_b64, padding_algo);
-	  if (!status)
-	    throw ssl_external_pki("OpenSSL: could not obtain signature");
-
-	  /* decode base64 signature to binary */
-	  const int len = RSA_size(rsa);
-	  Buffer sig(to, len, false);
-	  base64->decode(sig, sig_b64);
-
-	  /* verify length */
-	  if (sig.size() != len)
-	    throw ssl_external_pki("OpenSSL: incorrect signature length");
-
-	  /* return length of signature */
-	  return len;
-	}
-	catch (const std::exception& e)
-	  {
-	    OPENVPN_LOG("OpenSSLContext::ExternalPKIImpl::rsa_priv_enc exception: " << e.what());
-	    ++self->n_errors;
-	    return -1;
-	  }
-      }
-
-      static void not_implemented(RSA *rsa)
-      {
-	ExternalPKIImpl* self = (ExternalPKIImpl*)(RSA_meth_get0_app_data (RSA_get_method (rsa)));
-	++self->n_errors;
-      }
-
-      /* encrypt */
-      static int rsa_pub_enc(int flen, const unsigned char *from, unsigned char *to, RSA *rsa, int padding)
-      {
-	not_implemented(rsa);
-	return -1;
-      }
-
-      /* verify arbitrary data */
-      static int
-      rsa_pub_dec(int flen, const unsigned char *from, unsigned char *to, RSA *rsa, int padding)
-      {
-	not_implemented(rsa);
-	return -1;
-      }
-
-      /* decrypt */
-      static int
-      rsa_priv_dec(int flen, const unsigned char *from, unsigned char *to, RSA *rsa, int padding)
-      {
-	not_implemented(rsa);
-	return -1;
-      }
-
-      ExternalPKIBase* external_pki;
-      unsigned int n_errors;
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+      // Modified SSLv23 methods
+      static SSL_METHOD ssl23_method_client_;
+      static SSL_METHOD ssl23_method_server_;
+#endif
     };
 
     /////// start of main class implementation
+    static std::string translate_cipher_list(std::string cipherlist)
+    {
+      // OpenVPN 2.x accepts IANA ciphers instead in the cipher list, we need
+      // to do the same
 
+      std::stringstream cipher_list_ss(cipherlist);
+      std::string ciphersuite;
+
+      std::stringstream result;
+
+
+      while(std::getline(cipher_list_ss, ciphersuite, ':'))
+	{
+	  const tls_cipher_name_pair* pair = tls_get_cipher_name_pair(ciphersuite);
+
+	  if (!result.str().empty())
+	    result << ":";
+
+	  if (pair)
+	    {
+	      if (pair->iana_name != ciphersuite)
+		{
+		  OPENVPN_LOG_SSL("OpenSSLContext: Deprecated cipher suite name '"
+				    << pair->openssl_name << "' please use IANA name ' "
+				    << pair->iana_name << "'");
+		}
+	      result << pair->openssl_name;
+	    }
+	  else
+	    {
+	      result << ciphersuite;
+	    }
+	}
+
+	return result.str();
+    }
+
+  private:
     OpenSSLContext(Config* config_arg)
-      : config(config_arg),
-	ctx(nullptr),
-	epki(nullptr)
+      : config(config_arg)
     {
       try
 	{
@@ -924,92 +1107,149 @@ namespace openvpn {
 		OPENVPN_THROW(ssl_context_error, "OpenSSLContext: DH not defined");
 	      if (!SSL_CTX_set_tmp_dh(ctx, config->dh.obj()))
 		throw OpenSSLException("OpenSSLContext: SSL_CTX_set_tmp_dh failed");
-	      if (config->enable_renegotiation)
-		SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_SERVER);
 	      if (config->flags & SSLConst::SERVER_TO_SERVER)
 		SSL_CTX_set_purpose(ctx, X509_PURPOSE_SSL_SERVER);
+
+	      // server-side SNI
+	      if (config->sni_handler)
+		{
+#if OPENSSL_VERSION_NUMBER >= 0x10101000L
+#define OPENSSL_SERVER_SNI
+		  SSL_CTX_set_client_hello_cb(ctx, client_hello_callback, nullptr);
+#else
+		  OPENVPN_THROW(ssl_context_error, "OpenSSLContext: server-side SNI requires OpenSSL 1.1 or higher");
+#endif
+		}
 	    }
 	  else if (config->mode.is_client())
 	    {
 	      ctx = SSL_CTX_new(SSL::tls_method_client());
 	      if (ctx == nullptr)
 		throw OpenSSLException("OpenSSLContext: SSL_CTX_new failed for client method");
-	      if (config->enable_renegotiation)
-		SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_CLIENT); // note: SSL_set_session must be called as well
 	    }
 	  else
 	    OPENVPN_THROW(ssl_context_error, "OpenSSLContext: unknown config->mode");
 
 	  // Set SSL options
-	  if (!config->enable_renegotiation)
-	    SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_OFF);
 	  if (!(config->flags & SSLConst::NO_VERIFY_PEER))
 	    {
-	      SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT,
+	      int vf = SSL_VERIFY_PEER;
+	      if (!(config->flags & SSLConst::PEER_CERT_OPTIONAL))
+		vf |= SSL_VERIFY_FAIL_IF_NO_PEER_CERT;
+	      SSL_CTX_set_verify(ctx, vf,
 				 config->mode.is_client() ? verify_callback_client : verify_callback_server);
 	      SSL_CTX_set_verify_depth(ctx, 16);
 	    }
-	  long sslopt = SSL_OP_SINGLE_DH_USE | SSL_OP_SINGLE_ECDH_USE | SSL_OP_NO_COMPRESSION;
-	  if (!config->enable_renegotiation)
-	    sslopt |= SSL_OP_NO_TICKET;
 
 	  /* Disable SSLv2 and SSLv3, might be a noop but does not hurt */
-	  sslopt |= SSL_OP_NO_SSLv2;
-	  sslopt |= SSL_OP_NO_SSLv3;
+	  long sslopt = SSL_OP_SINGLE_DH_USE | SSL_OP_SINGLE_ECDH_USE | SSL_OP_NO_COMPRESSION | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3;
 
-	  /* mbed TLS also ignores tls version when force aes cbc cipher suites is on */
-	  if (!config->force_aes_cbc_ciphersuites || config->tls_version_min > TLSVersion::UNDEF)
+	  if (config->mode.is_server())
 	    {
-	      if (config->tls_version_min > TLSVersion::V1_0)
-		sslopt |= SSL_OP_NO_TLSv1;
-#ifdef SSL_OP_NO_TLSv1_1
-	      if (config->tls_version_min > TLSVersion::V1_1)
-		sslopt |= SSL_OP_NO_TLSv1_1;
-#endif
-#ifdef SSL_OP_NO_TLSv1_2
-	      if (config->tls_version_min > TLSVersion::V1_2)
-		sslopt |= SSL_OP_NO_TLSv1_2;
-#endif
-#ifdef SSL_OP_NO_TLSv1_3
-	      if (config->tls_version_min > TLSVersion::V1_3)
-		sslopt |= SSL_OP_NO_TLSv1_3;
-#endif
-	    }
-	  SSL_CTX_set_options(ctx, sslopt);
+	      SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_OFF);
+	      if (config->session_ticket_handler)
+		{
+		  const std::string sess_id_context = config->session_ticket_handler->session_id_context();
+		  if (!SSL_CTX_set_session_id_context(ctx, (unsigned char *)sess_id_context.c_str(), sess_id_context.length()))
+		    throw OpenSSLException("OpenSSLContext: SSL_CTX_set_session_id_context failed");
 
-	  if (config->force_aes_cbc_ciphersuites)
-	    {
-	      if (!SSL_CTX_set_cipher_list(ctx, "DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA"))
-		OPENVPN_THROW(ssl_context_error, "OpenSSLContext: SSL_CTX_set_cipher_list failed for force_aes_cbc_ciphersuites");
+		  if (!SSL_CTX_set_tlsext_ticket_key_cb(ctx, tls_ticket_key_callback))
+		    throw OpenSSLException("OpenSSLContext: SSL_CTX_set_tlsext_ticket_key_cb failed");
+		}
+	      else
+		sslopt |= SSL_OP_NO_TICKET;
+
+	      // send a client CA list to the client
+	      if (config->flags & SSLConst::SEND_CLIENT_CA_LIST)
+		{
+		  for (const auto& e : config->ca.certs)
+		    {
+		      if (SSL_CTX_add_client_CA(ctx, e.obj()) != 1)
+			throw OpenSSLException("OpenSSLContext: SSL_CTX_add_client_CA failed");
+		    }
+		}
 	    }
 	  else
 	    {
-	      if (!SSL_CTX_set_cipher_list(ctx,
-					   /* default list as a basis */
-					   "DEFAULT"
-					   /* Disable export ciphers, low and medium */
-					   ":!EXP:!LOW:!MEDIUM"
-					   /* Disable static (EC)DH keys (no forward secrecy) */
-					   ":!kDH:!kECDH"
-					   /* Disable DSA private keys */
-					   ":!DSS"
-					   /* Disable RC4 cipher */
-					   ":!RC4"
-					   /* Disable MD5 */
-					   ":!MD5"
-					   /* Disable unsupported TLS modes */
-					   ":!PSK:!SRP:!kRSA"
-					   /* Disable TLSv2 cipher suites*/
-					   ":!tlsv2"
-					   ))
-		  OPENVPN_THROW(ssl_context_error, "OpenSSLContext: SSL_CTX_set_cipher_list failed");
-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
-	      SSL_CTX_set_ecdh_auto(ctx, 1);
+	      if (config->client_session_tickets)
+		{
+		  SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_CLIENT);
+		  sess_cache.reset(new OpenSSLSessionCache);
+		}
+	      else
+		{
+		  SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_OFF);
+		  sslopt |= SSL_OP_NO_TICKET;
+		}
+	    }
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+	if (config->tls_version_min > TLSVersion::V1_0)
+	  {
+	    SSL_CTX_set_min_proto_version(ctx, TLSVersion::toTLSVersion(config->tls_version_min));
+	  }
+#else
+	  if (config->tls_version_min > TLSVersion::V1_0)
+	    sslopt |= SSL_OP_NO_TLSv1;
+#ifdef SSL_OP_NO_TLSv1_1
+	  if (config->tls_version_min > TLSVersion::V1_1)
+	    sslopt |= SSL_OP_NO_TLSv1_1;
 #endif
+#ifdef SSL_OP_NO_TLSv1_2
+	  if (config->tls_version_min > TLSVersion::V1_2)
+	    sslopt |= SSL_OP_NO_TLSv1_2;
+#endif
+#ifdef SSL_OP_NO_TLSv1_3
+	  if (config->tls_version_min > TLSVersion::V1_3)
+	    sslopt |= SSL_OP_NO_TLSv1_3;
+#endif
+#endif
+	  SSL_CTX_set_options(ctx, sslopt);
+
+	  if (!config->tls_groups.empty())
+	    {
+	      set_openssl_tls_groups(config->tls_groups);
+	    }
+#if defined(TLS1_3_VERSION)
+	  if (!config->tls_ciphersuite_list.empty())
+	    {
+	      if(!SSL_CTX_set_ciphersuites(ctx, config->tls_ciphersuite_list.c_str()))
+		OPENVPN_THROW(ssl_context_error, "OpenSSLContext: SSL_CTX_set_ciphersuites_list failed");
+	    }
+#endif
+	  const char* tls_cipher_list =
+	    /* default list as a basis */
+	    "DEFAULT"
+	    /* Disable export ciphers, low and medium */
+	    ":!EXP:!LOW:!MEDIUM"
+	    /* Disable static (EC)DH keys (no forward secrecy) */
+	    ":!kDH:!kECDH"
+	    /* Disable DSA private keys */
+	    ":!DSS"
+	    /* Disable RC4 cipher */
+	    ":!RC4"
+	    /* Disable MD5 */
+	    ":!MD5"
+	    /* Disable unsupported TLS modes */
+	    ":!PSK:!SRP:!kRSA"
+	    /* Disable SSLv2 cipher suites*/
+	    ":!SSLv2";
+
+	  std::string translated_cipherlist;
+
+	  if (!config->tls_cipher_list.empty())
+	    {
+	      translated_cipherlist = translate_cipher_list(config->tls_cipher_list);
+
+	      tls_cipher_list = translated_cipherlist.c_str();
 	    }
 
-	  /* HAVE_SSL_CTX_SET_SECURITY_LEVEL exists from OpenSSL-1.1.0 up */
-#ifdef HAVE_SSL_CTX_SET_SECURITY_LEVEL
+	  if (!SSL_CTX_set_cipher_list(ctx, tls_cipher_list))
+	      OPENVPN_THROW(ssl_context_error, "OpenSSLContext: SSL_CTX_set_cipher_list failed");
+#if OPENSSL_VERSION_NUMBER >= 0x10002000L && OPENSSL_VERSION_NUMBER < 0x10100000L
+	  SSL_CTX_set_ecdh_auto(ctx, 1); // this method becomes a no-op in OpenSSL 1.1
+#endif
+
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
 	  switch(TLSCertProfile::default_if_undef(config->tls_cert_profile))
 	  {
 	  case TLSCertProfile::UNDEF:
@@ -1055,7 +1295,21 @@ namespace openvpn {
 	      // Set private key
 	      if (config->external_pki)
 		{
-		  epki = new ExternalPKIImpl(ctx, config->cert.obj(), config->external_pki);
+		  auto certType = EVP_PKEY_id (X509_get0_pubkey(config->cert.obj()));
+		  if (certType == EVP_PKEY_RSA )
+		    {
+		      epki = new ExternalPKIRsaImpl (ctx, config->cert.obj(), config->external_pki);
+		    }
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(OPENSSL_NO_EC)
+		  else if (certType == EVP_PKEY_EC)
+		    {
+		      epki = new ExternalPKIECImpl (ctx, config->cert.obj(), config->external_pki);
+		    }
+#endif
+		  else
+		    {
+		      throw OpenSSLException("OpenSSLContext: pkey is neither RSA nor EC. Unsupported with external pki");
+		    }
 		}
 	      else
 		{
@@ -1073,9 +1327,9 @@ namespace openvpn {
 	      // chain but shouldn't be included in the verify chain.
 	      if (config->extra_certs.defined())
 		{
-		  for (OpenSSLPKI::X509List::const_iterator i = config->extra_certs.begin(); i != config->extra_certs.end(); ++i)
+		  for (const auto& e : config->extra_certs)
 		    {
-		      if (SSL_CTX_add_extra_chain_cert(ctx, (*i)->obj_dup()) != 1)
+		      if (SSL_CTX_add_extra_chain_cert(ctx, e.obj_dup()) != 1)
 			throw OpenSSLException("OpenSSLContext: SSL_CTX_add_extra_chain_cert failed");
 		    }
 		}
@@ -1102,19 +1356,19 @@ namespace openvpn {
     // create a new SSL instance
     virtual SSLAPI::Ptr ssl()
     {
-      return SSL::Ptr(new SSL(*this, nullptr));
+      return SSL::Ptr(new SSL(*this, nullptr, nullptr));
     }
 
     // like ssl() above but verify hostname against cert CommonName and/or SubjectAltName
-    virtual SSLAPI::Ptr ssl(const std::string& hostname)
+    virtual SSLAPI::Ptr ssl(const std::string* hostname, const std::string* cache_key)
     {
-      return SSL::Ptr(new SSL(*this, hostname.c_str()));
+      return SSL::Ptr(new SSL(*this, hostname, cache_key));
     }
 
     void update_trust(const CertCRLList& cc)
     {
       OpenSSLPKI::X509Store store(cc);
-      SSL_CTX_set_cert_store(ctx, store.move());
+      SSL_CTX_set_cert_store(ctx, store.release());
     }
 
     ~OpenSSLContext()
@@ -1126,7 +1380,11 @@ namespace openvpn {
     {
       return config->mode;
     }
- 
+
+    constexpr static bool support_key_material_export()
+    {
+      return true;
+    }
   private:
     // ns-cert-type verification
 
@@ -1143,6 +1401,45 @@ namespace openvpn {
 	return X509_check_purpose (cert, X509_PURPOSE_SSL_CLIENT, 0);
       else
 	return true;
+    }
+
+
+    void set_openssl_tls_groups(const std::string& tls_groups)
+    {
+      auto num_groups = std::count(tls_groups.begin(), tls_groups.end(), ':') + 1;
+
+      std::unique_ptr<int[]> glist(new int[num_groups]);
+
+      std::stringstream groups_ss(tls_groups);
+      std::string group;
+
+      int glistlen = 0;
+      while (std::getline(groups_ss, group, ':'))
+	{
+	  /* Dance around that the fact that even though OpenSSL authors
+	   * call this group secp256r1 in their own source code, OpenSSL
+	   * externally only knows this by prime256v1 or P-256 */
+	  if (group == "secp256r1")
+	    {
+	      group = "prime256v1";
+	    }
+
+	  int nid = OBJ_sn2nid(group.c_str());
+	  if (nid != 0)
+	    {
+	      glist[glistlen] = nid;
+	      glistlen++;
+	    }
+	  else
+	    {
+	      OPENVPN_LOG_SSL("OpenSSL -- warning ignoring unknown group '"
+				<< group << "' in tls-groups");
+	    }
+	}
+
+      if (!SSL_CTX_set1_groups(ctx, glist.get(), glistlen))
+	OPENVPN_THROW(ssl_context_error, "OpenSSLContext: SSL_CTX_set1_groups failed");
+
     }
 
     // remote-cert-ku verification
@@ -1230,105 +1527,18 @@ namespace openvpn {
       return found;
     }
 
-
-    static std::string x509_get_subject(::X509 *cert)
-    {
-      unique_ptr_del<char> subject(X509_NAME_oneline(X509_get_subject_name(cert), nullptr, 0),
-				   [](char* p) { OPENSSL_free(p); });
-      if (subject)
-	return std::string(subject.get());
-      else
-	return std::string("");
-    }
-
-    static std::string x509_get_field(::X509 *cert, const int nid)
-    {
-      static const char nullc = '\0';
-      std::string ret;
-      X509_NAME *x509_name = X509_get_subject_name(cert);
-      int i = X509_NAME_get_index_by_NID(x509_name, nid, -1);
-      if (i >= 0)
-	{
-	  X509_NAME_ENTRY *ent = X509_NAME_get_entry(x509_name, i);
-	  if (ent)
-	    {
-	      ASN1_STRING *val = X509_NAME_ENTRY_get_data(ent);
-	      unsigned char *buf;
-	      buf = (unsigned char *)1; // bug in OpenSSL 0.9.6b ASN1_STRING_to_UTF8 requires this workaround
-	      const int len = ASN1_STRING_to_UTF8(&buf, val);
-	      if (len > 0)
-		{
-		  if (std::strlen((char *)buf) == len)
-		    ret = (char *)buf;
-		  OPENSSL_free(buf);
-		}
-	    }
-	}
-      else
-	{
-	  i = X509_get_ext_by_NID(cert, nid, -1);
-	  if (i >= 0)
-	    {
-	      X509_EXTENSION *ext = X509_get_ext(cert, i);
-	      if (ext)
-		{
-		  BIO *bio = BIO_new(BIO_s_mem());
-		  if (bio)
-		    {
-		      if (X509V3_EXT_print(bio, ext, 0, 0))
-			{
-			  if (BIO_write(bio, &nullc, 1) == 1)
-			    {
-			      char *str;
-			      const long len = BIO_get_mem_data(bio, &str);
-			      if (std::strlen(str) == len)
-				ret = str;
-			    }
-			}
-		      BIO_free(bio);
-		    }
-		}
-	    }
-	}
-      return ret;
-    }
-
-    static std::string x509_get_serial(::X509 *cert)
-    {
-      ASN1_INTEGER *asn1_i;
-      BIGNUM *bignum;
-      char *openssl_serial;
-
-      asn1_i = X509_get_serialNumber(cert);
-      bignum = ASN1_INTEGER_to_BN(asn1_i, NULL);
-      openssl_serial = BN_bn2dec(bignum);
-
-      const std::string ret = openssl_serial;
-
-      BN_free(bignum);
-      OPENSSL_free(openssl_serial);
-
-      return ret;
-    }
-
-    static std::string x509_get_serial_hex(::X509 *cert)
-    {
-      const ASN1_INTEGER *asn1_i = X509_get_serialNumber(cert);
-      return render_hex_sep(asn1_i->data, asn1_i->length, ':', false);
-    }
-
     static void x509_track_extract_nid(const X509Track::Type xt_type,
 				       const int nid,
 				       ::X509 *cert,
 				       const int depth,
 				       X509Track::Set& xts)
     {
-      const std::string value = x509_get_field(cert, nid);
+      const std::string value = OpenSSLPKI::x509_get_field(cert, nid);
       if (!value.empty())
-	xts.emplace_back(xt_type, depth, x509_get_field(cert, nid));
+	xts.emplace_back(xt_type, depth, OpenSSLPKI::x509_get_field(cert, nid));
     }
 
-    static bool x509_track_extract_from_cert(::X509 *cert,
+    static void x509_track_extract_from_cert(::X509 *cert,
 					     const int depth,
 					     const X509Track::ConfigSet& cs,
 					     X509Track::Set& xts)
@@ -1342,22 +1552,21 @@ namespace openvpn {
 		case X509Track::SERIAL:
 		  xts.emplace_back(X509Track::SERIAL,
 				   depth,
-				   x509_get_serial(cert));
+				   OpenSSLPKI::x509_get_serial(cert));
 		  break;
 		case X509Track::SERIAL_HEX:
 		  xts.emplace_back(X509Track::SERIAL_HEX,
 				   depth,
-				   x509_get_serial_hex(cert));
+				   OpenSSLPKI::x509_get_serial_hex(cert));
 		  break;
 		case X509Track::SHA1:
 		  {
 		    unsigned char buf[EVP_MAX_MD_SIZE];
 		    unsigned int len = EVP_MAX_MD_SIZE;
-		    if (!X509_digest(cert, EVP_sha1(), buf, &len))
-		      return false;
-		    xts.emplace_back(X509Track::SHA1,
-				     depth,
-				     render_hex_sep (buf, len, ':', true));
+		    X509_digest (cert, EVP_sha1 (), buf, &len);
+		    xts.emplace_back (X509Track::SHA1,
+				      depth,
+				      render_hex_sep (buf, len, ':', true));
 		  }
 		  break;
 		case X509Track::CN:
@@ -1386,7 +1595,18 @@ namespace openvpn {
 		}
 	    }
 	}
-      return true;
+    }
+
+    static std::int64_t extract_serial_number(const ASN1_INTEGER *ai)
+    {
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+      std::int64_t ret;
+      if (ASN1_INTEGER_get_int64(&ret, ai) == 0)
+	return -1;
+      return ret;
+#else
+      return ai ? ASN1_INTEGER_get(ai) : -1;
+#endif
     }
 
     static std::string cert_status_line(int preverify_ok,
@@ -1425,7 +1645,7 @@ namespace openvpn {
 	case X509_V_ERR_CERT_HAS_EXPIRED:
 	  return AuthCert::Fail::EXPIRED;
 	default:
-	  return AuthCert::Fail::OTHER;
+	  return AuthCert::Fail::CERT_FAIL;
 	}
     }
 
@@ -1441,10 +1661,10 @@ namespace openvpn {
       const int depth = X509_STORE_CTX_get_error_depth(ctx);
 
       // get current certificate
-      X509 *current_cert = X509_STORE_CTX_get_current_cert(ctx);
+      X509* current_cert = X509_STORE_CTX_get_current_cert (ctx);
 
       // log subject
-      const std::string subject = x509_get_subject(current_cert);
+      const std::string subject = OpenSSLPKI::x509_get_subject(current_cert);
       if (self->config->flags & SSLConst::LOG_VERIFY_STATUS)
 	OPENVPN_LOG_SSL(cert_status_line(preverify_ok, depth, X509_STORE_CTX_get_error(ctx), subject));
 
@@ -1472,11 +1692,35 @@ namespace openvpn {
 	      preverify_ok = false;
 	    }
 
+	  // verify-x509-name
+	  const VerifyX509Name& verify_x509 = self->config->verify_x509_name;
+	  if (verify_x509.get_mode() != VerifyX509Name::VERIFY_X509_NONE)
+	  {
+	    switch (verify_x509.get_mode())
+	    {
+	      case VerifyX509Name::VERIFY_X509_SUBJECT_DN:
+		preverify_ok = verify_x509.verify(OpenSSLPKI::x509_get_subject(current_cert, true));
+		break;
+
+	      case VerifyX509Name::VERIFY_X509_SUBJECT_RDN:
+	      case VerifyX509Name::VERIFY_X509_SUBJECT_RDN_PREFIX:
+		preverify_ok = verify_x509.verify(OpenSSLPKI::x509_get_field(current_cert, NID_commonName));
+		break;
+
+	      default:
+		break;
+	    }
+	    if (!preverify_ok)
+	    {
+	      OPENVPN_LOG_SSL("VERIFY FAIL -- verify-x509-name failed");
+	    }
+	  }
+
 	  // verify tls-remote
 	  if (!self->config->tls_remote.empty())
 	    {
 	      const std::string subj = TLSRemote::sanitize_x509_name(subject);
-	      const std::string common_name = TLSRemote::sanitize_common_name(x509_get_field(current_cert, NID_commonName));
+	      const std::string common_name = TLSRemote::sanitize_common_name(OpenSSLPKI::x509_get_field(current_cert, NID_commonName));
 	      TLSRemote::log(self->config->tls_remote, subj, common_name);
 	      if (!TLSRemote::test(self->config->tls_remote, subj, common_name))
 		{
@@ -1498,7 +1742,7 @@ namespace openvpn {
       const OpenSSLContext* self = (OpenSSLContext*) SSL_get_ex_data (ssl, SSL::context_data_index);
 
       // get OpenSSLContext::SSL
-      SSL* self_ssl = (SSL *) SSL_get_ex_data (ssl, SSL::mydata_index);
+      SSL* self_ssl = (SSL *) SSL_get_ex_data (ssl, SSL::ssl_data_index);
 
       // get error code
       const int err = X509_STORE_CTX_get_error(ctx);
@@ -1507,11 +1751,11 @@ namespace openvpn {
       const int depth = X509_STORE_CTX_get_error_depth(ctx);
 
       // get current certificate
-      X509 *current_cert = X509_STORE_CTX_get_current_cert(ctx);
+      X509* current_cert = X509_STORE_CTX_get_current_cert (ctx);
 
       // log subject
       if (self->config->flags & SSLConst::LOG_VERIFY_STATUS)
-	OPENVPN_LOG_SSL(cert_status_line(preverify_ok, depth, err, x509_get_subject(current_cert)));
+	OPENVPN_LOG_SSL(cert_status_line(preverify_ok, depth, err, OpenSSLPKI::x509_get_subject(current_cert)));
 
       // record cert error in authcert
       if (!preverify_ok && self_ssl->authcert)
@@ -1524,8 +1768,8 @@ namespace openvpn {
 	    {
 	      static_assert(sizeof(AuthCert::issuer_fp) == SHA_DIGEST_LENGTH, "size inconsistency");
 	      unsigned int digest_len = sizeof(AuthCert::issuer_fp);
-	      if (!X509_digest(current_cert, EVP_sha1(), self_ssl->authcert->issuer_fp, &digest_len))
-		preverify_ok = false;
+	      if (!X509_digest (current_cert, EVP_sha1 (), self_ssl->authcert->issuer_fp, &digest_len))
+	        preverify_ok = false;
 	    }
 	}
       else if (depth == 0) // leaf cert
@@ -1560,29 +1804,22 @@ namespace openvpn {
 	  if (self_ssl->authcert)
 	    {
 	      // save the Common Name
-	      self_ssl->authcert->cn = x509_get_field(current_cert, NID_commonName);
+	      self_ssl->authcert->cn = OpenSSLPKI::x509_get_field(current_cert, NID_commonName);
 
 	      // save the leaf cert serial number
 	      const ASN1_INTEGER *ai = X509_get_serialNumber(current_cert);
-	      self_ssl->authcert->sn = ai ? ASN1_INTEGER_get(ai) : -1;
+	      self_ssl->authcert->sn =  extract_serial_number(ai);
 	    }
 	}
 
       // x509-track enabled?
       if (self_ssl->authcert && self_ssl->authcert->x509_track)
-	{
-	  if (!x509_track_extract_from_cert(current_cert,
-					    depth,
-					    self->config->x509_track_config,
-					    *self_ssl->authcert->x509_track))
-	    {
-	      preverify_ok = false;
-	    }
-	}
+	x509_track_extract_from_cert(current_cert,
+				     depth,
+				     self->config->x509_track_config,
+				     *self_ssl->authcert->x509_track);
 
-      return preverify_ok || ((self->config->flags & SSLConst::DEFERRED_CERT_VERIFY)
-			      && self_ssl->authcert               // failsafe: don't defer error unless
-			      && self_ssl->authcert->is_fail());  //   authcert has recorded it
+      return preverify_ok || self->deferred_cert_verify_failsafe(*self_ssl);
     }
 
     // Print debugging information on SSL/TLS session negotiation.
@@ -1596,6 +1833,249 @@ namespace openvpn {
 	{
 	  OPENVPN_LOG_SSL("SSL alert (" << (where & SSL_CB_READ ? "read" : "write") << "): " << SSL_alert_type_string_long(ret) << ": " << SSL_alert_desc_string_long(ret));
 	}
+    }
+
+    static int tls_ticket_key_callback(::SSL *ssl,
+				       unsigned char key_name[16],
+				       unsigned char iv[EVP_MAX_IV_LENGTH],
+				       ::EVP_CIPHER_CTX *ctx,
+				       ::HMAC_CTX *hctx,
+				       int enc)
+    {
+      // get OpenSSLContext
+      const OpenSSLContext* self = (OpenSSLContext*) SSL_get_ex_data (ssl, SSL::context_data_index);
+      if (!self)
+	return -1;
+
+      // get user-defined session ticket handler
+      TLSSessionTicketBase* t = self->config->session_ticket_handler;
+      if (!t)
+	return -1;
+
+      if (enc)
+	{
+	  // create new ticket
+	  TLSSessionTicketBase::Name name;
+	  TLSSessionTicketBase::Key key;
+
+	  switch (t->create_session_ticket_key(name, key))
+	    {
+	    case TLSSessionTicketBase::NO_TICKET:
+	    case TLSSessionTicketBase::TICKET_EXPIRING: // doesn't really make sense for enc==1?
+	      // NOTE: OpenSSL may segfault on a zero return.
+	      // This appears to be fixed by:
+              // commit dbdb96617cce2bd4356d57f53ecc327d0e31f2ad
+              // Author: Todd Short <tshort@akamai.com>
+              // Date:   Thu May 12 18:16:52 2016 -0400
+              // Fix session ticket and SNI
+	      //OPENVPN_LOG("tls_ticket_key_callback: create: no ticket or expiring ticket");
+#if OPENSSL_VERSION_NUMBER < 0x1000212fL // 1.0.2r
+	      if (!randomize_name_key(name, key))
+		return -1;
+	      // fallthrough
+#else
+	      return 0;
+#endif
+	    case TLSSessionTicketBase::TICKET_AVAILABLE:
+	      if (!RAND_bytes(iv, EVP_MAX_IV_LENGTH))
+		return -1;
+	      if (!tls_ticket_init_cipher_hmac(key, iv, ctx, hctx, enc))
+		return -1;
+	      static_assert(TLSSessionTicketBase::Name::SIZE == 16, "unexpected name size");
+	      std::memcpy(key_name, name.value_, TLSSessionTicketBase::Name::SIZE);
+	      //OPENVPN_LOG("tls_ticket_key_callback: created ticket");
+	      return 1;
+	    default:
+	      //OPENVPN_LOG("tls_ticket_key_callback: create: bad ticket");
+	      return -1;
+	    }
+	}
+      else
+	{
+	  // lookup existing ticket
+	  static_assert(TLSSessionTicketBase::Name::SIZE == 16, "unexpected name size");
+	  const TLSSessionTicketBase::Name name(key_name);
+	  TLSSessionTicketBase::Key key;
+
+	  switch (t->lookup_session_ticket_key(name, key))
+	    {
+	    case TLSSessionTicketBase::TICKET_AVAILABLE:
+	      if (!tls_ticket_init_cipher_hmac(key, iv, ctx, hctx, enc))
+		return -1;
+	      //OPENVPN_LOG("tls_ticket_key_callback: found ticket");
+	      return 1;
+	    case TLSSessionTicketBase::TICKET_EXPIRING:
+	      if (!tls_ticket_init_cipher_hmac(key, iv, ctx, hctx, enc))
+		return -1;
+	      //OPENVPN_LOG("tls_ticket_key_callback: expiring ticket");
+	      return 2;
+	    case TLSSessionTicketBase::NO_TICKET:
+	      //OPENVPN_LOG("tls_ticket_key_callback: lookup: no ticket");
+	      return 0;
+	    default:
+	      //OPENVPN_LOG("tls_ticket_key_callback: lookup: bad ticket");
+	      return -1;
+	    }
+	}
+    }
+
+    static bool tls_ticket_init_cipher_hmac(const TLSSessionTicketBase::Key& key,
+					    unsigned char iv[EVP_MAX_IV_LENGTH],
+					    ::EVP_CIPHER_CTX *ctx,
+					    ::HMAC_CTX *hctx,
+					    const int enc)
+    {
+      static_assert(TLSSessionTicketBase::Key::CIPHER_KEY_SIZE == 32, "unexpected cipher key size");
+      if (!EVP_CipherInit_ex(ctx, EVP_aes_256_cbc(), nullptr, key.cipher_value_, iv, enc))
+	return false;
+      if (!HMAC_Init_ex(hctx, key.hmac_value_, TLSSessionTicketBase::Key::HMAC_KEY_SIZE, EVP_sha256(), nullptr))
+	return false;
+      return true;
+    }
+
+    static bool randomize_name_key(TLSSessionTicketBase::Name& name,
+				   TLSSessionTicketBase::Key& key)
+    {
+      if (!RAND_bytes(name.value_, TLSSessionTicketBase::Name::SIZE))
+	return false;
+      if (!RAND_bytes(key.cipher_value_, TLSSessionTicketBase::Key::CIPHER_KEY_SIZE))
+	return false;
+      if (!RAND_bytes(key.hmac_value_, TLSSessionTicketBase::Key::HMAC_KEY_SIZE))
+	return false;
+      return true;
+    }
+
+#if OPENSSL_VERSION_NUMBER >= 0x10101000L
+
+    static int client_hello_callback(::SSL *s, int *al, void *)
+    {
+      std::string sni_name;
+
+      // get OpenSSLContext
+      OpenSSLContext* self = (OpenSSLContext*) SSL_get_ex_data(s, SSL::context_data_index);
+
+      // get OpenSSLContext::SSL
+      SSL* self_ssl = (SSL *) SSL_get_ex_data(s, SSL::ssl_data_index);
+
+      try {
+	// get the SNI from the client hello
+	sni_name = client_hello_get_sni(s);
+
+	// process the SNI name, if provided
+	if (!sni_name.empty())
+	  {
+	    // save the SNI name in authcert
+	    if (self_ssl->authcert)
+	      self_ssl->authcert->sni = sni_name;
+
+	    // ignore the SNI if no handler was provided
+	    if (self->config->sni_handler)
+	      {
+		// get an alternative SSLFactoryAPI from the sni_handler
+		SSLFactoryAPI::Ptr fapi;
+		try {
+		  SNI::Metadata::UPtr sm;
+		  fapi = self->config->sni_handler->sni_hello(sni_name, sm, self->config);
+		  if (self_ssl->authcert)
+		    self_ssl->authcert->sni_metadata = std::move(sm);
+		}
+		catch (const std::exception& e)
+		  {
+		    OPENVPN_LOG("SNI HANDLER ERROR: " << e.what());
+		    return sni_error(e.what(), SSL_AD_INTERNAL_ERROR, self, self_ssl, al);
+		  }
+		if (!fapi)
+		  return sni_error("SNI name not found", SSL_AD_UNRECOGNIZED_NAME, self, self_ssl, al);
+
+		// make sure that returned SSLFactoryAPI is an OpenSSLContext
+		self_ssl->sni_ctx = fapi.dynamic_pointer_cast<OpenSSLContext>();
+		if (!self_ssl->sni_ctx)
+		  throw Exception("sni_handler returned wrong kind of SSLFactoryAPI");
+
+		// don't modify SSL CTX if the returned SSLFactoryAPI is ourself
+		if (fapi.get() != self)
+		  {
+		    SSL_set_SSL_CTX(s, self_ssl->sni_ctx->ctx);
+		    self_ssl->set_parent(self_ssl->sni_ctx.get());
+		  }
+	      }
+	  }
+	return SSL_CLIENT_HELLO_SUCCESS;
+      }
+      catch (const std::exception& e)
+	{
+	  OPENVPN_LOG("SNI exception in OpenSSLContext, SNI=" << sni_name << " : " << e.what());
+	  *al = SSL_AD_INTERNAL_ERROR;
+	  return SSL_CLIENT_HELLO_ERROR;
+	}
+    }
+
+    static int sni_error(std::string err,
+			 const int ssl_ad_error,
+			 OpenSSLContext* self,
+			 SSL* self_ssl,
+			 int* al)
+    {
+      if (self_ssl->authcert)
+	self_ssl->authcert->add_fail(0, AuthCert::Fail::SNI_ERROR, std::move(err));
+      if (self->deferred_cert_verify_failsafe(*self_ssl))
+	return SSL_CLIENT_HELLO_SUCCESS;
+      *al = ssl_ad_error;
+      return SSL_CLIENT_HELLO_ERROR;
+    }
+
+    static size_t sni_get_len(ConstBuffer& buf)
+    {
+      size_t ret = buf.pop_front() << 8;
+      ret += buf.pop_front();
+      return ret;
+    }
+
+    static std::string client_hello_get_sni(::SSL* s)
+    {
+      const unsigned char *p;
+      size_t remaining;
+      if (!SSL_client_hello_get0_ext(s, TLSEXT_TYPE_server_name, &p, &remaining))
+	return std::string();
+
+      // For safety, map a ConstBuffer onto returned OpenSSL TLSEXT_TYPE_server_name data.
+      ConstBuffer buf(p, remaining, true);
+
+      // Extract the length of the supplied list of names,
+      // and check that it matches size of remaining data
+      // in buf.
+      {
+	const size_t len = sni_get_len(buf);
+	if (len != buf.size())
+	  throw Exception("bad name list size");
+      }
+
+      // Next byte must be TLSEXT_NAMETYPE_host_name.
+      if (buf.pop_front() != TLSEXT_NAMETYPE_host_name)
+	throw Exception("expecting TLSEXT_NAMETYPE_host_name");
+
+      // Now try to extract the SNI name.
+      {
+	const size_t len = sni_get_len(buf);
+	if (len > buf.size())
+	  throw Exception("bad name size");
+	if (!Unicode::is_valid_utf8_uchar_buf(buf.c_data(), len, 1024 | Unicode::UTF8_NO_CTRL))
+	  throw Exception("invalid UTF-8");
+	return std::string((const char *)buf.c_data(), len);
+      }
+    }
+#endif
+
+    // Return true if we should continue with authentication
+    // even though there was an error, because the user has
+    // enabled SSLConst::DEFERRED_CERT_VERIFY and wants the
+    // error to be logged in authcert so that it can be handled
+    // by a higher layer.
+    bool deferred_cert_verify_failsafe(const SSL& ssl) const
+    {
+      return (config->flags & SSLConst::DEFERRED_CERT_VERIFY)
+	&& ssl.authcert               // failsafe: don't defer error unless
+	&& ssl.authcert->is_fail();   //   authcert has recorded it
     }
 
     void erase()
@@ -1613,17 +2093,24 @@ namespace openvpn {
     }
 
     Config::Ptr config;
-    SSL_CTX* ctx;
-    ExternalPKIImpl* epki;
+    SSL_CTX* ctx = nullptr;
+    ExternalPKIImpl* epki = nullptr;
+    OpenSSLSessionCache::Ptr sess_cache; // client-side only
   };
 
-  int OpenSSLContext::SSL::mydata_index = -1;
+#ifdef OPENVPN_NO_EXTERN
+  int OpenSSLContext::SSL::ssl_data_index = -1;
   int OpenSSLContext::SSL::context_data_index = -1;
+#endif
 
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
+#if OPENSSL_VERSION_NUMBER < 0x10100000L && defined(OPENVPN_NO_EXTERN)
   SSL_METHOD OpenSSLContext::SSL::ssl23_method_client_;
   SSL_METHOD OpenSSLContext::SSL::ssl23_method_server_;
 #endif
-}
 
+  inline const std::string get_ssl_library_version()
+  {
+    return OPENSSL_VERSION_TEXT;
+  }
+}
 #endif

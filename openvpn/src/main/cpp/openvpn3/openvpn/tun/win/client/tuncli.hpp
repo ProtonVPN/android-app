@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2017 OpenVPN Inc.
+//    Copyright (C) 2012-2020 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,8 +38,10 @@
 #include <openvpn/tun/persist/tunpersist.hpp>
 #include <openvpn/tun/persist/tunwrapasio.hpp>
 #include <openvpn/tun/tunio.hpp>
+#include <openvpn/tun/win/client/clientconfig.hpp>
 #include <openvpn/tun/win/client/tunsetup.hpp>
 #include <openvpn/win/modname.hpp>
+#include <openvpn/tun/win/client/wintun.hpp>
 
 namespace openvpn {
   namespace TunWin {
@@ -68,64 +70,11 @@ namespace openvpn {
 	  ReadHandler read_handler,
 	  const Frame::Ptr& frame,
 	  const SessionStats::Ptr& stats)
-	: Base(read_handler, frame, stats)
+	: Base(read_handler, frame, stats, Frame::READ_TUN)
       {
 	Base::name_ = name;
 	Base::retain_stream = retain_stream;
 	Base::stream = new TunWrapAsioStream<TunPersist>(tun_persist);
-      }
-    };
-
-    // These types manage the underlying TAP driver HANDLE
-    typedef openvpn_io::windows::stream_handle TAPStream;
-    typedef ScopedAsioStream<TAPStream> ScopedTAPStream;
-    typedef TunPersistTemplate<ScopedTAPStream> TunPersist;
-
-    class ClientConfig : public TunClientFactory
-    {
-      friend class Client; // accesses wfp
-
-    public:
-      typedef RCPtr<ClientConfig> Ptr;
-
-      TunProp::Config tun_prop;
-      int n_parallel = 8;         // number of parallel async reads on tun socket
-
-      Frame::Ptr frame;
-      SessionStats::Ptr stats;
-
-      Stop* stop = nullptr;
-
-      TunPersist::Ptr tun_persist;
-
-      TunWin::SetupFactory::Ptr tun_setup_factory;
-
-      TunWin::SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context)
-      {
-	if (tun_setup_factory)
-	  return tun_setup_factory->new_setup_obj(io_context);
-	else
-	  return new TunWin::Setup(io_context);
-      }
-
-      static Ptr new_obj()
-      {
-	return new ClientConfig;
-      }
-
-      virtual TunClient::Ptr new_tun_client_obj(openvpn_io::io_context& io_context,
-						TunClientParent& parent,
-						TransportClient* transcli) override;
-
-      virtual void finalize(const bool disconnected) override
-      {
-	if (disconnected)
-	  tun_persist.reset();
-      }
-
-      virtual bool layer_2_supported() const override
-      {
-	return true;
       }
     };
 
@@ -155,7 +104,7 @@ namespace openvpn {
 	      // Check if persisted tun session matches properties of to-be-created session
 	      if (tun_persist->use_persisted_tun(server_addr, config->tun_prop, opt))
 		{
-		  state = tun_persist->state();
+		  state = tun_persist->state().state;
 		  OPENVPN_LOG("TunPersist: reused tun context");
 		}
 	      else
@@ -186,14 +135,14 @@ namespace openvpn {
 		  {
 		    std::ostringstream os;
 		    auto os_print = Cleanup([&os](){ OPENVPN_LOG_STRING(os.str()); });
-		    th = tun_setup->establish(*po, Win::module_name(), config->stop, os);
+		    th = tun_setup->establish(*po, Win::module_name(), config->stop, os, NULL);
 		  }
 
 		  // create ASIO wrapper for HANDLE
 		  TAPStream* ts = new TAPStream(io_context, th);
 
 		  // persist tun settings state
-		  if (tun_persist->persist_tun_state(ts, state))
+		  if (tun_persist->persist_tun_state(ts, { state, nullptr }))
 		    OPENVPN_LOG("TunPersist: saving tun context:" << std::endl << tun_persist->options());
 
 		  // setup handler for external tun close
@@ -219,8 +168,7 @@ namespace openvpn {
 				     true,
 				     this,
 				     config->frame,
-				     config->stats
-				     ));
+				     config->stats));
 	      impl->start(config->n_parallel);
 
 	      if (!dhcp_capture)
@@ -301,6 +249,7 @@ namespace openvpn {
 	   parent(parent_arg),
 	   state(new TunProp::State()),
 	   l2_timer(io_context_arg),
+	   frame_context((*config_arg->frame)[Frame::READ_TUN]),
 	   halt(false)
       {
       }
@@ -311,6 +260,7 @@ namespace openvpn {
 	  {
 	    if (dhcp_capture)
 	      dhcp_inspect(buf);
+
 	    return impl->write(buf);
 	  }
 	else
@@ -323,6 +273,7 @@ namespace openvpn {
       void tun_read_handler(PacketFrom::SPtr& pfp) // called by TunImpl
       {
 	parent.tun_recv(pfp->buf);
+
 #ifdef OPENVPN_DEBUG_TAPWIN
 	tap_process_logging();
 #endif
@@ -438,6 +389,8 @@ namespace openvpn {
       std::unique_ptr<DHCPCapture> dhcp_capture;
       AsioTimer l2_timer;
 
+      Frame::Context& frame_context;
+
       bool halt;
     };
 
@@ -445,7 +398,10 @@ namespace openvpn {
 							   TunClientParent& parent,
 							   TransportClient* transcli)
     {
-      return TunClient::Ptr(new Client(io_context, this, parent));
+      if (wintun)
+	return TunClient::Ptr(new WintunClient(io_context, this, parent));
+      else
+	return TunClient::Ptr(new Client(io_context, this, parent));
     }
 
   }

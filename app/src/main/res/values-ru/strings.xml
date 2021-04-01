@@ -341,6 +341,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="nameOceania">Океания</string>
   <string name="tvRowMore">Больше</string>
   <string name="tv_detail_default_connection_checkbox">Моя избранная страна</string>
+  <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
   <string name="tv_detail_connect_streaming">Стримить с Plus</string>
   <string name="tv_detail_connect">Подключиться</string>
   <string name="tv_detail_description_streaming_country">Потоковая передача вашего любимого контента. Получите доступ к большему количеству приложений на тарифе ProtonVPN Plus.</string>
@@ -400,4 +401,12 @@ Kill Switch не позволяет вашему устройству совер
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
   <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>
+  <string name="tv_server_list_load">%1$s%% нагрузка на сервер</string>
+  <string name="tv_recently_used_servers">Недавно использованные серверы (%1$d)</string>
+  <string name="tv_available_servers">Доступные серверы (%1$d)</string>
+  <string name="tv_locked_servers">Заблокированные серверы (%1$d)</string>
+  <string name="tv_other_servers">Другие серверы (%1$d)</string>
+  <string name="tv_server_under_maintenance">На техобслуживании</string>
+  <string name="tv_server_list">Список серверов</string>
+  <string name="tv_server_list_action_unavailable">Недоступно</string>
 </resources>

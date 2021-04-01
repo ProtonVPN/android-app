@@ -20,11 +20,13 @@ package com.protonvpn.android.models.config;
 
 import android.os.Build;
 
+import com.protonvpn.android.ProtonApplication;
 import com.protonvpn.android.api.ApiSessionProvider;
 import com.protonvpn.android.models.login.LoginResponse;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
 
@@ -66,6 +68,8 @@ public final class UserData implements Serializable {
     private boolean apiUseDoH;
     private NetShieldProtocol netShieldProtocol;
     private boolean useSmartProtocol;
+    private boolean smartReconnect;
+    private boolean showSmartReconnectNotifications;
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
@@ -82,6 +86,8 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
+        smartReconnect = true;
+        showSmartReconnectNotifications = true;
     }
 
     public String getUser() {
@@ -205,6 +211,9 @@ public final class UserData implements Serializable {
         if (isFreeUser()) {
             setNetShieldProtocol(NetShieldProtocol.DISABLED);
         }
+        if (!isUserPlusOrAbove()) {
+            setSecureCoreEnabled(false);
+        }
         this.setVpnInfoUpdatedAt(new DateTime());
         saveToStorage();
     }
@@ -240,7 +249,7 @@ public final class UserData implements Serializable {
         return vpnInfoUpdatedAt;
     }
 
-    public void setVpnInfoUpdatedAt(DateTime vpnInfoUpdatedAt) {
+    private void setVpnInfoUpdatedAt(DateTime vpnInfoUpdatedAt) {
         this.vpnInfoUpdatedAt = vpnInfoUpdatedAt;
         saveToStorage();
     }
@@ -321,6 +330,24 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
+    public boolean isSmartReconnectEnabled() {
+        return smartReconnect;
+    }
+
+    public void setSmartReconnectEnabled(boolean value) {
+        smartReconnect = value;
+        saveToStorage();
+    }
+
+    public boolean showSmartReconnectNotifications() {
+        return showSmartReconnectNotifications;
+    }
+
+    public void setShowSmartReconnectNotifications(boolean value) {
+        showSmartReconnectNotifications = value;
+        saveToStorage();
+    }
+
     @NotNull
     public VpnProtocol getManualProtocol() {
         return selectedProtocol;
@@ -341,7 +368,7 @@ public final class UserData implements Serializable {
     }
 
     public boolean bypassLocalTraffic() {
-        return bypassLocalTraffic;
+        return AndroidUtils.INSTANCE.isTV(ProtonApplication.getAppContext()) || bypassLocalTraffic;
     }
 
     public void setBypassLocalTraffic(boolean bypassLocalTraffic) {
