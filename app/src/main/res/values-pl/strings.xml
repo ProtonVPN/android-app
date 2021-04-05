@@ -312,8 +312,8 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Brakuje niektórych opcji? <a href=\"%1$s\">Kliknij tutaj, aby dowiedzieć się więcej</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Funkcja Kill Switch i stale aktywny VPN nie są dostępne
     na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli Twoje urządzenie nie wspiera tych funkcji, zespół ProtonVPN nie może ich zaimplementować. Zaktualizuj system Android do najnowszej wersji i spróbuj ponownie."</string>
-  <string name="settingsSmartProtocolTitle">Inteligentny protokół</string>
-  <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, który oferuje najlepsze połączanie.</string>
+  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
+  <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
   <string name="netshield">NetShield</string>
@@ -409,4 +409,8 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="tv_server_under_maintenance">W trakcie przerwy technicznej</string>
   <string name="tv_server_list">Lista serwerów</string>
   <string name="tv_server_list_action_unavailable">Niedostępny</string>
+  <string name="settingsSmartReconnectTitle">Inteligentne ponowne łączenie</string>
+  <string name="settingsSmartReconnectDescription">Automatycznie połącz się z podobnym serwerem, jeśli wybrany serwer jest niedostępny.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia inteligentnego ponownego łączenia</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, jeśli aplikacja ProtonVPN połączy się z innym serwerem, niż tym, który wybrałeś.</string>
 </resources>

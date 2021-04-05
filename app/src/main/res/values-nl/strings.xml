@@ -395,4 +395,8 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_server_under_maintenance">In onderhoud</string>
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
+  <string name="settingsSmartReconnectTitle">Smart Opnieuw Verbinden</string>
+  <string name="settingsSmartReconnectDescription">Automatisch verbinding maken met een vergelijkbare server als de door u geselecteerde server niet toegankelijk is.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Slimme Herverbind meldingen</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer ProtonVPN verbinding maakt met een andere server dan degene die u selecteerde.</string>
 </resources>

@@ -312,7 +312,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Некоторые параметры отсутствуют? <a href=\"%1$s\">Нажмите здесь, чтобы узнать больше</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны
     на старых версиях ОС Android и на разных устройствах с Android. Если ваше устройство не предоставляет постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить. Вы можете обновить свою операционную систему до последней версии Android и попробовать снова."</string>
-  <string name="settingsSmartProtocolTitle">Умный протокол</string>
+  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
   <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
@@ -409,4 +409,8 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_server_under_maintenance">На техобслуживании</string>
   <string name="tv_server_list">Список серверов</string>
   <string name="tv_server_list_action_unavailable">Недоступно</string>
+  <string name="settingsSmartReconnectTitle">Умное переподключение</string>
+  <string name="settingsSmartReconnectDescription">Автоматически подключаться к аналогичному серверу, если выбранный вами сервер недоступен.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Уведомления Smart Reconnect</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при подключении ProtonVPN к серверу, отличному от того, который вы выбрали.</string>
 </resources>
