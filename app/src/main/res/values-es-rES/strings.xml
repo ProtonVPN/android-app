@@ -319,7 +319,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="netShieldReconnectionNeeded">Reconexión necesaria</string>
   <string name="netShieldReconnectionDescription">Tu conexión se reiniciará para cambiar el modo NetShield.\n\nNota: Si algunos sitios no se cargan, intenta deshabilitar NetShield.</string>
   <string name="netShieldReconnectionDescriptionDisabling">Es necesario reiniciar tu conexión para desactivar el modo NetShield.</string>
-  <string name="netShieldPaidFeature">This feature requires a ProtonVPN paid subscription.\nUpgrade online to unlock all features and support ProtonVPN</string>
+  <string name="netShieldPaidFeature">Esta función requiere ProtonVPN Plus.\nMejora tu plan cuando estés online para desbloquear todas las funciones y apoyar a ProtonVPN</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>
@@ -335,7 +335,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="nameOceania">Oceanía</string>
   <string name="tvRowMore">Más</string>
   <string name="tv_detail_default_connection_checkbox">Mi país favorito</string>
-  <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
+  <string name="tv_detail_default_connection_checkbox_short">Marcar como favorito</string>
   <string name="tv_detail_connect_streaming">Transmisión con Plus</string>
   <string name="tv_detail_connect">Conectar</string>
   <string name="tv_detail_description_streaming_country">Transmite tu contenido favorito. Accede a más aplicaciones con un plan ProtonVPN Plus.</string>
@@ -387,12 +387,16 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">País no disponible</string>
   <string name="tv_country_maintenance_dialog_description">Por favor, inténtalo más tarde o selecciona un país diferente.</string>
-  <string name="tv_server_list_load">%1$s%% Server Load</string>
-  <string name="tv_recently_used_servers">Recently used servers (%1$d)</string>
-  <string name="tv_available_servers">Available servers (%1$d)</string>
-  <string name="tv_locked_servers">Locked servers (%1$d)</string>
-  <string name="tv_other_servers">Other servers (%1$d)</string>
-  <string name="tv_server_under_maintenance">Under Maintenance</string>
-  <string name="tv_server_list">Server list</string>
-  <string name="tv_server_list_action_unavailable">Unavailable</string>
+  <string name="tv_server_list_load">%1$s%% Carga del Servidor</string>
+  <string name="tv_recently_used_servers">Servidores usados recientemente (%1$d)</string>
+  <string name="tv_available_servers">Servidores disponibles (%1$d)</string>
+  <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
+  <string name="tv_other_servers">Otros servidores (%1$d)</string>
+  <string name="tv_server_under_maintenance">En Mantenimiento</string>
+  <string name="tv_server_list">Lista de servidores</string>
+  <string name="tv_server_list_action_unavailable">No disponible</string>
+  <string name="settingsSmartReconnectTitle">Reconexión inteligente</string>
+  <string name="settingsSmartReconnectDescription">Conéctate automáticamente a un servidor similar si el que elegiste no es accesible.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de reconexión inteligente</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Recibir notificación cuando ProtonVPN se conecta a un servidor diferente al que seleccionaste.</string>
 </resources>

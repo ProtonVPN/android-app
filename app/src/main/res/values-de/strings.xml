@@ -70,7 +70,7 @@
   <string name="drawerAccount">Konto</string>
   <string name="drawerHelp">Hilfe</string>
   <string name="drawerShowLog">Protokoll anzeigen</string>
-  <string name="drawerReportBug">Fehler zu melden</string>
+  <string name="drawerReportBug">Fehler melden</string>
   <string name="drawerLogout">@string/menuActionLogout</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Kontodetails</string>
@@ -392,4 +392,8 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="tv_server_under_maintenance">Wartungsarbeiten</string>
   <string name="tv_server_list">Serverliste</string>
   <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
+  <string name="settingsSmartReconnectTitle">Intelligentes Wiederverbinden</string>
+  <string name="settingsSmartReconnectDescription">Stellt automatisch eine Verbindung zu einem gleichwertigen Server her, wenn der von Ihnen gewählte Server nicht erreichbar ist.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Intelligentes Wiederverbinden — Benachrichtigungen</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn ProtonVPN sich mit einem anderen als dem von Ihnen gewählten Server verbindet.</string>
 </resources>

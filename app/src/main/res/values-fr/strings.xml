@@ -394,4 +394,8 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="tv_server_under_maintenance">En maintenance</string>
   <string name="tv_server_list">Liste de serveurs</string>
   <string name="tv_server_list_action_unavailable">Indisponible</string>
+  <string name="settingsSmartReconnectTitle">Reconnexion intelligente</string>
+  <string name="settingsSmartReconnectDescription">Se connecter automatiquement à un serveur similaire si celui que vous avez sélectionné est inaccessible.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Notifications de reconnexion intelligente</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Soyez averti lorsque ProtonVPN se connecte à un serveur autre que celui que vous avez sélectionné.</string>
 </resources>

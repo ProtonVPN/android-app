@@ -78,7 +78,7 @@
   <string name="accountUser">کاربر:</string>
   <string name="accountType">نوع حساب کاربری:</string>
   <string name="accountTier">اشتراک فعال:</string>
-  <string name="accountTrialExpires"><![CDATA[مهلت آزمایشی شما در تاریخ <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
+  <string name="accountTrialExpires"><![CDATA[دوره آزمایشی شما پس از <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
   <string name="accountVersion">نسخه:</string>
   <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
   <string name="accountButtonManage">مدیریت حساب کاربری</string>
@@ -395,4 +395,8 @@
   <string name="tv_server_under_maintenance">تحت تعمیرات</string>
   <string name="tv_server_list">لیست سرور</string>
   <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
+  <string name="settingsSmartReconnectTitle">اتصال مجدد هوشمند</string>
+  <string name="settingsSmartReconnectDescription">اتصال خودکار به یک سرور مشابه هنگامی که سرور انتخاب شده در دسترس نیست.</string>
+  <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های اتصال مجدد</string>
+  <string name="settingsSmartReconnectNotificationsDescription">هنگامی که ProtonVPN به سروری غیر از سروری که شما انتخاب کردید وصل می‌شود، باخبر شوید.</string>
 </resources>
