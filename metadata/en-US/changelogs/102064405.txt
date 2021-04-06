@@ -1,0 +1,4 @@
+What's new:
+* Introduces server list for Android TV
+* Fixes right-to-left layout in TV main screen
+* Improves app stability and user interface
