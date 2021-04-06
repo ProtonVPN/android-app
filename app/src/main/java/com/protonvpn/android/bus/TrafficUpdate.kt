@@ -28,7 +28,7 @@ class TrafficUpdate(
     val sessionTimeSeconds: Int
 ) {
     val notificationString: String
-        get() = "↓ $downloadSpeedString | $sessionDownloadString ↑ $uploadSpeedString | $sessionUploadString"
+        get() = "↓ $sessionDownloadString | $downloadSpeedString  ↑ $sessionUploadString | $uploadSpeedString"
 
     val downloadSpeedString: String
         get() = ConnectionTools.bytesToSize(downloadSpeed) + "/s"

@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toStartOf="@id/buttonSaveToProfile"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/volumeRow" />
+            app:layout_constraintTop_toBottomOf="@+id/speedRow" />
 
         <Button
             android:id="@+id/buttonSaveToProfile"
@@ -74,7 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toEndOf="@+id/buttonDisconnect"
-            app:layout_constraintTop_toBottomOf="@+id/volumeRow" />
+            app:layout_constraintTop_toBottomOf="@+id/speedRow" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -126,25 +126,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@id/speedLabel">
 
-            <TextView
-                android:id="@+id/textUploadSpeed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/greenBright"
-                tools:text="25kb/s" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_upload" />
 
             <TextView
                 android:id="@+id/textDownloadSpeed"
-                android:layout_width="75dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:maxLines="1"
                 android:textColor="@color/cyan"
                 tools:text="202kb/s" />
@@ -153,7 +139,22 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/ic_download" />
+
+            <TextView
+                android:id="@+id/textUploadSpeed"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/greenBright"
+                tools:text="25kb/s" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_upload" />
 
         </LinearLayout>
 
@@ -169,23 +170,8 @@
             app:layout_constraintStart_toEndOf="@id/volumeLabel">
 
             <TextView
-                android:id="@+id/textUploadVolume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="@color/greenBright"
-                tools:text="20mb" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_upload" />
-
-            <TextView
                 android:id="@+id/textDownloadVolume"
-                android:layout_width="75dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:maxLines="1"
@@ -196,7 +182,24 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/ic_download" />
+
+            <TextView
+                android:id="@+id/textUploadVolume"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:gravity="end"
+                android:textColor="@color/greenBright"
+                tools:text="20mb" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_upload" />
+
 
         </LinearLayout>
 
@@ -277,16 +280,6 @@
             tools:text="1m 25s" />
 
         <TextView
-            android:id="@+id/speedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/download_speed"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
-
-        <TextView
             android:id="@+id/volumeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -294,7 +287,17 @@
             android:text="@string/download_volume"
             android:textColor="@color/lightGrey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/speedLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
+
+        <TextView
+            android:id="@+id/speedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/download_speed"
+            android:textColor="@color/lightGrey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/volumeLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
