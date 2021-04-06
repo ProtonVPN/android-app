@@ -118,7 +118,9 @@ open class VpnConnectionManager(
                         }
                     }
                 } else {
-                    if (!newState.isEstablishingConnection)
+                    // After auth failure OpenVPN will automatically enter DISABLED state, don't clear fallback to allow
+                    // it to finish even when we entered DISABLED state.
+                    if (state == VpnState.Connected)
                         clearOngoingFallback()
 
                     vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
