@@ -31,6 +31,7 @@ class VpnStateMonitor {
     val status = MutableStateFlow(Status(Disabled, null))
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
     val fallbackConnectionFlow = MutableSharedFlow<SwitchServerReason>()
+    val newSessionEvent = MutableSharedFlow<Unit>()
 
     // Temporary for poor java classes
     val statusLiveData = status.asLiveData()

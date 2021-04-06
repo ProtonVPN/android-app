@@ -70,6 +70,11 @@ class TrafficMonitor constructor(
                 ProtonLogger.log("---------------")
             }
         }
+        scope.launch {
+            vpnStateMonitor.newSessionEvent.collect {
+                resetSession()
+            }
+        }
 
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_OFF)) {
             ProtonLogger.log("Screen off")
@@ -82,8 +87,7 @@ class TrafficMonitor constructor(
         }
     }
 
-    private fun startSession() {
-        endSession()
+    private fun resetSession() {
         trafficStatus.value = TrafficUpdate(0, 0, 0, 0, 0)
 
         lastTimestamp = now()
@@ -93,12 +97,15 @@ class TrafficMonitor constructor(
         sessionDownloaded = 0L
         sessionUploaded = 0L
         sessionStart = lastTimestamp
+    }
 
+    private fun startUpdating() {
+        endUpdating()
         if (context.getSystemService<PowerManager>()?.isInteractive != false)
             startUpdateJob()
     }
 
-    private fun endSession() {
+    private fun endUpdating() {
         trafficStatus.value = null
         stopUpdateJob()
     }
@@ -144,8 +151,8 @@ class TrafficMonitor constructor(
 
     private fun stateChanged(state: VpnState) {
         if (state == VpnState.Connected)
-            startSession()
+            startUpdating()
         else
-            endSession()
+            endUpdating()
     }
 }

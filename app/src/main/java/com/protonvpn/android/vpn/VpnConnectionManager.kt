@@ -294,6 +294,7 @@ open class VpnConnectionManager(
     fun connect(context: Context, profile: Profile, connectionCauseLog: String? = null) {
         connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
         val intent = prepare(context)
+        scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             if (context is ActivityResultRegistryOwner) {
                 val permissionCall = context.activityResultRegistry.register(
