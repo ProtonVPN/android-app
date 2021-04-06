@@ -132,6 +132,7 @@ class ProtonCharonVpnService : CharonVpnService() {
                     lines.forEach { ProtonLogger.log(it) }
                 }
             } catch (e: IOException) {
+                ProtonLogger.log("StrongSwan log capture failed: ${e.message}")
                 e.printStackTrace()
             }
         }
