@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/button_rounded_green"
+                android:background="@drawable/button_rounded_accent"
                 android:paddingLeft="36dp"
                 android:paddingRight="36dp"
                 android:text="@string/try_again"
