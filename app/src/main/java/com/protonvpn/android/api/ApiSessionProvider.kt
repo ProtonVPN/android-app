@@ -76,10 +76,19 @@ class ApiSessionProvider : SessionProvider, SessionListener {
         forceLogoutEvent.emit(session)
     }
 
+    override suspend fun onSessionScopesRefreshed(sessionId: SessionId, scopes: List<String>) {
+        debugAssert { currentSession != null }
+        getLoginResponse(sessionId)?.scope = scopes.joinToString(" ")
+        Storage.save(currentSession)
+    }
+
     override suspend fun onSessionTokenRefreshed(session: Session) {
         debugAssert { currentSession != null }
-        currentSession?.accessToken = session.accessToken
-        currentSession?.refreshToken = session.refreshToken
+        getLoginResponse(session.sessionId)?.apply {
+            accessToken = session.accessToken
+            refreshToken = session.refreshToken
+            scope = session.scopes.joinToString(" ")
+        }
         Storage.save(currentSession)
     }
 }
