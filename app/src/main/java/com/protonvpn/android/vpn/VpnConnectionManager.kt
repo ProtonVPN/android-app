@@ -34,6 +34,7 @@ import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.BaseActivityV2.Companion.showNoVpnPermissionDialog
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -43,6 +44,7 @@ import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
@@ -63,6 +65,7 @@ open class VpnConnectionManager(
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
+    private val serverManager: ServerManager,
     private val scope: CoroutineScope
 ) : VpnStateSource {
 
@@ -102,7 +105,13 @@ open class VpnConnectionManager(
                 NotificationHelper.DISCONNECT_ACTION -> disconnect()
             }
         }
-
+        appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->
+            val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
+            profileToSwitch.wrapper.setDeliverer(serverManager)
+            notificationHelper.cancelInformationNotification()
+            userData.useSmartProtocol = true
+            connect(appContext, profileToSwitch)
+        }
         stateInternal.observeForever {
             if (initialized) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
@@ -183,7 +192,11 @@ open class VpnConnectionManager(
             is VpnFallbackResult.Error -> {
                 vpnStateMonitor.fallbackConnectionFlow.emit(result)
                 ProtonLogger.log("Failed to recover, entering $result")
-                activeBackend?.setSelfState(VpnState.Error(result.type))
+                if (result.type == ErrorType.MAX_SESSIONS) {
+                    disconnect()
+                } else {
+                    activeBackend?.setSelfState(VpnState.Error(result.type))
+                }
             }
         }
     }
@@ -204,8 +217,12 @@ open class VpnConnectionManager(
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
                 connectWithPermission(appContext, fallback.toProfile)
-            is VpnFallbackResult.Switch.SwitchServer ->
-                switchServerConnect(fallback)
+            is VpnFallbackResult.Switch.SwitchServer -> {
+                // Not compatible protocol needs to ask user permission to switch
+                // If user accepts then continue through broadcast receiver
+                if (fallback.compatibleProtocol)
+                    switchServerConnect(fallback)
+            }
         }
     }
 

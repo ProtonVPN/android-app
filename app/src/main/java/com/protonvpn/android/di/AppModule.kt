@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.isTV
@@ -197,6 +198,7 @@ class AppModule {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        serverManager: ServerManager,
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ) = VpnConnectionManager(
         ProtonApplication.getAppContext(),
@@ -206,6 +208,7 @@ class AppModule {
         vpnConnectionErrorHandler,
         vpnStateMonitor,
         notificationHelper,
+        serverManager,
         scope,
     )
 

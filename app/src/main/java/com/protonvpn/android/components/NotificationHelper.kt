@@ -25,8 +25,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
+import android.os.Parcelable
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
@@ -41,7 +41,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.SwitchServerReason
-import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
@@ -53,6 +52,7 @@ import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -100,21 +100,34 @@ class NotificationHelper(
         }
     )
 
+    @Parcelize
     data class ReconnectionNotification(
         val title: String,
         val content: String,
-        val reconnectionInformation: VpnFallbackResult.Switch? = null,
+        val reconnectionInformation: ReconnectionInformation? = null,
         val action: ActionItem? = null,
         val fullScreenDialog: FullScreenDialog? = null,
-    ) : java.io.Serializable
+    ) : Parcelable
 
+    @Parcelize
+    data class ReconnectionInformation(
+        val fromServerName: String,
+        val toServerName: String,
+        val fromCountry: String,
+        val fromCountrySecureCore: String? = null,
+        val toCountry: String,
+        val toCountrySecureCore: String? = null
+    ) : Parcelable
+
+    @Parcelize
     data class FullScreenDialog(
         val fullScreenIcon: Int? = null,
         val hasUpsellLayout: Boolean = false,
         val cancelToastMessage: String? = null
-    ) : java.io.Serializable
+    ) : Parcelable
 
-    data class ActionItem(val title: String, val actionUrl: String) : java.io.Serializable
+    @Parcelize
+    data class ActionItem(val title: String, val pendingIntent: PendingIntent) : Parcelable
 
     fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
         val notificationBuilder =
@@ -124,8 +137,7 @@ class NotificationHelper(
 
         // Build complex notification with custom UI for reconnection information
         if (notificationInfo.reconnectionInformation != null) {
-            val fromProfile = notificationInfo.reconnectionInformation.fromProfile
-            val toProfile = notificationInfo.reconnectionInformation.toProfile
+            val reconnectionInfo = notificationInfo.reconnectionInformation
             val collapsedLayout = RemoteViews(appContext.packageName, R.layout.notification_reconnect_small)
             val expandedLayout = RemoteViews(appContext.packageName, R.layout.notification_reconnect_expanded)
 
@@ -140,30 +152,30 @@ class NotificationHelper(
             expandedLayout.setTextViewText(
                 R.id.textFrom, appContext.getString(R.string.reconnect_from_server)
             )
-            expandedLayout.setTextViewText(R.id.textFromServer, fromProfile.server?.serverName)
-            expandedLayout.setTextViewText(R.id.textToServer, toProfile.server?.serverName)
-            if (toProfile.isSecureCore) {
+            expandedLayout.setTextViewText(R.id.textFromServer, reconnectionInfo.fromServerName)
+            expandedLayout.setTextViewText(R.id.textToServer, reconnectionInfo.toServerName)
+            reconnectionInfo.toCountrySecureCore?.let {
                 expandedLayout.setImageViewResource(
                     R.id.imageToCountrySc,
-                    CountryTools.getFlagResource(appContext, toProfile.server?.exitCountry)
+                    CountryTools.getFlagResource(appContext, it)
                 )
                 expandedLayout.setViewVisibility(R.id.imageToCountrySc, View.VISIBLE)
                 expandedLayout.setViewVisibility(R.id.arrowToSc, View.VISIBLE)
             }
-            if (fromProfile.isSecureCore) {
+            reconnectionInfo.fromCountrySecureCore?.let {
                 expandedLayout.setImageViewResource(
                     R.id.imageFromCountrySc,
-                    CountryTools.getFlagResource(appContext, fromProfile.server?.exitCountry)
+                    CountryTools.getFlagResource(appContext, it)
                 )
                 expandedLayout.setViewVisibility(R.id.imageFromCountrySc, View.VISIBLE)
                 expandedLayout.setViewVisibility(R.id.arrowFromSc, View.VISIBLE)
             }
             expandedLayout.setImageViewResource(
-                R.id.imageToCountry, CountryTools.getFlagResource(appContext, toProfile.server?.entryCountry)
+                R.id.imageToCountry, CountryTools.getFlagResource(appContext, reconnectionInfo.fromCountry)
             )
             expandedLayout.setImageViewResource(
                 R.id.imageFromCountry, CountryTools.getFlagResource(
-                    appContext, toProfile.server?.entryCountry
+                    appContext, reconnectionInfo.toCountry
                 )
             )
 
@@ -178,28 +190,24 @@ class NotificationHelper(
         }
 
         notificationInfo.action?.let {
-            val urlIntent = Intent(Intent.ACTION_VIEW)
-            urlIntent.data = Uri.parse(it.actionUrl)
-            val actionPendingIntent: PendingIntent = PendingIntent.getActivity(
-                appContext, Constants.NOTIFICATION_INFO_ID, urlIntent, PendingIntent.FLAG_UPDATE_CURRENT
-            )
             notificationBuilder.addAction(
-                NotificationCompat.Action(
-                    null, it.title, actionPendingIntent
-                )
+                NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
             )
         }
 
         if (notificationInfo.fullScreenDialog != null) {
             val intent = Intent(appContext, Constants.MAIN_ACTIVITY_CLASS)
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
-            val pending = PendingIntent.getActivity(appContext, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             notificationBuilder.setContentIntent(pending)
             notificationBuilder.setAutoCancel(true)
         }
         NotificationManagerCompat.from(appContext)
             .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
+
+    fun cancelInformationNotification() =
+        NotificationManagerCompat.from(appContext).cancel(Constants.NOTIFICATION_INFO_ID)
 
     private fun buildStatusNotification(
         vpnStatus: VpnStateMonitor.Status,
@@ -224,7 +232,7 @@ class NotificationHelper(
             Disabled, CheckingAvailability, ScanningPorts, WaitingForNetwork, Reconnecting, Disconnecting ->
                 builder.color = ContextCompat.getColor(context, R.color.orange)
             Connecting, Connected -> {
-                builder.color = ContextCompat.getColor(context, R.color.greenBright)
+                builder.color = ContextCompat.getColor(context, R.color.colorAccent)
                 builder.addAction(NotificationCompat.Action(R.drawable.ic_clear,
                         context.getString(R.string.disconnect), disconnectPendingIntent))
             }
@@ -234,7 +242,7 @@ class NotificationHelper(
         val intent = Intent(context, Constants.MAIN_ACTIVITY_CLASS)
         intent.putExtra("OpenStatus", true)
         val pending =
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getActivity(context, PENDING_REQUEST_STATUS, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pending)
         return builder.build()
     }
@@ -300,12 +308,14 @@ class NotificationHelper(
         context: Context,
         content: String,
         title: String? = null,
-        @DrawableRes icon: Int = R.drawable.ic_info
+        @DrawableRes icon: Int = R.drawable.ic_info,
+        action: ActionItem? = null
     ) {
         with(NotificationManagerCompat.from(context)) {
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setContentText(content)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
@@ -318,6 +328,11 @@ class NotificationHelper(
                     Intent(context, Constants.MAIN_ACTIVITY_CLASS),
                     PendingIntent.FLAG_UPDATE_CURRENT))
 
+            action?.let {
+                builder.addAction(
+                    NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
+                )
+            }
             notify(Constants.NOTIFICATION_INFO_ID, builder.build())
         }
     }
@@ -325,6 +340,10 @@ class NotificationHelper(
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
         const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
+        const val SMART_PROTOCOL_ACTION = "SMART_PROTOCOL_ACTION"
+        const val EXTRA_SWITCH_PROFILE = "SWITCH_INFORMATION"
+        const val PENDING_REQUEST_STATUS = 0;
+        const val PENDING_REQUEST_OTHER = 1;
 
         fun initNotificationChannel(context: Context) {
             val channelOneName = "ProtonChannel"

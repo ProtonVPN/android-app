@@ -61,9 +61,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageFromCountry"
+                        android:id="@+id/imageFromCountrySc"
                         android:layout_width="16dp"
                         android:layout_height="10dp"
+                        android:visibility="gone"
                         tools:src="@drawable/lt" />
 
                     <ImageView
@@ -76,10 +77,9 @@
                         android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/imageFromCountrySc"
+                        android:id="@+id/imageFromCountry"
                         android:layout_width="16dp"
                         android:layout_height="10dp"
-                        android:visibility="gone"
                         tools:src="@drawable/lt" />
 
                     <TextView
@@ -134,9 +134,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageToCountry"
+                        android:id="@+id/imageToCountrySc"
                         android:layout_width="16dp"
                         android:layout_height="10dp"
+                        android:visibility="gone"
                         tools:src="@drawable/lt" />
 
                     <ImageView
@@ -149,10 +150,9 @@
                         android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/imageToCountrySc"
+                        android:id="@+id/imageToCountry"
                         android:layout_width="16dp"
                         android:layout_height="10dp"
-                        android:visibility="gone"
                         tools:src="@drawable/lt" />
 
                     <TextView

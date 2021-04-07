@@ -35,7 +35,7 @@ import java.util.regex.Pattern
 @Serializable
 data class Server(
     @SerialName(value = "ID") val serverId: String,
-    @SerialName(value = "EntryCountry") val entryCountry: String? = null,
+    @SerialName(value = "EntryCountry") val entryCountry: String,
     @SerialName(value = "ExitCountry") val exitCountry: String,
     @SerialName(value = "Name") val serverName: String,
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,

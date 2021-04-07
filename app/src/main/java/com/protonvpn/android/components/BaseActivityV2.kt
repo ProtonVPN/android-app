@@ -29,6 +29,7 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -53,6 +54,7 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)
         setContentView(binding.root)
