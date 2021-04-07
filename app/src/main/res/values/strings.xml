@@ -426,6 +426,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
 
     <string name="notification_subscription_expired_title">Your subscription has expired</string>
     <string name="notification_subscription_expired_content">Your subscription has been downgraded, so we are reconnecting to the fastest available server. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded. </string>
     <string name="notification_delinquent_title">Your VPN account has pending invoices</string>
     <string name="notification_delinquent_content">You will be able to access premium features again after these are paid. For now, we are reconnecting to the fastest FREE plan server available.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>

@@ -29,7 +29,6 @@ import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.VpnFallbackResult
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_switch_dialog)
@@ -44,7 +43,7 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
 
     private fun initUI() = with(binding) {
         val reconnectionNotification =
-            intent.getSerializableExtra(EXTRA_NOTIFICATION_DETAILS) as NotificationHelper.ReconnectionNotification
+            intent.getParcelableExtra<NotificationHelper.ReconnectionNotification>(EXTRA_NOTIFICATION_DETAILS)!!
         reconnectionNotification.reconnectionInformation?.let {
             initReconnectionUI(it)
         }
@@ -65,7 +64,7 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         layoutUpsell.textDeviceCount.text = getString(R.string.upsell_device_count, getString(R.string.device_count))
         reconnectionNotification.action?.let { actionItem ->
             buttonUpgrade.text = actionItem.title
-            buttonUpgrade.setOnClickListener { openUrl(actionItem.actionUrl) }
+            buttonUpgrade.setOnClickListener { actionItem.pendingIntent.send() }
         } ?: run {
             buttonBack.isVisible = false
             buttonUpgrade.text = getString(R.string.got_it)
@@ -75,38 +74,33 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         }
     }
 
-    private fun initReconnectionUI(fallbackSwitch: VpnFallbackResult.Switch) =
+    private fun initReconnectionUI(reconnectionInformation: NotificationHelper.ReconnectionInformation) =
         with(binding.itemSwitchLayout) {
             root.isVisible = true
 
-            val fromProfile = fallbackSwitch.fromProfile
-            val toProfile = fallbackSwitch.toProfile
-            fromProfile.wrapper.setDeliverer(serverManager)
-            toProfile.wrapper.setDeliverer(serverManager)
-
-            textFromServer.text = fromProfile.server?.serverName
-            textToServer.text = toProfile.server?.serverName
-            if (toProfile.isSecureCore) {
+            textFromServer.text = reconnectionInformation.fromServerName
+            textToServer.text = reconnectionInformation.toServerName
+            reconnectionInformation.toCountrySecureCore?.let {
                 imageToCountrySc.setImageResource(
-                    CountryTools.getFlagResource(this@SwitchDialogActivity, toProfile.server?.exitCountry)
+                    CountryTools.getFlagResource(this@SwitchDialogActivity, it)
                 )
                 imageToCountrySc.isVisible = true
                 arrowToSc.isVisible = true
             }
-            if (fromProfile.isSecureCore) {
+            reconnectionInformation.fromCountrySecureCore?.let {
                 imageFromCountrySc.setImageResource(
                     CountryTools.getFlagResource(
-                        this@SwitchDialogActivity, fromProfile.server?.exitCountry
+                        this@SwitchDialogActivity, it
                     )
                 )
                 imageFromCountrySc.isVisible = true
                 arrowFromSc.isVisible = true
             }
             imageToCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, toProfile.server?.entryCountry)
+                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.toCountry)
             )
             imageFromCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, fromProfile.server?.entryCountry)
+                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
             )
         }
 

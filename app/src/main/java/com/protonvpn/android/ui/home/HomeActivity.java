@@ -46,6 +46,7 @@ import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.LoaderUI;
 import com.protonvpn.android.components.MinimizedNetworkLayout;
+import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SecureCoreCallback;
@@ -71,6 +72,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
@@ -124,7 +126,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject LogoutHandler logoutHandler;
-
+    @Inject NotificationHelper notificationHelper;
     @Inject ViewModelFactory viewModelFactory;
     private HomeViewModel viewModel;
 
@@ -287,10 +289,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         initStatusBar();
         fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
-        initUpsell(getIntent());
+        initFullScreenNotification(getIntent());
     }
 
-    private void initUpsell(Intent newIntent) {
+    private void initFullScreenNotification(Intent newIntent) {
         if (newIntent.getSerializableExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS) != null) {
             Intent intent = new Intent(this, SwitchDialogActivity.class);
             intent.putExtras(newIntent);
@@ -365,7 +367,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (intent.getBooleanExtra("OpenStatus", false)) {
             fragment.openBottomSheet();
         }
-        initUpsell(intent);
+        initFullScreenNotification(intent);
         super.onNewIntent(intent);
     }
 
@@ -469,7 +471,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
             showExpiredDialog();
-
         initDrawerView();
         EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
     }

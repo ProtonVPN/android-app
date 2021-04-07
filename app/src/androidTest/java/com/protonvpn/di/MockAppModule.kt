@@ -199,6 +199,7 @@ class MockAppModule {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        serverManager: ServerManager,
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ): VpnConnectionManager = MockVpnConnectionManager(
         userData,
@@ -207,6 +208,7 @@ class MockAppModule {
         vpnConnectionErrorHandler,
         vpnStateMonitor,
         notificationHelper,
+        serverManager,
         scope
     )
 

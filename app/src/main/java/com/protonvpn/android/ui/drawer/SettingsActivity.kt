@@ -180,7 +180,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun initSmartReconnectToggles() {
-        if (appConfig.getFeatureFlags().smartReconnect) {
+        if (appConfig.getFeatureFlags().vpnAccelerator) {
             smartReconnect.switchProton.isChecked = userPrefs.isSmartReconnectEnabled
             smartReconnect.switchProton.setOnCheckedChangeListener { _, isChecked ->
                 userPrefs.isSmartReconnectEnabled = isChecked

@@ -48,7 +48,7 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
             maintenanceTrackerEnabled = true,
             netShieldEnabled = true,
             pollApiNotifications = true,
-            smartReconnect = true)))
+            vpnAccelerator = true)))
 
     override suspend fun getSession(): ApiResult<SessionListResponse> =
         ApiResult.Success(SessionListResponse(0, listOf()))
