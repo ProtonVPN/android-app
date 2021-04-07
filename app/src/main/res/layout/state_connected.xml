@@ -62,7 +62,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded_green"
+            android:background="@drawable/button_rounded_accent"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:text="@string/save_to_profile"

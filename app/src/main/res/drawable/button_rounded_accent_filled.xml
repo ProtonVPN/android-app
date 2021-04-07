@@ -21,6 +21,6 @@
 
     <item android:drawable="@drawable/bg_rounded_white_pressed" android:state_enabled="false" />
     <item android:drawable="@drawable/bg_rounded_white_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/bg_rounded_green_normal" />
+    <item android:drawable="@drawable/bg_rounded_accent_filled" />
 
 </selector>

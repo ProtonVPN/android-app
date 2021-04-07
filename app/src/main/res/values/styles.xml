@@ -148,7 +148,7 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_height">36dp</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@drawable/button_rounded_green</item>
+        <item name="android:background">@drawable/button_rounded_accent</item>
         <item name="android:paddingLeft">24dp</item>
         <item name="android:paddingRight">24dp</item>
         <item name="android:textSize">14sp</item>
@@ -156,7 +156,7 @@
 
     <style name="Button.Green.Filled" parent="Button.Green">
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/button_rounded_green_filled</item>
+        <item name="android:background">@drawable/button_rounded_accent_filled</item>
     </style>
 
     <style name="Button.Green.Borderless" parent="Button.Green">
