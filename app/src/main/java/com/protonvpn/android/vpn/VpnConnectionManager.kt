@@ -218,10 +218,13 @@ open class VpnConnectionManager(
             is VpnFallbackResult.Switch.SwitchProfile ->
                 connectWithPermission(appContext, fallback.toProfile)
             is VpnFallbackResult.Switch.SwitchServer -> {
-                // Not compatible protocol needs to ask user permission to switch
-                // If user accepts then continue through broadcast receiver
-                if (fallback.compatibleProtocol)
-                    switchServerConnect(fallback)
+                // Do not reconnect if user becomes delinquent
+                if (fallback.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
+                    // Not compatible protocol needs to ask user permission to switch
+                    // If user accepts then continue through broadcast receiver
+                    if (fallback.compatibleProtocol)
+                        switchServerConnect(fallback)
+                }
             }
         }
     }
