@@ -135,7 +135,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectRandomServer();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
 
-        ConnectionResult result = profilesRobot.selectProfile(profileName).clickOnConnectButton();
+        ConnectionResult result = profilesRobot.clickOnConnectButton(profileName);
         result.isConnectedToVpn();
 
         new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();
@@ -248,10 +248,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
         profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
-
-        profilesRobot.selectProfile(profileName);
-
-        ProfilesResult result = profilesRobot.clickOnConnectButton().isDisconnectedFromVpn().profilesResult;
+        ProfilesResult result = profilesRobot.clickOnConnectButton(profileName).isDisconnectedFromVpn().profilesResult;
         result.connectingToSecureCoreWarning().clickYesButton().isConnectedToVpn();
 
         new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();

@@ -201,7 +201,7 @@ class ServerManager(
 
     fun getBestScoreServer(serverList: List<Server>): Server? {
         val map = serverList.asSequence()
-                .filter { "tor" !in it.keywords && it.online }
+                .filter { Server.Keyword.TOR !in it.keywords && it.online }
                 .groupBy(::hasAccessToServer)
                 .mapValues { it.value.minBy(Server::score) }
         return map[true] ?: map[false]

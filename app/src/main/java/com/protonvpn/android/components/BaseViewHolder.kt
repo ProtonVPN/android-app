@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import java.lang.IllegalStateException
 
+@Deprecated("Use BaseViewHolderV2")
 abstract class BaseViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     private var itemInternal: T? = null

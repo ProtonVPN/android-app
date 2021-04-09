@@ -82,7 +82,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/oval"
-                    tools:tint="@color/tvServerLoadLow"/>
+                    tools:tint="@color/serverLoadLow"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/serverMaintenanceIcon"

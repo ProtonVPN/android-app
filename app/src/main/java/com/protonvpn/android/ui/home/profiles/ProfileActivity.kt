@@ -83,7 +83,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             spinnerCountry.setItems(viewModel.getCountryItems())
             spinnerCountry.setOnItemSelectedListener { item, _ ->
                 spinnerServer.setItems(item.wrapperServers)
-                spinnerServer.isVisible = true
+                inputLayoutServer.isVisible = true
                 spinnerServer.setText("")
                 inputLayoutCountry.error = ""
                 spinnerServer.selectedItem = item.wrapperServers.firstOrNull()
@@ -96,7 +96,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             inputLayoutServer.hint =
                     getString(if (viewModel.secureCoreEnabled) R.string.entryCountry else R.string.serverSelection)
 
-            spinnerServer.isVisible = false
+            inputLayoutServer.isVisible = false
             spinnerServer.setOnItemSelectedListener { _, _ ->
                 inputLayoutServer.error = ""
             }

@@ -86,15 +86,10 @@ public class SecureCoreRobotTests {
 
         homeRobot.enableSecureCore();
         CountriesRobot countries = homeRobot.clickOnCountriesTab();
-        if (MockSwitch.mockedServersUsed) {
-            countries.selectCountry("Finland");
-        }
-        else {
-            countries.selectCountry("Australia");
-        }
-        countries.selectCountry("via Sweden");
+        String country = MockSwitch.mockedServersUsed ? "Finland" : "Australia";
+        countries.selectCountry(country);
 
-        ConnectionResult result = countries.clickConnectButton();
+        ConnectionResult result = countries.clickConnectButton("via Sweden");
         result.isConnectedToVpn();
 
         result.connectionRobot.clickDisconnectButton();

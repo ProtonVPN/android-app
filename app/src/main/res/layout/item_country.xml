@@ -22,32 +22,32 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/shade_20">
 
         <LinearLayout
+            android:id="@+id/countryItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/dimmedGrey"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
 
-            <View style="@style/Divider.Small" />
+            <View style="@style/Divider.Small"
+                android:background="@color/shade_10"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="18dp">
+                android:gravity="center_vertical">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageCountry"
                     android:layout_width="24dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
-                    app:riv_corner_radius="2dip" />
+                    android:layout_marginEnd="8dp" />
 
                 <ImageView
                     android:id="@+id/imageDoubleArrows"
@@ -59,9 +59,12 @@
 
                 <TextView
                     android:id="@+id/textCountry"
+                    style="@style/Body1Regular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="18dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:textColor="@color/white"
@@ -74,21 +77,38 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/badgeP2P"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:foreground="@drawable/bg_circle_ripple_selector"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/ic_rounded_p2p" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconP2P"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_p2p"
+                    android:tint="@color/icon_hint"
+                    android:layout_marginEnd="4dp"/>
 
-                <ImageView
-                    android:id="@+id/badgeTor"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:foreground="@drawable/bg_circle_ripple_selector"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/ic_rounded_tor" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconTor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_tor"
+                    android:tint="@color/icon_hint"
+                    android:layout_marginEnd="4dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iconSmartRouting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_smart_routing"
+                    android:tint="@color/icon_hint"
+                    android:layout_marginEnd="8dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonUpgrade"
+                    style="@style/Button.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="@string/upgrade"/>
 
                 <ImageView
                     android:id="@+id/buttonCross"
@@ -101,17 +121,5 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <com.protonvpn.android.components.TriangledTextView
-            android:id="@+id/buttonUpgrade"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:paddingStart="32dp"
-            android:paddingEnd="20dp"
-            android:text="@string/upgrade"
-            android:textColor="@color/white" />
     </FrameLayout>
 </layout>

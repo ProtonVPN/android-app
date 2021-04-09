@@ -71,7 +71,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp"
+                android:background="@color/background_norm">
 
                 <TextView
                     android:layout_width="0dp"

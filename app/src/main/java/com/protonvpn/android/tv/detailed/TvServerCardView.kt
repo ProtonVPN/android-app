@@ -57,9 +57,9 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
         serverLoadLabel.text = server.stateText(context)
         val stateColorRes = when (server.loadState) {
             TvServerListViewModel.ServerLoadState.MAINTENANCE -> R.color.tvInMaintenance
-            TvServerListViewModel.ServerLoadState.LOW_LOAD -> R.color.tvServerLoadLow
-            TvServerListViewModel.ServerLoadState.MEDIUM_LOAD -> R.color.tvServerLoadMedium
-            TvServerListViewModel.ServerLoadState.HIGH_LOAD -> R.color.tvServerLoadHigh
+            TvServerListViewModel.ServerLoadState.LOW_LOAD -> R.color.serverLoadLow
+            TvServerListViewModel.ServerLoadState.MEDIUM_LOAD -> R.color.serverLoadMedium
+            TvServerListViewModel.ServerLoadState.HIGH_LOAD -> R.color.serverLoadHigh
         }
         serverLoadColor.setColorFilter(ContextCompat.getColor(context, stateColorRes))
         serverMaintenanceIcon.isVisible = server.loadState == TvServerListViewModel.ServerLoadState.MAINTENANCE

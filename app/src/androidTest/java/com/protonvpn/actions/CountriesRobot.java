@@ -23,11 +23,6 @@ import com.protonvpn.android.R;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 public class CountriesRobot extends UIActionsTestHelper {
 
     public CountriesRobot selectCountry(String country) {
@@ -40,17 +35,15 @@ public class CountriesRobot extends UIActionsTestHelper {
         return this;
     }
 
-    public CountriesRobot selectFastestServer() {
-        onView(withId(R.id.list)).perform(actionOnItemAtPosition(2, click()));
-        return this;
-    }
-
-    public ConnectionResult clickConnectButton() {
-        clickOnObjectWithIdAndText(R.id.buttonConnect, R.string.connect);
+    public ConnectionResult clickConnectButton(String contentDescription) {
+        clickOnObjectWithIdAndContentDescription(R.id.buttonConnect, contentDescription);
         if (!MockSwitch.mockedConnectionUsed) {
             new HomeRobot().allowToUseVpn();
         }
         return new ConnectionResult();
     }
 
+    public ConnectionResult connectToFastestServer() {
+        return clickConnectButton("fastest");
+    }
 }

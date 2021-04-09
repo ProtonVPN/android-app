@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home.countries
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
@@ -44,10 +43,6 @@ class CountryListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val vpnStatus = vpnStateMonitor.status.asLiveData()
-
-    val selectedServer = MutableLiveData<Server>()
-    val selectedCountryFlag = MutableLiveData<String>()
-    val onUpgradeTriggered = LiveEvent()
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
@@ -101,4 +96,7 @@ class CountryListViewModel @Inject constructor(
 
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList().partition { it.hasAccessibleServer(userData) }
+
+    fun shouldShowSmartRouting(vpnCountry: VpnCountry) =
+        vpnCountry.serverList.all { !it.hostCountry.isNullOrBlank() && it.hostCountry != it.entryCountry }
 }

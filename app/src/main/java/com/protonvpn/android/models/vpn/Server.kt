@@ -39,6 +39,7 @@ data class Server(
     @SerialName(value = "ExitCountry") val exitCountry: String,
     @SerialName(value = "Name") val serverName: String,
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
+    @SerialName(value = "HostCountry") val hostCountry: String? = null,
     @SerialName(value = "Domain") val domain: String,
     @SerialName(value = "Load") var load: Float,
     @SerialName(value = "Tier") val tier: Int,
@@ -59,12 +60,19 @@ data class Server(
     @Transient
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
-    @Transient
-    val keywords: List<String> = mutableListOf<String>().apply {
+    enum class Keyword {
+        P2P, TOR, STREAMING, SMART_ROUTING
+    }
+
+    val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
         if (features and 4 == 4)
-            add("p2p")
+            add(Keyword.P2P)
         if (features and 2 == 2)
-            add("tor")
+            add(Keyword.TOR)
+        if (features and 8 == 8)
+            add(Keyword.STREAMING)
+        if (features and 32 == 32)
+            add(Keyword.SMART_ROUTING)
     }
 
     @Transient

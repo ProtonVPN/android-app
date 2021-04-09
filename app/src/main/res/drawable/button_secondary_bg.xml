@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020 Proton Technologies AG
+  ~ Copyright (c) 2021 Proton Technologies AG
   ~
   ~ This file is part of ProtonVPN.
   ~
@@ -18,18 +18,8 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-<TextView
-    android:layout_width="26sp"
-    android:layout_height="26sp"
-    android:layout_marginStart="2dp"
-    android:background="#2000"
-    android:gravity="center"
-    android:textStyle="bold"
-    android:textColor="?android:attr/textColor"
-    tools:text="A"/>
-
-</layout>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/button_secondary_bg_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/button_secondary_bg_disabled" android:state_enabled="false"/>
+    <item android:drawable="@drawable/button_secondary_bg_normal"/>
+</selector>

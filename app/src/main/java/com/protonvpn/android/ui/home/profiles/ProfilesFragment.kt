@@ -40,7 +40,7 @@ class ProfilesFragment : BaseFragmentV2<ProfilesViewModel, FragmentProfilesBindi
     }
 
     override fun onViewCreated() {
-        val adapter = ProfilesAdapter(this, viewModel, viewLifecycleOwner.lifecycleScope)
+        val adapter = ProfilesAdapter(this, viewModel, viewLifecycleOwner)
 
         with(binding) {
             list.adapter = adapter

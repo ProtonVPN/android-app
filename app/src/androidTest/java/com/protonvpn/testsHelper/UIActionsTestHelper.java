@@ -41,6 +41,7 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -197,6 +198,12 @@ public class UIActionsTestHelper {
         object.check(matches(withText(text)));
     }
 
+    protected void checkIfObjectWithTextIsDisplayedInDialog(String text) {
+        onView(isRoot()).inRoot(isDialog()).perform(waitText(text));
+        ViewInteraction object = onView(Matchers.allOf(withText(text), isDisplayed()));
+        object.check(matches(withText(text)));
+    }
+
     protected void checkIfObjectWithTextIsDisplayed(@StringRes int resId) {
         checkIfObjectWithTextIsDisplayed(getContext().getString(resId));
     }
@@ -217,6 +224,11 @@ public class UIActionsTestHelper {
 
     protected void clickOnObjectWithContentDescription(@StringRes int resId) {
         clickOnObjectWithContentDescription(getContext().getString(resId));
+    }
+
+    public void clickOnObjectWithIdAndContentDescription(int id, String text) {
+        ViewInteraction object = onView(Matchers.allOf(withContentDescription(text), isDisplayed(), withId(id)));
+        object.perform(click());
     }
 
     protected void clickOnObjectWithText(@StringRes int resId) {

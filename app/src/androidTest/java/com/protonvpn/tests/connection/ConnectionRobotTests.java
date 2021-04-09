@@ -72,9 +72,8 @@ public class ConnectionRobotTests {
 
         String country = service.getFirstCountryFromBackend();
         countriesRobot.selectCountry(country);
-        countriesRobot.selectFastestServer();
 
-        ConnectionResult result = countriesRobot.clickConnectButton();
+        ConnectionResult result = countriesRobot.connectToFastestServer();
 
         ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
         connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
@@ -98,8 +97,7 @@ public class ConnectionRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
-        profilesRobot.clickOnFastestOption();
-        ConnectionResult result = profilesRobot.clickOnConnectButton();
+        ConnectionResult result = profilesRobot.clickOnConnectButton("Fastest");
 
         ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
         connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
@@ -120,9 +118,8 @@ public class ConnectionRobotTests {
         testRule.mockErrorOnConnect(ErrorType.UNREACHABLE);
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
-        profilesRobot.clickOnFastestOption();
 
-        ConnectionResult connectionResult = profilesRobot.clickOnConnectButton();
+        ConnectionResult connectionResult = profilesRobot.clickOnConnectButton("Fastest");
 
         if (!MockSwitch.mockedConnectionUsed) {
             ServiceRobot serviceRobot = new ServiceRobot();

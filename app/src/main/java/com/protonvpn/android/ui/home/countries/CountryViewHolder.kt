@@ -23,14 +23,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryBinding
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.BindableItemEx
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.utils.getSelectableItemBackgroundRes
+import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
 
@@ -41,10 +44,6 @@ abstract class CountryViewHolder(
 ) : BindableItemEx<ItemCountryBinding>(), ExpandableItem {
 
     private lateinit var expandableGroup: ExpandableGroup
-
-    private val countrySelectionObserver = Observer<String> {
-        updateUpgradeButton(animate = true)
-    }
 
     abstract fun onExpanded(position: Int)
 
@@ -60,14 +59,17 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
+            val accessible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
+            countryItem.setBackgroundResource(if (accessible)
+                countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(ContextCompat.getColor(context,
                     if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.white else R.color.white50))
-            textCountry.text = if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData))
+            textCountry.text = if (accessible)
                 vpnCountry.countryName
             else
                 vpnCountry.countryName + " " + context.getString(if (vpnCountry.isUnderMaintenance()) R.string.listItemMaintenance else R.string.premium)
 
-            buttonCross.isVisible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
+            buttonCross.isVisible = accessible
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
@@ -75,41 +77,31 @@ abstract class CountryViewHolder(
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
-            badgeP2P.isVisible = vpnCountry.getKeywords().contains("p2p")
-            badgeTor.isVisible = vpnCountry.getKeywords().contains("tor")
+            val keywords = vpnCountry.keywords
+            iconP2P.isVisible = keywords.contains(Server.Keyword.P2P)
+            iconTor.isVisible = keywords.contains(Server.Keyword.TOR)
+            iconSmartRouting.isVisible = viewModel.shouldShowSmartRouting(vpnCountry)
 
             root.setOnClickListener {
                 if (!vpnCountry.isUnderMaintenance()) {
-                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) {
+                    if (accessible) {
                         expandableGroup.onToggleExpanded()
                         if (expandableGroup.isExpanded) {
                             onExpanded(position)
                         }
                         adjustCross(buttonCross, expandableGroup.isExpanded, 300)
-                    } else {
-                        clickedOnUpgradeCountry()
                     }
                 }
             }
 
-            buttonUpgrade.setOnClickListener { viewModel.onUpgradeTriggered.emit() }
-            updateUpgradeButton(animate = false)
-            viewModel.selectedCountryFlag.observe(parentLifecycleOwner, countrySelectionObserver)
+            buttonUpgrade.isVisible = !vpnCountry.isUnderMaintenance() && !accessible
+            buttonUpgrade.setOnClickListener {
+                buttonUpgrade.context.openProtonUrl(Constants.DASHBOARD_URL)
+            }
         }
     }
 
-    private fun clickedOnUpgradeCountry() {
-        viewModel.selectedCountryFlag.value =
-                if (viewModel.selectedCountryFlag.value == vpnCountry.flag) null else vpnCountry.flag
-    }
-
-    private fun updateUpgradeButton(animate: Boolean) {
-        val expand = viewModel.selectedCountryFlag.value == vpnCountry.flag
-        binding.buttonUpgrade.setExpanded(expand, animate, parentLifecycleOwner.lifecycleScope)
-    }
-
     override fun clear() {
-        viewModel.selectedCountryFlag.removeObserver(countrySelectionObserver)
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 

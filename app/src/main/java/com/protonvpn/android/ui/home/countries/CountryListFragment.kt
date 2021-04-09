@@ -60,10 +60,6 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
     }
 
     private fun observeLiveEvents() {
-        viewModel.onUpgradeTriggered.observe(viewLifecycleOwner) {
-            val activity: BaseActivity = activity as BaseActivity
-            activity.openProtonUrl(Constants.DASHBOARD_URL)
-        }
         viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
             updateListData()
             if (viewModel.userData.isFreeUser)
@@ -110,8 +106,7 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
                     title?.let { add(HeaderItem(it)) }
                     servers.forEach {
-                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner,
-                                title == R.string.listFastestServer))
+                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))
                     }
                 }
             })

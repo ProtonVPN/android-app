@@ -18,9 +18,7 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
-import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
@@ -43,7 +41,5 @@ class ProfilesViewModel @Inject constructor(
 
     fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 
-    @StringRes
-    fun getConnectTextRes(server: Server?): Int = if (userData.hasAccessToServer(server))
-        R.string.connect else R.string.upgrade
+    fun hasAccessToServer(server: Server?) = userData.hasAccessToServer(server)
 }

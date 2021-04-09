@@ -36,6 +36,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -60,7 +61,7 @@ object AndroidUtils {
         expectedSignature: String
     ): Boolean = with(context) {
         val oldAppInfo = packageManager.getPackageInfo(packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
+            PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
                 ?: return false
 
         val signatures = if (Build.VERSION.SDK_INT < 28)
@@ -185,3 +186,8 @@ fun ImageView.setColorTint(@ColorRes colorRes: Int) {
 fun Button.setStartDrawable(@DrawableRes id: Int = 0) {
     this.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0)
 }
+
+fun Context.getThemeColor(@AttrRes attr: Int): Int =
+    TypedValue().apply {
+        theme.resolveAttribute(attr, this, true)
+    }.data
