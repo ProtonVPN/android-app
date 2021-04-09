@@ -18,39 +18,35 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.OnClick
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.ServerSelected
-import com.protonvpn.android.bus.VpnStateChanged
-import com.protonvpn.android.components.BaseViewHolder
-import com.protonvpn.android.components.TriangledTextView
+import com.protonvpn.android.components.BaseViewHolderV2
+import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForEdit
 import com.protonvpn.android.ui.home.profiles.ProfilesAdapter.ServersViewHolder
-import com.protonvpn.android.utils.EventBusBinder
-import com.squareup.otto.Subscribe
-import kotlinx.coroutines.CoroutineScope
+import com.protonvpn.android.utils.getSelectableItemBackgroundRes
+import com.protonvpn.android.vpn.VpnStateMonitor
 
 class ProfilesAdapter(
     private val profilesFragment: ProfilesFragment,
     private val profilesViewModel: ProfilesViewModel,
-    private val scope: CoroutineScope
+    private val parentLifeCycle: LifecycleOwner,
 ) : RecyclerView.Adapter<ServersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ServersViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_profile, parent, false))
+        ServersViewHolder(ItemProfileListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: ServersViewHolder, position: Int) {
         holder.bindData(profilesViewModel.getProfile(position))
@@ -62,95 +58,56 @@ class ProfilesAdapter(
 
     override fun getItemCount() = profilesViewModel.profileCount
 
-    inner class ServersViewHolder(view: View) : BaseViewHolder<Profile>(view), View.OnClickListener {
+    inner class ServersViewHolder(binding: ItemProfileListBinding)
+        : BaseViewHolderV2<Profile, ItemProfileListBinding>(binding) {
 
-        @BindView(R.id.textServer) lateinit var textServer: TextView
-        @BindView(R.id.radioServer) lateinit var radioServer: RadioButton
-        @BindView(R.id.buttonConnect) lateinit var buttonConnect: TriangledTextView
-        @BindView(R.id.textConnected) lateinit var textConnected: TextView
-        @BindView(R.id.textServerNotSet) lateinit var textServerNotSet: TextView
-        @BindView(R.id.imageCountry) lateinit var imageCountry: ImageView
-        @BindView(R.id.layoutProfileColor) lateinit var layoutProfileColor: View
-        @BindView(R.id.imageEdit) lateinit var imageEdit: ImageView
-
-        private var server: Server? = null
-
-        private val eventBusBinder = EventBusBinder(this)
-
-        init {
-            view.setOnClickListener(this)
-        }
-
-        @OnClick(R.id.buttonConnect)
-        fun buttonConnect() {
-            if (server != null) {
-                EventBus.post(ConnectToProfile(item))
-                buttonConnect.setExpanded(expand = false, animate = true, scope = scope)
+        private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
+            val server = item.server
+            val connected = profilesViewModel.isConnectedTo(server)
+            val colorRes = when {
+                connected -> R.color.colorAccent
+                else -> R.color.interaction_weak_vpn
             }
+            binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(binding.root.context, colorRes))
         }
 
-        override fun bindData(newItem: Profile) {
+        override fun bindData(newItem: Profile) = with(binding) {
             super.bindData(newItem)
-            server = newItem.server
+            val server = newItem.server
+            val online = server?.online == true
 
             textServer.text = newItem.getDisplayName(textServer.context)
-            radioServer.isChecked = false
-            radioServer.isClickable = false
-            buttonConnect.setExpanded(expand = false, animate = false, scope = scope)
-            buttonConnect.setText(profilesViewModel.getConnectTextRes(server))
-            initConnectedStatus()
-            textServerNotSet.visibility = if (server != null) View.GONE else View.VISIBLE
-            imageEdit.visibility =
-                    if (newItem.isPreBakedProfile) View.INVISIBLE else View.VISIBLE
-            layoutProfileColor.setBackgroundColor(Color.parseColor(newItem.color))
-            eventBusBinder.register()
+
+            val hasAccess = profilesViewModel.hasAccessToServer(server)
+            buttonUpgrade.isVisible = !hasAccess
+            buttonConnect.isVisible = hasAccess && online
+            imageWrench.isVisible = hasAccess && !online
+            buttonConnect.contentDescription = textServer.text
+
+            val editClickListener = View.OnClickListener {
+                navigateForEdit(profilesFragment, item)
+            }
+            val connectUpgradeClickListener = View.OnClickListener {
+                val connectTo = if (profilesViewModel.isConnectedTo(server)) null else item
+                EventBus.post(ConnectToProfile(connectTo))
+            }
+            buttonConnect.setOnClickListener(connectUpgradeClickListener)
+            buttonUpgrade.setOnClickListener(connectUpgradeClickListener)
+            buttonUpgrade.contentDescription = textServer.text
+            textServerNotSet.isVisible = server == null
+            profileEditButton.isVisible = !newItem.isPreBakedProfile
+            profileColor.setBackgroundColor(Color.parseColor(newItem.color))
+            profileEditButton.setOnClickListener(editClickListener)
+            profileItem.setOnClickListener(if (newItem.isPreBakedProfile) null else editClickListener)
+            profileItem.setBackgroundResource(if (newItem.isPreBakedProfile)
+                0 else profileItem.getSelectableItemBackgroundRes())
+            profilesViewModel.stateMonitor.statusLiveData.observe(parentLifeCycle, vpnStateObserver)
         }
 
         override fun unbind() {
-            eventBusBinder.unregister()
-            server = null
             super.unbind()
-        }
-
-        private fun initConnectedStatus() {
-            val connectedToServer = profilesViewModel.isConnectedTo(server)
-            textConnected.visibility = if (connectedToServer) View.VISIBLE else View.GONE
-            radioServer.isChecked = connectedToServer
-        }
-
-        @Subscribe
-        fun onServerSelected(selection: ServerSelected) {
-            if (radioServer.isChecked && !selection.isSameSelection(item, server)) {
-                markAsSelected(false)
-                initConnectedStatus()
-            }
-        }
-
-        private fun markAsSelected(enable: Boolean) {
-            buttonConnect.isClickable = enable
-            if (textConnected.visibility != View.VISIBLE) {
-                radioServer.isChecked = enable
-                buttonConnect.setExpanded(enable, true, scope)
-            }
-        }
-
-        @OnClick(R.id.imageEdit)
-        fun imageEdit() {
-            navigateForEdit(profilesFragment, item)
-        }
-
-        override fun onClick(v: View) {
-            if (!profilesViewModel.isConnectedTo(server) && server != null) {
-                markAsSelected(!radioServer.isChecked)
-                EventBus.post(ServerSelected(item, server))
-            }
-        }
-
-        @Subscribe
-        fun onVpnStateChanged(event: VpnStateChanged) {
-            buttonConnect.setExpanded(expand = false, animate = true, scope = scope)
-            initConnectedStatus()
-            EventBus.post(ServerSelected(item, item.server))
+            profilesViewModel.stateMonitor.statusLiveData.removeObserver(vpnStateObserver)
         }
     }
 }

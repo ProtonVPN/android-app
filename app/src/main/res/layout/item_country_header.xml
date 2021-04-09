@@ -5,13 +5,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey"
+        android:background="@color/shade_10"
         android:orientation="vertical">
 
         <View style="@style/Divider.Small" />
 
         <TextView
             android:id="@+id/textTitle"
+            style="@style/Body2Regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"

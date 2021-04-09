@@ -54,7 +54,6 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)
         setContentView(binding.root)

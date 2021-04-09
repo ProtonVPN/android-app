@@ -86,9 +86,7 @@ public class SecureCoreRobotSecurityTests {
         homeRobot.enableSecureCore();
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
-        profilesRobot.clickOnFastestOption();
-
-        ConnectionResult result = profilesRobot.clickOnUpgradeButton();
+        ConnectionResult result = profilesRobot.clickOnUpgradeButton("Fastest");
         result.cannotAccessSecureCoreAsFreeUser();
         result.isDisconnectedFromVpn();
     }

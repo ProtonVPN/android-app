@@ -64,7 +64,7 @@
             android:lineSpacingMultiplier="1.1"
             android:gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:textColor="@color/textWeak"
+            android:textColor="@color/text_weak"
             tools:text="This is some very long description about something, just to showcase in android studio editor" />
 
         <include

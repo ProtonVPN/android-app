@@ -40,6 +40,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -74,6 +75,8 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
 
         if (BuildConfig.DEBUG)
             initLeakCanary();
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         ProtonLogger.INSTANCE.log("App start");
     }

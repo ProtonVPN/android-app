@@ -48,8 +48,8 @@ public class ProfilesRobot extends UIActionsTestHelper {
         return this;
     }
 
-    public ConnectionResult clickOnConnectButton() {
-        clickOnObjectWithIdAndText(R.id.buttonConnect, R.string.connect);
+    public ConnectionResult clickOnConnectButton(String profileName) {
+        clickOnObjectWithIdAndContentDescription(R.id.buttonConnect, profileName);
         if (!MockSwitch.mockedConnectionUsed) {
             new HomeRobot().allowToUseVpn();
         }
@@ -145,13 +145,13 @@ public class ProfilesRobot extends UIActionsTestHelper {
         return new ConnectionResult();
     }
 
-    public ConnectionResult clickOnUpgradeButton() {
-        clickOnObjectWithIdAndText(R.id.buttonConnect, "Upgrade");
+    public ConnectionResult clickOnUpgradeButton(String contentDescription) {
+        clickOnObjectWithIdAndContentDescription(R.id.buttonUpgrade, contentDescription);
         return new ConnectionResult();
     }
 
     public ProfilesRobot clickEditProfile() {
-        clickOnObjectWithId(R.id.imageEdit);
+        clickOnObjectWithId(R.id.profile_edit_button);
         return this;
     }
 

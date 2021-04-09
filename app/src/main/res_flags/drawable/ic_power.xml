@@ -17,12 +17,8 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="16dp"
-    android:height="16dp"
-    android:viewportWidth="19"
-    android:viewportHeight="19">
-  <path
-      android:pathData="M18.786,4.0729L15.6787,7.1802L12.1294,7.1668L12.1294,3.6309L15.2367,0.5236H12.1562C11.1383,0.5236 10.1874,0.912 9.4641,1.6352L8.8614,2.238C7.7899,3.3094 7.2006,4.7559 7.2006,6.256L7.2006,9.0955L1.1117,15.1844C0.2813,16.0148 0.2813,17.3541 1.1117,18.1845C1.9421,19.0149 3.2814,19.0149 4.1118,18.1845L10.2008,12.0956H13.0402C14.5403,12.0956 16.0002,11.4929 17.0582,10.4348L17.661,9.8321C18.3708,9.1222 18.7726,8.1579 18.7592,7.1534L18.786,4.0729Z"
-      android:fillColor="#262A33"/>
+<vector android:height="17dp" android:viewportHeight="18"
+    android:viewportWidth="18" android:width="17dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#ffffff" android:pathData="M9.7498,0H8.2498V9H9.7498V0Z"/>
+    <path android:fillColor="#ffffff" android:pathData="M11.8948,3.255L12.5248,1.89C16.0151,3.5394 17.8949,7.3886 17.0497,11.1553C16.2044,14.9221 12.8602,17.599 8.9998,17.599C5.1395,17.599 1.7952,14.9221 0.95,11.1553C0.1048,7.3886 1.9846,3.5394 5.4748,1.89L6.1048,3.255C3.2536,4.6087 1.7211,7.7574 2.4149,10.8365C3.1088,13.9155 5.8436,16.1027 8.9998,16.1027C12.1561,16.1027 14.8909,13.9155 15.5847,10.8365C16.2785,7.7574 14.746,4.6087 11.8948,3.255Z"/>
 </vector>

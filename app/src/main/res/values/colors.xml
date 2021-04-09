@@ -84,6 +84,7 @@
     <color name="accountTypeBasic">#FB7554</color>
     <color name="accountTypePlus">#59B268</color>
     <color name="accountTypeVisionary">#32b3dd</color>
+    <color name="server_list_item_bg">@color/dimmedGrey</color>
 
     <!-- TV -->
     <color name="tvMapSelected">#5f6575</color>
@@ -93,10 +94,15 @@
     <color name="tvGradientLight">#3c414e</color>
     <color name="tvMapBorder">@color/tvGradientDark</color>
     <color name="tvInMaintenance">#989DA9</color>
-    <color name="tvServerLoadLow">#4DA358</color>
-    <color name="tvServerLoadMedium">#EAC819</color>
-    <color name="tvServerLoadHigh">@color/tvAlert</color>
+    <color name="serverLoadLow">#4DA358</color>
+    <color name="serverLoadMedium">#EAC819</color>
+    <color name="serverLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
 
-    <color name="textWeak">#9CA0AA</color>
+    <!-- New palette -->
+
+    <!-- Android interaction weak are different than in core palette. -->
+    <color name="interaction_weak_vpn">@color/shade_40</color>
+    <color name="interaction_weak_pressed_vpn">@color/shade_60</color>
+    <color name="interaction_weak_disabled_vpn">@color/shade_10</color>
 </resources>

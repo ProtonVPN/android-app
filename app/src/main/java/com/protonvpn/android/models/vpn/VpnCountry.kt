@@ -36,7 +36,6 @@ class VpnCountry(
 ) : Markable, Serializable, Listable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
-    private val keywords: MutableList<String>
 
     @Transient var deliverer: ServerDeliver
 
@@ -54,20 +53,12 @@ class VpnCountry(
             return wrapperList
         }
 
+    val keywords get() = serverList.flatMap { it.keywords }.distinct()
+
     init {
         this.serverList = sortServers(serverList)
         this.deliverer = deliverer
         this.translatedCoordinates = TranslatedCoordinates(flag)
-        this.keywords = ArrayList()
-        initKeywords()
-    }
-
-    private fun initKeywords() {
-        for (server in serverList) {
-            server.keywords
-                    .filterNot { keywords.contains(it) }
-                    .forEach { keywords.add(it) }
-        }
     }
 
     fun hasAccessibleServer(userData: UserData): Boolean =
@@ -86,8 +77,6 @@ class VpnCountry(
                         .thenBy { it.tier })
         return serverList
     }
-
-    fun getKeywords(): List<String> = keywords
 
     fun hasConnectedServer(server: Server?): Boolean {
         if (server == null) {

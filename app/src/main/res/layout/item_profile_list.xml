@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 Proton Technologies AG
+  ~
+  ~ This file is part of ProtonVPN.
+  ~
+  ~ ProtonVPN is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonVPN is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/server_list_item_bg">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profileItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical">
+
+        <View
+            android:id="@+id/profileColor"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            tools:background="#A36BDC"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginVertical="8dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textServer"
+                style="@style/Body1Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_norm"
+                android:lines="1"
+                android:ellipsize="end"
+                tools:text="Coffe shop (Default)"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textServerNotSet"
+                style="@style/Body2Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_weak"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="@string/error_server_not_set"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/profile_edit_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/round_selectable_item_bg"
+            android:src="@drawable/ic_dots"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/buttonConnect"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/bg_button_oval"
+            android:backgroundTint="@color/interaction_weak_vpn"
+            android:src="@drawable/ic_power"
+            android:foreground="@drawable/round_selectable_item_bg"
+            app:tint="@color/text_norm"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imageWrench"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/bg_button_oval"
+            android:backgroundTint="@color/interaction_weak_disabled_vpn"
+            android:src="@drawable/ic_wrench_icon"
+            app:tint="@color/icon_weak"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonUpgrade"
+            style="@style/Button.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_marginVertical="14dp"
+            android:text="@string/upgrade"/>
+    </LinearLayout>
+
+    <View
+        style="@style/Divider.Small"
+        android:layout_gravity="bottom" />
+</LinearLayout>
+
+</layout>

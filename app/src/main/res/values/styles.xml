@@ -48,7 +48,6 @@
         <item name="guidedActionsBackgroundDark">@color/pickerColor2</item>
         <item name="android:colorControlActivated">@color/colorAccent</item>
         <item name="android:colorForeground">@color/colorPrimary</item>
-        <item name="primaryText">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -143,6 +142,14 @@
     </style>
 
     <style name="Button" />
+
+    <style name="Button.Secondary">
+        <item name="android:background">@drawable/button_secondary_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_height">32sp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
 
     <style name="Button.Green" parent="Button">
         <item name="android:textColor">@color/colorAccent</item>
@@ -257,5 +264,13 @@
 
     <style name="TvButtonAlert" parent="TvButton">
         <item name="android:backgroundTint">@color/tvAlert</item>
+    </style>
+
+    <style name="Body1Regular">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Body2Regular">
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

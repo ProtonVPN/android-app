@@ -384,7 +384,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @Subscribe
     public void onConnectToProfile(@NotNull ConnectToProfile profile) {
-        onConnect(profile.getProfile());
+        if (profile.getProfile() == null) {
+            vpnConnectionManager.disconnect();
+        } else {
+            onConnect(profile.getProfile());
+        }
     }
 
     private void initQuickConnectFab() {
@@ -481,7 +485,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
         switchSecureCoreLayout.setBackgroundColor(ContextCompat.getColor(getContext(),
-            switchCompat.isChecked() ? R.color.colorAccent : R.color.grey));
+            switchCompat.isChecked() ? R.color.colorAccent : R.color.background_norm));
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }

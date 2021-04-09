@@ -80,7 +80,7 @@ public class ProfilesResult extends UIActionsTestHelper {
     }
 
     public ProfilesRobot notSavedProfileWarning() {
-        checkIfObjectWithTextIsDisplayed("There are unsaved changes. Are you sure you want to discard them?");
+        checkIfObjectWithTextIsDisplayedInDialog("There are unsaved changes. Are you sure you want to discard them?");
         return new ProfilesRobot();
     }
 
