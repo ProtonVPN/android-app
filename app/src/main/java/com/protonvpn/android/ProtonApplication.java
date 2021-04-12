@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
@@ -30,6 +31,7 @@ import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
@@ -40,11 +42,8 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import io.sentry.Sentry;
@@ -52,14 +51,14 @@ import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import rx_activity_result2.RxActivityResult;
 
-public class ProtonApplication extends DaggerApplication implements LifecycleObserver {
+public class ProtonApplication extends DaggerApplication {
 
-    public boolean isForeground = false;
+    public Activity foregroundActivity;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+        initActivityObserver();
         initSentry();
         initStrongSwan();
         NotificationHelper.Companion.initNotificationChannel(this);
@@ -81,20 +80,24 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
         ProtonLogger.INSTANCE.log("App start");
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onBackground() {
-        isForeground = false;
-        ProtonLogger.INSTANCE.log("App in background");
-    }
+    private void initActivityObserver() {
+        registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks() {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onForeground() {
-        ProtonLogger.INSTANCE.log("App in foreground " + BuildConfig.VERSION_NAME);
-        isForeground = true;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
-        }
+            @Override public void onActivityResumed(@NonNull Activity activity) {
+                foregroundActivity = activity;
+                ProtonLogger.INSTANCE.log("App in foreground " + activity.getClass().getSimpleName() + " "
+                    + BuildConfig.VERSION_NAME);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+                    ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
+                }
+            }
+
+            @Override public void onActivityPaused(@NonNull Activity activity) {
+                foregroundActivity = null;
+                ProtonLogger.INSTANCE.log("App in background " + activity.getClass().getSimpleName());
+            }
+        });
     }
 
     private void initStrongSwan() {
@@ -139,5 +142,9 @@ public class ProtonApplication extends DaggerApplication implements LifecycleObs
 
     public static void setAppContextForTest(@NotNull Context context) {
         StrongSwanApplication.setContext(context);
+    }
+
+    public boolean isInForeground() {
+        return foregroundActivity != null;
     }
 }

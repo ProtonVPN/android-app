@@ -24,9 +24,12 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import dagger.Module;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 import dagger.android.support.DaggerApplication;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, ActivityBuilder.class, AppModule.class, TvModule.class,
@@ -42,3 +45,7 @@ public interface AppComponent extends AndroidInjector<DaggerApplication> {
         AppComponent build();
     }
 }
+
+@InstallIn(SingletonComponent.class)
+@Module(includes = {AndroidSupportInjectionModule.class, ActivityBuilder.class, AppModule.class, TvModule.class, ViewModelModule.class})
+interface HiltAggregatorModule {}

@@ -26,11 +26,9 @@ import me.proton.core.network.domain.session.SessionId
 
 // ApiManager instance representing current session (or unauthorized session at all when logged out)
 class VpnApiManager(
-    apiFactory: ApiFactory,
+    private val apiProvider: ApiProvider,
     private val sessionProvider: ApiSessionProvider
 ) : ApiManager<ProtonVPNRetrofit> {
-
-    private val provider = ApiProvider(apiFactory, sessionProvider)
 
     // ApiProvider holds only weak references of ApiManagers, cache last ApiManager to avoid risk of creating new
     // ApiManager each API call - as reference to it will not be kept anywhere, only to VpnApiManager (this)
@@ -46,7 +44,7 @@ class VpnApiManager(
         sessionId: SessionId? = sessionProvider.currentSessionId,
         forceNoRetryOnConnectionErrors: Boolean = false,
         block: suspend ProtonVPNRetrofit.() -> T
-    ): ApiResult<T> = provider.get<ProtonVPNRetrofit>(sessionId).apply {
+    ): ApiResult<T> = apiProvider.get<ProtonVPNRetrofit>(sessionId).apply {
         cachedManager = this
     }.invoke(forceNoRetryOnConnectionErrors, block)
 }

@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    userData: UserData,
+    val userData: UserData,
     private val apiNotificationManager: ApiNotificationManager,
     userPlanManager: UserPlanManager,
 ) : MainViewModel(userData, userPlanManager) {

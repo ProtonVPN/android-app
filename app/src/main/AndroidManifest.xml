@@ -36,7 +36,7 @@
         android:required="false" />
 
     <application
-        android:name=".ProtonApplication"
+        android:name=".ProtonApplicationHilt"
         android:allowBackup="false"
         android:banner="@drawable/tv_banner"
         android:icon="@mipmap/ic_launcher"
@@ -61,6 +61,11 @@
         <activity
             android:name=".tv.TvGenericDialogActivity"
             android:theme="@style/AppTheme.TV.Browse" />
+
+        <activity
+            android:name="me.proton.core.humanverification.presentation.ui.HumanVerificationActivity"
+            android:theme="@style/ProtonTheme.Vpn"
+            android:windowSoftInputMode="adjustResize" />
 
         <uses-library
             android:name="org.apache.http.legacy"

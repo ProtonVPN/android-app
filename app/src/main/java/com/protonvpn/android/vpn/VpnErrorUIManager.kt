@@ -81,7 +81,7 @@ class VpnErrorUIManager(
     }
 
     private fun displayInformation(reconnectionNotification: ReconnectionNotification) {
-        if ((appContext as ProtonApplication).isForeground && reconnectionNotification.fullScreenDialog != null) {
+        if ((appContext as ProtonApplication).isInForeground() && reconnectionNotification.fullScreenDialog != null) {
             appContext.launchActivity<SwitchDialogActivity>(init = {
                 putExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS, reconnectionNotification)
                 flags = FLAG_ACTIVITY_NEW_TASK
