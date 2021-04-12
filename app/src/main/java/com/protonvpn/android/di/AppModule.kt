@@ -54,8 +54,13 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import me.proton.core.humanverification.data.repository.HumanVerificationRemoteRepositoryImpl
+import me.proton.core.humanverification.domain.repository.HumanVerificationRemoteRepository
+import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.data.di.NetworkManager
@@ -64,6 +69,8 @@ import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import java.util.Random
 import javax.inject.Singleton
+import me.proton.core.country.data.repository.CountriesRepositoryImpl
+import me.proton.core.country.domain.repository.CountriesRepository
 
 @Module
 class AppModule {
@@ -74,7 +81,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideServerManager(userData: UserData) =
-            ServerManager(ProtonApplication.getAppContext(), userData)
+        ServerManager(ProtonApplication.getAppContext(), userData)
 
     @Singleton
     @Provides
@@ -85,7 +92,7 @@ class AppModule {
         vpnStateMonitor: VpnStateMonitor,
         userPlanManager: UserPlanManager,
     ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV(),
-            vpnStateMonitor, userPlanManager)
+        vpnStateMonitor, userPlanManager)
 
     @Singleton
     @Provides
@@ -103,16 +110,21 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiManager(
+    fun provideVpnApiManager(userData: UserData, apiProvider: ApiProvider) =
+        VpnApiManager(apiProvider, userData.apiSessionProvider)
+
+    @Singleton
+    @Provides
+    fun provideApiFactory(
+        userData: UserData,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        userData: UserData
-    ): VpnApiManager {
+        apiClient: VpnApiClient
+    ): ApiFactory {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
         val cookieStore = ProtonCookieStore(appContext)
-        val apiFactory = if (BuildConfig.DEBUG) {
+        return if (BuildConfig.DEBUG) {
             ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
                 NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope,
                 certificatePins = emptyArray(), alternativeApiPins = emptyList())
@@ -120,8 +132,12 @@ class AppModule {
             ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
                 NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope)
         }
-        return VpnApiManager(apiFactory, userData.apiSessionProvider)
     }
+
+    @Singleton
+    @Provides
+    fun provideApiProvider(apiFactory: ApiFactory, userData: UserData): ApiProvider =
+        ApiProvider(apiFactory, userData.apiSessionProvider)
 
     @Singleton
     @Provides
@@ -176,7 +192,7 @@ class AppModule {
         networkManager: NetworkManager,
         vpnBackendProvider: VpnBackendProvider,
     ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-            serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider)
+        serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider)
 
     @Singleton
     @Provides
@@ -187,7 +203,7 @@ class AppModule {
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
     ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
-         vpnStateMonitor, notificationHelper)
+        vpnStateMonitor, notificationHelper)
 
     @Singleton
     @Provides
@@ -236,9 +252,9 @@ class AppModule {
         serverManager: ServerManager
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
-                StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
-                OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
-                serverManager)
+            StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
+            OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
+            serverManager)
 
     @Singleton
     @Provides
@@ -279,5 +295,18 @@ class AppModule {
         vpnConnectionManager: VpnConnectionManager,
         vpnApiClient: VpnApiClient
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-            vpnStateMonitor, vpnConnectionManager, vpnApiClient)
+        vpnStateMonitor, vpnConnectionManager, vpnApiClient)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object HiltAppModule {
+
+    @Provides
+    fun provideHumanVerificationRemoteRepository(apiProvider: ApiProvider): HumanVerificationRemoteRepository =
+        HumanVerificationRemoteRepositoryImpl(apiProvider)
+
+    @Provides
+    fun provideCountriesRepository(): CountriesRepository =
+        CountriesRepositoryImpl(ProtonApplication.getAppContext())
 }

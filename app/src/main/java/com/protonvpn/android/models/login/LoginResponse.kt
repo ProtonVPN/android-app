@@ -29,5 +29,9 @@ class LoginResponse(
     @SerialName(value = "Scope") var scope: String,
     @SerialName(value = "Uid") val uid: String,
     @SerialName(value = "RefreshToken") var refreshToken: String,
-    @SerialName(value = "UserID") val userId: String?
+    @SerialName(value = "UserID") val userId: String?,
+
+    // Those fields don't come from API, used only for local storage
+    @SerialName(value = "HumanVerificationTokenType") var humanVerificationTokenType: String? = null,
+    @SerialName(value = "HumanVerificationTokenCode") var humanVerificationTokenCode: String? = null
 )

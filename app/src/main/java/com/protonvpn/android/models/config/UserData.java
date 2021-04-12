@@ -73,7 +73,8 @@ public final class UserData implements Serializable {
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
-    private transient ApiSessionProvider apiSessionProvider = new ApiSessionProvider();
+    private transient ApiSessionProvider apiSessionProvider =
+        new ApiSessionProvider(ProtonApplication.getAppContext());
 
     public UserData() {
         user = "";

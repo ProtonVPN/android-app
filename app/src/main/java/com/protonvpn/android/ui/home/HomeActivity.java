@@ -72,7 +72,6 @@ import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
-import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;

@@ -58,6 +58,11 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import me.proton.core.country.data.repository.CountriesRepositoryImpl
+import me.proton.core.country.domain.repository.CountriesRepository
+import me.proton.core.humanverification.data.repository.HumanVerificationRemoteRepositoryImpl
+import me.proton.core.humanverification.domain.repository.HumanVerificationRemoteRepository
+import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.data.di.NetworkPrefs
@@ -101,11 +106,16 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiManager(
+    fun provideVpnApiManager(userData: UserData, apiProvider: ApiProvider) =
+        VpnApiManager(apiProvider, userData.apiSessionProvider)
+
+    @Singleton
+    @Provides
+    fun provideApiFactory(
+        userData: UserData,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        userData: UserData
-    ): VpnApiManager {
+        apiClient: VpnApiClient
+    ): ApiFactory {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
@@ -117,22 +127,19 @@ class MockAppModule {
             IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
         IdlingRegistry.getInstance().register(resource)
 
-        return VpnApiManager(apiFactory, userData.apiSessionProvider)
+        return apiFactory
     }
+
+    @Singleton
+    @Provides
+    fun provideApiProvider(apiFactory: ApiFactory, userData: UserData): ApiProvider =
+        ApiProvider(apiFactory, userData.apiSessionProvider)
 
     @Singleton
     @Provides
     fun provideApiManager(
         vpnApiManager: VpnApiManager
     ): ApiManager<ProtonVPNRetrofit> = vpnApiManager
-
-    @Singleton
-    @Provides
-    fun provideUserPlanManager(
-        api: ProtonApiRetroFit,
-        userData: UserData,
-        vpnStateMonitor: VpnStateMonitor,
-    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
@@ -161,6 +168,14 @@ class MockAppModule {
     fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
         useSmartProtocol = false
     })
+
+    @Singleton
+    @Provides
+    fun provideUserPlanManager(
+        api: ProtonApiRetroFit,
+        userData: UserData,
+        vpnStateMonitor: VpnStateMonitor,
+    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
@@ -274,4 +289,12 @@ class MockAppModule {
         vpnApiClient: VpnApiClient
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
         vpnStateMonitor, vpnConnectionManager, vpnApiClient)
+
+    @Provides
+    fun provideHumanVerificationRemoteRepository(apiProvider: ApiProvider): HumanVerificationRemoteRepository =
+        HumanVerificationRemoteRepositoryImpl(apiProvider)
+
+    @Provides
+    fun provideCountriesRepository(): CountriesRepository =
+        CountriesRepositoryImpl(ProtonApplication.getAppContext())
 }
