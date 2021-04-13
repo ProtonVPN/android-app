@@ -248,7 +248,7 @@ class VpnConnectionErrorHandler(
             candidateList += orgPhysicalServer
 
         val secureCoreExpected = orgProfile.isSecureCore || userData.isSecureCoreEnabled
-        val onlineServers = serverManager.getOnlineServers(secureCoreExpected)
+        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected)
         val scoredServers = sortServersByScore(onlineServers, orgProfile).run {
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
@@ -294,7 +294,7 @@ class VpnConnectionErrorHandler(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected) {
-            sortServersByScore(serverManager.getOnlineServers(false), orgProfile)
+            sortServersByScore(serverManager.getOnlineAccessibleServers(false), orgProfile)
                 .firstOrNull()?.let { fallbacks += it }
         }
 
