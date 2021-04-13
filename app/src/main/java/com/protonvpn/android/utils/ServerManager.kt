@@ -295,9 +295,9 @@ class ServerManager(
     }
 
     // Sorted by score (best at front)
-    fun getOnlineServers(secureCore: Boolean): List<Server> =
+    fun getOnlineAccessibleServers(secureCore: Boolean): List<Server> =
         getExitCountries(secureCore).asSequence().flatMap { country ->
-            country.serverList.filter { it.online }.asSequence()
+            country.serverList.filter { it.online && hasAccessToServer(it) }.asSequence()
         }.sortedBy { it.score }.toList()
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
