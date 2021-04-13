@@ -143,7 +143,8 @@ class VpnErrorUIManager(
     private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {
         val toServer = switch.toProfile.server
         val fromServer = switch.fromServer
-        return if (toServer != null && fromServer != null) {
+        return if (toServer != null && fromServer != null
+            && switch.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
             NotificationHelper.ReconnectionInformation(
                 fromServerName = fromServer.serverName,
                 fromCountry = fromServer.exitCountry,
