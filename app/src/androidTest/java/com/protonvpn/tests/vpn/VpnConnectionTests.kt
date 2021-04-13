@@ -201,7 +201,7 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val fallbackResult =
-            VpnFallbackResult.Switch.SwitchProfile(profileIKEv2, fallbackOpenVpnProfile, SwitchServerReason.Downgrade("PLUS", "FREE"))
+            VpnFallbackResult.Switch.SwitchProfile(profileIKEv2.server, fallbackOpenVpnProfile, SwitchServerReason.Downgrade("PLUS", "FREE"))
         coEvery { vpnErrorHandler.onAuthError(any()) } returns fallbackResult
 
 
@@ -248,7 +248,7 @@ class VpnConnectionTests {
             mockStrongSwan.connect()
         }
 
-        Assert.assertEquals(VpnState.Error(ErrorType.MAX_SESSIONS), monitor.state)
+        Assert.assertEquals(VpnState.Disabled, monitor.state)
         Assert.assertTrue(fallbacks.isNotEmpty())
     }
 
@@ -258,7 +258,7 @@ class VpnConnectionTests {
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
             fallbackOpenVpnProfile, fallbackOpenVpnProfile.server!!, true).first()
-        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(profileIKEv2,
+        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(profileIKEv2.server,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
             compatibleProtocol = false, switchedSecureCore = false)
         coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
@@ -296,7 +296,7 @@ class VpnConnectionTests {
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
-            profileIKEv2,
+            profileIKEv2.server,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
@@ -313,7 +313,7 @@ class VpnConnectionTests {
     fun testSwitchOfflineServer() = runBlockingTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
         val profile = Profile.getTempProfile(offlineServer, serverManager)
-        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(profile,
+        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(profile.server,
             profileIKEv2, SwitchServerReason.ServerInMaintenance)
 
         manager.connect(context, profile)
@@ -332,7 +332,7 @@ class VpnConnectionTests {
             }
         }
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
-            profileIKEv2,
+            profileIKEv2.server,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
