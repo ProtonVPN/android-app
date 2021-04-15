@@ -24,7 +24,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
@@ -123,6 +122,8 @@ class TvServerListViewModel @Inject constructor(
         val name get() = server.serverName
         val locked get() = !serverManager.hasAccessToServer(server)
         val load get() = server.load
+        val loadState get() = server.loadState
+        val loadColor get() = server.loadColor
 
         val actionStateObservable = vpnStateMonitor.status.map {
             actionState
@@ -141,17 +142,10 @@ class TvServerListViewModel @Inject constructor(
                 ServerActionState.CONNECTING
         }
 
-        val loadState = when {
-            !server.online -> ServerLoadState.MAINTENANCE
-            server.load < 50f -> ServerLoadState.LOW_LOAD
-            server.load < 90f -> ServerLoadState.MEDIUM_LOAD
-            else -> ServerLoadState.HIGH_LOAD
-        }
-
         fun planDrawable(context: Context) = if (server.isPlusServer)
             ContextCompat.getDrawable(context, R.drawable.ic_plus_label) else null
 
-        fun stateText(context: Context) = if (loadState == ServerLoadState.MAINTENANCE)
+        fun stateText(context: Context) = if (server.loadState == Server.LoadState.MAINTENANCE)
             context.getString(R.string.listItemMaintenance)
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())
@@ -167,10 +161,6 @@ class TvServerListViewModel @Inject constructor(
                 onUpgrade()
             ServerActionState.UNAVAILABLE -> {}
         }
-    }
-
-    enum class ServerLoadState {
-        MAINTENANCE, LOW_LOAD, MEDIUM_LOAD, HIGH_LOAD
     }
 
     enum class ServerActionState {

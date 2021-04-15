@@ -64,6 +64,10 @@ data class Server(
         P2P, TOR, STREAMING, SMART_ROUTING
     }
 
+    enum class LoadState {
+        MAINTENANCE, LOW_LOAD, MEDIUM_LOAD, HIGH_LOAD
+    }
+
     val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
         if (features and 4 == 4)
             add(Keyword.P2P)
@@ -102,11 +106,19 @@ data class Server(
 
     val loadColor: Int
         @ColorRes
-        get() = when {
-            load < 50f -> R.color.colorAccent
-            load < 90f -> R.color.yellow
-            else -> R.color.dimmedRed
+        get() = when(loadState) {
+            LoadState.MAINTENANCE -> R.color.inMaintenance
+            LoadState.LOW_LOAD -> R.color.colorAccent
+            LoadState.MEDIUM_LOAD -> R.color.yellow
+            LoadState.HIGH_LOAD -> R.color.dimmedRed
         }
+
+    val loadState get() = when {
+        !online -> LoadState.MAINTENANCE
+        load <= 75f -> LoadState.LOW_LOAD
+        load <= 90f -> LoadState.MEDIUM_LOAD
+        else -> LoadState.HIGH_LOAD
+    }
 
     val isSecureCoreServer: Boolean
         get() = features and 1 == 1

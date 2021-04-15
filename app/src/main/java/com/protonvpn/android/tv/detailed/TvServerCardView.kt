@@ -28,6 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvServerCardBinding
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 
 class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
@@ -55,14 +56,8 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
 
         serverLoadLabel.alpha = alpha
         serverLoadLabel.text = server.stateText(context)
-        val stateColorRes = when (server.loadState) {
-            TvServerListViewModel.ServerLoadState.MAINTENANCE -> R.color.tvInMaintenance
-            TvServerListViewModel.ServerLoadState.LOW_LOAD -> R.color.serverLoadLow
-            TvServerListViewModel.ServerLoadState.MEDIUM_LOAD -> R.color.serverLoadMedium
-            TvServerListViewModel.ServerLoadState.HIGH_LOAD -> R.color.serverLoadHigh
-        }
-        serverLoadColor.setColorFilter(ContextCompat.getColor(context, stateColorRes))
-        serverMaintenanceIcon.isVisible = server.loadState == TvServerListViewModel.ServerLoadState.MAINTENANCE
+        serverLoadColor.setColorFilter(ContextCompat.getColor(context, server.loadColor))
+        serverMaintenanceIcon.isVisible = server.loadState == Server.LoadState.MAINTENANCE
 
         debugAssert { actionStateObserver == null }
         val observer = Observer<TvServerListViewModel.ServerActionState> { updateState(it) }
@@ -94,7 +89,7 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
             }
             TvServerListViewModel.ServerActionState.UNAVAILABLE -> {
                 actionButton.setText(R.string.tv_server_list_action_unavailable)
-                R.color.tvInMaintenance
+                R.color.inMaintenance
             }
         }
         actionButton.background = actionButton.background.mutate().apply {
