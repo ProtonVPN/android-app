@@ -143,6 +143,6 @@
             android:textColor="@color/white"
             tools:text="@string/disconnect"
             tools:visibility="visible"
-            tools:backgroundTint="@color/tvInMaintenance"/>
+            tools:backgroundTint="@color/inMaintenance"/>
     </FrameLayout>
 </LinearLayout>
