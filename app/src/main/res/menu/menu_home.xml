@@ -21,7 +21,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.protonvpn.android.ui.home.HomeActivity">
     <item
-        android:id="@+id/action_logout"
-        android:title="@string/menuActionLogout"
-        app:showAsAction="never" />
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_information"
+        app:showAsAction="always"
+        android:title="@string/activity_information_title" />
 </menu>

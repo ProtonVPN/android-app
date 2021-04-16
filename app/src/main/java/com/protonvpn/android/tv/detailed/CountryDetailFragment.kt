@@ -132,7 +132,7 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
         countryDescription.setText(viewModel.getCountryDescription(card.vpnCountry))
         val dimStreamingIcons = !viewModel.isPlusUser()
 
-        val streamingServices = viewModel.streamingServices(card.vpnCountry)
+        val streamingServices = viewModel.streamingServices(card.vpnCountry.flag)
         if (streamingServices.isNullOrEmpty())
             streamingServicesContainer.isVisible = false
         else {

@@ -19,16 +19,27 @@
 package com.protonvpn.android.ui.home.countries
 
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
+import com.protonvpn.android.ui.home.InformationActivity
 import com.xwray.groupie.databinding.BindableItem
 
-class HeaderItem(@StringRes private val titleStringResId: Int) : BindableItem<ItemCountryHeaderBinding>() {
+class HeaderItem(
+    @StringRes private val titleStringResId: Int,
+    private val countryInfoKey: String?,
+) : BindableItem<ItemCountryHeaderBinding>() {
 
     override fun getLayout() = R.layout.item_country_header
 
     override fun bind(viewBinding: ItemCountryHeaderBinding, position: Int) {
         viewBinding.textTitle.setText(titleStringResId)
+        with(viewBinding.serversInfo) {
+            isVisible = countryInfoKey != null
+            if (countryInfoKey != null) setOnClickListener {
+                context.startActivity(InformationActivity.createIntent(context, countryInfoKey))
+            }
+        }
     }
 
     override fun getId() = titleStringResId.toLong()

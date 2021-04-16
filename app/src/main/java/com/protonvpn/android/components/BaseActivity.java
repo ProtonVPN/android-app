@@ -33,6 +33,7 @@ import com.protonvpn.android.utils.AndroidUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -54,7 +55,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     protected ActionBarDrawerToggle toggle;
     protected DrawerArrowDrawableEx toggleDrawable;
 
-    public void navigateTo(Class className) {
+    public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
         ActivityCompat.startActivity(this, intent, null);
     }

@@ -20,6 +20,7 @@ package com.protonvpn.android.di;
 
 import com.protonvpn.android.components.BootReceiver;
 import com.protonvpn.android.components.QuickTileService;
+import com.protonvpn.android.ui.home.InformationActivity;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
@@ -76,6 +77,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {OssLicensesModule.class})
     abstract OssLicensesActivity bindOssLicensesActivity();
+
+    @ContributesAndroidInjector(modules = {InformationModule.class})
+    abstract InformationActivity bindInformationActivity();
 
     @ContributesAndroidInjector(modules = {TroubleshootActivityModule.class})
     abstract TroubleshootActivity bindTroubleshootActivity();

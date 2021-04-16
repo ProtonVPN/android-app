@@ -452,4 +452,26 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
     <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
 
+    <!-- Information activity -->
+    <string name="activity_information_title">Information</string>
+    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+    <string name="activity_information_plus_title">%1$s - Plus servers</string>
+    <string name="info_features">Features</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">This technology allows ProtonVPN to provide higher speed and security in difficult-to-serve countries.</string>
+    <string name="streaming_title">Streaming</string>
+    <string name="streaming_description">PLUS servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
+    <string name="p2p_title">P2P/BitTorrent</string>
+    <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
+    <string name="tor_title">Tor</string>
+    <string name="tor_description">"Route your Internet traffic through the Tor network. Slower, but more private. "</string>
+    <string name="info_performance">Performance</string>
+    <string name="server_load_title">Server Load</string>
+    <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
+    <string name="streaming_title_with_country">Streaming - %1$s</string>
+    <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\nNote: Clear the cache of the streaming apps to ensure new content appears.</string>
+    <string name="activity_information_learn_more">Learn More</string>
+    <string name="server_load_low">Low</string>
+    <string name="server_load_medium">Medium</string>
+    <string name="server_load_high">High</string>
 </resources>

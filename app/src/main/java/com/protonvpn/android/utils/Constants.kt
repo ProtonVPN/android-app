@@ -53,6 +53,12 @@ object Constants {
     val MAIN_ACTIVITY_CLASS: Class<out Activity>
     val LOGIN_ACTIVITY_CLASS: Class<out Activity>
 
+    const val SMART_ROUTING_INFO_URL = "https://protonvpn.com/support/smart-routing"
+    const val STREAMING_INFO_URL = "https://protonvpn.com/support/streaming-guide/"
+    const val P2P_INFO_URL = "https://protonvpn.com/support/bittorrent-vpn/"
+    const val TOR_INFO_URL = "https://protonvpn.com/support/tor-vpn/"
+    const val SERVER_LOAD_INFO_URL = "https://protonvpn.com/support/server-load-percentages-and-colors-explained/"
+
     init {
         if (ProtonApplication.getAppContext().isTV()) {
             CLIENT_ID = "AndroidTvVPN"

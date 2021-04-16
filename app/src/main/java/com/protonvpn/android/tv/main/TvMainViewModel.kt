@@ -20,7 +20,6 @@ package com.protonvpn.android.tv.main
 
 import android.app.Activity
 import android.content.Context
-import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
@@ -48,6 +47,7 @@ import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -60,8 +60,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TvMainViewModel @Inject constructor(
-    val appConfig: AppConfig,
-    val serverManager: ServerManager,
+    override val appConfig: AppConfig,
+    override val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
@@ -69,7 +69,7 @@ class TvMainViewModel @Inject constructor(
     val userData: UserData,
     val logoutHandler: LogoutHandler,
     userPlanManager: UserPlanManager
-) : MainViewModel(userData, userPlanManager) {
+) : MainViewModel(userData, userPlanManager), StreamingViewModelHelper {
 
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
@@ -137,7 +137,7 @@ class TvMainViewModel @Inject constructor(
         }, { country ->
             CountryCard(
                 countryName = country.countryName,
-                hasStreamingService = !streamingServices(country).isNullOrEmpty(),
+                hasStreamingService = !streamingServices(country.flag).isNullOrEmpty(),
                 backgroundImage = DrawableImage(CountryTools.getFlagResource(context, country.flag)),
                 bottomTitleResId = countryListItemIcon(country),
                 vpnCountry = country
@@ -234,7 +234,7 @@ class TvMainViewModel @Inject constructor(
     fun getCountryDescription(vpnCountry: VpnCountry) = when {
         isPlusUser() -> R.string.tv_detail_description_plus
         !hasAccessibleServers(vpnCountry) -> R.string.tv_detail_description_country_not_available
-        streamingServices(vpnCountry).isNullOrEmpty() -> R.string.tv_detail_description_no_streaming_country
+        streamingServices(vpnCountry.flag).isNullOrEmpty() -> R.string.tv_detail_description_no_streaming_country
         else -> R.string.tv_detail_description_streaming_country
     }
 
@@ -309,20 +309,6 @@ class TvMainViewModel @Inject constructor(
             .negativeText(R.string.ok)
             .show()
     }
-
-    data class StreamingService(val name: String, val iconUrl: String?)
-    fun streamingServices(vpnCountry: VpnCountry): List<StreamingService>? =
-        serverManager.streamingServices?.let { response ->
-            response[vpnCountry.flag]?.map { streamingService ->
-                StreamingService(
-                    streamingService.name,
-                    if (appConfig.getFeatureFlags().displayTVLogos)
-                        Uri.parse(response.resourceBaseURL).buildUpon().appendPath(streamingService.iconName).toString()
-                    else
-                        null
-                )
-            }
-        }
 
     fun logout() = logoutHandler.logout(false)
 }
