@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright (c) 2021 Proton Technologies AG
+  ~
+  ~ This file is part of ProtonVPN.
+  ~
+  ~ ProtonVPN is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonVPN is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector android:height="21dp" android:viewportHeight="22"
+    android:viewportWidth="22" android:width="21dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#9CA0AA" android:pathData="M11.75,15.5V8H8.75V9.5H10.25V15.5H8.75V17H13.25V15.5H11.75Z"/>
+    <path android:fillColor="#9CA0AA" android:pathData="M11.75,6.5V5H10.25V6.5H11.75Z"/>
+    <path android:fillColor="#9CA0AA" android:fillType="evenOdd" android:pathData="M0.5,11C0.5,5.201 5.201,0.5 11,0.5C13.7848,0.5 16.4555,1.6063 18.4246,3.5754C20.3938,5.5445 21.5,8.2152 21.5,11C21.5,16.799 16.799,21.5 11,21.5C5.201,21.5 0.5,16.799 0.5,11ZM2,11C2,15.9706 6.0294,20 11,20C13.3869,20 15.6761,19.0518 17.364,17.364C19.0518,15.6761 20,13.3869 20,11C20,6.0294 15.9706,2 11,2C6.0294,2 2,6.0294 2,11Z"/>
+</vector>

@@ -25,6 +25,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -197,6 +199,20 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             }
             Storage.saveBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD, false);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_info) {
+            navigateTo(InformationActivity.class);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showMigrationDialog() {

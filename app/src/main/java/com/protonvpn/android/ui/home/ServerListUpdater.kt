@@ -47,7 +47,6 @@ class ServerListUpdater(
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
     val userData: UserData,
-    val updateStreaming: Boolean,
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
 ) {
@@ -193,11 +192,9 @@ class ServerListUpdater(
         val result = api.getServerList(loaderUI, strippedIP)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
-            if (updateStreaming) {
-                val streamingServices = api.getStreamingServices().valueOrNull
-                if (streamingServices != null)
-                    serverManager.setStreamingServices(streamingServices)
-            }
+            val streamingServices = api.getStreamingServices().valueOrNull
+            if (streamingServices != null)
+                serverManager.setStreamingServices(streamingServices)
         }
         return result
     }

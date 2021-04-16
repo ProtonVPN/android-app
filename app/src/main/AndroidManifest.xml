@@ -160,6 +160,10 @@
             android:label="@string/activityLicensesTitle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.home.InformationActivity"
+            android:label="@string/activity_information_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.login.TroubleshootActivity"
             android:label="@string/activityTroubleshootTitle"
             android:theme="@style/AppTheme.NoActionBar" />

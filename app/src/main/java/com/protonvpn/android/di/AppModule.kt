@@ -91,8 +91,7 @@ class AppModule {
         userData: UserData,
         vpnStateMonitor: VpnStateMonitor,
         userPlanManager: UserPlanManager,
-    ) = ServerListUpdater(scope, api, serverManager, userData, ProtonApplication.getAppContext().isTV(),
-        vpnStateMonitor, userPlanManager)
+    ) = ServerListUpdater(scope, api, serverManager, userData, vpnStateMonitor, userPlanManager)
 
     @Singleton
     @Provides

@@ -28,7 +28,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
-import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import org.apache.commons.lang3.SerializationUtils
@@ -48,15 +47,16 @@ class CountryListViewModel @Inject constructor(
         serverListUpdater.getServersList(networkLoader)
     }
 
-    fun getMappedServersForCountry(country: VpnCountry): MutableMap<Int?, List<Server>> {
+    data class ServersGroup(val titleRes: Int?, val servers: List<Server>, val infoKey: String? = null)
+    fun getMappedServersForCountry(country: VpnCountry): List<ServersGroup> {
         return if (userData.isSecureCoreEnabled) {
-            mutableMapOf(null to country.connectableServers)
+            listOf(ServersGroup(null, country.connectableServers))
         } else {
             getMappedServersForClassicView(country)
         }
     }
 
-    private fun getMappedServersForClassicView(country: VpnCountry): MutableMap<Int?, List<Server>> {
+    private fun getMappedServersForClassicView(country: VpnCountry): List<ServersGroup> {
         val freeServers = country.connectableServers.filter { it.isFreeServer }
         val basicServers = country.connectableServers.filter { it.isBasicServer }
         val plusServers = country.connectableServers.filter { it.isPlusServer }
@@ -64,29 +64,31 @@ class CountryListViewModel @Inject constructor(
         val fastestServer =
             SerializationUtils.clone(serverManager.getBestScoreServer(country.connectableServers))
 
-        val map: MutableMap<Int?, List<Server>> = mutableMapOf()
+        val groups: MutableList<ServersGroup> = mutableListOf()
         if (internalServers.isNotEmpty()) {
-            map[R.string.listInternalServers] = internalServers
+            groups.add(ServersGroup(R.string.listInternalServers, internalServers))
         }
         fastestServer?.let {
-            map[R.string.listFastestServer] = listOf(fastestServer)
+            groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
         }
+        val infoKey = if (serverManager.streamingServices?.countryToServices?.get(country.flag)?.isNotEmpty() == true)
+            country.flag else null
         if (userData.isFreeUser) {
-            freeServers.whenNotNullNorEmpty { map[R.string.listFreeServers] = freeServers }
-            basicServers.whenNotNullNorEmpty { map[R.string.listBasicServers] = basicServers }
-            plusServers.whenNotNullNorEmpty { map[R.string.listPlusServers] = plusServers }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
+            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
         }
         if (userData.isBasicUser) {
-            basicServers.whenNotNullNorEmpty { map[R.string.listBasicServers] = basicServers }
-            freeServers.whenNotNullNorEmpty { map[R.string.listFreeServers] = freeServers }
-            plusServers.whenNotNullNorEmpty { map[R.string.listPlusServers] = plusServers }
+            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
         }
         if (userData.isUserPlusOrAbove) {
-            plusServers.whenNotNullNorEmpty { map[R.string.listPlusServers] = plusServers }
-            basicServers.whenNotNullNorEmpty { map[R.string.listBasicServers] = basicServers }
-            freeServers.whenNotNullNorEmpty { map[R.string.listFreeServers] = freeServers }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
+            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
         }
-        return map
+        return groups
     }
 
     fun getCountriesForList(): List<VpnCountry> =

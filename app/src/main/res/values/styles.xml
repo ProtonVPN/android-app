@@ -273,4 +273,12 @@
     <style name="Body2Regular">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="Body2Medium">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CaptionRegular">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
