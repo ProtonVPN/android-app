@@ -303,7 +303,7 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Seien Sie sich bewusst, dass Split-Tunneling nicht funktioniert, wenn sowohl Kill Switch (Not‐Trennung) als auch Split-Tunneling aktiviert sind. Kill Switch sperrt alle Verbindungen außerhalb des VPN-Tunnels, einschließlich der durch Split-Tunneling aufgebauten Verbindungen.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Fehlen Ihnen einige Optionen? <a href=\"%1$s\">Tippen Sie hier, um mehr zu erfahren</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">„Kill Switch (Not‐Trennung) und Always-On VPN sind nicht immer auf älteren Versionen des Android-Betriebssystems oder auf allen Android-Geräten verfügbar. Wenn Ihr Gerät kein Always-On VPN oder Kill Switch bietet, kann ProtonVPN nichts tun, um diese zu implementieren. Sie können Ihr Betriebssystem auf die neueste Version von Android aktualisieren und es erneut versuchen.”</string>
-  <string name="settingsSmartProtocolTitle">Intelligentes Protokoll</string>
+  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Automatisch das Protokoll und den Port verwenden, die die beste Verbindungsqualität bieten.</string>
   <string name="netShieldEnabledWarning">Es scheint, als würden Sie häufig Be My Eyes-Anrufe tätigen. Um Ihre Vorgehensweise zu vereinfachen, können Sie einen Satz hinzufügen, um mit Siri einen Freiwilligen anzurufen.</string>
   <string name="netShieldDescription">Werbung, Tracker und Malware sperren </string>
@@ -392,8 +392,33 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="tv_server_under_maintenance">Wartungsarbeiten</string>
   <string name="tv_server_list">Serverliste</string>
   <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
-  <string name="settingsSmartReconnectTitle">Intelligentes Wiederverbinden</string>
-  <string name="settingsSmartReconnectDescription">Stellt automatisch eine Verbindung zu einem gleichwertigen Server her, wenn der von Ihnen gewählte Server nicht erreichbar ist.</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Intelligentes Wiederverbinden — Benachrichtigungen</string>
-  <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn ProtonVPN sich mit einem anderen als dem von Ihnen gewählten Server verbindet.</string>
+  <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+  <string name="settingsSmartReconnectDescription">Automatisch zu einem schnelleren Server wechseln, der dem von Ihnen gewählten ähnlich ist</string>
+  <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator — Benachrichtigungen</string>
+  <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn Sie durch „VPN Accelerator” mit einem schnelleren Server verbunden werden</string>
+  <string name="notification_subscription_expired_title">Ihr Abo ist ausgelaufen</string>
+  <string name="notification_subscription_expired_content">Ihr Abonnement wurde herabgestuft. Daher wird die Verbindung mit dem schnellsten verfügbaren Server wiederhergestellt. </string>
+  <string name="notification_subscription_expired_no_reconnection_content">Ihr Abonnement wurde herabgestuft. </string>
+  <string name="notification_delinquent_title">In Ihrem VPN-Konto befinden sich noch offene Rechnungen</string>
+  <string name="notification_delinquent_content">Bitte nehmen Sie sich einen Moment Zeit, um Ihre Rechnungsdaten zu aktualisieren, damit Ihr Abonnement aktiv bleibt.</string>
+  <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
+  <string name="notification_server_unreachable_content">Sie wurden auf einen schnelleren Server umgeschaltet, der dem von Ihnen gewählten ähnlich ist.</string>
+  <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
+  <string name="notification_max_sessions_title">Sie haben die max. mögliche Anzahl von Geräten erreicht</string>
+  <string name="notification_max_sessions_upsell_content">Bitte trennen Sie zuerst ein anderes Gerät, um anschließend dieses Gerät verbinden zu können, oder führen Sie einen Wechsel auf ein höherwertiges Paket durch, um mehr Geräte gleichzeitig verbinden zu können.</string>
+  <string name="notification_max_sessions_content">Bitte trennen Sie erst ein anderes Gerät, um dieses zu verbinden.</string>
+  <string name="notification_cancel_to_free">Sie nutzen derzeit das FREE-Paket. FREE-Server und -Funktionen sind verfügbar.</string>
+  <string name="notification_cancel_to_basic">Sie nutzen derzeit das BASIC-Paket. BASIC- und FREE-Server und -Funktionen sind verfügbar.</string>
+  <string name="notification_cancel_to_delinquent">Sie können erneut auf die Premium-Funktionen zugreifen, nachdem die noch offenen Rechnungen beglichen wurden.</string>
+  <string name="vpn_accelerator">VPN Accelerator</string>
+  <string name="reconnect_from_server">Von Server: </string>
+  <string name="reconnect_to_server">Zu Server: </string>
+  <string name="no_thanks">Nein danke</string>
+  <string name="enable">Aktivieren</string>
+  <string name="notification_smart_protocol_disabled_title">„Smart Protocol” ist derzeit deaktiviert</string>
+  <string name="notification_smart_protocol_disabled_content">ProtonVPN hat festgestellt, dass Ihr aktuelles Netzwerk eine Verbindung zum VPN verhindert. Die Aktivierung von „Smart Protocol” kann diese Einschränkungen umgehen.</string>
+  <string name="upsell_advanced_features">Erweiterte Funktionen: NetShield, Secure Core, Tor, P2P</string>
+  <string name="upsell_device_count">Verbinden Sie sich mit bis zu %1$s Geräten gleichzeitig</string>
+  <string name="upsell_many_countries">Hunderte von Servern in %1$d Ländern</string>
+  <string name="upsell_upgrade_again">Erneut aufwerten, um alle Funktionen nutzen zu können:</string>
 </resources>
