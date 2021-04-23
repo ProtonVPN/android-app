@@ -25,16 +25,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.openProtonUrl
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
@@ -106,7 +103,8 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers, infoKey) ->
                     title?.let { add(HeaderItem(it, infoKey)) }
                     servers.forEach {
-                        add(CountryExpandedViewHolder(viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))
+                        add(CountryExpandedViewHolder(
+                            viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))
                     }
                 }
             })

@@ -20,22 +20,14 @@ package com.protonvpn.android.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
@@ -47,13 +39,10 @@ import com.protonvpn.android.databinding.InfoServerLoadBinding
 import com.protonvpn.android.databinding.StreamingInfoBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.StreamingViewModelHelper
-import com.protonvpn.android.utils.ViewUtils.toDp
 import com.protonvpn.android.utils.ViewUtils.toPx
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
 import javax.inject.Inject
-
 
 @ContentLayout(R.layout.activity_information)
 class InformationActivity : BaseActivityV2<ActivityInformationBinding, InformationViewModel>() {
@@ -132,8 +121,14 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
         list.addView(headerBinding.root)
     }
 
-    private fun addItem(@DrawableRes iconRes: Int, @StringRes titleRes: Int, @StringRes descriptionRes: Int,
-                        url: String, titleString: String? = null, customView: View? = null) {
+    private fun addItem(
+        @DrawableRes iconRes: Int,
+        @StringRes titleRes: Int,
+        @StringRes descriptionRes: Int,
+        url: String,
+        titleString: String? = null,
+        customView: View? = null
+    ) {
         val list = binding.content.listLayout
         val infoBinding = InfoItemBinding.inflate(LayoutInflater.from(list.context), list, false)
         with(infoBinding) {

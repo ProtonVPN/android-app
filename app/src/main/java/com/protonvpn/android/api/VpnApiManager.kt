@@ -19,7 +19,6 @@
 package com.protonvpn.android.api
 
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId

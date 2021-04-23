@@ -24,7 +24,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import java.lang.IllegalStateException
 
-abstract class BaseViewHolderV2<T, Binding: ViewBinding>(val binding: Binding) : RecyclerView.ViewHolder(binding.root) {
+abstract class BaseViewHolderV2<T, Binding : ViewBinding>(
+    val binding: Binding
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var itemInternal: T? = null
     protected val item: T get() =
