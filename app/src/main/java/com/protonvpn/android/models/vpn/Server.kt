@@ -81,7 +81,7 @@ data class Server(
 
     @Transient
     val entryCountryCoordinates: TranslatedCoordinates? =
-            if (entryCountry != null) TranslatedCoordinates(this.entryCountry) else null
+        TranslatedCoordinates(this.entryCountry)
 
     init {
         debugAssert {
@@ -106,7 +106,7 @@ data class Server(
 
     val loadColor: Int
         @ColorRes
-        get() = when(loadState) {
+        get() = when (loadState) {
             LoadState.MAINTENANCE -> R.color.inMaintenance
             LoadState.LOW_LOAD -> R.color.colorAccent
             LoadState.MEDIUM_LOAD -> R.color.yellow

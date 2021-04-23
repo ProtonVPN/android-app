@@ -45,7 +45,7 @@ class HumanVerificationHandler(
         class Failure(sessionId: SessionId) : Result(sessionId)
         class Success(sessionId: SessionId, val tokenType: String, val tokenCode: String) : Result(sessionId)
 
-        fun toHumanVerificationResult() = when(this) {
+        fun toHumanVerificationResult() = when (this) {
             is Failure -> SessionListener.HumanVerificationResult.Failure
             is Success -> SessionListener.HumanVerificationResult.Success
         }

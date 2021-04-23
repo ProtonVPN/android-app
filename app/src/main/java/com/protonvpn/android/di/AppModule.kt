@@ -22,19 +22,17 @@ import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
@@ -42,22 +40,24 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectivityMonitor
-import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
-import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.MaintenanceTracker
+import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
-import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
+import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import me.proton.core.country.data.repository.CountriesRepositoryImpl
+import me.proton.core.country.domain.repository.CountriesRepository
 import me.proton.core.humanverification.data.repository.HumanVerificationRemoteRepositoryImpl
 import me.proton.core.humanverification.domain.repository.HumanVerificationRemoteRepository
 import me.proton.core.network.data.ApiProvider
@@ -69,8 +69,6 @@ import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import java.util.Random
 import javax.inject.Singleton
-import me.proton.core.country.data.repository.CountriesRepositoryImpl
-import me.proton.core.country.domain.repository.CountriesRepository
 
 @Module
 class AppModule {

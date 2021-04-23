@@ -34,7 +34,7 @@ import me.proton.core.network.domain.session.SessionId
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 
-//TODO: true multi-user support will be added when core Auth is integrated.
+// TODO: true multi-user support will be added when core Auth is integrated.
 class ApiSessionProvider(val appContext: Context) : SessionProvider, SessionListener {
 
     private val humanVerificationHandler get() = HumanVerificationHandler(MainScope(), appContext as ProtonApplication)

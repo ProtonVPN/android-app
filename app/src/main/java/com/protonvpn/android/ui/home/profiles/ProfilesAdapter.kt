@@ -58,16 +58,13 @@ class ProfilesAdapter(
 
     override fun getItemCount() = profilesViewModel.profileCount
 
-    inner class ServersViewHolder(binding: ItemProfileListBinding)
-        : BaseViewHolderV2<Profile, ItemProfileListBinding>(binding) {
+    inner class ServersViewHolder(binding: ItemProfileListBinding) :
+        BaseViewHolderV2<Profile, ItemProfileListBinding>(binding) {
 
         private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
             val server = item.server
             val connected = profilesViewModel.isConnectedTo(server)
-            val colorRes = when {
-                connected -> R.color.colorAccent
-                else -> R.color.interaction_weak_vpn
-            }
+            val colorRes = if (connected) R.color.colorAccent else R.color.interaction_weak_vpn
             binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(binding.root.context, colorRes))
         }
