@@ -287,14 +287,14 @@
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">برنامه ProtonVPN را تنظیم کنید تا پس از قطعی، به‌طور خودکار دوباره متصل شود یا در صورت وجود اختلال در اتصال VPN، اتصالات خارجی را غیرفعال کند.</string>
-  <string name="settingsAlwaysOnWindowDescription">قابلیت VPN همیشه روشن در صورت بروز اختلال شما را بطور خودکار دوباره به سرور VPN وصل می‌کند.
+  <string name="settingsAlwaysOnKillSwitchDescription">ProtonVPN را تنظیم کنید تا به‌طور خودکار دوباره متصل شود یا در صورت وجود اختلال در اتصال VPN، اتصالات خارجی را غیرفعال کند.</string>
+  <string name="settingsAlwaysOnWindowDescription">«VPN همیشه روشن در صورت بروز اختلال شما را بطور خودکار دوباره به سرور VPN وصل می‌کند.
 
-قابلیت Kill Switch در صورت قطع شدن VPN دستگاه شما را از برقراری ارتباط خارجی باز می‌دارد تا امنیت ترافیک اینترنت شما حفظ شود.
+Kill Switch در صورت قطع شدن VPN دستگاه شما را از برقراری ارتباط خارجی باز می‌دارد تا امنیت ترافیک اینترنت شما حفظ شود.
 
 سیستم‌عامل اندروید این قابلیت‌ها را کنترل می‌کند و شما برای فعال کردن آن‌ها باید از برنامه خارج شوید.
 
-این مراحل را دنبال کنید تا VPN همیشه روشن و Kill Switch را فعال کنید:</string>
+این مراحل را دنبال کنید تا VPN همیشه روشن و Kill Switch را فعال کنید:»</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با لمس دکمهً زیر باز نمایید]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">برنامه ProtonVPN را بیابید و بر روی %1$s ضربه بزنید</string>
@@ -304,8 +304,8 @@
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">در نظر داشته باشید که اگر Kill Switch و Split Tunneling هر دو فعال باشند، Split Tunneling عمل نخواهد کرد. Kill Switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند، حتی آن‌هایی را که Split Tunneling ایجاد کرده است.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه‌ها؟ <a href=\"%1$s\">برای یادگیری بیشتر ضربه بزنید</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">قابلیت Kill Switch و VPN همیشه-روشن همواره بر روی
-    نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.</string>
+  <string name="settingsAlwaysOnWindowLearnMoreText">«Kill Switch و VPN همیشه-روشن همواره بر روی
+    نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.»</string>
   <string name="settingsSmartProtocolTitle">پروتکل هوشمند</string>
   <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
   <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
@@ -396,32 +396,32 @@
   <string name="tv_server_list">لیست سرور</string>
   <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">Switch automatically to a faster server similar to the one you selected</string>
-  <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
-  <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
-  <string name="notification_subscription_expired_title">Your subscription has expired</string>
-  <string name="notification_subscription_expired_content">Your subscription has been downgraded, so we are reconnecting to the fastest available server. </string>
-  <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded. </string>
-  <string name="notification_delinquent_title">Your VPN account has pending invoices</string>
-  <string name="notification_delinquent_content">Please take a moment to update your billing information to keep your subscription active.</string>
+  <string name="settingsSmartReconnectDescription">انتقال خودکار به یک سرور سریع‌تر مشابه سروری که انتخاب کردید</string>
+  <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator به سروری سریع‌تر تغییر می‌کند باخبر شوید</string>
+  <string name="notification_subscription_expired_title">اشتراک شما به پایان رسیده است</string>
+  <string name="notification_subscription_expired_content">اشتراک شما تنزیل یافت، بنابراین ما در حال اتصال دوباره به سریع‌ترین سرور موجود هستیم. </string>
+  <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزیل یافته است. </string>
+  <string name="notification_delinquent_title">حساب کاربری شما دارای صور‌ت‌حساب در حال انتظار است</string>
+  <string name="notification_delinquent_content">لطفاً لحظه‌ای را به به‌روزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
-  <string name="notification_server_unreachable_content">You have been switched to a faster server that is similar to the one you selected.</string>
+  <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-  <string name="notification_max_sessions_title">You have reached your maximum device limit</string>
-  <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
-  <string name="notification_max_sessions_content">Please disconnect another device to connect this one.</string>
-  <string name="notification_cancel_to_free">You are on the FREE plan. FREE servers and features are available.</string>
-  <string name="notification_cancel_to_basic">You are on the BASIC plan. BASIC &amp; FREE servers and features are available.</string>
-  <string name="notification_cancel_to_delinquent">You will be able to access premium features again after pending invoices are paid.</string>
+  <string name="notification_max_sessions_title">شما به حداکثر محدودیت دستگاه خود رسیدید</string>
+  <string name="notification_max_sessions_upsell_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید یا به طرح بالاتری ارتقا دهید تا بتوانید دستگاه‌های بیشتری را به صورت همزمان وصل کنید.</string>
+  <string name="notification_max_sessions_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید.</string>
+  <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
+  <string name="notification_cancel_to_basic">شما در طرح BASIC هستید. سرورها و قابلیت‌های BASIC و رایگان موجود هستند.</string>
+  <string name="notification_cancel_to_delinquent">شما پس از پرداخت صورت‌حساب‌های در حال انتظار دوباره قادر به دسترسی به قابلیت‌های ویژه خواهید بود.</string>
   <string name="vpn_accelerator">VPN accelerator</string>
-  <string name="reconnect_from_server">From server: </string>
-  <string name="reconnect_to_server">To server: </string>
-  <string name="no_thanks">No thanks</string>
-  <string name="enable">Enable</string>
-  <string name="notification_smart_protocol_disabled_title">Smart Protocol is currently disabled</string>
-  <string name="notification_smart_protocol_disabled_content">ProtonVPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
-  <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">Connect up to %1$s devices at the same time</string>
-  <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
-  <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
+  <string name="reconnect_from_server">از سرور: </string>
+  <string name="reconnect_to_server">به سرور: </string>
+  <string name="no_thanks">نه ممنون</string>
+  <string name="enable">فعال‌سازی</string>
+  <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
+  <string name="notification_smart_protocol_disabled_content">ProtonVPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
+  <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
+  <string name="upsell_device_count">تا %1$s دستگاه را همزمان متصل کنید</string>
+  <string name="upsell_many_countries">صدها سرور در %1$d کشور</string>
+  <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
 </resources>
