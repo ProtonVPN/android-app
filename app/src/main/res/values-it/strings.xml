@@ -403,12 +403,12 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="notification_subscription_expired_content">Il tuo abbonamento è stato declassato, quindi ci stiamo riconnettando al server più veloce disponibile. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato. </string>
   <string name="notification_delinquent_title">Il tuo account VPN ha fatture in sospeso</string>
-  <string name="notification_delinquent_content">Please take a moment to update your billing information to keep your subscription active.</string>
+  <string name="notification_delinquent_content">Per favore prenditi un momento per aggiornare le tue informazioni di fatturazione per mantenere attivo il tuo abbonamento.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Sei stato passato ad un server più veloce simile a quello selezionato.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
-  <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
+  <string name="notification_max_sessions_upsell_content">Disconnetti un altro dispositivo per collegare questo o passa ad un piano superiore per collegare più dispositivi allo stesso tempo.</string>
   <string name="notification_max_sessions_content">Disconnetti un altro dispositivo per connettere questo.</string>
   <string name="notification_cancel_to_free">Sei sul piano GRATUITO. Sono disponibili i server e le funzioni GRATUITE.</string>
   <string name="notification_cancel_to_basic">Sei sul piano BASIC. Sono disponibili server e funzionalità BASIC &amp; FREE.</string>
@@ -419,7 +419,7 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="no_thanks">No, grazie</string>
   <string name="enable">Abilita</string>
   <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
-  <string name="notification_smart_protocol_disabled_content">ProtonVPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
+  <string name="notification_smart_protocol_disabled_content">ProtonVPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe bypassare queste limitazioni.</string>
   <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
   <string name="upsell_device_count">Connetti fino a %1$s dispositivi allo stesso tempo</string>
   <string name="upsell_many_countries">Centinaia di server in %1$d paesi</string>
