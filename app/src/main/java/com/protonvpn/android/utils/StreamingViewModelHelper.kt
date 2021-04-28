@@ -27,13 +27,15 @@ interface StreamingViewModelHelper {
     val serverManager: ServerManager
     val appConfig: AppConfig
 
+    val displayStreamingIcons get() = appConfig.getFeatureFlags().streamingServicesLogos
+
     data class StreamingService(val name: String, val iconUrl: String?)
     fun streamingServices(country: String): List<StreamingService>? =
         serverManager.streamingServices?.let { response ->
             response[country]?.map { streamingService ->
                 StreamingService(
                     streamingService.name,
-                    if (appConfig.getFeatureFlags().displayTVLogos)
+                    if (displayStreamingIcons)
                         Uri.parse(response.resourceBaseURL).buildUpon().appendPath(streamingService.iconName).toString()
                     else
                         null

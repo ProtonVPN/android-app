@@ -57,5 +57,5 @@ class TvUpgradeActivity : BaseTvActivity<DialogTvUpgradeBinding>() {
     }
 
     private fun getIcon(@DrawableRes iconRes: Int) =
-        if (viewModel.shouldDisplayStreamingIcons()) iconRes else null
+        if (viewModel.displayStreamingIcons) iconRes else null
 }
