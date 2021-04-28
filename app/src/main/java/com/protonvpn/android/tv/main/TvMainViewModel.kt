@@ -127,8 +127,6 @@ class TvMainViewModel @Inject constructor(
         else -> R.drawable.ic_lock
     }
 
-    fun shouldDisplayStreamingIcons() = appConfig.getFeatureFlags().displayTVLogos
-
     fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
         return serverManager.getVpnCountries().groupBy({
             val continent = CountryTools.locationMap[it.flag]?.continent

@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
@@ -103,7 +104,10 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
                 val icon = StreamingIcon(this)
                 if (dimStreamingIcons)
                     icon.alpha = STREAMING_ICON_DIM_ALPHA
-                icon.layoutParams = FlexboxLayout.LayoutParams(STREAMING_ICON_WIDTH, STREAMING_ICON_HEIGHT).apply {
+                icon.layoutParams = FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    STREAMING_ICON_HEIGHT
+                ).apply {
                     val margin = STREAMING_ICON_MARGINS
                     setMargins(margin, margin, margin, margin)
                 }
@@ -148,7 +152,6 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
 
     companion object {
         private const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
-        private val STREAMING_ICON_WIDTH = 57.toPx()
         private val STREAMING_ICON_HEIGHT = 46.toPx()
         private val STREAMING_ICON_MARGINS = 4.toPx()
         private const val STREAMING_ICON_DIM_ALPHA = 0.3f
