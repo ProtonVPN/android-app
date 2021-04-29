@@ -31,6 +31,7 @@ import com.protonvpn.android.utils.ProtonLogger
 class ProtonVpnBackendProvider(
     val strongSwan: VpnBackend,
     val openVpn: VpnBackend,
+    val wireGuard: VpnBackend,
     val serverDeliver: ServerDeliver,
 ) : VpnBackendProvider {
 
@@ -43,6 +44,7 @@ class ProtonVpnBackendProvider(
         return when (protocol) {
             VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
             VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = false)
             VpnProtocol.Smart ->
                 strongSwan.prepareForConnection(profile, server, scan = true).takeIf { it.isNotEmpty() }
                     ?: openVpn.prepareForConnection(profile, server, scan = true)

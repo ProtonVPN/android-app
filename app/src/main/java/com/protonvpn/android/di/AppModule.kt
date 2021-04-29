@@ -52,6 +52,8 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.wireguard.android.backend.GoBackend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -281,6 +283,7 @@ class AppModule {
         ProtonVpnBackendProvider(
             StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
             OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
+            WireguardBackend(GoBackend(ProtonApplication.getAppContext()), userData, appConfig, scope),
             serverManager)
 
     @Singleton

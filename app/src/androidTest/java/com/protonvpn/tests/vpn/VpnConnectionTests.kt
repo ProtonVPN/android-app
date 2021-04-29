@@ -88,6 +88,7 @@ class VpnConnectionTests {
 
     private lateinit var mockStrongSwan: MockVpnBackend
     private lateinit var mockOpenVpn: MockVpnBackend
+    private lateinit var mockWireguard: MockVpnBackend
 
     private lateinit var profileSmart: Profile
     private lateinit var profileIKEv2: Profile
@@ -105,11 +106,16 @@ class VpnConnectionTests {
 
         mockStrongSwan = spyk(MockVpnBackend(VpnProtocol.IKEv2))
         mockOpenVpn = spyk(MockVpnBackend(VpnProtocol.OpenVPN))
+        mockWireguard = spyk(MockVpnBackend(VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
         val backendProvider = ProtonVpnBackendProvider(
-            strongSwan = mockStrongSwan, openVpn = mockOpenVpn, serverDeliver = serverManager)
+            strongSwan = mockStrongSwan,
+            openVpn = mockOpenVpn,
+            wireGuard = mockWireguard,
+            serverDeliver = serverManager
+        )
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,

@@ -71,7 +71,8 @@ class ProtocolSelection @JvmOverloads constructor(
 
         spinnerDefaultProtocol.setItems(listOf(
                 ListableString(VpnProtocol.IKEv2.toString()),
-                ListableString(VpnProtocol.OpenVPN.toString())))
+                ListableString(VpnProtocol.OpenVPN.toString()),
+                ListableString(VpnProtocol.WireGuard.toString())))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
             manualProtocol = VpnProtocol.valueOf(item.getLabel(context))
             update()
