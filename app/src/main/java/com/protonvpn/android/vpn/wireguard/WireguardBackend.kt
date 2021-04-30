@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
@@ -43,6 +44,7 @@ class WireguardBackend(
     val backend: GoBackend,
     val userData: UserData,
     val appConfig: AppConfig,
+    val certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
 ) : VpnBackend("WireGuard") {
 
@@ -89,8 +91,8 @@ class WireguardBackend(
         To not leak test env information with git history, please change these locally for now
         config.interfaceProxy.addresses = ""
         config.interfaceProxy.dnsServers = ""
-        config.interfaceProxy.privateKey = ""
         */
+        config.interfaceProxy.privateKey = certificateRepository.getX25519Key(userData.sessionId)
 
         val peerProxy = config.addPeer()
         /*

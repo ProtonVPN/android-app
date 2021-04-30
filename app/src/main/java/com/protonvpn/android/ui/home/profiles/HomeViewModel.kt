@@ -29,6 +29,7 @@ import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.eagerMapNotNull
+import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,7 +38,8 @@ class HomeViewModel @Inject constructor(
     val userData: UserData,
     private val apiNotificationManager: ApiNotificationManager,
     userPlanManager: UserPlanManager,
-) : MainViewModel(userData, userPlanManager) {
+    certificateRepository: CertificateRepository
+) : MainViewModel(userData, userPlanManager, certificateRepository) {
 
     inner class OfferViewModel(
         private val id: String,

@@ -26,6 +26,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
@@ -41,6 +42,7 @@ class LogoutHandler(
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
     val humanVerificationHandler: HumanVerificationHandler,
+    val certificateRepository: CertificateRepository,
     vpnApiClient: VpnApiClient
 ) {
     val logoutEvent = LiveEvent()
@@ -64,6 +66,7 @@ class LogoutHandler(
 
         // Logout old session. This can take a while, so do it in background.
         val currentSessionId = apiSessionProvider.currentSessionId
+        currentSessionId?.let { certificateRepository.clear(it) }
         if (!forced) launch {
             vpnApiManager(sessionId = currentSessionId) {
                 postLogout()

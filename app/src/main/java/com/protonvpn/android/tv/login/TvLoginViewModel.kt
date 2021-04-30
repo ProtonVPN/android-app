@@ -33,6 +33,7 @@ import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +47,8 @@ class TvLoginViewModel @Inject constructor(
     val appConfig: AppConfig,
     val api: ProtonApiRetroFit,
     val serverListUpdater: ServerListUpdater,
-    val serverManager: ServerManager
+    val serverManager: ServerManager,
+    val certificateRepository: CertificateRepository
 ) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
@@ -110,7 +112,8 @@ class TvLoginViewModel @Inject constructor(
             is ApiResult.Success -> {
                 // We don't have access token yet as forked session don't return it, use
                 // invalid access token so it's refreshed by the core network module.
-                userData.setLoginResponse(result.value.toLoginResponse("invalid"))
+                val loginResponse = result.value.toLoginResponse("invalid")
+                userData.setLoginResponse(loginResponse)
                 when (val infoResult = api.getVPNInfo()) {
                     is ApiResult.Error -> {
                         userData.clearNetworkUserData()
@@ -128,6 +131,7 @@ class TvLoginViewModel @Inject constructor(
                                 state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
                             }
                             else -> {
+                                certificateRepository.updateCertificate(loginResponse.sessionId, cancelOngoing = true)
                                 userData.setLoggedIn(infoResult.value)
                                 loadInitialConfig()
                             }

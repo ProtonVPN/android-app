@@ -33,6 +33,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.test.shared.ApiNotificationTestHelper
 import com.protonvpn.test.shared.MockedServers
@@ -41,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
+import java.util.concurrent.TimeUnit
 
 class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val userData: UserData) : ProtonApiRetroFit(scope, manager) {
 
@@ -81,9 +83,29 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
             ApiNotification("2", Long.MIN_VALUE, Long.MAX_VALUE, ApiNotificationTypes.TYPE_OFFER + 1)
         ))
 
+    override suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
+        if (MockSwitch.mockedConnectionUsed) {
+            val now = System.currentTimeMillis()
+            ApiResult.Success(CertificateResponse(
+                TEST_CERT,
+                now + TimeUnit.DAYS.toMillis(1),
+                now + TimeUnit.HOURS.toMillis(16)))
+        } else
+            super.getCertificate(clientPublicKey)
+
     companion object {
         const val OFFER_LABEL = "Offer"
         const val PAST_OFFER_LABEL = "Past"
         const val FUTURE_OFFER_LABEL = "Future"
+        const val TEST_CERT =
+            "-----BEGIN CERTIFICATE-----\n" +
+            "MIIBHjCB0QIUTM7tBq1mnKSLlwuWugFy1uFiV/YwBQYDK2VwMDIxCzAJBgNVBAYT\n" +
+            "AkNIMQ8wDQYDVQQIDAZHZW5ldmExEjAQBgNVBAoMCXRlc3QgY2VydDAeFw0yMTA0\n" +
+            "MjgxNjMwMDBaFw0zMTA0MjYxNjMwMDBaMDIxCzAJBgNVBAYTAkNIMQ8wDQYDVQQI\n" +
+            "DAZHZW5ldmExEjAQBgNVBAoMCXRlc3QgY2VydDAqMAUGAytlcAMhAIEQpBEp1Hxl\n" +
+            "N7IX/oeN5oIRfNjRNtCqcRLZ0iKdfUuUMAUGAytlcANBAGjIXvothfBryJqC6X3L\n" +
+            "Gc6wQfhBE6PxkcJLLguvNvIAK197SATYz+KJfjyOlWnuy9El0v/DBCQ3Y44oaZTN\n" +
+            "kQE=\n" +
+            "-----END CERTIFICATE-----"
     }
 }

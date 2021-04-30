@@ -46,6 +46,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
+import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
@@ -76,6 +77,9 @@ public class ProtonApplication extends DaggerApplication {
             initLeakCanary();
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        // Initialize go-libraries early to avoid crashes in StrongSwan
+        Seq.touch();
 
         ProtonLogger.INSTANCE.log("App start");
     }

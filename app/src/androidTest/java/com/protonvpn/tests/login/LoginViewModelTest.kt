@@ -35,6 +35,7 @@ import com.protonvpn.android.ui.login.LoginState
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.ProofsProvider
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -72,6 +73,8 @@ class LoginViewModelTest : CoroutinesTest {
     private lateinit var serverManager: ServerManager
     @MockK
     private lateinit var proofsProvider: ProofsProvider
+    @RelaxedMockK
+    private lateinit var certificateRepository: CertificateRepository
     @MockK
     private lateinit var mockContext: Context
 
@@ -111,7 +114,7 @@ class LoginViewModelTest : CoroutinesTest {
         coEvery { api.postLoginInfo(any()) } returns ApiResult.Success(fakeLoginInfoResponse)
 
         viewModel =
-            LoginViewModel(userData, appConfig, api, guestHole, serverManager, proofsProvider)
+            LoginViewModel(userData, appConfig, api, guestHole, serverManager, proofsProvider, certificateRepository)
     }
 
     @Test

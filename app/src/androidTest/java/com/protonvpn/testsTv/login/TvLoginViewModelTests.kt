@@ -34,6 +34,7 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -65,6 +66,8 @@ class TvLoginViewModelTests : CoroutinesTest {
     private lateinit var api: ProtonApiRetroFit
     @RelaxedMockK
     private lateinit var serverListUpdater: ServerListUpdater
+    @RelaxedMockK
+    private lateinit var certificateRepository: CertificateRepository
     @MockK
     private lateinit var serverManager: ServerManager
 
@@ -99,7 +102,7 @@ class TvLoginViewModelTests : CoroutinesTest {
         coEvery { api.getForkedSession(selector) } returns ApiResult.Success(forkedSessionResponse)
         coEvery { serverListUpdater.updateServerList() } returns ApiResult.Success(ServerList(listOf()))
 
-        viewModel = TvLoginViewModel(userData, appConfig, api, serverListUpdater, serverManager)
+        viewModel = TvLoginViewModel(userData, appConfig, api, serverListUpdater, serverManager, certificateRepository)
     }
 
     @Test
