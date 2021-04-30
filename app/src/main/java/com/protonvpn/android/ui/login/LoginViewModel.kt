@@ -32,6 +32,8 @@ import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
@@ -42,7 +44,8 @@ class LoginViewModel @Inject constructor(
     val api: ProtonApiRetroFit,
     private val guestHole: GuestHole,
     val serverManager: ServerManager,
-    private val proofsProvider: ProofsProvider
+    private val proofsProvider: ProofsProvider,
+    val certificateRepository: CertificateRepository,
 ) : ViewModel() {
 
     private val _loginState = MutableLiveData<LoginState>(LoginState.EnterCredentials)
@@ -66,7 +69,10 @@ class LoginViewModel @Inject constructor(
                 userData.setLoginResponse(loginResult.value)
                 when (val infoResult = api.getVPNInfo()) {
                     is ApiResult.Error -> LoginState.Error(infoResult, true)
-                    is ApiResult.Success -> handleVpnInfoResult(infoResult.value)
+                    is ApiResult.Success -> {
+                        certificateRepository.generateNewKey(loginResult.value.sessionId)
+                        handleVpnInfoResult(infoResult.value)
+                    }
                 }
             }
         }

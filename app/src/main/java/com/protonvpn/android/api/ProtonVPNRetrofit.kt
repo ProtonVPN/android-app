@@ -29,6 +29,8 @@ import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.vpn.CertificateRequestBody
+import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
@@ -94,4 +96,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("domains/available")
     suspend fun getAvailableDomains(@Query("Type") type: String = "login"): GenericResponse
+
+    @POST("vpn/v1/certificate")
+    suspend fun getCertificate(@Body params: CertificateRequestBody): CertificateResponse
 }

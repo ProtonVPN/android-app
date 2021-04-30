@@ -42,6 +42,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import me.proton.core.network.domain.session.SessionId;
 
 public final class UserData implements Serializable {
 
@@ -422,5 +423,10 @@ public final class UserData implements Serializable {
 
     public void setLoginResponse(LoginResponse value) {
         apiSessionProvider.setLoginResponse(value);
+    }
+
+    @Nullable
+    public SessionId getSessionId() {
+        return apiSessionProvider.getCurrentSessionId();
     }
 }

@@ -41,6 +41,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -244,6 +245,7 @@ class AppModule {
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
         serverManager: ServerManager,
+        certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ) = VpnConnectionManager(
         ProtonApplication.getAppContext(),
@@ -256,6 +258,20 @@ class AppModule {
         serverManager,
         scope,
     )
+
+    @Singleton
+    @Provides
+    fun provideCertificateRepository(
+        userData: UserData,
+        api: ProtonApiRetroFit,
+        userPlanManager: UserPlanManager
+    ): CertificateRepository = CertificateRepository(
+        scope,
+        ProtonApplication.getAppContext(),
+        userData,
+        api,
+        System::currentTimeMillis,
+        userPlanManager)
 
     @Singleton
     @Provides
@@ -278,12 +294,13 @@ class AppModule {
         userData: UserData,
         networkManager: NetworkManager,
         appConfig: AppConfig,
-        serverManager: ServerManager
+        serverManager: ServerManager,
+        certificateRepository: CertificateRepository
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
             OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
-            WireguardBackend(GoBackend(ProtonApplication.getAppContext()), userData, appConfig, scope),
+            WireguardBackend(GoBackend(ProtonApplication.getAppContext()), userData, appConfig, certificateRepository, scope),
             serverManager)
 
     @Singleton
@@ -324,9 +341,10 @@ class AppModule {
         vpnStateMonitor: VpnStateMonitor,
         vpnConnectionManager: VpnConnectionManager,
         vpnApiClient: VpnApiClient,
-        humanVerificationHandler: HumanVerificationHandler
+        humanVerificationHandler: HumanVerificationHandler,
+        certificateRepository: CertificateRepository
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, vpnApiClient)
+        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
 }
 
 @Module
