@@ -427,7 +427,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="notification_subscription_expired_title">Your subscription has expired</string>
     <string name="notification_subscription_expired_content">Your subscription has been downgraded, so we are reconnecting to the fastest available server. </string>
     <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded. </string>
-    <string name="notification_delinquent_title">Your VPN account has pending invoices</string>
+    <string name="notification_delinquent_title">Your ProtonVPN account has pending invoices</string>
     <string name="notification_delinquent_content">Please take a moment to update your billing information to keep your subscription active.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">You have been switched to a faster server that is similar to the one you selected.</string>
@@ -438,7 +438,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="notification_cancel_to_free">You are on the FREE plan. FREE servers and features are available.</string>
     <string name="notification_cancel_to_basic">You are on the BASIC plan. BASIC &amp; FREE servers and features are available.</string>
     <string name="notification_cancel_to_delinquent">You will be able to access premium features again after pending invoices are paid.</string>
-    <string name="vpn_accelerator">VPN accelerator</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">From server: </string>
     <string name="reconnect_to_server">To server: </string>
     <string name="no_thanks">No thanks</string>
@@ -464,7 +464,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">"Route your Internet traffic through the Tor network. Slower, but more private. "</string>
+    <string name="tor_description">Route your Internet traffic through the Tor network. Slower, but more private.</string>
     <string name="info_performance">Performance</string>
     <string name="server_load_title">Server Load</string>
     <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
