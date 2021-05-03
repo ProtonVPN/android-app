@@ -81,6 +81,7 @@ class TvLoginViewModel @Inject constructor(
 
     private suspend fun pollLogin(code: SessionForkSelectorResponse) {
         val result: ApiResult<ForkedSessionResponse>? = withTimeoutOrNull(POLL_TIMEOUT_MS) {
+            api.getAvailableDomains()
             val pollStart = monoClockMs()
             val updateTimer = launch {
                 while (true) {
