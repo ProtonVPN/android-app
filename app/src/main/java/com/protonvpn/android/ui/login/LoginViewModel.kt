@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.login
 
 import android.content.Context
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.api.GuestHole
@@ -30,6 +31,7 @@ import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import srp.Auth
@@ -60,6 +62,12 @@ class LoginViewModel @Inject constructor(
             infoResponse.serverEphemeral
         )
         auth.generateProofs(2048)
+    }
+
+    fun initLoginScreen(lifecycleScope: LifecycleCoroutineScope) {
+        lifecycleScope.launch {
+            api.getAvailableDomains()
+        }
     }
 
     private suspend fun loginWithProofs(loginBody: LoginBody): LoginState {

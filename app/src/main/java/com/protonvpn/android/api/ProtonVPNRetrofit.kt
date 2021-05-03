@@ -91,4 +91,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("core/v4/notifications")
     suspend fun getApiNotifications(): ApiNotificationsResponse
+
+    @GET("domains/available")
+    suspend fun getAvailableDomains(@Query("Type") type: String = "login"): GenericResponse
 }

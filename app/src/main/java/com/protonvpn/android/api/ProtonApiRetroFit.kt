@@ -89,6 +89,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     open suspend fun getSession(): ApiResult<SessionListResponse> =
         manager { getSession() }
 
+    open suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
+        manager { getAvailableDomains() }
+
     private suspend fun <T> makeCall(
         loader: LoaderUI?,
         callFun: suspend (ProtonVPNRetrofit) -> T
