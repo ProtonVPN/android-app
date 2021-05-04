@@ -184,6 +184,10 @@ class ServerListUpdater(
             }
         }
 
+        api.getStreamingServices().valueOrNull?.let {
+            serverManager.setStreamingServices(it)
+        }
+
         // The following route is used to retrieve VPN server information, including scores for
         // the best server to connect to depending on a user's proximity to a server and its load.
         // To provide relevant scores even when connected to VPN, we send a truncated version of
@@ -192,9 +196,6 @@ class ServerListUpdater(
         val result = api.getServerList(loaderUI, strippedIP)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
-            val streamingServices = api.getStreamingServices().valueOrNull
-            if (streamingServices != null)
-                serverManager.setStreamingServices(streamingServices)
         }
         return result
     }
