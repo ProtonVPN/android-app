@@ -42,11 +42,11 @@ import kotlinx.coroutines.withContext
 
 class WireguardBackend(
     val backend: GoBackend,
-    val userData: UserData,
+    userData: UserData,
     val appConfig: AppConfig,
-    val certificateRepository: CertificateRepository,
+    certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
-) : VpnBackend("WireGuard") {
+) : VpnBackend(userData, certificateRepository, VpnProtocol.WireGuard, mainScope) {
 
     private val testTunnel = WireGuardTunnel(
         name = "test",
@@ -58,9 +58,9 @@ class WireguardBackend(
         mainScope.launch {
             testTunnel.stateFlow.collect {
                 when (it) {
-                    Tunnel.State.DOWN -> selfStateObservable.value = VpnState.Disabled
-                    Tunnel.State.TOGGLE -> selfStateObservable.value = VpnState.Connecting
-                    Tunnel.State.UP -> selfStateObservable.value = VpnState.Connected
+                    Tunnel.State.DOWN -> vpnProtocolState = VpnState.Disabled
+                    Tunnel.State.TOGGLE -> vpnProtocolState = VpnState.Connecting
+                    Tunnel.State.UP -> vpnProtocolState = VpnState.Connected
                 }
             }
         }

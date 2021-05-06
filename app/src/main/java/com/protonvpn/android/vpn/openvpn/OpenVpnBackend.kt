@@ -24,6 +24,7 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
@@ -35,6 +36,7 @@ import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.implies
 import com.protonvpn.android.utils.randomNullable
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
@@ -43,6 +45,7 @@ import com.protonvpn.android.vpn.VpnState
 import de.blinkt.openvpn.core.ConnectionStatus
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.apache.commons.codec.binary.Hex
@@ -54,10 +57,12 @@ import java.util.Random
 
 class OpenVpnBackend(
     val random: Random,
-    val userData: UserData,
+    userData: UserData,
     val appConfig: AppConfig,
-    val unixTime: () -> Long
-) : VpnBackend("OpenVpn"), VpnStatus.StateListener {
+    val unixTime: () -> Long,
+    certificateRepository: CertificateRepository,
+    mainScope: CoroutineScope
+) : VpnBackend(userData, certificateRepository, VpnProtocol.OpenVPN, mainScope), VpnStatus.StateListener {
 
     init {
         VpnStatus.addStateListener(this)
@@ -198,8 +203,8 @@ class OpenVpnBackend(
     }
 
     override suspend fun disconnect() {
-        if (selfState != VpnState.Disabled) {
-            selfStateObservable.value = VpnState.Disconnecting
+        if (vpnProtocolState != VpnState.Disabled) {
+            vpnProtocolState = VpnState.Disconnecting
         }
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
@@ -235,7 +240,7 @@ class OpenVpnBackend(
         Intent: Intent?
     ) {
         if (level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET &&
-                (selfState as? VpnState.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
+                (vpnProtocolState as? VpnState.Error)?.type == ErrorType.PEER_AUTH_FAILED) {
             // On tls-error OpenVPN will send a single RECONNECTING state update with tls-error in
             // logmessage followed by LEVEL_CONNECTING_NO_SERVER_REPLY_YET updates without info
             // about tls-error. Let's stay in PEER_AUTH_FAILED for the rest of this connection
@@ -270,7 +275,7 @@ class OpenVpnBackend(
         DebugUtils.debugAssert {
             (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
         }
-        selfStateObservable.postValue(translatedState)
+        vpnProtocolState = translatedState
     }
 
     override fun setConnectedVPN(uuid: String) {
