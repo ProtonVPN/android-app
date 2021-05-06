@@ -281,10 +281,14 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(serverManager: ServerManager): VpnBackendProvider = ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(VpnProtocol.OpenVPN),
-            wireGuard = MockVpnBackend(VpnProtocol.WireGuard),
+    fun provideVpnBackendManager(
+        serverManager: ServerManager,
+        certificateRepository: CertificateRepository,
+        userData: UserData
+    ): VpnBackendProvider = ProtonVpnBackendProvider(
+            strongSwan = MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.IKEv2),
+            openVpn = MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.OpenVPN),
+            wireGuard = MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.WireGuard),
             serverDeliver = serverManager)
 
     @Singleton

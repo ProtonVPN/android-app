@@ -162,7 +162,7 @@ class CertificateRepository(
             }
         }
 
-    private suspend fun getCertInfo(sessionId: SessionId) =
+    suspend fun getCertInfo(sessionId: SessionId) =
         certPrefs.getString(sessionId.id, null)?.deserialize() ?: run {
             generateNewKey(sessionId)
         }

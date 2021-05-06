@@ -29,6 +29,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.SwitchServerReason
@@ -57,6 +58,7 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.network.domain.session.SessionId
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -84,6 +86,9 @@ class VpnConnectionTests {
     lateinit var serverManager: ServerManager
 
     @RelaxedMockK
+    lateinit var certificateRepository: CertificateRepository
+
+    @RelaxedMockK
     lateinit var vpnErrorHandler: VpnConnectionErrorHandler
 
     private lateinit var mockStrongSwan: MockVpnBackend
@@ -92,6 +97,7 @@ class VpnConnectionTests {
 
     private lateinit var profileSmart: Profile
     private lateinit var profileIKEv2: Profile
+    private lateinit var profileWireguard: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
@@ -101,12 +107,13 @@ class VpnConnectionTests {
         MockKAnnotations.init(this)
         context = InstrumentationRegistry.getInstrumentation().context
         scope = TestCoroutineScope(EmptyCoroutineContext)
-        userData = UserData()
+        userData = spyk(UserData())
+        every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
-        mockStrongSwan = spyk(MockVpnBackend(VpnProtocol.IKEv2))
-        mockOpenVpn = spyk(MockVpnBackend(VpnProtocol.OpenVPN))
-        mockWireguard = spyk(MockVpnBackend(VpnProtocol.WireGuard))
+        mockStrongSwan = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.IKEv2))
+        mockOpenVpn = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -126,6 +133,7 @@ class VpnConnectionTests {
         val server = MockedServers.server
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
         profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, server)
+        profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
         fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, server, "fallback")
         val wrapperSlot = slot<ServerWrapper>()
         every { serverManager.getServer(capture(wrapperSlot)) } answers {
@@ -175,6 +183,47 @@ class VpnConnectionTests {
             mockOpenVpn.connect()
         }
 
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun connectToLocalAgent() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        manager.connect(context, profileWireguard)
+
+        coVerify(exactly = 1) {
+            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.connectToLocalAgent()
+        }
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun localAgentNotUsedForIKEv2() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        manager.connect(context, profileIKEv2)
+
+        coVerify(exactly = 1) {
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+        }
+        coVerify(exactly = 0) {
+            mockStrongSwan.connectToLocalAgent()
+        }
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun localAgentNotUsedForGuestHole() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        every { userData.sessionId } returns null
+        manager.connect(context, profileWireguard)
+
+        coVerify(exactly = 1) {
+            mockWireguard.prepareForConnection(any(), any(), false)
+        }
+        coVerify(exactly = 0) {
+            mockWireguard.connectToLocalAgent()
+        }
         Assert.assertEquals(VpnState.Connected, monitor.state)
     }
 

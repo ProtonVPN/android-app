@@ -298,10 +298,31 @@ class AppModule {
         certificateRepository: CertificateRepository
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
-            StrongSwanBackend(random, networkManager, scope, System::currentTimeMillis),
-            OpenVpnBackend(random, userData, appConfig, System::currentTimeMillis),
-            WireguardBackend(GoBackend(ProtonApplication.getAppContext()), userData, appConfig, certificateRepository, scope),
-            serverManager)
+            StrongSwanBackend(
+                random,
+                networkManager,
+                scope,
+                System::currentTimeMillis,
+                userData,
+                certificateRepository
+            ),
+            OpenVpnBackend(
+                random,
+                userData,
+                appConfig,
+                System::currentTimeMillis,
+                certificateRepository,
+                scope
+            ),
+            WireguardBackend(
+                GoBackend(ProtonApplication.getAppContext()),
+                userData,
+                appConfig,
+                certificateRepository,
+                scope
+            ),
+            serverManager
+        )
 
     @Singleton
     @Provides

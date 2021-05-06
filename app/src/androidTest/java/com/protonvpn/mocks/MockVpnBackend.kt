@@ -18,16 +18,30 @@
  */
 package com.protonvpn.mocks
 
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
 
-class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
+class MockVpnBackend(
+    scope: CoroutineScope,
+    certificateRepository: CertificateRepository,
+    userData: UserData,
+    val protocol: VpnProtocol
+) : VpnBackend(
+    userData = userData,
+    certificateRepository = certificateRepository,
+    name = protocol,
+    mainScope = scope
+) {
 
     override suspend fun prepareForConnection(
         profile: Profile,
@@ -41,7 +55,7 @@ class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
                 profile, server, server.getRandomConnectingDomain(), protocol) {}))
 
     override suspend fun connect() {
-        setSelfState(VpnState.Connecting)
+        vpnProtocolState = VpnState.Connected
         setSelfState(stateOnConnect)
     }
 
