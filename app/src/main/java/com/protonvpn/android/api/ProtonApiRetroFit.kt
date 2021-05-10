@@ -65,7 +65,7 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     suspend fun getSessionForkSelector() =
         manager { getSessionForkSelector() }
 
-    suspend fun getForkedSession(selector: String) =
+    open suspend fun getForkedSession(selector: String) =
         manager { getForkedSession(selector) }
 
     open suspend fun getConnectingDomain(domainId: String) =

@@ -19,8 +19,11 @@
 package com.protonvpn.test.shared;
 
 import com.protonvpn.android.BuildConfig;
+import com.protonvpn.android.appconfig.ForkedSessionResponse;
 import com.protonvpn.android.models.login.VPNInfo;
 import com.protonvpn.android.models.login.VpnInfoResponse;
+
+import java.util.Arrays;
 
 public final class TestUser {
 
@@ -70,5 +73,16 @@ public final class TestUser {
             this.openVpnPassword);
 
         return new VpnInfoResponse(1000, info, 4, 4, 0);
+    }
+
+    public static ForkedSessionResponse getForkedSessionResponse(){
+        return new ForkedSessionResponse(
+                864000,
+                "Bearer",
+                "UId",
+                "refreshToken",
+                "null",
+                0, Arrays.asList("self", "user", "loggedin", "vpn").toArray(new String[3]),
+                "UserId");
     }
 }
