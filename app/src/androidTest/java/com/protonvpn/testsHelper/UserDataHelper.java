@@ -37,4 +37,8 @@ public class UserDataHelper {
         userData.setUser(user.email);
         userData.setVpnInfoResponse(user.getVpnInfoResponse());
     }
+
+    public void logoutUser(){
+        userData.setLoggedIn(false);
+    }
 }

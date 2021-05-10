@@ -589,6 +589,7 @@ dependencies {
     implementation "me.proton.core:presentation:0.6.3"
     implementation "me.proton.core:human-verification:0.3.3"
     implementation "me.proton.core:country:0.1.3"
+    androidTestImplementation 'me.proton.core:test-android-instrumented:0.3.3'
 
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'

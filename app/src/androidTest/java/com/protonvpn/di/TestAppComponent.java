@@ -21,6 +21,7 @@ package com.protonvpn.di;
 import com.protonvpn.TestApplication;
 import com.protonvpn.android.di.ActivityBuilder;
 import com.protonvpn.android.di.AppComponent;
+import com.protonvpn.android.di.TvModule;
 import com.protonvpn.android.di.ViewModelModule;
 import com.protonvpn.testsHelper.ServerManagerHelper;
 import com.protonvpn.testsHelper.UserDataHelper;
@@ -33,7 +34,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, ActivityBuilder.class, MockAppModule.class,
-    ViewModelModule.class})
+    ViewModelModule.class, TvModule.class})
 public interface TestAppComponent extends AppComponent {
 
     @Component.Builder

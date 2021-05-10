@@ -25,6 +25,7 @@ import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
+import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.components.LoaderUI
@@ -68,6 +69,9 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
     override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
         ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
     }
+
+    override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
+            ApiResult.Success(TestUser.getForkedSessionResponse())
 
     override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =
         ApiResult.Success(ApiNotificationTestHelper.mockResponse(
