@@ -31,11 +31,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * [LoginRobotTests] Contains all tests related to Login actions.
+ * [LoginRobotTestsTv] Contains all tests related to Login actions.
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class LoginRobotTests {
+class LoginRobotTestsTv {
 
     private val loginRobot = LoginRobot()
 

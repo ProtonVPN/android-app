@@ -186,6 +186,7 @@ unit tests:
         --num-flaky-test-attempts=2
         --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"
         --directories-to-pull /sdcard
+        --test-targets "class $TEST_SUITE"
     - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
     - gsutil cp $coverageFile app/build/outputs/apk | true
   artifacts:
@@ -201,11 +202,13 @@ firebase quick tests:
     APP_TYPE: "direct-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
+    COVERAGE_FILE_NAME: "coverageMobile.ec"
   only:
-  - branches
+    - branches
   except:
-  - master
-  - development
+    - master
+    - development
 
 firebase full tests:
   <<: *tests_preparation_script
@@ -215,9 +218,27 @@ firebase full tests:
     APP_TYPE: "direct-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
+    COVERAGE_FILE_NAME: "coverageMobile.ec"
   only:
   - master
   - development
+
+firebase tv tests:
+  <<: *tests_preparation_script
+  variables:
+    TESTS_TYPE: tvTest
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
+    COVERAGE_FILE_NAME: "coverageTv.ec"
+  only:
+    - branches
+  except:
+    - master
+    - development
 
 coverage report:
   stage: report
