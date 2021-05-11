@@ -184,10 +184,10 @@ unit tests:
         --app "$APP"
         --test "$TEST_APP"
         --num-flaky-test-attempts=2
-        --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec"
+        --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec"
         --directories-to-pull /sdcard
         --test-targets "class $TEST_SUITE"
-    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/*.ec | tail -1`
+    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/$COVERAGE_FILE_NAME.ec | tail -1`
     - gsutil cp $coverageFile app/build/outputs/apk | true
   artifacts:
     expire_in: 1 week
