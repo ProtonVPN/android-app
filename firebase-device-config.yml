@@ -19,3 +19,8 @@ quickTest:
     version: 28
   - model: Nexus5X
     version: 23
+tvTest:
+  timeout: 30m
+  device:
+  - model: AmatiTvEmulator
+    version: 29
