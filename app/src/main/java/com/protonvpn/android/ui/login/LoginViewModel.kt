@@ -19,9 +19,9 @@
 package com.protonvpn.android.ui.login
 
 import android.content.Context
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
@@ -48,6 +48,14 @@ class LoginViewModel @Inject constructor(
 
     val loginState = MutableLiveData<LoginState>()
 
+    init {
+        if (!userData.isLoggedIn) {
+            viewModelScope.launch {
+                api.getAvailableDomains()
+            }
+        }
+    }
+
     private suspend fun getProofs(
         username: String,
         password: String,
@@ -62,12 +70,6 @@ class LoginViewModel @Inject constructor(
             infoResponse.serverEphemeral
         )
         auth.generateProofs(2048)
-    }
-
-    fun initLoginScreen(lifecycleScope: LifecycleCoroutineScope) {
-        lifecycleScope.launch {
-            api.getAvailableDomains()
-        }
     }
 
     private suspend fun loginWithProofs(loginBody: LoginBody): LoginState {
