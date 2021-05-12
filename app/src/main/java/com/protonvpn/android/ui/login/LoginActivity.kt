@@ -78,8 +78,6 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             finish()
             return
         }
-
-        viewModel.initLoginScreen(lifecycleScope)
         initInputFields()
         checkIfOpenedFromWeb()
         initClickListeners()
