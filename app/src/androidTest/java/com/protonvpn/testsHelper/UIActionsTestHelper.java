@@ -141,7 +141,7 @@ public class UIActionsTestHelper {
         ViewInteraction object = onView(
             Matchers.allOf(childAtPosition(childAtPosition(withId(id), position), childPosition),
                 isDisplayed()));
-        object.perform(click());
+        object.perform(click(click()));
     }
 
     protected void insertTextIntoFieldWithId(@IdRes int objectId, String text) {
