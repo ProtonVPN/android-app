@@ -177,7 +177,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                 spinnerCountry.selectedItem = country
                 spinnerServer.selectedItem = profile?.wrapper
                 spinnerServer.setItems(country!!.wrapperServers)
-                spinnerServer.isVisible = true
+                inputLayoutServer.isVisible = true
             }
         }
     }
