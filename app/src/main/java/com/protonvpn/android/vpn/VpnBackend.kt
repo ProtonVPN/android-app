@@ -95,6 +95,7 @@ abstract class VpnBackend(
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
     var agent: AgentConnection? = null
     var agentConnectionJob: Job? = null
+    private val agentConstants = localAgent.LocalAgent.constants()
 
     init {
         mainScope.launch {
@@ -121,8 +122,7 @@ abstract class VpnBackend(
             connectToLocalAgent()
         }
         return when (localAgentState) {
-            // TODO Use stateConnected here instead of softJailed
-            localAgent.LocalAgent.constants().stateSoftJailed -> VpnState.Connected
+            agentConstants.stateConnected -> VpnState.Connected
             // TODO Handle remaining branches and localAgentErrors here
             else -> VpnState.Connecting
         }
