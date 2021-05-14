@@ -39,14 +39,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.proton.core.network.domain.NetworkManager
 
 class WireguardBackend(
     val backend: GoBackend,
+    networkManager: NetworkManager,
     userData: UserData,
     val appConfig: AppConfig,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
-) : VpnBackend(userData, certificateRepository, VpnProtocol.WireGuard, mainScope) {
+) : VpnBackend(userData, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
 
     private val testTunnel = WireGuardTunnel(
         name = "test",
@@ -57,10 +59,10 @@ class WireguardBackend(
     init {
         mainScope.launch {
             testTunnel.stateFlow.collect {
-                when (it) {
-                    Tunnel.State.DOWN -> vpnProtocolState = VpnState.Disabled
-                    Tunnel.State.TOGGLE -> vpnProtocolState = VpnState.Connecting
-                    Tunnel.State.UP -> vpnProtocolState = VpnState.Connected
+                vpnProtocolState = when (it) {
+                    Tunnel.State.DOWN -> VpnState.Disabled
+                    Tunnel.State.TOGGLE -> VpnState.Connecting
+                    Tunnel.State.UP -> VpnState.Connected
                 }
             }
         }

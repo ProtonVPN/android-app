@@ -308,6 +308,7 @@ class AppModule {
             ),
             OpenVpnBackend(
                 random,
+                networkManager,
                 userData,
                 appConfig,
                 System::currentTimeMillis,
@@ -316,6 +317,7 @@ class AppModule {
             ),
             WireguardBackend(
                 GoBackend(ProtonApplication.getAppContext()),
+                networkManager,
                 userData,
                 appConfig,
                 certificateRepository,

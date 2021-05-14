@@ -48,6 +48,7 @@ import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import me.proton.core.network.domain.NetworkManager
 import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.HmacAlgorithms
 import org.apache.commons.codec.digest.HmacUtils
@@ -57,12 +58,19 @@ import java.util.Random
 
 class OpenVpnBackend(
     val random: Random,
+    networkManager: NetworkManager,
     userData: UserData,
     val appConfig: AppConfig,
     val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
-) : VpnBackend(userData, certificateRepository, VpnProtocol.OpenVPN, mainScope), VpnStatus.StateListener {
+) : VpnBackend(
+    userData,
+    certificateRepository,
+    networkManager,
+    VpnProtocol.OpenVPN,
+    mainScope
+), VpnStatus.StateListener {
 
     init {
         VpnStatus.addStateListener(this)

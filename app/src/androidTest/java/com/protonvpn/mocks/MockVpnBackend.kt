@@ -30,14 +30,17 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import me.proton.core.network.domain.NetworkManager
 
 class MockVpnBackend(
     scope: CoroutineScope,
+    networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
     userData: UserData,
     val protocol: VpnProtocol
 ) : VpnBackend(
     userData = userData,
+    networkManager = networkManager,
     certificateRepository = certificateRepository,
     name = protocol,
     mainScope = scope

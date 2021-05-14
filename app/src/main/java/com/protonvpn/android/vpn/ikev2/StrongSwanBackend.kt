@@ -51,12 +51,17 @@ import java.util.concurrent.TimeUnit
 
 class StrongSwanBackend(
     val random: Random,
-    private val networkManager: NetworkManager,
+    networkManager: NetworkManager,
     mainScope: CoroutineScope,
     val now: () -> Long,
     userData: UserData,
     certificateRepository: CertificateRepository
-) : VpnBackend(userData, certificateRepository, VpnProtocol.IKEv2, mainScope), VpnStateService.VpnStateListener {
+) : VpnBackend(userData,
+    certificateRepository,
+    networkManager,
+    VpnProtocol.IKEv2,
+    mainScope
+), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
