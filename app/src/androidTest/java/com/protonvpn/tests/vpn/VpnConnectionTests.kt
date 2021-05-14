@@ -111,9 +111,9 @@ class VpnConnectionTests {
         every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
-        mockStrongSwan = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.IKEv2))
-        mockOpenVpn = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(MockVpnBackend(scope, certificateRepository, userData, VpnProtocol.WireGuard))
+        mockStrongSwan = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.IKEv2))
+        mockOpenVpn = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 

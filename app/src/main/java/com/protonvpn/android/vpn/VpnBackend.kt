@@ -30,10 +30,13 @@ import com.protonvpn.android.utils.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import localAgent.AgentConnection
 import localAgent.NativeClient
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -51,6 +54,7 @@ interface VpnBackendProvider {
 abstract class VpnBackend(
     val userData: UserData,
     val certificateRepository: CertificateRepository,
+    private val networkManager: NetworkManager,
     val name: VpnProtocol,
     val mainScope: CoroutineScope
 ) : VpnStateSource {
@@ -92,6 +96,14 @@ abstract class VpnBackend(
     var agent: AgentConnection? = null
     var agentConnectionJob: Job? = null
 
+    init {
+        mainScope.launch {
+            networkManager.observe().collect { status ->
+                agent?.setConnectivity(status != NetworkStatus.Disconnected)
+            }
+        }
+    }
+
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
         if (name == VpnProtocol.WireGuard && userData.sessionId != null) {
             when (vpnState) {
@@ -127,8 +139,8 @@ abstract class VpnBackend(
                     Constants.VPN_ROOT_CERTS,
                     Constants.LOCAL_AGENT_ADDRESS,
                     nativeClient,
-                    null, // TODO Do not pass true for network. Get state from networkManager
-                    true
+                    null,
+                    networkManager.isConnectedToNetwork()
                 )
             } else {
                 Log.e("cert fetch failed") // TODO handle cert fetch failure
