@@ -33,87 +33,166 @@ import ch.qos.logback.core.util.StatusPrinter
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
 import io.sentry.event.Event
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.collections.ArrayList
 
 private const val LOG_PATTERN_BASE = "%d{HH:mm:ss}: %msg"
+private const val LOG_QUEUE_MAX_SIZE = 100
 
-open class ProtonLoggerImpl(appContext: Context) {
+open class ProtonLoggerImpl(
+    appContext: Context,
+    mainScope: CoroutineScope,
+    loggerDispatcher: CoroutineDispatcher
+) {
+    private class BackgroundLogger(
+        appContext: Context,
+        mainScope: CoroutineScope,
+        private val loggerDispatcher: CoroutineDispatcher,
+        private val messages: Flow<String>
+    ) {
 
-    private val logDir = appContext.applicationInfo.dataDir + "/log/"
-    private val fileName = "Data.log"
-    private val fileName2 = "Data1.log"
-    private val logger = LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
+        // It's best to call ApplicationInfo.getDataDir() on loggerDispatcher, however there's
+        // a chance that getLogFiles() is called before initialize() has run, therefore it's a
+        // lazy value, to be initialized by the thread that needs it first.
+        private val logDir by lazy { appContext.applicationInfo.dataDir + "/log/" }
+        private val fileName = "Data.log"
+        private val fileName2 = "Data1.log"
+        private val logger =
+            LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
 
-    init {
-        val context = LoggerFactory.getILoggerFactory() as LoggerContext
-
-        val patternEncoder = createAndStartEncoder(context, "$LOG_PATTERN_BASE%n")
-
-        val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
-            this.context = context
-            file = logDir + fileName
-        }
-
-        val rollingPolicy = FixedWindowRollingPolicy().apply {
-            this.context = context
-            setParent(fileAppender)
-            fileNamePattern = "$logDir/Data%i.log"
-            minIndex = 1
-            maxIndex = 2
-            start()
-        }
-
-        val triggerPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>().apply {
-            maxFileSize = FileSize.valueOf("300kb")
-            this.context = context
-            start()
-        }
-
-        fileAppender.triggeringPolicy = triggerPolicy
-        fileAppender.rollingPolicy = rollingPolicy
-
-        val logcatAppender = LogcatAppender().apply {
-            this.context = context
-            encoder = patternEncoder
-            start()
-        }
-
-        fileAppender.encoder = patternEncoder
-        fileAppender.start()
-        val root = context.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
-        root.addAppender(fileAppender)
-        root.addAppender(logcatAppender)
-
-        StatusPrinter.print(context)
-    }
-
-    fun getLogFiles(): List<File> {
-        val logFile = File(logDir, fileName)
-        val logFile2 = File(logDir, fileName2)
-        val list = ArrayList<File>()
-        if (logFile.exists() && logFile2.exists() && logFile.lastModified() < logFile2.lastModified()) {
-            list.add(logFile)
-            list.add(logFile2)
-        } else {
-            if (logFile2.exists()) {
-                list.add(logFile2)
+        init {
+            mainScope.launch {
+                withContext(loggerDispatcher) {
+                    initialize()
+                    processLogs()
+                }
             }
-            if (logFile.exists()) {
+        }
+
+        fun getLogFiles(): List<File> {
+            val logFile = File(logDir, fileName)
+            val logFile2 = File(logDir, fileName2)
+            val list = ArrayList<File>()
+            if (logFile.exists() && logFile2.exists() && logFile.lastModified() < logFile2.lastModified()) {
                 list.add(logFile)
+                list.add(logFile2)
+            } else {
+                if (logFile2.exists()) {
+                    list.add(logFile2)
+                }
+                if (logFile.exists()) {
+                    list.add(logFile)
+                }
+            }
+            return list
+        }
+
+        @OptIn(ExperimentalCoroutinesApi::class)
+        fun getLogLines(): Flow<String> = callbackFlow {
+            getLogFiles().forEach { file ->
+                file.bufferedReader().use { reader ->
+                    reader.lineSequence()
+                        .takeWhile { isActive }
+                        .forEach { line -> send(line) }
+                }
+            }
+            val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN_BASE)
+            val appender = ChannelAdapter(this, encoder)
+            appender.start()
+            logger.addAppender(appender)
+            awaitClose { logger.detachAppender(appender) }
+        }.flowOn(loggerDispatcher)
+
+        private fun initialize() {
+            val context = LoggerFactory.getILoggerFactory() as LoggerContext
+
+            val patternEncoder = createAndStartEncoder(context, "$LOG_PATTERN_BASE%n")
+
+            val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
+                this.context = context
+                file = logDir + fileName
+            }
+
+            val rollingPolicy = FixedWindowRollingPolicy().apply {
+                this.context = context
+                setParent(fileAppender)
+                fileNamePattern = "$logDir/Data%i.log"
+                minIndex = 1
+                maxIndex = 2
+                start()
+            }
+
+            val triggerPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>().apply {
+                maxFileSize = FileSize.valueOf("300kb")
+                this.context = context
+                start()
+            }
+
+            fileAppender.triggeringPolicy = triggerPolicy
+            fileAppender.rollingPolicy = rollingPolicy
+
+            val logcatAppender = LogcatAppender().apply {
+                this.context = context
+                encoder = patternEncoder
+                start()
+            }
+
+            fileAppender.encoder = patternEncoder
+            fileAppender.start()
+            val root = context.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
+            root.addAppender(fileAppender)
+            root.addAppender(logcatAppender)
+
+            StatusPrinter.print(context)
+        }
+
+        private suspend fun processLogs() {
+            messages.collect { message -> logger.debug(message) }
+        }
+
+        private fun createAndStartEncoder(
+            loggerContext: LoggerContext,
+            pattern: String
+        ) = PatternLayoutEncoder().apply {
+            this.context = loggerContext
+            this.pattern = pattern
+            start()
+        }
+
+        private class ChannelAdapter(
+            private val channel: SendChannel<String>,
+            private val encoder: Encoder<ILoggingEvent>
+        ) : UnsynchronizedAppenderBase<ILoggingEvent>() {
+
+            override fun append(eventObject: ILoggingEvent) {
+                val line = encoder.encode(eventObject).decodeToString()
+                channel.sendBlocking(line)
             }
         }
-        return list
     }
+
+    private val logMessageQueue =
+        MutableSharedFlow<String>(0, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
+
+    private val backgroundLogger: BackgroundLogger =
+        BackgroundLogger(appContext, mainScope, loggerDispatcher, logMessageQueue)
 
     fun logSentryEvent(event: Event) {
         if (!BuildConfig.DEBUG) {
@@ -123,42 +202,10 @@ open class ProtonLoggerImpl(appContext: Context) {
     }
 
     fun log(message: String) {
-        logger.debug(message)
+        logMessageQueue.tryEmit(message)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getLogLines(): Flow<String> = callbackFlow {
-        getLogFiles().forEach { file ->
-            file.bufferedReader().use { reader ->
-                reader.lineSequence()
-                    .takeWhile { isActive }
-                    .forEach { line -> send(line) }
-            }
-        }
-        val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN_BASE)
-        val appender = ChannelAdapter(this, encoder)
-        appender.start()
-        logger.addAppender(appender)
-        awaitClose { logger.detachAppender(appender) }
-    }
+    fun getLogLines() = backgroundLogger.getLogLines()
 
-    private fun createAndStartEncoder(
-        loggerContext: LoggerContext,
-        pattern: String
-    ) = PatternLayoutEncoder().apply {
-        this.context = loggerContext
-        this.pattern = pattern
-        start()
-    }
-
-    private class ChannelAdapter(
-        private val channel: SendChannel<String>,
-        private val encoder: Encoder<ILoggingEvent>
-    ) : UnsynchronizedAppenderBase<ILoggingEvent>() {
-
-        override fun append(eventObject: ILoggingEvent) {
-            val line = encoder.encode(eventObject).decodeToString()
-            channel.sendBlocking(line)
-        }
-    }
+    fun getLogFiles() = backgroundLogger.getLogFiles()
 }
