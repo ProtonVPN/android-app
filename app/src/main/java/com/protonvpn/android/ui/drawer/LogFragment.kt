@@ -36,7 +36,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,15 +56,13 @@ class LogFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logHandler = Handler(getMainLooper())
-
-        ProtonLogger.getLogFiles().forEach { file -> file.forEachLine { addToLog(it) } }
-        lifecycleScope.launch {
-            ProtonLogger.newItemsChannel.openSubscription().consumeEach { addToLog(it) }
-        }
     }
 
     override fun onViewCreated() {
         recyclerView?.adapter = logAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            ProtonLogger.getLogLines().collect { addToLog(it) }
+        }
     }
 
     private fun addToLog(item: String) {
