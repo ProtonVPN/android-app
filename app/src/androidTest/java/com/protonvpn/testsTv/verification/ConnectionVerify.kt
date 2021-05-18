@@ -16,24 +16,24 @@
  * along with ProtonCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testsTv.actions
+package com.protonvpn.testsTv.verification
 
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.BaseRobot
-import com.protonvpn.testsTv.BaseVerify
+import com.protonvpn.base.BaseVerify
 import me.proton.core.test.android.instrumented.builders.OnView
+import org.strongswan.android.logic.StrongSwanApplication.getContext
 
 /**
- * [HomeRobot] Contains all actions and verifications for home view
+ * [ConnectionVerify] Contains common verification methods for connection
  */
-class HomeRobot : BaseRobot() {
+open class ConnectionVerify : BaseVerify() {
+    fun userIsConnected(): OnView = checkIfElementIsDisplayedByStringId(R.string.disconnect)
+    fun userIsDisconnected(): OnView = checkIfElementIsNotDisplayedByStringId(R.string.disconnect)
+    fun connectionStatusDidNotChange(status: String) : OnView = checkIfElementByIdContainsText(R.id.textStatus,status)
 
-    class Verify : BaseVerify(){
-
-        fun userIsLoggedIn(): OnView =
-                checkIfElementByIdContainsTextByResId(R.id.textStatus,R.string.stateNotConnected)
-
+    fun userIsConnectedToCorrectCountry(country: String): OnView {
+        val connectedToValue = String.format(getContext().getString(R.string.stateConnectedTo),country)
+        checkIfElementByIdContainsText<OnView>(R.id.textStatus,connectedToValue)
+        return OnView()
     }
-
-    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }

@@ -1,13 +1,33 @@
+/*
+ * Copyright (c) 2021 Proton Technologies AG
+ * This file is part of Proton Technologies AG and ProtonCore.
+ *
+ * ProtonCore is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonCore is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonCore.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.protonvpn.testSuites
 
-import com.protonvpn.testsTv.login.LoginRobotTestsTv
-import com.protonvpn.testsTv.login.TvLoginViewModelTests
+import com.protonvpn.testsTv.tests.connection.ConnectionRobotTestsTv
+import com.protonvpn.testsTv.tests.login.LoginRobotTestsTv
+import com.protonvpn.testsTv.tests.login.LogoutRobotTestsTv
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
         LoginRobotTestsTv::class,
-        TvLoginViewModelTests::class
+        LogoutRobotTestsTv::class,
+        ConnectionRobotTestsTv::class
 )
 class TvSuite
