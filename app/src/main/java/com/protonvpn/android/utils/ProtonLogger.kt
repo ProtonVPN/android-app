@@ -20,5 +20,11 @@ package com.protonvpn.android.utils
 
 import com.protonvpn.android.ProtonApplication
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import java.util.concurrent.Executors
 
-object ProtonLogger : ProtonLoggerImpl(ProtonApplication.getAppContext())
+object ProtonLogger : ProtonLoggerImpl(
+    ProtonApplication.getAppContext(),
+    MainScope(),
+    Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+)
