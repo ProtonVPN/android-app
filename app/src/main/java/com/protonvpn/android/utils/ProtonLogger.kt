@@ -21,4 +21,4 @@ package com.protonvpn.android.utils
 import com.protonvpn.android.ProtonApplication
 import kotlinx.coroutines.MainScope
 
-object ProtonLogger : ProtonLoggerImpl(MainScope(), ProtonApplication.getAppContext())
+object ProtonLogger : ProtonLoggerImpl(ProtonApplication.getAppContext())

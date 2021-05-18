@@ -23,6 +23,8 @@ import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.android.LogcatAppender
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.UnsynchronizedAppenderBase
+import ch.qos.logback.core.encoder.Encoder
 import ch.qos.logback.core.rolling.FixedWindowRollingPolicy
 import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
@@ -31,37 +33,31 @@ import ch.qos.logback.core.util.StatusPrinter
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
 import io.sentry.event.Event
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.isActive
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.collections.ArrayList
 
-@ExperimentalCoroutinesApi
-open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
+private const val LOG_PATTERN_BASE = "%d{HH:mm:ss}: %msg"
 
-    protected val logDir = appContext.applicationInfo.dataDir + "/log/"
-    protected val fileName = "Data.log"
-    protected val fileName2 = "Data1.log"
-    val newItemsChannel = BroadcastChannel<String>(Channel.BUFFERED)
-    private val simpleDateFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
+open class ProtonLoggerImpl(appContext: Context) {
+
+    private val logDir = appContext.applicationInfo.dataDir + "/log/"
+    private val fileName = "Data.log"
+    private val fileName2 = "Data1.log"
     private val logger = LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
 
     init {
         val context = LoggerFactory.getILoggerFactory() as LoggerContext
 
-        val patternEncoder = PatternLayoutEncoder().apply {
-            this.context = context
-            pattern = "%d{HH:mm:ss}: %msg%n"
-            start()
-        }
+        val patternEncoder = createAndStartEncoder(context, "$LOG_PATTERN_BASE%n")
 
         val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
             this.context = context
@@ -102,8 +98,8 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
     }
 
     fun getLogFiles(): List<File> {
-        val logFile = File(ProtonLogger.logDir, ProtonLogger.fileName)
-        val logFile2 = File(ProtonLogger.logDir, ProtonLogger.fileName2)
+        val logFile = File(logDir, fileName)
+        val logFile2 = File(logDir, fileName2)
         val list = ArrayList<File>()
         if (logFile.exists() && logFile2.exists() && logFile.lastModified() < logFile2.lastModified()) {
             list.add(logFile)
@@ -128,9 +124,41 @@ open class ProtonLoggerImpl(val scope: CoroutineScope, appContext: Context) {
 
     fun log(message: String) {
         logger.debug(message)
-        val timeStamp: String = simpleDateFormat.format(Date())
-        scope.launch {
-            newItemsChannel.send("$timeStamp: $message")
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun getLogLines(): Flow<String> = callbackFlow {
+        getLogFiles().forEach { file ->
+            file.bufferedReader().use { reader ->
+                reader.lineSequence()
+                    .takeWhile { isActive }
+                    .forEach { line -> send(line) }
+            }
+        }
+        val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN_BASE)
+        val appender = ChannelAdapter(this, encoder)
+        appender.start()
+        logger.addAppender(appender)
+        awaitClose { logger.detachAppender(appender) }
+    }
+
+    private fun createAndStartEncoder(
+        loggerContext: LoggerContext,
+        pattern: String
+    ) = PatternLayoutEncoder().apply {
+        this.context = loggerContext
+        this.pattern = pattern
+        start()
+    }
+
+    private class ChannelAdapter(
+        private val channel: SendChannel<String>,
+        private val encoder: Encoder<ILoggingEvent>
+    ) : UnsynchronizedAppenderBase<ILoggingEvent>() {
+
+        override fun append(eventObject: ILoggingEvent) {
+            val line = encoder.encode(eventObject).decodeToString()
+            channel.sendBlocking(line)
         }
     }
 }
