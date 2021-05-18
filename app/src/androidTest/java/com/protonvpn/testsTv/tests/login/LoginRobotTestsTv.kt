@@ -16,14 +16,14 @@
  * along with ProtonCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testsTv.login
+package com.protonvpn.testsTv.tests.login
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.testsHelper.UserDataHelper
-import com.protonvpn.testsTv.actions.LoginRobot
+import com.protonvpn.testsTv.actions.TvLoginRobot
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +37,8 @@ import org.junit.runner.RunWith
 @LargeTest
 class LoginRobotTestsTv {
 
-    private val loginRobot = LoginRobot()
+    private val loginRobot = TvLoginRobot()
+    private val userDataHelper = UserDataHelper()
 
     @get:Rule
     val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
@@ -59,12 +60,13 @@ class LoginRobotTestsTv {
     fun loginCodeIsDisplayed(){
         loginRobot
                 .signIn()
+                .waitUntilLoginCodeIsDisplayed()
                 .verify { loginCodeViewIsDisplayed() }
     }
 
     @After
     fun tearDown(){
-        var userDataHelper = UserDataHelper()
-        userDataHelper.logoutUser()
+        userDataHelper
+                .logoutUser()
     }
 }

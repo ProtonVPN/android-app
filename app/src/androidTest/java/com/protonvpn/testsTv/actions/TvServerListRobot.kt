@@ -18,24 +18,27 @@
 
 package com.protonvpn.testsTv.actions
 
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.BaseRobot
-import com.protonvpn.testsTv.BaseVerify
-import me.proton.core.test.android.instrumented.builders.OnView
+import com.protonvpn.testsTv.verification.ConnectionVerify
 
 /**
- * [LoginRobot] Contains all actions and verifications for login view
+ * [TvServerListRobot] Contains all actions and verifications for server list view
  */
-class LoginRobot : BaseRobot() {
+class TvServerListRobot : BaseRobot() {
 
-    fun signIn(): LoginRobot = clickElementByStringId(R.string.tv_login_welcome_button)
-    fun waitUntilLoggedIn(): HomeRobot = waitUntilDisplayed(R.id.textStatus)
+    fun disconnectFromServer() : TvServerListRobot = clickElementByText(R.string.disconnect)
 
-    class Verify : BaseVerify(){
-
-        fun loginCodeViewIsDisplayed(): OnView =
-                checkIfElementDisplayedByStringId(R.string.tv_login_step3_description)
+    fun connectToServer() : TvServerListRobot {
+        recyclerView
+                .withId(R.id.row_content)
+                .onItemChildView(view.withId(R.id.actionButton))
+                .onItemAtPosition(0)
+                .longClick()
+        return TvServerListRobot()
     }
+
+    class Verify : ConnectionVerify()
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }
