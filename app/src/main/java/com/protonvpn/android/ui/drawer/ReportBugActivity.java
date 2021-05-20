@@ -29,18 +29,25 @@ import android.widget.Toast;
 
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
+import com.protonvpn.android.api.NetworkResultCallback;
 import com.protonvpn.android.api.ProtonApiRetroFit;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ProtonSwitch;
 import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.android.models.login.GenericResponse;
 import com.protonvpn.android.utils.ProtonLogger;
+import com.protonvpn.android.utils.ProtonLoggerImpl;
 import com.protonvpn.android.utils.ViewUtils;
 
-import java.io.File;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import butterknife.BindView;
@@ -87,7 +94,7 @@ public class ReportBugActivity extends BaseActivity {
     @OnClick(R.id.buttonReport)
     public void buttonReport() {
         if (checkInput()) {
-            postReport();
+            prepareAndPostReport();
         }
     }
 
@@ -113,9 +120,8 @@ public class ReportBugActivity extends BaseActivity {
         return true;
     }
 
-    private void postReport() {
+    private void prepareAndPostReport() {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
-
             .addFormDataPart("Client", "Android app")
             .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
             .addFormDataPart("Username", userData.getUser())
@@ -130,19 +136,43 @@ public class ReportBugActivity extends BaseActivity {
             .addFormDataPart("Description", editReport.getText().toString());
 
         if (switchAttachLog.getSwitchProton().isChecked()) {
-            for (File file : ProtonLogger.INSTANCE.getLogFiles()) {
-                builder.addFormDataPart(file.getName(), file.getName(),
-                    RequestBody.create(MediaType.parse(file.getName()), file));
-            }
+            ProtonLogger.INSTANCE.getLogFilesForUpload((logFiles -> {
+                for (ProtonLogger.LogFile fileInfo : logFiles) {
+                    builder.addFormDataPart(fileInfo.getName(), fileInfo.getName(),
+                        RequestBody.create(MediaType.parse(fileInfo.getName()), fileInfo.getFile()));
+                }
+                postReport(builder, logFiles);
+                return Unit.INSTANCE;
+            }));
+        } else {
+            postReport(builder, null);
         }
+    }
 
+    private void postReport(
+            @NonNull MultipartBody.Builder builder, @Nullable List<ProtonLoggerImpl.LogFile> tempLogFiles) {
         getLoadingContainer().setRetryListener(() -> {
             getLoadingContainer().switchToEmpty();
             return Unit.INSTANCE;
         });
-        api.postBugReport(getLoadingContainer(), builder.build(), (result) -> {
-            Toast.makeText(getContext(), R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
-            finish();
+        api.postBugReport(getLoadingContainer(), builder.build(), new NetworkResultCallback<GenericResponse>() {
+            @Override
+            public void onSuccess(@NotNull GenericResponse result) {
+                onFinished();
+                Toast.makeText(getContext(), R.string.bugReportThankYouToast, Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure() {
+                onFinished();
+            }
+
+            private void onFinished() {
+                if (tempLogFiles != null) {
+                    ProtonLogger.INSTANCE.clearUploadTempFiles(tempLogFiles);
+                }
+            }
         });
     }
 }

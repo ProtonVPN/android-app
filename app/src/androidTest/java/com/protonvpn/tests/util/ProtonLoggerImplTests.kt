@@ -36,6 +36,7 @@ import org.junit.Test
 import java.io.File
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 private const val LOG_PATTERN = "%msg"
 
@@ -90,12 +91,44 @@ class ProtonLoggerImplTests {
         collectJob.cancel()
     }
 
-    private fun runLoggerTest(block: CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {
+    @Test
+    @Suppress("BlockingMethodInNonBlockingContext")
+    fun testUploadFilesNotAppendedTo() = runLoggerTest { logger ->
+        logger.log("message1")
+        logger.log("message2")
+
+        val uploadFiles = logger.getLogFilesForUpload()
+        logger.log("message3")
+
+        assertEquals(1, uploadFiles.size)
+        val uploadFile = uploadFiles[0].file
+        assertEquals(listOf("message1", "message2"), uploadFile.readLines())
+
+        logger.clearUploadTempFiles(uploadFiles)
+    }
+
+    @Test
+    @Suppress("BlockingMethodInNonBlockingContext")
+    fun testClearUploadTempFiles() = runLoggerTest { logger ->
+        logger.log("message1")
+        val uploadFiles = logger.getLogFilesForUpload()
+        assertEquals(1, uploadFiles.size)
+        logger.clearUploadTempFiles(uploadFiles)
+        assertFalse(uploadFiles.first().file.exists())
+    }
+
+    private fun runLoggerTest(block: suspend CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {
         testDispatcher.runBlockingTest {
             // Logger needs a scope to run its processing. This scope needs to be cancelled before
             // runBlockingTest block finishes.
-            val loggerScope = CoroutineScope(EmptyCoroutineContext)
-            val logger = ProtonLoggerImpl(loggerScope, testDispatcher, logDir.absolutePath, LOG_PATTERN)
+            val loggerScope = CoroutineScope(EmptyCoroutineContext + testDispatcher)
+            val logger = ProtonLoggerImpl(
+                InstrumentationRegistry.getInstrumentation().targetContext,
+                loggerScope,
+                testDispatcher,
+                logDir.absolutePath,
+                LOG_PATTERN
+            )
             block(logger)
             loggerScope.cancel()
         }
