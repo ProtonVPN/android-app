@@ -22,38 +22,31 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
-import java.lang.reflect.Type;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import kotlin.jvm.functions.Function0;
+import me.proton.core.network.domain.client.ClientId;
 
 public final class Storage {
 
     private final static Gson GSON =
-        new GsonBuilder().registerTypeAdapter(DateTime.class, new JsonSerializer<DateTime>() {
-            @Override
-            public JsonElement serialize(DateTime json, Type typeOfSrc, JsonSerializationContext context) {
-                return new JsonPrimitive(ISODateTimeFormat.dateTime().print(json));
-            }
-        }).registerTypeAdapter(DateTime.class, new JsonDeserializer<DateTime>() {
-            @Override
-            public DateTime deserialize(JsonElement json, Type typeOfT,
-                                        JsonDeserializationContext context) throws JsonParseException {
-                return ISODateTimeFormat.dateTime().parseDateTime(json.getAsString());
-            }
-        }).create();
+        new GsonBuilder()
+            .enableComplexMapKeySerialization()
+            .registerTypeAdapter(DateTime.class, (JsonSerializer<DateTime>) (json, typeOfSrc, context) ->
+                new JsonPrimitive(ISODateTimeFormat.dateTime().print(json)))
+            .registerTypeAdapter(DateTime.class, (JsonDeserializer<DateTime>) (json, typeOfT, context) ->
+                ISODateTimeFormat.dateTime().parseDateTime(json.getAsString()))
+            .registerTypeAdapter(ClientId.class, new ClientIdGsonSerializer())
+            .create();
 
     private static SharedPreferences preferences;
 
@@ -153,6 +146,7 @@ public final class Storage {
         preferences.edit().remove(key).apply();
     }
 
+    @Deprecated // use load() with lambda defaultValue
     public static <T> T load(Class<T> objClass, T defaultValue) {
 
         String key = objClass.getName();
@@ -165,6 +159,15 @@ public final class Storage {
         }
 
         return GSON.fromJson(json, objClass);
+    }
+
+    public static <T> T load(Class<T> objClass, Function0<T> defaultValue) {
+        T value = load(objClass);
+        if (value == null) {
+            value = defaultValue.invoke();
+            save(value);
+        }
+        return value;
     }
 
     public static void clearAllPreferences() {

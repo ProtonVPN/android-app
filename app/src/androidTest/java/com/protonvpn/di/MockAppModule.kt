@@ -24,6 +24,7 @@ import androidx.test.espresso.IdlingResource
 import com.google.gson.Gson
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
@@ -57,16 +58,14 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
-import me.proton.core.country.data.repository.CountriesRepositoryImpl
-import me.proton.core.country.domain.repository.CountriesRepository
-import me.proton.core.humanverification.data.repository.HumanVerificationRemoteRepositoryImpl
-import me.proton.core.humanverification.domain.repository.HumanVerificationRemoteRepository
+import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
+import me.proton.core.network.data.NetworkPrefs
 import me.proton.core.network.data.ProtonCookieStore
-import me.proton.core.network.data.di.ApiFactory
-import me.proton.core.network.data.di.NetworkPrefs
+import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Singleton
 
@@ -114,17 +113,36 @@ class MockAppModule {
 
     @Singleton
     @Provides
+    fun provideHumanVerificationHandler() =
+        HumanVerificationHandler(scope, ProtonApplication.getAppContext() as ProtonApplication)
+
+    @Provides
+    @Singleton
+    fun provideProtonCookieStore(): ProtonCookieStore =
+        ProtonCookieStore(ProtonApplication.getAppContext())
+
+    @Provides
+    @Singleton
+    fun provideClientIdProvider(protonCookieStore: ProtonCookieStore): ClientIdProvider =
+        ClientIdProviderImpl(Constants.PRIMARY_VPN_API_URL, protonCookieStore)
+
+    @Singleton
+    @Provides
     fun provideApiFactory(
         userData: UserData,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient
-    ): ApiFactory {
+        apiClient: VpnApiClient,
+        clientIdProvider: ClientIdProvider,
+        humanVerificationHandler: HumanVerificationHandler,
+        cookieStore: ProtonCookieStore,
+    ): ApiManagerFactory {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
         val cookieStore = ProtonCookieStore(appContext)
-        val apiFactory = ApiFactory(Constants.PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
-                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope)
+        val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger,
+            networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
+            humanVerificationHandler, cookieStore, scope)
 
         val resource: IdlingResource =
             IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
@@ -135,7 +153,7 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideApiProvider(apiFactory: ApiFactory, userData: UserData): ApiProvider =
+    fun provideApiProvider(apiFactory: ApiManagerFactory, userData: UserData): ApiProvider =
         ApiProvider(apiFactory, userData.apiSessionProvider)
 
     @Singleton
@@ -289,15 +307,8 @@ class MockAppModule {
         vpnApiManager: VpnApiManager,
         vpnStateMonitor: VpnStateMonitor,
         vpnConnectionManager: VpnConnectionManager,
-        vpnApiClient: VpnApiClient
+        vpnApiClient: VpnApiClient,
+        humanVerificationHandler: HumanVerificationHandler
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, vpnApiClient)
-
-    @Provides
-    fun provideHumanVerificationRemoteRepository(apiProvider: ApiProvider): HumanVerificationRemoteRepository =
-        HumanVerificationRemoteRepositoryImpl(apiProvider)
-
-    @Provides
-    fun provideCountriesRepository(): CountriesRepository =
-        CountriesRepositoryImpl(ProtonApplication.getAppContext())
+        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, vpnApiClient)
 }

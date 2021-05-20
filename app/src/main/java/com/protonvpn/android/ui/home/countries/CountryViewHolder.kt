@@ -24,7 +24,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
-import com.protonvpn.android.databinding.ItemCountryBinding
+import com.protonvpn.android.databinding.ItemVpnCountryBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.BindableItemEx
@@ -41,7 +41,7 @@ abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
     private val vpnCountry: VpnCountry,
     val parentLifecycleOwner: LifecycleOwner
-) : BindableItemEx<ItemCountryBinding>(), ExpandableItem {
+) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
 
     private lateinit var expandableGroup: ExpandableGroup
 
@@ -54,7 +54,7 @@ abstract class CountryViewHolder(
 
     override fun getId() = vpnCountry.flag.hashCode().toLong()
 
-    override fun bind(viewBinding: ItemCountryBinding, position: Int) {
+    override fun bind(viewBinding: ItemVpnCountryBinding, position: Int) {
         super.bind(viewBinding, position)
 
         val context = viewBinding.root.context
@@ -106,7 +106,7 @@ abstract class CountryViewHolder(
     }
 
     override fun getLayout(): Int {
-        return R.layout.item_country
+        return R.layout.item_vpn_country
     }
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {

@@ -480,4 +480,8 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="server_load_low">Low</string>
     <string name="server_load_medium">Medium</string>
     <string name="server_load_high">High</string>
+
+    <!-- Override Human verification links from core -->
+    <string name="manual_verification_link" translatable="false">https://protonvpn.com/support-form</string>
+    <string name="verification_help_link" translatable="false">https://protonvpn.com/support/protonvpn-human-verification/</string>
 </resources>
