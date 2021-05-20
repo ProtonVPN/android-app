@@ -24,7 +24,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
 
 object ProtonLogger : ProtonLoggerImpl(
-    ProtonApplication.getAppContext(),
     MainScope(),
-    Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
+    ProtonApplication.getAppContext().applicationInfo.dataDir + "/log"
 )
