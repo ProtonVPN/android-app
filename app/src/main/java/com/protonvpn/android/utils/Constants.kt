@@ -160,7 +160,7 @@ object Constants {
             "sGEYLNPbV49XBnVAm1tUWuoByZAjoWs=\n" +
             "-----END CERTIFICATE-----"
 
-    const val LOCAL_AGENT_ADDRESS = "10.80.0.1:65432"
+    const val LOCAL_AGENT_ADDRESS = "10.2.0.1:65432"
 
     // TV
     const val TV_LOGIN_URL = "protonvpn.com/tv"
