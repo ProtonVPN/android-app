@@ -19,16 +19,11 @@
 package com.protonvpn.android.api
 
 import android.content.Context
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.utils.DebugUtils.debugAssert
-import com.protonvpn.android.utils.HumanVerificationHandler
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.Storage
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import me.proton.core.domain.entity.UserId
-import me.proton.core.network.domain.humanverification.HumanVerificationDetails
 import me.proton.core.network.domain.session.Session
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.network.domain.session.SessionListener
@@ -36,8 +31,6 @@ import me.proton.core.network.domain.session.SessionProvider
 
 // TODO: true multi-user support will be added when core Auth is integrated.
 class ApiSessionProvider(val appContext: Context) : SessionProvider, SessionListener {
-
-    private val humanVerificationHandler get() = HumanVerificationHandler(MainScope(), appContext as ProtonApplication)
 
     val forceLogoutEvent = MutableSharedFlow<Session>()
     val currentSessionId: SessionId? get() = currentSession?.uid?.let { SessionId(it) }
@@ -64,7 +57,7 @@ class ApiSessionProvider(val appContext: Context) : SessionProvider, SessionList
         currentSession?.takeIf { it.userId == userId.id } ?: oldSession?.takeIf { it.userId == userId.id }
 
     private fun LoginResponse.toSession() =
-        Session(SessionId(uid), accessToken, refreshToken, null, scope.split(" "))
+        Session(SessionId(uid), accessToken, refreshToken, scope.split(" "))
 
     override suspend fun getSession(sessionId: SessionId) =
         getLoginResponse(sessionId)?.toSession()
@@ -74,33 +67,6 @@ class ApiSessionProvider(val appContext: Context) : SessionProvider, SessionList
 
     override suspend fun getUserId(sessionId: SessionId) =
         getLoginResponse(sessionId)?.userId?.let { UserId(it) }
-
-    override suspend fun onHumanVerificationNeeded(
-        session: Session,
-        details: HumanVerificationDetails
-    ): SessionListener.HumanVerificationResult {
-        ProtonLogger.log("Human verification needed: handler=${humanVerificationHandler.currentHandlerName}")
-// Disabling until we have full support in core lib
-//
-//        val handlerResult = humanVerificationHandler.verify(HumanVerificationInput(
-//            session.sessionId.id,
-//            details.verificationMethods.map { it.value },
-//            details.captchaVerificationToken
-//        ))
-//
-//        if (handlerResult is HumanVerificationHandler.Result.Success) {
-//            getLoginResponse(session.sessionId)?.apply {
-//                humanVerificationTokenType = handlerResult.tokenType
-//                humanVerificationTokenCode = handlerResult.tokenCode
-//            }
-//            Storage.save(currentSession)
-//        }
-//
-//        val result = handlerResult.toHumanVerificationResult()
-//        ProtonLogger.log("Human verification isSuccess=${result is SessionListener.HumanVerificationResult.Success}")
-//        return result
-        return SessionListener.HumanVerificationResult.Failure
-    }
 
     override suspend fun onSessionForceLogout(session: Session) {
         forceLogoutEvent.emit(session)

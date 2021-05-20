@@ -67,6 +67,7 @@
         <activity
             android:name="me.proton.core.humanverification.presentation.ui.HumanVerificationActivity"
             android:theme="@style/ProtonTheme.Vpn"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <uses-library

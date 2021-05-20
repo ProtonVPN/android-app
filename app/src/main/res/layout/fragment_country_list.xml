@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/darkGrey"
-            tools:listitem="@layout/item_country" />
+            tools:listitem="@layout/item_vpn_country" />
 
     </com.protonvpn.android.components.ProtonSwipeRefresh>
 </layout>
