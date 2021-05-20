@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.utils
 
-import android.content.Context
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.android.LogcatAppender
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
@@ -47,42 +46,38 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.collections.ArrayList
 
-private const val LOG_PATTERN_BASE = "%d{HH:mm:ss}: %msg"
+private const val LOG_PATTERN = "%d{HH:mm:ss}: %msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
+private const val LOG_ROTATE_SIZE = "300kb"
 
 open class ProtonLoggerImpl(
-    appContext: Context,
     mainScope: CoroutineScope,
-    loggerDispatcher: CoroutineDispatcher
+    loggerDispatcher: CoroutineDispatcher,
+    logDir: String,
+    logPattern: String = LOG_PATTERN
 ) {
     private class BackgroundLogger(
-        appContext: Context,
         mainScope: CoroutineScope,
         private val loggerDispatcher: CoroutineDispatcher,
-        private val messages: Flow<String>
+        private val messages: Flow<String>,
+        private val logDir: String,
+        private val logPattern: String
     ) {
 
-        // It's best to call ApplicationInfo.getDataDir() on loggerDispatcher, however there's
-        // a chance that getLogFiles() is called before initialize() has run, therefore it's a
-        // lazy value, to be initialized by the thread that needs it first.
-        private val logDir by lazy { appContext.applicationInfo.dataDir + "/log/" }
         private val fileName = "Data.log"
         private val fileName2 = "Data1.log"
         private val logger =
             LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
 
         init {
-            mainScope.launch {
-                withContext(loggerDispatcher) {
-                    initialize()
-                    processLogs()
-                }
+            mainScope.launch(loggerDispatcher) {
+                initialize()
+                processLogs()
             }
         }
 
@@ -113,7 +108,7 @@ open class ProtonLoggerImpl(
                         .forEach { line -> send(line) }
                 }
             }
-            val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN_BASE)
+            val encoder = createAndStartEncoder(logger.loggerContext, logPattern)
             val appender = ChannelAdapter(this, encoder)
             appender.start()
             logger.addAppender(appender)
@@ -123,11 +118,11 @@ open class ProtonLoggerImpl(
         private fun initialize() {
             val context = LoggerFactory.getILoggerFactory() as LoggerContext
 
-            val patternEncoder = createAndStartEncoder(context, "$LOG_PATTERN_BASE%n")
+            val patternEncoder = createAndStartEncoder(context, "$logPattern%n")
 
             val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
                 this.context = context
-                file = logDir + fileName
+                file = "$logDir/$fileName"
             }
 
             val rollingPolicy = FixedWindowRollingPolicy().apply {
@@ -140,7 +135,7 @@ open class ProtonLoggerImpl(
             }
 
             val triggerPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>().apply {
-                maxFileSize = FileSize.valueOf("300kb")
+                maxFileSize = FileSize.valueOf(LOG_ROTATE_SIZE)
                 this.context = context
                 start()
             }
@@ -192,7 +187,7 @@ open class ProtonLoggerImpl(
         MutableSharedFlow<String>(0, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
 
     private val backgroundLogger: BackgroundLogger =
-        BackgroundLogger(appContext, mainScope, loggerDispatcher, logMessageQueue)
+        BackgroundLogger(mainScope, loggerDispatcher, logMessageQueue, logDir, logPattern)
 
     fun logSentryEvent(event: Event) {
         if (!BuildConfig.DEBUG) {
