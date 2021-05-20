@@ -224,7 +224,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
                 val needsReconnectDialog =
-                    withReconnectDialog && Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true)
+                    withReconnectDialog &&
+                        Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true) &&
+                        stateMonitor.connectionProtocol?.localAgentEnabled() == false
+
                 if (stateMonitor.isConnected && needsReconnectDialog) {
                     showReconnectDialog(this is RadioButtonEx) { agreedToReconnect ->
                         if (agreedToReconnect) {
@@ -289,7 +292,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
-        if (stateMonitor.isConnected) {
+        if (stateMonitor.isConnected && stateMonitor.connectionProtocol?.localAgentEnabled() == false) {
             connectionManager.reconnect(context)
         }
     }

@@ -97,6 +97,7 @@ class VpnConnectionTests {
 
     private lateinit var profileSmart: Profile
     private lateinit var profileIKEv2: Profile
+    private lateinit var profileOpenVPN: Profile
     private lateinit var profileWireguard: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
@@ -133,6 +134,7 @@ class VpnConnectionTests {
         val server = MockedServers.server
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
         profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, server)
+        profileOpenVPN = MockedServers.getProfile(VpnProtocol.OpenVPN, server)
         profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
         fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, server, "fallback")
         val wrapperSlot = slot<ServerWrapper>()
@@ -189,11 +191,11 @@ class VpnConnectionTests {
     @Test
     fun connectToLocalAgent() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        manager.connect(context, profileWireguard)
+        manager.connect(context, profileOpenVPN)
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
-            mockWireguard.connectToLocalAgent()
+            mockOpenVpn.prepareForConnection(any(), any(), false)
+            mockOpenVpn.connectToLocalAgent()
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
     }
