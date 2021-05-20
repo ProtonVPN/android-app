@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import android.content.Context
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.android.LogcatAppender
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
@@ -32,6 +33,8 @@ import ch.qos.logback.core.util.StatusPrinter
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
 import io.sentry.event.Event
+import io.sentry.event.EventBuilder
+import io.sentry.event.interfaces.ExceptionInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,9 +49,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.IOException
 import kotlin.collections.ArrayList
 
 private const val LOG_PATTERN = "%d{HH:mm:ss}: %msg"
@@ -56,12 +61,16 @@ private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
 open class ProtonLoggerImpl(
-    mainScope: CoroutineScope,
+    appContext: Context,
+    private val mainScope: CoroutineScope,
     loggerDispatcher: CoroutineDispatcher,
     logDir: String,
     logPattern: String = LOG_PATTERN
 ) {
+    data class LogFile(val name: String, val file: File)
+
     private class BackgroundLogger(
+        private val appContext: Context,
         mainScope: CoroutineScope,
         private val loggerDispatcher: CoroutineDispatcher,
         private val messages: Flow<String>,
@@ -77,26 +86,43 @@ open class ProtonLoggerImpl(
         init {
             mainScope.launch(loggerDispatcher) {
                 initialize()
+                clearUploadTempFiles()
                 processLogs()
             }
         }
 
-        fun getLogFiles(): List<File> {
-            val logFile = File(logDir, fileName)
-            val logFile2 = File(logDir, fileName2)
-            val list = ArrayList<File>()
-            if (logFile.exists() && logFile2.exists() && logFile.lastModified() < logFile2.lastModified()) {
-                list.add(logFile)
-                list.add(logFile2)
-            } else {
-                if (logFile2.exists()) {
-                    list.add(logFile2)
+        /**
+         * Copy log files to a temporary location so that they can be safely uploaded without
+         * additional data being appended to them. The files will be deleted by clearUploadTempFiles
+         * called after initialization.
+         */
+        @Throws(IOException::class)
+        suspend fun getFilesForUpload(): List<LogFile> =
+            withContext(loggerDispatcher) {
+                val logFiles: MutableList<LogFile> = mutableListOf()
+                val temporaryDirectory = getUploadTempFilesDir()
+                temporaryDirectory.mkdir()
+                getLogFiles().forEach { file ->
+                    val temporaryFile = File.createTempFile(file.name, null, temporaryDirectory)
+                    file.copyTo(temporaryFile, overwrite = true)
+                    temporaryFile.deleteOnExit()
+
+                    logFiles.add(LogFile(file.name, temporaryFile))
                 }
-                if (logFile.exists()) {
-                    list.add(logFile)
+                logFiles
+            }
+
+        suspend fun clearUploadTempFiles(files: List<LogFile>) {
+            withContext(loggerDispatcher) {
+                val temporaryDirectory = getUploadTempFilesDir()
+                if (temporaryDirectory.exists()) {
+                    try {
+                        files.forEach { it.file.delete() }
+                    } catch (e: IOException) {
+                        logException("Unable to clear temporary upload log file.", e)
+                    }
                 }
             }
-            return list
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
@@ -162,6 +188,37 @@ open class ProtonLoggerImpl(
             messages.collect { message -> logger.debug(message) }
         }
 
+        private fun getLogFiles(): List<File> {
+            val logFile = File(logDir, fileName)
+            val logFile2 = File(logDir, fileName2)
+            val list = ArrayList<File>()
+            if (logFile.exists() && logFile2.exists() && logFile.lastModified() < logFile2.lastModified()) {
+                list.add(logFile)
+                list.add(logFile2)
+            } else {
+                if (logFile2.exists()) {
+                    list.add(logFile2)
+                }
+                if (logFile.exists()) {
+                    list.add(logFile)
+                }
+            }
+            return list
+        }
+
+        private fun clearUploadTempFiles() {
+            val dir = getUploadTempFilesDir()
+            if (dir.exists()) {
+                try {
+                    dir.deleteRecursively()
+                } catch (e: IOException) {
+                    logException("Unable to clear temporary upload log files.", e)
+                }
+            }
+        }
+
+        private fun getUploadTempFilesDir(): File = File(appContext.cacheDir, "log_upload")
+
         private fun createAndStartEncoder(
             loggerContext: LoggerContext,
             pattern: String
@@ -186,8 +243,14 @@ open class ProtonLoggerImpl(
     private val logMessageQueue =
         MutableSharedFlow<String>(0, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
 
-    private val backgroundLogger: BackgroundLogger =
-        BackgroundLogger(mainScope, loggerDispatcher, logMessageQueue, logDir, logPattern)
+    private val backgroundLogger = BackgroundLogger(
+        appContext,
+        mainScope,
+        loggerDispatcher,
+        logMessageQueue,
+        logDir,
+        logPattern
+    )
 
     fun logSentryEvent(event: Event) {
         if (!BuildConfig.DEBUG) {
@@ -202,5 +265,34 @@ open class ProtonLoggerImpl(
 
     fun getLogLines() = backgroundLogger.getLogLines()
 
-    fun getLogFiles() = backgroundLogger.getLogFiles()
+    @Suppress("BlockingMethodInNonBlockingContext")
+    @Throws(IOException::class)
+    suspend fun getLogFilesForUpload(): List<LogFile> = backgroundLogger.getFilesForUpload()
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    fun getLogFilesForUpload(callback: (List<LogFile>) -> Unit) {
+        mainScope.launch {
+            val files = try {
+                backgroundLogger.getFilesForUpload()
+            } catch (e: IOException) {
+                logException("Unable to prepare logs for upload", e)
+                emptyList<LogFile>()
+            }
+            callback(files)
+        }
+    }
+
+    fun clearUploadTempFiles(files: List<LogFile>) {
+        mainScope.launch {
+            backgroundLogger.clearUploadTempFiles(files)
+        }
+    }
+}
+
+private fun logException(message: String, throwable: Throwable) {
+    val event = EventBuilder()
+        .withMessage(message)
+        .withSentryInterface(ExceptionInterface(throwable))
+        .build()
+    ProtonLogger.logSentryEvent(event)
 }
