@@ -18,9 +18,6 @@
  */
 package com.protonvpn.android.ui.drawer
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +32,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,20 +39,12 @@ import javax.inject.Inject
 @ContentLayout(R.layout.fragment_log)
 class LogFragment : BaseFragment() {
 
-    private var logHandler: Handler? = null
-
     private val logAdapter = LogAdapter()
     internal var log: MutableList<String> = ArrayList()
 
     @BindView(R.id.recyclerView) @JvmField var recyclerView: RecyclerView? = null
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var userData: UserData
-
-    @ExperimentalCoroutinesApi
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        logHandler = Handler(getMainLooper())
-    }
 
     override fun onViewCreated() {
         recyclerView?.adapter = logAdapter
@@ -66,11 +54,9 @@ class LogFragment : BaseFragment() {
     }
 
     private fun addToLog(item: String) {
-        logHandler!!.post {
-            log.add(item)
-            logAdapter.notifyDataSetChanged()
-            recyclerView?.scrollToPosition(log.size - 1)
-        }
+        log.add(item)
+        logAdapter.notifyDataSetChanged()
+        recyclerView?.scrollToPosition(log.size - 1)
     }
 
     private inner class LogAdapter : RecyclerView.Adapter<LogLineViewHolder>() {
