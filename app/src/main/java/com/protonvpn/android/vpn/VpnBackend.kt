@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import localAgent.AgentConnection
+import localAgent.Features
 import localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
@@ -55,7 +56,7 @@ abstract class VpnBackend(
     val userData: UserData,
     val certificateRepository: CertificateRepository,
     private val networkManager: NetworkManager,
-    val name: VpnProtocol,
+    val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope
 ) : VpnStateSource {
 
@@ -93,8 +94,9 @@ abstract class VpnBackend(
         }
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
-    var agent: AgentConnection? = null
-    var agentConnectionJob: Job? = null
+    private var agent: AgentConnection? = null
+    private var agentConnectionJob: Job? = null
+    private var features: Features = Features()
     private val agentConstants = localAgent.LocalAgent.constants()
 
     init {
@@ -103,10 +105,17 @@ abstract class VpnBackend(
                 agent?.setConnectivity(status != NetworkStatus.Disconnected)
             }
         }
+
+        userData.netShieldLiveData.observeForever {
+            it?.let {
+                features.setInt(FEATURES_NETSHIELD, it.ordinal.toLong())
+                agent?.setFeatures(features)
+            }
+        }
     }
 
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
-        if (name == VpnProtocol.WireGuard && userData.sessionId != null) {
+        if (vpnProtocol.localAgentEnabled() && userData.sessionId != null) {
             when (vpnState) {
                 VpnState.Connected -> handleLocalAgentStates(localAgentState)
                 VpnState.Disabled, VpnState.Disconnecting -> {
@@ -133,13 +142,14 @@ abstract class VpnBackend(
         agentConnectionJob = mainScope.launch {
             val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
             if (certInfo is CertificateRepository.CertificateResult.Success) {
+                features.setInt(FEATURES_NETSHIELD, userData.netShieldProtocol.ordinal.toLong())
                 agent = AgentConnection(
                     certInfo.certificate,
                     certInfo.privateKeyPem,
                     Constants.VPN_ROOT_CERTS,
                     Constants.LOCAL_AGENT_ADDRESS,
                     nativeClient,
-                    null,
+                    features,
                     networkManager.isConnectedToNetwork()
                 )
             } else {
@@ -168,5 +178,6 @@ abstract class VpnBackend(
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
+        private const val FEATURES_NETSHIELD = "netshield-level"
     }
 }

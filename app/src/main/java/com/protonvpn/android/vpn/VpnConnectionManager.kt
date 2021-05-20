@@ -135,7 +135,7 @@ open class VpnConnectionManager(
                     vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
                 }
 
-                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.name}")
+                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
                 DebugUtils.debugAssert {
                     (state in arrayOf(VpnState.Connecting, VpnState.Connected, VpnState.Reconnecting))
                         .implies(connectionParams != null && activeBackend != null)

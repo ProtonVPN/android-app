@@ -28,7 +28,6 @@ import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
-import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 
@@ -42,7 +41,7 @@ class MockVpnBackend(
     userData = userData,
     networkManager = networkManager,
     certificateRepository = certificateRepository,
-    name = protocol,
+    vpnProtocol = protocol,
     mainScope = scope
 ) {
 

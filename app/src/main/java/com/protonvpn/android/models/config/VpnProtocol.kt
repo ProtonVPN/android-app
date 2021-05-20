@@ -22,5 +22,8 @@ enum class VpnProtocol {
     OpenVPN,
     IKEv2,
     WireGuard,
-    Smart
+    Smart;
+
+    // TODO Change this to Wireguard once local agent is working on Wireguard
+    fun localAgentEnabled(): Boolean = this == OpenVPN
 }
