@@ -253,21 +253,21 @@ class VpnConnectionErrorHandler(
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    it.onlineConnectingDomains.size > 1 ||
-                        it.onlineConnectingDomains.firstOrNull()?.entryIp != orgPhysicalServer.connectingDomain.entryIp
+                    it.onlineConnectingDomains.any {
+                        domain -> domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
+                    }
                 }
             } else
                 this
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            candidateList += PhysicalServer(
-                server,
-                server.onlineConnectingDomains.filter {
-                    // Ignore connecting domains with the same IP as current connection.
-                    it.entryIp != orgPhysicalServer?.connectingDomain?.entryIp
-                }.random(),
-            )
+            server.onlineConnectingDomains.filter {
+                // Ignore connecting domains with the same IP as current connection.
+                it.entryIp != orgPhysicalServer?.connectingDomain?.entryIp
+            }.randomOrNull()?.let { connectingDomain ->
+                candidateList += PhysicalServer(server, connectingDomain)
+            }
         }
 
         val fallbacks = mutableListOf<Server>()
