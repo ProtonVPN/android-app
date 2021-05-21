@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.appcompat.widget.SwitchCompat
+        <com.protonvpn.android.components.SwitchEx
             android:id="@+id/switchProton"
             style="@style/SCSwitch.Green"
             android:layout_width="wrap_content"

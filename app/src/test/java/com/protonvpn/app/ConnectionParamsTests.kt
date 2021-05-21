@@ -22,6 +22,7 @@ package com.protonvpn.app
 import android.content.Context
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -47,6 +48,7 @@ class ConnectionParamsTests {
     @MockK lateinit var context: Context
     @MockK lateinit var userData: UserData
     @MockK lateinit var appConfig: AppConfig
+    @MockK lateinit var featureFlags: FeatureFlags
     @MockK lateinit var profile: Profile
     @MockK lateinit var server: Server
     @MockK lateinit var connectingDomain: ConnectingDomain
@@ -65,8 +67,11 @@ class ConnectionParamsTests {
         mockkObject(Constants)
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
         every { userData.vpnUserName } returns "user"
+        every { userData.isSmartReconnectEnabled } returns true
         every { profile.getNetShieldProtocol(any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
+        every { appConfig.getFeatureFlags() } returns featureFlags
+        every { featureFlags.vpnAccelerator } returns false
 
         params = ConnectionParams(profile, server, connectingDomain, VpnProtocol.Smart)
     }
@@ -98,6 +103,24 @@ class ConnectionParamsTests {
         every { connectingDomain.label } returns null
         Assert.assertEquals(
             setOf("user", "f2", "pa"),
+            params.getVpnUsername(userData, appConfig).split("+").toSet())
+    }
+
+    @Test
+    fun testSplitTcpSuffixSettings() {
+        every { featureFlags.vpnAccelerator } returns true
+        every { userData.isSmartReconnectEnabled } returns false
+        Assert.assertEquals(
+            setOf("user", "f2", "pa", "b:label", "nst"),
+            params.getVpnUsername(userData, appConfig).split("+").toSet())
+    }
+
+    @Test
+    fun testSplitTcpSuffixFeatureDisabled() {
+        every { featureFlags.vpnAccelerator } returns false
+        every { userData.isSmartReconnectEnabled } returns false
+        Assert.assertEquals(
+            setOf("user", "f2", "pa", "b:label"),
             params.getVpnUsername(userData, appConfig).split("+").toSet())
     }
 }

@@ -28,10 +28,14 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ScrollView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import br.com.sapereaude.maskedEditText.MaskedEditText
 import butterknife.BindView
+import com.afollestad.materialdialogs.DialogAction
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
@@ -40,8 +44,8 @@ import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
-import com.protonvpn.android.components.ProtocolSelection
 import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.components.ProtocolSelection
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
@@ -181,10 +185,13 @@ class SettingsActivity : BaseActivity() {
 
     private fun initSmartReconnectToggles() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
-            smartReconnect.switchProton.isChecked = userPrefs.isSmartReconnectEnabled
-            smartReconnect.switchProton.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.isSmartReconnectEnabled = isChecked
-                smartReconnectNotifications.isVisible = isChecked
+            updateSmartReconnectToggles()
+            smartReconnect.switchProton.switchClickInterceptor = {
+                tryToggleSmartReconnect()
+                true
+            }
+            userPrefs.updateEvent.observe(this) {
+                updateSmartReconnectToggles()
             }
 
             smartReconnectNotifications.isVisible = userPrefs.isSmartReconnectEnabled
@@ -236,5 +243,33 @@ class SettingsActivity : BaseActivity() {
     private fun initSplitTunneling(isChecked: Boolean) {
         splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
         switchShowSplitTunnel.setDividerVisibility(if (isChecked) GONE else VISIBLE)
+    }
+
+    private fun updateSmartReconnectToggles() {
+        val isEnabled = userPrefs.isSmartReconnectEnabled
+        smartReconnect.switchProton.isChecked = isEnabled
+        smartReconnectNotifications.isVisible = isEnabled
+    }
+
+    private fun tryToggleSmartReconnect() {
+        if (stateMonitor.isEstablishingOrConnected) {
+            MaterialDialog.Builder(this).theme(Theme.DARK)
+                .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
+                .title(R.string.dialogTitleReconnectionNeeded)
+                .content(R.string.settingsSmartReconnectReconnectDialogContent)
+                .positiveText(R.string.reconnect)
+                .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                    toggleSmartReconnect()
+                    connectionManager.reconnect(this)
+                }
+                .negativeText(R.string.cancel)
+                .show()
+        } else {
+            toggleSmartReconnect()
+        }
+    }
+
+    private fun toggleSmartReconnect() {
+        userPrefs.isSmartReconnectEnabled = !userPrefs.isSmartReconnectEnabled
     }
 }
