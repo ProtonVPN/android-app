@@ -43,6 +43,8 @@ open class ConnectionParams(
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
         if (!connectingDomain?.label.isNullOrBlank())
             username += "+b:${connectingDomain?.label}"
+        if (appConfig.getFeatureFlags().vpnAccelerator && !userData.isSmartReconnectEnabled)
+            username += "+nst"
         return username
     }
 

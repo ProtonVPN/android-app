@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 
 public class ProtonSwitch extends FrameLayout {
 
-    @BindView(R.id.switchProton) SwitchCompat switchProton;
+    @BindView(R.id.switchProton) SwitchEx switchProton;
     @BindView(R.id.textTitle) TextView textTitle;
     @BindView(R.id.textDescription) TextView textDescription;
     @BindView(R.id.imageChevron) ImageView imageChevron;
@@ -53,7 +53,7 @@ public class ProtonSwitch extends FrameLayout {
         initAttrs(attrs);
     }
 
-    public SwitchCompat getSwitchProton() {
+    public SwitchEx getSwitchProton() {
         return switchProton;
     }
 
