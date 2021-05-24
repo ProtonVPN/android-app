@@ -402,7 +402,7 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="notification_subscription_expired_title">Sua assinatura expirou</string>
   <string name="notification_subscription_expired_content">Sua assinatura foi rebaixada, então estamos reconectando para o servidor mais rápido disponível. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada. </string>
-  <string name="notification_delinquent_title">Sua conta VPN possui faturas pendentes</string>
+  <string name="notification_delinquent_title">Your ProtonVPN account has pending invoices</string>
   <string name="notification_delinquent_content">Por favor, reserve um momento para atualizar suas informações de pagamento para manter sua assinatura ativa.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Você foi reconectado para o servidor mais rápido similar ao que você selecionou.</string>
@@ -424,4 +424,26 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="upsell_device_count">Conecte até %1$s dispositivos ao mesmo tempo</string>
   <string name="upsell_many_countries">Centenas de servidores em %1$d países</string>
   <string name="upsell_upgrade_again">Faça o Upgrade novamente para aproveitar todos os recursos:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Information</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Plus servers</string>
+  <string name="info_features">Recursos</string>
+  <string name="smart_routing_title">Smart Routing</string>
+  <string name="smart_routing_description">This technology allows ProtonVPN to provide higher speed and security in difficult-to-serve countries.</string>
+  <string name="streaming_title">Streaming</string>
+  <string name="streaming_description">PLUS servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Route your Internet traffic through the Tor network. Slower, but more private.</string>
+  <string name="info_performance">Performance</string>
+  <string name="server_load_title">Server Load</string>
+  <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
+  <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\nNote: Clear the cache of the streaming apps to ensure new content appears.</string>
+  <string name="activity_information_learn_more">Saiba mais</string>
+  <string name="server_load_low">Low</string>
+  <string name="server_load_medium">Média</string>
+  <string name="server_load_high">Alta</string>
 </resources>

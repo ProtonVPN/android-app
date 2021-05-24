@@ -402,7 +402,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="notification_subscription_expired_title">Het abonnement is verlopen</string>
   <string name="notification_subscription_expired_content">Uw abonnement is gedegradeerd, dus we maken opnieuw verbinding met de snelst beschikbare server. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
-  <string name="notification_delinquent_title">Uw VPN-account heeft openstaande facturen</string>
+  <string name="notification_delinquent_title">Uw ProtonVPN-account heeft openstaande facturen</string>
   <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
@@ -424,4 +424,26 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="upsell_device_count">Verbind tot %1$s apparaten op hetzelfde moment</string>
   <string name="upsell_many_countries">Honderden servers in %1$d landen</string>
   <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Informatie</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Plus servers</string>
+  <string name="info_features">Opties</string>
+  <string name="smart_routing_title">Slimme routering</string>
+  <string name="smart_routing_description">Met deze technologie kan ProtonVPN hogere snelheid en beveiliging bieden in moeilijkheids-tot-dienstlanden.</string>
+  <string name="streaming_title">Streamen</string>
+  <string name="streaming_description">PLUS servers ondersteunen streaming (Netflix, Disney+, enz.) van overal in de wereld.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">Deze servers geven de beste prestaties voor BitTorrent en het delen van bestanden.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Routeer uw internetverkeer via het Tor-netwerk. Langer, maar meer privé.</string>
+  <string name="info_performance">Prestaties</string>
+  <string name="server_load_title">Serverbelasting</string>
+  <string name="server_load_description">Servers met hoge belasting zijn langzamer dan servers met lage lading.</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
+  <string name="streaming_services_description">Verbind met een Plus server in dit land om te beginnen met streamen.\nOpmerking: Wis de cache van de streaming apps om ervoor te zorgen dat nieuwe inhoud wordt weergegeven.</string>
+  <string name="activity_information_learn_more">Meer informatie</string>
+  <string name="server_load_low">Laag</string>
+  <string name="server_load_medium">Medium</string>
+  <string name="server_load_high">Hoog</string>
 </resources>

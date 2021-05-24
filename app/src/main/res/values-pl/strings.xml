@@ -416,7 +416,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="notification_subscription_expired_title">Twoja subskrypcja wygasła</string>
   <string name="notification_subscription_expired_content">Twoja subskrypcja została obniżona, więc zostałeś ponownie połączony z najszybszym dostępnym serwerem. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Twoja subskrypcja została obniżona. </string>
-  <string name="notification_delinquent_title">Twoje konto VPN posiada oczekujące faktury</string>
+  <string name="notification_delinquent_title">Twoje konto ProtonVPN posiada oczekujące faktury</string>
   <string name="notification_delinquent_content">Aby utrzymać subskrypcję aktywną, zaktualizuj informacje o płatności.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Serwer został automatycznie zmieniony na szybszy, podobny do wybranego.</string>
@@ -438,4 +438,26 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="upsell_device_count">Połącz do %1$s urządzeń jednocześnie</string>
   <string name="upsell_many_countries">Setki serwerów w %1$d krajach</string>
   <string name="upsell_upgrade_again">Ulepsz plan ponownie, aby korzystać z funkcji:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Informacje</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - dodatkowe serwery</string>
+  <string name="info_features">Funkcje</string>
+  <string name="smart_routing_title">Smart Routing</string>
+  <string name="smart_routing_description">Ta technologia pozwala zapewnić aplikacji ProtonVPN wyższą prędkość i bezpieczeństwo w krajach nieszanujących prywatność.</string>
+  <string name="streaming_title">Streaming</string>
+  <string name="streaming_description">Dodatkowe serwery wspierają streaming (Netflix, Disney+ itp.) gdziekolwiek jesteś.</string>
+  <string name="p2p_title">P2P / BitTorrent</string>
+  <string name="p2p_description">Te serwery zapewniają najlepszą wydajność dla protokołu BitTorrent i udostępniania plików.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Przekieruj swój ruch internetowy przez wolniejszą, ale bardziej prywatną sieć Tor.</string>
+  <string name="info_performance">Wydajność</string>
+  <string name="server_load_title">Obciążenie serwera</string>
+  <string name="server_load_description">Serwery z dużym obciążeniem są wolniejsze.</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
+  <string name="streaming_services_description">Połącz się z dodatkowym serwerem w tym kraju, aby rozpocząć streaming.\nUwaga: Wyczyść pamięć podręczną aplikacji streamingu, aby zobaczyć nową zawartość.</string>
+  <string name="activity_information_learn_more">Dowiedz się więcej</string>
+  <string name="server_load_low">Małe</string>
+  <string name="server_load_medium">Średnie</string>
+  <string name="server_load_high">Duże</string>
 </resources>
