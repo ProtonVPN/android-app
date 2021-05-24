@@ -402,7 +402,7 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="notification_subscription_expired_title">Il tuo abbonamento è scaduto</string>
   <string name="notification_subscription_expired_content">Il tuo abbonamento è stato declassato, quindi ci stiamo riconnettando al server più veloce disponibile. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato. </string>
-  <string name="notification_delinquent_title">Il tuo account VPN ha fatture in sospeso</string>
+  <string name="notification_delinquent_title">Il tuo account ProtonVPN ha fatture in sospeso</string>
   <string name="notification_delinquent_content">Per favore prenditi un momento per aggiornare le tue informazioni di fatturazione per mantenere attivo il tuo abbonamento.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Sei stato passato ad un server più veloce simile a quello selezionato.</string>
@@ -413,7 +413,7 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="notification_cancel_to_free">Sei sul piano GRATUITO. Sono disponibili i server e le funzioni GRATUITE.</string>
   <string name="notification_cancel_to_basic">Sei sul piano BASIC. Sono disponibili server e funzionalità BASIC &amp; FREE.</string>
   <string name="notification_cancel_to_delinquent">Sarai in grado di accedere di nuovo alle funzioni premium dopo che le fatture in sospeso saranno pagate.</string>
-  <string name="vpn_accelerator">VPN accelerator</string>
+  <string name="vpn_accelerator">VPN Accelerator</string>
   <string name="reconnect_from_server">Dal server: </string>
   <string name="reconnect_to_server">Al server: </string>
   <string name="no_thanks">No, grazie</string>
@@ -424,4 +424,26 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="upsell_device_count">Connetti fino a %1$s dispositivi allo stesso tempo</string>
   <string name="upsell_many_countries">Centinaia di server in %1$d paesi</string>
   <string name="upsell_upgrade_again">Aggiorna di nuovo per godere di tutte le funzionalità:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Informazione</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Server Plus</string>
+  <string name="info_features">Funzionalità</string>
+  <string name="smart_routing_title">Routing Intelligente</string>
+  <string name="smart_routing_description">Questa tecnologia consente a ProtonVPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
+  <string name="streaming_title">Streaming</string>
+  <string name="streaming_description">I server PLUS supportano lo streaming (Netflix, Disney+, etc) da qualsiasi parte del mondo.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">Questi server offrono le migliori prestazioni per BitTorrent e la condivisione di file.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Convoglia tutto il traffico internet attraverso la rete Tor. Più lento, ma più privato.</string>
+  <string name="info_performance">Prestazioni</string>
+  <string name="server_load_title">Carico del Server</string>
+  <string name="server_load_description">I server ad alto carico sono più lenti dei server a basso carico.</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
+  <string name="streaming_services_description">Connettiti a un server Plus in questo paese per avviare lo streaming.\nNota: Cancella la cache delle app di streaming per garantire che vengano visualizzati nuovi contenuti.</string>
+  <string name="activity_information_learn_more">Per saperne di più</string>
+  <string name="server_load_low">Basso</string>
+  <string name="server_load_medium">Medio</string>
+  <string name="server_load_high">Alto</string>
 </resources>

@@ -402,7 +402,7 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="notification_subscription_expired_title">A sua subscrição expirou</string>
   <string name="notification_subscription_expired_content">A sua subscrição regrediu, estamos a ligar ao servidor mais rápido disponível. </string>
   <string name="notification_subscription_expired_no_reconnection_content">A sua subscrição regrediu. </string>
-  <string name="notification_delinquent_title">A sua conta VPN tem facturas pendentes</string>
+  <string name="notification_delinquent_title">A sua conta ProtonVPN tem facturas pendentes</string>
   <string name="notification_delinquent_content">Por favor, actualize a sua informação de facturação para manter a subscrição activa.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha seleccionado.</string>
@@ -424,4 +424,26 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="upsell_device_count">Ligue até %1$s dispositivos em simultâneo</string>
   <string name="upsell_many_countries">Centenas de servidores em %1$d países</string>
   <string name="upsell_upgrade_again">Actualize novamente para aproveitar todas as funcionalidades:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Informação</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
+  <string name="info_features">Funcionalidades</string>
+  <string name="smart_routing_title">Smart Routing</string>
+  <string name="smart_routing_description">Esta tecnologia permite que o ProtonVPN ofereça maior velocidade e segurança em países difíceis de servir.</string>
+  <string name="streaming_title">Transmissão</string>
+  <string name="streaming_description">Servidores PLUS suportam streaming (Netflix, Disney+, etc) de qualquer lugar do mundo.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">Estes servidores permitem o melhor desempenho para BitTorrent e partilha de ficheiros.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Direccione o seu tráfego na Internet pela rede Tor. É mais lento, mas também mais privado.</string>
+  <string name="info_performance">Desempenho</string>
+  <string name="server_load_title">Carga do servidor</string>
+  <string name="server_load_description">Os servidores com uma mais carga alta são mais lentos.</string>
+  <string name="streaming_title_with_country">Transmissão - %1$s</string>
+  <string name="streaming_services_description">Ligue a um servidor Plus neste país para iniciar a transmissão.\nNota: limpe a memória das aplicações de transmissão para garantir a apresentação de novos conteúdos.</string>
+  <string name="activity_information_learn_more">Saiba mais</string>
+  <string name="server_load_low">Baixa</string>
+  <string name="server_load_medium">Média</string>
+  <string name="server_load_high">Alta</string>
 </resources>

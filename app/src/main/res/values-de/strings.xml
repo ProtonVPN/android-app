@@ -421,4 +421,26 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="upsell_device_count">Verbinden Sie sich mit bis zu %1$s Geräten gleichzeitig</string>
   <string name="upsell_many_countries">Hunderte von Servern in %1$d Ländern</string>
   <string name="upsell_upgrade_again">Erneut aufwerten, um alle Funktionen nutzen zu können:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Information</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Plus-Server</string>
+  <string name="info_features">Funktionen</string>
+  <string name="smart_routing_title">Intelligentes Routing</string>
+  <string name="smart_routing_description">Diese Technologie ermöglicht es ProtonVPN, höhere Geschwindigkeit und Sicherheit in schwer zu erreichenden Ländern zu bieten.</string>
+  <string name="streaming_title">Streaming</string>
+  <string name="streaming_description">PLUS Server unterstützen das Streamen (Netflix, Disney+, usw.) von überall auf der Welt.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">Dieser Server bietet die beste Leistung für BitTorrent und Dateifreigabe.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Leiten Sie Ihren Internetverkehr durch das Tor-Netzwerk. Langsamer, aber besser geschützt.</string>
+  <string name="info_performance">Leistung</string>
+  <string name="server_load_title">Serverauslastung</string>
+  <string name="server_load_description">Server mit hoher Last sind langsamer als Server mit geringer Last.</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
+  <string name="streaming_services_description">Verbinden Sie sich mit einem Plus-Server in diesem Land, um das Streamen zu starten.\nHinweis: Leeren Sie den Cache (Zwischenspeicher) der Streaming-Apps, damit neue Inhalte angezeigt werden können.</string>
+  <string name="activity_information_learn_more">Mehr erfahren</string>
+  <string name="server_load_low">Niedrig</string>
+  <string name="server_load_medium">Mittel</string>
+  <string name="server_load_high">Hoch</string>
 </resources>

@@ -335,7 +335,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="nameOceania">Oceanía</string>
   <string name="tvRowMore">Más</string>
   <string name="tv_detail_default_connection_checkbox">Mi país favorito</string>
-  <string name="tv_detail_default_connection_checkbox_short">Marcar como favorito</string>
+  <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
   <string name="tv_detail_connect_streaming">Transmisión con Plus</string>
   <string name="tv_detail_connect">Conectar</string>
   <string name="tv_detail_description_streaming_country">Transmite tu contenido favorito. Accede a más aplicaciones con un plan ProtonVPN Plus.</string>
@@ -387,12 +387,12 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   </plurals>
   <string name="tv_country_maintenance_dialog_title">País no disponible</string>
   <string name="tv_country_maintenance_dialog_description">Por favor, inténtalo más tarde o selecciona un país diferente.</string>
-  <string name="tv_server_list_load">%1$s%% Carga del Servidor</string>
+  <string name="tv_server_list_load">%1$s%% Carga del servidor</string>
   <string name="tv_recently_used_servers">Servidores usados recientemente (%1$d)</string>
   <string name="tv_available_servers">Servidores disponibles (%1$d)</string>
   <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
   <string name="tv_other_servers">Otros servidores (%1$d)</string>
-  <string name="tv_server_under_maintenance">En Mantenimiento</string>
+  <string name="tv_server_under_maintenance">En mantenimiento</string>
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">No disponible</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
@@ -402,7 +402,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="notification_subscription_expired_title">Su suscripción ha caducado</string>
   <string name="notification_subscription_expired_content">Tu suscripción ha sido desactualizada, por lo que estamos volviendo a conectar al servidor más rápido disponible. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Tu suscripción ha sido desactualizada. </string>
-  <string name="notification_delinquent_title">Tu cuenta VPN tiene facturas pendientes</string>
+  <string name="notification_delinquent_title">Tu cuenta protonVPN tiene facturas pendientes</string>
   <string name="notification_delinquent_content">Por favor, tómate un momento para actualizar tu información de facturación para mantener tu suscripción activa.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Has sido cambiado a un servidor más rápido que es similar al que has seleccionado.</string>
@@ -413,15 +413,37 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="notification_cancel_to_free">Estás en el plan GRATIS. Están disponibles servidores y funciones GRATIS.</string>
   <string name="notification_cancel_to_basic">Está en el plan BASIC. BASIC &amp; servidores GRATIS y funciones están disponibles.</string>
   <string name="notification_cancel_to_delinquent">Podrás acceder a las funciones premium de nuevo después de que se paguen las facturas pendientes.</string>
-  <string name="vpn_accelerator">VPN Accelerator</string>
+  <string name="vpn_accelerator">Acelerador VPN</string>
   <string name="reconnect_from_server">Del servidor: </string>
   <string name="reconnect_to_server">Al servidor: </string>
   <string name="no_thanks">No gracias</string>
   <string name="enable">Habilitar</string>
   <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente deshabilitado</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN detectó que su red actual está impidiendo una conexión a la VPN. Activar Protocolo Inteligente podría eludir estas limitaciones.</string>
-  <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">Connect up to %1$s devices at the same time</string>
-  <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
-  <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
+  <string name="upsell_advanced_features">Funciones avanzadas: NetShield, Secure Core, Tor, P2P</string>
+  <string name="upsell_device_count">Conecta hasta %1$s dispositivos al mismo tiempo</string>
+  <string name="upsell_many_countries">Cientos de servidores en %1$d países</string>
+  <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">Información</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
+  <string name="info_features">Funciones</string>
+  <string name="smart_routing_title">Enrutamiento inteligente</string>
+  <string name="smart_routing_description">Esta tecnología permite a ProtonVPN proporcionar mayor velocidad y seguridad en países difíciles de servir.</string>
+  <string name="streaming_title">Transmisión</string>
+  <string name="streaming_description">Los servidores PLUS soportan streaming (Netflix, Disney+, etc) desde cualquier parte del mundo.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">Estos servidores ofrecen el mejor rendimiento para BitTorrent y compartir archivos.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">Enruta tu tráfico de Internet a través de la red Tor. Más lento, pero más privado.</string>
+  <string name="info_performance">Rendimiento</string>
+  <string name="server_load_title">Carga del servidor</string>
+  <string name="server_load_description">Los servidores con alta carga son más lentos que los servidores con baja carga.</string>
+  <string name="streaming_title_with_country">Streaming: %1$s</string>
+  <string name="streaming_services_description">Conéctate a un servidor Plus en este país para comenzar a transmitir el contenido de la pantalla.\nNota: Borra la caché de las aplicaciones de streaming para asegurarse de que aparezca un nuevo contenido.</string>
+  <string name="activity_information_learn_more">Más información</string>
+  <string name="server_load_low">Bajo</string>
+  <string name="server_load_medium">Medio</string>
+  <string name="server_load_high">Alto</string>
 </resources>

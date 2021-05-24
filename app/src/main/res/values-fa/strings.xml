@@ -319,7 +319,7 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="netShieldReconnectionNeeded">اتصال مجدد لازم است</string>
   <string name="netShieldReconnectionDescription">اتصال شما احتیاج دارد که راه‌اندازی مجدد شود تا وضعیت NetSheild تغییر کند.\n\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیرفعال کردن NetShield را امتحان کنید.</string>
   <string name="netShieldReconnectionDescriptionDisabling">اتصال شما لازم است مجدداً راه‌اندازی شود تا حالت NetShield غیرفعال شود.</string>
-  <string name="netShieldPaidFeature">این ویژگی نیاز به یک اشتراک پرداختی ProtonVPN دارد. \n آنلاین ارتقا دهید تا همه امکانات را باز کنید و ProtonVPN را پشتیبانی کنید</string>
+  <string name="netShieldPaidFeature">استفاده از این قابلیت نیاز به یک اشتراک پرداختی ProtonVPN دارد. \n به صورت آنلاین اشتراک خود را ارتقا دهید تا دسترسی به همهٔ امکانات را باز کنید و از ProtonVPN پشتیبانی کنید</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
@@ -398,11 +398,11 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
   <string name="settingsSmartReconnectDescription">انتقال خودکار به یک سرور سریع‌تر مشابه سروری که انتخاب کردید</string>
   <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
-  <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator به سروری سریع‌تر تغییر می‌کند باخبر شوید</string>
+  <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
   <string name="notification_subscription_expired_title">اشتراک شما به پایان رسیده است</string>
   <string name="notification_subscription_expired_content">اشتراک شما تنزیل یافت، بنابراین ما در حال اتصال دوباره به سریع‌ترین سرور موجود هستیم. </string>
   <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزیل یافته است. </string>
-  <string name="notification_delinquent_title">حساب کاربری شما دارای صور‌ت‌حساب در حال انتظار است</string>
+  <string name="notification_delinquent_title">حساب کاربری ProtonVPN شما دارای چند صورت‌حساب در حال انتظار است</string>
   <string name="notification_delinquent_content">لطفاً لحظه‌ای را به به‌روزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
@@ -413,7 +413,7 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
   <string name="notification_cancel_to_basic">شما در طرح BASIC هستید. سرورها و قابلیت‌های BASIC و رایگان موجود هستند.</string>
   <string name="notification_cancel_to_delinquent">شما پس از پرداخت صورت‌حساب‌های در حال انتظار دوباره قادر به دسترسی به قابلیت‌های ویژه خواهید بود.</string>
-  <string name="vpn_accelerator">VPN accelerator</string>
+  <string name="vpn_accelerator">VPN Accelerator</string>
   <string name="reconnect_from_server">از سرور: </string>
   <string name="reconnect_to_server">به سرور: </string>
   <string name="no_thanks">نه ممنون</string>
@@ -424,4 +424,26 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="upsell_device_count">تا %1$s دستگاه را همزمان متصل کنید</string>
   <string name="upsell_many_countries">صدها سرور در %1$d کشور</string>
   <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
+  <!-- Information activity -->
+  <string name="activity_information_title">اطلاعات</string>
+  <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+  <string name="activity_information_plus_title">%1$s - سرورهای Plus</string>
+  <string name="info_features">قابلیت‌ها</string>
+  <string name="smart_routing_title">مسیریابی هوشمند</string>
+  <string name="smart_routing_description">این فناوری به ProtonVPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
+  <string name="streaming_title">پخش آنلاین</string>
+  <string name="streaming_description">سرورهای Plus از پخش آنلاین (Netflix، Disney+ و ...) از هر جایی در جهان پشتیبانی می‌کنند.</string>
+  <string name="p2p_title">P2P/BitTorrent</string>
+  <string name="p2p_description">این سرورها بهترین عملکرد را برای BitTorrent و اشتراک فایل ارائه می‌دهند.</string>
+  <string name="tor_title">Tor</string>
+  <string name="tor_description">عبور ترافیک اینترنتی شما از شبکهٔ Tor، کندتر، اما با حریم خصوصی بالاتر.</string>
+  <string name="info_performance">عملکرد</string>
+  <string name="server_load_title">بار ترافیکی سرور</string>
+  <string name="server_load_description">سرورها با بار ترافیکی بالا از سرورها با بار ترافیکی پایین کندتر هستند.</string>
+  <string name="streaming_title_with_country">پخش آنلاین - %1$s</string>
+  <string name="streaming_services_description">به یک سرور Plus در این کشور متصل شوید تا پخش آنلاین را آغاز کنید.\nتوجه: حافظهٔ پنهان برنامه‌های پخش آنلاین را پاک‌سازی کنید تا مطمئن شوید محتوای تازه نشان داده می‌شود.</string>
+  <string name="activity_information_learn_more">بیشتر یاد بگیرید</string>
+  <string name="server_load_low">پایین</string>
+  <string name="server_load_medium">متوسط</string>
+  <string name="server_load_high">بالا</string>
 </resources>
