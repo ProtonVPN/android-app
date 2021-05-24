@@ -59,6 +59,7 @@
         android:text="@string/tv_login_title_signin"
         android:textSize="24sp"
         android:layout_marginTop="32dp"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoLabel" />
@@ -74,6 +75,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"/>
 
+    <TextView
+        android:id="@+id/helpLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="4dp"
+        android:foreground="@drawable/tv_focus_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        android:visibility="gone"/>
+
     <Button
         android:id="@+id/actionButton"
         style="@style/TvButtonCTA"
@@ -84,7 +97,7 @@
         android:foreground="@drawable/tv_focus_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description"/>
+        app:layout_constraintTop_toBottomOf="@+id/helpLink"/>
 
     <TextView
         android:id="@+id/createAccountDescription"

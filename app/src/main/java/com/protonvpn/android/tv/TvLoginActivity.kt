@@ -40,6 +40,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.onAnimationEnd
+import me.proton.core.presentation.utils.openBrowserLink
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
@@ -84,9 +85,20 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
             setText(contentRes)
     }
 
+    private fun TextView.initLink(url: String? = null) {
+        isVisible = url != null
+        if (url != null) {
+            text = url
+            setOnClickListener {
+                openBrowserLink(url)
+            }
+        }
+    }
+
     private fun updateState(state: TvLoginViewState) = with(binding) {
         loginWaitContainer.isVisible = state is TvLoginViewState.PollingSession
         title.init(state.titleRes, state.title)
+        helpLink.initLink(state.helpLink)
         description.init(state.descriptionRes)
         actionButton.init(state.buttonLabelRes)
         loadingView.isVisible = state == TvLoginViewState.Loading || state == TvLoginViewState.Success
@@ -111,6 +123,8 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
                     navigateToMain()
             }
         }
+        // Focus the action button first, not the link.
+        if (actionButton.isVisible) actionButton.requestFocus()
     }
 
     private fun updateCode(code: String) = with(binding.codeContainer) {

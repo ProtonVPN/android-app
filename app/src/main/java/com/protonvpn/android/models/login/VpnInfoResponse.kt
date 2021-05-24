@@ -43,11 +43,11 @@ data class VpnInfoResponse(
     val isUserDelinquent: Boolean
         get() = delinquent >= 3
 
-    fun hasAccessToTier(serverTier: Int) = vpnInfo.maxTier >= serverTier
+    fun hasAccessToTier(serverTier: Int) = userTier >= serverTier
 
-    val userTierName: String get() = vpnInfo.tierName
+    val userTierName: String get() = vpnInfo.tierName ?: "free"
 
-    val userTier: Int get() = vpnInfo.maxTier
+    val userTier: Int get() = vpnInfo.maxTier ?: 0
 
     val isTrialExpired get() = vpnInfo.isTrialExpired()
 

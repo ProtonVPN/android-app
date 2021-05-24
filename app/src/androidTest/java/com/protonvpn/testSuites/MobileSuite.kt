@@ -4,6 +4,7 @@ import com.protonvpn.tests.account.AccountRobotTests
 import com.protonvpn.tests.connection.ConnectionRobotTests
 import com.protonvpn.tests.home.HomeRobotTests
 import com.protonvpn.tests.login.LoginRobotTests
+import com.protonvpn.tests.login.LoginViewModelTest
 import com.protonvpn.tests.login.LogoutRobotTests
 import com.protonvpn.tests.map.MapRobotTests
 import com.protonvpn.tests.onboarding.OnboardingRobotTests
@@ -13,7 +14,6 @@ import com.protonvpn.tests.secureCore.SecureCoreRobotSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotTests
 import com.protonvpn.tests.settings.SettingsRobotTests
 import com.protonvpn.tests.upgrade.CheckUpgradeTests
-import com.protonvpn.tests.upgrade.UpgradeTestData
 import com.protonvpn.tests.upgrade.UpgradeTests
 import com.protonvpn.tests.util.LiveEventTests
 import com.protonvpn.tests.vpn.VpnConnectionTests
@@ -26,6 +26,7 @@ import org.junit.runners.Suite
         ConnectionRobotTests::class,
         HomeRobotTests::class,
         LoginRobotTests::class,
+        LoginViewModelTest::class,
         LogoutRobotTests::class,
         MapRobotTests::class,
         OnboardingRobotTests::class,

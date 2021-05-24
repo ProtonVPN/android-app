@@ -31,6 +31,7 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.home.LogoutHandler
@@ -66,12 +67,17 @@ import me.proton.core.network.data.di.ApiFactory
 import me.proton.core.network.data.di.NetworkPrefs
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Singleton
 
 @Module
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
+
+    @Provides
+    @Singleton
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 
     @Singleton
     @Provides

@@ -212,6 +212,98 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layoutConnectionAllocationHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/darkGrey">
+
+                <LinearLayout
+                    android:id="@+id/layoutConnectionAllocationTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/textConnectionAllocationDescription"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/ic_proton_green"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/connectionAllocationHelpTitle"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textConnectionAllocationDescription"
+                    style="@style/Body1Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/connectionAllocationHelpDescription"
+                    app:layout_constraintBottom_toTopOf="@id/layoutConnectionAllocationButtons"
+                    app:layout_constraintTop_toBottomOf="@id/layoutConnectionAllocationTitle" />
+
+                <LinearLayout
+                    android:id="@+id/layoutConnectionAllocationButtons"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription"
+                    app:layout_constraintWidth_percent="0.9">
+
+                    <Button
+                        android:id="@+id/buttonAssignVpnConnections"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/button_rounded"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp"
+                        android:text="@string/connectionAllocationHelpAssignConnectionsButton"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/buttonReturnToLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/button_rounded"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp"
+                        android:text="@string/connectionAllocationHelpLoginAgainButton"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
         <com.protonvpn.android.components.NetworkFrameLayout
             android:id="@+id/loadingContainer"
             android:layout_width="match_parent"

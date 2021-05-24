@@ -42,6 +42,7 @@ object Constants {
     const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
+    const val URL_SUPPORT_ASSIGN_VPN_CONNECTION = "https://protonvpn.com/support/assign-vpn-connection"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L

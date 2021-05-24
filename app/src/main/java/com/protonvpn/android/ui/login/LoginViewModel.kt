@@ -29,14 +29,11 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoResponse
+import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
-import srp.Auth
-import srp.Proofs
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
@@ -44,7 +41,8 @@ class LoginViewModel @Inject constructor(
     val appConfig: AppConfig,
     val api: ProtonApiRetroFit,
     private val guestHole: GuestHole,
-    val serverManager: ServerManager
+    val serverManager: ServerManager,
+    private val proofsProvider: ProofsProvider
 ) : ViewModel() {
 
     private val _loginState = MutableLiveData<LoginState>(LoginState.EnterCredentials)
@@ -58,22 +56,6 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getProofs(
-        username: String,
-        password: String,
-        infoResponse: LoginInfoResponse
-    ): Proofs? = withContext(Dispatchers.Default) {
-        val auth = Auth(
-            infoResponse.getVersion(),
-            username,
-            password,
-            infoResponse.salt,
-            infoResponse.modulus,
-            infoResponse.serverEphemeral
-        )
-        auth.generateProofs(2048)
-    }
-
     private suspend fun loginWithProofs(loginBody: LoginBody): LoginState {
         return when (val loginResult = api.postLogin(loginBody)) {
             is ApiResult.Error -> {
@@ -84,17 +66,40 @@ class LoginViewModel @Inject constructor(
                 userData.setLoginResponse(loginResult.value)
                 when (val infoResult = api.getVPNInfo()) {
                     is ApiResult.Error -> LoginState.Error(infoResult, true)
-                    is ApiResult.Success -> {
-                        userData.setLoggedIn(infoResult.value)
-                        LoginState.Success
-                    }
+                    is ApiResult.Success -> handleVpnInfoResult(infoResult.value)
                 }
             }
         }
     }
 
+    private suspend fun handleVpnInfoResult(vpnInfoResponse: VpnInfoResponse): LoginState {
+        val vpnInfo = vpnInfoResponse.vpnInfo
+        return when {
+            vpnInfo.hasNoConnectionsAssigned -> {
+                api.logout()
+                LoginState.ConnectionAllocationPrompt
+            }
+            vpnInfo.userTierUnknown -> {
+                api.logout()
+                LoginState.Error(
+                    ApiResult.Error.Connection(false, Exception("User tier unknown")),
+                    false
+                )
+            }
+            else -> {
+                userData.setLoggedIn(vpnInfoResponse)
+                LoginState.Success
+            }
+        }
+    }
+
+    fun onBackToLogin() {
+        _loginState.value = LoginState.RetryLogin
+    }
+
     fun onBackPressed(): Boolean {
-        if (_loginState.value is LoginState.Error) {
+        if (loginState.value is LoginState.Error ||
+            loginState.value is LoginState.ConnectionAllocationPrompt) {
             _loginState.value = LoginState.EnterCredentials
             return true
         }
@@ -150,7 +155,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun getLoginBody(loginInfo: LoginInfoResponse, user: String, password: String): LoginBody? {
-        val proofs = getProofs(user, password, loginInfo) ?: return null
+        val proofs = proofsProvider.getProofs(user, password, loginInfo) ?: return null
         return LoginBody(
             user,
             loginInfo.srpSession,

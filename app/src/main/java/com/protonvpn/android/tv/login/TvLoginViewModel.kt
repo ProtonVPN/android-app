@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -116,8 +117,21 @@ class TvLoginViewModel @Inject constructor(
                         state.value = infoResult.toLoginError()
                     }
                     is ApiResult.Success -> {
-                        userData.setLoggedIn(infoResult.value)
-                        loadInitialConfig()
+                        val vpnInfo = infoResult.value.vpnInfo
+                        when {
+                            vpnInfo.hasNoConnectionsAssigned -> {
+                                api.logout()
+                                state.value = TvLoginViewState.ConnectionAllocationPrompt
+                            }
+                            vpnInfo.userTierUnknown -> {
+                                api.logout()
+                                state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
+                            }
+                            else -> {
+                                userData.setLoggedIn(infoResult.value)
+                                loadInitialConfig()
+                            }
+                        }
                     }
                 }
             }
@@ -164,7 +178,8 @@ sealed class TvLoginViewState(
     val title: String? = null,
     @StringRes val titleRes: Int = 0,
     @StringRes val buttonLabelRes: Int = 0,
-    @StringRes val descriptionRes: Int = 0
+    @StringRes val descriptionRes: Int = 0,
+    val helpLink: String? = null
 ) {
     object Welcome : TvLoginViewState(
         titleRes = R.string.tv_login_title_welcome,
@@ -181,6 +196,12 @@ sealed class TvLoginViewState(
         @StringRes errorButtonLabelRes: Int,
         errorTitle: String? = null
     ) : TvLoginViewState(errorTitle, errorTitleRes, errorButtonLabelRes)
+    object ConnectionAllocationPrompt : TvLoginViewState(
+        titleRes = R.string.connectionAllocationHelpTitle,
+        descriptionRes = R.string.connectionAllocationHelpDescription,
+        helpLink = Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION,
+        buttonLabelRes = R.string.connectionAllocationHelpLoginAgainButton
+    )
 
     companion object {
 

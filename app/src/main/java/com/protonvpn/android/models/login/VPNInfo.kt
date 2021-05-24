@@ -28,8 +28,8 @@ import org.joda.time.Period
 data class VPNInfo(
     @SerialName(value = "Status") val status: Int,
     @SerialName(value = "ExpirationTime") private val expirationTime: Int,
-    @SerialName(value = "PlanName") val tierName: String,
-    @SerialName(value = "MaxTier") val maxTier: Int,
+    @SerialName(value = "PlanName") val tierName: String?,
+    @SerialName(value = "MaxTier") val maxTier: Int?,
     @SerialName(value = "MaxConnect") private val maxConnect: Int,
     @SerialName(value = "Name") val name: String,
     @SerialName(value = "GroupID") val groupId: String,
@@ -40,6 +40,12 @@ data class VPNInfo(
         get() = expirationTime != 0
 
     fun isTrialExpired(): Boolean = DateTime(expirationTime * 1000L).isBeforeNow
+
+    // The server always adds a 1 to max connections to allow for a stale session to fit within
+    // the limit. Therefore 1 means the user has 0 max connections configured.
+    val hasNoConnectionsAssigned get() = tierName == null && maxConnect <= 1
+
+    val userTierUnknown get() = tierName == null && maxConnect > 1
 
     val trialRemainingTime: Period
         get() = try {
@@ -52,5 +58,5 @@ data class VPNInfo(
 
     // FIXME API should be sending correct information
     fun getMaxConnect(): Int =
-        if (tierName == "free") 2 else maxConnect
+        if (tierName == "free" || tierName == null) 2 else maxConnect
 }
