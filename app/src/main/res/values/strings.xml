@@ -45,7 +45,7 @@
 
     <string name="mapCalloutConnect">Connect</string>
     <string name="mapCalloutDisconnect">Disconnect</string>
-    <string name="mapSwitchSecureCore">Use Secure Core</string>
+    <string name="mapSwitchSecureCore">Secure Core</string>
 
     <string name="warning">Warning</string>
 
@@ -94,7 +94,7 @@
     <string name="accountUser">User:</string>
     <string name="accountType">Account type:</string>
     <string name="accountTier">Active subscription:</string>
-    <string name="accountTrialExpires"><![CDATA[Your trial ends in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+    <string name="accountTrialExpires"><![CDATA[Your trial ends in<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Version:</string>
     <string name="accountSubscriptionDetails"><![CDATA[To manage your subscription, you have to go to the <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
     <string name="accountButtonManage">Manage account</string>
@@ -258,7 +258,7 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Enabling this will add your client side VPN logs to this report</string>
     <string name="profileFastest">Fastest</string>
     <string name="profileRandom">Random</string>
-    <string name="settingsSplitTunnelingDescription">Split tunneling allows certain apps or IPs to be excluded from the VPN traffic.</string>
+    <string name="settingsSplitTunnelingDescription">Split Tunneling allows certain apps or IPs to be excluded from the VPN traffic.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="serverLabelUnderMaintenance">%1$s Under maintenance</string>
     <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
