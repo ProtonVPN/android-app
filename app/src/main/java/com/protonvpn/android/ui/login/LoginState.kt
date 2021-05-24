@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.login
 import me.proton.core.network.domain.ApiResult
 
 sealed class LoginState {
+    object EnterCredentials : LoginState()
     object Success : LoginState()
     object InProgress : LoginState()
     object GuestHoleActivated : LoginState()
