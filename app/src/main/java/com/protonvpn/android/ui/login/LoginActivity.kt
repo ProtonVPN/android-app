@@ -46,7 +46,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.CompressedTextWatcher
 import com.protonvpn.android.components.ContentLayout
-import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.ActivityLoginBinding
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
@@ -56,7 +55,6 @@ import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import me.proton.core.network.domain.ApiResult
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import javax.inject.Inject
@@ -214,8 +212,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
 
     override fun onVpnPrepareFailed() {
         loginJob?.cancel()
-        binding.loadingContainer.switchToRetry(
-                ApiResult.Error.Connection(false, Exception("Vpn permission not granted")))
+        viewModel.onVpnPrepareFailed()
     }
 
     private fun login() = with(binding) {
@@ -227,15 +224,17 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     }
 
     override fun onBackPressed() {
-        if (binding.loadingContainer.state == NetworkFrameLayout.State.ERROR) {
-            binding.loadingContainer.switchToEmpty()
-        } else {
+        val handled = viewModel.onBackPressed()
+        if (!handled) {
             super.onBackPressed()
         }
     }
 
     override fun onChanged(loginState: LoginState) = with(binding) {
         when (loginState) {
+            is LoginState.EnterCredentials -> {
+                loadingContainer.switchToEmpty()
+            }
             is LoginState.Success -> {
                 launchActivity<HomeActivity>()
                 editPassword.clearComposingText()

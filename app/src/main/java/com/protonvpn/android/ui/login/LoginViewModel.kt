@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.login
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,7 +47,8 @@ class LoginViewModel @Inject constructor(
     val serverManager: ServerManager
 ) : ViewModel() {
 
-    val loginState = MutableLiveData<LoginState>()
+    private val _loginState = MutableLiveData<LoginState>(LoginState.EnterCredentials)
+    val loginState: LiveData<LoginState> get() { return _loginState }
 
     init {
         if (!userData.isLoggedIn) {
@@ -91,13 +93,27 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun onBackPressed(): Boolean {
+        if (_loginState.value is LoginState.Error) {
+            _loginState.value = LoginState.EnterCredentials
+            return true
+        }
+        return false
+    }
+
+    fun onVpnPrepareFailed() {
+        _loginState.value = LoginState.Error(
+            ApiResult.Error.Connection(false, Exception("Vpn permission not granted")),
+            false)
+    }
+
     suspend fun login(context: Context, user: String, password: String) {
-        loginState.postValue(LoginState.InProgress)
+        _loginState.postValue(LoginState.InProgress)
         var result = makeInfoResponseCall(user, password)
         if (result is LoginState.Error && result.error.isPotentialBlocking) {
             loginWithGuestHole(context, user, password)?.let { result = it }
         }
-        loginState.postValue(result)
+        _loginState.postValue(result)
         appConfig.update()
     }
 
@@ -106,7 +122,7 @@ class LoginViewModel @Inject constructor(
         user: String,
         password: String
     ): LoginState? {
-        loginState.postValue(LoginState.GuestHoleActivated)
+        _loginState.postValue(LoginState.GuestHoleActivated)
         return guestHole.call(context) {
             appConfig.update()
             makeInfoResponseCall(user, password).apply {
