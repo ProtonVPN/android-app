@@ -171,9 +171,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun showReconnectDialog(isRadioButton: Boolean, changeCallback: (agreedToChange: Boolean) -> Unit) {
         MaterialDialog.Builder(context).theme(Theme.DARK)
-            .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false) { _, checked ->
-                Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !checked)
-            }
+            .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false, null)
             .icon(getDrawable(context, R.drawable.ic_refresh)!!)
             .canceledOnTouchOutside(false)
             .title(R.string.netShieldReconnectionNeeded)
@@ -184,7 +182,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     R.string.netShieldReconnectionDescriptionDisabling
             )
             .positiveText(R.string.reconnect)
-            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+            .onPositive { dialog, _ ->
+                val dontShowAgain = dialog.isPromptCheckBoxChecked
+                Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !dontShowAgain)
                 changeCallback(true)
             }
             .negativeText(R.string.cancel)
