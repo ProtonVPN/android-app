@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2021. Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,17 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.login
 
-import me.proton.core.network.domain.ApiResult
+package com.protonvpn.android.concurrency
 
-sealed class LoginState {
-    object EnterCredentials : LoginState()
-    object Success : LoginState()
-    object InProgress : LoginState()
-    object GuestHoleActivated : LoginState()
-    data class Error(val error: ApiResult.Error, val retryRequest: Boolean) : LoginState()
-    object UnsupportedAuth : LoginState()
-    object ConnectionAllocationPrompt : LoginState()
-    object RetryLogin : LoginState()
+import kotlinx.coroutines.Dispatchers
+import me.proton.core.util.kotlin.DispatcherProvider
+
+class DefaultDispatcherProvider : DispatcherProvider {
+    override val Main = Dispatchers.Main
+    override val Comp = Dispatchers.Default
+    override val Io = Dispatchers.IO
 }

@@ -37,6 +37,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,10 +52,12 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants.SIGNUP_URL
+import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.proton.core.util.kotlin.exhaustive
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import javax.inject.Inject
@@ -92,6 +95,8 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                     .customView(R.layout.dialog_help, true).negativeText(R.string.cancel).show()
             initNeedHelpDialog(dialog.customView!!)
         }
+        buttonAssignVpnConnections.setOnClickListener { openUrl(URL_SUPPORT_ASSIGN_VPN_CONNECTION) }
+        buttonReturnToLogin.setOnClickListener { viewModel.onBackToLogin() }
     }
 
     private fun initInputFields() {
@@ -230,32 +235,40 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         }
     }
 
-    override fun onChanged(loginState: LoginState) = with(binding) {
-        when (loginState) {
-            is LoginState.EnterCredentials -> {
-                loadingContainer.switchToEmpty()
-            }
-            is LoginState.Success -> {
-                launchActivity<HomeActivity>()
-                editPassword.clearComposingText()
-                finish()
-            }
-            is LoginState.InProgress -> {
-                loadingContainer.switchToLoading()
-            }
-            is LoginState.GuestHoleActivated -> {
-                loadingContainer.switchToLoading(getString(R.string.guestHoleActivated))
-            }
-            is LoginState.Error -> {
-                loadingContainer.switchToRetry(loginState.error)
-                if (loginState.retryRequest.not())
-                    loadingContainer.setRetryListener(loadingContainer::switchToEmpty)
-            }
-            is LoginState.UnsupportedAuth -> {
-                loadingContainer.switchToEmpty()
-                Toast.makeText(this@LoginActivity,
-                    R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
-            }
+    override fun onChanged(loginState: LoginState) {
+        with(binding) {
+            binding.layoutConnectionAllocationHelp.isVisible =
+                loginState == LoginState.ConnectionAllocationPrompt
+            when (loginState) {
+                is LoginState.EnterCredentials -> {
+                    loadingContainer.switchToEmpty()
+                }
+                is LoginState.Success -> {
+                    launchActivity<HomeActivity>()
+                    editPassword.clearComposingText()
+                    finish()
+                }
+                is LoginState.InProgress -> {
+                    loadingContainer.switchToLoading()
+                }
+                is LoginState.GuestHoleActivated -> {
+                    loadingContainer.switchToLoading(getString(R.string.guestHoleActivated))
+                }
+                is LoginState.Error -> {
+                    if (loginState.retryRequest.not())
+                        loadingContainer.setRetryListener(loadingContainer::switchToEmpty)
+                    loadingContainer.switchToRetry(loginState.error)
+                }
+                is LoginState.UnsupportedAuth -> {
+                    loadingContainer.switchToEmpty()
+                    Toast.makeText(this@LoginActivity,
+                        R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+                }
+                is LoginState.ConnectionAllocationPrompt -> {
+                    loadingContainer.switchToEmpty()
+                }
+                is LoginState.RetryLogin -> attemptLogin()
+            }.exhaustive
         }
     }
 }
