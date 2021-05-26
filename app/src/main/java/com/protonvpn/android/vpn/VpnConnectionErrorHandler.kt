@@ -154,8 +154,7 @@ class VpnConnectionErrorHandler(
         Features, Tier, City, Country, SecureCore
     }
 
-    private val smartReconnectEnabled get() =
-        appConfig.getFeatureFlags().vpnAccelerator && userData.isSmartReconnectEnabled
+    private val smartReconnectEnabled get() = appConfig.getFeatureFlags().vpnAccelerator
 
     suspend fun onServerNotAvailable(profile: Profile) =
         fallbackToCompatibleServer(profile, null, SwitchServerReason.ServerUnavailable)
@@ -388,7 +387,9 @@ class VpnConnectionErrorHandler(
                 return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile)
                     fallbackToCompatibleServer(
-                        connectionParams.profile, connectionParams, SwitchServerReason.ServerInMaintenance
+                        connectionParams.profile,
+                        connectionParams,
+                        SwitchServerReason.ServerInMaintenance
                     )
                 }
                 else

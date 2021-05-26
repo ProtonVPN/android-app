@@ -68,8 +68,8 @@ public final class UserData implements Serializable {
     private boolean apiUseDoH;
     private NetShieldProtocol netShieldProtocol;
     private boolean useSmartProtocol;
-    private boolean smartReconnect;
-    private boolean showSmartReconnectNotifications;
+    private boolean vpnAcceleratorEnabled;
+    private boolean showVpnAcceleratorNotifications;
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
     private transient LiveEvent updateEvent = new LiveEvent();
@@ -87,8 +87,8 @@ public final class UserData implements Serializable {
         useIon = false;
         apiUseDoH = true;
         useSmartProtocol = true;
-        smartReconnect = true;
-        showSmartReconnectNotifications = true;
+        vpnAcceleratorEnabled = true;
+        showVpnAcceleratorNotifications = true;
     }
 
     public String getUser() {
@@ -331,21 +331,21 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
-    public boolean isSmartReconnectEnabled() {
-        return smartReconnect;
+    public boolean isVpnAcceleratorEnabled() {
+        return vpnAcceleratorEnabled;
     }
 
-    public void setSmartReconnectEnabled(boolean value) {
-        smartReconnect = value;
+    public void setVpnAcceleratorEnabled(boolean value) {
+        vpnAcceleratorEnabled = value;
         saveToStorage();
     }
 
-    public boolean showSmartReconnectNotifications() {
-        return showSmartReconnectNotifications;
+    public boolean showVpnAcceleratorNotifications() {
+        return showVpnAcceleratorNotifications;
     }
 
-    public void setShowSmartReconnectNotifications(boolean value) {
-        showSmartReconnectNotifications = value;
+    public void setShowVpnAcceleratorNotifications(boolean value) {
+        showVpnAcceleratorNotifications = value;
         saveToStorage();
     }
 
