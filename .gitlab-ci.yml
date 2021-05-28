@@ -234,11 +234,6 @@ firebase tv tests:
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     COVERAGE_FILE_NAME: "coverageTv.ec"
-  only:
-    - branches
-  except:
-    - master
-    - development
 
 coverage report:
   stage: report
