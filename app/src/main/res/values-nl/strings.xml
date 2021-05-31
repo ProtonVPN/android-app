@@ -31,13 +31,17 @@
   <string name="loginStartWithDevice">Starten tijdens opstarten</string>
   <string name="loginCreateAccount">Nieuw account aanmaken</string>
   <string name="loginNeedHelp">Heeft u hulp nodig?</string>
+  <string name="connectionAllocationHelpTitle">Bedankt voor het bijwerken naar\nPROFESSIONAL/VISIONARY</string>
+  <string name="connectionAllocationHelpDescription">Om uw verkenning in ProtonVPN te starten, moet u VPN-sessies aan uw account of een ander subaccount toewijzen.\n\nDeze stap neemt slechts een paar minuten in beslag. Daarna kunt u inloggen en al uw apparaten beschermen.</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
+  <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
   <string name="helpResetPassword">Wachtwoord herstellen</string>
   <string name="helpForgotUser">Gebruikersnaam vergeten?</string>
   <string name="helpCommonProblems">Bekende aanmeldproblemen</string>
   <string name="helpGetSupport">Ondersteuning vragen</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Verbreken</string>
-  <string name="mapSwitchSecureCore">Gebruik Secure Core</string>
+  <string name="mapSwitchSecureCore">Secure Core</string>
   <string name="warning">Waarschuwing</string>
   <string name="secureCoreSwitchOn">U probeert verbinding te maken met een Secure Core server. Dit schakelt Secure Core mode%1$s in. Doorgaan?</string>
   <string name="secureCoreSwitchOff">U probeert verbinding te maken met een server zonder Secure Core-functionaliteit. Dit zal Secure Core uitschakelen%1$s Doorgaan?</string>
@@ -78,7 +82,7 @@
   <string name="accountUser">Gebruiker:</string>
   <string name="accountType">Accounttype:</string>
   <string name="accountTier">Actief abonnement:</string>
-  <string name="accountTrialExpires"><![CDATA[Uw proefperiode eindigt in <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+  <string name="accountTrialExpires"><![CDATA[Uw proefperiode eindigt in<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Versie:</string>
   <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> dashboard.]]></string>
   <string name="accountButtonManage">Account beheren</string>
@@ -233,7 +237,7 @@
   <string name="bugReportErrorLabelVpnLogsDescription">Deze optie inschakelen zorgt ervoor dat de VPN logs van uw client toegevoegd worden aan dit rapport</string>
   <string name="profileFastest">Snelste</string>
   <string name="profileRandom">Willekeurig</string>
-  <string name="settingsSplitTunnelingDescription">Met Split-tunneling kunnen bepaalde apps of IP-adressen van het VPN-verkeer worden uitgesloten.</string>
+  <string name="settingsSplitTunnelingDescription">Split Tunneling laat toe dat bepaalde apps of IP-adressen worden uitgesloten van het VPN-verkeer.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s In onderhoud</string>
   <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
@@ -396,9 +400,11 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">Automatisch overschakelen naar een snellere server vergelijkbaar met degene die u hebt geselecteerd</string>
+  <string name="settingsSmartReconnectDescription">VPN-Accelerator maakt een set van unieke prestaties verbetering technologieën mogelijk die VPN snelheid met tot 400% kunnen verhogen</string>
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
+  <string name="dialogTitleReconnectionNeeded">Opnieuw verbinden nodig</string>
+  <string name="settingsSmartReconnectReconnectDialogContent">Uw verbinding moet opnieuw worden gestart om de VPN-Accelerator-modus te wijzigen.</string>
   <string name="notification_subscription_expired_title">Het abonnement is verlopen</string>
   <string name="notification_subscription_expired_content">Uw abonnement is gedegradeerd, dus we maken opnieuw verbinding met de snelst beschikbare server. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
