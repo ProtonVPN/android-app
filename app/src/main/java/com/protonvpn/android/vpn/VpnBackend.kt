@@ -151,6 +151,7 @@ abstract class VpnBackend(
         val hostname = lastConnectionParams?.connectingDomain?.entryDomain
         agentConnectionJob = mainScope.launch {
             val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
+            delay(500)
             if (certInfo is CertificateRepository.CertificateResult.Success) {
                 features.setInt(FEATURES_NETSHIELD, userData.netShieldProtocol.ordinal.toLong())
                 agent = AgentConnection(
