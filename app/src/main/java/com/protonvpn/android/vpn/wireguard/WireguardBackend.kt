@@ -109,8 +109,8 @@ class WireguardBackend(
     }
 
     override suspend fun reconnect() {
-        disconnect()
         lastConnectionParams?.let {
+            disconnect()
             connect(it)
         }
     }

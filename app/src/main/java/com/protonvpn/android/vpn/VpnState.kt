@@ -39,8 +39,8 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     object WaitingForNetwork : VpnState(true)
     object Connecting : VpnState(true)
     object Reconnecting : VpnState(true)
-    data class Error(val type: ErrorType) : VpnState(true) {
-        override fun toString() = "$name($type)"
+    data class Error(val type: ErrorType, val description: String? = null) : VpnState(true) {
+        override fun toString() = "$name($type) + $description"
     }
 
     object Connected : VpnState(false)
@@ -52,5 +52,6 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
 
 enum class ErrorType {
     AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED_INTERNAL, LOOKUP_FAILED,
-    UNREACHABLE, UNREACHABLE_INTERNAL, MAX_SESSIONS, UNPAID, GENERIC_ERROR, MULTI_USER_PERMISSION
+    UNREACHABLE, UNREACHABLE_INTERNAL, MAX_SESSIONS, UNPAID, GENERIC_ERROR, MULTI_USER_PERMISSION,
+    LOCAL_AGENT_ERROR
 }
