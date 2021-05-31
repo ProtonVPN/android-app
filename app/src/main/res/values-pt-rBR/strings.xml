@@ -31,13 +31,17 @@
   <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
   <string name="loginCreateAccount">Criar nova conta</string>
   <string name="loginNeedHelp">Precisa de ajuda?</string>
+  <string name="connectionAllocationHelpTitle">Thanks for updating to\nPROFESSIONAL/VISIONARY</string>
+  <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN sessions to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
+  <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
   <string name="helpResetPassword">Redefinir senha</string>
   <string name="helpForgotUser">Esqueceu o seu nome de usuário?</string>
   <string name="helpCommonProblems">Problemas comuns para iniciar sessão</string>
   <string name="helpGetSupport">Obter suporte</string>
   <string name="mapCalloutConnect">Conectar</string>
   <string name="mapCalloutDisconnect">Desconectar</string>
-  <string name="mapSwitchSecureCore">Usar Secure Core</string>
+  <string name="mapSwitchSecureCore">Seguro Core</string>
   <string name="warning">Aviso</string>
   <string name="secureCoreSwitchOn">Você está tentando se conectar ao servidor Secure Core. Isso irá ativar o modo Secure Core%1$s Deseja continuar?</string>
   <string name="secureCoreSwitchOff">Você está tentando se conectar a um servidor que não é Secure Core. Isso irá ativar o modo Secure Core%1$s Deseja continuar?</string>
@@ -78,7 +82,7 @@
   <string name="accountUser">Usuário:</string>
   <string name="accountType">Tipo de conta:</string>
   <string name="accountTier">Assinatura ativa:</string>
-  <string name="accountTrialExpires"><![CDATA[Sua versão de avaliação termina em <br/><font color=#FFFFFF> %1$s</font><br/>]]></string>
+  <string name="accountTrialExpires"><![CDATA[Your trial ends in<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Versão:</string>
   <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
   <string name="accountButtonManage">Gerenciar conta</string>
@@ -233,7 +237,7 @@
   <string name="bugReportErrorLabelVpnLogsDescription">Ao ativar isso, você adicionará os registros da VPN do lado do cliente neste relatório</string>
   <string name="profileFastest">Mais rápido</string>
   <string name="profileRandom">Aleatório</string>
-  <string name="settingsSplitTunnelingDescription">A abertura de tunelamento divididos permite que determinados aplicativos ou IPs sejam excluídos do tráfego da VPN.</string>
+  <string name="settingsSplitTunnelingDescription">Split Tunneling allows certain apps or IPs to be excluded from the VPN traffic.</string>
   <string name="settingsSplitTunnelingTitle">Tunelamento split</string>
   <string name="serverLabelUnderMaintenance">%1$s Em manutenção</string>
   <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
@@ -396,9 +400,11 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">Indisponível</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">Mudar automaticamente para um servidor mais rápido similar ao que você selecionou</string>
+  <string name="settingsSmartReconnectDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speeds by up to 400%</string>
   <string name="settingsSmartReconnectNotificationsTitle">Notificações do VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Seja notificado quando o VPN Accelerator mudar você para um servidor mais rápido</string>
+  <string name="dialogTitleReconnectionNeeded">Reconexão necessária</string>
+  <string name="settingsSmartReconnectReconnectDialogContent">Your connection needs to be restarted to change VPN Accelerator mode.</string>
   <string name="notification_subscription_expired_title">Sua assinatura expirou</string>
   <string name="notification_subscription_expired_content">Sua assinatura foi rebaixada, então estamos reconectando para o servidor mais rápido disponível. </string>
   <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada. </string>
