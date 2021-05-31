@@ -73,7 +73,6 @@ import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.utils.ViewUtils;
-import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.RetryInfo;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
@@ -493,7 +492,7 @@ public class VpnStateFragment extends BaseFragment {
             VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
             if (state instanceof VpnState.Error) {
-                reportError(((VpnState.Error) vpnState.getState()).getType());
+                reportError(((VpnState.Error) vpnState.getState()));
             }
             else if (VpnState.Disabled.INSTANCE.equals(state)) {
                 checkDisconnectFromOutside();
@@ -541,9 +540,9 @@ public class VpnStateFragment extends BaseFragment {
         }
     }
 
-    private boolean reportError(ErrorType error) {
+    private boolean reportError(VpnState.Error error) {
         Log.e("report error: " + error.toString());
-        switch (error) {
+        switch (error.getType()) {
             case AUTH_FAILED:
                 showAuthError(R.string.error_auth_failed);
                 break;
@@ -570,6 +569,11 @@ public class VpnStateFragment extends BaseFragment {
                 vpnConnectionManager.disconnect();
                 showAuthError(R.string.errorTunMultiUserPermission);
                 Log.exception(new VPNException("Dual-apps permission error"));
+                break;
+            case LOCAL_AGENT_ERROR:
+                vpnConnectionManager.disconnect();
+                showAuthError(getString(R.string.errorWireguardWithPlaceholder, error.getDescription()));
+                Log.exception(new VPNException("Wireguard error: " + error.getDescription()));
                 break;
             default:
                 showErrorDialog(R.string.error_generic);

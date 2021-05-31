@@ -34,6 +34,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.yield
 import localAgent.AgentConnection
 import localAgent.Features
 import localAgent.NativeClient
@@ -86,6 +87,27 @@ abstract class VpnBackend(
         }
 
         override fun onError(code: Long, description: String) {
+            when (code) {
+                agentConstants.errorCodeMaxSessionsBasic,
+                agentConstants.errorCodeMaxSessionsFree,
+                agentConstants.errorCodeMaxSessionsPlus,
+                agentConstants.errorCodeMaxSessionsPro,
+                agentConstants.errorCodeMaxSessionsUnknown,
+                agentConstants.errorCodeMaxSessionsVisionary ->
+                    selfStateObservable.postValue(VpnState.Error(ErrorType.MAX_SESSIONS))
+                agentConstants.errorCodeCertificateRevoked,
+                agentConstants.errorCodeKeyUsedMultipleTimes ->
+                    revokeCertificateAndReconnect()
+                agentConstants.errorCodeCertificateExpired -> refreshCertOnLocalAgent()
+                agentConstants.errorCodePolicyViolation1 ->
+                    selfStateObservable.postValue(
+                        VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Policy violation")
+                    )
+                agentConstants.errorCodeUserBadBehavior ->
+                    selfStateObservable.postValue(
+                        VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Bad behaviour")
+                    )
+            }
             Log.e("error: " + code)
             Log.e("description: " + description)
         }
@@ -105,6 +127,7 @@ abstract class VpnBackend(
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
     private var agent: AgentConnection? = null
     private var agentConnectionJob: Job? = null
+    private var reconnectionJob: Job? = null
     private var features: Features = Features()
     private val agentConstants = localAgent.LocalAgent.constants()
 
@@ -136,13 +159,36 @@ abstract class VpnBackend(
         } else vpnState
 
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
-        if (agent == null) {
+        if (agent == null && agentConnectionJob == null) {
             connectToLocalAgent()
         }
         return when (localAgentState) {
             agentConstants.stateConnected -> VpnState.Connected
-            // TODO Handle remaining branches and localAgentErrors here
+            agentConstants.stateConnectionError -> VpnState.Error(ErrorType.UNREACHABLE)
+            agentConstants.stateServerUnreachable -> VpnState.Error(ErrorType.UNREACHABLE)
+            agentConstants.stateSoftJailed -> VpnState.Connecting
+            agentConstants.stateClientCertificateError -> VpnState.Connecting
+            agentConstants.stateServerCertificateError -> VpnState.Connecting
+            agentConstants.stateHardJailed -> VpnState.Connecting
             else -> VpnState.Connecting
+        }
+    }
+
+    private fun refreshCertOnLocalAgent() {
+        reconnectionJob = mainScope.launch {
+            certificateRepository.updateCertificate(userData.sessionId!!, false)
+            closeAgentConnection()
+            connectToLocalAgent()
+        }
+    }
+
+    private fun revokeCertificateAndReconnect() {
+        selfStateObservable.postValue(VpnState.Connecting)
+        reconnectionJob = mainScope.launch {
+            certificateRepository.generateNewKey(userData.sessionId!!)
+            certificateRepository.updateCertificate(userData.sessionId!!, false)
+            yield()
+            reconnect()
         }
     }
 
@@ -165,13 +211,21 @@ abstract class VpnBackend(
                     networkManager.isConnectedToNetwork()
                 )
             } else {
-                Log.e("cert fetch failed") // TODO handle cert fetch failure
+                selfStateObservable.postValue(
+                    VpnState.Error(
+                        ErrorType.LOCAL_AGENT_ERROR,
+                        "Failed to get wireguard certificate"
+                    )
+                )
             }
         }
     }
 
     private fun closeAgentConnection() {
+        reconnectionJob?.cancel()
         agentConnectionJob?.cancel()
+        agentConnectionJob = null
+        reconnectionJob = null
         agent?.close()
         agent = null
     }
@@ -189,6 +243,7 @@ abstract class VpnBackend(
     var active = false
 
     companion object {
+
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
     }
