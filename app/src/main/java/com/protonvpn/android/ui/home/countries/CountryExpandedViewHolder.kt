@@ -31,6 +31,7 @@ import com.protonvpn.android.bus.ConnectToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getThemeColor
@@ -89,7 +90,7 @@ open class CountryExpandedViewHolder(
             textLoad.isVisible = haveAccess && server.online
             textLoad.text = "${server.load.toInt()}%"
             serverLoadColor.isVisible = haveAccess && server.online
-            serverLoadColor.setColorTint(server.loadColor)
+            serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
             imageCountry.isVisible = viewModel.userData.isSecureCoreEnabled
             if (viewModel.userData.isSecureCoreEnabled) {
