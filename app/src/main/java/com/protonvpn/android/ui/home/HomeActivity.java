@@ -94,6 +94,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
@@ -414,7 +415,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         fabQuickConnect.removeAllMenuButtons();
         fabQuickConnect.setMenuButtonColorNormalResId(
             vpnStateMonitor.isConnected() ? colorAccentId : R.color.darkGrey);
-        fabQuickConnect.getMenuIconView().setImageResource(R.drawable.ic_proton);
+        fabQuickConnect.getMenuIconView().setImageDrawable(
+            AppCompatResources.getDrawable(this, R.drawable.ic_proton));
         fabQuickConnect.setOnMenuButtonClickListener(view -> {
             if (fabQuickConnect.isOpened()) {
                 fabQuickConnect.close(true);
