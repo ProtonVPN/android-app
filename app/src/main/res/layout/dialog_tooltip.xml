@@ -71,7 +71,7 @@
             android:layout_marginBottom="24dp"
             android:padding="8dp"
             android:text="@string/got_it"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             android:textSize="16sp"
             android:textStyle="bold" />
 

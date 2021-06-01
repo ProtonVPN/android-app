@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             android:background="?attr/selectableItemBackground"
             android:text="@string/activity_information_learn_more"/>
     </LinearLayout>

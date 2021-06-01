@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.EventBus;
@@ -212,7 +213,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     private void paintCorePaths() {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         Paint paint = mapView.getDefaultPathPaint();
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        paint.setColor(MaterialColors.getColor(requireView(), R.attr.colorAccent));
         paint.setStrokeWidth(2);
         paint.setPathEffect(
             new CornerPathEffect(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, metrics)));

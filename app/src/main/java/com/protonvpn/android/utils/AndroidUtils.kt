@@ -191,3 +191,9 @@ fun Context.getThemeColor(@AttrRes attr: Int): Int =
     TypedValue().apply {
         theme.resolveAttribute(attr, this, true)
     }.data
+
+@ColorRes
+fun Context.getThemeColorId(@AttrRes attr: Int): Int =
+    TypedValue().apply {
+        theme.resolveAttribute(attr, this, true)
+    }.resourceId

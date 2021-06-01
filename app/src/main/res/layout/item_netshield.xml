@@ -73,7 +73,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:text="@string/upgrade"
-            android:textColor="@color/colorAccent" />
+            android:textColor="?attr/colorAccent" />
 
         <com.protonvpn.android.components.SwitchEx
             android:id="@+id/switchNetshield"

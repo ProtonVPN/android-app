@@ -9,7 +9,7 @@
         android:id="@+id/logLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="?colorAccent"
         android:textSize="9sp"
         android:typeface="monospace"
         app:fontFamily="monospace"

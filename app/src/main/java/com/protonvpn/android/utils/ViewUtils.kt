@@ -28,6 +28,9 @@ import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
@@ -35,6 +38,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import kotlin.math.roundToInt
 
@@ -140,3 +144,9 @@ fun View.getSelectableItemBackgroundRes() = with(TypedValue()) {
     context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
     resourceId
 }
+
+@ColorInt
+fun View.getThemeColor(@AttrRes attr: Int): Int = MaterialColors.getColor(this, attr)
+
+@ColorRes
+fun View.getThemeColorId(@AttrRes attr: Int): Int = context.getThemeColorId(attr)

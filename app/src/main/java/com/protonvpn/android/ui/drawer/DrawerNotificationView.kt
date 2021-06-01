@@ -24,7 +24,6 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -33,6 +32,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.DrawerNotificationViewBinding
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
 
 class DrawerNotificationsContainer @JvmOverloads constructor(
@@ -69,10 +69,10 @@ class DrawerNotificationView @JvmOverloads constructor(
             .load(item.iconUrl)
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    val accent = ContextCompat.getColor(context, R.color.colorAccent)
                     val size = resources.getDimensionPixelSize(R.dimen.drawer_icon_size)
                     resource.setBounds(0, 0, size, size)
-                    resource.setTint(if (!item.visited) accent else currentTextColor)
+                    resource.setTint(
+                        if (!item.visited) context.getThemeColor(R.attr.colorAccent) else currentTextColor)
                     setCompoundDrawablesRelative(resource, null, null, null)
                 }
                 override fun onLoadCleared(placeholder: Drawable?) {}
@@ -85,7 +85,7 @@ class DrawerNotificationView @JvmOverloads constructor(
             activity: AppCompatActivity,
             item: HomeViewModel.OfferViewModel
         ) = DrawerNotificationViewBinding.inflate(activity.layoutInflater).drawerNotificationItem.apply {
-            val accent = ContextCompat.getColor(activity, R.color.colorAccent)
+            val accent = activity.getThemeColor(R.attr.colorAccent)
             val placeholder = ResourcesCompat.getDrawable(resources, R.drawable.id_drawer_notification, null)
             placeholder?.setTint(if (!item.visited) accent else currentTextColor)
             setCompoundDrawablesRelativeWithIntrinsicBounds(placeholder, null, null, null)
