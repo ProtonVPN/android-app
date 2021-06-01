@@ -19,8 +19,6 @@
 package com.protonvpn.android.models.vpn
 
 import android.content.Context
-import androidx.annotation.ColorRes
-import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
@@ -103,15 +101,6 @@ data class Server(
 
     val isPMTeamServer: Boolean
         get() = tier == 3
-
-    val loadColor: Int
-        @ColorRes
-        get() = when (loadState) {
-            LoadState.MAINTENANCE -> R.color.inMaintenance
-            LoadState.LOW_LOAD -> R.color.colorAccent
-            LoadState.MEDIUM_LOAD -> R.color.yellow
-            LoadState.HIGH_LOAD -> R.color.dimmedRed
-        }
 
     val loadState get() = when {
         !online -> LoadState.MAINTENANCE

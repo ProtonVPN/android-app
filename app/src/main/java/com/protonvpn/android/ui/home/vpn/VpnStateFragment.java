@@ -60,6 +60,7 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
+import com.protonvpn.android.ui.ServerLoadColor;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
@@ -424,8 +425,8 @@ public class VpnStateFragment extends BaseFragment {
         textProtocol.setText(stateMonitor.getConnectionProtocol().toString());
         int load = (int) server.getLoad();
         textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, String.valueOf(load)));
-        imageLoad.setImageDrawable(
-            new ColorDrawable(ContextCompat.getColor(imageLoad.getContext(), server.getLoadColor())));
+        imageLoad.setImageDrawable(new ColorDrawable(
+            ServerLoadColor.getColor(imageLoad, server.getLoadState())));
     }
 
     private void changeBottomSheetState(boolean expand) {
