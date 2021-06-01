@@ -27,6 +27,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
@@ -206,7 +207,7 @@ class OpenVpnBackend(
         return byteStream.toByteArray()
     }
 
-    override suspend fun connect() {
+    override suspend fun connect(connectionParams: ConnectionParams) {
         startOpenVPN(null)
     }
 

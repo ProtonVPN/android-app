@@ -56,7 +56,7 @@ class MockVpnBackend(
         else listOf(PrepareResult(this, object : ConnectionParams(
                 profile, server, server.getRandomConnectingDomain(), protocol) {}))
 
-    override suspend fun connect() {
+    override suspend fun connect(connectionParams: ConnectionParams) {
         vpnProtocolState = VpnState.Connected
         setSelfState(stateOnConnect)
     }

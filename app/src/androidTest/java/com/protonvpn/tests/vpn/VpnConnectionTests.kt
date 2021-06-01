@@ -164,7 +164,7 @@ class VpnConnectionTests {
         // When scanning fails we'll fallback to attempt connecting with default manual protocol
         coVerify(exactly = 1) {
             mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -182,7 +182,7 @@ class VpnConnectionTests {
         }
         coVerify(exactly = 1) {
             mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -274,10 +274,10 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -302,7 +302,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
@@ -332,7 +332,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(listOf(fallbackResult), fallbacks)
