@@ -27,6 +27,7 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.DebugUtils.debugAssert
@@ -109,7 +110,7 @@ class StrongSwanBackend(
         repeat(4) { write(0) } // Length = 0
     }.toByteArray()
 
-    override suspend fun connect() {
+    override suspend fun connect(connectionParams: ConnectionParams) {
         getVpnService().connect(null, true)
     }
 

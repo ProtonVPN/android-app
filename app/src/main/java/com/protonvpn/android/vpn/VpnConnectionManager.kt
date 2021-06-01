@@ -289,7 +289,7 @@ open class VpnConnectionManager(
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
-        activeBackend?.connect()
+        activeBackend?.connect(preparedConnection.connectionParams)
         ongoingConnect = null
     }
 

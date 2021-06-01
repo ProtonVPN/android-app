@@ -67,7 +67,7 @@ abstract class VpnBackend(
         numberOfPorts: Int = Int.MAX_VALUE // Max number of ports to be scanned
     ): List<PrepareResult>
 
-    abstract suspend fun connect()
+    abstract suspend fun connect(connectionParams: ConnectionParams)
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()
     abstract val retryInfo: RetryInfo?

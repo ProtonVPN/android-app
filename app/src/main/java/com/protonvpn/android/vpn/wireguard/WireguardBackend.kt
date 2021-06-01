@@ -24,10 +24,11 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
-import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
@@ -77,34 +78,25 @@ class WireguardBackend(
         return listOf(
             PrepareResult(
                 this,
-                ConnectionParams(
+                ConnectionParamsWireguard(
                     profile,
                     server,
-                    server.getRandomConnectingDomain(),
-                    VpnProtocol.WireGuard
+                    server.getRandomConnectingDomain()
                 )
             )
         )
     }
 
-    override suspend fun connect() {
-        val config = ConfigProxy()
-        /*
-        To not leak test env information with git history, please change these locally for now
-        config.interfaceProxy.addresses = ""
-        config.interfaceProxy.dnsServers = ""
-        */
-        config.interfaceProxy.privateKey = certificateRepository.getX25519Key(userData.sessionId)
-
-        val peerProxy = config.addPeer()
-        /*
-        peerProxy.publicKey = ""
-        peerProxy.endpoint = ""
-        peerProxy.allowedIps = "0.0.0.0/0"
-        */
-        config.resolve()
-        withContext(Dispatchers.IO) {
-            backend.setState(testTunnel, Tunnel.State.UP, config.resolve())
+    override suspend fun connect(connectionParams: ConnectionParams) {
+        val wireguardParams = connectionParams as ConnectionParamsWireguard
+        try {
+            val config = wireguardParams.getTunnelConfig(userData, certificateRepository)
+            withContext(Dispatchers.IO) {
+                backend.setState(testTunnel, Tunnel.State.UP, config)
+            }
+        } catch (e: IllegalStateException) {
+            // TODO do not use generic error here (depends on other branch)
+            selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR)
         }
     }
 
