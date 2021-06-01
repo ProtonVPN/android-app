@@ -185,7 +185,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@string/accountButtonManage"
-        android:textColor="@color/colorAccent"
+        android:textColor="?colorAccent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

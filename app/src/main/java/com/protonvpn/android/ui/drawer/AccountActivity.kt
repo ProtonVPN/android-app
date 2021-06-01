@@ -28,8 +28,9 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityAccountBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.getStringHtmlColorNoAlpha
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
+import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_account)
@@ -57,7 +58,9 @@ class AccountActivity : BaseActivityV2<ActivityAccountBinding, AccountActivityVi
         textAccountType.text = viewModel.accountType
         textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
         val subscriptionDetailsHtml = getString(
-            R.string.accountSubscriptionDetails, getStringHtmlColorNoAlpha(R.color.colorAccent))
+            R.string.accountSubscriptionDetails,
+            subscriptionDetails.getThemeColor(R.attr.colorAccent).toStringHtmlColorNoAlpha()
+        )
         subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
 
         buttonManageAccount.setOnClickListener {

@@ -114,7 +114,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/send_report"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"

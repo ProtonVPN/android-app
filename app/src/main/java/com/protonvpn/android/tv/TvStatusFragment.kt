@@ -37,8 +37,9 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.launchTvDialog
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.getStringHtmlColorNoAlpha
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
+import com.protonvpn.android.utils.getThemeColorId
+import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -82,8 +83,10 @@ class TvStatusFragment : DaggerFragment() {
     private fun showTrialExpiredDialog() {
         requireContext().launchTvDialog(
             titleRes = getString(R.string.freeTrialExpiredTitle),
-            descriptionRes = getString(R.string.freeTVTrialExpired,
-                requireContext().getStringHtmlColorNoAlpha(R.color.colorAccent), Constants.TV_UPGRADE_LINK),
+            descriptionRes = getString(
+                R.string.freeTVTrialExpired,
+                requireContext().getThemeColorId(R.attr.colorAccent).toStringHtmlColorNoAlpha(),
+                Constants.TV_UPGRADE_LINK),
             iconRes = R.drawable.ic_proton_green
         )
         viewModel.setExpirationDialogAsShown()
@@ -102,7 +105,7 @@ class TvStatusFragment : DaggerFragment() {
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
         val state = status.state
         val statusColor = when (state) {
-            VpnState.Connected -> R.color.colorAccent
+            VpnState.Connected -> textStatus.getThemeColorId(R.attr.colorAccent)
             is VpnState.Error -> R.color.tvAlert
             else -> R.color.white
         }

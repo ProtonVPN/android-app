@@ -30,7 +30,7 @@
         android:layout_below="@+id/imageView2"
         android:layout_marginBottom="-2dp"
         android:layout_marginTop="-12dp"
-        android:background="@color/colorAccent"
+        android:background="?colorAccent"
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
