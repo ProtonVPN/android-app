@@ -84,7 +84,7 @@
             android:layout_height="48dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak_vpn"
+            android:backgroundTint="@color/interaction_weak"
             android:src="@drawable/ic_power"
             android:foreground="@drawable/round_selectable_item_bg"
             app:tint="@color/text_norm"/>
@@ -95,7 +95,7 @@
             android:layout_height="48dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak_disabled_vpn"
+            android:backgroundTint="@color/interaction_weak_disabled"
             android:src="@drawable/ic_wrench_icon"
             app:tint="@color/icon_weak"/>
 

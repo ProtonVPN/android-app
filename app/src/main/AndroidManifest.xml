@@ -46,7 +46,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/ProtonTheme.Vpn"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
         <activity android:name=".ui.home.vpn.SwitchDialogActivity"
@@ -66,7 +66,6 @@
 
         <activity
             android:name="me.proton.core.humanverification.presentation.ui.HumanVerificationActivity"
-            android:theme="@style/ProtonTheme.Vpn"
             android:windowSoftInputMode="adjustResize" />
 
         <uses-library
@@ -84,8 +83,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_home"
             android:launchMode="singleTop"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:resizeableActivity="true"/>
         <activity
             android:name=".ui.drawer.LogActivity"
             android:label="@string/log_title"
@@ -152,6 +150,7 @@
         <activity
             android:name=".ui.home.profiles.ProfileActivity"
             android:label="@string/activityProfileTitle"
+            android:theme="@style/AppTheme"
             android:parentActivityName=".ui.home.HomeActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data

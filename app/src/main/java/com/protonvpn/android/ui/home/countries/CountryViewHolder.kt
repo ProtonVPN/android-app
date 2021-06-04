@@ -27,6 +27,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
@@ -36,6 +37,8 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
+
+private const val EXPAND_DURATION_MS = 300L
 
 abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
@@ -63,7 +66,7 @@ abstract class CountryViewHolder(
             countryItem.setBackgroundResource(if (accessible)
                 countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(ContextCompat.getColor(context,
-                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.white else R.color.white50))
+                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.text_norm else R.color.text_hint))
             textCountry.text = if (accessible)
                 vpnCountry.countryName
             else
@@ -72,8 +75,11 @@ abstract class CountryViewHolder(
             buttonCross.isVisible = accessible
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
+            adjustDivider(divider, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
+            imageCountry.alpha =
+                if (accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
@@ -89,7 +95,8 @@ abstract class CountryViewHolder(
                         if (expandableGroup.isExpanded) {
                             onExpanded(position)
                         }
-                        adjustCross(buttonCross, expandableGroup.isExpanded, 300)
+                        adjustCross(buttonCross, expandableGroup.isExpanded, EXPAND_DURATION_MS)
+                        adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                     }
                 }
             }
@@ -111,6 +118,10 @@ abstract class CountryViewHolder(
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {
         view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat()).start()
+    }
+
+    private fun adjustDivider(view: View, expanded: Boolean, animDurationMs: Long) {
+        view.animate().setDuration(animDurationMs).alpha(if (expanded) 0f else 1f)
     }
 
     override fun setExpandableGroup(onToggleListener: ExpandableGroup) {

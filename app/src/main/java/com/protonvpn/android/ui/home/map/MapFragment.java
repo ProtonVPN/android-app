@@ -103,7 +103,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         mapView.setMinimumScaleMode(ZoomPanLayout.MinimumScaleMode.FIT);
         mapView.setMarkerAnchorPoints(-0.5f, -0.5f);
-        mapView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.bgMap));
+        mapView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_norm));
         mapView.defineBounds(X_MIN_BOUND, Y_MIN_BOUND, X_MAX_BOUND, Y_MAX_BOUND);
 
         mapView.getMarkerLayout().setMarkerTapListener(this);
