@@ -46,13 +46,17 @@ open class CountryExpandedViewHolder(
 ) : BindableItemEx<ItemServerListBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
+        // TODO: shouldn't this behave the same as when binding the view?
+        //  i.e.: make the button invisible when server is offline, display the maintenance icon
+        //  and so on?
         val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val colorValue = when {
-            connected -> binding.root.getThemeColor(R.attr.colorAccent)
-            !server.online -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_disabled_vpn)
-            else -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_vpn)
+        val colorAttr = when {
+            connected -> R.attr.colorAccent
+            !server.online -> R.attr.proton_interaction_weak_disabled
+            else -> R.attr.proton_interaction_weak
         }
-        binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(colorValue)
+        binding.buttonConnect.backgroundTintList =
+            ColorStateList.valueOf(binding.root.getThemeColor(colorAttr))
     }
 
     override fun getId() = server.serverId.hashCode().toLong()
@@ -66,22 +70,22 @@ open class CountryExpandedViewHolder(
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
 
-            val textColorRes = when {
-                !haveAccess -> R.color.text_hint
-                !server.online -> R.color.text_disabled
-                else -> R.color.text_norm
+            val textColorAttr = when {
+                !haveAccess -> R.attr.proton_text_hint
+                !server.online -> R.attr.proton_text_disabled
+                else -> R.attr.proton_text_norm
             }
             textServer.visibility = VISIBLE
-            textServer.setTextColor(ContextCompat.getColor(context, textColorRes))
+            textServer.setTextColor(textServer.getThemeColor(textColorAttr))
 
-            val cityColorRes = when {
-                !haveAccess -> R.color.text_hint
-                !server.online -> R.color.text_disabled
-                else -> R.color.text_hint
+            val cityColorAttr = when {
+                !haveAccess -> R.attr.proton_text_hint
+                !server.online -> R.attr.proton_text_disabled
+                else -> R.attr.proton_text_weak
             }
             textCity.isVisible = server.city != null
             textCity.text = if (server.isFreeServer) "" else server.city
-            textCity.setTextColor(ContextCompat.getColor(context, cityColorRes))
+            textCity.setTextColor(textCity.getThemeColor(cityColorAttr))
 
             buttonUpgrade.isVisible = !haveAccess
             imageWrench.isVisible = haveAccess && !server.online

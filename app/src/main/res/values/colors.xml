@@ -46,7 +46,6 @@
     <color name="brightGrey">#797979</color>
     <color name="transparent">#00000000</color>
     <color name="bgDrawer">@color/grey</color>
-    <color name="bgMap">#2e2e34</color>
     <color name="accountTitles">#4b4b56</color>
     <color name="tvDisconnectButtonTint">#AA2e2e34</color>
     <color name="tvGridItemOverlay">#774b4b56</color>
@@ -98,10 +97,4 @@
     <color name="serverLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
 
-    <!-- New palette -->
-
-    <!-- Android interaction weak are different than in core palette. -->
-    <color name="interaction_weak_vpn">@color/shade_40</color>
-    <color name="interaction_weak_pressed_vpn">@color/shade_60</color>
-    <color name="interaction_weak_disabled_vpn">@color/shade_10</color>
 </resources>

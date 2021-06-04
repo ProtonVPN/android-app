@@ -24,6 +24,7 @@
     <dimen name="drawer_icon_size">24dp</dimen>
     <dimen name="new_indicator_size">8dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
+    <item name="inactive_flag_alpha" format="float" type="dimen">0.5</item>
 
     <!-- Android TV -->
     <dimen name="lb_browse_rows_margin_top">300dp</dimen>

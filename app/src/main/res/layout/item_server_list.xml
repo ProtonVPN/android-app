@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
         android:gravity="center_vertical"
-        android:background="@color/shade_20">
+        android:background="?attr/proton_background_secondary">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/imageCountry"
             android:layout_width="24dp"
             android:layout_height="16dp"
@@ -50,22 +50,20 @@
             android:layout_marginEnd="16dp"
             android:layout_marginVertical="8dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/textServer"
-                style="@style/Body1Regular"
+                style="@style/Proton.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_norm"
                 android:lines="1"
                 android:ellipsize="end"
                 tools:text="DE#1"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/textCity"
-                style="@style/Body2Regular"
+                style="@style/Proton.Text.DefaultSmall.Weak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_weak"
                 android:lines="1"
                 android:ellipsize="end"
                 tools:text="Berlin"/>
@@ -78,80 +76,80 @@
             android:layout_marginEnd="12dp"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iconP2P"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_p2p"
+                app:srcCompat="@drawable/ic_p2p"
                 android:layout_marginEnd="4dp"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iconTor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_tor"
+                app:srcCompat="@drawable/ic_tor"
                 android:layout_marginEnd="4dp"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iconStreaming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_streaming"
+                app:srcCompat="@drawable/ic_streaming"
                 android:layout_marginEnd="4dp"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iconSmartRouting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_smart_routing"
+                app:srcCompat="@drawable/ic_smart_routing"
                 android:layout_marginEnd="4dp"/>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/textLoad"
-            style="@style/Body2Regular"
+            style="@style/Proton.Text.DefaultSmall.Weak"
             android:layout_width="wrap_content"
             android:minEms="2"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:textColor="@color/text_weak"
             android:gravity="end"
             tools:text="100%"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/serverLoadColor"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/oval"
+            app:srcCompat="@drawable/oval"
             tools:tint="@color/serverLoadLow"/>
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/buttonConnect"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak_vpn"
+            android:backgroundTint="?attr/proton_interaction_weak"
             android:foreground="@drawable/round_selectable_item_bg"
-            android:src="@drawable/ic_power"
-            android:tint="@color/text_norm"/>
+            app:srcCompat="@drawable/ic_power"
+            app:tint="@color/text_norm"/>
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/imageWrench"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak_disabled_vpn"
-            android:src="@drawable/ic_wrench_icon"
+            android:backgroundTint="?attr/proton_interaction_weak_disabled"
+            app:srcCompat="@drawable/ic_wrench_icon"
             app:tint="@color/icon_weak"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonUpgrade"
-            style="@style/Button.Secondary"
+            style="@style/ProtonButton.Secondary"
             android:layout_width="wrap_content"
-            android:layout_marginVertical="14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
             android:text="@string/upgrade"/>
     </LinearLayout>
 

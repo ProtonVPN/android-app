@@ -23,11 +23,13 @@ import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
 import com.protonvpn.android.ui.home.InformationActivity
+import com.protonvpn.android.utils.getThemeColor
 import com.xwray.groupie.databinding.BindableItem
 
 class HeaderItem(
     @StringRes private val titleStringResId: Int,
     private val countryInfoKey: String?,
+    private val isServer: Boolean,
 ) : BindableItem<ItemCountryHeaderBinding>() {
 
     override fun getLayout() = R.layout.item_country_header
@@ -40,6 +42,14 @@ class HeaderItem(
                 context.startActivity(InformationActivity.createIntent(context, countryInfoKey))
             }
         }
+        with(viewBinding.root) {
+            setBackgroundColor(
+                getThemeColor(
+                    if (isServer) R.attr.proton_background_secondary else R.attr.proton_background_norm
+                )
+            )
+        }
+
     }
 
     override fun getId() = titleStringResId.toLong()

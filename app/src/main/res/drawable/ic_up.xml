@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright (c) 2017 Proton Technologies AG
  
@@ -17,24 +16,12 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
-
-    <style name="Divider" />
-
-    <style name="Divider.Small">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/separator_norm</item>
-    </style>
-
-    <style name="Divider.Bright">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?attr/colorPrimary</item>
-    </style>
-
-    <style name="Divider.Dimmed" parent="Divider.Small">
-        <item name="android:background">#55000000</item>
-    </style>
-
-</resources>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="@color/icon_weak"
+        android:pathData="M7.41,15.41L12,10.83l4.59,4.58L18,14l-6,-6 -6,6z" />
+</vector>

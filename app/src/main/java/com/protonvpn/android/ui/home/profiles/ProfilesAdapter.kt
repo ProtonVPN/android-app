@@ -23,7 +23,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -37,7 +36,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForEdit
 import com.protonvpn.android.ui.home.profiles.ProfilesAdapter.ServersViewHolder
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
-import com.protonvpn.android.utils.getThemeColorId
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class ProfilesAdapter(
@@ -65,12 +64,9 @@ class ProfilesAdapter(
         private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
             val server = item.server
             val connected = profilesViewModel.isConnectedTo(server)
-            val colorRes = if (connected)
-                binding.buttonConnect.getThemeColorId(R.attr.colorAccent)
-            else
-                R.color.interaction_weak_vpn
-            binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(binding.root.context, colorRes))
+            val colorAttr = if (connected) R.attr.colorAccent else R.attr.proton_interaction_weak
+            binding.buttonConnect.backgroundTintList =
+                ColorStateList.valueOf(binding.root.getThemeColor(colorAttr))
         }
 
         override fun bindData(newItem: Profile) = with(binding) {
