@@ -85,8 +85,10 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         countries: List<VpnCountry>,
         expandedCountriesIds: Set<Long>
     ) {
-        if (header != null)
-            groups.add(HeaderItem(header, null, false))
+        if (header != null) {
+            val headerTitle = resources.getString(header, countries.size)
+            groups.add(HeaderItem(headerTitle, null, false))
+        }
 
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
@@ -101,7 +103,10 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
                         country.hasAccessibleOnlineServer(viewModel.userData)
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers, infoKey) ->
-                    title?.let { add(HeaderItem(it, infoKey, true)) }
+                    title?.let {
+                        val titleString = resources.getString(it, servers.size)
+                        add(HeaderItem(titleString, infoKey, true))
+                    }
                     servers.forEach {
                         add(CountryExpandedViewHolder(
                             viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))

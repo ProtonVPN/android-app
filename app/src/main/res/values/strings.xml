@@ -164,13 +164,13 @@
     <string name="onboardingNext">NEXT</string>
 
     <string name="listItemMaintenance">Under maintenance</string>
-    <string name="listFreeCountries">Free countries</string>
-    <string name="listPremiumCountries">Premium countries</string>
-    <string name="listFastestServer">Fastest server</string>
-    <string name="listFreeServers">Free servers</string>
-    <string name="listBasicServers">Basic servers</string>
-    <string name="listInternalServers" translatable="false">Internal servers (PMTEAM)</string>
-    <string name="listPlusServers">Plus servers</string>
+    <string name="listFreeCountries">FREE Locations (%1$d)</string>
+    <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
+    <string name="listFastestServer">Fastest Server</string>
+    <string name="listFreeServers">FREE Servers (%1$d)</string>
+    <string name="listBasicServers">BASIC Servers (%1$d)</string>
+    <string name="listInternalServers" translatable="false">INTERNAL Servers (PMTEAM) (%1$d)</string>
+    <string name="listPlusServers">PLUS Servers (%1$d)</string>
     <string name="premium">Premium</string>
     <string name="insufficientPermissionsTitle">User action required</string>
     <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>
