@@ -111,6 +111,7 @@ class StrongSwanBackend(
     }.toByteArray()
 
     override suspend fun connect(connectionParams: ConnectionParams) {
+        super.connect(connectionParams)
         getVpnService().connect(null, true)
     }
 
