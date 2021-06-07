@@ -32,6 +32,7 @@ import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -65,12 +66,9 @@ abstract class CountryViewHolder(
             val accessible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
             countryItem.setBackgroundResource(if (accessible)
                 countryItem.getSelectableItemBackgroundRes() else 0)
-            textCountry.setTextColor(ContextCompat.getColor(context,
-                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.text_norm else R.color.text_hint))
-            textCountry.text = if (accessible)
-                vpnCountry.countryName
-            else
-                vpnCountry.countryName + " " + context.getString(if (vpnCountry.isUnderMaintenance()) R.string.listItemMaintenance else R.string.premium)
+            textCountry.setTextColor(textCountry.getThemeColor(
+                    if (accessible) R.attr.proton_text_norm else R.attr.proton_text_hint))
+            textCountry.text = vpnCountry.countryName
 
             buttonCross.isVisible = accessible
 
@@ -101,6 +99,7 @@ abstract class CountryViewHolder(
                 }
             }
 
+            iconUnderMaintenance.isVisible = vpnCountry.isUnderMaintenance()
             buttonUpgrade.isVisible = !vpnCountry.isUnderMaintenance() && !accessible
             buttonUpgrade.setOnClickListener {
                 buttonUpgrade.context.openProtonUrl(Constants.DASHBOARD_URL)

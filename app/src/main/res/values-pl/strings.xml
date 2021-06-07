@@ -152,7 +152,6 @@
   <string name="listFreeServers">Serwery planu Free</string>
   <string name="listBasicServers">Serwery planu Basic</string>
   <string name="listPlusServers">Serwery planu Plus</string>
-  <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Działanie użytkownika jest wymagane</string>
   <string name="insufficientPermissionsDetails">Nie można ustanowić automatycznego połączenia VPN. Połącz się ręcznie, aby przyznać uprawnienia.</string>
   <string name="tabsCountries">Kraje</string>
