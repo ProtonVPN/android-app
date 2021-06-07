@@ -134,15 +134,14 @@
             app:srcCompat="@drawable/ic_power"
             app:tint="@color/text_norm"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageWrench"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/bg_button_oval"
-            android:backgroundTint="?attr/proton_interaction_weak_disabled"
+            android:contentDescription="@string/listItemMaintenance"
+            android:scaleType="center"
             app:srcCompat="@drawable/ic_wrench_icon"
-            app:tint="@color/icon_weak"/>
+            app:tint="?attr/proton_icon_weak"/>
 
         <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonUpgrade"

@@ -152,7 +152,6 @@
   <string name="listFreeServers">سرورهای رایگان</string>
   <string name="listBasicServers">سرورهای پایه</string>
   <string name="listPlusServers">سرورهای Plus</string>
-  <string name="premium">ویژه</string>
   <string name="insufficientPermissionsTitle">اقدام کاربر لازم است</string>
   <string name="insufficientPermissionsDetails">اتصال VPN نتوانست بطور خودکار برقرار شود. لطفاً یکبار به صورت دستی اقدام به اتصال نمایید تا اجازه اعطا شود.</string>
   <string name="tabsCountries">کشورها</string>

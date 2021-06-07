@@ -152,7 +152,6 @@
   <string name="listFreeServers">Server gratuiti</string>
   <string name="listBasicServers">Server Basic</string>
   <string name="listPlusServers">Server Plus</string>
-  <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Azione dell\'utente necessaria</string>
   <string name="insufficientPermissionsDetails">Impossibile stabilire in automatico la connessione VPN. Connettiti manualmente una volta per concedere le autorizzazioni.</string>
   <string name="tabsCountries">Paesi</string>

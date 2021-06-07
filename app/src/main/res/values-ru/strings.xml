@@ -152,7 +152,6 @@
   <string name="listFreeServers">Free серверы</string>
   <string name="listBasicServers">Basic серверы</string>
   <string name="listPlusServers">Серверы Plus</string>
-  <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
   <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
   <string name="tabsCountries">Страны</string>

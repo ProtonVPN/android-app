@@ -152,7 +152,6 @@
   <string name="listFreeServers">Gratis servers</string>
   <string name="listBasicServers">Basis servers</string>
   <string name="listPlusServers">Plus servers</string>
-  <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Gebruikersactie vereist</string>
   <string name="insufficientPermissionsDetails">Kan geen automatische VPN-verbinding tot stand brengen. Maak één keer handmatig verbinding om machtigingen te verlenen.</string>
   <string name="tabsCountries">Landen</string>

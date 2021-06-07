@@ -112,8 +112,16 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
                     android:rotation="180"
+                    android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_up" />
 
+                <ImageView
+                    android:id="@+id/iconUnderMaintenance"
+                    android:layout_width="28dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/listItemMaintenance"
+                    app:srcCompat="@drawable/ic_wrench_icon"
+                    app:tint="?proton_icon_hint"/>
             </LinearLayout>
 
             <View

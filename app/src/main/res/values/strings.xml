@@ -171,7 +171,6 @@
     <string name="listBasicServers">BASIC Servers (%1$d)</string>
     <string name="listInternalServers" translatable="false">INTERNAL Servers (PMTEAM) (%1$d)</string>
     <string name="listPlusServers">PLUS Servers (%1$d)</string>
-    <string name="premium">Premium</string>
     <string name="insufficientPermissionsTitle">User action required</string>
     <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>
 

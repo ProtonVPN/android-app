@@ -152,7 +152,6 @@
   <string name="listFreeServers">Servidores Free</string>
   <string name="listBasicServers">Servidores Basic</string>
   <string name="listPlusServers">Servidores Plus</string>
-  <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Es necesaria la acción del usuario</string>
   <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese manualmente una vez para otorgar permisos.</string>
   <string name="tabsCountries">Países</string>
