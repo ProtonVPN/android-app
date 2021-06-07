@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
+import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.models.config.UserData
@@ -67,13 +68,20 @@ abstract class VpnBackend(
         numberOfPorts: Int = Int.MAX_VALUE // Max number of ports to be scanned
     ): List<PrepareResult>
 
-    abstract suspend fun connect(connectionParams: ConnectionParams)
+    protected var lastConnectionParams: ConnectionParams? = null
+
+    @CallSuper
+    open suspend fun connect(connectionParams: ConnectionParams) {
+        lastConnectionParams = connectionParams
+    }
+
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()
     abstract val retryInfo: RetryInfo?
 
     private val nativeClient = object : NativeClient {
         override fun log(msg: String) {
+            println("### " + msg)
             Log.d(msg)
         }
 
@@ -83,6 +91,7 @@ abstract class VpnBackend(
         }
 
         override fun onState(state: String) {
+            println("### state $state")
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
     }
@@ -139,6 +148,7 @@ abstract class VpnBackend(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun connectToLocalAgent() {
+        val hostname = lastConnectionParams?.connectingDomain?.entryDomain
         agentConnectionJob = mainScope.launch {
             val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
             if (certInfo is CertificateRepository.CertificateResult.Success) {
@@ -148,6 +158,7 @@ abstract class VpnBackend(
                     certInfo.privateKeyPem,
                     Constants.VPN_ROOT_CERTS,
                     Constants.LOCAL_AGENT_ADDRESS,
+                    hostname,
                     nativeClient,
                     features,
                     networkManager.isConnectedToNetwork()

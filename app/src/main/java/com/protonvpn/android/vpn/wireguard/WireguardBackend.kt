@@ -88,6 +88,7 @@ class WireguardBackend(
     }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
+        super.connect(connectionParams)
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
             val config = wireguardParams.getTunnelConfig(userData, certificateRepository)
@@ -109,6 +110,9 @@ class WireguardBackend(
 
     override suspend fun reconnect() {
         disconnect()
+        lastConnectionParams?.let {
+            connect(it)
+        }
     }
 
     override val retryInfo: RetryInfo? get() = null

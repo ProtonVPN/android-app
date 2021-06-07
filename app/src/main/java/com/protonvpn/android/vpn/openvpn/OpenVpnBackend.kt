@@ -208,6 +208,7 @@ class OpenVpnBackend(
     }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
+        super.connect(connectionParams)
         startOpenVPN(null)
     }
 

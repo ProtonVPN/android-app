@@ -191,11 +191,11 @@ class VpnConnectionTests {
     @Test
     fun connectToLocalAgent() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        manager.connect(context, profileOpenVPN)
+        manager.connect(context, profileWireguard)
 
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connectToLocalAgent()
+            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.connectToLocalAgent()
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
     }
