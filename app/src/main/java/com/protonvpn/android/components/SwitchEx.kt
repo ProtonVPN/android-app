@@ -22,11 +22,12 @@ package com.protonvpn.android.components
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SwitchEx @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : SwitchCompat(context, attrs) {
+) : SwitchMaterial(context, attrs) {
 
     var switchClickInterceptor: (SwitchEx.() -> Boolean)? = null
 
