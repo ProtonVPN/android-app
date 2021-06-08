@@ -108,12 +108,14 @@
 
                 <ImageView
                     android:id="@+id/buttonCross"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:rotation="180"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_up" />
+                    android:rotation="180"
+                    android:scaleType="center"
+                    android:layout_marginStart="8dp"
+                    app:srcCompat="@drawable/ic_chevron_up" />
 
                 <ImageView
                     android:id="@+id/iconUnderMaintenance"

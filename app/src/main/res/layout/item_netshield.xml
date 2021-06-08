@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:background="@android:color/transparent"
-                android:button="@drawable/ic_expandable_selector"
+                android:button="@drawable/ic_chevron_selector"
                 android:checked="true"
                 android:clickable="false"
                 android:textOff=""
