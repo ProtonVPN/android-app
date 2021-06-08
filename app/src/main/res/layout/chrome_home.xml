@@ -34,7 +34,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/appbar_elevation">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -61,32 +62,15 @@
             android:paddingBottom="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
-                android:id="@+id/switchSecureCoreLayout"
+            <com.protonvpn.android.components.SwitchEx
+                android:id="@+id/switchSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:background="@color/background_norm">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/mapSwitchSecureCore"
-                    android:textColor="@color/white" />
-
-                <com.protonvpn.android.components.SwitchEx
-                    android:id="@+id/switchSecureCore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="52dp"
-                    android:theme="@style/SCSwitch" />
-
-            </LinearLayout>
-
-            <View style="@style/Divider.Small" />
+                android:paddingVertical="16dp"
+                android:paddingHorizontal="16dp"
+                android:background="?proton_background_secondary"
+                android:elevation="@dimen/appbar_elevation"
+                android:text="@string/mapSwitchSecureCore"/>
 
             <FrameLayout
                 android:layout_width="match_parent"

@@ -120,7 +120,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textTier) TextView textTier;
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
-    @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
     @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
@@ -500,10 +499,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             getString(R.string.onboardingDialogSecureCoreTitle),
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
-        switchSecureCoreLayout.setBackgroundColor(ContextCompat.getColor(getContext(),
-            switchCompat.isChecked()
-                ? getThemeColorId(switchCompat, R.attr.colorAccent)
-                : R.color.background_norm));
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
