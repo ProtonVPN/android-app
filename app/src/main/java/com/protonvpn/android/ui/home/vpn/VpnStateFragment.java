@@ -381,7 +381,7 @@ public class VpnStateFragment extends BaseFragment {
         switchNetShield.setVisibility(View.VISIBLE);
 
         connectingView.setBackgroundColor(MaterialColors.getColor(connectingView, R.attr.colorPrimary));
-        imageExpand.setImageResource(R.drawable.ic_up_white);
+        imageExpand.setImageResource(R.drawable.ic_chevron_up);
         textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(), R.color.white));
     }
 
@@ -406,8 +406,6 @@ public class VpnStateFragment extends BaseFragment {
         textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(),
             server.isSecureCoreServer() ? R.color.white : R.color.black));
 
-        imageExpand.setImageResource(
-            server.isSecureCoreServer() ? R.drawable.ic_up_white : R.drawable.ic_up_black);
         int bgColor = server.isSecureCoreServer()
             ? MaterialColors.getColor(connectingView, R.attr.colorAccent)
             : ContextCompat.getColor(connectingView.getContext(), R.color.white);
@@ -518,7 +516,6 @@ public class VpnStateFragment extends BaseFragment {
                 connectingView.setBackgroundColor(
                     MaterialColors.getColor(requireView(), R.attr.colorPrimary));
                 textConnectingTo.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                imageExpand.setImageResource(R.drawable.ic_up_white);
                 clearConnectedStatus();
             }
             else {
@@ -530,7 +527,6 @@ public class VpnStateFragment extends BaseFragment {
     private void checkDisconnectFromOutside() {
         if (stateMonitor.isConnected()) {
             EventBus.getInstance().post(new ConnectedToServer(null));
-            imageExpand.setImageResource(R.drawable.ic_up_white);
         }
     }
 

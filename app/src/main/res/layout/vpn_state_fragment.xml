@@ -52,7 +52,7 @@
                     android:id="@+id/imageExpand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_up_white" />
+                    app:srcCompat="@drawable/ic_chevron_up" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
