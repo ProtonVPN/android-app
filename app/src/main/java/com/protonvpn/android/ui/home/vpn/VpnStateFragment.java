@@ -99,7 +99,7 @@ public class VpnStateFragment extends BaseFragment {
     private static final String KEY_ERROR_CONNECTION_ID = "error_connection_id";
     private static final String KEY_DISMISSED_CONNECTION_ID = "dismissed_connection_id";
 
-    @BindView(R.id.connectingView) View connectingView;
+    @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;
     @BindView(R.id.textConnectingTo) TextView textConnectingTo;
     @BindView(R.id.imageExpand) ImageView imageExpand;
     @BindView(R.id.layoutBottomSheet) View layoutBottomSheet;
@@ -179,7 +179,7 @@ public class VpnStateFragment extends BaseFragment {
         Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.layoutCollapsedStatus)
+    @OnClick(R.id.layoutStatusHeader)
     public void layoutCollapsedStatus() {
         if (bottomSheetBehavior != null) {
             changeBottomSheetState(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED);
@@ -332,7 +332,7 @@ public class VpnStateFragment extends BaseFragment {
         return false;
     }
 
-    private void initConnectingStateView(@Nullable Server profile, boolean fromSavedState) {
+    private void initConnectingStateView(boolean fromSavedState) {
         switchNetShield.setVisibility(View.GONE);
         layoutConnected.setVisibility(View.GONE);
         layoutNotConnected.setVisibility(View.GONE);
@@ -342,10 +342,10 @@ public class VpnStateFragment extends BaseFragment {
         // isTest(): ugly but enables running UI tests on android 5/6 (which have a problem with this view)
         progressBar.setVisibility(DebugUtils.INSTANCE.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
 
-        connectingView.setBackgroundColor(MaterialColors.getColor(connectingView,
-            profile != null ? (userData.isSecureCoreEnabled() ? R.attr.colorAccent : R.attr.colorPrimary) :
-                R.attr.colorPrimary));
-        textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(), R.color.white));
+        layoutStatusHeader.setBackgroundColor(
+            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
+        textConnectingTo.setTextColor(
+            MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
 
         if (!fromSavedState) {
             changeBottomSheetState(true);
@@ -380,9 +380,10 @@ public class VpnStateFragment extends BaseFragment {
         progressBar.setVisibility(View.GONE);
         switchNetShield.setVisibility(View.VISIBLE);
 
-        connectingView.setBackgroundColor(MaterialColors.getColor(connectingView, R.attr.colorPrimary));
+        layoutStatusHeader.setBackgroundColor(
+            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
         imageExpand.setImageResource(R.drawable.ic_chevron_up);
-        textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(), R.color.white));
+        textConnectingTo.setTextColor(MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
     }
 
     private void initConnectedStateView(Server server) {
@@ -403,13 +404,9 @@ public class VpnStateFragment extends BaseFragment {
         layoutConnecting.setVisibility(View.GONE);
         layoutError.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
-        textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(),
-            server.isSecureCoreServer() ? R.color.white : R.color.black));
-
-        int bgColor = server.isSecureCoreServer()
-            ? MaterialColors.getColor(connectingView, R.attr.colorAccent)
-            : ContextCompat.getColor(connectingView.getContext(), R.color.white);
-        connectingView.setBackgroundColor(bgColor);
+        textConnectingTo.setTextColor(MaterialColors.getColor(textConnectingTo, R.attr.proton_text_inverted));
+        layoutStatusHeader.setBackgroundColor(
+            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_inverted));
 
         textServerName.setText(server.getServerName());
         textServerIp.setText(stateMonitor.getExitIP());
@@ -495,17 +492,17 @@ public class VpnStateFragment extends BaseFragment {
                 || VpnState.ScanningPorts.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderCheckingAvailability);
-                initConnectingStateView(connectedServer, fromSavedState);
+                initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connecting.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
-                initConnectingStateView(connectedServer, fromSavedState);
+                initConnectingStateView(fromSavedState);
             }
             else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
                 statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
-                initConnectingStateView(connectedServer, fromSavedState);
+                initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connected.INSTANCE.equals(state)) {
                 textConnectingTo.setText(getString(R.string.loaderConnectedTo, serverName));
@@ -513,9 +510,10 @@ public class VpnStateFragment extends BaseFragment {
             }
             else if (VpnState.Disconnecting.INSTANCE.equals(state)) {
                 textConnectingTo.setText(R.string.loaderDisconnecting);
-                connectingView.setBackgroundColor(
-                    MaterialColors.getColor(requireView(), R.attr.colorPrimary));
-                textConnectingTo.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                layoutStatusHeader.setBackgroundColor(
+                    MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
+                textConnectingTo.setTextColor(
+                    MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
                 clearConnectedStatus();
             }
             else {

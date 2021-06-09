@@ -284,4 +284,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- TODO: try to move everything to Core -->
+    <style name="ProtonTheme.Vpn.Mobile">
+        <item name="proton_background_inverted">@color/shade_100</item>
+    </style>
+
 </resources>
