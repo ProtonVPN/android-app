@@ -30,6 +30,8 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
@@ -49,7 +51,11 @@ import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_ICON_RES
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_TITLE
+import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
+import java.nio.CharBuffer
+import java.nio.charset.StandardCharsets
+import java.util.Arrays
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -197,3 +203,23 @@ fun Context.getThemeColorId(@AttrRes attr: Int): Int =
     TypedValue().apply {
         theme.resolveAttribute(attr, this, true)
     }.resourceId
+
+// Extracts text as byte array without leaving char content in temporary objects
+fun CharSequence.toSafeUtf8ByteArray(): ByteArray {
+    val chars = CharArray(length)
+    getChars(this, 0, length, chars, 0)
+    val charBuffer = CharBuffer.wrap(chars)
+    val byteBuffer = StandardCharsets.UTF_8.encode(charBuffer)
+    val bytes = ByteArray(byteBuffer.remaining())
+    byteBuffer.get(bytes)
+    Arrays.fill(chars, '0')
+    if (byteBuffer.hasArray())
+        Arrays.fill(byteBuffer.array(), 0)
+    return bytes
+}
+
+// Clears editable by overriding memory - undocumented behavior
+fun Editable.overrideMemoryClear() {
+    replace(0, length, " " * length)
+    clear()
+}

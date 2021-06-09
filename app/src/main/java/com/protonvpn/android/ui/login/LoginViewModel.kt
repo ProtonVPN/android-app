@@ -33,7 +33,6 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
@@ -118,7 +117,7 @@ class LoginViewModel @Inject constructor(
             false)
     }
 
-    suspend fun login(context: Context, user: String, password: String) {
+    suspend fun login(context: Context, user: String, password: ByteArray) {
         _loginState.postValue(LoginState.InProgress)
         var result = makeInfoResponseCall(user, password)
         if (result is LoginState.Error && result.error.isPotentialBlocking) {
@@ -131,7 +130,7 @@ class LoginViewModel @Inject constructor(
     private suspend fun loginWithGuestHole(
         context: Context,
         user: String,
-        password: String
+        password: ByteArray
     ): LoginState? {
         _loginState.postValue(LoginState.GuestHoleActivated)
         return guestHole.call(context) {
@@ -145,7 +144,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun makeInfoResponseCall(user: String, password: String): LoginState {
+    private suspend fun makeInfoResponseCall(user: String, password: ByteArray): LoginState {
         userData.clearNetworkUserData()
         return when (val loginInfoResult = api.postLoginInfo(user)) {
             is ApiResult.Error -> LoginState.Error(loginInfoResult, true)
@@ -160,7 +159,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getLoginBody(loginInfo: LoginInfoResponse, user: String, password: String): LoginBody? {
+    private suspend fun getLoginBody(loginInfo: LoginInfoResponse, user: String, password: ByteArray): LoginBody? {
         val proofs = proofsProvider.getProofs(user, password, loginInfo) ?: return null
         return LoginBody(
             user,
