@@ -39,10 +39,11 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/layoutCollapsedStatus"
+                android:id="@+id/layoutStatusHeader"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/proton_background_secondary"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
@@ -67,10 +68,9 @@
                     android:id="@+id/textConnectingTo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
                     tools:text="Connecting to somewhere" />
 
             </LinearLayout>
@@ -78,7 +78,7 @@
             <View
                 android:id="@+id/statusDivider"
                 style="@style/Divider.Dimmed"
-                android:layout_below="@id/layoutCollapsedStatus" />
+                android:layout_below="@id/layoutStatusHeader" />
 
             <com.protonvpn.android.components.NetShieldSwitch
                 android:id="@+id/netShieldSwitch"

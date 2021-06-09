@@ -46,7 +46,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/ProtonTheme.Vpn"
+        android:theme="@style/ProtonTheme.Vpn.Mobile"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
         <activity android:name=".ui.home.vpn.SwitchDialogActivity"
