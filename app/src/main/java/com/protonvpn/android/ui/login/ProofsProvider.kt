@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 import me.proton.core.util.kotlin.DispatcherProvider
 import srp.Auth
 import srp.Proofs
+import java.util.Arrays
 import javax.inject.Inject
 
 private const val PROOFS_LENGTH_BITS = 2048L
@@ -31,7 +32,7 @@ private const val PROOFS_LENGTH_BITS = 2048L
 class ProofsProvider @Inject constructor(private val dispatcherProvider: DispatcherProvider) {
     suspend fun getProofs(
         username: String,
-        password: String,
+        password: ByteArray,
         infoResponse: LoginInfoResponse
     ): Proofs? = withContext(dispatcherProvider.Comp) {
         val auth = Auth(
@@ -42,6 +43,8 @@ class ProofsProvider @Inject constructor(private val dispatcherProvider: Dispatc
             infoResponse.modulus,
             infoResponse.serverEphemeral
         )
-        auth.generateProofs(PROOFS_LENGTH_BITS)
+        val result = auth.generateProofs(PROOFS_LENGTH_BITS)
+        Arrays.fill(password, 0)
+        result
     }
 }

@@ -56,6 +56,8 @@ import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.getThemeColor
+import com.protonvpn.android.utils.overrideMemoryClear
+import com.protonvpn.android.utils.toSafeUtf8ByteArray
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.exhaustive
@@ -188,8 +190,6 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         inputPassword.error = null
 
         val email = editEmail.text.toString()
-        val password = editPassword.text.toString()
-
         var cancel = false
         var focusView: View? = null
 
@@ -199,7 +199,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             cancel = true
         }
 
-        if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(editPassword.text)) {
             inputPassword.error = getString(R.string.error_field_required)
             focusView = editPassword
             cancel = true
@@ -226,7 +226,8 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     private fun login() = with(binding) {
         if (loginJob?.isActive != true) {
             loginJob = lifecycleScope.launch {
-                viewModel.login(this@LoginActivity, editEmail.text.toString(), editPassword.text.toString())
+                viewModel.login(this@LoginActivity, editEmail.text.toString(),
+                    editPassword.text!!.toSafeUtf8ByteArray())
             }
         }
     }
@@ -248,6 +249,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                 }
                 is LoginState.Success -> {
                     launchActivity<HomeActivity>()
+                    editPassword.text?.overrideMemoryClear()
                     editPassword.clearComposingText()
                     finish()
                 }

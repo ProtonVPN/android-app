@@ -120,7 +120,7 @@ class LoginViewModelTest : CoroutinesTest {
     @Test
     fun successfulLogin() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Success, viewModel.loginState.value)
         verify { userData.setLoggedIn(TestUser.getBasicUser().vpnInfoResponse) }
     }
@@ -129,7 +129,7 @@ class LoginViewModelTest : CoroutinesTest {
     fun vpnConnectionAllocationNeeded() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         coEvery { api.logout() } returns ApiResult.Success(GenericResponse(1000))
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.ConnectionAllocationPrompt, viewModel.loginState.value)
         coVerify { api.logout() }
     }
@@ -138,7 +138,7 @@ class LoginViewModelTest : CoroutinesTest {
     fun noInternet() = coroutinesTest {
         val error = ApiResult.Error.NoInternet
         coEvery { api.postLogin(any()) } returns error
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Error(error, false), viewModel.loginState.value)
     }
 
