@@ -117,8 +117,8 @@
 
         <ImageView
             android:id="@+id/serverLoadColor"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/server_load_dot_size"
+            android:layout_height="@dimen/server_load_dot_size"
             android:layout_marginEnd="12dp"
             app:srcCompat="@drawable/oval"
             tools:tint="@color/serverLoadLow"/>

@@ -22,9 +22,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
     android:animateLayoutChanges="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/proton_background_norm">
 
     <com.protonvpn.android.components.NetShieldSwitch
         android:id="@+id/netShieldSwitch"
@@ -33,279 +33,150 @@
         app:descriptionText="@string/netShieldEnabledWarning"
         app:isInConnectedScreen="true" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonDisconnect"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/button_rounded"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:text="@string/disconnect"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toStartOf="@id/buttonSaveToProfile"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/speedRow" />
-
-        <Button
-            android:id="@+id/buttonSaveToProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded_accent"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:text="@string/save_to_profile"
-            android:textColor="?colorAccent"
-            android:textSize="14dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toEndOf="@+id/buttonDisconnect"
-            app:layout_constraintTop_toBottomOf="@+id/speedRow" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/textView11"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView11">
-
-            <TextView
-                android:id="@+id/textServerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
-                tools:text="AS#2" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageLoad"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
-                android:src="#E01623" />
-
-            <TextView
-                android:id="@+id/textLoad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
-                android:maxLines="1"
-                android:textSize="12sp"
-                tools:text="79%" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/speedRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/speedLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/speedLabel">
-
-
-            <TextView
-                android:id="@+id/textDownloadSpeed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="@color/cyan"
-                tools:text="202kb/s" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_download" />
-
-            <TextView
-                android:id="@+id/textUploadSpeed"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="@color/greenBright"
-                tools:text="25kb/s" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_upload" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/volumeRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/volumeLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/volumeLabel">
-
-            <TextView
-                android:id="@+id/textDownloadVolume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:maxLines="1"
-                android:textColor="@color/cyan"
-                tools:text="300.4kb" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_download" />
-
-            <TextView
-                android:id="@+id/textUploadVolume"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:gravity="end"
-                android:textColor="@color/greenBright"
-                tools:text="20mb" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_upload" />
-
-
-        </LinearLayout>
-
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/protocol"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/protocol" />
         <TextView
             android:id="@+id/textProtocol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textView9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView9"
+            style="@style/ConnectionStatsValueText"
             tools:text="IKEv2" />
+    </LinearLayout>
 
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
         <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/ip"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/ip" />
         <TextView
             android:id="@+id/textServerIp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textView10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView10"
+            style="@style/ConnectionStatsValueText"
             tools:text="127.0.0.1" />
+    </LinearLayout>
+
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
+        <TextView
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/server" />
 
         <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/server"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:id="@+id/textLoad"
+            style="@style/ConnectionStatsValueText"
+            tools:text="79%" />
+
+        <ImageView
+            android:id="@+id/imageLoad"
+            android:layout_width="@dimen/server_load_dot_size"
+            android:layout_height="@dimen/server_load_dot_size"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
+            app:srcCompat="@drawable/oval"
+            tools:tint="@color/serverLoadLow" />
 
         <TextView
-            android:id="@+id/subscriptionDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/session_time"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            android:id="@+id/textServerName"
+            style="@style/ConnectionStatsValueText"
+            tools:text="AS#2" />
+    </LinearLayout>
 
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
+        <TextView
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/download_volume" />
+
+        <TextView
+            android:id="@+id/textDownloadVolume"
+            style="@style/ConnectionStatsValueText"
+            tools:text="300.4 KB" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_download" />
+
+        <TextView
+            android:id="@+id/textUploadVolume"
+            style="@style/ConnectionStatsValueText"
+            android:layout_width="75dp"
+            tools:text="20 MB" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_upload" />
+    </LinearLayout>
+
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
+        <TextView
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/download_speed" />
+
+        <TextView
+            android:id="@+id/textDownloadSpeed"
+            style="@style/ConnectionStatsValueText"
+            tools:text="202 KB/s" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_download" />
+
+        <TextView
+            android:id="@+id/textUploadSpeed"
+            style="@style/ConnectionStatsValueText"
+            android:layout_width="75dp"
+            tools:text="25 KB/s" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_upload" />
+    </LinearLayout>
+
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/ConnectionStatsRowLayout">
+        <TextView
+            style="@style/ConnectionStatsLabelText"
+            android:text="@string/session_time" />
         <TextView
             android:id="@+id/textSessionTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/subscriptionDetails"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/subscriptionDetails"
+            style="@style/ConnectionStatsValueText"
             tools:text="1m 25s" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/volumeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/download_volume"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
+    <View style="@style/Divider.Small" />
 
-        <TextView
-            android:id="@+id/speedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/download_speed"
-            android:textColor="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/volumeLabel" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonDisconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/disconnect"
+        android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"
+        android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
+        style="@style/ProtonButton.OutlinedButton" />
+
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonSaveToProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/connection_bottom_sheet_multi_button_bottom_margin"
+        android:text="@string/save_to_profile"
+        android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"
+        style="@style/ProtonButton.Borderless.Text" />
 
 </LinearLayout>

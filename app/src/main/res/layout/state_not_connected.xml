@@ -23,7 +23,8 @@
     android:id="@+id/layoutNotConnected"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp">
+    android:paddingHorizontal="16dp"
+    android:background="?attr/proton_background_secondary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +60,7 @@
         android:id="@+id/buttonQuickConnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/connection_bottom_sheet_bottom_single_button_bottom_margin"
+        android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/ProtonButton"
         android:text="@string/quickConnect" />
