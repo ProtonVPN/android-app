@@ -63,7 +63,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.ui.ServerLoadColor;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.ConnectionTools;
 import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.HtmlTools;
@@ -109,7 +108,6 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.layoutConnecting) View layoutConnecting;
     @BindView(R.id.layoutNotConnected) View layoutNotConnected;
     @BindView(R.id.layoutConnected) View layoutConnected;
-    @BindView(R.id.statusDivider) View statusDivider;
 
     @BindView(R.id.chart) LineChart chart;
 
@@ -137,7 +135,7 @@ public class VpnStateFragment extends BaseFragment {
     @Inject VpnConnectionManager vpnConnectionManager;
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
-    private BottomSheetBehavior bottomSheetBehavior;
+    private BottomSheetBehavior<View> bottomSheetBehavior;
     private long errorConnectionID;
     private long dismissedConnectionID;
     private Timer graphUpdateTimer;
@@ -175,7 +173,7 @@ public class VpnStateFragment extends BaseFragment {
             }
         }
         manager.addToProfileList(currentProfile.getServer().getServerName(),
-            Profile.Companion.getRandomProfileColor(getContext()), currentProfile.getServer());
+            Profile.Companion.getRandomProfileColor(requireContext()), currentProfile.getServer());
         Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
     }
 
@@ -188,7 +186,7 @@ public class VpnStateFragment extends BaseFragment {
 
     @OnClick(R.id.buttonRetry)
     public void buttonRetry() {
-        vpnConnectionManager.reconnect(getContext());
+        vpnConnectionManager.reconnect(requireContext());
     }
 
     @Override
@@ -274,8 +272,7 @@ public class VpnStateFragment extends BaseFragment {
 
     public void initStatusLayout(final FloatingActionMenu attachedButton) {
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        bottomSheetBehavior.setPeekHeight(AnimationTools.convertDpToPixel(56));
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED && appConfig.getFeatureFlags().getNetShieldEnabled()
@@ -298,7 +295,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(KEY_ERROR_CONNECTION_ID, errorConnectionID);
@@ -333,14 +330,13 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void initConnectingStateView(boolean fromSavedState) {
-        switchNetShield.setVisibility(View.GONE);
         layoutConnected.setVisibility(View.GONE);
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.VISIBLE);
         layoutError.setVisibility(View.GONE);
 
         // isTest(): ugly but enables running UI tests on android 5/6 (which have a problem with this view)
-        progressBar.setVisibility(DebugUtils.INSTANCE.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
+        progressBar.setVisibility(DebugUtils.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
 
         layoutStatusHeader.setBackgroundColor(
             MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
@@ -378,7 +374,6 @@ public class VpnStateFragment extends BaseFragment {
         layoutConnecting.setVisibility(View.GONE);
         layoutError.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
-        switchNetShield.setVisibility(View.VISIBLE);
 
         layoutStatusHeader.setBackgroundColor(
             MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
@@ -398,7 +393,6 @@ public class VpnStateFragment extends BaseFragment {
                     chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });
-        switchNetShield.setVisibility(View.VISIBLE);
         layoutConnected.setVisibility(View.VISIBLE);
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.GONE);
@@ -471,13 +465,12 @@ public class VpnStateFragment extends BaseFragment {
         String serverName = "";
         Server connectedServer = null;
         if (profile != null) {
-            serverName = (profile.isPreBakedProfile() || profile.getDisplayName(getContext()).isEmpty())
+            serverName = (profile.isPreBakedProfile() || profile.getDisplayName(requireContext()).isEmpty())
                 && stateMonitor.getConnectingToServer() != null ?
-                stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(getContext());
+                stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(requireContext());
             connectedServer = vpnState.getServer();
         }
         if (isAdded()) {
-            statusDivider.setVisibility(View.VISIBLE);
             VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
             if (state instanceof VpnState.Error) {
@@ -490,17 +483,14 @@ public class VpnStateFragment extends BaseFragment {
             }
             else if (VpnState.CheckingAvailability.INSTANCE.equals(state)
                 || VpnState.ScanningPorts.INSTANCE.equals(state)) {
-                statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderCheckingAvailability);
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connecting.INSTANCE.equals(state)) {
-                statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
-                statusDivider.setVisibility(View.GONE);
                 textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
                 initConnectingStateView(fromSavedState);
             }
@@ -573,7 +563,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void showAuthError(CharSequence content) {
-        new MaterialDialog.Builder(getActivity()).theme(Theme.DARK)
+        new MaterialDialog.Builder(requireActivity()).theme(Theme.DARK)
             .title(R.string.dialogTitleAttention)
             .content(content)
             .cancelable(false)

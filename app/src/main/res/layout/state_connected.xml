@@ -26,6 +26,13 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
+    <com.protonvpn.android.components.NetShieldSwitch
+        android:id="@+id/netShieldSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:descriptionText="@string/netShieldEnabledWarning"
+        app:isInConnectedScreen="true" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

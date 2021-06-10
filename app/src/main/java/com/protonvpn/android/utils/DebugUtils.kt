@@ -32,6 +32,7 @@ object DebugUtils {
         }
     }
 
-    fun isTest(activity: Activity?) =
-        activity?.intent?.getBooleanExtra("isTest", false)
+    @JvmStatic
+    fun isTest(activity: Activity?): Boolean =
+        activity?.intent?.getBooleanExtra("isTest", false) ?: false
 }

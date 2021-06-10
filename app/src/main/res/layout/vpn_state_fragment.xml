@@ -26,130 +26,75 @@
         android:id="@+id/layoutBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey"
         android:orientation="vertical"
+        android:background="?attr/proton_background_secondary"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="0dp"
+        app:behavior_peekHeight="@dimen/connection_bottom_sheet_header_height"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <RelativeLayout
-            android:id="@+id/connectingView"
+        <LinearLayout
+            android:id="@+id/layoutStatusHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/connection_bottom_sheet_header_height"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="?attr/proton_background_secondary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-            <LinearLayout
-                android:id="@+id/layoutStatusHeader"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:background="?attr/proton_background_secondary"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:id="@+id/imageExpand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_chevron_up" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:theme="@style/AppTheme.WhiteAccent" />
-
-                <TextView
-                    android:id="@+id/textConnectingTo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
-                    tools:text="Connecting to somewhere" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/statusDivider"
-                style="@style/Divider.Dimmed"
-                android:layout_below="@id/layoutStatusHeader" />
-
-            <com.protonvpn.android.components.NetShieldSwitch
-                android:id="@+id/netShieldSwitch"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageExpand"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/statusDivider"
-                app:descriptionText="@string/netShieldEnabledWarning"
-                app:isInConnectedScreen="true" />
+                app:srcCompat="@drawable/ic_chevron_up" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:theme="@style/AppTheme.WhiteAccent" />
+
+            <TextView
+                android:id="@+id/textConnectingTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
+                tools:text="Connecting to somewhere" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <include
                 layout="@layout/state_not_connected"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/statusDivider" />
+                android:layout_height="match_parent" />
 
             <include
                 layout="@layout/state_error"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/statusDivider" />
+                android:layout_height="match_parent" />
 
             <include
                 layout="@layout/state_connected"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/netShieldSwitch" />
+                android:layout_height="match_parent" />
 
-            <RelativeLayout
-                android:id="@+id/layoutConnecting"
+            <include
+                layout="@layout/state_connecting"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
-
-                    <com.protonvpn.android.components.ProtonLoader
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
-                        android:text="@string/loaderInitializing"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/buttonCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="?attr/actionBarSize"
-                    android:background="@drawable/button_rounded"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:text="@string/loaderCancel"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

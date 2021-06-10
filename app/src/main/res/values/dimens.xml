@@ -22,6 +22,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="appbar_elevation">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="connection_bottom_sheet_header_height">56dp</dimen>
+    <dimen name="connection_bottom_sheet_bottom_single_button_bottom_margin">64dp</dimen>
     <dimen name="drawer_icon_size">24dp</dimen>
     <dimen name="new_indicator_size">8dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
