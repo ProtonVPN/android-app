@@ -19,8 +19,8 @@
 package com.protonvpn.android.ui.home.vpn;
 
 import android.animation.LayoutTransition;
+import android.content.res.ColorStateList;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,9 +73,9 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.widget.ImageViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
@@ -108,7 +108,7 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.textError) TextView textError;
     @BindView(R.id.progressBarError) ProgressBar progressBarError;
     @BindView(R.id.textLoad) TextView textLoad;
-    @BindView(R.id.imageLoad) CircleImageView imageLoad;
+    @BindView(R.id.imageLoad) ImageView imageLoad;
     @BindView(R.id.buttonCancel) Button buttonCancel;
     @BindView(R.id.netShieldSwitch) NetShieldSwitch switchNetShield;
 
@@ -346,8 +346,8 @@ public class VpnStateFragment extends BaseFragment {
         textProtocol.setText(stateMonitor.getConnectionProtocol().displayName());
         int load = (int) server.getLoad();
         textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, String.valueOf(load)));
-        imageLoad.setImageDrawable(new ColorDrawable(
-            ServerLoadColor.getColor(imageLoad, server.getLoadState())));
+        ImageViewCompat.setImageTintList(imageLoad,
+            ColorStateList.valueOf(ServerLoadColor.getColor(imageLoad, server.getLoadState())));
     }
 
     private void changeBottomSheetState(boolean expand) {

@@ -18,12 +18,13 @@
 -->
 <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/layoutError"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="55dp"
     android:layout_marginBottom="?attr/actionBarSize"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="?attr/proton_background_secondary">
 
     <LinearLayout
         android:id="@+id/linearLayout5"
