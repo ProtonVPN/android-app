@@ -40,7 +40,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
@@ -187,9 +186,9 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
+    fun provideUserPrefs(): UserData = UserData.load().apply {
         useSmartProtocol = false
-    })
+    }
 
     @Singleton
     @Provides
@@ -282,14 +281,18 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideVpnBackendManager(
+        appConfig: AppConfig,
         serverManager: ServerManager,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
         userData: UserData
     ): VpnBackendProvider = ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.OpenVPN),
-            wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.WireGuard),
+            strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.IKEv2),
+            openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.OpenVPN),
+            wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.WireGuard),
             serverDeliver = serverManager)
 
     @Singleton

@@ -61,12 +61,13 @@ class OpenVpnBackend(
     val random: Random,
     networkManager: NetworkManager,
     userData: UserData,
-    val appConfig: AppConfig,
+    appConfig: AppConfig,
     val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
 ) : VpnBackend(
     userData,
+    appConfig,
     certificateRepository,
     networkManager,
     VpnProtocol.OpenVPN,

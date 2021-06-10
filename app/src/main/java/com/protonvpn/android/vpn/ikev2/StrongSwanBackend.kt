@@ -24,6 +24,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -56,8 +57,11 @@ class StrongSwanBackend(
     mainScope: CoroutineScope,
     val now: () -> Long,
     userData: UserData,
+    appConfig: AppConfig,
     certificateRepository: CertificateRepository
-) : VpnBackend(userData,
+) : VpnBackend(
+    userData,
+    appConfig,
     certificateRepository,
     networkManager,
     VpnProtocol.IKEv2,

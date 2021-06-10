@@ -24,6 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -86,6 +87,9 @@ class VpnConnectionTests {
     lateinit var serverManager: ServerManager
 
     @RelaxedMockK
+    lateinit var appConfig: AppConfig
+
+    @RelaxedMockK
     lateinit var certificateRepository: CertificateRepository
 
     @RelaxedMockK
@@ -108,13 +112,16 @@ class VpnConnectionTests {
         MockKAnnotations.init(this)
         context = InstrumentationRegistry.getInstrumentation().context
         scope = TestCoroutineScope(EmptyCoroutineContext)
-        userData = spyk(UserData())
+        userData = spyk(UserData.create())
         every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
-        mockStrongSwan = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.IKEv2))
-        mockOpenVpn = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(MockVpnBackend(scope, networkManager, certificateRepository, userData, VpnProtocol.WireGuard))
+        mockStrongSwan = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig,VpnProtocol.IKEv2))
+        mockOpenVpn = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
