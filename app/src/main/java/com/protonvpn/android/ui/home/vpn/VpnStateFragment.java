@@ -19,13 +19,11 @@
 package com.protonvpn.android.ui.home.vpn;
 
 import android.animation.LayoutTransition;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -35,14 +33,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionMenu;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
@@ -71,13 +61,11 @@ import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TimeUtils;
 import com.protonvpn.android.utils.TrafficMonitor;
-import com.protonvpn.android.utils.ViewUtils;
 import com.protonvpn.android.vpn.RetryInfo;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 
-import java.util.List;
 import java.util.Timer;
 
 import javax.inject.Inject;
@@ -85,7 +73,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -108,8 +95,6 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.layoutConnecting) View layoutConnecting;
     @BindView(R.id.layoutNotConnected) View layoutNotConnected;
     @BindView(R.id.layoutConnected) View layoutConnected;
-
-    @BindView(R.id.chart) LineChart chart;
 
     @BindView(R.id.textCurrentIp) TextView textCurrentIp;
     @BindView(R.id.textServerName) TextView textServerName;
@@ -208,7 +193,6 @@ public class VpnStateFragment extends BaseFragment {
                 switchNetShield.setNetShieldValue(state);
             }
         });
-        initChart();
 
         stateMonitor.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         trafficMonitor
@@ -221,41 +205,9 @@ public class VpnStateFragment extends BaseFragment {
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
-    @Override
-    public void onDestroyView() {
-        // Workaround for charting library memory leak
-        // https://github.com/PhilJay/MPAndroidChart/issues/2238
-        MoveViewJob.getInstance(null, 0, 0, null, null);
-
-        super.onDestroyView();
-    }
-
     public boolean isBottomSheetExpanded() {
         return bottomSheetBehavior != null
             && bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
-    }
-
-    private void initChart() {
-        chart.getDescription().setEnabled(false);
-        chart.setTouchEnabled(false);
-        chart.setViewPortOffsets(0, 0, 0, 0);
-        chart.getLegend().setEnabled(false);
-
-        chart.setDrawGridBackground(false);
-        chart.setMaxHighlightDistance(300);
-
-        YAxis y = chart.getAxisLeft();
-        y.setDrawLabels(true);
-        y.setDrawGridLines(true);
-        y.setDrawLimitLinesBehindData(true);
-        y.setAxisLineColor(ContextCompat.getColor(chart.getContext(), R.color.transparentWhite));
-
-        XAxis x = chart.getXAxis();
-        x.setDrawLabels(true);
-        x.setDrawAxisLine(true);
-        x.setDrawLimitLinesBehindData(true);
-        x.setDrawGridLines(true);
-        x.setAxisLineColor(ContextCompat.getColor(chart.getContext(), R.color.transparentWhite));
     }
 
     @Override
@@ -350,7 +302,6 @@ public class VpnStateFragment extends BaseFragment {
 
     private void onTrafficUpdate(final @Nullable TrafficUpdate update) {
         if (getActivity() != null && update != null) {
-            addEntry(update.getDownloadSpeed(), update.getUploadSpeed());
             textSessionTime.setText(TimeUtils.getFormattedTimeFromSeconds(update.getSessionTimeSeconds()));
             textUploadSpeed.setText(update.getUploadSpeedString());
             textDownloadSpeed.setText(update.getDownloadSpeedString());
@@ -365,7 +316,6 @@ public class VpnStateFragment extends BaseFragment {
             graphUpdateTimer = null;
         }
         onTrafficUpdate(new TrafficUpdate(0, 0, 0, 0, 0));
-        chart.clear();
     }
 
     private void updateNotConnectedView() {
@@ -382,17 +332,6 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void initConnectedStateView(Server server) {
-        chart.getViewTreeObserver().addOnGlobalLayoutListener(
-            new ViewTreeObserver.OnGlobalLayoutListener(){
-                @Override
-                public void onGlobalLayout() {
-                    float chartHeightInDp = ViewUtils.INSTANCE.convertPixelsToDp(chart.getHeight());
-                    if (chartHeightInDp < 100f) {
-                        chart.setVisibility(View.GONE);
-                    }
-                    chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
         layoutConnected.setVisibility(View.VISIBLE);
         layoutNotConnected.setVisibility(View.GONE);
         layoutConnecting.setVisibility(View.GONE);
@@ -416,47 +355,6 @@ public class VpnStateFragment extends BaseFragment {
             bottomSheetBehavior.setState(
                 expand ? BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
         }
-    }
-
-    private void addEntry(float downloadSpeed, float uploadSpeed) {
-        if (chart.getData() == null) {
-            chart.setData(new LineData());
-        }
-        LineData data = chart.getData();
-        ILineDataSet set = data.getDataSetByIndex(0);
-        ILineDataSet set2 = data.getDataSetByIndex(1);
-
-        if (set == null && set2 == null) {
-            set = initDataSet(null, "ABE560");
-            set2 = initDataSet(null, "66D2D8");
-            data.addDataSet(set2);
-            data.addDataSet(set);
-        }
-
-        data.addEntry(new Entry(data.getDataSetByIndex(0).getEntryCount(), downloadSpeed), 0);
-        data.addEntry(new Entry(data.getDataSetByIndex(1).getEntryCount(), uploadSpeed), 1);
-        data.notifyDataChanged();
-        chart.notifyDataSetChanged();
-
-        chart.setVisibleXRangeMaximum(20);
-        chart.moveViewTo(data.getEntryCount(), 10f, YAxis.AxisDependency.LEFT);
-    }
-
-    private LineDataSet initDataSet(List<Entry> values, String color) {
-        LineDataSet set1;
-        set1 = new LineDataSet(values, "DataSet");
-        set1.setDrawIcons(false);
-        set1.setColor(Color.parseColor("#" + color));
-        set1.setLineWidth(2f);
-        set1.setDrawValues(false);
-        set1.setDrawCircleHole(false);
-        set1.setDrawCircles(false);
-        set1.setFillColor(Color.parseColor("#66" + color));
-        set1.setDrawFilled(true);
-        set1.setFormLineWidth(1f);
-        set1.setFormSize(15.f);
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        return set1;
     }
 
     public void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.Status vpnState) {

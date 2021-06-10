@@ -555,7 +555,6 @@ dependencies {
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'net.danlew:android.joda:2.10.9.1'
     implementation 'androidx.multidex:multidex:2.0.1'
