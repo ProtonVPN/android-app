@@ -46,10 +46,10 @@ class WireguardBackend(
     val backend: GoBackend,
     networkManager: NetworkManager,
     userData: UserData,
-    val appConfig: AppConfig,
+    appConfig: AppConfig,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
-) : VpnBackend(userData, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
+) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
 
     private val testTunnel = WireGuardTunnel(
         name = "test",

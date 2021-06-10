@@ -20,7 +20,9 @@ package com.protonvpn.android.vpn
 
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -56,6 +58,7 @@ interface VpnBackendProvider {
 
 abstract class VpnBackend(
     val userData: UserData,
+    val appConfig: AppConfig,
     val certificateRepository: CertificateRepository,
     private val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
@@ -82,7 +85,6 @@ abstract class VpnBackend(
 
     private val nativeClient = object : NativeClient {
         override fun log(msg: String) {
-            println("### " + msg)
             Log.d(msg)
         }
 
@@ -113,7 +115,6 @@ abstract class VpnBackend(
         }
 
         override fun onState(state: String) {
-            println("### state $state")
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
     }
@@ -128,7 +129,7 @@ abstract class VpnBackend(
     private var agent: AgentConnection? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
-    private var features: Features = Features()
+    private val features: Features = Features()
     private val agentConstants = localAgent.LocalAgent.constants()
 
     init {
@@ -138,12 +139,31 @@ abstract class VpnBackend(
             }
         }
 
-        userData.netShieldLiveData.observeForever {
+        initFeatures()
+    }
+
+    private val splitTcpValue get() = !appConfig.getFeatureFlags().vpnAccelerator || userData.isVpnAcceleratorEnabled
+
+    private fun initFeatures() {
+        observeFeature(userData.netShieldLiveData) {
+            setInt(FEATURES_NETSHIELD, it.ordinal.toLong())
+        }
+        observeFeature(userData.vpnAcceleratorLiveData) {
+            setBool(FEATURES_SPLIT_TCP, splitTcpValue)
+        }
+    }
+
+    private fun <T> observeFeature(featureChange: LiveData<T>, update: Features.(T) -> Unit) {
+        featureChange.observeForever {
             it?.let {
-                features.setInt(FEATURES_NETSHIELD, it.ordinal.toLong())
+                features.update(it)
                 agent?.setFeatures(features)
             }
         }
+    }
+
+    private fun prepareFeaturesForAgentConnection() {
+        features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
     }
 
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
@@ -199,7 +219,7 @@ abstract class VpnBackend(
             val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
             delay(500)
             if (certInfo is CertificateRepository.CertificateResult.Success) {
-                features.setInt(FEATURES_NETSHIELD, userData.netShieldProtocol.ordinal.toLong())
+                prepareFeaturesForAgentConnection()
                 agent = AgentConnection(
                     certInfo.certificate,
                     certInfo.privateKeyPem,
@@ -246,5 +266,6 @@ abstract class VpnBackend(
 
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
+        private const val FEATURES_SPLIT_TCP = "split-tcp"
     }
 }

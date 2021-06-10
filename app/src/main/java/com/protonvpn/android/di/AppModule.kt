@@ -38,7 +38,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
@@ -198,7 +197,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData())
+    fun provideUserPrefs(): UserData = UserData.load()
 
     @Singleton
     @Provides
@@ -304,6 +303,7 @@ class AppModule {
                 scope,
                 System::currentTimeMillis,
                 userData,
+                appConfig,
                 certificateRepository
             ),
             OpenVpnBackend(
