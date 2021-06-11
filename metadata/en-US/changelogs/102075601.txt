@@ -1,0 +1,4 @@
+What's new:
+* Updates the server list display
+* Adds information screens that explain server features
+* Fixes bug with VPN traffic stats
