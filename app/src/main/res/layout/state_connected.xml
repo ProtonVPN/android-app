@@ -16,15 +16,15 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<LinearLayout android:id="@+id/layoutConnected"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutConnected"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    android:background="?attr/proton_background_norm">
+    android:background="?attr/proton_background_norm"
+    android:orientation="vertical">
 
     <com.protonvpn.android.components.NetShieldSwitch
         android:id="@+id/netShieldSwitch"
@@ -34,9 +34,11 @@
         app:isInConnectedScreen="true" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/protocol" />
+
         <TextView
             android:id="@+id/textProtocol"
             style="@style/ConnectionStatsValueText"
@@ -46,9 +48,11 @@
     <View style="@style/Divider.Small" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/ip" />
+
         <TextView
             android:id="@+id/textServerIp"
             style="@style/ConnectionStatsValueText"
@@ -58,6 +62,7 @@
     <View style="@style/Divider.Small" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/server" />
@@ -71,8 +76,8 @@
             android:id="@+id/imageLoad"
             android:layout_width="@dimen/server_load_dot_size"
             android:layout_height="@dimen/server_load_dot_size"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             app:srcCompat="@drawable/oval"
             tools:tint="@color/serverLoadLow" />
 
@@ -85,6 +90,7 @@
     <View style="@style/Divider.Small" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/download_volume" />
@@ -115,6 +121,7 @@
     <View style="@style/Divider.Small" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/download_speed" />
@@ -145,9 +152,11 @@
     <View style="@style/Divider.Small" />
 
     <LinearLayout style="@style/ConnectionStatsRowLayout">
+
         <TextView
             style="@style/ConnectionStatsLabelText"
             android:text="@string/session_time" />
+
         <TextView
             android:id="@+id/textSessionTime"
             style="@style/ConnectionStatsValueText"
@@ -163,20 +172,19 @@
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonDisconnect"
+        style="@style/ProtonButton.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/disconnect"
         android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
-        style="@style/ProtonButton.OutlinedButton" />
+        android:text="@string/disconnect" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonSaveToProfile"
+        style="@style/ProtonButton.Borderless.Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_multi_button_bottom_margin"
-        android:text="@string/save_to_profile"
-        android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"
-        style="@style/ProtonButton.Borderless.Text" />
+        android:text="@string/save_to_profile" />
 
 </LinearLayout>
