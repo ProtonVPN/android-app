@@ -164,6 +164,7 @@ abstract class VpnBackend(
 
     private fun prepareFeaturesForAgentConnection() {
         features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
+        features.setString(FEATURES_BOUNCING, lastConnectionParams?.bouncing)
     }
 
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
@@ -267,5 +268,6 @@ abstract class VpnBackend(
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
         private const val FEATURES_SPLIT_TCP = "split-tcp"
+        private const val FEATURES_BOUNCING = "bouncing"
     }
 }
