@@ -66,7 +66,7 @@ open class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val context = viewBinding.root.context
+        val secureCoreEnabled = viewModel.userData.isSecureCoreEnabled
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
 
@@ -83,7 +83,7 @@ open class CountryExpandedViewHolder(
                 !server.online -> R.attr.proton_text_disabled
                 else -> R.attr.proton_text_weak
             }
-            textCity.isVisible = server.city != null
+            textCity.isVisible = server.city != null && !secureCoreEnabled
             textCity.text = if (server.isFreeServer) "" else server.city
             textCity.setTextColor(textCity.getThemeColor(cityColorAttr))
 
@@ -96,8 +96,8 @@ open class CountryExpandedViewHolder(
             serverLoadColor.isVisible = haveAccess && server.online
             serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
-            imageCountry.isVisible = viewModel.userData.isSecureCoreEnabled
-            if (viewModel.userData.isSecureCoreEnabled) {
+            imageCountry.isVisible = secureCoreEnabled
+            if (secureCoreEnabled) {
                 textServer.text = textServer.context.getString(R.string.secureCoreConnectVia,
                     CountryTools.getFullName(server.entryCountry))
                 textServer.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_right, 0)
