@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -31,7 +32,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.DialogAction
@@ -44,8 +45,6 @@ import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.getThemeColor
-import com.protonvpn.android.utils.getThemeColorId
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -55,6 +54,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val isInConnectedScreen: Boolean
     private val withReconnectDialog: Boolean
     private var netshieldFreeMode: Boolean = true
+    private val toggleDrawables: Array<Drawable>
     val currentState: NetShieldProtocol
         get() {
             return if (isSwitchedOn) {
@@ -75,7 +75,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val extendedProtocol: Boolean
         get() {
-            return binding.radioGroup.checkedRadioButtonId == R.id.radioFullBlocking
+            return binding.radioGroupSettings.checkedRadioButtonId == R.id.radioFullBlocking
         }
 
     fun isSwitchVisible() = binding.root.isVisible
@@ -86,31 +86,24 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun onStateChange(newProtocol: NetShieldProtocol) {
         with(binding) {
-            switchNetshield.isChecked = newProtocol != NetShieldProtocol.DISABLED
-            netShieldSettings.isVisible = newProtocol != NetShieldProtocol.DISABLED
-            if (newProtocol != NetShieldProtocol.DISABLED) {
+            val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
+            switchNetshield.isChecked = netShieldEnabled
+            radioGroupSettings.isVisible = netShieldEnabled
+            if (netShieldEnabled) {
                 val buttonId =
                     if (newProtocol == NetShieldProtocol.ENABLED) R.id.radioSimpleBlocking else R.id.radioFullBlocking
-                radioGroup.check(buttonId)
+                radioGroupSettings.check(buttonId)
             }
             if (isInConnectedScreen) {
-                val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
-                toggleExpand.isVisible = netShieldEnabled || netshieldFreeMode
-                layoutSummary.isVisible = netShieldEnabled && toggleExpand.isChecked
-                netShieldSettings.isVisible =
-                    (netShieldEnabled || netshieldFreeMode) && !toggleExpand.isChecked
-                textCollapsedMark.isVisible = netShieldEnabled && toggleExpand.isChecked
+                layoutNetshield.isClickable = netShieldEnabled
+                showExpandToggle(netShieldEnabled && !netshieldFreeMode)
+                textNetDescription.isVisible = netShieldEnabled && textNetShieldTitle.isChecked
+                radioGroupSettings.isVisible =
+                    (netShieldEnabled || netshieldFreeMode) && !textNetShieldTitle.isChecked
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
                 textNetDescription.setText(descriptionText)
-                val bgColor = if (newProtocol != NetShieldProtocol.DISABLED)
-                    root.getThemeColor(R.attr.colorAccent)
-                else
-                    ContextCompat.getColor(context, R.color.dimmedGrey)
-                layoutNetshield.setBackgroundColor(bgColor)
-            } else {
-                textCollapsedMark.isVisible = false
             }
         }
     }
@@ -123,6 +116,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         withReconnectDialog = attributes.getBoolean(
             R.styleable.NetShieldSwitch_withReconnectConfirmation, true
         )
+        toggleDrawables = binding.textNetShieldTitle.compoundDrawablesRelative
         val layoutTransition = LayoutTransition()
         layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING)
         binding.layoutNetshield.layoutTransition = layoutTransition
@@ -132,43 +126,16 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun initAttributes(attributes: TypedArray) {
         with(binding) {
-            if (!attributes.getBoolean(R.styleable.NetShieldSwitch_withPadding, true)) {
-                layoutNetshield.setPadding(0)
-            }
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
                 layoutNetshield.setOnClickListener {
-                    toggleExpand.isChecked = !toggleExpand.isChecked
+                    textNetShieldTitle.toggle()
                     onStateChange(currentState)
                 }
-                textNetDescription.setTextColor(ContextCompat.getColor(context, R.color.grey))
-                switchNetshield.setTextColor(ContextCompat.getColor(context, R.color.grey))
-            } else {
-                switchNetshield.trackTintList = ContextCompat.getColorStateList(context, R.color.switch_track)
+                textNetDescription.updateLayoutParams<MarginLayoutParams> { topMargin = 0 }
             }
-            toggleExpand.isVisible = isInConnectedScreen
-            tintRadioButtons()
+            showExpandToggle(isInConnectedScreen)
         }
-    }
-
-    private fun tintRadioButtons() = with(binding) {
-        val notSelectedColor = if (isInConnectedScreen) R.color.grey else R.color.white
-        val selectedColor =
-            if (isInConnectedScreen) R.color.grey else binding.root.getThemeColorId(R.attr.colorAccent)
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
-            ), intArrayOf(
-                ContextCompat.getColor(context, notSelectedColor),
-                ContextCompat.getColor(context, selectedColor)
-            )
-        )
-
-        radioSimpleBlocking.buttonTintList = colorStateList
-        radioSimpleBlocking.setTextColor(ContextCompat.getColor(context, notSelectedColor))
-
-        radioFullBlocking.buttonTintList = colorStateList
-        radioFullBlocking.setTextColor(ContextCompat.getColor(context, notSelectedColor))
     }
 
     private fun showReconnectDialog(isRadioButton: Boolean, changeCallback: (agreedToChange: Boolean) -> Unit) {
@@ -219,7 +186,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 changeCallback(currentState)
                 checkForReconnection(stateMonitor, connectionManager)
             }
-            radioGroup.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+            radioGroupSettings.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
             switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
@@ -250,9 +217,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         plusFeature.isVisible = netshieldFreeMode
         switchNetshield.isVisible = !netshieldFreeMode
         if (netshieldFreeMode) {
-            netShieldSettings.isVisible = !isInConnectedScreen
-            toggleExpand.isVisible = isInConnectedScreen
-            toggleExpand.isChecked = true
+            radioGroupSettings.isVisible = !isInConnectedScreen
+            showExpandToggle(isInConnectedScreen)
+            textNetShieldTitle.isChecked = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
             plusFeature.setOnClickListener { showUpgradeDialog() }
@@ -294,6 +261,16 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
         if (stateMonitor.isConnected && stateMonitor.connectionProtocol?.localAgentEnabled() == false) {
             connectionManager.reconnect(context)
+        }
+    }
+
+    private fun showExpandToggle(show: Boolean) {
+        val title = binding.textNetShieldTitle
+        if (show) {
+            val (s, t, e, b) = toggleDrawables
+            title.setCompoundDrawablesRelativeWithIntrinsicBounds(s, t, e, b)
+        } else {
+            title.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
         }
     }
 
