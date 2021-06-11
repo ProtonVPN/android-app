@@ -43,7 +43,6 @@
     <declare-styleable name="NetShieldSwitch">
         <attr name="descriptionText" format="string" />
         <attr name="isInConnectedScreen" format="boolean" />
-        <attr name="withPadding" format="boolean" />
         <attr name="withReconnectConfirmation" format="boolean" />
     </declare-styleable>
     <declare-styleable name="NetworkFrameLayout">

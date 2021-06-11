@@ -16,131 +16,89 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutNetshield"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dimmedGrey"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="6dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="4dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/layoutNetshieldTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textNetShieldTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:text="@string/netshield"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatToggleButton
-                android:id="@+id/toggleExpand"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:background="@android:color/transparent"
-                android:button="@drawable/ic_chevron_selector"
-                android:checked="true"
-                android:clickable="false"
-                android:textOff=""
-                android:textOn="" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/plusFeature"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:background="@drawable/button_rounded_accent"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/upgrade"
-            android:textColor="?attr/colorAccent" />
-
-        <com.protonvpn.android.components.SwitchEx
-            android:id="@+id/switchNetshield"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rotationX="2"
-            android:textSize="14sp"
-            android:theme="@style/SCSwitch" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutSummary"
+    <androidx.appcompat.widget.AppCompatCheckedTextView
+        android:id="@+id/textNetShieldTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="12dp"
+        android:text="@string/netshield"
+        style="@style/Proton.Text.Default"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/ic_chevron_selector"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <FrameLayout
-            android:id="@+id/textCollapsedMark"
-            android:layout_width="3dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="4dp"
-            android:background="@color/grey" />
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/plusFeature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ProtonButton.Secondary"
+        android:layout_gravity="center_vertical"
+        android:text="@string/upgrade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle" />
 
-        <TextView
-            android:id="@+id/textNetDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/lightGrey"
-            android:textSize="14sp"
-            tools:text="@string/netShieldEnabledWarning" />
+    <com.protonvpn.android.components.SwitchEx
+        android:id="@+id/switchNetshield"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ProtonSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textNetDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Proton.Text.DefaultSmall.Weak"
+        tools:text="@string/netShieldEnabledWarning"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNetShieldTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginBottom="12dp" />
 
-    <LinearLayout
-        android:id="@+id/netShieldSettings"
+    <RadioGroup
+        android:id="@+id/radioGroupSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/textNetDescription" >
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="0dp"
+        <com.protonvpn.android.components.RadioButtonEx
+            android:id="@+id/radioSimpleBlocking"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:text="@string/netShieldBlockMalwareOnly"
+            android:textAppearance="@style/Proton.Text.DefaultSmall"
+            android:paddingTop="12dp"
+            android:paddingBottom="16dp"
+            style="@style/ProtonRadioButton" />
 
-            <com.protonvpn.android.components.RadioButtonEx
-                android:id="@+id/radioSimpleBlocking"
-                android:layout_width="match_parent"
-                android:layout_height="36sp"
-                android:layout_marginStart="-3dp"
-                android:text="@string/netShieldBlockMalwareOnly"
-                android:textColor="@color/white"
-                android:theme="@style/RadioButton.Branded" />
+        <com.protonvpn.android.components.RadioButtonEx
+            android:id="@+id/radioFullBlocking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/netShieldFullBlock"
+            android:textAppearance="@style/Proton.Text.DefaultSmall"
+            android:paddingTop="12dp"
+            android:paddingBottom="16dp"
+            style="@style/ProtonRadioButton" />
 
-            <com.protonvpn.android.components.RadioButtonEx
-                android:id="@+id/radioFullBlocking"
-                android:layout_width="match_parent"
-                android:layout_height="36sp"
-                android:layout_marginStart="-3dp"
-                android:text="@string/netShieldFullBlock"
-                android:textColor="@color/white"
-                android:theme="@style/RadioButton.Branded" />
+    </RadioGroup>
 
-        </RadioGroup>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

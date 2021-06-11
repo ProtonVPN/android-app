@@ -175,8 +175,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.drawer.SettingsActivity"
-            android:label="@string/activitySettingsTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activitySettingsTitle" />
         <activity
             android:name=".ui.drawer.AlwaysOnSettingsActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle"
