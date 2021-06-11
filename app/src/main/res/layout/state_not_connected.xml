@@ -16,53 +16,52 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutNotConnected"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:background="?attr/proton_background_secondary">
+    android:background="?attr/proton_background_secondary"
+    android:paddingHorizontal="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonQuickConnect">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/buttonQuickConnect"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            app:srcCompat="@drawable/ic_warning_symbol"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_warning_symbol" />
 
         <TextView
+            style="@style/Proton.Text.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center_horizontal"
-            style="@style/Proton.Text.Headline"
             android:text="@string/notConnected" />
 
         <TextView
             android:id="@+id/textCurrentIp"
+            style="@style/Proton.Text.DefaultSmall.Weak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Proton.Text.DefaultSmall.Weak"
-            tools:text="Current IP: 10.20.30.40"/>
+            tools:text="Current IP: 10.20.30.40" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonQuickConnect"
+        style="@style/ProtonButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/ProtonButton"
-        android:text="@string/quickConnect" />
+        android:text="@string/quickConnect"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
