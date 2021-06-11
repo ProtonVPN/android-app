@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.home.countries
 import android.content.res.ColorStateList
 import android.view.View
 import android.view.View.VISIBLE
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
@@ -70,19 +69,19 @@ open class CountryExpandedViewHolder(
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
 
-            val textColorAttr = when {
-                !haveAccess -> R.attr.proton_text_hint
-                !server.online -> R.attr.proton_text_disabled
-                else -> R.attr.proton_text_norm
-            }
+            val textColorAttr = if (haveAccess && server.online)
+                R.attr.proton_text_norm
+            else
+                R.attr.proton_text_hint
+
             textServer.visibility = VISIBLE
             textServer.setTextColor(textServer.getThemeColor(textColorAttr))
 
-            val cityColorAttr = when {
-                !haveAccess -> R.attr.proton_text_hint
-                !server.online -> R.attr.proton_text_disabled
-                else -> R.attr.proton_text_weak
-            }
+            val cityColorAttr = if (haveAccess && server.online)
+                R.attr.proton_text_weak
+            else
+                R.attr.proton_text_hint
+
             textCity.isVisible = server.city != null && !secureCoreEnabled
             textCity.text = if (server.isFreeServer) "" else server.city
             textCity.setTextColor(textCity.getThemeColor(cityColorAttr))
@@ -92,7 +91,8 @@ open class CountryExpandedViewHolder(
             buttonConnect.isVisible = haveAccess && server.online
 
             textLoad.isVisible = haveAccess && server.online
-            textLoad.text = "${server.load.toInt()}%"
+            textLoad.text =
+                textLoad.resources.getString(R.string.serverLoad, server.load.toInt().toString())
             serverLoadColor.isVisible = haveAccess && server.online
             serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
@@ -108,7 +108,7 @@ open class CountryExpandedViewHolder(
                 textServer.setCompoundDrawablesRelative(null, null, null, null)
             }
             buttonConnect.contentDescription = if (fastest) "fastest" else textServer.text
-            initFeatureIcons()
+            initFeatureIcons(haveAccess && server.online)
             viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
 
             val connectUpgradeClickListener = View.OnClickListener {
@@ -124,9 +124,9 @@ open class CountryExpandedViewHolder(
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
-    private fun initFeatureIcons() = with(binding) {
-        val color = ContextCompat.getColor(
-            root.context, if (server.online) R.color.icon_hint else R.color.icon_disabled)
+    private fun initFeatureIcons(isServerAvailable: Boolean) = with(binding) {
+        val color = root.getThemeColor(
+            if (isServerAvailable) R.attr.proton_icon_hint else R.attr.proton_icon_disabled)
         featureIcons.isVisible = server.keywords.isNotEmpty()
         if (featureIcons.isVisible) {
             featureIcons.children.forEach { it.isVisible = false }
