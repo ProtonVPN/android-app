@@ -1,2 +1,2 @@
-versionName=2.7.56.1
-versionCode=102075601
+versionName=2.7.56.2
+versionCode=102075602
