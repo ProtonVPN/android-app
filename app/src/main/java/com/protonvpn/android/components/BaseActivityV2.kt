@@ -23,6 +23,8 @@ import android.content.Intent
 import android.net.Uri
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -37,6 +39,7 @@ import com.protonvpn.android.R
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import dagger.android.support.DaggerAppCompatActivity
@@ -53,6 +56,10 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
+            SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
+
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)
         setContentView(binding.root)
