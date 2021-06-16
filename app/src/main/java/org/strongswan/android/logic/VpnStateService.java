@@ -560,8 +560,7 @@ public class VpnStateService extends Service
 			// Don't retry on AUTH_FAILED
 			if (mService.get().getErrorState() == ErrorState.AUTH_FAILED)
 			{
-				mService.get().setError(ErrorState.NO_ERROR);
-				mService.get().setState(State.DISABLED);
+				mService.get().disconnect();
 				return;
 			}
 			mService.get().mRetryIn -= RETRY_INTERVAL;
