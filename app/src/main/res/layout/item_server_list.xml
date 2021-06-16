@@ -105,23 +105,23 @@
                 android:layout_marginEnd="4dp"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textLoad"
-            style="@style/Proton.Text.DefaultSmall.Weak"
-            android:layout_width="wrap_content"
-            android:minEms="2"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:gravity="end"
-            tools:text="100%"/>
-
         <ImageView
             android:id="@+id/serverLoadColor"
             android:layout_width="@dimen/server_load_dot_size"
             android:layout_height="@dimen/server_load_dot_size"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="4dp"
             app:srcCompat="@drawable/oval"
             tools:tint="@color/serverLoadLow"/>
+
+        <TextView
+            android:id="@+id/textLoad"
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="2"
+            android:gravity="start"
+            tools:text="100%" />
 
         <ImageButton
             android:id="@+id/buttonConnect"

@@ -20,7 +20,6 @@ package com.protonvpn.android.ui.home.countries
 
 import android.content.res.ColorStateList
 import android.view.View
-import android.view.View.VISIBLE
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
@@ -74,7 +73,7 @@ open class CountryExpandedViewHolder(
             else
                 R.attr.proton_text_hint
 
-            textServer.visibility = VISIBLE
+            textServer.isVisible = true
             textServer.setTextColor(textServer.getThemeColor(textColorAttr))
 
             val cityColorAttr = if (haveAccess && server.online)
@@ -90,10 +89,18 @@ open class CountryExpandedViewHolder(
             imageWrench.isVisible = haveAccess && !server.online
             buttonConnect.isVisible = haveAccess && server.online
 
-            textLoad.isVisible = haveAccess && server.online
+            textLoad.visibility = when {
+                haveAccess && server.online -> View.VISIBLE
+                haveAccess -> View.INVISIBLE
+                else -> View.GONE
+            }
             textLoad.text =
                 textLoad.resources.getString(R.string.serverLoad, server.load.toInt().toString())
-            serverLoadColor.isVisible = haveAccess && server.online
+            serverLoadColor.visibility = when {
+                !haveAccess -> View.GONE
+                !server.online -> View.INVISIBLE
+                else -> View.VISIBLE
+            }
             serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
             imageCountry.isVisible = secureCoreEnabled
@@ -112,7 +119,8 @@ open class CountryExpandedViewHolder(
             viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
 
             val connectUpgradeClickListener = View.OnClickListener {
-                val connectTo = if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
+                val connectTo =
+                    if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
                 EventBus.post(ConnectToServer(connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
@@ -126,7 +134,8 @@ open class CountryExpandedViewHolder(
 
     private fun initFeatureIcons(isServerAvailable: Boolean) = with(binding) {
         val color = root.getThemeColor(
-            if (isServerAvailable) R.attr.proton_icon_hint else R.attr.proton_icon_disabled)
+            if (isServerAvailable) R.attr.proton_icon_hint else R.attr.proton_icon_disabled
+        )
         featureIcons.isVisible = server.keywords.isNotEmpty()
         if (featureIcons.isVisible) {
             featureIcons.children.forEach { it.isVisible = false }

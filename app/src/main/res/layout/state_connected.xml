@@ -68,23 +68,23 @@
             android:text="@string/server" />
 
         <TextView
-            android:id="@+id/textLoad"
+            android:id="@+id/textServerName"
             style="@style/ConnectionStatsValueText"
-            tools:text="79%" />
+            tools:text="AS#2" />
 
         <ImageView
             android:id="@+id/imageLoad"
             android:layout_width="@dimen/server_load_dot_size"
             android:layout_height="@dimen/server_load_dot_size"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             app:srcCompat="@drawable/oval"
             tools:tint="@color/serverLoadLow" />
 
         <TextView
-            android:id="@+id/textServerName"
+            android:id="@+id/textLoad"
             style="@style/ConnectionStatsValueText"
-            tools:text="AS#2" />
+            tools:text="79%" />
     </LinearLayout>
 
     <View style="@style/Divider.Small" />
