@@ -164,7 +164,11 @@ abstract class VpnBackend(
 
     private fun prepareFeaturesForAgentConnection() {
         features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
-        features.setString(FEATURES_BOUNCING, lastConnectionParams?.bouncing)
+        val bouncing = lastConnectionParams?.bouncing
+        if (bouncing == null)
+            features.remove(FEATURES_BOUNCING)
+        else
+            features.setString(FEATURES_BOUNCING, bouncing)
     }
 
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
