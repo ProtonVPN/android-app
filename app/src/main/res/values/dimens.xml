@@ -30,7 +30,7 @@
     <dimen name="connection_bottom_sheet_multi_button_bottom_margin">32dp</dimen>
     <dimen name="drawer_icon_size">24dp</dimen>
     <dimen name="new_indicator_size">8dp</dimen>
-    <dimen name="server_load_dot_size">16dp</dimen>
+    <dimen name="server_load_dot_size">8dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
     <item name="inactive_flag_alpha" format="float" type="dimen">0.5</item>
 
