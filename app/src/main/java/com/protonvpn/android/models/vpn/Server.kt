@@ -115,8 +115,7 @@ data class Server(
     val serverNumber: Int
         get() {
             val name = serverName
-            val pattern = Pattern.compile("#(\\d+(\\d+)?)")
-            val m = pattern.matcher(name)
+            val m = SERVER_NUMBER_PATTERN.matcher(name)
             return if (m.find()) {
                 Integer.valueOf(m.group(1))
             } else {
@@ -149,4 +148,8 @@ data class Server(
 
     override fun getLabel(context: Context): String = if (isSecureCoreServer)
         CountryTools.getFullName(entryCountry) else serverName
+
+    companion object {
+        val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")
+    }
 }
