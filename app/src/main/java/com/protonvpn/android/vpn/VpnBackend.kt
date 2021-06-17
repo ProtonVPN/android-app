@@ -89,6 +89,8 @@ abstract class VpnBackend(
         }
 
         override fun onError(code: Long, description: String) {
+            Log.e("Local agent description: $description")
+            Log.e("Local agent error: $code")
             when (code) {
                 agentConstants.errorCodeMaxSessionsBasic,
                 agentConstants.errorCodeMaxSessionsFree,
@@ -96,28 +98,45 @@ abstract class VpnBackend(
                 agentConstants.errorCodeMaxSessionsPro,
                 agentConstants.errorCodeMaxSessionsUnknown,
                 agentConstants.errorCodeMaxSessionsVisionary ->
-                    selfStateObservable.postValue(VpnState.Error(ErrorType.MAX_SESSIONS))
-                agentConstants.errorCodeCertificateRevoked,
-                agentConstants.errorCodeKeyUsedMultipleTimes ->
+                    //FIXME: set MAX_SESSIONS directly when error handling code is prepared for that
+                    setAuthError("Max sessions reached")
+
+                agentConstants.errorCodeBadCertSignature,
+                agentConstants.errorCodeCertificateRevoked ->
                     revokeCertificateAndReconnect()
-                agentConstants.errorCodeCertificateExpired -> refreshCertOnLocalAgent()
-                agentConstants.errorCodePolicyViolation1 ->
-                    selfStateObservable.postValue(
-                        VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Policy violation")
-                    )
+
+                agentConstants.errorCodeCertificateExpired ->
+                    refreshCertOnLocalAgent()
+
+                agentConstants.errorCodeKeyUsedMultipleTimes ->
+                    setLocalAgentError("Key used multiple times")
+                agentConstants.errorCodeUserTorrentNotAllowed ->
+                    setLocalAgentError("Policy violation - torrent not allowed")
                 agentConstants.errorCodeUserBadBehavior ->
-                    selfStateObservable.postValue(
-                        VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Bad behaviour")
-                    )
+                    setLocalAgentError("Bad behaviour")
+
+                agentConstants.errorCodePolicyViolation1 ->
+                    setAuthError("Policy violation - too low plan")
+                agentConstants.errorCodePolicyViolation2 ->
+                    setAuthError("Policy violation - pending invoice")
+                agentConstants.errorCodeServerError ->
+                    setAuthError("Server error")
+                agentConstants.errorCodeRestrictedServer ->
+                    setAuthError("Restricted server")
             }
-            Log.e("error: " + code)
-            Log.e("description: " + description)
         }
 
         override fun onState(state: String) {
+            Log.d("Local agent state: $state")
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
     }
+
+    private fun setAuthError(description: String? = null) =
+        selfStateObservable.postValue(VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, description))
+
+    private fun setLocalAgentError(description: String? = null) =
+        selfStateObservable.postValue(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, description))
 
     protected var vpnProtocolState: VpnState = VpnState.Disabled
         set(value) {
@@ -188,32 +207,58 @@ abstract class VpnBackend(
             connectToLocalAgent()
         }
         return when (localAgentState) {
-            agentConstants.stateConnected -> VpnState.Connected
-            agentConstants.stateConnectionError -> VpnState.Error(ErrorType.UNREACHABLE)
-            agentConstants.stateServerUnreachable -> VpnState.Error(ErrorType.UNREACHABLE)
-            agentConstants.stateSoftJailed -> VpnState.Connecting
-            agentConstants.stateClientCertificateError -> VpnState.Connecting
-            agentConstants.stateServerCertificateError -> VpnState.Connecting
-            agentConstants.stateHardJailed -> VpnState.Connecting
-            else -> VpnState.Connecting
+            agentConstants.stateConnected ->
+                VpnState.Connected
+            agentConstants.stateConnectionError,
+            agentConstants.stateServerUnreachable ->
+                VpnState.Error(ErrorType.UNREACHABLE)
+            agentConstants.stateClientCertificateError -> {
+                refreshCertOnLocalAgent()
+                VpnState.Connecting
+            }
+            agentConstants.stateServerCertificateError ->
+                VpnState.Error(ErrorType.PEER_AUTH_FAILED)
+            agentConstants.stateHardJailed, // Error will be handled in NativeClient.onError method
+            agentConstants.stateSoftJailed,
+            agentConstants.stateConnecting ->
+                VpnState.Connecting
+            else ->
+                VpnState.Connecting
         }
     }
 
     private fun refreshCertOnLocalAgent() {
+        selfStateObservable.postValue(VpnState.Connecting)
+        closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            certificateRepository.updateCertificate(userData.sessionId!!, false)
-            closeAgentConnection()
-            connectToLocalAgent()
+            when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
+                is CertificateRepository.CertificateResult.Success ->
+                    connectToLocalAgent()
+                is CertificateRepository.CertificateResult.Error -> {
+                    // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
+                    Log.e("Failed to refresh certificate")
+                    setLocalAgentError("Failed to refresh certificate")
+                }
+            }
         }
     }
 
     private fun revokeCertificateAndReconnect() {
         selfStateObservable.postValue(VpnState.Connecting)
+        closeAgentConnection()
         reconnectionJob = mainScope.launch {
             certificateRepository.generateNewKey(userData.sessionId!!)
-            certificateRepository.updateCertificate(userData.sessionId!!, false)
-            yield()
-            reconnect()
+            when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
+                is CertificateRepository.CertificateResult.Error -> {
+                    // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
+                    Log.e("Failed to revoke and refresh certificate")
+                    setLocalAgentError("Failed to refresh revoked certificate")
+                }
+                is CertificateRepository.CertificateResult.Success -> {
+                    yield()
+                    reconnect()
+                }
+            }
         }
     }
 
@@ -222,8 +267,10 @@ abstract class VpnBackend(
         val hostname = lastConnectionParams?.connectingDomain?.entryDomain
         agentConnectionJob = mainScope.launch {
             val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
-            delay(500)
             if (certInfo is CertificateRepository.CertificateResult.Success) {
+                // Tunnel needs a moment to become functional
+                delay(500)
+
                 prepareFeaturesForAgentConnection()
                 agent = AgentConnection(
                     certInfo.certificate,
@@ -236,12 +283,7 @@ abstract class VpnBackend(
                     networkManager.isConnectedToNetwork()
                 )
             } else {
-                selfStateObservable.postValue(
-                    VpnState.Error(
-                        ErrorType.LOCAL_AGENT_ERROR,
-                        "Failed to get wireguard certificate"
-                    )
-                )
+                setLocalAgentError("Failed to get wireguard certificate")
             }
         }
     }
