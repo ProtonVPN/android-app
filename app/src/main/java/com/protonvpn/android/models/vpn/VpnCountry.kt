@@ -73,8 +73,7 @@ class VpnCountry(
         Collections.sort(serverList,
                 compareBy<Server> { !it.isFreeServer }
                         .thenBy { it.serverNumber >= 100 }
-                        .thenBy { it.domain }
-                        .thenBy { it.tier })
+                        .thenBy { it.serverNumber })
         return serverList
     }
 
