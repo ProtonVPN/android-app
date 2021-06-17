@@ -18,12 +18,17 @@
  */
 package com.protonvpn.android.models.vpn
 
+import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
+import de.blinkt.openvpn.core.NetworkUtils
+import org.strongswan.android.utils.IPRange
+import org.strongswan.android.utils.IPRangeSet
 
 class ConnectionParamsWireguard(
     profile: Profile,
@@ -38,6 +43,7 @@ class ConnectionParamsWireguard(
 
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(
+        context: Context,
         userData: UserData,
         certificateRepository: CertificateRepository
     ): Config {
@@ -54,9 +60,32 @@ class ConnectionParamsWireguard(
         val peerProxy = config.addPeer()
         peerProxy.publicKey = connectingDomain.publicKeyX25519
         peerProxy.endpoint = connectingDomain.getExitIP() + ":" + WIREGUARD_PORT
-        peerProxy.allowedIps = "0.0.0.0/0"
+
+        val excludedIPs = mutableListOf<String>()
+        if (userData.useSplitTunneling) {
+            userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
+                excludedIPs += it
+            }
+            userData.splitTunnelApps?.takeIf { it.isNotEmpty() }?.let {
+                config.interfaceProxy.excludedApplications = it.toSortedSet()
+            }
+        }
+        if (userData.bypassLocalTraffic())
+            excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
+
+        peerProxy.allowedIps = calculateAllowedIps(excludedIPs)
 
         return config.resolve()
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun calculateAllowedIps(excludedIps: List<String>): String {
+        val ipRangeSet = IPRangeSet.fromString("0.0.0.0/0")
+        excludedIps.forEach {
+            ipRangeSet.remove(IPRange(it))
+        }
+
+        return ipRangeSet.subnets().joinToString(", ")
     }
 
     companion object {

@@ -316,6 +316,7 @@ class AppModule {
                 scope
             ),
             WireguardBackend(
+                ProtonApplication.getAppContext(),
                 GoBackend(ProtonApplication.getAppContext()),
                 networkManager,
                 userData,

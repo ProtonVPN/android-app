@@ -19,6 +19,7 @@ package com.protonvpn.android.vpn.wireguard
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -43,6 +44,7 @@ import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
 
 class WireguardBackend(
+    val context: Context,
     val backend: GoBackend,
     networkManager: NetworkManager,
     userData: UserData,
@@ -91,7 +93,7 @@ class WireguardBackend(
         super.connect(connectionParams)
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
-            val config = wireguardParams.getTunnelConfig(userData, certificateRepository)
+            val config = wireguardParams.getTunnelConfig(context, userData, certificateRepository)
             withContext(Dispatchers.IO) {
                 backend.setState(testTunnel, Tunnel.State.UP, config)
             }
