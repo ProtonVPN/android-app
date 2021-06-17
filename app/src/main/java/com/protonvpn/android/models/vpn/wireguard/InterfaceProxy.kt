@@ -32,7 +32,7 @@ import com.wireguard.crypto.KeyPair
 
 class InterfaceProxy : BaseObservable, Parcelable {
 
-    val excludedApplications: ObservableList<String> = ObservableArrayList()
+    var excludedApplications: Set<String> = setOf<String>()
 
     val includedApplications: ObservableList<String> = ObservableArrayList()
 
@@ -56,7 +56,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
     private constructor(parcel: Parcel) {
         addresses = parcel.readString() ?: ""
         dnsServers = parcel.readString() ?: ""
-        parcel.readStringList(excludedApplications)
+        parcel.readStringList(excludedApplications.toList())
         parcel.readStringList(includedApplications)
         listenPort = parcel.readString() ?: ""
         mtu = parcel.readString() ?: ""
@@ -67,7 +67,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         addresses = Attribute.join(other.addresses)
         val dnsServerStrings = other.dnsServers.map { it.hostAddress }
         dnsServers = Attribute.join(dnsServerStrings)
-        excludedApplications.addAll(other.excludedApplications)
+        excludedApplications = other.excludedApplications
         includedApplications.addAll(other.includedApplications)
         listenPort = other.listenPort.map { it.toString() }.orElse("")
         mtu = other.mtu.map { it.toString() }.orElse("")
@@ -100,7 +100,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(addresses)
         dest.writeString(dnsServers)
-        dest.writeStringList(excludedApplications)
+        dest.writeStringList(excludedApplications.toList())
         dest.writeStringList(includedApplications)
         dest.writeString(listenPort)
         dest.writeString(mtu)
