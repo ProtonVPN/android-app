@@ -115,9 +115,9 @@ abstract class VpnBackend(
                 agentConstants.errorCodeUserBadBehavior ->
                     setLocalAgentError("Bad behaviour")
 
-                agentConstants.errorCodePolicyViolation1 ->
+                agentConstants.errorCodePolicyViolationLowPlan ->
                     setAuthError("Policy violation - too low plan")
-                agentConstants.errorCodePolicyViolation2 ->
+                agentConstants.errorCodePolicyViolationDelinquent ->
                     setAuthError("Policy violation - pending invoice")
                 agentConstants.errorCodeServerError ->
                     setAuthError("Server error")
@@ -130,6 +130,8 @@ abstract class VpnBackend(
             Log.d("Local agent state: $state")
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
+
+        override fun onStatusUpdate(status: localAgent.StatusMessage) {}
     }
 
     private fun setAuthError(description: String? = null) =
@@ -203,9 +205,7 @@ abstract class VpnBackend(
         } else vpnState
 
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
-        if (agent == null && agentConnectionJob == null) {
-            connectToLocalAgent()
-        }
+        connectToLocalAgent()
         return when (localAgentState) {
             agentConstants.stateConnected ->
                 VpnState.Connected
@@ -264,26 +264,28 @@ abstract class VpnBackend(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun connectToLocalAgent() {
-        val hostname = lastConnectionParams?.connectingDomain?.entryDomain
-        agentConnectionJob = mainScope.launch {
-            val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
-            if (certInfo is CertificateRepository.CertificateResult.Success) {
-                // Tunnel needs a moment to become functional
-                delay(500)
+        if (agent == null && agentConnectionJob == null) {
+            val hostname = lastConnectionParams?.connectingDomain?.entryDomain
+            agentConnectionJob = mainScope.launch {
+                val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
+                if (certInfo is CertificateRepository.CertificateResult.Success) {
+                    // Tunnel needs a moment to become functional
+                    delay(500)
 
-                prepareFeaturesForAgentConnection()
-                agent = AgentConnection(
-                    certInfo.certificate,
-                    certInfo.privateKeyPem,
-                    Constants.VPN_ROOT_CERTS,
-                    Constants.LOCAL_AGENT_ADDRESS,
-                    hostname,
-                    nativeClient,
-                    features,
-                    networkManager.isConnectedToNetwork()
-                )
-            } else {
-                setLocalAgentError("Failed to get wireguard certificate")
+                    prepareFeaturesForAgentConnection()
+                    agent = AgentConnection(
+                        certInfo.certificate,
+                        certInfo.privateKeyPem,
+                        Constants.VPN_ROOT_CERTS,
+                        Constants.LOCAL_AGENT_ADDRESS,
+                        hostname,
+                        nativeClient,
+                        features,
+                        networkManager.isConnectedToNetwork()
+                    )
+                } else {
+                    setLocalAgentError("Failed to get wireguard certificate")
+                }
             }
         }
     }
@@ -310,7 +312,6 @@ abstract class VpnBackend(
     var active = false
 
     companion object {
-
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
         private const val FEATURES_SPLIT_TCP = "split-tcp"
