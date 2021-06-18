@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.app.mocks.MockSharedPreference
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.serialization.builtins.ListSerializer
@@ -25,13 +28,15 @@ class ServerManagerTests {
 
     private lateinit var manager: ServerManager
 
+    @RelaxedMockK private lateinit var userData: UserData
+
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
-        val userData = mockk<UserData>(relaxed = true)
         val contextMock = mockk<Context>(relaxed = true)
         mockkObject(CountryTools)
         ProtonApplication.setAppContextForTest(contextMock)
@@ -47,7 +52,7 @@ class ServerManagerTests {
 
     @Test
     fun doNotChooseOfflineServerFromCountry() {
-        val country = manager.getVpnEntryCountry("CA", false)
+        val country = manager.getVpnExitCountry("CA", false)
         val countryBestServer = manager.getBestScoreServer(country!!)
         Assert.assertEquals("CA#2", countryBestServer!!.serverName)
     }
@@ -55,5 +60,15 @@ class ServerManagerTests {
     @Test
     fun doNotChooseOfflineServerFromAll() {
         Assert.assertEquals("DE#1", manager.getBestScoreServer()!!.serverName)
+    }
+
+    @Test
+    fun testFilterForProtocol() {
+        every { userData.selectedProtocol } returns VpnProtocol.WireGuard
+        val filtered = manager.filterForProtocol(manager.getVpnCountries())
+        Assert.assertEquals(listOf("CA#1", "DE#1"), filtered.flatMap { it.serverList.map { it.serverName } })
+        val canada = filtered.first { it.flag == "CA" }
+        Assert.assertEquals(1, canada.serverList.size)
+        Assert.assertEquals(1, canada.serverList.first().connectingDomains.size)
     }
 }

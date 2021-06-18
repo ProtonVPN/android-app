@@ -25,8 +25,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import com.afollestad.materialdialogs.DialogAction
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemProtocolSelectionBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -70,13 +74,34 @@ class ProtocolSelection @JvmOverloads constructor(
         }
 
         spinnerDefaultProtocol.setItems(listOf(
-                ListableString(VpnProtocol.IKEv2.toString()),
-                ListableString(VpnProtocol.OpenVPN.toString()),
-                ListableString(VpnProtocol.WireGuard.toString())))
+                ProtocolItem(VpnProtocol.IKEv2),
+                ProtocolItem(VpnProtocol.OpenVPN),
+                ProtocolItem(VpnProtocol.WireGuard)))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-            manualProtocol = VpnProtocol.valueOf(item.getLabel(context))
-            update()
-            changeCallback()
+            val newProtocol = (item as ProtocolItem).protocol
+            if (newProtocol == VpnProtocol.WireGuard) {
+                MaterialDialog.Builder(context).theme(Theme.DARK)
+                    .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
+                    .content(R.string.settingsDialogWireguardBetaWarningDescription)
+                    .positiveText(R.string.dialogContinue)
+                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                        manualProtocol = newProtocol
+                        update()
+                        changeCallback()
+                    }
+                    .negativeText(R.string.cancel)
+                    .dismissListener {
+                        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
+                    }
+                    .onNegative { _: MaterialDialog?, _: DialogAction? ->
+                        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
+                    }
+                    .show()
+            } else {
+                manualProtocol = newProtocol
+                update()
+                changeCallback()
+            }
         }
 
         spinnerTransmissionProtocol.setItems(
@@ -92,7 +117,7 @@ class ProtocolSelection @JvmOverloads constructor(
     private fun update() = with(binding) {
         manualProtocolLayout.isVisible = !useSmart
         layoutTransmissionProtocol.isVisible = !useSmart && manualProtocol == VpnProtocol.OpenVPN
-        spinnerDefaultProtocol.setSelectedItem(ListableString(manualProtocol.toString()))
+        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
         spinnerTransmissionProtocol.setSelectedItem(ListableString(transmissionProtocol.toString()))
     }
 
@@ -101,6 +126,10 @@ class ProtocolSelection @JvmOverloads constructor(
         spinnerTransmissionProtocol.setOnTouchListener(touchListener)
         spinnerDefaultProtocol.setOnTouchListener(touchListener)
         smartProtocolSwitch.switchProton.setOnTouchListener(touchListener)
+    }
+
+    private class ProtocolItem(val protocol: VpnProtocol) : Listable {
+        override fun getLabel(context: Context?) = protocol.displayName
     }
 
     private class ListableString(private val name: String) : Listable {

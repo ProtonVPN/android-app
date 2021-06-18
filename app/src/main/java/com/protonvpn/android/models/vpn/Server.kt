@@ -21,6 +21,7 @@ package com.protonvpn.android.models.vpn
 import android.content.Context
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.implies
@@ -122,6 +123,9 @@ data class Server(
                 1
             }
         }
+
+    fun supportsProtocol(protocol: VpnProtocol) =
+        connectingDomains.any { it.supportsProtocol(protocol) }
 
     private val secureCoreServerNaming: String
         get() = CountryTools.getFullName(entryCountry) + " >> " + CountryTools.getFullName(

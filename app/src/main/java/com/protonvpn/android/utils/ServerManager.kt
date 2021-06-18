@@ -19,6 +19,7 @@
 package com.protonvpn.android.utils
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -44,6 +45,10 @@ class ServerManager(
     private val secureCoreEntryCountries = mutableListOf<VpnCountry>()
     private val secureCoreExitCountries = mutableListOf<VpnCountry>()
 
+    @Transient private var filteredVpnCountries = listOf<VpnCountry>()
+    @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
+    @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
+
     var streamingServices: StreamingServicesResponse? = null
         private set
 
@@ -64,28 +69,59 @@ class ServerManager(
         get() = updatedAt == null || vpnCountries.isEmpty() ||
                 DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY
 
-    private val allServers get() = sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
+    private val allServers get() =
+        sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
-    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
-
-    private fun getEntryCountries(secureCore: Boolean) = if (secureCore)
-        secureCoreEntryCountries else vpnCountries
+    private fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
-        secureCoreExitCountries else vpnCountries
+        filteredSecureCoreExitCountries else filteredVpnCountries
+
+    @VisibleForTesting fun filterForProtocol(countries: List<VpnCountry>) =
+        userData.selectedProtocol.let { protocol ->
+            countries.mapNotNull { country ->
+                val servers = country.serverList
+                    .filter {
+                        it.supportsProtocol(protocol)
+                    }.map { server ->
+                        server.copy(
+                            connectingDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) })
+                    }
+                if (servers.isNotEmpty())
+                    VpnCountry(country.flag, servers, this)
+                else
+                    null
+            }
+        }
 
     init {
         val oldManager =
                 Storage.load(ServerManager::class.java)
         if (oldManager != null) {
-            vpnCountries.addAll(oldManager.getVpnCountries())
-            secureCoreExitCountries.addAll(oldManager.getSecureCoreExitCountries())
-            secureCoreEntryCountries.addAll(oldManager.getSecureCoreEntryCountries())
+            vpnCountries.addAll(oldManager.vpnCountries)
+            secureCoreExitCountries.addAll(oldManager.secureCoreExitCountries)
+            secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
             streamingServices = oldManager.streamingServices
             updatedAt = oldManager.updatedAt
         }
         reInitProfiles()
+
+        userData.selectedProtocolLiveData.observeForever {
+            onServersUpdate()
+        }
+    }
+
+    private fun onServersUpdate() {
+        filterServers()
+        updateEvent.emit()
+        profilesUpdateEvent.emit()
+    }
+
+    private fun filterServers() {
+        filteredVpnCountries = filterForProtocol(vpnCountries)
+        filteredSecureCoreEntryCountries = filterForProtocol(secureCoreEntryCountries)
+        filteredSecureCoreExitCountries = filterForProtocol(secureCoreExitCountries)
     }
 
     override fun toString() = "vpnCountries: ${vpnCountries.size} entry: ${secureCoreEntryCountries.size}" +
@@ -141,8 +177,7 @@ class ServerManager(
         }
         updatedAt = DateTime()
         Storage.save(this)
-        updateEvent.emit()
-        profilesUpdateEvent.emit()
+        onServersUpdate()
     }
 
     fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
@@ -152,8 +187,7 @@ class ServerManager(
             }
 
         Storage.save(this)
-        updateEvent.emit()
-        profilesUpdateEvent.emit()
+        onServersUpdate()
     }
 
     fun updateLoads(loadsList: List<LoadUpdate>) {
@@ -165,11 +199,10 @@ class ServerManager(
             }
         }
         Storage.save(this)
-        updateEvent.emit()
-        profilesUpdateEvent.emit()
+        onServersUpdate()
     }
 
-    fun getVpnCountries(): List<VpnCountry> = vpnCountries.sortedBy { it.countryName }
+    fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedBy { it.countryName }
 
     val defaultFallbackConnection = getSavedProfiles()[0]
 
@@ -178,10 +211,7 @@ class ServerManager(
         it.wrapper.setDeliverer(this)
     }
 
-    fun getSecureCoreEntryCountries(): List<VpnCountry> = secureCoreEntryCountries
-
-    fun getVpnEntryCountry(country: String, secureCoreCountry: Boolean): VpnCountry? =
-        getEntryCountries(secureCoreCountry).firstOrNull { it.flag == country }
+    fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
     fun getVpnExitCountry(country: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == country }
@@ -267,7 +297,7 @@ class ServerManager(
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =
-        secureCoreExitCountries
+        filteredSecureCoreExitCountries
 
     override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->
