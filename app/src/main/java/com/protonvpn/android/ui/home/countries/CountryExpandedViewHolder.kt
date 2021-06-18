@@ -34,6 +34,7 @@ import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setColorTint
+import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 open class CountryExpandedViewHolder(
@@ -124,6 +125,7 @@ open class CountryExpandedViewHolder(
                 EventBus.post(ConnectToServer(connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
+            buttonConnect.setMinSizeTouchDelegate()
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)
         }
     }

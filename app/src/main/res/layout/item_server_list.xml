@@ -115,7 +115,7 @@
 
         <TextView
             android:id="@+id/textLoad"
-            style="@style/Proton.Text.DefaultSmall.Weak"
+            style="@style/Proton.Text.Caption.Weak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -125,19 +125,19 @@
 
         <ImageButton
             android:id="@+id/buttonConnect"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
             android:backgroundTint="?attr/proton_interaction_weak"
             android:foreground="@drawable/round_selectable_item_bg"
-            app:srcCompat="@drawable/ic_power"
+            app:srcCompat="@drawable/ic_power_off_24"
             app:tint="@color/text_norm"/>
 
         <ImageView
             android:id="@+id/imageWrench"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/listItemMaintenance"
             android:scaleType="center"
             app:srcCompat="@drawable/ic_wrench_icon"
