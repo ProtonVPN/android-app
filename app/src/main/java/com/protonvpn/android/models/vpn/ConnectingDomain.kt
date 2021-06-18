@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.models.config.VpnProtocol
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
@@ -36,4 +37,7 @@ data class ConnectingDomain(
 ) : java.io.Serializable {
 
     fun getExitIP() = exitIp ?: entryIp
+
+    fun supportsProtocol(protocol: VpnProtocol) =
+        protocol != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank()
 }

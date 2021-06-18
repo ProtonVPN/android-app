@@ -117,7 +117,7 @@ class VpnConnectionTests {
         networkManager = MockNetworkManager()
 
         mockStrongSwan = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig,VpnProtocol.IKEv2))
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2))
         mockOpenVpn = spyk(MockVpnBackend(
             scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN))
         mockWireguard = spyk(MockVpnBackend(

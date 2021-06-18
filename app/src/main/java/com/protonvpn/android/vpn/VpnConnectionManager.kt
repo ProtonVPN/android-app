@@ -29,6 +29,8 @@ import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -339,16 +341,35 @@ open class VpnConnectionManager(
     private fun connectWithPermission(context: Context, profile: Profile) {
         val server = profile.server
         if (server?.online == true) {
-            clearOngoingConnection()
-            ongoingConnect = scope.launch {
-                smartConnect(profile, server)
-                ongoingConnect = null
+            if (server.supportsProtocol(profile.getProtocol(userData))) {
+                clearOngoingConnection()
+                ongoingConnect = scope.launch {
+                    smartConnect(profile, server)
+                    ongoingConnect = null
+                }
+            } else {
+                protocolNotSupportedDialog(context)
             }
         } else {
             ongoingFallback = scope.launch {
                 onServerNotAvailable(context, profile, server)
                 ongoingFallback = null
             }
+        }
+    }
+
+    private fun protocolNotSupportedDialog(context: Context) {
+        if (context is Activity) {
+            MaterialDialog.Builder(context).theme(Theme.DARK)
+                .content(R.string.serverNoWireguardSupport)
+                .positiveText(R.string.close)
+                .show()
+        } else {
+            notificationHelper.showInformationNotification(
+                context,
+                context.getString(R.string.serverNoWireguardSupport),
+                icon = R.drawable.ic_notification_disconnected
+            )
         }
     }
 

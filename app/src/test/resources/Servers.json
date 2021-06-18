@@ -21,6 +21,14 @@
           "Domain": "ca-01.protonvpn.com",
           "ID": "ceemvAaEwUf5EDfEYoBV8S4h29Cn5vxhZ5yDLR0h_ErRdnyFdt0lhKhpYbtkNNVHWKu9jbDTTf4sKP-sH_NDzA==",
           "Status": 1
+        },
+        {
+          "EntryIP": "104.254.92.60",
+          "ExitIP": "104.254.92.60",
+          "Domain": "ca-01a.protonvpn.com",
+          "ID": "ceemvAaEwUf5EDfEYoBV8S4h29Cn5vxhZ5yDLR0h_ErRdnyFdt0lhKhpYbtkNNVHWKu9jbDTTf4sKP-sH_NDzA==",
+          "X25519PublicKey": "keyCA01a",
+          "Status": 1
         }
       ],
       "Load": 22,
@@ -128,6 +136,7 @@
           "ExitIP": "37.58.58.229",
           "Domain": "de-01.protonvpn.com",
           "ID": "ha0056vPzrt4ErHVbwEGSfMo-e0__HU2kvV-XfkspMOCkVKYsJ5BaD1KUXYSLcR0D7K0q6_J_Z8HgJdGGxrJRA==",
+          "X25519PublicKey": "keyDE01",
           "Status": 1
         }
       ],

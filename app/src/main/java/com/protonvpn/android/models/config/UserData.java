@@ -74,6 +74,7 @@ public final class UserData implements Serializable {
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData;
     private transient MutableLiveData<Boolean> vpnAcceleratorLiveData;
+    private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
 
     private transient LiveEvent updateEvent = new LiveEvent();
     private transient ApiSessionProvider apiSessionProvider =
@@ -112,6 +113,7 @@ public final class UserData implements Serializable {
     public void init() {
         netShieldProtocolLiveData = new MutableLiveData<>(getNetShieldProtocol());
         vpnAcceleratorLiveData = new MutableLiveData<>(isVpnAcceleratorEnabled());
+        selectedProtocolLiveData = new MutableLiveData<>(getSelectedProtocol());
     }
 
     public String getUser() {
@@ -351,6 +353,7 @@ public final class UserData implements Serializable {
 
     public void setUseSmartProtocol(boolean value) {
         useSmartProtocol = value;
+        selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
 
@@ -380,6 +383,7 @@ public final class UserData implements Serializable {
 
     public void setManualProtocol(VpnProtocol value) {
         selectedProtocol = value;
+        selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
 
@@ -433,6 +437,10 @@ public final class UserData implements Serializable {
 
     public LiveData<Boolean> getVpnAcceleratorLiveData() {
         return vpnAcceleratorLiveData;
+    }
+
+    public LiveData<VpnProtocol> getSelectedProtocolLiveData() {
+        return selectedProtocolLiveData;
     }
 
     public NetShieldProtocol getNetShieldProtocol() {
