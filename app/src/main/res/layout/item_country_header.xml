@@ -6,36 +6,37 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:background="?attr/proton_background_norm"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textTitle"
             style="@style/Proton.Text.DefaultSmall.Weak"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
             android:paddingTop="24dp"
             android:paddingBottom="8dp"
-            android:paddingHorizontal="16dp"
             tools:text="Premium countries" />
-
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/serversInfo"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="8dp"
-        app:srcCompat="@drawable/ic_information"
-        app:tint="?attr/proton_icon_weak"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/round_selectable_item_bg"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_information"
+        app:tint="?attr/proton_icon_weak" />
 </LinearLayout>
 </layout>
