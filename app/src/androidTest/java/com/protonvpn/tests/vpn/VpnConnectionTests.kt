@@ -313,8 +313,13 @@ class VpnConnectionTests {
     fun testSwitchOfflineServer() = runBlockingTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
         val profile = Profile.getTempProfile(offlineServer, serverManager)
-        coEvery { vpnErrorHandler.onServerInMaintenance(profile) } returns VpnFallbackResult.Switch.SwitchProfile(profile.server,
-            profileIKEv2, SwitchServerReason.ServerInMaintenance)
+        coEvery {
+            vpnErrorHandler.onServerInMaintenance(profile, null)
+        } returns VpnFallbackResult.Switch.SwitchProfile(
+            profile.server,
+            profileIKEv2,
+            SwitchServerReason.ServerInMaintenance
+        )
 
         manager.connect(context, profile)
         scope.advanceUntilIdle()
