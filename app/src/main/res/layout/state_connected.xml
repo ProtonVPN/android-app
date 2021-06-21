@@ -172,7 +172,7 @@
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonDisconnect"
-        style="@style/ProtonButton.OutlinedButton"
+        style="@style/ProtonButton.OutlinedButton.Neutral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"

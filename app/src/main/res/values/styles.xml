@@ -312,4 +312,13 @@
         <item name="proton_background_inverted">@color/shade_100</item>
     </style>
 
+    <!-- An outlined button that isn't green - used for slightly "negative" actions like "Cancel"
+         or "Disconnect".
+         TODO: Discuss with designers to have this properly defined (with all states like
+          "disabled", "pressed") and implement properly in Core. -->
+    <style name="ProtonButton.OutlinedButton.Neutral">
+        <item name="strokeColor">?attr/proton_interaction_strong</item>
+        <item name="android:textColor">?attr/proton_text_norm</item>
+    </style>
+
 </resources>

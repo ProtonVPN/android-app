@@ -48,7 +48,7 @@
 
     <Button
         android:id="@+id/buttonCancel"
-        style="@style/ProtonButton.OutlinedButton"
+        style="@style/ProtonButton.OutlinedButton.Neutral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
