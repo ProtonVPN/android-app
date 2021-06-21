@@ -59,7 +59,7 @@ class ConnectionParamsWireguard(
 
         val peerProxy = config.addPeer()
         peerProxy.publicKey = connectingDomain.publicKeyX25519
-        peerProxy.endpoint = connectingDomain.getExitIP() + ":" + WIREGUARD_PORT
+        peerProxy.endpoint = connectingDomain.entryIp + ":" + WIREGUARD_PORT
 
         val excludedIPs = mutableListOf<String>()
         if (userData.useSplitTunneling) {
