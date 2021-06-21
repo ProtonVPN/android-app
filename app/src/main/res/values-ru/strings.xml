@@ -31,10 +31,10 @@
   <string name="loginStartWithDevice">Запуск при включении устройства</string>
   <string name="loginCreateAccount">Создать новый аккаунт</string>
   <string name="loginNeedHelp">Нужна помощь?</string>
-  <string name="connectionAllocationHelpTitle">Thanks for updating to\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN sessions to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
-  <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
-  <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
+  <string name="connectionAllocationHelpTitle">Спасибо за переход на\nPROFESSIONAL/VISIONARY</string>
+  <string name="connectionAllocationHelpDescription">Чтобы начать ваше путешествие в ProtonVPN, пожалуйста, назначьте VPN-подключения вашему аккаунту или любому другому субсчету.\n\nЭтот шаг займет всего несколько минут. После этого вы сможете войти и защитить все ваши устройства.</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
+  <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
   <string name="helpResetPassword">Сбросить пароль</string>
   <string name="helpForgotUser">Забыли имя пользователя?</string>
   <string name="helpCommonProblems">Распространённые проблемы входа</string>
@@ -82,7 +82,7 @@
   <string name="accountUser">Пользователь:</string>
   <string name="accountType">Тип аккаунта:</string>
   <string name="accountTier">Активная подписка:</string>
-  <string name="accountTrialExpires"><![CDATA[Your trial ends in<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+  <string name="accountTrialExpires"><![CDATA[Ваш пробный период заканчивается через<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
   <string name="accountVersion">Версия:</string>
   <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вы должны перейти в веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Управление аккаунтом</string>
@@ -117,7 +117,7 @@
   <string name="restrictedMaintenanceTitle">На техобслуживании</string>
   <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
   <string name="restrictedBasicTitle">Платный сервер</string>
-  <string name="restrictedPlusTitle">Серверы Plus</string>
+  <string name="restrictedPlusTitle">Сервер Plus</string>
   <string name="restrictedSecureCoreTitle">Серверы Secure Core</string>
   <string name="restrictedBasic">Вы пытаетесь подключиться к серверу, который требует платной подписки.\nДля доступа к высокоскоростным серверам во всех странах, пожалуйста, улучшите свою подписку. </string>
   <string name="restrictedPlus">Вы пытаетесь подключиться к серверу, который требует требует подписки ProtonVPN Plus или выше.\nДля доступа к большему количеству серверов во всех странах, улучшите подписку.</string>
@@ -152,7 +152,7 @@
   <string name="listFastestServer">Самый быстрый сервер</string>
   <string name="listFreeServers">Free серверы</string>
   <string name="listBasicServers">Basic серверы</string>
-  <string name="listPlusServers">Plus серверы</string>
+  <string name="listPlusServers">Серверы Plus</string>
   <string name="premium">Premium</string>
   <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
   <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
@@ -239,7 +239,7 @@
   <string name="bugReportErrorLabelVpnLogsDescription">Включение этого параметра добавит журналы работы VPN на стороне клиента в этот отчет</string>
   <string name="profileFastest">Быстрейший</string>
   <string name="profileRandom">Случайный</string>
-  <string name="settingsSplitTunnelingDescription">Split Tunneling allows certain apps or IPs to be excluded from the VPN traffic.</string>
+  <string name="settingsSplitTunnelingDescription">Разделение туннелирования позволяет исключить некоторые приложения или IP-адреса из VPN трафика.</string>
   <string name="settingsSplitTunnelingTitle">Раздельное туннелирование</string>
   <string name="serverLabelUnderMaintenance">%1$s на техобслуживании</string>
   <string name="serverLabelUpgrade">%1$s (улучшить)</string>
@@ -414,33 +414,33 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_server_list">Список серверов</string>
   <string name="tv_server_list_action_unavailable">Недоступно</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speeds by up to 400%</string>
+  <string name="settingsSmartReconnectDescription">VPN Accelerator позволяет использовать набор уникальных технологий для улучшения производительности, которые могут увеличить скорость VPN до 400%</string>
   <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="dialogTitleReconnectionNeeded">Требуется переподключение</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Your connection needs to be restarted to change VPN Accelerator mode.</string>
-  <string name="notification_subscription_expired_title">Your subscription has expired</string>
-  <string name="notification_subscription_expired_content">Your subscription has been downgraded, so we are reconnecting to the fastest available server. </string>
-  <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded. </string>
-  <string name="notification_delinquent_title">Your ProtonVPN account has pending invoices</string>
-  <string name="notification_delinquent_content">Please take a moment to update your billing information to keep your subscription active.</string>
+  <string name="settingsSmartReconnectReconnectDialogContent">Необходимо перезапустить ваше подключение для изменения режима VPN Accelerator.</string>
+  <string name="notification_subscription_expired_title">Ваша подписка истекла</string>
+  <string name="notification_subscription_expired_content">Ваша подписка была понижена, поэтому мы переподключаемся к наиболее самому доступному серверу. </string>
+  <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
+  <string name="notification_delinquent_title">В Вашей учетной записи ProtonVPN есть неоплаченные счета</string>
+  <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">Вы достигли максимального лимита устройств</string>
-  <string name="notification_max_sessions_upsell_content">Please disconnect another device to connect this one or upgrade to a higher plan to connect more devices at the same time.</string>
-  <string name="notification_max_sessions_content">Please disconnect another device to connect this one.</string>
-  <string name="notification_cancel_to_free">You are on the FREE plan. FREE servers and features are available.</string>
-  <string name="notification_cancel_to_basic">You are on the BASIC plan. BASIC &amp; FREE servers and features are available.</string>
-  <string name="notification_cancel_to_delinquent">You will be able to access premium features again after pending invoices are paid.</string>
+  <string name="notification_max_sessions_upsell_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее, или перейдите на более высокий тарифный план, чтобы подключить больше устройств одновременно.</string>
+  <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее.</string>
+  <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифным планом. Доступны бесплатные серверы и функции.</string>
+  <string name="notification_cancel_to_basic">Вы на плане BASIC. Доступны BASIC и БЕСПЛАТНЫЕ серверы и функции.</string>
+  <string name="notification_cancel_to_delinquent">Вы сможете снова получить доступ к расширенным функциям после оплаты текущих счетов.</string>
   <string name="vpn_accelerator">VPN Accelerator</string>
-  <string name="reconnect_from_server">From server: </string>
-  <string name="reconnect_to_server">To server: </string>
+  <string name="reconnect_from_server">С сервера: </string>
+  <string name="reconnect_to_server">На сервер: </string>
   <string name="no_thanks">Нет, спасибо</string>
   <string name="enable">Включить</string>
   <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
-  <string name="notification_smart_protocol_disabled_content">ProtonVPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
-  <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
+  <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружил, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
+  <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
   <string name="upsell_device_count">Connect up to %1$s devices at the same time</string>
   <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
   <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
@@ -456,7 +456,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="p2p_title">P2P/BitTorrent</string>
   <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
   <string name="tor_title">Tor</string>
-  <string name="tor_description">Route your Internet traffic through the Tor network. Slower, but more private.</string>
+  <string name="tor_description">Направляйте ваш Интернет трафик через сеть Tor. Медленнее, но приватнее.</string>
   <string name="info_performance">Производительность</string>
   <string name="server_load_title">Нагрузка сервера</string>
   <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
@@ -466,4 +466,5 @@ Kill Switch не позволяет вашему устройству совер
   <string name="server_load_low">Низкая</string>
   <string name="server_load_medium">Средняя</string>
   <string name="server_load_high">Высокая</string>
+  <!-- Override Human verification links from core -->
 </resources>

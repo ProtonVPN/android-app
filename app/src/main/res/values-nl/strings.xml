@@ -32,7 +32,7 @@
   <string name="loginCreateAccount">Nieuw account aanmaken</string>
   <string name="loginNeedHelp">Heeft u hulp nodig?</string>
   <string name="connectionAllocationHelpTitle">Bedankt voor het bijwerken naar\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Om uw verkenning in ProtonVPN te starten, moet u VPN-sessies aan uw account of een ander subaccount toewijzen.\n\nDeze stap neemt slechts een paar minuten in beslag. Daarna kunt u inloggen en al uw apparaten beschermen.</string>
+  <string name="connectionAllocationHelpDescription">Om uw verkenning in ProtonVPN te starten, moet u VPN-verbindingen aan uw account of een ander subaccount toewijzen.\n\nDeze stap neemt slechts een paar minuten in beslag. Daarna kunt u inloggen en al uw apparaten beschermen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
   <string name="helpResetPassword">Wachtwoord herstellen</string>
@@ -452,4 +452,5 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="server_load_low">Laag</string>
   <string name="server_load_medium">Medium</string>
   <string name="server_load_high">Hoog</string>
+  <!-- Override Human verification links from core -->
 </resources>
