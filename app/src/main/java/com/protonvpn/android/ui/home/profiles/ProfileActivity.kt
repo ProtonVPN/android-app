@@ -169,7 +169,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             val spinnerCountry = spinnerCountry as ProtonSpinner<VpnCountry>
             val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
             editName.setText(profile?.getDisplayName(baseContext))
-            palette.setSelectedColor(profile?.color
+            palette.setSelectedColor(profile?.colorString
                     ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
 
             // Profile server or country might be null if it was removed from API server list responses

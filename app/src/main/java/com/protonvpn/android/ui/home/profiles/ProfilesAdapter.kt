@@ -95,7 +95,7 @@ class ProfilesAdapter(
             textServerNotSet.isVisible = server == null
             profileEditButton.isVisible = !newItem.isPreBakedProfile
             profileColor.setBackgroundColor(
-                newItem.color?.let { Color.parseColor(it) } ?: Color.TRANSPARENT
+                newItem.colorString?.let { Color.parseColor(it) } ?: Color.TRANSPARENT
             )
             profileEditButton.setOnClickListener(editClickListener)
             profileItem.setOnClickListener(if (newItem.isPreBakedProfile) null else editClickListener)
