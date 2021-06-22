@@ -467,7 +467,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             addActionButtonToFab(
                 fabQuickConnect,
                 null,
-                Color.parseColor(profile.getColor()),
+                profile.getColorString() != null ? Color.parseColor(profile.getColorString()) : null,
                 profile.getDisplayName(getContext()),
                 profile.getProfileIcon(), v -> {
                     onConnectToProfile(new ConnectToProfile(profile));

@@ -32,10 +32,19 @@ import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
 import java.util.Random
 
-data class Profile(val name: String, val color: String, val wrapper: ServerWrapper) : Serializable, Listable {
+data class Profile(
+    val name: String,
+    private val color: String?,
+    val wrapper: ServerWrapper
+) : Serializable, Listable {
 
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
+
+    val colorString: String? get() {
+        return if (isPreBakedProfile) null
+        else color
+    }
 
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
@@ -86,7 +95,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     companion object {
         @JvmStatic
         fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =
-                Profile(server.displayName, "", ServerWrapper.makeWithServer(server, serverDeliver))
+            Profile(server.displayName, null, ServerWrapper.makeWithServer(server, serverDeliver))
 
         fun getRandomProfileColor(context: Context): String {
             val name = "pickerColor" + (Random().nextInt(18 - 1) + 1)
