@@ -94,7 +94,9 @@ class ProfilesAdapter(
             buttonUpgrade.contentDescription = textServer.text
             textServerNotSet.isVisible = server == null
             profileEditButton.isVisible = !newItem.isPreBakedProfile
-            profileColor.setBackgroundColor(Color.parseColor(newItem.color))
+            profileColor.setBackgroundColor(
+                newItem.color?.let { Color.parseColor(it) } ?: Color.TRANSPARENT
+            )
             profileEditButton.setOnClickListener(editClickListener)
             profileItem.setOnClickListener(if (newItem.isPreBakedProfile) null else editClickListener)
             profileItem.setBackgroundResource(if (newItem.isPreBakedProfile)

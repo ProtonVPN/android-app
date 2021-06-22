@@ -43,9 +43,9 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
         name
 
     @get:DrawableRes val profileIcon: Int get() = when {
-        wrapper.isPreBakedFastest -> R.drawable.ic_fastest
-        wrapper.isPreBakedRandom -> R.drawable.ic_random
-        else -> R.drawable.ic_location
+        wrapper.isPreBakedFastest -> R.drawable.ic_fast
+        wrapper.isPreBakedRandom -> R.drawable.ic_arrows
+        else -> R.drawable.ic_profile_custom
     }
 
     val isPreBakedProfile: Boolean

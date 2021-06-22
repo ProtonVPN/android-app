@@ -119,7 +119,7 @@ public class UIActionsTestHelper {
     }
 
     protected boolean isLongClickOnQuickConnect() {
-        String resourceName = getContext().getResources().getResourceName(R.drawable.ic_fastest);
+        String resourceName = getContext().getResources().getResourceName(R.drawable.ic_fast);
 
         ViewInteraction object = onView(withResourceName(resourceName));
         return !object.equals(nullValue());
@@ -396,7 +396,7 @@ public class UIActionsTestHelper {
     }
 
     protected static Matcher<View> lastChild(
-        final Matcher<View> parentMatcher, final Matcher<View> childMatcher) {
+            final Matcher<View> parentMatcher, final Matcher<View> childMatcher) {
         return new TypeSafeMatcher<View>() {
 
             @Override

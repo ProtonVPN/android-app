@@ -53,7 +53,7 @@ public final class AnimationTools {
             @Override
             public void onAnimationStart(Animator animation) {
                 menu.getMenuIconView()
-                    .setImageResource(menu.isOpened() ? R.drawable.ic_proton : R.drawable.ic_clear);
+                    .setImageResource(menu.isOpened() ? R.drawable.ic_proton : R.drawable.ic_cross_close);
             }
         });
 

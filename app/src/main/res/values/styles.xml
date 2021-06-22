@@ -306,6 +306,16 @@
         <item name="android:gravity">end</item>
     </style>
 
+    <style name="FabMenuLabelStyle">
+        <item name="android:background">@drawable/bg_fab_label</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+    </style>
+
     <!-- TODO: try to move everything to Core -->
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="proton_background_inverted">@color/shade_100</item>
