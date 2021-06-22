@@ -108,9 +108,7 @@
         android:paddingBottom="16dp"
         android:visibility="invisible"
         app:menu_backgroundColor="@color/blackOverlay"
-        app:menu_colorNormal="@color/darkGrey"
-        app:menu_colorPressed="@color/darkGrey"
-        app:menu_labels_colorNormal="@color/white"
-        app:menu_labels_textColor="@color/darkGrey" />
+        app:menu_labels_margin="8dp"
+        app:menu_labels_style="@style/FabMenuLabelStyle" />
 
 </com.protonvpn.android.components.NetworkFrameLayout>

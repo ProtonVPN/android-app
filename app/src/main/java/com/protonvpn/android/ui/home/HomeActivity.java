@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -29,6 +30,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
@@ -94,6 +97,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -409,24 +413,18 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initQuickConnectFab() {
-        int colorAccentId = getThemeColorId(fabQuickConnect, R.attr.colorAccent);
         fabQuickConnect.removeAllMenuButtons();
-        fabQuickConnect.setMenuButtonColorNormalResId(
-            vpnStateMonitor.isConnected() ? colorAccentId : R.color.darkGrey);
-        fabQuickConnect.getMenuIconView().setImageDrawable(
-            AppCompatResources.getDrawable(this, R.drawable.ic_proton));
+        ImageView menuIcon = fabQuickConnect.getMenuIconView();
+        menuIcon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_proton));
+        updateFabColors(fabQuickConnect, vpnStateMonitor.isConnected());
         fabQuickConnect.setOnMenuButtonClickListener(view -> {
             if (fabQuickConnect.isOpened()) {
                 fabQuickConnect.close(true);
-                fabQuickConnect.setMenuButtonColorNormalResId(
-                    vpnStateMonitor.isConnected() ? colorAccentId : R.color.darkGrey);
             }
             else {
                 if (!vpnStateMonitor.isConnected()) {
-                    Profile profile = serverManager.getDefaultConnection();
-                    onConnectToProfile(new ConnectToProfile(profile));
-                }
-                else {
+                    connectToDefaultProfile();
+                } else {
                     vpnConnectionManager.disconnect();
                 }
 
@@ -439,14 +437,24 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         fabQuickConnect.setOnMenuButtonLongClickListener(view -> {
             if (!fabQuickConnect.isOpened() && OnboardingPreferences.wasFloatingButtonUsed()) {
                 fabQuickConnect.open(true);
-                fabQuickConnect.setMenuButtonColorNormalResId(R.color.darkGrey);
             }
             return true;
+        });
+        fabQuickConnect.setOpenListener(new ProtonActionMenu.Listener() {
+            @Override
+            public void onOpening() {
+                updateFabColors(fabQuickConnect, false);
+            }
+
+            @Override
+            public void onClosing() {
+                updateFabColors(fabQuickConnect, vpnStateMonitor.isConnected());
+            }
         });
         fabQuickConnect.setClosedOnTouchOutside(true);
 
         if (serverManager.getSavedProfiles().size() >= 6) {
-            addActionButtonToFab(fabQuickConnect, Color.parseColor("#27272c"),
+            addActionButtonToFab(fabQuickConnect, null, null,
                 getString(R.string.showAllProfiles), R.drawable.ic_zoom_out, v -> {
                     viewPager.setCurrentItem(2);
                     fabQuickConnect.close(true);
@@ -456,7 +464,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         List<Profile> profileList = new ArrayList<>(serverManager.getSavedProfiles());
         for (final Profile profile : ReversedList.reverse(
             profileList.subList(0, profileList.size() >= 6 ? 6 : profileList.size()))) {
-            addActionButtonToFab(fabQuickConnect, Color.parseColor(profile.getColor()), profile.getDisplayName(getContext()),
+            addActionButtonToFab(
+                fabQuickConnect,
+                null,
+                Color.parseColor(profile.getColor()),
+                profile.getDisplayName(getContext()),
                 profile.getProfileIcon(), v -> {
                     onConnectToProfile(new ConnectToProfile(profile));
                     fabQuickConnect.close(true);
@@ -464,25 +476,69 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         }
 
         if (vpnStateMonitor.isConnected()) {
-            addActionButtonToFab(fabQuickConnect, Color.RED, getString(R.string.disconnect),
-                R.drawable.ic_notification_disconnected, v -> {
+            addActionButtonToFab(
+                fabQuickConnect,
+                MaterialColors.getColor(fabQuickConnect, R.attr.proton_notification_error),
+                MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
+                getString(R.string.disconnect),
+                R.drawable.ic_power_off,
+                v -> {
                     vpnConnectionManager.disconnect();
+                    fabQuickConnect.close(true);
+                });
+        } else {
+            addActionButtonToFab(
+                fabQuickConnect,
+                MaterialColors.getColor(fabQuickConnect, R.attr.brand_norm),
+                MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
+                getString(R.string.quickConnect),
+                R.drawable.ic_power_off,
+                v -> {
+                    connectToDefaultProfile();
                     fabQuickConnect.close(true);
                 });
         }
         fabQuickConnect.onboardingAnimation();
     }
 
-    private void addActionButtonToFab(FloatingActionMenu actionsMenu, int color, String name,
-                                      @DrawableRes int icon, View.OnClickListener listener) {
+    private void addActionButtonToFab(
+            @NonNull FloatingActionMenu actionsMenu, @Nullable Integer bgColorOverride,
+            @Nullable Integer iconColorOverride, @NonNull String name, @DrawableRes int icon,
+            @NonNull View.OnClickListener listener) {
         FloatingActionButton button = new FloatingActionButton(getContext());
-        button.setColorNormal(color);
-        button.setColorPressed(ContextCompat.getColor(getContext(), R.color.darkGrey));
+        int buttonColor = bgColorOverride == null
+            ? MaterialColors.getColor(button, R.attr.proton_interaction_weak)
+            : bgColorOverride;
+        button.setColorNormal(buttonColor);
+        button.setColorPressed(buttonColor);
         button.setButtonSize(1);
-        button.setImageResource(icon);
+        int iconColor = iconColorOverride == null
+            ? MaterialColors.getColor(button, R.attr.proton_icon_norm)
+            : iconColorOverride;
+        // FloatingActionButton is an ImageView but has custom drawing implementation that breaks image
+        // tinting.
+        Drawable iconDrawable = ContextCompat.getDrawable(getContext(), icon);
+        if (iconDrawable != null) {
+            iconDrawable = iconDrawable.mutate();
+            iconDrawable.setTint(iconColor);
+            button.setImageDrawable(iconDrawable);
+        }
         button.setLabelText(name);
         button.setOnClickListener(listener);
         actionsMenu.addMenuButton(button);
+    }
+
+    private void connectToDefaultProfile() {
+        Profile profile = serverManager.getDefaultConnection();
+        onConnectToProfile(new ConnectToProfile(profile));
+    }
+
+    private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {
+        int bgColorAttr = accented ? R.attr.brand_norm : R.attr.proton_background_inverted;
+        int iconColorAttr = accented ? R.attr.colorOnPrimary : R.attr.proton_icon_inverted;
+        fab.setMenuButtonColorNormal(MaterialColors.getColor(fab, bgColorAttr));
+        fab.setMenuButtonColorPressed(MaterialColors.getColor(fab, bgColorAttr));
+        fab.getMenuIconView().setColorFilter(MaterialColors.getColor(fab, iconColorAttr));
     }
 
     @OnCheckedChanged(R.id.switchSecureCore)

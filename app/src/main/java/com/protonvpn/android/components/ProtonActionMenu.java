@@ -33,11 +33,20 @@ import com.protonvpn.android.utils.Storage;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import androidx.annotation.Nullable;
+
 public class ProtonActionMenu extends FloatingActionMenu {
+
+    public interface Listener {
+        void onOpening();
+        void onClosing();
+    }
 
     FloatingActionButton button;
     private long lastClickTime = 0;
     boolean isInited = false;
+    @Nullable
+    private Listener openListener;
 
     public ProtonActionMenu(Context context) {
         this(context, null);
@@ -82,6 +91,26 @@ public class ProtonActionMenu extends FloatingActionMenu {
             lastClickTime = SystemClock.elapsedRealtime();
             clickListener.onClick(v);
         });
+    }
+
+    public void setOpenListener(@Nullable Listener listener) {
+        openListener = listener;
+    }
+
+    @Override
+    public void open(boolean animate) {
+        super.open(animate);
+        if (openListener != null) {
+            openListener.onOpening();
+        }
+    }
+
+    @Override
+    public void close(boolean animate) {
+        super.close(animate);
+        if (openListener != null) {
+            openListener.onClosing();
+        }
     }
 
     private void animateMenu() {
