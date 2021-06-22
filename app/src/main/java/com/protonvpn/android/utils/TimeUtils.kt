@@ -25,6 +25,10 @@ object TimeUtils {
 
     private val periodFormatter = PeriodFormatterBuilder()
             .minimumPrintedDigits(1)
+            .appendDays()
+            .appendSuffix("d")
+            .minimumPrintedDigits(1)
+            .appendSeparator(" ")
             .appendHours()
             .appendSuffix("h")
             .minimumPrintedDigits(1)

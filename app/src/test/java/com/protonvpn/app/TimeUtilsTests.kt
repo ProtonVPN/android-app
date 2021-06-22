@@ -29,6 +29,7 @@ class TimeUtilsTests {
         Assert.assertEquals("0s", getFormattedTimeFromSeconds(0))
         Assert.assertEquals("12s", getFormattedTimeFromSeconds(12))
         Assert.assertEquals("1m", getFormattedTimeFromSeconds(60))
-        Assert.assertEquals("3h 5s", getFormattedTimeFromSeconds(3*60*60 + 5))
+        Assert.assertEquals("3h 5s", getFormattedTimeFromSeconds(3 * 60 * 60 + 5))
+        Assert.assertEquals("1d 6h 5s", getFormattedTimeFromSeconds(30 * 60 * 60 + 5))
     }
 }
