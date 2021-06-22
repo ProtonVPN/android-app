@@ -171,13 +171,15 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             palette.setSelectedColor(profile?.color
                     ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
 
-            // Profile server might be null if it was removed from API server list responses
+            // Profile server or country might be null if it was removed from API server list responses
             if (server != null) {
                 val country = viewModel.getServerCountry(server)
-                spinnerCountry.selectedItem = country
-                spinnerServer.selectedItem = profile?.wrapper
-                spinnerServer.setItems(country!!.wrapperServers)
-                inputLayoutServer.isVisible = true
+                if (country != null) {
+                    spinnerCountry.selectedItem = country
+                    spinnerServer.selectedItem = profile?.wrapper
+                    spinnerServer.setItems(country.wrapperServers)
+                    inputLayoutServer.isVisible = true
+                }
             }
         }
     }
