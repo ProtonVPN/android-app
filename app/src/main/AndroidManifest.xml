@@ -159,8 +159,7 @@
         </activity>
         <activity
             android:name=".ui.drawer.AccountActivity"
-            android:label="@string/activityAccountTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activityAccountTitle" />
         <activity
             android:name=".ui.drawer.OssLicensesActivity"
             android:label="@string/activityLicensesTitle"

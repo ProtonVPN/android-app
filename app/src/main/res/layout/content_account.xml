@@ -19,12 +19,12 @@
 -->
 <layout>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dimmedGrey"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.protonvpn.android.ui.drawer.AccountActivity"
     tools:layout_editor_absoluteX="0dp"
@@ -33,177 +33,117 @@
 
     <TextView
         android:id="@+id/accountDetails"
+        style="@style/SectionHeadlineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:text="@string/accountDetails"
-        android:textAllCaps="true"
-        android:textColor="@color/accountTitles"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/userLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/accountUser"
-        android:textColor="@color/white50"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accountDetails" />
+    <LinearLayout style="@style/TableRowLayout">
 
-    <TextView
-        android:id="@+id/textUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toTopOf="@+id/userLabel"
-        tools:text="example@protonmail.com" />
+        <TextView
+            android:id="@+id/userLabel"
+            style="@style/TableLabelText"
+            android:text="@string/accountUser" />
 
-    <TextView
-        android:id="@+id/accountLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountType"
-        android:textColor="@color/white50"
-        app:layout_constraintStart_toStartOf="@+id/userLabel"
-        app:layout_constraintTop_toBottomOf="@+id/userLabel"/>
+        <TextView
+            android:id="@+id/textUser"
+            style="@style/TableValueText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="example@protonmail.com" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textAccountType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textUser"
-        app:layout_constraintTop_toBottomOf="@+id/textUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="ProtonMail account" />
+    <View style="@style/Divider.Small" />
 
-    <TextView
-        android:id="@+id/subscriptionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountTier"
-        android:textColor="@color/white50"
-        app:layout_constraintStart_toStartOf="@+id/accountLabel"
-        app:layout_constraintTop_toBottomOf="@+id/accountLabel" />
+    <LinearLayout style="@style/TableRowLayout">
 
-    <TextView
-        android:id="@+id/textAccountTier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textAccountType"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAccountType"
-        tools:text="ProtonVPN Basic" />
+        <TextView
+            android:id="@+id/accountLabel"
+            style="@style/TableLabelText"
+            android:text="@string/accountType" />
 
-    <TextView
-        android:id="@+id/versionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/accountVersion"
-        android:textColor="@color/white50"
-        app:layout_constraintStart_toStartOf="@+id/subscriptionLabel"
-        app:layout_constraintTop_toBottomOf="@+id/subscriptionLabel" />
+        <TextView
+            android:id="@+id/textAccountType"
+            style="@style/TableValueText"
+            tools:text="ProtonMail account" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/textAccountTier"
-        app:layout_constraintTop_toBottomOf="@+id/textAccountTier"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="0.7.5" />
+    <View style="@style/Divider.Small" />
 
-    <View
-        android:id="@+id/divider"
-        style="@style/Divider.Small"
-        android:layout_marginTop="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textVersion" />
+    <LinearLayout style="@style/TableRowLayout">
+
+        <TextView
+            android:id="@+id/subscriptionLabel"
+            style="@style/TableLabelText"
+            android:text="@string/accountTier" />
+
+        <TextView
+            android:id="@+id/textAccountTier"
+            style="@style/TableValueText"
+            tools:text="ProtonVPN Basic" />
+    </LinearLayout>
+
+    <View style="@style/Divider.Small" />
+
+    <LinearLayout style="@style/TableRowLayout">
+
+        <TextView
+            android:id="@+id/versionLabel"
+            style="@style/TableLabelText"
+            android:text="@string/accountVersion" />
+
+        <TextView
+            android:id="@+id/textVersion"
+            style="@style/TableValueText"
+            tools:text="0.7.5" />
+    </LinearLayout>
+
+    <View style="@style/Divider.Small" />
 
     <TextView
         android:id="@+id/subscription"
+        style="@style/SectionHeadlineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:text="@string/accountSubscription"
-        android:textAllCaps="true"
-        android:textColor="@color/accountTitles"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-    <TextView
-        android:id="@+id/subscriptionDetails"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
-        android:lineSpacingMultiplier="1.3"
-        android:text="@string/accountSubscriptionDetails"
-        android:textColor="@color/white50"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscription" />
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="@dimen/gap_medium"
+        android:orientation="horizontal">
 
-    <Button
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginEnd="@dimen/gap_medium"
+            app:srcCompat="@drawable/ic_info_circle_24" />
+
+        <TextView
+            android:id="@+id/subscriptionDetails"
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accountSubscriptionDetails" />
+
+    </LinearLayout>
+
+    <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonManageAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/button_rounded_accent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/accountButtonManage"
-        android:textColor="?colorAccent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscriptionDetails" />
-
-    <View
-        style="@style/Divider.Small"
-        android:layout_marginTop="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonManageAccount" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="userLabel,accountLabel,subscriptionLabel,versionLabel"/>
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:text="@string/accountButtonManage" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 
 </layout>

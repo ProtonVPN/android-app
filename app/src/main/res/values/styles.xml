@@ -283,24 +283,24 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="ConnectionStatsRowLayout">
+    <style name="TableRowLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingLeft">@dimen/connection_stats_row_padding_horizontal</item>
-        <item name="android:paddingRight">@dimen/connection_stats_row_padding_horizontal</item>
+        <item name="android:paddingLeft">@dimen/screen_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/screen_padding_horizontal</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ConnectionStatsLabelText" parent="@style/Proton.Text.DefaultSmall.Weak">
+    <style name="TableLabelText" parent="@style/Proton.Text.DefaultSmall.Weak">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">@dimen/connection_stats_row_padding_vertical</item>
-        <item name="android:paddingBottom">@dimen/connection_stats_row_padding_vertical</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
-    <style name="ConnectionStatsValueText" parent="@style/Proton.Text.DefaultSmall">
+    <style name="TableValueText" parent="@style/Proton.Text.DefaultSmall">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">end</item>
@@ -314,6 +314,13 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+    </style>
+
+    <style name="SectionHeadlineText">
+        <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+        <item name="android:textColor">?attr/brand_norm</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
     <!-- TODO: try to move everything to Core -->

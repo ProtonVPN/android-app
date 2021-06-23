@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/proton_background_secondary"
-    android:paddingHorizontal="16dp">
+    android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
