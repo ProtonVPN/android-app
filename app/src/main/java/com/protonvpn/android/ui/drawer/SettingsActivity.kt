@@ -125,7 +125,8 @@ class SettingsActivity : BaseActivity() {
             userPrefs.apiUseDoH = isChecked
         }
 
-        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol, userPrefs.transmissionProtocol) {
+        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol,
+                userPrefs.transmissionProtocol, showWireguardWarning = true) {
             userPrefs.useSmartProtocol = protocolSelection.useSmart
             userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
