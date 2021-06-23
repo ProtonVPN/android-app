@@ -81,7 +81,7 @@ class ProfilesAdapter(
             textServer.text = newItem.getDisplayName(textServer.context)
 
             val hasAccess = profilesViewModel.hasAccessToServer(server)
-            buttonUpgrade.isVisible = !hasAccess
+            buttonUpgrade.isVisible = !hasAccess && server != null
             buttonConnect.isVisible = hasAccess && online
             imageWrench.isVisible = hasAccess && !online
             buttonConnect.contentDescription = textServer.text
