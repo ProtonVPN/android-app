@@ -60,6 +60,7 @@ class ProtocolSelection @JvmOverloads constructor(
         initialUseSmart: Boolean,
         initialManualProtocol: VpnProtocol,
         initialTransmissionProtocol: TransmissionProtocol,
+        showWireguardWarning: Boolean,
         changeCallback: () -> Unit
     ) = with(binding) {
         useSmart = initialUseSmart
@@ -79,7 +80,7 @@ class ProtocolSelection @JvmOverloads constructor(
                 ProtocolItem(VpnProtocol.WireGuard)))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
             val newProtocol = (item as ProtocolItem).protocol
-            if (newProtocol == VpnProtocol.WireGuard) {
+            if (showWireguardWarning && newProtocol == VpnProtocol.WireGuard) {
                 MaterialDialog.Builder(context).theme(Theme.DARK)
                     .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
                     .content(R.string.settingsDialogWireguardBetaWarningDescription)

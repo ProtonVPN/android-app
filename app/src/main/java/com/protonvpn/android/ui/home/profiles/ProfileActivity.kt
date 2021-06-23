@@ -138,7 +138,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     private fun initProtocolSelection() = with(binding.contentProfile) {
         val protocol = viewModel.selectedProtocol
         val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
-        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol, viewModel.transmissionProtocol) {
+        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol,
+                viewModel.transmissionProtocol, showWireguardWarning = false) {
             viewModel.editableProfile?.setProtocol(protocolSelection.protocol)
             viewModel.editableProfile?.setTransmissionProtocol(
                     protocolSelection.transmissionProtocol.toString())
