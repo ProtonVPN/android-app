@@ -17,13 +17,13 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <com.protonvpn.android.ui.drawer.DrawerNotificationView
     android:id="@+id/drawerNotificationItem"
     style="@style/TextView.Drawer"
     android:text="@string/drawerHelp"
-    android:drawableStart="@drawable/ic_drawer_support"/>
+    android:drawableStart="@drawable/ic_life_ring_24"/>
 
 </layout>

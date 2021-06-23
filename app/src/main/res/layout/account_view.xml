@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 Proton Technologies AG
+  ~ This file is part of Proton Technologies AG and ProtonCore.
+  ~
+  ~ ProtonCore is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonCore is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonCore.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_account"
+    android:clickable="true"
+    android:descendantFocusability="afterDescendants"
+    android:focusable="true"
+    android:padding="@dimen/gap_large">
+
+    <TextView
+        android:id="@+id/textUserInitials"
+        style="@style/Proton.Text.DefaultSmall"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_account_initials"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@color/cornflower_blue"
+        tools:text="SU" />
+
+    <TextView
+        android:id="@+id/textUserName"
+        style="@style/Proton.Text.DefaultSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap_large"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/textUserEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textUserInitials"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Super User"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textUserEmail"
+        style="@style/Proton.Text.Caption.Weak"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap_large"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textUserInitials"
+        app:layout_constraintTop_toBottomOf="@id/textUserName"
+        tools:text="user@protonmail.com"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

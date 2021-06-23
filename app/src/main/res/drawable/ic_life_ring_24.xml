@@ -1,0 +1,28 @@
+<!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:fillType="evenOdd"
+        android:pathData="M8,1C4.134,1 1,4.134 1,8C1,11.866 4.134,15 8,15C11.866,15 15,11.866 15,8C15,6.1435 14.2625,4.363 12.9497,3.0503C11.637,1.7375 9.8565,1 8,1ZM13.8,6.5H11.15C10.8003,5.7807 10.2193,5.1996 9.5,4.85V2.2C11.6073,2.747 13.253,4.3927 13.8,6.5ZM14,8C14.01,8.1665 14.01,8.3335 14,8.5H11.45C11.4771,8.3345 11.4938,8.1676 11.5,8C11.4938,7.8324 11.4771,7.6655 11.45,7.5H14C14.01,7.6665 14.01,7.8335 14,8ZM8,10.5C6.6193,10.5 5.5,9.3807 5.5,8C5.5,6.6193 6.6193,5.5 8,5.5C9.3807,5.5 10.5,6.6193 10.5,8C10.5,8.663 10.2366,9.2989 9.7678,9.7678C9.2989,10.2366 8.663,10.5 8,10.5ZM8.5,2V4.55C8.3335,4.5396 8.1665,4.5396 8,4.55C7.8335,4.5396 7.6665,4.5396 7.5,4.55V2C7.8321,1.96 8.1679,1.96 8.5,2ZM6.5,2.17V4.85C5.7807,5.1996 5.1996,5.7807 4.85,6.5H2.2C2.747,4.3927 4.3927,2.747 6.5,2.2V2.17ZM4.55,8.5H2C1.96,8.1679 1.96,7.8321 2,7.5H4.55C4.5396,7.6665 4.5396,7.8335 4.55,8C4.5396,8.1665 4.5396,8.3335 4.55,8.5ZM2.2,9.5H4.85C5.1996,10.2193 5.7807,10.8003 6.5,11.15V13.8C4.3927,13.253 2.747,11.6073 2.2,9.5ZM7.5,14V11.45C7.6655,11.4771 7.8324,11.4938 8,11.5C8.1676,11.4938 8.3345,11.4771 8.5,11.45V14C8.1679,14.04 7.8321,14.04 7.5,14ZM9.5,13.83V11.15C10.2193,10.8003 10.8003,10.2193 11.15,9.5H13.8C13.253,11.6073 11.6073,13.253 9.5,13.8V13.83Z" />
+</vector>

@@ -39,7 +39,13 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public void openDrawer() {
-        clickOnObjectWithContentDescription(R.string.hamburgerMenu);
+        if (!isDrawerOpened()) {
+            clickOnObjectWithContentDescription(R.string.hamburgerMenu);
+        }
+    }
+
+    public boolean isDrawerOpened() {
+        return isObjectWithIdVisible(R.id.navigationDrawer);
     }
 
     public void checkOfferVisible(String label) {
@@ -107,12 +113,8 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public LogoutResult logout() {
-        //clicks on the menu
-        clickOnObjectWithContentDescription(R.string.hamburgerMenu);
-
-        //clicks on the logout button
+        openDrawer();
         clickOnObjectWithIdAndText(R.id.drawerButtonLogout, R.string.menuActionLogout);
-
         return new LogoutResult();
     }
 

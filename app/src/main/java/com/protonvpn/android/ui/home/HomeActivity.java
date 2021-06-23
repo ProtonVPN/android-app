@@ -86,6 +86,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -116,8 +117,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.fabQuickConnect) ProtonActionMenu fabQuickConnect;
     @BindView(R.id.coordinator) CoordinatorLayout coordinator;
-    @BindView(R.id.textUser) TextView textUser;
-    @BindView(R.id.textTier) TextView textTier;
+    @BindView(R.id.textUserName) TextView textUser;
+    @BindView(R.id.textUserInitials) TextView textUserInitials;
+    @BindView(R.id.textUserEmail) TextView textUserEmail;
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
@@ -320,8 +322,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initDrawerView() {
-        textTier.setText(userData.getVpnInfoResponse().getUserTierName());
-        textUser.setText(userData.getUser());
+        String userName = userData.getUser();
+        textUser.setText(userName);
+        textUserInitials.setText(getInitials(userName));
+        textUserEmail.setText(userName + "@protonmail.com");
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
     }
 
@@ -595,5 +599,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         TypedValue value = new TypedValue();
         view.getContext().getTheme().resolveAttribute(attr, value, true);
         return value.resourceId;
+    }
+
+    @NonNull
+    private String getInitials(@NonNull String login) {
+        return login.substring(0, Math.min(2, login.length())).toUpperCase(Locale.US);
     }
 }
