@@ -71,7 +71,7 @@ class VpnErrorUIManager(
                                     putExtra(EXTRA_SWITCH_PROFILE, switch.toProfile) },
                                 PendingIntent.FLAG_UPDATE_CURRENT
                             )))
-                } else if (vpnAcceleratorNotificationsEnabled()) {
+                } else if (shouldAlwaysInform(switch) || vpnAcceleratorNotificationsEnabled()) {
                     buildNotificationInformation(switch)?.let {
                         displayInformation(it)
                     }
@@ -88,6 +88,15 @@ class VpnErrorUIManager(
             })
         } else {
             notificationHelper.buildSwitchNotification(reconnectionNotification)
+        }
+    }
+
+    private fun shouldAlwaysInform(switch: VpnFallbackResult): Boolean {
+        return when (switch) {
+            is VpnFallbackResult.Switch ->
+                switch.notificationReason is SwitchServerReason.Downgrade ||
+                        switch.notificationReason is SwitchServerReason.UserBecameDelinquent
+            is VpnFallbackResult.Error -> switch.type == ErrorType.MAX_SESSIONS
         }
     }
 
