@@ -31,25 +31,14 @@ import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.strongswan.android.logic.CharonVpnService
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class ProtonCharonVpnService : CharonVpnService() {
-
-    private val lifecycleJob = Job()
-    private val lifecycleScope = CoroutineScope(lifecycleJob)
 
     @Inject lateinit var api: ProtonApiRetroFit
     @Inject lateinit var userData: UserData
@@ -63,13 +52,10 @@ class ProtonCharonVpnService : CharonVpnService() {
 
         Log.i("[IKEv2] onCreate")
         AndroidInjection.inject(this)
-        startCaptureLogFile()
     }
 
     override fun onDestroy() {
         Log.i("[IKEv2] onDestroy")
-
-        lifecycleJob.cancel()
         super.onDestroy()
     }
 
@@ -122,19 +108,5 @@ class ProtonCharonVpnService : CharonVpnService() {
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
         vpnConnectionManager.connect(this, manager.defaultConnection, "always-on")
-    }
-
-    private fun startCaptureLogFile() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val process = Runtime.getRuntime().exec("logcat -s charon -T 1 -v raw")
-                BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
-                    lines.forEach { ProtonLogger.log(it) }
-                }
-            } catch (e: IOException) {
-                ProtonLogger.log("StrongSwan log capture failed: ${e.message}")
-                e.printStackTrace()
-            }
-        }
     }
 }
