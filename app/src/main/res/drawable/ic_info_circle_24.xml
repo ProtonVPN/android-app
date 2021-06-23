@@ -1,0 +1,24 @@
+<!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<vector android:height="24dp" android:viewportHeight="16"
+    android:viewportWidth="16" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?attr/proton_icon_weak" android:pathData="M8.5,11V6H6.5V7H7.5V11H6.5V12H9.5V11H8.5Z"/>
+    <path android:fillColor="?attr/proton_icon_weak" android:pathData="M8.5,5V4H7.5V5H8.5Z"/>
+    <path android:fillColor="?attr/proton_icon_weak" android:fillType="evenOdd" android:pathData="M1,8C1,4.134 4.134,1 8,1C9.8565,1 11.637,1.7375 12.9497,3.0503C14.2625,4.363 15,6.1435 15,8C15,11.866 11.866,15 8,15C4.134,15 1,11.866 1,8ZM2,8C2,11.3137 4.6863,14 8,14C9.5913,14 11.1174,13.3679 12.2426,12.2426C13.3679,11.1174 14,9.5913 14,8C14,4.6863 11.3137,2 8,2C4.6863,2 2,4.6863 2,8Z"/>
+</vector>

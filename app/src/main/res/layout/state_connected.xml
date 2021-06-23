@@ -33,43 +33,43 @@
         app:descriptionText="@string/netShieldEnabledWarning"
         app:isInConnectedScreen="true" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/protocol" />
 
         <TextView
             android:id="@+id/textProtocol"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="IKEv2" />
     </LinearLayout>
 
     <View style="@style/Divider.Small" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/ip" />
 
         <TextView
             android:id="@+id/textServerIp"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="127.0.0.1" />
     </LinearLayout>
 
     <View style="@style/Divider.Small" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/server" />
 
         <TextView
             android:id="@+id/textServerName"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="AS#2" />
 
         <ImageView
@@ -83,21 +83,21 @@
 
         <TextView
             android:id="@+id/textLoad"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="79%" />
     </LinearLayout>
 
     <View style="@style/Divider.Small" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/download_volume" />
 
         <TextView
             android:id="@+id/textDownloadVolume"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="300.4 KB" />
 
         <ImageView
@@ -108,7 +108,7 @@
 
         <TextView
             android:id="@+id/textUploadVolume"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             android:layout_width="75dp"
             tools:text="20 MB" />
 
@@ -120,15 +120,15 @@
 
     <View style="@style/Divider.Small" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/download_speed" />
 
         <TextView
             android:id="@+id/textDownloadSpeed"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="202 KB/s" />
 
         <ImageView
@@ -139,7 +139,7 @@
 
         <TextView
             android:id="@+id/textUploadSpeed"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             android:layout_width="75dp"
             tools:text="25 KB/s" />
 
@@ -151,15 +151,15 @@
 
     <View style="@style/Divider.Small" />
 
-    <LinearLayout style="@style/ConnectionStatsRowLayout">
+    <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            style="@style/ConnectionStatsLabelText"
+            style="@style/TableLabelText"
             android:text="@string/session_time" />
 
         <TextView
             android:id="@+id/textSessionTime"
-            style="@style/ConnectionStatsValueText"
+            style="@style/TableValueText"
             tools:text="1m 25s" />
     </LinearLayout>
 
@@ -175,7 +175,7 @@
         style="@style/ProtonButton.OutlinedButton.Neutral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/connection_stats_row_padding_horizontal"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
         android:text="@string/disconnect" />
 

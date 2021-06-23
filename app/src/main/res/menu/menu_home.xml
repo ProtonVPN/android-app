@@ -22,7 +22,7 @@
     tools:context="com.protonvpn.android.ui.home.HomeActivity">
     <item
         android:id="@+id/action_info"
-        android:icon="@drawable/ic_information"
+        android:icon="@drawable/ic_info_circle_24"
         app:showAsAction="always"
         android:title="@string/activity_information_title" />
 </menu>

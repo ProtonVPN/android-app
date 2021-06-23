@@ -36,7 +36,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_selectable_item_bg"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_information"
+        app:srcCompat="@drawable/ic_info_circle_24"
         app:tint="?attr/proton_icon_weak" />
 </LinearLayout>
 </layout>
