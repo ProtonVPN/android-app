@@ -21,7 +21,6 @@ package com.protonvpn.android.components
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SwitchEx @JvmOverloads constructor(
