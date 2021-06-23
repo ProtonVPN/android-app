@@ -37,6 +37,7 @@ import io.sentry.event.EventBuilder
 import io.sentry.event.interfaces.ExceptionInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.SendChannel
@@ -52,8 +53,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
+import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
+import java.io.InputStreamReader
 import kotlin.collections.ArrayList
 
 private const val LOG_PATTERN = "%d{HH:mm:ss}: %msg"
@@ -88,6 +91,9 @@ open class ProtonLoggerImpl(
                 initialize()
                 clearUploadTempFiles()
                 processLogs()
+            }
+            mainScope.launch(Dispatchers.IO) {
+                captureCharonWireguardLogs()
             }
         }
 
@@ -236,6 +242,22 @@ open class ProtonLoggerImpl(
             override fun append(eventObject: ILoggingEvent) {
                 val line = encoder.encode(eventObject).decodeToString()
                 channel.sendBlocking(line)
+            }
+        }
+
+        private fun captureCharonWireguardLogs() {
+            try {
+                val process = Runtime.getRuntime().exec(
+                    "logcat -s WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}:* charon:* -T 1 -v raw"
+                )
+                BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
+                    lines.forEach {
+                        ProtonLogger.log(it)
+                    }
+                }
+                ProtonLogger.log("Logcat streaming ended")
+            } catch (e: IOException) {
+                ProtonLogger.log("Log capturing from logcat failed: ${e.message}")
             }
         }
     }

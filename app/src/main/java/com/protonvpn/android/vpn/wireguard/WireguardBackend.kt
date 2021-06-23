@@ -28,6 +28,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -54,7 +55,7 @@ class WireguardBackend(
 ) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
 
     private val testTunnel = WireGuardTunnel(
-        name = "test",
+        name = Constants.WIREGUARD_TUNNEL_NAME,
         config = null,
         state = Tunnel.State.TOGGLE
     )

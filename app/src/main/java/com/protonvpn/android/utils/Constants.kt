@@ -48,6 +48,7 @@ object Constants {
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 30L
     const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3
+    const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
 
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String
