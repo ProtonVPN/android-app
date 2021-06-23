@@ -54,7 +54,7 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
             step1.init(1, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep1)))
 
             val textStep2 = SpannableString(getString(R.string.settingsAlwaysOnWindowStep2)).apply {
-                insertDrawable("%1\$s", R.drawable.ic_gear, step2.text.textSize * 1.5f)
+                insertDrawable("%1\$s", R.drawable.ic_cog_wheel_24, step2.text.textSize * 1.5f)
             }
             step2.init(2, textStep2)
 

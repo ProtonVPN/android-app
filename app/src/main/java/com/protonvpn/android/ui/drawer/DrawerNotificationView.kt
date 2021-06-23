@@ -60,7 +60,7 @@ class DrawerNotificationsContainer @JvmOverloads constructor(
 class DrawerNotificationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = android.R.attr.textViewStyle
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     private fun updateIcon(item: HomeViewModel.OfferViewModel) {
@@ -72,7 +72,8 @@ class DrawerNotificationView @JvmOverloads constructor(
                     val size = resources.getDimensionPixelSize(R.dimen.drawer_icon_size)
                     resource.setBounds(0, 0, size, size)
                     resource.setTint(
-                        if (!item.visited) context.getThemeColor(R.attr.colorAccent) else currentTextColor)
+                        getThemeColor(if (!item.visited) R.attr.colorAccent else R.attr.proton_icon_norm)
+                    )
                     setCompoundDrawablesRelative(resource, null, null, null)
                 }
                 override fun onLoadCleared(placeholder: Drawable?) {}
@@ -85,9 +86,9 @@ class DrawerNotificationView @JvmOverloads constructor(
             activity: AppCompatActivity,
             item: HomeViewModel.OfferViewModel
         ) = DrawerNotificationViewBinding.inflate(activity.layoutInflater).drawerNotificationItem.apply {
-            val accent = activity.getThemeColor(R.attr.colorAccent)
-            val placeholder = ResourcesCompat.getDrawable(resources, R.drawable.id_drawer_notification, null)
-            placeholder?.setTint(if (!item.visited) accent else currentTextColor)
+            val accent = getThemeColor(R.attr.colorAccent)
+            val placeholder = ResourcesCompat.getDrawable(resources, R.drawable.ic_drawer_notification, null)
+            placeholder?.setTint(if (!item.visited) accent else getThemeColor(R.attr.proton_icon_norm))
             setCompoundDrawablesRelativeWithIntrinsicBounds(placeholder, null, null, null)
             updateIcon(item)
             text = item.label
