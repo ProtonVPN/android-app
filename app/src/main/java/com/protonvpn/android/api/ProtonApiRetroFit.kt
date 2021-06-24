@@ -47,11 +47,10 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     suspend fun refreshToken(request: RefreshTokenRequest) =
         manager { refreshToken(request) }
 
-    fun postBugReport(
+    open suspend fun postBugReport(
         loader: LoaderUI,
         params: RequestBody,
-        callback: NetworkResultCallback<GenericResponse>
-    ) = makeCall(callback, loader) { it.postBugReport(params) }
+    ) = makeCall(loader) { it.postBugReport(params) }
 
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         makeCall(loader) { it.getServers(ip) }

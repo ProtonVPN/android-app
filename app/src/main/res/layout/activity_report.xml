@@ -17,22 +17,30 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.protonvpn.android.ui.drawer.AccountActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/content_appbar" />
-
-    <include layout="@layout/content_report" />
-
-    <com.protonvpn.android.components.NetworkFrameLayout
-        android:id="@+id/loadingContainer"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        tools:context="com.protonvpn.android.ui.drawer.AccountActivity">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/layoutAppbar"
+            layout="@layout/content_appbar" />
+
+        <include
+            android:id="@+id/layoutReport"
+            layout="@layout/content_report" />
+
+        <com.protonvpn.android.components.NetworkFrameLayout
+            android:id="@+id/loadingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
