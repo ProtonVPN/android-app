@@ -27,47 +27,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/proton_background_secondary"
-        android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/connection_bottom_sheet_header_height"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/layoutStatusHeader"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/connection_bottom_sheet_header_height"
-            android:background="?attr/proton_background_secondary"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/imageExpand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_chevron_up" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:theme="@style/AppTheme.WhiteAccent" />
-
-            <TextView
-                android:id="@+id/textConnectingTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+            <LinearLayout
+                android:id="@+id/layoutStatusHeader"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/connection_bottom_sheet_header_height"
+                android:background="?attr/proton_background_secondary"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
-                tools:text="Connecting to somewhere" />
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageExpand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_chevron_up" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:theme="@style/AppTheme.WhiteAccent" />
+
+                <TextView
+                    android:id="@+id/textConnectingTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
+                    tools:text="Connecting to somewhere" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/dividerTop"
+                style="@style/Divider.Small"
+                android:layout_gravity="top"/>
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
