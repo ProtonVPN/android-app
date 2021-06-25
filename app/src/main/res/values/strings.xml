@@ -208,8 +208,10 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Attachments</string>
     <string name="report_message">Report message</string>
-    <string name="contact_email">Contact email</string>
-    <string name="your_message">Your message…</string>
+    <string name="report_bug_email_label">Your email</string>
+    <string name="report_bug_email_hint">Enter your email address</string>
+    <string name="report_bug_message_label">Message</string>
+    <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
     <string name="send_report">Send report</string>
     <string name="excludeIpTitle">Exclude IP Addresses</string>
     <string name="discardChanges">There are unsaved changes. Are you sure you want to discard them?</string>
@@ -250,8 +252,8 @@
     <string name="bugReportErrorEmptyEmail">Email can\'t be empty</string>
     <string name="bugReportErrorInvalidEmail">Invalid email address</string>
     <string name="bugReportErrorEmptyDescription">Please write us what is happening</string>
-    <string name="bugReportLabelVpnLogsTitle">VPN logs</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Enabling this will add your client side VPN logs to this report</string>
+    <string name="bugReportLabelVpnLogsTitle">Include error logs</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">This sends local error logs (we don\'t log activity) to help us fix your problem</string>
     <string name="profileFastest">Fastest</string>
     <string name="profileRandom">Random</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling allows certain apps or IPs to be excluded from the VPN traffic.</string>
