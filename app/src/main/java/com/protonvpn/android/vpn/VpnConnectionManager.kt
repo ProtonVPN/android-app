@@ -145,7 +145,7 @@ open class VpnConnectionManager(
 
                 when (state) {
                     VpnState.Connected -> {
-                        EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                        EventBus.postOnMain(ConnectedToServer(connectionParams!!.server))
                     }
                     VpnState.Disabled -> {
                         EventBus.postOnMain(ConnectedToServer(null))
