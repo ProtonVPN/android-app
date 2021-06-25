@@ -23,8 +23,8 @@ import com.wireguard.android.backend.Statistics
 import com.wireguard.android.backend.Tunnel
 import com.wireguard.config.Config
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.withContext
 
 class WireGuardTunnel internal constructor(
@@ -35,8 +35,10 @@ class WireGuardTunnel internal constructor(
 
     override fun getName() = name
 
-    private val internalStateFlow = MutableStateFlow(Tunnel.State.TOGGLE)
-    val stateFlow: StateFlow<Tunnel.State> = internalStateFlow
+    private val internalStateFlow = MutableSharedFlow<Tunnel.State>(replay = 1, extraBufferCapacity = 5).apply {
+        tryEmit(Tunnel.State.TOGGLE)
+    }
+    val stateFlow: Flow<Tunnel.State> = internalStateFlow
 
     var state = state
         private set
