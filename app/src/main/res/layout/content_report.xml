@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2018 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -21,106 +20,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dimmedGrey"
     android:animateLayoutChanges="true"
     android:descendantFocusability="beforeDescendants"
     android:focusable="true"
     android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="36dp">
-
-        <TextView
-            android:id="@+id/textStartOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/attachments"
-            android:textAllCaps="true"
-            android:textColor="@color/accountTitles"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.protonvpn.android.components.ProtonSwitch
-            android:id="@+id/switchAttachLog"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textStartOptions"
-            app:textDescription="@string/bugReportErrorLabelVpnLogsDescription"
-            app:textTitle="@string/bugReportLabelVpnLogsTitle"
-            app:dividerHidden="false" />
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
         <TextView
             android:id="@+id/textReport"
-            android:layout_width="wrap_content"
+            style="@style/SectionHeadlineText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/report_message"
-            android:textAllCaps="true"
-            android:textColor="@color/accountTitles"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchAttachLog" />
+            android:text="@string/report_message" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <me.proton.core.presentation.ui.view.ProtonInput
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:padding="8dp"
-            android:gravity="top"
-            android:background="@color/grey"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white50"
-            android:hint="@string/contact_email"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textReport" />
+            android:hint="@string/report_bug_email_hint"
+            app:label="@string/report_bug_email_label" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <me.proton.core.presentation.ui.view.ProtonInput
             android:id="@+id/editReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="98dp"
-            android:layout_margin="12dp"
-            android:padding="8dp"
-            android:gravity="top"
-            android:background="@color/grey"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white50"
-            android:hint="@string/your_message"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+            android:inputType="textMultiLine"
+            android:minLines="7"
+            android:hint="@string/report_bug_message_hint"
+            app:label="@string/report_bug_message_label" />
 
-        <Button
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkboxIncludeLogs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bugReportLabelVpnLogsTitle" />
+
+        <TextView
+            style="@style/Proton.Text.Caption.Hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_medium"
+            android:text="@string/bugReportErrorLabelVpnLogsDescription" />
+
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonReport"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/button_rounded_accent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/send_report"
-            android:textColor="?colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editReport" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/send_report" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

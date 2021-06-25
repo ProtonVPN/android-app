@@ -33,6 +33,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityReportBinding
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.ui.view.ProtonInput
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_report)
@@ -40,8 +41,8 @@ class ReportBugActivity : BaseActivityV2<ActivityReportBinding, ReportBugActivit
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val editReport: EditText get() = binding.layoutReport.editReport
-    private val editEmail: EditText get() = binding.layoutReport.editEmail
+    private val editReport: ProtonInput get() = binding.layoutReport.editReport
+    private val editEmail: ProtonInput get() = binding.layoutReport.editEmail
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ReportBugActivityViewModel::class.java)
@@ -56,8 +57,8 @@ class ReportBugActivity : BaseActivityV2<ActivityReportBinding, ReportBugActivit
 
     private fun initUi() = with(binding) {
         viewModel.state.observe(this@ReportBugActivity, Observer { state ->
-            editEmail.error =  state.emailError?.let { getString(it) }
-            editReport.error = state.reportError?.let { getString(it) }
+            editEmail.setOrClearError(state.emailError?.let { getString(it) })
+            editReport.setOrClearError(state.reportError?.let { getString(it) })
         })
         layoutReport.buttonReport.setOnClickListener {
             postReport()
@@ -86,7 +87,7 @@ class ReportBugActivity : BaseActivityV2<ActivityReportBinding, ReportBugActivit
                 binding.loadingContainer,
                 editEmail.text.toString(),
                 editReport.text.toString(),
-                binding.layoutReport.switchAttachLog.switchProton.isChecked
+                binding.layoutReport.checkboxIncludeLogs.isChecked
             )
             if (isSuccess) {
                 Toast.makeText(
@@ -97,5 +98,10 @@ class ReportBugActivity : BaseActivityV2<ActivityReportBinding, ReportBugActivit
                 finish()
             }
         }
+    }
+
+    private fun ProtonInput.setOrClearError(error: String?) {
+        if (error == null) clearInputError()
+        else setInputError(error)
     }
 }
