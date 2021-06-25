@@ -76,6 +76,7 @@ abstract class VpnBackend(
 
     @CallSuper
     open suspend fun connect(connectionParams: ConnectionParams) {
+        closeAgentConnection()
         lastConnectionParams = connectionParams
     }
 
