@@ -397,7 +397,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         }
         else {
             Server server = connectTo.getServer();
-            onConnect(Profile.Companion.getTempProfile(server, serverManager, server.getExitCountry()));
+            onConnect(Profile.Companion.getTempProfile(server, serverManager));
         }
     }
 
