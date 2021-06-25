@@ -28,6 +28,8 @@ import android.view.animation.OvershootInterpolator;
 import com.github.clans.fab.FloatingActionMenu;
 import com.protonvpn.android.R;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
 public final class AnimationTools {
 
     private AnimationTools() {
@@ -52,8 +54,9 @@ public final class AnimationTools {
         scaleInX.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
+                int iconRes = menu.isOpened() ? R.drawable.ic_proton : R.drawable.ic_cross_close;
                 menu.getMenuIconView()
-                    .setImageResource(menu.isOpened() ? R.drawable.ic_proton : R.drawable.ic_cross_close);
+                    .setImageDrawable(AppCompatResources.getDrawable(menu.getContext(), iconRes));
             }
         });
 
