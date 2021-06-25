@@ -88,6 +88,7 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;
     @BindView(R.id.textConnectingTo) TextView textConnectingTo;
     @BindView(R.id.imageExpand) ImageView imageExpand;
+    @BindView(R.id.dividerTop) View dividerTop;
     @BindView(R.id.layoutBottomSheet) View layoutBottomSheet;
     @BindView(R.id.progressBar) ProgressBar progressBar;
 
@@ -242,6 +243,7 @@ public class VpnStateFragment extends BaseFragment {
                 if (imageExpand != null) {
                     imageExpand.animate().rotation(180 * slideOffset).setDuration(0).start();
                 }
+                dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
             }
         });
     }

@@ -34,8 +34,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/appbar_elevation">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -62,15 +61,17 @@
             android:paddingBottom="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <View style="@style/Divider.Small" />
+
             <com.protonvpn.android.components.SwitchEx
                 android:id="@+id/switchSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="16dp"
-                android:paddingHorizontal="16dp"
-                android:background="?proton_background_secondary"
-                android:elevation="@dimen/appbar_elevation"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
                 android:text="@string/mapSwitchSecureCore"/>
+
+            <View style="@style/Divider.Small" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -104,7 +105,7 @@
         style="@style/ActionMenuRtlSupported"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal"
         android:paddingBottom="16dp"
         android:visibility="invisible"
         app:menu_backgroundColor="@color/blackOverlay"
