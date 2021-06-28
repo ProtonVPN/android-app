@@ -108,7 +108,12 @@ open class CountryExpandedViewHolder(
             if (secureCoreEnabled) {
                 textServer.text = textServer.context.getString(R.string.secureCoreConnectVia,
                     CountryTools.getFullName(server.entryCountry))
-                textServer.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_right, 0)
+                textServer.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.ic_secure_core_arrow_green,
+                    0
+                )
                 imageCountry.setImageResource(
                     CountryTools.getFlagResource(imageCountry.context, server.entryCountry))
             } else {
