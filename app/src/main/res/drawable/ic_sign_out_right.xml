@@ -16,9 +16,16 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<vector android:autoMirrored="true" android:height="24dp"
-    android:viewportHeight="16" android:viewportWidth="16"
-    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="?attr/proton_icon_norm" android:pathData="M1,1L10,1V4H9V2L2,2L2,14L9,14V12H10V15L1,15L1,1Z"/>
-    <path android:fillColor="?attr/proton_icon_norm" android:pathData="M11.1464,5.3535L13.2929,7.5L6,7.5V8.5L13.2929,8.5L11.1464,10.6464L11.8535,11.3535L15.2071,8L11.8535,4.6464L11.1464,5.3535Z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:pathData="M1,1L10,1V4H9V2L2,2L2,14L9,14V12H10V15L1,15L1,1Z" />
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:pathData="M11.1464,5.3535L13.2929,7.5L6,7.5V8.5L13.2929,8.5L11.1464,10.6464L11.8535,11.3535L15.2071,8L11.8535,4.6464L11.1464,5.3535Z" />
 </vector>

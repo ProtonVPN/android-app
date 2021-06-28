@@ -56,7 +56,7 @@
                     style="@style/TextView.Drawer"
                     android:layout_marginTop="@dimen/gap_huge"
                     android:text="@string/drawerSettings"
-                    app:drawableStartCompat="@drawable/ic_cog_wheel_24" />
+                    app:drawableStartCompat="@drawable/ic_cog_wheel" />
 
                 <View style="@style/Divider.Small" />
 
@@ -64,7 +64,7 @@
                     android:id="@+id/drawerButtonAccount"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerAccount"
-                    app:drawableStartCompat="@drawable/ic_user_24" />
+                    app:drawableStartCompat="@drawable/ic_user" />
 
                 <View style="@style/Divider.Small" />
 
@@ -72,7 +72,7 @@
                     android:id="@+id/drawerButtonShowLog"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerShowLog"
-                    app:drawableStartCompat="@drawable/ic_eye_24" />
+                    app:drawableStartCompat="@drawable/ic_eye" />
 
                 <View style="@style/Divider.Small" />
 
@@ -88,7 +88,7 @@
                     android:id="@+id/drawerButtonHelp"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerHelp"
-                    app:drawableStartCompat="@drawable/ic_life_ring_24" />
+                    app:drawableStartCompat="@drawable/ic_life_ring" />
 
                 <View style="@style/Divider.Small" />
 
@@ -96,7 +96,7 @@
                     android:id="@+id/drawerButtonLogout"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerLogout"
-                    app:drawableStartCompat="@drawable/ic_sign_out_24" />
+                    app:drawableStartCompat="@drawable/ic_sign_out_right" />
 
                 <View style="@style/Divider.Small" />
 

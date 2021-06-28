@@ -131,7 +131,7 @@
             android:background="@drawable/bg_button_oval"
             android:backgroundTint="?attr/proton_interaction_weak"
             android:foreground="@drawable/round_selectable_item_bg"
-            app:srcCompat="@drawable/ic_power_off_24"
+            app:srcCompat="@drawable/ic_power_off"
             app:tint="@color/text_norm"/>
 
         <ImageView
