@@ -20,8 +20,6 @@ package com.protonvpn.android;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
-import android.os.PowerManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -35,12 +33,15 @@ import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.vpn.VpnLogCapture;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -55,6 +56,9 @@ import rx_activity_result2.RxActivityResult;
 public class ProtonApplication extends DaggerApplication {
 
     public Activity foregroundActivity;
+
+    @Inject
+    public VpnLogCapture vpnLogCapture;
 
     @Override
     public void onCreate() {
@@ -82,6 +86,7 @@ public class ProtonApplication extends DaggerApplication {
         Seq.touch();
 
         ProtonLogger.INSTANCE.log("--------- App start ---------");
+        vpnLogCapture.startCapture();
     }
 
     private void initActivityObserver() {

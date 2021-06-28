@@ -37,7 +37,6 @@ import io.sentry.event.EventBuilder
 import io.sentry.event.interfaces.ExceptionInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.SendChannel
@@ -51,12 +50,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
-import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
-import java.io.InputStreamReader
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -81,7 +77,8 @@ open class ProtonLoggerImpl(
         private val loggerDispatcher: CoroutineDispatcher,
         private val messages: Flow<String>,
         private val logDir: String,
-        private val logPattern: String
+        private val logPattern: String,
+        uniqueLoggerName: String
     ) {
 
         private lateinit var logContext: LoggerContext
@@ -89,16 +86,13 @@ open class ProtonLoggerImpl(
         private val fileName = "Data.log"
         private val fileName2 = "Data1.log"
         private val logger =
-            LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
+            LoggerFactory.getLogger(uniqueLoggerName) as ch.qos.logback.classic.Logger
 
         init {
             mainScope.launch(loggerDispatcher) {
                 initialize()
                 clearUploadTempFiles()
                 processLogs()
-            }
-            mainScope.launch(Dispatchers.IO) {
-                captureCharonWireguardLogs()
             }
         }
 
@@ -188,9 +182,9 @@ open class ProtonLoggerImpl(
 
             fileAppender.encoder = patternEncoder
             fileAppender.start()
-            val root = logContext.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
-            root.addAppender(fileAppender)
-            root.addAppender(logcatAppender)
+
+            logger.addAppender(fileAppender)
+            logger.addAppender(logcatAppender)
 
             StatusPrinter.print(logContext)
         }
@@ -252,22 +246,6 @@ open class ProtonLoggerImpl(
                 channel.sendBlocking(line)
             }
         }
-
-        private fun captureCharonWireguardLogs() {
-            try {
-                val process = Runtime.getRuntime().exec(
-                    "logcat -s WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}:* charon:* -T 1 -v raw"
-                )
-                BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
-                    lines.forEach {
-                        ProtonLogger.log(it)
-                    }
-                }
-                ProtonLogger.log("Logcat streaming ended")
-            } catch (e: IOException) {
-                ProtonLogger.log("Log capturing from logcat failed: ${e.message}")
-            }
-        }
     }
 
     private val logMessageQueue =
@@ -279,7 +257,8 @@ open class ProtonLoggerImpl(
         loggerDispatcher,
         logMessageQueue,
         logDir,
-        logPattern
+        logPattern,
+        getUniqueLoggerName()
     )
 
     fun logSentryEvent(event: Event) {
@@ -315,6 +294,16 @@ open class ProtonLoggerImpl(
     fun clearUploadTempFiles(files: List<LogFile>) {
         mainScope.launch {
             backgroundLogger.clearUploadTempFiles(files)
+        }
+    }
+
+    companion object {
+        private var instanceNumber = 0
+
+        private fun getUniqueLoggerName(): String = synchronized(this) {
+            val uniqueName = "ProtonLogger_$instanceNumber"
+            ++instanceNumber
+            return uniqueName
         }
     }
 }

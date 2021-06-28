@@ -49,11 +49,13 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import com.protonvpn.android.vpn.VpnLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.wireguard.android.backend.GoBackend
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,6 +86,9 @@ class AppModule {
 
     private val scope = CoroutineScope(Dispatchers.Main)
     private val random = Random()
+
+    @Provides
+    fun provideMainScope() = scope
 
     @Provides
     @Singleton
@@ -369,6 +374,12 @@ class AppModule {
         certificateRepository: CertificateRepository
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
         vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
+
+    @Module
+    interface Bindings {
+        @Binds
+        fun bindVpnLogCapture(vpnLogCapture: VpnLogCapture): VpnLogCapture
+    }
 }
 
 @Module
