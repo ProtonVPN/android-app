@@ -26,6 +26,7 @@ import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
@@ -57,8 +58,7 @@ public class ProtonApplication extends DaggerApplication {
 
     public Activity foregroundActivity;
 
-    @Inject
-    public VpnLogCapture vpnLogCapture;
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -86,7 +86,8 @@ public class ProtonApplication extends DaggerApplication {
         Seq.touch();
 
         ProtonLogger.INSTANCE.log("--------- App start ---------");
-        vpnLogCapture.startCapture();
+        // Inject VpnLogCapture once injection into ProtonApplication is fixed in androidTests.
+        (new VpnLogCapture(getAppComponent())).startCapture();
     }
 
     private void initActivityObserver() {
@@ -136,7 +137,14 @@ public class ProtonApplication extends DaggerApplication {
 
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return DaggerAppComponent.builder().application(this).build();
+        return getAppComponent();
+    }
+
+    private AppComponent getAppComponent() {
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder().application(this).build();
+        }
+        return appComponent;
     }
 
     @NotNull

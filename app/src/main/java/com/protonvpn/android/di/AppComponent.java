@@ -20,8 +20,11 @@ package com.protonvpn.android.di;
 
 import android.app.Application;
 
+import com.protonvpn.android.vpn.VpnLogCapture;
+
 import javax.inject.Singleton;
 
+import androidx.annotation.NonNull;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.Module;
@@ -44,6 +47,8 @@ public interface AppComponent extends AndroidInjector<DaggerApplication> {
 
         AppComponent build();
     }
+
+    void inject(@NonNull VpnLogCapture vpnLogCapture);
 }
 
 @InstallIn(SingletonComponent.class)
