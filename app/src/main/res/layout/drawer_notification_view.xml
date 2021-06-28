@@ -24,6 +24,6 @@
     android:id="@+id/drawerNotificationItem"
     style="@style/TextView.Drawer"
     android:text="@string/drawerHelp"
-    android:drawableStart="@drawable/ic_life_ring_24"/>
+    android:drawableStart="@drawable/ic_life_ring"/>
 
 </layout>

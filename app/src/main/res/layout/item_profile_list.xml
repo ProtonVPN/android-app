@@ -85,7 +85,7 @@
             android:layout_marginVertical="10dp"
             android:background="@drawable/bg_button_oval"
             android:backgroundTint="@color/interaction_weak"
-            android:src="@drawable/ic_power_off_24"
+            android:src="@drawable/ic_power_off"
             android:foreground="@drawable/round_selectable_item_bg"
             app:tint="@color/text_norm"/>
 
