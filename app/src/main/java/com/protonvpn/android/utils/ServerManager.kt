@@ -202,7 +202,7 @@ class ServerManager(
         onServersUpdate()
     }
 
-    fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedBy { it.countryName }
+    fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
 
     val defaultFallbackConnection = getSavedProfiles()[0]
 
@@ -297,7 +297,7 @@ class ServerManager(
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =
-        filteredSecureCoreExitCountries
+        filteredSecureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->

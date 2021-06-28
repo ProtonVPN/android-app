@@ -143,9 +143,9 @@ class TvMainViewModel @Inject constructor(
                 vpnCountry = country
             )
         }).mapValues { continent ->
-            continent.value.sortedWith(compareBy<CountryCard> {
+            continent.value.sortedWith(compareBy {
                 !it.vpnCountry.hasAccessibleOnlineServer(userData)
-            }.thenBy { it.countryName })
+            })
         }
     }
 
