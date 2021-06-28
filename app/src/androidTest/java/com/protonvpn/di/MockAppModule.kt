@@ -51,9 +51,11 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import com.protonvpn.android.vpn.VpnLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
@@ -73,6 +75,9 @@ import javax.inject.Singleton
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
+
+    @Provides
+    fun provideMainScope() = scope
 
     @Provides
     @Singleton
@@ -337,4 +342,10 @@ class MockAppModule {
         certificateRepository: CertificateRepository
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
         vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
+
+    @Module
+    interface Bindings {
+        @Binds
+        fun bindVpnLogCapture(vpnLogCapture: VpnLogCapture): VpnLogCapture
+    }
 }
