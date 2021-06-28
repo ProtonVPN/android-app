@@ -38,7 +38,7 @@
             android:id="@+id/imageCountry"
             android:layout_width="24dp"
             android:layout_height="16dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             tools:src="@drawable/de"/>
 
@@ -55,9 +55,10 @@
                 style="@style/Proton.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="1"
+                android:drawablePadding="8dp"
                 android:ellipsize="end"
-                tools:text="DE#1"/>
+                android:lines="1"
+                tools:text="DE#1" />
 
             <TextView
                 android:id="@+id/textCity"
