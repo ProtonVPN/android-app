@@ -20,8 +20,10 @@ package com.protonvpn.android.ui.home.vpn;
 
 import android.animation.LayoutTransition;
 import android.content.res.ColorStateList;
-import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,6 +51,7 @@ import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.ui.CenterImageSpan;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.ui.ServerLoadColor;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
@@ -387,7 +390,7 @@ public class VpnStateFragment extends BaseFragment {
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connecting.INSTANCE.equals(state)) {
-                textConnectingTo.setText(getString(R.string.loaderConnectingTo, serverName));
+                textConnectingTo.setText(getStringWithServerName(R.string.loaderConnectingTo, serverName));
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
@@ -395,7 +398,7 @@ public class VpnStateFragment extends BaseFragment {
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connected.INSTANCE.equals(state)) {
-                textConnectingTo.setText(getString(R.string.loaderConnectedTo, serverName));
+                textConnectingTo.setText(getStringWithServerName(R.string.loaderConnectedTo, serverName));
                 initConnectedStateView(connectedServer);
             }
             else if (VpnState.Disconnecting.INSTANCE.equals(state)) {
@@ -491,5 +494,24 @@ public class VpnStateFragment extends BaseFragment {
         else {
             textConnectingTo.setText(R.string.loaderReconnecting);
         }
+    }
+
+    @NonNull
+    private Spannable getStringWithServerName(@StringRes int textRes, @NonNull String serverName) {
+        return addSecureCoreArrow(getString(textRes, serverName));
+    }
+
+    @NonNull
+    private Spannable addSecureCoreArrow(@NonNull String text) {
+        SpannableString spannable = new SpannableString(text);
+
+        int index = text.indexOf(Server.SECURE_CORE_SEPARATOR);
+        if (index > -1) {
+            CenterImageSpan span =
+                new CenterImageSpan(requireContext(), R.drawable.ic_secure_core_arrow_green);
+            spannable.setSpan(span, index, index + Server.SECURE_CORE_SEPARATOR.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannable;
     }
 }

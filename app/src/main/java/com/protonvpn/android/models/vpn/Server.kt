@@ -128,8 +128,8 @@ data class Server(
         connectingDomains.any { it.supportsProtocol(protocol) }
 
     private val secureCoreServerNaming: String
-        get() = CountryTools.getFullName(entryCountry) + " >> " + CountryTools.getFullName(
-                exitCountry)
+        get() = CountryTools.getFullName(entryCountry) + " $SECURE_CORE_SEPARATOR " +
+                CountryTools.getFullName(exitCountry)
 
     val displayName: String get() = if (isSecureCoreServer)
         secureCoreServerNaming
@@ -162,5 +162,6 @@ data class Server(
 
     companion object {
         val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")
+        const val SECURE_CORE_SEPARATOR = ">>"
     }
 }
