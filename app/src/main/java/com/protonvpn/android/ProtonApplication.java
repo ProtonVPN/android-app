@@ -81,7 +81,7 @@ public class ProtonApplication extends DaggerApplication {
         // Initialize go-libraries early to avoid crashes in StrongSwan
         Seq.touch();
 
-        ProtonLogger.INSTANCE.log("App start");
+        ProtonLogger.INSTANCE.log("--------- App start ---------");
     }
 
     private void initActivityObserver() {

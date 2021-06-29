@@ -263,7 +263,7 @@ open class ProtonLoggerImpl(
     }
 
     private val logMessageQueue =
-        MutableSharedFlow<String>(0, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
+        MutableSharedFlow<String>(10, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
 
     private val backgroundLogger = BackgroundLogger(
         appContext,
