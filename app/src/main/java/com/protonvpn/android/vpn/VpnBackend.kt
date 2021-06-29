@@ -29,7 +29,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -86,12 +86,11 @@ abstract class VpnBackend(
 
     private val nativeClient = object : NativeClient {
         override fun log(msg: String) {
-            Log.d(msg)
+            ProtonLogger.log(msg)
         }
 
         override fun onError(code: Long, description: String) {
-            Log.e("Local agent description: $description")
-            Log.e("Local agent error: $code")
+            ProtonLogger.log("Local agent error: $code $description")
             when (code) {
                 agentConstants.errorCodeMaxSessionsBasic,
                 agentConstants.errorCodeMaxSessionsFree,
@@ -128,7 +127,7 @@ abstract class VpnBackend(
         }
 
         override fun onState(state: String) {
-            Log.d("Local agent state: $state")
+            ProtonLogger.log("Local agent state: $state")
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
 
@@ -237,7 +236,7 @@ abstract class VpnBackend(
                     connectToLocalAgent()
                 is CertificateRepository.CertificateResult.Error -> {
                     // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    Log.e("Failed to refresh certificate")
+                    ProtonLogger.log("Failed to refresh certificate")
                     setLocalAgentError("Failed to refresh certificate")
                 }
             }
@@ -252,7 +251,7 @@ abstract class VpnBackend(
             when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
                 is CertificateRepository.CertificateResult.Error -> {
                     // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    Log.e("Failed to revoke and refresh certificate")
+                    ProtonLogger.log("Failed to revoke and refresh certificate")
                     setLocalAgentError("Failed to refresh revoked certificate")
                 }
                 is CertificateRepository.CertificateResult.Success -> {
