@@ -29,14 +29,14 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:foreground="@drawable/bg_circle_ripple_selector"
-        android:src="#E01623"
-        android:clickable="true" />
+        android:src="#E01623" />
 
     <ImageView
         android:id="@+id/imageCheckBox"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.0"
         app:srcCompat="@drawable/ic_check" />
 
 </FrameLayout>

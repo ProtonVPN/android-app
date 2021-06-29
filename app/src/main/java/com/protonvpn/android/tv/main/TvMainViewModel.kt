@@ -296,7 +296,10 @@ class TvMainViewModel @Inject constructor(
 
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
         userData.defaultConnection = if (checked) Profile(
-            vpnCountry.countryName, "", ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)
+            vpnCountry.countryName,
+            null,
+            ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager),
+            null
         ) else null
     }
 

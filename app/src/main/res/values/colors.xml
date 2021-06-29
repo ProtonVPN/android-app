@@ -54,24 +54,28 @@
     <color name="notificationArrow">@color/black</color>
     <color name="notificationDisabled">#9CA0AA</color>
 
-    <color name="pickerColor1">#E01623</color>
-    <color name="pickerColor2">#BD6566</color>
-    <color name="pickerColor3">#D21BB5</color>
-    <color name="pickerColor4">#B14FA3</color>
-    <color name="pickerColor5">#9F49DA</color>
-    <color name="pickerColor6">#9369B1</color>
-    <color name="pickerColor7">#6071DA</color>
-    <color name="pickerColor8">#6871A5</color>
-    <color name="pickerColor9">#39C5CA</color>
-    <color name="pickerColor10">#579191</color>
-    <color name="pickerColor11">#3DB965</color>
-    <color name="pickerColor12">#5C946F</color>
-    <color name="pickerColor13">#9DBF3A</color>
-    <color name="pickerColor14">#909F66</color>
-    <color name="pickerColor15">#E9C652</color>
-    <color name="pickerColor16">#A39364</color>
-    <color name="pickerColor17">#D77124</color>
-    <color name="pickerColor18">#A97D57</color>
+    <!-- Profile color names -->
+    <color name="purple_base">#7272A7</color>
+    <color name="heather_base">#8989AC</color>
+    <color name="strawberry_base">#CF5858</color>
+    <color name="blush_base">#CF7E7E</color>
+    <color name="pink_base">#C26CC7</color>
+    <color name="lilac_base">#C793CA</color>
+    <color name="slateblue_base">#7569D1</color>
+    <color name="kimberly_base">#9B94D1</color>
+    <color name="pacific_base">#69A9D1</color>
+    <color name="glacier_base">#A8C4D5</color>
+    <color name="profile11">#79C4B7</color>
+    <color name="profile12">#A1C8C1</color>
+    <color name="fern_base">#72BB75</color>
+    <color name="moss_base">#9DB99F</color>
+    <color name="pear_base">#C3D261</color>
+    <color name="olive_base">#C6CD97</color>
+    <color name="mustard_base">#E6C04C</color>
+    <color name="sahara_base">#E7D292</color>
+    <color name="carrot_base">#E6984C</color>
+    <color name="cinnamon_base">#DFB286</color>
+
 
     <color name="brightCyan">#32b3dd</color>
     <color name="blackOverlay">#80000000</color>
@@ -96,5 +100,7 @@
     <color name="serverLoadMedium">#EAC819</color>
     <color name="serverLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
+    <color name="tvGuidedActionsBackground">#E01623</color>
+    <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
 
 </resources>

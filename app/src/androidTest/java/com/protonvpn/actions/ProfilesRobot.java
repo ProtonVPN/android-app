@@ -38,8 +38,8 @@ public class ProfilesRobot extends UIActionsTestHelper {
         profilesResult = new ProfilesResult();
     }
 
-    public ProfilesRobot selectColor(final int resourceId) {
-        clickOnObjectWithContentDescription(resourceId);
+    public ProfilesRobot selectColorIndex(final int index) {
+        clickOnObjectChildWithIdAndPosition(R.id.layoutPalette, index);
         return this;
     }
 

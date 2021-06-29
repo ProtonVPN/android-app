@@ -50,6 +50,7 @@ import com.protonvpn.android.components.NetShieldSwitch;
 import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.profiles.ProfileColor;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.CenterImageSpan;
 import com.protonvpn.android.ui.home.ServerListUpdater;
@@ -161,8 +162,8 @@ public class VpnStateFragment extends BaseFragment {
                 return;
             }
         }
-        manager.addToProfileList(currentProfile.getServer().getServerName(),
-            Profile.Companion.getRandomProfileColor(requireContext()), currentProfile.getServer());
+        manager.addToProfileList(currentProfile.getServer().getServerName(), ProfileColor.random(),
+            currentProfile.getServer());
         Toast.makeText(getActivity(), R.string.toastProfileSaved, Toast.LENGTH_LONG).show();
     }
 

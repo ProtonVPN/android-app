@@ -44,8 +44,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:colorPrimary">#4B4B57</item>
         <item name="android:colorBackground">@color/dimmedGrey</item>
-        <item name="guidedActionsBackground">@color/pickerColor1</item>
-        <item name="guidedActionsBackgroundDark">@color/pickerColor2</item>
+        <item name="guidedActionsBackground">@color/tvGuidedActionsBackground</item>
+        <item name="guidedActionsBackgroundDark">@color/tvGuidedActionsBackgroundDark</item>
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:colorControlActivated">?colorAccent</item>
         <item name="android:colorForeground">#4B4B57</item>

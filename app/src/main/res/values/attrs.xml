@@ -17,10 +17,6 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <declare-styleable name="ProtonColorCircle">
-        <attr name="circleColor" format="color" />
-        <attr name="defaultColor" format="boolean" />
-    </declare-styleable>
     <declare-styleable name="SplitTunnelButton">
         <attr name="title" format="string" />
         <attr name="shouldHandleApps" format="boolean" />

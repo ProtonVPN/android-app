@@ -23,6 +23,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -94,9 +95,10 @@ class ProfilesAdapter(
             buttonUpgrade.contentDescription = textServer.text
             textServerNotSet.isVisible = server == null
             profileEditButton.isVisible = !newItem.isPreBakedProfile
-            profileColor.setBackgroundColor(
-                newItem.colorString?.let { Color.parseColor(it) } ?: Color.TRANSPARENT
-            )
+            val color = newItem.profileColor?.colorRes?.let {
+                ContextCompat.getColor(profileItem.context, it)
+            } ?: Color.TRANSPARENT
+            profileColor.setBackgroundColor(color)
             profileEditButton.setOnClickListener(editClickListener)
             profileItem.setOnClickListener(if (newItem.isPreBakedProfile) null else editClickListener)
             profileItem.setBackgroundResource(if (newItem.isPreBakedProfile)
