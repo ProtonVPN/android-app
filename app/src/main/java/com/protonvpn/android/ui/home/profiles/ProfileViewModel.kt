@@ -1,13 +1,15 @@
 package com.protonvpn.android.ui.home.profiles
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.ProtonSpinner
-import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -22,21 +24,25 @@ class ProfileViewModel @Inject constructor(
     val appConfig: AppConfig
 ) : ViewModel() {
 
-    var editableProfile: Profile? = null
+    private var editableProfile: Profile? = null
+
+    private val _selectedColor = MutableLiveData<ProfileColor>()
+    val selectedColor: LiveData<ProfileColor> get() { return _selectedColor }
+
     var secureCoreEnabled = userData.isSecureCoreEnabled
-    val profileServer get() = editableProfile?.server
+    val canDeleteProfile: Boolean get() { return editableProfile != null }
 
     val transmissionProtocol: TransmissionProtocol
         get() = editableProfile?.getTransmissionProtocol(userData) ?: userData.transmissionProtocol
-    val netShieldProtocol: NetShieldProtocol
-        get() = editableProfile?.getNetShieldProtocol(userData, appConfig) ?: NetShieldProtocol.ENABLED
     val serverValidateSelection = ProtonSpinner.OnValidateSelection<ServerWrapper> {
         userData.hasAccessToServer(serverManager.getServer(it))
     }
 
     fun getServerCountry(server: Server): VpnCountry? {
-        return serverManager.getVpnExitCountry(if (secureCoreEnabled) server.exitCountry else server.flag,
-                secureCoreEnabled)
+        return serverManager.getVpnExitCountry(
+            if (secureCoreEnabled) server.exitCountry else server.flag,
+            secureCoreEnabled
+        )
     }
 
     val selectedProtocol: VpnProtocol
@@ -48,6 +54,11 @@ class ProfileViewModel @Inject constructor(
             profile.wrapper.setDeliverer(serverManager)
             secureCoreEnabled = profile.isSecureCore
         }
+        _selectedColor.value =  editableProfile?.profileColor ?: ProfileColor.random()
+    }
+
+    fun selectProfileColor(color: ProfileColor) {
+        _selectedColor.value = color
     }
 
     fun getCountryItems(): List<VpnCountry> =
@@ -56,10 +67,29 @@ class ProfileViewModel @Inject constructor(
         else
             serverManager.getVpnCountries()
 
-    fun saveProfile(profile: Profile) {
+    fun hasUnsavedChanges(profileName: String, serverWrapper: ServerWrapper?, serverName: String?): Boolean {
+        val profile = editableProfile
+        return if (profile != null) {
+            profileName != profile.name || profile.wrapper != serverWrapper
+        } else {
+            profileName.isNotEmpty() || !serverName.isNullOrEmpty()
+        }
+    }
+
+    fun saveProfile(
+        name: String,
+        serverWrapper: ServerWrapper,
+        transmissionProtocol: TransmissionProtocol,
+        protocol: VpnProtocol
+    ) {
+        val newProfile =
+            Profile(name, null, serverWrapper, requireNotNull(selectedColor.value).id).apply {
+                setTransmissionProtocol(transmissionProtocol.toString())
+                setProtocol(protocol)
+            }
         editableProfile?.let {
-            serverManager.editProfile(it, profile)
-        } ?: serverManager.addToProfileList(profile)
+            serverManager.editProfile(it, newProfile)
+        } ?: serverManager.addToProfileList(newProfile)
     }
 
     fun deleteProfile() {

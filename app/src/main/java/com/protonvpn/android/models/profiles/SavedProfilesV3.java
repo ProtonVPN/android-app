@@ -41,9 +41,18 @@ public class SavedProfilesV3 implements Serializable {
     public static SavedProfilesV3 defaultProfiles(Context context, ServerDeliver deliver) {
         SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<>());
         defaultProfiles.getProfileList()
-            .add(new Profile(context.getString(R.string.profileFastest), "#27272c", ServerWrapper.makePreBakedFastest(deliver)));
+            .add(new Profile(context.getString(R.string.profileFastest), null, ServerWrapper.makePreBakedFastest(deliver), null));
         defaultProfiles.getProfileList()
-            .add(new Profile(context.getString(R.string.profileRandom), "#27272c", ServerWrapper.makePreBakedRandom(deliver)));
+            .add(new Profile(context.getString(R.string.profileRandom), null,
+                ServerWrapper.makePreBakedRandom(deliver), null));
         return defaultProfiles;
+    }
+
+    public SavedProfilesV3 migrateColors() {
+        List<Profile> migrated = new ArrayList<Profile>(profileList.size());
+        for (Profile profile : profileList) {
+            migrated.add(profile.migrateColor());
+        }
+        return new SavedProfilesV3(migrated);
     }
 }

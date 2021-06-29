@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.home;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -467,7 +466,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             addActionButtonToFab(
                 fabQuickConnect,
                 null,
-                profile.getColorString() != null ? Color.parseColor(profile.getColorString()) : null,
+                profile.getProfileColor() != null
+                    ? ContextCompat.getColor(getContext(), profile.getProfileColor().getColorRes())
+                    : null,
                 profile.getDisplayName(getContext()),
                 profile.getProfileIcon(), v -> {
                     onConnectToProfile(new ConnectToProfile(profile));

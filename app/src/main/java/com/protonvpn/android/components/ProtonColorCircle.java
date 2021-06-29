@@ -19,86 +19,56 @@
 package com.protonvpn.android.components;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import com.protonvpn.android.R;
+import com.protonvpn.android.databinding.ComponentColorCircleBinding;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProtonColorCircle extends FrameLayout {
 
-    @BindView(R.id.circle) CircleImageView circle;
-    @BindView(R.id.imageCheckBox) ImageView imageCheckBox;
-    private String circleColor;
-    private boolean defaultColor = false;
-    private ProtonPalette palette;
+    private boolean isChecked = false;
+    @NonNull
+    private ComponentColorCircleBinding views;
+
+    public ProtonColorCircle(@NonNull Context context) {
+        super(context);
+        init();
+    }
 
     public ProtonColorCircle(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAttrs(attrs);
+        init();
     }
 
     public ProtonColorCircle(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAttrs(attrs);
+        init();
     }
 
-    private void initAttrs(AttributeSet attrs) {
-        TypedArray a =
-            getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ProtonColorCircle, 0, 0);
-
-        try {
-            circleColor = a.getString(R.styleable.ProtonColorCircle_circleColor);
-            defaultColor = a.getBoolean(R.styleable.ProtonColorCircle_defaultColor, false);
-        }
-        finally {
-            a.recycle();
-        }
-    }
-
-    @OnClick(R.id.circle)
-    public void circle() {
-        if (!isChecked()) {
-            palette.setSelectedColor(circleColor, true);
-        }
+    private void init() {
+        views = ComponentColorCircleBinding.inflate(LayoutInflater.from(getContext()), this, true);
     }
 
     private void animateCheckBox(boolean shouldBeVisible, boolean animate) {
-        imageCheckBox.animate().alpha(shouldBeVisible ? 1f : 0f).setDuration(animate ? 250 : 0);
+        views.imageCheckBox.animate().alpha(shouldBeVisible ? 1f : 0f).setDuration(animate ? 250 : 0);
     }
 
     public void setChecked(boolean enable, boolean animate) {
         if (isChecked() != enable) {
+            isChecked = enable;
             animateCheckBox(enable, animate);
         }
     }
 
     public boolean isChecked() {
-        return palette.getSelectedColor().equals(circleColor);
+        return isChecked;
     }
 
-    public boolean isDefaultColor() {
-        return defaultColor;
-    }
-
-    public String getCircleColor() {
-        return circleColor;
-    }
-
-    public void init(ProtonPalette palette) {
-        this.palette = palette;
-        inflate(getContext(), R.layout.component_color_circle, this);
-        ButterKnife.bind(this);
-        circle.setImageDrawable(new ColorDrawable(Color.parseColor(circleColor)));
-        imageCheckBox.setAlpha(defaultColor ? 1f : 0f);
+    public void setColor(@ColorRes int colorId) {
+        views.circle.setImageResource(colorId);
     }
 }

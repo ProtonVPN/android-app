@@ -20,7 +20,6 @@ package com.protonvpn.android.models.profiles
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.Listable
@@ -30,21 +29,32 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
-import java.util.Random
 
 data class Profile(
     val name: String,
     private val color: String?,
-    val wrapper: ServerWrapper
+    val wrapper: ServerWrapper,
+    private val colorId: Int?
 ) : Serializable, Listable {
 
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
 
-    val colorString: String? get() {
-        return if (isPreBakedProfile) null
-        else color
+    val profileColor: ProfileColor? get() {
+        return colorId?.let { ProfileColor.byId(it) }
     }
+
+    fun migrateColor(): Profile =
+        if (color != null && colorId == null && !isPreBakedProfile) {
+            val profileColor = ProfileColor.values().find {
+                it.legacyColorString == color
+            } ?: ProfileColor.random() // Should not happen.
+            copy(color = null, colorId = profileColor.id)
+        } else if (color != null && isPreBakedProfile) {
+            copy(color = null, colorId = null)
+        } else {
+            this
+        }
 
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
@@ -95,13 +105,11 @@ data class Profile(
     companion object {
         @JvmStatic
         fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =
-            Profile(server.displayName, null, ServerWrapper.makeWithServer(server, serverDeliver))
-
-        fun getRandomProfileColor(context: Context): String {
-            val name = "pickerColor" + (Random().nextInt(18 - 1) + 1)
-            val colorRes =
-                    context.resources.getIdentifier(name, "color", context.packageName)
-            return "#" + Integer.toHexString(ContextCompat.getColor(context, colorRes))
-        }
+            Profile(
+                server.displayName,
+                null,
+                ServerWrapper.makeWithServer(server, serverDeliver),
+                null
+            )
     }
 }

@@ -23,6 +23,7 @@ import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -60,6 +61,7 @@ class ServerManager(
     @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(appContext, this))
+            .migrateColors()
 
     @Transient val updateEvent = LiveEvent()
     @Transient val profilesUpdateEvent = LiveEvent()
@@ -285,16 +287,16 @@ class ServerManager(
     fun deleteSavedProfiles() {
         val defaultProfiles =
                 SavedProfilesV3.defaultProfiles(appContext, this).profileList
-        for (profile in getSavedProfiles()) {
+        for (profile in getSavedProfiles().toList()) {
             if (profile !in defaultProfiles) {
                 deleteProfile(profile)
             }
         }
     }
 
-    fun addToProfileList(serverName: String?, color: String?, server: Server) {
+    fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
-                Profile(serverName!!, color!!, ServerWrapper.makeWithServer(server, this))
+                Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
         newProfile.wrapper.setSecureCore(userData.isSecureCoreEnabled)
         addToProfileList(newProfile)
     }

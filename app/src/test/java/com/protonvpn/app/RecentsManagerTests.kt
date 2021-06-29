@@ -44,7 +44,7 @@ class RecentsManagerTests {
     }
 
     private fun mockedConnectionParams(country: String, serverName: String = country): ConnectionParams {
-        val profile = Profile(country, "", mockk(relaxed = true))
+        val profile = Profile(country, null, mockk(relaxed = true), null)
         every { profile.server?.exitCountry }.returns(country)
         val server = mockk<Server>()
         every { server.flag }.returns(country)

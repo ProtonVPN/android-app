@@ -21,7 +21,6 @@ package com.protonvpn.tests.profiles;
 import com.protonvpn.actions.ConnectionRobot;
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.ProfilesRobot;
-import com.protonvpn.android.R;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.ProfilesResult;
@@ -114,7 +113,7 @@ public class ProfilesRobotTests {
 
         profilesRobot.clickOnCreateNewProfileButton();
         profilesRobot.insertTextInProfileNameField(profileName);
-        profilesRobot.selectColor(R.color.pickerColor3);
+        profilesRobot.selectColorIndex(2);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
 

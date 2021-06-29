@@ -23,10 +23,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
@@ -36,10 +37,12 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
+import com.protonvpn.android.components.ProtonColorCircle
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.databinding.ActivityProfileBinding
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import javax.inject.Inject
@@ -49,6 +52,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
+
     override fun initViewModel() {
         viewModel =
                 ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
@@ -56,11 +61,16 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.initWithProfile(intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?)
-        initSpinners()
+        val profile = intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?
+        viewModel.initWithProfile(profile)
+        initPalette()
+        initSaveButton()
+        initServerSelection()
         initProtocolSelection()
         initSecureCoreSwitch()
-        initEditableProfile()
+        initEditableProfile(profile)
+
+        viewModel.selectedColor.observe(this, Observer { setColorChecked(it) })
     }
 
     private fun checkInputFields(): Boolean {
@@ -71,8 +81,27 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                     if (switchSecureCore.isChecked) R.string.errorEmptyExitCountry else R.string.errorEmptyCountry)
             val serverNotEmpty = editTextNotEmpty(inputLayoutServer, spinnerServer,
                     if (switchSecureCore.isChecked) R.string.errorEmptyEntryCountry else R.string.errorEmptyServer)
-            return nameNotEmpty && countryNotEmpty && serverNotEmpty &&
-                    profileColorSelected()
+            return nameNotEmpty && countryNotEmpty && serverNotEmpty
+        }
+    }
+
+    private fun initPalette() {
+        ProfileColor.values().forEach { profileColor ->
+            val circle = ProtonColorCircle(this)
+            binding.contentProfile.layoutPalette.addView(circle);
+            circle.setColor(profileColor.colorRes)
+            paletteViews[circle] = profileColor
+            circle.setOnClickListener(this::selectProfileColor)
+        }
+    }
+
+    private fun selectProfileColor(colorView: View) {
+        viewModel.selectProfileColor(requireNotNull(paletteViews.get(colorView)))
+    }
+
+    private fun setColorChecked(newColor: ProfileColor) {
+        paletteViews.forEach { (view, color) ->
+            view.setChecked(color == newColor, true)
         }
     }
 
@@ -104,20 +133,18 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         }
     }
 
-    private fun initSpinners() {
+    private fun initSaveButton() {
         with(binding.contentProfile) {
-            initServerSelection()
             binding.fabSave.setOnClickListener {
                 if (checkInputFields()) {
-                    val newProfile =
-                            Profile(editName.text.toString(), palette.selectedColor,
-                                    spinnerServer.selectedItem as ServerWrapper)
-                    newProfile.apply {
-                        setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
-                        setProtocol(protocolSelection.protocol)
-                        wrapper.setSecureCore(switchSecureCore.isChecked)
-                    }
-                    viewModel.saveProfile(newProfile)
+                    val serverWrapper = spinnerServer.selectedItem as ServerWrapper
+                    serverWrapper.setSecureCore(switchSecureCore.isChecked)
+                    viewModel.saveProfile(
+                        editName.text.toString(),
+                        serverWrapper,
+                        protocolSelection.transmissionProtocol,
+                        protocolSelection.protocol
+                    )
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
@@ -139,11 +166,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         val protocol = viewModel.selectedProtocol
         val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
         protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol,
-                viewModel.transmissionProtocol) {
-            viewModel.editableProfile?.setProtocol(protocolSelection.protocol)
-            viewModel.editableProfile?.setTransmissionProtocol(
-                    protocolSelection.transmissionProtocol.toString())
-        }
+                viewModel.transmissionProtocol) { }
     }
 
     private fun editTextNotEmpty(errorLayout: TextInputLayout?, editText: EditText, @StringRes errorId: Int): Boolean {
@@ -154,30 +177,19 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         return true
     }
 
-    private fun profileColorSelected(): Boolean {
-        if (binding.contentProfile.palette.selectedColor.isEmpty()) {
-            Toast.makeText(this, R.string.selectedProfileColor, Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
-    }
-
-    private fun initEditableProfile() {
-        val profile = viewModel.editableProfile
-        val server = viewModel.profileServer
+    private fun initEditableProfile(profile: Profile?) {
+        val server = profile?.server
         with(binding.contentProfile) {
             val spinnerCountry = spinnerCountry as ProtonSpinner<VpnCountry>
             val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
             editName.setText(profile?.getDisplayName(baseContext))
-            palette.setSelectedColor(profile?.colorString
-                    ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
 
             // Profile server or country might be null if it was removed from API server list responses
             if (server != null) {
                 val country = viewModel.getServerCountry(server)
                 if (country != null) {
                     spinnerCountry.selectedItem = country
-                    spinnerServer.selectedItem = profile?.wrapper
+                    spinnerServer.selectedItem = profile.wrapper
                     spinnerServer.setItems(country.wrapperServers)
                     inputLayoutServer.isVisible = true
                 }
@@ -185,20 +197,19 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         }
     }
 
-    private fun hasUnchangedSettings(): Boolean {
+    private fun hasUnsavedSettings(): Boolean {
         with(binding.contentProfile) {
             val currentName = editName.text.toString()
-            val editableProfile = viewModel.editableProfile
-            return if (editableProfile != null) {
-                editableProfile.wrapper != spinnerServer.selectedItem || currentName.isNotEmpty() &&
-                        currentName != editableProfile.getDisplayName(baseContext)
-            } else currentName.isNotEmpty() || spinnerCountry.text!!.toString().isNotEmpty() ||
-                    spinnerServer.text!!.toString().isNotEmpty()
+            return viewModel.hasUnsavedChanges(
+                currentName,
+                spinnerServer.selectedItem as? ServerWrapper,
+                spinnerServer.text?.toString()
+            )
         }
     }
 
     override fun onBackPressed() {
-        if (hasUnchangedSettings()) {
+        if (hasUnsavedSettings()) {
             MaterialDialog.Builder(this).theme(Theme.DARK)
                     .title(R.string.warning)
                     .content(R.string.discardChanges)
@@ -213,7 +224,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_profile, menu)
-        menu.findItem(R.id.action_delete).isVisible = viewModel.editableProfile != null
+        menu.findItem(R.id.action_delete).isVisible = viewModel.canDeleteProfile
         return true
     }
 

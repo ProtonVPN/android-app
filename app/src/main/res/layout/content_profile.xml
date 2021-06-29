@@ -70,11 +70,12 @@
                 android:textColor="@color/lightGrey"
                 android:textSize="16sp" />
 
-            <com.protonvpn.android.components.ProtonPalette
-                android:id="@+id/palette"
+            <GridLayout
+                android:id="@+id/layoutPalette"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp" />
+                android:layout_marginHorizontal="16dp"
+                android:columnCount="6" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchSecureCore"
