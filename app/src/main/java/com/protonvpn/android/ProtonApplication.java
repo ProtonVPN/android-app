@@ -89,17 +89,12 @@ public class ProtonApplication extends DaggerApplication {
 
             @Override public void onActivityResumed(@NonNull Activity activity) {
                 foregroundActivity = activity;
-                ProtonLogger.INSTANCE.log("App in foreground " + activity.getClass().getSimpleName() + " "
-                    + BuildConfig.VERSION_NAME);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-                    ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
-                }
+                ProtonLogger.logActivityResumed(activity);
             }
 
             @Override public void onActivityPaused(@NonNull Activity activity) {
                 foregroundActivity = null;
-                ProtonLogger.INSTANCE.log("App in background " + activity.getClass().getSimpleName());
+                ProtonLogger.logActivityPaused(activity);
             }
         });
     }

@@ -18,9 +18,17 @@
  */
 package com.protonvpn.android.utils
 
+import android.app.Activity
+import android.content.Context
+import android.os.Build
+import android.os.PowerManager
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.Executors
 
 object ProtonLogger : ProtonLoggerImpl(
@@ -28,4 +36,21 @@ object ProtonLogger : ProtonLoggerImpl(
     MainScope(),
     Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
     ProtonApplication.getAppContext().applicationInfo.dataDir + "/log"
-)
+) {
+    private val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK)
+
+    @JvmStatic
+    fun logActivityResumed(activity: Activity) {
+        log("App in foreground ${activity.javaClass.simpleName} " +
+            "${BuildConfig.VERSION_NAME} ${dateFormat.format(Date())}")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val pm = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
+            log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(activity.packageName))
+        }
+    }
+
+    @JvmStatic
+    fun logActivityPaused(activity: Activity) {
+        log("App in background " + activity.javaClass.simpleName)
+    }
+}
