@@ -56,6 +56,13 @@ interface VpnBackendProvider {
     data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 
+interface AgentConnectionInterface {
+    val state: String
+    fun setFeatures(features: Features)
+    fun setConnectivity(connectivity: Boolean)
+    fun close()
+}
+
 abstract class VpnBackend(
     val userData: UserData,
     val appConfig: AppConfig,
@@ -82,9 +89,43 @@ abstract class VpnBackend(
 
     abstract suspend fun disconnect()
     abstract suspend fun reconnect()
+
+    open fun createAgentConnection(
+        certInfo: CertificateRepository.CertificateResult.Success,
+        hostname: String?,
+        nativeClient: NativeClient
+    ) = object : AgentConnectionInterface {
+        val agent = AgentConnection(
+            certInfo.certificate,
+            certInfo.privateKeyPem,
+            Constants.VPN_ROOT_CERTS,
+            Constants.LOCAL_AGENT_ADDRESS,
+            hostname,
+            nativeClient,
+            features,
+            networkManager.isConnectedToNetwork()
+        )
+
+        override val state: String get() = agent.state
+
+        override fun setFeatures(features: Features) {
+            agent.setFeatures(features)
+        }
+
+        override fun setConnectivity(connectivity: Boolean) {
+            agent.setConnectivity(connectivity)
+        }
+
+        override fun close() {
+            agent.close()
+        }
+    }
+
     abstract val retryInfo: RetryInfo?
 
-    private val nativeClient = object : NativeClient {
+    // This is not a val because of how spyk() works in testing code: it creates a copy of the wrapped object and when
+    // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
+    private fun createNativeClient() = object : NativeClient {
         override fun log(msg: String) {
             ProtonLogger.log(msg)
         }
@@ -147,7 +188,7 @@ abstract class VpnBackend(
         }
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
-    private var agent: AgentConnection? = null
+    private var agent: AgentConnectionInterface? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
     private val features: Features = Features()
@@ -273,16 +314,7 @@ abstract class VpnBackend(
                     delay(500)
 
                     prepareFeaturesForAgentConnection()
-                    agent = AgentConnection(
-                        certInfo.certificate,
-                        certInfo.privateKeyPem,
-                        Constants.VPN_ROOT_CERTS,
-                        Constants.LOCAL_AGENT_ADDRESS,
-                        hostname,
-                        nativeClient,
-                        features,
-                        networkManager.isConnectedToNetwork()
-                    )
+                    agent = createAgentConnection(certInfo, hostname, createNativeClient())
                 } else {
                     setLocalAgentError("Failed to get wireguard certificate")
                 }
