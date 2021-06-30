@@ -24,13 +24,21 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
+import localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
+
+typealias MockAgentProvider = (
+    certInfo: CertificateRepository.CertificateResult.Success,
+    hostname: String?,
+    nativeClient: NativeClient
+) -> AgentConnectionInterface
 
 class MockVpnBackend(
     scope: CoroutineScope,
@@ -47,6 +55,11 @@ class MockVpnBackend(
     vpnProtocol = protocol,
     mainScope = scope
 ) {
+    private var agentProvider: MockAgentProvider? = null
+
+    fun setAgentProvider(provider: MockAgentProvider) {
+        agentProvider = provider
+    }
 
     override suspend fun prepareForConnection(
         profile: Profile,
@@ -61,19 +74,26 @@ class MockVpnBackend(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
-        vpnProtocolState = VpnState.Connected
-        setSelfState(stateOnConnect)
+        vpnProtocolState = VpnState.Connecting
+        vpnProtocolState = stateOnConnect
     }
 
     override suspend fun disconnect() {
-        setSelfState(VpnState.Disconnecting)
-        setSelfState(VpnState.Disabled)
+        vpnProtocolState = VpnState.Disconnecting
+        vpnProtocolState = VpnState.Disabled
     }
 
     override suspend fun reconnect() {
-        setSelfState(VpnState.Connecting)
-        setSelfState(stateOnConnect)
+        vpnProtocolState = VpnState.Connecting
+        vpnProtocolState = stateOnConnect
     }
+
+    override fun createAgentConnection(
+        certInfo: CertificateRepository.CertificateResult.Success,
+        hostname: String?,
+        nativeClient: NativeClient
+    ) = agentProvider?.invoke(certInfo, hostname, nativeClient)
+            ?: super.createAgentConnection(certInfo, hostname, nativeClient)
 
     override val retryInfo get() = RetryInfo(10, 10)
 
