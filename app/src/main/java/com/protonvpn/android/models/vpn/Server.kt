@@ -51,7 +51,7 @@ data class Server(
 
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Status")
-    private val isOnline: Boolean
+    private var isOnline: Boolean
 ) : Markable, java.io.Serializable, Listable {
 
     val online get() = isOnline && connectingDomains.any { it.isOnline }
@@ -152,6 +152,13 @@ data class Server(
 
     override fun getLabel(context: Context): String = if (isSecureCoreServer)
         CountryTools.getFullName(entryCountry) else serverName
+
+    fun setOnline(value: Boolean) {
+        isOnline = value
+        connectingDomains.forEach {
+            it.isOnline = value
+        }
+    }
 
     companion object {
         val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")

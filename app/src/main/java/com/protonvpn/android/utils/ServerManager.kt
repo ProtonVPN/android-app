@@ -196,6 +196,11 @@ class ServerManager(
             loadsMap[server.serverId]?.let {
                 server.load = it.load
                 server.score = it.score
+
+                // If server becomes online we don't know which connectingDomains became available based on /loads
+                // response. If there's more than one connectingDomain it'll have to wait for /logicals response
+                if (server.online != it.isOnline && (!it.isOnline || server.connectingDomains.size == 1))
+                    server.setOnline(it.isOnline)
             }
         }
         Storage.save(this)
