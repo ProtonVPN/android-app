@@ -51,12 +51,11 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import io.sentry.event.EventBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
+import kotlin.coroutines.coroutineContext
 
 @Singleton
 open class VpnConnectionManager(
@@ -169,8 +168,6 @@ open class VpnConnectionManager(
             activeBackend == null || activeBackend == newBackend
         }
         if (activeBackend != newBackend) {
-            activeBackend?.active = false
-            newBackend.active = true
             newBackend.setSelfState(VpnState.Connecting)
             activeBackendObservable.value = newBackend
             setSelfState(VpnState.Disabled)
@@ -266,6 +263,14 @@ open class VpnConnectionManager(
     private suspend fun smartConnect(profile: Profile, server: Server) {
         ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
+
+        if (activeBackend != null) {
+            ProtonLogger.log("Disconnecting first...")
+            disconnectForNewConnection()
+            if (!coroutineContext.isActive)
+                return // Don't connect if the scope has been cancelled.
+            ProtonLogger.log("Disconnected, start connecting to new server.")
+        }
 
         if (profile.getProtocol(userData) == VpnProtocol.Smart)
             setSelfState(VpnState.ScanningPorts)
@@ -396,9 +401,20 @@ open class VpnConnectionManager(
         Storage.delete(ConnectionParams::class.java)
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
-        activeBackend?.active = false
         activeBackendObservable.value = null
         connectionParams = null
+    }
+
+    private suspend fun disconnectForNewConnection() {
+        Storage.delete(ConnectionParams::class.java)
+        // The UI relies on going through this state to properly show that a new connection is
+        // being established (as opposed to reconnecting to the same server).
+        setSelfState(VpnState.Disconnecting)
+        val previousBackend = activeBackend
+        activeBackendObservable.value = null
+        // CheckingAvailability seems to be the best state without introducing a new one.
+        setSelfState(VpnState.CheckingAvailability)
+        previousBackend?.disconnect()
     }
 
     open fun disconnect() {

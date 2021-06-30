@@ -182,9 +182,6 @@ class StrongSwanBackend(
             }
             vpnProtocolState = newState
         }
-        debugAssert {
-            (vpnProtocolState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
-        }
     }
 
     private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type.let {

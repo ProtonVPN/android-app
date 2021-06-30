@@ -283,9 +283,6 @@ class OpenVpnBackend(
                 null -> VpnState.Disabled
             }
         }
-        DebugUtils.debugAssert {
-            (translatedState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
-        }
         vpnProtocolState = translatedState
     }
 

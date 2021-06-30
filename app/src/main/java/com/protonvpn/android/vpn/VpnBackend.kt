@@ -342,8 +342,6 @@ abstract class VpnBackend(
             setSelfState(VpnState.Disabled)
     }
 
-    var active = false
-
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
