@@ -19,6 +19,7 @@
 package com.protonvpn.android.components;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -27,6 +28,7 @@ import com.protonvpn.android.databinding.ComponentColorCircleBinding;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class ProtonColorCircle extends FrameLayout {
 
@@ -68,7 +70,8 @@ public class ProtonColorCircle extends FrameLayout {
         return isChecked;
     }
 
-    public void setColor(@ColorRes int colorId) {
-        views.circle.setImageResource(colorId);
+    public void setColor(@ColorRes int colorRes) {
+        views.circle.setBackgroundTintList(
+            ColorStateList.valueOf(ContextCompat.getColor(getContext(), colorRes)));
     }
 }
