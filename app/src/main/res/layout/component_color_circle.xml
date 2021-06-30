@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -19,23 +18,24 @@
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:orientation="vertical"
+    android:padding="4dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <View
         android:id="@+id/circle"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/oval"
         android:foreground="@drawable/bg_circle_ripple_selector"
         android:src="#E01623" />
 
     <ImageView
         android:id="@+id/imageCheckBox"
-        android:layout_gravity="center_horizontal|center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:alpha="0.0"
         app:srcCompat="@drawable/ic_check" />
 
