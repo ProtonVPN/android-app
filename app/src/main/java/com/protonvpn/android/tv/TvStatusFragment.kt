@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.flow.collect
+import me.proton.core.util.kotlin.exhaustive
 import javax.inject.Inject
 
 class TvStatusFragment : DaggerFragment() {
@@ -144,7 +145,7 @@ class TvStatusFragment : DaggerFragment() {
             is VpnState.Error -> {
                 onError(state.type)
             }
-        }
+        }.exhaustive
     }
 
     private fun onError(error: ErrorType) = with(binding) {
