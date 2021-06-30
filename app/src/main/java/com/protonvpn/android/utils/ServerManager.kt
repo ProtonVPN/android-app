@@ -85,8 +85,10 @@ class ServerManager(
                     .filter {
                         it.supportsProtocol(protocol)
                     }.map { server ->
+                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) }
                         server.copy(
-                            connectingDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) })
+                            isOnline = server.online && filteredDomains.any { it.isOnline },
+                            connectingDomains = filteredDomains)
                     }
                 if (servers.isNotEmpty())
                     VpnCountry(country.flag, servers, this)
