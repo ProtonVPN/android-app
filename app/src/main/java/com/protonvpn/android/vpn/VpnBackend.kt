@@ -163,7 +163,8 @@ abstract class VpnBackend(
                 agentConstants.errorCodeServerError ->
                     setAuthError("Server error")
                 agentConstants.errorCodeRestrictedServer ->
-                    setAuthError("Restricted server")
+                    // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
+                    ProtonLogger.log("Local agent: Restricted server, waiting...")
             }
         }
 
