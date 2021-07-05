@@ -1,0 +1,3 @@
+What's new:
+* Fixes issues with displaying countries and VPN servers in wrong order
+* Improves VPN connection error handling with IKEv2
