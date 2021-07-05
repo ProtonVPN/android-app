@@ -229,7 +229,10 @@
     <string name="try_again">Try again</string>
     <string name="manage">Manage</string>
     <string name="delete">Delete</string>
+    <string name="deleteProfileButton">Delete profile</string>
     <string name="deleteProfile">Are you sure you want to delete this profile?</string>
+    <string name="doneButton">Done</string>
+    <string name="saveButton">Save</string>
     <string name="recommendedHeader">Recommended</string>
     <string name="countryServersHeader">Country servers</string>
     <string name="secureCoreCountriesHeader">Secure Core countries</string>

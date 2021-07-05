@@ -21,8 +21,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/menu_group">
         <item
-            android:id="@+id/action_delete"
-            android:title="@string/delete"
+            android:id="@+id/action_save"
+            android:title="@string/saveButton"
             app:showAsAction="always" />
     </group>
 </menu>

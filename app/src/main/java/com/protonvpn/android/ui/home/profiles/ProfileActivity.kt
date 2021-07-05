@@ -77,7 +77,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         initProfileName(profile)
         initPalette()
-        initSaveButton()
+        initDeleteButton()
         initServerAndProtocolFields()
         initSecureCoreSwitch()
 
@@ -167,15 +167,22 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         }
     }
 
-    private fun initSaveButton() {
-        with(binding.contentProfile) {
-            binding.fabSave.setOnClickListener {
-                val validation = viewModel.verifyInput(inputName.text.toString())
-                updateErrors(validation)
-                if (validation.hasNoError) {
-                    viewModel.saveProfile(inputName.text.toString())
-                    setResult(Activity.RESULT_OK)
-                    finish()
+    private fun initDeleteButton() {
+        if (viewModel.canDeleteProfile) {
+            with(binding.contentProfile.buttonDelete) {
+                isVisible = true
+                setOnClickListener {
+                    MaterialDialog.Builder(this@ProfileActivity).theme(Theme.DARK)
+                        .title(R.string.warning)
+                        .content(R.string.deleteProfile)
+                        .positiveText(R.string.delete)
+                        .onPositive { _, _ ->
+                            viewModel.deleteProfile()
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }
+                        .negativeText(R.string.cancel)
+                        .show()
                 }
             }
         }
@@ -218,23 +225,21 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_profile, menu)
-        menu.findItem(R.id.action_delete).isVisible = viewModel.canDeleteProfile
+        menu.findItem(R.id.action_save).setTitle(viewModel.saveButtonLabel)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_delete) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                    .title(R.string.warning)
-                    .content(R.string.deleteProfile)
-                    .positiveText(R.string.delete)
-                    .onPositive { _, _ ->
-                        viewModel.deleteProfile()
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    }
-                    .negativeText(R.string.cancel)
-                    .show()
+        if (item.itemId == R.id.action_save) {
+            with(binding.contentProfile) {
+                val validation = viewModel.verifyInput(inputName.text.toString())
+                updateErrors(validation)
+                if (validation.hasNoError) {
+                    viewModel.saveProfile(inputName.text.toString())
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }
             return true
         }
         if (item.itemId == android.R.id.home) {

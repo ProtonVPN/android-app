@@ -58,6 +58,8 @@ class ProfileViewModel @Inject constructor(
     val isSecureCoreEnabled: Boolean get() = secureCore.value
     val selectedCountryCode: String? get() = country.value?.flag
     val canDeleteProfile: Boolean get() = editedProfile != null
+    val saveButtonLabel: Int get() =
+        if (editedProfile != null) R.string.saveButton else R.string.doneButton
 
     val serverViewState: Flow<ServerViewState> = combine(
         secureCore,
