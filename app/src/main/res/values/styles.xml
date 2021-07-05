@@ -326,15 +326,19 @@
     <!-- TODO: try to move everything to Core -->
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="proton_background_inverted">@color/shade_100</item>
+        <item name="actionMenuTextColor">?attr/brand_norm</item>
     </style>
 
-    <!-- An outlined button that isn't green - used for slightly "negative" actions like "Cancel"
-         or "Disconnect".
-         TODO: Discuss with designers to have this properly defined (with all states like
-          "disabled", "pressed") and implement properly in Core. -->
+    <!-- An outlined button that isn't green - used for non-positive actions like "Cancel"
+         or "Disconnect". -->
     <style name="ProtonButton.OutlinedButton.Neutral">
         <item name="strokeColor">?attr/proton_interaction_strong</item>
         <item name="android:textColor">?attr/proton_text_norm</item>
+    </style>
+
+    <style name="ProtonButton.OutlinedButton.Warning">
+        <item name="strokeColor">?attr/proton_notification_error</item>
+        <item name="android:textColor">?attr/proton_notification_error</item>
     </style>
 
 </resources>

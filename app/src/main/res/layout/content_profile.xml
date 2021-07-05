@@ -93,6 +93,20 @@
                 android:hint="@string/selectProtocol"
                 app:label="@string/protocolLabel" />
 
+            <View style="@style/Divider.Small" />
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonDelete"
+                style="@style/ProtonButton.OutlinedButton.Warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="36dp"
+                android:text="@string/deleteProfileButton"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
