@@ -44,6 +44,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.ProtonApiRetroFit;
 import com.protonvpn.android.appconfig.AppConfig;
@@ -59,6 +60,7 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
+import com.protonvpn.android.ui.ServerLoadColor;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
@@ -347,9 +349,9 @@ public class VpnStateFragment extends BaseFragment {
         // isTest(): ugly but enables running UI tests on android 5/6 (which have a problem with this view)
         progressBar.setVisibility(DebugUtils.INSTANCE.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
 
-        connectingView.setBackgroundColor(ContextCompat.getColor(connectingView.getContext(),
-            profile != null ? (userData.isSecureCoreEnabled() ? R.color.colorAccent : R.color.colorPrimary) :
-                R.color.colorPrimary));
+        connectingView.setBackgroundColor(MaterialColors.getColor(connectingView,
+            profile != null ? (userData.isSecureCoreEnabled() ? R.attr.colorAccent : R.attr.colorPrimary) :
+                R.attr.colorPrimary));
         textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(), R.color.white));
 
         if (!fromSavedState) {
@@ -385,8 +387,7 @@ public class VpnStateFragment extends BaseFragment {
         progressBar.setVisibility(View.GONE);
         switchNetShield.setVisibility(View.VISIBLE);
 
-        connectingView.setBackgroundColor(
-            ContextCompat.getColor(connectingView.getContext(), R.color.colorPrimary));
+        connectingView.setBackgroundColor(MaterialColors.getColor(connectingView, R.attr.colorPrimary));
         imageExpand.setImageResource(R.drawable.ic_up_white);
         textConnectingTo.setTextColor(ContextCompat.getColor(textConnectingTo.getContext(), R.color.white));
     }
@@ -414,16 +415,18 @@ public class VpnStateFragment extends BaseFragment {
 
         imageExpand.setImageResource(
             server.isSecureCoreServer() ? R.drawable.ic_up_white : R.drawable.ic_up_black);
-        connectingView.setBackgroundColor(ContextCompat.getColor(connectingView.getContext(),
-            server.isSecureCoreServer() ? R.color.colorAccent : R.color.white));
+        int bgColor = server.isSecureCoreServer()
+            ? MaterialColors.getColor(connectingView, R.attr.colorAccent)
+            : ContextCompat.getColor(connectingView.getContext(), R.color.white);
+        connectingView.setBackgroundColor(bgColor);
 
         textServerName.setText(server.getServerName());
         textServerIp.setText(stateMonitor.getExitIP());
         textProtocol.setText(stateMonitor.getConnectionProtocol().toString());
         int load = (int) server.getLoad();
         textLoad.setText(textLoad.getContext().getString(R.string.serverLoad, String.valueOf(load)));
-        imageLoad.setImageDrawable(
-            new ColorDrawable(ContextCompat.getColor(imageLoad.getContext(), server.getLoadColor())));
+        imageLoad.setImageDrawable(new ColorDrawable(
+            ServerLoadColor.getColor(imageLoad, server.getLoadState())));
     }
 
     private void changeBottomSheetState(boolean expand) {
@@ -520,7 +523,7 @@ public class VpnStateFragment extends BaseFragment {
             else if (VpnState.Disconnecting.INSTANCE.equals(state)) {
                 textConnectingTo.setText(R.string.loaderDisconnecting);
                 connectingView.setBackgroundColor(
-                    ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                    MaterialColors.getColor(requireView(), R.attr.colorPrimary));
                 textConnectingTo.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 imageExpand.setImageResource(R.drawable.ic_up_white);
                 clearConnectedStatus();

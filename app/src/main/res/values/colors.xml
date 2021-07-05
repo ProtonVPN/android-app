@@ -18,9 +18,8 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="colorPrimary">#4B4B57</color>
-    <color name="colorPrimaryDark">@color/black</color>
-    <color name="colorAccent">#59B268</color>
+    <color name="mobilePrimary">#4B4B57</color>
+    <color name="mobileAccent">#59B268</color>
 
     <color name="tvAccent">#4da358</color>
     <color name="tvAlert">#ec5858</color>

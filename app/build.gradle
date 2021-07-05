@@ -497,7 +497,7 @@ tasks.register("getArchivesName"){
     }
 }
 
-ext.daggerVersion = '2.33'
+ext.daggerVersion = '2.35.1'
 
 repositories {
     maven { url "https://clojars.org/repo/" }
@@ -532,7 +532,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -586,19 +586,20 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Proton Core libs
-    implementation 'me.proton.core:domain:1.0'
-    implementation 'me.proton.core:network:1.0.4'
+    implementation 'me.proton.core:domain:1.0.3'
+    implementation 'me.proton.core:network:1.1.3'
     implementation "me.proton.core:util-kotlin:0.2.5"
-    implementation "me.proton.core:presentation:0.6.3"
-    implementation "me.proton.core:human-verification:0.3.3"
-    implementation "me.proton.core:country:0.1.3"
+    implementation "me.proton.core:presentation:0.8.6"
+    implementation "me.proton.core:human-verification:1.2.3"
+    implementation "me.proton.core:country:0.1.5"
+    implementation "me.proton.core:user:1.1.2"
     androidTestImplementation('me.proton.core:test-android-instrumented:0.4.6') {
         exclude module: "auth-presentation"
         exclude module: "human-verification"
         exclude module: "payment"
         exclude module: "presentation"
     }
-
+    implementation "net.gotev:cookie-store:1.3.1"
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
     implementation 'com.github.pengrad:jdk9-deps:1.0'
 
@@ -618,7 +619,6 @@ dependencies {
     // Hilt
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 

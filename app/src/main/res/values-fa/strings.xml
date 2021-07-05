@@ -31,17 +31,17 @@
   <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
   <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
   <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
-  <string name="connectionAllocationHelpTitle">Thanks for updating to\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN sessions to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
-  <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
-  <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
+  <string name="connectionAllocationHelpTitle">ممنون از اینکه به طرح\nPROFESSIONAL/VISIONARY به‌روزرسانی کردید</string>
+  <string name="connectionAllocationHelpDescription">برای آغاز سفر خود در ProtonVPN لطفاً اتصالات VPN را به حساب کاربری خود یا هر حساب وابستهٔ دیگری اختصاص دهید.\n\nاین مرحله فقط چند دقیقه طول می‌کشد. بس از آن قادر خواهید بود وارد شوید و از همهٔ دستگاه‌های‌تان محافظت کنید.</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">اختصاص اتصالات VPN</string>
+  <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
   <string name="helpResetPassword">بازیابی رمزعبور</string>
   <string name="helpForgotUser">نام کاربریتان را فراموش کرده‌اید؟</string>
   <string name="helpCommonProblems">مشکلات متداول ورود به حساب کاربری</string>
   <string name="helpGetSupport">دریافت پشتیبانی</string>
   <string name="mapCalloutConnect">اتصال</string>
   <string name="mapCalloutDisconnect">قطع اتصال</string>
-  <string name="mapSwitchSecureCore">Secure Core</string>
+  <string name="mapSwitchSecureCore">Secure core</string>
   <string name="warning">هشدار</string>
   <string name="secureCoreSwitchOn">شما قصد اتصال به سرور Secure Core را دارید. این کار حالت Secure Core را فعال می‌کند%1$s ادامه می‌دهید؟</string>
   <string name="secureCoreSwitchOff">شما قصد اتصال به سروری را دارید که از Secure Core پشتیبانی نمی‌کند. این کار حالت Secure Core را غیرفعال می‌کند%1$s ادامه می‌دهید؟</string>
@@ -82,7 +82,7 @@
   <string name="accountUser">کاربر:</string>
   <string name="accountType">نوع حساب کاربری:</string>
   <string name="accountTier">اشتراک فعال:</string>
-  <string name="accountTrialExpires"><![CDATA[دوره آزمایشی شما پس از <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
+  <string name="accountTrialExpires"><![CDATA[دورهٔ آزمایشی شما پس از <br/><font color=#FFFFFF> %1$s </font> <br/> به پایان می‌رسد]]></string>
   <string name="accountVersion">نسخه:</string>
   <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
   <string name="accountButtonManage">مدیریت حساب کاربری</string>
@@ -237,7 +237,7 @@
   <string name="bugReportErrorLabelVpnLogsDescription">فعال کردن این گزینه لاگ‌های VPN سمت کاربر را به این گزارش می‌افزاید</string>
   <string name="profileFastest">سریع‌ترین</string>
   <string name="profileRandom">تصادفی</string>
-  <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا آدرس‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
+  <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
   <string name="serverLabelUnderMaintenance">%1$s تحت عملیات نگهداری</string>
   <string name="serverLabelUpgrade">%1$s (ارتقا)</string>
@@ -267,7 +267,7 @@
   <string name="dialogTitleAttention">توجه</string>
   <string name="saveProfileAlreadySaved">قبلاً ذخیره شده</string>
   <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
-  <string name="welcomeDialogTitle">ممنون از شما برای پیوستن به اجتماع رو به رشد ProtonVPN.</string>
+  <string name="welcomeDialogTitle">ممنون از شما برای پیوستن به انجمن رو به رشد ProtonVPN.</string>
   <string name="welcomeDialogDescription">برای ورود از اعتبارنامهٔ به‌تازگی ایجاد شدهٔ خود، استفاده کنید.</string>
   <string name="welcomeDialogTitleTrial">برای تشکر از شما، ما طرح آزمایشی ۷ روزهٔ Plus خود را به صورت رایگان در اختیار شما قرار می‌دهیم. این طرح به شما قابلیت استفاده از امکانات پیشرفته و سرورهای Plus را می‌دهد. در انتهای دورهٔ آزمایشی، شما به طرح رایگان بازمی‌گردید و تنها به سرورهای رایگان دسترسی خواهید داشت.</string>
   <string name="toastLoginAuthVersionError">به دلیل نسخهٔ پشتیبانی نشده تایید هویت، قادر به ورود نیست. لطفاً با پشتیبانی تماس بگیرید.</string>
@@ -400,11 +400,11 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="tv_server_list">لیست سرور</string>
   <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speeds by up to 400%</string>
+  <string name="settingsSmartReconnectDescription">VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت‌های VPN را تا ٪۴۰۰ افزایش دهد</string>
   <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
   <string name="dialogTitleReconnectionNeeded">اتصال مجدد لازم است</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Your connection needs to be restarted to change VPN Accelerator mode.</string>
+  <string name="settingsSmartReconnectReconnectDialogContent">برای تغییر حالت VPN Accelerator اتصال شما باید دوباره راه‌اندازی شود.</string>
   <string name="notification_subscription_expired_title">اشتراک شما به پایان رسیده است</string>
   <string name="notification_subscription_expired_content">اشتراک شما تنزیل یافت، بنابراین ما در حال اتصال دوباره به سریع‌ترین سرور موجود هستیم. </string>
   <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزیل یافته است. </string>
@@ -452,4 +452,5 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="server_load_low">پایین</string>
   <string name="server_load_medium">متوسط</string>
   <string name="server_load_high">بالا</string>
+  <!-- Override Human verification links from core -->
 </resources>

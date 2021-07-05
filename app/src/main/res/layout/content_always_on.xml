@@ -73,7 +73,7 @@
                 android:paddingHorizontal="16dp"
                 android:background="@drawable/button_rounded_accent"
                 android:text="@string/settingsAlwaysOnWindowAndroidSettingsButton"
-                android:textColor="@color/colorAccent" />
+                android:textColor="?colorAccent" />
 
             <View
                 android:layout_width="match_parent"

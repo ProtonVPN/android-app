@@ -29,6 +29,7 @@ import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvServerCardBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 
 class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
@@ -56,7 +57,7 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
 
         serverLoadLabel.alpha = alpha
         serverLoadLabel.text = server.stateText(context)
-        serverLoadColor.setColorFilter(ContextCompat.getColor(context, server.loadColor))
+        serverLoadColor.setColorFilter(ServerLoadColor.getColor(serverLoadColor, server.loadState))
         serverMaintenanceIcon.isVisible = server.loadState == Server.LoadState.MAINTENANCE
 
         debugAssert { actionStateObserver == null }

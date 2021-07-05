@@ -23,6 +23,7 @@ import com.protonvpn.android.api.ApiSessionProvider
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -39,6 +40,7 @@ class LogoutHandler(
     val apiSessionProvider: ApiSessionProvider,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
+    val humanVerificationHandler: HumanVerificationHandler,
     vpnApiClient: VpnApiClient
 ) {
     val logoutEvent = LiveEvent()
@@ -70,6 +72,7 @@ class LogoutHandler(
 
         userData.logout()
         serverManager.clearCache()
+        humanVerificationHandler.clear()
 
         logoutEvent.emit()
     }

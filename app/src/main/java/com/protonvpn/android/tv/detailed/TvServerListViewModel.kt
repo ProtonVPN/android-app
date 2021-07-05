@@ -123,7 +123,6 @@ class TvServerListViewModel @Inject constructor(
         val locked get() = !serverManager.hasAccessToServer(server)
         val load get() = server.load
         val loadState get() = server.loadState
-        val loadColor get() = server.loadColor
 
         val actionStateObservable = vpnStateMonitor.status.map {
             actionState

@@ -44,6 +44,8 @@ import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.getThemeColor
+import com.protonvpn.android.utils.getThemeColorId
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -102,12 +104,11 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
                 textNetDescription.setText(descriptionText)
-                layoutNetshield.setBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        if (newProtocol != NetShieldProtocol.DISABLED) R.color.colorAccent else R.color.dimmedGrey
-                    )
-                )
+                val bgColor = if (newProtocol != NetShieldProtocol.DISABLED)
+                    root.getThemeColor(R.attr.colorAccent)
+                else
+                    ContextCompat.getColor(context, R.color.dimmedGrey)
+                layoutNetshield.setBackgroundColor(bgColor)
             } else {
                 textCollapsedMark.isVisible = false
             }
@@ -152,7 +153,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun tintRadioButtons() = with(binding) {
         val notSelectedColor = if (isInConnectedScreen) R.color.grey else R.color.white
-        val selectedColor = if (isInConnectedScreen) R.color.grey else R.color.colorAccent
+        val selectedColor =
+            if (isInConnectedScreen) R.color.grey else binding.root.getThemeColorId(R.attr.colorAccent)
         val colorStateList = ColorStateList(
             arrayOf(
                 intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)

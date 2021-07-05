@@ -40,6 +40,7 @@ import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NO
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
@@ -133,7 +134,7 @@ class NotificationHelper(
         val notificationBuilder =
             NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_proton)
-                .setColor(ContextCompat.getColor(appContext, R.color.colorAccent))
+                .setColor(appContext.getThemeColor(R.attr.colorAccent))
 
         // Build complex notification with custom UI for reconnection information
         if (notificationInfo.reconnectionInformation != null) {
@@ -232,7 +233,7 @@ class NotificationHelper(
             Disabled, CheckingAvailability, ScanningPorts, WaitingForNetwork, Reconnecting, Disconnecting ->
                 builder.color = ContextCompat.getColor(context, R.color.orange)
             Connecting, Connected -> {
-                builder.color = ContextCompat.getColor(context, R.color.colorAccent)
+                builder.color = context.getThemeColor(R.attr.colorAccent)
                 builder.addAction(NotificationCompat.Action(R.drawable.ic_clear,
                         context.getString(R.string.disconnect), disconnectPendingIntent))
             }
@@ -315,7 +316,7 @@ class NotificationHelper(
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setContentText(content)
-                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .setColor(context.getThemeColor(R.attr.colorAccent))
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
@@ -342,8 +343,8 @@ class NotificationHelper(
         const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
         const val SMART_PROTOCOL_ACTION = "SMART_PROTOCOL_ACTION"
         const val EXTRA_SWITCH_PROFILE = "SWITCH_INFORMATION"
-        const val PENDING_REQUEST_STATUS = 0;
-        const val PENDING_REQUEST_OTHER = 1;
+        const val PENDING_REQUEST_STATUS = 0
+        const val PENDING_REQUEST_OTHER = 1
 
         fun initNotificationChannel(context: Context) {
             val channelOneName = "ProtonChannel"

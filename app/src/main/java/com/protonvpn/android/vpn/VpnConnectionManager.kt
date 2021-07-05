@@ -235,7 +235,7 @@ open class VpnConnectionManager(
             vpnErrorHandler.onServerNotAvailable(profile)
         } else {
             ProtonLogger.log("Server in maintenance. Finding alternative...")
-            vpnErrorHandler.onServerInMaintenance(profile)
+            vpnErrorHandler.onServerInMaintenance(profile, null)
         }
         if (fallback != null) {
             fallbackConnect(fallback)

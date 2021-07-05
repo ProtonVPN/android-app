@@ -37,6 +37,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForEdit
 import com.protonvpn.android.ui.home.profiles.ProfilesAdapter.ServersViewHolder
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
+import com.protonvpn.android.utils.getThemeColorId
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class ProfilesAdapter(
@@ -64,7 +65,10 @@ class ProfilesAdapter(
         private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
             val server = item.server
             val connected = profilesViewModel.isConnectedTo(server)
-            val colorRes = if (connected) R.color.colorAccent else R.color.interaction_weak_vpn
+            val colorRes = if (connected)
+                binding.buttonConnect.getThemeColorId(R.attr.colorAccent)
+            else
+                R.color.interaction_weak_vpn
             binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(binding.root.context, colorRes))
         }

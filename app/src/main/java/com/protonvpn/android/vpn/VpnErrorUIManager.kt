@@ -71,7 +71,7 @@ class VpnErrorUIManager(
                                     putExtra(EXTRA_SWITCH_PROFILE, switch.toProfile) },
                                 PendingIntent.FLAG_UPDATE_CURRENT
                             )))
-                } else if (userData.showSmartReconnectNotifications()) {
+                } else if (vpnAcceleratorNotificationsEnabled()) {
                     buildNotificationInformation(switch)?.let {
                         displayInformation(it)
                     }
@@ -164,4 +164,9 @@ class VpnErrorUIManager(
         SwitchServerReason.UserBecameDelinquent -> appContext.getString(R.string.notification_cancel_to_delinquent)
         else -> null
     }
+
+    private fun vpnAcceleratorNotificationsEnabled() =
+        appConfig.getFeatureFlags().vpnAccelerator &&
+                userData.isVpnAcceleratorEnabled &&
+                userData.showVpnAcceleratorNotifications()
 }

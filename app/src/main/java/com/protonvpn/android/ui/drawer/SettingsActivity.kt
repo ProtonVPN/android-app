@@ -79,8 +79,8 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
-    @BindView(R.id.smartReconnect) lateinit var smartReconnect: ProtonSwitch
-    @BindView(R.id.smartReconnectNotifications) lateinit var smartReconnectNotifications: ProtonSwitch
+    @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: ProtonSwitch
+    @BindView(R.id.switchVpnAcceleratorNotifications) lateinit var switchVpnAcceleratorNotifications: ProtonSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
@@ -176,32 +176,33 @@ class SettingsActivity : BaseActivity() {
             userPrefs.setBypassLocalTraffic(isChecked)
         }
 
-        initSmartReconnectToggles()
+        initVpnAcceleratorToggles()
 
         buttonLicenses.setOnClickListener {
             navigateTo(OssLicensesActivity::class.java)
         }
     }
 
-    private fun initSmartReconnectToggles() {
+    private fun initVpnAcceleratorToggles() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
-            updateSmartReconnectToggles()
-            smartReconnect.switchProton.switchClickInterceptor = {
-                tryToggleSmartReconnect()
+            updateVpnAcceleratorToggles()
+            switchVpnAccelerator.switchProton.switchClickInterceptor = {
+                tryToggleVpnAccelerator()
                 true
             }
             userPrefs.updateEvent.observe(this) {
-                updateSmartReconnectToggles()
+                updateVpnAcceleratorToggles()
             }
 
-            smartReconnectNotifications.isVisible = userPrefs.isSmartReconnectEnabled
-            smartReconnectNotifications.switchProton.isChecked = userPrefs.showSmartReconnectNotifications()
-            smartReconnectNotifications.switchProton.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setShowSmartReconnectNotifications(isChecked)
+            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled
+            switchVpnAcceleratorNotifications.switchProton.isChecked =
+                userPrefs.showVpnAcceleratorNotifications()
+            switchVpnAcceleratorNotifications.switchProton.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.setShowVpnAcceleratorNotifications(isChecked)
             }
         } else {
-            smartReconnect.isVisible = false
-            smartReconnectNotifications.isVisible = false
+            switchVpnAccelerator.isVisible = false
+            switchVpnAcceleratorNotifications.isVisible = false
         }
     }
 
@@ -245,13 +246,13 @@ class SettingsActivity : BaseActivity() {
         switchShowSplitTunnel.setDividerVisibility(if (isChecked) GONE else VISIBLE)
     }
 
-    private fun updateSmartReconnectToggles() {
-        val isEnabled = userPrefs.isSmartReconnectEnabled
-        smartReconnect.switchProton.isChecked = isEnabled
-        smartReconnectNotifications.isVisible = isEnabled
+    private fun updateVpnAcceleratorToggles() {
+        val isEnabled = userPrefs.isVpnAcceleratorEnabled
+        switchVpnAccelerator.switchProton.isChecked = isEnabled
+        switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 
-    private fun tryToggleSmartReconnect() {
+    private fun tryToggleVpnAccelerator() {
         if (stateMonitor.isEstablishingOrConnected) {
             MaterialDialog.Builder(this).theme(Theme.DARK)
                 .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
@@ -259,17 +260,17 @@ class SettingsActivity : BaseActivity() {
                 .content(R.string.settingsSmartReconnectReconnectDialogContent)
                 .positiveText(R.string.reconnect)
                 .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    toggleSmartReconnect()
+                    toggleVpnAccelerator()
                     connectionManager.reconnect(this)
                 }
                 .negativeText(R.string.cancel)
                 .show()
         } else {
-            toggleSmartReconnect()
+            toggleVpnAccelerator()
         }
     }
 
-    private fun toggleSmartReconnect() {
-        userPrefs.isSmartReconnectEnabled = !userPrefs.isSmartReconnectEnabled
+    private fun toggleVpnAccelerator() {
+        userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
     }
 }

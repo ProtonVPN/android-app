@@ -22,13 +22,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
-import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.getThemeColor
 
 class DrawerArrowDrawableEx(val context: Context) : DrawerArrowDrawable(context) {
 
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ContextCompat.getColor(context, R.color.colorAccent)
+        color = context.getThemeColor(R.attr.colorAccent)
     }
 
     var showIndicator: Boolean = false

@@ -21,9 +21,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/mobilePrimary</item>
         <item name="colorPrimaryDark">@color/bgStatusBar</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/mobileAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -42,21 +42,22 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimary">#4B4B57</item>
         <item name="android:colorBackground">@color/dimmedGrey</item>
         <item name="guidedActionsBackground">@color/pickerColor1</item>
         <item name="guidedActionsBackgroundDark">@color/pickerColor2</item>
-        <item name="android:colorControlActivated">@color/colorAccent</item>
-        <item name="android:colorForeground">@color/colorPrimary</item>
+        <item name="colorAccent">@color/tvAccent</item>
+        <item name="android:colorControlActivated">?colorAccent</item>
+        <item name="android:colorForeground">#4B4B57</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.Leanback.Browse">
         <item name="android:windowBackground">@drawable/tv_background</item>
         <item name="defaultBrandColor">@color/grey</item>
-        <item name="defaultSearchColor">@color/colorAccent</item>
+        <item name="defaultSearchColor">?colorAccent</item>
         <item name="defaultSearchIconColor">@color/white</item>
-        <item name="defaultSearchBrightColor">@color/colorAccent</item>
+        <item name="defaultSearchBrightColor">?colorAccent</item>
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
@@ -97,7 +98,7 @@
     </style>
 
     <style name="RadioButton.Branded" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlActivated">?colorAccent</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
 
@@ -138,7 +139,7 @@
     <style name="EditText.Login" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">?colorAccent</item>
     </style>
 
     <style name="Button" />
@@ -152,7 +153,7 @@
     </style>
 
     <style name="Button.Green" parent="Button">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">?colorAccent</item>
         <item name="android:layout_height">36dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:background">@drawable/button_rounded_accent</item>
@@ -167,7 +168,7 @@
     </style>
 
     <style name="Button.Green.Borderless" parent="Button.Green">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">?colorAccent</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
