@@ -18,14 +18,15 @@
 
 package com.protonvpn.base
 
+import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import me.proton.core.test.android.instrumented.CoreRobot
+import me.proton.core.test.android.robots.CoreRobot
 
 /**
  * [BaseRobot] Contains common actions for views
  */
-open class BaseRobot : CoreRobot {
+open class BaseRobot : CoreRobot() {
 
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
@@ -43,6 +44,36 @@ open class BaseRobot : CoreRobot {
         view
                 .withText(text)
                 .click()
+    }
+
+    inline fun <reified T> clickElementByIdAndContentDescription(
+        @IdRes id: Int,
+        description: String
+    ): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .withContentDesc(description)
+                .click()
+    }
+
+    inline fun <reified T> clickElementByIndexInParent(
+        @IdRes parentId: Int,
+        index: Int
+    ): T = executeAndReturnRobot {
+        view
+                .withParent(view.withId(parentId))
+                .withParentIndex(index)
+                .click()
+    }
+
+    inline fun <reified T> clearText(
+        @IdRes id: Int,
+        clazz: Class<*> = EditText::class.java
+    ): T = executeAndReturnRobot {
+        view
+                .instanceOf(clazz)
+                .withId(id)
+                .clearText()
     }
 
     inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long): T = executeAndReturnRobot{

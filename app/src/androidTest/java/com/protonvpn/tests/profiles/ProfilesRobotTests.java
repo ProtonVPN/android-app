@@ -41,7 +41,7 @@ import androidx.test.rule.ServiceTestRule;
 @RunWith(AndroidJUnit4.class)
 public class ProfilesRobotTests {
 
-    private HomeRobot homeRobot = new HomeRobot();
+    private final HomeRobot homeRobot = new HomeRobot();
 
     @ClassRule public final static ServiceTestRule SERVICE_TEST_RULE = new ServiceTestRule();
     @ClassRule static public SetUserPreferencesRule testClassRule =
@@ -87,7 +87,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectFirstCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isSuccess().profilesResult.profileIsVisible(profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectRandomServer();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isSuccess().profilesResult.profileIsVisible(profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectRandomServer();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isSuccess().profilesResult.profileIsVisible(profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
         ConnectionResult result = profilesRobot.clickOnConnectButton(profileName);
         result.isConnectedToVpn();
@@ -167,7 +167,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectRandomServer();
         profilesRobot.navigateBackFromForm().notSavedProfileWarning();
 
-        ProfilesResult result = profilesRobot.clickDiscardButton().isSuccess().profilesResult;
+        ProfilesResult result = profilesRobot.clickDiscardButton().isSuccess().getProfilesResult();
         result.profileIsNotVisible(profileName);
     }
 
@@ -185,7 +185,7 @@ public class ProfilesRobotTests {
         profilesRobot.clickCancelButton();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isSuccess().profilesResult.profileIsVisible(profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -199,7 +199,7 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
 
-        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
+        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult();
         result.profileIsVisible(profileName);
     }
 
@@ -215,7 +215,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectFirstSecureCoreExitCountry();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton().isFailure();
-        result.isSuccess().profilesResult.profileIsVisible(profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -230,7 +230,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
 
-        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().profilesResult;
+        ProfilesResult result = profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult();
         result.profileIsVisible(profileName);
     }
 
@@ -246,7 +246,7 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
         ProfilesResult result = profilesRobot.clickOnConnectButton(profileName).isDisconnectedFromVpn().profilesResult;
         result.connectingToSecureCoreWarning().clickYesButton().isConnectedToVpn();
 
@@ -265,11 +265,11 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();
         profilesRobot.updateProfileName(newProfileName);
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(newProfileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(newProfileName);
     }
 
     @Test
@@ -283,10 +283,10 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectSecondSecureCoreExitCountry();
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();
-        profilesRobot.clickDeleteProfile().profilesResult.profileIsNotVisible(profileName);
+        profilesRobot.clickDeleteProfile().getProfilesResult().profileIsNotVisible(profileName);
     }
 
     @Test
@@ -300,11 +300,11 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();
         profilesRobot.updateProfileName(newProfileName);
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(newProfileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(newProfileName);
     }
 
     @Test
@@ -317,10 +317,10 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
         profilesRobot.clickEditProfile();
-        profilesRobot.clickDeleteProfile().profilesResult.profileIsNotVisible(profileName);
+        profilesRobot.clickDeleteProfile().getProfilesResult().profileIsNotVisible(profileName);
     }
 
     @Test
@@ -333,9 +333,9 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
-        profilesRobot.selectOpenVPNProtocol();
+        profilesRobot.selectOpenVPNProtocol(false); // In kotlin use the named param: "udp = false"
 
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 
     @Test
@@ -348,9 +348,8 @@ public class ProfilesRobotTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstCountry();
         profilesRobot.selectRandomServer();
-        profilesRobot.selectOpenVPNProtocol();
-        profilesRobot.selectUDPTransmissionProtocol();
+        profilesRobot.selectOpenVPNProtocol(true);
 
-        profilesRobot.clickOnSaveButton().isSuccess().profilesResult.profileIsVisible(profileName);
+        profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
     }
 }

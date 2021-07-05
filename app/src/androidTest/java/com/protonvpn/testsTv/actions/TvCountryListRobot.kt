@@ -30,7 +30,7 @@ import com.protonvpn.android.R
 import com.protonvpn.testsTv.matchers.UiElementMatcher
 import com.protonvpn.testsTv.verification.ConnectionVerify
 import me.proton.core.test.android.instrumented.builders.OnView
-import me.proton.core.test.android.instrumented.uiwaits.UIWaits
+import me.proton.core.test.android.instrumented.waits.UIWaits
 
 /**
  * [TvCountryListRobot] Contains all actions and verifications for home view

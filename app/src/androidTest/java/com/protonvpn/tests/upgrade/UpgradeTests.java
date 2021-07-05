@@ -126,7 +126,7 @@ public class UpgradeTests {
         profilesRobot.selectRandomServer();
 
         ProfilesResult result = profilesRobot.clickOnSaveButton();
-        result.isSuccess().profilesResult.profileIsVisible(UpgradeTestData.profileName);
+        result.isSuccess().getProfilesResult().profileIsVisible(UpgradeTestData.profileName);
     }
 }
 

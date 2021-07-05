@@ -247,7 +247,9 @@ public class VpnStateFragment extends BaseFragment {
                 if (imageExpand != null) {
                     imageExpand.animate().rotation(180 * slideOffset).setDuration(0).start();
                 }
-                dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
+                if (dividerTop != null) {
+                    dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
+                }
             }
         });
     }
