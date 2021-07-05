@@ -593,11 +593,10 @@ dependencies {
     implementation "me.proton.core:human-verification:1.2.3"
     implementation "me.proton.core:country:0.1.5"
     implementation "me.proton.core:user:1.1.2"
-    androidTestImplementation('me.proton.core:test-android-instrumented:0.4.6') {
+    androidTestImplementation('me.proton.core:test-android-instrumented:0.6.1') {
         exclude module: "auth-presentation"
         exclude module: "human-verification"
         exclude module: "payment"
-        exclude module: "presentation"
     }
     implementation "net.gotev:cookie-store:1.3.1"
     // https://github.com/grpc/grpc-java/issues/3633 https://github.com/google/dagger/issues/1449
