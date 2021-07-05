@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
@@ -59,15 +60,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import me.proton.core.country.data.repository.CountriesRepositoryImpl
 import me.proton.core.country.domain.repository.CountriesRepository
-import me.proton.core.humanverification.data.repository.HumanVerificationRemoteRepositoryImpl
-import me.proton.core.humanverification.domain.repository.HumanVerificationRemoteRepository
+import me.proton.core.humanverification.data.repository.UserVerificationRepositoryImpl
+import me.proton.core.humanverification.domain.HumanVerificationWorkflowHandler
+import me.proton.core.humanverification.domain.repository.UserVerificationRepository
+import me.proton.core.humanverification.presentation.CaptchaBaseUrl
+import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
+import me.proton.core.network.data.NetworkManager
+import me.proton.core.network.data.NetworkPrefs
 import me.proton.core.network.data.ProtonCookieStore
-import me.proton.core.network.data.di.ApiFactory
-import me.proton.core.network.data.di.NetworkManager
-import me.proton.core.network.data.di.NetworkPrefs
+import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.Random
 import javax.inject.Singleton
@@ -118,28 +123,47 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideHumanVerificationHandler() =
+        HumanVerificationHandler(scope, ProtonApplication.getAppContext() as ProtonApplication)
+
+    @Provides
+    @Singleton
+    fun provideProtonCookieStore(): ProtonCookieStore =
+        ProtonCookieStore(ProtonApplication.getAppContext())
+
+    @Provides
+    @Singleton
+    fun provideClientIdProvider(protonCookieStore: ProtonCookieStore): ClientIdProvider =
+        ClientIdProviderImpl(PRIMARY_VPN_API_URL, protonCookieStore)
+
+    @Singleton
+    @Provides
     fun provideApiFactory(
         userData: UserData,
         networkManager: NetworkManager,
-        apiClient: VpnApiClient
-    ): ApiFactory {
+        apiClient: VpnApiClient,
+        clientIdProvider: ClientIdProvider,
+        humanVerificationHandler: HumanVerificationHandler,
+        cookieStore: ProtonCookieStore,
+    ): ApiManagerFactory {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
-        val cookieStore = ProtonCookieStore(appContext)
         return if (BuildConfig.DEBUG) {
-            ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
-                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope,
-                certificatePins = emptyArray(), alternativeApiPins = emptyList())
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger, networkManager,
+                NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
+                humanVerificationHandler, cookieStore, scope, certificatePins = emptyArray(),
+                alternativeApiPins = emptyList())
         } else {
-            ApiFactory(PRIMARY_VPN_API_URL, apiClient, logger, networkManager,
-                NetworkPrefs(appContext), sessionProvider, sessionProvider, cookieStore, scope)
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger, networkManager,
+                NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
+                humanVerificationHandler, cookieStore, scope)
         }
     }
 
     @Singleton
     @Provides
-    fun provideApiProvider(apiFactory: ApiFactory, userData: UserData): ApiProvider =
+    fun provideApiProvider(apiFactory: ApiManagerFactory, userData: UserData): ApiProvider =
         ApiProvider(apiFactory, userData.apiSessionProvider)
 
     @Singleton
@@ -296,9 +320,10 @@ class AppModule {
         vpnApiManager: VpnApiManager,
         vpnStateMonitor: VpnStateMonitor,
         vpnConnectionManager: VpnConnectionManager,
-        vpnApiClient: VpnApiClient
+        vpnApiClient: VpnApiClient,
+        humanVerificationHandler: HumanVerificationHandler
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, vpnApiClient)
+        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, vpnApiClient)
 }
 
 @Module
@@ -306,10 +331,26 @@ class AppModule {
 object HiltAppModule {
 
     @Provides
-    fun provideHumanVerificationRemoteRepository(apiProvider: ApiProvider): HumanVerificationRemoteRepository =
-        HumanVerificationRemoteRepositoryImpl(apiProvider)
-
-    @Provides
+    @Singleton
     fun provideCountriesRepository(): CountriesRepository =
         CountriesRepositoryImpl(ProtonApplication.getAppContext())
+
+    @Provides
+    @Singleton
+    fun provideUserValidationRepository(
+        apiProvider: ApiProvider,
+        clientIdProvider: ClientIdProvider,
+        humanVerificationHandler: HumanVerificationHandler
+    ): UserVerificationRepository =
+        UserVerificationRepositoryImpl(apiProvider, clientIdProvider, humanVerificationHandler)
+
+    @Provides
+    @Singleton
+    fun provideHumanVerificationWorkflowHandler(
+        humanVerificationHandler: HumanVerificationHandler
+    ): HumanVerificationWorkflowHandler = humanVerificationHandler
+
+    @Provides
+    @CaptchaBaseUrl
+    fun provideCaptchaBaseUrl(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
 }

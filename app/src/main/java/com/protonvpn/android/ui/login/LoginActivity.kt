@@ -55,6 +55,7 @@ import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.utils.getThemeColor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.exhaustive
@@ -161,9 +162,11 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         return object : CompressedTextWatcher() {
             override fun afterTextChanged(editable: Editable) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    editText?.backgroundTintList =
-                            ColorStateList.valueOf(ContextCompat.getColor(baseContext,
-                                    if (editable.toString() == "") R.color.lightGrey else R.color.colorAccent))
+                    val color = if (editable.toString() == "")
+                        ContextCompat.getColor(this@LoginActivity, R.color.lightGrey)
+                    else
+                        this@LoginActivity.getThemeColor(R.attr.colorAccent)
+                    editText?.backgroundTintList = ColorStateList.valueOf(color)
                 }
             }
         }

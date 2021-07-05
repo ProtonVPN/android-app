@@ -29,7 +29,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="?colorAccent"
         android:text="@string/proton_log" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -32,7 +32,7 @@
   <string name="loginCreateAccount">Crear una cuenta</string>
   <string name="loginNeedHelp">¿Necesita ayuda?</string>
   <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Para comenzar su viaje en ProtonVPN por favor asigne sesiones VPN a su cuenta o a cualquier otra subcuenta.\n\nEste paso tomará solo unos pocos minutos. Después podrá iniciar sesión y proteger todos sus dispositivos.</string>
+  <string name="connectionAllocationHelpDescription">Para comenzar su paseo en ProtonVPN asigne conexiones VPN a su cuenta o a cualquier otra subcuenta.\n\nEste paso tomará unos pocos minutos. Después podrá iniciar sesión y proteger todos sus dispositivos.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Asignar conexiones VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión nuevamente</string>
   <string name="helpResetPassword">Restablecer contraseña</string>
@@ -452,4 +452,5 @@ Siga estos pasos para activar la VPN Siempre Activa y Kill Switch:"</string>
   <string name="server_load_low">Baja</string>
   <string name="server_load_medium">Media</string>
   <string name="server_load_high">Alta</string>
+  <!-- Override Human verification links from core -->
 </resources>

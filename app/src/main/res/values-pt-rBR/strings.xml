@@ -31,8 +31,8 @@
   <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
   <string name="loginCreateAccount">Criar nova conta</string>
   <string name="loginNeedHelp">Precisa de ajuda?</string>
-  <string name="connectionAllocationHelpTitle">Thanks for updating to\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN sessions to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+  <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nPROFESSIONAL/VISIONARY</string>
+  <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
   <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
   <string name="helpResetPassword">Redefinir senha</string>
@@ -452,4 +452,5 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="server_load_low">Low</string>
   <string name="server_load_medium">Média</string>
   <string name="server_load_high">Alta</string>
+  <!-- Override Human verification links from core -->
 </resources>

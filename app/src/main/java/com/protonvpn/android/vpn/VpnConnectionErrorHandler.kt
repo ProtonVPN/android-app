@@ -154,22 +154,29 @@ class VpnConnectionErrorHandler(
         Features, Tier, City, Country, SecureCore
     }
 
-    private val smartReconnectEnabled get() =
-        appConfig.getFeatureFlags().vpnAccelerator && userData.isSmartReconnectEnabled
+    private val smartReconnectEnabled get() = appConfig.getFeatureFlags().vpnAccelerator
 
     suspend fun onServerNotAvailable(profile: Profile) =
-        fallbackToCompatibleServer(profile, null, SwitchServerReason.ServerUnavailable)
+        fallbackToCompatibleServer(profile, null, false, SwitchServerReason.ServerUnavailable)
 
-    suspend fun onServerInMaintenance(profile: Profile) =
-        fallbackToCompatibleServer(profile, null, SwitchServerReason.ServerInMaintenance)
+    suspend fun onServerInMaintenance(profile: Profile, connectionParams: ConnectionParams?) =
+        fallbackToCompatibleServer(
+            profile, connectionParams, false, SwitchServerReason.ServerInMaintenance
+        )
 
     suspend fun onUnreachableError(connectionParams: ConnectionParams): VpnFallbackResult =
-        fallbackToCompatibleServer(connectionParams.profile, connectionParams, SwitchServerReason.ServerUnreachable)
+        fallbackToCompatibleServer(
+            connectionParams.profile,
+            connectionParams,
+            true,
+            SwitchServerReason.ServerUnreachable
+        )
             ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
 
     private suspend fun fallbackToCompatibleServer(
         orgProfile: Profile,
         orgParams: ConnectionParams?,
+        includeOriginalServer: Boolean,
         reason: SwitchServerReason
     ): VpnFallbackResult.Switch? {
         if (!smartReconnectEnabled) {
@@ -183,7 +190,7 @@ class VpnConnectionErrorHandler(
         }
 
         val orgPhysicalServer = orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }
-        val candidates = getCandidateServers(orgProfile, orgPhysicalServer)
+        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, includeOriginalServer)
 
         candidates.forEach {
             ProtonLogger.log("Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}")
@@ -242,9 +249,13 @@ class VpnConnectionErrorHandler(
         }
     }
 
-    private fun getCandidateServers(orgProfile: Profile, orgPhysicalServer: PhysicalServer?): List<PhysicalServer> {
+    private fun getCandidateServers(
+        orgProfile: Profile,
+        orgPhysicalServer: PhysicalServer?,
+        includeOrgServer: Boolean
+    ): List<PhysicalServer> {
         val candidateList = mutableListOf<PhysicalServer>()
-        if (orgPhysicalServer != null)
+        if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
         val secureCoreExpected = orgProfile.isSecureCore || userData.isSecureCoreEnabled
@@ -360,7 +371,7 @@ class VpnConnectionErrorHandler(
                 // We couldn't establish if server is in maintenance, attempt searching for fallback anyway. Include
                 // current connection in the search.
                 ?: fallbackToCompatibleServer(
-                    connectionParams.profile, connectionParams, SwitchServerReason.UnknownAuthFailure)
+                    connectionParams.profile, connectionParams, true, SwitchServerReason.UnknownAuthFailure)
                 ?: VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
         } finally {
             handlingAuthError = false
@@ -386,16 +397,13 @@ class VpnConnectionErrorHandler(
                     .build()
                 ProtonLogger.logSentryEvent(sentryEvent)
                 return if (smartReconnectEnabled) {
-                    onServerInMaintenance(connectionParams.profile)
-                    fallbackToCompatibleServer(
-                        connectionParams.profile, connectionParams, SwitchServerReason.ServerInMaintenance
-                    )
-                }
-                else
+                    onServerInMaintenance(connectionParams.profile, connectionParams)
+                } else {
                     VpnFallbackResult.Switch.SwitchProfile(
                         connectionParams.server,
                         serverManager.defaultFallbackConnection
                     )
+                }
             }
         }
         return null

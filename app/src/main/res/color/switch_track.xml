@@ -18,6 +18,6 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/colorAccent" android:state_checked="true" />
+    <item android:color="?colorAccent" android:state_checked="true" />
     <item android:color="@color/lightGrey" />
 </selector>

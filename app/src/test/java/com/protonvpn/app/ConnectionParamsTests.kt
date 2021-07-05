@@ -67,7 +67,7 @@ class ConnectionParamsTests {
         mockkObject(Constants)
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
         every { userData.vpnUserName } returns "user"
-        every { userData.isSmartReconnectEnabled } returns true
+        every { userData.isVpnAcceleratorEnabled } returns true
         every { profile.getNetShieldProtocol(any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
@@ -109,7 +109,7 @@ class ConnectionParamsTests {
     @Test
     fun testSplitTcpSuffixSettings() {
         every { featureFlags.vpnAccelerator } returns true
-        every { userData.isSmartReconnectEnabled } returns false
+        every { userData.isVpnAcceleratorEnabled } returns false
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label", "nst"),
             params.getVpnUsername(userData, appConfig).split("+").toSet())
@@ -118,7 +118,7 @@ class ConnectionParamsTests {
     @Test
     fun testSplitTcpSuffixFeatureDisabled() {
         every { featureFlags.vpnAccelerator } returns false
-        every { userData.isSmartReconnectEnabled } returns false
+        every { userData.isVpnAcceleratorEnabled } returns false
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label"),
             params.getVpnUsername(userData, appConfig).split("+").toSet())

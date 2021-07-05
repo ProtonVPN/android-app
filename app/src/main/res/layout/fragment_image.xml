@@ -45,7 +45,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:gravity="center_horizontal|center_vertical"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             android:textSize="16sp"
             android:textAllCaps="true"
             tools:text="Ops... Not done yet" />

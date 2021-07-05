@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,8 +90,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
@@ -407,15 +411,17 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initQuickConnectFab() {
+        int colorAccentId = getThemeColorId(fabQuickConnect, R.attr.colorAccent);
         fabQuickConnect.removeAllMenuButtons();
         fabQuickConnect.setMenuButtonColorNormalResId(
-            vpnStateMonitor.isConnected() ? R.color.colorAccent : R.color.darkGrey);
-        fabQuickConnect.getMenuIconView().setImageResource(R.drawable.ic_proton);
+            vpnStateMonitor.isConnected() ? colorAccentId : R.color.darkGrey);
+        fabQuickConnect.getMenuIconView().setImageDrawable(
+            AppCompatResources.getDrawable(this, R.drawable.ic_proton));
         fabQuickConnect.setOnMenuButtonClickListener(view -> {
             if (fabQuickConnect.isOpened()) {
                 fabQuickConnect.close(true);
                 fabQuickConnect.setMenuButtonColorNormalResId(
-                    vpnStateMonitor.isConnected() ? R.color.colorAccent : R.color.darkGrey);
+                    vpnStateMonitor.isConnected() ? colorAccentId : R.color.darkGrey);
             }
             else {
                 if (!vpnStateMonitor.isConnected()) {
@@ -500,7 +506,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
         switchSecureCoreLayout.setBackgroundColor(ContextCompat.getColor(getContext(),
-            switchCompat.isChecked() ? R.color.colorAccent : R.color.background_norm));
+            switchCompat.isChecked()
+                ? getThemeColorId(switchCompat, R.attr.colorAccent)
+                : R.color.background_norm));
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
@@ -588,5 +596,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             .negativeColor(ContextCompat.getColor(this, R.color.white))
             .onPositive((dialog, which) -> super.onConnect(profileToConnect))
             .show();
+    }
+
+    @ColorRes
+    private int getThemeColorId(@NonNull View view, @AttrRes int attr) {
+        TypedValue value = new TypedValue();
+        view.getContext().getTheme().resolveAttribute(attr, value, true);
+        return value.resourceId;
     }
 }

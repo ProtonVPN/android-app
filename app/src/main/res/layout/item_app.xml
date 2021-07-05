@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:text="@string/add"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             android:textStyle="bold" />
     </FrameLayout>
 

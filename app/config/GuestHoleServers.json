@@ -1,80 +1,48 @@
 [
     {
-        "Name": "DE#28",
-        "EntryCountry": "DE",
-        "ExitCountry": "DE",
-        "Domain": "de-28.protonvpn.com",
-        "Tier": 2,
-        "Features": 12,
-        "Region": null,
-        "City": "Frankfurt",
-        "Score": 1.1251317700000001,
-        "HostCountry": null,
-        "ID": "ykq8nDhmVZPCCvmg9TgrTlRF9zEHlTavaYJus7RPnCfevaND_AQIg5J-vBxdzz4PrwZFoyzaNbmzsJG-fm8Aug==",
-        "Location": {
-            "Lat": 51,
-            "Long": 9
-        },
-        "Status": 1,
-        "Servers": [
-            {
-                "EntryIP": "78.159.113.197",
-                "ExitIP": "78.159.113.197",
-                "Domain": "de-28.protonvpn.com",
-                "ID": "gM9BBHOhLydodSvMW9woKBs_7krFVyzNJ9EmOwLgghKNdVPaq5sWylJG62csNUTPMXvgcZJKCqC6qqyFPVgUqw==",
-                "Label": "",
-                "X25519PublicKey": null,
-                "Generation": 0,
-                "Status": 1,
-                "ServicesDownReason": null
-            }
-        ],
-        "Load": 44
-    },
-    {
-        "Name": "PT#9",
-        "EntryCountry": "PT",
-        "ExitCountry": "PT",
-        "Domain": "pt-09b.protonvpn.com",
-        "Tier": 2,
-        "Features": 0,
-        "Region": null,
-        "City": "Lisbon",
-        "Score": 1.2275042599999999,
-        "HostCountry": null,
-        "ID": "C-P4TPPA0Nsvwl56YS9EPXFcXdt-cmIYqnuxOF8gCBJ4koTf90FJgU2fOh8o6qeN5ParA2SbVnU4UjwyeNlU3w==",
-        "Location": {
-            "Lat": 38.719999999999999,
-            "Long": -9.1300000000000008
-        },
-        "Status": 1,
-        "Servers": [
-            {
-                "EntryIP": "195.158.248.226",
-                "ExitIP": "195.158.248.231",
-                "Domain": "node-pt-02b.protonvpn.net",
-                "ID": "jWX4uC1V6Nib4EHf19aHN3bC7K5HRChaFBzBZSOrCkE7Dlx0LX0tQqw89Stl45PZXvpJ5hH_BUcpB_Ms3UUIeQ==",
-                "Label": "1",
-                "X25519PublicKey": null,
-                "Generation": 0,
-                "Status": 1,
-                "ServicesDownReason": null
-            }
-        ],
-        "Load": 44
-    },
-    {
-        "Name": "NL#19",
-        "EntryCountry": "NL",
-        "ExitCountry": "NL",
-        "Domain": "nl-19.protonvpn.com",
+        "Name": "NO#17",
+        "EntryCountry": "NO",
+        "ExitCountry": "NO",
+        "Domain": "no-17.protonvpn.net",
         "Tier": 1,
         "Features": 0,
         "Region": null,
-        "City": "Amsterdam",
-        "Score": 2.1210002700000001,
+        "City": "Oslo",
+        "Score": 2.19324114,
         "HostCountry": null,
-        "ID": "s1T-ozNJVbC00n6si9HQECcVTyeImGMgpG3XFuVoo6nrlHTXD5s8EGEH7-RV0jdJ-j9qXRLaGVbP7ioNjehWAw==",
+        "ID": "r3cIsp8UYmT9dhDHAIg2-CQMajRRaM4Xb0CwX3cks6FwOHggAfhzPH6SUd2JES9vmPy_3OMSGGPvO07couufdw==",
+        "Location": {
+            "Lat": 59.909999999999997,
+            "Long": 10.75
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "91.219.215.155",
+                "ExitIP": "91.219.215.155",
+                "Domain": "no-17.protonvpn.net",
+                "ID": "Cvq9Lpq9lgu-i-iugUZf8BOrw4YsTGalssVWMy5Gpgm3F5rHmNO5fK99kKgGmG4Szd6jxsC98DPS9Uq6NqcaWw==",
+                "Label": "0",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            }
+        ],
+        "Load": 8
+    },
+    {
+        "Name": "NL-FREE#11",
+        "EntryCountry": "NL",
+        "ExitCountry": "NL",
+        "Domain": "nl-free-11.protonvpn.com",
+        "Tier": 0,
+        "Features": 0,
+        "Region": null,
+        "City": null,
+        "Score": 3.3690582299999998,
+        "HostCountry": null,
+        "ID": "2GXummgWOD9gH120_CGus9Mn24yCso4LTAW12QvQd93k6d2wYk-8LRGkUPx0OwJ_azpQwHcKbk3-OiNQWcXNYw==",
         "Location": {
             "Lat": 52.369999999999997,
             "Long": 4.8899999999999997
@@ -82,107 +50,280 @@
         "Status": 1,
         "Servers": [
             {
-                "EntryIP": "192.40.57.50",
-                "ExitIP": "192.40.57.53",
-                "Domain": "lxc-nl-14.protonvpn.com",
-                "ID": "yQuaOgJmNpcW33IdNDu65U2UBUGRhD9XFklXGtsPwT3wuNzkgX45g7DY97VCEt9bM-BjPngL_nPNvq_kwpT4JA==",
+                "EntryIP": "185.107.95.225",
+                "ExitIP": "185.107.95.226",
+                "Domain": "lxc-nl-21.protonvpn.com",
+                "ID": "ZBgs_RZxKps6xayd6N0LBGzoKELElbllt3RX03ocDDyrUVd_lRMhQo0iI5Pz3XnjLKN1gkOAv3AmvgiWDOYifQ==",
+                "Label": "0",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.95.225",
+                "ExitIP": "185.107.95.227",
+                "Domain": "lxc-nl-21.protonvpn.com",
+                "ID": "9BpPJvBw9sYzrKzh2MH90OWSjAx0OUw9Js-RwAuwNqYTi-9sIdRtlDSwf1VISW68MwGei9OisG4C7iea2lkjFw==",
+                "Label": "1",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.95.225",
+                "ExitIP": "185.107.95.228",
+                "Domain": "lxc-nl-21.protonvpn.com",
+                "ID": "ctv52fQ5svlV-rIomJHGWxD0Ppimd2b17Kzb8IoC9WvVtggnljzIR2s3rcNBMQiiA5Gjq43-DdL8PwdyXq7kDQ==",
                 "Label": "2",
                 "X25519PublicKey": null,
                 "Generation": 0,
                 "Status": 1,
                 "ServicesDownReason": null
-            }
-        ],
-        "Load": 16
-    },
-    {
-        "Name": "RU#16",
-        "EntryCountry": "RU",
-        "ExitCountry": "RU",
-        "Domain": "5.8.16.146",
-        "Tier": 2,
-        "Features": 0,
-        "Region": null,
-        "City": "Saint Petersburg",
-        "Score": 999.25752087000001,
-        "HostCountry": null,
-        "ID": "9CQK9K0XF5WMm7iwwfS41kEu3fOqGu8VuJH4YivRE2Ong1DoHIZOkPYZTeblgTx92qU9sRw_m5PooGZDUj3pGg==",
-        "Location": {
-            "Lat": 59.939999999999998,
-            "Long": 29.809999999999999
-        },
-        "Status": 1,
-        "Servers": [
+            },
             {
-                "EntryIP": "5.8.16.146",
-                "ExitIP": "5.8.16.150",
-                "Domain": "node-ru-03.protonvpn.net",
-                "ID": "zZMTpvtGnZHrRVTxzbqod9R7G5MhRBao05fjFr9cFCizeteBVic8iAw3lYNsWjf7mCpodDpwBJuMzk2Ao9OTPw==",
-                "Label": "1",
+                "EntryIP": "185.107.95.225",
+                "ExitIP": "185.107.95.229",
+                "Domain": "lxc-nl-21.protonvpn.com",
+                "ID": "V_9Ok43My7ZJmR2eT7Em2SmlEUpRJdIulLRbyO8wexl93EsUKgAfzobsp6OqCXaQy3jKcJAlDpNECpIwvGxsgQ==",
+                "Label": "3",
                 "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.80.216",
+                "ExitIP": "185.107.80.217",
+                "Domain": "lxc-nl-36.protonvpn.com",
+                "ID": "Kh3etPmEOxjVqDGmlTtpQ6B5vWp8h4G8IgjzOeaPpN355Ynxcu47eIioMhP6R8o06TMOSFni_Hd8YSzADZgiJA==",
+                "Label": "0",
+                "X25519PublicKey": "JZB+EhgDp8jaPVI26NY/YsBt087NdmbZtb0ppZJQYHk=",
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.80.216",
+                "ExitIP": "185.107.80.218",
+                "Domain": "lxc-nl-36.protonvpn.com",
+                "ID": "A-8upgSfO1uExZf5h7dL3GsEZPB3IZ_nMtdjGAYJLgiMZCVQiVbPVwmGxiaxIaxpIBBws2-zEDzfeoSja7GAzA==",
+                "Label": "1",
+                "X25519PublicKey": "JZB+EhgDp8jaPVI26NY/YsBt087NdmbZtb0ppZJQYHk=",
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.80.216",
+                "ExitIP": "185.107.80.219",
+                "Domain": "lxc-nl-36.protonvpn.com",
+                "ID": "fbGksHD7EceGw96wwcyclCkbT2LCHOM9XuxCLqtQcKb5V5_g6FZDxwnjoY12-XjGWIJv3ckcHOCaBtfWA630aA==",
+                "Label": "2",
+                "X25519PublicKey": "JZB+EhgDp8jaPVI26NY/YsBt087NdmbZtb0ppZJQYHk=",
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            },
+            {
+                "EntryIP": "185.107.80.216",
+                "ExitIP": "185.107.80.220",
+                "Domain": "lxc-nl-36.protonvpn.com",
+                "ID": "-BMuO3iNatuqgK21Z_vzQ683-KkozLe-wHaxFJtESWlC-14gFXEIzG2MQBT2CzKBgFnsRpiLXrSyeJXDrWPN9g==",
+                "Label": "3",
+                "X25519PublicKey": "JZB+EhgDp8jaPVI26NY/YsBt087NdmbZtb0ppZJQYHk=",
                 "Generation": 0,
                 "Status": 1,
                 "ServicesDownReason": null
             }
         ],
-        "Load": 46
+        "Load": 93
     },
     {
-        "Name": "US-NY#22",
+        "Name": "US-FL#18",
         "EntryCountry": "US",
         "ExitCountry": "US",
-        "Domain": "us-ny-22.protonvpn.com",
+        "Domain": "us-fl-17.protonvpn.net",
         "Tier": 1,
         "Features": 4,
         "Region": null,
-        "City": "New York City",
-        "Score": 2.44302734,
+        "City": "Miami",
+        "Score": 2.46893282,
         "HostCountry": null,
-        "ID": "MmWTePGHqgaKSbxMnV1rCW9Uly62iZPVBgSqOCSKbOrLvJS5PHa8y5X97AawjWwQcsHo0wVr9XEHKzU6uBZC2Q==",
+        "ID": "jw2nBd6BHrQK-HXkMo3cPuX1pboI4OSrnpd_3z9sSVS3P3krEl70XZwwtJTnSjWy3-6sKcnrJQykz6_6LmVj8A==",
         "Location": {
-            "Lat": 40.729999999999997,
-            "Long": -73.939999999999998
+            "Lat": 25.77,
+            "Long": -80.189999999999998
         },
         "Status": 1,
         "Servers": [
             {
-                "EntryIP": "193.148.18.84",
-                "ExitIP": "193.148.18.84",
-                "Domain": "us-ny-22.protonvpn.com",
-                "ID": "yRJy568aVE4XNw5wQIbJSgdZyoZ0A4W25oeQGhHF25kjyUCg2H1UJOx98_oo6AW6KwrAKEr0CNZBYlkCyVsh_w==",
-                "Label": "",
+                "EntryIP": "45.87.214.195",
+                "ExitIP": "45.87.214.196",
+                "Domain": "us-fl-17.protonvpn.net",
+                "ID": "AR-mFh4kdfrSbtpzEG_ARQ2sFsSJ117kLd2QYU1VGyU5iLM3FWnK_DJ6osfCd7h7o-xARfQ0Jinhr59cr0JMmA==",
+                "Label": "1",
                 "X25519PublicKey": null,
                 "Generation": 0,
                 "Status": 1,
                 "ServicesDownReason": null
             }
         ],
-        "Load": 50
+        "Load": 34
     },
     {
-        "Name": "US-NJ#14",
-        "EntryCountry": "US",
-        "ExitCountry": "US",
-        "Domain": "us-nj-14.protonvpn.com",
+        "Name": "AU#38",
+        "EntryCountry": "AU",
+        "ExitCountry": "AU",
+        "Domain": "au-38.protonvpn.com",
         "Tier": 2,
         "Features": 8,
         "Region": null,
-        "City": "Secaucus",
-        "Score": 1.41471685,
+        "City": "Adelaide",
+        "Score": 1.7451756700000001,
         "HostCountry": null,
-        "ID": "CR8NFC3v5qrQ6uJyU12YIuPCkPH99Crnxv9JgTFiePqWQRSVzc7tbaYoRJTG_MJNcj_8zUgpl07J77HtX_wxBg==",
+        "ID": "pMiBfuWJWx5fSFYSOSsdphlRSKQWX0KanHY2pS0Kj0DAKFY5-lSOpp7HFcCO-SWtnUd5O0jW9ABJgxbivg2fCg==",
         "Location": {
-            "Lat": 40.780000000000001,
-            "Long": -74.099999999999994
+            "Lat": -34.93,
+            "Long": 138.59999999999999
         },
         "Status": 1,
         "Servers": [
             {
-                "EntryIP": "107.152.101.210",
-                "ExitIP": "107.152.101.212",
-                "Domain": "lxc-us-83.protonvpn.com",
-                "ID": "SIjbFPKOXRBR0yF-vFmfmUSf2hLkTJfliHASJ_zckNEm99VwskMZf1SwH5mzb2iU0FPJKDinV52t79v99E_YXQ==",
+                "EntryIP": "116.206.231.186",
+                "ExitIP": "116.206.231.188",
+                "Domain": "lxc-au-09.protonvpn.com",
+                "ID": "PhrRot836G-etkC_3fIfVL8THHavpnMQgG8uvD9czPRiRPc4fCNr8D7D5IHqwLtVqnWlyHK3J8TenCACpdiRnA==",
+                "Label": "0",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            }
+        ],
+        "Load": 69
+    },
+    {
+        "Name": "US-FL#9",
+        "EntryCountry": "US",
+        "ExitCountry": "US",
+        "Domain": "us-fl-09.protonvpn.com",
+        "Tier": 1,
+        "Features": 0,
+        "Region": null,
+        "City": "Miami",
+        "Score": 2.4573603199999998,
+        "HostCountry": null,
+        "ID": "g1t2gCfDnOr7SfVKNZb9Aodj0QjWdTAPHtgXgKbtkFju85tDnuNHiW-d28BwBwX7aF1pVOcc2bpTBkIyvJ6YLQ==",
+        "Location": {
+            "Lat": 25.77,
+            "Long": -80.189999999999998
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "37.120.215.227",
+                "ExitIP": "37.120.215.227",
+                "Domain": "us-fl-09.protonvpn.com",
+                "ID": "PfFfhiYNeFgIOqwd3lm6BMI_UsKieujQsNYncUKDdvctgb_BLXhLkE9627aUkF9jwTRJMfMzzQFWy43o1I087w==",
+                "Label": "0",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            }
+        ],
+        "Load": 9
+    },
+    {
+        "Name": "MX#8",
+        "EntryCountry": "MX",
+        "ExitCountry": "MX",
+        "Domain": "node-mx-01.protonvpn.net",
+        "Tier": 2,
+        "Features": 0,
+        "Region": null,
+        "City": "Chiapas",
+        "Score": 999.50317835999999,
+        "HostCountry": null,
+        "ID": "CWX9YsBLbmBk1hoF3m-W8hM2XFcNuwJjtMPMHq6TjwC5_485C77M_TpWOdaoBKoRieCJ3FLgN8dTqD6ClizUuA==",
+        "Location": {
+            "Lat": 16.760000000000002,
+            "Long": -93.109999999999999
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "191.96.145.238",
+                "ExitIP": "191.96.145.246",
+                "Domain": "node-mx-01.protonvpn.net",
+                "ID": "Ta2AZ8DN3vZSDSUImW7ebT5zKhTSJGNwVcDiDEshiJ_R7_OblllTgbb8Fojt00evg7Yhdu2OBh7ii94h8PMmvw==",
+                "Label": "4",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            }
+        ],
+        "Load": 10
+    },
+    {
+        "Name": "AU#26",
+        "EntryCountry": "AU",
+        "ExitCountry": "AU",
+        "Domain": "au-26.protonvpn.com",
+        "Tier": 2,
+        "Features": 8,
+        "Region": null,
+        "City": "Sydney",
+        "Score": 1.72291211,
+        "HostCountry": null,
+        "ID": "wOx--bv6mvHGl16H9L29Z3tlk98LPso5WXfs8b_dj72kAJ_mummcf1ic6CUF6N-Q5HjkrgbiPCUOSOJciVpPtQ==",
+        "Location": {
+            "Lat": -33.859999999999999,
+            "Long": 151.19999999999999
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "137.59.253.55",
+                "ExitIP": "137.59.253.57",
+                "Domain": "lxc-au-07.protonvpn.com",
+                "ID": "XZBqLPUCGvnl0au-AV_JCOfb-3VpYuxViLl8fHGZ0MWukpv6ZfSDFt_s7i5AZVTH9HOplNZBpHkyl7K0L6OMLQ==",
                 "Label": "1",
+                "X25519PublicKey": null,
+                "Generation": 0,
+                "Status": 1,
+                "ServicesDownReason": null
+            }
+        ],
+        "Load": 58
+    },
+    {
+        "Name": "US-FL#46",
+        "EntryCountry": "US",
+        "ExitCountry": "US",
+        "Domain": "node-us-102.protonvpn.net",
+        "Tier": 2,
+        "Features": 8,
+        "Region": null,
+        "City": "Miami",
+        "Score": 1.46607892,
+        "HostCountry": null,
+        "ID": "RQFcGLh_H4CtmIWn7_yQVJK1P7FM8KJDtnFip_c_2mFIV6FmUpKlV393AHLRav2ICmkLTvPEfcociVPyyVoLrQ==",
+        "Location": {
+            "Lat": 25.77,
+            "Long": -80.189999999999998
+        },
+        "Status": 1,
+        "Servers": [
+            {
+                "EntryIP": "89.38.227.138",
+                "ExitIP": "89.38.227.140",
+                "Domain": "node-us-102.protonvpn.net",
+                "ID": "kCVw_2Q3kgdcAPYb-xGLsAaGarLOolKD_9Vn-PdyHX2Z46K0J0sNw_KBA8UWHReR87fDq15FJgeCCxH4SYXxDQ==",
+                "Label": "0",
                 "X25519PublicKey": null,
                 "Generation": 0,
                 "Status": 1,
@@ -192,61 +333,61 @@
         "Load": 31
     },
     {
-        "Name": "RU#14",
-        "EntryCountry": "RU",
-        "ExitCountry": "RU",
-        "Domain": "5.8.16.147",
-        "Tier": 1,
+        "Name": "NL#44",
+        "EntryCountry": "NL",
+        "ExitCountry": "NL",
+        "Domain": "nl-44.protonvpn.com",
+        "Tier": 2,
         "Features": 0,
         "Region": null,
-        "City": "Saint Petersburg",
-        "Score": 1000.2335928700001,
+        "City": "Amsterdam",
+        "Score": 1.1287636299999999,
         "HostCountry": null,
-        "ID": "g6alkSOXiJ1KqwqkyTmJ9ko3oW2mek3Eci6J9VBEoqqduqDjevCq7WGPFimCsjy1-xL5v0YAeAjCDvxLsIx5sg==",
+        "ID": "aGzmBU9zGouUD-zVIoT1z3Lk9c5xJjC0PHbmRxYYczWSA7O7940onaLEWLUnWYNqgih5HqQYJL83IxgWmkVj9Q==",
         "Location": {
-            "Lat": 59.939999999999998,
-            "Long": 29.809999999999999
+            "Lat": 52.369999999999997,
+            "Long": 4.8899999999999997
         },
         "Status": 1,
         "Servers": [
             {
-                "EntryIP": "5.8.16.147",
-                "ExitIP": "5.8.16.148",
-                "Domain": "ru-13.protonvpn.net",
-                "ID": "cLXVXu8gV0JTnzQDV4s6Y9aVaMTKybN8sHlBua62qV2rzXsIl2N7Mm_9jDsjXAISsLR_4RMty9vrJ6sVaPJeOA==",
-                "Label": "1",
+                "EntryIP": "190.2.132.124",
+                "ExitIP": "190.2.132.136",
+                "Domain": "lxc-nl-29.protonvpn.com",
+                "ID": "dfs0rWMEv0SHX3i5YJHr3dnIpgddqoV585itvVvpZxA7Tmgou0YzZArvomfRBdnvaYEAv0_7QW0y65LLjca9WQ==",
+                "Label": "3",
                 "X25519PublicKey": null,
                 "Generation": 0,
                 "Status": 1,
                 "ServicesDownReason": null
             }
         ],
-        "Load": 26
+        "Load": 15
     },
     {
-        "Name": "HK#11",
-        "EntryCountry": "HK",
-        "ExitCountry": "HK",
-        "Domain": "hk-11.protonvpn.com",
+        "Name": "US-WA#16",
+        "EntryCountry": "US",
+        "ExitCountry": "US",
+        "Domain": "us-wa-16.protonvpn.com",
         "Tier": 2,
-        "Features": 4,
+        "Features": 8,
         "Region": null,
-        "City": "Hong Kong",
-        "Score": 1.5107400900000001,
+        "City": "Seattle",
+        "Score": 1.4869068999999999,
         "HostCountry": null,
-        "ID": "sFwoWP5q5Sve7QH1DfsCJQ0HgeRnH4Q6slDrqGe2Bqi5EbSBzikbNqjKHFABwoWdXokZExQSnipytCTuIMfypA==",
+        "ID": "L1TMJKnZg3Dns6oJa5QMYZeXu3Xkcd0KrB-OnyA1PxwLWpXy77aqCRv8QQ2DwO578UpgRsGdadzTRiSk6EyJ_w==",
         "Location": {
-            "Lat": 22.280000000000001,
-            "Long": 114.14
+            "Lat": 47.607999999999997,
+            "Long": -122.33499999999999
         },
         "Status": 1,
         "Servers": [
             {
-                "EntryIP": "193.239.86.8",
-                "ExitIP": "193.239.86.8",
-                "Domain": "hk-11.protonvpn.com",
-                "ID": "RNakKepQaBotN2P2tF7uDIIIQs3t4kPbP8sryiQ4hP83_y6ALZBJpQOR3ZMWBFZ7vsMAo121LRZdsvyF_cFa_g==",
-                "Label": "",
+                "EntryIP": "199.187.211.103",
+                "ExitIP": "199.187.211.107",
+                "Domain": "lxc-us-35.protonvpn.com",
+                "ID": "xUEZ8qdrwuCwpUQKznELEP8L5WKTFrDMgA5a2IE0wVlHepVbCgFnFrpKbHP2wUAkqFhI0p0fO5RBR3IFbZ1Alg==",
+                "Label": "3",
                 "X25519PublicKey": null,
                 "Generation": 0,
                 "Status": 1,
@@ -254,69 +395,5 @@
             }
         ],
         "Load": 35
-    },
-    {
-        "Name": "US-NY#6",
-        "EntryCountry": "US",
-        "ExitCountry": "US",
-        "Domain": "us-ny-06.protonvpn.com",
-        "Tier": 2,
-        "Features": 12,
-        "Region": null,
-        "City": "New York City",
-        "Score": 1.4310713100000001,
-        "HostCountry": null,
-        "ID": "sOwV1kbGUGEVOlJG8xLF91JNa2f-iowatvjj-EZKrRRIHr4olJ-lhmAm5nCsF8PwMmdOdt3kQDUV1i9rxBAn-Q==",
-        "Location": {
-            "Lat": 40.729999999999997,
-            "Long": -73.935000000000002
-        },
-        "Status": 1,
-        "Servers": [
-            {
-                "EntryIP": "108.62.49.157",
-                "ExitIP": "108.62.49.152",
-                "Domain": "lxc-us-32.protonvpn.com",
-                "ID": "76j77cIq80bpANOAps6c7GKCJ5xAdTsBC5F8PkCoeYhhESMsDS1YaqsF4tNEWAfkgXLTWlq2IeYbSmWI9z2sRg==",
-                "Label": "0",
-                "X25519PublicKey": null,
-                "Generation": 0,
-                "Status": 1,
-                "ServicesDownReason": null
-            }
-        ],
-        "Load": 44
-    },
-    {
-        "Name": "HK#10",
-        "EntryCountry": "HK",
-        "ExitCountry": "HK",
-        "Domain": "hk-10.protonvpn.com",
-        "Tier": 2,
-        "Features": 4,
-        "Region": null,
-        "City": "Hong Kong",
-        "Score": 1.59643029,
-        "HostCountry": null,
-        "ID": "31EkVixdTqeOrZ0srK48CvS5lskjqzbFAMBaOn73TEHfsbUju5qGScHbtz_2QkZOxxGSG4kQ3u2dt3Hg8LGgCA==",
-        "Location": {
-            "Lat": 22.280000000000001,
-            "Long": 114.14
-        },
-        "Status": 1,
-        "Servers": [
-            {
-                "EntryIP": "193.239.86.7",
-                "ExitIP": "193.239.86.7",
-                "Domain": "hk-10.protonvpn.com",
-                "ID": "SMATApDHjQAM53w3ktU7ZjSwiBJhNea_A1ZkcZ044LAK_iQjkQ5n73CKaXp0Vm9gtPTlj1_DouIN9lPJjYrYlw==",
-                "Label": "",
-                "X25519PublicKey": null,
-                "Generation": 0,
-                "Status": 1,
-                "ServicesDownReason": null
-            }
-        ],
-        "Load": 69
     }
 ]

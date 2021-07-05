@@ -32,7 +32,7 @@
   <string name="loginCreateAccount">Neues Konto erstellen</string>
   <string name="loginNeedHelp">Benötigen Sie Hilfe?</string>
   <string name="connectionAllocationHelpTitle">Danke für den Umstieg auf\nProfessional/Visionary</string>
-  <string name="connectionAllocationHelpDescription">Um Ihre Reise mit ProtonVPN zu beginnen, weisen Sie bitte Ihrem Konto oder einem anderen Unterkonto VPN-Sitzungen zu.\n\nDieser Schritt wird nur wenige Minuten dauern. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
+  <string name="connectionAllocationHelpDescription">Um Ihre Reise mit ProtonVPN zu beginnen, weisen Sie bitte Ihrem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.\n\nDieser Schritt wird nur wenige Minuten dauern. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen zuweisen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Erneut anmelden</string>
   <string name="helpResetPassword">Passwort zurücksetzen</string>
@@ -449,4 +449,5 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="server_load_low">Niedrig</string>
   <string name="server_load_medium">Mittel</string>
   <string name="server_load_high">Hoch</string>
+  <!-- Override Human verification links from core -->
 </resources>

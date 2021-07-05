@@ -31,8 +31,10 @@ import com.protonvpn.android.bus.ConnectToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setColorTint
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -45,13 +47,12 @@ open class CountryExpandedViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val colorRes = when {
-            connected -> R.color.colorAccent
-            !server.online -> R.color.interaction_weak_disabled_vpn
-            else -> R.color.interaction_weak_vpn
+        val colorValue = when {
+            connected -> binding.root.getThemeColor(R.attr.colorAccent)
+            !server.online -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_disabled_vpn)
+            else -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_vpn)
         }
-        binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(binding.root.context, colorRes))
+        binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(colorValue)
     }
 
     override fun getId() = server.serverId.hashCode().toLong()
@@ -89,7 +90,7 @@ open class CountryExpandedViewHolder(
             textLoad.isVisible = haveAccess && server.online
             textLoad.text = "${server.load.toInt()}%"
             serverLoadColor.isVisible = haveAccess && server.online
-            serverLoadColor.setColorTint(server.loadColor)
+            serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
             imageCountry.isVisible = viewModel.userData.isSecureCoreEnabled
             if (viewModel.userData.isSecureCoreEnabled) {

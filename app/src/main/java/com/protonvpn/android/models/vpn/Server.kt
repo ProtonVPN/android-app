@@ -19,8 +19,6 @@
 package com.protonvpn.android.models.vpn
 
 import android.content.Context
-import androidx.annotation.ColorRes
-import com.protonvpn.android.R
 import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
@@ -104,15 +102,6 @@ data class Server(
     val isPMTeamServer: Boolean
         get() = tier == 3
 
-    val loadColor: Int
-        @ColorRes
-        get() = when (loadState) {
-            LoadState.MAINTENANCE -> R.color.inMaintenance
-            LoadState.LOW_LOAD -> R.color.colorAccent
-            LoadState.MEDIUM_LOAD -> R.color.yellow
-            LoadState.HIGH_LOAD -> R.color.dimmedRed
-        }
-
     val loadState get() = when {
         !online -> LoadState.MAINTENANCE
         load <= 75f -> LoadState.LOW_LOAD
@@ -126,8 +115,7 @@ data class Server(
     val serverNumber: Int
         get() {
             val name = serverName
-            val pattern = Pattern.compile("#(\\d+(\\d+)?)")
-            val m = pattern.matcher(name)
+            val m = SERVER_NUMBER_PATTERN.matcher(name)
             return if (m.find()) {
                 Integer.valueOf(m.group(1))
             } else {
@@ -160,4 +148,8 @@ data class Server(
 
     override fun getLabel(context: Context): String = if (isSecureCoreServer)
         CountryTools.getFullName(entryCountry) else serverName
+
+    companion object {
+        val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")
+    }
 }

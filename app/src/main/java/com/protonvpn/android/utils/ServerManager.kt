@@ -169,7 +169,7 @@ class ServerManager(
         profilesUpdateEvent.emit()
     }
 
-    fun getVpnCountries(): List<VpnCountry> = vpnCountries
+    fun getVpnCountries(): List<VpnCountry> = vpnCountries.sortedBy { it.countryName }
 
     val defaultFallbackConnection = getSavedProfiles()[0]
 
