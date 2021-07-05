@@ -16,27 +16,31 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="4dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/circle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/oval"
-        android:foreground="@drawable/bg_circle_ripple_selector"
-        android:src="#E01623" />
-
-    <ImageView
-        android:id="@+id/imageCheckBox"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:alpha="0.0"
-        app:srcCompat="@drawable/ic_check" />
+        android:orientation="vertical"
+        android:padding="4dp">
 
-</FrameLayout>
+        <View
+            android:id="@+id/circle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/oval"
+            android:foreground="@drawable/bg_circle_ripple_selector"
+            android:src="#E01623" />
+
+        <ImageView
+            android:id="@+id/imageCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:alpha="0.0"
+            app:srcCompat="@drawable/ic_check" />
+
+    </FrameLayout>
+
+</layout>

@@ -150,13 +150,31 @@
         <activity
             android:name=".ui.home.profiles.ProfileActivity"
             android:label="@string/activityProfileTitle"
-            android:theme="@style/AppTheme"
             android:parentActivityName=".ui.home.HomeActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.protonvpn.android.ui.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.home.profiles.CountrySelectionActivity"
+            android:label="@string/country"
+            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".ui.home.profiles.ServerSelectionActivity"
+            android:label="@string/serverSelection"
+            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".ui.ProtocolSelectionActivity"
+            android:label="@string/protocolLabel"/>
         <activity
             android:name=".ui.drawer.AccountActivity"
             android:label="@string/activityAccountTitle" />

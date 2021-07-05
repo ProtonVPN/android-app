@@ -68,6 +68,8 @@ data class ServerWrapper(
     val isSecureCore get() = directServer?.isSecureCoreServer ?: secureCoreCountry
     val isPreBakedFastest get() = type == ProfileType.FASTEST
     val isPreBakedRandom get() = type == ProfileType.RANDOM
+    val isFastestInCountry get() = type == ProfileType.FASTEST_IN_COUNTRY
+    val isRandomInCountry get() = type == ProfileType.RANDOM_IN_COUNTRY
     val isPreBakedProfile get() = type == ProfileType.FASTEST || type == ProfileType.RANDOM
     val server get() = deliver.getServer(this)
     val directServer get() = if (type == ProfileType.DIRECT) server else null

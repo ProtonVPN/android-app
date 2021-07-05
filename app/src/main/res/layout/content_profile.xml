@@ -22,112 +22,76 @@
     <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dimmedGrey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dimmedGrey"
-            android:clickable="true"
-            android:descendantFocusability="beforeDescendants"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_marginVertical="24dp"
             android:orientation="vertical"
-            android:paddingVertical="16dp"
-            android:layout_marginBottom="64dp"
             tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
             tools:showIn="@layout/activity_profile">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <me.proton.core.presentation.ui.view.ProtonInput
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:theme="@style/TextLabel">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/editName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/profile_name"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName"
-                    android:maxLength="25"
-                    android:selectAllOnFocus="true"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginHorizontal="16dp"
-                android:text="@string/profile_color"
-                android:textColor="@color/lightGrey"
-                android:textSize="16sp" />
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:hint="@string/profile_name_hint"
+                android:inputType="textPersonName"
+                app:label="@string/profile_name" />
 
             <GridLayout
                 android:id="@+id/layoutPalette"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:columnCount="6" />
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginBottom="8dp"
+                android:columnCount="5" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingVertical="12dp"
+                android:text="@string/secure_core" />
+
+            <View style="@style/Divider.Small" />
+
+            <me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
+                android:id="@+id/inputCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/secure_core"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:theme="@style/SCSwitch.Green"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/palette" />
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/selectCountry"
+                app:label="@string/country" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutCountry"
+            <me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
+                android:id="@+id/inputServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginHorizontal="16dp"
-                android:theme="@style/TextLabel">
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/selectServer"
+                app:label="@string/server" />
 
-                <com.protonvpn.android.components.ProtonSpinner
-                    android:id="@+id/spinnerCountry"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutServer"
+            <me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
+                android:id="@+id/inputProtocol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:theme="@style/TextLabel">
-
-                <com.protonvpn.android.components.ProtonSpinner
-                    android:id="@+id/spinnerServer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.protonvpn.android.components.ProtocolSelection
-                android:id="@+id/protocolSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/selectProtocol"
+                app:label="@string/protocolLabel" />
 
         </LinearLayout>
 

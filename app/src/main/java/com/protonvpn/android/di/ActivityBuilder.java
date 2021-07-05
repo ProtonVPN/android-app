@@ -20,7 +20,10 @@ package com.protonvpn.android.di;
 
 import com.protonvpn.android.components.BootReceiver;
 import com.protonvpn.android.components.QuickTileService;
+import com.protonvpn.android.ui.ProtocolSelectionActivity;
 import com.protonvpn.android.ui.home.InformationActivity;
+import com.protonvpn.android.ui.home.profiles.CountrySelectionActivity;
+import com.protonvpn.android.ui.home.profiles.ServerSelectionActivity;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
@@ -69,6 +72,15 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {ProfileActivityModule.class})
     abstract ProfileActivity bindProfileActivity();
+
+    @ContributesAndroidInjector(modules = {CountrySelectionActivityModule.class})
+    abstract CountrySelectionActivity bindCountrySelectionActivity();
+
+    @ContributesAndroidInjector(modules = {ServerSelectionActivityModule.class})
+    abstract ServerSelectionActivity bindServerSelectionActivity();
+
+    @ContributesAndroidInjector(modules = {ProtocolSelectionActivityModule.class})
+    abstract ProtocolSelectionActivity bindProtocolSelectionActivity();
 
     @ContributesAndroidInjector(modules = {ReportBugModule.class})
     abstract ReportBugActivity bindReportBugActivity();

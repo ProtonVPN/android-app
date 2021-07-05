@@ -204,6 +204,7 @@
     <string name="excludeAppsTitle">Exclude Apps</string>
     <string name="excludeAppsDescription">Add apps you want to exclude from your VPN traffic.</string>
     <string name="profile_name">Profile name</string>
+    <string name="profile_name_hint">Write profile name</string>
     <string name="profile_color">Profile color</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Attachments</string>
@@ -229,10 +230,17 @@
     <string name="manage">Manage</string>
     <string name="delete">Delete</string>
     <string name="deleteProfile">Are you sure you want to delete this profile?</string>
+    <string name="recommendedHeader">Recommended</string>
+    <string name="countryServersHeader">Country servers</string>
+    <string name="secureCoreCountriesHeader">Secure Core countries</string>
     <string name="exitCountry">Exit country</string>
     <string name="entryCountry">Entry country</string>
     <string name="country">Country</string>
+    <string name="selectCountry">Select country</string>
     <string name="serverSelection">Server</string>
+    <string name="selectServer">Select server</string>
+    <string name="protocolLabel">Protocol</string>
+    <string name="selectProtocol">Select protocol</string>
     <string name="protocol">Protocol:</string>
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -332,6 +340,11 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
         older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them. You can update your operating system to the most recent version of Android and try again."</string>
     <string name="settingsSmartProtocolTitle">Smart Protocol</string>
     <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
+    <string name="settingsProtocolNameSmart" translatable="false">Smart (auto)</string>
+    <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>
+    <string name="settingsProtocolNameOpenVpnTcp" translatable="false">OpenVPN TCP</string>
+    <string name="settingsProtocolNameOpenVpnUdp" translatable="false">OpenVPN UDP</string>
+    <string name="settingsProtocolNameIkeV2" translatable="false">IKEv2</string>
     <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
     <string name="netShieldDescription">Block advertisements, trackers and malware </string>
     <string name="netshield">NetShield</string>
