@@ -28,9 +28,11 @@ import com.protonvpn.android.ui.drawer.AccountActivityViewModel
 import com.protonvpn.android.ui.drawer.ReportBugActivityViewModel
 import com.protonvpn.android.ui.home.InformationViewModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
+import com.protonvpn.android.ui.home.profiles.CountrySelectionViewModel
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
 import com.protonvpn.android.ui.home.profiles.ProfileViewModel
 import com.protonvpn.android.ui.home.profiles.ProfilesViewModel
+import com.protonvpn.android.ui.home.profiles.ServerSelectionViewModel
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.TroubleshootViewModel
 import com.protonvpn.android.utils.ViewModelFactory
@@ -50,6 +52,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfilesViewModel::class)
     abstract fun bindsProfilesViewModel(profilesViewModel: ProfilesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CountrySelectionViewModel::class)
+    abstract fun bindsCountrySelectionViewModel(viewModel: CountrySelectionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ServerSelectionViewModel::class)
+    abstract fun bindsServerSelectionViewModel(viewModel: ServerSelectionViewModel): ViewModel
 
     @Binds
     @IntoMap

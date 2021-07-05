@@ -27,6 +27,10 @@
         tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity">
 
         <include
+            android:id="@+id/contentAppbar"
+            layout="@layout/content_appbar" />
+
+        <include
             android:id="@+id/contentProfile"
             layout="@layout/content_profile" />
 

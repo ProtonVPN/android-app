@@ -85,7 +85,7 @@ class ServerManager(
         sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
-    private fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
         filteredSecureCoreExitCountries else filteredVpnCountries
@@ -243,8 +243,8 @@ class ServerManager(
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
-    fun getVpnExitCountry(country: String, secureCoreCountry: Boolean): VpnCountry? =
-        getExitCountries(secureCoreCountry).firstOrNull { it.flag == country }
+    fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
+        getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
     fun getBestScoreServer(country: VpnCountry): Server? =
         getBestScoreServer(country.serverList)
