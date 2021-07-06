@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">U probeert verbinding te maken met een Secure Core server. Dit schakelt Secure Core mode%1$s in. Doorgaan?</string>
   <string name="secureCoreSwitchOff">U probeert verbinding te maken met een server zonder Secure Core-functionaliteit. Dit zal Secure Core uitschakelen%1$s Doorgaan?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;en <b>verbreek uw huidige verbinding</b>.]]></string>
-  <string name="disconnectDialogDescription">Deze actie verbreekt de verbinding van uw huidige sessie. Weet u zeker dat u wilt doorgaan?</string>
   <string name="logoutDescription">Uitloggen zal de verbinding van uw apparaat met de VPN server verbreken.</string>
   <string name="showAllProfiles">Alle profielen weergeven</string>
   <string name="yes">Ja</string>

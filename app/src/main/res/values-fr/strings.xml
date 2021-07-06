@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Vous essayez de vous connecter au serveur Secure Core. Cela activera le mode Secure Core%1$s Continuer ?</string>
   <string name="secureCoreSwitchOff">Vous essayez de vous connecter à un serveur non-Secure Core. Cela désactivera le mode Secure Core%1$s Continuer ?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;et <b>abandonner votre connexion actuelle</b>.]]></string>
-  <string name="disconnectDialogDescription">Cette action vous déconnectera de la session actuelle. Êtes-vous sûr de vouloir continuer ?</string>
   <string name="logoutDescription">La fermeture de la session déconnectera votre appareil du serveur VPN.</string>
   <string name="showAllProfiles">Afficher tous les profils</string>
   <string name="yes">Oui</string>

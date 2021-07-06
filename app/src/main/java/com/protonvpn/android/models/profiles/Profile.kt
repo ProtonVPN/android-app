@@ -84,6 +84,7 @@ data class Profile(val name: String, val color: String, val wrapper: ServerWrapp
     }
 
     companion object {
+        @JvmStatic
         fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =
                 Profile(server.displayName, "", ServerWrapper.makeWithServer(server, serverDeliver))
 
