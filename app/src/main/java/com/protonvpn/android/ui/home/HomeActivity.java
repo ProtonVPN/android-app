@@ -251,15 +251,18 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             if (vpnStateMonitor.isConnected() && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
                 new MaterialDialog.Builder(getContext()).title(R.string.warning)
                     .theme(Theme.DARK)
-                    .content(R.string.disconnectDialogDescription)
+                    .content(R.string.reconnectOnSecureCoreChangeDialogMessage)
                     .cancelable(false)
-                    .positiveText(R.string.yes)
-                    .negativeText(R.string.no)
+                    .positiveText(R.string.dialogContinue)
+                    .negativeText(R.string.cancel)
                     .negativeColor(ContextCompat.getColor(this, R.color.white))
                     .onPositive((dialog, which) -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
-                        vpnConnectionManager.disconnect();
+                        viewModel.reconnectToSameCountry(newProfile -> {
+                            vpnConnectionManager.connect(this, newProfile, "Secure Core switch");
+                            return Unit.INSTANCE;
+                        });
                     })
                     .show();
                 return true;

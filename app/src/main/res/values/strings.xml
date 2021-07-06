@@ -52,7 +52,7 @@
     <string name="secureCoreSwitchOn">You are trying to connect to Secure Core server. This will enable Secure Core mode%1$s Continue?</string>
     <string name="secureCoreSwitchOff">You are trying to connect to a non Secure Core server. This will disable Secure Core mode%1$s Continue?</string>
     <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>drop your current connection</b>.]]></string>
-    <string name="disconnectDialogDescription">This action will disconnect you from current session. Are you sure you want to continue?</string>
+    <string name="reconnectOnSecureCoreChangeDialogMessage">Your connection needs to be restarted to change the Secure Core mode.</string>
     <string name="logoutDescription">Logging out will disconnect your device from the VPN server.</string>
     <string name="showAllProfiles">Show all profiles</string>
 

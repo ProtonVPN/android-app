@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">شما قصد اتصال به سرور Secure Core را دارید. این کار حالت Secure Core را فعال می‌کند%1$s ادامه می‌دهید؟</string>
   <string name="secureCoreSwitchOff">شما قصد اتصال به سروری را دارید که از Secure Core پشتیبانی نمی‌کند. این کار حالت Secure Core را غیرفعال می‌کند%1$s ادامه می‌دهید؟</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;و <b>قطع اتصال فعلی</b>.]]></string>
-  <string name="disconnectDialogDescription">این عمل نشست فعلی شما را قطع می‌کند. آیا برای ادامه مطمئن هستید؟</string>
   <string name="logoutDescription">خارج شدن، اتصال دستگاه شما را از سرور VPN قطع می‌کند.</string>
   <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
   <string name="yes">بله</string>

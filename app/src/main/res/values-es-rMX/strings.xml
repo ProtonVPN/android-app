@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Está intentando conectar a un servidor Secure Core. Esto habilitará el modo Secure Core %1$s. ¿Continuar?</string>
   <string name="secureCoreSwitchOff">Está intentando conectar a un servidor no Secure Core. Esto deshabilitará el modo Secure Core %1$s. ¿Continuar?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;y <b>dejar su conexión actual</b>.]]></string>
-  <string name="disconnectDialogDescription">Esta acción le desconectará de la sesión actual. ¿Está seguro continuar?</string>
   <string name="logoutDescription">Al cerrar la sesión desconectará el dispositivo del servidor VPN.</string>
   <string name="showAllProfiles">Mostrar perfiles</string>
   <string name="yes">Sí</string>

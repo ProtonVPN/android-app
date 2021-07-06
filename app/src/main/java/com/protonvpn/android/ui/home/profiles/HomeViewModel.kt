@@ -25,11 +25,19 @@ import androidx.lifecycle.map
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.Profile.Companion.getTempProfile
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.MainViewModel
+import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +45,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     val userData: UserData,
     private val apiNotificationManager: ApiNotificationManager,
+    private val vpnStateMonitor: VpnStateMonitor,
+    private val vpnConnectionManager: VpnConnectionManager,
+    private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
     certificateRepository: CertificateRepository
 ) : MainViewModel(userData, userPlanManager, certificateRepository) {
@@ -87,6 +98,27 @@ class HomeViewModel @Inject constructor(
             userPlanChangeEvent.collect {
                 onChange(it)
             }
+        }
+    }
+
+    // Convert to a suspend method and remove the callback once HomeActivity is in Kotlin.
+    fun reconnectToSameCountry(connectCallback: (newProfile: Profile) -> Unit) {
+        DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
+        val connectedCountry: String = vpnStateMonitor.connectionParams!!.server.exitCountry
+        val exitCountry: VpnCountry? =
+            serverManager.getVpnExitCountry(connectedCountry, userData.isSecureCoreEnabled)
+        val newServer = if (exitCountry != null) {
+            serverManager.getBestScoreServer(exitCountry)
+        } else {
+            serverManager.getBestScoreServer()
+        }
+        if (newServer != null) {
+            val newProfile = getTempProfile(newServer, serverManager)
+            vpnConnectionManager.disconnectWithCallback { connectCallback(newProfile) }
+        } else {
+            val toOrFrom = if (userData.isSecureCoreEnabled) "to" else "from"
+            ProtonLogger.log("Unable to find a server to connect to when switching $toOrFrom Secure Core")
+            vpnConnectionManager.disconnect()
         }
     }
 }
