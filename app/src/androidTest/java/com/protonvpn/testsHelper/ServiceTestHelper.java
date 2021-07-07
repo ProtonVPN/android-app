@@ -52,6 +52,8 @@ public class ServiceTestHelper {
     static UserData userData = helper.userData;
     public MockVpnBackend mockVpnBackend = helper.getBackend();
 
+    private static Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
     public ServiceTestHelper(ServiceTestRule serviceRule) {
         service = initService(serviceRule);
     }
@@ -72,7 +74,7 @@ public class ServiceTestHelper {
     }
 
     public void setVpnServiceAsUnreachable() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        mainThreadHandler.postDelayed(() -> {
             service.disconnect();
             service.setState(VpnStateService.State.DISABLED);
             service.setError(VpnStateService.ErrorState.UNREACHABLE);
@@ -94,7 +96,7 @@ public class ServiceTestHelper {
     }
 
     public void enableSecureCore(boolean state) {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        mainThreadHandler.postDelayed(() -> {
             userData.setSecureCoreEnabled(state);
         }, 100);
     }
@@ -143,7 +145,7 @@ public class ServiceTestHelper {
 
     // TODO: move to the Unit tests part
     public void disconnectFromServer() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> service.disconnect(), 100);
+        mainThreadHandler.postDelayed(() -> service.disconnect(), 100);
     }
 
     @NonNull
@@ -167,7 +169,7 @@ public class ServiceTestHelper {
     }
 
     public static void deleteCreatedProfiles() {
-        new Handler(Looper.getMainLooper()).post(() -> serverManager.deleteSavedProfiles());
+        mainThreadHandler.post(() -> serverManager.deleteSavedProfiles());
     }
 
     public static boolean isSecureCoreEnabled() {
@@ -175,6 +177,6 @@ public class ServiceTestHelper {
     }
 
     public static void getExpiredTrialUserNotification(HomeActivity activity) {
-        new Handler(Looper.getMainLooper()).postDelayed(activity::showExpiredDialog, 0);
+        mainThreadHandler.postDelayed(activity::showExpiredDialog, 0);
     }
 }
