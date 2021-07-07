@@ -200,7 +200,7 @@
         <item quantity="other">Reconnection in %1$d seconds</item>
     </plurals>
     <string name="connection_failed">Connection failed</string>
-    <string name="create_new_profile">CREATE NEW PROFILE</string>
+    <string name="create_new_profile">New profile</string>
     <string name="excludeAppsTitle">Exclude Apps</string>
     <string name="excludeAppsDescription">Add apps you want to exclude from your VPN traffic.</string>
     <string name="profile_name">Profile name</string>
@@ -236,6 +236,8 @@
     <string name="recommendedHeader">Recommended</string>
     <string name="countryServersHeader">Country servers</string>
     <string name="secureCoreCountriesHeader">Secure Core countries</string>
+    <string name="recommendedProfilesHeader">Recommended profiles</string>
+    <string name="yourProfilesHeader">Your profiles</string>
     <string name="exitCountry">Exit country</string>
     <string name="entryCountry">Entry country</string>
     <string name="country">Country</string>

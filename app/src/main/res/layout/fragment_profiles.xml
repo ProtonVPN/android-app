@@ -18,49 +18,30 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/layoutCreateNew"
+        <TextView
+            android:id="@+id/textCreateProfile"
+            style="@style/Proton.Text.Default.Weak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2c2c31"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageView
-                android:id="@+id/imageInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/ic_add_profile" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/create_new_profile"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <View style="@style/Divider.Small" />
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="12dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingVertical="16dp"
+            android:text="@string/create_new_profile"
+            app:drawableStartCompat="@drawable/ic_plus" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/darkGrey"
             android:clipToPadding="false"
             android:paddingBottom="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -40,9 +40,7 @@ data class Profile(
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
 
-    val profileColor: ProfileColor? get() {
-        return colorId?.let { ProfileColor.byId(it) }
-    }
+    val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
 
     fun migrateColor(): Profile =
         if (color != null && colorId == null && !isPreBakedProfile) {
@@ -61,10 +59,10 @@ data class Profile(
     else
         name
 
-    @get:DrawableRes val profileIcon: Int get() = when {
+    @get:DrawableRes val profileSpecialIcon: Int? get() = when {
         wrapper.isPreBakedFastest -> R.drawable.ic_fast
         wrapper.isPreBakedRandom -> R.drawable.ic_arrows
-        else -> R.drawable.ic_profile_custom
+        else -> null
     }
 
     val isPreBakedProfile: Boolean

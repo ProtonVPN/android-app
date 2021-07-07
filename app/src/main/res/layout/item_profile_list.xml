@@ -22,94 +22,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/server_list_item_bg">
+    android:paddingHorizontal="@dimen/screen_padding_horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/imageIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/profileItem"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:gravity="center_vertical">
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <View
-            android:id="@+id/profileColor"
-            android:layout_width="4dp"
-            android:layout_height="match_parent"
-            tools:background="#A36BDC"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginVertical="8dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textServer"
-                style="@style/Body1Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_norm"
-                android:lines="1"
-                android:ellipsize="end"
-                tools:text="Coffe shop (Default)"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textServerNotSet"
-                style="@style/Body2Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_weak"
-                android:lines="1"
-                android:ellipsize="end"
-                android:text="@string/error_server_not_set"/>
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/profile_edit_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/round_selectable_item_bg"
-            android:src="@drawable/ic_dots"/>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/buttonConnect"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak"
-            android:src="@drawable/ic_power_off"
-            android:foreground="@drawable/round_selectable_item_bg"
-            app:tint="@color/text_norm"/>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageWrench"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/bg_button_oval"
-            android:backgroundTint="@color/interaction_weak_disabled"
-            android:src="@drawable/ic_wrench_icon"
-            app:tint="@color/icon_weak"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonUpgrade"
-            style="@style/Button.Secondary"
+        <TextView
+            android:id="@+id/textServer"
+            style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
-            android:layout_marginVertical="14dp"
-            android:text="@string/upgrade"/>
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="Coffe shop (Default)" />
+
+        <TextView
+            android:id="@+id/textServerNotSet"
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/error_server_not_set" />
     </LinearLayout>
 
-    <View
-        style="@style/Divider.Small"
-        android:layout_gravity="bottom" />
+    <ImageButton
+        android:id="@+id/profile_edit_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_selectable_item_bg"
+        android:src="@drawable/ic_dots"/>
+
+    <ImageButton
+        android:id="@+id/buttonConnect"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/bg_button_oval"
+        android:foreground="@drawable/round_selectable_item_bg"
+        android:src="@drawable/ic_power_off"
+        app:tint="@color/text_norm" />
+
+    <ImageButton
+        android:id="@+id/imageWrench"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginVertical="10dp"
+        android:src="@drawable/ic_wrench_icon"
+        app:tint="@color/icon_weak" />
+
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonUpgrade"
+        style="@style/ProtonButton.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:text="@string/upgrade"/>
 </LinearLayout>
 
 </layout>

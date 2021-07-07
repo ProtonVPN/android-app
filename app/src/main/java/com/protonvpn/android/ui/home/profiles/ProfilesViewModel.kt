@@ -18,13 +18,18 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfilesViewModel @Inject constructor(
@@ -33,13 +38,40 @@ class ProfilesViewModel @Inject constructor(
     val stateMonitor: VpnStateMonitor
 ) : ViewModel() {
 
-    val profilesUpdateEvent: LiveEvent get() = serverManager.profilesUpdateEvent
+    data class ProfileItem(
+        val profile: Profile,
+        val isConnected: Boolean,
+        val hasAccess: Boolean
+    )
 
-    val profileCount: Int get() = serverManager.getSavedProfiles().size
+    private val profiles = MutableLiveData<List<ProfileItem>>(getProfiles())
+    val preBakedProfiles: LiveData<List<ProfileItem>> = Transformations.map(profiles) { allProfiles ->
+        allProfiles.filter { it.profile.isPreBakedProfile }
+    }
+    val userCreatedProfiles = Transformations.map(profiles) { allProfiles ->
+        allProfiles.filter { it.profile.isPreBakedProfile.not() }
+    }
 
-    fun getProfile(position: Int): Profile = serverManager.getSavedProfiles()[position]
+    init {
+        viewModelScope.launch {
+            stateMonitor.status.collect { updateProfiles() }
+        }
+        viewModelScope.launch {
+            serverManager.profilesUpdateEvent.collect { updateProfiles() }
+        }
+    }
 
-    fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
+    private fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 
-    fun hasAccessToServer(server: Server?) = userData.hasAccessToServer(server)
+    private fun hasAccessToServer(server: Server?) = userData.hasAccessToServer(server)
+
+    private fun updateProfiles() {
+        profiles.value = getProfiles()
+    }
+
+    private fun getProfiles(): List<ProfileItem> =
+        serverManager.getSavedProfiles().map {
+            val server = it.server
+            ProfileItem(it, isConnected = isConnectedTo(server), hasAccess = hasAccessToServer(server))
+        }
 }
