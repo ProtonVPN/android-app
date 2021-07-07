@@ -167,7 +167,7 @@ public class ServiceTestHelper {
     }
 
     public static void deleteCreatedProfiles() {
-        serverManager.deleteSavedProfiles();
+        new Handler(Looper.getMainLooper()).post(() -> serverManager.deleteSavedProfiles());
     }
 
     public static boolean isSecureCoreEnabled() {
