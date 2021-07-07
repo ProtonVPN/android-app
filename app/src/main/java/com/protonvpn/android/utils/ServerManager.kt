@@ -20,6 +20,7 @@ package com.protonvpn.android.utils
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
@@ -34,12 +35,16 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
 
 class ServerManager(
     @Transient private val appContext: Context,
+    @Transient private val mainScope: CoroutineScope,
     @Transient val userData: UserData
 ) : Serializable, ServerDeliver {
 
@@ -64,7 +69,9 @@ class ServerManager(
             .migrateColors()
 
     @Transient val updateEvent = LiveEvent()
-    @Transient val profilesUpdateEvent = LiveEvent()
+    @Transient val profilesUpdateEvent = MutableSharedFlow<Unit>()
+    // TODO: remove the LiveData once there is no more Java code using it.
+    @Transient val profilesUpdateEventLiveData = profilesUpdateEvent.asLiveData()
 
     val isDownloadedAtLeastOnce: Boolean
         get() = updatedAt != null && vpnCountries.isNotEmpty()
@@ -130,7 +137,7 @@ class ServerManager(
     private fun onServersUpdate() {
         filterServers()
         updateEvent.emit()
-        profilesUpdateEvent.emit()
+        mainScope.launch { profilesUpdateEvent.emit(Unit) }
     }
 
     private fun filterServers() {
@@ -305,7 +312,7 @@ class ServerManager(
         if (!savedProfiles.profileList.contains(profileToSave)) {
             savedProfiles.profileList.add(profileToSave)
             Storage.save(savedProfiles)
-            profilesUpdateEvent.emit()
+            mainScope.launch { profilesUpdateEvent.emit(Unit) }
             return true
         }
         return false
@@ -317,13 +324,13 @@ class ServerManager(
         }
         savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
         Storage.save(savedProfiles)
-        profilesUpdateEvent.emit()
+        mainScope.launch { profilesUpdateEvent.emit(Unit) }
     }
 
     fun deleteProfile(profileToSave: Profile?) {
         savedProfiles.profileList.remove(profileToSave)
         Storage.save(savedProfiles)
-        profilesUpdateEvent.emit()
+        mainScope.launch { profilesUpdateEvent.emit(Unit) }
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =

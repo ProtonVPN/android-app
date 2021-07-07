@@ -16,7 +16,11 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <size android:height="24dp" android:width="24dp"/>
-</shape>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inset="3dp">
+    <shape android:shape="oval">
+        <size
+            android:width="18dp"
+            android:height="18dp" />
+    </shape>
+</inset>

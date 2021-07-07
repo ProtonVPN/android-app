@@ -38,6 +38,7 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityServerSelectionBinding
 import com.protonvpn.android.databinding.ItemHeaderBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
+import com.protonvpn.android.ui.HeaderAdapter
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ProtonLogger
@@ -161,23 +162,6 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
             !server.online -> context.getString(R.string.serverLabelUnderMaintenance, server.name)
             else -> server.name
         }
-    }
-
-    private class HeaderViewHolder(val views: ItemHeaderBinding) : RecyclerView.ViewHolder(views.root)
-
-    private class HeaderAdapter(
-        @StringRes private val labelRes: Int
-    ) : RecyclerView.Adapter<HeaderViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
-            HeaderViewHolder(
-                ItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-
-        override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
-            holder.views.textHeader.setText(labelRes)
-        }
-
-        override fun getItemCount(): Int = 1
     }
 
     @Parcelize

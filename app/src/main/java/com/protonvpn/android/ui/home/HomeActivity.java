@@ -175,10 +175,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        serverManager.getProfilesUpdateEvent().observe(this, () -> {
-            initQuickConnectFab();
-            return Unit.INSTANCE;
-        });
+        serverManager.getProfilesUpdateEventLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
         logoutHandler.getLogoutEvent().observe(this, () -> {
             finish();
@@ -470,7 +467,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                     ? ContextCompat.getColor(getContext(), profile.getProfileColor().getColorRes())
                     : null,
                 profile.getDisplayName(getContext()),
-                profile.getProfileIcon(), v -> {
+                profile.getProfileSpecialIcon() != null ? profile.getProfileSpecialIcon() : R.drawable.ic_profile_custom_fab,
+                v -> {
                     onConnectToProfile(new ConnectToProfile(profile));
                     fabQuickConnect.close(true);
                 });
