@@ -130,7 +130,7 @@ class ProtocolSelection @JvmOverloads constructor(
     }
 
     private class ProtocolItem(val protocol: VpnProtocol) : Listable {
-        override fun getLabel(context: Context?) = protocol.displayName
+        override fun getLabel(context: Context?) = protocol.displayName()
     }
 
     private class ListableString(private val name: String) : Listable {
