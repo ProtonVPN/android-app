@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Это позволит обходить VPN, чтобы подключаться к устройствам в вашей локальной сети, например, к вашему принтеру. Эти соединения не зашифрованы</string>
   <string name="settingsDnsLeakTitle">Утечка DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
-  <string name="settingsDefaultProtocol">Протокол</string>
-  <string name="settingsTransmissionProtocol">Протокол передачи</string>
+  <string name="protocolLabel">Протокол</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Размер MTU</string>
   <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Меняйте его только если знаете, что делаете.</string>
@@ -307,7 +306,6 @@ Kill Switch не позволяет вашему устройству совер
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Некоторые параметры отсутствуют? <a href=\"%1$s\">Нажмите здесь, чтобы узнать больше</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch и Постоянный VPN не всегда доступны
     на старых версиях ОС Android и на разных устройствах с Android. Если ваше устройство не предоставляет постоянный VPN или Kill Switch, ProtonVPN не сможет это исправить. Вы можете обновить свою операционную систему до последней версии Android и попробовать снова."</string>
-  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
   <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>

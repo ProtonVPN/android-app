@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Pozwala na ominięcie ruchu VPN i połączenie się z urządzeniami w sieci lokalnej, takimi jak drukarka. Te połączenia nie są szyfrowane</string>
   <string name="settingsDnsLeakTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
   <string name="settingsDnsLeakDescription">Zapobiega wyciekaniu zapytań DNS do stron trzecich (zawsze włączone)</string>
-  <string name="settingsDefaultProtocol">Protokół</string>
-  <string name="settingsTransmissionProtocol">Protokół transmisji</string>
+  <string name="protocolLabel">Protokół</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Wartość MTU</string>
   <string name="settingsMtuDescription">Jeśli wartość domyślna jest nieodpowiednia dla określonej sieci, wpisz wartość z zakresu 1280–1500. Zmień ją tylko wtedy, jeśli wiesz co robisz.</string>
@@ -307,7 +306,6 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Brakuje niektórych opcji? <a href=\"%1$s\">Kliknij tutaj, aby dowiedzieć się więcej</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Funkcja Kill Switch i stale aktywny VPN nie są dostępne
     na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli Twoje urządzenie nie wspiera tych funkcji, zespół ProtonVPN nie może ich zaimplementować. Zaktualizuj system Android do najnowszej wersji i spróbuj ponownie."</string>
-  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
