@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">این گزینه به شما اجازه می‌دهد تا برای اتصال به دستگاه‌هایی مانند چاپگر که در شبکهٔ محلی شما هستند، VPN را دور بزنید. این اتصالات رمزگذاری نمی‌شوند</string>
   <string name="settingsDnsLeakTitle">نشت DNS</string>
   <string name="settingsDnsLeakDescription">جلوگیری از نشت پرسمان DNS به اشخاص ثالث (همیشه فعال)</string>
-  <string name="settingsDefaultProtocol">پروتکل</string>
-  <string name="settingsTransmissionProtocol">پروتکل انتقال</string>
+  <string name="protocolLabel">پروتکل</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">اندازهٔ MTU</string>
   <string name="settingsMtuDescription">در صورتی‌ که مقدار پیش‌فرض برای یک شبکهٔ خاص مناسب نیست، یک مقدار در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ وارد کنید. تنها در صورتی آن را تغییر دهید که می‌دانید در حال انجام چه کاری هستید.</string>
@@ -301,7 +300,6 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه‌ها؟ <a href=\"%1$s\">برای یادگیری بیشتر ضربه بزنید</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">«Kill Switch و VPN همیشه-روشن همواره بر روی
     نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.»</string>
-  <string name="settingsSmartProtocolTitle">پروتکل هوشمند</string>
   <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
   <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
   <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>

@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Cela vous permettra de contourner le VPN et de vous connecter à des périphériques sur votre réseau local, comme votre imprimante. Ces connexions ne sont pas cryptées</string>
   <string name="settingsDnsLeakTitle">Fuites DNS</string>
   <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif)</string>
-  <string name="settingsDefaultProtocol">Protocole</string>
-  <string name="settingsTransmissionProtocol">Protocole de transmission</string>
+  <string name="protocolLabel">Protocole</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Taille du MTU</string>
   <string name="settingsMtuDescription">Si la valeur par défaut n\'est pas adaptée à un réseau particulier, entrez une valeur comprise entre 1280 et 1500. Ne la changez que lorsque vous savez ce que vous faites.</string>
@@ -300,7 +299,6 @@ Suivez ces étapes pour activer le VPN permanent et Kill Switch : »</string>
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Gardez à l’esprit que si Kill Switch et Split Tunneling sont activés simultanément, alors Split Tunneling ne fonctionnera pas. Kill Switch bloque toutes les connexions en dehors du tunnel VPN, y compris celles créées par Split Tunneling.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Il manque certaines options ? <a href=\"%1$s\">Appuyez ici pour en savoir plus</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">« Kill Switch et le VPN permanent ne sont pas toujours disponibles sur    les anciennes versions de l\'OS Android ni sur tous les appareils Android. Si votre appareil n\'offre pas le VPN permanent ou Kill Switch, il n\'y a rien que ProtonVPN puisse faire pour les implémenter. Vous pouvez mettre à jour votre système d\'exploitation vers la version la plus récente d\'Android et essayer à nouveau. »</string>
-  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
   <string name="netShieldEnabledWarning">Attention, certains sites Web pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
   <string name="netShieldDescription">Bloquer les publicités, les traqueurs et les logiciels malveillants </string>

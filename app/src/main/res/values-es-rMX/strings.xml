@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Esto le permitirá saltar la VPN y conectarse a dispositivos en su red local como su impresora. Estas conexiones no están cifradas</string>
   <string name="settingsDnsLeakTitle">Filtraciones de DNS</string>
   <string name="settingsDnsLeakDescription">Evita la filtración de detalles de consultas DNS a terceros (siempre activa)</string>
-  <string name="settingsDefaultProtocol">Protocolo</string>
-  <string name="settingsTransmissionProtocol">Protocolo de transmisión</string>
+  <string name="protocolLabel">Protocolo</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Tamaño MTU</string>
   <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, ingrese un valor dentro del rango 1280-1500. Cámbielo sólo si sabe lo que está haciendo.</string>
@@ -301,7 +300,6 @@ Siga estos pasos para activar la VPN Siempre Activa y Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[¿Faltan algunas opciones? <a href=\"%1$s\">Presione aquí para saber más</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch y VPN Siempre Activa no siempre están disponibles en
     versiones anteriores de Android o en todos los dispositivos Android. Si su dispositivo no ofrece VPN Siempre Activa o Kill Switch, no hay nada que ProtonVPN pueda hacer para implementarlos. Puede actualizar su sistema operativo a la versión más reciente de Android e intentar otra vez."</string>
-  <string name="settingsSmartProtocolTitle">Protocolo inteligente</string>
   <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
   <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
   <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>

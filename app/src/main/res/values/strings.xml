@@ -119,8 +119,6 @@
     <string name="settingsBypassLocalDetails">This will allow you to bypass the VPN and connect to devices on your local network, like your printer. These connections are not encrypted</string>
     <string name="settingsDnsLeakTitle">DNS Leak</string>
     <string name="settingsDnsLeakDescription">Prevent leaking DNS query details to third parties (always on)</string>
-    <string name="settingsDefaultProtocol">Protocol</string>
-    <string name="settingsTransmissionProtocol">Transmission protocol</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU size</string>
     <string name="settingsMtuDescription">In case the default value is unsuitable for a particular network, enter a value within 1280–1500 range. Change it only if you know what you are doing.</string>
@@ -343,7 +341,6 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Some options missing? <a href=\"%1$s\">Tap here to learn more</a>.]]></string>
     <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on
         older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them. You can update your operating system to the most recent version of Android and try again."</string>
-    <string name="settingsSmartProtocolTitle">Smart Protocol</string>
     <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
     <string name="settingsProtocolNameSmart" translatable="false">Smart (auto)</string>
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>

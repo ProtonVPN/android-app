@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Dit zal u toestaan om de VPN te omzeilen en zo verbinding te maken met apparaten op uw lokale netwerk, zoals uw printer. Deze lokale verbindingen zijn niet versleuteld</string>
   <string name="settingsDnsLeakTitle">DNS-lek</string>
   <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
-  <string name="settingsDefaultProtocol">Protocol</string>
-  <string name="settingsTransmissionProtocol">Overdrachtsprototcol</string>
+  <string name="protocolLabel">Protocol</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">MTU-grootte</string>
   <string name="settingsMtuDescription">In het geval dat de standaardwaarde niet geschikt is voor een specifiek netwerk, voer een waarde tussen 1280-1500 in. Verander dit alleen als u weet wat u doet.</string>
@@ -301,7 +300,6 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Enkele opties ontbreken? <a href=\"%1$s\">Tik hier om meer te leren</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch en Always-On VPN zijn niet altijd beschikbaar op
     oudere versies van het Android OS of op alle Android-toestellen. Als uw toestel geen Always-On VPN of Kill Switch biedt, kan ProtonVPN niets doen om deze te implementeren. U kunt uw besturingssysteem updaten naar de meest recente versie van Android en het opnieuw proberen."</string>
-  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Gebruik automatisch het protocol en poort die de beste verbinding bieden.</string>
   <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
   <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>

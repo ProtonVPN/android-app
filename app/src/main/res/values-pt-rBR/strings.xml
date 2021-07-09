@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Isso permitirá que você ignore a VPN e conecte-se a dispositivos em sua rede local, como sua impressora. Estas conexões não são criptografadas</string>
   <string name="settingsDnsLeakTitle">Vazamento de DNS</string>
   <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>
-  <string name="settingsDefaultProtocol">Protocolo</string>
-  <string name="settingsTransmissionProtocol">Protocolo de transmissão</string>
+  <string name="protocolLabel">Protocolo</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Tamanho MTU</string>
   <string name="settingsMtuDescription">No caso em que o valor padrão seja inadequado para uma determinada rede, insira um valor entre 1280-1500. Altere apenas quando você souber o que está fazendo.</string>
@@ -301,7 +300,6 @@ Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Algumas opções ausentes? <a href=\"%1$s\">Toque aqui para saber mais</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">O \"Kill Switch e VPN sempre ativa nem sempre estão disponíveis 
     em versões mais antigas do sistema operacional Android e/ou em todos os dispositivos Android. Se o seu dispositivo não oferece a opção VPN sempre ativa ou Kill Switch, não há nada que o ProtonVPN possa fazer para implementá-los. Você pode atualizar seu sistema operacional para a versão mais recente do Android e tentar novamente.\"</string>
-  <string name="settingsSmartProtocolTitle">Protocolo inteligente</string>
   <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
   <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
   <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>

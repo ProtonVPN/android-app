@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Questo ti permetterà di bypassare la VPN e connetterti ai dispositivi sulla tua rete locale, come la tua stampante. Queste connessioni non sono crittografate</string>
   <string name="settingsDnsLeakTitle">Perdita DNS</string>
   <string name="settingsDnsLeakDescription">Evita la perdita di dati dalla query DNS a terzi (sempre attiva)</string>
-  <string name="settingsDefaultProtocol">Protocollo</string>
-  <string name="settingsTransmissionProtocol">Protocollo di trasmissione</string>
+  <string name="protocolLabel">Protocollo</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Dimensione MTU</string>
   <string name="settingsMtuDescription">Se il valore predefinito non è adatto per una particolare rete, inserisci un valore entro il range 1280-1500. Cambialo solo se sai cosa stai facendo.</string>
@@ -301,7 +300,6 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Manca qualche opzione? <a href=\"%1$s\">Tocca qui per saperne di più</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch e la VPN Sempre Attiva non sono sempre disponibili su
     versioni precedenti del sistema operativo Android o su tutti i dispositivi Android. Se il tuo dispositivo non offre sempre VPN Sempre Attiva o Kill Switch, non c\'è niente che ProtonVPN possa fare per implementarli. Puoi aggiornare il tuo sistema operativo alla versione più recente di Android e riprovare."</string>
-  <string name="settingsSmartProtocolTitle">Protocollo Smart</string>
   <string name="settingsSmartProtocolDescription">Utilizza automaticamente il protocollo e la porta che offrono la migliore connettività.</string>
   <string name="netShieldEnabledWarning">Attenzione, alcuni siti web potrebbero non funzionare completamente a causa di contenuti bloccati.</string>
   <string name="netShieldDescription">Blocca pubblicità, tracker e malware </string>

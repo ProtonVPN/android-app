@@ -105,8 +105,7 @@
   <string name="settingsBypassLocalDetails">Dies erlaubt es Ihnen, das VPN zu umgehen und sich zu Geräten in Ihrem lokalen Netzwerk (wie Ihr Drucker) zu verbinden. Diese Verbindungen sind nicht verschlüsselt</string>
   <string name="settingsDnsLeakTitle">DNS‐Leak</string>
   <string name="settingsDnsLeakDescription">Verhindert das Weitergeben von Details der DNS‐Anfragen an Dritte (immer aktiv)</string>
-  <string name="settingsDefaultProtocol">Protokoll</string>
-  <string name="settingsTransmissionProtocol">Übertragungsprotokoll</string>
+  <string name="protocolLabel">Protokoll</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">MTU‐Größe</string>
   <string name="settingsMtuDescription">Falls der Standardwert für ein bestimmtes Netzwerk ungeeignet ist, geben Sie einen Wert zwischen 1280 und 1500 ein. Ändern Sie diesen aber nur, wenn Sie wissen, was Sie tun.</string>
@@ -298,7 +297,6 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Seien Sie sich bewusst, dass Split-Tunneling nicht funktioniert, wenn sowohl Kill Switch (Not‐Trennung) als auch Split-Tunneling aktiviert sind. Kill Switch sperrt alle Verbindungen außerhalb des VPN-Tunnels, einschließlich der durch Split-Tunneling aufgebauten Verbindungen.</string>
   <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Fehlen Ihnen einige Optionen? <a href=\"%1$s\">Tippen Sie hier, um mehr zu erfahren</a>.]]></string>
   <string name="settingsAlwaysOnWindowLearnMoreText">„Kill Switch (Not‐Trennung) und Always-On VPN sind nicht immer auf älteren Versionen des Android-Betriebssystems oder auf allen Android-Geräten verfügbar. Wenn Ihr Gerät kein Always-On VPN oder Kill Switch bietet, kann ProtonVPN nichts tun, um diese zu implementieren. Sie können Ihr Betriebssystem auf die neueste Version von Android aktualisieren und es erneut versuchen.”</string>
-  <string name="settingsSmartProtocolTitle">Smart Protocol</string>
   <string name="settingsSmartProtocolDescription">Automatisch das Protokoll und den Port verwenden, die die beste Verbindungsqualität bieten.</string>
   <string name="netShieldEnabledWarning">Es scheint, als würden Sie häufig Be My Eyes-Anrufe tätigen. Um Ihre Vorgehensweise zu vereinfachen, können Sie einen Satz hinzufügen, um mit Siri einen Freiwilligen anzurufen.</string>
   <string name="netShieldDescription">Werbung, Tracker und Malware sperren </string>
