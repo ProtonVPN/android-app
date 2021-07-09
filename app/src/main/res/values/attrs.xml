@@ -17,8 +17,11 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+
+    <attr name="title" format="string" />
+
     <declare-styleable name="SplitTunnelButton">
-        <attr name="title" format="string" />
+        <attr name="title" />
         <attr name="shouldHandleApps" format="boolean" />
     </declare-styleable>
     <declare-styleable name="ProtonCompatTextView">
@@ -44,6 +47,15 @@
     <declare-styleable name="NetworkFrameLayout">
         <attr name="textLoading" format="string" />
     </declare-styleable>
+    <declare-styleable name="SettingsItemBase">
+        <attr name="title" />
+        <attr name="infoText" format="string" />
+        <attr name="android:enabled" />
+    </declare-styleable>
+    <declare-styleable name="SettingsSwitch">
+        <attr name="android:checked" />
+    </declare-styleable>
+
     <!-- TODO: discuss adding this to designs and moving the attribute to Core -->
     <declare-styleable name="AppTheme">
         <attr name="proton_background_inverted" format="reference" />
