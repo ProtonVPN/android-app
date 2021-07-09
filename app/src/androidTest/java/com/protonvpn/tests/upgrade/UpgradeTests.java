@@ -104,11 +104,11 @@ public class UpgradeTests {
 
         settingsRobot.setMTU(UpgradeTestData.valueMTU);
 
-        settingsRobot.toggleOnSplitTunneling();
+        settingsRobot.toggleSplitTunneling();
 
         settingsRobot.addIpAddressInSplitTunneling();
 
-        settingsRobot.toggleOffSplitTunneling();
+        settingsRobot.toggleSplitTunneling();
 
         settingsRobot.navigateBackToHomeScreen();
     }

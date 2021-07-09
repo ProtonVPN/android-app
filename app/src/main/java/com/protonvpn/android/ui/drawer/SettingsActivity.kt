@@ -64,13 +64,13 @@ class SettingsActivity : BaseActivity() {
 
     @BindView(R.id.spinnerDefaultConnection)
     lateinit var spinnerDefaultConnection: ProtonSpinner<Profile>
-    @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: ProtonSwitch
+    @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: SettingsSwitch
     @BindView(R.id.textMTU) lateinit var textMTU: MaskedEditText
-    @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: ProtonSwitch
-    @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: ProtonSwitch
-    @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: ProtonSwitch
-    @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: ProtonSwitch
-    @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: ProtonSwitch
+    @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: SettingsSwitch
+    @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: SettingsSwitch
+    @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: SettingsSwitch
+    @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: SettingsSwitch
+    @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: SettingsSwitch
     @BindView(R.id.protocolSelection) lateinit var protocolSelection: ProtocolSelection
     @BindView(R.id.splitTunnelLayout) lateinit var splitTunnelLayout: View
     @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
@@ -79,8 +79,8 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
-    @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: ProtonSwitch
-    @BindView(R.id.switchVpnAcceleratorNotifications) lateinit var switchVpnAcceleratorNotifications: ProtonSwitch
+    @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: SettingsSwitch
+    @BindView(R.id.switchVpnAcceleratorNotifications) lateinit var switchVpnAcceleratorNotifications: SettingsSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
@@ -101,27 +101,25 @@ class SettingsActivity : BaseActivity() {
         splitTunnelIPs.initTextUpdater(this, userPrefs)
         splitTunnelIPs.buttonManage.contentDescription = getString(R.string.settingsExcludeIPAddresses)
         buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
-        switchAutoStart.switchProton.isChecked = userPrefs.connectOnBoot
-        switchAutoStart.switchProton
-                .setOnCheckedChangeListener { _, isChecked ->
-                    userPrefs.connectOnBoot = isChecked
-                }
+        switchAutoStart.isChecked = userPrefs.connectOnBoot
+        switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
+            userPrefs.connectOnBoot = isChecked
+        }
         switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor, connectionManager) {
             userPrefs.netShieldProtocol = it
         }
-        switchShowIcon.switchProton.isChecked = userPrefs.shouldShowIcon()
-        switchShowIcon.switchProton
-                .setOnCheckedChangeListener { _, isChecked ->
-                    userPrefs.setShowIcon(isChecked)
-                    EventBus.getInstance().post(StatusSettingChanged(isChecked))
-                }
+        switchShowIcon.isChecked = userPrefs.shouldShowIcon()
+        switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
+            userPrefs.setShowIcon(isChecked)
+            EventBus.getInstance().post(StatusSettingChanged(isChecked))
+        }
 
         switchDnsLeak.isEnabled = false
 
-        switchDnsOverHttps.setDescription(HtmlTools.fromHtml(getString(
+        switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(getString(
                 R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))
-        switchDnsOverHttps.switchProton.isChecked = userPrefs.apiUseDoH
-        switchDnsOverHttps.switchProton.setOnCheckedChangeListener { _, isChecked ->
+        switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
+        switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
             userPrefs.apiUseDoH = isChecked
         }
 
@@ -159,21 +157,19 @@ class SettingsActivity : BaseActivity() {
         protocolSelection.setTouchBlocker(disableWhenConnectedListener)
 
         initSplitTunneling(useSplitTunnel)
-        switchShowSplitTunnel.switchProton.contentDescription =
-                getString(R.string.splitTunnellingSwitch)
-        switchShowSplitTunnel.switchProton.setOnTouchListener(disableWhenConnectedListener)
+        switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
         splitTunnelApps.buttonManage.setOnTouchListener(disableWhenConnectedListener)
         splitTunnelIPs.buttonManage.setOnTouchListener(disableWhenConnectedListener)
-        switchShowSplitTunnel.switchProton.isChecked = useSplitTunnel
-        switchShowSplitTunnel.switchProton.setOnCheckedChangeListener { _, isChecked ->
+        switchShowSplitTunnel.isChecked = useSplitTunnel
+        switchShowSplitTunnel.setOnCheckedChangeListener { _, isChecked ->
             initSplitTunneling(isChecked)
             userPrefs.useSplitTunneling = isChecked
             scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
         }
 
-        switchBypassLocal.switchProton.isChecked = userPrefs.bypassLocalTraffic()
-        switchBypassLocal.switchProton.setOnTouchListener(disableWhenConnectedListener)
-        switchBypassLocal.switchProton.setOnCheckedChangeListener { _, isChecked ->
+        switchBypassLocal.isChecked = userPrefs.bypassLocalTraffic()
+        switchBypassLocal.setOnTouchListener(disableWhenConnectedListener)
+        switchBypassLocal.setOnCheckedChangeListener{ _, isChecked ->
             userPrefs.setBypassLocalTraffic(isChecked)
         }
 
@@ -187,9 +183,9 @@ class SettingsActivity : BaseActivity() {
     private fun initVpnAcceleratorToggles() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
-            switchVpnAccelerator.setDescription(HtmlTools.fromHtml(getString(
+            switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(getString(
                 R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)))
-            switchVpnAccelerator.switchProton.switchClickInterceptor = {
+            switchVpnAccelerator.switchClickInterceptor = {
                 tryToggleVpnAccelerator()
                 true
             }
@@ -198,9 +194,9 @@ class SettingsActivity : BaseActivity() {
             }
 
             switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled
-            switchVpnAcceleratorNotifications.switchProton.isChecked =
+            switchVpnAcceleratorNotifications.isChecked =
                 userPrefs.showVpnAcceleratorNotifications()
-            switchVpnAcceleratorNotifications.switchProton.setOnCheckedChangeListener { _, isChecked ->
+            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
                 userPrefs.setShowVpnAcceleratorNotifications(isChecked)
             }
         } else {
@@ -246,12 +242,11 @@ class SettingsActivity : BaseActivity() {
 
     private fun initSplitTunneling(isChecked: Boolean) {
         splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
-        switchShowSplitTunnel.setDividerVisibility(if (isChecked) GONE else VISIBLE)
     }
 
     private fun updateVpnAcceleratorToggles() {
         val isEnabled = userPrefs.isVpnAcceleratorEnabled
-        switchVpnAccelerator.switchProton.isChecked = isEnabled
+        switchVpnAccelerator.isChecked = isEnabled
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 

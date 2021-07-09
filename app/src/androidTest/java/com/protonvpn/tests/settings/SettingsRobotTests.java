@@ -68,8 +68,8 @@ public class SettingsRobotTests {
 
     @Test
     public void switchSplitTunneling() {
-        SettingsResults toggleOn = settingsRobot.toggleOnSplitTunneling();
-        toggleOn.splitTunnelIPIsVisible();
-        settingsRobot.toggleOffSplitTunneling();
+        SettingsResults toggle = settingsRobot.toggleSplitTunneling();
+        toggle.splitTunnelIPIsVisible();
+        settingsRobot.toggleSplitTunneling();
     }
 }

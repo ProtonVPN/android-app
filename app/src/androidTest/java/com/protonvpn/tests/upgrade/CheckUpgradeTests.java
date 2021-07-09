@@ -59,13 +59,13 @@ public class CheckUpgradeTests {
         results.checkIfRandomServerIsSelected();
         results.checkIfMTUIsSet();
 
-        settingsRobot.toggleOnSplitTunneling();
+        settingsRobot.toggleSplitTunneling();
 
         settingsRobot.openExcludedIPAddressesList();
         results.checkIfIPAddressIsExcluded();
 
         settingsRobot.clickOnDoneButton();
-        settingsRobot.toggleOffSplitTunneling();
+        settingsRobot.toggleSplitTunneling();
 
         settingsRobot.navigateBackToHomeScreen();
     }
