@@ -32,7 +32,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityProtocolSelectionBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 
 @ContentLayout(R.layout.activity_protocol_selection)
@@ -70,11 +69,11 @@ class ProtocolSelectionActivity : BaseActivityV2<ActivityProtocolSelectionBindin
     ) : RecyclerView.Adapter<ProtocolViewHolder>() {
 
         private val items = listOf(
-            ProtocolSelection(VpnProtocol.Smart, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-            ProtocolSelection(VpnProtocol.IKEv2, TransmissionProtocol.UDP),
+            ProtocolSelection.Smart,
+            ProtocolSelection.WireGuard,
+            ProtocolSelection.IKEv2,
+            ProtocolSelection.OpenVPN(TransmissionProtocol.UDP),
+            ProtocolSelection.OpenVPN(TransmissionProtocol.TCP),
         )
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProtocolViewHolder =

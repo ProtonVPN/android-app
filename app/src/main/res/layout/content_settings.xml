@@ -151,10 +151,11 @@
             app:infoText="@string/settingsSmartReconnectNotificationsDescription"
             app:title="@string/settingsSmartReconnectNotificationsTitle" />
 
-        <com.protonvpn.android.components.ProtocolSelection
-            android:id="@+id/protocolSelection"
+        <com.protonvpn.android.ui.drawer.SettingsItem
+            android:id="@+id/buttonProtocol"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:title="@string/protocolLabel" />
 
         <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchBypassLocal"
