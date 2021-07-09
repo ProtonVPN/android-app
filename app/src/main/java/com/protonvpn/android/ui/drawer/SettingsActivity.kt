@@ -45,12 +45,13 @@ import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.NetShieldSwitch
-import com.protonvpn.android.components.ProtocolSelection
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
@@ -71,7 +72,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: SettingsSwitch
     @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: SettingsSwitch
     @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: SettingsSwitch
-    @BindView(R.id.protocolSelection) lateinit var protocolSelection: ProtocolSelection
+    @BindView(R.id.buttonProtocol) lateinit var buttonProtocol: SettingsItem
     @BindView(R.id.splitTunnelLayout) lateinit var splitTunnelLayout: View
     @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
     @BindView(R.id.splitTunnelIPs) lateinit var splitTunnelIPs: SplitTunnelButton
@@ -86,6 +87,13 @@ class SettingsActivity : BaseActivity() {
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
+
+    private val protocolSelection =
+        registerForActivityResult(ProtocolSelectionActivity.createContract()) {
+            if (it != null) {
+                userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,20 +124,12 @@ class SettingsActivity : BaseActivity() {
 
         switchDnsLeak.isEnabled = false
 
-        switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(getString(
-                R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))
+        switchDnsOverHttps.setInfoText(R.string.settingsAllowAlternativeRoutingDescription)
         switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
         switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
             userPrefs.apiUseDoH = isChecked
         }
 
-        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol,
-                userPrefs.transmissionProtocol) {
-            userPrefs.useSmartProtocol = protocolSelection.useSmart
-            userPrefs.manualProtocol = protocolSelection.manualProtocol
-            userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
-            initSplitTunneling(userPrefs.useSplitTunneling)
-        }
         spinnerDefaultConnection.setItems(serverManager.getSavedProfiles())
         spinnerDefaultConnection.selectedItem = serverManager.defaultConnection
         spinnerDefaultConnection.setOnItemSelectedListener { item, _ ->
@@ -154,7 +154,10 @@ class SettingsActivity : BaseActivity() {
         }
         textMTU.setOnTouchListener(disableWhenConnectedListener)
 
-        protocolSelection.setTouchBlocker(disableWhenConnectedListener)
+        buttonProtocol.setOnTouchListener(disableWhenConnectedListener)
+        buttonProtocol.setOnClickListener {
+            protocolSelection.launch(getProtocolSelection(userPrefs))
+        }
 
         initSplitTunneling(useSplitTunnel)
         switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
@@ -177,6 +180,11 @@ class SettingsActivity : BaseActivity() {
 
         buttonLicenses.setOnClickListener {
             navigateTo(OssLicensesActivity::class.java)
+        }
+
+        onUserDataUpdated()
+        userPrefs.updateEvent.observe(this) {
+            onUserDataUpdated()
         }
     }
 
@@ -250,6 +258,10 @@ class SettingsActivity : BaseActivity() {
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 
+    private fun onUserDataUpdated() {
+        buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
+    }
+
     private fun tryToggleVpnAccelerator() {
         if (stateMonitor.isEstablishingOrConnected) {
             MaterialDialog.Builder(this).theme(Theme.DARK)
@@ -271,4 +283,8 @@ class SettingsActivity : BaseActivity() {
     private fun toggleVpnAccelerator() {
         userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
     }
+
+    private fun getProtocolSelection(userData: UserData) =
+        ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
+
 }

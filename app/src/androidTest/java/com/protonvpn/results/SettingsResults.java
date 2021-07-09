@@ -28,7 +28,7 @@ public class SettingsResults extends UIActionsTestHelper {
     public SettingsResults settingsViewIsVisible() {
         checkIfObjectWithIdIsDisplayed(R.id.textStartOptions);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
-            R.id.smartProtocolSwitch);
+            R.id.buttonProtocol);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
             R.id.switchShowSplitTunnel);
         return new SettingsResults();

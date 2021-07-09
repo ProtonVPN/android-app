@@ -39,6 +39,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -360,6 +361,14 @@ public final class UserData implements Serializable {
         useSmartProtocol = value;
         selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
+    }
+
+    public void setProtocols(@NonNull VpnProtocol protocol, @Nullable TransmissionProtocol transmissionProtocol) {
+        useSmartProtocol = protocol == VpnProtocol.Smart;
+        if (transmissionProtocol != null) {
+            this.transmissionProtocol = transmissionProtocol;
+        }
+        setManualProtocol(protocol); // Last, it saves changes and sends notifications.
     }
 
     public boolean isVpnAcceleratorEnabled() {

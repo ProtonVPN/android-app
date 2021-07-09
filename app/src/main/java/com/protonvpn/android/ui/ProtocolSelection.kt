@@ -20,28 +20,47 @@
 package com.protonvpn.android.ui
 
 import android.os.Parcelable
-import androidx.annotation.StringRes
+
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class ProtocolSelection(
-    val protocol: VpnProtocol,
-    val transmissionProtocol: TransmissionProtocol
-) : Parcelable {
+sealed class ProtocolSelection(val protocol: VpnProtocol) : Parcelable {
+    @Parcelize
+    object Smart : ProtocolSelection(VpnProtocol.Smart) {
+        override val displayName: Int = R.string.settingsProtocolNameSmart
+    }
 
-    @IgnoredOnParcel
-    @StringRes
-    val displayName: Int = when(protocol) {
-        VpnProtocol.Smart -> R.string.settingsProtocolNameSmart
-        VpnProtocol.IKEv2 -> R.string.settingsProtocolNameIkeV2
-        VpnProtocol.WireGuard -> R.string.settingsProtocolNameWireguard
-        VpnProtocol.OpenVPN -> when (transmissionProtocol) {
+    @Parcelize
+    object WireGuard : ProtocolSelection(VpnProtocol.WireGuard) {
+        override val displayName: Int = R.string.settingsProtocolNameWireguard
+    }
+
+    @Parcelize
+    object IKEv2 : ProtocolSelection(VpnProtocol.IKEv2) {
+        override val displayName: Int = R.string.settingsProtocolNameIkeV2
+    }
+
+    @Parcelize
+    data class OpenVPN(val transmission: TransmissionProtocol) : ProtocolSelection(VpnProtocol.OpenVPN) {
+        override val displayName: Int = when(transmission) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameOpenVpnTcp
             TransmissionProtocol.UDP -> R.string.settingsProtocolNameOpenVpnUdp
         }
+    }
+
+    abstract val displayName: Int
+
+    companion object {
+        @Suppress("deprecation")
+        @JvmStatic
+        fun from(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?): ProtocolSelection =
+            when(protocol) {
+                VpnProtocol.Smart -> Smart
+                VpnProtocol.WireGuard -> WireGuard
+                VpnProtocol.IKEv2 -> IKEv2
+                VpnProtocol.OpenVPN -> OpenVPN(requireNotNull(transmissionProtocol))
+            }
     }
 }

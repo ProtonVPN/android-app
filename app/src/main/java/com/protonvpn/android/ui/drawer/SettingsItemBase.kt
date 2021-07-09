@@ -24,6 +24,7 @@ import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.core.content.res.use
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
@@ -74,6 +75,10 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
 
     fun setInfoText(text: CharSequence?) {
         setTextAndVisibility(textInfo(), text)
+    }
+
+    fun setInfoText(@StringRes textId: Int) {
+        setTextAndVisibility(textInfo(), resources.getString(textId))
     }
 
     protected fun setTextAndVisibility(textView: TextView, text: CharSequence?) {
