@@ -318,8 +318,8 @@
     <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
     <string name="troubleshootOtherProblemTitle">Still can’t find a solution</string>
     <string name="troubleshootOtherProblemDescription"><![CDATA[Contact us directly through our <a href=\"%1$s\">support form</a>, email (<a href=\"%2$s\">support@protonvpn.com</a>), or <a href=\"%3$s\">Twitter</a>.]]></string>
-    <string name="settingsAllowAlternativeRoutingTitle">Allow alternative routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton sites are blocked, this setting allows the app to try alternative network routing to reach Proton, which can be useful for bypassing firewalls or network issues. We recommend keeping this setting on for greater reliability. <a href=\"%1$s\">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingTitle">Alternative routing</string>
+    <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
     <string name="troubleshootGovernmentBlockTitle">Government block</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
 

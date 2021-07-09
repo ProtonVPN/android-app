@@ -53,17 +53,11 @@ public class SettingsRobot extends UIActionsTestHelper {
         return new SettingsResults();
     }
 
-    public SettingsResults toggleOnSplitTunneling() {
+    public SettingsResults toggleSplitTunneling() {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(R.id.scrollView,
             "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic.");
-        waitUntilObjectWithContentDescriptionAppearsInView(R.string.splitTunnellingSwitch);
-        clickOnObjectWithContentDescription(R.string.splitTunnellingSwitch);
+        clickOnObjectWithText(R.string.settingsSplitTunnelingTitle);
         return new SettingsResults();
-    }
-
-    public SettingsRobot toggleOffSplitTunneling() {
-        clickOnObjectWithContentDescription(R.string.splitTunnellingSwitch);
-        return this;
     }
 
     public SettingsRobot openExcludedIPAddressesList() {

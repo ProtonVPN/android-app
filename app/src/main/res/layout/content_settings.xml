@@ -23,7 +23,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dimmedGrey"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -79,19 +78,19 @@
             android:text="@string/settingsDefaultConnectionDescription"
             android:textColor="@color/white50" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchAutoStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsAutoStartDescription"
-            app:textTitle="@string/settingsAutoStartTitle" />
+            app:infoText="@string/settingsAutoStartDescription"
+            app:title="@string/settingsAutoStartTitle" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchShowIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsShowIconDescription"
-            app:textTitle="@string/settingsShowIconTitle" />
+            app:infoText="@string/settingsShowIconDescription"
+            app:title="@string/settingsShowIconTitle" />
 
         <TextView
             android:id="@+id/textSecurityOptions"
@@ -122,47 +121,47 @@
 
         <View style="@style/Divider.Small" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchDnsLeak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:switchEditable="false"
-            app:switchValue="true"
-            app:textDescription="@string/settingsDnsLeakDescription"
-            app:textTitle="@string/settingsDnsLeakTitle" />
+            android:enabled="false"
+            android:checked="true"
+            app:infoText="@string/settingsDnsLeakDescription"
+            app:title="@string/settingsDnsLeakTitle" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchDnsOverHttps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsAllowAlternativeRoutingDescription"
-            app:textTitle="@string/settingsAllowAlternativeRoutingTitle" />
+            app:infoText="@string/settingsAllowAlternativeRoutingDescription"
+            app:title="@string/settingsAllowAlternativeRoutingTitle" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchVpnAccelerator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsVpnAcceleratorDescription"
-            app:textTitle="@string/settingsSmartReconnectTitle" />
+            app:infoText="@string/settingsVpnAcceleratorDescription"
+            app:title="@string/settingsSmartReconnectTitle" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchVpnAcceleratorNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsSmartReconnectNotificationsDescription"
-            app:textTitle="@string/settingsSmartReconnectNotificationsTitle" />
+            app:infoText="@string/settingsSmartReconnectNotificationsDescription"
+            app:title="@string/settingsSmartReconnectNotificationsTitle" />
 
         <com.protonvpn.android.components.ProtocolSelection
             android:id="@+id/protocolSelection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchBypassLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsBypassLocalDetails"
-            app:textTitle="@string/settingsBypassLocalTitle" />
+            app:infoText="@string/settingsBypassLocalDetails"
+            app:title="@string/settingsBypassLocalTitle" />
 
         <TextView
             android:id="@+id/textTitle"
@@ -208,12 +207,12 @@
             style="@style/Divider.Small"
             android:layout_marginTop="15dp" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchShowSplitTunnel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDescription="@string/settingsSplitTunnelingDescription"
-            app:textTitle="@string/settingsSplitTunnelingTitle" />
+            app:infoText="@string/settingsSplitTunnelingDescription"
+            app:title="@string/settingsSplitTunnelingTitle" />
 
         <LinearLayout
             android:id="@+id/splitTunnelLayout"
