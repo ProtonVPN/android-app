@@ -25,5 +25,5 @@
     <path
         android:fillColor="?attr/proton_icon_norm"
         android:fillType="evenOdd"
-        android:pathData="M6.3,13.7L12,8L6.3,2.3L5.6,3L10.58,8L5.6,13L6.3,13.7Z" />
+        android:pathData="M9.7,2.3L4,8L9.7,13.7L10.4,13L5.42,8L10.4,3L9.7,2.3Z" />
 </vector>

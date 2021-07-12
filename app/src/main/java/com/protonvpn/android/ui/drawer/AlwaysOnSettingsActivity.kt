@@ -19,87 +19,148 @@
 package com.protonvpn.android.ui.drawer
 
 import android.content.Intent
-import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.provider.Settings
-import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
+import android.text.SpannableStringBuilder
 import android.text.style.ImageSpan
-import android.text.style.URLSpan
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityAlwaysOnBinding
-import com.protonvpn.android.databinding.AlwaysOnStepBinding
+import com.protonvpn.android.databinding.FragmentAlwaysOnStepBinding
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.getThemeColor
 
 @ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
 class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {
-
-    private val numberFormat = NumberFormat.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         with(binding.content) {
-            step1.init(1, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep1)))
-
-            val textStep2 = SpannableString(getString(R.string.settingsAlwaysOnWindowStep2)).apply {
-                insertDrawable("%1\$s", R.drawable.ic_cog_wheel, step2.text.textSize * 1.5f)
-            }
-            step2.init(2, textStep2)
-
-            step3.init(3, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep3)))
-
-            step4.init(4, HtmlTools.fromHtml(getString(R.string.settingsAlwaysOnWindowStep4)))
+            indicator.tintIndicator(
+                getThemeColor(R.attr.brand_norm),
+                getThemeColor(R.attr.proton_interaction_weak)
+            )
 
             buttonOpenVpnSettings.setOnClickListener {
                 startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
             }
 
-            val learnMoreText = SpannableString(HtmlTools.fromHtml(getString(
-                    R.string.settingsAlwaysOnWindowLearnMore)))
-            learnMoreText.getSpans(0, learnMoreText.length, URLSpan::class.java).forEach { urlSpan ->
-                makeClickable(learnMoreText, urlSpan) {
-                    MaterialDialog.Builder(this@AlwaysOnSettingsActivity).theme(Theme.DARK)
-                            .content(R.string.settingsAlwaysOnWindowLearnMoreText)
-                            .positiveText(R.string.close)
-                            .show()
-                }
+            val adapter = StepFragmentAdapter(this@AlwaysOnSettingsActivity)
+            pagerScreens.adapter = adapter
+            indicator.setViewPager(pagerScreens)
+            pagerScreens.registerOnPageChangeCallback(
+                ButtonVisibilityUpdater(buttonPrevious, buttonNext, pagerScreens)
+            )
+
+            buttonPrevious.setOnClickListener {
+                // The index is automatically clamped.
+                pagerScreens.setCurrentItem(pagerScreens.currentItem - 1, true)
             }
-            learnMore.text = learnMoreText
-            learnMore.movementMethod = LinkMovementMethod.getInstance()
+            buttonNext.setOnClickListener {
+                // The index is automatically clamped.
+                pagerScreens.setCurrentItem(pagerScreens.currentItem + 1, true)
+            }
         }
-    }
-
-    private fun SpannableString.insertDrawable(placeholder: String, @DrawableRes drawableRes: Int, sizePx: Float) {
-        val start = indexOf(placeholder)
-        val drawable = getDrawable(drawableRes)!!.mutate().apply {
-            setBounds(0, 0, sizePx.toInt(), sizePx.toInt())
-        }
-        setSpan(ImageSpan(drawable), start, start + placeholder.length, 0)
-    }
-
-    private fun AlwaysOnStepBinding.init(i: Int, string: CharSequence) {
-        number.text = numberFormat.format(i)
-        text.text = string
-    }
-
-    private fun makeClickable(text: SpannableString, span: URLSpan, clickFun: () -> Unit) {
-        text.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) = clickFun()
-        }, text.getSpanStart(span), text.getSpanEnd(span), text.getSpanFlags(span))
-        text.removeSpan(span)
     }
 
     override fun initViewModel() {}
+
+    private class StepFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+        private val constructors =
+            arrayOf(::StepFragment1, ::StepFragment2, ::StepFragment3, ::StepFragment4)
+
+        override fun getItemCount(): Int = constructors.size
+
+        override fun createFragment(position: Int): Fragment = constructors[position]()
+    }
+
+    class StepFragment1 : StepFragment(R.drawable.always_on_step_1, R.string.settingsAlwaysOnWindowStep1)
+    class StepFragment2 : StepFragment(R.drawable.always_on_step_2, R.string.settingsAlwaysOnWindowStep2) {
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            insertDrawable(binding.textCaption, "%1\$s", R.drawable.ic_cog_wheel)
+        }
+
+        @Suppress("SameParameterValue")
+        private fun insertDrawable(textView: TextView, placeholder: String, @DrawableRes drawableRes: Int) {
+            val index = textView.text.indexOf(placeholder)
+            val iconSize = (textView.textSize * 1.3).toInt()
+            val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)!!.apply {
+                setBounds(0, 0, iconSize, iconSize)
+            }
+            val newText = SpannableStringBuilder(textView.text).apply {
+                setSpan(ImageSpan(drawable, 0), index, index + placeholder.length, ImageSpan.ALIGN_BOTTOM)
+            }
+            textView.text = newText
+        }
+    }
+    class StepFragment3 : StepFragment(R.drawable.always_on_step_3, R.string.settingsAlwaysOnWindowStep3)
+    class StepFragment4 : StepFragment(R.drawable.always_on_step_4, R.string.settingsAlwaysOnWindowStep4)
+
+    abstract class StepFragment(
+        @DrawableRes private val image: Int,
+        @StringRes private val text: Int
+    ) : Fragment(R.layout.fragment_always_on_step) {
+
+        // TODO: create (or import) a util for lifecycle-scoped ViewBinding
+        private var internalBinding: FragmentAlwaysOnStepBinding? = null
+        protected val binding: FragmentAlwaysOnStepBinding
+            get() = internalBinding
+                ?: throw IllegalStateException("Accessing binding outside of lifecycle")
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            internalBinding = FragmentAlwaysOnStepBinding.bind(view)
+            binding.image.setImageResource(image)
+            binding.textCaption.text = getCaption(text)
+            binding.textLongest.text = getCaption(R.string.settingsAlwaysOnWindowStep4)
+        }
+
+        override fun onDestroyView() {
+            internalBinding = null
+            super.onDestroyView()
+        }
+
+        private fun getCaption(@StringRes text: Int): CharSequence = HtmlTools.fromHtml(getString(text))
+    }
+
+    private class ButtonVisibilityUpdater(
+        private val buttonPrevious: View,
+        private val buttonNext: View,
+        private val pager: ViewPager2
+    ) : ViewPager2.OnPageChangeCallback() {
+
+        init {
+            onPageSelected(pager.currentItem)
+        }
+
+        override fun onPageSelected(position: Int) {
+            buttonPrevious.visibility = if (position == 0) View.INVISIBLE else View.VISIBLE
+            buttonNext.visibility = if (position == pager.adapter!!.itemCount - 1) View.INVISIBLE else View.VISIBLE
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                onPageSelected(pager.currentItem)
+            } else {
+                buttonPrevious.visibility = View.INVISIBLE
+                buttonNext.visibility = View.INVISIBLE
+            }
+        }
+    }
 }

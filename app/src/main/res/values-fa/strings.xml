@@ -270,24 +270,12 @@
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">ProtonVPN را تنظیم کنید تا به‌طور خودکار دوباره متصل شود یا در صورت وجود اختلال در اتصال VPN، اتصالات خارجی را غیرفعال کند.</string>
-  <string name="settingsAlwaysOnWindowDescription">«VPN همیشه روشن در صورت بروز اختلال شما را بطور خودکار دوباره به سرور VPN وصل می‌کند.
-
-Kill Switch در صورت قطع شدن VPN دستگاه شما را از برقراری ارتباط خارجی باز می‌دارد تا امنیت ترافیک اینترنت شما حفظ شود.
-
-سیستم‌عامل اندروید این قابلیت‌ها را کنترل می‌کند و شما برای فعال کردن آن‌ها باید از برنامه خارج شوید.
-
-این مراحل را دنبال کنید تا VPN همیشه روشن و Kill Switch را فعال کنید:»</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[<b>تنظیمات</b> دستگاه خود را با لمس دکمهً زیر باز نمایید]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">برنامه ProtonVPN را بیابید و بر روی %1$s ضربه بزنید</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[دکمهٔ کنار <b>VPN همیشه روشن</b> را لمس کنید تا آن را فعال کنید]]></string>
-  <string name="settingsAlwaysOnWindowStep4Intro">این مرحله را نیز دنبال کنید تا Kill Switch فعال شود</string>
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[دکمهٔ کنار <b>اتصالات بدون VPN را مسدود کن</b> را لمس کنید تا Kill Switch فعال شود]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
-  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">در نظر داشته باشید که اگر Kill Switch و Split Tunneling هر دو فعال باشند، Split Tunneling عمل نخواهد کرد. Kill Switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند، حتی آن‌هایی را که Split Tunneling ایجاد کرده است.</string>
-  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[فاقد بعضی از گزینه‌ها؟ <a href=\"%1$s\">برای یادگیری بیشتر ضربه بزنید</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">«Kill Switch و VPN همیشه-روشن همواره بر روی
-    نسخه‌های قدیمی‌تر سیستم‌عامل اندروید یا همهٔ دستگاه‌های اندرویدی در دسترس نیستند. اگر دستگاه شما VPN همیشه-روشن یا Kill Switch را ارائه نمی‌کند، ProtonVPN نمی‌تواند این قابلیت‌ها را پیاده‌سازی کند. شما می‌توانید سیستم‌عامل خود را به جدیدترین نسخهٔ اندروید به‌روزرسانی نموده و دوباره سعی کنید.»</string>
   <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
   <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
   <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>

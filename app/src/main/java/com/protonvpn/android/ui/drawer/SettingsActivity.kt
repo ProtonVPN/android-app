@@ -47,7 +47,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
-import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
@@ -78,7 +77,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
     @BindView(R.id.buttonExcludeIps) lateinit var buttonExcludeIps: SettingsItem
     @BindView(R.id.buttonExcludeApps) lateinit var buttonExcludeApps: SettingsItem
-    @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
+    @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: SettingsItem
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: SettingsItem
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
     @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: SettingsSwitch
