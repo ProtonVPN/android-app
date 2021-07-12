@@ -21,11 +21,11 @@ package com.protonvpn.android.ui.drawer
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.text.style.ImageSpan
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -89,54 +89,49 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
         override fun createFragment(position: Int): Fragment = constructors[position]()
     }
 
-    class StepFragment1 : StepFragment(R.drawable.always_on_step_1, R.string.settingsAlwaysOnWindowStep1)
-    class StepFragment2 : StepFragment(R.drawable.always_on_step_2, R.string.settingsAlwaysOnWindowStep2) {
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            insertDrawable(binding.textCaption, "%1\$s", R.drawable.ic_cog_wheel)
-        }
-
-        @Suppress("SameParameterValue")
-        private fun insertDrawable(textView: TextView, placeholder: String, @DrawableRes drawableRes: Int) {
-            val index = textView.text.indexOf(placeholder)
-            val iconSize = (textView.textSize * 1.3).toInt()
-            val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)!!.apply {
-                setBounds(0, 0, iconSize, iconSize)
-            }
-            val newText = SpannableStringBuilder(textView.text).apply {
-                setSpan(ImageSpan(drawable, 0), index, index + placeholder.length, ImageSpan.ALIGN_BOTTOM)
-            }
-            textView.text = newText
-        }
-    }
-    class StepFragment3 : StepFragment(R.drawable.always_on_step_3, R.string.settingsAlwaysOnWindowStep3)
-    class StepFragment4 : StepFragment(R.drawable.always_on_step_4, R.string.settingsAlwaysOnWindowStep4)
+    class StepFragment1 : StepFragment(R.drawable.always_on_step_1, R.id.textStep1)
+    class StepFragment2 : StepFragment(R.drawable.always_on_step_2, R.id.textStep2)
+    class StepFragment3 : StepFragment(R.drawable.always_on_step_3, R.id.textStep3)
+    class StepFragment4 : StepFragment(R.drawable.always_on_step_4, R.id.textStep4)
 
     abstract class StepFragment(
         @DrawableRes private val image: Int,
-        @StringRes private val text: Int
+        @IdRes private val visibleText: Int
     ) : Fragment(R.layout.fragment_always_on_step) {
-
-        // TODO: create (or import) a util for lifecycle-scoped ViewBinding
-        private var internalBinding: FragmentAlwaysOnStepBinding? = null
-        protected val binding: FragmentAlwaysOnStepBinding
-            get() = internalBinding
-                ?: throw IllegalStateException("Accessing binding outside of lifecycle")
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            internalBinding = FragmentAlwaysOnStepBinding.bind(view)
+            val binding = FragmentAlwaysOnStepBinding.bind(view)
             binding.image.setImageResource(image)
-            binding.textCaption.text = getCaption(text)
-            binding.textLongest.text = getCaption(R.string.settingsAlwaysOnWindowStep4)
-        }
+            binding.textStep1.text = getCaption(R.string.settingsAlwaysOnWindowStep1)
 
-        override fun onDestroyView() {
-            internalBinding = null
-            super.onDestroyView()
+            val iconSize = binding.textStep2.textSize * ICON_SIZE_RATIO
+            val step2Text = SpannableString(getCaption(R.string.settingsAlwaysOnWindowStep2))
+            step2Text.insertDrawable("%1\$s", R.drawable.ic_cog_wheel, iconSize)
+            binding.textStep2.text = step2Text
+
+            binding.textStep3.text = getCaption(R.string.settingsAlwaysOnWindowStep3)
+            binding.textStep4.text = getCaption(R.string.settingsAlwaysOnWindowStep4)
+            binding.root.findViewById<View>(visibleText).visibility = View.VISIBLE
         }
 
         private fun getCaption(@StringRes text: Int): CharSequence = HtmlTools.fromHtml(getString(text))
+
+        private fun SpannableString.insertDrawable(
+            placeholder: String,
+            @DrawableRes drawableRes: Int,
+            sizePx: Float
+        ) {
+            val start = indexOf(placeholder)
+            val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)!!.mutate().apply {
+                setBounds(0, 0, sizePx.toInt(), sizePx.toInt())
+            }
+            setSpan(ImageSpan(drawable), start, start + placeholder.length, ImageSpan.ALIGN_BOTTOM)
+        }
+
+        private companion object {
+            const val ICON_SIZE_RATIO = 1.3f
+        }
     }
 
     private class ButtonVisibilityUpdater(
