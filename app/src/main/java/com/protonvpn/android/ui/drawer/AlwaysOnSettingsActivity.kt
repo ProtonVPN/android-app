@@ -32,6 +32,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.protonvpn.android.R
@@ -41,10 +42,15 @@ import com.protonvpn.android.databinding.ActivityAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentAlwaysOnStepBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
+import kotlinx.coroutines.launch
+import me.proton.core.util.kotlin.DispatcherProvider
+import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
 class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {
+
+    @Inject lateinit var dispatcherProvider: DispatcherProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,9 +82,22 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
                 pagerScreens.setCurrentItem(pagerScreens.currentItem + 1, true)
             }
         }
+        preloadDrawables()
     }
 
     override fun initViewModel() {}
+
+    private fun preloadDrawables() {
+        lifecycleScope.launch(dispatcherProvider.Io) {
+            arrayOf(
+                R.drawable.always_on_step_2,
+                R.drawable.always_on_step_3,
+                R.drawable.always_on_step_4
+            ).forEach {
+                ContextCompat.getDrawable(this@AlwaysOnSettingsActivity, it)
+            }
+        }
+    }
 
     private class StepFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         private val constructors =
