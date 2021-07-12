@@ -270,24 +270,12 @@
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Seu país pode estar bloqueando o acesso ao Proton. Tente usar o <a href=\'%1$s\'>Tor</a> para acessar o Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre ativa e Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Configure o ProtonVPN para reconectar automaticamente ou para desativar conexões externas se a sua conexão VPN for interrompida.</string>
-  <string name="settingsAlwaysOnWindowDescription">"VPN sempre ativa reconecta automaticamente ao seu servidor VPN se a sua conexão for interrompida.
-
-O Kill Switch impede que seu dispositivo faça conexões externas se você estiver desconectado da VPN, mantendo seu tráfego de internet seguro.
-
-O sistema operacional Android controla esses recursos e você deve sair do aplicativo para ativá-los.
-
-Siga estes passos para ativar a VPN sempre ativa e o Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[Abra as <b>Configurações</b> tocando no botão abaixo]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Procure o ProtonVPN e toque em %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Toque no interruptor ao lado de <b>VPN sempre ativa</b> para ativar]]></string>
-  <string name="settingsAlwaysOnWindowStep4Intro">Execute também esta etapa para ativar o Kill Switch</string>
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[Toque no interruptor ao lado de <b>Bloquear conexões sem VPN</b> para ativar o Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abra as configurações do Android</string>
-  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Esteja ciente de que se tanto o Kill Switch como Tunelamento Split forem ativados, o Tunelamento Split não irá funcionar. O Kill Switch bloqueia todas as conexões fora do túnel da VPN, incluindo aquelas criadas pelo Tunelamento Split.</string>
-  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Algumas opções ausentes? <a href=\"%1$s\">Toque aqui para saber mais</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">O \"Kill Switch e VPN sempre ativa nem sempre estão disponíveis 
-    em versões mais antigas do sistema operacional Android e/ou em todos os dispositivos Android. Se o seu dispositivo não oferece a opção VPN sempre ativa ou Kill Switch, não há nada que o ProtonVPN possa fazer para implementá-los. Você pode atualizar seu sistema operacional para a versão mais recente do Android e tentar novamente.\"</string>
   <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
   <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
   <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>

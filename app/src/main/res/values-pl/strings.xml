@@ -272,24 +272,12 @@
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Skonfiguruj aplikację ProtonVPN, aby automatycznie przywracała połączenie lub wyłączała połączenia zewnętrzne, jeśli połączenie VPN zostanie przerwane.</string>
-  <string name="settingsAlwaysOnWindowDescription">"Stale aktywny VPN automatycznie przywraca połączenie z serwerem VPN, jeśli połączenie zostanie przerwane.
-
-Funkcja Kill Switch zapobiega nawiązywaniu przez urządzenie połączeń zewnętrznych, w przypadku rozłączenia z siecią VPN, zapewniając bezpieczeństwo ruchu internetowego.
-
-Te funkcje są kontrolowane przez system Android. Aby je aktywować, musisz wyjść z aplikacji.
-
-Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Switch:"</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[Otwórz <b>Ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">Znajdź aplikację ProtonVPN i kliknij ikonę %1$s</string>
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[Kliknij przełącznik <b>Stały VPN</b>, aby włączyć funkcję]]></string>
-  <string name="settingsAlwaysOnWindowStep4Intro">Wykonaj również tę czynność, aby aktywować funkcję Kill Switch</string>
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[Aby włączyć funkcję Kill Switch, kliknij przełącznik <b>Blokuj połączenia bez VPN</b>]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
-  <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Pamiętaj, że przy aktywnych funkcjach Kill Switch i Split Tunneling, funkcja Split Tunneling nie będzie działać. Kill Switch blokuje wszystkie połączenia poza tunelem VPN, łącznie z połączeniami utworzonymi przez funkcję Split Tunneling.</string>
-  <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Brakuje niektórych opcji? <a href=\"%1$s\">Kliknij tutaj, aby dowiedzieć się więcej</a>.]]></string>
-  <string name="settingsAlwaysOnWindowLearnMoreText">"Funkcja Kill Switch i stale aktywny VPN nie są dostępne
-    na wszystkich urządzeniach oraz na starszych wersjach systemu Android. Jeśli Twoje urządzenie nie wspiera tych funkcji, zespół ProtonVPN nie może ich zaimplementować. Zaktualizuj system Android do najnowszej wersji i spróbuj ponownie."</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>

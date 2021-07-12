@@ -82,13 +82,12 @@
             android:textColor="@color/accountTitles"
             android:textSize="16sp" />
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonAlwaysOn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:isButton="true"
-            app:textDescription="@string/settingsAlwaysOnKillSwitchDescription"
-            app:textTitle="@string/settingsAlwaysOnAndKillSwitchTitle" />
+            app:infoText="@string/settingsAlwaysOnKillSwitchDescription"
+            app:title="@string/settingsAlwaysOnAndKillSwitchTitle" />
 
         <com.protonvpn.android.components.NetShieldSwitch
             android:id="@+id/netShieldSwitch"

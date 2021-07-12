@@ -328,24 +328,21 @@
 
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Set up ProtonVPN to reconnect automatically or to disable external connections if your VPN connection is disrupted.</string>
-    <string name="settingsAlwaysOnWindowDescription">"Always-On VPN automatically reconnects you to your VPN server if your connection is interrupted.
-
-Kill Switch prevents your device from making external connections if you are disconnected from the VPN, keeping your Internet traffic secure.
-
-The Android operating system controls these features, and you must go out of the app to activate them.
-
-Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[Open your device’s <b>Settings</b> by tapping the button below]]></string>
+    <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">Find ProtonVPN and tap %1$s</string>
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
-    <string name="settingsAlwaysOnWindowStep4Intro">Perform also this step to activate Kill Switch</string>
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
+    <string name="settingsAlwaysOnWindowStep2">2. Find ProtonVPN and tap %1$s</string>
+    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
+    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+         Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Open Android settings</string>
-    <string name="settingsAlwaysOnWindowSplitTunnelingWarning">Be aware that if both Kill Switch and Split Tunneling are activated, Split Tunneling won\'t work. Kill Switch blocks all connections outside the VPN tunnel, including those created by Split Tunneling.</string>
-    <string name="settingsAlwaysOnWindowLearnMore"><![CDATA[Some options missing? <a href=\"%1$s\">Tap here to learn more</a>.]]></string>
-    <string name="settingsAlwaysOnWindowLearnMoreText">"Kill Switch and Always-On VPN are not always available on
-        older versions of the Android OS or on all Android devices. If your device does not offer Always-On VPN or Kill Switch, there is nothing ProtonVPN can do to implement them. You can update your operating system to the most recent version of Android and try again."</string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
     <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
     <string name="settingsProtocolNameSmart" translatable="false">Smart (auto)</string>
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>

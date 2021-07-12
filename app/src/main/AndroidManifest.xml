@@ -202,8 +202,7 @@
             android:label="@string/settingsExcludedIPAddresses" />
         <activity
             android:name=".ui.drawer.AlwaysOnSettingsActivity"
-            android:label="@string/settingsAlwaysOnAndKillSwitchTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
             android:name=".ui.drawer.ReportBugActivity"
             android:label="@string/drawerReportBug" />
