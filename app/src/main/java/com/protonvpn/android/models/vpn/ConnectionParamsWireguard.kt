@@ -24,6 +24,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
 import de.blinkt.openvpn.core.NetworkUtils
@@ -73,7 +74,9 @@ class ConnectionParamsWireguard(
         if (userData.bypassLocalTraffic())
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
-        peerProxy.allowedIps = calculateAllowedIps(excludedIPs)
+        val allowedIps = calculateAllowedIps(excludedIPs)
+        ProtonLogger.log("Allowed IPs: " + allowedIps)
+        peerProxy.allowedIps = allowedIps
 
         return config.resolve()
     }
@@ -85,7 +88,9 @@ class ConnectionParamsWireguard(
             ipRangeSet.remove(IPRange(it))
         }
 
-        return ipRangeSet.subnets().joinToString(", ")
+        // IPRangeSet class does not support IPv6 CIDR so we need to add them here
+        // explicitly to not leak IPv6 for Wireguard then split tunneling is used
+        return ipRangeSet.subnets().joinToString(", ") + ", ::/0"
     }
 
     companion object {
