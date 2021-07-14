@@ -237,7 +237,6 @@
   <string name="loaderErrorNoInternet">Brak połączenia z Internetem</string>
   <string name="loaderErrorGeneric">Coś poszło nie tak</string>
   <string name="loaderLoadingServers">Ładowanie serwerów…</string>
-  <string name="settingsExcludeIPAddresses">Wyklucz adresy IP</string>
   <string name="settingsExcludeApps">Wyklucz aplikacje</string>
   <string name="settingsExcludeAppsInfo">Wykluczone aplikacje: %1$d</string>
   <string name="settingsExcludeIPAddressesInfo">Wykluczone adresy: %1$d</string>

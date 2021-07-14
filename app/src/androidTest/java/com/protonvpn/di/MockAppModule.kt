@@ -18,6 +18,7 @@
  */
 package com.protonvpn.di
 
+import android.content.pm.PackageManager
 import android.os.SystemClock
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
@@ -85,6 +86,9 @@ class MockAppModule {
     @Provides
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
+
+    @Provides
+    fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
 
     @Singleton
     @Provides

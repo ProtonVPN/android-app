@@ -222,20 +222,19 @@
             android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
-            <com.protonvpn.android.components.SplitTunnelButton
-                android:id="@+id/splitTunnelIPs"
+            <com.protonvpn.android.ui.drawer.SettingsItem
+                android:id="@+id/buttonExcludeIps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:shouldHandleApps="false"
-                app:title="@string/settingsExcludeIPAddresses" />
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                app:title="@string/settingsExcludedIPAddresses" />
 
-            <com.protonvpn.android.components.SplitTunnelButton
-                android:id="@+id/splitTunnelApps"
+            <com.protonvpn.android.ui.drawer.SettingsItem
+                android:id="@+id/buttonExcludeApps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:shouldHandleApps="true"
-                app:title="@string/settingsExcludeApps" />
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                app:title="@string/settingsExcludedApps" />
 
         </LinearLayout>
 

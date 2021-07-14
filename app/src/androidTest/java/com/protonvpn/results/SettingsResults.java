@@ -40,7 +40,7 @@ public class SettingsResults extends UIActionsTestHelper {
     }
 
     public SettingsResults splitTunnelIPIsVisible() {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView, R.id.splitTunnelIPs);
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView, R.id.buttonExcludeIps);
         return this;
     }
 

@@ -235,7 +235,6 @@
   <string name="loaderErrorNoInternet">Geen internetverbinding</string>
   <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
   <string name="loaderLoadingServers">Servers laden…</string>
-  <string name="settingsExcludeIPAddresses">IP-adressen uitsluiten</string>
   <string name="settingsExcludeApps">Apps uitsluiten</string>
   <string name="settingsExcludeAppsInfo">%1$d Apps uitgesloten</string>
   <string name="settingsExcludeIPAddressesInfo">%1$d IP-adressen uitgesloten</string>

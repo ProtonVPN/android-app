@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/textReport"
-            style="@style/SectionHeadlineText"
+            style="@style/SectionHeadlineText.Brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_message" />

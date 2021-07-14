@@ -327,9 +327,13 @@
 
     <style name="SectionHeadlineText">
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
-        <item name="android:textColor">?attr/brand_norm</item>
+        <item name="android:textColor">?attr/proton_text_hint</item>
         <item name="android:layout_marginTop">24dp</item>
         <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SectionHeadlineText.Brand">
+        <item name="android:textColor">?attr/brand_norm</item>
     </style>
 
     <!-- TODO: try to move everything to Core -->

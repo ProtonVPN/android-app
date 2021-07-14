@@ -112,7 +112,6 @@ abstract class IpViewHolder extends RecyclerView.ViewHolder {
             .onPositive((dialog, which) -> onItemRemoved(ip))
             .negativeText(R.string.cancel)
             .show();
-
     }
 
     public void bindData(String object) {

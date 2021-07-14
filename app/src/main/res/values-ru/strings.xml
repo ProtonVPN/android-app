@@ -237,7 +237,6 @@
   <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
   <string name="loaderErrorGeneric">Что-то пошло не так</string>
   <string name="loaderLoadingServers">Загрузка серверов…</string>
-  <string name="settingsExcludeIPAddresses">Исключить IP-адреса</string>
   <string name="settingsExcludeApps">Исключить приложения</string>
   <string name="settingsExcludeAppsInfo">Приложений исключено: %1$d</string>
   <string name="settingsExcludeIPAddressesInfo">IP адресов исключено: %1$d</string>

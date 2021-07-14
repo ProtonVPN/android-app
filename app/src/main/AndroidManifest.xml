@@ -194,6 +194,12 @@
             android:name=".ui.drawer.SettingsActivity"
             android:label="@string/activitySettingsTitle" />
         <activity
+            android:name=".ui.drawer.SettingsExcludeAppsActivity"
+            android:label="@string/settingsExcludedApps" />
+        <activity
+            android:name=".ui.drawer.SettingsExcludeIpsActivity"
+            android:label="@string/settingsExcludedIPAddresses" />
+        <activity
             android:name=".ui.drawer.AlwaysOnSettingsActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle"
             android:theme="@style/AppTheme.NoActionBar" />

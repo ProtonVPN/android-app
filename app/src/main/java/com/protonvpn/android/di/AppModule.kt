@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.di
 
+import android.content.pm.PackageManager
 import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
@@ -94,6 +95,9 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
+
+    @Provides
+    fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
 
     @Singleton
     @Provides
