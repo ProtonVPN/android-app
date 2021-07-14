@@ -235,7 +235,6 @@
   <string name="loaderErrorNoInternet">Nessuna connessione Internet</string>
   <string name="loaderErrorGeneric">Qualcosa è andato storto</string>
   <string name="loaderLoadingServers">Caricamento server…</string>
-  <string name="settingsExcludeIPAddresses">Escludi indirizzi IP</string>
   <string name="settingsExcludeApps">Escludi app</string>
   <string name="settingsExcludeAppsInfo">%1$d App escluse</string>
   <string name="settingsExcludeIPAddressesInfo">%1$d indirizzi IP esclusi</string>

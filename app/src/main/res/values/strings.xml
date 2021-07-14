@@ -275,8 +275,15 @@
     <string name="loaderErrorNoInternet">No internet connection</string>
     <string name="loaderErrorGeneric">Something went wrong</string>
     <string name="loaderLoadingServers">Loading servers…</string>
-    <string name="settingsExcludeIPAddresses">Exclude IP Addresses</string>
-    <string name="settingsExcludeApps">Exclude Apps</string>
+    <string name="inputIpAddressLabel">IP Address</string>
+    <string name="inputIpAddressHint">Write IP address</string>
+    <string name="inputIpAddressErrorInvalid">Invalid IP address</string>
+    <string name="settingsExcludedIPAddresses">Excluded IP Addresses</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
+    <string name="settingsExcludedApps">Excluded Apps</string>
+    <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableHeader">Available Apps (%1$d)</string>
     <string name="settingsExcludeAppsInfo">%1$d Apps excluded</string>
     <string name="settingsExcludeIPAddressesInfo">%1$d IP Addresses excluded</string>
     <plurals name="settingsExcludedAppsCount">

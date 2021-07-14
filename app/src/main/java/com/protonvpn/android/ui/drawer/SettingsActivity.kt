@@ -75,8 +75,8 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonProtocol) lateinit var buttonProtocol: SettingsItem
     @BindView(R.id.splitTunnelLayout) lateinit var splitTunnelLayout: View
     @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
-    @BindView(R.id.splitTunnelIPs) lateinit var splitTunnelIPs: SplitTunnelButton
-    @BindView(R.id.splitTunnelApps) lateinit var splitTunnelApps: SplitTunnelButton
+    @BindView(R.id.buttonExcludeIps) lateinit var buttonExcludeIps: SettingsItem
+    @BindView(R.id.buttonExcludeApps) lateinit var buttonExcludeApps: SettingsItem
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
     @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
@@ -105,9 +105,6 @@ class SettingsActivity : BaseActivity() {
     private fun initSettings() {
         initOSRelatedVisibility()
         initMTUField()
-        splitTunnelApps.initTextUpdater(this, userPrefs)
-        splitTunnelIPs.initTextUpdater(this, userPrefs)
-        splitTunnelIPs.buttonManage.contentDescription = getString(R.string.settingsExcludeIPAddresses)
         buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
         switchAutoStart.isChecked = userPrefs.connectOnBoot
         switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
@@ -161,8 +158,15 @@ class SettingsActivity : BaseActivity() {
 
         initSplitTunneling(useSplitTunnel)
         switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
-        splitTunnelApps.buttonManage.setOnTouchListener(disableWhenConnectedListener)
-        splitTunnelIPs.buttonManage.setOnTouchListener(disableWhenConnectedListener)
+        buttonExcludeIps.setOnTouchListener(disableWhenConnectedListener)
+        buttonExcludeIps.setOnClickListener {
+            navigateTo(SettingsExcludeIpsActivity::class.java)
+        }
+        buttonExcludeApps.setOnTouchListener(disableWhenConnectedListener)
+        buttonExcludeApps.setOnClickListener {
+            navigateTo(SettingsExcludeAppsActivity::class.java)
+        }
+
         switchShowSplitTunnel.isChecked = useSplitTunnel
         switchShowSplitTunnel.setOnCheckedChangeListener { _, isChecked ->
             initSplitTunneling(isChecked)
@@ -260,6 +264,8 @@ class SettingsActivity : BaseActivity() {
 
     private fun onUserDataUpdated() {
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
+
+        // TODO: excluded IPs and Apps.
     }
 
     private fun tryToggleVpnAccelerator() {

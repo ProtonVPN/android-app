@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/accountDetails"
-        style="@style/SectionHeadlineText"
+        style="@style/SectionHeadlineText.Brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
@@ -105,7 +105,7 @@
 
     <TextView
         android:id="@+id/subscription"
-        style="@style/SectionHeadlineText"
+        style="@style/SectionHeadlineText.Brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"

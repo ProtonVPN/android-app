@@ -36,6 +36,7 @@
             android:paddingHorizontal="@dimen/screen_padding_horizontal"
             android:paddingVertical="16dp"
             android:text="@string/create_new_profile"
+            app:drawableTint="?attr/proton_icon_weak"
             app:drawableStartCompat="@drawable/ic_plus" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -73,6 +73,8 @@ public final class UserData implements Serializable {
     private boolean vpnAcceleratorEnabled;
     private boolean showVpnAcceleratorNotifications;
 
+    private transient MutableLiveData<List<String>> splitTunnelIpAddressesLiveData;
+    private transient MutableLiveData<List<String>> splitTunnelAppsLiveData;
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData;
     private transient MutableLiveData<Boolean> vpnAcceleratorLiveData;
     private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
@@ -111,6 +113,8 @@ public final class UserData implements Serializable {
 
     // Handles post-deserialization initialization
     public void init() {
+        splitTunnelAppsLiveData = new MutableLiveData<>(new ArrayList<>(getSplitTunnelApps()));
+        splitTunnelIpAddressesLiveData = new MutableLiveData<>(new ArrayList<>(getSplitTunnelIpAddresses()));
         netShieldProtocolLiveData = new MutableLiveData<>(getNetShieldProtocol());
         vpnAcceleratorLiveData = new MutableLiveData<>(isVpnAcceleratorEnabled());
         selectedProtocolLiveData = new MutableLiveData<>(getSelectedProtocol());
@@ -317,32 +321,55 @@ public final class UserData implements Serializable {
         return splitTunnelApps;
     }
 
-    public void addAppToSplitTunnel(String app) {
-        splitTunnelApps.add(app);
-        saveToStorage();
+    public LiveData<List<String>> getSplitTunnelAppsLiveData() {
+        return splitTunnelAppsLiveData;
     }
 
-    public void addIpToSplitTunnel(String ip) {
-        if (!splitTunnelIpAddresses.contains(ip)) {
-            this.splitTunnelIpAddresses.add(ip);
+    public void addAppToSplitTunnel(String app) {
+        boolean isAdded = !splitTunnelApps.contains(app);
+        if (isAdded) {
+            splitTunnelApps.add(app);
+            splitTunnelAppsLiveData.setValue(new ArrayList<>(splitTunnelApps));
             saveToStorage();
         }
     }
 
+    public boolean addIpToSplitTunnel(String ip) {
+        boolean isAdded = !splitTunnelIpAddresses.contains(ip);
+        if (isAdded) {
+            splitTunnelIpAddresses.add(ip);
+            splitTunnelIpAddressesLiveData.setValue(new ArrayList<>(splitTunnelIpAddresses));
+            saveToStorage();
+        }
+        return isAdded;
+    }
+
     public void removeIpFromSplitTunnel(String ip) {
-        splitTunnelIpAddresses.remove(ip);
-        saveToStorage();
+        boolean updated = splitTunnelIpAddresses.remove(ip);
+        if (updated) {
+            splitTunnelIpAddressesLiveData.setValue(new ArrayList<>(splitTunnelIpAddresses));
+            saveToStorage();
+        }
     }
 
     public void removeAppFromSplitTunnel(String app) {
-        splitTunnelApps.remove(app);
-        saveToStorage();
+        boolean isRemoved = splitTunnelApps.remove(app);
+        if (isRemoved) {
+            splitTunnelAppsLiveData.setValue(new ArrayList<>(splitTunnelApps));
+            saveToStorage();
+        }
     }
 
     @NotNull
     public List<String> getSplitTunnelIpAddresses() {
         return splitTunnelIpAddresses;
     }
+
+    @NonNull
+    public LiveData<List<String>> getSplitTunnelIpAddressesLiveData() {
+        return splitTunnelIpAddressesLiveData;
+    }
+
 
     @NotNull
     public VpnProtocol getSelectedProtocol() {

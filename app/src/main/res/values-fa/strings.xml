@@ -235,7 +235,6 @@
   <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
-  <string name="settingsExcludeIPAddresses">جدا کردن نشانی‌های IP</string>
   <string name="settingsExcludeApps">جدا کردن برنامه‌ها</string>
   <string name="settingsExcludeAppsInfo">%1$d برنامه جدا شدند</string>
   <string name="settingsExcludeIPAddressesInfo">%1$d نشانی IP جدا شدند</string>
