@@ -88,9 +88,10 @@ class ConnectionParamsWireguard(
             ipRangeSet.remove(IPRange(it))
         }
 
-        // IPRangeSet class does not support IPv6 CIDR so we need to add them here
+        // IPRangeSet class does not support IPv6 so we need to add them here
         // explicitly to not leak IPv6 for Wireguard then split tunneling is used
-        return ipRangeSet.subnets().joinToString(", ") + ", ::/0"
+        // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
+        return ipRangeSet.subnets().joinToString(", ") + ", 2000::/3"
     }
 
     companion object {
