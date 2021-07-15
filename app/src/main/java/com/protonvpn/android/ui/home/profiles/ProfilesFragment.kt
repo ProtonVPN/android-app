@@ -20,7 +20,6 @@ package com.protonvpn.android.ui.home.profiles
 
 import android.content.res.ColorStateList
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -31,9 +30,9 @@ import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentProfilesBinding
-import com.protonvpn.android.databinding.ItemHeaderBinding
 import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForCreation
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
@@ -41,7 +40,6 @@ import com.protonvpn.android.utils.getThemeColor
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
 import javax.inject.Inject
 
 @ContentLayout(R.layout.fragment_profiles)
@@ -85,17 +83,6 @@ class ProfilesFragment : BaseFragmentV2<ProfilesViewModel, FragmentProfilesBindi
         // Force recycling of view holders to enable cleanup
         binding.list.adapter = null
         super.onDestroyView()
-    }
-
-    private class HeaderViewHolder(
-        @StringRes private val text: Int
-    ) : BindableItem<ItemHeaderBinding>() {
-
-        override fun bind(viewBinding: ItemHeaderBinding, position: Int) {
-            viewBinding.textHeader.setText(text)
-        }
-
-        override fun getLayout(): Int = R.layout.item_header
     }
 
     private class ProfileViewHolder(

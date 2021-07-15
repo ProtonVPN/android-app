@@ -23,25 +23,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityServerSelectionBinding
-import com.protonvpn.android.databinding.ItemHeaderBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
-import com.protonvpn.android.ui.HeaderAdapter
+import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ProtonLogger
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.OnItemClickListener
+import com.xwray.groupie.OnItemLongClickListener
+import com.xwray.groupie.Section
+import com.xwray.groupie.databinding.BindableItem
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
 
@@ -69,90 +70,97 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
             ProtonLogger.log("No servers for country '$config.countryCode`")
             finish()
         }
-
     }
 
     fun initServerList(secureCore: Boolean, servers: List<ServerSelectionViewModel.ServerItem>) {
         val layout = LinearLayoutManager(this)
-        val onSelected = { serverIdSelection: ServerIdSelection ->
-            ActivityResultUtils.setResult(this, serverIdSelection)
+
+        val recommendedSection = Section(
+            HeaderViewHolder(R.string.recommendedHeader),
+            listOf(
+                RecommendedServerViewHolder(
+                    R.string.profileFastest,
+                    R.drawable.ic_fast,
+                    ServerIdSelection.FastestInCountry
+                ),
+                RecommendedServerViewHolder(
+                    R.string.profileRandom,
+                    R.drawable.ic_arrows,
+                    ServerIdSelection.RandomInCountry
+                )
+            )
+        )
+        val serversHeaderString =
+            if (secureCore) R.string.secureCoreCountriesHeader else R.string.countryServersHeader
+        val serversSection = Section(
+                HeaderViewHolder(serversHeaderString),
+                servers.map { ServerItemViewHolder(it, secureCore) }
+        )
+
+        val groupAdapter = GroupAdapter<GroupieViewHolder>()
+        groupAdapter.add(recommendedSection)
+        groupAdapter.add(serversSection)
+        groupAdapter.setOnItemClickListener { item, _ ->
+            val selection = (item as ServerItemViewHolderBase).selection
+            ActivityResultUtils.setResult(this, selection)
             finish()
         }
 
-        val combinedAdapter = ConcatAdapter(
-            HeaderAdapter(R.string.recommendedHeader),
-            FastestAndRandomAdapter(onSelected),
-            HeaderAdapter(if (secureCore) R.string.secureCoreCountriesHeader else R.string.countryServersHeader),
-            ServersAdapter(secureCore, servers, onSelected)
-        )
-
         with(binding.recyclerServers) {
-            adapter = combinedAdapter
+            adapter = groupAdapter
             layoutManager = layout
         }
     }
 
-    private class ItemViewHolder(
-        val views: ItemServerSelectionBinding
-    ) : RecyclerView.ViewHolder(views.root)
-
-    private class FastestAndRandomAdapter(
-        private val onSelected: (ServerIdSelection) -> Unit
-    ) : RecyclerView.Adapter<ItemViewHolder>() {
-
-        data class Item(
-            @StringRes val label: Int,
-            @DrawableRes val icon: Int,
-            val selection: ServerIdSelection
-        )
-
-        private val items = listOf(
-            Item(R.string.profileFastest, R.drawable.ic_fast, ServerIdSelection.FastestInCountry),
-            Item(R.string.profileRandom, R.drawable.ic_arrows, ServerIdSelection.RandomInCountry),
-        )
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-            return ItemViewHolder(
-                ItemServerSelectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
+    private abstract class ServerItemViewHolderBase(
+        val selection: ServerIdSelection
+    ) : BindableItem<ItemServerSelectionBinding>() {
+        override fun bind(
+            viewHolder: com.xwray.groupie.databinding.GroupieViewHolder<ItemServerSelectionBinding>,
+            position: Int,
+            payloads: List<Any?>,
+            onItemClickListener: OnItemClickListener?,
+            onItemLongClickListener: OnItemLongClickListener?
+        ) {
+            super.bind(viewHolder, position, payloads, onItemClickListener, onItemLongClickListener)
+            if (onItemClickListener != null) {
+                viewHolder.binding.root.setOnClickListener {
+                    onItemClickListener.onItemClick(this@ServerItemViewHolderBase, it)
+                }
+            }
         }
+    }
 
-        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            with(holder.views) {
-                val item = items[position]
-                textLabel.setText(item.label)
-                imageIcon.setImageResource(item.icon)
-                root.setOnClickListener { onSelected(item.selection) }
+    private class RecommendedServerViewHolder(
+        @StringRes val label: Int,
+        @DrawableRes val icon: Int,
+        selection: ServerIdSelection
+    ) : ServerItemViewHolderBase(selection) {
+
+        override fun bind(viewBinding: ItemServerSelectionBinding, position: Int) {
+            with(viewBinding) {
+                textLabel.setText(label)
+                imageIcon.setImageResource(icon)
             }
         }
 
-        override fun getItemCount(): Int = items.size
+        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
-    private class ServersAdapter(
-        private val secureCore: Boolean,
-        private val servers: List<ServerSelectionViewModel.ServerItem>,
-        private val onSelected: (ServerIdSelection) -> Unit
-    ) : RecyclerView.Adapter<ItemViewHolder>() {
+    private class ServerItemViewHolder(
+        private val server: ServerSelectionViewModel.ServerItem,
+        private val secureCoreArrow: Boolean
+    ) : ServerItemViewHolderBase(ServerIdSelection.Specific(server.id)) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
-            ItemViewHolder(
-                ItemServerSelectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-
-        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            with(holder.views) {
-                val server = servers[position]
+        override fun bind(viewBinding: ItemServerSelectionBinding, position: Int) {
+            with(viewBinding) {
                 textLabel.text = serverLabel(root.context, server)
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, server.flag))
-                val trailingIcon = if (secureCore) R.drawable.ic_secure_core_arrow_green else 0
+                val trailingIcon = if (secureCoreArrow) R.drawable.ic_secure_core_arrow_green else 0
                 textLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, trailingIcon, 0)
-                root.setOnClickListener { onSelected(ServerIdSelection.Specific(server.id)) }
                 root.isEnabled = server.accessible
             }
         }
-
-        override fun getItemCount(): Int = servers.size
 
         private fun serverLabel(
             context: Context,
@@ -162,6 +170,8 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
             !server.online -> context.getString(R.string.serverLabelUnderMaintenance, server.name)
             else -> server.name
         }
+
+        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     @Parcelize
