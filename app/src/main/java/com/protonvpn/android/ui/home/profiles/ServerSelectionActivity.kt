@@ -43,7 +43,7 @@ import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.OnItemLongClickListener
 import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_server_selection)
