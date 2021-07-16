@@ -21,22 +21,13 @@ package com.protonvpn.android.di;
 import android.app.Activity;
 
 import com.protonvpn.android.ui.drawer.SettingsActivity;
-import com.protonvpn.android.ui.splittunneling.AppsDialog;
-import com.protonvpn.android.ui.splittunneling.IpDialog;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class SettingsModule {
 
     @Binds
     abstract Activity provideActivity(SettingsActivity activity);
-
-    @ContributesAndroidInjector
-    abstract IpDialog provideIpDialog();
-
-    @ContributesAndroidInjector
-    abstract AppsDialog provideAppsDialog();
 }

@@ -235,17 +235,6 @@
   <string name="loaderErrorNoInternet">Geen internetverbinding</string>
   <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
   <string name="loaderLoadingServers">Servers laden…</string>
-  <string name="settingsExcludeApps">Apps uitsluiten</string>
-  <string name="settingsExcludeAppsInfo">%1$d Apps uitgesloten</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d IP-adressen uitgesloten</string>
-  <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d App uitgesloten</item>
-    <item quantity="other">%1$d Apps uitgesloten</item>
-  </plurals>
-  <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d IP-adres uitgesloten</item>
-    <item quantity="other">%1$d IP-adressen uitgesloten</item>
-  </plurals>
   <string name="settingsCannotChangeWhileConnected">Kan dit niet wijzigen terwijl u verbonden bent</string>
   <string name="excludeAlreadyExcluded">Al uitgesloten</string>
   <string name="removeExcludedIpDialogDescription">Weet je zeker dat u dit IP uit de lijst wilt verwijderen?</string>

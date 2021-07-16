@@ -235,17 +235,6 @@
   <string name="loaderErrorNoInternet">Aucune connexion internet</string>
   <string name="loaderErrorGeneric">Une erreur s\'est produite</string>
   <string name="loaderLoadingServers">Chargement des serveurs…</string>
-  <string name="settingsExcludeApps">Exclure des applications</string>
-  <string name="settingsExcludeAppsInfo">%1$d applications exclues</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d adresses IP exclues</string>
-  <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d application exclue</item>
-    <item quantity="other">%1$d applications exclues</item>
-  </plurals>
-  <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d adresse IP exclue</item>
-    <item quantity="other">%1$d adresses IP exclues</item>
-  </plurals>
   <string name="settingsCannotChangeWhileConnected">Impossible de changer ceci en étant connecté</string>
   <string name="excludeAlreadyExcluded">Déjà exclue</string>
   <string name="removeExcludedIpDialogDescription">Êtes-vous sûr de vouloir retirer cette adresse IP de la liste ?</string>
