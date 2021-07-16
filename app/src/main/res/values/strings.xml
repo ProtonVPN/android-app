@@ -284,6 +284,14 @@
     <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
     <string name="settingsExcludedAppsAvailableHeader">Available Apps (%1$d)</string>
+    <string name="listNoItems">None</string>
+    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+    <plurals name="listFewItemsAndMore">
+        <item quantity="one">%1$s and %2$d more</item>
+        <item quantity="other">%1$s and %2$d more</item>
+    </plurals>
     <string name="settingsCannotChangeWhileConnected">Cannot change this while connected</string>
     <string name="excludeAlreadyExcluded">Already excluded</string>
     <string name="removeExcludedIpDialogDescription">Are you sure you want to remove this IP from the list?</string>

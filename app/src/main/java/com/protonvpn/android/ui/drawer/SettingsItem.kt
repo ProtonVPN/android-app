@@ -44,7 +44,7 @@ class SettingsItem : SettingsItemBase<SettingsItemBinding> {
     override fun textTitle() = binding.textTitle
     override fun textInfo() = binding.textInfo
 
-    fun setValue(text: String) {
+    fun setValue(text: CharSequence) {
         setTextAndVisibility(binding.textValue, text)
     }
 }
