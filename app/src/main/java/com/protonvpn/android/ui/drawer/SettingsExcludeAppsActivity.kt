@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.drawer
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -65,32 +66,53 @@ class SettingsExcludeAppsActivity :
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
-        val addAction = { item: LabeledItem -> viewModel.addAppToExcluded(item) }
-        val removeAction = { item: LabeledItem -> viewModel.removeAppFromExcluded(item) }
+        val actionAdd = { item: LabeledItem -> viewModel.addAppToExcluded(item) }
+        val actionRemove = { item: LabeledItem -> viewModel.removeAppFromExcluded(item) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
-            val headerSelected =
-                getString(R.string.settingsExcludedAppsSelectedHeader, state.selectedApps.size)
-            val headerAvailable =
-                getString(R.string.settingsExcludedAppsAvailableHeader, state.availableApps.size)
-            // Not using Section.setPlaceholder for empty state because the Section is recreated
-            // each time anyway.
-            val selectedItems = if (state.selectedApps.isEmpty()) {
-                listOf(EmptyStateItem())
-            } else {
-                state.selectedApps.map {
-                    LabeledItemActionViewHolder(it, R.drawable.ic_clear, removeAction)
+            when(state) {
+                is SettingsExcludeAppsViewModel.ViewState.Loading ->
+                    binding.progress.isVisible = true
+                is SettingsExcludeAppsViewModel.ViewState.Content -> {
+                    binding.progress.isVisible = false
+                    updateLists(
+                        itemsAdapter,
+                        state.selectedApps,
+                        state.availableApps,
+                        actionAdd,
+                        actionRemove
+                    )
                 }
             }
-            val availableItems = state.availableApps.map {
-                LabeledItemActionViewHolder(it, R.drawable.ic_plus, addAction)
-            }
-            // Update both sections at once for move animations.
-            val sections = listOf(
-                Section(HeaderViewHolder(itemId = 1, text = headerSelected), selectedItems),
-                Section(HeaderViewHolder(itemId = 2, text = headerAvailable), availableItems)
-            )
-            itemsAdapter.updateAsync(sections)
         })
+    }
+
+    private fun updateLists(
+        adapter: GroupAdapter<GroupieViewHolder>,
+        selectedItems: List<LabeledItem>,
+        availableItems: List<LabeledItem>,
+        actionAdd: LabeledItemAction,
+        actionRemove: LabeledItemAction
+    ) {
+        val headerSelected =
+            getString(R.string.settingsExcludedAppsSelectedHeader, selectedItems.size)
+        val headerAvailable =
+            getString(R.string.settingsExcludedAppsAvailableHeader, availableItems.size)
+        // Not using Section.setPlaceholder for empty state because the Section is recreated
+        // each time anyway.
+        val selectedViewHolders = if (selectedItems.isEmpty()) {
+            listOf(EmptyStateItem())
+        } else {
+            selectedItems.map { LabeledItemActionViewHolder(it, R.drawable.ic_clear, actionRemove) }
+        }
+        val availableViewHolders = availableItems.map {
+            LabeledItemActionViewHolder(it, R.drawable.ic_plus, actionAdd)
+        }
+        // Update both sections at once for move animations.
+        val sections = listOf(
+            Section(HeaderViewHolder(itemId = 1, text = headerSelected), selectedViewHolders),
+            Section(HeaderViewHolder(itemId = 2, text = headerAvailable), availableViewHolders)
+        )
+        adapter.updateAsync(sections)
     }
 
     private class EmptyStateItem : Item<GroupieViewHolder>() {
