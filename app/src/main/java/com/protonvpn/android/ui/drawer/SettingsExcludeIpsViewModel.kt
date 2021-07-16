@@ -24,14 +24,33 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.models.config.UserData
 import javax.inject.Inject
 
+private const val BITS_IN_BYTE = 8
+
+@OptIn(ExperimentalUnsignedTypes::class)
 class SettingsExcludeIpsViewModel @Inject constructor(
     private val userData: UserData
 ): ViewModel() {
 
     val ipAddresses = map(userData.splitTunnelIpAddressesLiveData) { ips ->
-        ips.map { ip -> LabeledItem(ip, ip) }
+        ips.map { ipv4ToNumber(it) }
+            .sorted()
+            .map {
+                val ip = it.toIpv4()
+                LabeledItem(ip, ip)
+            }
     }
 
     fun addAddress(newAddress: String): Boolean = userData.addIpToSplitTunnel(newAddress)
     fun removeAddress(item: LabeledItem) = userData.removeIpFromSplitTunnel(item.id)
+
+    private fun ipv4ToNumber(s: String): UInt =
+        s.split('.').fold(0u) { acc, str ->
+            (acc shl BITS_IN_BYTE) + str.toUInt()
+        }
+
+    private fun UInt.toIpv4(): String =
+        arrayOf(3, 2, 1, 0).map { index ->
+            val shift = index * BITS_IN_BYTE
+            this shr shift and 0xffu
+        }.joinToString(".")
 }
