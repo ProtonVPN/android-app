@@ -28,10 +28,12 @@ import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.databinding.BindableItem
 import com.xwray.groupie.databinding.GroupieViewHolder
 
+typealias LabeledItemAction = (item: LabeledItem) -> Unit
+
 data class LabeledItemActionViewHolder(
     private val item: LabeledItem,
     @DrawableRes private val actionIcon: Int,
-    private val onAction: (item: LabeledItem) -> Unit
+    private val onAction: LabeledItemAction
 ) : BindableItem<ItemLabelWithActionButtonBinding>() {
 
     override fun createViewHolder(itemView: View): GroupieViewHolder<ItemLabelWithActionButtonBinding> {

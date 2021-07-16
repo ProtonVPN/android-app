@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
@@ -38,10 +39,15 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     private val userData: UserData
 ) : ViewModel() {
 
-    data class ViewState(
-        val selectedApps: List<LabeledItem>,
-        val availableApps: List<LabeledItem>
-    )
+    sealed class ViewState {
+        object Loading : ViewState()
+        data class Content(
+            val selectedApps: List<LabeledItem>,
+            val availableApps: List<LabeledItem>
+        ) : ViewState()
+    }
+
+
 
     private val allApps: Flow<Map<String, LabeledItem>> = flow {
         val items = installedAppsProvider.getInstalledInternetApps().map {
@@ -54,7 +60,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         emit(items.associateBy { it.id })
     }
 
-    val viewState = combine(
+    val viewState: Flow<ViewState> = combine(
         allApps,
         userData.splitTunnelAppsLiveData.asFlow()
     ) { all, selectedPackages ->
@@ -62,11 +68,13 @@ class SettingsExcludeAppsViewModel @Inject constructor(
             all.getOrDefault(packageName, null)
         }
         val availableApps = all.values.filterNot { selectedApps.contains(it) }
-        ViewState(
+        ViewState.Content(
             selectedApps.toList().sortedByLocaleAware { it.label },
             availableApps.toList().sortedByLocaleAware { it.label }
-        )
-    }.flowOn(dispatcherProvider.Comp)
+        ) as ViewState
+    }
+        .flowOn(dispatcherProvider.Comp)
+        .onStart { emit(ViewState.Loading) }
 
     fun addAppToExcluded(item: LabeledItem) = userData.addAppToSplitTunnel(item.id)
     fun removeAppFromExcluded(item: LabeledItem) = userData.removeAppFromSplitTunnel(item.id)
