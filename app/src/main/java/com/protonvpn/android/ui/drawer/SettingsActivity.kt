@@ -31,6 +31,7 @@ import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.lifecycleScope
 import br.com.sapereaude.maskedEditText.MaskedEditText
 import butterknife.BindView
 import com.afollestad.materialdialogs.DialogAction
@@ -44,6 +45,7 @@ import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
+import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
@@ -55,8 +57,11 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_settings)
@@ -86,6 +91,9 @@ class SettingsActivity : BaseActivity() {
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
+    @Inject lateinit var installedAppsProvider: InstalledAppsProvider
+
+    private var loadExcludedAppsJob: Job? = null
 
     private val protocolSelection =
         registerForActivityResult(ProtocolSelectionActivity.createContract()) {
@@ -263,8 +271,32 @@ class SettingsActivity : BaseActivity() {
 
     private fun onUserDataUpdated() {
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
+        buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
 
-        // TODO: excluded IPs and Apps.
+        loadExcludedAppsJob?.cancel()
+        loadExcludedAppsJob = lifecycleScope.launch {
+            val names = installedAppsProvider
+                .getNamesOfInstalledApps(userPrefs.splitTunnelApps)
+                .sortedByLocaleAware { it.toString() }
+            buttonExcludeApps.setValue(getListString(names))
+        }
+    }
+
+    // Possible improvement: measure if the text fits and adjust the number of listed items to
+    // avoid ellipsis.
+    private fun getListString(items: List<CharSequence>): CharSequence {
+        val maxListedCount = 2
+        val count = items.size
+        return when {
+            count == 0 -> getString(R.string.listNoItems)
+            count <= maxListedCount -> items.joinToString(", ")
+            else -> resources.getQuantityString(
+                R.plurals.listFewItemsAndMore,
+                items.size - maxListedCount,
+                items.take(maxListedCount).joinToString(", "),
+                items.size - maxListedCount
+            )
+        }
     }
 
     private fun tryToggleVpnAccelerator() {

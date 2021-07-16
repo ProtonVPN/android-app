@@ -19,23 +19,22 @@
 
 package com.protonvpn.android.ui.drawer
 
-import android.Manifest
-import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
+import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
-// TODO: create an "InstalledAppsProvider" that can be mocked in tests?
 class SettingsExcludeAppsViewModel @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider,
-    private val packageManager: PackageManager,
+    dispatcherProvider: DispatcherProvider,
+    private val installedAppsProvider: InstalledAppsProvider,
     private val userData: UserData
 ) : ViewModel() {
 
@@ -44,9 +43,16 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         val availableApps: List<LabeledItem>
     )
 
-    private val allApps = flow {
-        emit(getInstalledInternetAppsSync().associateBy { it.id })
-    }.flowOn(dispatcherProvider.Io)
+    private val allApps: Flow<Map<String, LabeledItem>> = flow {
+        val items = installedAppsProvider.getInstalledInternetApps().map {
+            LabeledItem(
+                id = it.packageName,
+                label = it.name,
+                iconDrawable = it.icon.mutate().apply { setBounds(0, 0, 24.toPx(), 24.toPx()) }
+            )
+        }
+        emit(items.associateBy { it.id })
+    }
 
     val viewState = combine(
         allApps,
@@ -64,20 +70,4 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     fun addAppToExcluded(item: LabeledItem) = userData.addAppToSplitTunnel(item.id)
     fun removeAppFromExcluded(item: LabeledItem) = userData.removeAppFromSplitTunnel(item.id)
-
-    private fun getInstalledInternetAppsSync() =
-        packageManager.getInstalledApplications(
-            PackageManager.GET_META_DATA
-        ).filter { appInfo ->
-            (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
-                    == PackageManager.PERMISSION_GRANTED)
-        }.map { appInfo ->
-            LabeledItem(
-                id = appInfo.packageName,
-                label = appInfo.loadLabel(packageManager).toString(),
-                iconDrawable = appInfo.loadIcon(packageManager).mutate().apply {
-                    setBounds(0, 0, 24.toPx(), 24.toPx())
-                }
-            )
-        }
 }
