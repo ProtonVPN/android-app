@@ -235,17 +235,6 @@
   <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
-  <string name="settingsExcludeApps">جدا کردن برنامه‌ها</string>
-  <string name="settingsExcludeAppsInfo">%1$d برنامه جدا شدند</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d نشانی IP جدا شدند</string>
-  <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d برنامه جدا شد</item>
-    <item quantity="other">%1$d برنامه جدا شده</item>
-  </plurals>
-  <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d آدرس IP جدا شد</item>
-    <item quantity="other">%1$d نشانی IP جدا شد</item>
-  </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
   <string name="removeExcludedIpDialogDescription">آیا مطمئن هستید که می‌خواهید این IP را از لیست حذف کنید؟</string>

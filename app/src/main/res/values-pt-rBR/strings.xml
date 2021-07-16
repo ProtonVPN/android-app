@@ -235,17 +235,6 @@
   <string name="loaderErrorNoInternet">Sem conexão com a internet</string>
   <string name="loaderErrorGeneric">Algo deu errado</string>
   <string name="loaderLoadingServers">Carregando servidores…</string>
-  <string name="settingsExcludeApps">Excluir aplicativos</string>
-  <string name="settingsExcludeAppsInfo">%1$d Aplicativos excluídos</string>
-  <string name="settingsExcludeIPAddressesInfo">%1$d Endereços de IP excluídos</string>
-  <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d aplicativo excluído</item>
-    <item quantity="other">%1$d aplicativos excluídos</item>
-  </plurals>
-  <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d endereço de IP excluído</item>
-    <item quantity="other">%1$d endereços de IP excluídos</item>
-  </plurals>
   <string name="settingsCannotChangeWhileConnected">Não é possível alterar isto enquanto estiver conectado</string>
   <string name="excludeAlreadyExcluded">Já excluído</string>
   <string name="removeExcludedIpDialogDescription">Você tem certeza que quer remover este IP da lista?</string>

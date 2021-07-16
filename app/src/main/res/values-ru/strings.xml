@@ -237,21 +237,6 @@
   <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
   <string name="loaderErrorGeneric">Что-то пошло не так</string>
   <string name="loaderLoadingServers">Загрузка серверов…</string>
-  <string name="settingsExcludeApps">Исключить приложения</string>
-  <string name="settingsExcludeAppsInfo">Приложений исключено: %1$d</string>
-  <string name="settingsExcludeIPAddressesInfo">IP адресов исключено: %1$d</string>
-  <plurals name="settingsExcludedAppsCount">
-    <item quantity="one">%1$d приложение исключено</item>
-    <item quantity="few">%1$d приложения исключено</item>
-    <item quantity="many">%1$d приложений исключено</item>
-    <item quantity="other">%1$d приложений исключено</item>
-  </plurals>
-  <plurals name="settingsExcludedIPAddressesCount">
-    <item quantity="one">%1$d IP адрес исключен</item>
-    <item quantity="few">%1$d IP адреса исключено</item>
-    <item quantity="many">%1$d IP адресов исключено</item>
-    <item quantity="other">%1$d IP адресов исключено</item>
-  </plurals>
   <string name="settingsCannotChangeWhileConnected">Нельзя изменить это при подключении</string>
   <string name="excludeAlreadyExcluded">Уже исключено</string>
   <string name="removeExcludedIpDialogDescription">Вы уверены, что хотите удалить этот IP из списка?</string>

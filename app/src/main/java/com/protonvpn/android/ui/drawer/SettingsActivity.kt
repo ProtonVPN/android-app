@@ -47,7 +47,6 @@ import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
-import com.protonvpn.android.components.SplitTunnelButton
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.ProtocolSelection

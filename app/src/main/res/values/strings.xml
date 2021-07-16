@@ -284,16 +284,6 @@
     <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
     <string name="settingsExcludedAppsAvailableHeader">Available Apps (%1$d)</string>
-    <string name="settingsExcludeAppsInfo">%1$d Apps excluded</string>
-    <string name="settingsExcludeIPAddressesInfo">%1$d IP Addresses excluded</string>
-    <plurals name="settingsExcludedAppsCount">
-        <item quantity="one">%1$d App excluded</item>
-        <item quantity="other">%1$d Apps excluded</item>
-    </plurals>
-    <plurals name="settingsExcludedIPAddressesCount">
-        <item quantity="one">%1$d IP Address excluded</item>
-        <item quantity="other">%1$d IP Addresses excluded</item>
-    </plurals>
     <string name="settingsCannotChangeWhileConnected">Cannot change this while connected</string>
     <string name="excludeAlreadyExcluded">Already excluded</string>
     <string name="removeExcludedIpDialogDescription">Are you sure you want to remove this IP from the list?</string>
