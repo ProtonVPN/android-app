@@ -18,9 +18,6 @@
  */
 package com.protonvpn.android.models.profiles
 
-import android.content.Context
-import com.protonvpn.android.R
-import com.protonvpn.android.components.Listable
 import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
 
@@ -30,7 +27,7 @@ data class ServerWrapper(
     val country: String,
     val serverId: String?,
     @Transient private var deliver: ServerDeliver,
-) : Listable, Serializable {
+) : Serializable {
 
     enum class ProfileType {
         FASTEST, RANDOM, RANDOM_IN_COUNTRY, FASTEST_IN_COUNTRY, DIRECT
@@ -41,24 +38,8 @@ data class ServerWrapper(
     override fun toString() =
         "type: $type country: $country serverId: $serverId secureCore: $secureCoreCountry deliverer: $deliver"
 
-    override fun getLabel(context: Context) = when (type) {
-        ProfileType.RANDOM_IN_COUNTRY, ProfileType.RANDOM ->
-            getLabel(context, context.getString(R.string.profileRandom), server)
-        ProfileType.FASTEST_IN_COUNTRY, ProfileType.FASTEST ->
-            getLabel(context, context.getString(R.string.profileFastest), server)
-        ProfileType.DIRECT ->
-            getLabel(context, server?.getLabel(context) ?: "", server)
-    }
-
     fun setDeliverer(deliverer: ServerDeliver) {
         deliver = deliverer
-    }
-
-    private fun getLabel(context: Context, name: String, server: Server?): String = when {
-        server == null -> name
-        !server.online -> context.getString(R.string.serverLabelUnderMaintenance, name)
-        deliver.hasAccessToServer(server) -> name
-        else -> context.getString(R.string.serverLabelUpgrade, name)
     }
 
     fun setSecureCore(value: Boolean) {

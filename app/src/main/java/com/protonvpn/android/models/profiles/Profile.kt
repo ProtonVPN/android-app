@@ -22,7 +22,6 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.components.Listable
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -35,7 +34,7 @@ data class Profile(
     private val color: String?,
     val wrapper: ServerWrapper,
     private val colorId: Int?
-) : Serializable, Listable {
+) : Serializable {
 
     private var protocol: String? = null
     private var transmissionProtocol: String? = null
@@ -75,8 +74,6 @@ data class Profile(
     val directServer: Server? get() = wrapper.directServer
 
     val isSecureCore get() = wrapper.isSecureCore
-
-    override fun getLabel(context: Context) = getDisplayName(context)
 
     fun getTransmissionProtocol(userData: UserData): TransmissionProtocol =
         transmissionProtocol?.let { TransmissionProtocol.valueOf(it) } ?: userData.transmissionProtocol

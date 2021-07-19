@@ -40,10 +40,9 @@ class ConnectionParamsOpenVpn(
     override val transmission get() = transmissionProtocol
 
     fun openVpnProfile(
-        context: Context,
         userData: UserData,
         appConfig: AppConfig
-    ) = VpnProfile(server.getLabel(context)).apply {
+    ) = VpnProfile(server.getLabel()).apply {
         mAuthenticationType = VpnProfile.TYPE_USERPASS
         mCaFilename = Constants.VPN_ROOT_CERTS
         mTLSAuthFilename = TLS_AUTH_KEY
