@@ -31,7 +31,7 @@ class VpnCountry(
     val flag: String,
     serverList: List<Server>,
     deliverer: ServerDeliver
-) : Markable, Serializable, Listable {
+) : Markable, Serializable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
 
@@ -78,8 +78,6 @@ class VpnCountry(
     override fun getMarkerText(): String = countryName
 
     override fun getConnectableServers(): List<Server> = serverList
-
-    override fun getLabel(context: Context): String = countryName
 
     fun isSecureCoreCountry(): Boolean = flag == "IS" || flag == "SE" || flag == "CH"
 }
