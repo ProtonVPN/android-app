@@ -47,10 +47,8 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
-import com.protonvpn.android.components.ProtonSpinner
 import com.protonvpn.android.components.ProtonSwitch
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.utils.Constants
@@ -67,8 +65,7 @@ import javax.inject.Inject
 @ContentLayout(R.layout.activity_settings)
 class SettingsActivity : BaseActivity() {
 
-    @BindView(R.id.spinnerDefaultConnection)
-    lateinit var spinnerDefaultConnection: ProtonSpinner<Profile>
+    @BindView(R.id.buttonDefaultProfile) lateinit var buttonDefaultProfile: SettingsItem
     @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: SettingsSwitch
     @BindView(R.id.textMTU) lateinit var textMTU: MaskedEditText
     @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: SettingsSwitch
@@ -134,10 +131,8 @@ class SettingsActivity : BaseActivity() {
             userPrefs.apiUseDoH = isChecked
         }
 
-        spinnerDefaultConnection.setItems(serverManager.getSavedProfiles())
-        spinnerDefaultConnection.selectedItem = serverManager.defaultConnection
-        spinnerDefaultConnection.setOnItemSelectedListener { item, _ ->
-            userPrefs.defaultConnection = item
+        buttonDefaultProfile.setOnClickListener {
+            navigateTo(SettingsDefaultProfileActivity::class.java)
         }
 
         var snackBar: Snackbar? = null
@@ -270,6 +265,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun onUserDataUpdated() {
+        buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
         buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
 

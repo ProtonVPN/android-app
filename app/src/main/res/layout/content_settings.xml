@@ -48,35 +48,13 @@
             android:textColor="@color/accountTitles"
             android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/textDefaultConnection"
+        <com.protonvpn.android.ui.drawer.SettingsItem
+            android:id="@+id/buttonDefaultProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/settingsDefaultConnectionTitle"
-            android:textColor="@color/lightGrey" />
-
-        <com.protonvpn.android.components.ProtonSpinner
-            android:id="@+id/spinnerDefaultConnection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/white"
-            android:theme="@style/TextLabel" />
-
-        <TextView
-            android:id="@+id/textDefaultConnectionDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:lineSpacingMultiplier="1.2"
-            android:text="@string/settingsDefaultConnectionDescription"
-            android:textColor="@color/white50" />
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            app:title="@string/settingsDefaultConnectionTitle"
+            app:infoText="@string/settingsDefaultConnectionDescription" />
 
         <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchAutoStart"

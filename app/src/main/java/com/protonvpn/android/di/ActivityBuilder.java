@@ -21,6 +21,7 @@ package com.protonvpn.android.di;
 import com.protonvpn.android.components.BootReceiver;
 import com.protonvpn.android.components.QuickTileService;
 import com.protonvpn.android.ui.ProtocolSelectionActivity;
+import com.protonvpn.android.ui.drawer.SettingsDefaultProfileActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeAppsActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeIpsActivity;
 import com.protonvpn.android.ui.home.InformationActivity;
@@ -68,6 +69,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract SettingsActivity bindSettingsActivity();
+
+    @ContributesAndroidInjector(modules = {SettingsModule.class})
+    abstract SettingsDefaultProfileActivity bindSettingsDefaultProfileActivity();
 
     @ContributesAndroidInjector(modules = {SettingsExcludeIpsActivityModule.class})
     abstract SettingsExcludeIpsActivity bindSettingsExcludeIpsActivity();

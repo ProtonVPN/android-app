@@ -33,14 +33,14 @@ public class SettingsRobot extends UIActionsTestHelper {
     }
 
     public SettingsRobot setFastestQuickConnection() {
-        clickOnObjectWithId(R.id.spinnerDefaultConnection);
+        clickOnObjectWithId(R.id.buttonDefaultProfile);
         clickOnObjectWithText("Fastest");
         checkIfObjectWithTextIsDisplayed("Fastest");
         return this;
     }
 
     public SettingsRobot setRandomQuickConnection() {
-        clickOnObjectWithId(R.id.spinnerDefaultConnection);
+        clickOnObjectWithId(R.id.buttonDefaultProfile);
         clickOnObjectWithText("Random");
         checkIfObjectWithTextIsDisplayed("Random");
         return this;
