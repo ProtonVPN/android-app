@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) 2021. Proton Technologies AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package com.protonvpn.android.ui.drawer
+
+import android.content.res.ColorStateList
+import android.os.Bundle
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.protonvpn.android.R
+import com.protonvpn.android.components.BaseActivityV2
+import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
+import com.protonvpn.android.databinding.ItemProfileSelectionBinding
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.ServerManager
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.databinding.BindableItem
+import javax.inject.Inject
+
+@ContentLayout(R.layout.activity_recycler_with_toolbar)
+class SettingsDefaultProfileActivity :
+    BaseActivityV2<ActivityRecyclerWithToolbarBinding, ViewModel>() {
+
+    @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var userData: UserData
+
+    override fun initViewModel() {
+        // No ViewModel.
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
+
+        val selectedProfile = serverManager.defaultConnection
+        val profiles = serverManager.getSavedProfiles()
+        val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
+            addAll(profiles.map { ProfileViewHolder(it, it == selectedProfile) })
+        }
+        groupAdapter.setOnItemClickListener { item, _ ->
+            userData.defaultConnection = (item as ProfileViewHolder).profile
+            finish()
+        }
+
+        with(binding.recyclerItems) {
+            adapter = groupAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private data class ProfileViewHolder(
+        val profile: Profile,
+        private val isSelected: Boolean
+    ) : BindableItem<ItemProfileSelectionBinding>() {
+        override fun bind(viewBinding: ItemProfileSelectionBinding, position: Int) {
+            with(viewBinding) {
+                radioProfile.text = profile.getDisplayName(root.context)
+                radioProfile.isChecked = isSelected
+
+                val iconRes = profile.profileSpecialIcon ?: R.drawable.ic_profile_custom
+                // Proton radio buttons use reverse layout, so put the icon as end drawable to have
+                // it on start.
+                radioProfile.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, iconRes, 0)
+                val compoundTintList = if (profile.profileColor != null) {
+                    val color = ContextCompat.getColor(root.context, profile.profileColor.colorRes)
+                    ColorStateList.valueOf(color)
+                } else {
+                    null
+                }
+                TextViewCompat.setCompoundDrawableTintList(radioProfile, compoundTintList)
+            }
+        }
+
+        override fun getLayout(): Int = R.layout.item_profile_selection
+    }
+}

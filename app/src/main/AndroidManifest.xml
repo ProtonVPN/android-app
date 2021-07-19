@@ -192,6 +192,9 @@
             android:name=".ui.drawer.SettingsActivity"
             android:label="@string/activitySettingsTitle" />
         <activity
+            android:name=".ui.drawer.SettingsDefaultProfileActivity"
+            android:label="@string/settingsDefaultConnectionTitle" />
+        <activity
             android:name=".ui.drawer.SettingsExcludeAppsActivity"
             android:label="@string/settingsExcludedApps" />
         <activity
