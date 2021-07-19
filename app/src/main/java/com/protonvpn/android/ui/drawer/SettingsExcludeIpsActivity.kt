@@ -58,12 +58,7 @@ class SettingsExcludeIpsActivity
         super.onCreate(savedInstanceState)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
-        val excludedIpsSection = Section().apply {
-            setHideWhenEmpty(true)
-        }
-        val excludedIpsAdapter = GroupAdapter<GroupieViewHolder>().apply {
-            add(excludedIpsSection)
-        }
+        val excludedIpsAdapter = GroupAdapter<GroupieViewHolder>()
 
         with(binding) {
             buttonAdd.setMinSizeTouchDelegate()
@@ -90,12 +85,20 @@ class SettingsExcludeIpsActivity
 
         val removeAction = { item: LabeledItem -> confirmRemove(item) }
         viewModel.ipAddresses.observe(this, Observer { excludedIps ->
-            val headerText =
-                getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
-            excludedIpsSection.setHeader(HeaderViewHolder(text = headerText))
-            excludedIpsSection.update(excludedIps.map {
-                LabeledItemActionViewHolder(it, R.drawable.ic_clear, removeAction)
-            }, true)
+            val groups = if (excludedIps.isNotEmpty()) {
+                val headerText =
+                    getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
+
+                val section = Section(HeaderViewHolder(text = headerText), excludedIps.map {
+                    LabeledItemActionViewHolder(it, R.drawable.ic_clear, removeAction)
+                })
+                listOf(section)
+            } else {
+                emptyList()
+            }
+            // Update the whole section to avoid calling Section.setHeader() and get thus get proper
+            // update notifications.
+            excludedIpsAdapter.updateAsync(groups)
         })
     }
 
