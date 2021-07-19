@@ -73,13 +73,13 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract SettingsDefaultProfileActivity bindSettingsDefaultProfileActivity();
 
-    @ContributesAndroidInjector(modules = {SettingsExcludeIpsActivityModule.class})
+    @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract SettingsExcludeIpsActivity bindSettingsExcludeIpsActivity();
 
-    @ContributesAndroidInjector(modules = {SettingsExcludeAppsActivityModule.class})
+    @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract SettingsExcludeAppsActivity bindSettingsExcludeAppsActivity();
 
-    @ContributesAndroidInjector(modules = {AlwaysOnSettingsActivityModule.class})
+    @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract AlwaysOnSettingsActivity bindAlwaysOnSettingsActivity();
 
     @ContributesAndroidInjector(modules = {ProfileActivityModule.class})
