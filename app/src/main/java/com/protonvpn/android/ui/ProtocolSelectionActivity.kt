@@ -29,13 +29,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
-import com.protonvpn.android.databinding.ActivityProtocolSelectionBinding
+import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 
-@ContentLayout(R.layout.activity_protocol_selection)
-class ProtocolSelectionActivity : BaseActivityV2<ActivityProtocolSelectionBinding, ViewModel>() {
+@ContentLayout(R.layout.activity_recycler_with_toolbar)
+class ProtocolSelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding, ViewModel>() {
 
     override fun initViewModel() {
         // No viewModel.
@@ -54,7 +54,7 @@ class ProtocolSelectionActivity : BaseActivityV2<ActivityProtocolSelectionBindin
             finish()
         }
 
-        with(binding.recyclerProtocols) {
+        with(binding.recyclerItems) {
             layoutManager = LinearLayoutManager(this@ProtocolSelectionActivity)
             adapter = protocolsAdapter
         }
