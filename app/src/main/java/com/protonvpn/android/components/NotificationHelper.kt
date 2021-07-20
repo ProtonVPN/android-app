@@ -172,12 +172,10 @@ class NotificationHelper(
                 expandedLayout.setViewVisibility(R.id.arrowFromSc, View.VISIBLE)
             }
             expandedLayout.setImageViewResource(
-                R.id.imageToCountry, CountryTools.getFlagResource(appContext, reconnectionInfo.fromCountry)
+                R.id.imageFromCountry, CountryTools.getFlagResource(appContext, reconnectionInfo.fromCountry)
             )
             expandedLayout.setImageViewResource(
-                R.id.imageFromCountry, CountryTools.getFlagResource(
-                    appContext, reconnectionInfo.toCountry
-                )
+                R.id.imageToCountry, CountryTools.getFlagResource(appContext, reconnectionInfo.toCountry)
             )
 
             notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
