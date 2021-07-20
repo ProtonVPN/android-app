@@ -267,7 +267,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
                         viewModel.reconnectToSameCountry(newProfile -> {
-                            vpnConnectionManager.connect(this, newProfile, "Secure Core switch");
+                            onConnect(newProfile, "Secure Core switch");
                             return Unit.INSTANCE;
                         });
                     })
@@ -580,18 +580,19 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Override
-    public void onConnect(@NotNull Profile profile) {
+    public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
         if ((secureCoreServer && !secureCoreOn) || (!secureCoreServer && secureCoreOn)) {
-            showSecureCoreChangeDialog(profile);
+            showSecureCoreChangeDialog(profile, connectionCauseLog);
         }
         else {
-            super.onConnect(profile);
+            super.onConnect(profile, connectionCauseLog);
         }
     }
 
-    private void showSecureCoreChangeDialog(Profile profileToConnect) {
+    private void showSecureCoreChangeDialog(
+            @NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         String disconnect =
             vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : ".";
         boolean isSecureCoreServer = profileToConnect.isSecureCore();
@@ -604,7 +605,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             .positiveText(R.string.yes)
             .negativeText(R.string.no)
             .negativeColor(ContextCompat.getColor(this, R.color.white))
-            .onPositive((dialog, which) -> super.onConnect(profileToConnect))
+            .onPositive((dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
             .show();
     }
 
