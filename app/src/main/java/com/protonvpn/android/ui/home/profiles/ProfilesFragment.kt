@@ -55,8 +55,8 @@ class ProfilesFragment : BaseFragmentV2<ProfilesViewModel, FragmentProfilesBindi
 
     override fun onViewCreated() {
         val adapter = GroupAdapter<GroupieViewHolder>()
-        val prebakedProfilesSection = Section(HeaderViewHolder(R.string.yourProfilesHeader))
-        val customProfilesSection = Section(HeaderViewHolder(R.string.recommendedProfilesHeader))
+        val prebakedProfilesSection = Section(HeaderViewHolder(R.string.recommendedProfilesHeader))
+        val customProfilesSection = Section(HeaderViewHolder(R.string.yourProfilesHeader))
         customProfilesSection.setHideWhenEmpty(true)
         adapter.add(prebakedProfilesSection)
         adapter.add(customProfilesSection)
