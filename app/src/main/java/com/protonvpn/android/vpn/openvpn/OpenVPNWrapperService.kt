@@ -25,6 +25,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -62,5 +63,10 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
                 ?: return false
         lastServer.profile.wrapper.setDeliverer(serverManager)
         return vpnConnectionManager.onRestoreProcess(this, lastServer.profile)
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        ProtonLogger.log("OpenVPNWrapperService: onTrimMemory level $level")
     }
 }

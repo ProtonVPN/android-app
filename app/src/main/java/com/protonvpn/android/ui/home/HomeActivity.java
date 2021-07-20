@@ -76,6 +76,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
@@ -217,6 +218,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             navigateTo(InformationActivity.class);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
     }
 
     private void showMigrationDialog() {
