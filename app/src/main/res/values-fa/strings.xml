@@ -399,8 +399,7 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="tv_server_list">لیست سرور</string>
   <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت‌های VPN را تا ٪۴۰۰ افزایش دهد</string>
-  <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
   <string name="dialogTitleReconnectionNeeded">اتصال مجدد لازم است</string>
   <string name="settingsSmartReconnectReconnectDialogContent">برای تغییر حالت VPN Accelerator اتصال شما باید دوباره راه‌اندازی شود.</string>

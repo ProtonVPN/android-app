@@ -413,8 +413,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="tv_server_list">Lista serwerów</string>
   <string name="tv_server_list_action_unavailable">Niedostępny</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">Funkcja VPN Accelerator udostępnia zestaw unikalnych technologii zwiększających wydajność, które mogą przyśpieszyć prędkość połączenia VPN do 400%</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, kiedy funkcja VPN Accelerator zmieni serwer na szybszy</string>
   <string name="dialogTitleReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Aby zmienić ustawienia funkcji VPN Accelerator, musisz ponownie nawiązać połączenie.</string>

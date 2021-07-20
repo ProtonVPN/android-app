@@ -427,7 +427,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_server_list">Server list</string>
     <string name="tv_server_list_action_unavailable">Unavailable</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speeds by up to 400%</string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
     <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
     <string name="dialogTitleReconnectionNeeded">Reconnection needed</string>

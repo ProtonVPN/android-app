@@ -399,8 +399,7 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="tv_server_list">Lista dei server</string>
   <string name="tv_server_list_action_unavailable">Non disponibile</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator abilita una serie di tecnologie uniche di miglioramento delle prestazioni che possono aumentare la velocità della VPN fino al 400%</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Ricevi una notifica quando VPN Accelerator ti passa a un server più veloce</string>
   <string name="dialogTitleReconnectionNeeded">Riconnessione necessaria</string>
   <string name="settingsSmartReconnectReconnectDialogContent">La tua connessione deve essere riavviata per cambiare la modalità VPN Accelerator.</string>
