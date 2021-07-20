@@ -26,6 +26,11 @@ import com.protonvpn.results.LogoutResult;
 import com.protonvpn.results.ProfilesResult;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
+import androidx.annotation.NonNull;
+
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static org.hamcrest.Matchers.endsWith;
+
 public class HomeRobot extends UIActionsTestHelper {
 
     public HomeRobot disableSecureCore() {
@@ -67,8 +72,13 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public ConnectionResult connectThroughQuickConnect() {
-        longClickOnObjectChildWithIdAndPosition(R.id.fabQuickConnect, 2);
-        clickOnObjectWithText("Fastest");
+        return connectThroughQuickConnect("Fastest");
+    }
+
+    public ConnectionResult connectThroughQuickConnect(@NonNull String profileName) {
+        // The last "FloatingActionButton" is the main one.
+        longClickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
+        clickOnObjectWithText(profileName);
         if (!MockSwitch.mockedConnectionUsed) {
             allowToUseVpn();
         }
@@ -116,9 +126,9 @@ public class HomeRobot extends UIActionsTestHelper {
         return new LogoutResult();
     }
 
-    public HomeRobot enableSecureCore() {
+    public HomeResult enableSecureCore() {
         setStateOfSecureCoreSwitch(true);
-        return this;
+        return new HomeResult();
     }
 
     public HomeResult clickButtonGotIt() {

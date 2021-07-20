@@ -19,6 +19,7 @@
 package com.protonvpn.results;
 
 import com.protonvpn.android.R;
+import com.protonvpn.testsHelper.ServiceTestHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class HomeResult extends UIActionsTestHelper {
@@ -47,6 +48,20 @@ public class HomeResult extends UIActionsTestHelper {
 
     public HomeResult upgradeButtonHasLink() {
         checkIfButtonOpensUrl(R.id.md_buttonDefaultPositive);
+        return this;
+    }
+
+    public HomeResult dialogUpgradeVisible() {
+        checkIfObjectWithTextIsDisplayed(R.string.restrictedSecureCoreTitle);
+        checkIfObjectWithTextIsDisplayed(R.string.restrictedSecureCore);
+        checkIfObjectWithTextIsDisplayed(R.string.upgrade);
+        return this;
+    }
+
+    public HomeResult checkSecureCoreDisabled() {
+        if (ServiceTestHelper.isSecureCoreEnabled()) {
+            throw new IllegalStateException("Secure core is enabled");
+        }
         return this;
     }
 }

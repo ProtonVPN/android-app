@@ -110,7 +110,7 @@ class HomeViewModel @Inject constructor(
         val newServer = if (exitCountry != null) {
             serverManager.getBestScoreServer(exitCountry)
         } else {
-            serverManager.getBestScoreServer()
+            serverManager.getBestScoreServer(userData.isSecureCoreEnabled)
         }
         if (newServer != null) {
             val newProfile = getTempProfile(newServer, serverManager)
