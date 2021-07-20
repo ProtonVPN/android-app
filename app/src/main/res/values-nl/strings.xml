@@ -399,8 +399,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN-Accelerator maakt een set van unieke prestaties verbetering technologieën mogelijk die VPN snelheid met tot 400% kunnen verhogen</string>
-  <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
+    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
   <string name="dialogTitleReconnectionNeeded">Opnieuw verbinden nodig</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Uw verbinding moet opnieuw worden gestart om de VPN-Accelerator-modus te wijzigen.</string>

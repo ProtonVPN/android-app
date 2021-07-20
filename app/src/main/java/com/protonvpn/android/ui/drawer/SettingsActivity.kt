@@ -187,6 +187,8 @@ class SettingsActivity : BaseActivity() {
     private fun initVpnAcceleratorToggles() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
+            switchVpnAccelerator.setDescription(HtmlTools.fromHtml(getString(
+                R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)))
             switchVpnAccelerator.switchProton.switchClickInterceptor = {
                 tryToggleVpnAccelerator()
                 true

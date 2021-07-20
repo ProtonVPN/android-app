@@ -60,6 +60,7 @@ object Constants {
     const val P2P_INFO_URL = "https://protonvpn.com/support/bittorrent-vpn/"
     const val TOR_INFO_URL = "https://protonvpn.com/support/tor-vpn/"
     const val SERVER_LOAD_INFO_URL = "https://protonvpn.com/support/server-load-percentages-and-colors-explained/"
+    const val VPN_ACCELERATOR_INFO_URL = "https://protonvpn.com/support/how-to-use-vpn-accelerator"
 
     init {
         if (ProtonApplication.getAppContext().isTV()) {
