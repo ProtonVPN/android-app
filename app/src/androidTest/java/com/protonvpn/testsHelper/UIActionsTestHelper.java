@@ -27,6 +27,7 @@ import com.azimolabs.conditionwatcher.Instruction;
 import com.protonvpn.android.R;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -122,6 +123,10 @@ public class UIActionsTestHelper {
 
         ViewInteraction object = onView(withResourceName(resourceName));
         return !object.equals(nullValue());
+    }
+
+    protected void longClickOnLastChildWithId(@IdRes final int id, @NonNull Matcher<View> childMatcher) {
+        onView(lastChild(withId(id), childMatcher)).perform(longClick());
     }
 
     protected void clickOnObjectChildWithIdAndPosition(@IdRes final int id, int position) {
@@ -388,6 +393,34 @@ public class UIActionsTestHelper {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    protected static Matcher<View> lastChild(
+        final Matcher<View> parentMatcher, final Matcher<View> childMatcher) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Last child ");
+                childMatcher.describeTo(description);
+                description.appendText(" in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup && parentMatcher.matches(parent)) {
+                    ViewGroup parentView = (ViewGroup) parent;
+                    for (int index = parentView.getChildCount() - 1; index >= 0; --index) {
+                        View child = parentView.getChildAt(index);
+                        if (childMatcher.matches(child))
+                            return view == child;
+                    }
+                }
+                return false;
+            }
+        };
     }
 
     private static Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position) {

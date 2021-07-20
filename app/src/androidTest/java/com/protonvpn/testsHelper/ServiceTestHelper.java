@@ -25,15 +25,20 @@ import android.os.Looper;
 
 import com.azimolabs.conditionwatcher.ConditionWatcher;
 import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.android.models.config.VpnProtocol;
+import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.conditions.NetworkInstruction;
 import com.protonvpn.mocks.MockVpnBackend;
+import com.protonvpn.test.shared.MockedServers;
 
 import org.strongswan.android.logic.VpnStateService;
 
+import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ServiceTestRule;
 
@@ -139,6 +144,26 @@ public class ServiceTestHelper {
     // TODO: move to the Unit tests part
     public void disconnectFromServer() {
         new Handler(Looper.getMainLooper()).postDelayed(() -> service.disconnect(), 100);
+    }
+
+    @NonNull
+    public static Profile addProfile(
+            @NonNull VpnProtocol protocol, @NonNull String name, @NonNull String serverDomain) {
+        Server server = null;
+        for (Server s : MockedServers.INSTANCE.getServerList()) {
+            if (s.getDomain().equals(serverDomain))
+                server = s;
+        }
+        if (server == null) {
+            throw new IllegalStateException("No mocked server for domain: " + serverDomain);
+        }
+        Profile profile = MockedServers.INSTANCE.getProfile(protocol, server, name);
+        new Handler(Looper.getMainLooper()).post(() -> helper.serverManager.addToProfileList(profile));
+        return profile;
+    }
+
+    public static void setDefaultProfile(@NonNull Profile profile) {
+        new Handler(Looper.getMainLooper()).post(() -> userData.setDefaultConnection(profile));
     }
 
     public static void deleteCreatedProfiles() {

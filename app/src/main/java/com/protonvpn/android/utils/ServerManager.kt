@@ -226,8 +226,8 @@ class ServerManager(
     fun getBestScoreServer(country: VpnCountry): Server? =
         getBestScoreServer(country.serverList)
 
-    fun getBestScoreServer(): Server? {
-        val countries = getExitCountries(userData.isSecureCoreEnabled)
+    fun getBestScoreServer(secureCore: Boolean): Server? {
+        val countries = getExitCountries(secureCore)
         val map = countries.asSequence()
                 .map(VpnCountry::serverList)
                 .mapNotNull(::getBestScoreServer)
@@ -308,7 +308,7 @@ class ServerManager(
 
     override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->
-            getBestScoreServer()
+            getBestScoreServer(userData.isSecureCoreEnabled)
         ProfileType.RANDOM ->
             getRandomServer()
         ProfileType.RANDOM_IN_COUNTRY ->

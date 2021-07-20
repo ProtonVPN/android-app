@@ -38,7 +38,7 @@ object MockedServers {
     val server by lazy { serverList.first() }
 
     fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
-        Profile(name, "", ServerWrapper.makeWithServer(server, object : ServerDeliver {
+        Profile(name, "#E01623", ServerWrapper.makeWithServer(server, object : ServerDeliver {
             override fun hasAccessToServer(server: Server?) = true
             override fun getServer(wrapper: ServerWrapper?): Server = server
         })).apply {

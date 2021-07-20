@@ -255,7 +255,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void initSecureCoreSwitch() {
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
-            if (vpnStateMonitor.isConnected() && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
+            if (!switchView.isChecked() && !userData.hasAccessToSecureCore()) {
+                showUpgradeDialog(true, false);
+                return true;
+            } else if (vpnStateMonitor.isConnected()
+                    && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
                 new MaterialDialog.Builder(getContext()).title(R.string.warning)
                     .theme(Theme.DARK)
                     .content(R.string.reconnectOnSecureCoreChangeDialogMessage)
@@ -583,10 +587,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
-        if ((secureCoreServer && !secureCoreOn) || (!secureCoreServer && secureCoreOn)) {
+        if (secureCoreServer && !userData.hasAccessToSecureCore()) {
+            showUpgradeDialog(true, false);
+        } else if (secureCoreServer != secureCoreOn) {
             showSecureCoreChangeDialog(profile, connectionCauseLog);
-        }
-        else {
+        } else {
             super.onConnect(profile, connectionCauseLog);
         }
     }

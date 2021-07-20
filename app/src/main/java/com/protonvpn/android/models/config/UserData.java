@@ -160,6 +160,10 @@ public final class UserData implements Serializable {
         return getVpnInfoResponse().getUserTier() > 1;
     }
 
+    public boolean hasAccessToSecureCore() {
+        return isUserPlusOrAbove();
+    }
+
     public int getUserTier() {
         return getVpnInfoResponse() != null ? getVpnInfoResponse().getUserTier() : 0;
     }
