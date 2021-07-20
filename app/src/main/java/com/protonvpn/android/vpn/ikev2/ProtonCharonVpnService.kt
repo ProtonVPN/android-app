@@ -31,6 +31,7 @@ import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -93,6 +94,11 @@ class ProtonCharonVpnService : CharonVpnService() {
             }
         }
         return START_NOT_STICKY
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        ProtonLogger.log("ProtonCharonVpnService: onTrimMemory level $level")
     }
 
     private fun handleRestoreState() {
