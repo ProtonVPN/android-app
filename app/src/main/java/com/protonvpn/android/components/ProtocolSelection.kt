@@ -25,12 +25,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemProtocolSelectionBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -60,7 +56,6 @@ class ProtocolSelection @JvmOverloads constructor(
         initialUseSmart: Boolean,
         initialManualProtocol: VpnProtocol,
         initialTransmissionProtocol: TransmissionProtocol,
-        showWireguardWarning: Boolean,
         changeCallback: () -> Unit
     ) = with(binding) {
         useSmart = initialUseSmart
@@ -80,29 +75,9 @@ class ProtocolSelection @JvmOverloads constructor(
                 ProtocolItem(VpnProtocol.WireGuard)))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
             val newProtocol = (item as ProtocolItem).protocol
-            if (showWireguardWarning && newProtocol == VpnProtocol.WireGuard) {
-                MaterialDialog.Builder(context).theme(Theme.DARK)
-                    .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
-                    .content(R.string.settingsDialogWireguardBetaWarningDescription)
-                    .positiveText(R.string.dialogContinue)
-                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        manualProtocol = newProtocol
-                        update()
-                        changeCallback()
-                    }
-                    .negativeText(R.string.cancel)
-                    .dismissListener {
-                        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
-                    }
-                    .onNegative { _: MaterialDialog?, _: DialogAction? ->
-                        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
-                    }
-                    .show()
-            } else {
-                manualProtocol = newProtocol
-                update()
-                changeCallback()
-            }
+            manualProtocol = newProtocol
+            update()
+            changeCallback()
         }
 
         spinnerTransmissionProtocol.setItems(
