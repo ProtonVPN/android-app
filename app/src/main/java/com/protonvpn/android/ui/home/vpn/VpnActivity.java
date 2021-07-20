@@ -45,6 +45,8 @@ import java.io.File;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 public abstract class VpnActivity extends BaseActivity {
@@ -83,10 +85,14 @@ public abstract class VpnActivity extends BaseActivity {
         }
     }
 
-    public void onConnect(Profile profileToConnect) {
+    public final void onConnect(@NonNull Profile profileToConnect) {
+        onConnect(profileToConnect, "mobile home screen (unspecified)");
+    }
+
+    public void onConnect(@NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
-            vpnConnectionManager.connect(this, profileToConnect, "mobile home screen (unspecified)");
+            vpnConnectionManager.connect(this, profileToConnect, connectionCauseLog);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
