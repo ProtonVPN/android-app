@@ -126,7 +126,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol,
-                userPrefs.transmissionProtocol, showWireguardWarning = true) {
+                userPrefs.transmissionProtocol) {
             userPrefs.useSmartProtocol = protocolSelection.useSmart
             userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
