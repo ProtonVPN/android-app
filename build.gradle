@@ -25,7 +25,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://dl.bintray.com/kotlin/kotlinx/" }
+        mavenCentral()
         google()
     }
     dependencies {
@@ -45,7 +45,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/kotlin/kotlinx/" }
+        mavenCentral()
         google()
         flatDir {
             dirs 'libs'
