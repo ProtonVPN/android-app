@@ -18,40 +18,32 @@
  */
 package com.protonvpn.actions
 
+import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.ui.drawer.SettingsItem
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.results.SettingsResults
 import com.protonvpn.tests.upgrade.UpgradeTestData
 import com.protonvpn.testsHelper.ConditionalActionsHelper
-import com.protonvpn.testsHelper.UIActionsTestHelper
 
-class SettingsRobot : UIActionsTestHelper() {
-    fun navigateBackToHomeScreen(): SettingsRobot {
-        clickOnObjectWithContentDescription("Navigate up")
-        waitUntilObjectWithTextAppearsInView("PROFILES")
-        return this
-    }
+class SettingsRobot : BaseRobot() {
+    fun navigateBackToHomeScreen(): SettingsRobot = clickElementByContentDescription("Navigate up")
 
-    fun setFastestQuickConnection(): SettingsRobot {
-        clickOnObjectWithId(R.id.buttonDefaultProfile)
-        clickOnObjectWithText("Fastest")
-        checkIfObjectWithTextIsDisplayed("Fastest")
-        return this
-    }
+    fun setFastestQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileFastest)
 
-    fun setRandomQuickConnection(): SettingsRobot {
-        clickOnObjectWithId(R.id.buttonDefaultProfile)
-        clickOnObjectWithText("Random")
-        checkIfObjectWithTextIsDisplayed("Random")
-        return this
+    fun setRandomQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileRandom)
+
+    fun openMtuSettings(): SettingsRobot {
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+            R.id.scrollView,
+            R.id.buttonMtuSize
+        )
+        return clickElement(R.id.buttonMtuSize, SettingsItem::class.java)
     }
 
     fun setMTU(mtu: Int): SettingsResults {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
-            R.id.scrollView,
-            R.string.settingsMtuDescription
-        )
-        insertTextIntoFieldWithId(R.id.textMTU, mtu.toString())
-        return SettingsResults()
+        clearText<SettingsResults>(R.id.inputMtu)
+        return setText(R.id.inputMtu, mtu.toString())
     }
 
     fun toggleSplitTunneling(): SettingsResults {
@@ -59,28 +51,28 @@ class SettingsRobot : UIActionsTestHelper() {
             R.id.scrollView,
             "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic."
         )
-        clickOnObjectWithText(R.string.settingsSplitTunnelingTitle)
-        return SettingsResults()
+        return clickElementByText(R.string.settingsSplitTunnelingTitle)
     }
 
-    fun openExcludedIPAddressesList(): SettingsRobot {
-        clickOnObjectWithContentDescription("Exclude IP addresses")
-        return this
-    }
+    fun openExcludedIPAddressesList(): SettingsRobot =
+        clickElementByContentDescription("Exclude IP addresses")
 
-    fun clickOnDoneButton(): SettingsRobot {
-        clickOnObjectWithText("DONE")
-        return this
-    }
+
+    fun clickOnDoneButton(): SettingsRobot = clickElementByText("DONE")
 
     fun addIpAddressInSplitTunneling(): SettingsRobot {
         openExcludedIPAddressesList()
-        insertTextIntoFieldWithContentDescription(
-            "Add IP Address",
-            UpgradeTestData.excludedIPAddress
-        )
-        clickOnObjectWithText("ADD")
-        clickOnDoneButton()
+        view
+            .withContentDesc("Add IP Address")
+            .typeText(UpgradeTestData.excludedIPAddress)
+        clickElementByText<SettingsRobot>("ADD")
+        return clickOnDoneButton()
+    }
+
+    private fun setQuickConnection(@StringRes profileName: Int): SettingsRobot {
+        clickElement<SettingsRobot>(R.id.buttonDefaultProfile, SettingsItem::class.java)
+        clickElementByText<SettingsRobot>(profileName)
+        view.withText(profileName).checkDisplayed()
         return this
     }
 }

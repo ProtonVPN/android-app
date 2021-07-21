@@ -58,4 +58,9 @@ public class SettingsResults extends UIActionsTestHelper {
         checkIfObjectWithTextIsDisplayed(UpgradeTestData.excludedIPAddress);
         return this;
     }
+
+    public SettingsResults checkIfMtuSaveIsDisabled() {
+        checkIfObjectWithIdIsDisabled(R.id.buttonSave);
+        return this;
+    }
 }

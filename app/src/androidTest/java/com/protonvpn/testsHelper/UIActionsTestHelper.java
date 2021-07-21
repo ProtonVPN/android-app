@@ -58,6 +58,7 @@ import static com.protonvpn.testsHelper.UICustomViewActions.waitObjectWithIdAndT
 import static com.protonvpn.testsHelper.UICustomViewActions.waitText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
@@ -178,6 +179,10 @@ public class UIActionsTestHelper {
     protected void clickOnObjectWithId(@IdRes int objectId) {
         ViewInteraction object = onView(Matchers.allOf(withId(objectId), isDisplayed()));
         object.perform(click());
+    }
+
+    protected void checkIfObjectWithIdIsDisabled(@IdRes int objectId) {
+        onView(withId(objectId)).check(matches(not(isEnabled())));
     }
 
     protected void checkIfObjectWithIdIsDisplayed(@IdRes int objectId) {
