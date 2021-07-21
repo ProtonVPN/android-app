@@ -238,12 +238,11 @@
 
         </LinearLayout>
 
-        <com.protonvpn.android.components.ProtonSwitch
+        <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonLicenses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:isButton="true"
-            app:textTitle="@string/activityLicensesTitle" />
+            app:title="@string/activityLicensesTitle" />
 
     </LinearLayout>
 

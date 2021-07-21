@@ -180,8 +180,7 @@
             android:label="@string/activityAccountTitle" />
         <activity
             android:name=".ui.drawer.OssLicensesActivity"
-            android:label="@string/activityLicensesTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activityLicensesTitle" />
         <activity
             android:name=".ui.home.InformationActivity"
             android:label="@string/activity_information_title" />
