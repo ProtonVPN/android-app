@@ -82,7 +82,7 @@ class SettingsActivity : BaseActivity() {
     @BindView(R.id.buttonExcludeIps) lateinit var buttonExcludeIps: SettingsItem
     @BindView(R.id.buttonExcludeApps) lateinit var buttonExcludeApps: SettingsItem
     @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: ProtonSwitch
-    @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: ProtonSwitch
+    @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: SettingsItem
     @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
     @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: SettingsSwitch
     @BindView(R.id.switchVpnAcceleratorNotifications) lateinit var switchVpnAcceleratorNotifications: SettingsSwitch
