@@ -46,6 +46,12 @@ open class BaseRobot : CoreRobot() {
                 .click()
     }
 
+    inline fun <reified T> clickElementByContentDescription(text: String): T = executeAndReturnRobot {
+        view
+                .withContentDesc(text)
+                .click()
+    }
+
     inline fun <reified T> clickElementByIdAndContentDescription(
         @IdRes id: Int,
         description: String
