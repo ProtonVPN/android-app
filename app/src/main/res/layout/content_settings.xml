@@ -141,44 +141,11 @@
             app:infoText="@string/settingsBypassLocalDetails"
             app:title="@string/settingsBypassLocalTitle" />
 
-        <TextView
-            android:id="@+id/textTitle"
+        <com.protonvpn.android.ui.drawer.SettingsItem
+            android:id="@+id/buttonMtuSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/settingsMtuSizeTitle"
-            android:textColor="@color/lightGrey" />
-
-        <br.com.sapereaude.maskedEditText.MaskedEditText
-            android:id="@+id/textMTU"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/settingsDefaultMtu"
-            android:imeOptions="actionDone"
-            android:inputType="phone"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white50"
-            app:allowed_chars="1234567890"
-            app:backgroundTint="@color/lightGrey"
-            app:char_representation="#"
-            app:keep_hint="true"
-            app:mask="####" />
-
-        <TextView
-            android:id="@+id/textMTUDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:lineSpacingMultiplier="1.2"
-            android:text="@string/settingsMtuDescription"
-            android:textColor="@color/white50" />
+            app:title="@string/settingsMtuSizeTitle" />
 
         <View
             android:id="@+id/divider"

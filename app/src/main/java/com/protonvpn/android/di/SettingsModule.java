@@ -25,6 +25,7 @@ import com.protonvpn.android.ui.drawer.SettingsActivity;
 import com.protonvpn.android.ui.drawer.SettingsDefaultProfileActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeAppsActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeIpsActivity;
+import com.protonvpn.android.ui.drawer.SettingsMtuActivity;
 
 import dagger.Binds;
 import dagger.Module;
@@ -35,7 +36,6 @@ public abstract class SettingsModule {
     @Binds
     abstract Activity provideActivity(SettingsActivity activity);
 
-    @Binds
     abstract Activity provideDefaultProfileActivity(SettingsDefaultProfileActivity activity);
 
     @Binds
@@ -46,4 +46,7 @@ public abstract class SettingsModule {
 
     @Binds
     abstract Activity provideAlwaysOnSettingsActivity(AlwaysOnSettingsActivity activity);
+
+    @Binds
+    abstract Activity provideSettingsMtuActivity(SettingsMtuActivity activity);
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/contentAppbar"
+            layout="@layout/content_appbar" />
+
+        <me.proton.core.presentation.ui.view.ProtonInput
+            android:id="@+id/inputMtu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:layout_marginTop="24dp"
+            android:digits="0123456789"
+            android:hint="@string/settingsDefaultMtu"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="4"
+            app:label="@string/settingsMtuSizeTitle" />
+
+        <TextView
+            style="@style/Proton.Text.Caption.Weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsMtuDescription" />
+
+        <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/saveButton"  />
+    </LinearLayout>
+
+</layout>

@@ -25,14 +25,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import br.com.sapereaude.maskedEditText.MaskedEditText
 import butterknife.BindView
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -44,7 +41,6 @@ import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
-import com.protonvpn.android.components.EditTextValidator
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.models.config.UserData
@@ -53,7 +49,6 @@ import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -66,7 +61,7 @@ class SettingsActivity : BaseActivity() {
 
     @BindView(R.id.buttonDefaultProfile) lateinit var buttonDefaultProfile: SettingsItem
     @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: SettingsSwitch
-    @BindView(R.id.textMTU) lateinit var textMTU: MaskedEditText
+    @BindView(R.id.buttonMtuSize) lateinit var buttonMtuSize: SettingsItem
     @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: SettingsSwitch
     @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: SettingsSwitch
     @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: SettingsSwitch
@@ -107,7 +102,6 @@ class SettingsActivity : BaseActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initSettings() {
         initOSRelatedVisibility()
-        initMTUField()
         buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
         switchAutoStart.isChecked = userPrefs.connectOnBoot
         switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
@@ -150,7 +144,8 @@ class SettingsActivity : BaseActivity() {
                 true
             } else false
         }
-        textMTU.setOnTouchListener(disableWhenConnectedListener)
+        buttonMtuSize.setOnTouchListener(disableWhenConnectedListener)
+        buttonMtuSize.setOnClickListener { navigateTo(SettingsMtuActivity::class.java) }
 
         buttonProtocol.setOnTouchListener(disableWhenConnectedListener)
         buttonProtocol.setOnClickListener {
@@ -218,35 +213,6 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun initMTUField() {
-        val defaultMtu = getString(R.string.settingsDefaultMtu).toInt()
-        textMTU.setText(if (userPrefs.mtuSize != defaultMtu) userPrefs.mtuSize.toString() else "")
-        textMTU.addTextChangedListener(object : EditTextValidator(textMTU) {
-            override fun validate(textView: EditText, text: String) {
-                val textToInt = if (text.isEmpty()) 0 else text.toInt()
-                if (textToInt < 1280 || textToInt > 1500) {
-                    textView.error = getString(R.string.settingsMtuRangeInvalid)
-                } else {
-                    textView.error = null
-                    val input =
-                            if (textMTU.rawText.isEmpty()) defaultMtu else textMTU.rawText.toInt()
-                    if (input in 1280..1500) {
-                        userPrefs.mtuSize = input
-                    }
-                }
-            }
-        })
-
-        textMTU.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard()
-                true
-            } else {
-                false
-            }
-        }
-    }
-
     private fun initOSRelatedVisibility() {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
@@ -267,6 +233,7 @@ class SettingsActivity : BaseActivity() {
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
         buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
+        buttonMtuSize.setValue(userPrefs.mtuSize.toString())
 
         loadExcludedAppsJob?.cancel()
         loadExcludedAppsJob = lifecycleScope.launch {

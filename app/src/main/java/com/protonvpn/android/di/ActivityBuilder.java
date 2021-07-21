@@ -24,6 +24,7 @@ import com.protonvpn.android.ui.ProtocolSelectionActivity;
 import com.protonvpn.android.ui.drawer.SettingsDefaultProfileActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeAppsActivity;
 import com.protonvpn.android.ui.drawer.SettingsExcludeIpsActivity;
+import com.protonvpn.android.ui.drawer.SettingsMtuActivity;
 import com.protonvpn.android.ui.home.InformationActivity;
 import com.protonvpn.android.ui.home.profiles.CountrySelectionActivity;
 import com.protonvpn.android.ui.home.profiles.ServerSelectionActivity;
@@ -81,6 +82,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract AlwaysOnSettingsActivity bindAlwaysOnSettingsActivity();
+
+    @ContributesAndroidInjector(modules = {SettingsModule.class})
+    abstract SettingsMtuActivity bindSettingsMtuActivity();
 
     @ContributesAndroidInjector(modules = {ProfileActivityModule.class})
     abstract ProfileActivity bindProfileActivity();

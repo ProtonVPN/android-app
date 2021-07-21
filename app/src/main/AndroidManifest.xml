@@ -201,6 +201,9 @@
             android:name=".ui.drawer.SettingsExcludeIpsActivity"
             android:label="@string/settingsExcludedIPAddresses" />
         <activity
+            android:name=".ui.drawer.SettingsMtuActivity"
+            android:label="@string/settingsMtuSizeTitle" />
+        <activity
             android:name=".ui.drawer.AlwaysOnSettingsActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
