@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -325,7 +326,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         String userName = userData.getUser();
         textUser.setText(userName);
         textUserInitials.setText(getInitials(userName));
-        textUserEmail.setText(userName + "@protonmail.com");
+        String userEmail = Patterns.EMAIL_ADDRESS.matcher(userName).matches()
+            ? userName
+            : userName + "@protonmail.com";
+        textUserEmail.setText(userEmail);
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
     }
 
