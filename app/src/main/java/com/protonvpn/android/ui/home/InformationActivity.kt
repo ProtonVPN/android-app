@@ -29,6 +29,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.textview.MaterialTextView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
@@ -78,7 +79,7 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
 
         addHeader(R.string.info_performance)
         addItem(R.drawable.ic_percent, R.string.server_load_title, R.string.server_load_description,
-            Constants.SERVER_LOAD_INFO_URL, customView = createServerLoadCustomView())
+            Constants.SERVER_LOAD_INFO_URL, customViewProvider = this::createServerLoadCustomView)
     }
 
     private fun setupStreamingInfo(country: String) {
@@ -89,14 +90,16 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
         addItem(R.drawable.ic_streaming, 0, R.string.streaming_services_description,
             Constants.STREAMING_INFO_URL,
             titleString = getString(R.string.streaming_title_with_country, countryName),
-            customView = createStreamingServicesCustomView(country))
+            customViewProvider = { parent -> createStreamingServicesCustomView(country, parent) })
     }
 
-    private fun createServerLoadCustomView() =
-        InfoServerLoadBinding.inflate(LayoutInflater.from(binding.root.context)).root
+    private fun createServerLoadCustomView(parent: ViewGroup) =
+        InfoServerLoadBinding.inflate(LayoutInflater.from(binding.root.context), parent, false).root
 
-    private fun createStreamingServicesCustomView(country: String): View {
-        val flexbox = StreamingInfoBinding.inflate(LayoutInflater.from(binding.root.context)).streamingIconsContainer
+    private fun createStreamingServicesCustomView(country: String, parent: ViewGroup): View {
+        val flexbox =
+            StreamingInfoBinding.inflate(LayoutInflater.from(binding.root.context), parent, false)
+                .streamingIconsContainer
 
         val dimStreamingIcons = !viewModel.isPlusUser()
         viewModel.streamingServices(country)?.let { services ->
@@ -106,7 +109,7 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
                     icon.alpha = STREAMING_ICON_DIM_ALPHA
                 icon.layoutParams = FlexboxLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
-                    STREAMING_ICON_HEIGHT
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 ).apply {
                     val margin = STREAMING_ICON_MARGINS
                     setMargins(margin, margin, margin, margin)
@@ -131,7 +134,7 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
         @StringRes descriptionRes: Int,
         url: String,
         titleString: String? = null,
-        customView: View? = null
+        customViewProvider: ((parent: ViewGroup) -> View)? = null
     ) {
         val list = binding.content.listLayout
         val infoBinding = InfoItemBinding.inflate(LayoutInflater.from(list.context), list, false)
@@ -142,9 +145,9 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
             learnMore.onClick {
                 openBrowserLink(url)
             }
-            if (customView != null) {
+            if (customViewProvider != null) {
                 customViewContainer.isVisible = true
-                customViewContainer.addView(customView)
+                customViewContainer.addView(customViewProvider(customViewContainer))
             }
         }
         list.addView(infoBinding.root)
@@ -152,8 +155,7 @@ class InformationActivity : BaseActivityV2<ActivityInformationBinding, Informati
 
     companion object {
         private const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
-        private val STREAMING_ICON_HEIGHT = 46.toPx()
-        private val STREAMING_ICON_MARGINS = 4.toPx()
+        private val STREAMING_ICON_MARGINS = 8.toPx()
         private const val STREAMING_ICON_DIM_ALPHA = 0.3f
 
         fun createIntent(context: Context, country: String) =

@@ -26,6 +26,7 @@
     android:id="@+id/streamingIconsContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     app:alignItems="center"
     app:flexWrap="wrap"
     app:flexDirection="row"

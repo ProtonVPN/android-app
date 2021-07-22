@@ -495,7 +495,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="server_load_title">Server Load</string>
     <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\nNote: Clear the cache of the streaming apps to ensure new content appears.</string>
+    <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
     <string name="activity_information_learn_more">Learn More</string>
     <string name="server_load_low">Low</string>
     <string name="server_load_medium">Medium</string>
