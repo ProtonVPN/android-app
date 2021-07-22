@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Это действие включит режим Secure Core%1$s Продолжить?</string>
   <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу, не поддерживающему Secure Core. Это действие выключит режим Secure Core%1$s Продолжить?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>разорвать текущее соединение</b>.]]></string>
-  <string name="disconnectDialogDescription">Это действие отключит Вас от текущего сеанса. Вы уверены, что хотите продолжить?</string>
   <string name="logoutDescription">Выход отключит ваше устройство от VPN-сервера.</string>
   <string name="showAllProfiles">Показать все профили</string>
   <string name="yes">Да</string>
