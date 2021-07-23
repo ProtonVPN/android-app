@@ -213,6 +213,7 @@ public final class UserData implements Serializable {
         return getVpnInfoResponse().getMaxSessionCount() <= currentSessionCount;
     }
 
+    @Nullable
     public Profile getDefaultConnection() {
         return defaultConnection;
     }

@@ -213,10 +213,19 @@ class ServerManager(
 
     val defaultFallbackConnection = getSavedProfiles()[0]
 
-    val defaultConnection: Profile get() = (if (userData.defaultConnection == null)
-                getSavedProfiles()[0] else userData.defaultConnection).also {
-        it.wrapper.setDeliverer(this)
-    }
+    val defaultConnection: Profile get() =
+        (userData.defaultConnection ?: getSavedProfiles().first()).also {
+            it.wrapper.setDeliverer(this)
+        }
+
+    val defaultAvailableConnection: Profile get() =
+        (listOf(userData.defaultConnection) + getSavedProfiles())
+            .filterNotNull()
+            .first { it.isSecureCore.implies(userData.hasAccessToSecureCore()) }
+            .also {
+                it.wrapper.setDeliverer(this)
+            }
+
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
