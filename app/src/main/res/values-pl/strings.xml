@@ -186,8 +186,6 @@
   <string name="secure_core">Secure Core</string>
   <string name="attachments">Załączniki</string>
   <string name="report_message">Treść zgłoszenia</string>
-  <string name="contact_email">E-mail kontaktowy</string>
-  <string name="your_message">Twoja wiadomość…</string>
   <string name="send_report">Wyślij raport</string>
   <string name="excludeIpTitle">Wyklucz adresy IP</string>
   <string name="discardChanges">Istnieją niezapisane zmiany. Czy na pewno chcesz je odrzucić?</string>

@@ -184,8 +184,6 @@
   <string name="secure_core">Secure Core</string>
   <string name="attachments">Archivos adjuntos</string>
   <string name="report_message">Mensaje del informe</string>
-  <string name="contact_email">Correo electrónico de contacto</string>
-  <string name="your_message">Tu mensaje…</string>
   <string name="send_report">Enviar informe</string>
   <string name="excludeIpTitle">Excluir direcciones IP</string>
   <string name="discardChanges">Hay cambios sin guardar. ¿Está seguro de que desea descartarlos?</string>

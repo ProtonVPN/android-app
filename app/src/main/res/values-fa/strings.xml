@@ -184,8 +184,6 @@
   <string name="secure_core">Secure core</string>
   <string name="attachments">پیوست‎ها</string>
   <string name="report_message">پیام گزارش</string>
-  <string name="contact_email">ایمیل</string>
-  <string name="your_message">پیام شما…</string>
   <string name="send_report">ارسال گزارش</string>
   <string name="excludeIpTitle">جدا کردن نشانی‌های IP</string>
   <string name="discardChanges">تغییرات ذخیره نشده‌ای وجود دارند. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟</string>
