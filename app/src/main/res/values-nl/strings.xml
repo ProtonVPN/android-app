@@ -184,8 +184,6 @@
   <string name="secure_core">Secure Core</string>
   <string name="attachments">Bijlagen</string>
   <string name="report_message">Rapporteer bericht</string>
-  <string name="contact_email">Contact e-mail</string>
-  <string name="your_message">Uw bericht…</string>
   <string name="send_report">Verstuur melding</string>
   <string name="excludeIpTitle">IP-adressen uitsluiten</string>
   <string name="discardChanges">Er zijn wijzigingen die nog niet zijn opgeslagen. Weet u zeker dat u deze niet wil opslaan?</string>
