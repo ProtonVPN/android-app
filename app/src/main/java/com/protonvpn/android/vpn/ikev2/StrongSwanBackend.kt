@@ -31,9 +31,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.NetUtils
-import com.protonvpn.android.utils.implies
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -119,10 +117,7 @@ class StrongSwanBackend(
         getVpnService().connect(null, true)
     }
 
-    override suspend fun disconnect() {
-        if (vpnService?.state != VpnStateService.State.DISABLED) {
-            vpnProtocolState = VpnState.Disconnecting
-        }
+    override suspend fun closeVpnTunnel() {
         vpnService?.disconnect()
         waitForDisconnect()
     }

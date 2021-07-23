@@ -39,6 +39,7 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -104,10 +105,11 @@ class WireguardBackend(
         }
     }
 
-    override suspend fun disconnect() {
-        if (selfState != VpnState.Disabled) {
-            selfStateObservable.value = VpnState.Disconnecting
-        }
+    override suspend fun closeVpnTunnel() {
+        // after setState call our process will be killed. Set state to disabled right away and give
+        // app some time to close the notification.
+        vpnProtocolState = VpnState.Disabled
+        delay(100)
         withContext(Dispatchers.IO) { backend.setState(testTunnel, Tunnel.State.DOWN, null) }
     }
 

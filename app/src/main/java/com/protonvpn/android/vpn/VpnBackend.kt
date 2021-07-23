@@ -87,7 +87,16 @@ abstract class VpnBackend(
         lastConnectionParams = connectionParams
     }
 
-    abstract suspend fun disconnect()
+    suspend fun disconnect() {
+        if (vpnProtocolState != VpnState.Disabled)
+            vpnProtocolState = VpnState.Disconnecting
+
+        closeAgentConnection()
+        closeVpnTunnel()
+    }
+
+    abstract suspend fun closeVpnTunnel()
+
     abstract suspend fun reconnect()
 
     open fun createAgentConnection(
