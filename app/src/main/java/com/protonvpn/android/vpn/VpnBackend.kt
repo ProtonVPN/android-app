@@ -269,6 +269,8 @@ abstract class VpnBackend(
             }
             agentConstants.stateServerCertificateError ->
                 VpnState.Error(ErrorType.PEER_AUTH_FAILED)
+            agentConstants.stateWaitingForNetwork ->
+                VpnState.WaitingForNetwork
             agentConstants.stateHardJailed, // Error will be handled in NativeClient.onError method
             agentConstants.stateSoftJailed,
             agentConstants.stateConnecting ->
