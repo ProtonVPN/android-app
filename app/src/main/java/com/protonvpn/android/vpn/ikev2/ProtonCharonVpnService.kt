@@ -115,6 +115,6 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connect(this, manager.defaultConnection, "always-on")
+        vpnConnectionManager.connect(this, manager.defaultAvailableConnection, "always-on")
     }
 }
