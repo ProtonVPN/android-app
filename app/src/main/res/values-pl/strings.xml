@@ -445,9 +445,6 @@
   <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, kiedy funkcja VPN Accelerator zmieni serwer na szybszy</string>
   <string name="dialogTitleReconnectionNeeded">Ponowne połączenie jest wymagane</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Aby zmienić ustawienia funkcji VPN Accelerator, musisz ponownie nawiązać połączenie.</string>
-  <string name="settingsSplitTunnelReconnectDialogContent">Your connection needs to be restarted to toggle split tunneling.</string>
-  <string name="settingsLanConnectionsReconnectDialogContent">Your connection needs to be restarted to toggle LAN connections.</string>
   <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
   <string name="notification_subscription_expired_title">Twoja subskrypcja planu ProtonVPN wygasła</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>

@@ -433,9 +433,6 @@
   <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
   <string name="dialogTitleReconnectionNeeded">اتصال مجدد لازم است</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">برای تغییر حالت VPN Accelerator اتصال شما باید دوباره راه‌اندازی شود.</string>
-  <string name="settingsSplitTunnelReconnectDialogContent">Your connection needs to be restarted to toggle split tunneling.</string>
-  <string name="settingsLanConnectionsReconnectDialogContent">Your connection needs to be restarted to toggle LAN connections.</string>
   <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
   <string name="notification_subscription_expired_title">اشتراک ProtonVPN شما به پایان رسیده است</string>
   <string name="notification_subscription_expired_content">ما مجبور بودیم تا اشتراک شما را تنزیل دهیم، اما در حال اتصال شما به سریع‌ترین سرور در آن اشتراک هستیم.</string>

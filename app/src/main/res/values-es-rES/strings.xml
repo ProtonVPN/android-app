@@ -433,9 +433,6 @@
   <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Recibe notificaciones cuando VPN Accelerator te cambie a un servidor más rápido</string>
   <string name="dialogTitleReconnectionNeeded">Reconexión necesaria</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Tu conexión debe reiniciarse para cambiar el modo VPN Accelerator.</string>
-  <string name="settingsSplitTunnelReconnectDialogContent">Es necesario reiniciar la conexión para activar el túnel dividido.</string>
-  <string name="settingsLanConnectionsReconnectDialogContent">Es necesario reiniciar la conexión para activar las conexiones LAN.</string>
   <string name="settingsReconnectToApplySettingsDialogContent">La nueva configuración se aplicará en la próxima conexión. ¿Volver a conectarse ahora?</string>
   <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
