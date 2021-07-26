@@ -28,8 +28,7 @@ import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -395,9 +394,9 @@ open class VpnConnectionManager(
 
     private fun protocolNotSupportedDialog(context: Context) {
         if (context is Activity) {
-            MaterialDialog.Builder(context).theme(Theme.DARK)
-                .content(R.string.serverNoWireguardSupport)
-                .positiveText(R.string.close)
+            MaterialAlertDialogBuilder(context)
+                .setMessage(R.string.serverNoWireguardSupport)
+                .setPositiveButton(R.string.close, null)
                 .show()
         } else {
             notificationHelper.showInformationNotification(

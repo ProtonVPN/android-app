@@ -24,10 +24,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
 import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -319,13 +318,12 @@ public class VpnStateFragment extends BaseFragment {
         showAuthError(getString(stringRes));
     }
 
-    private void showAuthError(CharSequence content) {
-        new MaterialDialog.Builder(requireActivity()).theme(Theme.DARK)
-            .title(R.string.dialogTitleAttention)
-            .content(content)
-            .cancelable(false)
-            .negativeText(R.string.close)
-            .onNegative((dialog, which) -> vpnConnectionManager.disconnect())
+    private void showAuthError(@NonNull CharSequence message) {
+        new MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.dialogTitleAttention)
+            .setMessage(message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.close, (dialog, which) -> vpnConnectionManager.disconnect())
             .show();
     }
 
