@@ -30,8 +30,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.components.IntentExtras
@@ -177,16 +176,14 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
             with(binding.contentProfile.buttonDelete) {
                 isVisible = true
                 setOnClickListener {
-                    MaterialDialog.Builder(this@ProfileActivity).theme(Theme.DARK)
-                        .title(R.string.warning)
-                        .content(R.string.deleteProfile)
-                        .positiveText(R.string.delete)
-                        .onPositive { _, _ ->
+                    MaterialAlertDialogBuilder(this@ProfileActivity)
+                        .setMessage(R.string.deleteProfile)
+                        .setPositiveButton(R.string.delete) { _, _ ->
                             viewModel.deleteProfile()
                             setResult(Activity.RESULT_OK)
                             finish()
                         }
-                        .negativeText(R.string.cancel)
+                        .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
             }
