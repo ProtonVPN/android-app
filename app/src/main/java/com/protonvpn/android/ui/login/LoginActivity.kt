@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.login
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
@@ -37,8 +38,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLoginBinding
@@ -94,10 +93,7 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
         buttonLogin.setOnClickListener { attemptLogin() }
         buttonCreateAccount.setOnClickListener { openUrl(SIGNUP_URL) }
         buttonNeedHelp.setOnClickListener {
-            val dialog =
-                MaterialDialog.Builder(this@LoginActivity).theme(Theme.DARK).title(R.string.loginNeedHelp)
-                    .customView(R.layout.dialog_help, true).negativeText(R.string.cancel).show()
-            initNeedHelpDialog(dialog.customView!!)
+            startActivity(Intent(this@LoginActivity, LoginHelpActivity::class.java))
         }
         buttonAssignVpnConnections.setOnClickListener { openUrl(URL_SUPPORT_ASSIGN_VPN_CONNECTION) }
         buttonReturnToLogin.setOnClickListener { viewModel.onBackToLogin() }
@@ -157,17 +153,6 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
             }
         }
         return super.dispatchTouchEvent(event)
-    }
-
-    private fun initNeedHelpDialog(view: View) {
-        view.findViewById<View>(R.id.buttonResetPassword)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/reset-password") }
-        view.findViewById<View>(R.id.buttonForgotUser)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/forgot-username") }
-        view.findViewById<View>(R.id.buttonLoginProblems)
-                .setOnClickListener { openUrl("https://protonvpn.com/support/login-problems/") }
-        view.findViewById<View>(R.id.buttonGetSupport)
-                .setOnClickListener { openUrl("https://protonvpn.com/support") }
     }
 
     private fun attemptLogin() = with(binding) {

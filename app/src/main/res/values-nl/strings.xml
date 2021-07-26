@@ -35,10 +35,6 @@
   <string name="connectionAllocationHelpDescription">Om uw verkenning in ProtonVPN te starten, moet u VPN-verbindingen aan uw account of een ander subaccount toewijzen.\n\nDeze stap neemt slechts een paar minuten in beslag. Daarna kunt u inloggen en al uw apparaten beschermen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
-  <string name="helpResetPassword">Wachtwoord herstellen</string>
-  <string name="helpForgotUser">Gebruikersnaam vergeten?</string>
-  <string name="helpCommonProblems">Bekende aanmeldproblemen</string>
-  <string name="helpGetSupport">Ondersteuning vragen</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Verbreken</string>
   <string name="mapSwitchSecureCore">Secure Core</string>
