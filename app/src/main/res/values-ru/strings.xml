@@ -445,9 +445,6 @@
   <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="dialogTitleReconnectionNeeded">Требуется переподключение</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Необходимо перезапустить ваше подключение для изменения режима VPN Accelerator.</string>
-  <string name="settingsSplitTunnelReconnectDialogContent">Для отключения раздельного туннелирования необходимо перезапустить соединение.</string>
-  <string name="settingsLanConnectionsReconnectDialogContent">Для запрета подключений в локальную сеть необходимо перезапустить соединение.</string>
   <string name="settingsReconnectToApplySettingsDialogContent">Новая настройка будет применена при следующем подключении. Переподключиться сейчас?</string>
   <string name="notification_subscription_expired_title">Срок вашей подписки на ProtonVPN истек</string>
   <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тарифный план, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифном плане.</string>

@@ -31,16 +31,13 @@ import android.widget.ScrollView
 import androidx.activity.result.ActivityResultCallback
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
@@ -259,7 +256,6 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleVpnAccelerator() {
         tryToggleSwitch(
-            R.string.settingsSmartReconnectReconnectDialogContent,
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
             userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
@@ -267,10 +263,7 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleSplitTunneling() {
-        tryToggleSwitch(
-            R.string.settingsSplitTunnelReconnectDialogContent,
-            !userPrefs.isSplitTunnelingConfigEmpty
-        ) {
+        tryToggleSwitch(!userPrefs.isSplitTunnelingConfigEmpty) {
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
             with(binding.contentSettings) {
                 if (switchShowSplitTunnel.isChecked) {
@@ -281,28 +274,23 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleBypassLocal() {
-        tryToggleSwitch(R.string.settingsLanConnectionsReconnectDialogContent) {
+        tryToggleSwitch {
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
         }
     }
 
     private fun tryToggleSwitch(
-        @StringRes reconnectDialogText: Int,
         needsReconnectIfConnected: Boolean = true,
         toggle: () -> Unit
     ) {
         if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
-            val builder = MaterialDialog.Builder(this).theme(Theme.DARK)
-            builder
-                .icon(ContextCompat.getDrawable(builder.context, R.drawable.ic_refresh)!!)
-                .title(R.string.dialogTitleReconnectionNeeded)
-                .content(reconnectDialogText)
-                .positiveText(R.string.reconnect)
-                .onPositive { _: MaterialDialog?, _: DialogAction? ->
+            MaterialAlertDialogBuilder(this)
+                .setMessage(R.string.settingsReconnectToChangeDialogContent)
+                .setPositiveButton(R.string.reconnect) { _, _ ->
                     toggle()
-                    connectionManager.fullReconnect(this)
+                    connectionManager.reconnect(this)
                 }
-                .negativeText(R.string.cancel)
+                .setNegativeButton(R.string.cancel, null)
                 .show()
         } else {
             toggle()
@@ -314,12 +302,12 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun onConnectionSettingsChanged() {
         if (stateMonitor.isEstablishingOrConnected) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                .title(R.string.dialogTitleReconnectionNeeded)
-                .content(R.string.settingsReconnectToApplySettingsDialogContent)
-                .positiveText(R.string.reconnect)
-                .onPositive { _, _ -> connectionManager.fullReconnect(this) }
-                .negativeText(R.string.cancel)
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.dialogTitleReconnectionNeeded)
+                .setMessage(R.string.settingsReconnectToApplySettingsDialogContent)
+                .setPositiveButton(R.string.reconnect) { _, _ ->
+                    connectionManager.fullReconnect(this) }
+                .setNegativeButton(R.string.cancel, null)
                 .show()
         }
     }

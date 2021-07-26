@@ -433,9 +433,6 @@
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator — Benachrichtigungen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn Sie durch „VPN Accelerator” mit einem schnelleren Server verbunden werden</string>
   <string name="dialogTitleReconnectionNeeded">Neuverbinden erforderlich</string>
-  <string name="settingsSmartReconnectReconnectDialogContent">Ihre Verbindung muss neu gestartet werden, um den Status des „VPN Accelerator“ ändern zu können.</string>
-  <string name="settingsSplitTunnelReconnectDialogContent">Ihre Verbindung muss neu aufgebaut werden, um „Split Tunneling” ein-/auszuschalten.</string>
-  <string name="settingsLanConnectionsReconnectDialogContent">Ihre Verbindung muss neu aufgebaut werden, um die LAN-Verbindungen zu aktivieren/deaktivieren.</string>
   <string name="settingsReconnectToApplySettingsDialogContent">Die neuen Einstellungen werden bei der nächsten Verbindung wirksam. Jetzt neu verbinden?</string>
   <string name="notification_subscription_expired_title">Ihr ProtonVPN-Abonnement ist ausgelaufen</string>
   <string name="notification_subscription_expired_content">Ihr Abonnement musste herabgestuft werden, aber sie werden dennoch mit dem schnellsten Server verbunden, der in diesem Abonnement verfügbar ist.</string>

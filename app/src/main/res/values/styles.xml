@@ -102,10 +102,6 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
-    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/dimmedGrey</item>
-    </style>
-
     <style name="SettingsItem">
         <item name="android:orientation">vertical</item>
         <item name="android:background">?attr/selectableItemBackground</item>
