@@ -26,8 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.models.config.UserData;
@@ -100,14 +99,16 @@ public abstract class VpnActivity extends BaseActivity {
     }
 
     protected void showUpgradeDialog(boolean secureCore, boolean isPlusServer) {
-        new MaterialDialog.Builder(this).theme(Theme.DARK)
-            .title(secureCore ? R.string.restrictedSecureCoreTitle :
+        new MaterialAlertDialogBuilder(this)
+            .setTitle(secureCore ? R.string.restrictedSecureCoreTitle :
                 isPlusServer ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)
-            .content(secureCore ? R.string.restrictedSecureCore :
+            .setMessage(secureCore ? R.string.restrictedSecureCore :
                 isPlusServer ? R.string.restrictedPlus : R.string.restrictedBasic)
-            .positiveText(R.string.upgrade)
-            .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
-            .negativeText(R.string.cancel)
+            .setPositiveButton(
+                R.string.upgrade,
+                (dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL)
+            )
+            .setNegativeButton(R.string.cancel, null)
             .show();
     }
 
@@ -115,10 +116,10 @@ public abstract class VpnActivity extends BaseActivity {
         if (server.getOnline()) {
             showUpgradeDialog(server.isSecureCoreServer(), server.isPlusServer());
         } else {
-            new MaterialDialog.Builder(this).theme(Theme.DARK)
-                .title(R.string.restrictedMaintenanceTitle)
-                .content(R.string.restrictedMaintenanceDescription)
-                .negativeText(R.string.cancel)
+            new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.restrictedMaintenanceTitle)
+                .setMessage(R.string.restrictedMaintenanceDescription)
+                .setNegativeButton(R.string.got_it, null)
                 .show();
         }
     }
