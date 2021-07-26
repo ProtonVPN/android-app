@@ -123,6 +123,14 @@
             </intent-filter>
         </service>
         <service
+            android:name=".vpn.wireguard.WireguardWrapperService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+        <service
             android:name=".components.QuickTileService"
             android:icon="@drawable/ic_proton"
             android:label="Quick connect"

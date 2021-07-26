@@ -54,6 +54,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.wireguard.android.backend.GoBackend
 import dagger.Binds
 import dagger.Module
@@ -322,7 +323,7 @@ class AppModule {
             ),
             WireguardBackend(
                 ProtonApplication.getAppContext(),
-                GoBackend(ProtonApplication.getAppContext()),
+                GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
                 networkManager,
                 userData,
                 appConfig,
