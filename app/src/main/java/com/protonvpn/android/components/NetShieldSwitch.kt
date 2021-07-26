@@ -19,6 +19,7 @@
 package com.protonvpn.android.components
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
@@ -29,16 +30,14 @@ import android.view.LayoutInflater
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.databinding.DialogContentWithCheckboxBinding
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
@@ -142,28 +141,26 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
-    private fun showReconnectDialog(isRadioButton: Boolean, changeCallback: (agreedToChange: Boolean) -> Unit) {
-        MaterialDialog.Builder(context).theme(Theme.DARK)
-            .checkBoxPrompt(context.getString(R.string.dialogDontShowAgain), false, null)
-            .icon(getDrawable(context, R.drawable.ic_refresh)!!)
-            .canceledOnTouchOutside(false)
-            .title(R.string.netShieldReconnectionNeeded)
-            .content(
-                if (!isSwitchedOn || isRadioButton)
-                    R.string.netShieldReconnectionDescription
-                else
-                    R.string.netShieldReconnectionDescriptionDisabling
-            )
-            .positiveText(R.string.reconnect)
-            .onPositive { dialog, _ ->
-                val dontShowAgain = dialog.isPromptCheckBoxChecked
-                Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !dontShowAgain)
-                changeCallback(true)
-            }
-            .negativeText(R.string.cancel)
-            .onNegative { _, _ ->
-                changeCallback(false)
-            }.show()
+    private fun showReconnectDialog(changeCallback: (agreedToChange: Boolean) -> Unit) {
+        val dialogBuilder = MaterialAlertDialogBuilder(context)
+
+        val contentBinding =
+            DialogContentWithCheckboxBinding.inflate(LayoutInflater.from(dialogBuilder.context))
+        contentBinding.textMessage.setText(R.string.settingsReconnectToChangeDialogContent)
+        contentBinding.checkboxDontShowAgain.setText(R.string.dialogDontShowAgain)
+
+        val onReconnect = DialogInterface.OnClickListener { _, _ ->
+            val dontShowAgain = contentBinding.checkboxDontShowAgain.isChecked
+            Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !dontShowAgain)
+            changeCallback(true)
+        }
+
+        dialogBuilder
+            .setPositiveButton(R.string.reconnect, onReconnect)
+            .setNegativeButton(R.string.cancel) { _, _ -> changeCallback(false) }
+            .setCancelable(false)
+            .setView(contentBinding.root)
+            .show()
     }
 
     fun init(
@@ -200,7 +197,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                         stateMonitor.connectionProtocol?.localAgentEnabled() == false
 
                 if (stateMonitor.isConnected && needsReconnectDialog) {
-                    showReconnectDialog(this is RadioButtonEx) { agreedToReconnect ->
+                    showReconnectDialog { agreedToReconnect ->
                         if (agreedToReconnect) {
                             isChecked = !isChecked
                             onStateChange(currentState)
@@ -248,17 +245,15 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun showUpgradeDialog() {
-        MaterialDialog.Builder(context).theme(Theme.DARK)
-            .icon(getDrawable(context, R.drawable.ic_upgrade)!!)
-            .title(R.string.upgradeRequired)
-            .content(R.string.netShieldPaidFeature)
-            .positiveText(R.string.upgrade)
-            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.upgradeRequired)
+            .setMessage(R.string.netShieldPaidFeature)
+            .setPositiveButton(R.string.upgrade) { _, _ ->
                 val browserIntent = Intent(Intent.ACTION_VIEW,
                     Uri.parse(Constants.DASHBOARD_URL))
                 context.startActivity(browserIntent)
             }
-            .negativeText(R.string.cancel)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
