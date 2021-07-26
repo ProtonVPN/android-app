@@ -29,9 +29,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivitySettingsExcludeIpsBinding
@@ -127,12 +125,10 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
     }
 
     private fun confirmRemove(item: LabeledItem) {
-        MaterialDialog.Builder(this).theme(Theme.DARK)
-            .title(R.string.warning)
-            .content(R.string.removeExcludedIpDialogDescription)
-            .positiveText(R.string.yes)
-            .onPositive { _: MaterialDialog?, _: DialogAction? -> viewModel.removeAddress(item) }
-            .negativeText(R.string.cancel)
+        MaterialAlertDialogBuilder(this)
+            .setMessage(R.string.removeExcludedIpDialogDescription)
+            .setPositiveButton(R.string.remove) { _, _ -> viewModel.removeAddress(item) }
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

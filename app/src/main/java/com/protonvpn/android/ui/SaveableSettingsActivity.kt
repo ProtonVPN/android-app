@@ -27,8 +27,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.utils.launchAndCollectIn
@@ -80,12 +79,10 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
     }
 
     private fun showDiscardChangesDialog() {
-        MaterialDialog.Builder(this).theme(Theme.DARK)
-            .title(R.string.warning)
-            .content(R.string.discardChanges)
-            .positiveText(R.string.discard)
-            .onPositive { _, _ -> viewModel.onDiscardChanges() }
-            .negativeText(R.string.cancel)
+        MaterialAlertDialogBuilder(this)
+            .setMessage(R.string.discardChanges)
+            .setPositiveButton(R.string.discard) { _, _ -> viewModel.onDiscardChanges() }
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

@@ -202,6 +202,7 @@
     <string name="error_generic">Unspecified failure while connecting.</string>
     <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Reconnect</string>
+    <string name="reconnect_now">Reconnect now</string>
     <string name="connect">Connect</string>
     <string name="upgrade">Upgrade</string>
     <string name="retry">Retry</string>
@@ -226,7 +227,7 @@
     <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
     <string name="send_report">Send report</string>
     <string name="excludeIpTitle">Exclude IP Addresses</string>
-    <string name="discardChanges">There are unsaved changes. Are you sure you want to discard them?</string>
+    <string name="discardChanges">Discard unsaved changes?</string>
     <string name="discard">Discard</string>
     <string name="selectedProfileColor">Please select color for your profile</string>
     <string name="excludeIpDescription">Add IP addresses you want to exclude from the VPN traffic.</string>
@@ -241,6 +242,7 @@
     <string name="try_again">Try again</string>
     <string name="manage">Manage</string>
     <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
     <string name="deleteProfileButton">Delete profile</string>
     <string name="deleteProfile">Are you sure you want to delete this profile?</string>
     <string name="doneButton">Done</string>
@@ -306,7 +308,7 @@
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Cannot change this while connected</string>
     <string name="excludeAlreadyExcluded">Already excluded</string>
-    <string name="removeExcludedIpDialogDescription">Are you sure you want to remove this IP from the list?</string>
+    <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
     <string name="loaderFetchingServers">Fetching servers…</string>
     <string name="toastProfileSaved">Saved</string>
     <string name="freeTrialExpiredTitle">ProtonVPN Plus Trial Expired</string>
@@ -460,8 +462,7 @@
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
     <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
-    <string name="dialogTitleReconnectionNeeded">Reconnection needed</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
+    <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
     <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
 
     <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>

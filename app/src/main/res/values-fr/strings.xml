@@ -429,7 +429,6 @@
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator active un ensemble de technologies uniques pour améliorer les performances qui peuvent augmenter les vitesses VPN jusqu\'à 400 %%. <a href="%1$s">En savoir plus</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Notifications VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Soyez averti lorsque VPN Accelerator vous permet de passer à un serveur plus rapide</string>
-  <string name="dialogTitleReconnectionNeeded">Reconnexion nécessaire</string>
   <string name="settingsReconnectToApplySettingsDialogContent">Les nouveaux paramètres seront appliqués à la prochaine connexion. Se reconnecter maintenant ?</string>
   <string name="notification_subscription_expired_title">Votre abonnement ProtonVPN a expiré</string>
   <string name="notification_subscription_expired_content">Nous avons dû rétrograder votre abonnement, mais nous vous reconnectons au serveur le plus rapide disponible sur cet abonnement.</string>
