@@ -244,7 +244,7 @@
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="deleteProfileButton">Delete profile</string>
-    <string name="deleteProfile">Are you sure you want to delete this profile?</string>
+    <string name="deleteProfile">Delete profile?</string>
     <string name="doneButton">Done</string>
     <string name="saveButton">Save</string>
     <string name="recommendedHeader">Recommended</string>
