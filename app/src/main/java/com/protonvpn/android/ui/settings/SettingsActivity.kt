@@ -303,9 +303,8 @@ class SettingsActivity : BaseActivityV2() {
     private fun onConnectionSettingsChanged() {
         if (stateMonitor.isEstablishingOrConnected) {
             MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.dialogTitleReconnectionNeeded)
                 .setMessage(R.string.settingsReconnectToApplySettingsDialogContent)
-                .setPositiveButton(R.string.reconnect) { _, _ ->
+                .setPositiveButton(R.string.reconnect_now) { _, _ ->
                     connectionManager.fullReconnect(this) }
                 .setNegativeButton(R.string.cancel, null)
                 .show()
