@@ -35,6 +35,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.vpn.openvpn.OpenVPNWrapperService;
 import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
+import com.protonvpn.android.vpn.wireguard.WireguardWrapperService;
 
 import androidx.annotation.RequiresApi;
 import dagger.Module;
@@ -89,6 +90,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {OpenVPNWrapperModule.class})
     abstract OpenVPNWrapperService bindOpenVPN();
+
+    @ContributesAndroidInjector(modules = {WireguardWrapperModule.class})
+    abstract WireguardWrapperService bindWireguardWrapper();
 
     @ContributesAndroidInjector(modules = {BootUpModule.class})
     abstract BootReceiver bindBootReceiver();
