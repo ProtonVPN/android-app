@@ -35,10 +35,6 @@
   <string name="connectionAllocationHelpDescription">Przypisz połączenia VPN do swojego konta ProtonVPN.\n\nTen krok zajmie tylko kilka minut. Po tym kroku, będziesz mógł zalogować się i chronić wszystkie swoje urządzenia.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Przypisz połączenia VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Zaloguj się ponownie</string>
-  <string name="helpResetPassword">Zresetuj hasło</string>
-  <string name="helpForgotUser">Nie pamiętasz nazwy użytkownika?</string>
-  <string name="helpCommonProblems">Typowe problemy z logowaniem</string>
-  <string name="helpGetSupport">Uzyskaj pomoc</string>
   <string name="mapCalloutConnect">Połącz</string>
   <string name="mapCalloutDisconnect">Rozłącz</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

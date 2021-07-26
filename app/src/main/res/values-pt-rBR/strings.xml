@@ -35,10 +35,6 @@
   <string name="connectionAllocationHelpDescription">Para iniciar sua jornada no ProtonVPN, atribua conexões VPN à sua conta ou qualquer outra subconta.\n\nEsta etapa levará apenas alguns minutos. Depois disso, você poderá fazer login e proteger todos os seus dispositivos.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Atribuir conexões VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Entrar novamente</string>
-  <string name="helpResetPassword">Redefinir senha</string>
-  <string name="helpForgotUser">Esqueceu o seu nome de usuário?</string>
-  <string name="helpCommonProblems">Problemas comuns para iniciar sessão</string>
-  <string name="helpGetSupport">Obter suporte</string>
   <string name="mapCalloutConnect">Conectar</string>
   <string name="mapCalloutDisconnect">Desconectar</string>
   <string name="mapSwitchSecureCore">Seguro Core</string>

@@ -26,11 +26,11 @@ import com.protonvpn.test.shared.TestUser
 class LoginFormResult(private var user: TestUser? = null) : BaseRobot() {
 
     fun helpMenuIsVisible(): LoginFormResult {
-        // Checks if the buttons exist.
-        view.withId(R.id.buttonResetPassword).checkDisplayed()
-        view.withId(R.id.buttonForgotUser).checkDisplayed()
-        view.withId(R.id.buttonLoginProblems).checkDisplayed()
-        view.withId(R.id.buttonGetSupport).checkDisplayed()
+        // Checks if the items exist.
+        view.withId(R.id.textForgotUsername).checkDisplayed()
+        view.withId(R.id.textForgotPassword).checkDisplayed()
+        view.withId(R.id.textOtherIssues).checkDisplayed()
+        view.withId(R.id.textCustomerSupport).checkDisplayed()
 
         //clicks the Cancel button
         clickElement<LoginFormResult>(view

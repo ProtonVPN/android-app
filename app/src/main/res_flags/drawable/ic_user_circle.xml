@@ -1,0 +1,32 @@
+<!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:fillType="evenOdd"
+        android:pathData="M5,7C5,5.3432 6.3431,4 8,4C9.6568,4 11,5.3432 11,7C11,8.6569 9.6568,10 8,10C6.3431,10 5,8.6569 5,7ZM6,7C6,8.1046 6.8954,9 8,9C8.5304,9 9.0391,8.7893 9.4142,8.4142C9.7893,8.0392 10,7.5305 10,7C10,5.8955 9.1046,5 8,5C6.8954,5 6,5.8955 6,7Z" />
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:fillType="evenOdd"
+        android:pathData="M9.8842,1.2536C12.9103,2.0994 15.0021,4.8579 15,8C15.0197,9.7933 14.3503,11.5258 13.13,12.84L12.63,13.28C12.4703,13.4218 12.3034,13.5553 12.13,13.68C11.1047,14.4294 9.8948,14.8857 8.63,15H8C6.3089,14.9804 4.6807,14.3561 3.41,13.24L2.9,12.79C0.7477,10.5008 0.3846,7.0579 2.0119,4.37C3.6391,1.6821 6.8581,0.4078 9.8842,1.2536ZM10.86,13.21C10.9875,13.1477 11.1111,13.0775 11.23,13L11.4,12.92L9.91,12H6.09L4.6,12.88L4.77,13C4.89,13.08 5.02,13.15 5.15,13.22L5.58,13.43C5.7727,13.5136 5.9696,13.5871 6.17,13.65H6.31C7.4153,13.9599 8.5846,13.9599 9.69,13.65H9.84C9.9981,13.6001 10.1562,13.5363 10.3201,13.4702C10.3531,13.4569 10.3864,13.4435 10.42,13.43L10.86,13.21ZM10.23,10.96L12.23,12.21V12.25C13.3617,11.1251 13.9986,9.5957 14,8C14.0383,5.2652 12.2222,2.8505 9.5841,2.1287C6.9459,1.4068 4.1535,2.5605 2.7941,4.934C1.4347,7.3074 1.8525,10.2997 3.81,12.21L5.81,10.96H10.23Z" />
+</vector>

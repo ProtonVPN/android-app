@@ -35,10 +35,6 @@
   <string name="connectionAllocationHelpDescription">Um Ihre Reise mit ProtonVPN zu beginnen, weisen Sie bitte Ihrem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.\n\nDieser Schritt wird nur wenige Minuten dauern. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen zuweisen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Erneut anmelden</string>
-  <string name="helpResetPassword">Passwort zurücksetzen</string>
-  <string name="helpForgotUser">Benutzername vergessen?</string>
-  <string name="helpCommonProblems">Häufige Anmeldeprobleme</string>
-  <string name="helpGetSupport">Hilfe erhalten</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Trennen</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

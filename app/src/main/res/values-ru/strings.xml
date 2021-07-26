@@ -35,10 +35,6 @@
   <string name="connectionAllocationHelpDescription">Чтобы начать ваше путешествие в ProtonVPN, пожалуйста, привяжите VPN-подключения к своей учетной записи или к любой другой дополнительной учетной записи.\n\nЭтот шаг займет всего несколько минут. После этого вы сможете войти и защитить все ваши устройства.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
   <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
-  <string name="helpResetPassword">Сбросить пароль</string>
-  <string name="helpForgotUser">Забыли имя пользователя?</string>
-  <string name="helpCommonProblems">Распространённые проблемы входа</string>
-  <string name="helpGetSupport">Получить поддержку</string>
   <string name="mapCalloutConnect">Подключиться</string>
   <string name="mapCalloutDisconnect">Отключиться</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

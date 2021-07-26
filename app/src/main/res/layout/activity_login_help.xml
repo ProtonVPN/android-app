@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close" />
+
+        <TextView
+            style="@style/Proton.Text.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="@string/loginHelpTitle" />
+
+        <TextView
+            android:id="@+id/textForgotUsername"
+            style="@style/Proton.Text.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="12dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingVertical="12dp"
+            android:text="@string/loginHelpForgotUsername"
+            app:drawableStartCompat="@drawable/ic_user_circle" />
+
+        <TextView
+            android:id="@+id/textForgotPassword"
+            style="@style/Proton.Text.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="12dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingVertical="12dp"
+            android:text="@string/loginHelpForgotPassword"
+            app:drawableStartCompat="@drawable/ic_key" />
+
+        <TextView
+            android:id="@+id/textOtherIssues"
+            style="@style/Proton.Text.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="12dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingVertical="12dp"
+            android:text="@string/loginHelpOtherIssues"
+            app:drawableStartCompat="@drawable/ic_question_circle" />
+
+        <TextView
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/helpCustomerSupportTitle" />
+
+        <TextView
+            android:id="@+id/textCustomerSupport"
+            style="@style/Proton.Text.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="12dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingVertical="12dp"
+            android:text="@string/helpCustomerSupport"
+            app:drawableStartCompat="@drawable/ic_comments" />
+
+    </LinearLayout>
+
+</layout>
