@@ -58,12 +58,10 @@ class LogoutResult(val user: TestUser? = null) : BaseRobot() {
     fun warningMessageIsDisplayed(): HomeRobot {
         //check if warning message is displayed
         view
-            .withId(R.id.md_title)
-            .withText(R.string.warning)
+            .withText(R.string.logoutConfirmDialogTitle)
             .checkDisplayed()
         view
-            .withId(R.id.md_content)
-            .withText("Logging out will disconnect your device from the VPN server.")
+            .withText(R.string.logoutConfirmDialogMessage)
             .checkDisplayed()
         return HomeRobot()
     }

@@ -257,7 +257,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectSecureCoreEntryCountryForSecondExit();
         profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
         ProfilesResult result = profilesRobot.clickOnConnectButton(profileName).isDisconnectedFromVpn().profilesResult;
-        result.connectingToSecureCoreWarning().clickYesButton().isConnectedToVpn();
+        result.connectingToSecureCoreWarning().clickScConnectButton().isConnectedToVpn();
 
         new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();
     }

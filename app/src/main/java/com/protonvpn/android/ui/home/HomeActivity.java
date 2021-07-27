@@ -32,11 +32,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.color.MaterialColors;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
@@ -240,15 +239,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 showUpgradeDialog(true, false);
                 return true;
             } else if (vpnStateMonitor.isConnected()
-                    && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
-                new MaterialDialog.Builder(getContext()).title(R.string.warning)
-                    .theme(Theme.DARK)
-                    .content(R.string.reconnectOnSecureCoreChangeDialogMessage)
-                    .cancelable(false)
-                    .positiveText(R.string.dialogContinue)
-                    .negativeText(R.string.cancel)
-                    .negativeColor(ContextCompat.getColor(this, R.color.white))
-                    .onPositive((dialog, which) -> {
+                && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
+                new MaterialAlertDialogBuilder(getContext())
+                    .setMessage(R.string.settingsReconnectToChangeDialogContent)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.reconnect, (dialog, which) -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
                         viewModel.reconnectToSameCountry(newProfile -> {
@@ -256,6 +251,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                             return Unit.INSTANCE;
                         });
                     })
+                    .setNegativeButton(R.string.cancel, null)
                     .show();
                 return true;
             }
@@ -379,12 +375,11 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @OnClick(R.id.drawerButtonLogout)
     public void drawerButtonLogout() {
         if (vpnStateMonitor.isConnected()) {
-            new MaterialDialog.Builder(this).theme(Theme.DARK)
-                .title(R.string.warning)
-                .content(R.string.logoutDescription)
-                .positiveText(R.string.ok)
-                .onPositive((dialog, which) -> logoutHandler.logout(false))
-                .negativeText(R.string.cancel)
+            new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.logoutConfirmDialogTitle)
+                .setMessage(R.string.logoutConfirmDialogMessage)
+                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> logoutHandler.logout(false))
+                .setNegativeButton(R.string.cancel, null)
                 .show();
         }
         else {
@@ -647,18 +642,17 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void showSecureCoreChangeDialog(
             @NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         String disconnect =
-            vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : ".";
+            vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : "";
         boolean isSecureCoreServer = profileToConnect.isSecureCore();
-        new MaterialDialog.Builder(this).title(R.string.warning)
-            .theme(Theme.DARK)
-            .content(HtmlTools.fromHtml(
+        new MaterialAlertDialogBuilder(this)
+            .setTitle(isSecureCoreServer ? R.string.secureCoreSwitchOnTitle : R.string.secureCoreSwitchOffTitle)
+            .setMessage(
                 getString(isSecureCoreServer ? R.string.secureCoreSwitchOn : R.string.secureCoreSwitchOff,
-                    disconnect)))
-            .cancelable(false)
-            .positiveText(R.string.yes)
-            .negativeText(R.string.no)
-            .negativeColor(ContextCompat.getColor(this, R.color.white))
-            .onPositive((dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
+                    disconnect))
+            .setCancelable(false)
+            .setPositiveButton(R.string.secureCoreSwitchConnect,
+                (dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
+            .setNegativeButton(R.string.cancel, null)
             .show();
     }
 
