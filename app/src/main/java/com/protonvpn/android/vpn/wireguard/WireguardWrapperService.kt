@@ -18,23 +18,49 @@ package com.protonvpn.android.vpn.wireguard
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import android.content.Intent
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
 import dagger.android.AndroidInjection
+import org.strongswan.android.logic.CharonVpnService
 import javax.inject.Inject
 
 class WireguardWrapperService : GoBackend.VpnService() {
 
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var wireguardBackend: WireguardBackend
+    @Inject lateinit var connectionManager: VpnConnectionManager
+    @Inject lateinit var serverManager: ServerManager
 
     override fun onCreate() {
         super.onCreate()
         AndroidInjection.inject(this)
-        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
         wireguardBackend.serviceCreated(this)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent == null) {
+            if (handleProcessRestore())
+                return START_STICKY
+        } else {
+            startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+            return START_STICKY
+        }
+        return START_NOT_STICKY
+    }
+
+    private fun handleProcessRestore(): Boolean {
+        Storage.load(ConnectionParams::class.java)?.profile?.let { profile ->
+            profile.wrapper.setDeliverer(serverManager)
+            return connectionManager.onRestoreProcess(this, profile)
+        }
+        return false
     }
 
     override fun onDestroy() {
