@@ -59,7 +59,7 @@ class WireguardBackend(
     private val testTunnel = WireGuardTunnel(
         name = Constants.WIREGUARD_TUNNEL_NAME,
         config = null,
-        state = Tunnel.State.TOGGLE
+        state = Tunnel.State.DOWN
     )
 
     init {

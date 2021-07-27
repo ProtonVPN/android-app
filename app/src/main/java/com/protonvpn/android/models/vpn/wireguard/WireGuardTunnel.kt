@@ -36,7 +36,7 @@ class WireGuardTunnel internal constructor(
     override fun getName() = name
 
     private val internalStateFlow = MutableSharedFlow<Tunnel.State>(replay = 1, extraBufferCapacity = 5).apply {
-        tryEmit(Tunnel.State.TOGGLE)
+        tryEmit(Tunnel.State.DOWN)
     }
     val stateFlow: Flow<Tunnel.State> = internalStateFlow
 
