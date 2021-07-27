@@ -42,8 +42,7 @@
   <string name="secureCoreSwitchOn">Sie versuchen sich mit einem „Secure Core”‐Server zu verbinden. Dies wird Secure Core aktivieren%1$s Fortfahren?</string>
   <string name="secureCoreSwitchOff">Sie versuchen sich mit einem Server zu verbinden, der kein „Secure Core”‐Server ist. Dies wird Secure Core deaktivieren%1$s Fortfahren?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;und Ihre <b>aktuelle Verbindung unterbrechen</b>.]]></string>
-  <string name="reconnectOnSecureCoreChangeDialogMessage">Um den „Secure Core”-Modus zu ändern, muss Ihre Verbindung neu gestartet werden.</string>
-  <string name="logoutDescription">Das Abmelden wird Ihr Gerät vom VPN‐Server trennen.</string>
+  <string name="logoutConfirmDialogMessage">Das Abmelden wird Ihr Gerät vom VPN‐Server trennen.</string>
   <string name="showAllProfiles">Alle Profile anzeigen</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>

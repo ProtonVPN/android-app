@@ -42,8 +42,7 @@
   <string name="secureCoreSwitchOn">Próbujesz połączyć się z serwerem Secure Core. To spowoduje włączeniu trybu Secure Core %1$s Czy chcesz kontynuować?</string>
   <string name="secureCoreSwitchOff">Próbujesz połączyć się z serwerem bez funkcji Secure Core. To spowoduje wyłączenie trybu Secure Core %1$s Czy chcesz kontynuować?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;i <b>rozłączenie obecnego połączenia</b>.]]></string>
-  <string name="reconnectOnSecureCoreChangeDialogMessage">Aby zmienić tryb Secure Core, musisz ponownie nawiązać połączenie.</string>
-  <string name="logoutDescription">Wylogowanie spowoduje rozłączenie urządzenia od serwera VPN.</string>
+  <string name="logoutConfirmDialogMessage">Wylogowanie spowoduje rozłączenie urządzenia od serwera VPN.</string>
   <string name="showAllProfiles">Pokaż wszystkie profile</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>

@@ -20,8 +20,7 @@ package com.protonvpn.android.ui.home;
 
 import android.os.Bundle;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
@@ -53,12 +52,14 @@ public abstract class PoolingActivity extends VpnActivity {
         if (dialog != null) {
             dialog.dismissAllowingStateLoss();
         }
-        new MaterialDialog.Builder(this).theme(Theme.DARK)
-            .title(R.string.freeTrialExpiredTitle)
-            .content(R.string.freeTrialExpired)
-            .positiveText(R.string.upgrade)
-            .onPositive((dlg, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
-            .negativeText(R.string.cancel)
+        new MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.freeTrialExpiredTitle)
+            .setMessage(R.string.freeTrialExpired)
+            .setPositiveButton(
+                R.string.upgrade,
+                (dlg, which) -> openProtonUrl(this, Constants.DASHBOARD_URL)
+            )
+            .setNegativeButton(R.string.cancel, null)
             .show();
     }
 }

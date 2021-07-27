@@ -122,7 +122,7 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public LogoutResult logoutAfterWarning() {
-        clickOnObjectWithIdAndText(R.id.md_buttonDefaultPositive, "OK");
+        clickOnObjectWithText(R.string.logoutConfirmDialogButton);
         return new LogoutResult();
     }
 

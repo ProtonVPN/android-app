@@ -51,11 +51,26 @@
 
     <string name="warning">Warning</string>
 
-    <string name="secureCoreSwitchOn">You are trying to connect to Secure Core server. This will enable Secure Core mode%1$s Continue?</string>
-    <string name="secureCoreSwitchOff">You are trying to connect to a non Secure Core server. This will disable Secure Core mode%1$s Continue?</string>
-    <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>drop your current connection</b>.]]></string>
-    <string name="reconnectOnSecureCoreChangeDialogMessage">Your connection needs to be restarted to change the Secure Core mode.</string>
-    <string name="logoutDescription">Logging out will disconnect your device from the VPN server.</string>
+
+    <string name="secureCoreSwitchOnTitle">Connect to Secure Core server?</string>
+    <string name="secureCoreSwitchOffTitle">Connect to non-Secure Core server?</string>
+    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
+    <string name="secureCoreSwitchOn">You are trying to connect to a Secure Core server. This will enable Secure Core mode%1$s.</string>
+    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
+    <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
+    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
+         NOTE: use \u0020 for space at the beginning or end if needed. -->
+    <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
+    <string name="secureCoreSwitchConnect">Yes, connect</string>
+    <string name="logoutConfirmDialogTitle">Log out?</string>
+    <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Log out</string>
     <string name="showAllProfiles">Show all profiles</string>
 
 
