@@ -39,7 +39,6 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -54,6 +53,8 @@ class WireguardBackend(
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope
 ) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
+
+    private var service: WireguardWrapperService? = null
 
     private val testTunnel = WireGuardTunnel(
         name = Constants.WIREGUARD_TUNNEL_NAME,
@@ -106,10 +107,7 @@ class WireguardBackend(
     }
 
     override suspend fun closeVpnTunnel() {
-        // after setState call our process will be killed. Set state to disabled right away and give
-        // app some time to close the notification.
-        vpnProtocolState = VpnState.Disabled
-        delay(100)
+        service?.close()
         withContext(Dispatchers.IO) { backend.setState(testTunnel, Tunnel.State.DOWN, null) }
     }
 
@@ -118,6 +116,14 @@ class WireguardBackend(
             disconnect()
             connect(it)
         }
+    }
+
+    fun serviceCreated(vpnService: WireguardWrapperService) {
+        service = vpnService
+    }
+
+    fun serviceDestroyed() {
+        service = null
     }
 
     override val retryInfo: RetryInfo? get() = null
