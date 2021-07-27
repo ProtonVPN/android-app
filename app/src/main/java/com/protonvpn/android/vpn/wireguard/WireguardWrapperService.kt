@@ -17,9 +17,10 @@ package com.protonvpn.android.vpn.wireguard
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.ProtonLogger
 import com.wireguard.android.backend.GoBackend
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -27,15 +28,27 @@ import javax.inject.Inject
 class WireguardWrapperService : GoBackend.VpnService() {
 
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var wireguardBackend: WireguardBackend
 
     override fun onCreate() {
         super.onCreate()
         AndroidInjection.inject(this)
         startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+        wireguardBackend.serviceCreated(this)
     }
 
     override fun onDestroy() {
+        wireguardBackend.serviceDestroyed()
         super.onDestroy()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        ProtonLogger.log("WirguardWrapperService: onTrimMemory level $level")
+    }
+
+    fun close() {
         stopForeground(false)
+        stopSelf()
     }
 }

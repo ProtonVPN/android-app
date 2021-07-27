@@ -53,8 +53,11 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
+import com.wireguard.android.backend.GoBackend
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -299,6 +302,23 @@ class MockAppModule {
             wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
                 VpnProtocol.WireGuard),
             serverDeliver = serverManager)
+
+    @Singleton
+    @Provides
+    fun provideWireguardBackend(
+        userData: UserData,
+        networkManager: NetworkManager,
+        appConfig: AppConfig,
+        certificateRepository: CertificateRepository,
+    ) = WireguardBackend(
+        ProtonApplication.getAppContext(),
+        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
+        networkManager,
+        userData,
+        appConfig,
+        certificateRepository,
+        scope
+    )
 
     @Singleton
     @Provides
