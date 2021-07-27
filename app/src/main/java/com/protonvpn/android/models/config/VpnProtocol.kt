@@ -30,9 +30,9 @@ enum class VpnProtocol {
     fun displayName(wireguardWithBeta: Boolean = true): String {
         return if (this == WireGuard) {
             if (wireguardWithBeta) {
-                "WireGuard® (beta)"
+                "WireGuard (beta)"
             } else {
-                "WireGuard®"
+                "WireGuard"
             }
         } else {
             toString()
