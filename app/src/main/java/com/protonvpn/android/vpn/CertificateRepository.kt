@@ -25,6 +25,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CancellationException
@@ -39,6 +40,11 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
+import java.util.Date
+import java.util.concurrent.TimeUnit
+
+private const val MAX_REFRESH_COUNT = 2
+private val MIN_REFRESH_DELAY = TimeUnit.SECONDS.toMillis(30)
 
 @Serializable
 data class CertInfo(
@@ -48,6 +54,7 @@ data class CertInfo(
     val expiresAt: Long = 0,
     val refreshAt: Long = 0,
     val certificatePem: String? = null,
+    val refreshCount: Int = 0,
 )
 
 class CertificateRepository(
@@ -56,7 +63,7 @@ class CertificateRepository(
     val userData: UserData,
     val api: ProtonApiRetroFit,
     val wallClock: () -> Long,
-    val userPlanManager: UserPlanManager,
+    val userPlanManager: UserPlanManager
 ) {
     sealed class CertificateResult {
         data class Error(val error: ApiResult.Error?) : CertificateResult()
@@ -98,14 +105,23 @@ class CertificateRepository(
         refreshCertTask.scheduleIn(0)
     }
 
+    private fun rescheduleRefreshTo(time: Long) {
+        ProtonLogger.log("Certificate refresh scheduled to " + Date(time))
+        refreshCertTask.scheduleTo(time)
+    }
+
+    private fun setInfo(sessionId: SessionId, info: CertInfo) {
+        certPrefs.edit {
+            putString(sessionId.id, info.serialize())
+        }
+    }
+
     suspend fun generateNewKey(sessionId: SessionId): CertInfo = withContext(mainScope.coroutineContext) {
         val keyPair = ed25519.KeyPair()
         val info = CertInfo(keyPair.privateKeyPKIXPem(), keyPair.publicKeyPKIXPem(), keyPair.toX25519Base64())
 
         certRequests.remove(sessionId)?.cancel()
-        certPrefs.edit {
-            putString(sessionId.id, info.serialize())
-        }
+        setInfo(sessionId, info)
         launch {
             updateCertificate(sessionId, cancelOngoing = true)
         }
@@ -142,16 +158,31 @@ class CertificateRepository(
                             val newInfo = info.copy(
                                 expiresAt = cert.expirationTimeMs,
                                 refreshAt = cert.refreshTimeMs,
-                                certificatePem = cert.certificate)
-                            certPrefs.edit {
-                                putString(sessionId.id, newInfo.serialize())
-                            }
+                                certificatePem = cert.certificate,
+                                refreshCount = 0)
+                            setInfo(sessionId, newInfo)
+                            ProtonLogger.log("New certificate expires at: " + Date(cert.expirationTimeMs))
                             if (sessionId == userData.sessionId)
-                                refreshCertTask.scheduleTo(cert.refreshTimeMs)
+                                rescheduleRefreshTo(cert.refreshTimeMs)
                             CertificateResult.Success(cert.certificate, info.privateKeyPem)
                         }
-                        is ApiResult.Error ->
+                        is ApiResult.Error -> {
+                            if (info.certificatePem == null)
+                                ProtonLogger.log("Failed to get certificate (${info.refreshCount})")
+                            else
+                                ProtonLogger.log("Failed to refresh (${info.refreshCount}) certificate expiring at " +
+                                    Date(info.expiresAt))
+
+                            if (info.refreshCount < MAX_REFRESH_COUNT) {
+                                setInfo(sessionId, info.copy(refreshCount = info.refreshCount + 1))
+
+                                val now = wallClock()
+                                val newRefresh = ((now + info.expiresAt) / 2)
+                                    .coerceAtLeast(now + MIN_REFRESH_DELAY)
+                                rescheduleRefreshTo(newRefresh)
+                            }
                             CertificateResult.Error(response)
+                        }
                     }
                 }
             }

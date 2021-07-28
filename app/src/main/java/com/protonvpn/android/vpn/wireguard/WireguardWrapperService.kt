@@ -28,7 +28,6 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
 import dagger.android.AndroidInjection
-import org.strongswan.android.logic.CharonVpnService
 import javax.inject.Inject
 
 class WireguardWrapperService : GoBackend.VpnService() {
