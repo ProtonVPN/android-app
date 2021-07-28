@@ -211,8 +211,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getDefaultProtocol(userData: UserData) =
-        if (userData.useSmartProtocol) ProtocolSelection.from(VpnProtocol.Smart, TransmissionProtocol.UDP)
-        else ProtocolSelection.from(userData.manualProtocol, userData.transmissionProtocol)
+        ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
 
     private fun createServerWrapper(
         serverSelection: ServerSelection,
