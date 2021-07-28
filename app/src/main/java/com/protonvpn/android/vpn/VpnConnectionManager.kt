@@ -60,6 +60,8 @@ import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
 
+private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
+
 @Singleton
 open class VpnConnectionManager(
     private val appContext: Context,
@@ -113,7 +115,7 @@ open class VpnConnectionManager(
             val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
-            userData.useSmartProtocol = true
+            userData.setProtocols(VpnProtocol.Smart, null)
             connect(appContext, profileToSwitch)
         }
         stateInternal.observeForever {
@@ -280,15 +282,15 @@ open class VpnConnectionManager(
 
         var protocol = profile.getProtocol(userData)
         if (!networkManager.isConnectedToNetwork() && protocol == VpnProtocol.Smart)
-            protocol = userData.manualProtocol
+            protocol = FALLBACK_PROTOCOL
         var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
         if (preparedConnection == null) {
             ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}, " +
-                "falling back to ${userData.manualProtocol}")
+                "falling back to $FALLBACK_PROTOCOL")
 
             // If port scanning fails (because e.g. some temporary network situation) just connect
             // without smart protocol
-            preparedConnection = backendProvider.prepareConnection(userData.manualProtocol, profile, server)!!
+            preparedConnection = backendProvider.prepareConnection(FALLBACK_PROTOCOL, profile, server)!!
         }
 
         preparedConnect(preparedConnection)

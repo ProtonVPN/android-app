@@ -195,7 +195,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideUserPrefs(): UserData = UserData.load().apply {
-        useSmartProtocol = false
+        setProtocols(VpnProtocol.IKEv2, null)
     }
 
     @Singleton

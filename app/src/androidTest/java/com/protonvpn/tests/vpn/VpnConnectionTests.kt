@@ -213,14 +213,15 @@ class VpnConnectionTests {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
-        userData.manualProtocol = VpnProtocol.OpenVPN
+        userData.setProtocols(VpnProtocol.OpenVPN, null)
         manager.connect(context, profileSmart)
         yield()
 
-        // When scanning fails we'll fallback to attempt connecting with default manual protocol
+        // When scanning fails we'll fallback to attempt connecting with IKEv2 regardless of
+        // selected protocol
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -229,16 +230,17 @@ class VpnConnectionTests {
     @Test
     fun smartNoInternet() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        userData.manualProtocol = VpnProtocol.OpenVPN
+        userData.setProtocols(VpnProtocol.OpenVPN, null)
         manager.connect(context, profileSmart)
         yield()
 
+        // Always fall back to StrongSwan, regardless of selected protocol.
         coVerify(exactly = 0) {
-            mockStrongSwan.prepareForConnection(any(), any(), any())
+            mockOpenVpn.prepareForConnection(any(), any(), false)
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), any())
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)

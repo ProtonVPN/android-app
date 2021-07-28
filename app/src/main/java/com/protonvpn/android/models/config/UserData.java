@@ -87,11 +87,10 @@ public final class UserData implements Serializable {
         showIcon = true;
         splitTunnelApps = new ArrayList<>();
         splitTunnelIpAddresses = new ArrayList<>();
-        selectedProtocol = VpnProtocol.IKEv2;
+        selectedProtocol = VpnProtocol.Smart;
         transmissionProtocol = TransmissionProtocol.TCP;
         useIon = false;
         apiUseDoH = true;
-        useSmartProtocol = true;
         vpnAcceleratorEnabled = true;
         showVpnAcceleratorNotifications = true;
     }
@@ -347,28 +346,16 @@ public final class UserData implements Serializable {
 
     @NotNull
     public VpnProtocol getSelectedProtocol() {
-        if (useSmartProtocol) {
-            return VpnProtocol.Smart;
-        }
         return selectedProtocol;
     }
 
-    public boolean getUseSmartProtocol() {
-        return useSmartProtocol;
-    }
-
-    public void setUseSmartProtocol(boolean value) {
-        useSmartProtocol = value;
-        selectedProtocolLiveData.postValue(getSelectedProtocol());
-        saveToStorage();
-    }
-
     public void setProtocols(@NonNull VpnProtocol protocol, @Nullable TransmissionProtocol transmissionProtocol) {
-        useSmartProtocol = protocol == VpnProtocol.Smart;
         if (transmissionProtocol != null) {
             this.transmissionProtocol = transmissionProtocol;
         }
-        setManualProtocol(protocol); // Last, it saves changes and sends notifications.
+        selectedProtocol = protocol;
+        selectedProtocolLiveData.postValue(getSelectedProtocol());
+        saveToStorage();
     }
 
     public boolean isVpnAcceleratorEnabled() {
@@ -387,17 +374,6 @@ public final class UserData implements Serializable {
 
     public void setShowVpnAcceleratorNotifications(boolean value) {
         showVpnAcceleratorNotifications = value;
-        saveToStorage();
-    }
-
-    @NotNull
-    public VpnProtocol getManualProtocol() {
-        return selectedProtocol;
-    }
-
-    public void setManualProtocol(VpnProtocol value) {
-        selectedProtocol = value;
-        selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
 
