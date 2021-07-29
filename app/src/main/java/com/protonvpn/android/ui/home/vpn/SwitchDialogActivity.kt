@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home.vpn
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -60,8 +61,7 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         }
 
         layoutUpsell.root.isVisible = reconnectionNotification.fullScreenDialog?.hasUpsellLayout == true
-        layoutUpsell.textManyCountries.text = getString(R.string.upsell_many_countries, serverManager.getVpnCountries().size)
-        layoutUpsell.textDeviceCount.text = getString(R.string.upsell_device_count, getString(R.string.device_count))
+        layoutUpsell.textManyCountries.text = getManyServersInManyCountriesText()
         reconnectionNotification.action?.let { actionItem ->
             buttonUpgrade.text = actionItem.title
             buttonUpgrade.setOnClickListener { actionItem.pendingIntent.send() }
@@ -103,6 +103,21 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
                 CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
             )
         }
+
+    @SuppressLint("SetTextI18n")
+    private fun getManyServersInManyCountriesText(): String {
+        val serversText = resources.getQuantityString(
+            R.plurals.upsell_many_servers,
+            serverManager.allServerCount,
+            serverManager.allServerCount
+        )
+        val countriesText = resources.getQuantityString(
+            R.plurals.upsell_many_countries,
+            serverManager.getVpnCountries().size,
+            serverManager.getVpnCountries().size
+        )
+        return "$serversText, $countriesText"
+    }
 
     override fun initViewModel() {
 

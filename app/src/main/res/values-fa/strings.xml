@@ -372,7 +372,6 @@
   <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">شما به حداکثر محدودیت دستگاه خود رسیدید</string>
-  <string name="notification_max_sessions_upsell_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید یا به طرح بالاتری ارتقا دهید تا بتوانید دستگاه‌های بیشتری را به صورت همزمان وصل کنید.</string>
   <string name="notification_max_sessions_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید.</string>
   <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
   <string name="notification_cancel_to_basic">شما در طرح BASIC هستید. سرورها و قابلیت‌های BASIC و رایگان موجود هستند.</string>
@@ -385,8 +384,6 @@
   <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
   <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">تا %1$s دستگاه را همزمان متصل کنید</string>
-  <string name="upsell_many_countries">صدها سرور در %1$d کشور</string>
   <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
   <!-- Information activity -->
   <string name="activity_information_title">اطلاعات</string>

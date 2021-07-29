@@ -92,6 +92,9 @@ class ServerManager(
         sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
+    /** Get the number of all servers. Not very efficient. */
+    val allServerCount get() = allServers.count()
+
     fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)

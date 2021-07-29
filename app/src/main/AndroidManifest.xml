@@ -49,8 +49,7 @@
         android:theme="@style/ProtonTheme.Vpn.Mobile"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
-        <activity android:name=".ui.home.vpn.SwitchDialogActivity"
-            android:theme="@style/AppTheme.NoActionBar.ForceDark"/>
+        <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"
             android:theme="@style/AppTheme.TV.Browse" />
