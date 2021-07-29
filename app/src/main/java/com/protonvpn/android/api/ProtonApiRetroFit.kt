@@ -94,6 +94,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     open suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
         manager { getAvailableDomains() }
 
+    open suspend fun triggerHumanVerification(): ApiResult<GenericResponse> =
+        manager { triggerHumanVerification() }
+
     open suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
         manager {
             getCertificate(CertificateRequestBody(
