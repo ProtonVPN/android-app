@@ -65,7 +65,7 @@
                         android:layout_width="16dp"
                         android:layout_height="10dp"
                         android:visibility="gone"
-                        tools:src="@drawable/lt" />
+                        tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowFromSc"
@@ -138,7 +138,7 @@
                         android:layout_width="16dp"
                         android:layout_height="10dp"
                         android:visibility="gone"
-                        tools:src="@drawable/lt" />
+                        tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowToSc"
@@ -153,7 +153,7 @@
                         android:id="@+id/imageToCountry"
                         android:layout_width="16dp"
                         android:layout_height="10dp"
-                        tools:src="@drawable/lt" />
+                        tools:src="@drawable/de" />
 
                     <TextView
                         android:id="@+id/textToServer"
@@ -162,7 +162,7 @@
                         android:layout_marginStart="4dp"
                         android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
                         android:textSize="14sp"
-                        tools:text="LT#5" />
+                        tools:text="DE#1" />
 
                 </LinearLayout>
 
