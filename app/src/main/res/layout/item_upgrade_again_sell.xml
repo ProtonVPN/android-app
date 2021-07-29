@@ -25,90 +25,76 @@
     tools:background="#17181C">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textUpgradeFeaturesHedline"
+        style="@style/Proton.Text.Default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="8dp"
-        android:text="@string/upsell_upgrade_again"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/upsell_upgrade_again" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_marginVertical="8dp"
+        android:gravity="top"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingTop="2dp"
             app:srcCompat="@drawable/ic_check_circle_filled" />
 
         <TextView
             android:id="@+id/textManyCountries"
+            style="@style/Proton.Text.DefaultSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            tools:layout_editor_absoluteY="20dp"
-            tools:text="@string/upsell_many_countries" />
+            tools:text="1234 servers, 50 countries" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_marginVertical="8dp"
+        android:gravity="top"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingTop="2dp"
             app:srcCompat="@drawable/ic_check_circle_filled" />
 
         <TextView
-            android:id="@+id/textDeviceCount"
+            style="@style/Proton.Text.DefaultSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            tools:layout_editor_absoluteY="20dp"
-            tools:text="@string/upsell_device_count" />
+            android:text="@string/upsell_streaming_services" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_marginVertical="8dp"
+        android:gravity="top"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingTop="2dp"
             app:srcCompat="@drawable/ic_check_circle_filled" />
 
         <TextView
+            style="@style/Proton.Text.DefaultSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/upsell_advanced_features"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            tools:layout_editor_absoluteY="20dp" />
+            android:text="@string/upsell_advanced_features" />
     </LinearLayout>
 
 </LinearLayout>

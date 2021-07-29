@@ -21,8 +21,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_square_rounded_theme_aware"
         android:padding="14dp">
 
@@ -48,11 +47,10 @@
 
                 <TextView
                     android:id="@+id/textFrom"
+                    style="@style/Proton.Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reconnect_from_server"
-                    android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                    android:textSize="14sp" />
+                    android:text="@string/reconnect_from_server" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -63,32 +61,33 @@
                     <ImageView
                         android:id="@+id/imageFromCountrySc"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         android:visibility="gone"
                         tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowFromSc"
-                        android:layout_width="8dp"
-                        android:layout_height="6dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/ic_secure_core_arrow_grey"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/imageFromCountry"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         tools:src="@drawable/lt" />
 
                     <TextView
                         android:id="@+id/textFromServer"
+                        style="@style/Proton.Text.DefaultSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp"
                         tools:text="LT#5" />
 
                 </LinearLayout>
@@ -118,11 +117,10 @@
 
                     <TextView
                         android:id="@+id/textTo"
+                        style="@style/Proton.Text.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/reconnect_to_server"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp" />
+                        android:text="@string/reconnect_to_server" />
 
                 </LinearLayout>
 
@@ -136,32 +134,33 @@
                     <ImageView
                         android:id="@+id/imageToCountrySc"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         android:visibility="gone"
                         tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowToSc"
-                        android:layout_width="8dp"
-                        android:layout_height="6dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/ic_secure_core_arrow_color"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/imageToCountry"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         tools:src="@drawable/de" />
 
                     <TextView
                         android:id="@+id/textToServer"
+                        style="@style/Proton.Text.DefaultSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp"
                         tools:text="DE#1" />
 
                 </LinearLayout>

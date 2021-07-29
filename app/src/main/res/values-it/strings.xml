@@ -372,7 +372,6 @@
   <string name="notification_server_unreachable_content">Sei stato passato ad un server più veloce simile a quello selezionato.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
-  <string name="notification_max_sessions_upsell_content">Disconnetti un altro dispositivo per collegare questo o passa ad un piano superiore per collegare più dispositivi allo stesso tempo.</string>
   <string name="notification_max_sessions_content">Disconnetti un altro dispositivo per connettere questo.</string>
   <string name="notification_cancel_to_free">Sei sul piano GRATUITO. Sono disponibili i server e le funzioni GRATUITE.</string>
   <string name="notification_cancel_to_basic">Sei sul piano BASIC. Sono disponibili server e funzionalità BASIC &amp; FREE.</string>
@@ -385,8 +384,6 @@
   <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe bypassare queste limitazioni.</string>
   <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">Connetti fino a %1$s dispositivi allo stesso tempo</string>
-  <string name="upsell_many_countries">Centinaia di server in %1$d paesi</string>
   <string name="upsell_upgrade_again">Aggiorna di nuovo per godere di tutte le funzionalità:</string>
   <!-- Information activity -->
   <string name="activity_information_title">Informazione</string>

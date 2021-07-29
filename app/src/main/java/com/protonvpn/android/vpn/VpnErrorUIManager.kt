@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
+private const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
+
 @Singleton
 class VpnErrorUIManager(
     scope: CoroutineScope,
@@ -112,20 +114,27 @@ class VpnErrorUIManager(
                             title = appContext.getString(R.string.upgrade),
                             pendingIntent = getPendingIntentForDashboard()
                         ) else null,
-                        fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent) FullScreenDialog(
-                            hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(it)
-                        ) else null
+                        fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
+                            FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(it))
+                        else
+                            null
                     )
                 }
             }
             is VpnFallbackResult.Error -> {
                 if (switch.type == ErrorType.MAX_SESSIONS) {
+                    val content = if (userData.isUserPlusOrAbove) {
+                        appContext.getString(R.string.notification_max_sessions_content)
+                    } else {
+                        appContext.resources.getQuantityString(
+                            R.plurals.notification_max_sessions_upsell_content,
+                            MAX_CONNECTIONS_IN_PLUS_PLAN,
+                            MAX_CONNECTIONS_IN_PLUS_PLAN,
+                        )
+                    }
                     ReconnectionNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
-                        content = appContext.getString(
-                            if (userData.isUserPlusOrAbove) R.string.notification_max_sessions_content
-                            else R.string.notification_max_sessions_upsell_content
-                        ),
+                        content = content,
                         action = if (!userData.isUserPlusOrAbove) ActionItem(
                             appContext.getString(R.string.upgrade), getPendingIntentForDashboard()
                         ) else null,

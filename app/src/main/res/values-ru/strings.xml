@@ -382,7 +382,6 @@
   <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">Вы достигли максимального лимита устройств</string>
-  <string name="notification_max_sessions_upsell_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее, или перейдите на более высокий тарифный план, чтобы подключить больше устройств одновременно.</string>
   <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее.</string>
   <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифным планом. Доступны бесплатные серверы и функции.</string>
   <string name="notification_cancel_to_basic">Вы на плане BASIC. Доступны BASIC и БЕСПЛАТНЫЕ серверы и функции.</string>
@@ -395,8 +394,6 @@
   <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружил, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
   <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">Connect up to %1$s devices at the same time</string>
-  <string name="upsell_many_countries">Hundreds of servers in %1$d countries</string>
   <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
   <!-- Information activity -->
   <string name="activity_information_title">Информация</string>

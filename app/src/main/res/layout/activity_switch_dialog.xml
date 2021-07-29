@@ -18,88 +18,82 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="#17181C"
-        android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/image"
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            tools:srcCompat="@drawable/ic_exclamation_tunnel_illustration" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/textTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:textStyle="bold"
-            android:textSize="28sp"
-            tools:text="This is error message why you get this dialog" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1.1"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:textColor="@color/text_weak"
-            tools:text="This is some very long description about something, just to showcase in android studio editor" />
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    tools:srcCompat="@drawable/ic_exclamation_tunnel_illustration" />
 
-        <include
-            android:id="@+id/itemSwitchLayout"
-            layout="@layout/item_server_switch"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/textTitle"
+                    style="@style/Proton.Text.Hero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    tools:text="This is error message why you get this dialog" />
 
-        <include
-            android:id="@+id/layoutUpsell"
-            layout="@layout/item_upgrade_again_sell"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:layout_marginBottom="16dp"/>
+                <TextView
+                    android:id="@+id/textDescription"
+                    style="@style/Proton.Text.DefaultSmall.Weak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center_horizontal"
+                    tools:text="This is some very long description about something, just to showcase in android studio editor" />
 
-        <Button
+                <include
+                    android:id="@+id/itemSwitchLayout"
+                    layout="@layout/item_server_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/layoutUpsell"
+                    layout="@layout/item_upgrade_again_sell"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonUpgrade"
-            style="@style/Button.Green.Filled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="@drawable/tv_focus_foreground"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/upgrade" />
 
-        <Button
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonBack"
-            style="@style/Button.Green.Borderless"
+            style="@style/ProtonButton.Borderless.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="@drawable/tv_focus_foreground"
+            android:layout_marginBottom="24dp"
             android:text="@string/no_thanks" />
-
     </LinearLayout>
-    </ScrollView>
 </layout>

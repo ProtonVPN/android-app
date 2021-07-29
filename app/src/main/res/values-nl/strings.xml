@@ -372,7 +372,6 @@
   <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
   <string name="notification_max_sessions_title">U hebt uw maximum apparaat limiet bereikt</string>
-  <string name="notification_max_sessions_upsell_content">Verbreek een ander apparaat om deze te verbinden of upgrade naar een hoger abonnement om meer apparaten tegelijkertijd te verbinden.</string>
   <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
   <string name="notification_cancel_to_free">U hebt een GRATIS abonnement. GRATIS servers en functies zijn beschikbaar.</string>
   <string name="notification_cancel_to_basic">U hebt het BASIC abonnement. BASIC &amp; GRATIS servers en functies zijn beschikbaar.</string>
@@ -385,8 +384,6 @@
   <string name="notification_smart_protocol_disabled_title">Smart Protocol is momenteel uitgeschakeld</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
   <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_device_count">Verbind tot %1$s apparaten op hetzelfde moment</string>
-  <string name="upsell_many_countries">Honderden servers in %1$d landen</string>
   <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
   <!-- Information activity -->
   <string name="activity_information_title">Informatie</string>
