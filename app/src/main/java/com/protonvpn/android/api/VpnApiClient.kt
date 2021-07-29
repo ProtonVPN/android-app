@@ -22,7 +22,7 @@ import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ import java.util.Locale
 class VpnApiClient(
     val scope: CoroutineScope,
     val userData: UserData,
-    val vpnStateMonitor: VpnStateMonitor
+    val connectivityMonitor: ConnectivityMonitor,
 ) : ApiClient {
 
     val forceUpdateEvent = MutableSharedFlow<String>()
@@ -40,7 +40,7 @@ class VpnApiClient(
     override val appVersionHeader get() =
         "${Constants.CLIENT_ID}_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
-    override val shouldUseDoh get() = userData.apiUseDoH && !vpnStateMonitor.isConnected
+    override val shouldUseDoh get() = userData.apiUseDoH && !connectivityMonitor.vpnActive
 
     override val userAgent: String
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",

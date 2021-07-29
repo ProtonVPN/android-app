@@ -182,8 +182,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, vpnStateMonitor)
+    fun provideApiClient(userData: UserData, connectivityMonitor: ConnectivityMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, connectivityMonitor)
 
     @Singleton
     @Provides
