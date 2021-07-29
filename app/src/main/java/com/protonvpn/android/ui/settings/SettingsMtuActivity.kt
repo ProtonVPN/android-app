@@ -23,15 +23,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.addRepeatingJob
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivitySettingsMtuBinding
 import com.protonvpn.android.ui.SaveableSettingsActivity
-import kotlinx.coroutines.flow.collect
+import com.protonvpn.android.utils.launchAndCollectIn
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_settings_mtu)
@@ -64,10 +62,8 @@ class SettingsMtuActivity : SaveableSettingsActivity<ActivitySettingsMtuBinding,
                 }
             })
 
-            addRepeatingJob(Lifecycle.State.STARTED) {
-                viewModel.eventInvalidMtu.collect {
-                    inputMtu.setInputError(getString(R.string.settingsMtuRangeInvalid))
-                }
+            viewModel.eventInvalidMtu.launchAndCollectIn(this@SettingsMtuActivity) {
+                inputMtu.setInputError(getString(R.string.settingsMtuRangeInvalid))
             }
         }
     }

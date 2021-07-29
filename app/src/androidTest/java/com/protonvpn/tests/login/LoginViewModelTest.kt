@@ -136,7 +136,7 @@ class LoginViewModelTest : CoroutinesTest {
 
     @Test
     fun noInternet() = coroutinesTest {
-        val error = ApiResult.Error.NoInternet
+        val error = ApiResult.Error.NoInternet()
         coEvery { api.postLogin(any()) } returns error
         viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Error(error, false), viewModel.loginState.value)

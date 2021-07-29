@@ -28,13 +28,11 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import kotlinx.coroutines.flow.collect
+import com.protonvpn.android.utils.launchAndCollectIn
 import kotlin.reflect.KClass
 
 /**
@@ -55,14 +53,10 @@ abstract class SaveableSettingsActivity<DB : ViewDataBinding, VM : SaveableSetti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.eventConfirmDiscardChanges.collect { showDiscardChangesDialog() }
-        }
-        addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.eventGoBack.collect { super.onBackPressed() }
-        }
-        addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.eventFinishActivity.collect { anythingSaved -> setResultAndFinish(anythingSaved) }
+        viewModel.eventConfirmDiscardChanges.launchAndCollectIn(this) { showDiscardChangesDialog() }
+        viewModel.eventGoBack.launchAndCollectIn(this) { super.onBackPressed() }
+        viewModel.eventFinishActivity.launchAndCollectIn(this) { anythingSaved ->
+            setResultAndFinish(anythingSaved)
         }
     }
 

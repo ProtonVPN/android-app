@@ -51,7 +51,7 @@ class ApiNotificationManager(
                 nowS < it.endTime -> it.endTime - nowS
                 else -> null
             }
-        }.min()
+        }.minOrNull()
         if (nextUpdateDelayS == null)
             activityCheckTask.cancelSchedule()
         else

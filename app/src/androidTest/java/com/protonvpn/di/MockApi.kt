@@ -44,9 +44,29 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.NetworkStatus
 import java.util.concurrent.TimeUnit
 
-class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val userData: UserData) : ProtonApiRetroFit(scope, manager) {
+class MockApi(
+    scope: CoroutineScope,
+    manager: ApiManager<ProtonVPNRetrofit>,
+    val userData: UserData
+) : ProtonApiRetroFit(scope, MockNetworkApiManagerWrapper(manager)) {
+
+    private class MockNetworkApiManagerWrapper(private val manager: ApiManager<ProtonVPNRetrofit>)
+        : ApiManager<ProtonVPNRetrofit> {
+
+        override suspend fun <T> invoke(
+            forceNoRetryOnConnectionErrors: Boolean,
+            block: suspend ProtonVPNRetrofit.() -> T
+        ): ApiResult<T> =
+            if (MockNetworkManager.currentStatus == NetworkStatus.Disconnected) {
+                ApiResult.Error.NoInternet()
+            } else {
+                manager.invoke(forceNoRetryOnConnectionErrors, block)
+            }
+
+    }
 
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(
