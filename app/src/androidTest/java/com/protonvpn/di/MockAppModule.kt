@@ -74,6 +74,7 @@ import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Singleton
 
@@ -157,10 +158,12 @@ class MockAppModule {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
-        val cookieStore = ProtonCookieStore(appContext)
-        val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger,
-            networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
-            humanVerificationHandler, cookieStore, scope)
+        val serverTimeListener = object : ServerTimeListener {
+            override fun onServerTimeUpdated(epochSeconds: Long) {}
+        }
+        val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider,
+            serverTimeListener, logger, networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider,
+            humanVerificationHandler, humanVerificationHandler, cookieStore, scope)
 
         val resource: IdlingResource =
             IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)

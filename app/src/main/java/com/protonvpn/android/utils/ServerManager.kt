@@ -265,7 +265,7 @@ class ServerManager(
                 .map(VpnCountry::serverList)
                 .mapNotNull(::getBestScoreServer)
                 .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minBy(Server::score) }
+                .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
@@ -273,7 +273,7 @@ class ServerManager(
         val map = serverList.asSequence()
                 .filter { Server.Keyword.TOR !in it.keywords && it.online }
                 .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minBy(Server::score) }
+                .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 

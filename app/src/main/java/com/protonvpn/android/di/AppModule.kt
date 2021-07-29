@@ -70,8 +70,9 @@ import me.proton.core.country.data.repository.CountriesRepositoryImpl
 import me.proton.core.country.domain.repository.CountriesRepository
 import me.proton.core.humanverification.data.repository.UserVerificationRepositoryImpl
 import me.proton.core.humanverification.domain.HumanVerificationWorkflowHandler
+import me.proton.core.humanverification.domain.repository.HumanVerificationRepository
 import me.proton.core.humanverification.domain.repository.UserVerificationRepository
-import me.proton.core.humanverification.presentation.CaptchaBaseUrl
+import me.proton.core.humanverification.presentation.CaptchaApiHost
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkManager
@@ -81,6 +82,7 @@ import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.Random
 import javax.inject.Singleton
@@ -167,14 +169,18 @@ class AppModule {
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
+        val serverTimeListener = object : ServerTimeListener {
+            // We'd need to implement that when we start using core's crypto module.
+            override fun onServerTimeUpdated(epochSeconds: Long) {}
+        }
         return if (BuildConfig.DEBUG) {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger, networkManager,
-                NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener, logger,
+                networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
                 humanVerificationHandler, cookieStore, scope, certificatePins = emptyArray(),
                 alternativeApiPins = emptyList())
         } else {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, logger, networkManager,
-                NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener, logger,
+                networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
                 humanVerificationHandler, cookieStore, scope)
         }
     }
@@ -421,11 +427,8 @@ object HiltAppModule {
     @Provides
     @Singleton
     fun provideUserValidationRepository(
-        apiProvider: ApiProvider,
-        clientIdProvider: ClientIdProvider,
-        humanVerificationHandler: HumanVerificationHandler
-    ): UserVerificationRepository =
-        UserVerificationRepositoryImpl(apiProvider, clientIdProvider, humanVerificationHandler)
+        apiProvider: ApiProvider
+    ): UserVerificationRepository = UserVerificationRepositoryImpl(apiProvider)
 
     @Provides
     @Singleton
@@ -434,6 +437,12 @@ object HiltAppModule {
     ): HumanVerificationWorkflowHandler = humanVerificationHandler
 
     @Provides
-    @CaptchaBaseUrl
+    @Singleton
+    fun providesHumanVerificationRepository(
+        humanVerificationHandler: HumanVerificationHandler
+    ): HumanVerificationRepository = humanVerificationHandler
+
+    @Provides
+    @CaptchaApiHost
     fun provideCaptchaBaseUrl(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
 }

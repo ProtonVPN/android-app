@@ -29,10 +29,6 @@ import me.proton.core.test.android.robots.CoreRobot
  */
 open class BaseRobot : CoreRobot() {
 
-    inline fun <reified T> clickElement(@IdRes id: Int, @StringRes text: Int): T = executeAndReturnRobot {
-        clickElement(view.withId(id).withText(text))
-    }
-
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
                 .withText(resId)
