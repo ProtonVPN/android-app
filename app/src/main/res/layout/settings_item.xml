@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textAlignment="viewStart"
         tools:text="Some setting" />
 
     <TextView
@@ -38,6 +39,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:visibility="gone"
+        android:textAlignment="viewStart"
         tools:text="Current value"
         tools:visibility="visible" />
 

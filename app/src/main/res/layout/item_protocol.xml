@@ -19,10 +19,12 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.google.android.material.radiobutton.MaterialRadioButton
+    <me.proton.core.presentation.ui.view.ProtonRadioButton
         android:id="@+id/radioProtocol"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/screen_padding_horizontal" />
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:paddingVertical="12dp"
+        android:textAlignment="viewStart" />
 
 </layout>

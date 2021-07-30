@@ -24,5 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:paddingVertical="12dp"
         android:drawablePadding="12dp" />
 </layout>

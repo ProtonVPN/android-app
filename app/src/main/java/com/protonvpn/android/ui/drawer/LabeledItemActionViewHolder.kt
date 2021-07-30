@@ -50,7 +50,7 @@ data class LabeledItemActionViewHolder(
             if (item.iconDrawable == null) {
                 textLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(item.iconRes, 0, 0, 0)
             } else {
-                textLabel.setCompoundDrawables(item.iconDrawable, null, null, null)
+                textLabel.setCompoundDrawablesRelative(item.iconDrawable, null, null, null)
             }
         }
     }
