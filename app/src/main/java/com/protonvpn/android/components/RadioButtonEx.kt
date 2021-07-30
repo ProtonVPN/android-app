@@ -22,11 +22,12 @@ package com.protonvpn.android.components
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
+import me.proton.core.presentation.ui.view.ProtonRadioButton
 
 class RadioButtonEx @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : AppCompatRadioButton(context, attrs) {
+) : ProtonRadioButton(context, attrs) {
 
     var switchClickInterceptor: (RadioButtonEx.() -> Boolean)? = null
 

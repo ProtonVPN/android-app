@@ -69,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:text="@string/mapSwitchSecureCore"/>
+                android:text="@string/mapSwitchSecureCore"
+                android:textAlignment="viewStart" />
 
             <View style="@style/Divider.Small" />
 

@@ -55,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:paddingVertical="12dp"
-                android:text="@string/secure_core" />
+                android:text="@string/secure_core"
+                android:textAlignment="viewStart" />
 
             <View style="@style/Divider.Small" />
 
@@ -65,10 +66,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:layout_marginTop="8dp"
-                android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/selectCountry"
+                android:inputType="none"
+                android:textAlignment="viewStart"
                 app:label="@string/country" />
 
             <me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
@@ -76,10 +78,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/selectServer"
+                android:inputType="none"
+                android:textAlignment="viewStart"
                 app:label="@string/server" />
 
             <me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
@@ -87,10 +90,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/selectProtocol"
+                android:inputType="none"
+                android:textAlignment="viewStart"
                 app:label="@string/protocolLabel" />
 
             <View style="@style/Divider.Small" />

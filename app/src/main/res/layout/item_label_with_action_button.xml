@@ -38,7 +38,8 @@
                 android:layout_marginVertical="18dp"
                 android:layout_weight="1"
                 android:drawablePadding="12dp"
-                android:gravity="center_vertical"
+                android:gravity="start|center_vertical"
+                android:textAlignment="viewStart"
                 tools:text="10.0.0.1" />
 
             <ImageButton

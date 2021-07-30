@@ -92,9 +92,7 @@ class SettingsDefaultProfileActivity :
                 radioProfile.isChecked = isSelected
 
                 val iconRes = profile.profileSpecialIcon ?: R.drawable.ic_profile_custom
-                // Proton radio buttons use reverse layout, so put the icon as end drawable to have
-                // it on start.
-                radioProfile.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, iconRes, 0)
+                radioProfile.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
                 val compoundTintList = if (profile.profileColor != null) {
                     val color = ContextCompat.getColor(root.context, profile.profileColor.colorRes)
                     ColorStateList.valueOf(color)
