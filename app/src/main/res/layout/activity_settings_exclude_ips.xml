@@ -44,6 +44,7 @@
                 android:hint="@string/inputIpAddressHint"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
+                app:editTextDirection="ltr"
                 app:label="@string/inputIpAddressLabel" />
 
             <ImageButton
