@@ -221,9 +221,9 @@ class ServerManager(
     val defaultAvailableConnection: Profile get() =
         (listOf(userData.defaultConnection) + getSavedProfiles())
             .filterNotNull()
-            .first { it.isSecureCore.implies(userData.hasAccessToSecureCore()) }
-            .also {
+            .first {
                 it.wrapper.setDeliverer(this)
+                it.isSecureCore.implies(userData.hasAccessToSecureCore())
             }
 
 
