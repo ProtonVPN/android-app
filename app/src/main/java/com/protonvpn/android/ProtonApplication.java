@@ -20,6 +20,7 @@ package com.protonvpn.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.SystemClock;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -87,7 +88,7 @@ public class ProtonApplication extends DaggerApplication {
 
         ProtonLogger.INSTANCE.log("--------- App start ---------");
         // Inject VpnLogCapture once injection into ProtonApplication is fixed in androidTests.
-        (new VpnLogCapture(getAppComponent())).startCapture();
+        (new VpnLogCapture(getAppComponent(), SystemClock::elapsedRealtime)).startCapture();
     }
 
     private void initActivityObserver() {
