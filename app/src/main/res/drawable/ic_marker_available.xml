@@ -23,8 +23,8 @@
     android:viewportWidth="24.0">
 
     <path
-        android:fillColor="#2c2c31"
+        android:fillColor="?attr/proton_background_norm"
         android:pathData="M1,1h21L22,1 12,18zM1,1h"
-        android:strokeColor="?colorAccent"
+        android:strokeColor="?attr/brand_norm"
         android:strokeWidth="1" />
 </vector>

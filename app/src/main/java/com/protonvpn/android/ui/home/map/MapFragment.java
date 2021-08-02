@@ -22,12 +22,10 @@ import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
 import com.protonvpn.android.bus.ConnectToServer;
@@ -36,10 +34,14 @@ import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.Markable;
+import com.protonvpn.android.databinding.ItemMarkerCalloutBinding;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
+import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.Constants;
+import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -56,9 +58,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static java.util.Collections.sort;
 
 @ContentLayout(R.layout.fragment_map)
@@ -156,11 +160,6 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 userData.hasAccessToAnyServer(country.getConnectableServers()) ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
 
-            marker.setContentDescription(country.getMarkerText());
-            if (stateMonitor.isConnectedToAny(country.getConnectableServers())) {
-                marker.setContentDescription(country.getMarkerText() + " Selected");
-            }
-
             if ((country.equals(selectedCountry)) && userData.isSecureCoreEnabled()
                 && country.isSecureCoreMarker()) {
                 secureCoreMarker = marker;
@@ -170,10 +169,12 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 marker.setSelected(secureCoreMarker.getTag() == marker.getTag() || (marker.getTag()
                     .toString()
                     .contains(((VpnCountry) secureCoreMarker.getTag()).getCountryName())));
-                if (marker.isSelected()) {
-                    marker.setContentDescription(country.getMarkerText() + " Selected");
-                }
             }
+
+            marker.setContentDescription(
+                markerContentDescription(
+                    country,
+                    stateMonitor.isConnectedToAny(country.getConnectableServers()) || marker.isSelected()));
 
             marker.setImageResource(
                 userData.isSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
@@ -273,30 +274,69 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     }
 
     private View initCalloutView(final Markable country) {
-        View calloutView = View.inflate(getContext(), R.layout.item_marker_callout, null);
+        ItemMarkerCalloutBinding binding =
+            ItemMarkerCalloutBinding.inflate(LayoutInflater.from(requireContext()));
 
-        TextView textMarker = calloutView.findViewById(R.id.textMarker);
-        textMarker.setText(country.getMarkerText());
+        List<Server> countryServers = country.getConnectableServers();
+        boolean hasAccess = userData.hasAccessToAnyServer(countryServers);
 
-        final boolean currentConnection = stateMonitor.isConnectedToAny(country.getConnectableServers());
+        binding.textMarker.setText(CountryTools.INSTANCE.getFullName(country.getMarkerCountryCode()));
+        binding.textMarker.setEnabled(hasAccess);
 
-        Button buttonConnect = calloutView.findViewById(R.id.buttonConnect);
-        buttonConnect.setText(currentConnection ? R.string.mapCalloutDisconnect : R.string.mapCalloutConnect);
-        buttonConnect.setOnClickListener(v -> {
-            if (currentConnection) {
-                vpnConnectionManager.disconnect();
-            }
-            else {
+        if (country.getMarkerEntryCountryCode() != null) {
+            binding.imageSCArrow.setVisibility(View.VISIBLE);
+            binding.imageEntryCountry.setVisibility(View.VISIBLE);
+            binding.imageEntryCountry.setImageResource(
+                CountryTools.getFlagResource(requireContext(), country.getMarkerEntryCountryCode()));
+        }
+        binding.imageExitCountry.setImageResource(
+            CountryTools.getFlagResource(requireContext(), country.getMarkerCountryCode()));
+
+        if (hasAccess) {
+            binding.buttonConnect.setOnClickListener(v -> {
                 EventBus.post(
                     new ConnectToServer(serverManager.getBestScoreServer(country.getConnectableServers())));
-            }
-            initMapState();
-            mapView.getCalloutLayout().removeAllViews();
-        });
+                initMapState();
+                mapView.getCalloutLayout().removeAllViews();
+            });
+            binding.buttonDisconnect.setOnClickListener(v -> {
+                vpnConnectionManager.disconnect();
+                initMapState();
+                mapView.getCalloutLayout().removeAllViews();
+            });
 
-        CircleProgress progressLoad = calloutView.findViewById(R.id.progressLoad);
-        // TODO should show load of country
-        progressLoad.setProgress(15);
-        return calloutView;
+            final boolean currentConnection = stateMonitor.isConnectedToAny(countryServers);
+            binding.buttonConnect.setVisibility(currentConnection ? View.INVISIBLE : View.VISIBLE);
+            binding.buttonDisconnect.setVisibility(currentConnection ? View.VISIBLE : View.INVISIBLE);
+            binding.buttonUpgrade.setVisibility(View.GONE);
+            binding.imageMarker.setImageResource(
+                currentConnection ? R.drawable.ic_marker_colored : R.drawable.ic_marker_available);
+        } else {
+            binding.buttonUpgrade.setOnClickListener(v -> openProtonUrl(requireContext(), Constants.DASHBOARD_URL));
+
+            binding.buttonConnect.setVisibility(View.GONE);
+            binding.buttonDisconnect.setVisibility(View.GONE);
+            binding.buttonUpgrade.setVisibility(View.VISIBLE);
+            float inactive_flag_alpha = AndroidUtils.getFloatRes(getResources(), R.dimen.inactive_flag_alpha);
+            binding.imageExitCountry.setAlpha(inactive_flag_alpha);
+            binding.imageEntryCountry.setAlpha(inactive_flag_alpha);
+            binding.imageMarker.setImageResource(R.drawable.ic_marker);
+        }
+
+        return binding.getRoot();
+    }
+
+    @NonNull
+    private String markerContentDescription(@NonNull Markable item, boolean isSelected) {
+        String result = "";
+        if (item.getMarkerEntryCountryCode() != null) {
+            result += CountryTools.INSTANCE.getFullName(item.getMarkerEntryCountryCode());
+            result += ' ' + Server.SECURE_CORE_SEPARATOR + ' ';
+        }
+        result += CountryTools.INSTANCE.getFullName(item.getMarkerCountryCode());
+        if (isSelected) {
+            result += " Selected";
+        }
+        return result;
     }
 }

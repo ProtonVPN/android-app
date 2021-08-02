@@ -138,7 +138,9 @@ data class Server(
 
     override fun isSecureCoreMarker() = false
 
-    override fun getMarkerText(): String = secureCoreServerNaming
+    override fun getMarkerEntryCountryCode(): String? = if (isSecureCoreServer) entryCountry else null
+
+    override fun getMarkerCountryCode(): String = flag
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 

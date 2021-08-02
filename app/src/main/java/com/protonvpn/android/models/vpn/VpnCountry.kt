@@ -75,7 +75,9 @@ class VpnCountry(
 
     override fun isSecureCoreMarker(): Boolean = isSecureCoreCountry()
 
-    override fun getMarkerText(): String = countryName
+    override fun getMarkerEntryCountryCode(): String? = null
+
+    override fun getMarkerCountryCode(): String = flag
 
     override fun getConnectableServers(): List<Server> = serverList
 
