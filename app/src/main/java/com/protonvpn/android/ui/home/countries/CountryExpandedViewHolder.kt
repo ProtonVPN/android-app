@@ -69,22 +69,12 @@ open class CountryExpandedViewHolder(
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
 
-            val textColorAttr = if (haveAccess && server.online)
-                R.attr.proton_text_norm
-            else
-                R.attr.proton_text_hint
-
             textServer.isVisible = true
-            textServer.setTextColor(textServer.getThemeColor(textColorAttr))
-
-            val cityColorAttr = if (haveAccess && server.online)
-                R.attr.proton_text_weak
-            else
-                R.attr.proton_text_hint
+            textServer.isEnabled = haveAccess && server.online
 
             textCity.isVisible = server.city != null && !secureCoreEnabled
             textCity.text = if (server.isFreeServer) "" else server.city
-            textCity.setTextColor(textCity.getThemeColor(cityColorAttr))
+            textCity.isEnabled = haveAccess && server.online
 
             buttonUpgrade.isVisible = !haveAccess
             imageWrench.isVisible = haveAccess && !server.online

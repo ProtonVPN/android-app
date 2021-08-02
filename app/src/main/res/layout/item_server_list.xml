@@ -58,6 +58,7 @@
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:textColor="@color/text_server_selector"
                 tools:text="DE#1" />
 
             <TextView
@@ -65,9 +66,10 @@
                 style="@style/Proton.Text.DefaultSmall.Weak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="1"
                 android:ellipsize="end"
-                tools:text="Berlin"/>
+                android:lines="1"
+                android:textColor="@color/text_city_selector"
+                tools:text="Berlin" />
         </LinearLayout>
 
         <LinearLayout
