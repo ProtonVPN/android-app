@@ -17,6 +17,7 @@ package com.protonvpn.android.vpn.wireguard
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
@@ -27,9 +28,9 @@ class WireguardContextWrapper(context: Context) : ContextWrapper(context) {
     override fun startService(serviceIntent: Intent?): ComponentName? {
         return if (Build.VERSION.SDK_INT >= 26) {
             val ourIntent = Intent(this, WireguardWrapperService::class.java)
-            this.startForegroundService(ourIntent)
+            baseContext.startForegroundService(ourIntent)
         } else {
-            this.startService(serviceIntent)
+            baseContext.startService(serviceIntent)
         }
     }
 }
