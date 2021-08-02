@@ -16,79 +16,107 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layoutDirection="ltr">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
-        android:layout_marginBottom="-2dp"
-        android:layout_marginTop="-12dp"
-        android:background="?colorAccent"
+        android:background="@drawable/bg_map_callout"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="24dp">
 
-        <TextView
-            android:id="@+id/textMarker"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            tools:text="Server test name" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonConnect"
+            <ImageView
+                android:id="@+id/imageEntryCountry"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                tools:src="@drawable/se" />
+
+            <ImageView
+                android:id="@+id/imageSCArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_secure_core_arrow_green"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imageExitCountry"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true" />
+
+            <TextView
+                android:id="@+id/textMarker"
+                style="@style/Proton.Text.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_server_selector"
+                tools:text="Server test name" />
+
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/button_rounded"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:text="@string/mapCalloutConnect"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonConnect"
+                style="@style/ProtonButton.Secondary"
+                android:textAppearance="@style/Proton.Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="?attr/brand_norm"
+                android:text="@string/mapCalloutConnect" />
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonDisconnect"
+                style="@style/ProtonButton.Secondary"
+                android:textAppearance="@style/Proton.Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                app:strokeColor="?attr/proton_interaction_strong"
+                app:strokeWidth="@dimen/mtrl_btn_stroke_size"
+                android:text="@string/mapCalloutDisconnect" />
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonUpgrade"
+                style="@style/ProtonButton.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upgrade" />
+        </FrameLayout>
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/ic_buble"
-        android:contentDescription="@null" />
-
-    <com.github.lzyzsd.circleprogress.CircleProgress
-        android:id="@+id/progressLoad"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
-        app:circle_finished_color="@color/white"
-        app:circle_text_size="0dp"
-        app:circle_unfinished_color="#552D2C32" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
         android:contentDescription="@null"
         app:srcCompat="@drawable/ic_marker_colored" />
 
-</RelativeLayout>
+</LinearLayout>

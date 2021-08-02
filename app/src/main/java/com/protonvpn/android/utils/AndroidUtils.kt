@@ -153,6 +153,7 @@ object AndroidUtils {
     fun playMarketIntentFor(appId: String) =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appId"))
 
+    @JvmStatic
     fun Resources.getFloatRes(@DimenRes id: Int) = TypedValue().also {
         getValue(id, it, true)
     }.float

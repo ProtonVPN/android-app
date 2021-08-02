@@ -28,6 +28,7 @@ import java.util.Locale
 
 object CountryTools {
 
+    @JvmStatic
     fun getFlagResource(context: Context, flag: String?): Int {
         var desiredFlag = 0
         flag?.let {
