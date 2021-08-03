@@ -23,12 +23,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/loginBackground"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:gravity="center_horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -40,11 +38,12 @@
                 android:id="@+id/imageBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,17 +52,18 @@
                 app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_map" />
 
-            <com.protonvpn.android.components.ProtonCompatTextView
+            <TextView
                 android:id="@+id/protonLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:drawableStart="@drawable/ic_proton"
+                app:drawableStartCompat="@drawable/ic_proton"
                 app:layout_constraintBottom_toBottomOf="@+id/imageBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageBackground"
@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
                 android:text="@string/loginSlogan"
                 android:textAllCaps="true"
                 android:textColor="@color/slogan"
@@ -86,77 +87,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/linearLayout4"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <me.proton.core.presentation.ui.view.ProtonInput
                     android:id="@+id/inputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hintUsername"
-                    android:textColorHint="@color/white70">
+                    app:label="@string/hintUsername" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/editEmail"
-                        style="@style/EditText.Login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textVisiblePassword"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        app:backgroundTint="@color/white70" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
+                <me.proton.core.presentation.ui.view.ProtonInput
                     android:id="@+id/inputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hintPassword"
-                    android:textColorHint="@color/white70"
-                    app:passwordToggleDrawable="@drawable/ic_password_selector"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/white70">
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/login"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    app:actionMode="password_toggle"
+                    app:label="@string/hintPassword"
+                    tools:ignore="InvalidImeActionId" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/editPassword"
-                        style="@style/EditText.Login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeActionId="@+id/login"
-                        android:imeActionLabel="@string/login"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:saveEnabled="false"
-                        app:backgroundTint="@color/white70"
-                        tools:ignore="InvalidImeActionId" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <androidx.appcompat.widget.SwitchCompat
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchStartWithDevice"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
+                    android:layout_height="wrap_content"
                     android:text="@string/loginStartWithDevice"
-                    android:textColor="@color/white70"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    android:theme="@style/SCSwitch.Green"
                     android:visibility="gone" />
             </LinearLayout>
 
@@ -164,11 +127,7 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
                 android:orientation="vertical"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -176,38 +135,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutCredentials">
 
-                <Button
+                <me.proton.core.presentation.ui.view.ProtonButton
                     android:id="@+id/buttonLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/button_rounded"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp"
-                    android:text="@string/login"
-                    android:textColor="@color/white" />
+                    android:text="@string/login" />
 
-                <TextView
-                    android:id="@+id/textCreateAccount"
+                <me.proton.core.presentation.ui.view.ProtonButton
+                    android:id="@+id/buttonCreateAccount"
+                    style="@style/ProtonButton.Borderless.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="8dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center_horizontal"
-                    android:padding="8dp"
-                    android:text="@string/loginCreateAccount"
-                    android:textColor="@color/lightGrey" />
+                    android:text="@string/loginCreateAccount" />
 
-                <TextView
-                    android:id="@+id/textNeedHelp"
+                <View style="@style/Divider.Small" />
+
+                <me.proton.core.presentation.ui.view.ProtonButton
+                    android:id="@+id/buttonNeedHelp"
+                    style="@style/ProtonButton.Borderless.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center_horizontal"
-                    android:padding="8dp"
-                    android:text="@string/loginNeedHelp"
-                    android:textColor="@color/lightGrey" />
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/loginNeedHelp" />
 
             </LinearLayout>
 
@@ -224,9 +179,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/darkGrey">
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:background="?attr/proton_background_norm">
 
                 <LinearLayout
                     android:id="@+id/layoutConnectionAllocationTitle"
@@ -248,17 +202,16 @@
                         app:srcCompat="@drawable/ic_proton_green"/>
 
                     <TextView
+                        style="@style/Proton.Text.Headline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/connectionAllocationHelpTitle"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"/>
+                        android:text="@string/connectionAllocationHelpTitle" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/textConnectionAllocationDescription"
-                    style="@style/Body1Regular"
+                    style="@style/Proton.Text.Default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -274,32 +227,25 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription">
 
-                    <Button
+                    <me.proton.core.presentation.ui.view.ProtonButton
                         android:id="@+id/buttonAssignVpnConnections"
+                        style="@style/ProtonButton.OutlinedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button_rounded"
-                        android:paddingLeft="36dp"
-                        android:paddingRight="36dp"
-                        android:text="@string/connectionAllocationHelpAssignConnectionsButton"
-                        android:textColor="@color/white" />
+                        android:text="@string/connectionAllocationHelpAssignConnectionsButton" />
 
-                    <Button
+                    <me.proton.core.presentation.ui.view.ProtonButton
                         android:id="@+id/buttonReturnToLogin"
+                        style="@style/ProtonButton.OutlinedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button_rounded"
-                        android:paddingLeft="36dp"
-                        android:paddingRight="36dp"
-                        android:text="@string/connectionAllocationHelpLoginAgainButton"
-                        android:textColor="@color/white" />
+                        android:layout_marginTop="8dp"
+                        android:text="@string/connectionAllocationHelpLoginAgainButton" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
