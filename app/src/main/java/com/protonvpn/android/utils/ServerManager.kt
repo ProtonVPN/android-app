@@ -67,7 +67,15 @@ class ServerManager(
 
     val isOutdated: Boolean
         get() = updatedAt == null || vpnCountries.isEmpty() ||
-                DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY
+                DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
+                !haveWireGuardSupport()
+
+    private fun haveWireGuardSupport() =
+        vpnCountries.any { country ->
+            country.serverList.any { server ->
+                server.connectingDomains.any { it.publicKeyX25519 != null }
+            }
+        }
 
     private val allServers get() =
         sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
