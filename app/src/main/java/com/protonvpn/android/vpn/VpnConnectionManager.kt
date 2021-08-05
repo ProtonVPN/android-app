@@ -29,6 +29,8 @@ import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
@@ -49,12 +51,11 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import io.sentry.event.EventBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
+import kotlin.coroutines.coroutineContext
 
 @Singleton
 open class VpnConnectionManager(
@@ -135,7 +136,7 @@ open class VpnConnectionManager(
                     vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
                 }
 
-                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.name}")
+                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
                 DebugUtils.debugAssert {
                     (state in arrayOf(VpnState.Connecting, VpnState.Connected, VpnState.Reconnecting))
                         .implies(connectionParams != null && activeBackend != null)
@@ -143,7 +144,7 @@ open class VpnConnectionManager(
 
                 when (state) {
                     VpnState.Connected -> {
-                        EventBus.postOnMain(ConnectedToServer(Storage.load(Server::class.java)))
+                        EventBus.postOnMain(ConnectedToServer(connectionParams!!.server))
                     }
                     VpnState.Disabled -> {
                         EventBus.postOnMain(ConnectedToServer(null))
@@ -167,8 +168,6 @@ open class VpnConnectionManager(
             activeBackend == null || activeBackend == newBackend
         }
         if (activeBackend != newBackend) {
-            activeBackend?.active = false
-            newBackend.active = true
             newBackend.setSelfState(VpnState.Connecting)
             activeBackendObservable.value = newBackend
             setSelfState(VpnState.Disabled)
@@ -230,13 +229,21 @@ open class VpnConnectionManager(
     }
 
     private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
-        val fallback = if (server == null) {
-            ProtonLogger.log("Server not available. Finding alternative...")
-            vpnErrorHandler.onServerNotAvailable(profile)
-        } else {
-            ProtonLogger.log("Server in maintenance. Finding alternative...")
-            vpnErrorHandler.onServerInMaintenance(profile, null)
-        }
+        val fallback = if (profile.getProtocol(userData) == VpnProtocol.WireGuard) {
+            // TODO Re-enable onServerInMaintenance logic once we have Wireguard pinging
+                VpnFallbackResult.Switch.SwitchProfile(
+                    server, serverManager.defaultFallbackConnection
+                )
+            } else {
+                if (server == null) {
+                    ProtonLogger.log("Server not available. Finding alternative...")
+                    vpnErrorHandler.onServerNotAvailable(profile)
+                } else {
+                    ProtonLogger.log("Server in maintenance. Finding alternative...")
+                    vpnErrorHandler.onServerInMaintenance(profile, null)
+                }
+            }
+
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
@@ -256,6 +263,14 @@ open class VpnConnectionManager(
     private suspend fun smartConnect(profile: Profile, server: Server) {
         ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
+
+        if (activeBackend != null) {
+            ProtonLogger.log("Disconnecting first...")
+            disconnectForNewConnection()
+            if (!coroutineContext.isActive)
+                return // Don't connect if the scope has been cancelled.
+            ProtonLogger.log("Disconnected, start connecting to new server.")
+        }
 
         if (profile.getProtocol(userData) == VpnProtocol.Smart)
             setSelfState(VpnState.ScanningPorts)
@@ -289,7 +304,7 @@ open class VpnConnectionManager(
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
-        activeBackend?.connect()
+        activeBackend?.connect(preparedConnection.connectionParams)
         ongoingConnect = null
     }
 
@@ -339,16 +354,35 @@ open class VpnConnectionManager(
     private fun connectWithPermission(context: Context, profile: Profile) {
         val server = profile.server
         if (server?.online == true) {
-            clearOngoingConnection()
-            ongoingConnect = scope.launch {
-                smartConnect(profile, server)
-                ongoingConnect = null
+            if (server.supportsProtocol(profile.getProtocol(userData))) {
+                clearOngoingConnection()
+                ongoingConnect = scope.launch {
+                    smartConnect(profile, server)
+                    ongoingConnect = null
+                }
+            } else {
+                protocolNotSupportedDialog(context)
             }
         } else {
             ongoingFallback = scope.launch {
                 onServerNotAvailable(context, profile, server)
                 ongoingFallback = null
             }
+        }
+    }
+
+    private fun protocolNotSupportedDialog(context: Context) {
+        if (context is Activity) {
+            MaterialDialog.Builder(context).theme(Theme.DARK)
+                .content(R.string.serverNoWireguardSupport)
+                .positiveText(R.string.close)
+                .show()
+        } else {
+            notificationHelper.showInformationNotification(
+                context,
+                context.getString(R.string.serverNoWireguardSupport),
+                icon = R.drawable.ic_notification_disconnected
+            )
         }
     }
 
@@ -367,9 +401,20 @@ open class VpnConnectionManager(
         Storage.delete(ConnectionParams::class.java)
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
-        activeBackend?.active = false
         activeBackendObservable.value = null
         connectionParams = null
+    }
+
+    private suspend fun disconnectForNewConnection() {
+        Storage.delete(ConnectionParams::class.java)
+        // The UI relies on going through this state to properly show that a new connection is
+        // being established (as opposed to reconnecting to the same server).
+        setSelfState(VpnState.Disconnecting)
+        val previousBackend = activeBackend
+        activeBackendObservable.value = null
+        // CheckingAvailability seems to be the best state without introducing a new one.
+        setSelfState(VpnState.CheckingAvailability)
+        previousBackend?.disconnect()
     }
 
     open fun disconnect() {

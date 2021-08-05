@@ -29,6 +29,8 @@ import com.protonvpn.mocks.MockVpnBackend;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+
 public class ServerManagerHelper {
 
     @Inject public VpnStateMonitor vpnStateMonitor;

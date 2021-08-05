@@ -138,7 +138,8 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
     private fun initProtocolSelection() = with(binding.contentProfile) {
         val protocol = viewModel.selectedProtocol
         val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
-        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol, viewModel.transmissionProtocol) {
+        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol,
+                viewModel.transmissionProtocol) {
             viewModel.editableProfile?.setProtocol(protocolSelection.protocol)
             viewModel.editableProfile?.setTransmissionProtocol(
                     protocolSelection.transmissionProtocol.toString())
@@ -171,13 +172,15 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
             palette.setSelectedColor(profile?.color
                     ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
 
-            // Profile server might be null if it was removed from API server list responses
+            // Profile server or country might be null if it was removed from API server list responses
             if (server != null) {
                 val country = viewModel.getServerCountry(server)
-                spinnerCountry.selectedItem = country
-                spinnerServer.selectedItem = profile?.wrapper
-                spinnerServer.setItems(country!!.wrapperServers)
-                inputLayoutServer.isVisible = true
+                if (country != null) {
+                    spinnerCountry.selectedItem = country
+                    spinnerServer.selectedItem = profile?.wrapper
+                    spinnerServer.setItems(country.wrapperServers)
+                    inputLayoutServer.isVisible = true
+                }
             }
         }
     }

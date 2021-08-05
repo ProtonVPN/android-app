@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">U probeert verbinding te maken met een Secure Core server. Dit schakelt Secure Core mode%1$s in. Doorgaan?</string>
   <string name="secureCoreSwitchOff">U probeert verbinding te maken met een server zonder Secure Core-functionaliteit. Dit zal Secure Core uitschakelen%1$s Doorgaan?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;en <b>verbreek uw huidige verbinding</b>.]]></string>
-  <string name="disconnectDialogDescription">Deze actie verbreekt de verbinding van uw huidige sessie. Weet u zeker dat u wilt doorgaan?</string>
   <string name="logoutDescription">Uitloggen zal de verbinding van uw apparaat met de VPN server verbreken.</string>
   <string name="showAllProfiles">Alle profielen weergeven</string>
   <string name="yes">Ja</string>
@@ -400,8 +399,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN-Accelerator maakt een set van unieke prestaties verbetering technologieën mogelijk die VPN snelheid met tot 400% kunnen verhogen</string>
-  <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
+    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
   <string name="dialogTitleReconnectionNeeded">Opnieuw verbinden nodig</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Uw verbinding moet opnieuw worden gestart om de VPN-Accelerator-modus te wijzigen.</string>

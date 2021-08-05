@@ -41,12 +41,13 @@ open class ConnectionParams(
     fun getVpnUsername(userData: UserData, appConfig: AppConfig): String {
         var username = userData.vpnUserName + profile.getNetShieldProtocol(userData, appConfig).protocolString +
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
-        if (!connectingDomain?.label.isNullOrBlank())
-            username += "+b:${connectingDomain?.label}"
         if (appConfig.getFeatureFlags().vpnAccelerator && !userData.isVpnAcceleratorEnabled)
             username += "+nst"
+        bouncing?.let { username += "+b:$it" }
         return username
     }
+
+    val bouncing: String? get() = connectingDomain?.label?.takeIf(String::isNotBlank)
 
     override fun toString() = info
 

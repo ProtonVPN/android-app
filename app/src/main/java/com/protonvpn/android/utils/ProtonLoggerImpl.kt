@@ -50,13 +50,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
+import java.util.GregorianCalendar
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-private const val LOG_PATTERN = "%d{HH:mm:ss}: %msg"
+private const val LOG_PATTERN = "%d{HH:mm:ss}%property{timeZone}: %msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
@@ -75,13 +77,16 @@ open class ProtonLoggerImpl(
         private val loggerDispatcher: CoroutineDispatcher,
         private val messages: Flow<String>,
         private val logDir: String,
-        private val logPattern: String
+        private val logPattern: String,
+        uniqueLoggerName: String
     ) {
+
+        private lateinit var logContext: LoggerContext
 
         private val fileName = "Data.log"
         private val fileName2 = "Data1.log"
         private val logger =
-            LoggerFactory.getLogger(ProtonLoggerImpl::class.java) as ch.qos.logback.classic.Logger
+            LoggerFactory.getLogger(uniqueLoggerName) as ch.qos.logback.classic.Logger
 
         init {
             mainScope.launch(loggerDispatcher) {
@@ -142,17 +147,17 @@ open class ProtonLoggerImpl(
         }.flowOn(loggerDispatcher)
 
         private fun initialize() {
-            val context = LoggerFactory.getILoggerFactory() as LoggerContext
+            logContext = LoggerFactory.getILoggerFactory() as LoggerContext
 
-            val patternEncoder = createAndStartEncoder(context, "$logPattern%n")
+            val patternEncoder = createAndStartEncoder(logContext, "$logPattern%n")
 
             val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
-                this.context = context
+                this.context = logContext
                 file = "$logDir/$fileName"
             }
 
             val rollingPolicy = FixedWindowRollingPolicy().apply {
-                this.context = context
+                this.context = logContext
                 setParent(fileAppender)
                 fileNamePattern = "$logDir/Data%i.log"
                 minIndex = 1
@@ -162,7 +167,7 @@ open class ProtonLoggerImpl(
 
             val triggerPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>().apply {
                 maxFileSize = FileSize.valueOf(LOG_ROTATE_SIZE)
-                this.context = context
+                this.context = logContext
                 start()
             }
 
@@ -170,22 +175,25 @@ open class ProtonLoggerImpl(
             fileAppender.rollingPolicy = rollingPolicy
 
             val logcatAppender = LogcatAppender().apply {
-                this.context = context
+                this.context = logContext
                 encoder = patternEncoder
                 start()
             }
 
             fileAppender.encoder = patternEncoder
             fileAppender.start()
-            val root = context.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
-            root.addAppender(fileAppender)
-            root.addAppender(logcatAppender)
 
-            StatusPrinter.print(context)
+            logger.addAppender(fileAppender)
+            logger.addAppender(logcatAppender)
+
+            StatusPrinter.print(logContext)
         }
 
         private suspend fun processLogs() {
-            messages.collect { message -> logger.debug(message) }
+            messages.collect { message ->
+                logContext.putProperty("timeZone", timeZoneSuffix(GregorianCalendar()))
+                logger.debug(message)
+            }
         }
 
         private fun getLogFiles(): List<File> {
@@ -241,7 +249,7 @@ open class ProtonLoggerImpl(
     }
 
     private val logMessageQueue =
-        MutableSharedFlow<String>(0, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
+        MutableSharedFlow<String>(10, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
 
     private val backgroundLogger = BackgroundLogger(
         appContext,
@@ -249,7 +257,8 @@ open class ProtonLoggerImpl(
         loggerDispatcher,
         logMessageQueue,
         logDir,
-        logPattern
+        logPattern,
+        getUniqueLoggerName()
     )
 
     fun logSentryEvent(event: Event) {
@@ -287,6 +296,16 @@ open class ProtonLoggerImpl(
             backgroundLogger.clearUploadTempFiles(files)
         }
     }
+
+    companion object {
+        private var instanceNumber = 0
+
+        private fun getUniqueLoggerName(): String = synchronized(this) {
+            val uniqueName = "ProtonLogger_$instanceNumber"
+            ++instanceNumber
+            return uniqueName
+        }
+    }
 }
 
 private fun logException(message: String, throwable: Throwable) {
@@ -295,4 +314,10 @@ private fun logException(message: String, throwable: Throwable) {
         .withSentryInterface(ExceptionInterface(throwable))
         .build()
     ProtonLogger.logSentryEvent(event)
+}
+
+fun timeZoneSuffix(time: GregorianCalendar): String {
+    val timeZoneOffsetMs = time.timeZone.getOffset(time.timeInMillis)
+    val timeZoneOffsetH = TimeUnit.MILLISECONDS.toMinutes(timeZoneOffsetMs.toLong()) / 60.0
+    return (if (timeZoneOffsetH % 1.0 == 0.0) "%+.0f" else "%+.1f").format(Locale.US, timeZoneOffsetH)
 }

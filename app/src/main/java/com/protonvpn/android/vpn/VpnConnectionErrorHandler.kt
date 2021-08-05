@@ -396,7 +396,8 @@ class VpnConnectionErrorHandler(
                     .withExtra("Server", result.value.connectingDomain.entryDomain)
                     .build()
                 ProtonLogger.logSentryEvent(sentryEvent)
-                return if (smartReconnectEnabled) {
+                // TODO Re-enable onServerInMaintenance logic once we have Wireguard pinging
+                return if (smartReconnectEnabled && connectionParams.protocol != VpnProtocol.WireGuard) {
                     onServerInMaintenance(connectionParams.profile, connectionParams)
                 } else {
                     VpnFallbackResult.Switch.SwitchProfile(

@@ -76,6 +76,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
+import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
@@ -219,6 +220,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
+    }
+
     private void showMigrationDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(R.string.successful_migration_message);
@@ -248,18 +255,25 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void initSecureCoreSwitch() {
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
-            if (vpnStateMonitor.isConnected() && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
+            if (!switchView.isChecked() && !userData.hasAccessToSecureCore()) {
+                showUpgradeDialog(true, false);
+                return true;
+            } else if (vpnStateMonitor.isConnected()
+                    && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
                 new MaterialDialog.Builder(getContext()).title(R.string.warning)
                     .theme(Theme.DARK)
-                    .content(R.string.disconnectDialogDescription)
+                    .content(R.string.reconnectOnSecureCoreChangeDialogMessage)
                     .cancelable(false)
-                    .positiveText(R.string.yes)
-                    .negativeText(R.string.no)
+                    .positiveText(R.string.dialogContinue)
+                    .negativeText(R.string.cancel)
                     .negativeColor(ContextCompat.getColor(this, R.color.white))
                     .onPositive((dialog, which) -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
-                        vpnConnectionManager.disconnect();
+                        viewModel.reconnectToSameCountry(newProfile -> {
+                            onConnect(newProfile, "Secure Core switch");
+                            return Unit.INSTANCE;
+                        });
                     })
                     .show();
                 return true;
@@ -397,7 +411,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         }
         else {
             Server server = connectTo.getServer();
-            onConnect(Profile.Companion.getTempProfile(server, serverManager, server.getExitCountry()));
+            onConnect(Profile.Companion.getTempProfile(server, serverManager));
         }
     }
 
@@ -570,18 +584,20 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     @Override
-    public void onConnect(@NotNull Profile profile) {
+    public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
-        if ((secureCoreServer && !secureCoreOn) || (!secureCoreServer && secureCoreOn)) {
-            showSecureCoreChangeDialog(profile);
-        }
-        else {
-            super.onConnect(profile);
+        if (secureCoreServer && !userData.hasAccessToSecureCore()) {
+            showUpgradeDialog(true, false);
+        } else if (secureCoreServer != secureCoreOn) {
+            showSecureCoreChangeDialog(profile, connectionCauseLog);
+        } else {
+            super.onConnect(profile, connectionCauseLog);
         }
     }
 
-    private void showSecureCoreChangeDialog(Profile profileToConnect) {
+    private void showSecureCoreChangeDialog(
+            @NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         String disconnect =
             vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : ".";
         boolean isSecureCoreServer = profileToConnect.isSecureCore();
@@ -594,7 +610,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             .positiveText(R.string.yes)
             .negativeText(R.string.no)
             .negativeColor(ContextCompat.getColor(this, R.color.white))
-            .onPositive((dialog, which) -> super.onConnect(profileToConnect))
+            .onPositive((dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
             .show();
     }
 

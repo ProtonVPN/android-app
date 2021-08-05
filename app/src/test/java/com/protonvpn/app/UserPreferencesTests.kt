@@ -41,8 +41,7 @@ class UserPreferencesTests {
 
     @Test
     fun simpleOpenTracking() {
-        val testPrefs =
-                UserData()
+        val testPrefs = UserData.create()
         testPrefs.trackAppOpening(DateTime("2018-08-16T07:22:05Z"))
         testPrefs.trackAppOpening(DateTime("2018-08-16T09:22:05Z"))
         testPrefs.trackAppOpening(DateTime("2018-08-16T10:22:05Z"))
@@ -53,8 +52,7 @@ class UserPreferencesTests {
 
     @Test
     fun consecutiveOpenTracking() {
-        val testPrefs =
-                UserData()
+        val testPrefs = UserData.create()
         testPrefs.trackAppOpening(DateTime("2018-08-16T07:22:05Z"))
         testPrefs.trackAppOpening(DateTime("2018-08-17T10:22:05Z"))
         testPrefs.trackAppOpening(DateTime("2018-08-18T10:22:05Z"))

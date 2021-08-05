@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import javax.inject.Inject
@@ -35,6 +36,7 @@ import javax.inject.Inject
 open class MainViewModel @Inject constructor(
     private val userData: UserData,
     private val userPlanManager: UserPlanManager,
+    private val certificateRepository: CertificateRepository
 ) : ViewModel(), LifecycleObserver {
 
     val userPlanChangeEvent = userPlanManager.planChangeFlow
@@ -42,6 +44,7 @@ open class MainViewModel @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResumed() {
         refreshVPNInfo()
+        certificateRepository.checkCertificateValidity()
     }
 
     fun isTrialUser() = userPlanManager.isTrialUser()

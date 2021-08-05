@@ -53,6 +53,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
+private const val NOT_VPN = "NOT_VPN"
+
 @Singleton
 class ConnectivityMonitor(
     coroutineScope: CoroutineScope,
@@ -62,6 +64,10 @@ class ConnectivityMonitor(
     private var currentCapabilities: Map<String, Boolean> = LinkedHashMap()
 
     val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
+
+    // This means current connection goes through VPN tunnel. It doesn't mean connection is fully functional (we can
+    // be hard-jailed for example) - for that use VpnStateMonitor
+    val vpnActive get() = currentCapabilities[NOT_VPN] == false
 
     private val capabilitiesConstantMap = mutableMapOf(
         "MMS" to NET_CAPABILITY_MMS,
@@ -74,7 +80,7 @@ class ConnectivityMonitor(
         "XCAP" to NET_CAPABILITY_XCAP,
         "NOT_METERED" to NET_CAPABILITY_NOT_METERED,
         "INTERNET" to NET_CAPABILITY_INTERNET,
-        "NOT_VPN" to NET_CAPABILITY_NOT_VPN,
+        NOT_VPN to NET_CAPABILITY_NOT_VPN,
         "TRUSTED" to NET_CAPABILITY_TRUSTED,
         "TEMP NOT METERED" to NET_CAPABILITY_TEMPORARILY_NOT_METERED,
         "NOT SUSPENDED" to NET_CAPABILITY_MCX,

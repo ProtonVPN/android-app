@@ -20,6 +20,7 @@ package com.protonvpn.android.models.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.proton.core.network.domain.session.SessionId
 
 @Serializable
 data class LoginResponse(
@@ -30,4 +31,6 @@ data class LoginResponse(
     @SerialName(value = "Uid") val uid: String,
     @SerialName(value = "RefreshToken") var refreshToken: String,
     @SerialName(value = "UserID") val userId: String?,
-)
+) {
+    val sessionId get() = SessionId(uid)
+}

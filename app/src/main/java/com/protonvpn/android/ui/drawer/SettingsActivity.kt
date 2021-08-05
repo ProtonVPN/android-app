@@ -125,7 +125,8 @@ class SettingsActivity : BaseActivity() {
             userPrefs.apiUseDoH = isChecked
         }
 
-        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol, userPrefs.transmissionProtocol) {
+        protocolSelection.init(userPrefs.useSmartProtocol, userPrefs.manualProtocol,
+                userPrefs.transmissionProtocol) {
             userPrefs.useSmartProtocol = protocolSelection.useSmart
             userPrefs.manualProtocol = protocolSelection.manualProtocol
             userPrefs.transmissionProtocol = protocolSelection.transmissionProtocol
@@ -186,6 +187,8 @@ class SettingsActivity : BaseActivity() {
     private fun initVpnAcceleratorToggles() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
+            switchVpnAccelerator.setDescription(HtmlTools.fromHtml(getString(
+                R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)))
             switchVpnAccelerator.switchProton.switchClickInterceptor = {
                 tryToggleVpnAccelerator()
                 true

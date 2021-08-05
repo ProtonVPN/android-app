@@ -20,14 +20,14 @@ package com.protonvpn.android;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
-import android.os.PowerManager;
+import android.os.SystemClock;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
@@ -35,6 +35,7 @@ import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.vpn.VpnLogCapture;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -42,10 +43,13 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
+import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
@@ -54,6 +58,8 @@ import rx_activity_result2.RxActivityResult;
 public class ProtonApplication extends DaggerApplication {
 
     public Activity foregroundActivity;
+
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -77,7 +83,12 @@ public class ProtonApplication extends DaggerApplication {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        ProtonLogger.INSTANCE.log("App start");
+        // Initialize go-libraries early to avoid crashes in StrongSwan
+        Seq.touch();
+
+        ProtonLogger.INSTANCE.log("--------- App start ---------");
+        // Inject VpnLogCapture once injection into ProtonApplication is fixed in androidTests.
+        (new VpnLogCapture(getAppComponent(), SystemClock::elapsedRealtime)).startCapture();
     }
 
     private void initActivityObserver() {
@@ -85,17 +96,12 @@ public class ProtonApplication extends DaggerApplication {
 
             @Override public void onActivityResumed(@NonNull Activity activity) {
                 foregroundActivity = activity;
-                ProtonLogger.INSTANCE.log("App in foreground " + activity.getClass().getSimpleName() + " "
-                    + BuildConfig.VERSION_NAME);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-                    ProtonLogger.INSTANCE.log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(getPackageName()));
-                }
+                ProtonLogger.logActivityResumed(activity);
             }
 
             @Override public void onActivityPaused(@NonNull Activity activity) {
                 foregroundActivity = null;
-                ProtonLogger.INSTANCE.log("App in background " + activity.getClass().getSimpleName());
+                ProtonLogger.logActivityPaused(activity);
             }
         });
     }
@@ -132,7 +138,14 @@ public class ProtonApplication extends DaggerApplication {
 
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return DaggerAppComponent.builder().application(this).build();
+        return getAppComponent();
+    }
+
+    private AppComponent getAppComponent() {
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder().application(this).build();
+        }
+        return appComponent;
     }
 
     @NotNull

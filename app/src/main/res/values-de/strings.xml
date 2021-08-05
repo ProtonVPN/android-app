@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Sie versuchen sich mit einem „Secure Core”‐Server zu verbinden. Dies wird Secure Core aktivieren%1$s Fortfahren?</string>
   <string name="secureCoreSwitchOff">Sie versuchen sich mit einem Server zu verbinden, der kein „Secure Core”‐Server ist. Dies wird Secure Core deaktivieren%1$s Fortfahren?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;und Ihre <b>aktuelle Verbindung unterbrechen</b>.]]></string>
-  <string name="disconnectDialogDescription">Diese Aktion wird Sie von der aktuellen Sitzung trennen. Sind Sie sicher, dass Sie fortfahren möchten?</string>
   <string name="logoutDescription">Das Abmelden wird Ihr Gerät vom VPN‐Server trennen.</string>
   <string name="showAllProfiles">Alle Profile anzeigen</string>
   <string name="yes">Ja</string>
@@ -397,7 +396,6 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="tv_server_list">Serverliste</string>
   <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">„VPN Accelerator“ ermöglicht eine Reihe von einzigartigen leistungssteigernden Technologien, die die VPN-Geschwindigkeit um bis zu 400% erhöhen können</string>
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator — Benachrichtigungen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn Sie durch „VPN Accelerator” mit einem schnelleren Server verbunden werden</string>
   <string name="dialogTitleReconnectionNeeded">Neuverbinden erforderlich</string>

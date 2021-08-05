@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Stai cercando di connetterti al server Secure Core. Questo abiliterà la modalità Secure Core%1$s Continuare?</string>
   <string name="secureCoreSwitchOff">Stai cercando di connetterti ad un server non Secure Core. Questo disabiliterà la modalità Secure Core%1$s Continuare?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;e <b>fa cadere la connessione attuale</b>.]]></string>
-  <string name="disconnectDialogDescription">Questa azione ti disconnetterà dalla sessione corrente. Sei sicuro di voler continuare?</string>
   <string name="logoutDescription">La disconnessione disconnetterà il dispositivo dal server VPN.</string>
   <string name="showAllProfiles">Mostra tutti i profili</string>
   <string name="yes">Sì</string>
@@ -400,8 +399,7 @@ Segui questi passi per attivare VPN Sempre Attiva e Kill Switch:"</string>
   <string name="tv_server_list">Lista dei server</string>
   <string name="tv_server_list_action_unavailable">Non disponibile</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator abilita una serie di tecnologie uniche di miglioramento delle prestazioni che possono aumentare la velocità della VPN fino al 400%</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Ricevi una notifica quando VPN Accelerator ti passa a un server più veloce</string>
   <string name="dialogTitleReconnectionNeeded">Riconnessione necessaria</string>
   <string name="settingsSmartReconnectReconnectDialogContent">La tua connessione deve essere riavviata per cambiare la modalità VPN Accelerator.</string>

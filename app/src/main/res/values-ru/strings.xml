@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Это действие включит режим Secure Core%1$s Продолжить?</string>
   <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу, не поддерживающему Secure Core. Это действие выключит режим Secure Core%1$s Продолжить?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>разорвать текущее соединение</b>.]]></string>
-  <string name="disconnectDialogDescription">Это действие отключит Вас от текущего сеанса. Вы уверены, что хотите продолжить?</string>
   <string name="logoutDescription">Выход отключит ваше устройство от VPN-сервера.</string>
   <string name="showAllProfiles">Показать все профили</string>
   <string name="yes">Да</string>
@@ -414,8 +413,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_server_list">Список серверов</string>
   <string name="tv_server_list_action_unavailable">Недоступно</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">VPN Accelerator позволяет использовать набор уникальных технологий для улучшения производительности, которые могут увеличить скорость VPN до 400%</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="dialogTitleReconnectionNeeded">Требуется переподключение</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Необходимо перезапустить ваше подключение для изменения режима VPN Accelerator.</string>

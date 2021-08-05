@@ -70,10 +70,12 @@ class ProtocolSelection @JvmOverloads constructor(
         }
 
         spinnerDefaultProtocol.setItems(listOf(
-                ListableString(VpnProtocol.IKEv2.toString()),
-                ListableString(VpnProtocol.OpenVPN.toString())))
+                ProtocolItem(VpnProtocol.IKEv2),
+                ProtocolItem(VpnProtocol.OpenVPN),
+                ProtocolItem(VpnProtocol.WireGuard)))
         spinnerDefaultProtocol.setOnItemSelectedListener { item, _ ->
-            manualProtocol = VpnProtocol.valueOf(item.getLabel(context))
+            val newProtocol = (item as ProtocolItem).protocol
+            manualProtocol = newProtocol
             update()
             changeCallback()
         }
@@ -91,7 +93,7 @@ class ProtocolSelection @JvmOverloads constructor(
     private fun update() = with(binding) {
         manualProtocolLayout.isVisible = !useSmart
         layoutTransmissionProtocol.isVisible = !useSmart && manualProtocol == VpnProtocol.OpenVPN
-        spinnerDefaultProtocol.setSelectedItem(ListableString(manualProtocol.toString()))
+        spinnerDefaultProtocol.setSelectedItem(ProtocolItem(manualProtocol))
         spinnerTransmissionProtocol.setSelectedItem(ListableString(transmissionProtocol.toString()))
     }
 
@@ -100,6 +102,10 @@ class ProtocolSelection @JvmOverloads constructor(
         spinnerTransmissionProtocol.setOnTouchListener(touchListener)
         spinnerDefaultProtocol.setOnTouchListener(touchListener)
         smartProtocolSwitch.switchProton.setOnTouchListener(touchListener)
+    }
+
+    private class ProtocolItem(val protocol: VpnProtocol) : Listable {
+        override fun getLabel(context: Context?) = protocol.displayName()
     }
 
     private class ListableString(private val name: String) : Listable {

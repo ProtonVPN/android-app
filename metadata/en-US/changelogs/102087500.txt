@@ -1,0 +1,3 @@
+What's new:
+Adds beta support for WireGuard®, a lightweight and high-speed VPN protocol.
+To start using WireGuard®, navigate to the Settings, disable Smart Protocol, and select WireGuard® from the menu.

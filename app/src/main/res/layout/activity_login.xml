@@ -140,6 +140,7 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
+                        android:saveEnabled="false"
                         app:backgroundTint="@color/white70"
                         tools:ignore="InvalidImeActionId" />
 

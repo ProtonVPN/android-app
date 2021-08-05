@@ -35,6 +35,7 @@ import com.protonvpn.android.ui.login.LoginState
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.ProofsProvider
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -72,6 +73,8 @@ class LoginViewModelTest : CoroutinesTest {
     private lateinit var serverManager: ServerManager
     @MockK
     private lateinit var proofsProvider: ProofsProvider
+    @RelaxedMockK
+    private lateinit var certificateRepository: CertificateRepository
     @MockK
     private lateinit var mockContext: Context
 
@@ -111,13 +114,13 @@ class LoginViewModelTest : CoroutinesTest {
         coEvery { api.postLoginInfo(any()) } returns ApiResult.Success(fakeLoginInfoResponse)
 
         viewModel =
-            LoginViewModel(userData, appConfig, api, guestHole, serverManager, proofsProvider)
+            LoginViewModel(userData, appConfig, api, guestHole, serverManager, proofsProvider, certificateRepository)
     }
 
     @Test
     fun successfulLogin() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Success, viewModel.loginState.value)
         verify { userData.setLoggedIn(TestUser.getBasicUser().vpnInfoResponse) }
     }
@@ -126,7 +129,7 @@ class LoginViewModelTest : CoroutinesTest {
     fun vpnConnectionAllocationNeeded() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         coEvery { api.logout() } returns ApiResult.Success(GenericResponse(1000))
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.ConnectionAllocationPrompt, viewModel.loginState.value)
         coVerify { api.logout() }
     }
@@ -135,7 +138,7 @@ class LoginViewModelTest : CoroutinesTest {
     fun noInternet() = coroutinesTest {
         val error = ApiResult.Error.NoInternet
         coEvery { api.postLogin(any()) } returns error
-        viewModel.login(mockContext, "dummy", "dummy")
+        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Error(error, false), viewModel.loginState.value)
     }
 

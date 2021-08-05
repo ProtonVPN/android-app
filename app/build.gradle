@@ -32,8 +32,8 @@ plugins {
 apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'jacoco'
 apply plugin: 'com.jaredsburrows.license'
 apply plugin: 'dagger.hilt.android.plugin'
@@ -271,6 +271,7 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+        coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -523,7 +524,7 @@ dependencies {
     detektPlugins 'pm.algirdas.detekt:codeanalysis:0.3.2'
     detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
 
-    implementation 'com.proton:srp:1.0.0@aar'
+    implementation(name:'govpn', ext:'aar')
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
     // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
     implementation 'org.apache.commons:commons-lang3:3.9'
@@ -580,6 +581,7 @@ dependencies {
     implementation "androidx.preference:preference-ktx:1.1.1"
     implementation 'com.airbnb.android:lottie:3.7.0'
     implementation 'com.google.android:flexbox:2.0.1'
+    implementation "androidx.security:security-crypto:1.0.0"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -608,6 +610,10 @@ dependencies {
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"
     implementation 'com.caverock:androidsvg:1.4'
+
+    // Wireguard
+    implementation 'com.wireguard.android:tunnel:1.0.20210211'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.0.10"
 
     // Dagger dependencies
     implementation "com.google.dagger:dagger-android:$daggerVersion"

@@ -45,6 +45,8 @@ import java.io.File;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 public abstract class VpnActivity extends BaseActivity {
@@ -83,29 +85,36 @@ public abstract class VpnActivity extends BaseActivity {
         }
     }
 
-    public void onConnect(Profile profileToConnect) {
+    public final void onConnect(@NonNull Profile profileToConnect) {
+        onConnect(profileToConnect, "mobile home screen (unspecified)");
+    }
+
+    public void onConnect(@NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         Server server = profileToConnect.getServer();
         if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
-            vpnConnectionManager.connect(this, profileToConnect, "mobile home screen (unspecified)");
+            vpnConnectionManager.connect(this, profileToConnect, connectionCauseLog);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
         }
     }
 
+    protected void showUpgradeDialog(boolean secureCore, boolean isPlusServer) {
+        new MaterialDialog.Builder(this).theme(Theme.DARK)
+            .title(secureCore ? R.string.restrictedSecureCoreTitle :
+                isPlusServer ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)
+            .content(secureCore ? R.string.restrictedSecureCore :
+                isPlusServer ? R.string.restrictedPlus : R.string.restrictedBasic)
+            .positiveText(R.string.upgrade)
+            .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
+            .negativeText(R.string.cancel)
+            .show();
+    }
+
     private void connectingToRestrictedServer(Server server) {
         if (server.getOnline()) {
-            new MaterialDialog.Builder(this).theme(Theme.DARK)
-                .title(server.isSecureCoreServer() ? R.string.restrictedSecureCoreTitle :
-                    server.isPlusServer() ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)
-                .content(server.isSecureCoreServer() ? R.string.restrictedSecureCore :
-                    server.isPlusServer() ? R.string.restrictedPlus : R.string.restrictedBasic)
-                .positiveText(R.string.upgrade)
-                .onPositive((dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL))
-                .negativeText(R.string.cancel)
-                .show();
-        }
-        else {
+            showUpgradeDialog(server.isSecureCoreServer(), server.isPlusServer());
+        } else {
             new MaterialDialog.Builder(this).theme(Theme.DARK)
                 .title(R.string.restrictedMaintenanceTitle)
                 .content(R.string.restrictedMaintenanceDescription)

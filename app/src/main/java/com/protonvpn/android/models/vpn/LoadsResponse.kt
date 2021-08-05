@@ -30,5 +30,8 @@ class LoadsResponse(
 data class LoadUpdate(
     @SerialName(value = "ID") val id: String,
     @SerialName(value = "Load") val load: Float,
-    @SerialName(value = "Score") val score: Float = 0f
-)
+    @SerialName(value = "Score") val score: Float = 0f,
+    @SerialName(value = "Status") val status: Int = 1
+) {
+    val isOnline get() = status != 0
+}

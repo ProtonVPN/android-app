@@ -52,7 +52,7 @@
     <string name="secureCoreSwitchOn">You are trying to connect to Secure Core server. This will enable Secure Core mode%1$s Continue?</string>
     <string name="secureCoreSwitchOff">You are trying to connect to a non Secure Core server. This will disable Secure Core mode%1$s Continue?</string>
     <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>drop your current connection</b>.]]></string>
-    <string name="disconnectDialogDescription">This action will disconnect you from current session. Are you sure you want to continue?</string>
+    <string name="reconnectOnSecureCoreChangeDialogMessage">Your connection needs to be restarted to change the Secure Core mode.</string>
     <string name="logoutDescription">Logging out will disconnect your device from the VPN server.</string>
     <string name="showAllProfiles">Show all profiles</string>
 
@@ -60,6 +60,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
+    <string name="dialogContinue">Continue</string>
 
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Connected</string>
@@ -349,6 +350,8 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorWireguardWithPlaceholder">WireGuard error %1$s</string>
+    <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
     <string name="stateConnectedTo">Connected to %1$s</string>
     <string name="stateNotConnected">You are not connected</string>
     <string name="recents">Recents</string>
@@ -424,7 +427,7 @@ Follow these steps to turn on Always-On VPN and Kill Switch:"</string>
     <string name="tv_server_list">Server list</string>
     <string name="tv_server_list_action_unavailable">Unavailable</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speeds by up to 400%</string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
     <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
     <string name="dialogTitleReconnectionNeeded">Reconnection needed</string>

@@ -22,6 +22,7 @@ package com.protonvpn.tests.util
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.utils.ProtonLoggerImpl
+import com.protonvpn.android.utils.timeZoneSuffix
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
@@ -34,6 +35,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
+import java.util.GregorianCalendar
+import java.util.TimeZone
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -115,6 +118,13 @@ class ProtonLoggerImplTests {
         assertEquals(1, uploadFiles.size)
         logger.clearUploadTempFiles(uploadFiles)
         assertFalse(uploadFiles.first().file.exists())
+    }
+
+    @Test
+    fun testTimeZoneSuffix() {
+        assertEquals("+0", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT+0"))))
+        assertEquals("+1.5", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT+1:30"))))
+        assertEquals("-2", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT-2"))))
     }
 
     private fun runLoggerTest(block: suspend CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {

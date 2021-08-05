@@ -23,10 +23,14 @@ import com.protonvpn.actions.CountriesRobot;
 import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.MapRobot;
 import com.protonvpn.actions.ProfilesRobot;
+import com.protonvpn.android.models.config.VpnProtocol;
+import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.results.ConnectionResult;
+import com.protonvpn.results.HomeResult;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
 import com.protonvpn.test.shared.TestUser;
+import com.protonvpn.testsHelper.ServiceTestHelper;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -47,46 +51,32 @@ public class SecureCoreRobotSecurityTests {
     @Rule public ProtonHomeActivityTestRule testRule = new ProtonHomeActivityTestRule();
 
     @Test
-    public void tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
-        homeRobot.enableSecureCore();
-        ConnectionResult result = homeRobot.connectThroughQuickConnect();
-        result.cannotAccessSecureCoreAsFreeUser();
-        result.isDisconnectedFromVpn();
-    }
-
-    @Test
-    public void tryToConnectToSecureCoreThroughCountryListAsFreeUser() {
-        homeRobot.enableSecureCore();
-
-        CountriesRobot countries = homeRobot.clickOnCountriesTab();
-        if (MockSwitch.mockedServersUsed) {
-            countries.selectCountry("Finland Premium");
-        }
-        else {
-            countries.selectCountry("Australia Upgrade");
-        }
-        countries.tryToSelectCountry("via Sweden");
-    }
-
-    @Test
-    public void tryToConnectToSecureCoreThroughMapAsFreeUser() {
-        MapRobot map = homeRobot.clickOnMapViewTab();
-
-        map.enableSecureCore();
-        map.clickOnSecureCoreSwedenNode();
-        map.clickOnSecureCoreFranceNode();
-
-        ConnectionResult result = map.clickConnectButton();
-        result.cannotAccessSecureCoreAsFreeUser();
-        result.isDisconnectedFromVpn();
+    public void tryToEnableSecureCoreAsFreeUser() {
+        HomeResult result = homeRobot.enableSecureCore();
+        result
+            .dialogUpgradeVisible()
+            .checkSecureCoreDisabled();
     }
 
     @Test
     public void tryToConnectToSecureCoreThroughProfilesAsFreeUser() {
-        homeRobot.enableSecureCore();
+        String TEST_PROFILE = "Test profile";
+        ServiceTestHelper.addProfile(VpnProtocol.Smart, TEST_PROFILE, "se-fr-01.protonvpn.com");
 
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
-        ConnectionResult result = profilesRobot.clickOnUpgradeButton("Fastest");
+        ConnectionResult result = profilesRobot.clickOnUpgradeButton(TEST_PROFILE);
+        result.cannotAccessSecureCoreAsFreeUser();
+        result.isDisconnectedFromVpn();
+    }
+
+    @Test
+    public void tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
+        String TEST_PROFILE = "Test profile";
+        Profile testProfile =
+            ServiceTestHelper.addProfile(VpnProtocol.Smart, TEST_PROFILE, "se-fr-01.protonvpn.com");
+        ServiceTestHelper.setDefaultProfile(testProfile);
+
+        ConnectionResult result = homeRobot.connectThroughQuickConnect(TEST_PROFILE);
         result.cannotAccessSecureCoreAsFreeUser();
         result.isDisconnectedFromVpn();
     }

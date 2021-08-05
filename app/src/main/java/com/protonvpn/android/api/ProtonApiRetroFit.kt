@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.api
 
+import android.os.Build
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
@@ -25,6 +26,8 @@ import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.vpn.CertificateRequestBody
+import com.protonvpn.android.models.vpn.CertificateResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
@@ -91,6 +94,12 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
 
     open suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
         manager { getAvailableDomains() }
+
+    open suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
+        manager {
+            getCertificate(CertificateRequestBody(
+                clientPublicKey, "EC", Build.MODEL, "session", emptyList()))
+        }
 
     private suspend fun <T> makeCall(
         loader: LoaderUI?,

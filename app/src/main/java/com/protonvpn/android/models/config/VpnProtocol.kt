@@ -21,5 +21,21 @@ package com.protonvpn.android.models.config
 enum class VpnProtocol {
     OpenVPN,
     IKEv2,
-    Smart
+    WireGuard,
+    Smart;
+
+    fun localAgentEnabled(): Boolean = this == WireGuard
+
+    // TODO remove this parameter after wireguard exits beta
+    fun displayName(wireguardWithBeta: Boolean = true): String {
+        return if (this == WireGuard) {
+            if (wireguardWithBeta) {
+                "WireGuard (beta)"
+            } else {
+                "WireGuard"
+            }
+        } else {
+            toString()
+        }
+    }
 }

@@ -90,12 +90,15 @@ data class ServerWrapper(
         fun makePreBakedRandom(deliver: ServerDeliver) =
             ServerWrapper(ProfileType.RANDOM, "", "", deliver)
 
+        @JvmStatic
         fun makeWithServer(server: Server, deliver: ServerDeliver) =
             ServerWrapper(ProfileType.DIRECT, server.exitCountry, server.serverId, deliver)
 
+        @JvmStatic
         fun makeFastestForCountry(country: String, deliver: ServerDeliver) =
             ServerWrapper(ProfileType.FASTEST_IN_COUNTRY, country, "", deliver)
 
+        @JvmStatic
         fun makeRandomForCountry(country: String, deliver: ServerDeliver) =
             ServerWrapper(ProfileType.RANDOM_IN_COUNTRY, country, "", deliver)
     }

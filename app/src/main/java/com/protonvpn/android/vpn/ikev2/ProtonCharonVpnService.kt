@@ -36,20 +36,10 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.strongswan.android.logic.CharonVpnService
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class ProtonCharonVpnService : CharonVpnService() {
-
-    private val lifecycleJob = Job()
-    private val lifecycleScope = CoroutineScope(lifecycleJob)
 
     @Inject lateinit var api: ProtonApiRetroFit
     @Inject lateinit var userData: UserData
@@ -63,13 +53,10 @@ class ProtonCharonVpnService : CharonVpnService() {
 
         Log.i("[IKEv2] onCreate")
         AndroidInjection.inject(this)
-        startCaptureLogFile()
     }
 
     override fun onDestroy() {
         Log.i("[IKEv2] onDestroy")
-
-        lifecycleJob.cancel()
         super.onDestroy()
     }
 
@@ -84,7 +71,9 @@ class ProtonCharonVpnService : CharonVpnService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
         // let's keep it in foreground to protect it from being killed by the system.
-        startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+        if (intent?.action != VpnService.SERVICE_INTERFACE) {
+            startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+        }
         when {
             intent == null ->
                 handleRestoreState()
@@ -107,6 +96,11 @@ class ProtonCharonVpnService : CharonVpnService() {
         return START_NOT_STICKY
     }
 
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        ProtonLogger.log("ProtonCharonVpnService: onTrimMemory level $level")
+    }
+
     private fun handleRestoreState() {
         Log.i("[IKEv2] handle restore state")
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsIKEv2::class.java)
@@ -121,20 +115,6 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connect(this, manager.defaultConnection, "always-on")
-    }
-
-    private fun startCaptureLogFile() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val process = Runtime.getRuntime().exec("logcat -s charon -T 1 -v raw")
-                BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
-                    lines.forEach { ProtonLogger.log(it) }
-                }
-            } catch (e: IOException) {
-                ProtonLogger.log("StrongSwan log capture failed: ${e.message}")
-                e.printStackTrace()
-            }
-        }
+        vpnConnectionManager.connect(this, manager.defaultAvailableConnection, "always-on")
     }
 }

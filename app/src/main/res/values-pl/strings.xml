@@ -46,7 +46,6 @@
   <string name="secureCoreSwitchOn">Próbujesz połączyć się z serwerem Secure Core. To spowoduje włączeniu trybu Secure Core %1$s Czy chcesz kontynuować?</string>
   <string name="secureCoreSwitchOff">Próbujesz połączyć się z serwerem bez funkcji Secure Core. To spowoduje wyłączenie trybu Secure Core %1$s Czy chcesz kontynuować?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;i <b>rozłączenie obecnego połączenia</b>.]]></string>
-  <string name="disconnectDialogDescription">Ta akcja rozłączy Cię z obecną sesją. Czy na pewno chcesz kontynuować?</string>
   <string name="logoutDescription">Wylogowanie spowoduje rozłączenie urządzenia od serwera VPN.</string>
   <string name="showAllProfiles">Pokaż wszystkie profile</string>
   <string name="yes">Tak</string>
@@ -414,8 +413,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="tv_server_list">Lista serwerów</string>
   <string name="tv_server_list_action_unavailable">Niedostępny</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsSmartReconnectDescription">Funkcja VPN Accelerator udostępnia zestaw unikalnych technologii zwiększających wydajność, które mogą przyśpieszyć prędkość połączenia VPN do 400%</string>
-  <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, kiedy funkcja VPN Accelerator zmieni serwer na szybszy</string>
   <string name="dialogTitleReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Aby zmienić ustawienia funkcji VPN Accelerator, musisz ponownie nawiązać połączenie.</string>

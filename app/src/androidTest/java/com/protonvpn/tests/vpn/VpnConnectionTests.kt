@@ -24,11 +24,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.AgentConnectionInterface
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.SwitchServerReason
@@ -57,12 +60,13 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.network.domain.session.SessionId
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -84,32 +88,60 @@ class VpnConnectionTests {
     lateinit var serverManager: ServerManager
 
     @RelaxedMockK
+    lateinit var appConfig: AppConfig
+
+    @RelaxedMockK
+    lateinit var certificateRepository: CertificateRepository
+
+    @RelaxedMockK
     lateinit var vpnErrorHandler: VpnConnectionErrorHandler
+
+    @RelaxedMockK
+    lateinit var mockAgent: AgentConnectionInterface
 
     private lateinit var mockStrongSwan: MockVpnBackend
     private lateinit var mockOpenVpn: MockVpnBackend
+    private lateinit var mockWireguard: MockVpnBackend
 
     private lateinit var profileSmart: Profile
     private lateinit var profileIKEv2: Profile
+    private lateinit var profileOpenVPN: Profile
+    private lateinit var profileWireguard: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
+
+    private val agentConsts = localAgent.LocalAgent.constants()
+    private val validCert =
+        CertificateRepository.CertificateResult.Success("good_cert", "good_key")
+    private val badCert =
+        CertificateRepository.CertificateResult.Success("bad_cert", "bad_key")
+    private lateinit var currentCert: CertificateRepository.CertificateResult.Success
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         context = InstrumentationRegistry.getInstrumentation().context
-        scope = TestCoroutineScope(EmptyCoroutineContext)
-        userData = UserData()
+        scope = TestCoroutineScope()
+        userData = spyk(UserData.create())
+        every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
-        mockStrongSwan = spyk(MockVpnBackend(VpnProtocol.IKEv2))
-        mockOpenVpn = spyk(MockVpnBackend(VpnProtocol.OpenVPN))
+        mockStrongSwan = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2))
+        mockOpenVpn = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
         val backendProvider = ProtonVpnBackendProvider(
-            strongSwan = mockStrongSwan, openVpn = mockOpenVpn, serverDeliver = serverManager)
+            strongSwan = mockStrongSwan,
+            openVpn = mockOpenVpn,
+            wireGuard = mockWireguard,
+            serverDeliver = serverManager
+        )
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
@@ -120,10 +152,43 @@ class VpnConnectionTests {
         val server = MockedServers.server
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
         profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, server)
+        profileOpenVPN = MockedServers.getProfile(VpnProtocol.OpenVPN, server)
+        profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
         fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, server, "fallback")
         val wrapperSlot = slot<ServerWrapper>()
         every { serverManager.getServer(capture(wrapperSlot)) } answers {
             MockedServers.serverList.find { it.serverId == wrapperSlot.captured.serverId } ?: server
+        }
+
+        setupMockAgent()
+    }
+
+    private fun setupMockAgent() {
+        var agentState = agentConsts.stateDisconnected
+        every { mockAgent.state } answers { agentState }
+        mockWireguard.setAgentProvider { certificate, _, client ->
+            agentState = if (certificate == validCert)
+                agentConsts.stateConnected else agentConsts.stateHardJailed
+            scope.launch {
+                yield()
+                client.onState(agentState)
+                if (agentState == agentConsts.stateHardJailed)
+                    client.onError(agentConsts.errorCodeCertificateExpired, "")
+                else {
+                    client.onState(agentConsts.stateConnecting)
+                    client.onState(agentConsts.stateConnected)
+                }
+            }
+            mockAgent
+        }
+
+        currentCert = validCert
+        coEvery { certificateRepository.getCertificate(any(), any()) } answers {
+            currentCert
+        }
+        coEvery { certificateRepository.updateCertificate(any(), any()) } answers {
+            currentCert = validCert
+            currentCert
         }
     }
 
@@ -148,7 +213,7 @@ class VpnConnectionTests {
         // When scanning fails we'll fallback to attempt connecting with default manual protocol
         coVerify(exactly = 1) {
             mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -166,9 +231,51 @@ class VpnConnectionTests {
         }
         coVerify(exactly = 1) {
             mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun connectToLocalAgent() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        manager.connect(context, profileWireguard)
+        scope.advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.createAgentConnection(any(), any(), any())
+        }
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun localAgentNotUsedForIKEv2() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        manager.connect(context, profileIKEv2)
+
+        coVerify(exactly = 1) {
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+        }
+        coVerify(exactly = 0) {
+            mockStrongSwan.connectToLocalAgent()
+        }
+        Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun localAgentNotUsedForGuestHole() = runBlockingTest {
+        MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        every { userData.sessionId } returns null
+        manager.connect(context, profileWireguard)
+
+        coVerify(exactly = 1) {
+            mockWireguard.prepareForConnection(any(), any(), false)
+        }
+        coVerify(exactly = 0) {
+            mockWireguard.connectToLocalAgent()
+        }
         Assert.assertEquals(VpnState.Connected, monitor.state)
     }
 
@@ -217,10 +324,10 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.connect()
+            mockOpenVpn.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -245,7 +352,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
@@ -275,7 +382,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect()
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(listOf(fallbackResult), fallbacks)
@@ -348,5 +455,31 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
         Assert.assertTrue(fallbacks.isEmpty())
+    }
+
+    @Test
+    fun testExpiredCert() = runBlockingTest {
+        currentCert = badCert
+        manager.connect(context, profileWireguard)
+        scope.advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            certificateRepository.updateCertificate(any(), any())
+        }
+
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
+    }
+
+    @Test
+    fun testDowngradeWithLocalAgent() = runBlockingTest {
+        mockWireguard.setAgentProvider { certificate, _, client ->
+            client.onState(agentConsts.stateHardJailed)
+            client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
+            mockAgent
+        }
+        manager.connect(context, profileWireguard)
+        scope.advanceUntilIdle()
+
+        assertEquals(ErrorType.AUTH_FAILED_INTERNAL, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
 }

@@ -18,16 +18,48 @@
  */
 package com.protonvpn.mocks
 
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.AgentConnectionInterface
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import kotlinx.coroutines.CoroutineScope
+import localAgent.NativeClient
+import me.proton.core.network.domain.NetworkManager
 
-class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
+typealias MockAgentProvider = (
+    certInfo: CertificateRepository.CertificateResult.Success,
+    hostname: String?,
+    nativeClient: NativeClient
+) -> AgentConnectionInterface
+
+class MockVpnBackend(
+    scope: CoroutineScope,
+    networkManager: NetworkManager,
+    certificateRepository: CertificateRepository,
+    userData: UserData,
+    appConfig: AppConfig,
+    val protocol: VpnProtocol
+) : VpnBackend(
+    userData = userData,
+    appConfig = appConfig,
+    networkManager = networkManager,
+    certificateRepository = certificateRepository,
+    vpnProtocol = protocol,
+    mainScope = scope
+) {
+    private var agentProvider: MockAgentProvider? = null
+
+    fun setAgentProvider(provider: MockAgentProvider) {
+        agentProvider = provider
+    }
 
     override suspend fun prepareForConnection(
         profile: Profile,
@@ -40,20 +72,28 @@ class MockVpnBackend(val protocol: VpnProtocol) : VpnBackend("MockVpnBackend") {
         else listOf(PrepareResult(this, object : ConnectionParams(
                 profile, server, server.getRandomConnectingDomain(), protocol) {}))
 
-    override suspend fun connect() {
-        setSelfState(VpnState.Connecting)
-        setSelfState(stateOnConnect)
+    override suspend fun connect(connectionParams: ConnectionParams) {
+        super.connect(connectionParams)
+        vpnProtocolState = VpnState.Connecting
+        vpnProtocolState = stateOnConnect
     }
 
-    override suspend fun disconnect() {
-        setSelfState(VpnState.Disconnecting)
-        setSelfState(VpnState.Disabled)
+    override suspend fun closeVpnTunnel() {
+        vpnProtocolState = VpnState.Disconnecting
+        vpnProtocolState = VpnState.Disabled
     }
 
     override suspend fun reconnect() {
-        setSelfState(VpnState.Connecting)
-        setSelfState(stateOnConnect)
+        vpnProtocolState = VpnState.Connecting
+        vpnProtocolState = stateOnConnect
     }
+
+    override fun createAgentConnection(
+        certInfo: CertificateRepository.CertificateResult.Success,
+        hostname: String?,
+        nativeClient: NativeClient
+    ) = agentProvider?.invoke(certInfo, hostname, nativeClient)
+            ?: super.createAgentConnection(certInfo, hostname, nativeClient)
 
     override val retryInfo get() = RetryInfo(10, 10)
 

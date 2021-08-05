@@ -24,12 +24,15 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.NetUtils
-import com.protonvpn.android.utils.implies
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
@@ -48,10 +51,20 @@ import java.util.concurrent.TimeUnit
 
 class StrongSwanBackend(
     val random: Random,
-    private val networkManager: NetworkManager,
-    val mainScope: CoroutineScope,
+    networkManager: NetworkManager,
+    mainScope: CoroutineScope,
     val now: () -> Long,
-) : VpnBackend("StrongSwan"), VpnStateService.VpnStateListener {
+    userData: UserData,
+    appConfig: AppConfig,
+    certificateRepository: CertificateRepository
+) : VpnBackend(
+    userData,
+    appConfig,
+    certificateRepository,
+    networkManager,
+    VpnProtocol.IKEv2,
+    mainScope
+), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
@@ -61,8 +74,8 @@ class StrongSwanBackend(
         bindCharonMonitor()
         mainScope.launch {
             networkManager.observe().collect { status ->
-                if (status == NetworkStatus.Disconnected && selfState != VpnState.Disabled) {
-                    selfStateObservable.value = VpnState.WaitingForNetwork
+                if (status == NetworkStatus.Disconnected && vpnProtocolState != VpnState.Disabled) {
+                    vpnProtocolState = VpnState.WaitingForNetwork
                 } else {
                     stateChanged()
                 }
@@ -99,14 +112,12 @@ class StrongSwanBackend(
         repeat(4) { write(0) } // Length = 0
     }.toByteArray()
 
-    override suspend fun connect() {
+    override suspend fun connect(connectionParams: ConnectionParams) {
+        super.connect(connectionParams)
         getVpnService().connect(null, true)
     }
 
-    override suspend fun disconnect() {
-        if (vpnService?.state != VpnStateService.State.DISABLED) {
-            selfStateObservable.value = VpnState.Disconnecting
-        }
+    override suspend fun closeVpnTunnel() {
         vpnService?.disconnect()
         waitForDisconnect()
     }
@@ -160,14 +171,11 @@ class StrongSwanBackend(
             val newState = translateState(it.state, it.errorState)
             if (newState.isUnreachable()) {
                 // Limit frequency of unreachable notifications
-                if (selfState.isUnreachable() && now() - lastUnreachable < UNREACHABLE_MIN_INTERVAL_MS)
+                if (vpnProtocolState.isUnreachable() && now() - lastUnreachable < UNREACHABLE_MIN_INTERVAL_MS)
                     return
                 lastUnreachable = now()
             }
-            selfStateObservable.postValue(newState)
-        }
-        debugAssert {
-            (selfState in arrayOf(VpnState.Connecting, VpnState.Connected)).implies(active)
+            vpnProtocolState = newState
         }
     }
 

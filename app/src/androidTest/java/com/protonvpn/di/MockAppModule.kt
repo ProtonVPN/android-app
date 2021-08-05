@@ -40,9 +40,9 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -51,9 +51,14 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import com.protonvpn.android.vpn.VpnLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
+import com.wireguard.android.backend.GoBackend
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
@@ -73,6 +78,9 @@ import javax.inject.Singleton
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
+
+    @Provides
+    fun provideMainScope() = scope
 
     @Provides
     @Singleton
@@ -164,8 +172,8 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, vpnStateMonitor)
+    fun provideApiClient(userData: UserData, connectivityMonitor: ConnectivityMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, connectivityMonitor)
 
     @Singleton
     @Provides
@@ -186,9 +194,9 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = Storage.load(UserData::class.java, UserData().apply {
+    fun provideUserPrefs(): UserData = UserData.load().apply {
         useSmartProtocol = false
-    })
+    }
 
     @Singleton
     @Provides
@@ -236,6 +244,7 @@ class MockAppModule {
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
         serverManager: ServerManager,
+        certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ): VpnConnectionManager = MockVpnConnectionManager(
         userData,
@@ -247,6 +256,20 @@ class MockAppModule {
         serverManager,
         scope
     )
+
+    @Singleton
+    @Provides
+    fun provideCertificateRepository(
+        userData: UserData,
+        api: ProtonApiRetroFit,
+        userPlanManager: UserPlanManager
+    ): CertificateRepository = CertificateRepository(
+        scope,
+        ProtonApplication.getAppContext(),
+        userData,
+        api,
+        System::currentTimeMillis,
+        userPlanManager)
 
     @Singleton
     @Provides
@@ -265,10 +288,37 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideVpnBackendManager(serverManager: ServerManager): VpnBackendProvider = ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(VpnProtocol.OpenVPN),
+    fun provideVpnBackendManager(
+        appConfig: AppConfig,
+        serverManager: ServerManager,
+        networkManager: NetworkManager,
+        certificateRepository: CertificateRepository,
+        userData: UserData
+    ): VpnBackendProvider = ProtonVpnBackendProvider(
+            strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.IKEv2),
+            openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.OpenVPN),
+            wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.WireGuard),
             serverDeliver = serverManager)
+
+    @Singleton
+    @Provides
+    fun provideWireguardBackend(
+        userData: UserData,
+        networkManager: NetworkManager,
+        appConfig: AppConfig,
+        certificateRepository: CertificateRepository,
+    ) = WireguardBackend(
+        ProtonApplication.getAppContext(),
+        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
+        networkManager,
+        userData,
+        appConfig,
+        certificateRepository,
+        scope
+    )
 
     @Singleton
     @Provides
@@ -308,7 +358,14 @@ class MockAppModule {
         vpnStateMonitor: VpnStateMonitor,
         vpnConnectionManager: VpnConnectionManager,
         vpnApiClient: VpnApiClient,
-        humanVerificationHandler: HumanVerificationHandler
+        humanVerificationHandler: HumanVerificationHandler,
+        certificateRepository: CertificateRepository
     ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, vpnApiClient)
+        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
+
+    @Module
+    interface Bindings {
+        @Binds
+        fun bindVpnLogCapture(vpnLogCapture: VpnLogCapture): VpnLogCapture
+    }
 }

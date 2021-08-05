@@ -49,6 +49,7 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -68,8 +69,9 @@ class TvMainViewModel @Inject constructor(
     private val recentsManager: RecentsManager,
     val userData: UserData,
     val logoutHandler: LogoutHandler,
-    userPlanManager: UserPlanManager
-) : MainViewModel(userData, userPlanManager), StreamingViewModelHelper {
+    userPlanManager: UserPlanManager,
+    certificateRepository: CertificateRepository
+) : MainViewModel(userData, userPlanManager, certificateRepository), StreamingViewModelHelper {
 
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
@@ -141,9 +143,9 @@ class TvMainViewModel @Inject constructor(
                 vpnCountry = country
             )
         }).mapValues { continent ->
-            continent.value.sortedWith(compareBy<CountryCard> {
+            continent.value.sortedWith(compareBy {
                 !it.vpnCountry.hasAccessibleOnlineServer(userData)
-            }.thenBy { it.countryName })
+            })
         }
     }
 
@@ -262,7 +264,7 @@ class TvMainViewModel @Inject constructor(
     fun connect(activity: Activity, card: CountryCard?) {
         val profile = if (card != null)
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
-                Profile.getTempProfile(it, serverManager, card.countryName)
+                Profile.getTempProfile(it, serverManager)
             }
         else
             serverManager.defaultConnection

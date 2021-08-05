@@ -42,6 +42,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import me.proton.core.network.domain.session.SessionId;
 
 public final class UserData implements Serializable {
 
@@ -71,12 +72,15 @@ public final class UserData implements Serializable {
     private boolean vpnAcceleratorEnabled;
     private boolean showVpnAcceleratorNotifications;
 
-    private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData = new MutableLiveData<>(netShieldProtocol);
+    private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData;
+    private transient MutableLiveData<Boolean> vpnAcceleratorLiveData;
+    private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
+
     private transient LiveEvent updateEvent = new LiveEvent();
     private transient ApiSessionProvider apiSessionProvider =
         new ApiSessionProvider(ProtonApplication.getAppContext());
 
-    public UserData() {
+    private UserData() {
         user = "";
         mtuSize = 1375;
         showIcon = true;
@@ -89,6 +93,27 @@ public final class UserData implements Serializable {
         useSmartProtocol = true;
         vpnAcceleratorEnabled = true;
         showVpnAcceleratorNotifications = true;
+    }
+
+    public static UserData load() {
+        UserData data = Storage.load(UserData.class);
+        if (data == null)
+            data = new UserData();
+        data.init();
+        return data;
+    }
+
+    public static UserData create() {
+        UserData data = new UserData();
+        data.init();
+        return data;
+    }
+
+    // Handles post-deserialization initialization
+    public void init() {
+        netShieldProtocolLiveData = new MutableLiveData<>(getNetShieldProtocol());
+        vpnAcceleratorLiveData = new MutableLiveData<>(isVpnAcceleratorEnabled());
+        selectedProtocolLiveData = new MutableLiveData<>(getSelectedProtocol());
     }
 
     public String getUser() {
@@ -133,6 +158,10 @@ public final class UserData implements Serializable {
 
     public boolean isUserPlusOrAbove() {
         return getVpnInfoResponse().getUserTier() > 1;
+    }
+
+    public boolean hasAccessToSecureCore() {
+        return isUserPlusOrAbove();
     }
 
     public int getUserTier() {
@@ -184,6 +213,7 @@ public final class UserData implements Serializable {
         return getVpnInfoResponse().getMaxSessionCount() <= currentSessionCount;
     }
 
+    @Nullable
     public Profile getDefaultConnection() {
         return defaultConnection;
     }
@@ -328,6 +358,7 @@ public final class UserData implements Serializable {
 
     public void setUseSmartProtocol(boolean value) {
         useSmartProtocol = value;
+        selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
 
@@ -337,6 +368,7 @@ public final class UserData implements Serializable {
 
     public void setVpnAcceleratorEnabled(boolean value) {
         vpnAcceleratorEnabled = value;
+        vpnAcceleratorLiveData.postValue(isVpnAcceleratorEnabled());
         saveToStorage();
     }
 
@@ -356,6 +388,7 @@ public final class UserData implements Serializable {
 
     public void setManualProtocol(VpnProtocol value) {
         selectedProtocol = value;
+        selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
 
@@ -399,12 +432,20 @@ public final class UserData implements Serializable {
 
     public void setNetShieldProtocol(NetShieldProtocol value) {
         netShieldProtocol = value;
-        netShieldProtocolLiveData.postValue(value);
+        netShieldProtocolLiveData.postValue(getNetShieldProtocol());
         saveToStorage();
     }
 
     public LiveData<NetShieldProtocol> getNetShieldLiveData() {
         return netShieldProtocolLiveData;
+    }
+
+    public LiveData<Boolean> getVpnAcceleratorLiveData() {
+        return vpnAcceleratorLiveData;
+    }
+
+    public LiveData<VpnProtocol> getSelectedProtocolLiveData() {
+        return selectedProtocolLiveData;
     }
 
     public NetShieldProtocol getNetShieldProtocol() {
@@ -422,5 +463,10 @@ public final class UserData implements Serializable {
 
     public void setLoginResponse(LoginResponse value) {
         apiSessionProvider.setLoginResponse(value);
+    }
+
+    @Nullable
+    public SessionId getSessionId() {
+        return apiSessionProvider.getCurrentSessionId();
     }
 }

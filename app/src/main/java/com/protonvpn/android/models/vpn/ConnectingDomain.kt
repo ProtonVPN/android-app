@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.models.config.VpnProtocol
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
@@ -31,8 +32,12 @@ data class ConnectingDomain(
     @SerialName(value = "ID") val id: String?,
     @SerialName(value = "Label") val label: String? = null,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "Status") var isOnline: Boolean = true
+    @SerialName(value = "Status") var isOnline: Boolean = true,
+    @SerialName(value = "X25519PublicKey") val publicKeyX25519: String? = null
 ) : java.io.Serializable {
 
     fun getExitIP() = exitIp ?: entryIp
+
+    fun supportsProtocol(protocol: VpnProtocol) =
+        protocol != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank()
 }
