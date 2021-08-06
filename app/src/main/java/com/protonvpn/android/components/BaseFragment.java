@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

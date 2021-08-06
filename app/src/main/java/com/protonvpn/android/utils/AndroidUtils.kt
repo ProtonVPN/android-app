@@ -162,6 +162,8 @@ object AndroidUtils {
             packageManager.hasSystemFeature("org.chromium.arc.device_management")
 }
 
+fun Context.openUrl(url: String) = openUrl(Uri.parse(url))
+
 fun Context.openUrl(url: Uri) {
     try {
         val browserIntent = Intent(Intent.ACTION_VIEW, url)

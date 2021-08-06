@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.ui.home.vpn
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
@@ -59,7 +61,9 @@ class VpnStateConnectedViewModel @Inject constructor(
         val downloadKbpsHistory: List<Entry>
     )
 
-    val eventNotification = MutableSharedFlow<Int>(extraBufferCapacity = 1)
+    data class SnackbarNotification(@StringRes val text: Int, val isSuccess: Boolean = true)
+
+    val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
     val connectionState = stateMonitor.status.map { toConnectionState(it) }
     val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
 
@@ -67,12 +71,14 @@ class VpnStateConnectedViewModel @Inject constructor(
         stateMonitor.connectionProfile?.server?.let { currentServer ->
             for (profile in serverManager.getSavedProfiles()) {
                 if (profile.server?.domain == currentServer.domain) {
-                    eventNotification.tryEmit(R.string.saveProfileAlreadySaved)
+                    val notification =
+                        SnackbarNotification(R.string.saveProfileAlreadySaved, isSuccess = false)
+                    eventNotification.tryEmit(notification)
                     return
                 }
             }
             serverManager.addToProfileList(currentServer.serverName, random(), currentServer)
-            eventNotification.tryEmit(R.string.toastProfileSaved)
+            eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved))
         }
     }
 

@@ -25,7 +25,6 @@ import android.text.Editable
 import android.view.Menu
 import android.view.View
 import android.widget.GridLayout
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -87,9 +86,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
             updateServerFields(it)
         })
         viewModel.eventSomethingWrong.asLiveData().observe(this, Observer {
-            Toast
-                .makeText(this@ProfileActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT)
-                .show()
+            snackbarHelper.errorSnack(R.string.something_went_wrong)
         })
         viewModel.eventValidationFailed.asLiveData().observe(this, Observer {
             updateErrors(it)

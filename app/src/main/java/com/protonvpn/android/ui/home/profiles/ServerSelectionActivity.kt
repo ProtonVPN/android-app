@@ -23,7 +23,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -66,7 +65,7 @@ class ServerSelectionActivity : BaseActivityV2() {
         if (servers != null) {
             initServerList(binding.recyclerServers, config.secureCore, servers)
         } else {
-            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+            snackbarHelper.errorSnack(R.string.something_went_wrong)
             ProtonLogger.log("No servers for country '$config.countryCode`")
             finish()
         }

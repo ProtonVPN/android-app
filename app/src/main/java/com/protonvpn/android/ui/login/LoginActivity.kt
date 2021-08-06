@@ -31,7 +31,6 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -51,6 +50,7 @@ import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.toSafeUtf8ByteArray
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -250,8 +250,7 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
                 }
                 is LoginState.UnsupportedAuth -> {
                     loadingContainer.switchToEmpty()
-                    Toast.makeText(this@LoginActivity,
-                        R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+                    snackbarHelper.errorSnack(R.string.toastLoginAuthVersionError)
                 }
                 is LoginState.ConnectionAllocationPrompt -> {
                     loadingContainer.switchToEmpty()

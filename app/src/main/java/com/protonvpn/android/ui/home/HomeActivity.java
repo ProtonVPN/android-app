@@ -28,10 +28,10 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -157,6 +157,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         initDrawerView();
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
         initSecureCoreSwitch();
+        initSnackbarHelper();
         Sentry.getContext().setUser(new UserBuilder().setUsername(userData.getUser()).build());
         checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
@@ -329,6 +330,18 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             : userName + "@protonmail.com";
         textUserEmail.setText(userEmail);
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
+    }
+
+    private void initSnackbarHelper() {
+        ViewTreeObserver.OnGlobalLayoutListener listener = () -> {
+            if (fabQuickConnect.getVisibility() == View.VISIBLE) {
+                getSnackbarHelper().setAnchorView(fabQuickConnect.getActionButton());
+            } else {
+                getSnackbarHelper().setAnchorView(null);
+            }
+        };
+        fabQuickConnect.getViewTreeObserver().addOnGlobalLayoutListener(listener);
+        listener.onGlobalLayout();
     }
 
     @OnClick(R.id.layoutUserInfo)
@@ -622,7 +635,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(getContext(), R.string.clickBackAgainLogout, Toast.LENGTH_LONG).show();
+            getSnackbarHelper().successSnack(R.string.clickBackAgainLogout);
 
             new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         }
