@@ -233,6 +233,7 @@
     <string name="excludeIpDescription">Add IP addresses you want to exclude from the VPN traffic.</string>
     <string name="done">DONE</string>
     <string name="add">ADD</string>
+    <string name="copy_to_clipboard">Copy</string>
     <string name="the_list_is_empty">The list is empty</string>
     <string name="got_it">Got it</string>
     <string name="onboardingWelcome">Welcome on board</string>

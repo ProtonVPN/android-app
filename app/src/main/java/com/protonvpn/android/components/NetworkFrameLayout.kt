@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.components
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
@@ -25,11 +27,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.ui.login.TroubleshootActivity
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.presentation.utils.errorSnack
 
 class NetworkFrameLayout : RelativeLayout, LoaderUI {
 
@@ -126,7 +129,11 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
         }
 
         textDescription.setOnLongClickListener {
-            Toast.makeText(context, error.debugMessage(), Toast.LENGTH_LONG).show()
+            // Not using SnackbarHelper - this layout covers the whole screen, so there's no need
+            // for anchoring the Snackbar.
+            it.errorSnack(error.debugMessage(), resources.getString(R.string.copy_to_clipboard)) {
+                copyToClipboard(context, "Debug message", error.debugMessage())
+            }
             true
         }
 
@@ -145,5 +152,10 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
     private fun switchToEmptyView() {
         loadingView.isVisible = false
         retryView.isVisible = false
+    }
+
+    private fun copyToClipboard(context: Context, label:String, text: String) {
+        val clipData = ClipData.newPlainText(label, text)
+        context.getSystemService<ClipboardManager>()?.setPrimaryClip(clipData)
     }
 }

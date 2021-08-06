@@ -24,7 +24,6 @@ import android.content.res.ColorStateList
 import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
@@ -39,9 +38,12 @@ import com.github.mikephil.charting.jobs.MoveViewJob
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.components.BaseActivity
+import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
+import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
@@ -96,8 +98,9 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         parentViewModel.trafficStatus.observe(viewLifecycleOwner, Observer {
             updateTrafficInfo(it)
         })
-        viewModel.eventNotification.asLiveData().observe(viewLifecycleOwner, Observer { textRes ->
-            Toast.makeText(requireActivity(), textRes, Toast.LENGTH_LONG).show()
+        viewModel.eventNotification.asLiveData().observe(viewLifecycleOwner, Observer { snack ->
+            if (snack.isSuccess) getSnackbarHelper()?.successSnack(snack.text)
+            else getSnackbarHelper()?.errorSnack(snack.text)
         })
         viewModel.trafficSpeedKbpsHistory.observe(viewLifecycleOwner, Observer {
             updateChart(it)
@@ -214,6 +217,14 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             else -> formatter.format(k) + " KB/s"
         }
     }
+
+    private fun getSnackbarHelper(): SnackbarHelper? =
+        when (val parentActivity = activity) {
+            is BaseActivity -> parentActivity.snackbarHelper
+            is BaseActivityV2 -> parentActivity.snackbarHelper
+            else ->
+                throw java.lang.IllegalStateException("VpnStateConnectedFragment needs an activity with SnackbarHelper")
+        }
 
     override fun netShieldSwitch(): NetShieldSwitch = binding.netShieldSwitch
 }

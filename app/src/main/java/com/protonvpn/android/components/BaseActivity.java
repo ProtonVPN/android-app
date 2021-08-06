@@ -27,6 +27,7 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.vpn.NoVpnPermissionUi;
 
@@ -34,7 +35,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
@@ -52,6 +52,8 @@ public abstract class BaseActivity extends AppCompatActivity
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
 
+    private SnackbarHelper snackbarHelper;
+
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
         ActivityCompat.startActivity(this, intent, null);
@@ -67,6 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (isRegisteredForEvents) {
             EventBus.getInstance().register(this);
         }
+        snackbarHelper = new SnackbarHelper(getResources(), getContentView());
     }
 
     public void checkOrientation() {
@@ -154,6 +157,14 @@ public abstract class BaseActivity extends AppCompatActivity
         // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
         // with BaseActivity.
         BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
+    }
+
+    public SnackbarHelper getSnackbarHelper() {
+        return snackbarHelper;
+    }
+
+    private View getContentView() {
+        return findViewById(android.R.id.content);
     }
 
     private void toggleDrawer() {
