@@ -37,7 +37,7 @@ import androidx.test.filters.LargeTest;
 @RunWith(AndroidJUnit4.class)
 public class LogoutRobotTests {
 
-    private HomeRobot homeRobot = new HomeRobot();
+    private final HomeRobot homeRobot = new HomeRobot();
 
     @Rule public ProtonHomeActivityTestRule testRule = new ProtonHomeActivityTestRule();
     @ClassRule static public SetUserPreferencesRule testClassRule =
@@ -54,7 +54,7 @@ public class LogoutRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         homeRobot.connectThroughQuickConnect().isConnectedToVpn();
 
-        homeRobot.logout().isFailure().warningMessageIsDisplayed();
+        homeRobot.logout().noLoginScreen().warningMessageIsDisplayed();
 
         LogoutResult result = homeRobot.logoutAfterWarning();
 
@@ -66,14 +66,14 @@ public class LogoutRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         homeRobot.connectThroughQuickConnect().isConnectedToVpn();
 
-        homeRobot.logout().isFailure().warningMessageIsDisplayed();
+        homeRobot.logout().noLoginScreen().warningMessageIsDisplayed();
 
         LogoutResult result = homeRobot.cancelLogoutAfterWarning();
 
-        result.isFailure().connectionResult.isConnectedToVpn();
+        result.noLoginScreen().connectionResult.isConnectedToVpn();
 
         //performs logout after test
-        homeRobot.logout().isFailure().warningMessageIsDisplayed().logoutAfterWarning();
+        homeRobot.logout().warningMessageIsDisplayed().logoutAfterWarning();
 
         result.isSuccessful().connectionResult.isDisconnectedFromVpn();
     }

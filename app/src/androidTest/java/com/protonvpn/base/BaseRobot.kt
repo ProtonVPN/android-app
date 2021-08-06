@@ -21,12 +21,17 @@ package com.protonvpn.base
 import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 
 /**
  * [BaseRobot] Contains common actions for views
  */
 open class BaseRobot : CoreRobot() {
+
+    inline fun <reified T> clickElement(@IdRes id: Int, @StringRes text: Int): T = executeAndReturnRobot {
+        clickElement(view.withId(id).withText(text))
+    }
 
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
@@ -117,6 +122,14 @@ open class BaseRobot : CoreRobot() {
         view
                 .withText(resId)
                 .longClick()
+    }
+
+    fun checkInputDisplayed(@IdRes id: Int) {
+        view.instanceOf(ProtonInput::class.java).withId(id).checkDisplayed()
+    }
+
+    fun checkInputNotDisplayed(@IdRes id: Int) {
+        view.instanceOf(ProtonInput::class.java).withId(id).checkNotDisplayed()
     }
 
     inline fun <reified T> executeAndReturnRobot(block: () -> Unit): T {
