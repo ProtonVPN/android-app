@@ -44,8 +44,8 @@ import me.proton.core.network.domain.NetworkStatus;
 @RunWith(AndroidJUnit4.class)
 public class LoginRobotTests extends UIActionsTestHelper {
 
-    private LoginRobot loginRobot = new LoginRobot();
-    private HomeRobot homeRobot = new HomeRobot();
+    private final LoginRobot loginRobot = new LoginRobot();
+    private final HomeRobot homeRobot = new HomeRobot();
 
     @Rule public ProtonLoginActivityTestRule testRule = new ProtonLoginActivityTestRule();
     @ClassRule public static SetUserPreferencesRule testClassRule = new SetUserPreferencesRule(null);
@@ -61,7 +61,7 @@ public class LoginRobotTests extends UIActionsTestHelper {
         result.isSuccessful().usernameDisplayed();
     }
 
-    @Ignore //when API is changed to reset counter of bad login attempts, remove Ignore annotation
+    @Ignore("when API is changed to reset counter of bad login attempts, remove Ignore annotation")
     @Test
     public void loginWithIncorrectCredentials() {
         LoginResult result = loginRobot.login(TestUser.getBadUser());
