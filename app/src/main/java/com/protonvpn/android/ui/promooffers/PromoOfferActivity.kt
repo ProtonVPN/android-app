@@ -36,6 +36,7 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityPromoOfferBinding
 import com.protonvpn.android.databinding.ItemPromoFeatureBinding
+import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
