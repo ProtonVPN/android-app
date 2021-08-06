@@ -23,7 +23,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -87,11 +86,7 @@ class ReportBugActivity : BaseActivityV2() {
                 binding.layoutReport.checkboxIncludeLogs.isChecked
             )
             if (isSuccess) {
-                Toast.makeText(
-                    this@ReportBugActivity,
-                    R.string.bugReportThankYouToast,
-                    Toast.LENGTH_LONG
-                ).show()
+                delegatedSnackManager.postSnack(getString(R.string.bugReportThankYouToast), true)
                 finish()
             }
         }

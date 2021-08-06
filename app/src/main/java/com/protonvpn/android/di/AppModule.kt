@@ -38,6 +38,7 @@ import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
@@ -445,6 +446,10 @@ object AppModule {
     @Singleton
     fun provideLogCapture(dispatcherProvider: DispatcherProvider) =
         VpnLogCapture(scope, dispatcherProvider, SystemClock::elapsedRealtime)
+
+    @Provides
+    @Singleton
+    fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
 
     @Provides
     @Singleton

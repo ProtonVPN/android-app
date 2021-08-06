@@ -20,12 +20,13 @@ package com.protonvpn.android.ui.home.vpn
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,8 +55,13 @@ class SwitchDialogActivity : BaseActivityV2() {
         textTitle.text = reconnectionNotification.title
         reconnectionNotification.fullScreenDialog?.let { fullScreenDialog ->
             buttonBack.setOnClickListener {
-                fullScreenDialog.cancelToastMessage?.let {
-                    Toast.makeText(baseContext, it, Toast.LENGTH_LONG).show()
+                fullScreenDialog.cancelToastMessage?.let { message ->
+                    delegatedSnackManager.postSnack(
+                        message,
+                        true,
+                        DelegatedSnackManager.SnackActionType.GOT_IT,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
                 }
                 finish()
             }

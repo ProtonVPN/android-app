@@ -27,9 +27,13 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager;
+import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper;
 import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.vpn.NoVpnPermissionUi;
+
+import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
 
-    private SnackbarHelper snackbarHelper;
+    private DelegatedSnackbarHelper snackbarHelper;
+    @Inject public DelegatedSnackManager delegatedSnackManager;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -69,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (isRegisteredForEvents) {
             EventBus.getInstance().register(this);
         }
-        snackbarHelper = new SnackbarHelper(getResources(), getContentView());
+        snackbarHelper = new DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager);
     }
 
     public void checkOrientation() {

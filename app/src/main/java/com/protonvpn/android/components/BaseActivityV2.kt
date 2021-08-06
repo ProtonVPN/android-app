@@ -34,13 +34,18 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
+import javax.inject.Inject
 
 abstract class BaseActivityV2 : AppCompatActivity(), NoVpnPermissionUi {
+
+    @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
@@ -50,7 +55,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), NoVpnPermissionUi {
 
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
-        snackbarHelper = SnackbarHelper(resources, getContentView())
+        snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {

@@ -30,7 +30,9 @@ import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProtocolSelectionActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
