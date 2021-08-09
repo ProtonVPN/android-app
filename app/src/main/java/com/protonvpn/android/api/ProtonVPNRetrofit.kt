@@ -88,7 +88,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @POST("reports/bug")
     suspend fun postBugReport(@Body params: RequestBody): GenericResponse
 
-    @GET("vpn/clientconfig")
+    @GET("vpn/v2/clientconfig")
     suspend fun getAppConfig(): AppConfigResponse
 
     @GET("core/v4/notifications")

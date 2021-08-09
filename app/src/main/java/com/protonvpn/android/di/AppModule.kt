@@ -304,6 +304,7 @@ class AppModule {
         wireguardBackend: WireguardBackend
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
+            appConfig,
             StrongSwanBackend(
                 random,
                 networkManager,
@@ -333,6 +334,7 @@ class AppModule {
         networkManager: NetworkManager,
         appConfig: AppConfig,
         certificateRepository: CertificateRepository,
+        dispatcherProvider: DispatcherProvider
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
         GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
@@ -340,6 +342,7 @@ class AppModule {
         userData,
         appConfig,
         certificateRepository,
+        dispatcherProvider,
         scope
     )
 

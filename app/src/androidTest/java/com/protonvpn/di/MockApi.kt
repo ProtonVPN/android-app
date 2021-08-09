@@ -27,7 +27,9 @@ import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.DefaultPortsConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
@@ -47,11 +49,19 @@ import java.util.concurrent.TimeUnit
 class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val userData: UserData) : ProtonApiRetroFit(scope, manager) {
 
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
-        ApiResult.Success(AppConfigResponse(featureFlags = FeatureFlags(
-            maintenanceTrackerEnabled = true,
-            netShieldEnabled = true,
-            pollApiNotifications = true,
-            vpnAccelerator = true)))
+        ApiResult.Success(AppConfigResponse(
+            featureFlags = FeatureFlags(
+                maintenanceTrackerEnabled = true,
+                netShieldEnabled = true,
+                pollApiNotifications = true,
+                vpnAccelerator = true),
+            smartProtocolConfig = SmartProtocolConfig(
+                ikeV2Enabled = true,
+                openVPNEnabled = true,
+                wireguardEnabled = false
+            ),
+            defaultPortsConfig = DefaultPortsConfig.defaultConfig
+        ))
 
     override suspend fun getSession(): ApiResult<SessionListResponse> =
         ApiResult.Success(SessionListResponse(0, listOf()))

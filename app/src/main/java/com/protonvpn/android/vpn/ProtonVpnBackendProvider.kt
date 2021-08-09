@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
@@ -27,8 +29,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import me.proton.core.util.kotlin.mapAsync
 import com.protonvpn.android.utils.ProtonLogger
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 
 class ProtonVpnBackendProvider(
+    val config: AppConfig,
     val strongSwan: VpnBackend,
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
@@ -45,10 +52,23 @@ class ProtonVpnBackendProvider(
             VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
             VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
             VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.Smart ->
-                strongSwan.prepareForConnection(profile, server, scan = true).takeIf { it.isNotEmpty() }
-                    ?: openVpn.prepareForConnection(profile, server, scan = true)
-        }.firstOrNull()
+            VpnProtocol.Smart -> {
+                val backends = mutableListOf<VpnBackend>()
+                with (config.getSmartProtocolConfig()) {
+                    if (wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
+                        backends += wireGuard
+                    if (ikeV2Enabled)
+                        backends += strongSwan
+                    if (openVPNEnabled)
+                        backends += openVpn
+                }
+                backends.asFlow().map {
+                    it.prepareForConnection(profile, server, scan = true)
+                }.firstOrNull {
+                    it.isNotEmpty()
+                }
+            }
+        }?.firstOrNull()
     }
 
     override suspend fun pingAll(

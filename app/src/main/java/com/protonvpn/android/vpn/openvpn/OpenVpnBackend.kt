@@ -94,7 +94,7 @@ class OpenVpnBackend(
         val protocolInfo = if (!scan) {
             val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
-                openVpnPorts.getUdpPorts() else openVpnPorts.getTcpPorts()).random()
+                openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
             listOf(ProtocolInfo(transmissionProtocol, port))
         } else {
             scanPorts(connectingDomain, numberOfPorts)
@@ -115,7 +115,7 @@ class OpenVpnBackend(
             val udpPingData = getPingData(tcp = false)
             val udpPort = async {
                 scanInParallel(
-                    samplePorts(openVpnPorts.getUdpPorts(), numberOfPorts),
+                    samplePorts(openVpnPorts.udpPorts, numberOfPorts),
                     connectingDomain.entryIp,
                     udpPingData,
                     withTcp = false)
@@ -124,7 +124,7 @@ class OpenVpnBackend(
             val tcpPingData = getPingData(tcp = true)
             val tcpPort = async {
                 scanInParallel(
-                    samplePorts(openVpnPorts.getTcpPorts(), numberOfPorts),
+                    samplePorts(openVpnPorts.tcpPorts, numberOfPorts),
                     connectingDomain.entryIp,
                     tcpPingData,
                     withTcp = true)

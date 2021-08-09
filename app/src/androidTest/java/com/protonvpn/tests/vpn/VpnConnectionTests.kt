@@ -25,6 +25,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -127,6 +128,8 @@ class VpnConnectionTests {
         every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
+        every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
+            ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
         mockStrongSwan = spyk(MockVpnBackend(
             scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2))
         mockOpenVpn = spyk(MockVpnBackend(
@@ -140,7 +143,8 @@ class VpnConnectionTests {
             strongSwan = mockStrongSwan,
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
-            serverDeliver = serverManager
+            serverDeliver = serverManager,
+            config = appConfig
         )
 
         monitor = VpnStateMonitor()
@@ -194,6 +198,7 @@ class VpnConnectionTests {
 
     @Test
     fun testSmartFallbackToOpenVPN() = runBlockingTest {
+        mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         manager.connect(context, profileSmart)
         yield()
@@ -204,6 +209,7 @@ class VpnConnectionTests {
 
     @Test
     fun testAllBlocked() = runBlockingTest {
+        mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
         userData.manualProtocol = VpnProtocol.OpenVPN

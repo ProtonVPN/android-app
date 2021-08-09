@@ -301,7 +301,9 @@ class MockAppModule {
                 VpnProtocol.OpenVPN),
             wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
                 VpnProtocol.WireGuard),
-            serverDeliver = serverManager)
+            serverDeliver = serverManager,
+            config = appConfig
+    )
 
     @Singleton
     @Provides
@@ -309,6 +311,7 @@ class MockAppModule {
         userData: UserData,
         networkManager: NetworkManager,
         appConfig: AppConfig,
+        dispatcherProvider: DispatcherProvider,
         certificateRepository: CertificateRepository,
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
@@ -317,6 +320,7 @@ class MockAppModule {
         userData,
         appConfig,
         certificateRepository,
+        dispatcherProvider,
         scope
     )
 
