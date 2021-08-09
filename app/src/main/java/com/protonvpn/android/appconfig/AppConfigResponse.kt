@@ -26,8 +26,7 @@ import kotlinx.serialization.Serializable
 class AppConfigResponse(
     @SerialName(value = "ServerRefreshInterval")
     val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
-    @SerialName(value = "OpenVPNConfig") val openVPNConfigResponse: OpenVPNConfigResponse? = null,
-    @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags
-) {
-    val defaultPorts: DefaultPorts? = openVPNConfigResponse?.defaultPorts
-}
+    @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,
+    @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags,
+    @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?
+)

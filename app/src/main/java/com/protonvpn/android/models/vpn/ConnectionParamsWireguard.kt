@@ -34,6 +34,7 @@ import org.strongswan.android.utils.IPRangeSet
 class ConnectionParamsWireguard(
     profile: Profile,
     server: Server,
+    val port: Int,
     connectingDomain: ConnectingDomain
 ) : ConnectionParams(
     profile,
@@ -60,7 +61,7 @@ class ConnectionParamsWireguard(
 
         val peerProxy = config.addPeer()
         peerProxy.publicKey = connectingDomain.publicKeyX25519
-        peerProxy.endpoint = connectingDomain.entryIp + ":" + WIREGUARD_PORT
+        peerProxy.endpoint = connectingDomain.entryIp + ":" + port
 
         val excludedIPs = mutableListOf<String>()
         if (userData.useSplitTunneling) {
@@ -75,7 +76,8 @@ class ConnectionParamsWireguard(
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
         val allowedIps = calculateAllowedIps(excludedIPs)
-        ProtonLogger.log("Allowed IPs: " + allowedIps)
+        ProtonLogger.log("Port: $port")
+        ProtonLogger.log("Allowed IPs: $allowedIps")
         peerProxy.allowedIps = allowedIps
 
         return config.resolve()
@@ -92,10 +94,5 @@ class ConnectionParamsWireguard(
         // explicitly to not leak IPv6 for Wireguard then split tunneling is used
         // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
         return ipRangeSet.subnets().joinToString(", ") + ", 2000::/3"
-    }
-
-    companion object {
-
-        private const val WIREGUARD_PORT = "51820"
     }
 }
