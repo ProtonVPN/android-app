@@ -21,7 +21,6 @@ package com.protonvpn.android.components
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatRadioButton
 import me.proton.core.presentation.ui.view.ProtonRadioButton
 
 class RadioButtonEx @JvmOverloads constructor(

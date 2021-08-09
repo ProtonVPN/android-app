@@ -17,15 +17,22 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/coordinator"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.protonvpn.android.ui.drawer.SettingsActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/content_appbar" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.protonvpn.android.ui.drawer.SettingsActivity">
 
-    <include layout="@layout/content_settings" />
+        <include
+            android:id="@+id/contentAppbar"
+            layout="@layout/content_appbar" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/contentSettings"
+            layout="@layout/content_settings" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

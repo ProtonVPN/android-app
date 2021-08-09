@@ -19,6 +19,8 @@
 package com.protonvpn.android.ui.drawer
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
@@ -28,9 +30,8 @@ import android.view.View.VISIBLE
 import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import butterknife.BindView
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -39,10 +40,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
-import com.protonvpn.android.components.BaseActivity
+import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.InstalledAppsProvider
-import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
@@ -57,26 +58,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_settings)
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
 
-    @BindView(R.id.buttonDefaultProfile) lateinit var buttonDefaultProfile: SettingsItem
-    @BindView(R.id.switchAutoStart) lateinit var switchAutoStart: SettingsSwitch
-    @BindView(R.id.buttonMtuSize) lateinit var buttonMtuSize: SettingsItem
-    @BindView(R.id.switchShowIcon) lateinit var switchShowIcon: SettingsSwitch
-    @BindView(R.id.switchDnsLeak) lateinit var switchDnsLeak: SettingsSwitch
-    @BindView(R.id.switchBypassLocal) lateinit var switchBypassLocal: SettingsSwitch
-    @BindView(R.id.switchShowSplitTunnel) lateinit var switchShowSplitTunnel: SettingsSwitch
-    @BindView(R.id.switchDnsOverHttps) lateinit var switchDnsOverHttps: SettingsSwitch
-    @BindView(R.id.buttonProtocol) lateinit var buttonProtocol: SettingsItem
-    @BindView(R.id.splitTunnelLayout) lateinit var splitTunnelLayout: View
-    @BindView(R.id.scrollView) lateinit var scrollView: NestedScrollView
-    @BindView(R.id.buttonExcludeIps) lateinit var buttonExcludeIps: SettingsItem
-    @BindView(R.id.buttonExcludeApps) lateinit var buttonExcludeApps: SettingsItem
-    @BindView(R.id.buttonAlwaysOn) lateinit var buttonAlwaysOn: SettingsItem
-    @BindView(R.id.buttonLicenses) lateinit var buttonLicenses: SettingsItem
-    @BindView(R.id.netShieldSwitch) lateinit var switchNetShield: NetShieldSwitch
-    @BindView(R.id.switchVpnAccelerator) lateinit var switchVpnAccelerator: SettingsSwitch
-    @BindView(R.id.switchVpnAcceleratorNotifications) lateinit var switchVpnAcceleratorNotifications: SettingsSwitch
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
@@ -93,93 +76,88 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
+    override fun initViewModel() {
+        // No ViewModel.
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initToolbarWithUpEnabled()
+        initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         initSettings()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initSettings() {
         initOSRelatedVisibility()
-        buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
-        switchAutoStart.isChecked = userPrefs.connectOnBoot
-        switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
-            userPrefs.connectOnBoot = isChecked
-        }
-        switchNetShield.init(userPrefs.netShieldProtocol, appConfig, this, userPrefs, stateMonitor, connectionManager) {
-            userPrefs.netShieldProtocol = it
-        }
-        switchShowIcon.isChecked = userPrefs.shouldShowIcon()
-        switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
-            userPrefs.setShowIcon(isChecked)
-            EventBus.getInstance().post(StatusSettingChanged(isChecked))
-        }
+        with(binding.contentSettings) {
+            buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
+            switchAutoStart.isChecked = userPrefs.connectOnBoot
+            switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.connectOnBoot = isChecked
+            }
+            netShieldSwitch.init(
+                userPrefs.netShieldProtocol,
+                appConfig,
+                this@SettingsActivity,
+                userPrefs,
+                stateMonitor,
+                connectionManager
+            ) {
+                userPrefs.netShieldProtocol = it
+            }
+            switchShowIcon.isChecked = userPrefs.shouldShowIcon()
+            switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.setShowIcon(isChecked)
+                EventBus.getInstance().post(StatusSettingChanged(isChecked))
+            }
 
-        switchDnsLeak.isEnabled = false
+            switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
+            switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.apiUseDoH = isChecked
+            }
 
-        switchDnsOverHttps.setInfoText(R.string.settingsAllowAlternativeRoutingDescription)
-        switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
-        switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
-            userPrefs.apiUseDoH = isChecked
-        }
+            buttonDefaultProfile.setOnClickListener {
+                navigateTo(SettingsDefaultProfileActivity::class.java)
+            }
 
-        buttonDefaultProfile.setOnClickListener {
-            navigateTo(SettingsDefaultProfileActivity::class.java)
-        }
+            val useSplitTunnel = userPrefs.useSplitTunneling
+            val disableWhenConnectedListener = createDisableWhenConnectedTouchListener()
+            buttonMtuSize.setOnTouchListener(disableWhenConnectedListener)
+            buttonMtuSize.setOnClickListener { navigateTo(SettingsMtuActivity::class.java) }
 
-        var snackBar: Snackbar? = null
-        val useSplitTunnel = userPrefs.useSplitTunneling
-        val disableWhenConnectedListener = { _: View, _: MotionEvent ->
-            if (stateMonitor.isConnected) {
-                // Creating snackbar without showing it might lead to leaking activity.
-                // Fixed in 1.1.0-alpha of material library.
-                if (snackBar == null) {
-                    snackBar = Snackbar.make(findViewById(R.id.coordinator),
-                            R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG)
-                }
-                if (snackBar?.isShownOrQueued == false) {
-                    snackBar?.show()
-                }
-                true
-            } else false
-        }
-        buttonMtuSize.setOnTouchListener(disableWhenConnectedListener)
-        buttonMtuSize.setOnClickListener { navigateTo(SettingsMtuActivity::class.java) }
+            buttonProtocol.setOnTouchListener(disableWhenConnectedListener)
+            buttonProtocol.setOnClickListener {
+                protocolSelection.launch(getProtocolSelection(userPrefs))
+            }
 
-        buttonProtocol.setOnTouchListener(disableWhenConnectedListener)
-        buttonProtocol.setOnClickListener {
-            protocolSelection.launch(getProtocolSelection(userPrefs))
-        }
+            initSplitTunneling(useSplitTunnel)
+            buttonExcludeIps.setOnTouchListener(disableWhenConnectedListener)
+            buttonExcludeIps.setOnClickListener {
+                navigateTo(SettingsExcludeIpsActivity::class.java)
+            }
+            buttonExcludeApps.setOnTouchListener(disableWhenConnectedListener)
+            buttonExcludeApps.setOnClickListener {
+                navigateTo(SettingsExcludeAppsActivity::class.java)
+            }
+            switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
+            switchShowSplitTunnel.isChecked = useSplitTunnel
+            switchShowSplitTunnel.setOnCheckedChangeListener { _, isChecked ->
+                initSplitTunneling(isChecked)
+                userPrefs.useSplitTunneling = isChecked
+                scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
+            }
 
-        initSplitTunneling(useSplitTunnel)
-        switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
-        buttonExcludeIps.setOnTouchListener(disableWhenConnectedListener)
-        buttonExcludeIps.setOnClickListener {
-            navigateTo(SettingsExcludeIpsActivity::class.java)
-        }
-        buttonExcludeApps.setOnTouchListener(disableWhenConnectedListener)
-        buttonExcludeApps.setOnClickListener {
-            navigateTo(SettingsExcludeAppsActivity::class.java)
-        }
+            switchBypassLocal.isChecked = userPrefs.bypassLocalTraffic()
+            switchBypassLocal.setOnTouchListener(disableWhenConnectedListener)
+            switchBypassLocal.setOnCheckedChangeListener { _, isChecked ->
+                userPrefs.setBypassLocalTraffic(isChecked)
+            }
 
-        switchShowSplitTunnel.isChecked = useSplitTunnel
-        switchShowSplitTunnel.setOnCheckedChangeListener { _, isChecked ->
-            initSplitTunneling(isChecked)
-            userPrefs.useSplitTunneling = isChecked
-            scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
-        }
+            initVpnAcceleratorToggles()
 
-        switchBypassLocal.isChecked = userPrefs.bypassLocalTraffic()
-        switchBypassLocal.setOnTouchListener(disableWhenConnectedListener)
-        switchBypassLocal.setOnCheckedChangeListener{ _, isChecked ->
-            userPrefs.setBypassLocalTraffic(isChecked)
-        }
-
-        initVpnAcceleratorToggles()
-
-        buttonLicenses.setOnClickListener {
-            navigateTo(OssLicensesActivity::class.java)
+            buttonLicenses.setOnClickListener {
+                navigateTo(OssLicensesActivity::class.java)
+            }
         }
 
         onUserDataUpdated()
@@ -188,7 +166,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun initVpnAcceleratorToggles() {
+    private fun initVpnAcceleratorToggles() = with(binding.contentSettings) {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
             switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(getString(
@@ -197,7 +175,7 @@ class SettingsActivity : BaseActivity() {
                 tryToggleVpnAccelerator()
                 true
             }
-            userPrefs.updateEvent.observe(this) {
+            userPrefs.updateEvent.observe(this@SettingsActivity) {
                 updateVpnAcceleratorToggles()
             }
 
@@ -213,23 +191,23 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun initOSRelatedVisibility() {
+    private fun initOSRelatedVisibility() = with(binding.contentSettings) {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
         switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
     }
 
     private fun initSplitTunneling(isChecked: Boolean) {
-        splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
+        binding.contentSettings.splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
     }
 
-    private fun updateVpnAcceleratorToggles() {
+    private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
         val isEnabled = userPrefs.isVpnAcceleratorEnabled
         switchVpnAccelerator.isChecked = isEnabled
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 
-    private fun onUserDataUpdated() {
+    private fun onUserDataUpdated() = with(binding.contentSettings) {
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
         buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
@@ -263,8 +241,9 @@ class SettingsActivity : BaseActivity() {
 
     private fun tryToggleVpnAccelerator() {
         if (stateMonitor.isEstablishingOrConnected) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                .icon(ContextCompat.getDrawable(context, R.drawable.ic_refresh)!!)
+            val builder = MaterialDialog.Builder(this).theme(Theme.DARK)
+            builder
+                .icon(ContextCompat.getDrawable(builder.context, R.drawable.ic_refresh)!!)
                 .title(R.string.dialogTitleReconnectionNeeded)
                 .content(R.string.settingsSmartReconnectReconnectDialogContent)
                 .positiveText(R.string.reconnect)
@@ -286,4 +265,26 @@ class SettingsActivity : BaseActivity() {
     private fun getProtocolSelection(userData: UserData) =
         ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun createDisableWhenConnectedTouchListener(): View.OnTouchListener {
+        var snackBar: Snackbar? = null
+        return View.OnTouchListener { _: View, _: MotionEvent ->
+            if (stateMonitor.isConnected) {
+                if (snackBar == null) {
+                    snackBar = Snackbar.make(
+                        findViewById(R.id.coordinator),
+                        R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG
+                    )
+                }
+                if (snackBar?.isShownOrQueued == false) {
+                    snackBar?.show()
+                }
+                true
+            } else false
+        }
+    }
+
+    private fun navigateTo(clazz: Class<out Activity>) {
+        startActivity(Intent(this, clazz))
+    }
 }
