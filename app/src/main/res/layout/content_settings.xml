@@ -23,38 +23,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:paddingVertical="16dp"
         android:orientation="vertical"
         tools:context="com.protonvpn.android.ui.drawer.SettingsActivity"
         tools:showIn="@layout/activity_settings">
 
         <TextView
-            android:id="@+id/textStartOptions"
+            android:id="@+id/textSectionQuickConnect"
+            style="@style/SectionHeadlineText.Brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/settingsStartOptions"
-            android:textAllCaps="true"
-            android:textColor="@color/accountTitles"
-            android:textSize="16sp"/>
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsSectionQuickConnect" />
 
         <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonDefaultProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/screen_padding_horizontal"
             app:title="@string/settingsDefaultConnectionTitle"
             app:infoText="@string/settingsDefaultConnectionDescription" />
+
+        <TextView
+            style="@style/SectionHeadlineText.Brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsSectionConnection" />
 
         <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchAutoStart"
@@ -70,49 +69,12 @@
             app:infoText="@string/settingsShowIconDescription"
             app:title="@string/settingsShowIconTitle" />
 
-        <TextView
-            android:id="@+id/textSecurityOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/settingsSecurityOptions"
-            android:textAllCaps="true"
-            android:textColor="@color/accountTitles"
-            android:textSize="16sp" />
-
         <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonAlwaysOn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsAlwaysOnKillSwitchDescription"
             app:title="@string/settingsAlwaysOnAndKillSwitchTitle" />
-
-        <com.protonvpn.android.components.NetShieldSwitch
-            android:id="@+id/netShieldSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:descriptionText="@string/netShieldDescription"
-            app:withReconnectConfirmation="true"/>
-
-        <View style="@style/Divider.Small" />
-
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
-            android:id="@+id/switchDnsLeak"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:checked="true"
-            app:infoText="@string/settingsDnsLeakDescription"
-            app:title="@string/settingsDnsLeakTitle" />
-
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
-            android:id="@+id/switchDnsOverHttps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:infoText="@string/settingsAllowAlternativeRoutingDescription"
-            app:title="@string/settingsAllowAlternativeRoutingTitle" />
 
         <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchVpnAccelerator"
@@ -128,6 +90,45 @@
             app:infoText="@string/settingsSmartReconnectNotificationsDescription"
             app:title="@string/settingsSmartReconnectNotificationsTitle" />
 
+        <TextView
+            style="@style/SectionHeadlineText.Brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsSectionSecurity" />
+
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
+            android:id="@+id/switchDnsLeak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:checked="true"
+            app:infoText="@string/settingsDnsLeakDescription"
+            app:title="@string/settingsDnsLeakTitle" />
+
+        <com.protonvpn.android.components.NetShieldSwitch
+            android:id="@+id/netShieldSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:descriptionText="@string/netShieldDescription"
+            app:withReconnectConfirmation="true"/>
+
+        <View style="@style/Divider.Small" />
+
+        <TextView
+            style="@style/SectionHeadlineText.Brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsSectionAdvanced" />
+
+        <com.protonvpn.android.ui.drawer.SettingsSwitch
+            android:id="@+id/switchDnsOverHttps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoText="@string/settingsAllowAlternativeRoutingDescription"
+            app:title="@string/settingsAllowAlternativeRoutingTitle" />
+
         <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonProtocol"
             android:layout_width="match_parent"
@@ -138,7 +139,6 @@
             android:id="@+id/switchBypassLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:infoText="@string/settingsBypassLocalDetails"
             app:title="@string/settingsBypassLocalTitle" />
 
         <com.protonvpn.android.ui.drawer.SettingsItem
@@ -147,15 +147,11 @@
             android:layout_height="wrap_content"
             app:title="@string/settingsMtuSizeTitle" />
 
-        <View
-            android:id="@+id/divider"
-            style="@style/Divider.Small"
-            android:layout_marginTop="15dp" />
-
         <com.protonvpn.android.ui.drawer.SettingsSwitch
             android:id="@+id/switchShowSplitTunnel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:dividerBelow="false"
             app:infoText="@string/settingsSplitTunnelingDescription"
             app:title="@string/settingsSplitTunnelingTitle" />
 
@@ -170,17 +166,18 @@
                 android:id="@+id/buttonExcludeIps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                app:dividerBelow="false"
                 app:title="@string/settingsExcludedIPAddresses" />
 
             <com.protonvpn.android.ui.drawer.SettingsItem
                 android:id="@+id/buttonExcludeApps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                app:dividerBelow="false"
                 app:title="@string/settingsExcludedApps" />
-
         </LinearLayout>
+
+        <View style="@style/Divider.Small" />
 
         <com.protonvpn.android.ui.drawer.SettingsItem
             android:id="@+id/buttonLicenses"

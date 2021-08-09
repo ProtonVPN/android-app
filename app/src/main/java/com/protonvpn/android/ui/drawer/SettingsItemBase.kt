@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.drawer
 import android.content.Context
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -37,7 +38,7 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
         context,
         attrs,
         0,
-        R.style.SettingsPreference
+        R.style.SettingsItem
     ) {
         init(attrs)
     }
@@ -45,7 +46,7 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
         context,
         attrs,
         defStyleAttr,
-        R.style.SettingsPreference
+        R.style.SettingsItem
     ) {
         init(attrs)
     }
@@ -69,6 +70,8 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
                 isEnabled = it.getBoolean(R.styleable.SettingsItemBase_android_enabled, true)
                 textTitle().text = it.getString(R.styleable.SettingsItemBase_title)
                 setTextAndVisibility(textInfo(), it.getString(R.styleable.SettingsItemBase_infoText))
+                dividerBelow().isVisible =
+                    it.getBoolean(R.styleable.SettingsItemBase_dividerBelow, true)
             }
         }
     }
@@ -93,4 +96,5 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
     protected abstract fun inflate(context: Context): Binding
     protected abstract fun textTitle(): TextView
     protected abstract fun textInfo(): TextView
+    protected abstract fun dividerBelow(): View
 }

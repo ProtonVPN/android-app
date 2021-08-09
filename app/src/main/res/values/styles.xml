@@ -106,12 +106,8 @@
         <item name="android:background">@color/dimmedGrey</item>
     </style>
 
-    <style name="SettingsPreference">
+    <style name="SettingsItem">
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:paddingLeft">@dimen/screen_padding_horizontal</item>
-        <item name="android:paddingRight">@dimen/screen_padding_horizontal</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 

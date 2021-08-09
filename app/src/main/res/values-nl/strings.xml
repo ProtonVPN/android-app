@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">Profiel</string>
   <string name="activityAccountTitle">Account</string>
   <string name="activitySettingsTitle">Instellingen</string>
-  <string name="settingsStartOptions">Start opties</string>
-  <string name="settingsSecurityOptions">Beveiligingsopties</string>
   <string name="settingsAutoStartTitle">Starten samen met Android</string>
   <string name="settingsShowIconTitle">Statussymbool</string>
   <string name="settingsShowIconDescription">Toon een symbool in de statusbalk om de VPN-status aan te geven</string>
   <string name="settingsAutoStartDescription">ProtonVPN zal automatisch starten tijdens het starten van uw systeem</string>
   <string name="settingsBypassLocalTitle">LAN-verbindingen toestaan</string>
-  <string name="settingsBypassLocalDetails">Dit zal u toestaan om de VPN te omzeilen en zo verbinding te maken met apparaten op uw lokale netwerk, zoals uw printer. Deze lokale verbindingen zijn niet versleuteld</string>
   <string name="settingsDnsLeakTitle">DNS-lek</string>
   <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
   <string name="protocolLabel">Protocol</string>

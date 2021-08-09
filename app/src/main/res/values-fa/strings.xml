@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">پروفایل</string>
   <string name="activityAccountTitle">حساب کاربری</string>
   <string name="activitySettingsTitle">تنظیمات</string>
-  <string name="settingsStartOptions">تنظیمات شروع برنامه</string>
-  <string name="settingsSecurityOptions">تنظیمات امنیتی</string>
   <string name="settingsAutoStartTitle">آغاز با اندروید</string>
   <string name="settingsShowIconTitle">آیکون وضعیت</string>
   <string name="settingsShowIconDescription">نشان دادن آیکون اتصال VPN در نوار وضعیت</string>
   <string name="settingsAutoStartDescription">برنامه ProtonVPN به صورت خودکار بعد از هر شروع سیستم، اجرا می‌شود</string>
   <string name="settingsBypassLocalTitle">اجازهٔ اتصال به شبکه‌های LAN</string>
-  <string name="settingsBypassLocalDetails">این گزینه به شما اجازه می‌دهد تا برای اتصال به دستگاه‌هایی مانند چاپگر که در شبکهٔ محلی شما هستند، VPN را دور بزنید. این اتصالات رمزگذاری نمی‌شوند</string>
   <string name="settingsDnsLeakTitle">نشت DNS</string>
   <string name="settingsDnsLeakDescription">جلوگیری از نشت پرسمان DNS به اشخاص ثالث (همیشه فعال)</string>
   <string name="protocolLabel">پروتکل</string>

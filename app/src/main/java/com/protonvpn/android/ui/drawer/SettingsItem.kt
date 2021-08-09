@@ -43,6 +43,7 @@ class SettingsItem : SettingsItemBase<SettingsItemBinding> {
 
     override fun textTitle() = binding.textTitle
     override fun textInfo() = binding.textInfo
+    override fun dividerBelow() = binding.dividerBelow
 
     fun setValue(text: CharSequence) {
         setTextAndVisibility(binding.textValue, text)

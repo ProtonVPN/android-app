@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Konto</string>
   <string name="activitySettingsTitle">Einstellungen</string>
-  <string name="settingsStartOptions">Startoptionen</string>
-  <string name="settingsSecurityOptions">Sicherheitseinstellungen</string>
   <string name="settingsAutoStartTitle">Mit Android starten</string>
   <string name="settingsShowIconTitle">Statussymbol</string>
   <string name="settingsShowIconDescription">Ein Symbol im Statusbereich anzeigen, um den VPN‐Status anzugeben</string>
   <string name="settingsAutoStartDescription">ProtonVPN startet automatisch bei jedem Systemstart</string>
   <string name="settingsBypassLocalTitle">LAN‐Verbindungen zulassen</string>
-  <string name="settingsBypassLocalDetails">Dies erlaubt es Ihnen, das VPN zu umgehen und sich zu Geräten in Ihrem lokalen Netzwerk (wie Ihr Drucker) zu verbinden. Diese Verbindungen sind nicht verschlüsselt</string>
   <string name="settingsDnsLeakTitle">DNS‐Leak</string>
   <string name="settingsDnsLeakDescription">Verhindert das Weitergeben von Details der DNS‐Anfragen an Dritte (immer aktiv)</string>
   <string name="protocolLabel">Protokoll</string>

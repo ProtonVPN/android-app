@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">Perfil</string>
   <string name="activityAccountTitle">Conta</string>
   <string name="activitySettingsTitle">Configurações</string>
-  <string name="settingsStartOptions">Opções de inicialização</string>
-  <string name="settingsSecurityOptions">Opções de segurança</string>
   <string name="settingsAutoStartTitle">Iniciar com o Android</string>
   <string name="settingsShowIconTitle">Ícone de status</string>
   <string name="settingsShowIconDescription">Mostrar um ícone na bandeja de status para indicar o status da VPN</string>
   <string name="settingsAutoStartDescription">O ProtonVPN irá iniciar automaticamente a cada inicialização do sistema</string>
   <string name="settingsBypassLocalTitle">Permitir conexões LAN</string>
-  <string name="settingsBypassLocalDetails">Isso permitirá que você ignore a VPN e conecte-se a dispositivos em sua rede local, como sua impressora. Estas conexões não são criptografadas</string>
   <string name="settingsDnsLeakTitle">Vazamento de DNS</string>
   <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>
   <string name="protocolLabel">Protocolo</string>
