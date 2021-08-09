@@ -23,4 +23,5 @@ tvTest:
   timeout: 30m
   device:
   - model: AmatiTvEmulator
+    orientation: landscape
     version: 29
