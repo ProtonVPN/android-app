@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.drawer
+package com.protonvpn.android.ui.settings
 
 import android.content.Context
 import android.text.method.LinkMovementMethod

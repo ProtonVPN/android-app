@@ -20,12 +20,12 @@ package com.protonvpn.android.di;
 
 import android.app.Activity;
 
-import com.protonvpn.android.ui.drawer.AlwaysOnSettingsActivity;
-import com.protonvpn.android.ui.drawer.SettingsActivity;
-import com.protonvpn.android.ui.drawer.SettingsDefaultProfileActivity;
-import com.protonvpn.android.ui.drawer.SettingsExcludeAppsActivity;
-import com.protonvpn.android.ui.drawer.SettingsExcludeIpsActivity;
-import com.protonvpn.android.ui.drawer.SettingsMtuActivity;
+import com.protonvpn.android.ui.settings.AlwaysOnSettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsDefaultProfileActivity;
+import com.protonvpn.android.ui.settings.SettingsExcludeAppsActivity;
+import com.protonvpn.android.ui.settings.SettingsExcludeIpsActivity;
+import com.protonvpn.android.ui.settings.SettingsMtuActivity;
 
 import dagger.Binds;
 import dagger.Module;

@@ -18,7 +18,7 @@
  */
 package com.protonvpn.tests.testRules;
 
-import com.protonvpn.android.ui.drawer.SettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsActivity;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;

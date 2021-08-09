@@ -20,7 +20,7 @@ package com.protonvpn.actions
 
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
-import com.protonvpn.android.ui.drawer.SettingsItem
+import com.protonvpn.android.ui.settings.SettingsItem
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.results.SettingsResults
 import com.protonvpn.tests.upgrade.UpgradeTestData

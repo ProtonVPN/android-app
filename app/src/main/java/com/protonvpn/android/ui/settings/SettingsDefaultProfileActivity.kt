@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-package com.protonvpn.android.ui.drawer
+package com.protonvpn.android.ui.settings
 
 import android.content.res.ColorStateList
 import android.os.Bundle

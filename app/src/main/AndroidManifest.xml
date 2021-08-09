@@ -179,7 +179,7 @@
             android:name=".ui.drawer.AccountActivity"
             android:label="@string/activityAccountTitle" />
         <activity
-            android:name=".ui.drawer.OssLicensesActivity"
+            android:name=".ui.settings.OssLicensesActivity"
             android:label="@string/activityLicensesTitle" />
         <activity
             android:name=".ui.home.InformationActivity"
@@ -188,22 +188,22 @@
             android:name=".ui.login.TroubleshootActivity"
             android:label="@string/activityTroubleshootTitle" />
         <activity
-            android:name=".ui.drawer.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/activitySettingsTitle" />
         <activity
-            android:name=".ui.drawer.SettingsDefaultProfileActivity"
+            android:name=".ui.settings.SettingsDefaultProfileActivity"
             android:label="@string/settingsDefaultConnectionTitle" />
         <activity
-            android:name=".ui.drawer.SettingsExcludeAppsActivity"
+            android:name=".ui.settings.SettingsExcludeAppsActivity"
             android:label="@string/settingsExcludedApps" />
         <activity
-            android:name=".ui.drawer.SettingsExcludeIpsActivity"
+            android:name=".ui.settings.SettingsExcludeIpsActivity"
             android:label="@string/settingsExcludedIPAddresses" />
         <activity
-            android:name=".ui.drawer.SettingsMtuActivity"
+            android:name=".ui.settings.SettingsMtuActivity"
             android:label="@string/settingsMtuSizeTitle" />
         <activity
-            android:name=".ui.drawer.AlwaysOnSettingsActivity"
+            android:name=".ui.settings.AlwaysOnSettingsActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
             android:name=".ui.drawer.ReportBugActivity"

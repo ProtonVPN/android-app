@@ -23,7 +23,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.protonvpn.android.ui.drawer.AlwaysOnSettingsActivity">
+        tools:context="com.protonvpn.android.ui.settings.AlwaysOnSettingsActivity">
 
         <include
             android:id="@+id/appbar"

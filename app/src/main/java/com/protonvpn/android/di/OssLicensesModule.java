@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import android.app.Activity;
 
-import com.protonvpn.android.ui.drawer.OssLicensesActivity;
+import com.protonvpn.android.ui.settings.OssLicensesActivity;
 
 import dagger.Binds;
 import dagger.Module;
