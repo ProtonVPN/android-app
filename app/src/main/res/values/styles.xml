@@ -332,6 +332,16 @@
         <item name="android:textColor">?attr/brand_norm</item>
     </style>
 
+    <style name="ProtonSwitch.AlwaysOn">
+        <item name="android:textColor">?attr/proton_text_norm</item>
+        <item name="thumbTint">?attr/brand_darken_20</item>
+        <item name="trackTint">@color/switch_track_always_on</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonSwitchAlwaysOn" parent="">
+        <item name="switchStyle">@style/ProtonSwitch.AlwaysOn</item>
+    </style>
+
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="actionMenuTextColor">?attr/brand_norm</item>
         <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
