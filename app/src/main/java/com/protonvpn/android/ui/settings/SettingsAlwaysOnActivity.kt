@@ -48,7 +48,7 @@ import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
-class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {
+class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {
 
     @Inject lateinit var dispatcherProvider: DispatcherProvider
 
@@ -66,7 +66,7 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
                 startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
             }
 
-            val adapter = StepFragmentAdapter(this@AlwaysOnSettingsActivity)
+            val adapter = StepFragmentAdapter(this@SettingsAlwaysOnActivity)
             pagerScreens.adapter = adapter
             indicator.setViewPager(pagerScreens)
             pagerScreens.registerOnPageChangeCallback(
@@ -94,7 +94,7 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
                 R.drawable.always_on_step_3,
                 R.drawable.always_on_step_4
             ).forEach {
-                ContextCompat.getDrawable(this@AlwaysOnSettingsActivity, it)
+                ContextCompat.getDrawable(this@SettingsAlwaysOnActivity, it)
             }
         }
     }
@@ -102,10 +102,10 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
     private class StepFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         private val constructors =
             arrayOf(
-                AlwaysOnSettingsActivity::StepFragment1,
-                AlwaysOnSettingsActivity::StepFragment2,
-                AlwaysOnSettingsActivity::StepFragment3,
-                AlwaysOnSettingsActivity::StepFragment4
+                SettingsAlwaysOnActivity::StepFragment1,
+                SettingsAlwaysOnActivity::StepFragment2,
+                SettingsAlwaysOnActivity::StepFragment3,
+                SettingsAlwaysOnActivity::StepFragment4
             )
 
         override fun getItemCount(): Int = constructors.size

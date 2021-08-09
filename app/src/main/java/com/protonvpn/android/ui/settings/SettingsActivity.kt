@@ -90,7 +90,7 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     private fun initSettings() {
         initOSRelatedVisibility()
         with(binding.contentSettings) {
-            buttonAlwaysOn.setOnClickListener { navigateTo(AlwaysOnSettingsActivity::class.java); }
+            buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
             switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
                 userPrefs.connectOnBoot = isChecked

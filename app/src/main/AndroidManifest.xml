@@ -203,7 +203,7 @@
             android:name=".ui.settings.SettingsMtuActivity"
             android:label="@string/settingsMtuSizeTitle" />
         <activity
-            android:name=".ui.settings.AlwaysOnSettingsActivity"
+            android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
             android:name=".ui.drawer.ReportBugActivity"

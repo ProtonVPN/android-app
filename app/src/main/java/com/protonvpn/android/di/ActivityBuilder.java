@@ -31,7 +31,7 @@ import com.protonvpn.android.ui.home.profiles.ServerSelectionActivity;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.drawer.AccountActivity;
-import com.protonvpn.android.ui.settings.AlwaysOnSettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity;
 import com.protonvpn.android.ui.settings.OssLicensesActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.settings.SettingsActivity;
@@ -81,7 +81,7 @@ public abstract class ActivityBuilder {
     abstract SettingsExcludeAppsActivity bindSettingsExcludeAppsActivity();
 
     @ContributesAndroidInjector(modules = {SettingsModule.class})
-    abstract AlwaysOnSettingsActivity bindAlwaysOnSettingsActivity();
+    abstract SettingsAlwaysOnActivity bindAlwaysOnSettingsActivity();
 
     @ContributesAndroidInjector(modules = {SettingsModule.class})
     abstract SettingsMtuActivity bindSettingsMtuActivity();
