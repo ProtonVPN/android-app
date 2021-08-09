@@ -20,7 +20,7 @@ package com.protonvpn.android.di;
 
 import android.app.Activity;
 
-import com.protonvpn.android.ui.settings.AlwaysOnSettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity;
 import com.protonvpn.android.ui.settings.SettingsActivity;
 import com.protonvpn.android.ui.settings.SettingsDefaultProfileActivity;
 import com.protonvpn.android.ui.settings.SettingsExcludeAppsActivity;
@@ -45,7 +45,7 @@ public abstract class SettingsModule {
     abstract Activity provideSettingsExcludeIpsActivity(SettingsExcludeIpsActivity activity);
 
     @Binds
-    abstract Activity provideAlwaysOnSettingsActivity(AlwaysOnSettingsActivity activity);
+    abstract Activity provideAlwaysOnSettingsActivity(SettingsAlwaysOnActivity activity);
 
     @Binds
     abstract Activity provideSettingsMtuActivity(SettingsMtuActivity activity);
