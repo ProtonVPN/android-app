@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.drawer
+package com.protonvpn.android.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -101,7 +101,12 @@ class AlwaysOnSettingsActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
 
     private class StepFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         private val constructors =
-            arrayOf(::StepFragment1, ::StepFragment2, ::StepFragment3, ::StepFragment4)
+            arrayOf(
+                AlwaysOnSettingsActivity::StepFragment1,
+                AlwaysOnSettingsActivity::StepFragment2,
+                AlwaysOnSettingsActivity::StepFragment3,
+                AlwaysOnSettingsActivity::StepFragment4
+            )
 
         override fun getItemCount(): Int = constructors.size
 

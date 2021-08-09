@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        tools:context="com.protonvpn.android.ui.drawer.SettingsActivity"
+        tools:context="com.protonvpn.android.ui.settings.SettingsActivity"
         tools:showIn="@layout/activity_settings">
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/settingsSectionQuickConnect" />
 
-        <com.protonvpn.android.ui.drawer.SettingsItem
+        <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonDefaultProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,35 +55,35 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/settingsSectionConnection" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchAutoStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsAutoStartDescription"
             app:title="@string/settingsAutoStartTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchShowIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsShowIconDescription"
             app:title="@string/settingsShowIconTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsItem
+        <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonAlwaysOn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsAlwaysOnKillSwitchDescription"
             app:title="@string/settingsAlwaysOnAndKillSwitchTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchVpnAccelerator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsVpnAcceleratorDescription"
             app:title="@string/settingsSmartReconnectTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchVpnAcceleratorNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/settingsSectionSecurity" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchDnsLeak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,32 +123,32 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/settingsSectionAdvanced" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchDnsOverHttps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:infoText="@string/settingsAllowAlternativeRoutingDescription"
             app:title="@string/settingsAllowAlternativeRoutingTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsItem
+        <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonProtocol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/protocolLabel" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchBypassLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/settingsBypassLocalTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsItem
+        <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonMtuSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/settingsMtuSizeTitle" />
 
-        <com.protonvpn.android.ui.drawer.SettingsSwitch
+        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchShowSplitTunnel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,14 +163,14 @@
             android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
-            <com.protonvpn.android.ui.drawer.SettingsItem
+            <com.protonvpn.android.ui.settings.SettingsItem
                 android:id="@+id/buttonExcludeIps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:dividerBelow="false"
                 app:title="@string/settingsExcludedIPAddresses" />
 
-            <com.protonvpn.android.ui.drawer.SettingsItem
+            <com.protonvpn.android.ui.settings.SettingsItem
                 android:id="@+id/buttonExcludeApps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
 
         <View style="@style/Divider.Small" />
 
-        <com.protonvpn.android.ui.drawer.SettingsItem
+        <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonLicenses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

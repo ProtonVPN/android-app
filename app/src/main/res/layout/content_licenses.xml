@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:background="@color/dimmedGrey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.protonvpn.android.ui.drawer.OssLicensesActivity"
+        tools:context="com.protonvpn.android.ui.settings.OssLicensesActivity"
         tools:ignore="RtlHardcoded"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="81dp"

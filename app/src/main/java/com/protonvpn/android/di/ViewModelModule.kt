@@ -26,8 +26,8 @@ import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.drawer.AccountActivityViewModel
 import com.protonvpn.android.ui.drawer.ReportBugActivityViewModel
-import com.protonvpn.android.ui.drawer.SettingsExcludeAppsViewModel
-import com.protonvpn.android.ui.drawer.SettingsExcludeIpsViewModel
+import com.protonvpn.android.ui.settings.SettingsExcludeAppsViewModel
+import com.protonvpn.android.ui.settings.SettingsExcludeIpsViewModel
 import com.protonvpn.android.ui.home.InformationViewModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.ui.home.profiles.CountrySelectionViewModel

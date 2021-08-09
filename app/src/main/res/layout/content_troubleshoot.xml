@@ -33,7 +33,7 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
-            <com.protonvpn.android.ui.drawer.SettingsSwitch
+            <com.protonvpn.android.ui.settings.SettingsSwitch
                 android:id="@+id/switchDnsOverHttps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

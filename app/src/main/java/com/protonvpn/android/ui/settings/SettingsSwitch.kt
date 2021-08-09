@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.drawer
+package com.protonvpn.android.ui.settings
 
 import android.content.Context
 import android.util.AttributeSet
@@ -27,6 +27,7 @@ import android.widget.CompoundButton
 import androidx.core.content.res.use
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.SettingsSwitchBinding
+import com.protonvpn.android.ui.settings.SettingsItemBase
 
 class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     constructor(context: Context) : super(context)

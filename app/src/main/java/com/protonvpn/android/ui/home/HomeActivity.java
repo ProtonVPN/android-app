@@ -65,7 +65,7 @@ import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
-import com.protonvpn.android.ui.drawer.SettingsActivity;
+import com.protonvpn.android.ui.settings.SettingsActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
