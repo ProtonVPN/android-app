@@ -38,6 +38,7 @@
         <attr name="title" />
         <attr name="infoText" format="string" />
         <attr name="android:enabled" />
+        <attr name="dividerBelow" format="boolean" />
     </declare-styleable>
     <declare-styleable name="SettingsSwitch">
         <attr name="android:checked" />

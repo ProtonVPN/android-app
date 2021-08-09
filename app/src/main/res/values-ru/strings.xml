@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">Профиль</string>
   <string name="activityAccountTitle">Аккаунт</string>
   <string name="activitySettingsTitle">Настройки</string>
-  <string name="settingsStartOptions">Параметры запуска</string>
-  <string name="settingsSecurityOptions">Параметры безопасности</string>
   <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
   <string name="settingsShowIconTitle">Значок состояния</string>
   <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
   <string name="settingsBypassLocalTitle">Разрешить соединения по локальной сети</string>
-  <string name="settingsBypassLocalDetails">Это позволит обходить VPN, чтобы подключаться к устройствам в вашей локальной сети, например, к вашему принтеру. Эти соединения не зашифрованы</string>
   <string name="settingsDnsLeakTitle">Утечка DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
   <string name="protocolLabel">Протокол</string>

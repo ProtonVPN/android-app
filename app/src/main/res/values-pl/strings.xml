@@ -95,14 +95,11 @@
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Konto</string>
   <string name="activitySettingsTitle">Ustawienia</string>
-  <string name="settingsStartOptions">Opcje uruchamiania</string>
-  <string name="settingsSecurityOptions">Opcje bezpieczeństwa</string>
   <string name="settingsAutoStartTitle">Uruchamiaj przy starcie systemu</string>
   <string name="settingsShowIconTitle">Ikona statusu</string>
   <string name="settingsShowIconDescription">Pokaż ikonę na pasku stanu, aby wskazać status usługi VPN</string>
   <string name="settingsAutoStartDescription">Aplikacja ProtonVPN uruchomi się automatycznie przy każdym uruchomieniu systemu</string>
   <string name="settingsBypassLocalTitle">Zezwalaj na połączenia LAN</string>
-  <string name="settingsBypassLocalDetails">Pozwala na ominięcie ruchu VPN i połączenie się z urządzeniami w sieci lokalnej, takimi jak drukarka. Te połączenia nie są szyfrowane</string>
   <string name="settingsDnsLeakTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
   <string name="settingsDnsLeakDescription">Zapobiega wyciekaniu zapytań DNS do stron trzecich (zawsze włączone)</string>
   <string name="protocolLabel">Protokół</string>

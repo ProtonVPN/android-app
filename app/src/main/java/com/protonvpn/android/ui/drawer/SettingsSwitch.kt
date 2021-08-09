@@ -64,6 +64,7 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
 
     override fun textTitle() = binding.switchButton
     override fun textInfo() = binding.textInfo
+    override fun dividerBelow() = binding.dividerBelow
 
     override fun setChecked(checked: Boolean) {
         binding.switchButton.isChecked = checked

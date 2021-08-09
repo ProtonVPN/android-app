@@ -26,7 +26,7 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 public class SettingsResults extends UIActionsTestHelper {
 
     public SettingsResults settingsViewIsVisible() {
-        checkIfObjectWithIdIsDisplayed(R.id.textStartOptions);
+        checkIfObjectWithIdIsDisplayed(R.id.textSectionQuickConnect);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
             R.id.buttonProtocol);
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
