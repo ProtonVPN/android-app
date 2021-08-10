@@ -23,23 +23,27 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
-import com.protonvpn.android.databinding.ActivityCountrySelectionBinding
+import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.CountryTools
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Section
+import com.xwray.groupie.databinding.BindableItem
 import javax.inject.Inject
 
-@ContentLayout(R.layout.activity_country_selection)
-class CountrySelectionActivity : BaseActivityV2<ActivityCountrySelectionBinding, CountrySelectionViewModel>() {
+@ContentLayout(R.layout.activity_recycler_with_toolbar)
+class CountrySelectionActivity :
+    BaseActivityV2<ActivityRecyclerWithToolbarBinding, CountrySelectionViewModel>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -58,44 +62,45 @@ class CountrySelectionActivity : BaseActivityV2<ActivityCountrySelectionBinding,
 
     private fun initCountryList(secureCore: Boolean) {
         val layout = LinearLayoutManager(this)
-        val countriesAdapter =
-            CountriesAdapter(viewModel.getCountryItems(secureCore)) { selectedCountry ->
+        val sections = viewModel.getCountryGroups(secureCore).mapIndexed { index, group ->
+            Section(
+                HeaderViewHolder(text = getString(group.label, group.size), itemId = index.toLong()),
+                group.countries.map { CountryItemSelectionViewHolder(it, group.isAccessible) } )
+        }
+
+        val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
+            addAll(sections)
+            setOnItemClickListener { item, _ ->
+                val country = (item as CountryItemSelectionViewHolder).country
                 setResult(
                     Activity.RESULT_OK,
-                    Intent().apply { putExtra(COUNTRY_CODE_KEY, selectedCountry.flag) }
+                    Intent().apply { putExtra(COUNTRY_CODE_KEY, country.flag) }
                 )
                 finish()
             }
-
-        with(binding.recyclerCountries) {
-            adapter = countriesAdapter
+        }
+        with(binding.recyclerItems) {
+            adapter = groupAdapter
             layoutManager = layout
         }
     }
 
-    private class CountryViewHolder(val views: ItemServerSelectionBinding) : RecyclerView.ViewHolder(views.root)
+    private class CountryItemSelectionViewHolder(
+        val country: VpnCountry,
+        private val isAccessible: Boolean
+    ) : BindableItem<ItemServerSelectionBinding>() {
 
-    private class CountriesAdapter(
-        private val countries: List<VpnCountry>,
-        private val onSelected: (VpnCountry) -> Unit
-    ) : RecyclerView.Adapter<CountryViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder =
-            CountryViewHolder(ItemServerSelectionBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-
-
-        override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
-            with(holder.views) {
-                val country = countries[position]
+        override fun bind(viewBinding: ItemServerSelectionBinding, position: Int) {
+            with(viewBinding) {
                 textLabel.text = country.countryName
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, country.flag))
-                root.setOnClickListener {
-                    onSelected(country)
-                }
+                imageIcon.alpha =
+                    if (isAccessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
+                root.isEnabled = isAccessible
             }
         }
 
-        override fun getItemCount(): Int = countries.size
+        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     companion object {

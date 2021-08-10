@@ -19,18 +19,46 @@
 
 package com.protonvpn.android.ui.home.profiles
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.R
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.ServerManager
 import javax.inject.Inject
 
 class CountrySelectionViewModel @Inject constructor(
-    private var serverManager: ServerManager
+    private val serverManager: ServerManager,
+    private val userData: UserData
 ) : ViewModel() {
 
-    fun getCountryItems(secureCore: Boolean): List<VpnCountry> =
-        if (secureCore)
-            serverManager.getSecureCoreExitCountries()
-        else
-            serverManager.getVpnCountries()
+    data class CountriesGroup(
+        @StringRes val label: Int,
+        val countries: List<VpnCountry>,
+        val isAccessible: Boolean
+    ) {
+        val size = countries.size
+    }
+
+    fun getCountryGroups(secureCore: Boolean): List<CountriesGroup> = when {
+        secureCore -> listOf(allSecureCoreCountries())
+        userData.isFreeUser -> freeUserCountriesGroups()
+        else -> listOf(allCountries())
+    }
+
+    private fun allSecureCoreCountries(): CountriesGroup =
+        CountriesGroup(R.string.listAllCountries, serverManager.getSecureCoreExitCountries(), true)
+
+    private fun freeUserCountriesGroups(): List<CountriesGroup> {
+        val (free, premium) = serverManager.getVpnCountries()
+            .partition { it.hasAccessibleServer(userData) }
+        return listOf(
+            CountriesGroup(R.string.listFreeCountries, free, true),
+            CountriesGroup(R.string.listPremiumCountries, premium, false)
+        )
+    }
+
+    private fun allCountries(): CountriesGroup =
+        CountriesGroup(R.string.listAllCountries, serverManager.getVpnCountries(), true)
+
 }
