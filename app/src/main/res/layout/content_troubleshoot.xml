@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2020 Proton Technologies AG
 
  This file is part of ProtonVPN.
@@ -24,7 +23,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dimmedGrey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.protonvpn.android.ui.login.TroubleshootActivity"
         tools:showIn="@layout/activity_troubleshoot">
@@ -32,67 +30,88 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
-            <com.protonvpn.android.components.ProtonSwitch
+            <com.protonvpn.android.ui.drawer.SettingsSwitch
                 android:id="@+id/switchDnsOverHttps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:textDescription="@string/settingsAllowAlternativeRoutingDescription"
-                app:textTitle="@string/settingsAllowAlternativeRoutingTitle" />
+                android:layout_marginTop="24dp"
+                app:infoText="@string/settingsAllowAlternativeRoutingDescription"
+                app:title="@string/settingsAllowAlternativeRoutingTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
+            <TextView
+                style="@style/SectionHeadlineText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootNoInternetDescription"
-                app:textTitle="@string/troubleshootNoInternetTitle" />
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:text="@string/troubleshootPotentialSolutionsSectionTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
-                android:id="@+id/switchIspProblem"
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootIspProblemDescription"
-                app:textTitle="@string/troubleshootIspProblemTitle" />
+                app:infoText="@string/troubleshootNoInternetDescription"
+                app:title="@string/troubleshootNoInternetTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
-                android:id="@+id/switchGovBlock"
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                android:id="@+id/infoIspProblem"
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootGovernmentBlockDescription"
-                app:textTitle="@string/troubleshootGovernmentBlockTitle" />
+                app:infoText="@string/troubleshootIspProblemDescription"
+                app:title="@string/troubleshootIspProblemTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                android:id="@+id/infoGovBlock"
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootAntivirusProblemDescription"
-                app:textTitle="@string/troubleshootAntivirusProblemTitle" />
+                app:infoText="@string/troubleshootGovernmentBlockDescription"
+                app:title="@string/troubleshootGovernmentBlockTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootProxyFirewallProblemDescription"
-                app:textTitle="@string/troubleshootProxyFirewallProblemTitle" />
+                app:infoText="@string/troubleshootAntivirusProblemDescription"
+                app:title="@string/troubleshootAntivirusProblemTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
-                android:id="@+id/switchProtonDown"
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootProtonDownDescription"
-                app:textTitle="@string/troubleshootProtonDownTitle" />
+                app:infoText="@string/troubleshootProxyFirewallProblemDescription"
+                app:title="@string/troubleshootProxyFirewallProblemTitle" />
 
-            <com.protonvpn.android.components.ProtonSwitch
-                android:id="@+id/switchOtherProblem"
+            <com.protonvpn.android.ui.login.TroubleshootInfoView
+                android:id="@+id/infoProtonDown"
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isInfo="true"
-                app:textDescription="@string/troubleshootOtherProblemDescription"
-                app:textTitle="@string/troubleshootOtherProblemTitle" />
+                app:infoText="@string/troubleshootProtonDownDescription"
+                app:title="@string/troubleshootProtonDownTitle" />
+
+            <TextView
+                style="@style/SectionHeadlineText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:text="@string/troubleshootContactUsSectionTitle" />
+
+            <TextView
+                android:id="@+id/textCustomerSupport"
+                style="@style/Proton.Text.Default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingVertical="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawablePadding="20dp"
+                android:text="@string/troubleshootCustomerSupport"
+                app:drawableStartCompat="@drawable/ic_comments" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

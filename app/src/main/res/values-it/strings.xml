@@ -262,8 +262,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Disabilita proxy o firewall, o contatta l\'amministratore di rete.</string>
   <string name="troubleshootProtonDownTitle">Proton è offline</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Controlla <a href=\"%1$s\">lo Stato Proton</a> per il nostro stato di sistema.]]></string>
-  <string name="troubleshootOtherProblemTitle">Non è ancora possibile trovare una soluzione</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Contattaci direttamente attraverso il nostro <a href=\"%1$s\">modulo di supporto</a>, e-mail (<a href=\"%2$s\">support@protonvpn.com</a>), o <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Consenti routing alternativo</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Nel caso in cui i siti Proton siano bloccati, questa impostazione consente all\'app di provare l\'instradamento di rete alternativo per raggiungere Proton, che può essere utile per aggirare i firewall o problemi di rete. Consigliamo di mantenere questa impostazione per una maggiore affidabilità. <a href=\"%1$s\">Per saperne di più</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blocco di governo</string>

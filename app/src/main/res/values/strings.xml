@@ -309,6 +309,7 @@
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
     <string name="buttonTroubleshoot"><![CDATA[<u>Troubleshoot</u>]]></string>
     <string name="activityTroubleshootTitle">Troubleshooting</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Potential solutions</string>
     <string name="troubleshootNoInternetDescription">Please make sure your internet connection is working.</string>
     <string name="troubleshootNoInternetTitle">No internet connection</string>
     <string name="troubleshootIspProblemTitle">Internet Service Provider (ISP) problem</string>
@@ -319,8 +320,8 @@
     <string name="troubleshootProxyFirewallProblemDescription">Disable any proxies or firewalls, or contact your network administrator.</string>
     <string name="troubleshootProtonDownTitle">Proton is down</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
-    <string name="troubleshootOtherProblemTitle">Still can’t find a solution</string>
-    <string name="troubleshootOtherProblemDescription"><![CDATA[Contact us directly through our <a href=\"%1$s\">support form</a>, email (<a href=\"%2$s\">support@protonvpn.com</a>), or <a href=\"%3$s\">Twitter</a>.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
+    <string name="troubleshootCustomerSupport">Customer support</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternative routing</string>
     <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
     <string name="troubleshootGovernmentBlockTitle">Government block</string>

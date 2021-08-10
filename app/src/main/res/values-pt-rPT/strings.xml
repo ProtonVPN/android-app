@@ -262,8 +262,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Desactive proxies e/ou firewalls ou entre em contacto com o administrador de rede.</string>
   <string name="troubleshootProtonDownTitle">O Proton está indisponível</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Verifique o <a href=\"%1$s\">estado do Proton</a> no estado do nosso sistema.]]></string>
-  <string name="troubleshootOtherProblemTitle">Ainda não encontrou uma solução</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Contacte-nps directamente através do nosso <a href=\"%1$s\">formulário de suporte</a>, email (<a href=\"%2$s\">support@protonvpn.com</a>) ou <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Permitir redireccionamento alternativo</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso as páginas do Proton estejam bloqueadas, esta definição permite à aplicação tentar redireccionar o tráfego para ligar ao Proton, o que pode ser útil para contornar firewalls ou problemas de rede. Recomendamos que mantenha esta definição para maior confiança. <a href=\"%1$s\">Saiba mais</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>

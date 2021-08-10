@@ -262,8 +262,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Schakel eventuele proxy\'s of firewalls uit of neem contact op met uw netwerkbeheerder.</string>
   <string name="troubleshootProtonDownTitle">Proton werkt niet meer</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Controleer <a href=\"%1$s\">Proton Status</a> voor onze systeemstatus.]]></string>
-  <string name="troubleshootOtherProblemTitle">Kan nog steeds geen oplossing vinden</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Neem rechtstreeks contact met ons op via ons <a href=\"%1$s\">ondersteuningsformulier</a>, e-mail (<a href=\"%2$s\">support@protonvpn.com</a>), of <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatieve routing toestaan</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In het geval dat Proton-sites worden geblokkeerd, stelt deze instelling de app in staat om alternatieve netwerkroutering te proberen om Proton te bereiken, wat nuttig kan zijn voor het omzeilen van firewalls of netwerkproblemen. We raden aan deze instelling aan te houden voor een grotere betrouwbaarheid. <a href=\"%1$s\">Learn more</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>

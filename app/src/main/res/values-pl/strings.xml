@@ -264,8 +264,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Wyłącz zaporę oraz proxy lub skontaktuj się z administratorem sieci.</string>
   <string name="troubleshootProtonDownTitle">Proton jest niedostępny</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Sprawdź <a href=\"%1$s\">Status usług Proton</a> na naszej stronie.]]></string>
-  <string name="troubleshootOtherProblemTitle">Nadal nie mogę znaleźć rozwiązania</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Skontaktuj się z nami przez <a href=\"%1$s\">formularz kontaktowy</a>, wiadomość e-mail (<a href=\"%2$s\">support@protonvpn.com</a>) lub <a href=\"%3$s\">Twittera</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Zezwalaj na alternatywne przekierowanie połączenia</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do stron Proton, ta konfiguracja pozwoli aplikacji wypróbować alternatywne połączenia sieciowe, które mogą przywrócić ten dostęp. Ta funkcja może być przydatna podczas problemów z siecią lub w celu ominięcia zapór. Zalecamy włączenie tego ustawienia dla zapewnienia większej niezawodności. <a href=\"%1$s\">Dowiedz się więcej</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
