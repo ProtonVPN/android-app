@@ -256,8 +256,6 @@
   <string name="profileRandom">Aleatorio</string>
   <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s En mantenimiento</string>
-  <string name="serverLabelUpgrade">%1$s (Mejorar)</string>
   <string name="loaderAuthenticatingUser">Autentificando usuario…</string>
   <string name="loaderErrorNoInternet">No hay conexión a Internet</string>
   <string name="loaderErrorGeneric">Algo salió mal</string>

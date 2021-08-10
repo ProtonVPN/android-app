@@ -17,6 +17,7 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -37,10 +38,32 @@
         <TextView
             android:id="@+id/textLabel"
             style="@style/Proton.Text.Default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="4dp"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:paddingVertical="12dp"
+            android:singleLine="true" />
+
+        <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonUpgrade"
+            style="@style/ProtonButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
-            android:paddingVertical="12dp" />
+            android:text="@string/upgrade"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iconUnderMaintenance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/listItemMaintenance"
+            app:srcCompat="@drawable/ic_wrench_icon"
+            app:tint="?attr/proton_icon_weak"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </layout>
