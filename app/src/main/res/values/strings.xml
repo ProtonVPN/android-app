@@ -171,6 +171,7 @@
     <string name="onboardingNext">NEXT</string>
 
     <string name="listItemMaintenance">Under maintenance</string>
+    <string name="listAllCountries">All Locations (%1$d)</string>
     <string name="listFreeCountries">FREE Locations (%1$d)</string>
     <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
     <string name="listFastestServer">Fastest Server</string>
