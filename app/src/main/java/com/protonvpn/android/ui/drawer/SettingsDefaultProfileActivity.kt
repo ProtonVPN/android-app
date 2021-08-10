@@ -32,9 +32,11 @@ import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProfileSelectionBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.utils.ServerManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
 import javax.inject.Inject
 
@@ -54,10 +56,21 @@ class SettingsDefaultProfileActivity :
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val selectedProfile = serverManager.defaultConnection
-        val profiles = serverManager.getSavedProfiles()
-        val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
-            addAll(profiles.map { ProfileViewHolder(it, it == selectedProfile) })
-        }
+        val (prebakedProfiles, customProfiles) = serverManager.getSavedProfiles()
+            .partition { it.isPreBakedProfile }
+            .toList()
+            .map { profiles ->
+                profiles.map { ProfileViewHolder(it, it == selectedProfile) }
+            }
+
+        val groupAdapter = GroupAdapter<GroupieViewHolder>()
+        val prebakedProfilesSection =
+            Section(HeaderViewHolder(R.string.recommendedProfilesHeader), prebakedProfiles)
+        val customProfilesSection = Section(HeaderViewHolder(R.string.yourProfilesHeader), customProfiles)
+        customProfilesSection.setHideWhenEmpty(true)
+        groupAdapter.add(prebakedProfilesSection)
+        groupAdapter.add(customProfilesSection)
+
         groupAdapter.setOnItemClickListener { item, _ ->
             userData.defaultConnection = (item as ProfileViewHolder).profile
             finish()
