@@ -186,8 +186,7 @@
             android:label="@string/activity_information_title" />
         <activity
             android:name=".ui.login.TroubleshootActivity"
-            android:label="@string/activityTroubleshootTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activityTroubleshootTitle" />
         <activity
             android:name=".ui.drawer.SettingsActivity"
             android:label="@string/activitySettingsTitle" />

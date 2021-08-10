@@ -18,14 +18,21 @@
  */
 package com.protonvpn.android.ui.login
 
+import android.content.Context
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import androidx.core.content.withStyledAttributes
 import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTroubleshootBinding
-import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.databinding.ItemTroubleshootingInfoBinding
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.openProtonUrl
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_troubleshoot)
@@ -46,28 +53,66 @@ class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, Trouble
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         with(binding.content) {
-            switchDnsOverHttps.setDescription(HtmlTools.fromHtml(getString(
-                    R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)))
-            switchDnsOverHttps.switchProton.isChecked = viewModel.userData.apiUseDoH
-            switchDnsOverHttps.switchProton.setOnCheckedChangeListener { _, checked ->
+            switchDnsOverHttps.isChecked = viewModel.userData.apiUseDoH
+            switchDnsOverHttps.setOnCheckedChangeListener { _, checked ->
                 viewModel.dnsOverHttpsEnabled = checked
             }
 
-            switchIspProblem.setDescription(HtmlTools.fromHtml(getString(
+            infoIspProblem.setDescription(HtmlTools.fromHtml(getString(
                     R.string.troubleshootIspProblemDescription, TOR_URL)))
 
-            switchGovBlock.setDescription(HtmlTools.fromHtml(getString(
+            infoGovBlock.setDescription(HtmlTools.fromHtml(getString(
                     R.string.troubleshootGovernmentBlockDescription, TOR_URL)))
 
-            switchProtonDown.setDescription(HtmlTools.fromHtml(getString(
+            infoProtonDown.setDescription(HtmlTools.fromHtml(getString(
                     R.string.troubleshootProtonDownDescription, PROTON_STATUS_URL)))
 
-            switchOtherProblem.setDescription(HtmlTools.fromHtml(getString(
-                    R.string.troubleshootOtherProblemDescription, SUPPORT_URL, MAIL_URL, TWITTER_URL)))
+            textCustomerSupport.setOnClickListener {
+                openProtonUrl(SUPPORT_URL)
+            }
         }
     }
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(TroubleshootViewModel::class.java)
+    }
+}
+
+class TroubleshootInfoView : LinearLayout {
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
+        init(context, attrs)
+    }
+
+    val binding = ItemTroubleshootingInfoBinding.inflate(LayoutInflater.from(context), this)
+
+    private fun init(context: Context, attrs: AttributeSet?) {
+        orientation = VERTICAL
+        context.withStyledAttributes(attrs, R.styleable.TroubleshootingInfoView) {
+            binding.textTitle.text = getString(R.styleable.TroubleshootingInfoView_title)
+            binding.textDescription.text = getString(R.styleable.TroubleshootingInfoView_infoText)
+        }
+        binding.textDescription.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    fun setDescription(text: CharSequence) {
+        binding.textDescription.text = text
     }
 }

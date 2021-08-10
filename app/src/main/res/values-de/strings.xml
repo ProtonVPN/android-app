@@ -262,8 +262,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Deaktivieren Sie alle Proxy- und/oder Firewall-Einstellungen, oder wenden Sie sich an Ihren Netzwerkadministrator.</string>
   <string name="troubleshootProtonDownTitle">Proton ist ausgefallen</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Prüfen Sie den <a href=\"%1$s\">Proton Status</a> für unseren Systemstatus.]]></string>
-  <string name="troubleshootOtherProblemTitle">Noch keine Lösung verfügbar</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Kontaktieren Sie uns direkt über unser <a href=\"%1$s\">Support-Formular </a>, per E-Mail (<a href=\"%2$s\">support@protonvpn.com</a>) oder <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatives Routing erlauben</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Für den Fall, dass Proton-Websites gesperrt sind, ermöglicht diese Einstellung der App, ein alternative Netzwerkweiterleitung auszuprobieren, um Proton zu erreichen, was zur Umgehung von Firewalls oder Netzwerkproblemen nützlich sein kann. Wir empfehlen, diese Einstellung für eine größere Zuverlässigkeit beizubehalten. <a href=\"%1$s\">Mehr erfahren</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>

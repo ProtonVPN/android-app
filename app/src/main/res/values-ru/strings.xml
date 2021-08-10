@@ -264,8 +264,6 @@
   <string name="troubleshootProxyFirewallProblemDescription">Отключите все прокси-серверы или брандмауэры, или обратитесь к своему сетевому администратору.</string>
   <string name="troubleshootProtonDownTitle">Proton не работает</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">статус ProtonVPN</a>, чтобы узнать состояние нашей системы.]]></string>
-  <string name="troubleshootOtherProblemTitle">Так и не нашлось решение</string>
-  <string name="troubleshootOtherProblemDescription"><![CDATA[Свяжитесь с нами напрямую через нашу <a href=\"%1$s\">форму поддержки</a>, эл. почту (<a href=\"%2$s\">support@protonvpn.com</a>) или <a href=\"%3$s\">Twitter</a>.]]></string>
   <string name="settingsAllowAlternativeRoutingTitle">Разрешить альтернативную маршрутизацию</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае блокировки сайтов Proton эта настройка позволяет приложению попробовать альтернативную сетевую маршрутизацию, чтобы добраться до Proton, что может быть полезно для обхода брандмауэров или сетевых проблем. Для большей надежности мы рекомендуем оставить эту настройку включенной. <a href=\"%1$s\">Узнать больше</a>]]></string>
   <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>

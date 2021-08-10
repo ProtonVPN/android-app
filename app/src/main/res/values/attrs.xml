@@ -51,6 +51,10 @@
     <declare-styleable name="SettingsSwitch">
         <attr name="android:checked" />
     </declare-styleable>
+    <declare-styleable name="TroubleshootingInfoView">
+        <attr name="title" />
+        <attr name="infoText" />
+    </declare-styleable>
 
     <!-- TODO: discuss adding this to designs and moving the attribute to Core -->
     <declare-styleable name="AppTheme">
