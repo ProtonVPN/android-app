@@ -26,15 +26,6 @@
         <attr name="drawableEnd" format="reference" />
         <attr name="drawableBottom" format="reference" />
     </declare-styleable>
-    <declare-styleable name="ProtonSwitch">
-        <attr name="textTitle" format="string" />
-        <attr name="textDescription" format="string" />
-        <attr name="dividerHidden" format="boolean" />
-        <attr name="switchValue" format="boolean" />
-        <attr name="isButton" format="boolean" />
-        <attr name="isInfo" format="boolean" />
-        <attr name="switchEditable" format="boolean" />
-    </declare-styleable>
     <declare-styleable name="NetShieldSwitch">
         <attr name="descriptionText" format="string" />
         <attr name="isInConnectedScreen" format="boolean" />
