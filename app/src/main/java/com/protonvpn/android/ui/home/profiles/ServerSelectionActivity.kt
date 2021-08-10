@@ -43,8 +43,6 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.openProtonUrl
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.OnItemClickListener
-import com.xwray.groupie.OnItemLongClickListener
 import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
 import kotlinx.parcelize.Parcelize
@@ -119,22 +117,7 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
 
     private abstract class ServerItemViewHolderBase(
         val selection: ServerIdSelection
-    ) : BindableItem<ItemServerSelectionBinding>() {
-        override fun bind(
-            viewHolder: com.xwray.groupie.databinding.GroupieViewHolder<ItemServerSelectionBinding>,
-            position: Int,
-            payloads: List<Any?>,
-            onItemClickListener: OnItemClickListener?,
-            onItemLongClickListener: OnItemLongClickListener?
-        ) {
-            super.bind(viewHolder, position, payloads, onItemClickListener, onItemLongClickListener)
-            if (onItemClickListener != null) {
-                viewHolder.binding.root.setOnClickListener {
-                    onItemClickListener.onItemClick(this@ServerItemViewHolderBase, it)
-                }
-            }
-        }
-    }
+    ) : BindableItem<ItemServerSelectionBinding>()
 
     private class RecommendedServerViewHolder(
         @StringRes val label: Int,
