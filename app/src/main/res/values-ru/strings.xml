@@ -258,8 +258,6 @@
   <string name="profileRandom">Случайный</string>
   <string name="settingsSplitTunnelingDescription">Разделение туннелирования позволяет исключить некоторые приложения или IP-адреса из VPN трафика.</string>
   <string name="settingsSplitTunnelingTitle">Раздельное туннелирование</string>
-  <string name="serverLabelUnderMaintenance">%1$s на техобслуживании</string>
-  <string name="serverLabelUpgrade">%1$s (улучшить)</string>
   <string name="loaderAuthenticatingUser">Аутентификация пользователя…</string>
   <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
   <string name="loaderErrorGeneric">Что-то пошло не так</string>

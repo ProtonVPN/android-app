@@ -258,8 +258,6 @@
   <string name="profileRandom">Losowy</string>
   <string name="settingsSplitTunnelingDescription">Funkcja Split Tunneling umożliwia wykluczenie wybranych aplikacji lub adresów IP z połączenia VPN.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s W trakcie przerwy technicznej</string>
-  <string name="serverLabelUpgrade">%1$s (ulepsz)</string>
   <string name="loaderAuthenticatingUser">Uwierzytelnianie użytkownika…</string>
   <string name="loaderErrorNoInternet">Brak połączenia z Internetem</string>
   <string name="loaderErrorGeneric">Coś poszło nie tak</string>

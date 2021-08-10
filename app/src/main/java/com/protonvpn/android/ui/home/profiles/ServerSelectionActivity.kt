@@ -19,13 +19,14 @@
 
 package com.protonvpn.android.ui.home.profiles
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
@@ -35,8 +36,11 @@ import com.protonvpn.android.databinding.ActivityServerSelectionBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.utils.ActivityResultUtils
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.openProtonUrl
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.OnItemClickListener
@@ -90,11 +94,12 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
                 )
             )
         )
+        val upgradeButtonListener = View.OnClickListener { openProtonUrl(Constants.DASHBOARD_URL) }
         val serversHeaderString =
             if (secureCore) R.string.secureCoreCountriesHeader else R.string.countryServersHeader
         val serversSection = Section(
                 HeaderViewHolder(serversHeaderString),
-                servers.map { ServerItemViewHolder(it, secureCore) }
+                servers.map { ServerItemViewHolder(it, secureCore, upgradeButtonListener) }
         )
 
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
@@ -149,26 +154,23 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
 
     private class ServerItemViewHolder(
         private val server: ServerSelectionViewModel.ServerItem,
-        private val secureCoreArrow: Boolean
+        private val secureCoreArrow: Boolean,
+        private val upgradeButtonListener: View.OnClickListener
     ) : ServerItemViewHolderBase(ServerIdSelection.Specific(server.id)) {
 
         override fun bind(viewBinding: ItemServerSelectionBinding, position: Int) {
             with(viewBinding) {
-                textLabel.text = serverLabel(root.context, server)
+                textLabel.text = server.name
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, server.flag))
                 val trailingIcon = if (secureCoreArrow) R.drawable.ic_secure_core_arrow_color else 0
                 textLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, trailingIcon, 0)
+                imageIcon.alpha =
+                    if (server.accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
+                buttonUpgrade.isVisible = !server.accessible
+                buttonUpgrade.setOnClickListener(upgradeButtonListener)
+                iconUnderMaintenance.isVisible = server.accessible && !server.online
                 root.isEnabled = server.accessible
             }
-        }
-
-        private fun serverLabel(
-            context: Context,
-            server: ServerSelectionViewModel.ServerItem
-        ) = when {
-            !server.accessible -> context.getString(R.string.serverLabelUpgrade, server.name)
-            !server.online -> context.getString(R.string.serverLabelUnderMaintenance, server.name)
-            else -> server.name
         }
 
         override fun getLayout(): Int = R.layout.item_server_selection

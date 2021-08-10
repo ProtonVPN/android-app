@@ -256,8 +256,6 @@
   <string name="profileRandom">Willekeurig</string>
   <string name="settingsSplitTunnelingDescription">Split Tunneling laat toe dat bepaalde apps of IP-adressen worden uitgesloten van het VPN-verkeer.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s In onderhoud</string>
-  <string name="serverLabelUpgrade">%1$s (Upgrade)</string>
   <string name="loaderAuthenticatingUser">Gebruiker verifiëren…</string>
   <string name="loaderErrorNoInternet">Geen internetverbinding</string>
   <string name="loaderErrorGeneric">Er is iets fout gegaan</string>

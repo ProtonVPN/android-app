@@ -256,8 +256,6 @@
   <string name="profileRandom">تصادفی</string>
   <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s تحت عملیات نگهداری</string>
-  <string name="serverLabelUpgrade">%1$s (ارتقا)</string>
   <string name="loaderAuthenticatingUser">تأیید هویت کاربر…</string>
   <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>

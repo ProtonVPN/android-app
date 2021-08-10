@@ -256,8 +256,6 @@
   <string name="profileRandom">Aléatoire</string>
   <string name="settingsSplitTunnelingDescription">Split Tunneling permet d\'exclure certaines applications ou adresses IP du trafic VPN.</string>
   <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-  <string name="serverLabelUnderMaintenance">%1$s en maintenance</string>
-  <string name="serverLabelUpgrade">%1$s (passer à l’offre supérieure)</string>
   <string name="loaderAuthenticatingUser">Authentification de l\'utilisateur…</string>
   <string name="loaderErrorNoInternet">Aucune connexion internet</string>
   <string name="loaderErrorGeneric">Une erreur s\'est produite</string>
