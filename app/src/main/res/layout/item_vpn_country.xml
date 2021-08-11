@@ -53,7 +53,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_secure_core_arrow_green" />
+                    app:srcCompat="@drawable/ic_secure_core_arrow_color" />
 
                 <TextView
                     android:id="@+id/textCountry"

@@ -146,7 +146,7 @@
                         android:layout_height="6dp"
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="2dp"
-                        android:src="@drawable/ic_secure_core_arrow_green"
+                        android:src="@drawable/ic_secure_core_arrow_color"
                         android:visibility="gone" />
 
                     <ImageView

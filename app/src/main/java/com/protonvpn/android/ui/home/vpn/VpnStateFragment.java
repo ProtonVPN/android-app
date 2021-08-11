@@ -82,8 +82,6 @@ import androidx.core.widget.ImageViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
-
 @ContentLayout(R.layout.vpn_state_fragment)
 public class VpnStateFragment extends BaseFragment {
 
@@ -511,7 +509,7 @@ public class VpnStateFragment extends BaseFragment {
         int index = text.indexOf(Server.SECURE_CORE_SEPARATOR);
         if (index > -1) {
             CenterImageSpan span =
-                new CenterImageSpan(requireContext(), R.drawable.ic_secure_core_arrow_green);
+                new CenterImageSpan(requireContext(), R.drawable.ic_secure_core_arrow_color);
             spannable.setSpan(span, index, index + Server.SECURE_CORE_SEPARATOR.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
