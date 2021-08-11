@@ -341,6 +341,11 @@
         <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
              for now. -->
         <item name="proton_text_disabled">?attr/proton_text_hint</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">?attr/proton_icon_norm</item>
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel"
