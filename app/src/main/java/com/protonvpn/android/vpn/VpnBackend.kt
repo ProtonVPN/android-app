@@ -37,11 +37,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
-import localAgent.AgentConnection
-import localAgent.Features
-import localAgent.NativeClient
+import me.proton.govpn.localAgent.AgentConnection
+import me.proton.govpn.localAgent.Features
+import me.proton.govpn.localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.govpn.localAgent.LocalAgent
+import me.proton.govpn.localAgent.StatusMessage
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -182,7 +184,7 @@ abstract class VpnBackend(
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
 
-        override fun onStatusUpdate(status: localAgent.StatusMessage) {}
+        override fun onStatusUpdate(status: StatusMessage) {}
     }
 
     private fun setAuthError(description: String? = null) =
@@ -202,7 +204,7 @@ abstract class VpnBackend(
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
     private val features: Features = Features()
-    private val agentConstants = localAgent.LocalAgent.constants()
+    private val agentConstants = LocalAgent.constants()
 
     init {
         mainScope.launch {

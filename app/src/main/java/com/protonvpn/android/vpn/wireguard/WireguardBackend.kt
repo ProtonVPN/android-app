@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn.wireguard
 
 import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile

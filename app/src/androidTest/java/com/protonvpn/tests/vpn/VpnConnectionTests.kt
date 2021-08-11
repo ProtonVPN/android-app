@@ -62,6 +62,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
+import me.proton.govpn.localAgent.LocalAgent
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -112,7 +113,7 @@ class VpnConnectionTests {
 
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
-    private val agentConsts = localAgent.LocalAgent.constants()
+    private val agentConsts = LocalAgent.constants()
     private val validCert =
         CertificateRepository.CertificateResult.Success("good_cert", "good_key")
     private val badCert =

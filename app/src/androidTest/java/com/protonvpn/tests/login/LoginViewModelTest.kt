@@ -47,12 +47,12 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
+import me.proton.govpn.srp.Proofs
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import srp.Proofs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @SdkSuppress(minSdkVersion = 28) // Mocking final classes doesn't work on older API levels.
