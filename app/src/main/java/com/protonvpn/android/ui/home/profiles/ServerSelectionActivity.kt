@@ -156,7 +156,7 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, S
             with(viewBinding) {
                 textLabel.text = serverLabel(root.context, server)
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, server.flag))
-                val trailingIcon = if (secureCoreArrow) R.drawable.ic_secure_core_arrow_green else 0
+                val trailingIcon = if (secureCoreArrow) R.drawable.ic_secure_core_arrow_color else 0
                 textLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, trailingIcon, 0)
                 root.isEnabled = server.accessible
             }
