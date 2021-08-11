@@ -4,9 +4,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -55,6 +53,7 @@ class ProfileViewModel @Inject constructor(
     private val country = MutableStateFlow<VpnCountry?>(null)
     private val server = MutableStateFlow<ServerSelection?>(null)
 
+    val isSecureCoreAvailable: Boolean get() = userData.hasAccessToSecureCore()
     val isSecureCoreEnabled: Boolean get() = secureCore.value
     val selectedCountryCode: String? get() = country.value?.flag
     val canDeleteProfile: Boolean get() = editedProfile != null
@@ -111,8 +110,10 @@ class ProfileViewModel @Inject constructor(
     fun setSecureCore(enabled: Boolean) {
         if (secureCore.value != enabled) {
             secureCore.value = enabled
-            country.value = null
-            server.value = null
+            val currentCountry = country.value
+            if (currentCountry == null || serverManager.getVpnExitCountry(currentCountry.flag, enabled) == null)
+                country.value = null
+            server.value = ServerSelection.FastestInCountry
         }
     }
 

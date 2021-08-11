@@ -61,7 +61,7 @@ public class ProfilesRobotFreeUserTests {
         profilesRobot.insertTextInProfileNameField(profileName);
         profilesRobot.selectFirstNotAccessibleVpnCountry();
 
-        ProfilesResult result = profilesRobot.selectNonAccessibleRandomServer();
+        ProfilesResult result = profilesRobot.selectRandomServer();
         result.isFailure().nonAccessibleServersVisible();
     }
 }

@@ -39,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:hint="@string/profile_name_hint"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionDone"
                 app:label="@string/profile_name" />
 
             <GridLayout
@@ -50,14 +51,37 @@
                 android:layout_marginBottom="8dp"
                 android:columnCount="5" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchSecureCore"
+            <me.proton.core.presentation.ui.view.ProtonCheckbox
+                android:id="@+id/checkboxSecureCore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:paddingVertical="12dp"
                 android:text="@string/secure_core"
                 android:textAlignment="viewStart" />
+
+            <LinearLayout
+                android:id="@+id/layoutSecureCoreUpgrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal">
+
+                <TextView
+                    style="@style/Proton.Text.Default"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="12dp"
+                    android:text="@string/secure_core" />
+
+                <me.proton.core.presentation.ui.view.ProtonButton
+                    android:id="@+id/buttonUpgrade"
+                    style="@style/ProtonButton.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upgrade"/>
+            </LinearLayout>
 
             <View style="@style/Divider.Small" />
 
