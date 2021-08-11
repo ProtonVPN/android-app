@@ -31,8 +31,8 @@ import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
-import localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
+import me.proton.govpn.localAgent.NativeClient
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,

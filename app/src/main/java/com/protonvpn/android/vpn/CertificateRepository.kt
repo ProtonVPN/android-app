@@ -40,6 +40,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
+import me.proton.govpn.ed25519.KeyPair
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -80,7 +81,7 @@ class CertificateRepository(
 
     private val certRequests = mutableMapOf<SessionId, Deferred<CertificateResult>>()
 
-    private val guestX25519Key by lazy { ed25519.KeyPair().toX25519Base64() }
+    private val guestX25519Key by lazy { KeyPair().toX25519Base64() }
 
     private val refreshCertTask = ReschedulableTask(mainScope, wallClock) {
         updateCurrentCert(force = false)
@@ -117,7 +118,7 @@ class CertificateRepository(
     }
 
     suspend fun generateNewKey(sessionId: SessionId): CertInfo = withContext(mainScope.coroutineContext) {
-        val keyPair = ed25519.KeyPair()
+        val keyPair = KeyPair()
         val info = CertInfo(keyPair.privateKeyPKIXPem(), keyPair.publicKeyPKIXPem(), keyPair.toX25519Base64())
 
         certRequests.remove(sessionId)?.cancel()
