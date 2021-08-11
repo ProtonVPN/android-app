@@ -69,7 +69,6 @@
                 style="@style/Proton.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_server_selector"
                 tools:text="Server test name" />
 
         </LinearLayout>

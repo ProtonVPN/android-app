@@ -58,7 +58,6 @@
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@color/text_server_selector"
                 tools:text="DE#1" />
 
             <TextView
@@ -68,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@color/text_city_selector"
+                android:textColor="@color/text_weak_selector"
                 tools:text="Berlin" />
         </LinearLayout>
 
