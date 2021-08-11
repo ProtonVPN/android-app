@@ -340,6 +340,9 @@
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="proton_background_inverted">@color/shade_100</item>
         <item name="actionMenuTextColor">?attr/brand_norm</item>
+        <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
+             for now. -->
+        <item name="proton_text_disabled">?attr/proton_text_hint</item>
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel"
