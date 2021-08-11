@@ -19,16 +19,15 @@
 package com.protonvpn.actions
 
 import androidx.annotation.IdRes
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.MockSwitch
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.results.ConnectionResult
 import com.protonvpn.results.ProfilesResult
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
+import me.proton.core.presentation.ui.view.ProtonCheckbox
 import me.proton.core.presentation.ui.view.ProtonInput
 
 class ProfilesRobot : BaseRobot() {
@@ -79,27 +78,13 @@ class ProfilesRobot : BaseRobot() {
 
     fun selectFirstNotAccessibleVpnCountry(): ProfilesRobot {
         scrollToAndClickDropDown(R.id.inputCountry)
-        val context = ApplicationProvider.getApplicationContext<ProtonApplication>()
-        return clickElementByText(
-            context.getString(
-                R.string.serverLabelUpgrade,
-                serviceRobot.firstNotAccessibleVpnCountryFromBackend
-            )
-        )
+        return clickElementByText(serviceRobot.firstNotAccessibleVpnCountryFromBackend)
     }
 
-    fun selectRandomServer(): ProfilesRobot {
+    fun selectRandomServer(): ProfilesResult {
         scrollToAndClickDropDown(R.id.inputServer)
         // TODO Use "Random" instead of Fastest once random profile problems are solved
         return clickElementByText(R.string.profileFastest)
-    }
-
-    fun selectNonAccessibleRandomServer(): ProfilesResult {
-        clickElement<ProfilesRobot>(R.id.inputServer, ProtonAutoCompleteInput::class.java)
-        val context = ApplicationProvider.getApplicationContext<ProtonApplication>()
-        return clickElementByText(
-            context.getString(R.string.serverLabelUpgrade, context.getString(R.string.profileRandom))
-        )
     }
 
     fun clickOnSaveButton(): ProfilesResult = clickElementById(R.id.action_save)
@@ -113,11 +98,11 @@ class ProfilesRobot : BaseRobot() {
     fun clickDiscardButton(): ProfilesResult = clickElementByText(R.string.discard)
 
     fun enableSecureCore(): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
-            R.string.secure_core
+            R.id.checkboxSecureCore
         )
-        return clickElementByText(R.string.secure_core)
+        return clickElement(R.id.checkboxSecureCore, ProtonCheckbox::class.java)
     }
 
     fun clickYesButton(): ConnectionResult =  clickElementById(R.id.md_buttonDefaultPositive)

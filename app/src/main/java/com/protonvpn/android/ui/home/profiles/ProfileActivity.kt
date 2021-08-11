@@ -43,8 +43,10 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.openProtonUrl
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import javax.inject.Inject
 
@@ -151,7 +153,7 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
 
     private fun updateServerFields(state: ProfileViewModel.ServerViewState) {
         with(binding.contentProfile) {
-            switchSecureCore.isChecked = state.secureCore
+            checkboxSecureCore.isChecked = state.secureCore
             inputCountry.text = state.countryName
             if (inputCountry.labelText != getString(state.serverLabel))
                 inputCountry.clearInputError()
@@ -188,10 +190,13 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         }
     }
 
-    private fun initSecureCoreSwitch() {
-        binding.contentProfile.switchSecureCore.setOnCheckedChangeListener { _, isChecked ->
+    private fun initSecureCoreSwitch() = with(binding.contentProfile) {
+        checkboxSecureCore.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setSecureCore(isChecked)
         }
+        buttonUpgrade.setOnClickListener { openProtonUrl(Constants.DASHBOARD_URL) }
+        layoutSecureCoreUpgrade.isVisible = !viewModel.isSecureCoreAvailable
+        checkboxSecureCore.isVisible = viewModel.isSecureCoreAvailable
     }
 
     private fun updateErrors(errors: ProfileViewModel.InputValidation) {
