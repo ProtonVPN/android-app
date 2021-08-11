@@ -46,9 +46,4 @@
         <attr name="title" />
         <attr name="infoText" />
     </declare-styleable>
-
-    <!-- TODO: discuss adding this to designs and moving the attribute to Core -->
-    <declare-styleable name="AppTheme">
-        <attr name="proton_background_inverted" format="reference" />
-    </declare-styleable>
 </resources>

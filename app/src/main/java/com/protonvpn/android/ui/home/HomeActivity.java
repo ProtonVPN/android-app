@@ -95,6 +95,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -538,10 +539,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {
-        int bgColorAttr = accented ? R.attr.brand_norm : R.attr.proton_background_inverted;
+        @ColorInt
+        int bgColor = accented
+            ? MaterialColors.getColor(fab, R.attr.brand_norm)
+            : ContextCompat.getColor(this, R.color.shade_100);
         int iconColorAttr = accented ? R.attr.colorOnPrimary : R.attr.proton_icon_inverted;
-        fab.setMenuButtonColorNormal(MaterialColors.getColor(fab, bgColorAttr));
-        fab.setMenuButtonColorPressed(MaterialColors.getColor(fab, bgColorAttr));
+        fab.setMenuButtonColorNormal(bgColor);
+        fab.setMenuButtonColorPressed(bgColor);
         fab.getMenuIconView().setColorFilter(MaterialColors.getColor(fab, iconColorAttr));
     }
 

@@ -77,6 +77,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -346,8 +347,7 @@ public class VpnStateFragment extends BaseFragment {
         layoutError.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         textConnectingTo.setTextColor(MaterialColors.getColor(textConnectingTo, R.attr.proton_text_inverted));
-        layoutStatusHeader.setBackgroundColor(
-            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_inverted));
+        layoutStatusHeader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.shade_100));
 
         textServerName.setText(server.getServerName());
         textServerIp.setText(stateMonitor.getExitIP());
