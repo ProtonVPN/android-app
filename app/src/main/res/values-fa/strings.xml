@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">برای تشکر از شما، ما طرح آزمایشی ۷ روزهٔ Plus خود را به صورت رایگان در اختیار شما قرار می‌دهیم. این طرح به شما قابلیت استفاده از امکانات پیشرفته و سرورهای Plus را می‌دهد. در انتهای دورهٔ آزمایشی، شما به طرح رایگان بازمی‌گردید و تنها به سرورهای رایگان دسترسی خواهید داشت.</string>
   <string name="toastLoginAuthVersionError">به دلیل نسخهٔ پشتیبانی نشده تایید هویت، قادر به ورود نیست. لطفاً با پشتیبانی تماس بگیرید.</string>
   <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>اشکال‌زدایی</u>]]></string>
   <string name="activityTroubleshootTitle">اشکال‌زدایی</string>
   <string name="troubleshootNoInternetDescription">لطفاً مطمئن شوید که اتصال اینترنت شما کار میکند.</string>
   <string name="troubleshootNoInternetTitle">اتصال اینترنت برقرار نیست</string>

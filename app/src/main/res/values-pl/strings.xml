@@ -249,7 +249,6 @@
   <string name="welcomeDialogTitleTrial">W ramach podziękowania otrzymujesz 7-dniową wersję próbną planu ProtonVPN Plus, który pozwoli Ci skorzystać z zaawansowanych funkcji i dodatkowych serwerów. Pod koniec okresu próbnego powrócisz do planu Free i uzyskasz dostęp tylko do darmowych serwerów.</string>
   <string name="toastLoginAuthVersionError">Nie można się zalogować z powodu nieobsługiwanej wersji protokołu uwierzytelniania. Skontaktuj się ze wsparciem.</string>
   <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Rozwiązywanie problemów</u>]]></string>
   <string name="activityTroubleshootTitle">Rozwiązywanie problemów</string>
   <string name="troubleshootNoInternetDescription">Upewnij się, że Twoje połączenie sieciowe działa.</string>
   <string name="troubleshootNoInternetTitle">Brak połączenia z Internetem</string>

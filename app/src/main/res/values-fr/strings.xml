@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Afin de vous remercier, nous vous offrons une période d\'essai de 7 jours avec l\'offre Plus. Vous pourrez ainsi utiliser les fonctionnalités et les serveurs spécifiques à l\'offre Plus. A l\'issue de cette période d\'essai, vous reviendrez sur l\'offre Free, limitant donc l\'accès aux serveurs disponibles pour l\'offre Free uniquement.</string>
   <string name="toastLoginAuthVersionError">Connexion impossible en raison d\'une version d\'authentification non prise en charge. Veuillez contacter l’assistance.</string>
   <string name="loaderErrorTimeout">La connexion a expiré. Veuillez réessayer.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Dépannage</u>]]></string>
   <string name="activityTroubleshootTitle">Dépannage</string>
   <string name="troubleshootNoInternetDescription">Veuillez vérifier que votre connexion Internet fonctionne.</string>
   <string name="troubleshootNoInternetTitle">Aucune connexion Internet</string>

@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Per dirti grazie, ti offriamo la possibilità di provare gratuitamente per 7 giorni il piano Plus. Potrai accedere a funzionalità avanzate e ai server Plus. Alla fine della prova il tuo piano tornerà ad essere quello Free e e potrai accedere di nuovo solo ai server Free.</string>
   <string name="toastLoginAuthVersionError">Impossibile accedere a causa della versione di autenticazione non supportata. Contatta il supporto.</string>
   <string name="loaderErrorTimeout">Connessione scaduta. Riprova.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Risoluzione problemi</u>]]></string>
   <string name="activityTroubleshootTitle">Risoluzione problemi</string>
   <string name="troubleshootNoInternetDescription">Per favore assicurati che la connessione internet funzioni.</string>
   <string name="troubleshootNoInternetTitle">Nessuna connessione Internet</string>

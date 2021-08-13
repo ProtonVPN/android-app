@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het stelt u in staat om geavanceerde functies en Plus servers te proberen. Aan het einde van de proefperiode keert u terug naar een gratis abonnement en heeft u alleen toegang tot de gratis servers.</string>
   <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
   <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Probleemoplossing</u>]]></string>
   <string name="activityTroubleshootTitle">Probleemoplossing</string>
   <string name="troubleshootNoInternetDescription">Zorg ervoor dat uw internetverbinding werkt.</string>
   <string name="troubleshootNoInternetTitle">Geen internetverbinding</string>

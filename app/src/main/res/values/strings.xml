@@ -308,7 +308,7 @@
     <string name="welcomeDialogTitleTrial">To say thanks, we are giving you a free 7 day trial of our Plus plan. It lets you use advanced features and Plus servers. At the end of the trial, you will return to a Free plan and only have access to Free servers.</string>
     <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
-    <string name="buttonTroubleshoot"><![CDATA[<u>Troubleshoot</u>]]></string>
+    <string name="troubleshootButton">Troubleshoot</string>
     <string name="activityTroubleshootTitle">Troubleshooting</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Potential solutions</string>
     <string name="troubleshootNoInternetDescription">Please make sure your internet connection is working.</string>

@@ -21,62 +21,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkGrey"
+    android:background="?attr/proton_background_norm"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_sad" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/textDescription"
+                style="@style/Proton.Text.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="@string/something_went_wrong"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/white"
-                android:textSize="22sp" />
+                android:text="@string/something_went_wrong" />
 
-            <Button
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <me.proton.core.presentation.ui.view.ProtonButton
                 android:id="@+id/buttonRetry"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/button_rounded_accent"
-                android:paddingLeft="36dp"
-                android:paddingRight="36dp"
-                android:text="@string/try_again"
-                android:textColor="?colorAccent" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/try_again" />
 
-            <Button
+            <me.proton.core.presentation.ui.view.ProtonButton
                 android:id="@+id/buttonTroubleshoot"
-                android:layout_width="wrap_content"
+                style="@style/ProtonButton.OutlinedButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="?colorAccent"
-                android:text="@string/buttonTroubleshoot"
-                android:textAllCaps="false"
-                style="@style/Widget.AppCompat.Button.Borderless"/>
+                android:text="@string/troubleshootButton" />
 
         </LinearLayout>
 
