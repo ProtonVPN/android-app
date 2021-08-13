@@ -20,6 +20,7 @@ package com.protonvpn.android.utils
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -41,6 +42,7 @@ class ServerManager(
     @Transient val userData: UserData
 ) : Serializable, ServerDeliver {
 
+    private var serverListAppVersionCode = 0
     private val vpnCountries = mutableListOf<VpnCountry>()
     private val secureCoreEntryCountries = mutableListOf<VpnCountry>()
     private val secureCoreExitCountries = mutableListOf<VpnCountry>()
@@ -68,7 +70,7 @@ class ServerManager(
     val isOutdated: Boolean
         get() = updatedAt == null || vpnCountries.isEmpty() ||
                 DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
-                !haveWireGuardSupport()
+                !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE
 
     private fun haveWireGuardSupport() =
         vpnCountries.any { country ->
@@ -114,6 +116,7 @@ class ServerManager(
             secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
             streamingServices = oldManager.streamingServices
             updatedAt = oldManager.updatedAt
+            serverListAppVersionCode = oldManager.serverListAppVersionCode
         }
         reInitProfiles()
 
@@ -186,6 +189,7 @@ class ServerManager(
                 secureCoreExitCountries.add(VpnCountry(country, servers, this))
         }
         updatedAt = DateTime()
+        serverListAppVersionCode = BuildConfig.VERSION_CODE
         Storage.save(this)
         onServersUpdate()
     }
