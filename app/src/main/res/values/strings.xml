@@ -245,8 +245,6 @@
     <string name="notConnected">You are not connected \n to a server</string>
     <string name="activityLicensesTitle">Third party licenses</string>
     <string name="stateFragmentUnknownIp">Unknown</string>
-    <string name="successful_migration_message">Welcome to ProtonVPN 2.0! All your settings and profiles have been migrated and you can now safely uninstall the old app.</string>
-    <string name="successful_migration_uninstall">Uninstall now</string>
     <string name="error_prepare_vpn_description"><![CDATA[Please disable Always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents ProtonVPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Go to Android VPN settings</string>
     <string name="error_prepare_vpn_title">Error: VPN permission problem</string>

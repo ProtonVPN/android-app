@@ -224,8 +224,6 @@
   <string name="notConnected">Вы не подключены \n к серверу</string>
   <string name="activityLicensesTitle">Лицензии третьих сторон</string>
   <string name="stateFragmentUnknownIp">Неизвестно</string>
-  <string name="successful_migration_message">Добро пожаловать в ProtonVPN 2.0! Все ваши настройки и профили были перенесены, и теперь вы можете безопасно удалить старое приложение.</string>
-  <string name="successful_migration_uninstall">Удалить сейчас</string>
   <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
   <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
   <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
