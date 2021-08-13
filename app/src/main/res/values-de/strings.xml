@@ -165,7 +165,6 @@
   <string name="state_disconnecting">Verbindung wird getrennt …</string>
   <string name="state_error">Fehler</string>
   <string name="error_lookup_failed">Gatewayadresssuche fehlgeschlagen.</string>
-  <string name="error_unreachable">Gateway ist nicht erreichbar.</string>
   <string name="error_peer_auth_failed">Verifizierung der Gatewayauthentifizierung fehlgeschlagen.</string>
   <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
   <string name="error_assessment_failed">Security Assessment fehlgeschlagen.</string>

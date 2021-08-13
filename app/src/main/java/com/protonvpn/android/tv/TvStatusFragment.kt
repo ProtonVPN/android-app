@@ -153,7 +153,7 @@ class TvStatusFragment : DaggerFragment() {
             ErrorType.LOOKUP_FAILED ->
                 textStatus.setText(R.string.error_lookup_failed)
             ErrorType.UNREACHABLE ->
-                textStatus.setText(R.string.error_unreachable)
+                textStatus.setText(R.string.error_server_unreachable)
 
             // dialog
             ErrorType.AUTH_FAILED ->

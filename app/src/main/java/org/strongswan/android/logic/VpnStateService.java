@@ -228,7 +228,7 @@ public class VpnStateService extends Service
 			case LOOKUP_FAILED:
 				return R.string.error_lookup_failed;
 			case UNREACHABLE:
-				return R.string.error_unreachable;
+				return R.string.error_server_unreachable;
 			case PASSWORD_MISSING:
 				return R.string.error_password_missing;
 			case CERTIFICATE_UNAVAILABLE:
