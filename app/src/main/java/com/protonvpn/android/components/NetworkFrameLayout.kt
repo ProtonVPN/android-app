@@ -20,7 +20,6 @@ package com.protonvpn.android.components
 
 import android.content.Context
 import android.content.Intent
-import android.text.Html
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -121,7 +120,6 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
         val showTroubleshoot = error.isPotentialBlocking
         troubleshootButton.isVisible = showTroubleshoot
         if (showTroubleshoot) {
-            troubleshootButton.text = Html.fromHtml(context.getString(R.string.buttonTroubleshoot))
             troubleshootButton.setOnClickListener {
                 context.startActivity(Intent(context, TroubleshootActivity::class.java))
             }

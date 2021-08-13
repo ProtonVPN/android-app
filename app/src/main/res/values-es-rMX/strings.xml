@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Para agradecerle, le damos una prueba gratuita de 7 días de nuestro plan Plus. Esto le permite usar características avanzadas y los servidores Plus. Al final de la prueba, volverá a un plan gratuito y sólo tendrá acceso a los servidores gratuitos.</string>
   <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no soportada. Por favor, contacte al soporte.</string>
   <string name="loaderErrorTimeout">Tiempo de conexión agotado. Por favor, inténtelo de nuevo.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Solución de problemas</u>]]></string>
   <string name="activityTroubleshootTitle">Solución de problemas</string>
   <string name="troubleshootNoInternetDescription">Por favor, asegúrese de que su conexión a Internet está funcionando.</string>
   <string name="troubleshootNoInternetTitle">No hay conexión a internet</string>

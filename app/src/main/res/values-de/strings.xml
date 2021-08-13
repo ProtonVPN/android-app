@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Als Dankeschön geben wir Ihnen einen kostenlosen 7-Tage-Testversion unseres Plus-Pakets. Sie können damit erweiterte Funktionen und Plus-Server nutzen. Am Ende der Probezeit kehren Sie zu einem kostenlosen Plan zurück und haben nur Zugang zu frei verfügbaren Servern.</string>
   <string name="toastLoginAuthVersionError">Anmeldung aufgrund nicht unterstützter Authentifizierungsversion nicht möglich. Bitte kontaktieren Sie den Support.</string>
   <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuchen Sie es erneut.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Problembehebung</u>]]></string>
   <string name="activityTroubleshootTitle">Problembehebung</string>
   <string name="troubleshootNoInternetDescription">Bitte stellen Sie sicher, dass Ihre Internetverbindung funktioniert.</string>
   <string name="troubleshootNoInternetTitle">Keine Internetverbindung</string>

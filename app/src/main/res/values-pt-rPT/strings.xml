@@ -247,7 +247,6 @@
   <string name="welcomeDialogTitleTrial">Para lhe agradecer, oferecemos-lhe um teste gratuito de 7 dias do nosso plano Plus. Permite-lhe utilizar funcionalidades avançadas e servidores Plus. No final do teste, voltará ao plano Free e terá acesso apenas a servidores Free.</string>
   <string name="toastLoginAuthVersionError">Impossível iniciar sessão devido a versão de autenticação não suportada. Por favor, contacte o suporte.</string>
   <string name="loaderErrorTimeout">Ligação expirada. Por favor, tente novamente.</string>
-  <string name="buttonTroubleshoot"><![CDATA[<u>Solução de problemas</u>]]></string>
   <string name="activityTroubleshootTitle">Solução de problemas</string>
   <string name="troubleshootNoInternetDescription">Por favor, certifique-se de que a sua ligação à Internet está a funcionar.</string>
   <string name="troubleshootNoInternetTitle">Sem ligação à Internet</string>
