@@ -222,8 +222,6 @@
   <string name="notConnected">شما به سروری \n متصل نیستید</string>
   <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
   <string name="stateFragmentUnknownIp">ناشناخته</string>
-  <string name="successful_migration_message">به ProtonVPN 2.0 خوش آمدید! همهٔ تنظیمات و پروفایل‌های شما منتقل شده‌اند و اکنون می‌توانید با خیال راحت برنامهٔ قدیمی را حذف کنید.</string>
-  <string name="successful_migration_uninstall">حالا حذف شود</string>
   <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعّال کنید، زیرا مانع برقراری اتصال ProtonVPN می‌شود. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحهٔ درخواست اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
   <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
   <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>

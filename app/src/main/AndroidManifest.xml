@@ -148,10 +148,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".migration.MigrateReceiver"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".ui.home.profiles.ProfileActivity"

@@ -222,8 +222,6 @@
   <string name="notConnected">Sie sind mit keinem\nServer verbunden</string>
   <string name="activityLicensesTitle">Drittanbieter-Lizenzen</string>
   <string name="stateFragmentUnknownIp">Unbekannt</string>
-  <string name="successful_migration_message">Willkommen bei ProtonVPN 2.0! Alle Ihre Einstellungen und Profile wurden übertragen, und Sie können die alte Anwendung jetzt sicher deinstallieren.</string>
-  <string name="successful_migration_uninstall">Jetzt deinstallieren</string>
   <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktivieren Sie Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähren Sie auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuchen Sie es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
   <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
   <string name="error_prepare_vpn_title">Fehler: VPN-Berechtigungsproblem</string>

@@ -29,7 +29,6 @@ import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
-import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -42,8 +41,6 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -73,7 +70,6 @@ public class ProtonApplication extends DaggerApplication {
         new ANRWatchDog(15000).start();
 
         initPreferences();
-        NewAppMigrator.INSTANCE.migrate(this);
 
         RxActivityResult.register(this);
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
