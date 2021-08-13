@@ -28,13 +28,13 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:rotation="45"
-        app:srcCompat="@drawable/ic_circle_white" />
+        app:srcCompat="@drawable/ic_circle_hollow" />
 
     <ImageView
         android:id="@+id/loaderCircle2"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:rotation="-45"
-        app:srcCompat="@drawable/ic_circle_white" />
+        app:srcCompat="@drawable/ic_circle_hollow" />
 
 </FrameLayout>
