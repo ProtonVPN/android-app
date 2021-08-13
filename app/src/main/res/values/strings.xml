@@ -187,7 +187,7 @@
     <string name="state_error">Error</string>
 
     <string name="error_lookup_failed">Gateway address lookup failed.</string>
-    <string name="error_unreachable">Gateway is unreachable.</string>
+    <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_peer_auth_failed">Verifying gateway authentication failed.</string>
     <string name="error_auth_failed">User authentication failed.</string>
     <string name="error_assessment_failed">Security assessment failed.</string>

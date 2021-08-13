@@ -165,7 +165,6 @@
   <string name="state_disconnecting">Rozłączanie…</string>
   <string name="state_error">Błąd</string>
   <string name="error_lookup_failed">Wyszukiwanie adresu bramy sieciowej nie powiodło się.</string>
-  <string name="error_unreachable">Brama sieciowa jest nieosiągalna.</string>
   <string name="error_peer_auth_failed">Weryfikacja uwierzytelnienia bramy sieciowej nie powiodła się.</string>
   <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
   <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>

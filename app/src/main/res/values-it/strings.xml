@@ -165,7 +165,6 @@
   <string name="state_disconnecting">Disconnessione…</string>
   <string name="state_error">Errore</string>
   <string name="error_lookup_failed">Ricerca dell\'indirizzo del gateway fallita.</string>
-  <string name="error_unreachable">Il Gateway è irraggiungibile.</string>
   <string name="error_peer_auth_failed">Verifica autenticazione gateway fallita.</string>
   <string name="error_auth_failed">Autenticazione utente fallita.</string>
   <string name="error_assessment_failed">Valutazione di sicurezza non riuscita.</string>

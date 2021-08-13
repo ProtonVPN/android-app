@@ -165,7 +165,6 @@
   <string name="state_disconnecting">در حال قطع اتصال از…</string>
   <string name="state_error">خطا</string>
   <string name="error_lookup_failed">پیدا کردن نشانی دروازهٔ خروجی با اشکال مواجه شد.</string>
-  <string name="error_unreachable">دروازهٔ خروجی در دسترس نیست.</string>
   <string name="error_peer_auth_failed">تأیید هویت دروازهٔ خروجی نا‌موفق بود.</string>
   <string name="error_auth_failed">احراز هویت موفق نبود.</string>
   <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>

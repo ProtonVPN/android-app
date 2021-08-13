@@ -165,7 +165,6 @@
   <string name="state_disconnecting">Desconectando…</string>
   <string name="state_error">Erro</string>
   <string name="error_lookup_failed">A consulta do endereço gateway falhou.</string>
-  <string name="error_unreachable">O gateway está inacessível.</string>
   <string name="error_peer_auth_failed">Falha na verificação da autenticação gateway.</string>
   <string name="error_auth_failed">Falha na autenticação do usuário.</string>
   <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
