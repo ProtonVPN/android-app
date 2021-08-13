@@ -22,18 +22,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dimmedGrey"
+    android:background="?attr/proton_background_secondary"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/textTitle"
+        style="@style/Proton.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/white70"
         tools:text="Loading servers" />
 
-    <View style="@style/Divider.Small" />
 </LinearLayout>
