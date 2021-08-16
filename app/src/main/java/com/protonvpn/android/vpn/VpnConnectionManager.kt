@@ -51,8 +51,11 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import io.sentry.event.EventBuilder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
