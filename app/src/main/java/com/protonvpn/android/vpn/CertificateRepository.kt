@@ -145,48 +145,15 @@ class CertificateRepository(
         withContext(mainScope.coroutineContext) {
             if (cancelOngoing)
                 certRequests.remove(sessionId)?.cancel()
-            val request = certRequests.getOrElse(sessionId) {
-                async {
-                    val info = getCertInfo(sessionId)
-                    val response = try {
-                        api.getCertificate(info.publicKeyPem)
-                    } finally {
+            val request = certRequests[sessionId]
+                ?: async {
+                    updateCertificateInternal(sessionId).apply {
                         certRequests.remove(sessionId)
                     }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            val cert = response.value
-                            val newInfo = info.copy(
-                                expiresAt = cert.expirationTimeMs,
-                                refreshAt = cert.refreshTimeMs,
-                                certificatePem = cert.certificate,
-                                refreshCount = 0)
-                            setInfo(sessionId, newInfo)
-                            ProtonLogger.log("New certificate expires at: " + Date(cert.expirationTimeMs))
-                            if (sessionId == userData.sessionId)
-                                rescheduleRefreshTo(cert.refreshTimeMs)
-                            CertificateResult.Success(cert.certificate, info.privateKeyPem)
-                        }
-                        is ApiResult.Error -> {
-                            if (info.certificatePem == null)
-                                ProtonLogger.log("Failed to get certificate (${info.refreshCount})")
-                            else
-                                ProtonLogger.log("Failed to refresh (${info.refreshCount}) certificate expiring at " +
-                                    Date(info.expiresAt))
-
-                            if (info.refreshCount < MAX_REFRESH_COUNT) {
-                                setInfo(sessionId, info.copy(refreshCount = info.refreshCount + 1))
-
-                                val now = wallClock()
-                                val newRefresh = ((now + info.expiresAt) / 2)
-                                    .coerceAtLeast(now + MIN_REFRESH_DELAY)
-                                rescheduleRefreshTo(newRefresh)
-                            }
-                            CertificateResult.Error(response)
-                        }
-                    }
+                }.apply {
+                    certRequests[sessionId] = this
                 }
-            }
+
             try {
                 request.await()
             } catch (e: CancellationException) {
@@ -194,7 +161,44 @@ class CertificateRepository(
             }
         }
 
-    suspend fun getCertInfo(sessionId: SessionId) =
+    private suspend fun updateCertificateInternal(sessionId: SessionId): CertificateResult {
+        val info = getCertInfo(sessionId)
+        return when (val response = api.getCertificate(info.publicKeyPem)) {
+            is ApiResult.Success -> {
+                val cert = response.value
+                val newInfo = info.copy(
+                    expiresAt = cert.expirationTimeMs,
+                    refreshAt = cert.refreshTimeMs,
+                    certificatePem = cert.certificate,
+                    refreshCount = 0)
+                setInfo(sessionId, newInfo)
+                ProtonLogger.log("New certificate expires at: " + Date(cert.expirationTimeMs))
+                if (sessionId == userData.sessionId)
+                    rescheduleRefreshTo(cert.refreshTimeMs)
+                CertificateResult.Success(cert.certificate, info.privateKeyPem)
+            }
+            is ApiResult.Error -> {
+                if (info.certificatePem == null)
+                    ProtonLogger.log("Failed to get certificate (${info.refreshCount})")
+                else
+                    ProtonLogger.log("Failed to refresh (${info.refreshCount}) certificate expiring at " +
+                        Date(info.expiresAt))
+
+                if (info.refreshCount < MAX_REFRESH_COUNT) {
+                    setInfo(sessionId, info.copy(refreshCount = info.refreshCount + 1))
+
+                    val now = wallClock()
+                    val newRefresh = ((now + info.expiresAt) / 2)
+                        .coerceAtLeast(now + MIN_REFRESH_DELAY)
+                    rescheduleRefreshTo(newRefresh)
+                }
+                CertificateResult.Error(response)
+            }
+        }
+    }
+
+
+    private suspend fun getCertInfo(sessionId: SessionId) =
         certPrefs.getString(sessionId.id, null)?.deserialize() ?: run {
             generateNewKey(sessionId)
         }
