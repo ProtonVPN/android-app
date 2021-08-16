@@ -86,17 +86,17 @@ class WireguardBackend(
         numberOfPorts: Int
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        return listOf(
+        return scanPorts(connectingDomain).map { port ->
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
                     profile,
                     server,
-                    scanPorts(connectingDomain).random(),
+                    port,
                     connectingDomain
                 )
             )
-        )
+        }
     }
 
     private suspend fun scanPorts(connectingDomain: ConnectingDomain): List<Int> =
