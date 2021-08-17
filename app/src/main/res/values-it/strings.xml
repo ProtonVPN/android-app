@@ -164,7 +164,6 @@
   <string name="state_connected">Connesso</string>
   <string name="state_disconnecting">Disconnessione…</string>
   <string name="state_error">Errore</string>
-  <string name="error_lookup_failed">Ricerca dell\'indirizzo del gateway fallita.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Autenticazione utente fallita.</string>
   <string name="error_assessment_failed">Valutazione di sicurezza non riuscita.</string>
@@ -178,7 +177,6 @@
     <item quantity="other">Riconnessione in %1$d secondi</item>
   </plurals>
   <string name="connection_failed">Connessione non riuscita</string>
-  <string name="support_page">Pagina di supporto</string>
   <string name="create_new_profile">CREA NUOVO PROFILO</string>
   <string name="excludeAppsTitle">Escludi app</string>
   <string name="excludeAppsDescription">Aggiungi le app che vuoi escludere dal traffico VPN.</string>

@@ -74,15 +74,6 @@
             android:textColor="@color/dimmedRed"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textSupport"
-            android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support_page"
-            android:textColor="@color/white70"
-            android:textSize="18sp" />
-
     </LinearLayout>
 
     <Button

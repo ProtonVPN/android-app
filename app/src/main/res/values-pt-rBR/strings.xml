@@ -164,7 +164,6 @@
   <string name="state_connected">Conectado</string>
   <string name="state_disconnecting">Desconectando…</string>
   <string name="state_error">Erro</string>
-  <string name="error_lookup_failed">A consulta do endereço gateway falhou.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Falha na autenticação do usuário.</string>
   <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
@@ -178,7 +177,6 @@
     <item quantity="other">Reconectando em %1$d segundos</item>
   </plurals>
   <string name="connection_failed">Falha na conexão</string>
-  <string name="support_page">Página de suporte</string>
   <string name="create_new_profile">CRIAR NOVO PERFIL</string>
   <string name="excludeAppsTitle">Excluir aplicativos</string>
   <string name="excludeAppsDescription">Adicione aplicativos que você deseja excluir do tráfego da VPN.</string>

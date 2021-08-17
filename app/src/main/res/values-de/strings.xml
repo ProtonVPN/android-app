@@ -164,7 +164,6 @@
   <string name="state_connected">Verbunden</string>
   <string name="state_disconnecting">Verbindung wird getrennt …</string>
   <string name="state_error">Fehler</string>
-  <string name="error_lookup_failed">Gatewayadresssuche fehlgeschlagen.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
   <string name="error_assessment_failed">Security Assessment fehlgeschlagen.</string>
@@ -178,7 +177,6 @@
     <item quantity="other">Neuverbindung in %1$d Sekunden</item>
   </plurals>
   <string name="connection_failed">Verbindung fehlgeschlagen</string>
-  <string name="support_page">Support-Seite</string>
   <string name="create_new_profile">NEUES PROFIL ERSTELLEN</string>
   <string name="excludeAppsTitle">Apps ausschließen</string>
   <string name="excludeAppsDescription">Fügen Sie Apps hinzu, die Sie vom VPN‐Verkehr ausschließen möchten.</string>

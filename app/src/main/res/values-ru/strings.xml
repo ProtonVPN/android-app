@@ -164,7 +164,6 @@
   <string name="state_connected">Подключено</string>
   <string name="state_disconnecting">Отключение…</string>
   <string name="state_error">Ошибка</string>
-  <string name="error_lookup_failed">Сбой поиска адреса шлюза.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
   <string name="error_assessment_failed">Сбой проверки безопасности.</string>
@@ -180,7 +179,6 @@
     <item quantity="other">Повторное подключение через %1$d секунд</item>
   </plurals>
   <string name="connection_failed">Сбой подключения</string>
-  <string name="support_page">Страница поддержки</string>
   <string name="create_new_profile">СОЗДАТЬ НОВЫЙ ПРОФИЛЬ</string>
   <string name="excludeAppsTitle">Исключенные приложения</string>
   <string name="excludeAppsDescription">Добавьте приложения, которые вы хотите исключить из трафика через VPN.</string>
