@@ -123,7 +123,6 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.textProtocol) TextView textProtocol;
     @BindView(R.id.textSessionTime) TextView textSessionTime;
     @BindView(R.id.textError) TextView textError;
-    @BindView(R.id.textSupport) TextView textSupport;
     @BindView(R.id.progressBarError) ProgressBar progressBarError;
     @BindView(R.id.textLoad) TextView textLoad;
     @BindView(R.id.imageLoad) CircleImageView imageLoad;
@@ -164,11 +163,6 @@ public class VpnStateFragment extends BaseFragment {
     @OnClick(R.id.buttonDisconnect)
     public void buttonDisconnect() {
         buttonCancel();
-    }
-
-    @OnClick(R.id.textSupport)
-    public void textSupport() {
-        openProtonUrl(getActivity(), "https://protonvpn.com/support/solutions-android-vpn-app-issues/");
     }
 
     @OnClick(R.id.buttonSaveToProfile)
@@ -550,10 +544,6 @@ public class VpnStateFragment extends BaseFragment {
                 showErrorDialog(R.string.error_peer_auth_failed);
                 Log.exception(new VPNException("Peer Auth: Verifying gateway authentication failed"));
                 break;
-            case LOOKUP_FAILED:
-                showErrorDialog(R.string.error_lookup_failed);
-                Log.exception(new VPNException("Gateway address lookup failed"));
-                break;
             case UNREACHABLE:
                 showErrorDialog(R.string.error_server_unreachable);
                 Log.exception(new VPNException("Gateway is unreachable"));
@@ -617,9 +607,5 @@ public class VpnStateFragment extends BaseFragment {
         else {
             textConnectingTo.setText(R.string.loaderReconnecting);
         }
-        boolean showSupportLink = textId == R.string.error_lookup_failed;
-
-        textSupport.setPaintFlags(textSupport.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        textSupport.setVisibility(showSupportLink ? View.VISIBLE : View.GONE);
     }
 }

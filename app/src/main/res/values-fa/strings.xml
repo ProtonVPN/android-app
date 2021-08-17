@@ -164,7 +164,6 @@
   <string name="state_connected">متصل</string>
   <string name="state_disconnecting">در حال قطع اتصال از…</string>
   <string name="state_error">خطا</string>
-  <string name="error_lookup_failed">پیدا کردن نشانی دروازهٔ خروجی با اشکال مواجه شد.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">احراز هویت موفق نبود.</string>
   <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
@@ -178,7 +177,6 @@
     <item quantity="other">اتصال دوباره در %1$d ثانیه</item>
   </plurals>
   <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
-  <string name="support_page">صفحهٔ پشتیبانی</string>
   <string name="create_new_profile">ایجاد پروفایل جدید</string>
   <string name="excludeAppsTitle">جدا کردن برنامه‌ها</string>
   <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>

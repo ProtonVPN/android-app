@@ -150,11 +150,8 @@ class TvStatusFragment : DaggerFragment() {
 
     private fun onError(error: ErrorType) = with(binding) {
         when (error) {
-            ErrorType.LOOKUP_FAILED ->
-                textStatus.setText(R.string.error_lookup_failed)
             ErrorType.UNREACHABLE ->
                 textStatus.setText(R.string.error_server_unreachable)
-
             // dialog
             ErrorType.AUTH_FAILED ->
                 showErrorDialog(R.string.error_auth_failed)

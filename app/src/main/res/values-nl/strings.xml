@@ -164,7 +164,6 @@
   <string name="state_connected">Verbonden</string>
   <string name="state_disconnecting">Verbinding aan het verbreken…</string>
   <string name="state_error">Fout</string>
-  <string name="error_lookup_failed">Gateway-adres opzoeken mislukt.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
   <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
@@ -178,7 +177,6 @@
     <item quantity="other">Opnieuw verbinden over %1$d seconden</item>
   </plurals>
   <string name="connection_failed">Verbinding mislukt</string>
-  <string name="support_page">Ondersteuningspagina</string>
   <string name="create_new_profile">NIEUW PROFIEL MAKEN</string>
   <string name="excludeAppsTitle">Apps uitsluiten</string>
   <string name="excludeAppsDescription">Voeg apps toe die u wilt uitsluiten van uw VPN-verkeer.</string>

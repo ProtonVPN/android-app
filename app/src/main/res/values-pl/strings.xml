@@ -164,7 +164,6 @@
   <string name="state_connected">Połączono</string>
   <string name="state_disconnecting">Rozłączanie…</string>
   <string name="state_error">Błąd</string>
-  <string name="error_lookup_failed">Wyszukiwanie adresu bramy sieciowej nie powiodło się.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
   <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>
@@ -180,7 +179,6 @@
     <item quantity="other">Ponowne łączenie za %1$d sekund</item>
   </plurals>
   <string name="connection_failed">Połączenie nie powiodło się</string>
-  <string name="support_page">Strona pomocy technicznej</string>
   <string name="create_new_profile">UTWÓRZ NOWY PROFIL</string>
   <string name="excludeAppsTitle">Wyklucz aplikacje</string>
   <string name="excludeAppsDescription">Dodaj aplikacje, które chcesz wykluczyć z ruchu VPN.</string>
