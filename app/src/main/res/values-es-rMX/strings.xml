@@ -165,7 +165,7 @@
   <string name="state_disconnecting">Desconectando…</string>
   <string name="state_error">Error</string>
   <string name="error_lookup_failed">Falló la búsqueda de la dirección de la puerta de enlace.</string>
-  <string name="error_peer_auth_failed">Falló la verificación de autenticación de la puerta de enlace.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Falló la autenticación de usuario.</string>
   <string name="error_assessment_failed">Falló la evaluación de seguridad.</string>
   <string name="error_generic">Error no especificado al conectar.</string>

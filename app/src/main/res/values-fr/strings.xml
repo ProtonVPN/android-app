@@ -165,7 +165,7 @@
   <string name="state_disconnecting">Déconnexion…</string>
   <string name="state_error">Erreur</string>
   <string name="error_lookup_failed">La recherche d\'adresse de passerelle a échoué.</string>
-  <string name="error_peer_auth_failed">La vérification d\'authentification de la passerelle a échoué.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Échec d\'authentification de l\'utilisateur.</string>
   <string name="error_assessment_failed">Échec de l\'évaluation de sécurité.</string>
   <string name="error_generic">Échec indéterminé lors de la connexion.</string>
