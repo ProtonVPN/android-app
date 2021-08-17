@@ -86,7 +86,11 @@ class WireguardBackend(
         numberOfPorts: Int
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        return scanPorts(connectingDomain).map { port ->
+        val ports = if (scan)
+            scanPorts(connectingDomain)
+        else
+            listOfNotNull(appConfig.getWireguardPorts().udpPorts.randomOrNull())
+        return ports.map { port ->
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
