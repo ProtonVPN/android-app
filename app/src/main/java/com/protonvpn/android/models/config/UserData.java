@@ -78,8 +78,7 @@ public final class UserData implements Serializable {
     private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
 
     private transient LiveEvent updateEvent = new LiveEvent();
-    private transient ApiSessionProvider apiSessionProvider =
-        new ApiSessionProvider(ProtonApplication.getAppContext());
+    private transient ApiSessionProvider apiSessionProvider = new ApiSessionProvider();
 
     private UserData() {
         user = "";
