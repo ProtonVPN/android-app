@@ -165,7 +165,7 @@
   <string name="state_disconnecting">Verbinding aan het verbreken…</string>
   <string name="state_error">Fout</string>
   <string name="error_lookup_failed">Gateway-adres opzoeken mislukt.</string>
-  <string name="error_peer_auth_failed">Verificatie gateway verifiëren mislukt.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
   <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
   <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>

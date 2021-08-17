@@ -165,7 +165,7 @@
   <string name="state_disconnecting">Отключение…</string>
   <string name="state_error">Ошибка</string>
   <string name="error_lookup_failed">Сбой поиска адреса шлюза.</string>
-  <string name="error_peer_auth_failed">Сбой проверки подлинности шлюза.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
   <string name="error_assessment_failed">Сбой проверки безопасности.</string>
   <string name="error_generic">Неизвестный сбой при подключении.</string>
