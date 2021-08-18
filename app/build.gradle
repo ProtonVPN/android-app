@@ -559,7 +559,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation 'me.relex:circleindicator:2.1.6@aar'
-    implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
     implementation 'com.evernote:android-state:1.4.1'
     implementation 'androidx.work:work-runtime:2.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
