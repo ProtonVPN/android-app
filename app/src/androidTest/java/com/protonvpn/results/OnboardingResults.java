@@ -25,8 +25,8 @@ public class OnboardingResults extends UIActionsTestHelper {
 
     public OnboardingResults onboardingViewIsVisible() {
         checkIfObjectWithIdIsDisplayed(R.id.protonLogo);
-        checkIfObjectWithIdIsDisplayed(R.id.textSkip);
-        checkIfObjectWithIdIsDisplayed(R.id.textNext);
+        checkIfObjectWithIdIsDisplayed(R.id.buttonSkip);
+        checkIfObjectWithIdIsDisplayed(R.id.buttonNext);
         checkIfObjectWithIdIsDisplayed(R.id.mapView);
         checkIfObjectWithIdIsDisplayed(R.id.textTitle);
         checkIfObjectWithIdIsDisplayed(R.id.textDescription);
@@ -52,8 +52,8 @@ public class OnboardingResults extends UIActionsTestHelper {
         checkIfObjectWithTextIsDisplayed(R.string.onboardingEndingSlideDescription);
         checkIfObjectWithIdIsDisplayed(R.id.buttonLogin);
         checkIfObjectWithIdIsDisplayed(R.id.buttonSignup);
-        checkIfObjectWithIdIsNotDisplayed(R.id.textSkip);
-        checkIfObjectWithIdIsNotDisplayed(R.id.textNext);
+        checkIfObjectWithIdIsNotDisplayed(R.id.buttonSkip);
+        checkIfObjectWithIdIsNotDisplayed(R.id.buttonNext);
         return this;
     }
 

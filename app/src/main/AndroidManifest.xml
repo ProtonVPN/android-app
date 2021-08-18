@@ -215,7 +215,6 @@
         </activity>
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
         <activity
             android:name=".tv.TvLoginActivity"
