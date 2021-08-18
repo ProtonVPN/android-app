@@ -25,6 +25,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -33,6 +34,7 @@ import com.protonvpn.android.utils.Storage;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class ProtonActionMenu extends FloatingActionMenu {
@@ -113,11 +115,16 @@ public class ProtonActionMenu extends FloatingActionMenu {
         }
     }
 
-    private void animateMenu() {
+    public static Animator createPulseAnimator(@NonNull View button) {
         final AnimatorSet animSetXY = new AnimatorSet();
         animSetXY.playTogether(ObjectAnimator.ofFloat(button, "scaleX", 1f, 1.1f, 1f),
             ObjectAnimator.ofFloat(button, "scaleY", 1f, 1.1f, 1f));
         animSetXY.setDuration(1000);
+        return animSetXY;
+    }
+
+    private void animateMenu() {
+        final Animator animSetXY = createPulseAnimator(button);
         animSetXY.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

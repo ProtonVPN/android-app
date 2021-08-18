@@ -18,47 +18,75 @@
  */
 package com.protonvpn.android.ui.onboarding
 
-import android.content.Context
-import android.view.Gravity
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.protonvpn.android.R
+import android.widget.ImageView
+import androidx.core.animation.doOnEnd
+import com.protonvpn.android.components.ProtonActionMenu
 import com.protonvpn.android.utils.Storage
 
 object OnboardingDialogs {
+
     @JvmStatic
-    @JvmOverloads
     fun showDialogOnView(
-        context: Context?,
-        view: View,
-        title: String?,
-        description: String?,
-        booleanName: String?,
-        gravity: Int = Gravity.BOTTOM
+        tooltipManager: TooltipManager,
+        highlightView: View,
+        anchorView: View,
+        title: String,
+        description: String,
+        booleanName: String
     ) {
         if (!Storage.getBoolean(booleanName)) {
-            val tooltip = OnboardingTooltip.Builder(context).anchorView(view)
-                .text(title)
-                .gravity(gravity)
-                .arrowColor(ContextCompat.getColor(view.context, R.color.white))
-                .animated(true)
-                .modal(true)
-                .dismissOnOutsideTouch(false)
-                .dismissOnInsideTouch(false)
-                .transparentOverlay(true)
-                .contentView(R.layout.dialog_tooltip, R.id.textTitle)
-                .build()
-
-            tooltip.show()
-
-            (tooltip.findViewById<View>(R.id.textDescription) as TextView).text = description
-            tooltip.findViewById<View>(R.id.textGotIt).setOnClickListener {
-                if (tooltip.isShowing) {
-                    tooltip.dismiss()
-                    Storage.saveBoolean(booleanName, true)
-                }
+            tooltipManager.show(highlightView, anchorView, title, description) {
+                Storage.saveBoolean(booleanName, true)
             }
         }
+    }
+
+    @JvmStatic
+    fun showDialogOnFab(
+        tooltipManager: TooltipManager,
+        fabMenu: ProtonActionMenu,
+        title: String,
+        description: String,
+        booleanName: String
+    ) {
+        if (!Storage.getBoolean(booleanName)) {
+            val context = fabMenu.context
+            val replacements = arrayOf(
+                View(context).apply {
+                    background = fabMenu.actionButton.background
+
+                },
+                ImageView(context).apply {
+                    scaleType = ImageView.ScaleType.CENTER
+                    setImageDrawable(fabMenu.menuIconView.drawable)
+                }
+            )
+            tooltipManager.showWithReplacement(
+                fabMenu.actionButton,
+                replacements,
+                title,
+                description,
+                onShown = {
+                    fabMenu.visibility = View.INVISIBLE
+                    animateFab(replacements[0])
+                },
+                onDismissedAction = {
+                    fabMenu.visibility = View.VISIBLE
+                    Storage.saveBoolean(booleanName, true)
+                }
+            )
+        }
+    }
+
+    private fun animateFab(view: View) {
+        val animSetXY = ProtonActionMenu.createPulseAnimator(view)
+        animSetXY.doOnEnd {
+            if (view.isAttachedToWindow)
+                animateFab(view)
+        }
+        animSetXY.start()
     }
 }
