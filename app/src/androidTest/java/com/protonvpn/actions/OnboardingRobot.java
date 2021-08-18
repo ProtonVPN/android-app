@@ -42,12 +42,12 @@ public class OnboardingRobot extends UIActionsTestHelper {
     }
 
     public OnboardingResults clickSkip() {
-        clickOnObjectWithId(R.id.textSkip);
+        clickOnObjectWithId(R.id.buttonSkip);
         return new OnboardingResults();
     }
 
     public OnboardingResults clickNext() {
-        clickOnObjectWithId(R.id.textNext);
+        clickOnObjectWithId(R.id.buttonNext);
         return new OnboardingResults();
     }
 
