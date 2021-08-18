@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +73,7 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
+import com.protonvpn.android.ui.onboarding.TooltipManager;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -138,6 +138,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject NotificationHelper notificationHelper;
     @Inject ViewModelFactory viewModelFactory;
     private HomeViewModel viewModel;
+
+    private final TooltipManager tooltipManager = new TooltipManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,19 +284,19 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
                 if (getString(R.string.tabsMap).equals(tab.getText().toString())
                     && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(getContext(), tabView, getString(R.string.tabsMap),
+                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
                         getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
                 }
                 if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
                     && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
-                    OnboardingDialogs.showDialogOnView(getContext(), tabView,
+                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
                         getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
                         OnboardingPreferences.PROFILES_DIALOG);
                 }
                 if (getString(R.string.tabsCountries).equals(tab.getText().toString())
                     && OnboardingPreferences.wasFloatingButtonUsed() && !vpnStateMonitor.isConnected()
                     && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(getContext(), tabView,
+                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
                         getString(R.string.tabsCountries), getString(R.string.onboardingListDescription),
                         OnboardingPreferences.COUNTRY_DIALOG);
                 }
@@ -317,9 +319,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initOnboarding() {
-        OnboardingDialogs.showDialogOnView(this, fabQuickConnect.getActionButton(),
-            getString(R.string.onboardingFAB), getString(R.string.onboardingFABDescription),
-            OnboardingPreferences.FLOATINGACTION_DIALOG, Gravity.TOP);
+        OnboardingDialogs.showDialogOnFab(tooltipManager, fabQuickConnect, getString(R.string.onboardingFAB),
+            getString(R.string.onboardingFABDescription), OnboardingPreferences.FLOATINGACTION_DIALOG);
     }
 
     private void initDrawerView() {
@@ -562,7 +563,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
-        OnboardingDialogs.showDialogOnView(getContext(), switchCompat,
+        OnboardingDialogs.showDialogOnView(tooltipManager, switchCompat, switchCompat,
             getString(R.string.onboardingDialogSecureCoreTitle),
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
@@ -593,6 +594,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Subscribe
     public void onVpnStateChange(VpnStateChanged change) {
         switchSecureCore.setChecked(change.isSecureCoreEnabled());
+    }
+
+    public TooltipManager getTooltips() {
+        return tooltipManager;
     }
 
     private boolean shouldCloseFab() {
