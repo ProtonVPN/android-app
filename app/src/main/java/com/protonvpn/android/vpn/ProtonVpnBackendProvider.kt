@@ -78,13 +78,10 @@ class ProtonVpnBackendProvider(
                 val profile = Profile.getTempProfile(server.server, serverDeliver)
                 val fullScan = server === fullScanServer
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
-                val strongSwanResponse = async {
-                    strongSwan.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
-                }
-                val openVpnResponse = async {
-                    openVpn.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
-                }
-                val responses = strongSwanResponse.await() + openVpnResponse.await()
+
+                val responses = listOf(wireGuard, strongSwan, openVpn).mapAsync {
+                    it.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
+                }.flatten()
                 server to responses
             }.toMap()
         }
