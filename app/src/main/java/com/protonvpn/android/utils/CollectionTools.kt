@@ -18,6 +18,15 @@
  */
 package com.protonvpn.android.utils
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import me.proton.core.util.kotlin.mapNotNullAsync
 import java.text.Collator
 import java.util.Locale
 
@@ -31,3 +40,37 @@ inline fun <T> Iterable<T>.sortedByLocaleAware(crossinline selector: (T) -> Stri
         c.compare(selector(s1), selector(s2))
     })
 }
+
+// Checks predicate in parallel (via scope.launch {}) for each item and returns element that first finished with true or
+// null.
+@OptIn(ExperimentalStdlibApi::class)
+suspend fun <T> List<T>.parallelFirstOrNull(predicate: suspend (T) -> Boolean): T? = coroutineScope {
+    var count = size
+    if (count == 0)
+        null
+    else {
+        val responses = MutableSharedFlow<T?>(replay = count)
+        val workersScope = CoroutineScope(coroutineContext[CoroutineDispatcher.Key] ?: Dispatchers.IO)
+        try {
+            forEach { item ->
+                workersScope.launch {
+                    responses.emit(item.takeIf { predicate(it) })
+                }
+            }
+            responses.first {
+                count--
+                it != null || count == 0
+            }
+        } finally {
+            workersScope.cancel()
+        }
+    }
+}
+
+// Search for elements satisfying [predicate] in parallel. [returnAll] = true will find all elements, otherwise only
+// first (fastest) element is returned.
+suspend fun <T : Any> List<T>.parallelSearch(returnAll: Boolean, predicate: suspend (T) -> Boolean): List<T> =
+    if (returnAll)
+        mapNotNullAsync { item -> item.takeIf { predicate(it) } }
+    else
+        listOfNotNull(parallelFirstOrNull { predicate(it) })
