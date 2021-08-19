@@ -19,20 +19,18 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
+import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import me.proton.core.util.kotlin.mapAsync
-import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import me.proton.core.util.kotlin.mapAsync
 
 class ProtonVpnBackendProvider(
     val config: AppConfig,
@@ -54,7 +52,7 @@ class ProtonVpnBackendProvider(
             VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = false)
             VpnProtocol.Smart -> {
                 val backends = mutableListOf<VpnBackend>()
-                with (config.getSmartProtocolConfig()) {
+                with(config.getSmartProtocolConfig()) {
                     if (wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
                         backends += wireGuard
                     if (ikeV2Enabled)
@@ -78,12 +76,13 @@ class ProtonVpnBackendProvider(
         val responses = coroutineScope {
             preferenceList.mapAsync { server ->
                 val profile = Profile.getTempProfile(server.server, serverDeliver)
-                val portsLimit = if (server === fullScanServer) Int.MAX_VALUE else PING_ALL_MAX_PORTS
+                val fullScan = server === fullScanServer
+                val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
                 val strongSwanResponse = async {
-                    strongSwan.prepareForConnection(profile, server.server, true, portsLimit)
+                    strongSwan.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
                 }
                 val openVpnResponse = async {
-                    openVpn.prepareForConnection(profile, server.server, true, portsLimit)
+                    openVpn.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
                 }
                 val responses = strongSwanResponse.await() + openVpnResponse.await()
                 server to responses

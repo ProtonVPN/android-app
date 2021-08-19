@@ -26,24 +26,31 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.parallelSearch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
-import me.proton.govpn.localAgent.AgentConnection
-import me.proton.govpn.localAgent.Features
-import me.proton.govpn.localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.govpn.localAgent.AgentConnection
+import me.proton.govpn.localAgent.Features
 import me.proton.govpn.localAgent.LocalAgent
+import me.proton.govpn.localAgent.NativeClient
 import me.proton.govpn.localAgent.StatusMessage
+import me.proton.govpn.vpnPing.VpnPing
+
+private const val SCAN_TIMEOUT_MILLIS = 5000L
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -71,14 +78,17 @@ abstract class VpnBackend(
     val certificateRepository: CertificateRepository,
     private val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
-    val mainScope: CoroutineScope
+    val mainScope: CoroutineScope,
+    val dispatcherProvider: DispatcherProvider,
 ) : VpnStateSource {
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int = Int.MAX_VALUE // Max number of ports to be scanned
+        numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
+        waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
+                                    // response
     ): List<PrepareResult>
 
     protected var lastConnectionParams: ConnectionParams? = null
@@ -353,6 +363,27 @@ abstract class VpnBackend(
         }
         if (selfState == VpnState.Disconnecting)
             setSelfState(VpnState.Disabled)
+    }
+
+    protected suspend fun scanUdpPorts(
+        connectingDomain: ConnectingDomain,
+        ports: List<Int>,
+        numberOfPorts: Int,
+        waitForAll: Boolean
+    ): List<Int> = withContext(dispatcherProvider.Io) {
+        if (connectingDomain.publicKeyX25519 == null)
+            emptyList()
+        else {
+            val candidatePorts = if (numberOfPorts < ports.size)
+                ports.shuffled().take(numberOfPorts)
+            else
+                ports.shuffled()
+
+            candidatePorts.parallelSearch(waitForAll) {
+                VpnPing.pingSync(connectingDomain.entryIp, it.toLong(),
+                    connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS)
+            }
+        }
     }
 
     companion object {

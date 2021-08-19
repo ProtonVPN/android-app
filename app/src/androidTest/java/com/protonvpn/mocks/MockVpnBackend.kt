@@ -19,6 +19,7 @@
 package com.protonvpn.mocks
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -46,14 +47,15 @@ class MockVpnBackend(
     certificateRepository: CertificateRepository,
     userData: UserData,
     appConfig: AppConfig,
-    val protocol: VpnProtocol
+    val protocol: VpnProtocol,
 ) : VpnBackend(
     userData = userData,
     appConfig = appConfig,
     networkManager = networkManager,
     certificateRepository = certificateRepository,
     vpnProtocol = protocol,
-    mainScope = scope
+    mainScope = scope,
+    dispatcherProvider = DefaultDispatcherProvider()
 ) {
     private var agentProvider: MockAgentProvider? = null
 
@@ -65,7 +67,8 @@ class MockVpnBackend(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int
+        numberOfPorts: Int,
+        waitForAll: Boolean
     ): List<PrepareResult> =
         if (scan && failScanning)
             emptyList()

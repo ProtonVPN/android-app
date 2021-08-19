@@ -301,7 +301,8 @@ class AppModule {
         appConfig: AppConfig,
         serverManager: ServerManager,
         certificateRepository: CertificateRepository,
-        wireguardBackend: WireguardBackend
+        wireguardBackend: WireguardBackend,
+        dispatcherProvider: DispatcherProvider
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
@@ -312,7 +313,8 @@ class AppModule {
                 System::currentTimeMillis,
                 userData,
                 appConfig,
-                certificateRepository
+                certificateRepository,
+                dispatcherProvider
             ),
             OpenVpnBackend(
                 random,
@@ -321,7 +323,8 @@ class AppModule {
                 appConfig,
                 System::currentTimeMillis,
                 certificateRepository,
-                scope
+                scope,
+                dispatcherProvider
             ),
             wireguardBackend,
             serverManager

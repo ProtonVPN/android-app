@@ -24,7 +24,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
@@ -40,14 +39,12 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
-import me.proton.govpn.vpnPing.VpnPing
 
 class WireguardBackend(
     val context: Context,
@@ -56,9 +53,10 @@ class WireguardBackend(
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
-    val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope
-) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
+) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+        dispatcherProvider) {
 
     private var service: WireguardWrapperService? = null
     private val testTunnel = WireGuardTunnel(
@@ -83,14 +81,16 @@ class WireguardBackend(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int
+        numberOfPorts: Int,
+        waitForAll: Boolean
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        val ports = if (scan)
-            scanPorts(connectingDomain)
+        val ports = appConfig.getWireguardPorts().udpPorts
+        val selectedPorts = if (scan)
+            scanUdpPorts(connectingDomain, ports, numberOfPorts, waitForAll)
         else
-            listOfNotNull(appConfig.getWireguardPorts().udpPorts.randomOrNull())
-        return ports.map { port ->
+            listOfNotNull(ports.randomOrNull())
+        return selectedPorts.map { port ->
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
@@ -102,21 +102,6 @@ class WireguardBackend(
             )
         }
     }
-
-    private suspend fun scanPorts(connectingDomain: ConnectingDomain): List<Int> =
-        withContext(dispatcherProvider.Io) {
-            appConfig.getWireguardPorts().udpPorts.map { port ->
-                async {
-                    port.takeIf {
-                        VpnPing.pingSync(
-                            connectingDomain.entryIp, it.toLong(), connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS
-                        )
-                    }
-                }
-            }.mapNotNull {
-                it.await()
-            }
-        }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
@@ -157,9 +142,4 @@ class WireguardBackend(
     }
 
     override val retryInfo: RetryInfo? get() = null
-
-    companion object {
-
-        private const val SCAN_TIMEOUT_MILLIS = 5000L
-    }
 }
