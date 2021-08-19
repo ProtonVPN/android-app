@@ -19,9 +19,10 @@
 
 package com.protonvpn.android.ui.settings
 
-import androidx.lifecycle.Transformations.map
-import androidx.lifecycle.ViewModel
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.SaveableSettingsViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 private const val BITS_IN_BYTE = 8
@@ -29,9 +30,11 @@ private const val BITS_IN_BYTE = 8
 @OptIn(ExperimentalUnsignedTypes::class)
 class SettingsExcludeIpsViewModel @Inject constructor(
     private val userData: UserData
-): ViewModel() {
+): SaveableSettingsViewModel() {
 
-    val ipAddresses = map(userData.splitTunnelIpAddressesLiveData) { ips ->
+    private val ipAddresses = MutableStateFlow(userData.splitTunnelIpAddresses)
+
+    val ipAddressItems = ipAddresses.map { ips ->
         ips.map { ipv4ToNumber(it) }
             .sorted()
             .map {
@@ -40,8 +43,15 @@ class SettingsExcludeIpsViewModel @Inject constructor(
             }
     }
 
-    fun addAddress(newAddress: String): Boolean = userData.addIpToSplitTunnel(newAddress)
-    fun removeAddress(item: LabeledItem) = userData.removeIpFromSplitTunnel(item.id)
+    fun addAddress(newAddress: String): Boolean {
+        val alreadyAdded = ipAddresses.value.contains(newAddress)
+        if (!alreadyAdded)
+            ipAddresses.value = ipAddresses.value + newAddress
+        return !alreadyAdded
+    }
+    fun removeAddress(item: LabeledItem) {
+        ipAddresses.value = ipAddresses.value - item.id
+    }
 
     private fun ipv4ToNumber(s: String): UInt =
         s.split('.').fold(0u) { acc, str ->
@@ -53,4 +63,11 @@ class SettingsExcludeIpsViewModel @Inject constructor(
             val shift = index * BITS_IN_BYTE
             this shr shift and 0xffu
         }.joinToString(".")
+
+    override fun saveChanges() {
+        userData.splitTunnelIpAddresses = ipAddresses.value
+    }
+
+    override fun hasUnsavedChanges(): Boolean =
+        userData.splitTunnelIpAddresses.toSet() != ipAddresses.value.toSet()
 }

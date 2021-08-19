@@ -27,10 +27,10 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -39,7 +39,7 @@ import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
 class SettingsExcludeAppsActivity :
-    BaseActivityV2<ActivityRecyclerWithToolbarBinding, SettingsExcludeAppsViewModel>() {
+    SaveableSettingsActivity<ActivityRecyclerWithToolbarBinding, SettingsExcludeAppsViewModel>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -120,5 +120,9 @@ class SettingsExcludeAppsActivity :
         }
 
         override fun getLayout(): Int = R.layout.item_excluded_apps_empty
+    }
+
+    companion object {
+        fun createContract() = createContract(SettingsExcludeAppsActivity::class)
     }
 }

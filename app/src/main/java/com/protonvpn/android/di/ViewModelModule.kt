@@ -41,6 +41,7 @@ import com.protonvpn.android.ui.home.vpn.VpnStateNotConnectedViewModel
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.TroubleshootViewModel
+import com.protonvpn.android.ui.settings.SettingsMtuViewModel
 import com.protonvpn.android.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -133,6 +134,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsExcludeIpsViewModel::class)
     abstract fun bindsSettingsExcludeIpsViewModel(viewModel: SettingsExcludeIpsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsMtuViewModel::class)
+    abstract fun bindsSettingsMtuViewModel(viewModel: SettingsMtuViewModel): ViewModel
 
     @Binds
     @IntoMap

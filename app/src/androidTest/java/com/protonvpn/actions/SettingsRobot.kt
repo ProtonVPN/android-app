@@ -41,7 +41,7 @@ class SettingsRobot : BaseRobot() {
         return clickElement(R.id.buttonMtuSize, SettingsItem::class.java)
     }
 
-    fun setMTU(mtu: Int): SettingsResults {
+    fun setMTU(mtu: Int): SettingsRobot {
         clearText<SettingsResults>(R.id.inputMtu)
         return setText(R.id.inputMtu, mtu.toString())
     }
@@ -59,6 +59,8 @@ class SettingsRobot : BaseRobot() {
 
 
     fun clickOnDoneButton(): SettingsRobot = clickElementByText("DONE")
+
+    fun clickOnSaveMenuButton(): SettingsResults = clickElementById(R.id.action_save)
 
     fun addIpAddressInSplitTunneling(): SettingsRobot {
         openExcludedIPAddressesList()

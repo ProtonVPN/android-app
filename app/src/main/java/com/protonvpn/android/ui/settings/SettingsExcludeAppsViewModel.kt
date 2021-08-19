@@ -19,13 +19,13 @@
 
 package com.protonvpn.android.ui.settings
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -37,7 +37,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,
     private val userData: UserData
-) : ViewModel() {
+) : SaveableSettingsViewModel() {
 
     sealed class ViewState {
         object Loading : ViewState()
@@ -58,9 +58,11 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         emit(items.associateBy { it.id })
     }
 
+    private val selectedApps = MutableStateFlow<Set<String>>(HashSet(userData.splitTunnelApps))
+
     val viewState: Flow<ViewState> = combine(
         allApps,
-        userData.splitTunnelAppsLiveData.asFlow()
+        selectedApps
     ) { all, selectedPackages ->
         val selectedApps = selectedPackages.mapNotNullTo(mutableSetOf()) { packageName ->
             all.getOrDefault(packageName, null)
@@ -74,6 +76,17 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         .flowOn(dispatcherProvider.Comp)
         .onStart { emit(ViewState.Loading) }
 
-    fun addAppToExcluded(item: LabeledItem) = userData.addAppToSplitTunnel(item.id)
-    fun removeAppFromExcluded(item: LabeledItem) = userData.removeAppFromSplitTunnel(item.id)
+
+    fun addAppToExcluded(item: LabeledItem) {
+        selectedApps.value = selectedApps.value + item.id
+    }
+    fun removeAppFromExcluded(item: LabeledItem) {
+        selectedApps.value = selectedApps.value - item.id
+    }
+
+    override fun saveChanges() {
+        userData.splitTunnelApps = selectedApps.value.toList()
+    }
+
+    override fun hasUnsavedChanges() = selectedApps.value != HashSet(userData.splitTunnelApps)
 }
