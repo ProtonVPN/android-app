@@ -21,8 +21,8 @@ package com.protonvpn.android.ui.home.profiles
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
@@ -33,8 +33,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonColorCircle
@@ -43,6 +43,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -51,19 +52,19 @@ import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_profile)
-class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>() {
+class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, ProfileViewModel>() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
 
-    val countrySelection = registerForActivityResult(CountrySelectionActivity.createContract()) {
+    private val countrySelection = registerForActivityResult(CountrySelectionActivity.createContract()) {
         if (it != null) viewModel.setCountryCode(it)
     }
-    val serverSelection = registerForActivityResult(ServerSelectionActivity.createContract()) {
+    private val serverSelection = registerForActivityResult(ServerSelectionActivity.createContract()) {
         if (it != null) viewModel.setServer(it)
     }
-    val protocolSelection = registerForActivityResult(ProtocolSelectionActivity.createContract()) {
+    private val protocolSelection = registerForActivityResult(ProtocolSelectionActivity.createContract()) {
         if (it != null) viewModel.setProtocol(it)
     }
 
@@ -93,10 +94,18 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
                 .makeText(this@ProfileActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT)
                 .show()
         })
+        viewModel.eventValidationFailed.asLiveData().observe(this, Observer {
+            updateErrors(it)
+        })
     }
 
-    private fun initProfileName(profile: Profile?) {
-        if (profile != null) binding.contentProfile.inputName.text = profile.name
+    private fun initProfileName(profile: Profile?) = with(binding.contentProfile) {
+        if (profile != null) inputName.text = profile.name
+        inputName.addTextChangedListener(object : TextWatcherAdapter() {
+            override fun afterTextChanged(s: Editable) {
+                viewModel.onProfileNameTextChanged(s.toString())
+            }
+        })
     }
 
     private fun initPalette() {
@@ -214,44 +223,10 @@ class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>
         if (errorRes != 0) input.setInputError(getString(errorRes)) else input.clearInputError()
     }
 
-    override fun onBackPressed() {
-        if (viewModel.hasUnsavedChanges(binding.contentProfile.inputName.text.toString())) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                    .title(R.string.warning)
-                    .content(R.string.discardChanges)
-                    .positiveText(R.string.discard)
-                    .onPositive { _, _ -> finish() }
-                    .negativeText(R.string.cancel)
-                    .show()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_profile, menu)
+        super.onCreateOptionsMenu(menu)
         menu.findItem(R.id.action_save).setTitle(viewModel.saveButtonLabel)
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_save) {
-            with(binding.contentProfile) {
-                val validation = viewModel.verifyInput(inputName.text.toString())
-                updateErrors(validation)
-                if (validation.hasNoError) {
-                    viewModel.saveProfile(inputName.text.toString())
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
-            }
-            return true
-        }
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
     }
 
     companion object {

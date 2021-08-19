@@ -56,14 +56,20 @@ public class SettingsRobotTests {
 
     @Test
     public void setTooLowMTU() {
-        SettingsResults result = settingsRobot.openMtuSettings().setMTU(1279);
-        result.checkIfMtuSaveIsDisabled();
+        settingsRobot
+            .openMtuSettings()
+            .setMTU(1279)
+            .clickOnSaveMenuButton()
+            .settingsMtuRangeInvalidError();
     }
 
     @Test
     public void setTooHighMTU() {
-        SettingsResults result = settingsRobot.openMtuSettings().setMTU(1501);
-        result.checkIfMtuSaveIsDisabled();
+        settingsRobot
+            .openMtuSettings()
+            .setMTU(1501)
+            .clickOnSaveMenuButton()
+            .settingsMtuRangeInvalidError();
     }
 
     @Test

@@ -49,7 +49,7 @@ class ConnectionParamsIKEv2(
         remoteId = connectingDomain.entryDomain
 
         val excludedIPs = mutableListOf<String>()
-        if (userData.bypassLocalTraffic())
+        if (userData.shouldBypassLocalTraffic())
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {

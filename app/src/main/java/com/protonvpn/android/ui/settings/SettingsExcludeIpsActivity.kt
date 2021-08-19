@@ -26,6 +26,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.afollestad.materialdialogs.DialogAction
@@ -33,10 +34,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivitySettingsExcludeIpsBinding
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -45,7 +46,7 @@ import javax.inject.Inject
 
 @ContentLayout(R.layout.activity_settings_exclude_ips)
 class SettingsExcludeIpsActivity
-    : BaseActivityV2<ActivitySettingsExcludeIpsBinding, SettingsExcludeIpsViewModel>()
+    : SaveableSettingsActivity<ActivitySettingsExcludeIpsBinding, SettingsExcludeIpsViewModel>()
 {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -84,7 +85,7 @@ class SettingsExcludeIpsActivity
         }
 
         val removeAction = { item: LabeledItem -> confirmRemove(item) }
-        viewModel.ipAddresses.observe(this, Observer { excludedIps ->
+        viewModel.ipAddressItems.asLiveData().observe(this, Observer { excludedIps ->
             val groups = if (excludedIps.isNotEmpty()) {
                 val headerText =
                     getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
@@ -141,4 +142,8 @@ class SettingsExcludeIpsActivity
     }
 
     private fun isValidIp(ip: String) = Patterns.IP_ADDRESS.matcher(ip).matches()
+
+    companion object {
+        fun createContract() = createContract(SettingsExcludeIpsActivity::class)
+    }
 }

@@ -48,13 +48,6 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/settingsMtuDescription" />
 
-        <me.proton.core.presentation.ui.view.ProtonButton
-            android:id="@+id/buttonSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="24dp"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:text="@string/saveButton"  />
     </LinearLayout>
 
 </layout>

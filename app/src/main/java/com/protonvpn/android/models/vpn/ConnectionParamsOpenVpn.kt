@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.models.vpn
 
-import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -58,7 +57,7 @@ class ConnectionParamsOpenVpn(
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain!!.entryDomain
         mPersistTun = true
-        mAllowLocalLAN = userData.bypassLocalTraffic()
+        mAllowLocalLAN = userData.shouldBypassLocalTraffic()
         if (userData.useSplitTunneling && userData.splitTunnelIpAddresses.isNotEmpty()) {
             mUseDefaultRoute = false
             mExcludedRoutes = userData.splitTunnelIpAddresses.joinToString(" ")

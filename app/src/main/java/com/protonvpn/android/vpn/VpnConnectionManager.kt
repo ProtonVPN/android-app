@@ -461,4 +461,9 @@ open class VpnConnectionManager(
         else
             lastProfile?.let { connect(context, it, "reconnection") }
     }
+
+    fun fullReconnect(context: Context) = scope.launch {
+        disconnectBlocking()
+        lastProfile?.let { connect(context, it, "reconnection") }
+    }
 }

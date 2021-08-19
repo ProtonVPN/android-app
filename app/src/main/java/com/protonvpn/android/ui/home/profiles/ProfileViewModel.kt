@@ -1,8 +1,6 @@
 package com.protonvpn.android.ui.home.profiles
 
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
@@ -11,6 +9,7 @@ import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
@@ -18,13 +17,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val userData: UserData
-) : ViewModel() {
+) : SaveableSettingsViewModel() {
 
     data class ServerViewState(
         val secureCore: Boolean,
@@ -41,14 +39,15 @@ class ProfileViewModel @Inject constructor(
         @StringRes val profileNameError: Int,
         @StringRes val countryError: Int,
         @StringRes val serverError: Int
-    ) {
-        val hasNoError = profileNameError == 0 && countryError == 0 && serverError == 0
-    }
+    )
+
     private var editedProfile: Profile? = null
+    private var profileNameInput: String = ""
 
     val profileColor = MutableStateFlow(ProfileColor.random())
     val protocol = MutableStateFlow(getDefaultProtocol(userData))
-    val eventSomethingWrong = MutableSharedFlow<Unit>()
+    val eventSomethingWrong = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val eventValidationFailed = MutableSharedFlow<InputValidation>(extraBufferCapacity = 1)
     private val secureCore = MutableStateFlow(userData.isSecureCoreEnabled)
     private val country = MutableStateFlow<VpnCountry?>(null)
     private val server = MutableStateFlow<ServerSelection?>(null)
@@ -92,6 +91,7 @@ class ProfileViewModel @Inject constructor(
         if (profile != null) {
             profile.wrapper.setDeliverer(serverManager)
             editedProfile = profile
+            profileNameInput = profile.name
             profileColor.value = requireNotNull(profile.profileColor)
             secureCore.value = profile.isSecureCore
             server.value = getServerSelection(profile)
@@ -101,6 +101,10 @@ class ProfileViewModel @Inject constructor(
                 profile.getTransmissionProtocol(userData)
             )
         }
+    }
+
+    fun onProfileNameTextChanged(name: String) {
+        profileNameInput = name
     }
 
     fun setProfileColor(color: ProfileColor) {
@@ -121,9 +125,7 @@ class ProfileViewModel @Inject constructor(
         val newCountry = serverManager.getVpnExitCountry(newCountryCode, secureCore.value)
         if (newCountry == null) {
             ProtonLogger.log("ProfileViewModel: no country found for code `$newCountryCode`")
-            viewModelScope.launch {
-                eventSomethingWrong.emit(Unit)
-            }
+            eventSomethingWrong.tryEmit(Unit)
         }
         country.value = newCountry
         server.value = ServerSelection.FastestInCountry
@@ -138,9 +140,7 @@ class ProfileViewModel @Inject constructor(
         }
         if (serverSelection == null) {
             ProtonLogger.log("ProfileViewModel: no server found for $serverIdSelection")
-            viewModelScope.launch {
-                eventSomethingWrong.emit(Unit)
-            }
+            eventSomethingWrong.tryEmit(Unit)
         }
         server.value = serverSelection
     }
@@ -149,8 +149,8 @@ class ProfileViewModel @Inject constructor(
         protocol.value = newProtocol
     }
 
-    fun verifyInput(profileName: String): InputValidation {
-        val profileNameError = if (profileName.isBlank()) R.string.errorEmptyName else 0
+    override fun validate(): Boolean {
+        val profileNameError = if (profileNameInput.isBlank()) R.string.errorEmptyName else 0
         val countryError = if (country.value == null) {
             if (secureCore.value) R.string.errorEmptyExitCountry else R.string.errorEmptyCountry
         } else {
@@ -161,22 +161,25 @@ class ProfileViewModel @Inject constructor(
         } else {
             0
         }
-        return InputValidation(profileNameError, countryError, serverError)
+        val isValid = profileNameError == 0 && countryError == 0 && serverError == 0
+        if (!isValid)
+            eventValidationFailed.tryEmit(InputValidation(profileNameError, countryError, serverError))
+        return isValid
     }
 
-    fun hasUnsavedChanges(profileName: String): Boolean {
+    override fun hasUnsavedChanges(): Boolean {
         val currentProfile = editedProfile
         return if (currentProfile != null) {
-            profileName != currentProfile.name
+            profileNameInput != currentProfile.name
                     || profileColor.value != currentProfile.profileColor
                     || currentProfile.country != country.value?.flag
                     || server.value != getServerSelection(currentProfile)
         } else {
-            profileName.isNotBlank() || country.value != null || server.value != null
+            profileNameInput.isNotBlank() || country.value != null || server.value != null
         }
     }
 
-    fun saveProfile(name: String) {
+    override fun saveChanges() {
         val serverWrapper = createServerWrapper(
             requireNotNull(server.value),
             requireNotNull(country.value),
@@ -185,7 +188,7 @@ class ProfileViewModel @Inject constructor(
         )
         val transmissionProtocol = (protocol.value as? ProtocolSelection.OpenVPN)?.transmission
         val newProfile =
-            Profile(name, null, serverWrapper, requireNotNull(profileColor.value).id).apply {
+            Profile(profileNameInput, null, serverWrapper, requireNotNull(profileColor.value).id).apply {
                 setTransmissionProtocol(transmissionProtocol?.toString())
                 setProtocol(protocol.value.protocol)
             }

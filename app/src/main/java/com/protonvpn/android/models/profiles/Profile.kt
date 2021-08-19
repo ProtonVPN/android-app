@@ -97,6 +97,8 @@ data class Profile(
         this.protocol = protocol.toString()
     }
 
+    fun hasCustomProtocol() = protocol != null
+
     companion object {
         @JvmStatic
         fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =

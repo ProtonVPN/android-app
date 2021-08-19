@@ -23,11 +23,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ScrollView
+import androidx.activity.result.ActivityResultCallback
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
@@ -35,7 +35,6 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
@@ -72,9 +71,24 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     private val protocolSelection =
         registerForActivityResult(ProtocolSelectionActivity.createContract()) {
             if (it != null) {
+                val settingsUpdated = getProtocolSelection(userPrefs) != it
                 userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
+                if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
+                    onConnectionSettingsChanged()
+                }
             }
         }
+    private val connectionSettingResultHandler = ActivityResultCallback<Boolean?> { settingsUpdated ->
+        if (settingsUpdated == true) {
+            onConnectionSettingsChanged()
+        }
+    }
+    private val excludedAppsSettings =
+        registerForActivityResult(SettingsExcludeAppsActivity.createContract(), connectionSettingResultHandler)
+    private val excludeIpsSettings =
+        registerForActivityResult(SettingsExcludeIpsActivity.createContract(), connectionSettingResultHandler)
+    private val mtuSizeSettings =
+        registerForActivityResult(SettingsMtuActivity.createContract(), connectionSettingResultHandler)
 
     override fun initViewModel() {
         // No ViewModel.
@@ -120,37 +134,26 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
                 navigateTo(SettingsDefaultProfileActivity::class.java)
             }
 
-            val useSplitTunnel = userPrefs.useSplitTunneling
-            val disableWhenConnectedListener = createDisableWhenConnectedTouchListener()
-            buttonMtuSize.setOnTouchListener(disableWhenConnectedListener)
-            buttonMtuSize.setOnClickListener { navigateTo(SettingsMtuActivity::class.java) }
+            buttonMtuSize.setOnClickListener { mtuSizeSettings.launch(Unit) }
 
-            buttonProtocol.setOnTouchListener(disableWhenConnectedListener)
             buttonProtocol.setOnClickListener {
                 protocolSelection.launch(getProtocolSelection(userPrefs))
             }
 
-            initSplitTunneling(useSplitTunnel)
-            buttonExcludeIps.setOnTouchListener(disableWhenConnectedListener)
             buttonExcludeIps.setOnClickListener {
-                navigateTo(SettingsExcludeIpsActivity::class.java)
+                excludeIpsSettings.launch(Unit)
             }
-            buttonExcludeApps.setOnTouchListener(disableWhenConnectedListener)
             buttonExcludeApps.setOnClickListener {
-                navigateTo(SettingsExcludeAppsActivity::class.java)
+                excludedAppsSettings.launch(Unit)
             }
-            switchShowSplitTunnel.setOnTouchListener(disableWhenConnectedListener)
-            switchShowSplitTunnel.isChecked = useSplitTunnel
-            switchShowSplitTunnel.setOnCheckedChangeListener { _, isChecked ->
-                initSplitTunneling(isChecked)
-                userPrefs.useSplitTunneling = isChecked
-                scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
+            switchShowSplitTunnel.switchClickInterceptor = {
+                tryToggleSplitTunneling()
+                true
             }
 
-            switchBypassLocal.isChecked = userPrefs.bypassLocalTraffic()
-            switchBypassLocal.setOnTouchListener(disableWhenConnectedListener)
-            switchBypassLocal.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setBypassLocalTraffic(isChecked)
+            switchBypassLocal.switchClickInterceptor = {
+                tryToggleBypassLocal()
+                true
             }
 
             initVpnAcceleratorToggles()
@@ -198,17 +201,24 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
         switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
     }
 
-    private fun initSplitTunneling(isChecked: Boolean) {
-        binding.contentSettings.splitTunnelLayout.visibility = if (isChecked) VISIBLE else GONE
-    }
-
     private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
         val isEnabled = userPrefs.isVpnAcceleratorEnabled
         switchVpnAccelerator.isChecked = isEnabled
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 
+    private fun updateSplitTunnelViews() = with(binding.contentSettings) {
+        switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
+        splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
+        if (switchShowSplitTunnel.isChecked) {
+            scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
+        }
+    }
+
     private fun onUserDataUpdated() = with(binding.contentSettings) {
+        updateSplitTunnelViews()
+        switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
+
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
         buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
@@ -241,47 +251,54 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     }
 
     private fun tryToggleVpnAccelerator() {
+        tryToggleSwitch(R.string.settingsSmartReconnectReconnectDialogContent) {
+            userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+        }
+    }
+
+    private fun tryToggleSplitTunneling() {
+        tryToggleSwitch(R.string.settingsSplitTunnelReconnectDialogContent) {
+            userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
+        }
+    }
+
+    private fun tryToggleBypassLocal() {
+        tryToggleSwitch(R.string.settingsLanConnectionsReconnectDialogContent) {
+            userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
+        }
+    }
+
+    private fun tryToggleSwitch(@StringRes reconnectDialogText: Int, toggle: () -> Unit) {
         if (stateMonitor.isEstablishingOrConnected) {
             val builder = MaterialDialog.Builder(this).theme(Theme.DARK)
             builder
                 .icon(ContextCompat.getDrawable(builder.context, R.drawable.ic_refresh)!!)
                 .title(R.string.dialogTitleReconnectionNeeded)
-                .content(R.string.settingsSmartReconnectReconnectDialogContent)
+                .content(reconnectDialogText)
                 .positiveText(R.string.reconnect)
                 .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    toggleVpnAccelerator()
-                    connectionManager.reconnect(this)
+                    toggle()
+                    connectionManager.fullReconnect(this)
                 }
                 .negativeText(R.string.cancel)
                 .show()
         } else {
-            toggleVpnAccelerator()
+            toggle()
         }
-    }
-
-    private fun toggleVpnAccelerator() {
-        userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
     }
 
     private fun getProtocolSelection(userData: UserData) =
         ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun createDisableWhenConnectedTouchListener(): View.OnTouchListener {
-        var snackBar: Snackbar? = null
-        return View.OnTouchListener { _: View, _: MotionEvent ->
-            if (stateMonitor.isConnected) {
-                if (snackBar == null) {
-                    snackBar = Snackbar.make(
-                        findViewById(R.id.coordinator),
-                        R.string.settingsCannotChangeWhileConnected, Snackbar.LENGTH_LONG
-                    )
-                }
-                if (snackBar?.isShownOrQueued == false) {
-                    snackBar?.show()
-                }
-                true
-            } else false
+    private fun onConnectionSettingsChanged() {
+        if (stateMonitor.isEstablishingOrConnected) {
+            MaterialDialog.Builder(this).theme(Theme.DARK)
+                .title(R.string.dialogTitleReconnectionNeeded)
+                .content(R.string.settingsReconnectToApplySettingsDialogContent)
+                .positiveText(R.string.reconnect)
+                .onPositive { _, _ -> connectionManager.fullReconnect(this) }
+                .negativeText(R.string.cancel)
+                .show()
         }
     }
 

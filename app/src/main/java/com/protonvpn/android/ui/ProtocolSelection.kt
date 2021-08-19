@@ -53,7 +53,6 @@ sealed class ProtocolSelection(val protocol: VpnProtocol) : Parcelable {
     abstract val displayName: Int
 
     companion object {
-        @Suppress("deprecation")
         @JvmStatic
         fun from(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?): ProtocolSelection =
             when(protocol) {
