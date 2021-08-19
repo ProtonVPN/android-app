@@ -31,12 +31,10 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
-import com.protonvpn.android.utils.implies
-import com.protonvpn.android.utils.randomNullable
+import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -50,6 +48,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.util.kotlin.DispatcherProvider
 import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.HmacAlgorithms
 import org.apache.commons.codec.digest.HmacUtils
@@ -64,14 +63,16 @@ class OpenVpnBackend(
     appConfig: AppConfig,
     val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
-    mainScope: CoroutineScope
+    mainScope: CoroutineScope,
+    dispatcherProvider: DispatcherProvider
 ) : VpnBackend(
     userData,
     appConfig,
     certificateRepository,
     networkManager,
     VpnProtocol.OpenVPN,
-    mainScope
+    mainScope,
+    dispatcherProvider
 ), VpnStatus.StateListener {
 
     init {
@@ -87,7 +88,8 @@ class OpenVpnBackend(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int
+        numberOfPorts: Int,
+        waitForAll: Boolean
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
@@ -97,7 +99,7 @@ class OpenVpnBackend(
                 openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
             listOf(ProtocolInfo(transmissionProtocol, port))
         } else {
-            scanPorts(connectingDomain, numberOfPorts)
+            scanPorts(connectingDomain, numberOfPorts, waitForAll)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
@@ -107,62 +109,35 @@ class OpenVpnBackend(
 
     private suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
-        numberOfPorts: Int = Int.MAX_VALUE
+        numberOfPorts: Int = Int.MAX_VALUE,
+        waitForAll: Boolean
     ): List<ProtocolInfo> {
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val result = mutableListOf<ProtocolInfo>()
         coroutineScope {
-            val udpPingData = getPingData(tcp = false)
-            val udpPort = async {
-                scanInParallel(
-                    samplePorts(openVpnPorts.udpPorts, numberOfPorts),
-                    connectingDomain.entryIp,
-                    udpPingData,
-                    withTcp = false)
+            val udpPorts = async {
+                scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
             }
 
             val tcpPingData = getPingData(tcp = true)
-            val tcpPort = async {
-                scanInParallel(
-                    samplePorts(openVpnPorts.tcpPorts, numberOfPorts),
-                    connectingDomain.entryIp,
-                    tcpPingData,
-                    withTcp = true)
+            val tcpPorts = async {
+                val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
+                ports.parallelSearch(waitForAll) { port ->
+                    NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
+                }
             }
 
-            udpPort.await()?.let {
-                result += ProtocolInfo(TransmissionProtocol.UDP, it)
-            }
-            tcpPort.await()?.let {
-                result += ProtocolInfo(TransmissionProtocol.TCP, it)
-            }
+            result += udpPorts.await().map { ProtocolInfo(TransmissionProtocol.UDP, it) }
+            result += tcpPorts.await().map { ProtocolInfo(TransmissionProtocol.TCP, it) }
         }
         return result
     }
 
     private fun samplePorts(list: List<Int>, count: Int) =
         if (list.contains(PRIMARY_PORT))
-            list.filter { it != PRIMARY_PORT }.shuffled().take(count - 1).toSet() + setOf(PRIMARY_PORT)
+            list.filter { it != PRIMARY_PORT }.shuffled().take(count - 1) + PRIMARY_PORT
         else
-            list.shuffled().take(count).toSet()
-
-    private suspend fun scanInParallel(
-        ports: Set<Int>,
-        ip: String,
-        data: ByteArray,
-        withTcp: Boolean
-    ): Int? = coroutineScope {
-        val available = ports.map { port ->
-            async {
-                port.takeIf {
-                    NetUtils.ping(ip, port, data, withTcp)
-                }
-            }
-        }.mapNotNull {
-            it.await()
-        }
-        available.randomNullable()
-    }
+            list.shuffled().take(count)
 
     private fun getPingData(tcp: Boolean): ByteArray {
         // P_CONTROL_HARD_RESET_CLIENT_V2 TLS message.
