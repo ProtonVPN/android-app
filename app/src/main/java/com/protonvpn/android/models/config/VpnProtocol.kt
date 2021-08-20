@@ -25,17 +25,5 @@ enum class VpnProtocol {
     Smart;
 
     fun localAgentEnabled(): Boolean = this == WireGuard
-
-    // TODO remove this parameter after wireguard exits beta
-    fun displayName(wireguardWithBeta: Boolean = true): String {
-        return if (this == WireGuard) {
-            if (wireguardWithBeta) {
-                "WireGuard (beta)"
-            } else {
-                "WireGuard"
-            }
-        } else {
-            toString()
-        }
-    }
+    fun displayName() = toString()
 }
