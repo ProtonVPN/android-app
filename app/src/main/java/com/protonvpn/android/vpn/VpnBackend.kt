@@ -168,7 +168,7 @@ abstract class VpnBackend(
                     revokeCertificateAndReconnect()
 
                 agentConstants.errorCodeCertificateExpired ->
-                    refreshCertOnLocalAgent()
+                    refreshCertOnLocalAgent(force = false)
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
                     setLocalAgentError("Key used multiple times")
@@ -276,7 +276,7 @@ abstract class VpnBackend(
             agentConstants.stateServerUnreachable ->
                 VpnState.Error(ErrorType.UNREACHABLE)
             agentConstants.stateClientCertificateError -> {
-                refreshCertOnLocalAgent()
+                refreshCertOnLocalAgent(force = true)
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
@@ -292,11 +292,15 @@ abstract class VpnBackend(
         }
     }
 
-    private fun refreshCertOnLocalAgent() {
+    private fun refreshCertOnLocalAgent(force: Boolean) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
+            val result = if (force)
+                certificateRepository.updateCertificate(userData.sessionId!!, false)
+            else
+                certificateRepository.getCertificate(userData.sessionId!!, false)
+            when (result) {
                 is CertificateRepository.CertificateResult.Success ->
                     connectToLocalAgent()
                 is CertificateRepository.CertificateResult.Error -> {
