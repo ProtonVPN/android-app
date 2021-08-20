@@ -19,16 +19,11 @@
 package com.protonvpn.android.ui.splittunneling
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.util.Pair
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.AsyncTaskLoader
-import androidx.loader.content.Loader
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -37,17 +32,15 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseDialog
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
-import java.util.ArrayList
-import java.util.Collections
-import java.util.SortedSet
-import java.util.TreeSet
+import com.protonvpn.android.utils.sortedByLocaleAware
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ContentLayout(R.layout.dialog_split_tunnel)
-class AppsDialog : BaseDialog(),
-    LoaderManager.LoaderCallbacks<Pair<List<SelectedApplicationEntry>, List<String>>> {
+class AppsDialog : BaseDialog() {
     private lateinit var adapter: AppsAdapter
-    private lateinit var selection: MutableList<String>
 
     @BindView(R.id.textTitle)
     lateinit var textTitle: TextView
@@ -61,16 +54,33 @@ class AppsDialog : BaseDialog(),
     @BindView(R.id.progressBar)
     lateinit var progressBar: ProgressBar
 
-    @JvmField @Inject
-    var userData: UserData? = null
+    @Inject
+    lateinit var userData: UserData
+
     override fun onViewCreated() {
         list.layoutManager = LinearLayoutManager(activity)
         adapter = AppsAdapter(userData)
-        selection = userData!!.splitTunnelApps
         list.adapter = adapter
-        loaderManager.initLoader(0, null, this)
         textTitle.setText(R.string.excludeAppsTitle)
         textDescription.setText(R.string.excludeAppsDescription)
+        progressBar.visibility = View.VISIBLE
+
+        val selection = userData.splitTunnelApps.toSet()
+        viewLifecycleOwner.lifecycleScope.launch {
+            val allApps = getInstalledInternetApps(requireContext().packageManager)
+            val sortedApps = withContext(Dispatchers.Default) {
+                allApps.forEach { app ->
+                    if (selection.contains(app.info.packageName)) {
+                        app.isSelected = true
+                    }
+                }
+                allApps.sortedByLocaleAware { it.toString() }
+            }
+            removeUninstalledApps(userData, allApps)
+            adapter.setData(sortedApps)
+            adapter.notifyDataSetChanged()
+            progressBar.visibility = View.GONE
+        }
     }
 
     @OnClick(R.id.textDone)
@@ -78,92 +88,25 @@ class AppsDialog : BaseDialog(),
         dismiss()
     }
 
-    override fun onCreateLoader(
-        id: Int,
-        args: Bundle?
-    ): Loader<Pair<List<SelectedApplicationEntry>, List<String>>> {
-        progressBar.visibility = View.VISIBLE
-        return InstalledPackagesLoader(activity, selection)
+    private fun removeUninstalledApps(userData: UserData, allApps: List<SelectedApplicationEntry>) {
+        val userDataAppPackages = userData.splitTunnelApps
+        val allAppPackages = HashSet<String>(allApps.size)
+        allApps.mapTo(allAppPackages) { it.info.packageName }
+        userDataAppPackages
+            .filterNot { allAppPackages.contains(it) }
+            .forEach { userData.removeAppFromSplitTunnel(it) }
     }
 
-    override fun onLoadFinished(
-        loader: Loader<Pair<List<SelectedApplicationEntry>, List<String>>>,
-        data: Pair<List<SelectedApplicationEntry>, List<String>>
-    ) {
-        adapter.setData(data.first)
-        selection.removeAll(data.second)
-        adapter.notifyDataSetChanged()
-        progressBar.visibility = View.GONE
-    }
-
-    override fun onLoaderReset(loader: Loader<Pair<List<SelectedApplicationEntry>, List<String>>>) {
-        adapter.setData(null)
-    }
-
-    class InstalledPackagesLoader internal constructor(
-        context: Context?,
-        selection: List<String>?
-    ) : AsyncTaskLoader<Pair<List<SelectedApplicationEntry>, List<String>>>(
-        context!!
-    ) {
-        private val packageManager: PackageManager
-        private val selection: List<String>?
-        private var data: Pair<List<SelectedApplicationEntry>, List<String>>? = null
-
-        override fun loadInBackground(): Pair<List<SelectedApplicationEntry>, List<String>> {
-            val apps: MutableList<SelectedApplicationEntry> = ArrayList()
-            val seen: SortedSet<String> = TreeSet()
-            for (info in packageManager.getInstalledApplications(
-                PackageManager.GET_META_DATA
-            )) {
-                /* skip apps that can't access the network anyway */
-                if (packageManager.checkPermission(Manifest.permission.INTERNET, info.packageName)
-                    == PackageManager.PERMISSION_GRANTED
-                ) {
-                    val entry = SelectedApplicationEntry(packageManager, info)
-                    entry.isSelected = selection!!.contains(info.packageName)
-                    apps.add(entry)
-                    seen.add(info.packageName)
-                }
-            }
-            Collections.sort(apps)
-            /* check for selected packages that don't exist anymore */
-            val missing: MutableList<String> = ArrayList()
-            for (pkg in selection!!) {
-                if (!seen.contains(pkg)) {
-                    missing.add(pkg)
-                }
-            }
-            return Pair(apps, missing)
-        }
-
-        override fun onStartLoading() {
-            if (data != null) {    /* if we have data ready, deliver it directly */
-                deliverResult(data)
-            }
-            if (takeContentChanged() || data == null) {
-                forceLoad()
-            }
-        }
-
-        override fun deliverResult(data: Pair<List<SelectedApplicationEntry>, List<String>>?) {
-            if (isReset) {
-                return
-            }
-            this.data = data
-            if (isStarted) {
-                super.deliverResult(data)
-            }
-        }
-
-        override fun onReset() {
-            data = null
-            super.onReset()
-        }
-
-        init {
-            packageManager = context!!.packageManager
-            this.selection = selection
+    private suspend fun getInstalledInternetApps(
+        packageManager: PackageManager
+    ): List<SelectedApplicationEntry> = withContext(Dispatchers.IO) {
+        packageManager.getInstalledApplications(
+            PackageManager.GET_META_DATA
+        ).filter { appInfo ->
+            (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
+                    == PackageManager.PERMISSION_GRANTED)
+        }.map { appInfo ->
+            SelectedApplicationEntry(packageManager, appInfo)
         }
     }
 }
