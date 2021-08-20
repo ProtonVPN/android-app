@@ -85,9 +85,6 @@ import butterknife.OnClick;
 @ContentLayout(R.layout.vpn_state_fragment)
 public class VpnStateFragment extends BaseFragment {
 
-    private static final String KEY_ERROR_CONNECTION_ID = "error_connection_id";
-    private static final String KEY_DISMISSED_CONNECTION_ID = "dismissed_connection_id";
-
     @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;
     @BindView(R.id.textConnectingTo) TextView textConnectingTo;
     @BindView(R.id.imageExpand) ImageView imageExpand;
@@ -116,7 +113,6 @@ public class VpnStateFragment extends BaseFragment {
     @BindView(R.id.buttonCancel) Button buttonCancel;
     @BindView(R.id.netShieldSwitch) NetShieldSwitch switchNetShield;
 
-    @Inject ProtonApiRetroFit api;
     @Inject ServerManager manager;
     @Inject UserData userData;
     @Inject AppConfig appConfig;
@@ -125,9 +121,6 @@ public class VpnStateFragment extends BaseFragment {
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
     private BottomSheetBehavior<View> bottomSheetBehavior;
-    private long errorConnectionID;
-    private long dismissedConnectionID;
-    private Timer graphUpdateTimer;
 
     @OnClick(R.id.buttonQuickConnect)
     public void buttonQuickConnect() {
@@ -214,18 +207,6 @@ public class VpnStateFragment extends BaseFragment {
             && bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        errorConnectionID = 0;
-        dismissedConnectionID = 0;
-        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_ERROR_CONNECTION_ID)) {
-            errorConnectionID = (Long) savedInstanceState.getSerializable(KEY_ERROR_CONNECTION_ID);
-            dismissedConnectionID = (Long) savedInstanceState.getSerializable(KEY_DISMISSED_CONNECTION_ID);
-        }
-    }
-
     public void initStatusLayout(final FloatingActionMenu attachedButton) {
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -251,23 +232,6 @@ public class VpnStateFragment extends BaseFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putSerializable(KEY_ERROR_CONNECTION_ID, errorConnectionID);
-        outState.putSerializable(KEY_DISMISSED_CONNECTION_ID, dismissedConnectionID);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (graphUpdateTimer != null) {
-            graphUpdateTimer.cancel();
-            graphUpdateTimer = null;
-        }
     }
 
     public boolean collapseBottomSheet() {
@@ -318,10 +282,6 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void clearConnectedStatus() {
-        if (graphUpdateTimer != null) {
-            graphUpdateTimer.cancel();
-            graphUpdateTimer = null;
-        }
         onTrafficUpdate(new TrafficUpdate(0, 0, 0, 0, 0));
     }
 
