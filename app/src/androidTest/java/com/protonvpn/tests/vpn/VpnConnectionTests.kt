@@ -466,6 +466,13 @@ class VpnConnectionTests {
 
     @Test
     fun testExpiredCert() = runBlockingTest {
+        coEvery { certificateRepository.getCertificate(any(), any()) } coAnswers {
+            if (currentCert == badCert)
+                certificateRepository.updateCertificate(userData.sessionId!!, false)
+            else
+                currentCert
+        }
+
         currentCert = badCert
         manager.connect(context, profileWireguard)
         scope.advanceUntilIdle()

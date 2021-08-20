@@ -90,6 +90,11 @@ class CertificateRepository(
     init {
         refreshCertTask.scheduleIn(0)
         mainScope.launch {
+            userData.sessionId?.let {
+                val certInfo = getCertInfo(it)
+                ProtonLogger.log("Current cert: ${if (certInfo.certificatePem == null)
+                    null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)}"}")
+            }
             userPlanManager.infoChangeFlow.collect { changes ->
                 for (change in changes) when (change) {
                     is UserPlanManager.InfoChange.PlanChange.Downgrade,
@@ -136,7 +141,7 @@ class CertificateRepository(
                 if (force || certInfo.certificatePem == null || wallClock() >= certInfo.refreshAt)
                     updateCertificate(it, cancelOngoing = force)
                 else
-                    refreshCertTask.scheduleTo(certInfo.refreshAt)
+                    rescheduleRefreshTo(certInfo.refreshAt)
             }
         }
     }
@@ -196,7 +201,6 @@ class CertificateRepository(
             }
         }
     }
-
 
     private suspend fun getCertInfo(sessionId: SessionId) =
         certPrefs.getString(sessionId.id, null)?.deserialize() ?: run {
