@@ -93,7 +93,7 @@ class CertificateRepository(
             userData.sessionId?.let {
                 val certInfo = getCertInfo(it)
                 ProtonLogger.log("Current cert: ${if (certInfo.certificatePem == null)
-                    null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)}"}")
+                    null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)})"}")
             }
             userPlanManager.infoChangeFlow.collect { changes ->
                 for (change in changes) when (change) {

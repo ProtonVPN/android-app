@@ -172,8 +172,8 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, connectivityMonitor: ConnectivityMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, connectivityMonitor)
+    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
