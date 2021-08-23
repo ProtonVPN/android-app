@@ -39,7 +39,7 @@ abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : DaggerFrag
     fun init(inflater: LayoutInflater, container: ViewGroup) {
         internalBinding =
                 DataBindingUtil.inflate(inflater, AnnotationParser.getAnnotatedLayout(this), container, false)
-        binding.setLifecycleOwner { lifecycle }
+        binding.setLifecycleOwner { viewLifecycleOwner.lifecycle }
     }
 
     open fun onViewCreated() {}
@@ -64,7 +64,7 @@ abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : DaggerFrag
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         internalBinding = null
+        super.onDestroyView()
     }
 }
