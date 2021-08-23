@@ -138,7 +138,7 @@ open class VpnConnectionManager(
                     if (state == VpnState.Connected)
                         clearOngoingFallback()
 
-                    vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
+                    vpnStateMonitor.updateStatus(VpnStateMonitor.Status(newState, connectionParams))
                 }
 
                 ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
@@ -181,7 +181,7 @@ open class VpnConnectionManager(
 
     private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
         ProtonLogger.log("Attempting to recover from error: $errorType")
-        vpnStateMonitor.status.value = VpnStateMonitor.Status(VpnState.CheckingAvailability, params)
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.CheckingAvailability, params))
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
                 vpnErrorHandler.onUnreachableError(params)

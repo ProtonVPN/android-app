@@ -46,12 +46,17 @@ public abstract class BaseFragment extends Fragment implements NetworkLoader {
 
     public abstract void onViewCreated();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AndroidSupportInjection.inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(AnnotationParser.getAnnotatedLayout(this), container, false);
         unbinder = ButterKnife.bind(this, view);
-        AndroidSupportInjection.inject(this);
         onViewCreated();
         if (isRegisteredForEvents && !hasRegistered) {
             EventBus.getInstance().register(this);

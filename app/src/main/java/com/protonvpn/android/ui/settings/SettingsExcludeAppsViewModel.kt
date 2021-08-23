@@ -47,8 +47,6 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         ) : ViewState()
     }
 
-
-
     private val allApps: Flow<Map<String, LabeledItem>> = flow {
         val items = installedAppsProvider.getInstalledInternetApps().map {
             LabeledItem(

@@ -35,6 +35,10 @@ import com.protonvpn.android.ui.home.profiles.HomeViewModel
 import com.protonvpn.android.ui.home.profiles.ProfileViewModel
 import com.protonvpn.android.ui.home.profiles.ProfilesViewModel
 import com.protonvpn.android.ui.home.profiles.ServerSelectionViewModel
+import com.protonvpn.android.ui.home.vpn.VpnStateConnectedViewModel
+import com.protonvpn.android.ui.home.vpn.VpnStateErrorViewModel
+import com.protonvpn.android.ui.home.vpn.VpnStateNotConnectedViewModel
+import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.TroubleshootViewModel
 import com.protonvpn.android.utils.ViewModelFactory
@@ -129,6 +133,26 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsExcludeIpsViewModel::class)
     abstract fun bindsSettingsExcludeIpsViewModel(viewModel: SettingsExcludeIpsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VpnStateViewModel::class)
+    abstract fun bindsVpnStateViewModel(viewModel: VpnStateViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VpnStateConnectedViewModel::class)
+    abstract fun bindsVpnStateConnectedViewModel(viewModel: VpnStateConnectedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VpnStateErrorViewModel::class)
+    abstract fun bindsVpnStateErrorViewModel(viewModel: VpnStateErrorViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VpnStateNotConnectedViewModel::class)
+    abstract fun bindsVpnStateNotConnectedViewModel(viewModel: VpnStateNotConnectedViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(vmFactory: ViewModelFactory): ViewModelProvider.Factory

@@ -25,6 +25,10 @@ import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
+import com.protonvpn.android.ui.home.vpn.VpnStateConnectedFragment;
+import com.protonvpn.android.ui.home.vpn.VpnStateConnectingFragment;
+import com.protonvpn.android.ui.home.vpn.VpnStateErrorFragment;
+import com.protonvpn.android.ui.home.vpn.VpnStateNotConnectedFragment;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 
@@ -43,6 +47,18 @@ public abstract class HomeActivityModule {
 
     @ContributesAndroidInjector
     abstract VpnStateFragment provideStateFragment();
+
+    @ContributesAndroidInjector
+    abstract VpnStateConnectedFragment provideStateConnectedFragment();
+
+    @ContributesAndroidInjector
+    abstract VpnStateConnectingFragment provideStateConnectingFragment();
+
+    @ContributesAndroidInjector
+    abstract VpnStateErrorFragment provideStateErrorFragment();
+
+    @ContributesAndroidInjector
+    abstract VpnStateNotConnectedFragment provideStateNotConnectedFragment();
 
     @ContributesAndroidInjector
     abstract MapFragment provideMapFragment();
