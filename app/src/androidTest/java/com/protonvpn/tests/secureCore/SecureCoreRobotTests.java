@@ -64,7 +64,7 @@ public class SecureCoreRobotTests {
         ConnectionResult result = map.clickConnectButton();
         result.isConnectedToVpn();
 
-        result.connectionRobot.clickDisconnectButton();
+        result.homeRobot.disconnectThroughQuickConnect();
         result.isDisconnectedFromVpn();
     }
 
@@ -76,7 +76,7 @@ public class SecureCoreRobotTests {
         ConnectionResult result = homeRobot.connectThroughQuickConnect();
         result.isConnectedToVpn();
 
-        result.connectionRobot.clickDisconnectButton();
+        result.homeRobot.disconnectThroughQuickConnect();
         result.isDisconnectedFromVpn();
     }
 
@@ -92,7 +92,7 @@ public class SecureCoreRobotTests {
         ConnectionResult result = countries.clickConnectButton("via Sweden");
         result.isConnectedToVpn();
 
-        result.connectionRobot.clickDisconnectButton();
+        result.homeRobot.disconnectThroughQuickConnect();
         result.isDisconnectedFromVpn();
     }
 }

@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="?attr/proton_background_norm"
         android:orientation="vertical">
 
         <com.protonvpn.android.components.NetShieldSwitch
@@ -124,71 +123,17 @@
 
         <View style="@style/Divider.Small" />
 
-        <LinearLayout style="@style/TableRowLayout">
-
-            <TextView
-                style="@style/TableLabelText"
-                android:text="@string/download_speed" />
-
-            <TextView
-                android:id="@+id/textDownloadSpeed"
-                style="@style/TableValueText"
-                tools:text="202 KB/s" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_download" />
-
-            <TextView
-                android:id="@+id/textUploadSpeed"
-                style="@style/TableValueText"
-                android:layout_width="75dp"
-                tools:text="25 KB/s" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_upload" />
-        </LinearLayout>
-
-        <View style="@style/Divider.Small" />
-
-        <LinearLayout style="@style/TableRowLayout">
-
-            <TextView
-                style="@style/TableLabelText"
-                android:text="@string/session_time" />
-
-            <TextView
-                android:id="@+id/textSessionTime"
-                style="@style/TableValueText"
-                tools:text="1m 25s" />
-        </LinearLayout>
-
-        <View style="@style/Divider.Small" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <me.proton.core.presentation.ui.view.ProtonButton
-            android:id="@+id/buttonDisconnect"
-            style="@style/ProtonButton.OutlinedButton.Neutral"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
-            android:text="@string/disconnect" />
-
-        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonSaveToProfile"
             style="@style/ProtonButton.Borderless.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/connection_bottom_sheet_multi_button_bottom_margin"
+            android:layout_marginBottom="32dp"
             android:text="@string/save_to_profile" />
 
     </LinearLayout>

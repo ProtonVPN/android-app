@@ -98,7 +98,7 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public ConnectionResult disconnectThroughQuickConnect() {
-        clickOnObjectChildWithIdAndPosition(R.id.fabQuickConnect, 3);
+        clickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
         return new ConnectionResult();
     }
 

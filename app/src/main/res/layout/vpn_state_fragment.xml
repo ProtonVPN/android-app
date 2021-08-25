@@ -26,56 +26,107 @@
         android:id="@+id/layoutBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/proton_background_secondary"
+        android:background="?attr/proton_background_norm"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="@dimen/connection_bottom_sheet_header_height"
         app:layout_behavior="@string/bottom_sheet_behavior"
         android:orientation="vertical">
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutStatusHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/proton_background_secondary">
 
-            <LinearLayout
-                android:id="@+id/layoutStatusHeader"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/connection_bottom_sheet_header_height"
-                android:background="?attr/proton_background_secondary"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal">
+            <ImageView
+                android:id="@+id/imageExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_padding_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textNotConnectedStatus"
+                app:layout_constraintBottom_toBottomOf="@id/textNotConnectedStatus"
+                app:srcCompat="@drawable/ic_chevron_up" />
 
-                <ImageView
-                    android:id="@+id/imageExpand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_chevron_up" />
+            <TextView
+                android:id="@+id/textNotConnectedStatus"
+                style="@style/Proton.Text.DefaultSmall.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toEndOf="@id/imageExpand"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Not connected (unprotected)" />
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:theme="@style/AppTheme.WhiteAccent" />
+            <TextView
+                android:id="@+id/textNotConnectedSuggestion"
+                style="@style/Proton.Text.Caption.Weak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textNotConnectedStatus"
+                app:layout_constraintTop_toBottomOf="@id/textNotConnectedStatus"
+                tools:text="Tap the quick connection button" />
 
-                <TextView
-                    android:id="@+id/textConnectingTo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
-                    tools:text="Connecting to somewhere" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textConnectedTo"
+                style="@style/Proton.Text.Caption.Weak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/textNotConnectedStatus"
+                app:layout_constraintStart_toEndOf="@id/imageExpand"
+                app:layout_constraintTop_toTopOf="@id/textNotConnectedStatus" />
+
+            <!-- Use textNotConnectedStatus as reference to prevent the layout from changing size. -->
+            <com.protonvpn.android.components.CountryWithFlagsView
+                android:id="@+id/countryWithFlags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/Proton.Text.DefaultSmall.Medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textNotConnectedStatus"
+                app:layout_constraintTop_toBottomOf="@id/textNotConnectedStatus"
+                app:layout_constraintEnd_toStartOf="@id/textSessionTime" />
+
+            <TextView
+                android:id="@+id/textProfile"
+                style="@style/Proton.Text.DefaultSmall.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textSessionTime"
+                app:layout_constraintStart_toStartOf="@id/textNotConnectedStatus"
+                app:layout_constraintTop_toBottomOf="@id/textNotConnectedStatus" />
+
+            <TextView
+                android:id="@+id/textSessionTime"
+                style="@style/Proton.Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="@dimen/screen_padding_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <View
                 android:id="@+id/dividerTop"
                 style="@style/Divider.Small"
-                android:layout_gravity="top"/>
-        </FrameLayout>
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentState"

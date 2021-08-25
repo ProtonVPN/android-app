@@ -67,12 +67,20 @@
     <string name="buttonConnect">Connect</string>
     <string name="loaderInitializing">Initializing connection&#8230;</string>
     <string name="loaderConnectingTo">Connecting to %1$s</string>
+    <string name="loaderConnectingToLabel">Connecting to…</string>
     <string name="loaderNotConnected">Not connected (Unprotected)</string>
+    <string name="loaderNotConnectedSuggestion">Tap the quick connect button</string>
     <string name="loaderConnectedTo">Connected to %1$s</string>
+    <string name="loaderConnectedToLabel">Connected to:</string>
     <string name="loaderDisconnecting">Disconnecting</string>
+    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Reconnecting</string>
+    <string name="loaderReconnectingSuggestion">Or tap "Retry" to reconnect manually</string>
     <string name="loaderReconnectNoNetwork">Waiting for usable network</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Please check your network</string>
     <string name="loaderCheckingAvailability">Checking server availability</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Please wait a few seconds</string>
+
     <string name="loaderCancel">Cancel connection</string>
     <string name="clickBackAgainLogout">Click back again to minimize</string>
     <string name="quickConnect">Quick connect</string>

@@ -46,8 +46,8 @@ import androidx.test.rule.ServiceTestRule;
 @RunWith(AndroidJUnit4.class)
 public class ConnectionRobotTests {
 
-    private HomeRobot homeRobot = new HomeRobot();
-    private ServiceRobot service = new ServiceRobot();
+    private final HomeRobot homeRobot = new HomeRobot();
+    private final ServiceRobot service = new ServiceRobot();
 
     @Rule public ProtonHomeActivityTestRule testRule = new ProtonHomeActivityTestRule();
 
@@ -58,9 +58,8 @@ public class ConnectionRobotTests {
     @Test
     public void connectAndDisconnectViaQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
-        ConnectionRobot connectionRobot =
-            homeRobot.connectThroughQuickConnect().isConnectedToVpn().connectionRobot;
-        ConnectionResult result = connectionRobot.clickDisconnectButton();
+        homeRobot.connectThroughQuickConnect().isConnectedToVpn();
+        ConnectionResult result = homeRobot.disconnectThroughQuickConnect();
 
         result.isDisconnectedFromVpn();
     }
@@ -75,8 +74,8 @@ public class ConnectionRobotTests {
 
         ConnectionResult result = countriesRobot.connectToFastestServer();
 
-        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
-        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
+        result.isConnectedToVpn();
+        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
 
     }
 
@@ -88,8 +87,8 @@ public class ConnectionRobotTests {
         mapRobot.clickOnUSNode();
         ConnectionResult result = mapRobot.clickConnectButton();
 
-        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
-        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
+        result.isConnectedToVpn();
+        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
     }
 
     @Test
@@ -99,8 +98,8 @@ public class ConnectionRobotTests {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         ConnectionResult result = profilesRobot.clickOnConnectButton("Fastest");
 
-        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
-        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
+        result.isConnectedToVpn();
+        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
     }
 
     @SdkSuppress(minSdkVersion = 24)
