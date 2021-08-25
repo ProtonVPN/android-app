@@ -39,7 +39,6 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
-import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
@@ -280,17 +279,8 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         List<Server> countryServers = country.getConnectableServers();
         boolean hasAccess = userData.hasAccessToAnyServer(countryServers);
 
-        binding.textMarker.setText(CountryTools.INSTANCE.getFullName(country.getMarkerCountryCode()));
-        binding.textMarker.setEnabled(hasAccess);
-
-        if (country.getMarkerEntryCountryCode() != null) {
-            binding.imageSCArrow.setVisibility(View.VISIBLE);
-            binding.imageEntryCountry.setVisibility(View.VISIBLE);
-            binding.imageEntryCountry.setImageResource(
-                CountryTools.getFlagResource(requireContext(), country.getMarkerEntryCountryCode()));
-        }
-        binding.imageExitCountry.setImageResource(
-            CountryTools.getFlagResource(requireContext(), country.getMarkerCountryCode()));
+        binding.countryWithFlags.setCountry(country);
+        binding.countryWithFlags.setEnabled(hasAccess);
 
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
@@ -317,9 +307,6 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             binding.buttonConnect.setVisibility(View.GONE);
             binding.buttonDisconnect.setVisibility(View.GONE);
             binding.buttonUpgrade.setVisibility(View.VISIBLE);
-            float inactive_flag_alpha = AndroidUtils.getFloatRes(getResources(), R.dimen.inactive_flag_alpha);
-            binding.imageExitCountry.setAlpha(inactive_flag_alpha);
-            binding.imageEntryCountry.setAlpha(inactive_flag_alpha);
             binding.imageMarker.setImageResource(R.drawable.ic_marker);
         }
 

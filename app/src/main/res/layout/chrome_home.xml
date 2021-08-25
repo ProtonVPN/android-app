@@ -107,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/screen_padding_horizontal"
-        android:paddingBottom="16dp"
+        android:paddingBottom="30dp"
         android:visibility="invisible"
         app:menu_backgroundColor="@color/blackOverlay"
         app:menu_labels_margin="8dp"

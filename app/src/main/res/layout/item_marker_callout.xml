@@ -32,46 +32,12 @@
         android:paddingVertical="16dp"
         android:paddingHorizontal="24dp">
 
-        <LinearLayout
+        <com.protonvpn.android.components.CountryWithFlagsView
+            android:id="@+id/countryWithFlags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageEntryCountry"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:adjustViewBounds="true"
-                android:visibility="gone"
-                tools:src="@drawable/se" />
-
-            <ImageView
-                android:id="@+id/imageSCArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_secure_core_arrow_color"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/imageExitCountry"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:adjustViewBounds="true" />
-
-            <TextView
-                android:id="@+id/textMarker"
-                style="@style/Proton.Text.Default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Server test name" />
-
-        </LinearLayout>
+            android:layout_gravity="center_horizontal"/>
 
         <FrameLayout
             android:layout_width="wrap_content"

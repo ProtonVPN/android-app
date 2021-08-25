@@ -149,10 +149,10 @@ open class VpnConnectionManager(
 
                 when (state) {
                     VpnState.Connected -> {
-                        EventBus.postOnMain(ConnectedToServer(connectionParams!!.server))
+                        EventBus.post(ConnectedToServer(connectionParams!!.server))
                     }
                     VpnState.Disabled -> {
-                        EventBus.postOnMain(ConnectedToServer(null))
+                        EventBus.post(ConnectedToServer(null))
                     }
                 }
             }

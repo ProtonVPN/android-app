@@ -17,6 +17,6 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_chevron_up" android:state_checked="false" />
-    <item android:drawable="@drawable/ic_chevron_down" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_chevron_up" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_chevron_down" android:state_checked="false" />
 </selector>

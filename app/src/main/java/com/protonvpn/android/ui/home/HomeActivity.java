@@ -19,7 +19,6 @@
 package com.protonvpn.android.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -73,7 +72,6 @@ import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
-import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.AnimationTools;
@@ -398,6 +396,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
             vpnConnectionManager.disconnect();
+            fragment.collapseBottomSheet();
         }
         else {
             Server server = connectTo.getServer();
@@ -428,6 +427,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                     connectToDefaultProfile();
                 } else {
                     vpnConnectionManager.disconnect();
+                    fragment.collapseBottomSheet();
                 }
 
                 if (!vpnStateMonitor.isConnected()) {

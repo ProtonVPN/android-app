@@ -100,11 +100,6 @@ data class Profile(
     companion object {
         @JvmStatic
         fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =
-            Profile(
-                server.displayName,
-                null,
-                ServerWrapper.makeWithServer(server, serverDeliver),
-                null
-            )
+            Profile("", null, ServerWrapper.makeWithServer(server, serverDeliver), null)
     }
 }

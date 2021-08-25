@@ -38,7 +38,6 @@ import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.utils.ConnectionTools
-import com.protonvpn.android.utils.TimeUtils.getFormattedTimeFromSeconds
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
@@ -73,7 +72,6 @@ class VpnStateConnectedFragment :
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
-            buttonDisconnect.setOnClickListener { parentViewModel.disconnectAndClose() }
 
             // TODO: NetShield onboarding popup.
             netShieldSwitch.init(
@@ -86,6 +84,9 @@ class VpnStateConnectedFragment :
             ) { s: NetShieldProtocol? ->
                 userData.netShieldProtocol = s
             }
+            netShieldSwitch.onRadiosExpandClicked = { parentViewModel.onNetShieldExpandClicked() }
+            parentViewModel.netShieldExpandStatus.asLiveData()
+                .observe(viewLifecycleOwner, Observer { netShieldSwitch.radiosExpanded = it })
             userData.netShieldLiveData.observe(viewLifecycleOwner, Observer<NetShieldProtocol> { state ->
                 if (state != null) {
                     netShieldSwitch.setNetShieldValue(state)
@@ -96,7 +97,7 @@ class VpnStateConnectedFragment :
         viewModel.connectionState.asLiveData().observe(viewLifecycleOwner, Observer {
             updateConnectionState(it)
         })
-        viewModel.trafficStatus.observe(viewLifecycleOwner, Observer {
+        parentViewModel.trafficStatus.observe(viewLifecycleOwner, Observer {
             updateTrafficInfo(it)
         })
         viewModel.eventNotification.asLiveData().observe(viewLifecycleOwner, Observer { textRes ->
@@ -121,9 +122,6 @@ class VpnStateConnectedFragment :
 
     private fun updateTrafficInfo(update: TrafficUpdate?) = with(binding) {
         if (update != null) {
-            textSessionTime.text = getFormattedTimeFromSeconds(update.sessionTimeSeconds)
-            textUploadSpeed.text = update.uploadSpeedString
-            textDownloadSpeed.text = update.downloadSpeedString
             textUploadVolume.text = ConnectionTools.bytesToSize(update.sessionUpload)
             textDownloadVolume.text = ConnectionTools.bytesToSize(update.sessionDownload)
         }

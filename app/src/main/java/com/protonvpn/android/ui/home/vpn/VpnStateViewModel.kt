@@ -23,16 +23,23 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 class VpnStateViewModel @Inject constructor(
-    private val vpnConnectionManager: VpnConnectionManager
+    private val vpnConnectionManager: VpnConnectionManager,
+    trafficMonitor: TrafficMonitor
 ) : ViewModel() {
 
     val eventCollapseBottomSheet = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventCollapseBottomSheetLV = eventCollapseBottomSheet.asLiveData()
+
+    val trafficStatus = trafficMonitor.trafficStatus
+
+    val netShieldExpandStatus = MutableStateFlow(true)
 
     fun reconnect(context: Context) {
         vpnConnectionManager.reconnect(context)
@@ -46,5 +53,9 @@ class VpnStateViewModel @Inject constructor(
         ProtonLogger.log("Canceling connection")
         disconnect()
         eventCollapseBottomSheet.tryEmit(Unit)
+    }
+
+    fun onNetShieldExpandClicked() {
+        netShieldExpandStatus.value = !netShieldExpandStatus.value
     }
 }

@@ -126,6 +126,10 @@ public class UIActionsTestHelper {
         return !object.equals(nullValue());
     }
 
+    protected void clickOnLastChildWithId(@IdRes final int id, @NonNull Matcher<View> childMatcher) {
+        onView(lastChild(withId(id), childMatcher)).perform(click());
+    }
+
     protected void longClickOnLastChildWithId(@IdRes final int id, @NonNull Matcher<View> childMatcher) {
         onView(lastChild(withId(id), childMatcher)).perform(longClick());
     }

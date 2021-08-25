@@ -21,18 +21,32 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutNotConnected"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/proton_background_secondary"
-        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+        android:animateLayoutChanges="true">
+
+        <com.protonvpn.android.components.NetShieldSwitch
+            android:id="@+id/netShieldSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:descriptionText="@string/netShieldEnabledWarning"
+            app:isInConnectedScreen="true"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/dividerNetShield"
+            style="@style/Divider.Small"
+            app:layout_constraintTop_toBottomOf="@id/netShieldSwitch" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/buttonQuickConnect"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@id/dividerNetShield">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -62,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:text="@string/quickConnect"
             app:layout_constraintBottom_toBottomOf="parent" />
 

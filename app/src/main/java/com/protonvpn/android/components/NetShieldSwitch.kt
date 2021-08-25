@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.components
 
-import android.animation.LayoutTransition
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -55,6 +54,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val withReconnectDialog: Boolean
     private var netshieldFreeMode: Boolean = true
     private val toggleDrawables: Array<Drawable>
+    private var isInitialStateSet = false
     val currentState: NetShieldProtocol
         get() {
             return if (isSwitchedOn) {
@@ -67,6 +67,12 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 NetShieldProtocol.DISABLED
             }
         }
+    var radiosExpanded: Boolean = false
+        set(value) {
+            field = value
+            onStateChange(currentState)
+        }
+    var onRadiosExpandClicked: (() -> Unit)? = null
 
     private val isSwitchedOn: Boolean
         get() {
@@ -97,15 +103,17 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (isInConnectedScreen) {
                 layoutNetshield.isClickable = netShieldEnabled
                 showExpandToggle(netShieldEnabled && !netshieldFreeMode)
-                textNetDescription.isVisible = netShieldEnabled && textNetShieldTitle.isChecked
-                radioGroupSettings.isVisible =
-                    (netShieldEnabled || netshieldFreeMode) && !textNetShieldTitle.isChecked
+                textNetShieldTitle.isChecked = radiosExpanded
+                textNetDescription.isVisible = netShieldEnabled && !radiosExpanded
+                radioGroupSettings.isVisible = (netShieldEnabled || netshieldFreeMode) && radiosExpanded
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
                 textNetDescription.setText(descriptionText)
             }
+            if (!isInitialStateSet) radioGroupSettings.jumpDrawablesToCurrentState()
         }
+        isInitialStateSet = true
     }
 
     init {
@@ -117,9 +125,6 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             R.styleable.NetShieldSwitch_withReconnectConfirmation, true
         )
         toggleDrawables = binding.textNetShieldTitle.compoundDrawablesRelative
-        val layoutTransition = LayoutTransition()
-        layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING)
-        binding.layoutNetshield.layoutTransition = layoutTransition
         initAttributes(attributes)
         attributes.recycle()
     }
@@ -129,8 +134,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             textNetDescription.text = attributes.getString(R.styleable.NetShieldSwitch_descriptionText)
             if (isInConnectedScreen) {
                 layoutNetshield.setOnClickListener {
-                    textNetShieldTitle.toggle()
-                    onStateChange(currentState)
+                    onRadiosExpandClicked?.invoke()
                 }
                 textNetDescription.updateLayoutParams<MarginLayoutParams> { topMargin = 0 }
             }
@@ -219,7 +223,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (netshieldFreeMode) {
             radioGroupSettings.isVisible = !isInConnectedScreen
             showExpandToggle(isInConnectedScreen)
-            textNetShieldTitle.isChecked = true
+            radiosExpanded = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
             plusFeature.setOnClickListener { showUpgradeDialog() }

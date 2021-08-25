@@ -33,8 +33,7 @@ import javax.inject.Inject
 
 class VpnStateConnectedViewModel @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
-    private val serverManager: ServerManager,
-    trafficMonitor: TrafficMonitor
+    private val serverManager: ServerManager
 ) : ViewModel() {
 
     data class ConnectionState(
@@ -48,7 +47,6 @@ class VpnStateConnectedViewModel @Inject constructor(
     val eventNotification = MutableSharedFlow<Int>(extraBufferCapacity = 1)
 
     val connectionState = stateMonitor.status.map { toConnectionState(it) }
-    val trafficStatus = trafficMonitor.trafficStatus
 
     fun saveToProfile() {
         stateMonitor.connectionProfile?.server?.let { currentServer ->

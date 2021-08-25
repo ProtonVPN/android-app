@@ -18,31 +18,28 @@
  */
 package com.protonvpn.android.ui.home.vpn;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
 import com.protonvpn.android.appconfig.AppConfig;
 import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
+import com.protonvpn.android.components.CountryWithFlagsView;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.ui.CenterImageSpan;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.HtmlTools;
@@ -54,6 +51,11 @@ import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
@@ -61,6 +63,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -69,11 +72,18 @@ import butterknife.OnClick;
 public class VpnStateFragment extends BaseFragment {
 
     @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;
-    @BindView(R.id.textConnectingTo) TextView textConnectingTo;
     @BindView(R.id.imageExpand) ImageView imageExpand;
     @BindView(R.id.dividerTop) View dividerTop;
     @BindView(R.id.layoutBottomSheet) View layoutBottomSheet;
-    @BindView(R.id.progressBar) ProgressBar progressBar;
+
+    @BindView(R.id.textNotConnectedStatus) TextView textNotConnectedStatus;
+    @BindView(R.id.textNotConnectedSuggestion) TextView textNotConnectedSuggestion;
+    @BindView(R.id.textConnectedTo) TextView textConnectedTo;
+    @BindView(R.id.countryWithFlags) CountryWithFlagsView countryFlags;
+    @BindView(R.id.textProfile) TextView textProfile;
+    @BindView(R.id.textSessionTime) TextView textSessionTime;
+
+    private View fab;
 
     @Inject ViewModelProvider.Factory viewModelFactory;
     @Inject ServerManager manager;
@@ -84,6 +94,11 @@ public class VpnStateFragment extends BaseFragment {
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
     private BottomSheetBehavior<View> bottomSheetBehavior;
+
+    @NonNull
+    private final PeriodFormatter sessionTimeFormatter = createSessionTimeFormatter();
+    @NonNull
+    private final Observer<TrafficUpdate> sessionTimeObserver = this::updateSessionTime;
 
     // Some fragments handle more than one state.
     // Keep track of the currently attached fragment's class to avoid replacing the fragment with an identical
@@ -109,6 +124,7 @@ public class VpnStateFragment extends BaseFragment {
     @Override
     public void onViewCreated() {
         registerForEvents();
+        initPeekHeightLayoutListener();
 
         stateMonitor.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         viewModel.getEventCollapseBottomSheetLV().observe(getViewLifecycleOwner(), ignored -> collapseBottomSheet());
@@ -119,23 +135,33 @@ public class VpnStateFragment extends BaseFragment {
             && bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
     }
 
-    public void initStatusLayout(final FloatingActionMenu attachedButton) {
+    private boolean isBottomSheetCollapsed() {
+        return bottomSheetBehavior != null
+            && bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED;
+    }
+
+    public void initStatusLayout(final FloatingActionMenu floatingButton) {
+        fab = floatingButton;
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        bottomSheetBehavior.setHideable(false);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (isAdded()) {
+                    updateSessionTimeObserver(stateMonitor.isConnected());
+                }
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                attachedButton.animate().alpha(1 - slideOffset).setDuration(0).start();
-                attachedButton.setVisibility(slideOffset == 1 ? View.GONE : View.VISIBLE);
+                updateFabVisibility(stateMonitor.isConnected(), slideOffset);
                 if (imageExpand != null) {
                     imageExpand.animate().rotation(180 * slideOffset).setDuration(0).start();
                 }
                 if (dividerTop != null) {
                     dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
                 }
+                textSessionTime.setAlpha(slideOffset);
             }
         });
     }
@@ -159,16 +185,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void initConnectingStateView(boolean fromSavedState) {
-        // isTest(): ugly but enables running UI tests on android 5/6 (which have a problem with this view)
-        progressBar.setVisibility(DebugUtils.isTest(getActivity()) ? View.INVISIBLE : View.VISIBLE);
-
-        layoutStatusHeader.setBackgroundColor(
-            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
-        textConnectingTo.setTextColor(
-            MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
-
         changeStateFragment(VpnStateConnectingFragment.class);
-
 
         if (!fromSavedState) {
             changeBottomSheetState(true);
@@ -176,23 +193,55 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void updateNotConnectedView() {
-        progressBar.setVisibility(View.GONE);
-
-        layoutStatusHeader.setBackgroundColor(
-            MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
-        imageExpand.setImageResource(R.drawable.ic_chevron_up);
-        textConnectingTo.setTextColor(MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
-
         changeStateFragment(VpnStateNotConnectedFragment.class);
     }
 
     private void initConnectedStateView() {
-        progressBar.setVisibility(View.GONE);
-
-        textConnectingTo.setTextColor(MaterialColors.getColor(textConnectingTo, R.attr.proton_text_inverted));
-        layoutStatusHeader.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.shade_100));
-
         changeStateFragment(VpnStateConnectedFragment.class);
+    }
+
+    private void showNotConnectedHeaderState(@StringRes int statusText, @StringRes int suggestionText) {
+        showNotConnectedHeaderState(getString(statusText), suggestionText);
+    }
+
+    private void showNotConnectedHeaderState(
+           @NonNull CharSequence statusText, @StringRes int suggestionText) {
+        textNotConnectedStatus.setText(statusText);
+        if (suggestionText != 0)
+            textNotConnectedSuggestion.setText(suggestionText);
+        else
+            textNotConnectedSuggestion.setText(null);
+
+        textNotConnectedStatus.setVisibility(View.VISIBLE);
+        textNotConnectedSuggestion.setVisibility(View.VISIBLE);
+        // Set them to INVISIBLE to avoid header changing size.
+        textConnectedTo.setVisibility(View.INVISIBLE);
+        countryFlags.setVisibility(View.INVISIBLE);
+        textProfile.setVisibility(View.INVISIBLE);
+    }
+
+    private void showConnectedOrConnectingHeaderState(
+            @StringRes int statusText, @Nullable Server country, @NonNull Profile profile) {
+        textConnectedTo.setText(statusText);
+        if (country != null) {
+            countryFlags.setVisibility(View.VISIBLE);
+            countryFlags.setCountry(country);
+        } else {
+            textProfile.setVisibility(View.VISIBLE);
+            textProfile.setText(profile.getDisplayName(requireContext()));
+            Drawable profileDot = null;
+            if (profile.getProfileColor() != null) {
+                profileDot = ContextCompat.getDrawable(requireContext(), R.drawable.ic_profile_custom_small);
+                profileDot.setTint(ContextCompat.getColor(requireContext(), profile.getProfileColor().getColorRes()));
+            } else {
+                DebugUtils.INSTANCE.debugAssert("Profile with no color", () -> true);
+            }
+            textProfile.setCompoundDrawablesRelativeWithIntrinsicBounds(profileDot, null, null, null);
+        }
+
+        textConnectedTo.setVisibility(View.VISIBLE);
+        textNotConnectedStatus.setVisibility(View.INVISIBLE);
+        textNotConnectedSuggestion.setVisibility(View.INVISIBLE);
     }
 
     private void changeBottomSheetState(boolean expand) {
@@ -202,14 +251,12 @@ public class VpnStateFragment extends BaseFragment {
         }
     }
 
-    public void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.Status vpnState) {
+    private void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.Status vpnState) {
         Profile profile = vpnState.getProfile();
 
-        String serverName = "";
-        if (profile != null) {
-            serverName = (profile.isPreBakedProfile() || profile.getDisplayName(requireContext()).isEmpty())
-                && stateMonitor.getConnectingToServer() != null ?
-                stateMonitor.getConnectingToServer().getDisplayName() : profile.getDisplayName(requireContext());
+        Server server = null;
+        if (profile == null || profile.isPreBakedProfile() || profile.getDisplayName(requireContext()).isEmpty()) {
+            server = stateMonitor.getConnectingToServer();
         }
         if (isAdded()) {
             VpnState state = vpnState.getState();
@@ -219,36 +266,39 @@ public class VpnStateFragment extends BaseFragment {
             }
             else if (VpnState.Disabled.INSTANCE.equals(state)) {
                 checkDisconnectFromOutside();
-                textConnectingTo.setText(R.string.loaderNotConnected);
+                showNotConnectedHeaderState(R.string.loaderNotConnected, R.string.loaderNotConnectedSuggestion);
                 updateNotConnectedView();
             }
             else if (VpnState.CheckingAvailability.INSTANCE.equals(state)
                 || VpnState.ScanningPorts.INSTANCE.equals(state)) {
-                textConnectingTo.setText(R.string.loaderCheckingAvailability);
+                showNotConnectedHeaderState(
+                    R.string.loaderCheckingAvailability, R.string.loaderCheckingAvailabilitySuggestion);
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connecting.INSTANCE.equals(state)) {
-                textConnectingTo.setText(getStringWithServerName(R.string.loaderConnectingTo, serverName));
+                showConnectedOrConnectingHeaderState(R.string.loaderConnectingToLabel, server, profile);
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
-                textConnectingTo.setText(R.string.loaderReconnectNoNetwork);
+                showNotConnectedHeaderState(
+                    R.string.loaderReconnectNoNetwork, R.string.loaderReconnectNoNetworkSuggestion);
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connected.INSTANCE.equals(state)) {
-                textConnectingTo.setText(getStringWithServerName(R.string.loaderConnectedTo, serverName));
+                showConnectedOrConnectingHeaderState(R.string.loaderConnectedToLabel, server, profile);
                 initConnectedStateView();
             }
             else if (VpnState.Disconnecting.INSTANCE.equals(state)) {
-                textConnectingTo.setText(R.string.loaderDisconnecting);
-                layoutStatusHeader.setBackgroundColor(
-                    MaterialColors.getColor(layoutStatusHeader, R.attr.proton_background_secondary));
-                textConnectingTo.setTextColor(
-                    MaterialColors.getColor(textConnectingTo, R.attr.proton_text_norm));
+                showNotConnectedHeaderState(
+                    R.string.loaderDisconnecting, R.string.loaderDisconnectingSuggestion);
             }
             else {
                 updateNotConnectedView();
             }
+
+            boolean isConnected = VpnState.Connected.INSTANCE.equals(state);
+            updateFabVisibility(isConnected);
+            updateSessionTimeObserver(isConnected);
         }
     }
 
@@ -308,7 +358,6 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void showErrorState() {
-        progressBar.setVisibility(View.GONE);
         changeStateFragment(VpnStateErrorFragment.class);
 
         RetryInfo retryInfo = vpnConnectionManager.getRetryInfo();
@@ -316,29 +365,45 @@ public class VpnStateFragment extends BaseFragment {
             // TODO: Keep updating the text. This will require moving some logic from the fragment to the
             //  ViewModel.
             int retryIn = retryInfo.getRetryInSeconds();
-            textConnectingTo.setText(getResources().getQuantityString(R.plurals.retry_in, retryIn, retryIn));
+            showNotConnectedHeaderState(
+                getResources().getQuantityString(R.plurals.retry_in, retryIn, retryIn),
+                R.string.loaderReconnectingSuggestion);
         } else {
-            textConnectingTo.setText(R.string.loaderReconnecting);
+            showNotConnectedHeaderState(R.string.loaderReconnecting, R.string.loaderNotConnectedSuggestion);
         }
     }
 
-    @NonNull
-    private Spannable getStringWithServerName(@StringRes int textRes, @NonNull String serverName) {
-        return addSecureCoreArrow(getString(textRes, serverName));
+    private void updateFabVisibility(boolean isConnected) {
+        if (isBottomSheetExpanded()) updateFabVisibility(isConnected, 1f);
+        else if (isBottomSheetCollapsed()) updateFabVisibility(isConnected, 0f);
+        // Otherwise leave it, the BottomSheetCallback.onSlide will update it soon.
     }
 
-    @NonNull
-    private Spannable addSecureCoreArrow(@NonNull String text) {
-        SpannableString spannable = new SpannableString(text);
-
-        int index = text.indexOf(Server.SECURE_CORE_SEPARATOR);
-        if (index > -1) {
-            CenterImageSpan span =
-                new CenterImageSpan(requireContext(), R.drawable.ic_secure_core_arrow_color);
-            spannable.setSpan(span, index, index + Server.SECURE_CORE_SEPARATOR.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private void updateFabVisibility(boolean isConnected, float slideOffset) {
+        if (isConnected) {
+            fab.setAlpha(1);
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setAlpha(1 - slideOffset);
+            fab.setVisibility(slideOffset == 1 ? View.GONE : View.VISIBLE);
         }
-        return spannable;
+    }
+
+    private void updateSessionTimeObserver(boolean isConnected) {
+        if (isConnected && !isBottomSheetCollapsed()) {
+            viewModel.getTrafficStatus().observe(getViewLifecycleOwner(), sessionTimeObserver);
+            textSessionTime.setVisibility(View.VISIBLE);
+        } else {
+            viewModel.getTrafficStatus().removeObserver(sessionTimeObserver);
+            textSessionTime.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateSessionTime(@Nullable TrafficUpdate trafficUpdate) {
+        final Period period = (trafficUpdate != null)
+            ? Duration.standardSeconds(trafficUpdate.getSessionTimeSeconds()).toPeriod()
+            : Period.ZERO;
+        textSessionTime.setText(sessionTimeFormatter.print(period));
     }
 
     private void changeStateFragment(@NonNull Class<? extends Fragment> fragmentClass) {
@@ -352,5 +417,29 @@ public class VpnStateFragment extends BaseFragment {
                 throw new IllegalStateException("Unable to create fragment", e);
             }
         }
+    }
+
+    private void initPeekHeightLayoutListener() {
+        layoutStatusHeader.addOnLayoutChangeListener(
+            (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                int oldHeight = oldBottom - oldTop;
+                int height = bottom - top;
+                if (bottomSheetBehavior != null && height > 0 && oldHeight != height) {
+                    bottomSheetBehavior.setPeekHeight(height, oldHeight != 0);
+                }
+            });
+    }
+
+    @NonNull
+    private PeriodFormatter createSessionTimeFormatter() {
+        return (new PeriodFormatterBuilder())
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendHours()
+            .appendLiteral(":")
+            .appendMinutes()
+            .appendLiteral(":")
+            .appendSeconds()
+            .toFormatter();
     }
 }
