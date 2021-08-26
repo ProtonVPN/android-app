@@ -24,8 +24,7 @@
     <style name="Divider.Small">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <!-- switch to ?attr/proton_separator_norm once all activities are using the new theme -->
-        <item name="android:background">@color/separator_norm</item>
+        <item name="android:background">?attr/proton_separator_norm</item>
     </style>
 
     <style name="Divider.Bright">

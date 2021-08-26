@@ -19,8 +19,12 @@
 
 package com.protonvpn.android.ui.home.vpn
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
+import com.github.mikephil.charting.data.Entry
 import com.protonvpn.android.R
+import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.models.profiles.ProfileColor.Companion.random
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -31,9 +35,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+private const val MILLIS_IN_SECOND = 1000f
+private const val BYTES_IN_KBYTE = 1024f
+
 class VpnStateConnectedViewModel @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
-    private val serverManager: ServerManager
+    private val serverManager: ServerManager,
+    trafficMonitor: TrafficMonitor
 ) : ViewModel() {
 
     data class ConnectionState(
@@ -44,9 +52,14 @@ class VpnStateConnectedViewModel @Inject constructor(
         val protocol: String
     )
 
-    val eventNotification = MutableSharedFlow<Int>(extraBufferCapacity = 1)
+    data class TrafficSpeedChartData(
+        val uploadKpbsHistory: List<Entry>,
+        val downloadKbpsHistory: List<Entry>
+    )
 
+    val eventNotification = MutableSharedFlow<Int>(extraBufferCapacity = 1)
     val connectionState = stateMonitor.status.map { toConnectionState(it) }
+    val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
 
     fun saveToProfile() {
         stateMonitor.connectionProfile?.server?.let { currentServer ->
@@ -75,4 +88,31 @@ class VpnStateConnectedViewModel @Inject constructor(
         } else {
             ConnectionState("-", 0, Server.LoadState.LOW_LOAD, "-", "-")
         }
+
+    private fun speedHistoryToChartData(
+        trafficHistory: LiveData<List<TrafficUpdate>>
+    ): LiveData<TrafficSpeedChartData> = map(trafficHistory) { updates ->
+        if (updates.isEmpty()) {
+            // The chart library freezes when adding data to a displayed, empty chart, so always
+            // set some data.
+            // https://github.com/PhilJay/MPAndroidChart/issues/2506
+            TrafficSpeedChartData(listOf(Entry(0f, 0f)), listOf(Entry(0f, 0f)))
+        } else {
+            val lastTimestampMs = updates.last().timestampMs
+            TrafficSpeedChartData(
+                uploadKpbsHistory = updates.map { update ->
+                    toEntry(update, lastTimestampMs) { it.uploadSpeed }
+                },
+                downloadKbpsHistory = updates.map { update ->
+                    toEntry(update, lastTimestampMs) { it.downloadSpeed }
+                }
+            )
+        }
+    }
+
+    private inline fun toEntry(update: TrafficUpdate, lastTimestampMs: Long, getter: (TrafficUpdate) -> Long) =
+        Entry(
+            (update.timestampMs - lastTimestampMs).toFloat() / MILLIS_IN_SECOND,
+            getter(update).toFloat() / BYTES_IN_KBYTE
+        )
 }

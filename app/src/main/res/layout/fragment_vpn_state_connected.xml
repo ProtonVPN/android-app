@@ -98,35 +98,47 @@
                 style="@style/TableLabelText"
                 android:text="@string/download_volume" />
 
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="4dp"
+                app:srcCompat="@drawable/ic_arrow_down"
+                app:tint="@color/download" />
+
             <TextView
                 android:id="@+id/textDownloadVolume"
                 style="@style/TableValueText"
+                android:layout_marginEnd="16dp"
                 tools:text="300.4 KB" />
 
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_download" />
+                app:srcCompat="@drawable/ic_arrow_up"
+                app:tint="@color/upload"/>
 
             <TextView
                 android:id="@+id/textUploadVolume"
                 style="@style/TableValueText"
-                android:layout_width="75dp"
                 tools:text="20 MB" />
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_upload" />
         </LinearLayout>
 
         <View style="@style/Divider.Small" />
 
-        <View
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:layout_weight="1" />
+
+        <Space
+            android:id="@+id/spacerNoChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"/>
 
         <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonSaveToProfile"
