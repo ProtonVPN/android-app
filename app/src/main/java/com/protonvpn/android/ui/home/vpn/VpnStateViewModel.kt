@@ -39,7 +39,7 @@ class VpnStateViewModel @Inject constructor(
 
     val trafficStatus = trafficMonitor.trafficStatus
 
-    val netShieldExpandStatus = MutableStateFlow(true)
+    val netShieldExpandStatus = MutableStateFlow(false)
 
     fun reconnect(context: Context) {
         vpnConnectionManager.reconnect(context)

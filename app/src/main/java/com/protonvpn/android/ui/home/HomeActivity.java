@@ -396,7 +396,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
             vpnConnectionManager.disconnect();
-            fragment.collapseBottomSheet();
         }
         else {
             Server server = connectTo.getServer();

@@ -154,7 +154,8 @@ public class VpnStateFragment extends BaseFragment {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                updateFabVisibility(stateMonitor.isConnected(), slideOffset);
+                fab.setAlpha(1 - slideOffset);
+                fab.setVisibility(slideOffset == 1 ? View.GONE : View.VISIBLE);
                 if (imageExpand != null) {
                     imageExpand.animate().rotation(180 * slideOffset).setDuration(0).start();
                 }
@@ -297,7 +298,6 @@ public class VpnStateFragment extends BaseFragment {
             }
 
             boolean isConnected = VpnState.Connected.INSTANCE.equals(state);
-            updateFabVisibility(isConnected);
             updateSessionTimeObserver(isConnected);
         }
     }
@@ -370,22 +370,6 @@ public class VpnStateFragment extends BaseFragment {
                 R.string.loaderReconnectingSuggestion);
         } else {
             showNotConnectedHeaderState(R.string.loaderReconnecting, R.string.loaderNotConnectedSuggestion);
-        }
-    }
-
-    private void updateFabVisibility(boolean isConnected) {
-        if (isBottomSheetExpanded()) updateFabVisibility(isConnected, 1f);
-        else if (isBottomSheetCollapsed()) updateFabVisibility(isConnected, 0f);
-        // Otherwise leave it, the BottomSheetCallback.onSlide will update it soon.
-    }
-
-    private void updateFabVisibility(boolean isConnected, float slideOffset) {
-        if (isConnected) {
-            fab.setAlpha(1);
-            fab.setVisibility(View.VISIBLE);
-        } else {
-            fab.setAlpha(1 - slideOffset);
-            fab.setVisibility(slideOffset == 1 ? View.GONE : View.VISIBLE);
         }
     }
 

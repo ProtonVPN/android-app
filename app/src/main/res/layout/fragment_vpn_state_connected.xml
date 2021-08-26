@@ -141,11 +141,22 @@
             android:visibility="gone"/>
 
         <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonDisconnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/upload"
+            android:text="@string/disconnect" />
+
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonSaveToProfile"
             style="@style/ProtonButton.Borderless.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
+            android:textColor="?attr/proton_text_norm"
             android:text="@string/save_to_profile" />
 
     </LinearLayout>

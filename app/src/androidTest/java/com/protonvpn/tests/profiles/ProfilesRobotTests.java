@@ -137,7 +137,7 @@ public class ProfilesRobotTests {
         ConnectionResult result = profilesRobot.clickOnConnectButton(profileName);
         result.isConnectedToVpn();
 
-        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
+        new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();
     }
 
     @Test
@@ -250,7 +250,7 @@ public class ProfilesRobotTests {
         ProfilesResult result = profilesRobot.clickOnConnectButton(profileName).isDisconnectedFromVpn().profilesResult;
         result.connectingToSecureCoreWarning().clickYesButton().isConnectedToVpn();
 
-        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
+        new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();
     }
 
     @Test

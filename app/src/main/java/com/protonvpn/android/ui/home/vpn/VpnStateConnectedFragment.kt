@@ -108,6 +108,7 @@ class VpnStateConnectedFragment :
         with(binding) {
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
+            buttonDisconnect.setOnClickListener { parentViewModel.disconnectAndClose() }
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
 
             // TODO: NetShield onboarding popup.
