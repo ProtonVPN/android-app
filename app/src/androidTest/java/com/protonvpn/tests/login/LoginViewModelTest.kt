@@ -47,7 +47,7 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
-import me.proton.govpn.srp.Proofs
+import me.proton.vpn.golib.srp.Proofs
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before

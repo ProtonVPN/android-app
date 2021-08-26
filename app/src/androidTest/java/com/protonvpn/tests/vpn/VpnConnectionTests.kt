@@ -62,7 +62,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
-import me.proton.govpn.localAgent.LocalAgent
+import me.proton.vpn.golib.localAgent.LocalAgent
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

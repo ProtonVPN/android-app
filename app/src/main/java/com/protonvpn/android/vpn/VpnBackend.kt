@@ -43,12 +43,12 @@ import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
-import me.proton.govpn.localAgent.AgentConnection
-import me.proton.govpn.localAgent.Features
-import me.proton.govpn.localAgent.LocalAgent
-import me.proton.govpn.localAgent.NativeClient
-import me.proton.govpn.localAgent.StatusMessage
-import me.proton.govpn.vpnPing.VpnPing
+import me.proton.vpn.golib.localAgent.AgentConnection
+import me.proton.vpn.golib.localAgent.Features
+import me.proton.vpn.golib.localAgent.LocalAgent
+import me.proton.vpn.golib.localAgent.NativeClient
+import me.proton.vpn.golib.localAgent.StatusMessage
+import me.proton.vpn.golib.vpnPing.VpnPing
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
 

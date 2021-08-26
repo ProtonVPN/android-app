@@ -22,8 +22,8 @@ package com.protonvpn.android.ui.login
 import com.protonvpn.android.models.login.LoginInfoResponse
 import kotlinx.coroutines.withContext
 import me.proton.core.util.kotlin.DispatcherProvider
-import me.proton.govpn.srp.Auth
-import me.proton.govpn.srp.Proofs
+import me.proton.vpn.golib.srp.Auth
+import me.proton.vpn.golib.srp.Proofs
 import java.util.Arrays
 import javax.inject.Inject
 

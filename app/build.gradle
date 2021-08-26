@@ -524,7 +524,6 @@ dependencies {
     detektPlugins 'pm.algirdas.detekt:codeanalysis:0.3.2'
     detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.9.1'
 
-    implementation(name:'govpn', ext:'aar')
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
     // 3.10 of commons-lang3 causes NoClassDefFoundError on start (to be investigated)
     implementation 'org.apache.commons:commons-lang3:3.9'
@@ -588,6 +587,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Proton Core libs
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.3'
     implementation 'me.proton.core:domain:1.0.3'
     implementation 'me.proton.core:network:1.1.3'
     implementation "me.proton.core:util-kotlin:0.2.5"
