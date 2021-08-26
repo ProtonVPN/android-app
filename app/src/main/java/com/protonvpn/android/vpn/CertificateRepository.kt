@@ -40,7 +40,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
-import me.proton.govpn.ed25519.KeyPair
+import me.proton.vpn.golib.ed25519.KeyPair
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
