@@ -29,6 +29,11 @@ public class ConnectionRobot extends UIActionsTestHelper {
 
     ConditionalActionsHelper conditionalActions = new ConditionalActionsHelper();
 
+    public ConnectionResult clickDisconnectButton() {
+        conditionalActions.clickOnDisconnectButtonUntilUserIsDisconnected();
+        return new ConnectionResult();
+    }
+
     public ConnectionResult clickCancelConnectionButton() {
         clickOnObjectWithIdAndText(R.id.buttonCancel, R.string.loaderCancel);
         return new ConnectionResult();

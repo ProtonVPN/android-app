@@ -354,8 +354,7 @@
         <item name="color">?attr/proton_icon_norm</item>
     </style>
 
-    <!-- An outlined button that isn't green - used for non-positive actions like "Cancel"
-         or "Disconnect". -->
+    <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
     <style name="ProtonButton.OutlinedButton.Neutral">
         <item name="strokeColor">?attr/proton_interaction_strong</item>
         <item name="android:textColor">?attr/proton_text_norm</item>

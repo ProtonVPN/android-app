@@ -58,8 +58,9 @@ public class ConnectionRobotTests {
     @Test
     public void connectAndDisconnectViaQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
-        homeRobot.connectThroughQuickConnect().isConnectedToVpn();
-        ConnectionResult result = homeRobot.disconnectThroughQuickConnect();
+        ConnectionRobot connectionRobot =
+            homeRobot.connectThroughQuickConnect().isConnectedToVpn().connectionRobot;
+        ConnectionResult result = connectionRobot.clickDisconnectButton();
 
         result.isDisconnectedFromVpn();
     }
@@ -74,9 +75,8 @@ public class ConnectionRobotTests {
 
         ConnectionResult result = countriesRobot.connectToFastestServer();
 
-        result.isConnectedToVpn();
-        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
-
+        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
+        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
     }
 
     @Test
@@ -87,8 +87,8 @@ public class ConnectionRobotTests {
         mapRobot.clickOnUSNode();
         ConnectionResult result = mapRobot.clickConnectButton();
 
-        result.isConnectedToVpn();
-        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
+        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
+        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
     }
 
     @Test
@@ -98,8 +98,8 @@ public class ConnectionRobotTests {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
         ConnectionResult result = profilesRobot.clickOnConnectButton("Fastest");
 
-        result.isConnectedToVpn();
-        homeRobot.disconnectThroughQuickConnect().isDisconnectedFromVpn();
+        ConnectionRobot connectionRobot = result.isConnectedToVpn().connectionRobot;
+        connectionRobot.clickDisconnectButton().isDisconnectedFromVpn();
     }
 
     @SdkSuppress(minSdkVersion = 24)
