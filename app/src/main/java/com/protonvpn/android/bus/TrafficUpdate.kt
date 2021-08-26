@@ -21,6 +21,7 @@ package com.protonvpn.android.bus
 import com.protonvpn.android.utils.ConnectionTools
 
 class TrafficUpdate(
+    val timestampMs: Long,
     val downloadSpeed: Long,
     val uploadSpeed: Long,
     val sessionDownload: Long,
