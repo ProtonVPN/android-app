@@ -44,7 +44,7 @@ data class Profile(
     fun migrateColor(): Profile =
         if (color != null && colorId == null && !isPreBakedProfile) {
             val profileColor = ProfileColor.values().find {
-                it.legacyColorString == color
+                it.legacyColorString.equals(color, ignoreCase = true)
             } ?: ProfileColor.random() // Should not happen.
             copy(color = null, colorId = profileColor.id)
         } else if (color != null && isPreBakedProfile) {
