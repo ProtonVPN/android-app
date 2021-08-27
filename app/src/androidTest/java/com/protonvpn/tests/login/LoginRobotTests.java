@@ -76,6 +76,7 @@ public class LoginRobotTests extends UIActionsTestHelper {
         result.passwordIsVisible();
     }
 
+    @Ignore("VPNAND-605")
     @Test
     public void needHelpMenuOpened() {
         LoginFormResult result = loginRobot.clickOnNeedHelpButton();

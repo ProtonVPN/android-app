@@ -29,6 +29,7 @@ import com.protonvpn.results.ConnectionResult
 import com.protonvpn.results.ProfilesResult
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
+import me.proton.core.presentation.ui.view.ProtonInput
 
 class ProfilesRobot : BaseRobot() {
     private val serviceRobot = ServiceRobot()
@@ -50,7 +51,10 @@ class ProfilesRobot : BaseRobot() {
     fun clickOnCreateNewProfileButton(): ProfilesRobot =
         clickElementByText(R.string.create_new_profile)
 
-    fun insertTextInProfileNameField(text: String): ProfilesRobot = setText(R.id.inputName, text)
+    fun insertTextInProfileNameField(text: String): ProfilesRobot {
+        scrollTo(R.id.inputName, ProtonInput::class.java)
+        return replaceText(R.id.inputName, text)
+    }
 
     fun selectFirstCountry(): ProfilesRobot {
         scrollToAndClickDropDown(R.id.inputCountry)
@@ -108,7 +112,13 @@ class ProfilesRobot : BaseRobot() {
 
     fun clickDiscardButton(): ProfilesResult = clickElementByText(R.string.discard)
 
-    fun enableSecureCore(): ProfilesRobot = clickElementByText(R.string.secure_core)
+    fun enableSecureCore(): ProfilesRobot {
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
+            R.id.coordinator,
+            R.string.secure_core
+        )
+        return clickElementByText(R.string.secure_core)
+    }
 
     fun clickYesButton(): ConnectionResult =  clickElementById(R.id.md_buttonDefaultPositive)
 
@@ -152,5 +162,14 @@ class ProfilesRobot : BaseRobot() {
             ProtonAutoCompleteInput::class.java
         )
         return clickElement(id, ProtonAutoCompleteInput::class.java)
+    }
+
+    private fun scrollTo(@IdRes id: Int, clazz: Class<out Any>): ProfilesRobot {
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+            R.id.coordinator,
+            id,
+            clazz
+        )
+        return this
     }
 }
