@@ -205,7 +205,7 @@
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
             android:name=".ui.drawer.ReportBugActivity"
-            android:label="@string/drawerReportBug" />
+            android:label="@string/drawerReportProblem" />
         <activity android:name=".ui.onboarding.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

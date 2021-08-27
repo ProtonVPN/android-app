@@ -105,7 +105,7 @@
             android:enabled="false"
             android:theme="@style/ThemeOverlay.ProtonSwitchAlwaysOn"
             app:infoText="@string/settingsDnsLeakDescription"
-            app:title="@string/settingsDnsLeakTitle" />
+            app:title="@string/settingsDnsLeakProtectionTitle" />
 
         <com.protonvpn.android.components.NetShieldSwitch
             android:id="@+id/netShieldSwitch"

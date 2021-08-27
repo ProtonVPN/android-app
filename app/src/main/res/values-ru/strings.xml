@@ -26,7 +26,6 @@
   <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
   <string name="error_field_required">Это обязательное поле</string>
   <string name="title_activity_home">@string/app_name</string>
-  <string name="menuActionLogout">Выход из учётной записи</string>
   <string name="loginSlogan">Безопасный Интернет где угодно</string>
   <string name="loginStartWithDevice">Запуск при включении устройства</string>
   <string name="loginCreateAccount">Создать новый аккаунт</string>
@@ -82,8 +81,7 @@
   <string name="drawerAccount">Аккаунт</string>
   <string name="drawerHelp">Справка</string>
   <string name="drawerShowLog">Показать журнал</string>
-  <string name="drawerReportBug">Сообщить об ошибке</string>
-  <string name="drawerLogout">@string/menuActionLogout</string>
+  <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Информация об аккаунте</string>
   <string name="accountSubscription">Подписка</string>
@@ -113,7 +111,6 @@
   <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
   <string name="settingsBypassLocalTitle">Разрешить соединения по локальной сети</string>
-  <string name="settingsDnsLeakTitle">Утечка DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Размер MTU</string>

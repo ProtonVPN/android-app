@@ -26,7 +26,6 @@
   <string name="hamburgerMenu">Hamburgermenu</string>
   <string name="error_field_required">Dit invullen is verplicht</string>
   <string name="title_activity_home">@string/app_name</string>
-  <string name="menuActionLogout">Afmelden</string>
   <string name="loginSlogan">Overal veilig internet</string>
   <string name="loginStartWithDevice">Starten tijdens opstarten</string>
   <string name="loginCreateAccount">Nieuw account aanmaken</string>
@@ -82,8 +81,7 @@
   <string name="drawerAccount">Account</string>
   <string name="drawerHelp">Help</string>
   <string name="drawerShowLog">Log weergeven</string>
-  <string name="drawerReportBug">Bug melden</string>
-  <string name="drawerLogout">@string/menuActionLogout</string>
+  <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Account details</string>
   <string name="accountSubscription">Abonnement</string>
@@ -113,7 +111,6 @@
   <string name="settingsShowIconDescription">Toon een symbool in de statusbalk om de VPN-status aan te geven</string>
   <string name="settingsAutoStartDescription">ProtonVPN zal automatisch starten tijdens het starten van uw systeem</string>
   <string name="settingsBypassLocalTitle">LAN-verbindingen toestaan</string>
-  <string name="settingsDnsLeakTitle">DNS-lek</string>
   <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">MTU-grootte</string>

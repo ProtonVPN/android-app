@@ -42,6 +42,6 @@
         android:gravity="center"
         android:textAlignment="center"
         android:layout_gravity="bottom"
-        tools:text="@string/drawerLogout" />
+        tools:text="@string/drawerSignOut" />
 
 </FrameLayout>
