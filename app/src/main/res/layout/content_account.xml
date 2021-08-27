@@ -61,21 +61,6 @@
     <LinearLayout style="@style/TableRowLayout">
 
         <TextView
-            android:id="@+id/accountLabel"
-            style="@style/TableLabelText"
-            android:text="@string/accountType" />
-
-        <TextView
-            android:id="@+id/textAccountType"
-            style="@style/TableValueText"
-            tools:text="ProtonMail account" />
-    </LinearLayout>
-
-    <View style="@style/Divider.Small" />
-
-    <LinearLayout style="@style/TableRowLayout">
-
-        <TextView
             android:id="@+id/subscriptionLabel"
             style="@style/TableLabelText"
             android:text="@string/accountTier" />
