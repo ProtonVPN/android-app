@@ -162,7 +162,9 @@ public class VpnStateFragment extends BaseFragment {
                 if (dividerTop != null) {
                     dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
                 }
-                textSessionTime.setAlpha(slideOffset);
+                if (textSessionTime != null) {
+                    textSessionTime.setAlpha(slideOffset);
+                }
             }
         });
     }
