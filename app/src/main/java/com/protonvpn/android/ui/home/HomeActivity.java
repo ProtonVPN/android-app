@@ -666,6 +666,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @NonNull
     private String getInitials(@NonNull String login) {
-        return login.substring(0, Math.min(2, login.length())).toUpperCase(Locale.US);
+        return login.substring(0, Math.min(1, login.length())).toUpperCase(Locale.US);
     }
 }
