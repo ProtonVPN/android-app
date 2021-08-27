@@ -19,7 +19,6 @@
 package com.protonvpn.android.ui.drawer
 
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
@@ -50,12 +49,8 @@ class AccountActivity : BaseActivityV2<ActivityAccountBinding, AccountActivityVi
 
     private fun initContent() = with(binding.content) {
         textAccountTier.text = viewModel.accountTier(this@AccountActivity)
-        viewModel.tierColor?.let {
-            textAccountTier.setTextColor(ContextCompat.getColor(this@AccountActivity, it))
-        }
 
         textUser.text = viewModel.user
-        textAccountType.text = viewModel.accountType
         textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
         val subscriptionDetailsHtml = getString(
             R.string.accountSubscriptionDetails,

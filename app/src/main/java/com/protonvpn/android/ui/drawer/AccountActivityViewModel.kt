@@ -33,13 +33,6 @@ class AccountActivityViewModel @Inject constructor(val userData: UserData) : Vie
 
     fun accountTier(context: Context) = userTierName?.let { context.getText(getAccountTypeNaming(it)) } ?: "development"
 
-    val tierColor get() = when (userTierName) {
-        "vpnbasic" -> R.color.accountTypeBasic
-        "vpnplus" -> R.color.accountTypePlus
-        "visionary" -> R.color.accountTypeVisionary
-        else -> null
-    }
-
     @StringRes
     private fun getAccountTypeNaming(accountType: String) = when (accountType) {
         "trial" -> R.string.accountTrial
