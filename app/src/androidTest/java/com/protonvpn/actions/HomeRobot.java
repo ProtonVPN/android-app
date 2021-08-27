@@ -114,7 +114,7 @@ public class HomeRobot extends UIActionsTestHelper {
 
     public LogoutResult logout() {
         openDrawer();
-        clickOnObjectWithIdAndText(R.id.drawerButtonLogout, R.string.menuActionLogout);
+        clickOnObjectWithIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut);
         return new LogoutResult();
     }
 

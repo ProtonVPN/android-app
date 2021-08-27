@@ -79,7 +79,7 @@
                 <TextView
                     android:id="@+id/drawerButtonReportBug"
                     style="@style/TextView.Drawer"
-                    android:text="@string/drawerReportBug"
+                    android:text="@string/drawerReportProblem"
                     app:drawableStartCompat="@drawable/ic_bug" />
 
                 <View style="@style/Divider.Small" />
@@ -95,7 +95,7 @@
                 <TextView
                     android:id="@+id/drawerButtonLogout"
                     style="@style/TextView.Drawer"
-                    android:text="@string/drawerLogout"
+                    android:text="@string/drawerSignOut"
                     app:drawableStartCompat="@drawable/ic_sign_out_right" />
 
                 <View style="@style/Divider.Small" />

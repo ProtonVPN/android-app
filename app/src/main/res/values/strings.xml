@@ -28,7 +28,7 @@
     <string name="hamburgerMenu">Hamburger Menu</string>
     <string name="error_field_required">This field is required</string>
     <string name="title_activity_home">@string/app_name</string>
-    <string name="menuActionLogout">Logout</string>
+    <string name="menuActionSignOut">Sign out</string>
     <string name="loginSlogan">Secure internet anywhere</string>
     <string name="loginStartWithDevice">Start with device</string>
     <string name="loginCreateAccount">Create new account</string>
@@ -94,8 +94,8 @@
     <string name="drawerAccount">Account</string>
     <string name="drawerHelp">Help</string>
     <string name="drawerShowLog">Show log</string>
-    <string name="drawerReportBug">Report bug</string>
-    <string name="drawerLogout">@string/menuActionLogout</string>
+    <string name="drawerReportProblem">Report problem</string>
+    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
 
     <string name="accountDetails">Account details</string>
@@ -125,8 +125,8 @@
     <string name="settingsShowIconTitle">Status icon</string>
     <string name="settingsShowIconDescription">Show an icon in the status tray to indicate VPN status</string>
     <string name="settingsAutoStartDescription">ProtonVPN will start automatically with each system start</string>
-    <string name="settingsBypassLocalTitle">Allow LAN connections</string>
-    <string name="settingsDnsLeakTitle">DNS Leak</string>
+    <string name="settingsBypassLocalTitle">LAN connections</string>
+    <string name="settingsDnsLeakProtectionTitle">DNS Leak Protection</string>
     <string name="settingsDnsLeakDescription">Prevent leaking DNS query details to third parties (always on)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU size</string>
@@ -336,7 +336,7 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
 
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Set up ProtonVPN to reconnect automatically or to disable external connections if your VPN connection is disrupted.</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Set up how ProtonVPN behaves if your connection is disrupted</string>
     <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->

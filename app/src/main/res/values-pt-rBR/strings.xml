@@ -26,7 +26,6 @@
   <string name="hamburgerMenu">Menu hambúrguer</string>
   <string name="error_field_required">Este campo é obrigatório</string>
   <string name="title_activity_home">@string/app_name</string>
-  <string name="menuActionLogout">Encerrar sessão</string>
   <string name="loginSlogan">Internet segura em qualquer lugar</string>
   <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
   <string name="loginCreateAccount">Criar nova conta</string>
@@ -82,8 +81,7 @@
   <string name="drawerAccount">Conta</string>
   <string name="drawerHelp">Ajuda</string>
   <string name="drawerShowLog">Mostrar registro</string>
-  <string name="drawerReportBug">Reportar um problema</string>
-  <string name="drawerLogout">@string/menuActionLogout</string>
+  <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v.%1$s</string>
   <string name="accountDetails">Detalhes da conta</string>
   <string name="accountSubscription">Assinatura</string>
@@ -113,7 +111,6 @@
   <string name="settingsShowIconDescription">Mostrar um ícone na bandeja de status para indicar o status da VPN</string>
   <string name="settingsAutoStartDescription">O ProtonVPN irá iniciar automaticamente a cada inicialização do sistema</string>
   <string name="settingsBypassLocalTitle">Permitir conexões LAN</string>
-  <string name="settingsDnsLeakTitle">Vazamento de DNS</string>
   <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Tamanho MTU</string>

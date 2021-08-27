@@ -26,7 +26,6 @@
   <string name="hamburgerMenu">Menu hamburger</string>
   <string name="error_field_required">Ce champ est requis</string>
   <string name="title_activity_home">@string/app_name</string>
-  <string name="menuActionLogout">Déconnexion</string>
   <string name="loginSlogan">Internet sécurisé, partout</string>
   <string name="loginStartWithDevice">Démarrer</string>
   <string name="loginCreateAccount">Créer un nouveau compte</string>
@@ -82,8 +81,7 @@
   <string name="drawerAccount">Compte</string>
   <string name="drawerHelp">Aide</string>
   <string name="drawerShowLog">Afficher le journal</string>
-  <string name="drawerReportBug">Signaler un bug</string>
-  <string name="drawerLogout">@string/menuActionLogout</string>
+  <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Détails du compte</string>
   <string name="accountSubscription">Abonnement</string>
@@ -113,7 +111,6 @@
   <string name="settingsShowIconDescription">Affiche une icône dans la barre d\'état pour indiquer l\'état du VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN se lancera automatiquement à chaque démarrage du système</string>
   <string name="settingsBypassLocalTitle">Autoriser les connexions LAN</string>
-  <string name="settingsDnsLeakTitle">Fuites DNS</string>
   <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Taille du MTU</string>
