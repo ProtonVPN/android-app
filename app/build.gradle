@@ -415,7 +415,7 @@ class Helpers {
 
     static String getFullVersionName() {
         // Find last tag in the form M.m.D.R, D and R are optional
-        def tag = exec('git tag --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
+        def tag = exec('git tag --sort=v:refname --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
         def tagSplit = Arrays.stream(tag.split("\\.")).mapToInt { it.toInteger() }.toArray()
         def major = tagSplit[0]
         def minor = tagSplit[1]
