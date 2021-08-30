@@ -204,11 +204,6 @@ firebase quick tests:
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
     COVERAGE_FILE_NAME: "coverageMobile.ec"
-  only:
-    - branches
-  except:
-    - master
-    - development
 
 firebase full tests:
   <<: *tests_preparation_script
@@ -219,10 +214,8 @@ firebase full tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobile.ec"
-  only:
-  - master
-  - development
+    COVERAGE_FILE_NAME: "coverageMobileFull.ec"
+  when: manual
 
 firebase tv tests:
   <<: *tests_preparation_script
