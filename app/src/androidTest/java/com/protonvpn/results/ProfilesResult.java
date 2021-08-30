@@ -20,6 +20,7 @@ package com.protonvpn.results;
 
 import com.protonvpn.actions.ProfilesRobot;
 import com.protonvpn.android.R;
+import com.protonvpn.testsHelper.ConditionalActionsHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
@@ -60,6 +61,7 @@ public class ProfilesResult extends UIActionsTestHelper {
     }
 
     public ProfilesResult emptyCountryError() {
+        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(R.id.scrollView, R.string.errorEmptyCountry);
         checkIfObjectWithTextIsDisplayed(R.string.errorEmptyCountry);
         return this;
     }
