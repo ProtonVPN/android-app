@@ -290,7 +290,7 @@ open class VpnConnectionManager(
 
             // If port scanning fails (because e.g. some temporary network situation) just connect
             // without smart protocol
-            preparedConnection = backendProvider.prepareConnection(FALLBACK_PROTOCOL, profile, server)!!
+            preparedConnection = backendProvider.prepareConnection(FALLBACK_PROTOCOL, profile, server, false)!!
         }
 
         preparedConnect(preparedConnection)
