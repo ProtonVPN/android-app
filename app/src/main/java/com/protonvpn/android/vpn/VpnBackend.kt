@@ -57,7 +57,12 @@ data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
 interface VpnBackendProvider {
-    suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?
+    suspend fun prepareConnection(
+        protocol: VpnProtocol,
+        profile: Profile,
+        server: Server,
+        alwaysScan: Boolean = true
+    ): PrepareResult?
 
     // Returns first from [preferenceList] that responded in a given time frame or null
     // [fullScanServer] when set will have all ports scanned.

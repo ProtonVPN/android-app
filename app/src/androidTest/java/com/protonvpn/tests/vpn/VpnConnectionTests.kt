@@ -219,8 +219,8 @@ class VpnConnectionTests {
 
         // When scanning fails we'll fallback to attempt connecting with default manual protocol
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -229,16 +229,15 @@ class VpnConnectionTests {
     @Test
     fun smartNoInternet() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        userData.manualProtocol = VpnProtocol.OpenVPN
         manager.connect(context, profileSmart)
         yield()
 
         coVerify(exactly = 0) {
-            mockStrongSwan.prepareForConnection(any(), any(), any())
+            mockOpenVpn.prepareForConnection(any(), any(), any())
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -251,7 +250,7 @@ class VpnConnectionTests {
         scope.advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), true)
             mockWireguard.createAgentConnection(any(), any(), any())
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -278,7 +277,7 @@ class VpnConnectionTests {
         manager.connect(context, profileWireguard)
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), true)
         }
         coVerify(exactly = 0) {
             mockWireguard.connectToLocalAgent()
@@ -298,9 +297,9 @@ class VpnConnectionTests {
 
     @Test
     fun guestHoleFail() = runBlockingTest {
-        mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
-        mockOpenVpn.stateOnConnect = VpnState.Disabled
+        mockStrongSwan.failScanning = true
+        mockStrongSwan.stateOnConnect = VpnState.Disabled
 
         val guestHole = GuestHole(scope, serverManager, monitor, manager)
         val result = guestHole.call(context) {
