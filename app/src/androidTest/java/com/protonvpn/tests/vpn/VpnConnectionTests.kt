@@ -253,7 +253,7 @@ class VpnConnectionTests {
         scope.advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), true)
             mockWireguard.createAgentConnection(any(), any(), any())
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -280,7 +280,7 @@ class VpnConnectionTests {
         manager.connect(context, profileWireguard)
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), true)
         }
         coVerify(exactly = 0) {
             mockWireguard.connectToLocalAgent()
@@ -300,9 +300,9 @@ class VpnConnectionTests {
 
     @Test
     fun guestHoleFail() = runBlockingTest {
-        mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
-        mockOpenVpn.stateOnConnect = VpnState.Disabled
+        mockStrongSwan.failScanning = true
+        mockStrongSwan.stateOnConnect = VpnState.Disabled
 
         val guestHole = GuestHole(scope, serverManager, monitor, manager)
         val result = guestHole.call(context) {

@@ -42,13 +42,14 @@ class ProtonVpnBackendProvider(
     override suspend fun prepareConnection(
         protocol: VpnProtocol,
         profile: Profile,
-        server: Server
+        server: Server,
+        alwaysScan: Boolean
     ): PrepareResult? {
         ProtonLogger.log("Preparing connection with protocol: " + protocol.name)
         return when (protocol) {
             VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = false)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = alwaysScan)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = alwaysScan)
             VpnProtocol.Smart -> {
                 val backends = mutableListOf<VpnBackend>()
                 with(config.getSmartProtocolConfig()) {
