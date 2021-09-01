@@ -135,6 +135,7 @@ object CountryTools {
         "UA" to CountryData(2715.0, 517.0, Continent.Europe),
         "NG" to CountryData(2385.0, 1235.0, Continent.AfricaAndMiddleEast),
         "PH" to CountryData(4159.0, 1135.0, Continent.Asia),
+        "KH" to CountryData(3911.0, 1194.0, Continent.Asia),
         "AE" to CountryData(3103.0, 976.0, Continent.AfricaAndMiddleEast),
         "CO" to CountryData(1100.0, 1339.0, Continent.America),
         "PE" to CountryData(1056.0, 1589.0, Continent.America),
