@@ -39,9 +39,10 @@ class MockVpnConnectionManager(
     vpnStateMonitor: VpnStateMonitor,
     notificationHelper: NotificationHelper,
     serverManager: ServerManager,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    now: () -> Long
 ) : VpnConnectionManager(ProtonApplication.getAppContext(), userData, vpnBackendProvider, networkManager,
-        vpnErrorHandler, vpnStateMonitor, notificationHelper, serverManager, scope) {
+        vpnErrorHandler, vpnStateMonitor, notificationHelper, serverManager, scope, now) {
 
     override fun prepare(context: Context): Intent? = null
 }
