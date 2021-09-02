@@ -119,6 +119,7 @@ class VpnConnectionTests {
     private val badCert =
         CertificateRepository.CertificateResult.Success("bad_cert", "bad_key")
     private lateinit var currentCert: CertificateRepository.CertificateResult.Success
+    private var time = 0L
 
     @Before
     fun setup() {
@@ -150,7 +151,7 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockk(relaxed = true), scope)
+            mockk(relaxed = true), mockk(relaxed = true), scope, ::time)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
