@@ -98,7 +98,10 @@ class MockApi(
             super.getServerList(loader, ip)
 
     override suspend fun getVPNInfo(): ApiResult<VpnInfoResponse> =
-        ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
+        if (MockSwitch.mockedConnectionUsed) {
+            ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
+        } else
+            super.getVPNInfo()
 
     override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
         ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
@@ -125,7 +128,11 @@ class MockApi(
         } else
             super.getCertificate(clientPublicKey)
 
-    override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1"))
+    override suspend fun getLocation() =
+        if (MockSwitch.mockedConnectionUsed)
+            ApiResult.Success(UserLocation("127.0.0.1"))
+        else
+            super.getLocation()
 
     override suspend fun getStreamingServices() = ApiResult.Success(
         StreamingServicesResponse("https://protonvpn.com/download/resources/", emptyMap()))

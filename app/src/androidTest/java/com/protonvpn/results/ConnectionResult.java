@@ -18,8 +18,8 @@
  */
 package com.protonvpn.results;
 
+import com.protonvpn.MockSwitch;
 import com.protonvpn.actions.ConnectionRobot;
-import com.protonvpn.actions.HomeRobot;
 import com.protonvpn.actions.ServiceRobot;
 import com.protonvpn.android.R;
 import com.protonvpn.testsHelper.ServiceTestHelper;
@@ -36,7 +36,9 @@ public class ConnectionResult extends UIActionsTestHelper {
     public ConnectionResult() {
         connectionRobot = new ConnectionRobot();
         profilesResult = new ProfilesResult();
-        serviceTestHelper = new ServiceTestHelper();
+        if (MockSwitch.mockedConnectionUsed) {
+            serviceTestHelper = new ServiceTestHelper();
+        }
     }
 
     public ConnectionResult isConnectedToVpn() {

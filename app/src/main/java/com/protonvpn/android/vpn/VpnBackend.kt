@@ -83,7 +83,7 @@ abstract class VpnBackend(
     val userData: UserData,
     val appConfig: AppConfig,
     val certificateRepository: CertificateRepository,
-    private val networkManager: NetworkManager,
+    protected val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,

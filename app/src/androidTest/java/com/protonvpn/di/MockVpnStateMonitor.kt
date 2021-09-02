@@ -20,6 +20,7 @@ package com.protonvpn.di
 
 import android.content.Context
 import android.content.Intent
+import com.protonvpn.MockSwitch
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
@@ -44,5 +45,10 @@ class MockVpnConnectionManager(
 ) : VpnConnectionManager(ProtonApplication.getAppContext(), userData, vpnBackendProvider, networkManager,
         vpnErrorHandler, vpnStateMonitor, notificationHelper, serverManager, scope, now) {
 
-    override fun prepare(context: Context): Intent? = null
+    override fun prepare(context: Context): Intent? {
+        return if (MockSwitch.mockedConnectionUsed) {
+            null
+        } else
+            super.prepare(context)
+    }
 }

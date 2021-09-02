@@ -19,12 +19,13 @@
 package com.protonvpn.actions
 
 import com.protonvpn.android.R
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.results.LoginFormResult
 import com.protonvpn.results.LoginResult
 import com.protonvpn.test.shared.TestUser
 import me.proton.core.test.android.robots.CoreRobot
 
-class LoginRobot : CoreRobot() {
+class LoginRobot : BaseRobot() {
     fun clickOnNeedHelpButton(): LoginFormResult =
         clickElement(view
             .withId(R.id.buttonNeedHelp)
@@ -38,6 +39,7 @@ class LoginRobot : CoreRobot() {
             .withId(R.id.buttonLogin)
             .withText(R.string.login)
         )
+        waitUntilDisplayedByContentDesc<LoginRobot>(R.string.hamburgerMenu)
         return LoginResult(user)
     }
 

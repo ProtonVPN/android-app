@@ -20,6 +20,7 @@ package com.protonvpn.testsHelper
 
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -46,6 +47,10 @@ class UserDataHelper {
         userData.isLoggedIn = true
         userData.user = user.email
         userData.vpnInfoResponse = user.vpnInfoResponse
+    }
+
+    fun setProtocol(protocol: VpnProtocol) {
+        userData.setProtocols(protocol, null)
     }
 
     fun logoutUser() {
