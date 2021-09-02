@@ -262,6 +262,7 @@ class AppModule {
         notificationHelper,
         serverManager,
         scope,
+        System::currentTimeMillis
     )
 
     @Singleton
@@ -310,7 +311,6 @@ class AppModule {
                 random,
                 networkManager,
                 scope,
-                System::currentTimeMillis,
                 userData,
                 appConfig,
                 certificateRepository,

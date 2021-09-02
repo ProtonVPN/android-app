@@ -46,13 +46,11 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
 import org.strongswan.android.logic.VpnStateService
 import java.util.Random
-import java.util.concurrent.TimeUnit
 
 class StrongSwanBackend(
     val random: Random,
     networkManager: NetworkManager,
     mainScope: CoroutineScope,
-    val now: () -> Long,
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
@@ -69,7 +67,6 @@ class StrongSwanBackend(
 
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
-    private var lastUnreachable = 0L
 
     init {
         bindCharonMonitor()
@@ -163,23 +160,11 @@ class StrongSwanBackend(
 
     override fun stateChanged() {
         vpnService?.let {
-            val newState = translateState(it.state, it.errorState)
-            if (newState.isUnreachable()) {
-                // Limit frequency of unreachable notifications
-                if (vpnProtocolState.isUnreachable() && now() - lastUnreachable < UNREACHABLE_MIN_INTERVAL_MS)
-                    return
-                lastUnreachable = now()
-            }
-            vpnProtocolState = newState
+            vpnProtocolState = translateState(it.state, it.errorState)
         }
-    }
-
-    private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type.let {
-        it == ErrorType.UNREACHABLE_INTERNAL || it == ErrorType.UNREACHABLE
     }
 
     companion object {
         private val STRONGSWAN_PORTS = listOf(500, 4500)
-        private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
     }
 }

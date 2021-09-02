@@ -254,7 +254,8 @@ class MockAppModule {
         vpnStateMonitor,
         notificationHelper,
         serverManager,
-        scope
+        scope,
+        System::currentTimeMillis
     )
 
     @Singleton

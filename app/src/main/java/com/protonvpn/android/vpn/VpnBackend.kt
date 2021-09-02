@@ -279,7 +279,7 @@ abstract class VpnBackend(
                 VpnState.Connected
             agentConstants.stateConnectionError,
             agentConstants.stateServerUnreachable ->
-                VpnState.Error(ErrorType.UNREACHABLE)
+                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
             agentConstants.stateClientCertificateExpiredError -> {
                 refreshCertOnLocalAgent(force = false)
                 VpnState.Connecting
