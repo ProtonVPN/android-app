@@ -108,9 +108,8 @@ public class HomeRobot extends UIActionsTestHelper {
         return new ConnectionResult();
     }
 
-    public ConnectionResult allowToUseVpn() {
+    public void allowToUseVpn() {
         allowVpnToBeUsed(isAllowVpnRequestVisible());
-        return new ConnectionResult();
     }
 
     public HomeRobot handleQuickConnectLongClick() {

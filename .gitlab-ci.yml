@@ -234,6 +234,17 @@ firebase tv tests:
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     COVERAGE_FILE_NAME: "coverageTv.ec"
 
+firebase real connection tests:
+  <<: *tests_preparation_script
+  variables:
+    TESTS_TYPE: realConnectionTest
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
+    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
+
 coverage report:
   stage: report
   tags:

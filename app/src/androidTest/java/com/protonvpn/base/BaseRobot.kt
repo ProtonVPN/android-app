@@ -83,7 +83,7 @@ open class BaseRobot : CoreRobot() {
                 .clearText()
     }
 
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long = 10_0000): T = executeAndReturnRobot{
         view
                 .withId(id)
                 .wait(time)
@@ -92,6 +92,12 @@ open class BaseRobot : CoreRobot() {
     inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = 10_000): T  = executeAndReturnRobot{
         view
                 .withText(resId)
+                .wait(time)
+    }
+
+    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = 10_0000): T = executeAndReturnRobot{
+        view
+                .withContentDesc(resId)
                 .wait(time)
     }
 

@@ -18,6 +18,8 @@
  */
 package com.protonvpn.tests.testRules;
 
+import com.protonvpn.MockSwitch;
+import com.protonvpn.android.models.config.VpnProtocol;
 import com.protonvpn.android.ui.home.HomeActivity;
 import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.VpnState;

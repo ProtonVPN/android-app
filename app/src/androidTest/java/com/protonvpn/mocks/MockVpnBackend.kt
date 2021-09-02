@@ -18,6 +18,8 @@
  */
 package com.protonvpn.mocks
 
+import com.protonvpn.MockSwitch
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -31,9 +33,16 @@ import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
+import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
+import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import me.proton.core.network.domain.NetworkManager
 import me.proton.vpn.golib.localAgent.NativeClient
+import java.util.Random
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -58,6 +67,8 @@ class MockVpnBackend(
     dispatcherProvider = DefaultDispatcherProvider()
 ) {
     private var agentProvider: MockAgentProvider? = null
+    private val random = Random()
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     fun setAgentProvider(provider: MockAgentProvider) {
         agentProvider = provider
@@ -69,11 +80,53 @@ class MockVpnBackend(
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
-    ): List<PrepareResult> =
-        if (scan && failScanning)
-            emptyList()
-        else listOf(PrepareResult(this, object : ConnectionParams(
-                profile, server, server.getRandomConnectingDomain(), protocol) {}))
+    ): List<PrepareResult> {
+        return if (MockSwitch.mockedConnectionUsed) {
+            if (scan && failScanning)
+                emptyList()
+            else listOf(PrepareResult(this, object : ConnectionParams(
+                    profile, server, server.getRandomConnectingDomain(), protocol) {}))
+        } else {
+            when (protocol) {
+                VpnProtocol.IKEv2 -> {
+                    val ikev2Backend = StrongSwanBackend(
+                            random,
+                            networkManager,
+                            mainScope,
+                            userData,
+                            appConfig,
+                            certificateRepository,
+                            dispatcherProvider)
+                    ikev2Backend.prepareForConnection(profile, server, scan, numberOfPorts)
+                }
+                VpnProtocol.OpenVPN -> {
+                    val openVpnBackend = OpenVpnBackend(
+                            random,
+                            networkManager,
+                            userData,
+                            appConfig,
+                            System::currentTimeMillis,
+                            certificateRepository,
+                            mainScope,
+                            dispatcherProvider)
+                    openVpnBackend.prepareForConnection(profile, server, scan, numberOfPorts)
+                }
+                else -> {
+                    val wireguardBackend = WireguardBackend(
+                            ProtonApplication.getAppContext(),
+                            GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
+                            networkManager,
+                            userData,
+                            appConfig,
+                            certificateRepository,
+                            dispatcherProvider,
+                            scope
+                    )
+                    wireguardBackend.prepareForConnection(profile,server,scan,numberOfPorts)
+                }
+            }
+        }
+    }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
