@@ -72,6 +72,7 @@ interface VpnBackendProvider {
 
 interface AgentConnectionInterface {
     val state: String
+    val status: StatusMessage?
     fun setFeatures(features: Features)
     fun setConnectivity(connectivity: Boolean)
     fun close()
@@ -133,6 +134,7 @@ abstract class VpnBackend(
         )
 
         override val state: String get() = agent.state
+        override val status: StatusMessage? get() = agent.status
 
         override fun setFeatures(features: Features) {
             agent.setFeatures(features)
@@ -158,6 +160,10 @@ abstract class VpnBackend(
 
         override fun onError(code: Long, description: String) {
             ProtonLogger.log("Local agent error: $code $description")
+            if (agent?.status?.reason?.final == true) {
+                setLocalAgentError(description)
+                return
+            }
             when (code) {
                 agentConstants.errorCodeMaxSessionsBasic,
                 agentConstants.errorCodeMaxSessionsFree,
