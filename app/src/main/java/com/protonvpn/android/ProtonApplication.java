@@ -31,6 +31,7 @@ import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
+import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
@@ -120,6 +121,9 @@ public class ProtonApplication extends DaggerApplication {
     private void initSentry() {
         String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
         Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
+
+        Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(new ProtonExceptionHandler(currentHandler));
     }
 
     private void initLeakCanary() {
