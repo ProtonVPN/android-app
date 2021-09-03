@@ -138,6 +138,7 @@ object CountryTools {
         "AE" to CountryData(3103.0, 976.0, Continent.AfricaAndMiddleEast),
         "CO" to CountryData(1100.0, 1339.0, Continent.America),
         "PE" to CountryData(1056.0, 1589.0, Continent.America),
+        "PR" to CountryData(1216.0, 1076.0, Continent.America),
         "VN" to CountryData(3961.0, 1144.0, Continent.Asia))
 
     val codeToMapCountryName = mapOf(
