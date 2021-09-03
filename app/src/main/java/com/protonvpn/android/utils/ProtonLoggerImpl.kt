@@ -42,6 +42,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
@@ -49,6 +50,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -191,8 +193,7 @@ open class ProtonLoggerImpl(
 
         private suspend fun processLogs() {
             messages.collect { message ->
-                logContext.putProperty("timeZone", timeZoneSuffix(GregorianCalendar()))
-                logger.debug(message)
+                logInternal(message)
             }
         }
 
@@ -236,6 +237,16 @@ open class ProtonLoggerImpl(
             start()
         }
 
+        fun logInternal(msg: String) {
+            logContext.putProperty("timeZone", timeZoneSuffix(GregorianCalendar()))
+            logger.debug(msg)
+        }
+
+        fun logBlocking(msg: String) = runBlocking(loggerDispatcher) {
+            logInternal(msg)
+            delay(100)
+        }
+
         private class ChannelAdapter(
             private val channel: SendChannel<String>,
             private val encoder: Encoder<ILoggingEvent>
@@ -270,6 +281,10 @@ open class ProtonLoggerImpl(
 
     fun log(message: String) {
         logMessageQueue.tryEmit(message)
+    }
+
+    fun logBlocking(msg: String) {
+        backgroundLogger.logBlocking(msg)
     }
 
     fun getLogLines() = backgroundLogger.getLogLines()
