@@ -20,8 +20,8 @@
 package com.protonvpn.android.components
 
 import android.Manifest
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import kotlinx.coroutines.withContext
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class InstalledAppsProvider @Inject constructor(
     data class AppInfo(
         val packageName: String,
         val name: String,
-        val icon: Drawable
+        val info: ApplicationInfo
     )
 
     suspend fun getInstalledInternetApps(): List<AppInfo> =
@@ -47,7 +47,7 @@ class InstalledAppsProvider @Inject constructor(
                 AppInfo(
                     packageName = appInfo.packageName,
                     name = appInfo.loadLabel(packageManager).toString(),
-                    icon = appInfo.loadIcon(packageManager)
+                    info = appInfo
                 )
             }
         }
