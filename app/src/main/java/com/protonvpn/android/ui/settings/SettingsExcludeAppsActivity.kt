@@ -66,8 +66,8 @@ class SettingsExcludeAppsActivity :
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
-        val actionAdd = { item: LabeledItem -> viewModel.addAppToExcluded(item) }
-        val actionRemove = { item: LabeledItem -> viewModel.removeAppFromExcluded(item) }
+        val actionAdd = { packageName: String -> viewModel.addAppToExcluded(packageName) }
+        val actionRemove = { packageName: String -> viewModel.removeAppFromExcluded(packageName) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
             when(state) {
                 is SettingsExcludeAppsViewModel.ViewState.Loading ->
@@ -88,10 +88,10 @@ class SettingsExcludeAppsActivity :
 
     private fun updateLists(
         adapter: GroupAdapter<GroupieViewHolder>,
-        selectedItems: List<LabeledItem>,
-        availableItems: List<LabeledItem>,
-        actionAdd: LabeledItemAction,
-        actionRemove: LabeledItemAction
+        selectedItems: List<AppItem>,
+        availableItems: List<AppItem>,
+        actionAdd: AppItemAction,
+        actionRemove: AppItemAction
     ) {
         val headerSelected =
             getString(R.string.settingsExcludedAppsSelectedHeader, selectedItems.size)
@@ -102,10 +102,10 @@ class SettingsExcludeAppsActivity :
         val selectedViewHolders = if (selectedItems.isEmpty()) {
             listOf(EmptyStateItem())
         } else {
-            selectedItems.map { LabeledItemActionViewHolder(it, R.drawable.ic_clear, actionRemove) }
+            selectedItems.map { AppItemViewHolder(it, R.drawable.ic_clear, actionRemove) }
         }
         val availableViewHolders = availableItems.map {
-            LabeledItemActionViewHolder(it, R.drawable.ic_plus, actionAdd)
+            AppItemViewHolder(it, R.drawable.ic_plus, actionAdd)
         }
         // Update both sections at once for move animations.
         val sections = listOf(
