@@ -28,8 +28,6 @@
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginTop="12dp"
         android:duplicateParentState="true"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:textAlignment="viewStart"
         tools:text="Some setting" />
 
