@@ -197,17 +197,10 @@ class VpnStateConnectedFragment :
             }
             chart.xAxis.isEnabled = false
 
-            chart.viewTreeObserver.addOnGlobalLayoutListener {
-                val chartHeightInDp: Float =
-                    if (chart.visibility == View.VISIBLE) chart.height.toDp()
-                    else spacerNoChart.height.toDp()
-                if (chartHeightInDp < CHART_MIN_HEIGHT_DP) {
-                    chart.visibility = View.GONE
-                    spacerNoChart.visibility = View.VISIBLE
-                } else {
-                    chart.visibility = View.VISIBLE
-                    spacerNoChart.visibility = View.GONE
-                }
+            root.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                val chartHeightInDp: Float = chart.height.toDp()
+                chart.visibility =
+                    if (chartHeightInDp < CHART_MIN_HEIGHT_DP) View.INVISIBLE else View.VISIBLE
             }
 
             chart.data = LineData().apply {

@@ -133,13 +133,6 @@
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:layout_weight="1" />
 
-        <Space
-            android:id="@+id/spacerNoChart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone"/>
-
         <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonDisconnect"
             android:layout_width="match_parent"
