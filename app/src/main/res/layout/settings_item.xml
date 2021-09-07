@@ -39,8 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:visibility="gone"
         android:textAlignment="viewStart"
         tools:text="Current value"
