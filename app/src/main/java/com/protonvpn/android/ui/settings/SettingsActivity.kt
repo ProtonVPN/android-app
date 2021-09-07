@@ -169,8 +169,9 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     private fun initVpnAcceleratorToggles() = with(binding.contentSettings) {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
-            switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(getString(
-                R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)))
+            val info =
+                getString(R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)
+            switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
             switchVpnAccelerator.switchClickInterceptor = {
                 tryToggleVpnAccelerator()
                 true

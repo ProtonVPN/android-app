@@ -19,15 +19,17 @@
 
 package com.protonvpn.android.ui.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.widget.Checkable
 import android.widget.CompoundButton
 import androidx.core.content.res.use
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.SettingsSwitchBinding
-import com.protonvpn.android.ui.settings.SettingsItemBase
 
 class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     constructor(context: Context) : super(context)
@@ -88,5 +90,11 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         binding.switchButton.isEnabled = enabled
+    }
+
+    @SuppressLint("DrawAllocation")
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        touchDelegate = TouchDelegate(Rect(0, 0, width, height), binding.switchButton)
     }
 }
