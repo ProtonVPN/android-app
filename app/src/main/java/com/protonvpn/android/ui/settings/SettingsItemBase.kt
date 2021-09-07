@@ -64,7 +64,6 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
 
     private fun init(attrs: AttributeSet?) {
         binding = inflate(context)
-        textInfo().movementMethod = LinkMovementMethod.getInstance()
         if (attrs != null) {
             context.theme.obtainStyledAttributes(attrs, R.styleable.SettingsItemBase, 0, 0).use {
                 isEnabled = it.getBoolean(R.styleable.SettingsItemBase_android_enabled, true)
@@ -76,8 +75,11 @@ abstract class SettingsItemBase<Binding : Any> : LinearLayout {
         }
     }
 
-    fun setInfoText(text: CharSequence?) {
+    fun setInfoText(text: CharSequence?, hasLinks: Boolean = false) {
         setTextAndVisibility(textInfo(), text)
+        if (hasLinks) {
+            textInfo().movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 
     fun setInfoText(@StringRes textId: Int) {
