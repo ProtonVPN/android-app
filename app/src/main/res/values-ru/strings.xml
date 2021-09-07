@@ -46,22 +46,31 @@
   <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Это действие включит режим Secure Core%1$s Продолжить?</string>
   <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу, не поддерживающему Secure Core. Это действие выключит режим Secure Core%1$s Продолжить?</string>
   <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;and <b>разорвать текущее соединение</b>.]]></string>
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Необходимо перезапустить ваше подключение для изменения режима Secure Core.</string>
   <string name="logoutDescription">Выход отключит ваше устройство от VPN-сервера.</string>
   <string name="showAllProfiles">Показать все профили</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
   <string name="ok">ОК</string>
+  <string name="dialogContinue">Продолжить</string>
   <string name="secureCoreConnectVia">через %1$s</string>
   <string name="connected">Подключено</string>
   <string name="buttonConnect">Подключиться</string>
   <string name="loaderInitializing">Инициализация подключения…</string>
   <string name="loaderConnectingTo">Подключение к %1$s</string>
+  <string name="loaderConnectingToLabel">Connecting to…</string>
   <string name="loaderNotConnected">Не подключен (не защищен)</string>
+  <string name="loaderNotConnectedSuggestion">Tap the quick connect button</string>
   <string name="loaderConnectedTo">Подключен к %1$s</string>
+  <string name="loaderConnectedToLabel">Connected to:</string>
   <string name="loaderDisconnecting">Отключение</string>
+  <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
   <string name="loaderReconnecting">Повторное подключение</string>
+  <string name="loaderReconnectingSuggestion">Or tap \"Retry\" to reconnect manually</string>
   <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
+  <string name="loaderReconnectNoNetworkSuggestion">Please check your network</string>
   <string name="loaderCheckingAvailability">Проверка доступности сервера</string>
+  <string name="loaderCheckingAvailabilitySuggestion">Please wait a few seconds</string>
   <string name="loaderCancel">Отменить подключение</string>
   <string name="clickBackAgainLogout">Нажмите кнопку назад еще раз, чтобы свернуть</string>
   <string name="quickConnect">Быстрое подключение</string>
@@ -95,6 +104,10 @@
   <string name="activityProfileTitle">Профиль</string>
   <string name="activityAccountTitle">Аккаунт</string>
   <string name="activitySettingsTitle">Настройки</string>
+  <string name="settingsSectionQuickConnect">Быстрое подключение</string>
+  <string name="settingsSectionConnection">Подключение</string>
+  <string name="settingsSectionSecurity">Безопасность</string>
+  <string name="settingsSectionAdvanced">Продвинутые</string>
   <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
   <string name="settingsShowIconTitle">Значок состояния</string>
   <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
@@ -102,7 +115,6 @@
   <string name="settingsBypassLocalTitle">Разрешить соединения по локальной сети</string>
   <string name="settingsDnsLeakTitle">Утечка DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
-  <string name="protocolLabel">Протокол</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Размер MTU</string>
   <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Меняйте его только если знаете, что делаете.</string>
@@ -142,12 +154,12 @@
   <string name="onboardingSkip">ПРОПУСТИТЬ</string>
   <string name="onboardingNext">ДАЛЕЕ</string>
   <string name="listItemMaintenance">На техобслуживании</string>
-  <string name="listFreeCountries">Free страны</string>
-  <string name="listPremiumCountries">Premium страны</string>
-  <string name="listFastestServer">Самый быстрый сервер</string>
-  <string name="listFreeServers">Free серверы</string>
-  <string name="listBasicServers">Basic серверы</string>
-  <string name="listPlusServers">Серверы Plus</string>
+  <string name="listFreeCountries">FREE Locations (%1$d)</string>
+  <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
+  <string name="listFastestServer">Fastest Server</string>
+  <string name="listFreeServers">FREE Servers (%1$d)</string>
+  <string name="listBasicServers">BASIC Servers (%1$d)</string>
+  <string name="listPlusServers">PLUS Servers (%1$d)</string>
   <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
   <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
   <string name="tabsCountries">Страны</string>
@@ -159,6 +171,7 @@
   <string name="state_connected">Подключено</string>
   <string name="state_disconnecting">Отключение…</string>
   <string name="state_error">Ошибка</string>
+  <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
   <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
   <string name="error_assessment_failed">Сбой проверки безопасности.</string>
@@ -174,14 +187,19 @@
     <item quantity="other">Повторное подключение через %1$d секунд</item>
   </plurals>
   <string name="connection_failed">Сбой подключения</string>
-  <string name="create_new_profile">СОЗДАТЬ НОВЫЙ ПРОФИЛЬ</string>
+  <string name="create_new_profile">New profile</string>
   <string name="excludeAppsTitle">Исключенные приложения</string>
   <string name="excludeAppsDescription">Добавьте приложения, которые вы хотите исключить из трафика через VPN.</string>
   <string name="profile_name">Название профиля</string>
+  <string name="profile_name_hint">Write profile name</string>
   <string name="profile_color">Цвет профиля</string>
   <string name="secure_core">Secure Core</string>
   <string name="attachments">Вложения</string>
   <string name="report_message">Комментарий к отчету</string>
+  <string name="report_bug_email_label">Your email</string>
+  <string name="report_bug_email_hint">Enter your email address</string>
+  <string name="report_bug_message_label">Message</string>
+  <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
   <string name="send_report">Отправить сообщение</string>
   <string name="excludeIpTitle">Исключенные IP-адреса</string>
   <string name="discardChanges">Есть несохраненные изменения. Вы уверены, что хотите отказаться от них?</string>
@@ -198,11 +216,23 @@
   <string name="try_again">Попробовать снова</string>
   <string name="manage">Управление</string>
   <string name="delete">Удалить</string>
+  <string name="deleteProfileButton">Удалить профиль</string>
   <string name="deleteProfile">Вы уверены, что хотите удалить этот профиль?</string>
+  <string name="doneButton">Готово</string>
+  <string name="saveButton">Сохранить</string>
+  <string name="recommendedHeader">Рекомендованное</string>
+  <string name="countryServersHeader">Country servers</string>
+  <string name="secureCoreCountriesHeader">Secure Core countries</string>
+  <string name="recommendedProfilesHeader">Recommended profiles</string>
+  <string name="yourProfilesHeader">Your profiles</string>
   <string name="exitCountry">Страна выхода</string>
   <string name="entryCountry">Страна входа</string>
   <string name="country">Страна</string>
+  <string name="selectCountry">Select country</string>
   <string name="serverSelection">Сервер</string>
+  <string name="selectServer">Select server</string>
+  <string name="protocolLabel">Протокол</string>
+  <string name="selectProtocol">Select protocol</string>
   <string name="protocol">Протокол:</string>
   <string name="ip">IP:</string>
   <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -222,8 +252,8 @@
   <string name="bugReportErrorEmptyEmail">Адрес эл. почты не может быть пустым</string>
   <string name="bugReportErrorInvalidEmail">Недействительный адрес эл. почты</string>
   <string name="bugReportErrorEmptyDescription">Пожалуйста, напишите нам, что происходит</string>
-  <string name="bugReportLabelVpnLogsTitle">Журналы VPN</string>
-  <string name="bugReportErrorLabelVpnLogsDescription">Включение этого параметра добавит журналы работы VPN на стороне клиента в этот отчет</string>
+  <string name="bugReportLabelVpnLogsTitle">Include error logs</string>
+  <string name="bugReportErrorLabelVpnLogsDescription">This sends local error logs (we don\'t log activity) to help us fix your problem</string>
   <string name="profileFastest">Быстрейший</string>
   <string name="profileRandom">Случайный</string>
   <string name="settingsSplitTunnelingDescription">Разделение туннелирования позволяет исключить некоторые приложения или IP-адреса из VPN трафика.</string>
@@ -234,6 +264,25 @@
   <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
   <string name="loaderErrorGeneric">Что-то пошло не так</string>
   <string name="loaderLoadingServers">Загрузка серверов…</string>
+  <string name="inputIpAddressLabel">IP Address</string>
+  <string name="inputIpAddressHint">Write IP address</string>
+  <string name="inputIpAddressErrorInvalid">Invalid IP address</string>
+  <string name="settingsExcludedIPAddresses">Excluded IP Addresses</string>
+  <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
+  <string name="settingsExcludedApps">Excluded Apps</string>
+  <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
+  <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableHeader">Available Apps (%1$d)</string>
+  <string name="listNoItems">Нет</string>
+  <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+     %2$d - a number of remaining items.
+     Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+  <plurals name="listFewItemsAndMore">
+    <item quantity="one">%1$s and %2$d more</item>
+    <item quantity="few">%1$s and %2$d more</item>
+    <item quantity="many">%1$s and %2$d more</item>
+    <item quantity="other">%1$s and %2$d more</item>
+  </plurals>
   <string name="settingsCannotChangeWhileConnected">Нельзя изменить это при подключении</string>
   <string name="excludeAlreadyExcluded">Уже исключено</string>
   <string name="removeExcludedIpDialogDescription">Вы уверены, что хотите удалить этот IP из списка?</string>
@@ -249,7 +298,9 @@
   <string name="welcomeDialogTitleTrial">Чтобы сказать спасибо, мы дадим вам бесплатную 7-дневную пробную версию нашего плана Plus, которая позволяет использовать расширенные возможности и серверы Plus. В конце пробного периода вы вернетесь к бесплатному плану и сохраните доступ только к серверам тарифа Free.</string>
   <string name="toastLoginAuthVersionError">Вход невозможен по причине неподдерживаемой версии аутентификации. Пожалуйста, свяжитесь со службой поддержки.</string>
   <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
+  <string name="troubleshootButton">Устранение неполадок</string>
   <string name="activityTroubleshootTitle">Устранение неисправностей</string>
+  <string name="troubleshootPotentialSolutionsSectionTitle">Potential solutions</string>
   <string name="troubleshootNoInternetDescription">Пожалуйста, убедитесь, что ваше интернет-соединение работает.</string>
   <string name="troubleshootNoInternetTitle">Нет подключения к интернету</string>
   <string name="troubleshootIspProblemTitle">Проблема с интернет-провайдером (ISP)</string>
@@ -260,18 +311,29 @@
   <string name="troubleshootProxyFirewallProblemDescription">Отключите все прокси-серверы или брандмауэры, или обратитесь к своему сетевому администратору.</string>
   <string name="troubleshootProtonDownTitle">Proton не работает</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">статус ProtonVPN</a>, чтобы узнать состояние нашей системы.]]></string>
-  <string name="settingsAllowAlternativeRoutingTitle">Разрешить альтернативную маршрутизацию</string>
-  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае блокировки сайтов Proton эта настройка позволяет приложению попробовать альтернативную сетевую маршрутизацию, чтобы добраться до Proton, что может быть полезно для обхода брандмауэров или сетевых проблем. Для большей надежности мы рекомендуем оставить эту настройку включенной. <a href=\"%1$s\">Узнать больше</a>]]></string>
+  <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
+  <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
+  <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
+  <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
   <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN и Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Настройте ProtonVPN на автоматическое переподключение или отключение внешних соединений в случае разрыва VPN-подключения.</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
+  <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
-  <string name="settingsAlwaysOnWindowStep2">Найдите ProtonVPN и нажмите %1$s</string>
-  <string name="settingsAlwaysOnWindowStep3"><![CDATA[Нажмите переключатель рядом с пунктом <b>постоянный VPN</b>, чтобы включить его]]></string>
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowStep2">2. Find ProtonVPN and tap %1$s</string>
+  <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+     find this phrase in your phone's settings. -->
+  <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
+  <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+     Android settings.
+     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+     find this phrase in your phone's settings. -->
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
   <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
@@ -288,6 +350,8 @@
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
   <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
+  <string name="errorWireguardWithPlaceholder">Ошибка WireGuard %1$s</string>
+  <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
   <string name="stateConnectedTo">Подключение к %1$s</string>
   <string name="stateNotConnected">Вы не подключены</string>
   <string name="recents">Недавние</string>
@@ -369,19 +433,27 @@
   <string name="tv_server_list">Список серверов</string>
   <string name="tv_server_list_action_unavailable">Недоступно</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
+  <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator позволяет использовать набор уникальных технологий для улучшения производительности, которые могут увеличить скорость VPN до 400%%. <a href="%1$s">Узнать больше</a>.]]></string>
+  <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="dialogTitleReconnectionNeeded">Требуется переподключение</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Необходимо перезапустить ваше подключение для изменения режима VPN Accelerator.</string>
-  <string name="notification_subscription_expired_title">Ваша подписка истекла</string>
-  <string name="notification_subscription_expired_content">Ваша подписка была понижена, поэтому мы переподключаемся к наиболее самому доступному серверу. </string>
+  <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
+  <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
   <string name="notification_delinquent_title">В Вашей учетной записи ProtonVPN есть неоплаченные счета</string>
   <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-  <string name="notification_max_sessions_title">Вы достигли максимального лимита устройств</string>
+  <string name="notification_max_sessions_title">You have reached your device limit</string>
+  <!-- The number of devices will always be greater than 1. -->
+  <plurals name="notification_max_sessions_upsell_content">
+    <item quantity="one">Disconnect a device to connect this one or upgrade to Plus to connect %1$d device.</item>
+    <item quantity="few">Disconnect a device to connect this one or upgrade to Plus to connect up to %1$d devices.</item>
+    <item quantity="many">Disconnect a device to connect this one or upgrade to Plus to connect up to %1$d devices.</item>
+    <item quantity="other">Disconnect a device to connect this one or upgrade to Plus to connect up to %1$d devices.</item>
+  </plurals>
   <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее.</string>
   <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифным планом. Доступны бесплатные серверы и функции.</string>
   <string name="notification_cancel_to_basic">Вы на плане BASIC. Доступны BASIC и БЕСПЛАТНЫЕ серверы и функции.</string>
@@ -394,25 +466,48 @@
   <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
   <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружил, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
   <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
+  <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
+  <!-- Number of servers available in the service. This phrase will be combined with
+     "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+     Example: 1364 servers, 55 countries -->
+  <plurals name="upsell_many_servers">
+    <item quantity="one">%1$d server</item>
+    <item quantity="few">%1$d servers</item>
+    <item quantity="many">%1$d servers</item>
+    <item quantity="other">%1$d servers</item>
+  </plurals>
+  <!-- Number of countries available in the service. This phrase will be combined with
+     "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+     Example: 1364 servers, 55 countries -->
+  <plurals name="upsell_many_countries">
+    <item quantity="one">%1$d country</item>
+    <item quantity="few">%1$d countries</item>
+    <item quantity="many">%1$d countries</item>
+    <item quantity="other">%1$d countries</item>
+  </plurals>
+  <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
   <!-- Information activity -->
   <string name="activity_information_title">Информация</string>
   <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
   <string name="activity_information_plus_title">%1$s - Серверы Plus</string>
   <string name="info_features">Функции</string>
   <string name="smart_routing_title">Smart маршрутизация</string>
-  <string name="smart_routing_description">This technology allows ProtonVPN to provide higher speed and security in difficult-to-serve countries.</string>
+  <string name="smart_routing_description">Эта технология позволяет ProtonVPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
   <string name="streaming_title">Стриминг</string>
-  <string name="streaming_description">PLUS servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
+  <string name="streaming_description">Серверы PLUS поддерживают потоковое вещание (Netflix, Disney+, и т. д.) из любой точки мира.</string>
   <string name="p2p_title">P2P/BitTorrent</string>
-  <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
+  <string name="p2p_description">Эти серверы обеспечивают лучшую производительность для BitTorrent и обмена файлами.</string>
   <string name="tor_title">Tor</string>
   <string name="tor_description">Направляйте ваш Интернет трафик через сеть Tor. Медленнее, но приватнее.</string>
   <string name="info_performance">Производительность</string>
   <string name="server_load_title">Нагрузка сервера</string>
-  <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
+  <string name="server_load_description">Серверы с высокой нагрузкой медленнее, чем серверы с низкой нагрузкой.</string>
   <string name="streaming_title_with_country">Стриминг - %1$s</string>
-  <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\nNote: Clear the cache of the streaming apps to ensure new content appears.</string>
+  <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
   <string name="activity_information_learn_more">Узнать больше</string>
   <string name="server_load_low">Низкая</string>
   <string name="server_load_medium">Средняя</string>
