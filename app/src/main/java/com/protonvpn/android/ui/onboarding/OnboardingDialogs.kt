@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.ui.onboarding
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.view.View
 import android.widget.ImageView
 import androidx.core.animation.doOnEnd

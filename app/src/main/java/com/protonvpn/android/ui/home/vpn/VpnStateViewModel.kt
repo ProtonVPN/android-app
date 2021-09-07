@@ -20,8 +20,10 @@
 package com.protonvpn.android.ui.home.vpn
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -40,6 +42,7 @@ class VpnStateViewModel @Inject constructor(
     val trafficStatus = trafficMonitor.trafficStatus
 
     val netShieldExpandStatus = MutableStateFlow(false)
+    val bottomSheetFullyExpanded = MutableLiveData(false)
 
     fun reconnect(context: Context) {
         vpnConnectionManager.reconnect(context)
@@ -57,5 +60,9 @@ class VpnStateViewModel @Inject constructor(
 
     fun onNetShieldExpandClicked() {
         netShieldExpandStatus.value = !netShieldExpandStatus.value
+    }
+
+    fun onBottomStateChanges(newState: Int) {
+        bottomSheetFullyExpanded.value = newState == BottomSheetBehavior.STATE_EXPANDED
     }
 }

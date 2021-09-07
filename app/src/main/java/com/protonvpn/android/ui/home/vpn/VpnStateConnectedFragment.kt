@@ -38,21 +38,15 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.jobs.MoveViewJob
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
-import com.protonvpn.android.models.config.NetShieldProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
-import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStateMonitor
 import java.text.DecimalFormat
-import javax.inject.Inject
 
 private const val CHART_LINE_WIDTH_DP = 3f
 private val CHART_LINE_MODE = LineDataSet.Mode.HORIZONTAL_BEZIER
@@ -66,19 +60,7 @@ private const val CHART_MIN_HEIGHT_DP = 100
 
 @ContentLayout(R.layout.fragment_vpn_state_connected)
 class VpnStateConnectedFragment :
-    BaseFragmentV2<VpnStateConnectedViewModel, FragmentVpnStateConnectedBinding>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    // All these dependencies are required by the NetShieldSwitch.
-    // Once we refactor it, they should be removed.
-    @Inject lateinit var userData: UserData
-    @Inject lateinit var appConfig: AppConfig
-    @Inject lateinit var stateMonitor: VpnStateMonitor
-    @Inject lateinit var vpnConnectionManager: VpnConnectionManager
-    // End of NetShieldSwitch's dependencies.
-
-    private lateinit var parentViewModel: VpnStateViewModel
+    VpnStateFragmentWithNetShield<VpnStateConnectedViewModel, FragmentVpnStateConnectedBinding>() {
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {
         initDataSet(ContextCompat.getColor(requireContext(), R.color.download))
@@ -95,10 +77,9 @@ class VpnStateConnectedFragment :
     }
 
     override fun initViewModel() {
+        super.initViewModel()
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(VpnStateConnectedViewModel::class.java)
-        parentViewModel =
-            ViewModelProvider(requireParentFragment(), viewModelFactory).get(VpnStateViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,26 +91,6 @@ class VpnStateConnectedFragment :
 
             buttonDisconnect.setOnClickListener { parentViewModel.disconnectAndClose() }
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
-
-            // TODO: NetShield onboarding popup.
-            netShieldSwitch.init(
-                userData.netShieldProtocol,
-                appConfig,
-                viewLifecycleOwner,
-                userData,
-                stateMonitor,
-                vpnConnectionManager
-            ) { s: NetShieldProtocol? ->
-                userData.netShieldProtocol = s
-            }
-            netShieldSwitch.onRadiosExpandClicked = { parentViewModel.onNetShieldExpandClicked() }
-            parentViewModel.netShieldExpandStatus.asLiveData()
-                .observe(viewLifecycleOwner, Observer { netShieldSwitch.radiosExpanded = it })
-            userData.netShieldLiveData.observe(viewLifecycleOwner, Observer<NetShieldProtocol> { state ->
-                if (state != null) {
-                    netShieldSwitch.setNetShieldValue(state)
-                }
-            })
         }
 
         viewModel.connectionState.asLiveData().observe(viewLifecycleOwner, Observer {
@@ -256,4 +217,6 @@ class VpnStateConnectedFragment :
             else -> formatter.format(k) + " KB/s"
         }
     }
+
+    override fun netShieldSwitch(): NetShieldSwitch = binding.netShieldSwitch
 }
