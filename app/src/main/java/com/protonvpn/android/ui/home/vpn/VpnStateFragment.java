@@ -150,6 +150,7 @@ public class VpnStateFragment extends BaseFragment {
                 if (isAdded()) {
                     updateSessionTimeObserver(stateMonitor.isConnected());
                 }
+                viewModel.onBottomStateChanges(newState);
             }
 
             @Override
@@ -167,6 +168,7 @@ public class VpnStateFragment extends BaseFragment {
                 }
             }
         });
+        viewModel.onBottomStateChanges(bottomSheetBehavior.getState());
     }
 
     public boolean collapseBottomSheet() {
