@@ -95,4 +95,7 @@ class ConnectionParamsWireguard(
         // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
         return ipRangeSet.subnets().joinToString(", ") + ", 2000::/3"
     }
+
+    override fun hasSameProtocolParams(other: ConnectionParams) =
+        super.hasSameProtocolParams(other) && other is ConnectionParamsWireguard && other.port == port
 }
