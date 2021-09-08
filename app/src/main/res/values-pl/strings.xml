@@ -408,7 +408,7 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="tv_server_list">Lista serwerów</string>
   <string name="tv_server_list_action_unavailable">Niedostępny</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, kiedy funkcja VPN Accelerator zmieni serwer na szybszy</string>
   <string name="dialogTitleReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Aby zmienić ustawienia funkcji VPN Accelerator, musisz ponownie nawiązać połączenie.</string>
@@ -460,4 +460,10 @@ Wykonaj następujące kroki, aby włączyć stale aktywny VPN i funkcję Kill Sw
   <string name="server_load_medium">Średnie</string>
   <string name="server_load_high">Duże</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Aby zmienić tryb Secure Core, musisz ponownie nawiązać połączenie.</string>
+  <string name="dialogContinue">Kontynuuj</string>
+  <string name="error_server_unreachable">Nie można połączyć z usługą VPN. Sprawdź swoje połączenie i spróbuj ponownie.</string>
+  <string name="errorWireguardWithPlaceholder">Błąd protokołu WireGuard %1$s</string>
+  <string name="serverNoWireguardSupport">Ten profil serwera nie obsługuje protokołu WireGuard. Aby połączyć się, wybierz inny protokół lub serwer wspierający WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">Funkcja VPN Accelerator udostępnia zestaw unikalnych technologii zwiększających wydajność, które mogą przyśpieszyć prędkość połączenia VPN do 400%%. &lt;a href="%1$s"&gt;Dowiedz się więcej&lt;/a&gt;.</string>
 </resources>

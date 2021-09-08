@@ -443,4 +443,10 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="server_load_medium">Mittel</string>
   <string name="server_load_high">Hoch</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Um den „Secure Core”-Modus zu ändern, muss Ihre Verbindung neu gestartet werden.</string>
+  <string name="dialogContinue">Weiter</string>
+  <string name="error_server_unreachable">Verbindung zum VPN fehlgeschlagen. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+  <string name="errorWireguardWithPlaceholder">WireGuard-Fehler %1$s</string>
+  <string name="serverNoWireguardSupport">Der Server dieses Profils unterstützt WireGuard derzeit nicht. Um dennoch eine Verbindung herzustellen, versuchen Sie ein anderes Protokoll oder einen Server, der WireGuard unterstützt.</string>
+  <string name="settingsVpnAcceleratorDescription">„VPN Accelerator“ ermöglicht eine Reihe einzigartiger leistungssteigernder Technologien, die die VPN-Geschwindigkeit um bis zu 400 %% erhöhen können. &lt;a href="%1$s" &gt;Mehr erfahren&lt;/a&gt;.</string>
 </resources>

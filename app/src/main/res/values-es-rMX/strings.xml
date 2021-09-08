@@ -394,7 +394,7 @@ Siga estos pasos para activar la VPN Siempre Activa y Kill Switch:"</string>
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">No disponible</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Recibir notificaciones cuando VPN Accelerator le cambie a un servidor más rápido</string>
   <string name="dialogTitleReconnectionNeeded">Reconexión necesaria</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Su conexión debe reiniciarse para cambiar el modo VPN Accelerator.</string>
@@ -446,4 +446,10 @@ Siga estos pasos para activar la VPN Siempre Activa y Kill Switch:"</string>
   <string name="server_load_medium">Media</string>
   <string name="server_load_high">Alta</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Su conexión necesita ser reiniciada para cambiar el modo Secure Core.</string>
+  <string name="dialogContinue">Continuar</string>
+  <string name="error_server_unreachable">No se pudo conectar a la VPN. Por favor, verifique la conexión y vuelva a intentarlo.</string>
+  <string name="errorWireguardWithPlaceholder">Error de WireGuard %1$s</string>
+  <string name="serverNoWireguardSupport">El servidor de este perfil aún no es compatible con WireGuard. Para conectarse, pruebe con otro protocolo o un servidor que admita WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">VPN Accelerator habilita un conjunto de tecnologías únicas que mejoran el rendimiento y pueden aumentar la velocidad de VPN hasta en un 400%%. &lt;a href="%1$s"&gt;Más información&lt;/a&gt;.</string>
 </resources>

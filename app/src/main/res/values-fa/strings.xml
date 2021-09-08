@@ -394,7 +394,7 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="tv_server_list">لیست سرور</string>
   <string name="tv_server_list_action_unavailable">غیر قابل دسترس</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
   <string name="dialogTitleReconnectionNeeded">اتصال مجدد لازم است</string>
   <string name="settingsSmartReconnectReconnectDialogContent">برای تغییر حالت VPN Accelerator اتصال شما باید دوباره راه‌اندازی شود.</string>
@@ -446,4 +446,10 @@ Kill Switch در صورت قطع شدن VPN دستگاه شما را از برق
   <string name="server_load_medium">متوسط</string>
   <string name="server_load_high">بالا</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">برای تغییر حالت Secure Core اتصال شما باید دوباره راه‌اندازی شود.</string>
+  <string name="dialogContinue">ادامه</string>
+  <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
+  <string name="errorWireguardWithPlaceholder">خطای %1$s WireGuard</string>
+  <string name="serverNoWireguardSupport">سرور این پروفایل هنوز از WireGuard پشتیبانی نمی‌کند. برای اتصال، از یک پروتکل دیگر یا سروری که از WireGuard پشتیبانی می‌کند استفاده کنید.</string>
+  <string name="settingsVpnAcceleratorDescription">VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت‌های VPN را تا ٪۴۰۰ افزایش دهد. &lt;a href="%1$s"&gt;بیشتر یاد بگیرید&lt;/a&gt;.</string>
 </resources>
