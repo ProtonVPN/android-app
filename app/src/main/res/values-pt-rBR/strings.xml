@@ -419,7 +419,7 @@
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">Indisponível</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-  <string name="settingsVpnAcceleratorDescription"><![CDATA[O VPN Acelerador permite um conjunto de tecnologias únicas de aprimoramento de desempenho que podem aumentar a velocidade da VPN em até 400%. <a href="%1$s"> Saiba mais </a>.]]></string>
+  <string name="settingsVpnAcceleratorDescription"><![CDATA[O VPN Acelerador permite um conjunto de tecnologias únicas de aprimoramento de desempenho que podem aumentar a velocidade da VPN em até 400%%. <a href="%1$s"> Saiba mais </a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Notificações do VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Seja notificado quando o VPN Accelerator mudar você para um servidor mais rápido</string>
   <string name="dialogTitleReconnectionNeeded">Reconexão necessária</string>
