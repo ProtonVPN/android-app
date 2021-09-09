@@ -22,13 +22,18 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.receiveOrNull
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.util.kotlin.mapNotNullAsync
 import java.text.Collator
 import java.util.Locale
+import kotlin.random.Random
 
 fun <T> Collection<T>.randomNullable() =
         if (isEmpty()) null else random()
@@ -43,24 +48,59 @@ inline fun <T> Iterable<T>.sortedByLocaleAware(crossinline selector: (T) -> Stri
 
 // Checks predicate in parallel (via scope.launch {}) for each item and returns element that first finished with true or
 // null.
+// If [priorityWaitMs] > 0 then it'll prioritize elements in terms of order and:
+// - before priorityWaitMs passed it'll return successful element only if all previous elements failed (finished and
+// didn't meet the predicate)
+// - after priorityWaitMs returns first in terms of order element that did succeed
+// - if no element was returned so far it waits for first to meet the predicate or return null if all failed
 @OptIn(ExperimentalStdlibApi::class)
-suspend fun <T> List<T>.parallelFirstOrNull(predicate: suspend (T) -> Boolean): T? = coroutineScope {
-    var count = size
-    if (count == 0)
+suspend fun <T : Any> List<T>.parallelFirstOrNull(
+    priorityWaitMs: Long = 0L,
+    predicate: suspend (T) -> Boolean
+): T? = coroutineScope {
+    data class WorkerResult(val success: Boolean, val index: Int)
+    fun Array<Boolean?>.havePriorityResult(): Boolean {
+        forEach {
+            if (it == null)
+                return false
+            else if (it == true)
+                return true
+        }
+        return true
+    }
+    if (size == 0)
         null
     else {
-        val responses = MutableSharedFlow<T?>(replay = count)
+        val resultChannel = Channel<WorkerResult>()
         val workersScope = CoroutineScope(coroutineContext[CoroutineDispatcher.Key] ?: Dispatchers.IO)
         try {
-            forEach { item ->
+            val workerJobs = mapIndexed { i, item ->
                 workersScope.launch {
-                    responses.emit(item.takeIf { predicate(it) })
+                    resultChannel.send(WorkerResult(predicate(item), i))
                 }
             }
-            responses.first {
-                count--
-                it != null || count == 0
+            workersScope.launch {
+                workerJobs.joinAll()
+                resultChannel.close()
             }
+
+            val firstSuccessIdx: Int = if (priorityWaitMs > 0) {
+                val responses = Array<Boolean?>(size) { null }
+                withTimeoutOrNull(priorityWaitMs) {
+                    do {
+                        resultChannel.receiveOrNull()?.also { result ->
+                            responses[result.index] = result.success
+                        }
+                    } while (!responses.havePriorityResult())
+                }
+                responses.indexOfFirst { it == true }
+            } else -1
+
+            val resultIdx: Int? = if (firstSuccessIdx >= 0)
+                firstSuccessIdx
+            else
+                resultChannel.receiveAsFlow().firstOrNull { it.success }?.index
+            resultIdx?.let { get(it) }
         } finally {
             workersScope.cancel()
         }
@@ -69,8 +109,22 @@ suspend fun <T> List<T>.parallelFirstOrNull(predicate: suspend (T) -> Boolean): 
 
 // Search for elements satisfying [predicate] in parallel. [returnAll] = true will find all elements, otherwise only
 // first (fastest) element is returned.
-suspend fun <T : Any> List<T>.parallelSearch(returnAll: Boolean, predicate: suspend (T) -> Boolean): List<T> =
+suspend fun <T : Any> List<T>.parallelSearch(
+    returnAll: Boolean,
+    priorityWaitMs: Long = 0L,
+    predicate: suspend (T) -> Boolean
+): List<T> =
     if (returnAll)
         mapNotNullAsync { item -> item.takeIf { predicate(it) } }
     else
-        listOfNotNull(parallelFirstOrNull { predicate(it) })
+        listOfNotNull(parallelFirstOrNull(priorityWaitMs = priorityWaitMs) { predicate(it) })
+
+// as .take(n) but instead of taking n first elements take random elements keeping the order
+fun <T> List<T>.takeRandomStable(n: Int, random: Random = Random.Default): List<T> =
+    if (n >= size)
+        this
+    else ArrayList(this).apply {
+        repeat(size - n) {
+            removeAt(random.nextInt(size))
+        }
+    }
