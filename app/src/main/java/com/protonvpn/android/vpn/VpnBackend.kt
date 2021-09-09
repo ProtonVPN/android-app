@@ -32,6 +32,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
+import com.protonvpn.android.utils.takeRandomStable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -393,12 +394,8 @@ abstract class VpnBackend(
         if (connectingDomain.publicKeyX25519 == null)
             emptyList()
         else {
-            val candidatePorts = if (numberOfPorts < ports.size)
-                ports.shuffled().take(numberOfPorts)
-            else
-                ports.shuffled()
-
-            candidatePorts.parallelSearch(waitForAll) {
+            val candidatePorts = ports.takeRandomStable(numberOfPorts)
+            candidatePorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) {
                 VpnPing.pingSync(connectingDomain.entryIp, it.toLong(),
                     connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS)
             }
@@ -406,6 +403,8 @@ abstract class VpnBackend(
     }
 
     companion object {
+        // During this time pings will prefer ports in order in which they were defined
+        const val PING_PRIORITY_WAIT_DELAY = 1000L
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_NETSHIELD = "netshield-level"
         private const val FEATURES_SPLIT_TCP = "split-tcp"

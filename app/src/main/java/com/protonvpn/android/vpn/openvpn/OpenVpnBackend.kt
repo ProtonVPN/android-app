@@ -35,6 +35,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
+import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -122,7 +123,7 @@ class OpenVpnBackend(
             val tcpPingData = getPingData(tcp = true)
             val tcpPorts = async {
                 val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
-                ports.parallelSearch(waitForAll) { port ->
+                ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
                     NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
                 }
             }
@@ -135,9 +136,9 @@ class OpenVpnBackend(
 
     private fun samplePorts(list: List<Int>, count: Int) =
         if (list.contains(PRIMARY_PORT))
-            list.filter { it != PRIMARY_PORT }.shuffled().take(count - 1) + PRIMARY_PORT
+            list.filter { it != PRIMARY_PORT }.takeRandomStable(count - 1) + PRIMARY_PORT
         else
-            list.shuffled().take(count)
+            list.takeRandomStable(count)
 
     private fun getPingData(tcp: Boolean): ByteArray {
         // P_CONTROL_HARD_RESET_CLIENT_V2 TLS message.
