@@ -53,8 +53,9 @@ class VpnLogCapture(appComponent: AppComponent, val monoClock: () -> Long) {
         do {
             val start = monoClock()
             try {
+                val wireguardTag = "WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}"
                 val process = Runtime.getRuntime().exec(
-                    "logcat -s WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}:* charon:* -T 1 -v raw"
+                    "logcat -s ${wireguardTag}:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1 -v raw"
                 )
                 BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
                     lines.forEach {

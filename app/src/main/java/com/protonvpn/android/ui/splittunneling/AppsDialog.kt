@@ -20,8 +20,14 @@ package com.protonvpn.android.ui.splittunneling
 
 import android.Manifest
 import android.app.ActivityManager
-import android.content.pm.ApplicationInfo
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.SystemClock
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -30,21 +36,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
+import com.protonvpn.android.AppInfoService
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseDialog
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.receiveOrNull
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
+
+private const val APP_INFO_RESULT_TIMEOUT_MS = 5_000L
+private const val APP_ICON_SIZE_DP = 28
+typealias ProgressCallback = (progress: Int, total: Int) -> Unit
 
 @ContentLayout(R.layout.dialog_split_tunnel)
 class AppsDialog : BaseDialog() {
@@ -76,8 +95,8 @@ class AppsDialog : BaseDialog() {
         val adapter = GroupAdapter<GroupieViewHolder>()
         val regularAppsSection = Section(AppsHeaderViewHolder(R.string.excludeAppsRegularSectionTitle))
         val systemAppsSection = Section(AppsHeaderViewHolder(R.string.excludeAppsSystemSectionTitle))
-        systemAppsSection.add(LoadSystemAppsViewHolder {
-            loadSystemApps(layoutManager, adapter, systemAppsSection)
+        systemAppsSection.add(LoadSystemAppsViewHolder { progressCallback ->
+            loadSystemApps(layoutManager, adapter, systemAppsSection, progressCallback)
         })
 
         adapter.add(regularAppsSection)
@@ -87,17 +106,20 @@ class AppsDialog : BaseDialog() {
         textDescription.setText(R.string.excludeAppsDescription)
         progressBar.visibility = View.VISIBLE
 
-        val packageManager = requireContext().packageManager
         val selection = userData.splitTunnelApps.toSet()
         viewLifecycleOwner.lifecycleScope.launch {
             regularAppsSection.addAll(
-                getSortedAppViewHolders(packageManager, true, selection)
+                getSortedAppViewHolders(requireContext(), true, selection) { progress, total ->
+                    progressBar.isIndeterminate = false
+                    progressBar.progress = progress
+                    progressBar.max = total
+                }
             )
             list.adapter = adapter
             progressBar.visibility = View.GONE
         }
         mainScope.launch {
-            removeUninstalledApps(packageManager, userData)
+            removeUninstalledApps(requireContext().packageManager, userData)
         }
     }
 
@@ -109,12 +131,13 @@ class AppsDialog : BaseDialog() {
     private fun loadSystemApps(
         layoutManager: LinearLayoutManager,
         adapter: GroupAdapter<GroupieViewHolder>,
-        systemAppsSection: Section
+        systemAppsSection: Section,
+        progressCallback: ProgressCallback
     ) {
         viewLifecycleOwner.lifecycleScope.launch {
             val selection = userData.splitTunnelApps.toSet()
             systemAppsSection.addAll(
-                getSortedAppViewHolders(requireContext().packageManager, false, selection)
+                getSortedAppViewHolders(requireContext(), false, selection, progressCallback)
             )
             systemAppsSection.remove(systemAppsSection.getItem(1))
             val headerPosition = adapter.getAdapterPosition(systemAppsSection.getItem(0))
@@ -133,11 +156,12 @@ class AppsDialog : BaseDialog() {
     }
 
     private suspend fun getSortedAppViewHolders(
-        packageManager: PackageManager,
+        context: Context,
         withLaunchIntent: Boolean,
-        selection: Set<String>
+        selection: Set<String>,
+        onProgress: ProgressCallback
     ): List<AppViewHolder> {
-        val regularApps = getInstalledInternetApps(packageManager, withLaunchIntent)
+        val regularApps = getInstalledInternetApps(context, withLaunchIntent, onProgress)
         val sortedRegularApps = withContext(dispatcherProvider.Comp) {
             regularApps.forEach { app ->
                 if (selection.contains(app.packageName)) {
@@ -155,30 +179,95 @@ class AppsDialog : BaseDialog() {
         }
     }
 
+
     private suspend fun getInstalledInternetApps(
-        packageManager: PackageManager,
-        withLaunchIntent: Boolean
-    ): List<SelectedApplicationEntry> = withContext(dispatcherProvider.Io) {
-        val apps = packageManager.getInstalledApplications(
-            0
-        ).filter { appInfo ->
-            val hasInternet = (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
-                    == PackageManager.PERMISSION_GRANTED)
-            val hasLaunchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName) != null
-            hasInternet && hasLaunchIntent == withLaunchIntent
-        }.map { appInfo ->
-            ensureActive()
-            getAppMetadata(packageManager, appInfo)
+        context: Context,
+        withLaunchIntent: Boolean,
+        onProgress: ProgressCallback
+    ): List<SelectedApplicationEntry> {
+        val pm = context.packageManager
+        val apps = withContext(Dispatchers.IO) {
+            pm.getInstalledApplications(0)
+                .map { it.packageName }
+                .filter { packageName ->
+                    val hasInternet = (pm.checkPermission(Manifest.permission.INTERNET, packageName)
+                            == PackageManager.PERMISSION_GRANTED)
+                    val hasLaunchIntent = pm.getLaunchIntentForPackage(packageName) != null
+                    hasInternet && hasLaunchIntent == withLaunchIntent
+            }
         }
-        apps
+        return getAppInfos(context, apps, onProgress)
     }
 
-    private fun getAppMetadata(
-        packageManager: PackageManager,
-        appInfo: ApplicationInfo
-    ): SelectedApplicationEntry {
-        val label = appInfo.loadLabel(packageManager)
-        val icon = appInfo.loadIcon(packageManager)
-        return SelectedApplicationEntry(appInfo.packageName, label.toString(), icon)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun getAppInfos(
+        context: Context,
+        packages: List<String>,
+        onProgress: ProgressCallback
+    ): List<SelectedApplicationEntry> {
+        val channel = getAppInfosChannel(context, packages)
+        val results = ArrayList<SelectedApplicationEntry>(packages.size)
+        try {
+            do {
+                val appInfo = withTimeoutOrNull(APP_INFO_RESULT_TIMEOUT_MS) {
+                    channel.receiveOrNull()
+                }
+                if (appInfo != null) {
+                    onProgress(results.size, packages.size)
+                    results.add(appInfo)
+                }
+            } while (appInfo != null)
+        } catch (cancellation : CancellationException) {
+            channel.close()
+        }
+        if (results.size < packages.size) {
+            coroutineContext.ensureActive()
+            // Something went wrong, add missing items with no icon nor label.
+            val defaultIcon = context.packageManager.defaultActivityIcon
+            packages.subList(results.size, packages.size).forEach { packageName ->
+                results.add(SelectedApplicationEntry(packageName, packageName, defaultIcon))
+            }
+        }
+        return results
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun getAppInfosChannel(
+        context: Context,
+        packages: List<String>
+    ): Channel<SelectedApplicationEntry> {
+        val requestCode = SystemClock.elapsedRealtime() // Unique value.
+        val resultsChannel = Channel<SelectedApplicationEntry>()
+        var resultCount = 0
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val resultRequestCode = intent.getLongExtra(AppInfoService.EXTRA_REQUEST_CODE, 0)
+                if (resultRequestCode != requestCode)
+                    return
+
+                val packageName = intent.getStringExtra(AppInfoService.EXTRA_PACKAGE_NAME) ?: return
+                val name = intent.getStringExtra(AppInfoService.EXTRA_APP_LABEL) ?: packageName
+                val iconBytes = intent.getByteArrayExtra(AppInfoService.EXTRA_APP_ICON)
+                val iconDrawable =
+                    if (iconBytes != null) {
+                        val iconBitmap = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.size)
+                        BitmapDrawable(context.resources, iconBitmap)
+                    } else {
+                        context.packageManager.defaultActivityIcon
+                    }
+                resultsChannel.sendBlocking(SelectedApplicationEntry(packageName, name, iconDrawable))
+                if (++resultCount == packages.size)
+                    resultsChannel.close()
+            }
+        }
+
+        context.registerReceiver(receiver, IntentFilter(AppInfoService.RESULT_ACTION))
+        resultsChannel.invokeOnClose {
+            context.unregisterReceiver(receiver)
+            context.stopService(AppInfoService.createStopIntent(context))
+        }
+        val iconSizePx = APP_ICON_SIZE_DP.toPx()
+        context.startService(AppInfoService.createIntent(context, packages, iconSizePx, requestCode))
+        return resultsChannel
     }
 }

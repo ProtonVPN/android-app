@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.splittunneling
 
+import android.view.View
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemAppBinding
@@ -78,15 +79,19 @@ class AppsHeaderViewHolder(private val titleRes: Int)
 }
 
 class LoadSystemAppsViewHolder(
-    private val onLoadClicked: () -> Unit
+    private val onLoadClicked: (ProgressCallback) -> Unit
 ) : BindableItem<ItemAppsLoadSystemAppsBinding>() {
 
     override fun bind(viewBinding: ItemAppsLoadSystemAppsBinding, position: Int) {
         with(viewBinding) {
             buttonLoadSystemApps.setOnClickListener {
-                buttonLoadSystemApps.isVisible = false
-                progress.isVisible = true
-                onLoadClicked()
+                buttonLoadSystemApps.visibility = View.INVISIBLE
+                progressBar.isVisible = true
+                onLoadClicked { progress, total ->
+                    progressBar.isIndeterminate = false
+                    progressBar.progress = progress
+                    progressBar.max = total
+                }
             }
         }
     }

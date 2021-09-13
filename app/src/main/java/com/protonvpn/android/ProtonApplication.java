@@ -19,8 +19,11 @@
 package com.protonvpn.android;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -30,6 +33,7 @@ import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -42,6 +46,8 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -62,8 +68,16 @@ public class ProtonApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        initActivityObserver();
+        String processName = AndroidUtils.getMyProcessName(this);
+        boolean isMainProcess = processName.equals(getPackageName());
+
         initSentry();
+        if (!isMainProcess) {
+            Log.i(Constants.SECONDARY_PROCESS_TAG, "Starting process: " + processName);
+            return;
+        }
+
+        initActivityObserver();
         initStrongSwan();
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
