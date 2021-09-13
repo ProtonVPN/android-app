@@ -18,6 +18,8 @@
  */
 package com.protonvpn.di
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.SystemClock
 import androidx.test.espresso.IdlingRegistry
@@ -89,6 +91,10 @@ class MockAppModule {
 
     @Provides
     fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
+
+    @Provides
+    fun provideActivityManager(): ActivityManager =
+        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Singleton
     @Provides

@@ -20,15 +20,26 @@
 package com.protonvpn.android.components
 
 import android.Manifest
+import android.app.ActivityManager
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.os.Process
+import com.protonvpn.android.utils.ProtonLogger
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
+
+// Since API23, @see MemoryInfo.getMemoryStat
+private const val MEMORY_STAT_CODE = "summary.code"
+private const val GC_TIMEOUT_MS = 1000L
+private const val GC_CHECK_DELAY_MS = 100L
 
 class InstalledAppsProvider @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val packageManager: PackageManager,
+    private val activityManager: ActivityManager
 ) {
     data class AppInfo(
         val packageName: String,
@@ -38,7 +49,10 @@ class InstalledAppsProvider @Inject constructor(
 
     suspend fun getInstalledInternetApps(): List<AppInfo> =
         withContext(dispatcherProvider.Io) {
-            packageManager.getInstalledApplications(
+            val initialCodeSizeKb = getCodeMemoryKb()
+            ProtonLogger.log("getInstalledInternetApps: initial code size: $initialCodeSizeKb KB")
+
+            val apps = packageManager.getInstalledApplications(
                 PackageManager.GET_META_DATA
             ).filter { appInfo ->
                 (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
@@ -50,6 +64,9 @@ class InstalledAppsProvider @Inject constructor(
                     icon = appInfo.loadIcon(packageManager)
                 )
             }
+            ProtonLogger.log("getInstalledInternetApps: final code size: ${getCodeMemoryKb()} KB")
+            tryReleaseMemory(initialCodeSizeKb)
+            apps
         }
 
     /**
@@ -66,4 +83,25 @@ class InstalledAppsProvider @Inject constructor(
                 }
             }
         }
+
+    @Suppress("ExplicitGarbageCollectionCall")
+    private suspend fun tryReleaseMemory(initialCodeSizeKb: Int) {
+        // Loading application metadata with loadLabel and loadIcon increases memory use in the
+        // "code" category. On some devices it's not released immediately causing OOMs.
+        // Try to force GC (System.gc() doesn't work).
+        Runtime.getRuntime().gc()
+        withTimeoutOrNull(GC_TIMEOUT_MS) {
+            do {
+                delay(GC_CHECK_DELAY_MS)
+                val codeSizeKb = getCodeMemoryKb()
+                ProtonLogger.log("getInstalledInternetApps: code size $codeSizeKb KB")
+            } while (codeSizeKb > 2 * initialCodeSizeKb)
+        }
+    }
+
+    private fun getCodeMemoryKb(): Int {
+        val myPid = intArrayOf(Process.myPid())
+        val memoryInfo = activityManager.getProcessMemoryInfo(myPid)[0]
+        return memoryInfo.getMemoryStat(MEMORY_STAT_CODE).toInt()
+    }
 }
