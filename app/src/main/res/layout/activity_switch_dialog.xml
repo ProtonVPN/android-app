@@ -69,7 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/layoutUpsell"
@@ -85,6 +86,7 @@
             android:id="@+id/buttonUpgrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:layout_marginBottom="8dp"
             android:text="@string/upgrade" />
 
@@ -93,6 +95,7 @@
             style="@style/ProtonButton.Borderless.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:layout_marginBottom="24dp"
             android:text="@string/no_thanks" />
     </LinearLayout>
