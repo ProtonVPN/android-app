@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.di
 
+import android.app.ActivityManager
+import android.content.Context
 import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
@@ -99,6 +101,10 @@ class AppModule {
     @Provides
     fun provideServerManager(userData: UserData) =
         ServerManager(ProtonApplication.getAppContext(), userData)
+
+    @Provides
+    fun provideActivityManager(): ActivityManager =
+        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Singleton
     @Provides
