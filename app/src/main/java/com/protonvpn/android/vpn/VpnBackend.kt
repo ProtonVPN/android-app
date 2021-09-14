@@ -398,6 +398,7 @@ abstract class VpnBackend(
             else
                 ports.shuffled()
 
+            ProtonLogger.log("${connectingDomain.entryDomain}/$vpnProtocol port scan: $candidatePorts")
             candidatePorts.parallelSearch(waitForAll) {
                 VpnPing.pingSync(connectingDomain.entryIp, it.toLong(),
                     connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS)
