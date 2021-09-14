@@ -123,6 +123,7 @@ class OpenVpnBackend(
             val tcpPingData = getPingData(tcp = true)
             val tcpPorts = async {
                 val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
+                ProtonLogger.log("${connectingDomain.entryDomain}/OpenVPN/TCP port scan: $ports")
                 ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
                     NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
                 }
