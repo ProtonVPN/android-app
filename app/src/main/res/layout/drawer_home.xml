@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:layout_marginBottom="48dp"
                 android:orientation="vertical">
 
                 <!-- Use the actual Core.AccountManager.Presentation view once supported. -->
@@ -48,17 +47,15 @@
                     layout="@layout/account_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/gap_medium"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="24dp" />
 
                 <TextView
                     android:id="@+id/drawerButtonSettings"
                     style="@style/TextView.Drawer"
-                    android:layout_marginTop="@dimen/gap_huge"
+                    android:layout_marginTop="32dp"
                     android:text="@string/drawerSettings"
                     app:drawableStartCompat="@drawable/ic_cog_wheel" />
-
-                <View style="@style/Divider.Small" />
 
                 <TextView
                     android:id="@+id/drawerButtonAccount"
@@ -66,15 +63,11 @@
                     android:text="@string/drawerAccount"
                     app:drawableStartCompat="@drawable/ic_user" />
 
-                <View style="@style/Divider.Small" />
-
                 <TextView
                     android:id="@+id/drawerButtonShowLog"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerShowLog"
                     app:drawableStartCompat="@drawable/ic_eye" />
-
-                <View style="@style/Divider.Small" />
 
                 <TextView
                     android:id="@+id/drawerButtonReportBug"
@@ -82,23 +75,17 @@
                     android:text="@string/drawerReportProblem"
                     app:drawableStartCompat="@drawable/ic_bug" />
 
-                <View style="@style/Divider.Small" />
-
                 <TextView
                     android:id="@+id/drawerButtonHelp"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerHelp"
                     app:drawableStartCompat="@drawable/ic_life_ring" />
 
-                <View style="@style/Divider.Small" />
-
                 <TextView
                     android:id="@+id/drawerButtonLogout"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerSignOut"
                     app:drawableStartCompat="@drawable/ic_sign_out_right" />
-
-                <View style="@style/Divider.Small" />
 
                 <com.protonvpn.android.ui.drawer.DrawerNotificationsContainer
                     android:id="@+id/drawerNotifications"
@@ -114,9 +101,9 @@
                 style="@style/Proton.Text.Caption.Hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:paddingHorizontal="@dimen/gap_large"
-                android:paddingVertical="@dimen/gap_medium"
+                android:layout_gravity="bottom|center"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginVertical="24dp"
                 tools:text="2.30.0.5" />
 
         </FrameLayout>
