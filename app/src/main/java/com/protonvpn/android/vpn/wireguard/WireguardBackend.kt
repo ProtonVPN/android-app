@@ -89,7 +89,7 @@ class WireguardBackend(
         val selectedPorts = if (scan)
             scanUdpPorts(connectingDomain, ports, numberOfPorts, waitForAll)
         else
-            listOfNotNull(ports.randomOrNull())
+            listOfNotNull(ports.first())
         return selectedPorts.map { port ->
             PrepareResult(
                 this,
