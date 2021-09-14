@@ -294,16 +294,16 @@ open class VpnConnectionManager(
             setSelfState(VpnState.ScanningPorts)
 
         var protocol = profile.getProtocol(userData)
-        if (!networkManager.isConnectedToNetwork() && protocol == VpnProtocol.Smart)
+        val hasNetwork = networkManager.isConnectedToNetwork()
+        if (!hasNetwork && protocol == VpnProtocol.Smart)
             protocol = FALLBACK_PROTOCOL
-        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
+        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
-            ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}, " +
-                "falling back to $FALLBACK_PROTOCOL")
+            val fallbackProtocol = if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
+            ProtonLogger.log("No response for ${server.domain}, using fallback $fallbackProtocol")
 
-            // If port scanning fails (because e.g. some temporary network situation) just connect
-            // without smart protocol
-            preparedConnection = backendProvider.prepareConnection(FALLBACK_PROTOCOL, profile, server, false)!!
+            // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
+            preparedConnection = backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
         }
 
         preparedConnect(preparedConnection)
