@@ -50,7 +50,6 @@ class HeaderItem(
                 )
             )
         }
-
     }
 
     override fun getId() = titleString.hashCode().toLong()
