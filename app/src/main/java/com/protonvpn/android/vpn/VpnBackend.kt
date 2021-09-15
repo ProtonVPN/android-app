@@ -286,7 +286,9 @@ abstract class VpnBackend(
                 VpnState.Connected
             agentConstants.stateConnectionError,
             agentConstants.stateServerUnreachable ->
-                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
+                // instead of UNREACHABLE_INETRNAL to skip recovery with pings, as those won't help in this situation.
+                VpnState.Error(ErrorType.UNREACHABLE)
             agentConstants.stateClientCertificateExpiredError -> {
                 refreshCertOnLocalAgent(force = false)
                 VpnState.Connecting
