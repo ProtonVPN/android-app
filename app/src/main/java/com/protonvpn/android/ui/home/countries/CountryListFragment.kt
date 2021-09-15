@@ -20,8 +20,8 @@ package com.protonvpn.android.ui.home.countries
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
@@ -47,7 +47,7 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
 
     override fun initViewModel() {
         viewModel =
-                ViewModelProviders.of(this, viewModelFactory).get(CountryListViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(CountryListViewModel::class.java)
     }
 
     override fun onViewCreated() {
@@ -93,9 +93,11 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
-                    this@CountryListFragment.binding.list.smoothScrollToPosition(
-                            position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2
-                    )
+                    if (!viewModel.userData.isSecureCoreEnabled) {
+                        val layoutManager =
+                            this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
+                        layoutManager.scrollToPositionWithOffset(position, 0)
+                    }
                 }
             }
 
