@@ -161,10 +161,6 @@ abstract class VpnBackend(
 
         override fun onError(code: Long, description: String) {
             ProtonLogger.log("Local agent error: $code $description")
-            if (agent?.status?.reason?.final == true) {
-                setLocalAgentError(description)
-                return
-            }
             when (code) {
                 agentConstants.errorCodeMaxSessionsBasic,
                 agentConstants.errorCodeMaxSessionsFree,
@@ -198,6 +194,10 @@ abstract class VpnBackend(
                 agentConstants.errorCodeRestrictedServer ->
                     // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
                     ProtonLogger.log("Local agent: Restricted server, waiting...")
+                else -> {
+                    if (agent?.status?.reason?.final == true)
+                        setLocalAgentError(description)
+                }
             }
         }
 
