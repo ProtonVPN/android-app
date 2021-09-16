@@ -169,7 +169,10 @@ public class ServiceTestHelper {
     }
 
     public static void deleteCreatedProfiles() {
-        mainThreadHandler.post(() -> serverManager.deleteSavedProfiles());
+        mainThreadHandler.post(() -> {
+            serverManager.deleteSavedProfiles();
+            userData.setDefaultConnection(null);
+        });
     }
 
     public static boolean isSecureCoreEnabled() {

@@ -125,6 +125,8 @@ class ConnectionRobotTestsTv {
         userDataHelper
                 .logoutUser()
         ServiceTestHelper
+            .deleteCreatedProfiles()
+        ServiceTestHelper
                 .connectionManager
                 .disconnect()
     }
