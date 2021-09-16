@@ -45,6 +45,7 @@ class TvCountryListRobot : BaseRobot() {
 
     fun connectToFavouriteCountry() : TvCountryListRobot {
         pressFavourite()
+        Thread.sleep(75) // Wait for the card to be selected.
         pressFavourite()
         return TvCountryListRobot()
     }
