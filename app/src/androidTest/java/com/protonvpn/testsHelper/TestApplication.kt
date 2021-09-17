@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,16 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.di;
 
-import com.protonvpn.android.ui.login.LoginActivity;
+package com.protonvpn.testsHelper
 
-import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
+import com.protonvpn.android.ProtonApplication
+import dagger.hilt.android.testing.CustomTestApplication
 
-@Module
-public abstract class ActivityBuilder {
-
-    @ContributesAndroidInjector(modules = {LoginModule.class})
-    abstract LoginActivity bindDetailActivity();
-}
+@CustomTestApplication(ProtonApplication::class)
+interface TestApplication

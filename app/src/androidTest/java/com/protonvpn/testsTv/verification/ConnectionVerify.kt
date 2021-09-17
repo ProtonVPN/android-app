@@ -29,11 +29,11 @@ import org.strongswan.android.logic.StrongSwanApplication.getContext
 open class ConnectionVerify : BaseVerify() {
     fun userIsConnected(): OnView = checkIfElementIsDisplayedByStringId(R.string.disconnect)
     fun userIsDisconnected(): OnView = checkIfElementIsNotDisplayedByStringId(R.string.disconnect)
-    fun connectionStatusDidNotChange(status: String) : OnView = checkIfElementByIdContainsText(R.id.textStatus,status)
+    fun connectionStatusDidNotChange(status: String): OnView = checkIfElementByIdContainsText(R.id.textStatus, status)
 
     fun userIsConnectedToCorrectCountry(country: String): OnView {
-        val connectedToValue = String.format(getContext().getString(R.string.stateConnectedTo),country)
-        checkIfElementByIdContainsText<OnView>(R.id.textStatus,connectedToValue)
+        val connectedToValue = String.format(getContext().getString(R.string.stateConnectedTo), country)
+        checkIfElementByIdContainsText<OnView>(R.id.textStatus, connectedToValue)
         return OnView()
     }
 }

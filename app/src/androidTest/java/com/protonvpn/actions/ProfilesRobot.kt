@@ -105,7 +105,7 @@ class ProfilesRobot : BaseRobot() {
         return clickElement(R.id.checkboxSecureCore, ProtonCheckbox::class.java)
     }
 
-    fun clickYesButton(): ConnectionResult =  clickElementById(R.id.md_buttonDefaultPositive)
+    fun clickYesButton(): ConnectionResult = clickElementById(R.id.md_buttonDefaultPositive)
 
     fun clickOnUpgradeButton(contentDescription: String): ConnectionResult =
         clickElementByIdAndContentDescription(R.id.buttonUpgrade, contentDescription)

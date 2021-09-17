@@ -24,6 +24,8 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class HomeResult extends UIActionsTestHelper {
 
+    ServiceTestHelper serviceTestHelper = new ServiceTestHelper();
+
     public HomeResult dialogWelcomeIsVisible() {
         checkIfObjectWithTextIsDisplayed("Welcome on board");
         checkIfObjectWithIdIsDisplayed(R.id.image);
@@ -59,7 +61,7 @@ public class HomeResult extends UIActionsTestHelper {
     }
 
     public HomeResult checkSecureCoreDisabled() {
-        if (ServiceTestHelper.isSecureCoreEnabled()) {
+        if (serviceTestHelper.isSecureCoreEnabled()) {
             throw new IllegalStateException("Secure core is enabled");
         }
         return this;

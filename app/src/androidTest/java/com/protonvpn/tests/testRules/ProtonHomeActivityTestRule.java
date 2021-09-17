@@ -33,7 +33,6 @@ import androidx.test.rule.ServiceTestRule;
 public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
 
     private ServiceTestHelper service;
-    private UserDataHelper userDataHelper = new UserDataHelper();
 
     public ActivityTestRule<HomeActivity> activityTestRule =
         new ActivityTestRule<>(HomeActivity.class, false, false);
@@ -41,9 +40,7 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
     @Override
     protected void starting(Description description) {
         super.starting(description);
-        if (service == null) {
-            service = new ServiceTestHelper(new ServiceTestRule());
-        }
+        service = new ServiceTestHelper();
         TestIntent testIntent = new TestIntent();
         activityTestRule.launchActivity(testIntent.getIntent());
     }
@@ -52,10 +49,9 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
     protected void finished(Description description) {
         super.finished(description);
         service.enableSecureCore(false);
-        ServiceTestHelper.connectionManager.disconnect();
-        service.disconnectFromServer();
-        userDataHelper.userData.logout();
-        ServiceTestHelper.deleteCreatedProfiles();
+        service.connectionManager.disconnect();
+        new UserDataHelper().userData.logout();
+        service.deleteCreatedProfiles();
         activityTestRule.finishActivity();
     }
 

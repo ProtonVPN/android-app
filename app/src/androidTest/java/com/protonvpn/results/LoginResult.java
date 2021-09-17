@@ -27,6 +27,7 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 public class LoginResult extends UIActionsTestHelper {
 
     private TestUser user;
+    private NetworkTestHelper networkTestHelper = new NetworkTestHelper();
 
     public LoginResult(TestUser testUser) {
         user = testUser;
@@ -60,7 +61,7 @@ public class LoginResult extends UIActionsTestHelper {
     }
 
     public LoginResult noInternetConnectionError(LoginActivity activity) {
-        NetworkTestHelper.waitUntilNetworkErrorAppears(activity.binding.loadingContainer);
+        networkTestHelper.waitUntilNetworkErrorAppears(activity.binding.loadingContainer);
 
         checkIfObjectWithIdIsDisplayed(R.id.buttonRetry);
 

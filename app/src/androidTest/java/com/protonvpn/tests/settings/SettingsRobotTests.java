@@ -20,28 +20,38 @@ package com.protonvpn.tests.settings;
 
 import com.protonvpn.actions.SettingsRobot;
 import com.protonvpn.results.SettingsResults;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.tests.testRules.ProtonSettingsActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.test.shared.TestUser;
 
-import org.junit.ClassRule;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@HiltAndroidTest
 public class SettingsRobotTests {
 
-    SettingsRobot settingsRobot = new SettingsRobot();
+    private final ProtonSettingsActivityTestRule testRule = new ProtonSettingsActivityTestRule();
+    @Rule public RuleChain rules = RuleChain
+        .outerRule(new HiltAndroidRule(this))
+        .around(new SetUserPreferencesRule(TestUser.getPlusUser()))
+        .around(testRule);
 
-    @Rule public ProtonSettingsActivityTestRule testRule = new ProtonSettingsActivityTestRule();
+    private SettingsRobot settingsRobot;
 
-    @ClassRule static public SetUserPreferencesRule testClassRule =
-        new SetUserPreferencesRule(TestUser.getPlusUser());
+    @Before
+    public void setup() {
+        settingsRobot = new SettingsRobot();
+    }
 
     @Test
     public void checkIfSettingsViewIsVisible() {

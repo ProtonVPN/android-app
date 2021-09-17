@@ -21,10 +21,12 @@ package com.protonvpn.android.ui.settings
 
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.strongswan.android.utils.Constants
 import javax.inject.Inject
 
+@HiltViewModel
 class SettingsMtuViewModel @Inject constructor(
     private val userData: UserData
 ) : SaveableSettingsViewModel() {

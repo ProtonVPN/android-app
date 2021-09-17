@@ -18,8 +18,6 @@
  */
 package com.protonvpn.actions;
 
-;
-
 import com.protonvpn.android.R;
 import com.protonvpn.results.OnboardingResults;
 import com.protonvpn.testsHelper.UIActionsTestHelper;

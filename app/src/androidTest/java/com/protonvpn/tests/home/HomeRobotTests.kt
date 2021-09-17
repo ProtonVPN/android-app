@@ -22,34 +22,32 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.di.MockApi
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule
-import com.protonvpn.test.shared.TestUser
-import org.junit.ClassRule
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class HomeRobotTests {
 
-    private val homeRobot = HomeRobot()
-
-    @get:Rule
-    var testRule = ProtonHomeActivityTestRule()
+    @get:Rule val rules = RuleChain
+        .outerRule(HiltAndroidRule(this))
+        .around(SetUserPreferencesRule(TestUser.getPlusUser()))
+        .around(ProtonHomeActivityTestRule())
 
     @Test
     fun offerShown() {
+        val homeRobot = HomeRobot()
         homeRobot.openDrawer()
         homeRobot.checkOfferVisible(MockApi.OFFER_LABEL)
         homeRobot.checkOfferNotVisible(MockApi.PAST_OFFER_LABEL)
         homeRobot.checkOfferNotVisible(MockApi.FUTURE_OFFER_LABEL)
-    }
-
-    companion object {
-        @ClassRule
-        @JvmField
-        var testClassRule = SetUserPreferencesRule(TestUser.getPlusUser())
     }
 }

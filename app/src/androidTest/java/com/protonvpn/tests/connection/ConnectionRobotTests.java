@@ -18,7 +18,6 @@
  */
 package com.protonvpn.tests.connection;
 
-import com.protonvpn.MockSwitch;
 import com.protonvpn.actions.ConnectionRobot;
 import com.protonvpn.actions.CountriesRobot;
 import com.protonvpn.actions.HomeRobot;
@@ -28,32 +27,40 @@ import com.protonvpn.actions.ServiceRobot;
 import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.results.ConnectionResult;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.test.shared.TestUser;
 
-import org.junit.ClassRule;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.filters.SdkSuppress;
-import androidx.test.rule.ServiceTestRule;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@HiltAndroidTest
 public class ConnectionRobotTests {
 
-    private final HomeRobot homeRobot = new HomeRobot();
-    private final ServiceRobot service = new ServiceRobot();
+    private final ProtonHomeActivityTestRule testRule = new ProtonHomeActivityTestRule();
 
-    @Rule public ProtonHomeActivityTestRule testRule = new ProtonHomeActivityTestRule();
-
-    @ClassRule static public final ServiceTestRule SERVICE_RULE = new ServiceTestRule();
-    @ClassRule static public SetUserPreferencesRule testClassRule =
-        new SetUserPreferencesRule(TestUser.getPlusUser());
+    @Rule public RuleChain rules = RuleChain
+        .outerRule(new HiltAndroidRule(this))
+        .around(new SetUserPreferencesRule(TestUser.getPlusUser()))
+        .around(testRule);
+    
+    private HomeRobot homeRobot;
+    
+    @Before
+    public void setup() {
+        homeRobot = new HomeRobot();
+    }
 
     @Test
     public void connectAndDisconnectViaQuickConnect() {
@@ -70,7 +77,7 @@ public class ConnectionRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connected.INSTANCE);
         CountriesRobot countriesRobot = homeRobot.clickOnCountriesTab();
 
-        String country = service.getFirstCountryFromBackend();
+        String country = new ServiceRobot().getFirstCountryFromBackend();
         countriesRobot.selectCountry(country);
 
         ConnectionResult result = countriesRobot.connectToFastestServer();
@@ -119,13 +126,6 @@ public class ConnectionRobotTests {
         ProfilesRobot profilesRobot = homeRobot.clickOnProfilesTab().isSuccess();
 
         ConnectionResult connectionResult = profilesRobot.clickOnConnectButton("Fastest");
-
-        if (!MockSwitch.mockedConnectionUsed) {
-            ServiceRobot serviceRobot = new ServiceRobot();
-            serviceRobot.setVpnServiceAsUnreachable();
-            serviceRobot.waitUntilServiceIsUnreachable();
-        }
-
         connectionResult.connectionRobot.checkIfNotReachableErrorAppears().clickCancelRetry();
         connectionResult.isDisconnectedFromVpn();
     }

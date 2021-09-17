@@ -24,35 +24,42 @@ import com.protonvpn.di.MockNetworkManager;
 import com.protonvpn.results.LoginFormResult;
 import com.protonvpn.results.LoginResult;
 import com.protonvpn.results.LogoutResult;
+import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.tests.testRules.ProtonLoginActivityTestRule;
 import com.protonvpn.tests.testRules.SetUserPreferencesRule;
-import com.protonvpn.test.shared.TestUser;
-import com.protonvpn.testsHelper.UIActionsTestHelper;
 
-import org.junit.After;
-import org.junit.ClassRule;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 import me.proton.core.network.domain.NetworkStatus;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginRobotTests extends UIActionsTestHelper {
+@HiltAndroidTest
+public class LoginRobotTests {
 
-    private final LoginRobot loginRobot = new LoginRobot();
-    private final HomeRobot homeRobot = new HomeRobot();
+    public ProtonLoginActivityTestRule testRule = new ProtonLoginActivityTestRule();
+    @Rule public RuleChain rules = RuleChain
+        .outerRule(new HiltAndroidRule(this))
+        .around(new SetUserPreferencesRule(null))
+        .around(testRule);
 
-    @Rule public ProtonLoginActivityTestRule testRule = new ProtonLoginActivityTestRule();
-    @ClassRule public static SetUserPreferencesRule testClassRule = new SetUserPreferencesRule(null);
+    private LoginRobot loginRobot;
+    private HomeRobot homeRobot;
 
-    @After
+    @Before
     public void setup() {
         MockNetworkManager.Companion.setCurrentStatus(NetworkStatus.Unmetered);
+        loginRobot = new LoginRobot();
+        homeRobot = new HomeRobot();
     }
 
     @Test
