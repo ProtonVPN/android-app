@@ -35,15 +35,17 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.android.support.DaggerDialogFragment;
+import dagger.hilt.android.AndroidEntryPoint;
 
-public class WelcomeDialog extends DaggerDialogFragment {
+@AndroidEntryPoint
+public class WelcomeDialog extends AppCompatDialogFragment {
 
     private static final String TAG = "WelcomeDialog";
     @BindView(R.id.textTitle) TextView textTitle;

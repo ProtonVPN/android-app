@@ -29,12 +29,14 @@ import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
+@HiltViewModel
 class VpnStateErrorViewModel @Inject constructor(
     stateMonitor: VpnStateMonitor,
     private val vpnConnectionManager: VpnConnectionManager

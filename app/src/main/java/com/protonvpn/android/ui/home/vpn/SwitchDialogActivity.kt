@@ -30,8 +30,10 @@ import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_switch_dialog)
 class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewModel>() {
 

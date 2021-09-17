@@ -80,7 +80,6 @@ import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
-import com.protonvpn.android.utils.ViewModelFactory;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
 
@@ -108,12 +107,14 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import dagger.hilt.android.AndroidEntryPoint;
 import io.sentry.Sentry;
 import io.sentry.event.UserBuilder;
 import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
 public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
 
@@ -136,17 +137,16 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Inject ServerListUpdater serverListUpdater;
     @Inject LogoutHandler logoutHandler;
     @Inject NotificationHelper notificationHelper;
-    @Inject ViewModelFactory viewModelFactory;
     private HomeViewModel viewModel;
 
-    private final TooltipManager tooltipManager = new TooltipManager();
+    private final TooltipManager tooltipManager = new TooltipManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         registerForEvents();
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         getLifecycle().addObserver(viewModel);
 
         setSupportActionBar(toolbar);

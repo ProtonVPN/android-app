@@ -38,10 +38,12 @@ import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeViewModel @Inject constructor(
     val userData: UserData,
     private val apiNotificationManager: ApiNotificationManager,

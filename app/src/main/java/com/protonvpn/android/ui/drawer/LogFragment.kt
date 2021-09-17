@@ -32,10 +32,12 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_log)
 class LogFragment : BaseFragment() {
 

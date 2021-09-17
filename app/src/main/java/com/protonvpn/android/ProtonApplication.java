@@ -19,23 +19,20 @@
 package com.protonvpn.android;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
-import android.os.SystemClock;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
-import com.protonvpn.android.di.AppComponent;
-import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
-import com.protonvpn.android.vpn.VpnLogCapture;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -45,19 +42,16 @@ import org.strongswan.android.logic.StrongSwanApplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import dagger.android.AndroidInjector;
-import dagger.android.support.DaggerApplication;
+import androidx.lifecycle.LifecycleObserver;
 import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import rx_activity_result2.RxActivityResult;
 
-public class ProtonApplication extends DaggerApplication {
+public class ProtonApplication extends Application {
 
     public Activity foregroundActivity;
-
-    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -84,8 +78,6 @@ public class ProtonApplication extends DaggerApplication {
         Seq.touch();
 
         ProtonLogger.INSTANCE.log("--------- App start ---------");
-        // Inject VpnLogCapture once injection into ProtonApplication is fixed in androidTests.
-        (new VpnLogCapture(getAppComponent(), SystemClock::elapsedRealtime)).startCapture();
     }
 
     private void initActivityObserver() {
@@ -134,18 +126,6 @@ public class ProtonApplication extends DaggerApplication {
                 .build();
             AppWatcher.setConfig(config);
         }
-    }
-
-    @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return getAppComponent();
-    }
-
-    private AppComponent getAppComponent() {
-        if (appComponent == null) {
-            appComponent = DaggerAppComponent.builder().application(this).build();
-        }
-        return appComponent;
     }
 
     @NotNull

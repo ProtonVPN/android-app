@@ -33,10 +33,12 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
+@HiltViewModel
 class LoginViewModel @Inject constructor(
     val userData: UserData,
     val appConfig: AppConfig,

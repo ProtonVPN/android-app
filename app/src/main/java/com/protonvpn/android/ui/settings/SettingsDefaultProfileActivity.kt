@@ -37,8 +37,10 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
 class SettingsDefaultProfileActivity :
     BaseActivityV2<ActivityRecyclerWithToolbarBinding, ViewModel>() {

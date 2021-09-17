@@ -32,13 +32,14 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresApi(VERSION_CODES.N)
 class QuickTileService : TileService() {
 
@@ -49,11 +50,6 @@ class QuickTileService : TileService() {
 
     private val job = Job()
     private val lifecycleScope = CoroutineScope(job)
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
 
     override fun onDestroy() {
         job.cancel()

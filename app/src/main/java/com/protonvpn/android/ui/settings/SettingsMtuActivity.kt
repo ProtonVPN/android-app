@@ -30,16 +30,15 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivitySettingsMtuBinding
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.launchAndCollectIn
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_settings_mtu)
 class SettingsMtuActivity : SaveableSettingsActivity<ActivitySettingsMtuBinding, SettingsMtuViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(SettingsMtuViewModel::class.java)
+            ViewModelProvider(this)[SettingsMtuViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -33,8 +33,9 @@ import com.protonvpn.android.databinding.ActivityTroubleshootBinding
 import com.protonvpn.android.databinding.ItemTroubleshootingInfoBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.openProtonUrl
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_troubleshoot)
 class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, TroubleshootViewModel>() {
 
@@ -45,8 +46,6 @@ class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, Trouble
         private const val MAIL_URL = "mailto:support@protonvpn.com"
         private const val TWITTER_URL = "https://twitter.com/ProtonVPN"
     }
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +73,7 @@ class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, Trouble
     }
 
     override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(TroubleshootViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TroubleshootViewModel::class.java)
     }
 }
 

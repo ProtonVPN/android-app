@@ -20,7 +20,6 @@ package com.protonvpn.android.tv
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
@@ -29,14 +28,14 @@ import com.protonvpn.android.databinding.DialogTvTrialBinding
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.dialog_tv_trial)
 class TvTrialDialogActivity : BaseTvActivity<DialogTvTrialBinding>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<MainViewModel> { viewModelFactory }
+    val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -51,7 +51,7 @@ private const val FADE_DURATION_MS = 300L
 
 typealias OnTooltipDismissed = () -> Unit
 
-class TooltipManager {
+class TooltipManager(val activity: Activity) {
 
     private var isTooltipDisplayed = false
 
@@ -66,7 +66,7 @@ class TooltipManager {
         tooltipText: CharSequence,
         onDismissedAction: OnTooltipDismissed? = null
     ) {
-        prepareTooltip(highlightView.context, titleText, tooltipText, onDismissedAction)?.also {
+        prepareTooltip(titleText, tooltipText, onDismissedAction)?.also {
             it.show(highlightView, anchorView)
         }
     }
@@ -85,13 +85,12 @@ class TooltipManager {
         onShown: (() -> Unit)?,
         onDismissedAction: OnTooltipDismissed?
     ) {
-        prepareTooltip(highlightView.context, titleText, tooltipText, onDismissedAction)?.also {
+        prepareTooltip(titleText, tooltipText, onDismissedAction)?.also {
             it.showWithReplacement(highlightView, replacementViews, onShown)
         }
     }
 
     private fun prepareTooltip(
-        activityContext: Context,
         titleText: CharSequence,
         tooltipText: CharSequence,
         onDismissedAction: OnTooltipDismissed?
@@ -99,7 +98,7 @@ class TooltipManager {
         if (isTooltipDisplayed)
             return null
 
-        val hostView = createTooltipContainer(activityContext as Activity)
+        val hostView = createTooltipContainer(activity)
         return Tooltip(hostView, titleText, tooltipText) {
             isTooltipDisplayed = false
             onDismissedAction?.invoke()

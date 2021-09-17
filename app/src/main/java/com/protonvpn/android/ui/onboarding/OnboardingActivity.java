@@ -33,11 +33,13 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.hilt.android.AndroidEntryPoint;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static com.protonvpn.android.utils.Constants.SIGNUP_URL;
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.onboarding_intro)
 public class OnboardingActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 

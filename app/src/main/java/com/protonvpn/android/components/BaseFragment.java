@@ -32,7 +32,6 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
 
 // Deprecated in favor of using BaseFragmentV2
 @Deprecated
@@ -45,12 +44,6 @@ public abstract class BaseFragment extends Fragment implements NetworkLoader {
     @Nullable private Unbinder unbinder;
 
     public abstract void onViewCreated();
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AndroidSupportInjection.inject(this);
-    }
 
     @Nullable
     @Override

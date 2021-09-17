@@ -46,6 +46,7 @@ import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
 private const val CHART_LINE_WIDTH_DP = 3f
@@ -58,6 +59,7 @@ private const val CHART_GRID_LINE_DASH_SPACE = 8f
 private const val CHART_GRID_LINE_WIDTH_DP = 1f
 private const val CHART_MIN_HEIGHT_DP = 100
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_vpn_state_connected)
 class VpnStateConnectedFragment :
     VpnStateFragmentWithNetShield<VpnStateConnectedViewModel, FragmentVpnStateConnectedBinding>() {
@@ -79,7 +81,7 @@ class VpnStateConnectedFragment :
     override fun initViewModel() {
         super.initViewModel()
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(VpnStateConnectedViewModel::class.java)
+            ViewModelProvider(this).get(VpnStateConnectedViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

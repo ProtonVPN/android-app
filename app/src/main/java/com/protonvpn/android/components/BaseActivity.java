@@ -40,13 +40,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
-import dagger.android.support.DaggerAppCompatActivity;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-public abstract class BaseActivity extends DaggerAppCompatActivity
+public abstract class BaseActivity extends AppCompatActivity
     implements NetworkLoader, NoVpnPermissionUi {
 
     @Nullable @BindView(R.id.loadingContainer) NetworkFrameLayout loadingContainer;
@@ -68,7 +66,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity
         checkOrientation();
         setContentView(AnnotationParser.getAnnotatedLayout(this));
         ButterKnife.bind(this);
-        AndroidInjection.inject(this);
 
         if (isRegisteredForEvents) {
             EventBus.getInstance().register(this);

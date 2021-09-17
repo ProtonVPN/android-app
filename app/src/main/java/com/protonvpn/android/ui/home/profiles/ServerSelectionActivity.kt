@@ -45,17 +45,16 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_server_selection)
 class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, ServerSelectionViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(ServerSelectionViewModel::class.java)
+            ViewModelProvider(this).get(ServerSelectionViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -25,8 +25,10 @@ import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class VpnStateNotConnectedViewModel @Inject constructor(
     serverListUpdater: ServerListUpdater,
     private val manager: ServerManager

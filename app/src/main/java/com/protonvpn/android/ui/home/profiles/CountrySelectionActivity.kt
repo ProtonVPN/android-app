@@ -39,17 +39,15 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.xwray.groupie.databinding.BindableItem
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
-class CountrySelectionActivity :
-    BaseActivityV2<ActivityRecyclerWithToolbarBinding, CountrySelectionViewModel>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+class CountrySelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding, CountrySelectionViewModel>() {
 
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(CountrySelectionViewModel::class.java)
+            ViewModelProvider(this).get(CountrySelectionViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

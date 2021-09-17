@@ -24,6 +24,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.onStart
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
+@HiltViewModel
 class SettingsExcludeAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,

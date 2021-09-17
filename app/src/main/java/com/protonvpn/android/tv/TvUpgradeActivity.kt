@@ -21,24 +21,23 @@ package com.protonvpn.android.tv
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvUpgradeBinding
-import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.dialog_tv_upgrade)
 class TvUpgradeActivity : BaseTvActivity<DialogTvUpgradeBinding>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<TvMainViewModel> { viewModelFactory }
+    val viewModel by viewModels<TvMainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

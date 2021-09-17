@@ -24,11 +24,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 
-abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : DaggerFragment() {
+abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : Fragment() {
     lateinit var viewModel: VM
 
     private var internalBinding: DB? = null
@@ -48,7 +47,6 @@ abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : DaggerFrag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
         initViewModel()
     }
 

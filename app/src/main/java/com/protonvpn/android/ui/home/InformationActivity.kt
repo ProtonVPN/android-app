@@ -29,7 +29,6 @@ import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.textview.MaterialTextView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
@@ -42,17 +41,16 @@ import com.protonvpn.android.databinding.StreamingInfoBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_information)
 class InformationActivity : BaseActivityV2<ActivityInformationBinding, InformationViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(InformationViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(InformationViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

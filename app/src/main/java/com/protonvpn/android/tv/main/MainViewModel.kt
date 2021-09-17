@@ -29,10 +29,12 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import javax.inject.Inject
 
+@HiltViewModel
 open class MainViewModel @Inject constructor(
     private val userData: UserData,
     private val userPlanManager: UserPlanManager,

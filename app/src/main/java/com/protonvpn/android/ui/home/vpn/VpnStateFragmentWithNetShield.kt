@@ -40,10 +40,9 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
-abstract class VpnStateFragmentWithNetShield<VM : ViewModel, DB : ViewDataBinding>
-    : BaseFragmentV2<VM, DB>() {
+abstract class VpnStateFragmentWithNetShield<VM : ViewModel, DB : ViewDataBinding> :
+    BaseFragmentV2<VM, DB>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     protected lateinit var parentViewModel: VpnStateViewModel
 
     // All these dependencies are required by the NetShieldSwitch.
@@ -57,7 +56,7 @@ abstract class VpnStateFragmentWithNetShield<VM : ViewModel, DB : ViewDataBindin
     @CallSuper
     override fun initViewModel() {
         parentViewModel =
-            ViewModelProvider(requireParentFragment(), viewModelFactory).get(VpnStateViewModel::class.java)
+            ViewModelProvider(requireParentFragment()).get(VpnStateViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

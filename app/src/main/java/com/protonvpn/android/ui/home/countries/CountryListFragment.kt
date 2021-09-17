@@ -36,18 +36,16 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_country_list)
 class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountryListBinding>(), NetworkLoader {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
         viewModel =
-                ViewModelProvider(this, viewModelFactory).get(CountryListViewModel::class.java)
+            ViewModelProvider(this)[CountryListViewModel::class.java]
     }
 
     override fun onViewCreated() {

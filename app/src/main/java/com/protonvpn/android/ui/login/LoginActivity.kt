@@ -50,24 +50,23 @@ import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.toSafeUtf8ByteArray
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.exhaustive
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
-import javax.inject.Inject
 
 const val LOGO_VERTICAL_BIAS = 0.5f
 const val LOGO_VERTICAL_BIAS_WITH_KEYBOARD = 0.1f
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_login)
 class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         KeyboardVisibilityEventListener, Observer<LoginState> {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

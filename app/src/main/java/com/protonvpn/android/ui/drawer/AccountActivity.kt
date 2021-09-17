@@ -30,15 +30,14 @@ import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_account)
 class AccountActivity : BaseActivityV2<ActivityAccountBinding, AccountActivityViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(AccountActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AccountActivityViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -54,11 +54,13 @@ import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class TvMainFragment : BaseTvBrowseFragment() {
 
-    private val viewModel by activityViewModels<TvMainViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<TvMainViewModel>()
 
     private var rowsAdapter: ArrayObjectAdapter? = null
 

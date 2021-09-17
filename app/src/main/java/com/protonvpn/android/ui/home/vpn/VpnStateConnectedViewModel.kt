@@ -31,6 +31,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -38,6 +39,7 @@ import javax.inject.Inject
 private const val MILLIS_IN_SECOND = 1000f
 private const val BYTES_IN_KBYTE = 1024f
 
+@HiltViewModel
 class VpnStateConnectedViewModel @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
     private val serverManager: ServerManager,
