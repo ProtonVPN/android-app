@@ -20,8 +20,8 @@ package com.protonvpn.tests.onboarding;
 
 import com.protonvpn.actions.OnboardingRobot;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
-import com.protonvpn.testsHelper.UIActionsTestHelper;
 import com.protonvpn.results.OnboardingResults;
+import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,10 +32,15 @@ import androidx.test.filters.FlakyTest;
 import androidx.test.filters.LargeTest;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@HiltAndroidTest
 public class OnboardingRobotTests extends UIActionsTestHelper {
+
+    @Rule public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     OnboardingRobot onboardingRobot = new OnboardingRobot();
 

@@ -28,7 +28,6 @@ import org.junit.runner.Description;
 
 public class SetUserPreferencesRule extends TestWatcher {
 
-    private static UserDataHelper userDataHelper = new UserDataHelper();
     TestUser user;
 
     public SetUserPreferencesRule(TestUser testUser) {
@@ -39,7 +38,7 @@ public class SetUserPreferencesRule extends TestWatcher {
     protected void starting(Description description) {
         TestSetup.setCompletedOnboarding();
         if (user != null) {
-            userDataHelper.setUserData(user);
+            new UserDataHelper().setUserData(user);
         }
     }
 

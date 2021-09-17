@@ -46,7 +46,6 @@ public class ConnectionRobot extends UIActionsTestHelper {
     }
 
     public ConnectionResult clickCancelRetry() {
-        waitUntilObjectWithContentDescriptionAppearsInView(R.id.buttonCancelRetry);
         clickOnObjectWithId(R.id.buttonCancelRetry);
         return new ConnectionResult();
     }

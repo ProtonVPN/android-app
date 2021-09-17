@@ -29,10 +29,13 @@ import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 import com.protonvpn.testsTv.actions.TvCountryListRobot
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import com.protonvpn.testsTv.actions.TvServerListRobot
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.After
+import org.junit.rules.RuleChain
 
 import org.junit.runner.RunWith
 
@@ -41,20 +44,26 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
+@HiltAndroidTest
 class ConnectionRobotTestsTv {
+
+    private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    @get:Rule val rules = RuleChain
+        .outerRule(HiltAndroidRule(this))
+        .around(activityRule)
 
     private val homeRobot = TvCountryListRobot()
     private val countryRobot = TvDetailedCountryRobot()
     private val serverListRobot = TvServerListRobot()
     private val loginRobot = TvLoginRobot()
 
-    private val userDataHelper = UserDataHelper()
-
-    @get:Rule
-    val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    private lateinit var userDataHelper: UserDataHelper
+    private lateinit var serviceTestHelper: ServiceTestHelper
 
     @Before
-    fun setUp(){
+    fun setUp() {
+        userDataHelper = UserDataHelper()
+        serviceTestHelper = ServiceTestHelper()
         userDataHelper
                 .setUserData(TestUser.getPlusUser())
         activityRule.scenario
@@ -64,7 +73,7 @@ class ConnectionRobotTestsTv {
     }
 
     @Test
-    fun connectToRecommended(){
+    fun connectToRecommended() {
         homeRobot
                 .connectToRecommendedCountry()
                 .verify { userIsConnected() }
@@ -74,7 +83,7 @@ class ConnectionRobotTestsTv {
     }
 
     @Test
-    fun connectToCountry(){
+    fun connectToCountry() {
         homeRobot
                 .openFirstCountryConnectionWindow()
         countryRobot
@@ -86,7 +95,7 @@ class ConnectionRobotTestsTv {
     }
 
     @Test
-    fun connectViaServerList(){
+    fun connectViaServerList() {
         homeRobot
                 .openFirstCountryConnectionWindow()
         countryRobot
@@ -100,7 +109,7 @@ class ConnectionRobotTestsTv {
     }
 
     @Test
-    fun addServerToFavouritesAndConnect(){
+    fun addServerToFavouritesAndConnect() {
         homeRobot
                 .openFirstCountryConnectionWindow()
 
@@ -121,12 +130,12 @@ class ConnectionRobotTestsTv {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         userDataHelper
                 .logoutUser()
-        ServiceTestHelper
-            .deleteCreatedProfiles()
-        ServiceTestHelper
+        serviceTestHelper
+                .deleteCreatedProfiles()
+        serviceTestHelper
                 .connectionManager
                 .disconnect()
     }

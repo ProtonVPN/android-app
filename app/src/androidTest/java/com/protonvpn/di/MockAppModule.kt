@@ -18,132 +18,57 @@
  */
 package com.protonvpn.di
 
-import android.app.ActivityManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.SystemClock
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
-import com.google.gson.Gson
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
-import com.protonvpn.android.api.VpnApiManager
-import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
-import com.protonvpn.android.concurrency.DefaultDispatcherProvider
+import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.ui.home.LogoutHandler
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
-import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnErrorUIManager
-import com.protonvpn.android.vpn.VpnLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
-import com.wireguard.android.backend.GoBackend
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import me.proton.core.network.data.ApiManagerFactory
-import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkPrefs
 import me.proton.core.network.data.ProtonCookieStore
-import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.server.ServerTimeListener
-import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Singleton
 
 @Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppModuleProd::class]
+)
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
 
-    @Provides
-    fun provideMainScope() = scope
-
-    @Provides
-    @Singleton
-    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
-
-    @Provides
-    fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
-
-    @Provides
-    fun provideActivityManager(): ActivityManager =
-        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-
-    @Singleton
-    @Provides
-    fun provideServerManager(userData: UserData) =
-        ServerManager(ProtonApplication.getAppContext(), scope, userData)
-
-    @Singleton
-    @Provides
-    fun provideServerListUpdater(
-        api: ProtonApiRetroFit,
-        serverManager: ServerManager,
-        userData: UserData,
-        vpnStateMonitor: VpnStateMonitor,
-        userPlanManager: UserPlanManager,
-    ) = ServerListUpdater(scope, api, serverManager, userData, vpnStateMonitor, userPlanManager)
-
-    @Singleton
-    @Provides
-    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData): AppConfig = AppConfig(scope, api, userData)
-
-    @Singleton
-    @Provides
-    fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
-        ApiNotificationManager(scope, System::currentTimeMillis, appConfig)
-
     @Singleton
     @Provides
     fun provideNetworkManager(): NetworkManager = MockNetworkManager()
-
-    @Singleton
-    @Provides
-    fun provideVpnApiManager(userData: UserData, apiProvider: ApiProvider) =
-        VpnApiManager(apiProvider, userData.apiSessionProvider)
-
-    @Singleton
-    @Provides
-    fun provideHumanVerificationHandler() =
-        HumanVerificationHandler(scope, ProtonApplication.getAppContext() as ProtonApplication)
-
-    @Provides
-    @Singleton
-    fun provideProtonCookieStore(): ProtonCookieStore =
-        ProtonCookieStore(ProtonApplication.getAppContext())
-
-    @Provides
-    @Singleton
-    fun provideClientIdProvider(protonCookieStore: ProtonCookieStore): ClientIdProvider =
-        ClientIdProviderImpl(Constants.PRIMARY_VPN_API_URL, protonCookieStore)
 
     @Singleton
     @Provides
@@ -174,78 +99,14 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideApiProvider(apiFactory: ApiManagerFactory, userData: UserData): ApiProvider =
-        ApiProvider(apiFactory, userData.apiSessionProvider)
-
-    @Singleton
-    @Provides
-    fun provideApiManager(
-        vpnApiManager: VpnApiManager
-    ): ApiManager<ProtonVPNRetrofit> = vpnApiManager
-
-    @Singleton
-    @Provides
-    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, vpnStateMonitor)
-
-    @Singleton
-    @Provides
     fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>, userData: UserData): ProtonApiRetroFit =
         MockApi(scope, apiManager, userData)
 
     @Singleton
     @Provides
-    fun provideRecentManager(
-        vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager,
-        logoutHandler: LogoutHandler
-    ) = RecentsManager(scope, vpnStateMonitor, serverManager, logoutHandler)
-
-    @Singleton
-    @Provides
-    fun provideGson() = Gson()
-
-    @Singleton
-    @Provides
-    fun provideUserPrefs(): UserData = UserData.load().apply {
+    fun provideUserPrefs(): UserData = UserData.create().apply {
         setProtocols(VpnProtocol.IKEv2, null)
     }
-
-    @Singleton
-    @Provides
-    fun provideUserPlanManager(
-        api: ProtonApiRetroFit,
-        userData: UserData,
-        vpnStateMonitor: VpnStateMonitor,
-    ): UserPlanManager = UserPlanManager(api, userData, vpnStateMonitor)
-
-    @Singleton
-    @Provides
-    fun provideVpnConnectionErrorHandler(
-        api: ProtonApiRetroFit,
-        appConfig: AppConfig,
-        userData: UserData,
-        userPlanManager: UserPlanManager,
-        serverManager: ServerManager,
-        vpnStateMonitor: VpnStateMonitor,
-        serverListUpdater: ServerListUpdater,
-        errorUIManager: VpnErrorUIManager,
-        networkManager: NetworkManager,
-        vpnBackendProvider: VpnBackendProvider,
-    ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-        serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider
-    )
-
-    @Singleton
-    @Provides
-    fun provideVpnErrorUIManager(
-        appConfig: AppConfig,
-        userData: UserData,
-        userPlanManager: UserPlanManager,
-        vpnStateMonitor: VpnStateMonitor,
-        notificationHelper: NotificationHelper,
-    ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
-        vpnStateMonitor, notificationHelper)
 
     @Singleton
     @Provides
@@ -273,35 +134,6 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideCertificateRepository(
-        userData: UserData,
-        api: ProtonApiRetroFit,
-        userPlanManager: UserPlanManager
-    ): CertificateRepository = CertificateRepository(
-        scope,
-        ProtonApplication.getAppContext(),
-        userData,
-        api,
-        System::currentTimeMillis,
-        userPlanManager)
-
-    @Singleton
-    @Provides
-    fun provideVpnStateMonitor() = VpnStateMonitor()
-
-    @Singleton
-    @Provides
-    fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
-
-    @Singleton
-    @Provides
-    fun provideNotificationHelper(
-        vpnStateMonitor: VpnStateMonitor,
-        trafficMonitor: TrafficMonitor,
-    ) = NotificationHelper(ProtonApplication.getAppContext(), scope, vpnStateMonitor, trafficMonitor)
-
-    @Singleton
-    @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         serverManager: ServerManager,
@@ -318,72 +150,4 @@ class MockAppModule {
             serverDeliver = serverManager,
             config = appConfig
     )
-
-    @Singleton
-    @Provides
-    fun provideWireguardBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        dispatcherProvider: DispatcherProvider,
-        certificateRepository: CertificateRepository,
-    ) = WireguardBackend(
-        ProtonApplication.getAppContext(),
-        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
-        networkManager,
-        userData,
-        appConfig,
-        certificateRepository,
-        dispatcherProvider,
-        scope
-    )
-
-    @Singleton
-    @Provides
-    fun provideMaintenanceTracker(
-        appConfig: AppConfig,
-        vpnStateMonitor: VpnStateMonitor,
-        vpnErrorHandler: VpnConnectionErrorHandler
-    ) = MaintenanceTracker(scope, ProtonApplication.getAppContext(), appConfig, vpnStateMonitor, vpnErrorHandler)
-
-    @Singleton
-    @Provides
-    fun provideTrafficMonitor(
-        vpnStateMonitor: VpnStateMonitor,
-        connectivityMonitor: ConnectivityMonitor
-    ) = TrafficMonitor(
-        ProtonApplication.getAppContext(),
-        scope,
-        SystemClock::elapsedRealtime,
-        vpnStateMonitor,
-        connectivityMonitor
-    )
-
-    @Singleton
-    @Provides
-    fun provideGuestHole(
-        serverManager: ServerManager,
-        vpnMonitor: VpnStateMonitor,
-        connectionManager: VpnConnectionManager
-    ) = GuestHole(scope, serverManager, vpnMonitor, connectionManager)
-
-    @Singleton
-    @Provides
-    fun provideLogoutHandler(
-        userData: UserData,
-        serverManager: ServerManager,
-        vpnApiManager: VpnApiManager,
-        vpnStateMonitor: VpnStateMonitor,
-        vpnConnectionManager: VpnConnectionManager,
-        vpnApiClient: VpnApiClient,
-        humanVerificationHandler: HumanVerificationHandler,
-        certificateRepository: CertificateRepository
-    ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
-
-    @Module
-    interface Bindings {
-        @Binds
-        fun bindVpnLogCapture(vpnLogCapture: VpnLogCapture): VpnLogCapture
-    }
 }

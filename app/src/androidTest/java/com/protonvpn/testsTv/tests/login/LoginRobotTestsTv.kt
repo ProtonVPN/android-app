@@ -24,10 +24,13 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
@@ -35,21 +38,25 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
+@HiltAndroidTest
 class LoginRobotTestsTv {
 
-    private val loginRobot = TvLoginRobot()
-    private val userDataHelper = UserDataHelper()
+    private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    @get:Rule val rules = RuleChain
+        .outerRule(HiltAndroidRule(this))
+        .around(activityRule)
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    private val loginRobot = TvLoginRobot()
+    private lateinit var userDataHelper: UserDataHelper
 
     @Before
-    fun setUp(){
+    fun setUp() {
+        userDataHelper = UserDataHelper()
         activityRule.scenario
     }
 
     @Test
-    fun loginHappyPath(){
+    fun loginHappyPath() {
         loginRobot
                 .signIn()
                 .waitUntilLoggedIn()
@@ -57,7 +64,7 @@ class LoginRobotTestsTv {
     }
 
     @Test
-    fun loginCodeIsDisplayed(){
+    fun loginCodeIsDisplayed() {
         loginRobot
                 .signIn()
                 .waitUntilLoginCodeIsDisplayed()
@@ -65,7 +72,7 @@ class LoginRobotTestsTv {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         userDataHelper
                 .logoutUser()
     }

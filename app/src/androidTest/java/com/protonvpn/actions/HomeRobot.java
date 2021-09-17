@@ -24,14 +24,20 @@ import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.HomeResult;
 import com.protonvpn.results.LogoutResult;
 import com.protonvpn.results.ProfilesResult;
+import com.protonvpn.testsHelper.ServiceTestHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import androidx.annotation.NonNull;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static com.protonvpn.testsHelper.UICustomViewActions.waitObjectWithId;
 import static org.hamcrest.Matchers.endsWith;
 
 public class HomeRobot extends UIActionsTestHelper {
+
+    ServiceTestHelper serviceTestHelper = new ServiceTestHelper();
 
     public HomeRobot disableSecureCore() {
         setStateOfSecureCoreSwitch(false);
@@ -146,5 +152,12 @@ public class HomeRobot extends UIActionsTestHelper {
     public HomeResult clickButtonUpgrade() {
         clickOnObjectWithId(R.id.md_buttonDefaultPositive);
         return new HomeResult();
+    }
+
+    protected void setStateOfSecureCoreSwitch(boolean state) {
+        onView(isRoot()).perform(waitObjectWithId(R.id.switchSecureCore));
+        if (state != serviceTestHelper.isSecureCoreEnabled()) {
+            clickOnObjectWithId(R.id.switchSecureCore);
+        }
     }
 }

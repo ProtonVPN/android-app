@@ -30,15 +30,13 @@ import androidx.test.rule.ServiceTestRule;
 public class ConnectionResult extends UIActionsTestHelper {
 
     public ConnectionRobot connectionRobot;
-    public ServiceRobot serviceRobot;
     public ProfilesResult profilesResult;
     public ServiceTestHelper serviceTestHelper;
 
     public ConnectionResult() {
         connectionRobot = new ConnectionRobot();
-        serviceRobot = new ServiceRobot();
         profilesResult = new ProfilesResult();
-        serviceTestHelper = new ServiceTestHelper(new ServiceTestRule());
+        serviceTestHelper = new ServiceTestHelper();
     }
 
     public ConnectionResult isConnectedToVpn() {

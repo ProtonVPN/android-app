@@ -79,13 +79,6 @@ public class UIActionsTestHelper {
         }
     }
 
-    protected void setStateOfSecureCoreSwitch(boolean state) {
-        onView(isRoot()).perform(waitObjectWithId(R.id.switchSecureCore));
-        if (state != ServiceTestHelper.isSecureCoreEnabled()) {
-            clickOnObjectWithId(R.id.switchSecureCore);
-        }
-    }
-
     protected void allowVpnToBeUsed(boolean requestVisible) {
         if (requestVisible) {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
@@ -391,7 +384,7 @@ public class UIActionsTestHelper {
         checkCondition(instruction);
     }
 
-    public static void waitUntilObjectWithContentDescriptionAppearsInView(@IdRes int contentDescription) {
+    public static void waitUntilObjectWithContentDescriptionAppearsInView(@StringRes int contentDescription) {
         waitUntilObjectWithContentDescriptionAppearsInView(getContext().getString(contentDescription));
     }
 
