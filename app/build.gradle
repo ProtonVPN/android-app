@@ -181,10 +181,6 @@ android {
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
         vectorDrawables.useSupportLibrary = true
-        javaCompileOptions.annotationProcessorOptions {
-            arguments['dagger.android.experimentalUseStringKeys'] = 'true'
-            arguments['dagger.hilt.disableModulesHaveInstallInCheck'] = 'true'
-        }
         buildConfigField "String", "Sentry_DSN",  sentryDns
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
@@ -486,12 +482,6 @@ class Helpers {
     }
 }
 
-kapt {
-    arguments {
-        arg('dagger.android.experimentalUseStringKeys')
-    }
-}
-
 tasks.register("getArchivesName"){
     doLast {
         println archivesBaseName
@@ -624,13 +614,6 @@ dependencies {
     implementation 'com.wireguard.android:tunnel:1.0.20210211'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
-    // Dagger dependencies
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
     // Hilt
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -639,11 +622,6 @@ dependencies {
 
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     kapt 'com.evernote:android-state-processor:1.4.1'
-
-    // Test dependencies
-    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
-    kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     testImplementation 'joda-time:joda-time:2.10.10'
     testImplementation 'junit:junit:4.13.2'

@@ -40,17 +40,14 @@ import com.protonvpn.android.utils.getThemeColor
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_profiles)
 class ProfilesFragment : BaseFragmentV2<ProfilesViewModel, FragmentProfilesBinding>() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
-        viewModel =
-                ViewModelProvider(this, viewModelFactory).get(ProfilesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProfilesViewModel::class.java)
     }
 
     override fun onViewCreated() {

@@ -52,10 +52,12 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_settings)
 class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
 

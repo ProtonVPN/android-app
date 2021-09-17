@@ -23,10 +23,12 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 private const val BITS_IN_BYTE = 8
 
+@HiltViewModel
 @OptIn(ExperimentalUnsignedTypes::class)
 class SettingsExcludeIpsViewModel @Inject constructor(
     private val userData: UserData

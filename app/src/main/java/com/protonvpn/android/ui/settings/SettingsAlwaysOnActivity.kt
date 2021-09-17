@@ -42,10 +42,12 @@ import com.protonvpn.android.databinding.ActivityAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentAlwaysOnStepBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
 class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {

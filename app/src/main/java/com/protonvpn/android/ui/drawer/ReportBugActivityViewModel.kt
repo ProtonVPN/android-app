@@ -33,6 +33,7 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ProtonLoggerImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import me.proton.core.network.domain.ApiResult
@@ -42,6 +43,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.IOException
 import javax.inject.Inject
 
+@HiltViewModel
 class ReportBugActivityViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,

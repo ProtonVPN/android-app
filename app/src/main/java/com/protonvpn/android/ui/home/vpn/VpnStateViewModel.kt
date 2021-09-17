@@ -27,10 +27,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
+@HiltViewModel
 class VpnStateViewModel @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     trafficMonitor: TrafficMonitor

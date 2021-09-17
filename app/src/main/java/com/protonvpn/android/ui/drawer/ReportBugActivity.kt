@@ -32,20 +32,20 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityReportBinding
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.view.ProtonInput
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_report)
 class ReportBugActivity : BaseActivityV2<ActivityReportBinding, ReportBugActivityViewModel>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val editReport: ProtonInput get() = binding.layoutReport.editReport
     private val editEmail: ProtonInput get() = binding.layoutReport.editEmail
 
     override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ReportBugActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ReportBugActivityViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -35,17 +35,17 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
 class SettingsExcludeAppsActivity :
     SaveableSettingsActivity<ActivityRecyclerWithToolbarBinding, SettingsExcludeAppsViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(SettingsExcludeAppsViewModel::class.java)
+            ViewModelProvider(this).get(SettingsExcludeAppsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

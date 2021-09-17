@@ -33,22 +33,12 @@ import com.protonvpn.android.R
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
 
-abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), HasAndroidInjector, NoVpnPermissionUi {
+abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), NoVpnPermissionUi {
 
     lateinit var binding: DB
 
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any?>? = androidInjector
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)

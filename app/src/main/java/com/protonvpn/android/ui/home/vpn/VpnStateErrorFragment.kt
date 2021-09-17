@@ -29,20 +29,20 @@ import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
 import com.protonvpn.android.vpn.RetryInfo
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_vpn_state_error)
 class VpnStateErrorFragment : BaseFragmentV2<VpnStateErrorViewModel, FragmentVpnStateErrorBinding>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var parentViewModel: VpnStateViewModel
 
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(VpnStateErrorViewModel::class.java)
+            ViewModelProvider(this).get(VpnStateErrorViewModel::class.java)
         parentViewModel =
-            ViewModelProvider(requireParentFragment(), viewModelFactory).get(VpnStateViewModel::class.java)
+            ViewModelProvider(requireParentFragment()).get(VpnStateViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

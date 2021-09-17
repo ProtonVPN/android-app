@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 public class DeepLinkActivity extends Activity {
 
     public static String FROM_DEEPLINK = "DeepLink";

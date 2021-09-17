@@ -23,8 +23,10 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class ServerSelectionViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val userData: UserData

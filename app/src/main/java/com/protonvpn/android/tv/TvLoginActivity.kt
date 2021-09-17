@@ -26,7 +26,6 @@ import androidx.annotation.StringRes
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieDrawable
 import com.protonvpn.android.R
@@ -40,17 +39,17 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.onAnimationEnd
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.openBrowserLink
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_tv_login)
 class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<TvLoginViewModel> { viewModelFactory }
+    val viewModel by viewModels<TvLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

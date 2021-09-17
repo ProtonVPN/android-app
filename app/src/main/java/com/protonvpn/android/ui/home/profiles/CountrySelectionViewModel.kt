@@ -25,8 +25,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.ServerManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class CountrySelectionViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val userData: UserData

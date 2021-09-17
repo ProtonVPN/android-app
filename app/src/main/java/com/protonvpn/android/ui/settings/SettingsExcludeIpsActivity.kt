@@ -42,17 +42,16 @@ import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_settings_exclude_ips)
 class SettingsExcludeIpsActivity
     : SaveableSettingsActivity<ActivitySettingsExcludeIpsBinding, SettingsExcludeIpsViewModel>()
 {
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun initViewModel() {
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(SettingsExcludeIpsViewModel::class.java)
+            ViewModelProvider(this).get(SettingsExcludeIpsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

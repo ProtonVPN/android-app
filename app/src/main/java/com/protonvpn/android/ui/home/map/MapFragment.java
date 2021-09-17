@@ -60,10 +60,12 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static java.util.Collections.sort;
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_map)
 public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapListener {
 

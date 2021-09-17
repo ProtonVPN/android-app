@@ -42,10 +42,12 @@ import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TvServerListFragment : BaseTvBrowseFragment() {
 
-    private val viewModel by viewModels<TvServerListViewModel> { viewModelFactory }
+    private val viewModel by viewModels<TvServerListViewModel>()
     private var rowsAdapter: ArrayObjectAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

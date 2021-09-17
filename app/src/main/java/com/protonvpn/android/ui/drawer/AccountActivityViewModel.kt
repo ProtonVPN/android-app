@@ -24,8 +24,10 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.HtmlTools
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class AccountActivityViewModel @Inject constructor(val userData: UserData) : ViewModel() {
 
     val user get(): CharSequence? = if (userData.vpnInfoResponse != null) userData.user else "development@protonvpn.com"

@@ -19,7 +19,17 @@
 
 package com.protonvpn.android
 
+import com.protonvpn.android.vpn.VpnLogCapture
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 @HiltAndroidApp
-class ProtonApplicationHilt : ProtonApplication()
+class ProtonApplicationHilt : ProtonApplication() {
+
+    @Inject lateinit var vpnLogCapture: VpnLogCapture
+
+    override fun onCreate() {
+        super.onCreate()
+        vpnLogCapture.startCapture()
+    }
+}

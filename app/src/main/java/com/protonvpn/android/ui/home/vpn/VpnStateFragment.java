@@ -34,8 +34,8 @@ import com.protonvpn.android.bus.ConnectedToServer;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
-import com.protonvpn.android.components.CountryWithFlagsView;
 import com.protonvpn.android.components.ContentLayout;
+import com.protonvpn.android.components.CountryWithFlagsView;
 import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
@@ -67,7 +67,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.vpn_state_fragment)
 public class VpnStateFragment extends BaseFragment {
 
@@ -85,7 +87,6 @@ public class VpnStateFragment extends BaseFragment {
 
     private View fab;
 
-    @Inject ViewModelProvider.Factory viewModelFactory;
     @Inject ServerManager manager;
     @Inject UserData userData;
     @Inject AppConfig appConfig;
@@ -118,7 +119,7 @@ public class VpnStateFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = (new ViewModelProvider(this, viewModelFactory)).get(VpnStateViewModel.class);
+        viewModel = (new ViewModelProvider(this)).get(VpnStateViewModel.class);
     }
 
     @Override

@@ -48,13 +48,12 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.openProtonUrl
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
-import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.activity_profile)
 class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, ProfileViewModel>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
 
@@ -70,7 +69,7 @@ class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, Profile
 
     override fun initViewModel() {
         viewModel =
-                ViewModelProvider(this, viewModelFactory).get(ProfileViewModel::class.java)
+                ViewModelProvider(this).get(ProfileViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

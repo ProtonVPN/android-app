@@ -28,7 +28,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_vpn_state_not_connected)
 class VpnStateNotConnectedFragment :
     VpnStateFragmentWithNetShield<VpnStateNotConnectedViewModel, FragmentVpnStateNotConnectedBinding>() {
@@ -36,7 +38,7 @@ class VpnStateNotConnectedFragment :
     override fun initViewModel() {
         super.initViewModel()
         viewModel =
-            ViewModelProvider(this, viewModelFactory).get(VpnStateNotConnectedViewModel::class.java)
+            ViewModelProvider(this).get(VpnStateNotConnectedViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

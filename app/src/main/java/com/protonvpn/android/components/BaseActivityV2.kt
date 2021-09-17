@@ -31,6 +31,7 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -43,10 +44,9 @@ import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
-import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel>
-    : DaggerAppCompatActivity(), NoVpnPermissionUi {
+abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> :
+    AppCompatActivity(), NoVpnPermissionUi {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     lateinit var binding: DB

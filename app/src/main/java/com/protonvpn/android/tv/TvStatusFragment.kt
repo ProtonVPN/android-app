@@ -25,6 +25,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -43,16 +44,16 @@ import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import me.proton.core.util.kotlin.exhaustive
 import javax.inject.Inject
 
-class TvStatusFragment : DaggerFragment() {
+@AndroidEntryPoint
+class TvStatusFragment : Fragment() {
     private lateinit var binding: TvStatusViewBinding
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
     @Inject lateinit var serverListUpdater: ServerListUpdater
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: TvMainViewModel
     override fun onCreateView(
@@ -61,7 +62,7 @@ class TvStatusFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(TvMainViewModel::class.java)
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect { infoChange ->
                 if (infoChange is PlanChange.TrialEnded) {

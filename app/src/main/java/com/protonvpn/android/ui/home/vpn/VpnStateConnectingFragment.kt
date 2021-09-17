@@ -27,18 +27,18 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentVpnStateConnectingBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.fragment_vpn_state_connecting)
 class VpnStateConnectingFragment : BaseFragmentV2<ViewModel, FragmentVpnStateConnectingBinding>() {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var parentViewModel: VpnStateViewModel
 
     override fun initViewModel() {
         parentViewModel =
-            ViewModelProvider(requireParentFragment(), viewModelFactory).get(VpnStateViewModel::class.java)
+            ViewModelProvider(requireParentFragment()).get(VpnStateViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

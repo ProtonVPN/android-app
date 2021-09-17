@@ -27,9 +27,10 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class WireguardWrapperService : GoBackend.VpnService() {
 
     @Inject lateinit var notificationHelper: NotificationHelper
@@ -39,7 +40,6 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
         wireguardBackend.serviceCreated(this)
     }
 
