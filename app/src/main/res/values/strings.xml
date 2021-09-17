@@ -204,6 +204,9 @@
     <string name="create_new_profile">CREATE NEW PROFILE</string>
     <string name="excludeAppsTitle">Exclude Apps</string>
     <string name="excludeAppsDescription">Add apps you want to exclude from your VPN traffic.</string>
+    <string name="excludeAppsRegularSectionTitle">Regular apps</string>
+    <string name="excludeAppsSystemSectionTitle">System apps and services</string>
+    <string name="excludeAppsLoadSystemAppsButton">Show system apps</string>
     <string name="profile_name">Profile name</string>
     <string name="profile_color">Profile color</string>
     <string name="secure_core">Secure Core</string>

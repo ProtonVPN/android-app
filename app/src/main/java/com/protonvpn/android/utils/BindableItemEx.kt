@@ -50,6 +50,7 @@ abstract class BindableItemEx<T : ViewDataBinding> : BindableItem<T>() {
         super.bind(viewHolder, position, payloads, onItemClickListener, onItemLongClickListener)
     }
 
+    @CallSuper
     override fun bind(viewBinding: T, position: Int) {
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()

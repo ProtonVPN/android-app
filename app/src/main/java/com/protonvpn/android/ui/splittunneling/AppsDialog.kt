@@ -35,15 +35,19 @@ import com.protonvpn.android.components.BaseDialog
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.sortedByLocaleAware
-import kotlinx.coroutines.Dispatchers
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Section
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
 @ContentLayout(R.layout.dialog_split_tunnel)
 class AppsDialog : BaseDialog() {
-    private lateinit var adapter: AppsAdapter
-
     @BindView(R.id.textTitle)
     lateinit var textTitle: TextView
 
@@ -60,30 +64,40 @@ class AppsDialog : BaseDialog() {
     lateinit var userData: UserData
     @Inject
     lateinit var activityManager: ActivityManager
+    @Inject
+    lateinit var mainScope: CoroutineScope
+    @Inject
+    lateinit var dispatcherProvider: DispatcherProvider
 
     override fun onViewCreated() {
-        list.layoutManager = LinearLayoutManager(activity)
-        adapter = AppsAdapter(userData)
-        list.adapter = adapter
+        val layoutManager = LinearLayoutManager(activity)
+        list.layoutManager = layoutManager
+
+        val adapter = GroupAdapter<GroupieViewHolder>()
+        val regularAppsSection = Section(AppsHeaderViewHolder(R.string.excludeAppsRegularSectionTitle))
+        val systemAppsSection = Section(AppsHeaderViewHolder(R.string.excludeAppsSystemSectionTitle))
+        systemAppsSection.add(LoadSystemAppsViewHolder {
+            loadSystemApps(layoutManager, adapter, systemAppsSection)
+        })
+
+        adapter.add(regularAppsSection)
+        adapter.add(systemAppsSection)
+
         textTitle.setText(R.string.excludeAppsTitle)
         textDescription.setText(R.string.excludeAppsDescription)
         progressBar.visibility = View.VISIBLE
 
+        val packageManager = requireContext().packageManager
         val selection = userData.splitTunnelApps.toSet()
         viewLifecycleOwner.lifecycleScope.launch {
-            val allApps = getInstalledInternetApps(requireContext().packageManager)
-            val sortedApps = withContext(Dispatchers.Default) {
-                allApps.forEach { app ->
-                    if (selection.contains(app.packageName)) {
-                        app.isSelected = true
-                    }
-                }
-                allApps.sortedByLocaleAware { it.toString() }
-            }
-            removeUninstalledApps(userData, allApps)
-            adapter.setData(sortedApps)
-            adapter.notifyDataSetChanged()
+            regularAppsSection.addAll(
+                getSortedAppViewHolders(packageManager, true, selection)
+            )
+            list.adapter = adapter
             progressBar.visibility = View.GONE
+        }
+        mainScope.launch {
+            removeUninstalledApps(packageManager, userData)
         }
     }
 
@@ -92,24 +106,68 @@ class AppsDialog : BaseDialog() {
         dismiss()
     }
 
-    private fun removeUninstalledApps(userData: UserData, allApps: List<SelectedApplicationEntry>) {
+    private fun loadSystemApps(
+        layoutManager: LinearLayoutManager,
+        adapter: GroupAdapter<GroupieViewHolder>,
+        systemAppsSection: Section
+    ) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val selection = userData.splitTunnelApps.toSet()
+            systemAppsSection.addAll(
+                getSortedAppViewHolders(requireContext().packageManager, false, selection)
+            )
+            systemAppsSection.remove(systemAppsSection.getItem(1))
+            val headerPosition = adapter.getAdapterPosition(systemAppsSection.getItem(0))
+            layoutManager.scrollToPositionWithOffset(headerPosition, 0)
+        }
+    }
+
+    private suspend fun removeUninstalledApps(packageManager: PackageManager, userData: UserData) {
+        val installedPackages = withContext(dispatcherProvider.Io) {
+            packageManager.getInstalledApplications(0).mapTo(mutableSetOf()) { it.packageName }
+        }
         val userDataAppPackages = userData.splitTunnelApps
-        val allAppPackages = HashSet<String>(allApps.size)
-        allApps.mapTo(allAppPackages) { it.packageName }
         userDataAppPackages
-            .filterNot { allAppPackages.contains(it) }
+            .filterNot { installedPackages.contains(it) }
             .forEach { userData.removeAppFromSplitTunnel(it) }
     }
 
+    private suspend fun getSortedAppViewHolders(
+        packageManager: PackageManager,
+        withLaunchIntent: Boolean,
+        selection: Set<String>
+    ): List<AppViewHolder> {
+        val regularApps = getInstalledInternetApps(packageManager, withLaunchIntent)
+        val sortedRegularApps = withContext(dispatcherProvider.Comp) {
+            regularApps.forEach { app ->
+                if (selection.contains(app.packageName)) {
+                    app.isSelected = true
+                }
+            }
+            regularApps.sortedByLocaleAware { it.toString() }
+        }
+        return sortedRegularApps.map {
+            AppViewHolder(
+                it,
+                onAdd = { userData.addAppToSplitTunnel(it.packageName) },
+                onRemove = { userData.removeAppFromSplitTunnel(it.packageName) }
+            )
+        }
+    }
+
     private suspend fun getInstalledInternetApps(
-        packageManager: PackageManager
-    ): List<SelectedApplicationEntry> = withContext(Dispatchers.IO) {
+        packageManager: PackageManager,
+        withLaunchIntent: Boolean
+    ): List<SelectedApplicationEntry> = withContext(dispatcherProvider.Io) {
         val apps = packageManager.getInstalledApplications(
             0
         ).filter { appInfo ->
-            (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
+            val hasInternet = (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
                     == PackageManager.PERMISSION_GRANTED)
+            val hasLaunchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName) != null
+            hasInternet && hasLaunchIntent == withLaunchIntent
         }.map { appInfo ->
+            ensureActive()
             getAppMetadata(packageManager, appInfo)
         }
         apps
