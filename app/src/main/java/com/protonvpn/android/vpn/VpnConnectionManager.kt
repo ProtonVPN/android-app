@@ -290,8 +290,7 @@ open class VpnConnectionManager(
             ProtonLogger.log("Disconnected, start connecting to new server.")
         }
 
-        if (profile.getProtocol(userData) == VpnProtocol.Smart)
-            setSelfState(VpnState.ScanningPorts)
+        setSelfState(VpnState.ScanningPorts)
 
         var protocol = profile.getProtocol(userData)
         val hasNetwork = networkManager.isConnectedToNetwork()
