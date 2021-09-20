@@ -159,7 +159,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity
     }
 
     @Override
-    public void showNoVpnPermissionDialog() {
+    public void onVpnPermissionDenied() {
         // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
         // with BaseActivity.
         BaseActivityV2.Companion.showNoVpnPermissionDialog(this);

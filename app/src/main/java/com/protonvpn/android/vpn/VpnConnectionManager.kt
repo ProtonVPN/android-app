@@ -19,13 +19,11 @@
 
 package com.protonvpn.android.vpn
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.VpnService
-import android.os.Build
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -65,8 +63,7 @@ private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
 interface NoVpnPermissionUi {
-    @TargetApi(Build.VERSION_CODES.N)
-    fun showNoVpnPermissionDialog()
+    fun onVpnPermissionDenied()
 }
 
 @Singleton
@@ -362,8 +359,8 @@ open class VpnConnectionManager(
                 ) { permissionGranted ->
                     if (permissionGranted) {
                         connectWithPermission(context, profile)
-                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        (context as NoVpnPermissionUi).showNoVpnPermissionDialog()
+                    } else {
+                        (context as NoVpnPermissionUi).onVpnPermissionDenied()
                     }
                 }
                 permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)

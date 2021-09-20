@@ -19,7 +19,6 @@
 package com.protonvpn.android.components
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -56,19 +55,14 @@ abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), HasAnd
         setContentView(binding.root)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PREPARE_VPN_SERVICE) {
-            if (resultCode == Activity.RESULT_OK) {
-                onVpnPrepared()
-            } else if (resultCode == Activity.RESULT_CANCELED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                onVpnPrepareFailed()
-                showNoVpnPermissionDialog()
-            }
-        } else super.onActivityResult(requestCode, resultCode, data)
+    override fun onVpnPermissionDenied() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            showNoVpnPermissionDialog()
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    override fun showNoVpnPermissionDialog() {
+    fun showNoVpnPermissionDialog() {
         val content = HtmlTools.fromHtml(
             getString(
                 R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS
@@ -79,12 +73,5 @@ abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), HasAnd
             .onPositive { _: MaterialDialog?, _: DialogAction? ->
                 startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
             }.show()
-    }
-
-    protected open fun onVpnPrepared() {}
-    protected open fun onVpnPrepareFailed() {}
-
-    companion object {
-        const val PREPARE_VPN_SERVICE = 0
     }
 }
