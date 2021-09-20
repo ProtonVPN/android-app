@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.ui.splittunneling;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
 import java.text.Collator;
@@ -28,16 +26,15 @@ import androidx.annotation.NonNull;
 
 public class SelectedApplicationEntry implements Comparable<SelectedApplicationEntry> {
 
-    private final ApplicationInfo mInfo;
+    private final String mPackageName;
     private final Drawable mIcon;
     private final String mName;
     private boolean mSelected;
 
-    public SelectedApplicationEntry(PackageManager packageManager, ApplicationInfo info) {
-        mInfo = info;
-        CharSequence name = info.loadLabel(packageManager);
-        mName = name == null ? info.packageName : name.toString();
-        mIcon = info.loadIcon(packageManager);
+    public SelectedApplicationEntry(@NonNull String packageName, @NonNull String label, @NonNull Drawable icon) {
+        mPackageName = packageName;
+        mName = label;
+        mIcon = icon;
     }
 
     public void setSelected(boolean selected) {
@@ -48,8 +45,9 @@ public class SelectedApplicationEntry implements Comparable<SelectedApplicationE
         return mSelected;
     }
 
-    public ApplicationInfo getInfo() {
-        return mInfo;
+    @NonNull
+    public String getPackageName() {
+        return mPackageName;
     }
 
     public Drawable getIcon() {

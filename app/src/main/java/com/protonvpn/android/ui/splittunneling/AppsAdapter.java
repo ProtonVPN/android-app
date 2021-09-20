@@ -110,10 +110,10 @@ abstract class AppsViewHolder extends RecyclerView.ViewHolder {
     public void layoutAddRemove() {
         item.setSelected(!item.isSelected());
         if (item.isSelected()) {
-            addApp(item.getInfo().packageName);
+            addApp(item.getPackageName());
         }
         else {
-            removeApp(item.getInfo().packageName);
+            removeApp(item.getPackageName());
         }
         initSelection();
     }

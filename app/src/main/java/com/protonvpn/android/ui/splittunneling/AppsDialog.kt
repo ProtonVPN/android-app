@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.splittunneling
 
 import android.Manifest
 import android.app.ActivityManager
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Process
 import android.view.View
@@ -82,7 +83,7 @@ class AppsDialog : BaseDialog() {
             val allApps = getInstalledInternetApps(requireContext().packageManager)
             val sortedApps = withContext(Dispatchers.Default) {
                 allApps.forEach { app ->
-                    if (selection.contains(app.info.packageName)) {
+                    if (selection.contains(app.packageName)) {
                         app.isSelected = true
                     }
                 }
@@ -103,7 +104,7 @@ class AppsDialog : BaseDialog() {
     private fun removeUninstalledApps(userData: UserData, allApps: List<SelectedApplicationEntry>) {
         val userDataAppPackages = userData.splitTunnelApps
         val allAppPackages = HashSet<String>(allApps.size)
-        allApps.mapTo(allAppPackages) { it.info.packageName }
+        allApps.mapTo(allAppPackages) { it.packageName }
         userDataAppPackages
             .filterNot { allAppPackages.contains(it) }
             .forEach { userData.removeAppFromSplitTunnel(it) }
@@ -121,12 +122,21 @@ class AppsDialog : BaseDialog() {
             (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
                     == PackageManager.PERMISSION_GRANTED)
         }.map { appInfo ->
-            SelectedApplicationEntry(packageManager, appInfo)
+            getAppMetadata(packageManager, appInfo)
         }
 
         ProtonLogger.log("getInstalledInternetApps: final code size: ${getCodeMemoryKb()} KB")
         tryReleaseMemory(initialCodeSizeKb)
         apps
+    }
+
+    private fun getAppMetadata(
+        packageManager: PackageManager,
+        appInfo: ApplicationInfo
+    ): SelectedApplicationEntry {
+        val label = appInfo.loadLabel(packageManager)
+        val icon = appInfo.loadIcon(packageManager)
+        return SelectedApplicationEntry(appInfo.packageName, label.toString(), icon)
     }
 
     @Suppress("ExplicitGarbageCollectionCall")
