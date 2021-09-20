@@ -90,28 +90,16 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel>
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PREPARE_VPN_SERVICE) {
-            if (resultCode == Activity.RESULT_OK) {
-                onVpnPrepared()
-            } else if (resultCode == Activity.RESULT_CANCELED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                onVpnPrepareFailed()
-                showNoVpnPermissionDialog()
-            }
-        } else super.onActivityResult(requestCode, resultCode, data)
+    override fun onVpnPermissionDenied() {
+        onVpnPrepareFailed()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            showNoVpnPermissionDialog(this)
+        }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    override fun showNoVpnPermissionDialog() {
-        showNoVpnPermissionDialog(this)
-    }
-
-    protected open fun onVpnPrepared() {}
     protected open fun onVpnPrepareFailed() {}
 
     companion object {
-        const val PREPARE_VPN_SERVICE = 0
-
         @TargetApi(Build.VERSION_CODES.N)
         fun showNoVpnPermissionDialog(activity: Activity) {
             val content = HtmlTools.fromHtml(activity.getString(
