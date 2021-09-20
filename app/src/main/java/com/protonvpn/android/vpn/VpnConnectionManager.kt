@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -34,7 +35,6 @@ import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.components.BaseActivityV2.Companion.showNoVpnPermissionDialog
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.models.config.UserData
@@ -63,6 +63,11 @@ import kotlin.coroutines.coroutineContext
 
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
+
+interface NoVpnPermissionUi {
+    @TargetApi(Build.VERSION_CODES.N)
+    fun showNoVpnPermissionDialog()
+}
 
 @Singleton
 open class VpnConnectionManager(
@@ -351,13 +356,14 @@ open class VpnConnectionManager(
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             if (context is ActivityResultRegistryOwner) {
+                DebugUtils.debugAssert { context is NoVpnPermissionUi }
                 val permissionCall = context.activityResultRegistry.register(
                     "VPNPermission", PermissionContract(intent)
                 ) { permissionGranted ->
                     if (permissionGranted) {
                         connectWithPermission(context, profile)
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        (context as Activity).showNoVpnPermissionDialog()
+                        (context as NoVpnPermissionUi).showNoVpnPermissionDialog()
                     }
                 }
                 permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)

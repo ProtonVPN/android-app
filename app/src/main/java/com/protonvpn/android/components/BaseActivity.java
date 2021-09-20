@@ -30,6 +30,7 @@ import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.ui.drawer.DrawerArrowDrawableEx;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.vpn.NoVpnPermissionUi;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -45,7 +46,8 @@ import dagger.android.support.DaggerAppCompatActivity;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-public abstract class BaseActivity extends DaggerAppCompatActivity implements NetworkLoader {
+public abstract class BaseActivity extends DaggerAppCompatActivity
+    implements NetworkLoader, NoVpnPermissionUi {
 
     @Nullable @BindView(R.id.loadingContainer) NetworkFrameLayout loadingContainer;
     @Nullable @BindView(R.id.layoutDrawer) protected DrawerLayout drawer;
@@ -154,5 +156,12 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showNoVpnPermissionDialog() {
+        // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
+        // with BaseActivity.
+        BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
     }
 }
