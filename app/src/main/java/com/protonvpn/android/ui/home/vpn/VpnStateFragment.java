@@ -36,16 +36,14 @@ import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.CountryWithFlagsView;
-import com.protonvpn.android.components.VPNException;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.DebugUtils;
-import com.protonvpn.android.utils.HtmlTools;
-import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TrafficMonitor;
+import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.RetryInfo;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
@@ -268,7 +266,11 @@ public class VpnStateFragment extends BaseFragment {
             VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
             if (state instanceof VpnState.Error) {
-                reportError(((VpnState.Error) vpnState.getState()));
+                // MAX_SESSIONS is handled through fallbacks and separate methods and UI
+                // this will be refactored as well
+                if (((VpnState.Error) state).getType() != ErrorType.MAX_SESSIONS) {
+                    showErrorState();
+                }
             }
             else if (VpnState.Disabled.INSTANCE.equals(state)) {
                 checkDisconnectFromOutside();
@@ -311,41 +313,6 @@ public class VpnStateFragment extends BaseFragment {
         if (stateMonitor.isConnected()) {
             EventBus.getInstance().post(new ConnectedToServer(null));
         }
-    }
-
-    private boolean reportError(VpnState.Error error) {
-        Log.e("report error: " + error.toString());
-        switch (error.getType()) {
-            case AUTH_FAILED:
-                showAuthError(R.string.error_auth_failed);
-                break;
-            case PEER_AUTH_FAILED:
-            case UNREACHABLE:
-                showErrorState();
-                break;
-            case MAX_SESSIONS:
-                Log.exception(new VPNException("Maximum number of sessions used"));
-                break;
-            case UNPAID:
-                showAuthError(HtmlTools.fromHtml(getString(R.string.errorUserDelinquent)));
-                Log.exception(new VPNException("Overdue payment"));
-                break;
-            case MULTI_USER_PERMISSION:
-                vpnConnectionManager.disconnect();
-                showAuthError(R.string.errorTunMultiUserPermission);
-                Log.exception(new VPNException("Dual-apps permission error"));
-                break;
-            case LOCAL_AGENT_ERROR:
-                vpnConnectionManager.disconnect();
-                showAuthError(getString(R.string.errorWireguardWithPlaceholder, error.getDescription()));
-                Log.exception(new VPNException("Wireguard error: " + error.getDescription()));
-                break;
-            default:
-                showErrorState();
-                break;
-        }
-
-        return true;
     }
 
     private void showAuthError(@StringRes int stringRes) {

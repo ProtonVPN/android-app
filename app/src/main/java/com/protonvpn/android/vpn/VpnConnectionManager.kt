@@ -86,7 +86,9 @@ open class VpnConnectionManager(
         private val RECOVERABLE_ERRORS = listOf(
             ErrorType.AUTH_FAILED_INTERNAL,
             ErrorType.LOOKUP_FAILED_INTERNAL,
-            ErrorType.UNREACHABLE_INTERNAL)
+            ErrorType.UNREACHABLE_INTERNAL,
+            ErrorType.POLICY_VIOLATION_LOW_PLAN
+        )
     }
 
     private var ongoingConnect: Job? = null
@@ -200,7 +202,7 @@ open class VpnConnectionManager(
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
                 vpnErrorHandler.onUnreachableError(params)
-            ErrorType.AUTH_FAILED_INTERNAL ->
+            ErrorType.AUTH_FAILED_INTERNAL, ErrorType.POLICY_VIOLATION_LOW_PLAN ->
                 vpnErrorHandler.onAuthError(params)
             else ->
                 VpnFallbackResult.Error(errorType)

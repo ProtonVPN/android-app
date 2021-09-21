@@ -496,6 +496,6 @@ class VpnConnectionTests {
         manager.connect(context, profileWireguard)
         scope.advanceUntilIdle()
 
-        assertEquals(ErrorType.AUTH_FAILED_INTERNAL, (mockWireguard.selfState as? VpnState.Error)?.type)
+        assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
 }

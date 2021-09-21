@@ -160,7 +160,7 @@ class TvStatusFragment : Fragment() {
                 showErrorDialog(R.string.error_peer_auth_failed)
             ErrorType.MAX_SESSIONS ->
                 showErrorDialog(R.string.errorMaxSessions)
-            ErrorType.UNPAID ->
+            ErrorType.POLICY_VIOLATION_DELINQUENT ->
                 showErrorDialog(HtmlTools.fromHtml(getString(R.string.errorUserDelinquent)))
             ErrorType.MULTI_USER_PERMISSION ->
                 showErrorDialog(R.string.errorTunMultiUserPermission)
