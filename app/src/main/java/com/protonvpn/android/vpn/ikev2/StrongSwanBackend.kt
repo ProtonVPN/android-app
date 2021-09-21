@@ -109,7 +109,7 @@ class StrongSwanBackend(
         getVpnService().connect(null, true)
     }
 
-    override suspend fun closeVpnTunnel() {
+    override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         vpnService?.disconnect()
         waitForDisconnect()
     }
