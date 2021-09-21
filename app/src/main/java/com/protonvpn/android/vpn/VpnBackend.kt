@@ -114,7 +114,7 @@ abstract class VpnBackend(
         closeVpnTunnel()
     }
 
-    abstract suspend fun closeVpnTunnel()
+    protected abstract suspend fun closeVpnTunnel(withStateChange: Boolean = true)
 
     abstract suspend fun reconnect()
 
@@ -209,8 +209,14 @@ abstract class VpnBackend(
         override fun onStatusUpdate(status: StatusMessage) {}
     }
 
-    private fun setAuthError(description: String? = null) =
-        selfStateObservable.postValue(VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, description))
+    private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null) {
+        description?.let {
+            ProtonLogger.log(it)
+        }
+        mainScope.launch {
+            if (disconnectVPN) closeVpnTunnel(withStateChange = false)
+        }
+    }
 
     private fun setLocalAgentError(description: String? = null) =
         selfStateObservable.postValue(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, description))

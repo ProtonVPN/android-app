@@ -190,7 +190,7 @@ class OpenVpnBackend(
         startOpenVPN(null)
     }
 
-    override suspend fun closeVpnTunnel() {
+    override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
         startOpenVPN(PAUSE_VPN)
