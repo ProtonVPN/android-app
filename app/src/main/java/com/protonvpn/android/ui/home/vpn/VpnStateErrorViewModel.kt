@@ -19,12 +19,8 @@
 
 package com.protonvpn.android.ui.home.vpn
 
-import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.R
-import com.protonvpn.android.components.VPNException
-import com.protonvpn.android.utils.Log
-import com.protonvpn.android.vpn.ErrorType
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -38,14 +34,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VpnStateErrorViewModel @Inject constructor(
+    app: Application,
     stateMonitor: VpnStateMonitor,
     private val vpnConnectionManager: VpnConnectionManager
-) : ViewModel() {
+) : AndroidViewModel(app) {
 
-    val errorMessage: Flow<Int> = stateMonitor.status.mapNotNull {
+    val errorMessage: Flow<String> = stateMonitor.status.mapNotNull {
         val state = it.state
         if (state is VpnState.Error) {
-            mapToErrorMessage(state)
+            state.type.mapToErrorMessage(getApplication(), state.description)
         } else {
             null
         }
@@ -59,25 +56,5 @@ class VpnStateErrorViewModel @Inject constructor(
         }
         emit(null)
         vpnConnectionManager.retryInfo?.timeoutSeconds
-    }
-
-    @StringRes
-    private fun mapToErrorMessage(error: VpnState.Error): Int {
-        // Note: this only maps those errors for which VpnStateFragment shows VpnStateErrorFragment
-        return when (error.type) {
-            ErrorType.PEER_AUTH_FAILED -> {
-                // Note: logging errors in UI code is not reliable.
-                Log.exception(VPNException("Peer Auth: Verifying gateway authentication failed"))
-                R.string.error_peer_auth_failed
-            }
-            ErrorType.UNREACHABLE -> {
-                Log.exception(VPNException("Gateway is unreachable"))
-                R.string.error_server_unreachable
-            }
-            else -> {
-                Log.exception(VPNException("Unspecified failure while connecting"))
-                R.string.error_generic
-            }
-        }
     }
 }

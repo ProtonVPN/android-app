@@ -18,7 +18,9 @@
  */
 package com.protonvpn.android.vpn
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.protonvpn.android.R
 import java.util.Locale
 
 interface VpnStateSource {
@@ -51,7 +53,37 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
 }
 
 enum class ErrorType {
-    AUTH_FAILED_INTERNAL, AUTH_FAILED, PEER_AUTH_FAILED, LOOKUP_FAILED_INTERNAL, UNREACHABLE,
-    UNREACHABLE_INTERNAL, MAX_SESSIONS, UNPAID, GENERIC_ERROR, MULTI_USER_PERMISSION,
-    LOCAL_AGENT_ERROR
+    AUTH_FAILED_INTERNAL,
+    AUTH_FAILED,
+    PEER_AUTH_FAILED,
+    LOOKUP_FAILED_INTERNAL,
+    UNREACHABLE,
+    UNREACHABLE_INTERNAL,
+    MAX_SESSIONS,
+    GENERIC_ERROR,
+    MULTI_USER_PERMISSION,
+    LOCAL_AGENT_ERROR,
+    SERVER_ERROR,
+    POLICY_VIOLATION_DELINQUENT,
+    POLICY_VIOLATION_LOW_PLAN,
+    POLICY_VIOLATION_BAD_BEHAVIOUR,
+    TORRENT_NOT_ALLOWED,
+    KEY_USED_MULTIPLE_TIMES;
+
+    fun mapToErrorMessage(context: Context, additionalDetails: String? = null): String {
+        val stringResId = when (this) {
+            PEER_AUTH_FAILED -> R.string.error_peer_auth_failed
+            AUTH_FAILED -> R.string.error_auth_failed
+            UNREACHABLE -> R.string.error_server_unreachable
+            POLICY_VIOLATION_DELINQUENT -> R.string.errorUserDelinquent
+            MULTI_USER_PERMISSION -> R.string.errorTunMultiUserPermission
+            TORRENT_NOT_ALLOWED -> R.string.errorTorrentNotAllowed
+            else ->
+                if (additionalDetails.isNullOrEmpty())
+                    R.string.error_generic
+                else
+                    R.string.error_generic_with_reason
+        }
+        return context.getString(stringResId, additionalDetails)
+    }
 }

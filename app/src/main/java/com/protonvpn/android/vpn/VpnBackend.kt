@@ -169,7 +169,7 @@ abstract class VpnBackend(
                 agentConstants.errorCodeMaxSessionsUnknown,
                 agentConstants.errorCodeMaxSessionsVisionary ->
                     //FIXME: set MAX_SESSIONS directly when error handling code is prepared for that
-                    setAuthError("Max sessions reached")
+                    setError(ErrorType.AUTH_FAILED_INTERNAL)
 
                 agentConstants.errorCodeBadCertSignature,
                 agentConstants.errorCodeCertificateRevoked ->
@@ -179,24 +179,23 @@ abstract class VpnBackend(
                     refreshCertOnLocalAgent(force = false)
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
-                    setLocalAgentError("Key used multiple times")
+                    setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
                 agentConstants.errorCodeUserTorrentNotAllowed ->
-                    setLocalAgentError("Policy violation - torrent not allowed")
+                    setError(ErrorType.TORRENT_NOT_ALLOWED)
                 agentConstants.errorCodeUserBadBehavior ->
-                    setLocalAgentError("Bad behaviour")
-
+                    setError(ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR)
                 agentConstants.errorCodePolicyViolationLowPlan ->
-                    setAuthError("Policy violation - too low plan")
+                    setError(ErrorType.POLICY_VIOLATION_LOW_PLAN)
                 agentConstants.errorCodePolicyViolationDelinquent ->
-                    setAuthError("Policy violation - pending invoice")
+                    setError(ErrorType.POLICY_VIOLATION_DELINQUENT)
                 agentConstants.errorCodeServerError ->
-                    setAuthError("Server error")
+                    setError(ErrorType.SERVER_ERROR)
                 agentConstants.errorCodeRestrictedServer ->
                     // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
                     ProtonLogger.log("Local agent: Restricted server, waiting...")
                 else -> {
                     if (agent?.status?.reason?.final == true)
-                        setLocalAgentError(description)
+                        setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
                 }
             }
         }
@@ -214,12 +213,12 @@ abstract class VpnBackend(
             ProtonLogger.log(it)
         }
         mainScope.launch {
-            if (disconnectVPN) closeVpnTunnel(withStateChange = false)
+            if (disconnectVPN)
+                closeVpnTunnel(withStateChange = false)
+
+            selfStateObservable.postValue(VpnState.Error(error, description))
         }
     }
-
-    private fun setLocalAgentError(description: String? = null) =
-        selfStateObservable.postValue(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, description))
 
     protected var vpnProtocolState: VpnState = VpnState.Disabled
         set(value) {
@@ -329,8 +328,7 @@ abstract class VpnBackend(
                     connectToLocalAgent()
                 is CertificateRepository.CertificateResult.Error -> {
                     // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    ProtonLogger.log("Failed to refresh certificate")
-                    setLocalAgentError("Failed to refresh certificate")
+                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh certificate")
                 }
             }
         }
@@ -344,8 +342,7 @@ abstract class VpnBackend(
             when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
                 is CertificateRepository.CertificateResult.Error -> {
                     // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    ProtonLogger.log("Failed to revoke and refresh certificate")
-                    setLocalAgentError("Failed to refresh revoked certificate")
+                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh revoked certificate")
                 }
                 is CertificateRepository.CertificateResult.Success -> {
                     yield()
@@ -368,7 +365,7 @@ abstract class VpnBackend(
                     prepareFeaturesForAgentConnection()
                     agent = createAgentConnection(certInfo, hostname, createNativeClient())
                 } else {
-                    setLocalAgentError("Failed to get wireguard certificate")
+                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to get certificate")
                 }
             }
         }

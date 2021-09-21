@@ -28,6 +28,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.RetryInfo
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -54,7 +55,7 @@ class VpnStateErrorFragment : BaseFragmentV2<VpnStateErrorViewModel, FragmentVpn
         }
 
         viewModel.errorMessage.asLiveData().observe(viewLifecycleOwner, Observer {
-            binding.textError.setText(it)
+            binding.textError.text = HtmlTools.fromHtml(it)
         })
         viewModel.retryInfo.asLiveData().observe(viewLifecycleOwner, Observer {
             updateProgress(it)
