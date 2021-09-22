@@ -20,7 +20,6 @@ package com.protonvpn.android.ui.splittunneling
 
 import android.Manifest
 import android.app.ActivityManager
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -42,7 +41,6 @@ import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.sortedByLocaleAware
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -81,7 +79,7 @@ class AppsDialog : BaseDialog() {
 
         val selection = userData.splitTunnelApps.toSet()
         viewLifecycleOwner.lifecycleScope.launch {
-            val allApps = getInstalledInternetApps(requireContext().applicationContext)
+            val allApps = getInstalledInternetApps(requireContext().packageManager)
             val sortedApps = withContext(Dispatchers.Default) {
                 allApps.forEach { app ->
                     if (selection.contains(app.packageName)) {
@@ -111,36 +109,28 @@ class AppsDialog : BaseDialog() {
             .forEach { userData.removeAppFromSplitTunnel(it) }
     }
 
-    // Pass app context to avoid problems when the dialog is closed and the IO thread is still
-    // accessing the PackageManager.
     private suspend fun getInstalledInternetApps(
-        appContext: Context
+        packageManager: PackageManager
     ): List<SelectedApplicationEntry> = withContext(Dispatchers.IO) {
-        val packageManager = appContext.packageManager
-        val ourPackageName = appContext.packageName
         val apps = packageManager.getInstalledApplications(
             0
         ).filter { appInfo ->
             (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
                     == PackageManager.PERMISSION_GRANTED)
         }.map { appInfo ->
-            ensureActive()
-            getAppMetadata(packageManager, appInfo, ourPackageName)
+            getAppMetadata(packageManager, appInfo)
         }
         apps
     }
 
     private fun getAppMetadata(
         packageManager: PackageManager,
-        appInfo: ApplicationInfo,
-        ourPackageName: String
+        appInfo: ApplicationInfo
     ): SelectedApplicationEntry {
         val appResources = packageManager.getResourcesForApplication(appInfo)
         val label = getLabel(appResources, appInfo.labelRes) ?: appInfo.packageName
         val icon = getIcon(appResources, appInfo.icon) ?: packageManager.defaultActivityIcon
-        if (appInfo.packageName != ourPackageName) {
-            appResources.assets.close()
-        }
+        appResources.assets.close()
         return SelectedApplicationEntry(appInfo.packageName, label.toString(), icon)
     }
 
