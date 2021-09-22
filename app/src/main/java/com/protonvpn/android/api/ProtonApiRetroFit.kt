@@ -41,7 +41,7 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     open suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         manager { getAppConfig() }
 
-    suspend fun getLocation() =
+    open suspend fun getLocation() =
         manager { getLocation() }
 
     suspend fun refreshToken(request: RefreshTokenRequest) =
