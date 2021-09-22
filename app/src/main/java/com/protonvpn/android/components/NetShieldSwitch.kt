@@ -19,7 +19,6 @@
 package com.protonvpn.android.components
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
@@ -37,12 +36,11 @@ import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.databinding.DialogContentWithCheckboxBinding
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -141,26 +139,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
-    private fun showReconnectDialog(changeCallback: (agreedToChange: Boolean) -> Unit) {
-        val dialogBuilder = MaterialAlertDialogBuilder(context)
-
-        val contentBinding =
-            DialogContentWithCheckboxBinding.inflate(LayoutInflater.from(dialogBuilder.context))
-        contentBinding.textMessage.setText(R.string.settingsReconnectToChangeDialogContent)
-        contentBinding.checkboxDontShowAgain.setText(R.string.dialogDontShowAgain)
-
-        val onReconnect = DialogInterface.OnClickListener { _, _ ->
-            val dontShowAgain = contentBinding.checkboxDontShowAgain.isChecked
-            Storage.saveBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, !dontShowAgain)
-            changeCallback(true)
-        }
-
-        dialogBuilder
-            .setPositiveButton(R.string.reconnect, onReconnect)
-            .setNegativeButton(R.string.cancel) { _, _ -> changeCallback(false) }
-            .setCancelable(false)
-            .setView(contentBinding.root)
-            .show()
+    private fun showReconnectDialog(reconnectCallback: () -> Unit) {
+        showGenericReconnectDialog(
+            context,
+            R.string.settingsReconnectToChangeDialogContent,
+            PREF_SHOW_NETSHIELD_RECONNECT_DIALOG,
+            reconnectCallback = reconnectCallback
+        )
     }
 
     fun init(
@@ -192,18 +177,14 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
                 val needsReconnectDialog =
-                    withReconnectDialog &&
-                        Storage.getBoolean(PREF_SHOW_NETSHIELD_RECONNECT_DIALOG, true) &&
-                        stateMonitor.connectionProtocol?.localAgentEnabled() == false
+                    withReconnectDialog && stateMonitor.connectionProtocol?.localAgentEnabled() == false
 
                 if (stateMonitor.isConnected && needsReconnectDialog) {
-                    showReconnectDialog { agreedToReconnect ->
-                        if (agreedToReconnect) {
-                            isChecked = !isChecked
-                            onStateChange(currentState)
-                            changeCallback(currentState)
-                            checkForReconnection(stateMonitor, connectionManager)
-                        }
+                    showReconnectDialog {
+                        isChecked = !isChecked
+                        onStateChange(currentState)
+                        changeCallback(currentState)
+                        checkForReconnection(stateMonitor, connectionManager)
                     }
                     true
                 } else false

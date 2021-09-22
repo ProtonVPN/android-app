@@ -57,6 +57,7 @@ import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
+import com.protonvpn.android.ui.CommonDialogsKt;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
@@ -116,6 +117,8 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
 public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
+
+    private static final String PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG";
 
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabs) TabLayout tabs;
@@ -240,19 +243,19 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 return true;
             } else if (vpnStateMonitor.isConnected()
                 && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
-                new MaterialAlertDialogBuilder(getContext())
-                    .setMessage(R.string.settingsReconnectToChangeDialogContent)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.reconnect, (dialog, which) -> {
+                CommonDialogsKt.showGenericReconnectDialog(
+                    getContext(),
+                    R.string.settingsReconnectToChangeDialogContent,
+                    PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG,
+                    () -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
                         viewModel.reconnectToSameCountry(newProfile -> {
                             onConnect(newProfile, "Secure Core switch");
                             return Unit.INSTANCE;
                         });
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .show();
+                        return Unit.INSTANCE;
+                    });
                 return true;
             }
             return false;

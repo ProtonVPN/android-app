@@ -30,14 +30,12 @@ import android.view.View.VISIBLE
 import android.widget.ScrollView
 import androidx.activity.result.ActivityResultCallback
 import androidx.annotation.ColorInt
-import androidx.annotation.StringRes
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
@@ -48,6 +46,7 @@ import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
@@ -61,6 +60,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG = "PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DIALOG"
+private const val PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG = "PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DIALOG"
+private const val PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG = "PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG"
+private const val PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG"
+private const val PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG"
+private const val PREF_SHOW_PROTOCOL_RECONNECT_DIALOG = "PREF_SHOW_PROTOCOL_RECONNECT_DIALOG"
+private const val PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG = "PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG"
 
 @AndroidEntryPoint
 class SettingsActivity : BaseActivityV2() {
@@ -81,21 +88,23 @@ class SettingsActivity : BaseActivityV2() {
                 val settingsUpdated = getProtocolSelection(userPrefs) != it
                 userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
                 if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
-                    onConnectionSettingsChanged()
+                    onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
                 }
             }
         }
-    private val connectionSettingResultHandler = ActivityResultCallback<Boolean?> { settingsUpdated ->
-        if (settingsUpdated == true) {
-            onConnectionSettingsChanged()
-        }
-    }
-    private val excludedAppsSettings =
-        registerForActivityResult(SettingsExcludeAppsActivity.createContract(), connectionSettingResultHandler)
-    private val excludeIpsSettings =
-        registerForActivityResult(SettingsExcludeIpsActivity.createContract(), connectionSettingResultHandler)
-    private val mtuSizeSettings =
-        registerForActivityResult(SettingsMtuActivity.createContract(), connectionSettingResultHandler)
+
+    private val excludedAppsSettings = registerForActivityResult(
+        SettingsExcludeAppsActivity.createContract(),
+        createConnectionSettingResultHandler(PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG)
+    )
+    private val excludeIpsSettings = registerForActivityResult(
+        SettingsExcludeIpsActivity.createContract(),
+        createConnectionSettingResultHandler(PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG)
+    )
+    private val mtuSizeSettings = registerForActivityResult(
+        SettingsMtuActivity.createContract(),
+        createConnectionSettingResultHandler(PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -256,6 +265,7 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleVpnAccelerator() {
         tryToggleSwitch(
+            PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
             userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
@@ -263,7 +273,10 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleSplitTunneling() {
-        tryToggleSwitch(!userPrefs.isSplitTunnelingConfigEmpty) {
+        tryToggleSwitch(
+            PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
+            !userPrefs.isSplitTunnelingConfigEmpty,
+        ) {
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
             with(binding.contentSettings) {
                 if (switchShowSplitTunnel.isChecked) {
@@ -274,24 +287,23 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleBypassLocal() {
-        tryToggleSwitch {
+        tryToggleSwitch(
+            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG
+        ) {
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
         }
     }
 
     private fun tryToggleSwitch(
+        showDialogPrefsKey: String,
         needsReconnectIfConnected: Boolean = true,
         toggle: () -> Unit
     ) {
         if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
-            MaterialAlertDialogBuilder(this)
-                .setMessage(R.string.settingsReconnectToChangeDialogContent)
-                .setPositiveButton(R.string.reconnect) { _, _ ->
-                    toggle()
-                    connectionManager.reconnect(this)
-                }
-                .setNegativeButton(R.string.cancel, null)
-                .show()
+            showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
+                toggle()
+                connectionManager.reconnect(this)
+            }
         } else {
             toggle()
         }
@@ -300,16 +312,25 @@ class SettingsActivity : BaseActivityV2() {
     private fun getProtocolSelection(userData: UserData) =
         ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
 
-    private fun onConnectionSettingsChanged() {
+    private fun onConnectionSettingsChanged(showReconnectDialogPrefKey: String) {
         if (stateMonitor.isEstablishingOrConnected) {
-            MaterialAlertDialogBuilder(this)
-                .setMessage(R.string.settingsReconnectToApplySettingsDialogContent)
-                .setPositiveButton(R.string.reconnect_now) { _, _ ->
-                    connectionManager.fullReconnect(this) }
-                .setNegativeButton(R.string.cancel, null)
-                .show()
+            showGenericReconnectDialog(
+                this,
+                R.string.settingsReconnectToApplySettingsDialogContent,
+                showReconnectDialogPrefKey,
+                R.string.reconnect_now
+            ) {
+                connectionManager.fullReconnect(this)
+            }
         }
     }
+
+    private fun createConnectionSettingResultHandler(showReconnectDialogPrefKey: String) =
+        ActivityResultCallback<Boolean?> { settingsUpdated ->
+            if (settingsUpdated == true) {
+                onConnectionSettingsChanged(showReconnectDialogPrefKey)
+            }
+        }
 
     private fun navigateTo(clazz: Class<out Activity>) {
         startActivity(Intent(this, clazz))
