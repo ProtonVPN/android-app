@@ -41,8 +41,7 @@ public class ProtonHomeActivityTestRule extends InstantTaskExecutorRule {
     protected void starting(Description description) {
         super.starting(description);
         service = new ServiceTestHelper();
-        TestIntent testIntent = new TestIntent();
-        activityTestRule.launchActivity(testIntent.getIntent());
+        activityTestRule.launchActivity(null);
     }
 
     @Override
