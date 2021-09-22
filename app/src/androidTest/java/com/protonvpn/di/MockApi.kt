@@ -37,6 +37,8 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.StreamingServicesResponse
+import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.test.shared.ApiNotificationTestHelper
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -53,8 +55,8 @@ class MockApi(
     val userData: UserData
 ) : ProtonApiRetroFit(scope, MockNetworkApiManagerWrapper(manager)) {
 
-    private class MockNetworkApiManagerWrapper(private val manager: ApiManager<ProtonVPNRetrofit>)
-        : ApiManager<ProtonVPNRetrofit> {
+    private class MockNetworkApiManagerWrapper(private val manager: ApiManager<ProtonVPNRetrofit>) :
+        ApiManager<ProtonVPNRetrofit> {
 
         override suspend fun <T> invoke(
             forceNoRetryOnConnectionErrors: Boolean,
@@ -122,6 +124,11 @@ class MockApi(
                 now + TimeUnit.HOURS.toMillis(16)))
         } else
             super.getCertificate(clientPublicKey)
+
+    override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1"))
+
+    override suspend fun getStreamingServices() = ApiResult.Success(
+        StreamingServicesResponse("https://protonvpn.com/download/resources/", emptyMap()))
 
     companion object {
         const val OFFER_LABEL = "Offer"
