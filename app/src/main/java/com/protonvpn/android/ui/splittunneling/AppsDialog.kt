@@ -22,14 +22,9 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.text.TextUtils
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,9 +39,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-private const val MAX_SAFE_LABEL_CHARS = 1000
-private const val MAX_SAFE_LABEL_DP = 500f
 
 @ContentLayout(R.layout.dialog_split_tunnel)
 class AppsDialog : BaseDialog() {
@@ -127,33 +119,8 @@ class AppsDialog : BaseDialog() {
         packageManager: PackageManager,
         appInfo: ApplicationInfo
     ): SelectedApplicationEntry {
-        val appResources = packageManager.getResourcesForApplication(appInfo)
-        val label = getLabel(appResources, appInfo.labelRes) ?: appInfo.packageName
-        val icon = getIcon(appResources, appInfo.icon) ?: packageManager.defaultActivityIcon
-        appResources.assets.close()
+        val label = appInfo.loadLabel(packageManager)
+        val icon = appInfo.loadIcon(packageManager)
         return SelectedApplicationEntry(appInfo.packageName, label.toString(), icon)
     }
-
-    private fun getLabel(appResources: Resources, labelResource: Int): String? =
-        try {
-            val label = appResources.getString(labelResource)
-            if (Build.VERSION.SDK_INT >= 29) {
-                val flags = TextUtils.SAFE_STRING_FLAG_TRIM or TextUtils.SAFE_STRING_FLAG_FIRST_LINE
-                TextUtils
-                    .makeSafeForPresentation(label, MAX_SAFE_LABEL_CHARS, MAX_SAFE_LABEL_DP, flags)
-                    .toString()
-            } else {
-                label
-            }
-        } catch (e: Resources.NotFoundException) {
-            // For some app packages resources fail to load, as if the ID is incorrect.
-            null
-        }
-
-    private fun getIcon(appResources: Resources, iconResource: Int): Drawable? =
-        try {
-            ResourcesCompat.getDrawable(appResources, iconResource, null)
-        } catch (e: Resources.NotFoundException) {
-            null
-        }
 }
