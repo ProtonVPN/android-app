@@ -85,6 +85,8 @@
     <string name="clickBackAgainLogout">Click back again to minimize</string>
     <string name="quickConnect">Quick connect</string>
     <string name="notConnectedCurrentIp">Current IP: %1$s</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
 
     <string name="cancel">Cancel</string>
@@ -443,6 +445,10 @@
     </plurals>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% Server Load -->
     <string name="tv_server_list_load">%1$s%% Server Load</string>
     <string name="tv_recently_used_servers">Recently used servers (%1$d)</string>
     <string name="tv_available_servers">Available servers (%1$d)</string>
@@ -452,6 +458,7 @@
     <string name="tv_server_list">Server list</string>
     <string name="tv_server_list_action_unavailable">Unavailable</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator notifications</string>
     <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
