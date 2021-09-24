@@ -26,7 +26,6 @@ import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ServerList
-import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -102,9 +101,6 @@ class ServerListUpdater(
         }
     }
 
-    private val strippedIP
-        get() = ipAddress.value?.takeIf { it.isNotEmpty() }?.let { NetUtils.stripIP(it) }
-
     private val lastLoadsUpdate
         get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
 
@@ -147,7 +143,7 @@ class ServerListUpdater(
     }
 
     private suspend fun updateLoads(): Boolean {
-        val result = api.getLoads(strippedIP)
+        val result = api.getLoads(ipAddress.value)
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
             lastLoadsUpdateInternal = now()
@@ -188,12 +184,7 @@ class ServerListUpdater(
             serverManager.setStreamingServices(it)
         }
 
-        // The following route is used to retrieve VPN server information, including scores for
-        // the best server to connect to depending on a user's proximity to a server and its load.
-        // To provide relevant scores even when connected to VPN, we send a truncated version of
-        // the user's public IP address. In keeping with our no-logs policy, this partial IP address
-        // is not stored on the server and is only used to fulfill this one-off API request.
-        val result = api.getServerList(loaderUI, strippedIP)
+        val result = api.getServerList(loaderUI, ipAddress.value)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
         }
