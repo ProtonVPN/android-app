@@ -20,7 +20,7 @@ package com.protonvpn.testsTv.actions
 
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.data.Timeouts
+import com.protonvpn.data.Timeouts
 import com.protonvpn.base.BaseVerify
 import me.proton.core.test.android.instrumented.builders.OnView
 

@@ -37,7 +37,13 @@ import static org.hamcrest.Matchers.endsWith;
 
 public class HomeRobot extends UIActionsTestHelper {
 
-    ServiceTestHelper serviceTestHelper = new ServiceTestHelper();
+    ServiceTestHelper serviceTestHelper;
+
+    public HomeRobot(){
+        if(MockSwitch.mockedConnectionUsed){
+            serviceTestHelper = new ServiceTestHelper();
+        }
+    }
 
     public HomeRobot disableSecureCore() {
         setStateOfSecureCoreSwitch(false);

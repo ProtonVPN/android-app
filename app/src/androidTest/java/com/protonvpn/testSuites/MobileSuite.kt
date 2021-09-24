@@ -42,12 +42,12 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
         AccountRobotTests::class,
-        MapRobotTests::class,
         ConnectionRobotTests::class,
         HomeRobotTests::class,
         LoginRobotTests::class,
         LoginViewModelTest::class,
         LogoutRobotTests::class,
+        MapRobotTests::class,
         OnboardingRobotTests::class,
         ProfilesRobotFreeUserTests::class,
         ProfilesRobotTests::class,
