@@ -28,15 +28,16 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.ui.drawer.DrawerArrowDrawableEx;
+import com.protonvpn.android.ui.drawer.IndicatorDrawableWrapper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.vpn.NoVpnPermissionUi;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Nullable @BindView(R.id.toolbar) protected Toolbar toolbar;
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
-    protected ActionBarDrawerToggle toggle;
-    protected DrawerArrowDrawableEx toggleDrawable;
+    protected IndicatorDrawableWrapper toggleDrawable;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -93,17 +93,16 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public void initDrawer() {
-        toggle =
-            new ActionBarDrawerToggle(this, drawer, toolbar, R.string.hamburgerMenu, R.string.hamburgerMenu);
-        toggleDrawable = new DrawerArrowDrawableEx(getDrawerToggleDelegate().getActionBarThemedContext());
-        toggle.setDrawerArrowDrawable(toggleDrawable);
-        getDrawer().addDrawerListener(toggle);
-        toggle.syncState();
+        toggleDrawable = new IndicatorDrawableWrapper(this,
+            ResourcesCompat.getDrawable(getResources(), R.drawable.ic_hamburger_with_margin, getTheme()));
+        toolbar.setNavigationIcon(toggleDrawable);
+        toolbar.setNavigationContentDescription(R.string.hamburgerMenu);
+        toolbar.setNavigationOnClickListener(view -> toggleDrawer());
         setDrawerState(true, navigationDrawer);
     }
 
     public void closeDrawer() {
-        getDrawer().closeDrawer(Gravity.START, false);
+        getDrawer().closeDrawer(GravityCompat.START, false);
     }
 
     public void setDrawerState(boolean isEnabled, View view) {
@@ -160,5 +159,13 @@ public abstract class BaseActivity extends AppCompatActivity
         // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
         // with BaseActivity.
         BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
+    }
+
+    private void toggleDrawer() {
+        if (getDrawer().isDrawerOpen(GravityCompat.START)) {
+            getDrawer().closeDrawer(GravityCompat.START, true);
+        } else {
+            getDrawer().openDrawer(GravityCompat.START, true);
+        }
     }
 }
