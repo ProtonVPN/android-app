@@ -20,6 +20,7 @@
 package com.protonvpn.android.vpn
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
@@ -38,6 +39,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
+import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import me.proton.vpn.golib.ed25519.KeyPair
@@ -60,6 +62,7 @@ data class CertInfo(
 
 class CertificateRepository(
     val mainScope: CoroutineScope,
+    val dispatcherProvider: DispatcherProvider,
     val appContext: Context,
     val userData: UserData,
     val api: ProtonApiRetroFit,
@@ -71,13 +74,8 @@ class CertificateRepository(
         data class Success(val certificate: String, val privateKeyPem: String) : CertificateResult()
     }
 
-    private val certPrefs = EncryptedSharedPreferences.create(
-        "cert_data",
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-        appContext,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    // Use getCertPrefs() to access this.
+    private lateinit var certPreferences: SharedPreferences
 
     private val certRequests = mutableMapOf<SessionId, Deferred<CertificateResult>>()
 
@@ -95,6 +93,8 @@ class CertificateRepository(
                 ProtonLogger.log("Current cert: ${if (certInfo.certificatePem == null)
                     null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)})"}")
             }
+        }
+        mainScope.launch {
             userPlanManager.infoChangeFlow.collect { changes ->
                 for (change in changes) when (change) {
                     is UserPlanManager.InfoChange.PlanChange.Downgrade,
@@ -116,8 +116,8 @@ class CertificateRepository(
         refreshCertTask.scheduleTo(time)
     }
 
-    private fun setInfo(sessionId: SessionId, info: CertInfo) {
-        certPrefs.edit {
+    private suspend fun setInfo(sessionId: SessionId, info: CertInfo) {
+        getCertPrefs().edit {
             putString(sessionId.id, info.serialize())
         }
     }
@@ -203,7 +203,7 @@ class CertificateRepository(
     }
 
     private suspend fun getCertInfo(sessionId: SessionId) =
-        certPrefs.getString(sessionId.id, null)?.deserialize() ?: run {
+        getCertPrefs().getString(sessionId.id, null)?.deserialize() ?: run {
             generateNewKey(sessionId)
         }
 
@@ -221,8 +221,24 @@ class CertificateRepository(
 
     suspend fun clear(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
         certRequests.remove(sessionId)?.cancel()
-        certPrefs.edit {
+        getCertPrefs().edit {
             remove(sessionId.id)
         }
+    }
+
+    private suspend fun getCertPrefs(): SharedPreferences {
+        if (!this::certPreferences.isInitialized) {
+            certPreferences = withContext(dispatcherProvider.Io) {
+                @Suppress("BlockingMethodInNonBlockingContext")
+                EncryptedSharedPreferences.create(
+                    "cert_data",
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                    appContext,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                )
+            }
+        }
+        return certPreferences
     }
 }
