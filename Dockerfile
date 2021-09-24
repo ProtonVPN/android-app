@@ -33,7 +33,11 @@ RUN apt update && apt-get install -y \
   flex \
   gperf \
   curl \
-  openssh-client
+  openssh-client \
+  rubygems
+
+# Install appetize cli
+RUN gem install appetize-cli --no-document
 
 # Because the alias is not there out of the box
 RUN ln -s /usr/bin/python3 /usr/bin/python
