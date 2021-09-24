@@ -1,4 +1,4 @@
-package com.protonvpn.testsTv.data
+package com.protonvpn.data
 
 object Timeouts {
     const val SMALL_TIMEOUT = 10_000L

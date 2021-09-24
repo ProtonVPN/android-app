@@ -20,6 +20,7 @@ package com.protonvpn.di
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import com.protonvpn.MockSwitch
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -40,8 +41,13 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
+import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
+import com.wireguard.android.backend.GoBackend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -55,6 +61,8 @@ import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.server.ServerTimeListener
+import me.proton.core.util.kotlin.DispatcherProvider
+import java.util.Random
 import javax.inject.Singleton
 
 @Module
@@ -65,6 +73,7 @@ import javax.inject.Singleton
 class MockAppModule {
 
     private val scope = CoroutineScope(Main)
+    private val random = Random()
 
     @Singleton
     @Provides
@@ -80,6 +89,7 @@ class MockAppModule {
         humanVerificationHandler: HumanVerificationHandler,
         cookieStore: ProtonCookieStore,
     ): ApiManagerFactory {
+
         val appContext = ProtonApplication.getAppContext()
         val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
@@ -100,7 +110,12 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideAPI(apiManager: ApiManager<ProtonVPNRetrofit>, userData: UserData): ProtonApiRetroFit =
-        MockApi(scope, apiManager, userData)
+        if(MockSwitch.mockedConnectionUsed){
+            MockApi(scope, apiManager, userData)
+        } else{
+            ProtonApiRetroFit(scope,apiManager)
+        }
+
 
     @Singleton
     @Provides
@@ -139,15 +154,52 @@ class MockAppModule {
         serverManager: ServerManager,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
-        userData: UserData
-    ): VpnBackendProvider = ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.IKEv2),
-            openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.OpenVPN),
-            wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.WireGuard),
-            serverDeliver = serverManager,
-            config = appConfig
-    )
+        userData: UserData,
+        dispatcherProvider: DispatcherProvider
+    ): VpnBackendProvider =
+    if(MockSwitch.mockedConnectionUsed) {
+        ProtonVpnBackendProvider(
+                strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                        VpnProtocol.IKEv2),
+                openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                        VpnProtocol.OpenVPN),
+                wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
+                        VpnProtocol.WireGuard),
+                serverDeliver = serverManager,
+                config = appConfig
+        )
+    } else {
+        ProtonVpnBackendProvider(
+                strongSwan = StrongSwanBackend(
+                        random,
+                        networkManager,
+                        scope,
+                        userData,
+                        appConfig,
+                        certificateRepository,
+                        dispatcherProvider),
+                openVpn = OpenVpnBackend(
+                        random,
+                        networkManager,
+                        userData,
+                        appConfig,
+                        System::currentTimeMillis,
+                        certificateRepository,
+                        scope,
+                        dispatcherProvider
+                ),
+                wireGuard = WireguardBackend(
+                        ProtonApplication.getAppContext(),
+                        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
+                        networkManager,
+                        userData,
+                        appConfig,
+                        certificateRepository,
+                        dispatcherProvider,
+                        scope
+                ),
+                serverDeliver = serverManager,
+                config = appConfig
+        )
+    }
 }

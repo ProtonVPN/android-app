@@ -21,6 +21,7 @@ package com.protonvpn.base
 import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import com.protonvpn.data.Timeouts
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 
@@ -83,19 +84,19 @@ open class BaseRobot : CoreRobot() {
                 .clearText()
     }
 
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long = 10_0000): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
         view
                 .withId(id)
                 .wait(time)
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = 10_000): T  = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
         view
                 .withText(resId)
                 .wait(time)
     }
 
-    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = 10_0000): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
         view
                 .withContentDesc(resId)
                 .wait(time)

@@ -67,8 +67,6 @@ class MockVpnBackend(
     dispatcherProvider = DefaultDispatcherProvider()
 ) {
     private var agentProvider: MockAgentProvider? = null
-    private val random = Random()
-    private val scope = CoroutineScope(Dispatchers.Main)
 
     fun setAgentProvider(provider: MockAgentProvider) {
         agentProvider = provider
@@ -80,53 +78,12 @@ class MockVpnBackend(
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
-    ): List<PrepareResult> {
-        return if (MockSwitch.mockedConnectionUsed) {
-            if (scan && failScanning)
-                emptyList()
-            else listOf(PrepareResult(this, object : ConnectionParams(
-                    profile, server, server.getRandomConnectingDomain(), protocol) {}))
-        } else {
-            when (protocol) {
-                VpnProtocol.IKEv2 -> {
-                    val ikev2Backend = StrongSwanBackend(
-                            random,
-                            networkManager,
-                            mainScope,
-                            userData,
-                            appConfig,
-                            certificateRepository,
-                            dispatcherProvider)
-                    ikev2Backend.prepareForConnection(profile, server, scan, numberOfPorts)
-                }
-                VpnProtocol.OpenVPN -> {
-                    val openVpnBackend = OpenVpnBackend(
-                            random,
-                            networkManager,
-                            userData,
-                            appConfig,
-                            System::currentTimeMillis,
-                            certificateRepository,
-                            mainScope,
-                            dispatcherProvider)
-                    openVpnBackend.prepareForConnection(profile, server, scan, numberOfPorts)
-                }
-                else -> {
-                    val wireguardBackend = WireguardBackend(
-                            ProtonApplication.getAppContext(),
-                            GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
-                            networkManager,
-                            userData,
-                            appConfig,
-                            certificateRepository,
-                            dispatcherProvider,
-                            scope
-                    )
-                    wireguardBackend.prepareForConnection(profile,server,scan,numberOfPorts)
-                }
-            }
-        }
-    }
+    ): List<PrepareResult> =
+        if (scan && failScanning)
+            emptyList()
+        else listOf(PrepareResult(this, object : ConnectionParams(
+                profile, server, server.getRandomConnectingDomain(), protocol) {}))
+
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
