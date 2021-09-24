@@ -339,9 +339,11 @@ object AppModule {
     fun provideCertificateRepository(
         userData: UserData,
         api: ProtonApiRetroFit,
-        userPlanManager: UserPlanManager
+        userPlanManager: UserPlanManager,
+        dispatcherProvider: DispatcherProvider
     ): CertificateRepository = CertificateRepository(
         scope,
+        dispatcherProvider,
         ProtonApplication.getAppContext(),
         userData,
         api,
