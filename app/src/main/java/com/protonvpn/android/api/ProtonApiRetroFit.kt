@@ -28,6 +28,7 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
+import com.protonvpn.android.utils.NetUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
@@ -53,10 +54,10 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     ) = makeCall(loader) { it.postBugReport(params) }
 
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
-        makeCall(loader) { it.getServers(ip) }
+        makeCall(loader) { it.getServers(createNetZoneHeaders(ip)) }
 
     open suspend fun getLoads(ip: String?) =
-        manager { getLoads(ip) }
+        manager { getLoads(createNetZoneHeaders(ip)) }
 
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }
@@ -137,4 +138,17 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
             }
         }
     }
+
+    // Used in routes that provide server information including a score of how good a server is
+    // for the particular user to connect to.
+    // To provide relevant scores even when connected to VPN, we send a truncated version of
+    // the user's public IP address. In keeping with our no-logs policy, this partial IP address
+    // is not stored on the server and is only used to fulfill this one-off API request.
+    private fun createNetZoneHeaders(ip: String?) =
+        if (!ip.isNullOrEmpty()) {
+            val netzone = NetUtils.stripIP(ip)
+            mapOf(ProtonVPNRetrofit.HEADER_NETZONE to netzone)
+        } else {
+            emptyMap()
+        }
 }

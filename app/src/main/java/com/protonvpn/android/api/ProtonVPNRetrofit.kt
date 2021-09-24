@@ -41,6 +41,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -48,11 +49,15 @@ import retrofit2.http.Query
 @Suppress("ComplexInterface")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
 
+    companion object {
+        const val HEADER_NETZONE = "x-pm-netzone"
+    }
+
     @GET("vpn/logicals")
-    suspend fun getServers(@Query("IP") ip: String?): ServerList
+    suspend fun getServers(@HeaderMap headers: Map<String, String>): ServerList
 
     @GET("vpn/loads")
-    suspend fun getLoads(@Query("IP") ip: String?): LoadsResponse
+    suspend fun getLoads(@HeaderMap headers: Map<String, String>): LoadsResponse
 
     @GET("vpn/streamingservices")
     suspend fun getStreamingServices(): StreamingServicesResponse
