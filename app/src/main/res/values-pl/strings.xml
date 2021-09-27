@@ -26,6 +26,7 @@
   <string name="hamburgerMenu">Menu hamburgerowe</string>
   <string name="error_field_required">Pole jest wymagane</string>
   <string name="title_activity_home">@string/app_name</string>
+  <string name="menuActionSignOut">Wyloguj</string>
   <string name="loginSlogan">Bezpieczny Internet w każdym miejscu</string>
   <string name="loginStartWithDevice">Uruchamiaj przy starcie systemu</string>
   <string name="loginCreateAccount">Utwórz nowe konto</string>
@@ -65,7 +66,7 @@
   <string name="loaderDisconnecting">Rozłączanie</string>
   <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
   <string name="loaderReconnecting">Ponowne łączenie</string>
-  <string name="loaderReconnectingSuggestion">Or tap \"Retry\" to reconnect manually</string>
+  <string name="loaderReconnectingSuggestion">Lub kliknij \"Ponów Próbę\" aby ręcznie połączyć się ponownie</string>
   <string name="loaderReconnectNoNetwork">Oczekiwanie na sieć</string>
   <string name="loaderReconnectNoNetworkSuggestion">Sprawdź połączenie sieciowe</string>
   <string name="loaderCheckingAvailability">Sprawdzanie dostępności serwera</string>
@@ -74,6 +75,8 @@
   <string name="clickBackAgainLogout">Kliknij ponownie, aby zminimalizować</string>
   <string name="quickConnect">Szybkie połączenie</string>
   <string name="notConnectedCurrentIp">Obecny adres IP: %1$s</string>
+  <!-- Displays a percentage value. Please use %% sign for %.
+     Example value: "70%" -->
   <string name="serverLoad">%1$s%%</string>
   <string name="cancel">Anuluj</string>
   <string name="close">Zamknij</string>
@@ -81,6 +84,7 @@
   <string name="drawerAccount">Konto</string>
   <string name="drawerHelp">Pomoc</string>
   <string name="drawerShowLog">Pokaż logi</string>
+  <string name="drawerReportProblem">Zgłoś problem</string>
   <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Szczegóły konta</string>
@@ -110,7 +114,8 @@
   <string name="settingsShowIconTitle">Ikona statusu</string>
   <string name="settingsShowIconDescription">Pokaż ikonę na pasku stanu, aby wskazać status usługi VPN</string>
   <string name="settingsAutoStartDescription">Aplikacja ProtonVPN uruchomi się automatycznie przy każdym uruchomieniu systemu</string>
-  <string name="settingsBypassLocalTitle">Zezwalaj na połączenia LAN</string>
+  <string name="settingsBypassLocalTitle">Połączenia LAN</string>
+  <string name="settingsDnsLeakProtectionTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
   <string name="settingsDnsLeakDescription">Zapobiega wyciekaniu zapytań DNS do stron trzecich (zawsze włączone)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Wartość MTU</string>
@@ -151,6 +156,7 @@
   <string name="onboardingSkip">POMIŃ</string>
   <string name="onboardingNext">DALEJ</string>
   <string name="listItemMaintenance">W trakcie przerwy technicznej</string>
+  <string name="listAllCountries">Wszystkie lokalizacje (%1$d)</string>
   <string name="listFreeCountries">Lokalizacje planu FREE (%1$d)</string>
   <string name="listPremiumCountries">Lokalizacje planu BASIC i PLUS (%1$d)</string>
   <string name="listFastestServer">Najszybszy serwer</string>
@@ -173,6 +179,7 @@
   <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
   <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>
   <string name="error_generic">Wystąpił nieokreślony błąd podczas łączenia.</string>
+  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
   <string name="reconnect">Połącz ponownie</string>
   <string name="connect">Połącz</string>
   <string name="upgrade">Ulepsz</string>
@@ -196,7 +203,7 @@
   <string name="report_bug_email_label">Adres e-mail</string>
   <string name="report_bug_email_hint">Wpisz adres e-mail</string>
   <string name="report_bug_message_label">Wiadomość</string>
-  <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
+  <string name="report_bug_message_hint">Proszę opisz błąd oraz jak i gdzie go znalazłeś</string>
   <string name="send_report">Wyślij raport</string>
   <string name="excludeIpTitle">Wyklucz adresy IP</string>
   <string name="discardChanges">Istnieją niezapisane zmiany. Czy na pewno chcesz je odrzucić?</string>
@@ -219,7 +226,7 @@
   <string name="saveButton">Zapisz</string>
   <string name="recommendedHeader">Zalecane</string>
   <string name="countryServersHeader">Serwery kraju</string>
-  <string name="secureCoreCountriesHeader">Secure Core countries</string>
+  <string name="secureCoreCountriesHeader">Kraje Secure Core</string>
   <string name="recommendedProfilesHeader">Zalecane profile</string>
   <string name="yourProfilesHeader">Twoje profile</string>
   <string name="exitCountry">Kraj wyjścia</string>
@@ -309,26 +316,26 @@
   <string name="troubleshootContactUsSectionTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
   <string name="troubleshootCustomerSupport">Wsparcie klienta</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatywne przekierowanie połączenia</string>
-  <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
+  <string name="settingsAllowAlternativeRoutingDescription">W przypadku gdy Proton jest zablokowany, zezwól aplikacji na wypróbowanie alternatywnych ścieżek aby połączyć z serwerami Protona</string>
   <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Skonfiguruj aplikację ProtonVPN, aby automatycznie przywracała połączenie lub wyłączała połączenia zewnętrzne, jeśli połączenie VPN zostanie przerwane.</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Skonfiguruj jak aplikacja ProtonVPN ma się zachowywać podczas przerwania połączenia</string>
   <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Otwórz <b>Ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Znajdź aplikację ProtonVPN i kliknij ikonę %1$s</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
      Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
      find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
+  <string name="settingsAlwaysOnWindowStep3"><![CDATA[Kliknij przełącznik <b>Stały VPN</b>, aby włączyć funkcję]]></string>
   <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
      Android settings.
      Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
      find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[Aby włączyć funkcję Kill Switch, kliknij przełącznik <b>Blokuj połączenia bez VPN</b>]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ten przycisk przeniesie Cię do ustawień Androida, gdzie możesz zarządzać tymi funkcjami.</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
@@ -345,6 +352,7 @@
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
+  <string name="errorTorrentNotAllowed">Na tym serwerze ruch P2P nie jest dozwolony</string>
   <string name="errorWireguardWithPlaceholder">Błąd protokołu WireGuard %1$s</string>
   <string name="serverNoWireguardSupport">Ten profil serwera nie obsługuje protokołu WireGuard. Aby połączyć się, wybierz inny protokół lub serwer wspierający WireGuard.</string>
   <string name="stateConnectedTo">Połączono z %1$s</string>
@@ -419,6 +427,10 @@
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
   <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
+  <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+     Example: 76% Server Load -->
   <string name="tv_server_list_load">Obciążenie serwera %1$s%%</string>
   <string name="tv_recently_used_servers">Ostatnio używane serwery (%1$d)</string>
   <string name="tv_available_servers">Dostępne serwery (%1$d)</string>
@@ -428,12 +440,16 @@
   <string name="tv_server_list">Lista serwerów</string>
   <string name="tv_server_list_action_unavailable">Niedostępny</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+  <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
   <string name="settingsVpnAcceleratorDescription"><![CDATA[Funkcja VPN Accelerator udostępnia zestaw unikalnych technologii zwiększających wydajność, które mogą przyśpieszyć prędkość połączenia VPN do 400%%. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Powiadomienia funkcji VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Otrzymaj powiadomienie, kiedy funkcja VPN Accelerator zmieni serwer na szybszy</string>
   <string name="dialogTitleReconnectionNeeded">Ponowne połączenie jest wymagane</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Aby zmienić ustawienia funkcji VPN Accelerator, musisz ponownie nawiązać połączenie.</string>
-  <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
+  <string name="settingsSplitTunnelReconnectDialogContent">Your connection needs to be restarted to toggle split tunneling.</string>
+  <string name="settingsLanConnectionsReconnectDialogContent">Your connection needs to be restarted to toggle LAN connections.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
+  <string name="notification_subscription_expired_title">Twoja subskrypcja planu ProtonVPN wygasła</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Twoja subskrypcja została obniżona. </string>
   <string name="notification_delinquent_title">Twoje konto ProtonVPN posiada oczekujące faktury</string>
@@ -461,7 +477,7 @@
   <string name="notification_smart_protocol_disabled_title">Funkcja Smart Protocol jest obecnie wyłączona</string>
   <string name="notification_smart_protocol_disabled_content">Aplikacja ProtonVPN wykryła, że Twoja obecna sieć blokuje połączenie z siecią VPN. Włączenie funkcji Smart Protocol może ominąć te ograniczenia.</string>
   <string name="upsell_advanced_features">Zaawansowane funkcje: NetShield, Secure Core, Tor, P2P</string>
-  <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
+  <string name="upsell_streaming_services">Dostęp do usług streamingowych (Netflix, Disney+, itp) w każdym miejscu na świecie</string>
   <!-- Number of servers available in the service. This phrase will be combined with
      "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
      Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -502,7 +518,7 @@
   <string name="server_load_title">Obciążenie serwera</string>
   <string name="server_load_description">Serwery z dużym obciążeniem są wolniejsze.</string>
   <string name="streaming_title_with_country">Streaming - %1$s</string>
-  <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
+  <string name="streaming_services_description">Połącz się z serwerem planu Plus w tym kraju, aby rozpocząć streaming.\n\nWskazówka: Wyczyść pamięć podręczną aplikacji streamingu, aby zobaczyć nową zawartość.</string>
   <string name="activity_information_learn_more">Dowiedz się więcej</string>
   <string name="server_load_low">Małe</string>
   <string name="server_load_medium">Średnie</string>
