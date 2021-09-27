@@ -64,7 +64,7 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         val actionAdd = { item: LabeledItem -> viewModel.addAppToExcluded(item) }
         val actionRemove = { item: LabeledItem -> viewModel.removeAppFromExcluded(item) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
-            when(state) {
+            when (state) {
                 is SettingsExcludeAppsViewModel.ViewState.Loading ->
                     binding.progress.isVisible = true
                 is SettingsExcludeAppsViewModel.ViewState.Content -> {
