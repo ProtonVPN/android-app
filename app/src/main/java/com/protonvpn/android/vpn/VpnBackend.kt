@@ -168,7 +168,7 @@ abstract class VpnBackend(
                 agentConstants.errorCodeMaxSessionsPro,
                 agentConstants.errorCodeMaxSessionsUnknown,
                 agentConstants.errorCodeMaxSessionsVisionary ->
-                    //FIXME: set MAX_SESSIONS directly when error handling code is prepared for that
+                    // FIXME: set MAX_SESSIONS directly when error handling code is prepared for that
                     setError(ErrorType.AUTH_FAILED_INTERNAL)
 
                 agentConstants.errorCodeBadCertSignature,
