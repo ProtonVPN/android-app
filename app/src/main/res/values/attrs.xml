@@ -18,6 +18,7 @@
 -->
 <resources>
 
+    <attr name="protonVpnPowerButtonStyle" format="reference" />
     <attr name="title" format="string" />
 
     <declare-styleable name="CountryWithFlagsView">

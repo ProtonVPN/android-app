@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home.countries
 
-import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -46,17 +45,7 @@ open class CountryExpandedViewHolder(
 ) : BindableItemEx<ItemServerListBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
-        // TODO: shouldn't this behave the same as when binding the view?
-        //  i.e.: make the button invisible when server is offline, display the maintenance icon
-        //  and so on?
-        val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val colorAttr = when {
-            connected -> R.attr.colorAccent
-            !server.online -> R.attr.proton_interaction_weak_disabled
-            else -> R.attr.proton_interaction_weak
-        }
-        binding.buttonConnect.backgroundTintList =
-            ColorStateList.valueOf(binding.root.getThemeColor(colorAttr))
+        updateButtons()
     }
 
     override fun getId() = server.serverId.hashCode().toLong()
@@ -77,9 +66,7 @@ open class CountryExpandedViewHolder(
             textCity.text = if (server.isFreeServer) "" else server.city
             textCity.isEnabled = haveAccess && server.online
 
-            buttonUpgrade.isVisible = !haveAccess
-            imageWrench.isVisible = haveAccess && !server.online
-            buttonConnect.isVisible = haveAccess && server.online
+            updateButtons()
 
             textLoad.visibility = when {
                 haveAccess && server.online -> View.VISIBLE
@@ -151,6 +138,17 @@ open class CountryExpandedViewHolder(
                 iconView.isVisible = true
                 iconView.setColorFilter(color)
             }
+        }
+    }
+
+    private fun updateButtons() {
+        val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
+        val haveAccess = viewModel.userData.hasAccessToServer(server)
+        with(binding) {
+            buttonUpgrade.isVisible = !haveAccess
+            imageWrench.isVisible = haveAccess && !server.online
+            buttonConnect.isVisible = haveAccess && server.online
+            buttonConnect.isOn = connected
         }
     }
 
