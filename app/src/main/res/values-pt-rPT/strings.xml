@@ -72,7 +72,6 @@
   <string name="loaderCheckingAvailability">A confirmar disponibilidade do servidor</string>
   <string name="loaderCheckingAvailabilitySuggestion">Please wait a few seconds</string>
   <string name="loaderCancel">Cancelar ligação</string>
-  <string name="clickBackAgainLogout">Clique novamente para minimizar</string>
   <string name="quickConnect">Ligação rápida</string>
   <string name="notConnectedCurrentIp">IP actual: %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.

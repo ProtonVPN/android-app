@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -132,7 +131,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
-    boolean doubleBackToExitPressedOnce = false;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
@@ -629,15 +627,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Override
     public void onBackPressed() {
         if (!shouldCloseDrawer() && !fragment.collapseBottomSheet() && !shouldCloseFab()) {
-            if (doubleBackToExitPressedOnce) {
-                this.moveTaskToBack(true);
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            getSnackbarHelper().successSnack(R.string.clickBackAgainLogout);
-
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            super.onBackPressed();
         }
     }
 

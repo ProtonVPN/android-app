@@ -82,7 +82,6 @@
     <string name="loaderCheckingAvailabilitySuggestion">Please wait a few seconds</string>
 
     <string name="loaderCancel">Cancel connection</string>
-    <string name="clickBackAgainLogout">Click back again to minimize</string>
     <string name="quickConnect">Quick connect</string>
     <string name="notConnectedCurrentIp">Current IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.

@@ -72,7 +72,6 @@
   <string name="loaderCheckingAvailability">در حال بررسی دسترسی به سرور</string>
   <string name="loaderCheckingAvailabilitySuggestion">لطفاً چند ثانیه صبر کنید</string>
   <string name="loaderCancel">لغو اتصال</string>
-  <string name="clickBackAgainLogout">برای کمینه کردن، دوباره کلیک کنید</string>
   <string name="quickConnect">اتصال سریع</string>
   <string name="notConnectedCurrentIp">آدرس IP کنونی: %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.
