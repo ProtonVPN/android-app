@@ -30,12 +30,12 @@ class MapRobot : BaseRobot() {
 
     fun swipeDownToCloseConnectionInfoLayout() : MapRobot = swipeDownOnElementById(R.id.layoutBottomSheet)
 
-    fun clickConnectButtonWithoutVpnHandling(): MapRobot = clickElement(R.id.buttonConnect)
+    fun clickConnectButtonWithoutVpnHandling(): MapRobot = clickElement(connectButtonInMap())
 
     fun clickCancelConnectionButton(): MapRobot = clickElement(R.id.buttonCancel)
 
     fun clickConnectButton(): MapRobot {
-        clickElement<MapRobot>(R.id.buttonConnect)
+        clickElement<Any>(connectButtonInMap())
         if (!MockSwitch.mockedConnectionUsed) {
             HomeRobot().allowToUseVpn()
         }
@@ -46,6 +46,10 @@ class MapRobot : BaseRobot() {
         ConditionalActionsHelper().clickOnMapNodeUntilConnectButtonAppears(country)
         return this
     }
+
+    private fun connectButtonInMap() =
+        view.isDescendantOf(view.withId(R.id.mapView))
+            .withId(R.id.buttonConnect)
 
     class Verify : BaseVerify(){
         fun isDisconnectedFromVpn() = ServiceTestHelper().checkIfDisconnectedFromVPN()

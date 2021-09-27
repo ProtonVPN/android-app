@@ -36,7 +36,6 @@ import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForCreation
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
-import com.protonvpn.android.utils.getThemeColor
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -91,10 +90,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             val hasAccess = item.hasAccess
             buttonUpgrade.isVisible = !hasAccess && server != null
             buttonConnect.isVisible = hasAccess && online
-            val connectColorAttr =
-                if (item.isConnected) R.attr.brand_norm else R.attr.proton_interaction_weak
-            buttonConnect.backgroundTintList =
-                ColorStateList.valueOf(root.getThemeColor(connectColorAttr))
+            buttonConnect.isOn = item.isConnected
 
             imageWrench.isVisible = hasAccess && !online
             buttonConnect.contentDescription = textServer.text

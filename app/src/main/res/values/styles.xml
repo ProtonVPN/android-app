@@ -284,6 +284,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="ShapeAppearance.Oval" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
+
     <style name="TableRowLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -328,6 +333,17 @@
         <item name="android:textColor">?attr/brand_norm</item>
     </style>
 
+    <style name="PowerButton" parent="">
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:backgroundTint">@color/power_button_bg</item>
+        <item name="android:padding">8dp</item>
+        <item name="icon">@drawable/ic_power_off</item>
+        <item name="iconTint">?attr/proton_icon_norm</item>
+        <item name="rippleColor">@color/power_button_ripple</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Oval</item>
+    </style>
+
     <style name="ProtonSwitch.AlwaysOn">
         <!-- Thumb tint is set programmatically -->
         <item name="android:textColor">?attr/proton_text_norm</item>
@@ -342,6 +358,7 @@
         <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
              for now. -->
         <item name="proton_text_disabled">?attr/proton_text_hint</item>
+        <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
         <item name="colorControlHighlight">@color/ripple_norm</item>
     </style>
 
