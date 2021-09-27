@@ -19,8 +19,13 @@
 package com.protonvpn.app
 
 import com.protonvpn.android.utils.NetUtils.stripIP
+import com.protonvpn.android.utils.jitterMs
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
 import org.junit.Assert
 import org.junit.Test
+import kotlin.random.Random
 
 class NetUtilsTests {
 
@@ -35,5 +40,14 @@ class NetUtilsTests {
 
         // invalid
         Assert.assertEquals("abcd", stripIP("abcd"))
+    }
+
+    @Test
+    fun jitterTest() {
+        val random = mockk<Random>()
+        val rangeSlot = slot<Long>()
+        every { random.nextLong(capture(rangeSlot)) } answers { rangeSlot.captured / 2 }
+        Assert.assertEquals(1100, jitterMs(1000, .2f, 1000, random))
+        Assert.assertEquals(1005, jitterMs(1000, .2f, 10, random))
     }
 }
