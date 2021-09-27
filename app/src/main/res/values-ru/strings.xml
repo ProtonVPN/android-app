@@ -72,7 +72,6 @@
   <string name="loaderCheckingAvailability">Проверка доступности сервера</string>
   <string name="loaderCheckingAvailabilitySuggestion">Пожалуйста, подождите несколько секунд</string>
   <string name="loaderCancel">Отменить подключение</string>
-  <string name="clickBackAgainLogout">Нажмите кнопку назад еще раз, чтобы свернуть</string>
   <string name="quickConnect">Быстрое подключение</string>
   <string name="notConnectedCurrentIp">Текущий IP: %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.

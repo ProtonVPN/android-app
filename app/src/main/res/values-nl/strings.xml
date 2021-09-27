@@ -72,7 +72,6 @@
   <string name="loaderCheckingAvailability">Beschikbaarheid van servers controleren</string>
   <string name="loaderCheckingAvailabilitySuggestion">Wacht een paar seconden</string>
   <string name="loaderCancel">Verbinden afbreken</string>
-  <string name="clickBackAgainLogout">Klik nogmaals op terug om de app te minimaliseren</string>
   <string name="quickConnect">Snel verbinden</string>
   <string name="notConnectedCurrentIp">Huidige IP: %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.
