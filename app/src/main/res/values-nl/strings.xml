@@ -26,6 +26,7 @@
   <string name="hamburgerMenu">Hamburgermenu</string>
   <string name="error_field_required">Dit invullen is verplicht</string>
   <string name="title_activity_home">@string/app_name</string>
+  <string name="menuActionSignOut">Uitloggen</string>
   <string name="loginSlogan">Overal veilig internet</string>
   <string name="loginStartWithDevice">Starten tijdens opstarten</string>
   <string name="loginCreateAccount">Nieuw account aanmaken</string>
@@ -74,6 +75,8 @@
   <string name="clickBackAgainLogout">Klik nogmaals op terug om de app te minimaliseren</string>
   <string name="quickConnect">Snel verbinden</string>
   <string name="notConnectedCurrentIp">Huidige IP: %1$s</string>
+  <!-- Displays a percentage value. Please use %% sign for %.
+     Example value: "70%" -->
   <string name="serverLoad">%1$s%%</string>
   <string name="cancel">Annuleren</string>
   <string name="close">Sluiten</string>
@@ -81,6 +84,7 @@
   <string name="drawerAccount">Account</string>
   <string name="drawerHelp">Help</string>
   <string name="drawerShowLog">Log weergeven</string>
+  <string name="drawerReportProblem">Report problem</string>
   <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Account details</string>
@@ -110,7 +114,8 @@
   <string name="settingsShowIconTitle">Statussymbool</string>
   <string name="settingsShowIconDescription">Toon een symbool in de statusbalk om de VPN-status aan te geven</string>
   <string name="settingsAutoStartDescription">ProtonVPN zal automatisch starten tijdens het starten van uw systeem</string>
-  <string name="settingsBypassLocalTitle">LAN-verbindingen toestaan</string>
+  <string name="settingsBypassLocalTitle">LAN connections</string>
+  <string name="settingsDnsLeakProtectionTitle">DNS-lekbescherming</string>
   <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">MTU-grootte</string>
@@ -151,6 +156,7 @@
   <string name="onboardingSkip">OVERSLAAN</string>
   <string name="onboardingNext">DOORGAAN</string>
   <string name="listItemMaintenance">In onderhoud</string>
+  <string name="listAllCountries">Alle locaties (%1$d)</string>
   <string name="listFreeCountries">GRATIS locaties (%1$d)</string>
   <string name="listPremiumCountries">BASIC &amp; PLUS locaties (%1$d)</string>
   <string name="listFastestServer">Snelste server</string>
@@ -173,6 +179,7 @@
   <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
   <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
   <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
+  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
   <string name="reconnect">Opnieuw verbinden</string>
   <string name="connect">Verbind</string>
   <string name="upgrade">Upgraden</string>
@@ -309,7 +316,7 @@
   <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Stel ProtonVPN in om automatisch opnieuw verbinding te maken of om externe verbindingen uit te schakelen als uw VPN-verbinding wordt verbroken.</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Set up how ProtonVPN behaves if your connection is disrupted</string>
   <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
@@ -341,6 +348,7 @@
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
   <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
+  <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
   <string name="errorWireguardWithPlaceholder">WireGuard error %1$s</string>
   <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
   <string name="stateConnectedTo">Verbonden met %1$s</string>
@@ -407,6 +415,10 @@
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Land is niet beschikbaar</string>
   <string name="tv_country_maintenance_dialog_description">Probeer het later opnieuw of selecteer een ander land.</string>
+  <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+     Example: 76% Server Load -->
   <string name="tv_server_list_load">%1$s%% serverbelasting</string>
   <string name="tv_recently_used_servers">Recent gebruikte servers (%1$d)</string>
   <string name="tv_available_servers">Beschikbare servers (%1$d)</string>
@@ -416,11 +428,15 @@
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+  <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
   <string name="dialogTitleReconnectionNeeded">Opnieuw verbinden nodig</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Uw verbinding moet opnieuw worden gestart om de VPN-Accelerator-modus te wijzigen.</string>
+  <string name="settingsSplitTunnelReconnectDialogContent">Your connection needs to be restarted to toggle split tunneling.</string>
+  <string name="settingsLanConnectionsReconnectDialogContent">Your connection needs to be restarted to toggle LAN connections.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
   <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>

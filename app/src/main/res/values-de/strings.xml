@@ -26,6 +26,7 @@
   <string name="hamburgerMenu">Hamburger‐Menü</string>
   <string name="error_field_required">Dieses Feld ist erforderlich</string>
   <string name="title_activity_home">@string/app_name</string>
+  <string name="menuActionSignOut">Abmelden</string>
   <string name="loginSlogan">Sicheres Internet überall</string>
   <string name="loginStartWithDevice">Mit Gerät starten</string>
   <string name="loginCreateAccount">Neues Konto erstellen</string>
@@ -74,6 +75,8 @@
   <string name="clickBackAgainLogout">Erneut zurück klicken zum Minimieren</string>
   <string name="quickConnect">Schnellverbindung</string>
   <string name="notConnectedCurrentIp">Aktuelle IP: %1$s</string>
+  <!-- Displays a percentage value. Please use %% sign for %.
+     Example value: "70%" -->
   <string name="serverLoad">%1$s %%</string>
   <string name="cancel">Abbrechen</string>
   <string name="close">Schließen</string>
@@ -81,6 +84,7 @@
   <string name="drawerAccount">Konto</string>
   <string name="drawerHelp">Hilfe</string>
   <string name="drawerShowLog">Protokoll anzeigen</string>
+  <string name="drawerReportProblem">Problem melden</string>
   <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Kontodetails</string>
@@ -110,7 +114,8 @@
   <string name="settingsShowIconTitle">Statussymbol</string>
   <string name="settingsShowIconDescription">Ein Symbol im Statusbereich anzeigen, um den VPN‐Status anzugeben</string>
   <string name="settingsAutoStartDescription">ProtonVPN startet automatisch bei jedem Systemstart</string>
-  <string name="settingsBypassLocalTitle">LAN‐Verbindungen zulassen</string>
+  <string name="settingsBypassLocalTitle">VPN‐Verbindungen</string>
+  <string name="settingsDnsLeakProtectionTitle">Schutz vor Offenlegung Ihrer DNS-Anfragen</string>
   <string name="settingsDnsLeakDescription">Verhindert das Weitergeben von Details der DNS‐Anfragen an Dritte (immer aktiv)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">MTU‐Größe</string>
@@ -151,6 +156,7 @@
   <string name="onboardingSkip">ÜBERSPRINGEN</string>
   <string name="onboardingNext">WEITER</string>
   <string name="listItemMaintenance">in Wartungsarbeiten</string>
+  <string name="listAllCountries">Alle Standorte (%1$d)</string>
   <string name="listFreeCountries">FREE-Standorte (%1$d)</string>
   <string name="listPremiumCountries">BASIC- und PLUS-Standorte (%1$d)</string>
   <string name="listFastestServer">Schnellster Server</string>
@@ -173,6 +179,7 @@
   <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
   <string name="error_assessment_failed">Security Assessment fehlgeschlagen.</string>
   <string name="error_generic">Unbekannter Fehler beim Verbinden.</string>
+  <string name="error_generic_with_reason">ProtonVPN konnte keine VPN-Verbindung aufbauen. Bitte versuchen Sie es in einigen Sekunden erneut.<br/><br/> Details: %1$s</string>
   <string name="reconnect">Erneut verbinden</string>
   <string name="connect">Verbinden</string>
   <string name="upgrade">Upgrade benötigt</string>
@@ -281,7 +288,7 @@
   <string name="toastProfileSaved">Gespeichert</string>
   <string name="freeTrialExpiredTitle">Testzeitraum für ProtonVPN Plus abgelaufen</string>
   <string name="tileConnected">Verbunden: %1$s</string>
-  <string name="dialogTitleAttention">Achtung</string>
+  <string name="dialogTitleAttention">Wichtiger Hinweis</string>
   <string name="saveProfileAlreadySaved">Bereits gespeichert</string>
   <string name="openUrlError">%1$s konnte nicht geöffnet werden. Kein Webbrowser wurde auf Ihrem Gerät erkannt.</string>
   <string name="welcomeDialogTitle">Vielen Dank für den Beitritt zur ständig wachsenden ProtonVPN-Gemeinschaft.</string>
@@ -309,7 +316,7 @@
   <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktives VPN und Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Richtet ProtonVPN so ein, dass bei einer Unterbrechung Ihrer VPN-Verbindung die Verbindung automatisch wiederhergestellt oder externe Verbindungen deaktiviert werden.</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Legen Sie fest, wie sich ProtonVPN verhalten soll, wenn die Verbindung zum VPN unterbrochen wird</string>
   <string name="settingsAlwaysOnWindowHeader">So aktivieren Sie Always-on VPN (dauerhaft aktives VPN) und Kill Switch (Risiko-Trennung):</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[1.) Öffnen Sie die <b>Einstellungen</b> auf Ihrem Gerät, indem Sie auf die nachfolgende Schaltfläche tippen]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
@@ -341,6 +348,7 @@
   <string name="guestHoleActivated">Der Zugang zu ProtonVPN kann in Ihrer Region eingeschränkt sein, so dass dies länger als gewöhnlich dauert. Bitte warten Sie, während wir versuchen, dieses Problem zu umgehen.</string>
   <string name="onMaintenanceDetected">Der VPN-Server, mit dem Sie verbunden waren, wird derzeit gewartet. Wir haben Sie automatisch wieder mit dem schnellsten verfügbaren Server verbunden.</string>
   <string name="errorTunMultiUserPermission">Die VPN-Verbindung konnte aufgrund eines Konflikts zwischen Dual-App (z.B. Dual Messenger) und Split-Tunneling nicht initialisiert werden. Bitte deaktivieren Sie eine davon und starten Sie Ihr Gerät neu.</string>
+  <string name="errorTorrentNotAllowed">P2P ist auf diesem Server nicht zulässig</string>
   <string name="errorWireguardWithPlaceholder">WireGuard-Fehler %1$s</string>
   <string name="serverNoWireguardSupport">Der Server dieses Profils unterstützt WireGuard derzeit nicht. Um dennoch eine Verbindung herzustellen, versuchen Sie ein anderes Protokoll oder einen Server, der WireGuard unterstützt.</string>
   <string name="stateConnectedTo">Verbunden mit %1$s</string>
@@ -407,6 +415,10 @@
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Land derzeit nicht verfügbar</string>
   <string name="tv_country_maintenance_dialog_description">Bitte versuchen Sie es später erneut oder wählen Sie ein anderes Land.</string>
+  <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+     Example: 76% Server Load -->
   <string name="tv_server_list_load">%1$s%% Serverauslastung</string>
   <string name="tv_recently_used_servers">Zuletzt genutzte Server (%1$d)</string>
   <string name="tv_available_servers">Verfügbare Server (%1$d)</string>
@@ -416,11 +428,15 @@
   <string name="tv_server_list">Serverliste</string>
   <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+  <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
   <string name="settingsVpnAcceleratorDescription"><![CDATA[„VPN Accelerator“ ermöglicht eine Reihe einzigartiger leistungssteigernder Technologien, die die VPN-Geschwindigkeit um bis zu 400 %% erhöhen können. <a href="%1$s" >Mehr erfahren</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator — Benachrichtigungen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Lassen Sie sich benachrichtigen, wenn Sie durch „VPN Accelerator” mit einem schnelleren Server verbunden werden</string>
   <string name="dialogTitleReconnectionNeeded">Neuverbinden erforderlich</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Ihre Verbindung muss neu gestartet werden, um den Status des „VPN Accelerator“ ändern zu können.</string>
+  <string name="settingsSplitTunnelReconnectDialogContent">Ihre Verbindung muss neu aufgebaut werden, um „Split Tunneling” ein-/auszuschalten.</string>
+  <string name="settingsLanConnectionsReconnectDialogContent">Ihre Verbindung muss neu aufgebaut werden, um die LAN-Verbindungen zu aktivieren/deaktivieren.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">Die neuen Einstellungen werden bei der nächsten Verbindung wirksam. Jetzt neu verbinden?</string>
   <string name="notification_subscription_expired_title">Ihr ProtonVPN-Abonnement ist ausgelaufen</string>
   <string name="notification_subscription_expired_content">Ihr Abonnement musste herabgestuft werden, aber sie werden dennoch mit dem schnellsten Server verbunden, der in diesem Abonnement verfügbar ist.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Ihr Abonnement wurde herabgestuft. </string>

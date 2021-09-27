@@ -26,6 +26,7 @@
   <string name="hamburgerMenu">Menù Hamburger</string>
   <string name="error_field_required">Questo campo è obbligatorio</string>
   <string name="title_activity_home">@string/app_name</string>
+  <string name="menuActionSignOut">Esci</string>
   <string name="loginSlogan">Internet sicuro ovunque</string>
   <string name="loginStartWithDevice">Avvia con il dispositivo</string>
   <string name="loginCreateAccount">Crea nuovo account</string>
@@ -59,13 +60,13 @@
   <string name="loaderConnectingTo">Collegamento a %1$s</string>
   <string name="loaderConnectingToLabel">Connessione a…</string>
   <string name="loaderNotConnected">Non connesso (non protetto)</string>
-  <string name="loaderNotConnectedSuggestion">Tap the quick connect button</string>
+  <string name="loaderNotConnectedSuggestion">Tocca il pulsante connessione rapida</string>
   <string name="loaderConnectedTo">Connesso a %1$s</string>
   <string name="loaderConnectedToLabel">Connesso a:</string>
   <string name="loaderDisconnecting">Disconnessione in corso</string>
   <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
   <string name="loaderReconnecting">Riconnessione in corso</string>
-  <string name="loaderReconnectingSuggestion">Or tap \"Retry\" to reconnect manually</string>
+  <string name="loaderReconnectingSuggestion">O tocca \"Indietro\" per riconnetterti manualmente</string>
   <string name="loaderReconnectNoNetwork">In attesa di rete utilizzabile</string>
   <string name="loaderReconnectNoNetworkSuggestion">Per favore controlla la tua connessione</string>
   <string name="loaderCheckingAvailability">Controllo disponibilità server</string>
@@ -74,6 +75,8 @@
   <string name="clickBackAgainLogout">Clicca di nuovo indietro per minimizzare</string>
   <string name="quickConnect">Connessione rapida</string>
   <string name="notConnectedCurrentIp">IP corrente: %1$s</string>
+  <!-- Displays a percentage value. Please use %% sign for %.
+     Example value: "70%" -->
   <string name="serverLoad">%1$s%%</string>
   <string name="cancel">Annulla</string>
   <string name="close">Chiudi</string>
@@ -81,6 +84,7 @@
   <string name="drawerAccount">Account</string>
   <string name="drawerHelp">Aiuto</string>
   <string name="drawerShowLog">Mostra registro</string>
+  <string name="drawerReportProblem">Segnala un problema</string>
   <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Dettagli account</string>
@@ -110,7 +114,8 @@
   <string name="settingsShowIconTitle">Icona di stato</string>
   <string name="settingsShowIconDescription">Mostra un\'icona nella barra di stato per indicare lo stato VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN si attiverà automaticamente ad ogni avvio del sistema</string>
-  <string name="settingsBypassLocalTitle">Consenti connessioni LAN</string>
+  <string name="settingsBypassLocalTitle">Connessioni LAN</string>
+  <string name="settingsDnsLeakProtectionTitle">Protezione dalle perdite di DNS</string>
   <string name="settingsDnsLeakDescription">Evita la perdita di dati dalla query DNS a terzi (sempre attiva)</string>
   <string name="settingsDefaultMtu">1375</string>
   <string name="settingsMtuSizeTitle">Dimensione MTU</string>
@@ -151,6 +156,7 @@
   <string name="onboardingSkip">SALTA</string>
   <string name="onboardingNext">PROSSIMO</string>
   <string name="listItemMaintenance">In manutenzione</string>
+  <string name="listAllCountries">Tutte le località (%1$d)</string>
   <string name="listFreeCountries">Posizioni GRATUITE (%1$d)</string>
   <string name="listPremiumCountries">Posizioni BASIC &amp; PLUS (%1$d)</string>
   <string name="listFastestServer">Server più veloce</string>
@@ -173,6 +179,7 @@
   <string name="error_auth_failed">Autenticazione utente fallita.</string>
   <string name="error_assessment_failed">Valutazione di sicurezza non riuscita.</string>
   <string name="error_generic">Errore non specificato durante la connessione.</string>
+  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
   <string name="reconnect">Riconetti</string>
   <string name="connect">Connetti</string>
   <string name="upgrade">Effettua l\'upgrade</string>
@@ -216,8 +223,8 @@
   <string name="doneButton">Completato</string>
   <string name="saveButton">Salva</string>
   <string name="recommendedHeader">Raccomandato</string>
-  <string name="countryServersHeader">Country servers</string>
-  <string name="secureCoreCountriesHeader">Secure Core countries</string>
+  <string name="countryServersHeader">Server paese</string>
+  <string name="secureCoreCountriesHeader">Paesi Secure Core</string>
   <string name="recommendedProfilesHeader">Profili consigliati</string>
   <string name="yourProfilesHeader">I tuoi profili</string>
   <string name="exitCountry">Esci dal paese</string>
@@ -271,8 +278,8 @@
      %2$d - a number of remaining items.
      Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
   <plurals name="listFewItemsAndMore">
-    <item quantity="one">%1$s and %2$d more</item>
-    <item quantity="other">%1$s and %2$d more</item>
+    <item quantity="one">%1$s e %2$d altro</item>
+    <item quantity="other">%1$s e altri %2$d</item>
   </plurals>
   <string name="settingsCannotChangeWhileConnected">Non si può modificare mentre connesso</string>
   <string name="excludeAlreadyExcluded">Già escluso</string>
@@ -309,7 +316,7 @@
   <string name="troubleshootGovernmentBlockTitle">Blocco di governo</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Il tuo paese potrebbe bloccare l\'accesso a Proton. Prova ad utilizzare <a href=\'%1$s\'>Tor</a> per accedere a Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Sempre Attiva &amp; Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Imposta ProtonVPN per riconnettersi automaticamente o per disabilitare le connessioni esterne in caso di interruzione della connessione VPN.</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Set up how ProtonVPN behaves if your connection is disrupted</string>
   <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Apri le <b>Impostazioni del tuo dispositivo</b> toccando il pulsante qui sotto]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
@@ -341,6 +348,7 @@
   <string name="guestHoleActivated">L\'accesso a ProtonVPN può essere limitato nella tua zona, quindi ci vorrà più tempo del solito. Per favore attendi mentre aggiriamo questo problema.</string>
   <string name="onMaintenanceDetected">Il server VPN a cui sei stato connesso è in manutenzione. Ti abbiamo ricollegato automaticamente al server più veloce disponibile.</string>
   <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>
+  <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
   <string name="errorWireguardWithPlaceholder">WireGuard errore %1$s</string>
   <string name="serverNoWireguardSupport">Il server di questo profilo non supporta ancora WireGuard. Per connetterti, prova un altro protocollo o un server che supporti WireGuard.</string>
   <string name="stateConnectedTo">Connesso a %1$s</string>
@@ -407,6 +415,10 @@
   </plurals>
   <string name="tv_country_maintenance_dialog_title">Paese non disponibile</string>
   <string name="tv_country_maintenance_dialog_description">Riprova più tardi o seleziona un altro paese.</string>
+  <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+     Example: 76% Server Load -->
   <string name="tv_server_list_load">%1$s%% Carico Server</string>
   <string name="tv_recently_used_servers">Server usati di recente (%1$d)</string>
   <string name="tv_available_servers">Server disponibili (%1$d)</string>
@@ -416,11 +428,15 @@
   <string name="tv_server_list">Lista dei server</string>
   <string name="tv_server_list_action_unavailable">Non disponibile</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+  <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator abilita una serie di tecnologie uniche di miglioramento delle prestazioni che possono aumentare la velocità della VPN fino al 400%%. <a href="%1$s">Scopri di più</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Ricevi una notifica quando VPN Accelerator ti passa a un server più veloce</string>
   <string name="dialogTitleReconnectionNeeded">Riconnessione necessaria</string>
   <string name="settingsSmartReconnectReconnectDialogContent">La tua connessione deve essere riavviata per cambiare la modalità VPN Accelerator.</string>
+  <string name="settingsSplitTunnelReconnectDialogContent">Your connection needs to be restarted to toggle split tunneling.</string>
+  <string name="settingsLanConnectionsReconnectDialogContent">Your connection needs to be restarted to toggle LAN connections.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
   <string name="notification_subscription_expired_title">Il tuo piano di abbonamento ProtonVPN è scaduto</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato. </string>
