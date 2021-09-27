@@ -23,13 +23,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.lang.Long.min
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
+import kotlin.random.Random
 
 object NetUtils {
 
@@ -104,4 +107,14 @@ object NetUtils {
             return returnPacket.length > 0
         }
     }
+}
+
+fun jitterMs(
+    baseMs: Long,
+    diff: Float = .2f,
+    maxMs: Long = TimeUnit.HOURS.toMillis(1),
+    random: Random = Random
+): Long {
+    val rangeMs = min(maxMs, (diff * baseMs).toLong())
+    return baseMs + random.nextLong(rangeMs)
 }

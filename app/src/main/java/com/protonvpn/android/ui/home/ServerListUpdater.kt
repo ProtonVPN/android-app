@@ -31,6 +31,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.StorageStringObservable
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +98,7 @@ class ServerListUpdater(
                 updateLoads()
 
             if (inForeground)
-                scheduleIn(MIN_CALL_DELAY)
+                scheduleIn(jitterMs(MIN_CALL_DELAY))
         }
     }
 
