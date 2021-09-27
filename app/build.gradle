@@ -575,7 +575,7 @@ dependencies {
     implementation 'me.proton.core:domain:1.15'
     implementation 'me.proton.core:network:1.15'
     implementation "me.proton.core:util-kotlin:1.15"
-    implementation "me.proton.core:presentation:1.15"
+    implementation "me.proton.core:presentation:1.15.3"
     implementation 'me.proton.core:human-verification:1.15'
     implementation "me.proton.core:country:1.15"
     implementation "me.proton.core:user:1.15"
