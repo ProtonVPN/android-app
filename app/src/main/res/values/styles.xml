@@ -343,8 +343,6 @@
     </style>
 
     <style name="ProtonTheme.Vpn.Mobile">
-        <item name="actionMenuTextColor">?attr/brand_norm</item>
-        <item name="actionMenuTextAppearance">@style/Proton.Text.Default</item>
         <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
              for now. -->
         <item name="proton_text_disabled">?attr/proton_text_hint</item>
