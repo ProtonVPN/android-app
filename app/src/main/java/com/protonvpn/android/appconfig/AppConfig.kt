@@ -26,6 +26,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
@@ -66,7 +67,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
                 }
             }
         }
-        updateTask.scheduleIn(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY)
+        updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
     }
 
     fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
