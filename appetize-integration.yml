@@ -1,0 +1,69 @@
+.startReview:
+  image: gitlab.protontech.ch:4567/protonvpn/android/android-app-new:latest
+  stage: startReview
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://appetize.io/app/$APPETIZE_PUBLIC_KEY
+    on_stop: stopReview
+  only:
+    refs:
+      - branches
+  except:
+    - master
+  script:
+    - appetize version
+    - pwd
+    - ls -lSha
+    - . review.env || true
+
+    - echo `jq -r '.publicKey' < appetize-information.json`
+
+    - |
+      if [ -z "$APPETIZE_PUBLIC_KEY" ]; then
+        appetize upload \
+          "$REVIEW_APP_ARTIFACT_PATH" \
+          android > appetize-information.json
+
+        echo "APPETIZE_PUBLIC_KEY=$(jq -r .publicKey appetize-information.json)" > review.env
+        echo "Deployed new env to $APPETIZE_PUBLIC_KEY"
+
+        cat review.env
+        cat  appetize-information.json
+        pwd
+      else
+        appetize update \
+          "$REVIEW_APP_ARTIFACT_PATH" \
+          "$APPETIZE_PUBLIC_KEY"
+
+          echo "Updated  env for $APPETIZE_PUBLIC_KEY"
+      fi
+  allow_failure: true
+  artifacts:
+    paths:
+      - appetize-information.json
+    reports:
+      dotenv: review.env
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-deploy
+    paths:
+      - appetize-information.json
+      - review.env
+
+.stopReview:
+  image: gitlab.protontech.ch:4567/protonvpn/android/android-app-new:latest
+  stage: .post
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  only:
+    refs:
+      - branches
+  except:
+    - master
+  script:
+    - appetize version
+    - appetize delete $APPETIZE_PUBLIC_KEY
+  allow_failure: true
