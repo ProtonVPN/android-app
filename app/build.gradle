@@ -587,7 +587,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Proton Core libs
-    implementation 'me.proton.vpn:go-vpn-lib:0.1.3'
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.5'
     implementation 'me.proton.core:domain:1.0.3'
     implementation 'me.proton.core:network:1.1.3'
     implementation "me.proton.core:util-kotlin:0.2.5"
