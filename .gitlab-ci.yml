@@ -2,7 +2,7 @@ default:
   image:
     # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
     #name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
-    name: $CI_REGISTRY_IMAGE:branch-development
+    name: $CI_REGISTRY_IMAGE:latest
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -20,6 +20,7 @@ stages:
   - image
   - analyze
   - build
+  - startReview
   - test
   - report
   - bot
@@ -288,6 +289,14 @@ publish-apk-internal:
     - ./gradlew openvpn:assemble
     - ./gradlew publishInternal -PabiSplit
 
+startReview:
+  before_script:
+    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/direct/debug/"${ARCHIVES_BASE_NAME}-direct-debug.apk
+    - echo ${REVIEW_APP_ARTIFACT_PATH}
+  extends: .startReview
+
+stopReview:
+  extends: .stopReview
 
 include:
   - project: 'translations/generator'
@@ -301,6 +310,8 @@ include:
   - project: 'agarroux/publish-github'
     ref: master
     file: '/jobs/release.gitlab-ci.yml'
+
+  - local: '/appetize-integration.yml'
 
 i18n-sync-crowdin:
   variables:
