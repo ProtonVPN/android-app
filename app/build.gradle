@@ -576,15 +576,37 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
+    // Room
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     // Proton Core libs
     implementation 'me.proton.vpn:go-vpn-lib:0.1.5'
-    implementation 'me.proton.core:domain:1.15'
-    implementation 'me.proton.core:network:1.15.3'
+    implementation 'me.proton.core:domain:1.16'
+    implementation 'me.proton.core:network:1.15.7'
     implementation 'me.proton.core:util-kotlin:1.15.2'
-    implementation 'me.proton.core:presentation:1.15.4'
-    implementation 'me.proton.core:human-verification:1.15.2'
-    implementation "me.proton.core:country:1.15"
-    implementation 'me.proton.core:user:1.15.2'
+    implementation 'me.proton.core:presentation:1.16'
+    implementation 'me.proton.core:human-verification:1.16'
+    implementation "me.proton.core:country:1.16"
+    implementation "me.proton.core:country-presentation:1.16"
+    implementation "me.proton.core:user:1.16.2"
+    implementation "me.proton.core:user-data:1.16.2"
+    implementation 'me.proton.core:user-settings:1.16'
+    implementation "me.proton.core:account:1.15.2"
+    implementation 'me.proton.core:account-manager:1.16'
+    implementation 'me.proton.core:account-manager-dagger:1.16'
+    implementation "me.proton.core:auth:1.17.2"
+    implementation 'me.proton.core:crypto:1.15.5'
+    implementation "me.proton.core:domain:1.16"
+    implementation 'me.proton.core:payment:1.17'
+    implementation 'me.proton.core:plan:1.17'
+    implementation "me.proton.core:key:1.15.6"
+    implementation "me.proton.core:data:1.15"
+    implementation "me.proton.core:data-room:1.16"
 
     testImplementation('me.proton.core:test-kotlin:1.15') {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android

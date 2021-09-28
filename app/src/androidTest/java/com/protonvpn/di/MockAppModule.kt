@@ -18,6 +18,8 @@
  */
 package com.protonvpn.di
 
+import android.content.Context
+import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import com.protonvpn.MockSwitch
@@ -28,6 +30,8 @@ import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.db.AppDatabase
+import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -47,6 +51,7 @@ import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
@@ -190,4 +195,16 @@ class MockAppModule {
                 config = appConfig
         )
     }
+}
+
+@Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppDatabaseModule::class])
+object AppDatabaseModule {
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).buildDatabase()
 }
