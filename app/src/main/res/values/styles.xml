@@ -363,14 +363,12 @@
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
-    <style name="ProtonButton.OutlinedButton.Neutral">
-        <item name="strokeColor">?attr/proton_interaction_strong</item>
-        <item name="android:textColor">?attr/proton_text_norm</item>
+    <style name="ThemeOverlay.ProtonButton.Neutral" parent="">
+        <item name="colorPrimary">?attr/proton_interaction_strong</item>
     </style>
 
-    <style name="ProtonButton.OutlinedButton.Warning">
-        <item name="strokeColor">?attr/proton_notification_error</item>
-        <item name="android:textColor">?attr/proton_notification_error</item>
+    <style name="ThemeOverlay.ProtonButton.Warning" parent="">
+        <item name="colorPrimary">?attr/proton_notification_error</item>
     </style>
 
 </resources>

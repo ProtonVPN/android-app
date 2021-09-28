@@ -126,7 +126,7 @@
 
             <me.proton.core.presentation.ui.view.ProtonButton
                 android:id="@+id/buttonDelete"
-                style="@style/ProtonButton.OutlinedButton.Warning"
+                style="@style/ProtonButton.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -134,6 +134,7 @@
                 android:layout_marginTop="24dp"
                 android:paddingHorizontal="36dp"
                 android:text="@string/deleteProfileButton"
+                android:theme="@style/ThemeOverlay.ProtonButton.Warning"
                 android:visibility="gone" />
 
         </LinearLayout>

@@ -46,11 +46,12 @@
 
     <Button
         android:id="@+id/buttonCancel"
-        style="@style/ProtonButton.OutlinedButton.Neutral"
+        style="@style/ProtonButton.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
         android:text="@string/loaderCancel"
+        android:theme="@style/ThemeOverlay.ProtonButton.Neutral"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
