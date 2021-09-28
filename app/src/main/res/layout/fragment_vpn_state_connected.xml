@@ -144,9 +144,10 @@
         style="@style/ProtonButton.Borderless.Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginBottom="32dp"
         android:text="@string/save_to_profile"
-        android:textColor="?attr/proton_text_norm" />
+        android:theme="@style/ThemeOverlay.ProtonButton.Neutral" />
 
 </LinearLayout>
 
