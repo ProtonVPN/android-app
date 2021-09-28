@@ -39,18 +39,27 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import me.proton.core.account.domain.entity.Account
+import me.proton.core.account.domain.entity.AccountDetails
+import me.proton.core.account.domain.entity.AccountState
+import me.proton.core.account.domain.entity.SessionState
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.session.Session
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class TvLoginViewModel @Inject constructor(
+    val mainScope: CoroutineScope,
     val userData: UserData,
     val appConfig: AppConfig,
     val api: ProtonApiRetroFit,
     val serverListUpdater: ServerListUpdater,
     val serverManager: ServerManager,
-    val certificateRepository: CertificateRepository
+    val certificateRepository: CertificateRepository,
+    val accountManager: AccountManager
 ) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
@@ -115,10 +124,26 @@ class TvLoginViewModel @Inject constructor(
                 // We don't have access token yet as forked session don't return it, use
                 // invalid access token so it's refreshed by the core network module.
                 val loginResponse = result.value.toLoginResponse("invalid")
-                userData.setLoginResponse(loginResponse)
+                userData.sessionId = loginResponse.sessionId
+                with(loginResponse) {
+                    accountManager.addAccount(Account(
+                        UserId(userId),
+                        "",
+                        null,
+                        AccountState.Ready,
+                        sessionId,
+                        SessionState.Authenticated,
+                        AccountDetails(null)
+                    ), Session(
+                        sessionId,
+                        accessToken,
+                        refreshToken,
+                        scope.split(" ")))
+                }
+
                 when (val infoResult = api.getVPNInfo()) {
                     is ApiResult.Error -> {
-                        userData.clearNetworkUserData()
+                        userData.logout()
                         state.value = infoResult.toLoginError()
                     }
                     is ApiResult.Success -> {
@@ -133,8 +158,10 @@ class TvLoginViewModel @Inject constructor(
                                 state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
                             }
                             else -> {
-                                certificateRepository.updateCertificate(loginResponse.sessionId, cancelOngoing = true)
-                                userData.setLoggedIn(infoResult.value)
+                                mainScope.launch {
+                                    certificateRepository.updateCertificate(loginResponse.sessionId, cancelOngoing = true)
+                                }
+                                userData.setLoggedIn(result.value.sessionId, infoResult.value)
                                 loadInitialConfig()
                             }
                         }

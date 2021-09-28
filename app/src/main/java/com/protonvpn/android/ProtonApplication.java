@@ -43,7 +43,6 @@ import org.strongswan.android.logic.StrongSwanApplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LifecycleObserver;
 import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;

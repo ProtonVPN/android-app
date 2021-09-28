@@ -18,9 +18,13 @@
  */
 package com.protonvpn.android.tv
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.core.view.children
@@ -33,7 +37,6 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvLoginBinding
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
-import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
@@ -118,10 +121,11 @@ class TvLoginActivity : BaseTvActivity() {
                 startLoadingAnimation()
             }
             is TvLoginViewState.Success -> {
+                setResult(Activity.RESULT_OK)
                 if (loadingView.isAnimating)
                     finishLoadingAnimation()
                 else
-                    navigateToMain()
+                    finish()
             }
         }
         // Focus the action button first, not the link.
@@ -149,16 +153,16 @@ class TvLoginActivity : BaseTvActivity() {
         repeatCount = 0
         playAnimation()
         onAnimationEnd {
-            navigateToMain()
+            finish()
         }
     }
 
-    private fun navigateToMain() {
-        startActivity(Intent(this, TvMainActivity::class.java))
-        finish()
-    }
-
     companion object {
+        fun createContract() = object : ActivityResultContract<Unit, ActivityResult>() {
+            override fun createIntent(context: Context, input: Unit?) = Intent(context, TvLoginActivity::class.java)
+            override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
+        }
+
         const val LOADING_ANIMATION_LOOP_END_FRAME = 92
         const val LOADING_ANIMATION_FRAME_COUNT = 180
     }
