@@ -505,7 +505,7 @@ configurations {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.4.0'
     debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude module: 'support-annotations'
@@ -585,7 +585,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
-    implementation 'me.proton.vpn:go-vpn-lib:0.1.5'
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.6'
     implementation 'me.proton.core:domain:1.16'
     implementation 'me.proton.core:network:1.15.7'
     implementation 'me.proton.core:util-kotlin:1.15.2'
