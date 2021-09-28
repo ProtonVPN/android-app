@@ -27,6 +27,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -70,6 +71,9 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Prevent screen capture etc. to record user password
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+
         super.onCreate(savedInstanceState)
         if (viewModel.userData.isLoggedIn) {
             launchActivity<HomeActivity>()
