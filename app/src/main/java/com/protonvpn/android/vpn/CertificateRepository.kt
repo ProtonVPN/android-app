@@ -43,7 +43,7 @@ import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
-import me.proton.vpn.golib.ed25519.KeyPair
+import com.proton.gopenpgp.ed25519.KeyPair
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
