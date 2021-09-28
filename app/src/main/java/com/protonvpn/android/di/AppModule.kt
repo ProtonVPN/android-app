@@ -65,13 +65,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import me.proton.core.country.data.repository.CountriesRepositoryImpl
-import me.proton.core.country.domain.repository.CountriesRepository
-import me.proton.core.humanverification.data.repository.UserVerificationRepositoryImpl
-import me.proton.core.humanverification.domain.HumanVerificationWorkflowHandler
-import me.proton.core.humanverification.domain.repository.HumanVerificationRepository
-import me.proton.core.humanverification.domain.repository.UserVerificationRepository
-import me.proton.core.humanverification.presentation.CaptchaApiHost
+import me.proton.core.account.domain.entity.AccountType
+import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkManager
@@ -209,6 +204,16 @@ object AppModule {
 
     private val scope = CoroutineScope(Dispatchers.Main)
     private val random = Random()
+
+    @Provides
+    @Singleton
+    fun provideProduct(): Product =
+        Product.Vpn
+
+    @Provides
+    @Singleton
+    fun provideRequiredAccountType(): AccountType =
+        AccountType.Username
 
     @Provides
     @Singleton
@@ -516,31 +521,4 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
-
-    @Provides
-    @Singleton
-    fun provideCountriesRepository(): CountriesRepository =
-        CountriesRepositoryImpl(ProtonApplication.getAppContext())
-
-    @Provides
-    @Singleton
-    fun provideUserValidationRepository(
-        apiProvider: ApiProvider
-    ): UserVerificationRepository = UserVerificationRepositoryImpl(apiProvider)
-
-    @Provides
-    @Singleton
-    fun provideHumanVerificationWorkflowHandler(
-        humanVerificationHandler: HumanVerificationHandler
-    ): HumanVerificationWorkflowHandler = humanVerificationHandler
-
-    @Provides
-    @Singleton
-    fun providesHumanVerificationRepository(
-        humanVerificationHandler: HumanVerificationHandler
-    ): HumanVerificationRepository = humanVerificationHandler
-
-    @Provides
-    @CaptchaApiHost
-    fun provideCaptchaBaseUrl(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
 }
