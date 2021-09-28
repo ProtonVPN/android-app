@@ -102,10 +102,15 @@ build debug:
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" > deploy.env
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+    reports:
+      dotenv: deploy.env
 
 build black:
   stage: build
