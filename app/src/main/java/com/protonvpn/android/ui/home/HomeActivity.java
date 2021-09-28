@@ -549,9 +549,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         int bgColor = accented
             ? MaterialColors.getColor(fab, R.attr.brand_norm)
             : ContextCompat.getColor(this, R.color.shade_100);
+        @ColorRes
+        int rippleColorRes = accented ? R.color.mtrl_btn_ripple_color : R.color.fab_disconnected_ripple;
         int iconColorAttr = accented ? R.attr.colorOnPrimary : R.attr.proton_icon_inverted;
         fab.setMenuButtonColorNormal(bgColor);
         fab.setMenuButtonColorPressed(bgColor);
+        fab.setMenuButtonColorRipple(ContextCompat.getColor(this, rippleColorRes));
         fab.getMenuIconView().setColorFilter(MaterialColors.getColor(fab, iconColorAttr));
     }
 
