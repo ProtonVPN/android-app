@@ -21,8 +21,6 @@ package com.protonvpn.android.models.config;
 import android.os.Build;
 
 import com.protonvpn.android.ProtonApplication;
-import com.protonvpn.android.api.ApiSessionProvider;
-import com.protonvpn.android.models.login.LoginResponse;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -69,16 +67,15 @@ public final class UserData implements Serializable {
     private TransmissionProtocol transmissionProtocol;
     private boolean apiUseDoH;
     private NetShieldProtocol netShieldProtocol;
-    private boolean useSmartProtocol;
     private boolean vpnAcceleratorEnabled;
     private boolean showVpnAcceleratorNotifications;
+    private SessionId sessionId;
 
     private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData;
     private transient MutableLiveData<Boolean> vpnAcceleratorLiveData;
     private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
 
     private transient LiveEvent updateEvent = new LiveEvent();
-    private transient ApiSessionProvider apiSessionProvider = new ApiSessionProvider();
 
     private UserData() {
         user = "";
@@ -135,11 +132,6 @@ public final class UserData implements Serializable {
     private void saveToStorage() {
         Storage.save(this);
         updateEvent.emit();
-    }
-
-    public void setLoggedIn(VpnInfoResponse response) {
-        setVpnInfoResponse(response);
-        setLoggedIn(true);
     }
 
     public boolean hasAccessToServer(@Nullable Server serverToAccess) {
@@ -201,9 +193,9 @@ public final class UserData implements Serializable {
     }
 
     public void logout() {
+        sessionId = null;
         setLoggedIn(false);
         setTrialDialogShownAt(null);
-        clearNetworkUserData();
         setDefaultConnection(null);
         setNetShieldProtocol(null);
     }
@@ -257,6 +249,17 @@ public final class UserData implements Serializable {
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
         netShieldProtocolLiveData.setValue(getNetShieldProtocol());
+        saveToStorage();
+    }
+
+    public void setLoggedIn(SessionId sessionId, VpnInfoResponse response) {
+        this.sessionId = sessionId;
+        setVpnInfoResponse(response);
+        setLoggedIn(true);
+    }
+
+    public void setSessionId(@NotNull SessionId sessionId) {
+        this.sessionId = sessionId;
         saveToStorage();
     }
 
@@ -439,20 +442,7 @@ public final class UserData implements Serializable {
             netShieldProtocol == null ? NetShieldProtocol.ENABLED : netShieldProtocol;
     }
 
-    public ApiSessionProvider getApiSessionProvider() {
-        return apiSessionProvider;
-    }
-
-    public void clearNetworkUserData() {
-        apiSessionProvider.clear();
-    }
-
-    public void setLoginResponse(LoginResponse value) {
-        apiSessionProvider.setLoginResponse(value);
-    }
-
-    @Nullable
     public SessionId getSessionId() {
-        return apiSessionProvider.getCurrentSessionId();
+        return sessionId;
     }
 }

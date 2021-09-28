@@ -20,22 +20,27 @@
 package com.protonvpn.android.di
 
 import android.content.Context
+import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.auth.VpnUserCheck
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.data.repository.AuthRepositoryImpl
 import me.proton.core.auth.domain.ClientSecret
 import me.proton.core.auth.domain.repository.AuthRepository
 import me.proton.core.auth.domain.usecase.SetupAccountCheck
 import me.proton.core.auth.presentation.AuthOrchestrator
-import me.proton.core.auth.presentation.DefaultUserCheck
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
 import me.proton.core.network.data.ApiProvider
+import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.domain.UserManager
 import javax.inject.Singleton
 
@@ -59,10 +64,16 @@ object AuthModule {
     @Provides
     @Singleton
     fun provideUserCheck(
+        mainScope: CoroutineScope,
         @ApplicationContext context: Context,
+        userData: UserData,
+        api: ProtonApiRetroFit,
         accountManager: AccountManager,
-        userManager: UserManager
-    ): SetupAccountCheck.UserCheck = DefaultUserCheck(context, accountManager, userManager)
+        userManager: UserManager,
+        certificateRepository: CertificateRepository,
+        sessionProvider: SessionProvider
+    ): SetupAccountCheck.UserCheck = VpnUserCheck(
+        mainScope, api, userData, context, accountManager, userManager, certificateRepository, sessionProvider)
 }
 
 @Module

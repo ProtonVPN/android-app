@@ -53,6 +53,7 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.utils.AndroidUtils.isRtl
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +68,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (viewModel.shouldShowTrialDialog())
+            requireActivity().launchActivity<TvTrialDialogActivity>()
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {
@@ -85,6 +89,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
+        viewModel.listUpdateEvent.observe(viewLifecycleOwner) {
+            setupRowAdapter()
+        }
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
                 setupRowAdapter()

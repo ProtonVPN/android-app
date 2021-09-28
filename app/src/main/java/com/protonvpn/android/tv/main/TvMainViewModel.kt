@@ -78,7 +78,6 @@ class TvMainViewModel @Inject constructor(
     val selectedCountryFlag = MutableLiveData<String>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
-    val logoutEvent get() = logoutHandler.logoutEvent
 
     val vpnStatus = vpnStateMonitor.status.asLiveData()
 
@@ -102,6 +101,8 @@ class TvMainViewModel @Inject constructor(
             }
         }
     }
+
+    val listUpdateEvent = serverManager.updateEvent
 
     fun onViewInit(lifecycle: Lifecycle) {
         serverListUpdater.startSchedule(lifecycle, null)
@@ -315,5 +316,5 @@ class TvMainViewModel @Inject constructor(
             .show()
     }
 
-    fun logout() = logoutHandler.logout(false)
+    fun logout() = logoutHandler.logout()
 }

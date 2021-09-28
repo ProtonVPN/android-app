@@ -68,7 +68,6 @@ import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
-import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.TooltipManager;
@@ -185,7 +184,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
         logoutHandler.getLogoutEvent().observe(this, () -> {
             finish();
-            navigateTo(LoginActivity.class);
             return Unit.INSTANCE;
         });
 
@@ -381,12 +379,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.logoutConfirmDialogTitle)
                 .setMessage(R.string.logoutConfirmDialogMessage)
-                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> logoutHandler.logout(false))
+                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> logoutHandler.logout())
                 .setNegativeButton(R.string.cancel, null)
                 .show();
         }
         else {
-            logoutHandler.logout(false);
+            logoutHandler.logout();
         }
     }
 

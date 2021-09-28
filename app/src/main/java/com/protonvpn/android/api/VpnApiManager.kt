@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.api
 
+import com.protonvpn.android.models.config.UserData
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
@@ -26,7 +27,7 @@ import me.proton.core.network.domain.session.SessionId
 // ApiManager instance representing current session (or unauthorized session at all when logged out)
 class VpnApiManager(
     private val apiProvider: ApiProvider,
-    private val sessionProvider: ApiSessionProvider
+    private val userData: UserData
 ) : ApiManager<ProtonVPNRetrofit> {
 
     // ApiProvider holds only weak references of ApiManagers, cache last ApiManager to avoid risk of creating new
@@ -37,10 +38,10 @@ class VpnApiManager(
         forceNoRetryOnConnectionErrors: Boolean,
         block: suspend ProtonVPNRetrofit.() -> T
     ): ApiResult<T> =
-        invoke(sessionProvider.currentSessionId, forceNoRetryOnConnectionErrors, block)
+        invoke(userData.sessionId, forceNoRetryOnConnectionErrors, block)
 
     suspend operator fun <T> invoke(
-        sessionId: SessionId? = sessionProvider.currentSessionId,
+        sessionId: SessionId? = userData.sessionId,
         forceNoRetryOnConnectionErrors: Boolean = false,
         block: suspend ProtonVPNRetrofit.() -> T
     ): ApiResult<T> = apiProvider.get<ProtonVPNRetrofit>(sessionId).apply {

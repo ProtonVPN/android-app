@@ -26,7 +26,6 @@ import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
@@ -66,6 +65,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import me.proton.core.account.domain.entity.AccountType
+import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
@@ -76,7 +76,11 @@ import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.humanverification.HumanVerificationListener
+import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.server.ServerTimeListener
+import me.proton.core.network.domain.session.SessionListener
+import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.Random
 import javax.inject.Singleton
@@ -93,16 +97,17 @@ object AppModuleProd {
     @Singleton
     @Provides
     fun provideApiFactory(
-        userData: UserData,
         networkManager: NetworkManager,
         apiClient: VpnApiClient,
         clientIdProvider: ClientIdProvider,
-        humanVerificationHandler: HumanVerificationHandler,
         cookieStore: ProtonCookieStore,
-        scope: CoroutineScope
+        scope: CoroutineScope,
+        sessionProvider: SessionProvider,
+        sessionListener: SessionListener,
+        humanVerificationProvider: HumanVerificationProvider,
+        humanVerificationListener: HumanVerificationListener,
     ): ApiManagerFactory {
         val appContext = ProtonApplication.getAppContext()
-        val sessionProvider = userData.apiSessionProvider
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
             override fun onServerTimeUpdated(epochSeconds: Long) {}
@@ -116,9 +121,9 @@ object AppModuleProd {
                 networkManager,
                 NetworkPrefs(appContext),
                 sessionProvider,
-                sessionProvider,
-                humanVerificationHandler,
-                humanVerificationHandler,
+                sessionListener,
+                humanVerificationProvider,
+                humanVerificationListener,
                 cookieStore,
                 scope,
                 certificatePins = emptyArray(),
@@ -133,9 +138,9 @@ object AppModuleProd {
                 networkManager,
                 NetworkPrefs(appContext),
                 sessionProvider,
-                sessionProvider,
-                humanVerificationHandler,
-                humanVerificationHandler,
+                sessionListener,
+                humanVerificationProvider,
+                humanVerificationListener,
                 cookieStore,
                 scope
             )
@@ -266,13 +271,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiManager(userData: UserData, apiProvider: ApiProvider) =
-        VpnApiManager(apiProvider, userData.apiSessionProvider)
-
-    @Singleton
-    @Provides
-    fun provideHumanVerificationHandler() =
-        HumanVerificationHandler(scope, ProtonApplication.getAppContext() as ProtonApplication)
+    fun provideVpnApiManager(apiProvider: ApiProvider, userData: UserData) =
+        VpnApiManager(apiProvider, userData)
 
     @Provides
     @Singleton
@@ -286,8 +286,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApiProvider(apiFactory: ApiManagerFactory, userData: UserData): ApiProvider =
-        ApiProvider(apiFactory, userData.apiSessionProvider)
+    fun provideApiProvider(apiFactory: ApiManagerFactory, sessionProvider: SessionProvider): ApiProvider =
+        ApiProvider(apiFactory, sessionProvider)
 
     @Singleton
     @Provides
@@ -494,24 +494,12 @@ object AppModule {
     fun provideLogoutHandler(
         userData: UserData,
         serverManager: ServerManager,
-        vpnApiManager: VpnApiManager,
-        vpnStateMonitor: VpnStateMonitor,
         vpnConnectionManager: VpnConnectionManager,
-        vpnApiClient: VpnApiClient,
-        humanVerificationHandler: HumanVerificationHandler,
-        certificateRepository: CertificateRepository
-    ): LogoutHandler = LogoutHandler(
-        scope,
-        userData,
-        serverManager,
-        vpnApiManager,
-        userData.apiSessionProvider,
-        vpnStateMonitor,
-        vpnConnectionManager,
-        humanVerificationHandler,
-        certificateRepository,
-        vpnApiClient
-    )
+        certificateRepository: CertificateRepository,
+        accountManager: AccountManager,
+        sessionProvider: SessionProvider,
+    ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnConnectionManager,
+        certificateRepository, accountManager, sessionProvider)
 
     @Provides
     @Singleton

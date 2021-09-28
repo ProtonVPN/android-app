@@ -80,7 +80,7 @@ class QuickTileService : TileService() {
                     ProtonLogger.log("Connecting via quick tile")
                     vpnConnectionManager.connectInBackground(this, manager.defaultConnection, "Quick tile service")
                 } else {
-                    val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
+                    val intent = Intent(applicationContext, Constants.MAIN_ACTIVITY_CLASS)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }

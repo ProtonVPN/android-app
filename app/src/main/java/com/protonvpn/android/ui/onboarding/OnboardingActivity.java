@@ -27,7 +27,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ViewPagerAdapter;
-import com.protonvpn.android.ui.login.LoginActivity;
+import com.protonvpn.android.ui.main.MobileMainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
@@ -73,7 +73,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @Override
     public void onBackPressed() {
-        navigateTo(LoginActivity.class);
+        navigateTo(MobileMainActivity.class);
         finish();
     }
 
@@ -114,7 +114,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @OnClick(R.id.buttonLogin)
     public void buttonLogin() {
-        navigateTo(LoginActivity.class);
+        navigateTo(MobileMainActivity.class);
         finish();
     }
 
@@ -125,7 +125,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
 
     @OnClick(R.id.buttonSkip)
     public void buttonSkip() {
-        navigateTo(LoginActivity.class);
+        navigateTo(MobileMainActivity.class);
         finish();
     }
 

@@ -21,10 +21,8 @@ package com.protonvpn.android.utils
 import android.app.Activity
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.tv.TvLoginActivity
-import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.tv.main.TvMainActivity
-import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 
 object Constants {
@@ -54,7 +52,6 @@ object Constants {
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String
     val MAIN_ACTIVITY_CLASS: Class<out Activity>
-    val LOGIN_ACTIVITY_CLASS: Class<out Activity>
 
     const val SMART_ROUTING_INFO_URL = "https://protonvpn.com/support/smart-routing"
     const val STREAMING_INFO_URL = "https://protonvpn.com/support/streaming-guide/"
@@ -71,12 +68,10 @@ object Constants {
             CLIENT_ID = "AndroidTvVPN"
             VPN_USERNAME_PRODUCT_SUFFIX = "+pt"
             MAIN_ACTIVITY_CLASS = TvMainActivity::class.java
-            LOGIN_ACTIVITY_CLASS = TvLoginActivity::class.java
         } else {
             CLIENT_ID = "AndroidVPN"
             VPN_USERNAME_PRODUCT_SUFFIX = "+pa"
-            MAIN_ACTIVITY_CLASS = HomeActivity::class.java
-            LOGIN_ACTIVITY_CLASS = LoginActivity::class.java
+            MAIN_ACTIVITY_CLASS = MobileMainActivity::class.java
         }
     }
 

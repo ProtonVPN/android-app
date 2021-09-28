@@ -19,64 +19,44 @@
 
 package com.protonvpn.android.ui.home
 
-import com.protonvpn.android.api.ApiSessionProvider
-import com.protonvpn.android.api.VpnApiClient
-import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.network.domain.session.SessionId
+import me.proton.core.network.domain.session.SessionProvider
 
 class LogoutHandler(
     val scope: CoroutineScope,
     val userData: UserData,
     val serverManager: ServerManager,
-    val vpnApiManager: VpnApiManager,
-    val apiSessionProvider: ApiSessionProvider,
-    val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
-    val humanVerificationHandler: HumanVerificationHandler,
     val certificateRepository: CertificateRepository,
-    vpnApiClient: VpnApiClient
+    val accountManager: AccountManager,
+    val sessionProvider: SessionProvider
 ) {
     val logoutEvent = LiveEvent()
 
-    init {
-        scope.launch {
-            vpnApiClient.forceUpdateEvent.collect {
-                logout(true)
-            }
-        }
-        scope.launch {
-            apiSessionProvider.forceLogoutEvent.collect {
-                if (apiSessionProvider.currentSessionId == it.sessionId)
-                    logout(true)
-            }
+    fun logout() = scope.launch {
+        userData.sessionId?.let { sessionId ->
+            val userId = sessionProvider.getUserId(sessionId)
+            requireNotNull(userId)
+            accountManager.removeAccount(userId)
+            onLogout(sessionId)
         }
     }
 
-    fun logout(forced: Boolean) = scope.launch {
-        vpnConnectionManager.disconnectSync()
-
-        // Logout old session. This can take a while, so do it in background.
-        val currentSessionId = apiSessionProvider.currentSessionId
-        currentSessionId?.let { certificateRepository.clear(it) }
-        if (!forced) launch {
-            vpnApiManager(sessionId = currentSessionId) {
-                postLogout()
-            }
+    suspend fun onLogout(sessionId: SessionId) {
+        if (userData.sessionId == sessionId) {
+            vpnConnectionManager.disconnectSync()
+            certificateRepository.clear(sessionId)
+            userData.logout()
+            serverManager.clearCache()
+            logoutEvent.emit()
         }
-
-        userData.logout()
-        serverManager.clearCache()
-        humanVerificationHandler.clear()
-
-        logoutEvent.emit()
     }
 }
