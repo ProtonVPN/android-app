@@ -246,8 +246,13 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     }
 
     private fun tryToggleVpnAccelerator() {
-        tryToggleSwitch(R.string.settingsSmartReconnectReconnectDialogContent) {
+        if (stateMonitor.connectionProtocol?.localAgentEnabled() == true) {
+            // If connected with localAgent there's no need to reconnect to toggle VPN Accelerator.
             userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+        } else {
+            tryToggleSwitch(R.string.settingsSmartReconnectReconnectDialogContent) {
+                userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+            }
         }
     }
 
