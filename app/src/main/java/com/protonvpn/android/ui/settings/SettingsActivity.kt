@@ -209,16 +209,9 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
 
-    private fun updateSplitTunnelViews() = with(binding.contentSettings) {
+    private fun onUserDataUpdated() = with(binding.contentSettings) {
         switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
-        if (switchShowSplitTunnel.isChecked) {
-            scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
-        }
-    }
-
-    private fun onUserDataUpdated() = with(binding.contentSettings) {
-        updateSplitTunnelViews()
         switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
 
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
@@ -261,6 +254,11 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     private fun tryToggleSplitTunneling() {
         tryToggleSwitch(R.string.settingsSplitTunnelReconnectDialogContent) {
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
+            with(binding.contentSettings) {
+                if (switchShowSplitTunnel.isChecked) {
+                    scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
+                }
+            }
         }
     }
 
