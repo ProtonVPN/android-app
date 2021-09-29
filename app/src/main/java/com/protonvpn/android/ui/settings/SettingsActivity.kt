@@ -246,18 +246,19 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     }
 
     private fun tryToggleVpnAccelerator() {
-        if (stateMonitor.connectionProtocol?.localAgentEnabled() == true) {
-            // If connected with localAgent there's no need to reconnect to toggle VPN Accelerator.
+        tryToggleSwitch(
+            R.string.settingsSmartReconnectReconnectDialogContent,
+            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+        ) {
             userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
-        } else {
-            tryToggleSwitch(R.string.settingsSmartReconnectReconnectDialogContent) {
-                userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
-            }
         }
     }
 
     private fun tryToggleSplitTunneling() {
-        tryToggleSwitch(R.string.settingsSplitTunnelReconnectDialogContent) {
+        tryToggleSwitch(
+            R.string.settingsSplitTunnelReconnectDialogContent,
+            !userPrefs.isSplitTunnelingConfigEmpty
+        ) {
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
             with(binding.contentSettings) {
                 if (switchShowSplitTunnel.isChecked) {
@@ -273,8 +274,12 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
         }
     }
 
-    private fun tryToggleSwitch(@StringRes reconnectDialogText: Int, toggle: () -> Unit) {
-        if (stateMonitor.isEstablishingOrConnected) {
+    private fun tryToggleSwitch(
+        @StringRes reconnectDialogText: Int,
+        needsReconnectIfConnected: Boolean = true,
+        toggle: () -> Unit
+    ) {
+        if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
             val builder = MaterialDialog.Builder(this).theme(Theme.DARK)
             builder
                 .icon(ContextCompat.getDrawable(builder.context, R.drawable.ic_refresh)!!)
