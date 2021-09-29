@@ -165,37 +165,16 @@ object AppModuleProd {
     @Singleton
     @Provides
     fun provideVpnBackendManager(
-        scope: CoroutineScope,
-        random: Random,
-        userData: UserData,
-        networkManager: NetworkManager,
         appConfig: AppConfig,
         serverManager: ServerManager,
-        certificateRepository: CertificateRepository,
         wireguardBackend: WireguardBackend,
-        dispatcherProvider: DispatcherProvider
+        openVpnBackend: OpenVpnBackend,
+        strongSwanBackend: StrongSwanBackend
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
-            StrongSwanBackend(
-                random,
-                networkManager,
-                scope,
-                userData,
-                appConfig,
-                certificateRepository,
-                dispatcherProvider
-            ),
-            OpenVpnBackend(
-                random,
-                networkManager,
-                userData,
-                appConfig,
-                System::currentTimeMillis,
-                certificateRepository,
-                scope,
-                dispatcherProvider
-            ),
+            strongSwanBackend,
+            openVpnBackend,
             wireguardBackend,
             serverManager
         )
@@ -382,6 +361,43 @@ object AppModule {
         certificateRepository,
         dispatcherProvider,
         scope
+    )
+
+    @Singleton
+    @Provides
+    fun provideStrongSwanBackend(
+        userData: UserData,
+        networkManager: NetworkManager,
+        appConfig: AppConfig,
+        certificateRepository: CertificateRepository,
+        dispatcherProvider: DispatcherProvider
+    ) = StrongSwanBackend(
+            random,
+            networkManager,
+            scope,
+            userData,
+            appConfig,
+            certificateRepository,
+            dispatcherProvider
+    )
+
+    @Singleton
+    @Provides
+    fun provideOpenVpnBackend(
+        userData: UserData,
+        networkManager: NetworkManager,
+        appConfig: AppConfig,
+        certificateRepository: CertificateRepository,
+        dispatcherProvider: DispatcherProvider
+    ) = OpenVpnBackend(
+            random,
+            networkManager,
+            userData,
+            appConfig,
+            System::currentTimeMillis,
+            certificateRepository,
+            scope,
+            dispatcherProvider
     )
 
     @Singleton
