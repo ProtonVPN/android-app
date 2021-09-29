@@ -331,6 +331,13 @@ public final class UserData implements Serializable {
         return splitTunnelIpAddresses;
     }
 
+    /**
+     * @return true if changing "useSplitTunneling" has no effect.
+     */
+    public boolean isSplitTunnelingConfigEmpty() {
+        return splitTunnelApps.isEmpty() && splitTunnelIpAddresses.isEmpty();
+    }
+
     @NotNull
     public VpnProtocol getSelectedProtocol() {
         return selectedProtocol;
