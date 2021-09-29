@@ -18,8 +18,6 @@
  */
 package com.protonvpn.mocks
 
-import com.protonvpn.MockSwitch
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -33,16 +31,9 @@ import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
-import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
-import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
-import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import me.proton.core.network.domain.NetworkManager
 import me.proton.vpn.golib.localAgent.NativeClient
-import java.util.Random
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -83,7 +74,6 @@ class MockVpnBackend(
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
                 profile, server, server.getRandomConnectingDomain(), protocol) {}))
-
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)

@@ -44,10 +44,8 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
-import com.wireguard.android.backend.GoBackend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -61,7 +59,6 @@ import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.server.ServerTimeListener
-import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.Random
 import javax.inject.Singleton
 
@@ -135,17 +132,33 @@ class MockAppModule {
         serverManager: ServerManager,
         certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
-    ): VpnConnectionManager = MockVpnConnectionManager(
-        userData,
-        backendManager,
-        networkManager,
-        vpnConnectionErrorHandler,
-        vpnStateMonitor,
-        notificationHelper,
-        serverManager,
-        scope,
-        System::currentTimeMillis
-    )
+    ): VpnConnectionManager =
+            if(MockSwitch.mockedConnectionUsed) {
+                MockVpnConnectionManager(
+                        userData,
+                        backendManager,
+                        networkManager,
+                        vpnConnectionErrorHandler,
+                        vpnStateMonitor,
+                        notificationHelper,
+                        serverManager,
+                        scope,
+                        System::currentTimeMillis
+                )
+            }else {
+                VpnConnectionManager(
+                        ProtonApplication.getAppContext(),
+                        userData,
+                        backendManager,
+                        networkManager,
+                        vpnConnectionErrorHandler,
+                        vpnStateMonitor,
+                        notificationHelper,
+                        serverManager,
+                        scope,
+                        System::currentTimeMillis
+                )
+            }
 
     @Singleton
     @Provides
@@ -155,7 +168,9 @@ class MockAppModule {
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
         userData: UserData,
-        dispatcherProvider: DispatcherProvider
+        strongSwanBackend: StrongSwanBackend,
+        openVpnBackend: OpenVpnBackend,
+        wireguardBackend: WireguardBackend
     ): VpnBackendProvider =
     if(MockSwitch.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
@@ -170,34 +185,9 @@ class MockAppModule {
         )
     } else {
         ProtonVpnBackendProvider(
-                strongSwan = StrongSwanBackend(
-                        random,
-                        networkManager,
-                        scope,
-                        userData,
-                        appConfig,
-                        certificateRepository,
-                        dispatcherProvider),
-                openVpn = OpenVpnBackend(
-                        random,
-                        networkManager,
-                        userData,
-                        appConfig,
-                        System::currentTimeMillis,
-                        certificateRepository,
-                        scope,
-                        dispatcherProvider
-                ),
-                wireGuard = WireguardBackend(
-                        ProtonApplication.getAppContext(),
-                        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
-                        networkManager,
-                        userData,
-                        appConfig,
-                        certificateRepository,
-                        dispatcherProvider,
-                        scope
-                ),
+                strongSwan = strongSwanBackend,
+                openVpn = openVpnBackend,
+                wireGuard = wireguardBackend,
                 serverDeliver = serverManager,
                 config = appConfig
         )
