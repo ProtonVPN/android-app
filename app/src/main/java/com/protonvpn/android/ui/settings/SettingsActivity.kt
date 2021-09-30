@@ -21,20 +21,27 @@ package com.protonvpn.android.ui.settings
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ScrollView
 import androidx.activity.result.ActivityResultCallback
+import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
@@ -46,6 +53,8 @@ import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.utils.ColorUtils.combineArgb
+import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
@@ -105,6 +114,7 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initSettings() {
         initOSRelatedVisibility()
+        initDnsLeakProtection()
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
@@ -201,6 +211,12 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
         switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
+    }
+
+    private fun initDnsLeakProtection() {
+        with(binding.contentSettings.switchDnsLeak.switchView) {
+            thumbTintList = ColorStateList.valueOf(alwaysOnThumbColor(this))
+        }
     }
 
     private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
@@ -314,5 +330,25 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
 
     private fun navigateTo(clazz: Class<out Activity>) {
         startActivity(Intent(this, clazz))
+    }
+
+    /**
+     * Generate the always-on thumb color by painting brand_darken_20 with 50% opacity on top
+     * of the background color.
+     * Simply using alpha in the thumb color won't work because the track will show through - the
+     * thumb needs to be fully opaque.
+     */
+    @Suppress("MagicNumber")
+    @ColorInt
+    private fun alwaysOnThumbColor(view: View): Int {
+        val bg = MaterialColors.getColor(view, R.attr.proton_background_norm)
+        val thumb = MaterialColors.getColor(view, R.attr.brand_darken_20)
+        val thumbAlpha = 0x80
+        return combineArgb(
+            0xff,
+            mixDstOver(bg.red, thumb.red, thumbAlpha),
+            mixDstOver(bg.green, thumb.green, thumbAlpha),
+            mixDstOver(bg.blue, thumb.blue, thumbAlpha)
+        )
     }
 }
