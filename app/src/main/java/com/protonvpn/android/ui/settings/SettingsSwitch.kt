@@ -61,6 +61,7 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     }
 
     var switchClickInterceptor by binding.switchButton::switchClickInterceptor
+    val switchView = binding.switchButton
 
     override fun inflate(context: Context): SettingsSwitchBinding =
         SettingsSwitchBinding.inflate(LayoutInflater.from(context), this)

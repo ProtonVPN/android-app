@@ -333,8 +333,8 @@
     </style>
 
     <style name="ProtonSwitch.AlwaysOn">
+        <!-- Thumb tint is set programmatically -->
         <item name="android:textColor">?attr/proton_text_norm</item>
-        <item name="thumbTint">?attr/brand_darken_20</item>
         <item name="trackTint">@color/switch_track_always_on</item>
     </style>
 
