@@ -24,6 +24,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.ui.home.LogoutHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,6 +52,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
+    val api: ProtonApiRetroFit,
     val authOrchestrator: AuthOrchestrator,
     val humanVerificationOrchestrator: HumanVerificationOrchestrator,
     val humanVerificationManager: HumanVerificationManager,
@@ -109,7 +111,8 @@ class AccountViewModel @Inject constructor(
         authOrchestrator.onAddAccountResult { result -> if (result == null) block() }
     }
 
-    fun startLogin() {
+    suspend fun startLogin() {
+        api.getAvailableDomains()
         authOrchestrator.startAddAccountWorkflow(accountType)
     }
 }
