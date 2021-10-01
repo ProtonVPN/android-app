@@ -36,6 +36,7 @@ import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setColorTint
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlin.math.ceil
 
 open class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
@@ -87,6 +88,10 @@ open class CountryExpandedViewHolder(
             }
             textLoad.text =
                 textLoad.resources.getString(R.string.serverLoad, server.load.toInt().toString())
+            textLoad.minWidth = ceil(
+                textLoad.paint.measureText(textLoad.resources.getString(R.string.serverLoad, "100"))
+            ).toInt()
+
             serverLoadColor.visibility = when {
                 !haveAccess -> View.GONE
                 !server.online -> View.INVISIBLE
