@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_smart_routing"
                     app:tint="?attr/proton_icon_hint"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="4dp"/>
 
                 <me.proton.core.presentation.ui.view.ProtonButton
                     android:id="@+id/buttonUpgrade"
