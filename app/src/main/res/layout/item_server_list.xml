@@ -36,9 +36,9 @@
 
         <ImageView
             android:id="@+id/imageCountry"
-            android:layout_width="24dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="16dp"
             tools:src="@drawable/de"/>
 
@@ -55,7 +55,7 @@
                 style="@style/Proton.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
+                android:drawablePadding="12dp"
                 android:ellipsize="end"
                 android:lines="1"
                 tools:text="DE#1" />

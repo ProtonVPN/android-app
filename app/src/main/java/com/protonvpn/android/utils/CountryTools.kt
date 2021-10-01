@@ -30,12 +30,11 @@ object CountryTools {
 
     @JvmStatic
     fun getFlagResource(context: Context, flag: String?): Int {
-        var desiredFlag = 0
-        flag?.let {
-            desiredFlag = context.resources.getIdentifier(
-                it.toLowerCase(Locale.ROOT), "drawable", context.packageName
-            )
-        }
+        val desiredFlag = flag?.let {
+            val flagCode =
+                if (it.lowercase(Locale.ROOT) == "uk") "gb" else it.lowercase(Locale.ROOT)
+            context.resources.getIdentifier(flagCode, "drawable", context.packageName)
+        } ?: 0
         return if (desiredFlag > 0)
             desiredFlag
         else
