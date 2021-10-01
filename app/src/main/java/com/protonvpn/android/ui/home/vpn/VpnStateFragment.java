@@ -381,7 +381,7 @@ public class VpnStateFragment extends BaseFragment {
                 int oldHeight = oldBottom - oldTop;
                 int height = bottom - top;
                 if (bottomSheetBehavior != null && height > 0 && oldHeight != height) {
-                    bottomSheetBehavior.setPeekHeight(height, oldHeight != 0);
+                    bottomSheetBehavior.setPeekHeight(height, false);
                 }
             });
     }
