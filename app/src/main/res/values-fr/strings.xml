@@ -179,7 +179,7 @@
   <string name="error_auth_failed">Échec d\'authentification de l\'utilisateur.</string>
   <string name="error_assessment_failed">Échec de l\'évaluation de sécurité.</string>
   <string name="error_generic">Échec indéterminé lors de la connexion.</string>
-  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
+  <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
   <string name="reconnect">Nouvelle connexion</string>
   <string name="connect">Se connecter</string>
   <string name="upgrade">Changer d\'offre</string>
@@ -348,7 +348,7 @@
   <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
   <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
   <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Veuillez désactiver l\'un d\'entre eux et redémarrer votre appareil.</string>
-  <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
+  <string name="errorTorrentNotAllowed">Le P2P n\'est pas autorisé sur ce serveur</string>
   <string name="errorWireguardWithPlaceholder">Erreur WireGuard %1$s</string>
   <string name="serverNoWireguardSupport">Le serveur de ce profil ne prend pas encore en charge WireGuard. Pour vous connecter, essayez un autre protocole ou un serveur prenant en charge WireGuard.</string>
   <string name="stateConnectedTo">Connecté à %1$s</string>
