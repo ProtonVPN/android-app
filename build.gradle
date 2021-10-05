@@ -21,7 +21,7 @@
 
 buildscript {
     ext.kotlin_version = '1.5.30'
-    ext.hilt_version = '2.38.1'
+    ext.hilt_version = '2.39.1'
     repositories {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
