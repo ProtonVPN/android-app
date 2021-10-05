@@ -23,7 +23,7 @@ import com.protonvpn.android.BuildConfig
 import me.proton.core.util.kotlin.Logger
 import me.proton.core.util.kotlin.LoggerLogTag
 
-class CoreLogger : Logger {
+class VpnCoreLogger : Logger {
 
     override fun log(tag: LoggerLogTag, message: String) {
         ProtonLogger.log("[${tag.name}] $message")

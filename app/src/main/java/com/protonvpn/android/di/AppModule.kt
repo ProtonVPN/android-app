@@ -39,7 +39,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
-import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
@@ -107,19 +106,18 @@ object AppModuleProd {
         scope: CoroutineScope
     ): ApiManagerFactory {
         val appContext = ProtonApplication.getAppContext()
-        val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
             override fun onServerTimeUpdated(epochSeconds: Long) {}
         }
         return if (BuildConfig.DEBUG) {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener, logger,
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
                 networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
                 humanVerificationHandler, cookieStore, scope, certificatePins = emptyArray(),
                 alternativeApiPins = emptyList())
         } else {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener, logger,
+            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
                 networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
                 humanVerificationHandler, cookieStore, scope)
         }

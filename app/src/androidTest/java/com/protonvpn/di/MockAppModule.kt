@@ -32,7 +32,6 @@ import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.CoreLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.MaintenanceTracker
@@ -88,13 +87,12 @@ class MockAppModule {
     ): ApiManagerFactory {
 
         val appContext = ProtonApplication.getAppContext()
-        val logger = CoreLogger()
         val sessionProvider = userData.apiSessionProvider
         val serverTimeListener = object : ServerTimeListener {
             override fun onServerTimeUpdated(epochSeconds: Long) {}
         }
         val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider,
-            serverTimeListener, logger, networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider,
+            serverTimeListener, networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider,
             humanVerificationHandler, humanVerificationHandler, cookieStore, scope)
 
         val resource: IdlingResource =

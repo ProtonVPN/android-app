@@ -33,6 +33,7 @@ import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -47,6 +48,7 @@ import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
+import me.proton.core.util.kotlin.CoreLogger;
 import rx_activity_result2.RxActivityResult;
 
 public class ProtonApplication extends Application {
@@ -77,6 +79,7 @@ public class ProtonApplication extends Application {
         // Initialize go-libraries early to avoid crashes in StrongSwan
         Seq.touch();
 
+        CoreLogger.INSTANCE.set(new VpnCoreLogger());
         ProtonLogger.INSTANCE.log("--------- App start ---------");
     }
 
