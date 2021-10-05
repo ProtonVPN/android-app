@@ -611,7 +611,7 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.4'
 
     // Wireguard
-    implementation 'com.wireguard.android:tunnel:1.0.20210211'
+    implementation 'com.wireguard.android:tunnel:1.0.20210926'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Hilt
