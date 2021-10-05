@@ -138,7 +138,7 @@ dependencies = [
   {
     "project": "Android ConstraintLayout",
     "description": "ConstraintLayout for Android",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -150,12 +150,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.constraintlayout:constraintlayout:2.1.0"
+    "dependency": "androidx.constraintlayout:constraintlayout:2.1.1"
   },
   {
     "project": "Android ConstraintLayout Core",
     "description": "ConstraintLayout core",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -167,7 +167,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.constraintlayout:constraintlayout-core:1.0.0"
+    "dependency": "androidx.constraintlayout:constraintlayout-core:1.0.1"
   },
   {
     "project": "Android DB",
@@ -1474,7 +1474,7 @@ dependencies = [
   {
     "project": "Dagger",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
+    "version": "2.39.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1484,42 +1484,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger:2.38.1"
-  },
-  {
-    "project": "Dagger Android",
-    "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
-    "developers": [],
-    "url": "https://github.com/google/dagger",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "com.google.dagger:dagger-android:2.38.1"
-  },
-  {
-    "project": "Dagger Android Support",
-    "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
-    "developers": [],
-    "url": "https://github.com/google/dagger",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "com.google.dagger:dagger-android-support:2.38.1"
+    "dependency": "com.google.dagger:dagger:2.39.1"
   },
   {
     "project": "Dagger Lint Rules AAR Distribution",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
+    "version": "2.39.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1529,7 +1499,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger-lint-aar:2.38.1"
+    "dependency": "com.google.dagger:dagger-lint-aar:2.39.1"
   },
   {
     "project": "databinding-adapters",
@@ -1575,23 +1545,6 @@ dependencies = [
       }
     ],
     "dependency": "androidx.databinding:databinding-runtime:7.0.2"
-  },
-  {
-    "project": "douglasjunior/android-simple-tooltip",
-    "description": "A simple library based on PopupWindow to create Tooltips on Android. 💚",
-    "version": "0.2.3",
-    "developers": [
-      "Douglas Nassif Roma Junior"
-    ],
-    "url": "https://github.com/douglasjunior/android-simple-tooltip",
-    "year": "2016",
-    "licenses": [
-      {
-        "license": "MIT License",
-        "license_url": "https://api.github.com/licenses/mit"
-      }
-    ],
-    "dependency": "com.github.douglasjunior:android-simple-tooltip:0.2.3"
   },
   {
     "project": "Experimental annotation",
@@ -1797,7 +1750,7 @@ dependencies = [
   {
     "project": "Gson",
     "description": null,
-    "version": "2.8.7",
+    "version": "2.8.8",
     "developers": [],
     "url": null,
     "year": null,
@@ -1807,7 +1760,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.code.gson:gson:2.8.7"
+    "dependency": "com.google.code.gson:gson:2.8.8"
   },
   {
     "project": "Guava ListenableFuture only",
@@ -1827,7 +1780,7 @@ dependencies = [
   {
     "project": "Hilt Android",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
+    "version": "2.39.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1837,12 +1790,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:hilt-android:2.38.1"
+    "dependency": "com.google.dagger:hilt-android:2.39.1"
   },
   {
     "project": "Hilt Core",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.38.1",
+    "version": "2.39.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -1852,7 +1805,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:hilt-core:2.38.1"
+    "dependency": "com.google.dagger:hilt-core:2.39.1"
   },
   {
     "project": "IntelliJ IDEA Annotations",
@@ -1993,7 +1946,7 @@ dependencies = [
   {
     "project": "Kotlin Stdlib",
     "description": "Kotlin Standard Library for JVM",
-    "version": "1.5.30",
+    "version": "1.5.31",
     "developers": [
       "Kotlin Team"
     ],
@@ -2005,12 +1958,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.5.31"
   },
   {
     "project": "Kotlin Stdlib Common",
     "description": "Kotlin Common Standard Library",
-    "version": "1.5.30",
+    "version": "1.5.31",
     "developers": [
       "Kotlin Team"
     ],
@@ -2022,7 +1975,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.5.30"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31"
   },
   {
     "project": "Kotlin Stdlib Jdk7",
@@ -2095,7 +2048,7 @@ dependencies = [
   {
     "project": "kotlinx-serialization-core",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "developers": [
       "JetBrains Team"
     ],
@@ -2107,12 +2060,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.2"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.0"
   },
   {
     "project": "kotlinx-serialization-json",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "developers": [
       "JetBrains Team"
     ],
@@ -2124,7 +2077,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.2.2"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.0"
   },
   {
     "project": "LeakCanary Android Utils",
@@ -2231,14 +2184,19 @@ dependencies = [
   {
     "project": "Lottie",
     "description": "Lottie is an animation library that renders Adobe After Effects animations natively in realtime.",
-    "version": "4.0.0",
+    "version": "4.2.0",
     "developers": [
       "Airbnb"
     ],
     "url": "https://github.com/airbnb/lottie-android",
     "year": "2017",
-    "licenses": [],
-    "dependency": "com.airbnb.android:lottie:4.0.0"
+    "licenses": [
+      {
+        "license": "Apache License 2.0",
+        "license_url": "https://github.com/airbnb/lottie-android/blob/master/LICENSE"
+      }
+    ],
+    "dependency": "com.airbnb.android:lottie:4.2.0"
   },
   {
     "project": "Material Components for Android",
@@ -2277,7 +2235,7 @@ dependencies = [
   {
     "project": "me.proton.core:account",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2289,12 +2247,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account:1.15"
+    "dependency": "me.proton.core:account:1.15.2"
   },
   {
     "project": "me.proton.core:account-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2306,12 +2264,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-data:1.15"
+    "dependency": "me.proton.core:account-data:1.15.2"
   },
   {
     "project": "me.proton.core:account-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2323,12 +2281,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-domain:1.15"
+    "dependency": "me.proton.core:account-domain:1.15.2"
   },
   {
     "project": "me.proton.core:auth-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2340,12 +2298,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-data:1.15"
+    "dependency": "me.proton.core:auth-data:1.15.2"
   },
   {
     "project": "me.proton.core:auth-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2357,7 +2315,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-domain:1.15"
+    "dependency": "me.proton.core:auth-domain:1.15.2"
   },
   {
     "project": "me.proton.core:country",
@@ -2430,7 +2388,7 @@ dependencies = [
   {
     "project": "me.proton.core:crypto",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2442,12 +2400,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto:1.15"
+    "dependency": "me.proton.core:crypto:1.15.2"
   },
   {
     "project": "me.proton.core:crypto-android",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2459,12 +2417,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-android:1.15"
+    "dependency": "me.proton.core:crypto-android:1.15.2"
   },
   {
     "project": "me.proton.core:crypto-common",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2476,7 +2434,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-common:1.15"
+    "dependency": "me.proton.core:crypto-common:1.15.2"
   },
   {
     "project": "me.proton.core:data",
@@ -2532,7 +2490,7 @@ dependencies = [
   {
     "project": "me.proton.core:human-verification",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2544,12 +2502,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification:1.15"
+    "dependency": "me.proton.core:human-verification:1.15.2"
   },
   {
     "project": "me.proton.core:human-verification-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2561,12 +2519,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-data:1.15"
+    "dependency": "me.proton.core:human-verification-data:1.15.2"
   },
   {
     "project": "me.proton.core:human-verification-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2578,12 +2536,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-domain:1.15"
+    "dependency": "me.proton.core:human-verification-domain:1.15.2"
   },
   {
     "project": "me.proton.core:human-verification-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2595,12 +2553,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-presentation:1.15"
+    "dependency": "me.proton.core:human-verification-presentation:1.15.2"
   },
   {
     "project": "me.proton.core:key",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2612,12 +2570,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key:1.15"
+    "dependency": "me.proton.core:key:1.15.2"
   },
   {
     "project": "me.proton.core:key-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2629,12 +2587,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-data:1.15"
+    "dependency": "me.proton.core:key-data:1.15.2"
   },
   {
     "project": "me.proton.core:key-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2646,12 +2604,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-domain:1.15"
+    "dependency": "me.proton.core:key-domain:1.15.2"
   },
   {
     "project": "me.proton.core:network",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2663,12 +2621,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network:1.15"
+    "dependency": "me.proton.core:network:1.15.3"
   },
   {
     "project": "me.proton.core:network-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2680,12 +2638,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-data:1.15"
+    "dependency": "me.proton.core:network-data:1.15.3"
   },
   {
     "project": "me.proton.core:network-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2697,12 +2655,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-domain:1.15"
+    "dependency": "me.proton.core:network-domain:1.15.3"
   },
   {
     "project": "me.proton.core:presentation",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.4",
     "developers": [
       "Open Source Proton"
     ],
@@ -2714,12 +2672,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:presentation:1.15"
+    "dependency": "me.proton.core:presentation:1.15.4"
   },
   {
     "project": "me.proton.core:user",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2731,12 +2689,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user:1.15"
+    "dependency": "me.proton.core:user:1.15.2"
   },
   {
     "project": "me.proton.core:user-data",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2748,12 +2706,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-data:1.15"
+    "dependency": "me.proton.core:user-data:1.15.2"
   },
   {
     "project": "me.proton.core:user-domain",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2765,7 +2723,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-domain:1.15"
+    "dependency": "me.proton.core:user-domain:1.15.2"
   },
   {
     "project": "me.proton.core:util-android-shared-preferences",
@@ -2787,7 +2745,7 @@ dependencies = [
   {
     "project": "me.proton.core:util-kotlin",
     "description": "Proton Core libraries for Android",
-    "version": "1.15",
+    "version": "1.15.2",
     "developers": [
       "Open Source Proton"
     ],
@@ -2799,12 +2757,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-kotlin:1.15"
+    "dependency": "me.proton.core:util-kotlin:1.15.2"
   },
   {
     "project": "me.proton.vpn:go-vpn-lib",
     "description": "Go library with shared code for ProtonVPN clients",
-    "version": "0.1.3",
+    "version": "0.1.5",
     "developers": [
       "Open Source Proton"
     ],
@@ -2816,7 +2774,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.vpn:go-vpn-lib:0.1.3"
+    "dependency": "me.proton.vpn:go-vpn-lib:0.1.5"
   },
   {
     "project": "minidns",
@@ -3332,7 +3290,7 @@ dependencies = [
   {
     "project": "WireGuard Tunnel Library",
     "description": "Embeddable tunnel library for WireGuard for Android",
-    "version": "1.0.20210211",
+    "version": "1.0.20210926",
     "developers": [
       "WireGuard"
     ],
@@ -3344,6 +3302,6 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.wireguard.android:tunnel:1.0.20210211"
+    "dependency": "com.wireguard.android:tunnel:1.0.20210926"
   }
 ]
