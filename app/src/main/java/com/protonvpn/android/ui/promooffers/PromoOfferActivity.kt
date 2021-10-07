@@ -1,0 +1,127 @@
+/*
+ * Copyright (c) 2021. Proton Technologies AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package com.protonvpn.android.ui.promooffers
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.TextAppearanceSpan
+import android.view.LayoutInflater
+import android.widget.Toast
+import androidx.activity.viewModels
+import com.bumptech.glide.Glide
+import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.ApiNotificationOfferFeature
+import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import com.protonvpn.android.components.BaseActivityV2
+import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.databinding.ActivityPromoOfferBinding
+import com.protonvpn.android.databinding.ItemPromoFeatureBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
+
+@AndroidEntryPoint
+@ContentLayout(R.layout.activity_promo_offer)
+class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferViewModel>() {
+
+    val vm: PromoOfferViewModel by viewModels()
+
+    override fun initViewModel() {
+        viewModel = vm
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initToolbarWithUpEnabled(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val offerId = getOfferId(intent)
+        val panel = offerId?.let { viewModel.getPanel(offerId) }
+        if (panel != null) {
+            setViews(panel)
+        } else {
+            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+    private fun setViews(panel: ApiNotificationOfferPanel) {
+        with(binding) {
+            textIncentive.text = createIncentiveText(panel.incentive, panel.incentivePrice)
+            textPill.text = panel.pill
+            textTitle.text = panel.title
+            textFooter.text = panel.pageFooter
+
+            panel.features.forEach { addFeatureLine(it) }
+            val activity = this@PromoOfferActivity
+            val featureFooterViews =
+                ItemPromoFeatureBinding.inflate(LayoutInflater.from(activity), layoutFeatures, true)
+            featureFooterViews.text.text = panel.featuresFooter
+            featureFooterViews.text.setTextAppearance(R.style.Proton_Text_Caption_Weak)
+
+            Glide.with(activity)
+                .load(panel.pictureUrl)
+                .into(imagePicture)
+
+            buttonOpenOffer.text = panel.button.text
+            buttonOpenOffer.setOnClickListener { openUrl(panel.button.url) }
+        }
+    }
+
+    private fun addFeatureLine(feature: ApiNotificationOfferFeature) {
+        val views = ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), binding.layoutFeatures, true)
+        views.text.text = feature.text
+        Glide.with(this)
+            .load(feature.iconUrl)
+            .placeholder(R.drawable.ic_check)
+            .error(R.drawable.ic_check)
+            .into(views.imageIcon)
+    }
+
+    private fun createIncentiveText(incentiveTemplate: String, price: String): CharSequence {
+        // Protect the price text part from being broken into lines.
+        val nonBreakingPrice = price.replace(' ', '\u00a0')
+        val nonBreakingTemplate = incentiveTemplate.replace("/", "/\u2060")
+
+        val placeholderIndex = nonBreakingTemplate.indexOf(INCENTIVE_PRICE_PLACEHOLDER)
+        return if (placeholderIndex != -1) {
+            val richText = SpannableString(nonBreakingTemplate.replace(INCENTIVE_PRICE_PLACEHOLDER, nonBreakingPrice))
+            val priceSpan = TextAppearanceSpan(this, R.style.Proton_Text_Hero)
+            richText.setSpan(priceSpan, placeholderIndex, placeholderIndex + nonBreakingPrice.length, 0)
+            richText
+        } else {
+            nonBreakingTemplate
+        }
+    }
+
+    companion object {
+        private const val EXTRA_OFFER_ID = "id"
+
+        @JvmStatic
+        fun createIntent(context: Context, offerId: String) =
+            Intent(context, PromoOfferActivity::class.java).apply {
+                putExtra(EXTRA_OFFER_ID, offerId)
+            }
+
+        private fun getOfferId(intent: Intent): String? = intent.getStringExtra(EXTRA_OFFER_ID)
+    }
+}

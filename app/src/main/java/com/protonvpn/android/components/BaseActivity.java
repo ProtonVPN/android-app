@@ -21,14 +21,12 @@ package com.protonvpn.android.components;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.ui.drawer.IndicatorDrawableWrapper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.vpn.NoVpnPermissionUi;
 
@@ -53,7 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity
     @Nullable @BindView(R.id.toolbar) protected Toolbar toolbar;
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
-    protected IndicatorDrawableWrapper toggleDrawable;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -93,9 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public void initDrawer() {
-        toggleDrawable = new IndicatorDrawableWrapper(this,
-            ResourcesCompat.getDrawable(getResources(), R.drawable.ic_hamburger_with_margin, getTheme()));
-        toolbar.setNavigationIcon(toggleDrawable);
+        toolbar.setNavigationIcon(R.drawable.ic_hamburger_with_margin);
         toolbar.setNavigationContentDescription(R.string.hamburgerMenu);
         toolbar.setNavigationOnClickListener(view -> toggleDrawer());
         setDrawerState(true, navigationDrawer);

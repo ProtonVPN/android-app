@@ -38,5 +38,32 @@ class ApiNotification(
 class ApiNotificationOffer(
     @SerialName("Label") val label: String,
     @SerialName("URL") val url: String,
-    @SerialName("Icon") val iconUrl: String
+    @SerialName("Icon") val iconUrl: String,
+    @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null
+
+)
+
+@Serializable
+class ApiNotificationOfferPanel(
+    @SerialName("Incentive") val incentive: String,
+    @SerialName("IncentivePrice") val incentivePrice: String,
+    @SerialName("Pill") val pill: String,
+    @SerialName("PictureURL") val pictureUrl: String,
+    @SerialName("Title") val title: String,
+    @SerialName("Features") val features: List<ApiNotificationOfferFeature>,
+    @SerialName("FeaturesFooter") val featuresFooter: String,
+    @SerialName("Button") val button: ApiNotificationOfferButton,
+    @SerialName("PageFooter") val pageFooter: String
+)
+
+@Serializable
+class ApiNotificationOfferFeature(
+    @SerialName("IconURL") val iconUrl: String,
+    @SerialName("Text") val text: String
+)
+
+@Serializable
+class ApiNotificationOfferButton(
+    @SerialName("Text") val text: String,
+    @SerialName("URL") val url: String
 )

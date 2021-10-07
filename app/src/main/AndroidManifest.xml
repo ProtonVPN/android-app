@@ -87,6 +87,8 @@
             android:label="@string/log_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.promooffers.PromoOfferActivity" />
+        <activity
             android:name=".utils.DeepLinkActivity"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>

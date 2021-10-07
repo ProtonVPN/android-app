@@ -87,13 +87,6 @@
                     android:text="@string/drawerSignOut"
                     app:drawableStartCompat="@drawable/ic_sign_out_right" />
 
-                <com.protonvpn.android.ui.drawer.DrawerNotificationsContainer
-                    android:id="@+id/drawerNotifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView

@@ -42,3 +42,16 @@ inline fun <S, reified T : Any> LiveData<S>.eagerMapNotNull(
     mediator.observeForever {}
     return mediator
 }
+
+fun <S1, S2, R> mapMany(
+    source1: LiveData<S1>,
+    source2: LiveData<S2>,
+    transform: (S1, S2) -> R
+): LiveData<R> = MediatorLiveData<R>().apply {
+    fun update(s1: S1?, s2: S2?) {
+        if (s1 != null && s2 != null)
+            value = transform(s1, s2)
+    }
+    addSource(source1) { update(it, source2.value) }
+    addSource(source2) { update(source1.value, it) }
+}

@@ -171,6 +171,7 @@
     <string name="onboardingSignup">Sign up</string>
     <string name="onboardingSkip">SKIP</string>
     <string name="onboardingNext">NEXT</string>
+    <string name="offerTooltipShowOffer">See the offer</string>
 
     <string name="listItemMaintenance">Under maintenance</string>
     <string name="listAllCountries">All Locations (%1$d)</string>
