@@ -164,9 +164,7 @@
   <string name="state_connected">Verbonden</string>
   <string name="state_disconnecting">Verbinding aan het verbreken…</string>
   <string name="state_error">Fout</string>
-  <string name="error_lookup_failed">Gateway-adres opzoeken mislukt.</string>
-  <string name="error_unreachable">Gateway is onbereikbaar.</string>
-  <string name="error_peer_auth_failed">Verificatie gateway verifiëren mislukt.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
   <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
   <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
@@ -179,7 +177,6 @@
     <item quantity="other">Opnieuw verbinden over %1$d seconden</item>
   </plurals>
   <string name="connection_failed">Verbinding mislukt</string>
-  <string name="support_page">Ondersteuningspagina</string>
   <string name="create_new_profile">NIEUW PROFIEL MAKEN</string>
   <string name="excludeAppsTitle">Apps uitsluiten</string>
   <string name="excludeAppsDescription">Voeg apps toe die u wilt uitsluiten van uw VPN-verkeer.</string>
@@ -222,8 +219,6 @@
   <string name="notConnected">U bent niet verbonden \n met een server</string>
   <string name="activityLicensesTitle">Licenties van derden</string>
   <string name="stateFragmentUnknownIp">Onbekend</string>
-  <string name="successful_migration_message">Welkom bij ProtonVPN 2.0! Al uw instellingen en profielen zijn gemigreerd en u kunt de oude app nu veilig verwijderen.</string>
-  <string name="successful_migration_uninstall">Nu verwijderen</string>
   <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer informatie</a>]]></string>
   <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
   <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
@@ -399,7 +394,7 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="tv_server_list">Serverlijst</string>
   <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
+  <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
   <string name="dialogTitleReconnectionNeeded">Opnieuw verbinden nodig</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Uw verbinding moet opnieuw worden gestart om de VPN-Accelerator-modus te wijzigen.</string>
@@ -451,4 +446,10 @@ Volg deze stappen om Altijd-aan VPN en Kill Switch in te schakelen:"</string>
   <string name="server_load_medium">Medium</string>
   <string name="server_load_high">Hoog</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Your connection needs to be restarted to change the Secure Core mode.</string>
+  <string name="dialogContinue">Doorgaan</string>
+  <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
+  <string name="errorWireguardWithPlaceholder">WireGuard error %1$s</string>
+  <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. &lt;a href="%1$s"&gt;Learn more&lt;/a&gt;.</string>
 </resources>

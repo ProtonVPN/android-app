@@ -19,6 +19,9 @@
 package com.protonvpn.android.utils
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -30,6 +33,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Process
 import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
@@ -159,6 +163,18 @@ object AndroidUtils {
 
     fun Context.isChromeOS() =
             packageManager.hasSystemFeature("org.chromium.arc.device_management")
+
+    @JvmStatic
+    fun getMyProcessName(context: Context): String {
+        return if (Build.VERSION.SDK_INT >= 28) {
+            Application.getProcessName()
+        } else {
+            val pid = Process.myPid()
+            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val allProcesses = manager.runningAppProcesses
+            allProcesses?.find { it.pid == pid }?.processName ?: ""
+        }
+    }
 }
 
 fun Context.openUrl(url: Uri) {

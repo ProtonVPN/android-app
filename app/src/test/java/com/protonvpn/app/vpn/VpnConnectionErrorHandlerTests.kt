@@ -36,6 +36,7 @@ import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
@@ -55,6 +56,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.coroutineScope
@@ -107,6 +109,13 @@ class VpnConnectionErrorHandlerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        ProtonApplication.setAppContextForTest(mockk(relaxed = true))
+
+        mockkObject(CountryTools)
+        val countryCapture = slot<String>()
+        every { CountryTools.getFullName(capture(countryCapture)) } answers { countryCapture.captured }
+
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { userData.vpnInfoResponse?.maxSessionCount } returns 2
@@ -124,7 +133,6 @@ class VpnConnectionErrorHandlerTests {
         directProfile.setProtocol(VpnProtocol.IKEv2)
         directConnectionParams = ConnectionParamsIKEv2(directProfile, server, server.getRandomConnectingDomain())
 
-        ProtonApplication.setAppContextForTest(mockk(relaxed = true))
         handler = VpnConnectionErrorHandler(TestCoroutineScope(), mockk(relaxed = true), api, appConfig,
             userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater, mockk(relaxed = true),
             networkManager, vpnBackendProvider)

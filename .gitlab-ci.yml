@@ -82,7 +82,6 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .gradle
-    - '**/build'
 
 detekt analysis:
   stage: analyze

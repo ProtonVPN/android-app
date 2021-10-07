@@ -164,9 +164,7 @@
   <string name="state_connected">Подключено</string>
   <string name="state_disconnecting">Отключение…</string>
   <string name="state_error">Ошибка</string>
-  <string name="error_lookup_failed">Сбой поиска адреса шлюза.</string>
-  <string name="error_unreachable">Шлюз недоступен.</string>
-  <string name="error_peer_auth_failed">Сбой проверки подлинности шлюза.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
   <string name="error_assessment_failed">Сбой проверки безопасности.</string>
   <string name="error_generic">Неизвестный сбой при подключении.</string>
@@ -181,7 +179,6 @@
     <item quantity="other">Повторное подключение через %1$d секунд</item>
   </plurals>
   <string name="connection_failed">Сбой подключения</string>
-  <string name="support_page">Страница поддержки</string>
   <string name="create_new_profile">СОЗДАТЬ НОВЫЙ ПРОФИЛЬ</string>
   <string name="excludeAppsTitle">Исключенные приложения</string>
   <string name="excludeAppsDescription">Добавьте приложения, которые вы хотите исключить из трафика через VPN.</string>
@@ -224,8 +221,6 @@
   <string name="notConnected">Вы не подключены \n к серверу</string>
   <string name="activityLicensesTitle">Лицензии третьих сторон</string>
   <string name="stateFragmentUnknownIp">Неизвестно</string>
-  <string name="successful_migration_message">Добро пожаловать в ProtonVPN 2.0! Все ваши настройки и профили были перенесены, и теперь вы можете безопасно удалить старое приложение.</string>
-  <string name="successful_migration_uninstall">Удалить сейчас</string>
   <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
   <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
   <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
@@ -413,7 +408,7 @@ Kill Switch не позволяет вашему устройству совер
   <string name="tv_server_list">Список серверов</string>
   <string name="tv_server_list_action_unavailable">Недоступно</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="dialogTitleReconnectionNeeded">Требуется переподключение</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Необходимо перезапустить ваше подключение для изменения режима VPN Accelerator.</string>
@@ -465,4 +460,10 @@ Kill Switch не позволяет вашему устройству совер
   <string name="server_load_medium">Средняя</string>
   <string name="server_load_high">Высокая</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Необходимо перезапустить ваше подключение для изменения режима Secure Core.</string>
+  <string name="dialogContinue">Продолжить</string>
+  <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
+  <string name="errorWireguardWithPlaceholder">Ошибка WireGuard %1$s</string>
+  <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">VPN Accelerator позволяет использовать набор уникальных технологий для улучшения производительности, которые могут увеличить скорость VPN до 400%%. &lt;a href="%1$s"&gt;Узнать больше&lt;/a&gt;.</string>
 </resources>

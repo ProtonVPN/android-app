@@ -1,0 +1,3 @@
+What's new:
+* Adds support for WireGuard®, a lightweight and high-speed VPN protocol
+* Fixes crash when opening Exclude Apps dialog in settings

@@ -19,8 +19,11 @@
 package com.protonvpn.android;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -29,9 +32,10 @@ import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.di.AppComponent;
 import com.protonvpn.android.di.DaggerAppComponent;
-import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
+import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
@@ -43,7 +47,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import javax.inject.Inject;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -64,8 +68,16 @@ public class ProtonApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        initActivityObserver();
+        String processName = AndroidUtils.getMyProcessName(this);
+        boolean isMainProcess = processName.equals(getPackageName());
+
         initSentry();
+        if (!isMainProcess) {
+            Log.i(Constants.SECONDARY_PROCESS_TAG, "Starting process: " + processName);
+            return;
+        }
+
+        initActivityObserver();
         initStrongSwan();
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
@@ -73,7 +85,6 @@ public class ProtonApplication extends DaggerApplication {
         new ANRWatchDog(15000).start();
 
         initPreferences();
-        NewAppMigrator.INSTANCE.migrate(this);
 
         RxActivityResult.register(this);
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
@@ -124,6 +135,9 @@ public class ProtonApplication extends DaggerApplication {
     private void initSentry() {
         String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
         Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
+
+        Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(new ProtonExceptionHandler(currentHandler));
     }
 
     private void initLeakCanary() {

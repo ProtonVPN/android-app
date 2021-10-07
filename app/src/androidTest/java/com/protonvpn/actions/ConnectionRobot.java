@@ -40,7 +40,7 @@ public class ConnectionRobot extends UIActionsTestHelper {
     }
 
     public ConnectionRobot checkIfNotReachableErrorAppears() {
-        String errorMessage = getContext().getString(R.string.error_unreachable);
+        String errorMessage = getContext().getString(R.string.error_server_unreachable);
         checkIfObjectWithIdAndTextIsDisplayed(R.id.textError, errorMessage);
         return this;
     }

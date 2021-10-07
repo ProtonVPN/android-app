@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.util.kotlin.DispatcherProvider
 
 class WireguardBackend(
     val context: Context,
@@ -52,11 +53,12 @@ class WireguardBackend(
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
+    dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope
-) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope) {
+) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+        dispatcherProvider) {
 
     private var service: WireguardWrapperService? = null
-
     private val testTunnel = WireGuardTunnel(
         name = Constants.WIREGUARD_TUNNEL_NAME,
         config = null,
@@ -79,18 +81,26 @@ class WireguardBackend(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int
+        numberOfPorts: Int,
+        waitForAll: Boolean
     ): List<PrepareResult> {
-        return listOf(
+        val connectingDomain = server.getRandomConnectingDomain()
+        val ports = appConfig.getWireguardPorts().udpPorts
+        val selectedPorts = if (scan)
+            scanUdpPorts(connectingDomain, ports, numberOfPorts, waitForAll)
+        else
+            listOfNotNull(ports.first())
+        return selectedPorts.map { port ->
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
                     profile,
                     server,
-                    server.getRandomConnectingDomain()
+                    port,
+                    connectingDomain
                 )
             )
-        )
+        }
     }
 
     override suspend fun connect(connectionParams: ConnectionParams) {

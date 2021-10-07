@@ -164,9 +164,7 @@
   <string name="state_connected">Verbunden</string>
   <string name="state_disconnecting">Verbindung wird getrennt …</string>
   <string name="state_error">Fehler</string>
-  <string name="error_lookup_failed">Gatewayadresssuche fehlgeschlagen.</string>
-  <string name="error_unreachable">Gateway ist nicht erreichbar.</string>
-  <string name="error_peer_auth_failed">Verifizierung der Gatewayauthentifizierung fehlgeschlagen.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
   <string name="error_assessment_failed">Security Assessment fehlgeschlagen.</string>
   <string name="error_generic">Unbekannter Fehler beim Verbinden.</string>
@@ -179,7 +177,6 @@
     <item quantity="other">Neuverbindung in %1$d Sekunden</item>
   </plurals>
   <string name="connection_failed">Verbindung fehlgeschlagen</string>
-  <string name="support_page">Support-Seite</string>
   <string name="create_new_profile">NEUES PROFIL ERSTELLEN</string>
   <string name="excludeAppsTitle">Apps ausschließen</string>
   <string name="excludeAppsDescription">Fügen Sie Apps hinzu, die Sie vom VPN‐Verkehr ausschließen möchten.</string>
@@ -222,8 +219,6 @@
   <string name="notConnected">Sie sind mit keinem\nServer verbunden</string>
   <string name="activityLicensesTitle">Drittanbieter-Lizenzen</string>
   <string name="stateFragmentUnknownIp">Unbekannt</string>
-  <string name="successful_migration_message">Willkommen bei ProtonVPN 2.0! Alle Ihre Einstellungen und Profile wurden übertragen, und Sie können die alte Anwendung jetzt sicher deinstallieren.</string>
-  <string name="successful_migration_uninstall">Jetzt deinstallieren</string>
   <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktivieren Sie Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähren Sie auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuchen Sie es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
   <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
   <string name="error_prepare_vpn_title">Fehler: VPN-Berechtigungsproblem</string>
@@ -448,4 +443,10 @@ Folgen Sie diesen Schritten, um VPN und Kill Switch dauerhaft zu aktivieren:”<
   <string name="server_load_medium">Mittel</string>
   <string name="server_load_high">Hoch</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Um den „Secure Core”-Modus zu ändern, muss Ihre Verbindung neu gestartet werden.</string>
+  <string name="dialogContinue">Weiter</string>
+  <string name="error_server_unreachable">Verbindung zum VPN fehlgeschlagen. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+  <string name="errorWireguardWithPlaceholder">WireGuard-Fehler %1$s</string>
+  <string name="serverNoWireguardSupport">Der Server dieses Profils unterstützt WireGuard derzeit nicht. Um dennoch eine Verbindung herzustellen, versuchen Sie ein anderes Protokoll oder einen Server, der WireGuard unterstützt.</string>
+  <string name="settingsVpnAcceleratorDescription">„VPN Accelerator“ ermöglicht eine Reihe einzigartiger leistungssteigernder Technologien, die die VPN-Geschwindigkeit um bis zu 400 %% erhöhen können. &lt;a href="%1$s" &gt;Mehr erfahren&lt;/a&gt;.</string>
 </resources>

@@ -164,9 +164,7 @@
   <string name="state_connected">Ligado</string>
   <string name="state_disconnecting">A desligar…</string>
   <string name="state_error">Erro</string>
-  <string name="error_lookup_failed">Falha ao procurar endereço da gateway.</string>
-  <string name="error_unreachable">Gateway inalcançável.</string>
-  <string name="error_peer_auth_failed">Falha ao verificar a autenticação da gateway.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Falha ao autenticar o utilizador.</string>
   <string name="error_assessment_failed">Falha ao avaliar a segurança.</string>
   <string name="error_generic">Falha não especificada ao ligar.</string>
@@ -179,7 +177,6 @@
     <item quantity="other">A religar em %1$d segundos</item>
   </plurals>
   <string name="connection_failed">A ligação falhou</string>
-  <string name="support_page">Página de suporte</string>
   <string name="create_new_profile">CRIAR NOVO PERFIL</string>
   <string name="excludeAppsTitle">Excluir aplicações</string>
   <string name="excludeAppsDescription">Adicione aplicações que deseja excluir do seu tráfego VPN.</string>
@@ -222,8 +219,6 @@
   <string name="notConnected">Não há ligação\na um servidor</string>
   <string name="activityLicensesTitle">Licenças de terceiros</string>
   <string name="stateFragmentUnknownIp">Desconhecido</string>
-  <string name="successful_migration_message">Bem-vindo ao ProtonVPN 2.0! Todas as suas configurações e perfis foram migrados, pode agora desinstalar com segurança a aplicação antiga.</string>
-  <string name="successful_migration_uninstall">Desinstalar agora</string>
   <string name="error_prepare_vpn_description"><![CDATA[Por favor, desactive a opção Sempre ligada para todas as outras aplicações VPN nas definições do sistema Android, elas impedem o ProtonVPN de estabelecer uma ligação VPN. Conceda também permissões, se um diálogo aparecer. As outras aplicações VPN podem também precisar de ser desinstaladas para evitar conflitos. Tente novamente a seguir. <a href="%1$s">Saiba mais</a>]]></string>
   <string name="error_prepare_vpn_settings">Ir para as configurações de VPN do Android</string>
   <string name="error_prepare_vpn_title">Erro: problema de permissões VPN</string>
@@ -399,7 +394,7 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">Indisponível</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notificações do VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Notificações do VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Receba notificações quando o VPN Accelerator mudar para um servidor mais rápido</string>
   <string name="dialogTitleReconnectionNeeded">Requerida nova ligação</string>
   <string name="settingsSmartReconnectReconnectDialogContent">A sua ligação tem de ser reiniciada para alterar o modo do VPN Accelerator.</string>
@@ -451,4 +446,10 @@ Siga estes passos para activar a VPN Sempre ligada e o Kill Switch:"</string>
   <string name="server_load_medium">Média</string>
   <string name="server_load_high">Alta</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">A ligação tem de ser reiniciada para alterar o modo Secure Core.</string>
+  <string name="dialogContinue">Continuar</string>
+  <string name="error_server_unreachable">Impossível ligar à VPN. Por favor, verifique a sua ligação e tente novamente.</string>
+  <string name="errorWireguardWithPlaceholder">Erro WireGuard %1$s</string>
+  <string name="serverNoWireguardSupport">O servidor deste perfil ainda não suporta o WireGuard. Para ligar, tente outro protocolo ou um servidor que suporte o WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">O VPN Accelerator activa um conjunto único de tecnologias que melhoram o desempenho, podendo aumentar a velocidade da VPN até 400%%. &lt;a href="%1$s"&gt;Saiba mais&lt;/a&gt;.</string>
 </resources>

@@ -55,7 +55,6 @@ import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SecureCoreCallback;
 import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
-import com.protonvpn.android.migration.NewAppMigrator;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -73,7 +72,6 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -197,13 +195,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         });
 
         serverListUpdater.startSchedule(getLifecycle(), this);
-
-        if (Storage.getBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD)) {
-            if (AndroidUtils.INSTANCE.isPackageInstalled(this, NewAppMigrator.OLD_APP_ID)) {
-                showMigrationDialog();
-            }
-            Storage.saveBoolean(NewAppMigrator.PREFS_MIGRATED_FROM_OLD, false);
-        }
     }
 
     @Override
@@ -224,16 +215,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
-    }
-
-    private void showMigrationDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage(R.string.successful_migration_message);
-        Intent oldAppIntent = AndroidUtils.INSTANCE.playMarketIntentFor(NewAppMigrator.OLD_APP_ID);
-        dialog.setPositiveButton(R.string.successful_migration_uninstall,
-            (dialogInterface, button) -> startActivity(oldAppIntent));
-        dialog.setNegativeButton(R.string.ok, null);
-        dialog.create().show();
     }
 
     private void checkForUpdate() {

@@ -23,18 +23,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class DefaultPorts(
-    @SerialName(value = "UDP") private val udpPorts: List<Int>,
-    @SerialName(value = "TCP") private val tcpPorts: List<Int>
-) {
-    fun getUdpPorts(): List<Int> =
-        if (udpPorts.isEmpty()) DEFAULT_PORT_LIST else udpPorts
-
-    fun getTcpPorts(): List<Int> =
-        if (tcpPorts.isEmpty()) DEFAULT_PORT_LIST else tcpPorts
-
-    companion object {
-        private val DEFAULT_PORT_LIST = listOf(443)
-        val defaults: DefaultPorts
-            get() = DefaultPorts(DEFAULT_PORT_LIST, DEFAULT_PORT_LIST)
-    }
-}
+    @SerialName(value = "UDP") val udpPorts: List<Int>,
+    @SerialName(value = "TCP") val tcpPorts: List<Int> = emptyList()
+)

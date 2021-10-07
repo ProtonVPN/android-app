@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import com.protonvpn.android.R;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +36,9 @@ public class ProtonLoader extends FrameLayout {
 
     @BindView(R.id.loaderCircle) View loaderCircle;
     @BindView(R.id.loaderCircle2) View loaderCircle2;
+
+    @Nullable
+    private AnimatorSet animations;
 
     public ProtonLoader(@NonNull Context context) {
         super(context);
@@ -51,20 +55,39 @@ public class ProtonLoader extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.item_proton_loader, this);
         ButterKnife.bind(this);
-        animateView(loaderCircle);
-        animateView(loaderCircle2);
-    }
-
-    private void animateView(View view) {
-        AnimatorSet set =
-            (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.animation_rotate);
-        set.setTarget(view);
-        set.start();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         init();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        stopAnimations();
+        animations = new AnimatorSet();
+        animations.playTogether(animateView(loaderCircle), animateView(loaderCircle2));
+        animations.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        stopAnimations();
+        super.onDetachedFromWindow();
+    }
+
+    private AnimatorSet animateView(View view) {
+        AnimatorSet set =
+            (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.animation_rotate);
+        set.setTarget(view);
+        return set;
+    }
+
+    private void stopAnimations() {
+        if (animations != null) {
+            animations.cancel();
+        }
     }
 }

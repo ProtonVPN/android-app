@@ -186,9 +186,8 @@
     <string name="state_disconnecting">Disconnecting&#8230;</string>
     <string name="state_error">Error</string>
 
-    <string name="error_lookup_failed">Gateway address lookup failed.</string>
-    <string name="error_unreachable">Gateway is unreachable.</string>
-    <string name="error_peer_auth_failed">Verifying gateway authentication failed.</string>
+    <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
+    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">User authentication failed.</string>
     <string name="error_assessment_failed">Security assessment failed.</string>
     <string name="error_generic">Unspecified failure while connecting.</string>
@@ -202,10 +201,12 @@
         <item quantity="other">Reconnection in %1$d seconds</item>
     </plurals>
     <string name="connection_failed">Connection failed</string>
-    <string name="support_page">Support page</string>
     <string name="create_new_profile">CREATE NEW PROFILE</string>
     <string name="excludeAppsTitle">Exclude Apps</string>
     <string name="excludeAppsDescription">Add apps you want to exclude from your VPN traffic.</string>
+    <string name="excludeAppsRegularSectionTitle">Regular apps</string>
+    <string name="excludeAppsSystemSectionTitle">System apps and services</string>
+    <string name="excludeAppsLoadSystemAppsButton">Show system apps</string>
     <string name="profile_name">Profile name</string>
     <string name="profile_color">Profile color</string>
     <string name="secure_core">Secure Core</string>
@@ -245,8 +246,6 @@
     <string name="notConnected">You are not connected \n to a server</string>
     <string name="activityLicensesTitle">Third party licenses</string>
     <string name="stateFragmentUnknownIp">Unknown</string>
-    <string name="successful_migration_message">Welcome to ProtonVPN 2.0! All your settings and profiles have been migrated and you can now safely uninstall the old app.</string>
-    <string name="successful_migration_uninstall">Uninstall now</string>
     <string name="error_prepare_vpn_description"><![CDATA[Please disable Always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents ProtonVPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Go to Android VPN settings</string>
     <string name="error_prepare_vpn_title">Error: VPN permission problem</string>

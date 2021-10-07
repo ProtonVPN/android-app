@@ -164,9 +164,7 @@
   <string name="state_connected">Conectado</string>
   <string name="state_disconnecting">Desconectando…</string>
   <string name="state_error">Error</string>
-  <string name="error_lookup_failed">La búsqueda de la dirección de la puerta de enlace ha fallado.</string>
-  <string name="error_unreachable">La puerta de enlace es inalcanzable.</string>
-  <string name="error_peer_auth_failed">Verificando la autenticación de la puerta de enlace que falló.</string>
+  <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
   <string name="error_auth_failed">Autenticación de usuario fallida.</string>
   <string name="error_assessment_failed">La evaluación de seguridad falló.</string>
   <string name="error_generic">Error no especificado al conectar.</string>
@@ -179,7 +177,6 @@
     <item quantity="other">Reconexión en %1$d segundos</item>
   </plurals>
   <string name="connection_failed">La conexión falló</string>
-  <string name="support_page">Página de soporte</string>
   <string name="create_new_profile">CREAR PERFIL NUEVO</string>
   <string name="excludeAppsTitle">Excluir aplicaciones</string>
   <string name="excludeAppsDescription">Agregue aplicaciones que desea excluir de su tráfico VPN.</string>
@@ -222,8 +219,6 @@
   <string name="notConnected">No estás conectado a un servidor \n</string>
   <string name="activityLicensesTitle">Licencias de terceros</string>
   <string name="stateFragmentUnknownIp">Desconocido</string>
-  <string name="successful_migration_message">¡Bienvenido a ProtonVPN 2.0! Todos sus ajustes y perfiles han sido migrados y ahora puede desinstalar de forma segura la aplicación anterior.</string>
-  <string name="successful_migration_uninstall">Desinstalar ahora</string>
   <string name="error_prepare_vpn_description"><![CDATA[Por favor, deshabilite la VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema VPN de Android, ya que eso evita que ProtonVPN pueda establecer una conexión VPN. Por favor, otorgue también permisos VPN si aparece un cuadro de diálogo que solicite los permisos VPN. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después, por favor intentelo de nuevo. <a href="%1$s">Más información</a>]]></string>
   <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
   <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>
@@ -399,7 +394,7 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="tv_server_list">Lista de servidores</string>
   <string name="tv_server_list_action_unavailable">No disponible</string>
   <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de VPN Accelerator</string>
+  <string name="settingsSmartReconnectNotificationsTitle">Notificaciones de VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Recibe notificaciones cuando VPN Accelerator te cambie a un servidor más rápido</string>
   <string name="dialogTitleReconnectionNeeded">Reconexión necesaria</string>
   <string name="settingsSmartReconnectReconnectDialogContent">Tu conexión debe reiniciarse para cambiar el modo VPN Accelerator.</string>
@@ -451,4 +446,10 @@ Siga estos pasos para activar VPN siempre activa y Kill Switch: "</string>
   <string name="server_load_medium">Media</string>
   <string name="server_load_high">Alta</string>
   <!-- Override Human verification links from core -->
+  <string name="reconnectOnSecureCoreChangeDialogMessage">Tu conexión necesita ser reiniciada para cambiar al modo Secure Core.</string>
+  <string name="dialogContinue">Continuar</string>
+  <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
+  <string name="errorWireguardWithPlaceholder">WireGuard error %1$s</string>
+  <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
+  <string name="settingsVpnAcceleratorDescription">VPN Accelerator permite un conjunto de tecnologías de mejora de rendimiento únicas que pueden aumentar la velocidade de la VPN hasta un 400%%. &lt;a href="%1$s"&gt;Saber más&lt;/a&gt;.</string>
 </resources>

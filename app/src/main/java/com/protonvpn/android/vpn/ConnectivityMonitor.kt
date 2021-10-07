@@ -65,10 +65,6 @@ class ConnectivityMonitor(
 
     val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
 
-    // This means current connection goes through VPN tunnel. It doesn't mean connection is fully functional (we can
-    // be hard-jailed for example) - for that use VpnStateMonitor
-    val vpnActive get() = currentCapabilities[NOT_VPN] == false
-
     private val capabilitiesConstantMap = mutableMapOf(
         "MMS" to NET_CAPABILITY_MMS,
         "SUPL" to NET_CAPABILITY_SUPL,

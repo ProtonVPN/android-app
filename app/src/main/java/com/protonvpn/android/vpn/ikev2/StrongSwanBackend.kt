@@ -31,7 +31,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -44,31 +43,30 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.util.kotlin.DispatcherProvider
 import org.strongswan.android.logic.VpnStateService
-import java.io.ByteArrayOutputStream
 import java.util.Random
-import java.util.concurrent.TimeUnit
 
 class StrongSwanBackend(
     val random: Random,
     networkManager: NetworkManager,
     mainScope: CoroutineScope,
-    val now: () -> Long,
     userData: UserData,
     appConfig: AppConfig,
-    certificateRepository: CertificateRepository
+    certificateRepository: CertificateRepository,
+    dispatcherProvider: DispatcherProvider
 ) : VpnBackend(
     userData,
     appConfig,
     certificateRepository,
     networkManager,
     VpnProtocol.IKEv2,
-    mainScope
+    mainScope,
+    dispatcherProvider
 ), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null
     private val serviceProvider = Channel<VpnStateService>()
-    private var lastUnreachable = 0L
 
     init {
         bindCharonMonitor()
@@ -89,28 +87,22 @@ class StrongSwanBackend(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int
+        numberOfPorts: Int, // unused, IKEv2 uses 2 ports and both need to be functional
+        waitForAll: Boolean // as above
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        if (!scan || isServerAvailable(connectingDomain.entryIp)) return listOf(
-            PrepareResult(this, ConnectionParamsIKEv2(profile, server, connectingDomain)))
-        return emptyList()
+        val result = listOf(PrepareResult(this, ConnectionParamsIKEv2(profile, server, connectingDomain)))
+        return if (!scan)
+            result
+        else {
+            val ports = STRONGSWAN_PORTS
+            val availablePorts = scanUdpPorts(connectingDomain, ports, ports.size, true)
+            if (availablePorts.toSet() == ports.toSet())
+                result
+            else
+                emptyList()
+        }
     }
-
-    private suspend fun isServerAvailable(ip: String) =
-        NetUtils.ping(ip, STRONGSWAN_PORT, getPingData(), tcp = false, timeout = 5000)
-
-    @Suppress("MagicNumber")
-    private fun getPingData() = ByteArrayOutputStream().apply {
-        repeat(8) { write(random.nextInt(256)) } // my SPI
-        repeat(8) { write(0) } // other SPI
-        write(0x21) // Security association
-        write(0x20) // Version 2
-        write(0x22) // IKE_SA_INIT
-        write(0x08) // Initiator, no higher version, request
-        repeat(4) { write(0) } // Message id
-        repeat(4) { write(0) } // Length = 0
-    }.toByteArray()
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
@@ -168,23 +160,11 @@ class StrongSwanBackend(
 
     override fun stateChanged() {
         vpnService?.let {
-            val newState = translateState(it.state, it.errorState)
-            if (newState.isUnreachable()) {
-                // Limit frequency of unreachable notifications
-                if (vpnProtocolState.isUnreachable() && now() - lastUnreachable < UNREACHABLE_MIN_INTERVAL_MS)
-                    return
-                lastUnreachable = now()
-            }
-            vpnProtocolState = newState
+            vpnProtocolState = translateState(it.state, it.errorState)
         }
     }
 
-    private fun VpnState.isUnreachable() = (this as? VpnState.Error)?.type.let {
-        it == ErrorType.UNREACHABLE_INTERNAL || it == ErrorType.UNREACHABLE
-    }
-
     companion object {
-        private const val STRONGSWAN_PORT = 500
-        private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
+        private val STRONGSWAN_PORTS = listOf(500, 4500)
     }
 }

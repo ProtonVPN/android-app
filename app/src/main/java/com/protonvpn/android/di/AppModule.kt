@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.di
 
+import android.app.ActivityManager
+import android.content.Context
 import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
@@ -99,6 +101,10 @@ class AppModule {
     @Provides
     fun provideServerManager(userData: UserData) =
         ServerManager(ProtonApplication.getAppContext(), userData)
+
+    @Provides
+    fun provideActivityManager(): ActivityManager =
+        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Singleton
     @Provides
@@ -182,8 +188,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, connectivityMonitor: ConnectivityMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, connectivityMonitor)
+    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
@@ -262,6 +268,7 @@ class AppModule {
         notificationHelper,
         serverManager,
         scope,
+        System::currentTimeMillis
     )
 
     @Singleton
@@ -301,17 +308,19 @@ class AppModule {
         appConfig: AppConfig,
         serverManager: ServerManager,
         certificateRepository: CertificateRepository,
-        wireguardBackend: WireguardBackend
+        wireguardBackend: WireguardBackend,
+        dispatcherProvider: DispatcherProvider
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
+            appConfig,
             StrongSwanBackend(
                 random,
                 networkManager,
                 scope,
-                System::currentTimeMillis,
                 userData,
                 appConfig,
-                certificateRepository
+                certificateRepository,
+                dispatcherProvider
             ),
             OpenVpnBackend(
                 random,
@@ -320,7 +329,8 @@ class AppModule {
                 appConfig,
                 System::currentTimeMillis,
                 certificateRepository,
-                scope
+                scope,
+                dispatcherProvider
             ),
             wireguardBackend,
             serverManager
@@ -333,6 +343,7 @@ class AppModule {
         networkManager: NetworkManager,
         appConfig: AppConfig,
         certificateRepository: CertificateRepository,
+        dispatcherProvider: DispatcherProvider
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
         GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
@@ -340,6 +351,7 @@ class AppModule {
         userData,
         appConfig,
         certificateRepository,
+        dispatcherProvider,
         scope
     )
 

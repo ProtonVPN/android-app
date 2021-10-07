@@ -26,29 +26,43 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.parallelSearch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
-import localAgent.AgentConnection
-import localAgent.Features
-import localAgent.NativeClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.vpn.golib.localAgent.AgentConnection
+import me.proton.vpn.golib.localAgent.Features
+import me.proton.vpn.golib.localAgent.LocalAgent
+import me.proton.vpn.golib.localAgent.NativeClient
+import me.proton.vpn.golib.localAgent.StatusMessage
+import me.proton.vpn.golib.vpnPing.VpnPing
+
+private const val SCAN_TIMEOUT_MILLIS = 5000L
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
 interface VpnBackendProvider {
-    suspend fun prepareConnection(protocol: VpnProtocol, profile: Profile, server: Server): PrepareResult?
+    suspend fun prepareConnection(
+        protocol: VpnProtocol,
+        profile: Profile,
+        server: Server,
+        alwaysScan: Boolean = true
+    ): PrepareResult?
 
     // Returns first from [preferenceList] that responded in a given time frame or null
     // [fullScanServer] when set will have all ports scanned.
@@ -58,6 +72,7 @@ interface VpnBackendProvider {
 
 interface AgentConnectionInterface {
     val state: String
+    val status: StatusMessage?
     fun setFeatures(features: Features)
     fun setConnectivity(connectivity: Boolean)
     fun close()
@@ -69,14 +84,17 @@ abstract class VpnBackend(
     val certificateRepository: CertificateRepository,
     private val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
-    val mainScope: CoroutineScope
+    val mainScope: CoroutineScope,
+    val dispatcherProvider: DispatcherProvider,
 ) : VpnStateSource {
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
         scan: Boolean,
-        numberOfPorts: Int = Int.MAX_VALUE // Max number of ports to be scanned
+        numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
+        waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
+                                    // response
     ): List<PrepareResult>
 
     protected var lastConnectionParams: ConnectionParams? = null
@@ -116,6 +134,7 @@ abstract class VpnBackend(
         )
 
         override val state: String get() = agent.state
+        override val status: StatusMessage? get() = agent.status
 
         override fun setFeatures(features: Features) {
             agent.setFeatures(features)
@@ -156,7 +175,7 @@ abstract class VpnBackend(
                     revokeCertificateAndReconnect()
 
                 agentConstants.errorCodeCertificateExpired ->
-                    refreshCertOnLocalAgent()
+                    refreshCertOnLocalAgent(force = false)
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
                     setLocalAgentError("Key used multiple times")
@@ -174,6 +193,10 @@ abstract class VpnBackend(
                 agentConstants.errorCodeRestrictedServer ->
                     // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
                     ProtonLogger.log("Local agent: Restricted server, waiting...")
+                else -> {
+                    if (agent?.status?.reason?.final == true)
+                        setLocalAgentError(description)
+                }
             }
         }
 
@@ -182,7 +205,7 @@ abstract class VpnBackend(
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
 
-        override fun onStatusUpdate(status: localAgent.StatusMessage) {}
+        override fun onStatusUpdate(status: StatusMessage) {}
     }
 
     private fun setAuthError(description: String? = null) =
@@ -202,7 +225,7 @@ abstract class VpnBackend(
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
     private val features: Features = Features()
-    private val agentConstants = localAgent.LocalAgent.constants()
+    private val agentConstants = LocalAgent.constants()
 
     init {
         mainScope.launch {
@@ -262,9 +285,15 @@ abstract class VpnBackend(
                 VpnState.Connected
             agentConstants.stateConnectionError,
             agentConstants.stateServerUnreachable ->
+                // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
+                // instead of UNREACHABLE_INETRNAL to skip recovery with pings, as those won't help in this situation.
                 VpnState.Error(ErrorType.UNREACHABLE)
-            agentConstants.stateClientCertificateError -> {
-                refreshCertOnLocalAgent()
+            agentConstants.stateClientCertificateExpiredError -> {
+                refreshCertOnLocalAgent(force = false)
+                VpnState.Connecting
+            }
+            agentConstants.stateClientCertificateUnknownCA -> {
+                refreshCertOnLocalAgent(force = true)
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
@@ -280,11 +309,15 @@ abstract class VpnBackend(
         }
     }
 
-    private fun refreshCertOnLocalAgent() {
+    private fun refreshCertOnLocalAgent(force: Boolean) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
+            val result = if (force)
+                certificateRepository.updateCertificate(userData.sessionId!!, false)
+            else
+                certificateRepository.getCertificate(userData.sessionId!!, false)
+            when (result) {
                 is CertificateRepository.CertificateResult.Success ->
                     connectToLocalAgent()
                 is CertificateRepository.CertificateResult.Error -> {
@@ -351,6 +384,28 @@ abstract class VpnBackend(
         }
         if (selfState == VpnState.Disconnecting)
             setSelfState(VpnState.Disabled)
+    }
+
+    protected suspend fun scanUdpPorts(
+        connectingDomain: ConnectingDomain,
+        ports: List<Int>,
+        numberOfPorts: Int,
+        waitForAll: Boolean
+    ): List<Int> = withContext(dispatcherProvider.Io) {
+        if (connectingDomain.publicKeyX25519 == null)
+            emptyList()
+        else {
+            val candidatePorts = if (numberOfPorts < ports.size)
+                ports.shuffled().take(numberOfPorts)
+            else
+                ports.shuffled()
+
+            ProtonLogger.log("${connectingDomain.entryDomain}/$vpnProtocol port scan: $candidatePorts")
+            candidatePorts.parallelSearch(waitForAll) {
+                VpnPing.pingSync(connectingDomain.entryIp, it.toLong(),
+                    connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS)
+            }
+        }
     }
 
     companion object {

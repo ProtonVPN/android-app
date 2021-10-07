@@ -25,6 +25,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -61,6 +62,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
+import me.proton.vpn.golib.localAgent.LocalAgent
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -111,12 +113,13 @@ class VpnConnectionTests {
 
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
-    private val agentConsts = localAgent.LocalAgent.constants()
+    private val agentConsts = LocalAgent.constants()
     private val validCert =
         CertificateRepository.CertificateResult.Success("good_cert", "good_key")
     private val badCert =
         CertificateRepository.CertificateResult.Success("bad_cert", "bad_key")
     private lateinit var currentCert: CertificateRepository.CertificateResult.Success
+    private var time = 0L
 
     @Before
     fun setup() {
@@ -127,6 +130,8 @@ class VpnConnectionTests {
         every { userData.sessionId } returns SessionId("1")
         networkManager = MockNetworkManager()
 
+        every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
+            ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
         mockStrongSwan = spyk(MockVpnBackend(
             scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2))
         mockOpenVpn = spyk(MockVpnBackend(
@@ -140,12 +145,13 @@ class VpnConnectionTests {
             strongSwan = mockStrongSwan,
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
-            serverDeliver = serverManager
+            serverDeliver = serverManager,
+            config = appConfig
         )
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockk(relaxed = true), scope)
+            mockk(relaxed = true), mockk(relaxed = true), scope, ::time)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -194,6 +200,7 @@ class VpnConnectionTests {
 
     @Test
     fun testSmartFallbackToOpenVPN() = runBlockingTest {
+        mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         manager.connect(context, profileSmart)
         yield()
@@ -204,6 +211,7 @@ class VpnConnectionTests {
 
     @Test
     fun testAllBlocked() = runBlockingTest {
+        mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
         userData.manualProtocol = VpnProtocol.OpenVPN
@@ -212,8 +220,8 @@ class VpnConnectionTests {
 
         // When scanning fails we'll fallback to attempt connecting with default manual protocol
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -222,16 +230,15 @@ class VpnConnectionTests {
     @Test
     fun smartNoInternet() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        userData.manualProtocol = VpnProtocol.OpenVPN
         manager.connect(context, profileSmart)
         yield()
 
         coVerify(exactly = 0) {
-            mockStrongSwan.prepareForConnection(any(), any(), any())
+            mockOpenVpn.prepareForConnection(any(), any(), any())
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
-            mockOpenVpn.connect(any())
+            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.connect(any())
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -291,7 +298,6 @@ class VpnConnectionTests {
 
     @Test
     fun guestHoleFail() = runBlockingTest {
-        mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
@@ -459,6 +465,13 @@ class VpnConnectionTests {
 
     @Test
     fun testExpiredCert() = runBlockingTest {
+        coEvery { certificateRepository.getCertificate(any(), any()) } coAnswers {
+            if (currentCert == badCert)
+                certificateRepository.updateCertificate(userData.sessionId!!, false)
+            else
+                currentCert
+        }
+
         currentCert = badCert
         manager.connect(context, profileWireguard)
         scope.advanceUntilIdle()

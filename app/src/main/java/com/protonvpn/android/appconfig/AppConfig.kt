@@ -74,17 +74,34 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
 
     fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
 
-    fun getOpenVPNPorts(): DefaultPorts = appConfigResponse.defaultPorts!!
+    fun getOpenVPNPorts(): DefaultPorts = getDefaultPortsConfig().getOpenVPNPorts()
+
+    fun getWireguardPorts(): DefaultPorts = getDefaultPortsConfig().getWireguardPorts()
+
+    private fun getDefaultPortsConfig() : DefaultPortsConfig = appConfigResponse.defaultPortsConfig ?: DefaultPortsConfig.defaultConfig
+
+    fun getSmartProtocolConfig(): SmartProtocolConfig {
+        val smartConfig = appConfigResponse.smartProtocolConfig
+        return smartConfig ?: getDefaultConfig().smartProtocolConfig!!
+    }
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     fun getLiveConfig(): LiveData<AppConfigResponse> = appConfigResponseObservable
 
     private fun getDefaultConfig(): AppConfigResponse {
-        val defaultPorts = OpenVPNConfigResponse(DefaultPorts.defaults)
+        val defaultPorts = DefaultPortsConfig.defaultConfig
         val defaultFeatureFlags = FeatureFlags()
-        return AppConfigResponse(openVPNConfigResponse = defaultPorts,
-                featureFlags = defaultFeatureFlags)
+        val defaultSmartProtocolConfig = SmartProtocolConfig(
+            ikeV2Enabled = true,
+            openVPNEnabled = true,
+            wireguardEnabled = false
+        )
+        return AppConfigResponse(
+            defaultPortsConfig = defaultPorts,
+            featureFlags = defaultFeatureFlags,
+            smartProtocolConfig = defaultSmartProtocolConfig
+        )
     }
 
     companion object {

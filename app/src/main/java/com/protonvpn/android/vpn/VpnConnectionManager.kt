@@ -51,11 +51,18 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import io.sentry.event.EventBuilder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
+
+private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
+private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
 @Singleton
 open class VpnConnectionManager(
@@ -67,7 +74,8 @@ open class VpnConnectionManager(
     private val vpnStateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
     private val serverManager: ServerManager,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val now: () -> Long
 ) : VpnStateSource {
 
     companion object {
@@ -86,6 +94,7 @@ open class VpnConnectionManager(
 
     private var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
+    private var lastUnreachable = Long.MIN_VALUE
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
 
@@ -122,9 +131,11 @@ open class VpnConnectionManager(
 
                 if (errorType != null && errorType in RECOVERABLE_ERRORS) {
                     if (ongoingFallback?.isActive != true) {
-                        ongoingFallback = scope.launch {
-                            handleRecoverableError(errorType, connectionParams!!)
-                            ongoingFallback = null
+                        if (!skipFallback(errorType)) {
+                            ongoingFallback = scope.launch {
+                                handleRecoverableError(errorType, connectionParams!!)
+                                ongoingFallback = null
+                            }
                         }
                     }
                 } else {
@@ -162,6 +173,13 @@ open class VpnConnectionManager(
 
         initialized = true
     }
+
+    private fun skipFallback(errorType: ErrorType) =
+        errorType == ErrorType.UNREACHABLE_INTERNAL &&
+            (lastUnreachable > now() - UNREACHABLE_MIN_INTERVAL_MS).also { skip ->
+                if (!skip)
+                    lastUnreachable = now()
+            }
 
     private fun activateBackend(newBackend: VpnBackend) {
         DebugUtils.debugAssert {
@@ -272,20 +290,19 @@ open class VpnConnectionManager(
             ProtonLogger.log("Disconnected, start connecting to new server.")
         }
 
-        if (profile.getProtocol(userData) == VpnProtocol.Smart)
-            setSelfState(VpnState.ScanningPorts)
+        setSelfState(VpnState.ScanningPorts)
 
         var protocol = profile.getProtocol(userData)
-        if (!networkManager.isConnectedToNetwork() && protocol == VpnProtocol.Smart)
-            protocol = userData.manualProtocol
-        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server)
+        val hasNetwork = networkManager.isConnectedToNetwork()
+        if (!hasNetwork && protocol == VpnProtocol.Smart)
+            protocol = FALLBACK_PROTOCOL
+        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
-            ProtonLogger.log("Smart protocol: no protocol available for ${server.domain}, " +
-                "falling back to ${userData.manualProtocol}")
+            val fallbackProtocol = if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
+            ProtonLogger.log("No response for ${server.domain}, using fallback $fallbackProtocol")
 
-            // If port scanning fails (because e.g. some temporary network situation) just connect
-            // without smart protocol
-            preparedConnection = backendProvider.prepareConnection(userData.manualProtocol, profile, server)!!
+            // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
+            preparedConnection = backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
         }
 
         preparedConnect(preparedConnection)

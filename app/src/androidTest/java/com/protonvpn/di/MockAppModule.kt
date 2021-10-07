@@ -18,6 +18,8 @@
  */
 package com.protonvpn.di
 
+import android.app.ActivityManager
+import android.content.Context
 import android.os.SystemClock
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
@@ -90,6 +92,10 @@ class MockAppModule {
     @Provides
     fun provideServerManager(userData: UserData) =
         ServerManager(ProtonApplication.getAppContext(), userData)
+
+    @Provides
+    fun provideActivityManager(): ActivityManager =
+        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Singleton
     @Provides
@@ -172,8 +178,8 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, connectivityMonitor: ConnectivityMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, connectivityMonitor)
+    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
+        VpnApiClient(scope, userData, vpnStateMonitor)
 
     @Singleton
     @Provides
@@ -254,7 +260,8 @@ class MockAppModule {
         vpnStateMonitor,
         notificationHelper,
         serverManager,
-        scope
+        scope,
+        System::currentTimeMillis
     )
 
     @Singleton
@@ -301,7 +308,9 @@ class MockAppModule {
                 VpnProtocol.OpenVPN),
             wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
                 VpnProtocol.WireGuard),
-            serverDeliver = serverManager)
+            serverDeliver = serverManager,
+            config = appConfig
+    )
 
     @Singleton
     @Provides
@@ -309,6 +318,7 @@ class MockAppModule {
         userData: UserData,
         networkManager: NetworkManager,
         appConfig: AppConfig,
+        dispatcherProvider: DispatcherProvider,
         certificateRepository: CertificateRepository,
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
@@ -317,6 +327,7 @@ class MockAppModule {
         userData,
         appConfig,
         certificateRepository,
+        dispatcherProvider,
         scope
     )
 
