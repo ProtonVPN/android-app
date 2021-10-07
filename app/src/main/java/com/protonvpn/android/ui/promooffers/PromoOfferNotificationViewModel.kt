@@ -21,13 +21,19 @@ package com.protonvpn.android.ui.promooffers
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.mapMany
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,11 +41,10 @@ class PromoOfferNotificationViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
 ) : ViewModel() {
 
-    val eventOpenPromoOffer = MutableSharedFlow<String>(extraBufferCapacity = 1)
-
     data class Notification(
         val id: String,
         val iconUrl: String,
+        val pictureUrlForPreload: String,
         val visited: Boolean
     )
 
@@ -48,6 +53,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
     private var visitedOffersObservable =
         MutableLiveData(Storage.load(VisitedOffers::class.java, VisitedOffers()))
 
+    val eventOpenPromoOffer = MutableSharedFlow<Notification>(extraBufferCapacity = 1)
     val offerNotification get() = mapMany(
         apiNotificationManager.activeListObservable,
         visitedOffersObservable
@@ -58,15 +64,27 @@ class PromoOfferNotificationViewModel @Inject constructor(
             Notification(
                 notification.id,
                 notification.offer!!.iconUrl,
+                notification.offer.panel!!.pictureUrl,
                 visitedOffers.contains(notification.id)
             )
         }
     }.distinctUntilChanged()
 
+    init {
+        // Prefetch the main picture.
+        viewModelScope.launch {
+            offerNotification.asFlow().collect { notification ->
+                if (notification?.visited == false) {
+                    Glide.with(ProtonApplication.getAppContext()).download(notification.pictureUrlForPreload).preload()
+                }
+            }
+        }
+    }
+
     fun onOpenOffer(offerNotification: Notification) {
         visitedOffersObservable.value!!.add(offerNotification.id)
         visitedOffersObservable.value = visitedOffersObservable.value
         Storage.save(visitedOffersObservable.value)
-        eventOpenPromoOffer.tryEmit(offerNotification.id)
+        eventOpenPromoOffer.tryEmit(offerNotification)
     }
 }
