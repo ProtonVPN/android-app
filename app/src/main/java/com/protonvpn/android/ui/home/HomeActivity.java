@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.home;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -36,8 +35,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
@@ -65,7 +62,6 @@ import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
-import com.protonvpn.android.ui.promooffers.NotificationDotDrawableWrapper;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
@@ -75,7 +71,8 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.ui.promooffers.PromoOfferActivity;
+import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
+import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -97,7 +94,6 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -187,13 +183,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        viewModel.getOfferNotification().observe(this, this::updateOfferNotification);
-        viewModel.getEventOpenPromoOfferLV().observe(this, this::openOfferActivity);
-
         viewModel.collectPlanChange(this, changes -> {
             onPlanChanged(changes);
             return Unit.INSTANCE;
         });
+        new PromoOfferNotificationHelper(this, imageNotification,
+            new ViewModelProvider(this, viewModelFactory).get(PromoOfferNotificationViewModel.class));
 
         serverListUpdater.startSchedule(getLifecycle(), this);
     }
@@ -601,35 +596,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         TypedValue value = new TypedValue();
         view.getContext().getTheme().resolveAttribute(attr, value, true);
         return value.resourceId;
-    }
-
-    private void updateOfferNotification(@Nullable HomeViewModel.Notification notification) {
-        imageNotification.setVisibility(notification != null ? View.VISIBLE : View.GONE);
-        if (notification != null) {
-            // Clear the target to force Glide to reevaluate the request even if it is for the same URL,
-            // especially when the "visited" state has changed.
-            Glide.with(this).clear(imageNotification);
-            Glide.with(this)
-                .asDrawable()
-                .load(notification.getIconUrl())
-                .error(R.drawable.ic_gift)
-                .into(new DrawableImageViewTarget(imageNotification) {
-                    @Override
-                    public void setDrawable(@Nullable Drawable drawable) {
-                        super.setDrawable(getNotificationDrawable(drawable, notification.getVisited()));
-                    }
-                });
-            imageNotification.setOnClickListener((view) -> viewModel.onOpenOffer(notification));
-        }
-    }
-
-    @Nullable
-    private Drawable getNotificationDrawable(@Nullable Drawable icon, boolean isVisited) {
-        return isVisited || icon == null ? icon : new NotificationDotDrawableWrapper(this, icon);
-    }
-
-    private void openOfferActivity(@NonNull String offerId) {
-        startActivity(PromoOfferActivity.createIntent(this, offerId));
     }
 
     private boolean canShowPopups() {
