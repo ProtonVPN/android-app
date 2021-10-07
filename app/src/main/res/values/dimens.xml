@@ -22,8 +22,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="drawer_icon_size">24dp</dimen>
-    <dimen name="new_indicator_size">8dp</dimen>
+    <dimen name="new_indicator_size">5dp</dimen>
+    <dimen name="screen_padding_horizontal">16dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
+
+    <!-- Promo offer panel (small screens) -->
+    <dimen name="offer_panel_bottom_margin">4dp</dimen>
+    <dimen name="offer_panel_picture_max_height">110dp</dimen>
+    <dimen name="offer_panel_title_bottom_margin">12dp</dimen>
+    <dimen name="offer_panel_feature_spacing">4dp</dimen>
+    <dimen name="offer_panel_content_button_distance">12dp</dimen>
 
     <!-- Android TV -->
     <dimen name="lb_browse_rows_margin_top">300dp</dimen>

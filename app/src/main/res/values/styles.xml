@@ -282,4 +282,9 @@
     <style name="CaptionRegular">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="CaptionMedium">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

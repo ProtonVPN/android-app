@@ -39,6 +39,9 @@ class ApiNotificationManager(
 
     val activeList get() = activeListObservable.value!!
 
+    fun getActiveNotification(id: String): ApiNotification? =
+        activeList.find { it.id == id }
+
     private fun getActiveNotifications(timeS: Long): List<ApiNotification> =
         appConfig.apiNotifications.filter {
             timeS >= it.startTime && timeS < it.endTime

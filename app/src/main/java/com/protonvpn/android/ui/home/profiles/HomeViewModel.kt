@@ -20,8 +20,9 @@ package com.protonvpn.android.ui.home.profiles
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.models.config.UserData
@@ -34,10 +35,11 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.eagerMapNotNull
+import com.protonvpn.android.utils.mapMany
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,44 +54,41 @@ class HomeViewModel @Inject constructor(
     certificateRepository: CertificateRepository
 ) : MainViewModel(userData, userPlanManager, certificateRepository) {
 
-    inner class OfferViewModel(
-        private val id: String,
-        val label: String,
-        val url: String,
+    val eventOpenPromoOffer = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    // TODO: remove when HomeActivity is converted to Kotlin.
+    val eventOpenPromoOfferLV = eventOpenPromoOffer.asLiveData()
+
+    data class Notification(
+        val id: String,
         val iconUrl: String,
         val visited: Boolean
-    ) {
-        fun setVisited() = setOfferVisited(id)
-    }
+    )
 
     // Wrapper class needed so that storage can use its class as key
     private class VisitedOffers(val visited: MutableSet<String>)
     private var visitedOffersObservable =
             MutableLiveData(Storage.load(VisitedOffers::class.java, VisitedOffers(mutableSetOf())))
-    private val visitedOffers get() = visitedOffersObservable.value!!.visited
 
-    val offersViewModel get() = apiNotificationManager.activeListObservable.eagerMapNotNull {
-        createApiNotificationViewModel()
-    }.apply {
-        addSource(visitedOffersObservable) { value = createApiNotificationViewModel() }
-    }
-
-    private fun createApiNotificationViewModel(): List<OfferViewModel> =
-        apiNotificationManager.activeList.filter {
-            it.type == ApiNotificationTypes.TYPE_OFFER
-        }.mapNotNull { apiNotification ->
-            apiNotification.offer?.let {
-                OfferViewModel(apiNotification.id, it.label, it.url, it.iconUrl, apiNotification.id in visitedOffers)
-            }
+    val offerNotification get() = mapMany(
+        apiNotificationManager.activeListObservable,
+        visitedOffersObservable
+    ) { notifications, visitedOffers ->
+        notifications.firstOrNull {
+            it.type == ApiNotificationTypes.TYPE_OFFER && it.offer != null && it.offer.panel != null
+        }?.let { notification ->
+            Notification(
+                notification.id,
+                notification.offer!!.iconUrl,
+                visitedOffers.visited.contains(notification.id)
+            )
         }
+    }.distinctUntilChanged()
 
-    val haveNonVisitedOffers =
-            offersViewModel.map { offer -> offer.any { !it.visited } }
-
-    fun setOfferVisited(id: String) {
-        visitedOffers.add(id)
+    fun onOpenOffer(offerNotification: Notification) {
+        visitedOffersObservable.value!!.visited.add(offerNotification.id)
         visitedOffersObservable.value = visitedOffersObservable.value
         Storage.save(visitedOffersObservable.value)
+        eventOpenPromoOffer.tryEmit(offerNotification.id)
     }
 
     // Temporary method to help java activity collect a flow

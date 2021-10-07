@@ -42,14 +42,6 @@ public class HomeRobot extends UIActionsTestHelper {
         clickOnObjectWithContentDescription(R.string.hamburgerMenu);
     }
 
-    public void checkOfferVisible(String label) {
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.drawerNotificationItem, label);
-    }
-
-    public void checkOfferNotVisible(String label) {
-        checkIfObjectWithIdAndTextIsNotDisplayed(R.id.drawerNotificationItem, label);
-    }
-
     public SettingsRobot openSettings() {
         clickOnObjectWithContentDescription(R.string.hamburgerMenu);
         clickOnObjectWithText("Settings");

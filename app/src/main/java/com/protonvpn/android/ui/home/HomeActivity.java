@@ -19,9 +19,9 @@
 package com.protonvpn.android.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -29,12 +29,15 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
@@ -59,10 +62,10 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.drawer.AccountActivity;
-import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
+import com.protonvpn.android.ui.promooffers.NotificationDotDrawableWrapper;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
@@ -72,6 +75,7 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
+import com.protonvpn.android.ui.promooffers.PromoOfferActivity;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -93,6 +97,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -121,7 +126,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
-    @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
+    @BindView(R.id.imageNotification) ImageView imageNotification;
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
@@ -156,12 +161,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         else {
             minimizedLoader.switchToEmpty();
         }
-        if (serverManager.isDownloadedAtLeastOnce()) {
+        if (canShowPopups()) {
             initOnboarding();
         }
 
         serverManager.getUpdateEvent().observe(this, () -> {
-            if (serverManager.isDownloadedAtLeastOnce()) {
+            if (canShowPopups()) {
                 initOnboarding();
                 EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
             }
@@ -182,12 +187,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        viewModel.getHaveNonVisitedOffers().observe(this, (unreadNotifications) ->
-            toggleDrawable.setShowIndicator(unreadNotifications));
-
-        viewModel.getOffersViewModel().observe(this, (notifications) -> {
-            drawerNotifications.updateNotifications(this, notifications);
-        });
+        viewModel.getOfferNotification().observe(this, this::updateOfferNotification);
+        viewModel.getEventOpenPromoOfferLV().observe(this, this::openOfferActivity);
 
         viewModel.collectPlanChange(this, changes -> {
             onPlanChanged(changes);
@@ -600,5 +601,38 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         TypedValue value = new TypedValue();
         view.getContext().getTheme().resolveAttribute(attr, value, true);
         return value.resourceId;
+    }
+
+    private void updateOfferNotification(@Nullable HomeViewModel.Notification notification) {
+        imageNotification.setVisibility(notification != null ? View.VISIBLE : View.GONE);
+        if (notification != null) {
+            // Clear the target to force Glide to reevaluate the request even if it is for the same URL,
+            // especially when the "visited" state has changed.
+            Glide.with(this).clear(imageNotification);
+            Glide.with(this)
+                .asDrawable()
+                .load(notification.getIconUrl())
+                .error(R.drawable.ic_gift)
+                .into(new DrawableImageViewTarget(imageNotification) {
+                    @Override
+                    public void setDrawable(@Nullable Drawable drawable) {
+                        super.setDrawable(getNotificationDrawable(drawable, notification.getVisited()));
+                    }
+                });
+            imageNotification.setOnClickListener((view) -> viewModel.onOpenOffer(notification));
+        }
+    }
+
+    @Nullable
+    private Drawable getNotificationDrawable(@Nullable Drawable icon, boolean isVisited) {
+        return isVisited || icon == null ? icon : new NotificationDotDrawableWrapper(this, icon);
+    }
+
+    private void openOfferActivity(@NonNull String offerId) {
+        startActivity(PromoOfferActivity.createIntent(this, offerId));
+    }
+
+    private boolean canShowPopups() {
+        return serverManager.isDownloadedAtLeastOnce();
     }
 }

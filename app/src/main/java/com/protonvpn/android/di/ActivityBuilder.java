@@ -33,6 +33,7 @@ import com.protonvpn.android.ui.home.profiles.ProfileActivity;
 import com.protonvpn.android.ui.login.TroubleshootActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
+import com.protonvpn.android.ui.promooffers.PromoOfferActivity;
 import com.protonvpn.android.vpn.openvpn.OpenVPNWrapperService;
 import com.protonvpn.android.vpn.ikev2.ProtonCharonVpnService;
 import com.protonvpn.android.vpn.wireguard.WireguardWrapperService;
@@ -51,6 +52,9 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {HomeActivityModule.class})
     abstract SwitchDialogActivity bindSwitchActivity();
+
+    @ContributesAndroidInjector(modules = {HomeActivityModule.class})
+    abstract PromoOfferActivity bindPromoOfferActivity();
 
     @ContributesAndroidInjector(modules = {LoginModule.class})
     abstract LoginActivity bindDetailActivity();
@@ -100,5 +104,4 @@ public abstract class ActivityBuilder {
     @RequiresApi(N)
     @ContributesAndroidInjector(modules = {QuickTileModule.class})
     abstract QuickTileService bindQuickTile();
-
 }

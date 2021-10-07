@@ -27,6 +27,7 @@ import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
+import com.protonvpn.android.ui.promooffers.PromoOfferActivity;
 
 import dagger.Binds;
 import dagger.Module;
@@ -40,6 +41,9 @@ public abstract class HomeActivityModule {
 
     @Binds
     abstract Activity providesSwitchActivity(SwitchDialogActivity activity);
+
+    @Binds
+    abstract Activity providesPromoOfferActivity(PromoOfferActivity activity);
 
     @ContributesAndroidInjector
     abstract VpnStateFragment provideStateFragment();
