@@ -29,6 +29,7 @@
     <!-- Promo offer panel (small screens) -->
     <dimen name="offer_panel_bottom_margin">4dp</dimen>
     <dimen name="offer_panel_picture_max_height">110dp</dimen>
+    <dimen name="offer_panel_picture_horizontal_margin">34dp</dimen>
     <dimen name="offer_panel_title_bottom_margin">12dp</dimen>
     <dimen name="offer_panel_feature_spacing">4dp</dimen>
     <dimen name="offer_panel_content_button_distance">12dp</dimen>

@@ -43,7 +43,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:orientation="vertical">
 
                 <TextView
@@ -51,6 +50,7 @@
                     style="@style/CaptionMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:gravity="center_horizontal"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/textPill"
@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_rounded_white_filled"
                     android:backgroundTint="#DC3251"
@@ -83,7 +84,7 @@
                     android:id="@+id/imagePicture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginHorizontal="@dimen/offer_panel_picture_horizontal_margin"
                     android:adjustViewBounds="true"
                     android:maxHeight="@dimen/offer_panel_picture_max_height"
                     app:layout_constraintBottom_toTopOf="@id/textTitle"
@@ -93,6 +94,7 @@
                     android:id="@+id/textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:gravity="center_horizontal"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="@color/white"
@@ -105,6 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/screen_padding_horizontal"

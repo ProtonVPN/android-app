@@ -24,6 +24,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
+import android.util.Size
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -79,8 +80,11 @@ class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferV
             featureFooterViews.text.text = panel.featuresFooter
             featureFooterViews.text.setTextColor(ContextCompat.getColor(activity, R.color.lightGrey))
 
+            val maxSize = getPictureMaxSize(activity)
             Glide.with(activity)
                 .load(panel.pictureUrl)
+                // Make sure the size is the same as for preload.
+                .override(maxSize.width, maxSize.height)
                 .into(imagePicture)
 
             buttonOpenOffer.text = panel.button.text
@@ -123,6 +127,19 @@ class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferV
                 putExtra(EXTRA_OFFER_ID, offerId)
             }
 
+        fun preloadPicture(context: Context, pictureUrl: String) {
+            val maxSize = getPictureMaxSize(context)
+            // Use the same dimensions for preload as for displaying the image.
+            Glide.with(context).load(pictureUrl).preload(maxSize.width, maxSize.height)
+        }
+
         private fun getOfferId(intent: Intent): String? = intent.getStringExtra(EXTRA_OFFER_ID)
+
+        private fun getPictureMaxSize(context: Context) = with(context.resources) {
+            Size(
+                displayMetrics.widthPixels - 2 * getDimensionPixelSize(R.dimen.offer_panel_picture_horizontal_margin),
+                getDimensionPixelSize(R.dimen.offer_panel_picture_max_height)
+            )
+        }
     }
 }
