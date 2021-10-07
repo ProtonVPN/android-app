@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.drawer
+package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
 import android.graphics.Canvas
@@ -27,27 +27,19 @@ import android.graphics.drawable.DrawableWrapper
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.getThemeColor
 
-class IndicatorDrawableWrapper(
+class NotificationDotDrawableWrapper(
     private val context: Context,
     drawable: Drawable
 ) : DrawableWrapper(drawable) {
 
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getThemeColor(R.attr.brand_norm)
+        color = context.getThemeColor(R.attr.proton_notification_error)
     }
-
-    var showIndicator: Boolean = false
-        set(value) {
-            field = value
-            invalidateSelf()
-        }
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        if (showIndicator) {
-            val indicatorSize = context.resources.getDimension(R.dimen.new_indicator_size)
-            canvas.drawOval(bounds.width() - indicatorSize, 0f, bounds.width().toFloat(),
-                indicatorSize, indicatorPaint)
-        }
+        val indicatorSize = context.resources.getDimension(R.dimen.new_indicator_size)
+        canvas.drawOval(bounds.width() - indicatorSize, 0f, bounds.width().toFloat(),
+            indicatorSize, indicatorPaint)
     }
 }
