@@ -28,7 +28,6 @@ import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.protonvpn.android.R
-import com.protonvpn.android.ui.promooffers.PromoOfferActivity.Companion.createIntent
 
 class PromoOfferNotificationHelper(
     private val activity: ComponentActivity,
@@ -68,7 +67,9 @@ class PromoOfferNotificationHelper(
         if (isVisited || icon == null) icon else NotificationDotDrawableWrapper(activity, icon)
 
 
-    private fun openOfferActivity(offerId: String) {
-        activity.startActivity(createIntent(activity, offerId))
+    private fun openOfferActivity(offer: PromoOfferNotificationViewModel.Notification) {
+        // The picture should already be on disk, start loading it to memory ASAP.
+        PromoOfferActivity.preloadPicture(activity, offer.pictureUrlForPreload)
+        activity.startActivity(PromoOfferActivity.createIntent(activity, offer.id))
     }
 }
