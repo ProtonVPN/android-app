@@ -18,7 +18,6 @@
 
 package com.protonvpn.base
 
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
