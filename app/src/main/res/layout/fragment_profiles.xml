@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -17,37 +16,34 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textCreateProfile"
+        style="@style/Proton.Text.Default.Weak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="12dp"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal"
+        android:paddingVertical="16dp"
+        android:text="@string/create_new_profile"
+        app:drawableStartCompat="@drawable/ic_plus"
+        app:drawableTint="?attr/proton_icon_weak" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_profile_list" />
 
-        <TextView
-            android:id="@+id/textCreateProfile"
-            style="@style/Proton.Text.Default.Weak"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:drawablePadding="12dp"
-            android:paddingHorizontal="@dimen/screen_padding_horizontal"
-            android:paddingVertical="16dp"
-            android:text="@string/create_new_profile"
-            app:drawableTint="?attr/proton_icon_weak"
-            app:drawableStartCompat="@drawable/ic_plus" />
+</LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="24dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_profile_list" />
-
-    </LinearLayout>
-
-</layout>

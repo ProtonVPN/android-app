@@ -16,22 +16,19 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<com.protonvpn.android.components.ProtonSwipeRefresh xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loadingContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.protonvpn.android.components.ProtonSwipeRefresh
-        android:id="@+id/loadingContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.protonvpn.android.ui.CountryListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        tools:listitem="@layout/item_vpn_country" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:name="com.protonvpn.android.ui.CountryListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="24dp"
-            tools:listitem="@layout/item_vpn_country" />
-
-    </com.protonvpn.android.components.ProtonSwipeRefresh>
-</layout>
+</com.protonvpn.android.components.ProtonSwipeRefresh>

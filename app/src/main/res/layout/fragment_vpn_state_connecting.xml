@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) 2021. Proton Technologies AG
 
   This file is part of ProtonVPN.
@@ -17,46 +16,41 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/buttonCancel"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.protonvpn.android.components.ProtonLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/Proton.Text.Default"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/buttonCancel"
-            app:layout_constraintTop_toTopOf="parent">
+            android:text="@string/loaderInitializing" />
 
-            <com.protonvpn.android.components.ProtonLoader
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+    </LinearLayout>
 
-            <TextView
-                style="@style/Proton.Text.Default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:gravity="center_horizontal"
-                android:text="@string/loaderInitializing" />
+    <Button
+        android:id="@+id/buttonCancel"
+        style="@style/ProtonButton.OutlinedButton.Neutral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
+        android:text="@string/loaderCancel"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonCancel"
-            style="@style/ProtonButton.OutlinedButton.Neutral"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/connection_bottom_sheet_single_button_bottom_margin"
-            android:text="@string/loaderCancel"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
