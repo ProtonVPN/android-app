@@ -26,6 +26,7 @@ import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
 import android.util.Size
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
@@ -40,33 +41,35 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
 
 @AndroidEntryPoint
-class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding>() {
+class PromoOfferActivity : BaseActivityV2() {
 
     private val viewModel: PromoOfferViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityPromoOfferBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val offerId = getOfferId(intent)
         val panel = offerId?.let { viewModel.getPanel(offerId) }
         if (panel != null) {
-            setViews(panel)
+            setViews(binding, panel)
         } else {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    private fun setViews(panel: ApiNotificationOfferPanel) {
+    private fun setViews(binding: ActivityPromoOfferBinding, panel: ApiNotificationOfferPanel) {
         with(binding) {
             textIncentive.text = createIncentiveText(panel.incentive, panel.incentivePrice)
             textPill.text = panel.pill
             textTitle.text = panel.title
             textFooter.text = panel.pageFooter
 
-            panel.features.forEach { addFeatureLine(it) }
+            panel.features.forEach { addFeatureLine(layoutFeatures, it) }
             val activity = this@PromoOfferActivity
             val featureFooterViews =
                 ItemPromoFeatureBinding.inflate(LayoutInflater.from(activity), layoutFeatures, true)
@@ -85,8 +88,8 @@ class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding>() {
         }
     }
 
-    private fun addFeatureLine(feature: ApiNotificationOfferFeature) {
-        val views = ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), binding.layoutFeatures, true)
+    private fun addFeatureLine(container: ViewGroup, feature: ApiNotificationOfferFeature) {
+        val views = ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), container, true)
         views.text.text = feature.text
         Glide.with(this)
             .load(feature.iconUrl)

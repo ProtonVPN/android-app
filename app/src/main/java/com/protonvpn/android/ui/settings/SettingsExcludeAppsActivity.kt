@@ -27,7 +27,6 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
@@ -36,17 +35,16 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_recycler_with_toolbar)
-class SettingsExcludeAppsActivity :
-    SaveableSettingsActivity<ActivityRecyclerWithToolbarBinding, SettingsExcludeAppsViewModel>() {
+class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeAppsViewModel>() {
 
     override val viewModel: SettingsExcludeAppsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val selectedItemsSection = Section()

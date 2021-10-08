@@ -34,10 +34,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivitySettingsExcludeIpsBinding
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -45,11 +45,9 @@ import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_settings_exclude_ips)
-class SettingsExcludeIpsActivity
-    : SaveableSettingsActivity<ActivitySettingsExcludeIpsBinding, SettingsExcludeIpsViewModel>()
-{
+class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsViewModel>() {
 
+    private val binding by viewBinding(ActivitySettingsExcludeIpsBinding::inflate)
     override val viewModel: SettingsExcludeIpsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

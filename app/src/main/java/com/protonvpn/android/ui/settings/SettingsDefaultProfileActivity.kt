@@ -25,7 +25,6 @@ import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProfileSelectionBinding
 import com.protonvpn.android.models.config.UserData
@@ -40,14 +39,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_recycler_with_toolbar)
-class SettingsDefaultProfileActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
+class SettingsDefaultProfileActivity : BaseActivityV2() {
 
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var userData: UserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val selectedProfile = serverManager.defaultConnection

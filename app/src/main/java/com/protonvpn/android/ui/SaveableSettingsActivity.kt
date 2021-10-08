@@ -27,7 +27,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
-import androidx.databinding.ViewDataBinding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
@@ -43,8 +42,7 @@ import kotlin.reflect.KClass
  * Use SaveableSettingsActivity.createContract() for starting the activity to get result indicating
  * if anything has been saved.
  */
-abstract class SaveableSettingsActivity<DB : ViewDataBinding, VM : SaveableSettingsViewModel>
-    : BaseActivityV2<DB>() {
+abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseActivityV2() {
 
     protected abstract val viewModel: VM
 
@@ -99,7 +97,7 @@ abstract class SaveableSettingsActivity<DB : ViewDataBinding, VM : SaveableSetti
     companion object {
         private const val HAS_SAVED_CHANGES_KEY = "hasSavedChanges"
 
-        fun createContract(clazz: KClass<out SaveableSettingsActivity<*, *>>) =
+        fun createContract(clazz: KClass<out SaveableSettingsActivity<*>>) =
             object : ActivityResultContract<Unit, Boolean>() {
                 override fun createIntent(context: Context, input: Unit): Intent =
                     Intent(context, clazz.java)

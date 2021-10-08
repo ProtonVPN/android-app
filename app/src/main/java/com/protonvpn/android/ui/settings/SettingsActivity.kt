@@ -46,7 +46,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.models.config.UserData
@@ -57,6 +56,7 @@ import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -66,8 +66,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_settings)
-class SettingsActivity : BaseActivityV2<ActivitySettingsBinding>() {
+class SettingsActivity : BaseActivityV2() {
 
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
@@ -76,6 +75,7 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding>() {
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
 
+    private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
 
     private val protocolSelection =
@@ -102,6 +102,7 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         initSettings()
     }

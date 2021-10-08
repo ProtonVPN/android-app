@@ -29,9 +29,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityServerSelectionBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.ui.HeaderViewHolder
@@ -49,20 +49,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_server_selection)
-class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding>() {
+class ServerSelectionActivity : BaseActivityV2() {
 
     private val viewModel: ServerSelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityServerSelectionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val config = requireNotNull(getConfig(intent))
         setTitle(if (config.secureCore) R.string.entryCountry else R.string.serverSelection)
         val servers = viewModel.getServers(config.countryCode, config.secureCore)
         if (servers != null) {
-            initServerList(config.secureCore, servers)
+            initServerList(binding.recyclerServers, config.secureCore, servers)
         } else {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
             ProtonLogger.log("No servers for country '$config.countryCode`")
@@ -70,7 +72,11 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding>()
         }
     }
 
-    fun initServerList(secureCore: Boolean, servers: List<ServerSelectionViewModel.ServerItem>) {
+    fun initServerList(
+        recyclerServers: RecyclerView,
+        secureCore: Boolean,
+        servers: List<ServerSelectionViewModel.ServerItem>
+    ) {
         val layout = LinearLayoutManager(this)
 
         val recommendedSection = Section(
@@ -105,7 +111,7 @@ class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding>()
             finish()
         }
 
-        with(binding.recyclerServers) {
+        with(recyclerServers) {
             adapter = groupAdapter
             layoutManager = layout
         }

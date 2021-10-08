@@ -20,22 +20,22 @@ package com.protonvpn.android.ui.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import com.protonvpn.android.R
+import android.webkit.WebView
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityLicensesBinding
 
-@ContentLayout(R.layout.activity_licenses)
-class OssLicensesActivity : BaseActivityV2<ActivityLicensesBinding>() {
+class OssLicensesActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityLicensesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
-        initWebView()
+        initWebView(binding.content.webView)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun initWebView() = with(binding.content.webView) {
+    private fun initWebView(webView: WebView) = with(webView) {
         setBackgroundColor(0)
         settings.javaScriptEnabled = true
         loadUrl("file:///android_asset/oss_licenses.html")
