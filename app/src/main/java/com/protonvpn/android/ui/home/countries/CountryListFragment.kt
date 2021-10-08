@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,7 +47,8 @@ class CountryListFragment : BaseFragmentV2<FragmentCountryListBinding>(), Networ
 
     private val viewModel: CountryListViewModel by viewModels()
 
-    override fun onViewCreated() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initList()
         observeLiveEvents()
         binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
