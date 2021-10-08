@@ -68,7 +68,7 @@ import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.vpn_state_fragment)
+@ContentLayout(R.layout.fragment_vpn_state)
 public class VpnStateFragment extends BaseFragment {
 
     @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;

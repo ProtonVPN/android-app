@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.protonvpn.android.components.ProtonStatusBehaviour"
-            tools:layout="@layout/vpn_state_fragment" />
+            tools:layout="@layout/fragment_vpn_state" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
