@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.home.profiles
 
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -48,7 +49,8 @@ class ProfilesFragment : BaseFragmentV2<FragmentProfilesBinding>() {
 
     private val viewModel: ProfilesViewModel by viewModels()
 
-    override fun onViewCreated() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val adapter = GroupAdapter<GroupieViewHolder>()
         val prebakedProfilesSection = Section(HeaderViewHolder(R.string.recommendedProfilesHeader))
         val customProfilesSection = Section(HeaderViewHolder(R.string.yourProfilesHeader))

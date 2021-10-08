@@ -20,6 +20,7 @@
 package com.protonvpn.android.tv.detailed
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.commit
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragmentV2
@@ -39,8 +40,8 @@ class TvServerListScreenFragment : BaseFragmentV2<FragmentTvServerListScreenBind
         }
     }
 
-    override fun onViewCreated() {
-        super.onViewCreated()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val country = requireArguments()[EXTRA_COUNTRY] as String
         binding.countryName.text = CountryTools.getFullName(country)

@@ -39,8 +39,6 @@ abstract class BaseFragmentV2<DB : ViewDataBinding> : Fragment() {
         binding.setLifecycleOwner { viewLifecycleOwner.lifecycle }
     }
 
-    open fun onViewCreated() {}
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +46,6 @@ abstract class BaseFragmentV2<DB : ViewDataBinding> : Fragment() {
     ): View {
         init(inflater, container!!)
         super.onCreateView(inflater, container, savedInstanceState)
-        onViewCreated()
         return binding.root
     }
 
