@@ -26,9 +26,9 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -42,20 +42,22 @@ import com.xwray.groupie.databinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_recycler_with_toolbar)
-class CountrySelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
+class CountrySelectionActivity : BaseActivityV2() {
 
     private val viewModel: CountrySelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         val secureCore = getSecureCore(intent)
         setTitle(if (secureCore) R.string.exitCountry else R.string.country)
-        initCountryList(secureCore)
+        initCountryList(binding.recyclerItems, secureCore)
     }
 
-    private fun initCountryList(secureCore: Boolean) {
+    private fun initCountryList(recyclerItems: RecyclerView, secureCore: Boolean) {
         val layout = LinearLayoutManager(this)
         val sections = viewModel.getCountryGroups(secureCore).mapIndexed { index, group ->
             Section(
@@ -74,7 +76,7 @@ class CountrySelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBindi
                 finish()
             }
         }
-        with(binding.recyclerItems) {
+        with(recyclerItems) {
             adapter = groupAdapter
             layoutManager = layout
         }

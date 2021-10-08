@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2021 Proton Technologies AG
 
  This file is part of ProtonVPN.
@@ -17,86 +16,83 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                tools:srcCompat="@drawable/ic_exclamation_tunnel_illustration" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                style="@style/Proton.Text.Hero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
+                tools:text="This is error message why you get this dialog" />
+
+            <TextView
+                android:id="@+id/textDescription"
+                style="@style/Proton.Text.DefaultSmall.Weak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_horizontal"
+                tools:text="This is some very long description about something, just to showcase in android studio editor" />
+
+            <include
+                android:id="@+id/itemSwitchLayout"
+                layout="@layout/item_server_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    tools:srcCompat="@drawable/ic_exclamation_tunnel_illustration" />
+            <include
+                android:id="@+id/layoutUpsell"
+                layout="@layout/item_upgrade_again_sell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
 
-                <TextView
-                    android:id="@+id/textTitle"
-                    style="@style/Proton.Text.Hero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center_horizontal"
-                    tools:text="This is error message why you get this dialog" />
+        </LinearLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/textDescription"
-                    style="@style/Proton.Text.DefaultSmall.Weak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:gravity="center_horizontal"
-                    tools:text="This is some very long description about something, just to showcase in android studio editor" />
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonUpgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginBottom="8dp"
+        android:text="@string/upgrade" />
 
-                <include
-                    android:id="@+id/itemSwitchLayout"
-                    layout="@layout/item_server_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <include
-                    android:id="@+id/layoutUpsell"
-                    layout="@layout/item_upgrade_again_sell"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp" />
-
-            </LinearLayout>
-        </ScrollView>
-
-        <me.proton.core.presentation.ui.view.ProtonButton
-            android:id="@+id/buttonUpgrade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:layout_marginBottom="8dp"
-            android:text="@string/upgrade" />
-
-        <me.proton.core.presentation.ui.view.ProtonButton
-            android:id="@+id/buttonBack"
-            style="@style/ProtonButton.Borderless.Text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:layout_marginBottom="24dp"
-            android:text="@string/no_thanks" />
-    </LinearLayout>
-</layout>
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonBack"
+        style="@style/ProtonButton.Borderless.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginBottom="24dp"
+        android:text="@string/no_thanks" />
+</LinearLayout>

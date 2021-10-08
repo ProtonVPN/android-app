@@ -21,10 +21,7 @@ package com.protonvpn.android.components
 import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.provider.Settings
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -34,16 +31,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
 
-abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), NoVpnPermissionUi {
-
-    lateinit var binding: DB
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(layoutInflater,
-                AnnotationParser.getAnnotatedLayout(this), null, false)
-        setContentView(binding.root)
-    }
+abstract class BaseTvActivity : FragmentActivity(), NoVpnPermissionUi {
 
     override fun onVpnPermissionDenied() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -25,6 +25,7 @@ import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewPropertyAnimator
@@ -35,6 +36,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnLayout
+import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
@@ -65,6 +67,9 @@ object ViewUtils {
             }
         }
     }
+
+    inline fun <VB : ViewBinding> Activity.viewBinding(crossinline inflater: (LayoutInflater) -> VB) =
+        lazy(LazyThreadSafetyMode.NONE) { inflater(layoutInflater) }
 
     fun View.requestAllFocus() {
         requestFocus()

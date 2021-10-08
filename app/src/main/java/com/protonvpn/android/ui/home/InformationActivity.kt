@@ -31,7 +31,6 @@ import androidx.core.view.isVisible
 import com.google.android.flexbox.FlexboxLayout
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.ActivityInformationBinding
 import com.protonvpn.android.databinding.InfoHeaderBinding
@@ -41,18 +40,20 @@ import com.protonvpn.android.databinding.StreamingInfoBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_information)
-class InformationActivity : BaseActivityV2<ActivityInformationBinding>() {
+class InformationActivity : BaseActivityV2() {
 
+    private val binding by viewBinding(ActivityInformationBinding::inflate)
     private val viewModel: InformationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         val country = intent.getStringExtra(EXTRA_COUNTRY)

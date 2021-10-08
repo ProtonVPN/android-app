@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -17,22 +16,19 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.protonvpn.android.ui.settings.SettingsActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.protonvpn.android.ui.settings.SettingsActivity">
+    <include
+        android:id="@+id/contentAppbar"
+        layout="@layout/content_appbar" />
 
-        <include
-            android:id="@+id/contentAppbar"
-            layout="@layout/content_appbar" />
+    <include
+        android:id="@+id/contentSettings"
+        layout="@layout/content_settings" />
 
-        <include
-            android:id="@+id/contentSettings"
-            layout="@layout/content_settings" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

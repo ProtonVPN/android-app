@@ -29,23 +29,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityReportBinding
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.view.ProtonInput
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_report)
-class ReportBugActivity : BaseActivityV2<ActivityReportBinding>() {
+class ReportBugActivity : BaseActivityV2() {
 
+    private val binding by viewBinding(ActivityReportBinding::inflate)
     private val viewModel: ReportBugActivityViewModel by viewModels()
     private val editReport: ProtonInput get() = binding.layoutReport.editReport
     private val editEmail: ProtonInput get() = binding.layoutReport.editEmail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.layoutAppbar.toolbar)
         addHideKeyboard(binding.coordinator)
         initUi()

@@ -42,7 +42,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityLoginBinding
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
@@ -51,6 +50,7 @@ import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.toSafeUtf8ByteArray
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -63,18 +63,21 @@ const val LOGO_VERTICAL_BIAS = 0.5f
 const val LOGO_VERTICAL_BIAS_WITH_KEYBOARD = 0.1f
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_login)
-class LoginActivity : BaseActivityV2<ActivityLoginBinding>(),
-        KeyboardVisibilityEventListener, Observer<LoginState> {
+class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observer<LoginState> {
 
     @VisibleForTesting
     val viewModel: LoginViewModel by viewModels()
+    private val binding by viewBinding(ActivityLoginBinding::inflate)
+
+    @VisibleForTesting
+    fun getLoadingContainer() = binding.loadingContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevent screen capture etc. to record user password
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         if (viewModel.userData.isLoggedIn) {
             launchActivity<HomeActivity>()
             finish()

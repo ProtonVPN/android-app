@@ -35,7 +35,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonColorCircle
 import com.protonvpn.android.databinding.ActivityProfileBinding
@@ -47,14 +46,15 @@ import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_profile)
-class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, ProfileViewModel>() {
+class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
 
+    private val binding by viewBinding(ActivityProfileBinding::inflate)
     private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
 
     private val countrySelection = registerForActivityResult(CountrySelectionActivity.createContract()) {
@@ -71,6 +71,7 @@ class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, Profile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         val profile = intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?
         viewModel.initWithProfile(profile)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)

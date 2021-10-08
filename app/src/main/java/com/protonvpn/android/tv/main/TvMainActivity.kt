@@ -26,7 +26,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
@@ -36,23 +35,25 @@ import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_tv_main)
-class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
+class TvMainActivity : BaseTvActivity() {
 
     private val viewModel: TvMainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityTvMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add(R.id.container, TvMainFragment::class.java, null)
             }
         }
         viewModel.selectedCountryFlag.observe(this, Observer {
-            updateMapSelection()
+            updateMapSelection(binding)
         })
         viewModel.connectedCountryFlag.observe(this, Observer {
-            updateMapSelection()
+            updateMapSelection(binding)
         })
         viewModel.mapRegion.observe(this, Observer {
             binding.mapView.setMapRegion(lifecycleScope, it)
@@ -69,7 +70,7 @@ class TvMainActivity : BaseTvActivity<ActivityTvMainBinding>() {
         viewModel.onViewInit(lifecycle)
     }
 
-    private fun updateMapSelection() {
+    private fun updateMapSelection(binding: ActivityTvMainBinding) {
         binding.mapView.setSelection(
                 CountryTools.codeToMapCountryName[viewModel.selectedCountryFlag.value],
                 CountryTools.codeToMapCountryName[viewModel.connectedCountryFlag.value]

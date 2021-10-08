@@ -26,20 +26,20 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivitySettingsMtuBinding
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.launchAndCollectIn
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_settings_mtu)
-class SettingsMtuActivity : SaveableSettingsActivity<ActivitySettingsMtuBinding, SettingsMtuViewModel>() {
+class SettingsMtuActivity : SaveableSettingsActivity<SettingsMtuViewModel>() {
 
     override val viewModel: SettingsMtuViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivitySettingsMtuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         with(binding) {

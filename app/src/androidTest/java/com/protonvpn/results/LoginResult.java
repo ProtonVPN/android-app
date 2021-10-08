@@ -19,6 +19,7 @@
 package com.protonvpn.results;
 
 import com.protonvpn.android.R;
+import com.protonvpn.android.databinding.ActivityLoginBinding;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.testsHelper.NetworkTestHelper;
 import com.protonvpn.test.shared.TestUser;
@@ -61,7 +62,7 @@ public class LoginResult extends UIActionsTestHelper {
     }
 
     public LoginResult noInternetConnectionError(LoginActivity activity) {
-        networkTestHelper.waitUntilNetworkErrorAppears(activity.binding.loadingContainer);
+        networkTestHelper.waitUntilNetworkErrorAppears(activity.getLoadingContainer());
 
         checkIfObjectWithIdIsDisplayed(R.id.buttonRetry);
 

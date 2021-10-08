@@ -36,7 +36,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentAlwaysOnStepBinding
 import com.protonvpn.android.utils.HtmlTools
@@ -47,14 +46,15 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
-class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding>() {
+class SettingsAlwaysOnActivity : BaseActivityV2() {
 
     @Inject lateinit var dispatcherProvider: DispatcherProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityAlwaysOnBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         with(binding.content) {

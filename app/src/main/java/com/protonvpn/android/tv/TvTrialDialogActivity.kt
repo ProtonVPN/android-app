@@ -23,7 +23,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvTrialBinding
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.utils.HtmlTools
@@ -32,17 +31,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.dialog_tv_trial)
-class TvTrialDialogActivity : BaseTvActivity<DialogTvTrialBinding>() {
+class TvTrialDialogActivity : BaseTvActivity() {
 
     val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initUI()
+        val binding = DialogTvTrialBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initUI(binding)
     }
 
-    private fun initUI() = with(binding) {
+    private fun initUI(binding: DialogTvTrialBinding) = with(binding) {
         buttonGotIt.setOnClickListener { finish() }
         buttonGotIt.initLolipopButtonFocus()
         textDetails.text = HtmlTools.fromHtml(getString(R.string.tv_trial_summary))

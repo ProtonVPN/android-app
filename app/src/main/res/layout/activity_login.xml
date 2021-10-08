@@ -16,246 +16,244 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal">
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_map" />
+
+        <TextView
+            android:id="@+id/protonLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="8dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/ic_proton"
+            app:layout_constraintBottom_toBottomOf="@+id/imageBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageBackground"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/loginSlogan"
+            android:textAllCaps="true"
+            android:textColor="@color/slogan"
+            app:layout_constraintEnd_toEndOf="@+id/protonLogo"
+            app:layout_constraintStart_toStartOf="@+id/protonLogo"
+            app:layout_constraintTop_toBottomOf="@+id/protonLogo" />
+
+        <LinearLayout
+            android:id="@+id/layoutCredentials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout4"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <me.proton.core.presentation.ui.view.ProtonInput
+                android:id="@+id/inputEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:label="@string/hintUsername" />
+
+            <me.proton.core.presentation.ui.view.ProtonInput
+                android:id="@+id/inputPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/login"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                app:actionMode="password_toggle"
+                app:label="@string/hintPassword"
+                tools:ignore="InvalidImeActionId" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchStartWithDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loginStartWithDevice"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCredentials">
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/login" />
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonCreateAccount"
+                style="@style/ProtonButton.Borderless.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/loginCreateAccount" />
+
+            <View style="@style/Divider.Small" />
+
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonNeedHelp"
+                style="@style/ProtonButton.Borderless.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/loginNeedHelp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutConnectionAllocationHelp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageBackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_map" />
-
-            <TextView
-                android:id="@+id/protonLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:drawablePadding="8dp"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:text="@string/app_name"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:drawableStartCompat="@drawable/ic_proton"
-                app:layout_constraintBottom_toBottomOf="@+id/imageBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/imageBackground"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:text="@string/loginSlogan"
-                android:textAllCaps="true"
-                android:textColor="@color/slogan"
-                app:layout_constraintEnd_toEndOf="@+id/protonLogo"
-                app:layout_constraintStart_toStartOf="@+id/protonLogo"
-                app:layout_constraintTop_toBottomOf="@+id/protonLogo" />
+            android:layout_gravity="center_horizontal"
+            android:background="?attr/proton_background_norm"
+            android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
             <LinearLayout
-                android:id="@+id/layoutCredentials"
+                android:id="@+id/layoutConnectionAllocationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/linearLayout4"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintBottom_toTopOf="@+id/textConnectionAllocationDescription"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
 
-                <me.proton.core.presentation.ui.view.ProtonInput
-                    android:id="@+id/inputEmail"
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_proton_green" />
+
+                <TextView
+                    style="@style/Proton.Text.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:label="@string/hintUsername" />
-
-                <me.proton.core.presentation.ui.view.ProtonInput
-                    android:id="@+id/inputPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/login"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    app:actionMode="password_toggle"
-                    app:label="@string/hintPassword"
-                    tools:ignore="InvalidImeActionId" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchStartWithDevice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/loginStartWithDevice"
-                    android:visibility="gone" />
+                    android:gravity="center"
+                    android:text="@string/connectionAllocationHelpTitle" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout4"
+            <TextView
+                android:id="@+id/textConnectionAllocationDescription"
+                style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:gravity="center_horizontal"
+                android:text="@string/connectionAllocationHelpDescription"
+                app:layout_constraintBottom_toTopOf="@id/layoutConnectionAllocationButtons"
+                app:layout_constraintTop_toBottomOf="@id/layoutConnectionAllocationTitle" />
+
+            <LinearLayout
+                android:id="@+id/layoutConnectionAllocationButtons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutCredentials">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription">
 
                 <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonLogin"
+                    android:id="@+id/buttonAssignVpnConnections"
+                    style="@style/ProtonButton.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/login" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/connectionAllocationHelpAssignConnectionsButton" />
 
                 <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonCreateAccount"
-                    style="@style/ProtonButton.Borderless.Text"
+                    android:id="@+id/buttonReturnToLogin"
+                    style="@style/ProtonButton.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
-                    android:text="@string/loginCreateAccount" />
-
-                <View style="@style/Divider.Small" />
-
-                <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonNeedHelp"
-                    style="@style/ProtonButton.Borderless.Text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/loginNeedHelp" />
-
+                    android:text="@string/connectionAllocationHelpLoginAgainButton" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/layoutConnectionAllocationHelp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:visibility="gone">
+    <com.protonvpn.android.components.NetworkFrameLayout
+        android:id="@+id/loadingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:textLoading="@string/loaderAuthenticatingUser" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:background="?attr/proton_background_norm">
-
-                <LinearLayout
-                    android:id="@+id/layoutConnectionAllocationTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@+id/textConnectionAllocationDescription"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="8dp"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_proton_green"/>
-
-                    <TextView
-                        style="@style/Proton.Text.Headline"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/connectionAllocationHelpTitle" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textConnectionAllocationDescription"
-                    style="@style/Proton.Text.Default"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/connectionAllocationHelpDescription"
-                    app:layout_constraintBottom_toTopOf="@id/layoutConnectionAllocationButtons"
-                    app:layout_constraintTop_toBottomOf="@id/layoutConnectionAllocationTitle" />
-
-                <LinearLayout
-                    android:id="@+id/layoutConnectionAllocationButtons"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription">
-
-                    <me.proton.core.presentation.ui.view.ProtonButton
-                        android:id="@+id/buttonAssignVpnConnections"
-                        style="@style/ProtonButton.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/connectionAllocationHelpAssignConnectionsButton" />
-
-                    <me.proton.core.presentation.ui.view.ProtonButton
-                        android:id="@+id/buttonReturnToLogin"
-                        style="@style/ProtonButton.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/connectionAllocationHelpLoginAgainButton" />
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <com.protonvpn.android.components.NetworkFrameLayout
-            android:id="@+id/loadingContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:textLoading="@string/loaderAuthenticatingUser" />
-
-    </FrameLayout>
-</layout>
+</FrameLayout>

@@ -24,7 +24,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.utils.CountryTools
@@ -33,21 +32,23 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.activity_switch_dialog)
-class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding>() {
+class SwitchDialogActivity : BaseActivityV2() {
 
     @Inject lateinit var serverManager: ServerManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initUI()
+        val binding = ActivitySwitchDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        initUI(binding)
     }
 
-    private fun initUI() = with(binding) {
+    private fun initUI(binding: ActivitySwitchDialogBinding) = with(binding) {
         val reconnectionNotification =
             intent.getParcelableExtra<NotificationHelper.ReconnectionNotification>(EXTRA_NOTIFICATION_DETAILS)!!
         reconnectionNotification.reconnectionInformation?.let {
-            initReconnectionUI(it)
+            initReconnectionUI(binding, it)
         }
         textDescription.text = reconnectionNotification.content
         textTitle.text = reconnectionNotification.title
@@ -75,35 +76,37 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding>() {
         }
     }
 
-    private fun initReconnectionUI(reconnectionInformation: NotificationHelper.ReconnectionInformation) =
-        with(binding.itemSwitchLayout) {
-            root.isVisible = true
+    private fun initReconnectionUI(
+        binding: ActivitySwitchDialogBinding,
+        reconnectionInformation: NotificationHelper.ReconnectionInformation
+    ) = with(binding.itemSwitchLayout) {
+        root.isVisible = true
 
-            textFromServer.text = reconnectionInformation.fromServerName
-            textToServer.text = reconnectionInformation.toServerName
-            reconnectionInformation.toCountrySecureCore?.let {
-                imageToCountrySc.setImageResource(
-                    CountryTools.getFlagResource(this@SwitchDialogActivity, it)
-                )
-                imageToCountrySc.isVisible = true
-                arrowToSc.isVisible = true
-            }
-            reconnectionInformation.fromCountrySecureCore?.let {
-                imageFromCountrySc.setImageResource(
-                    CountryTools.getFlagResource(
-                        this@SwitchDialogActivity, it
-                    )
-                )
-                imageFromCountrySc.isVisible = true
-                arrowFromSc.isVisible = true
-            }
-            imageToCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.toCountry)
+        textFromServer.text = reconnectionInformation.fromServerName
+        textToServer.text = reconnectionInformation.toServerName
+        reconnectionInformation.toCountrySecureCore?.let {
+            imageToCountrySc.setImageResource(
+                CountryTools.getFlagResource(this@SwitchDialogActivity, it)
             )
-            imageFromCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
-            )
+            imageToCountrySc.isVisible = true
+            arrowToSc.isVisible = true
         }
+        reconnectionInformation.fromCountrySecureCore?.let {
+            imageFromCountrySc.setImageResource(
+                CountryTools.getFlagResource(
+                    this@SwitchDialogActivity, it
+                )
+            )
+            imageFromCountrySc.isVisible = true
+            arrowFromSc.isVisible = true
+        }
+        imageToCountry.setImageResource(
+            CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.toCountry)
+        )
+        imageFromCountry.setImageResource(
+            CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
+        )
+    }
 
     @SuppressLint("SetTextI18n")
     private fun getManyServersInManyCountriesText(): String {

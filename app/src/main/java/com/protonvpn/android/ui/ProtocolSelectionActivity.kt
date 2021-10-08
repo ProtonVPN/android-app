@@ -23,34 +23,33 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 
-@ContentLayout(R.layout.activity_recycler_with_toolbar)
-class ProtocolSelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
+class ProtocolSelectionActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         val initialSelection = requireNotNull(getInitialSelection(intent))
-        initProtocols(initialSelection)
+        initProtocols(binding.recyclerItems, initialSelection)
     }
 
-    private fun initProtocols(initialSelection: ProtocolSelection) {
+    private fun initProtocols(recyclerView: RecyclerView, initialSelection: ProtocolSelection) {
         val protocolsAdapter = ProtocolsAdapter(initialSelection) { selection ->
             ActivityResultUtils.setResult(this, selection)
             finish()
         }
 
-        with(binding.recyclerItems) {
+        with(recyclerView) {
             layoutManager = LinearLayoutManager(this@ProtocolSelectionActivity)
             adapter = protocolsAdapter
         }

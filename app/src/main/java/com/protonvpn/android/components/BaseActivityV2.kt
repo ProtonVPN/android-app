@@ -30,11 +30,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import com.protonvpn.android.R
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -44,21 +41,13 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
 
-abstract class BaseActivityV2<DB : ViewDataBinding> :
-    AppCompatActivity(), NoVpnPermissionUi {
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var binding: DB
+abstract class BaseActivityV2 : AppCompatActivity(), NoVpnPermissionUi {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
-
-        binding = DataBindingUtil.inflate(layoutInflater,
-                AnnotationParser.getAnnotatedLayout(this), null, false)
-        setContentView(binding.root)
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {
