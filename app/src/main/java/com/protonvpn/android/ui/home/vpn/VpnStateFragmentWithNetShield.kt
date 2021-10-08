@@ -21,13 +21,14 @@ package com.protonvpn.android.ui.home.vpn
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.components.BaseFragmentV2
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
@@ -38,7 +39,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
-abstract class VpnStateFragmentWithNetShield<DB : ViewDataBinding> : BaseFragmentV2<DB>() {
+abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(layout) {
 
     protected val parentViewModel: VpnStateViewModel by viewModels(ownerProducer = { requireParentFragment() })
 

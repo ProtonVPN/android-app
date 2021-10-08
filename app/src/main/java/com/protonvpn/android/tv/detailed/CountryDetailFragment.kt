@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -33,8 +34,6 @@ import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
@@ -42,12 +41,13 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_tv_country_details)
-class CountryDetailFragment : BaseFragmentV2<FragmentTvCountryDetailsBinding>() {
+class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
+    private val binding by viewBinding(FragmentTvCountryDetailsBinding::bind)
     private val viewModel: TvMainViewModel by viewModels()
 
     lateinit var card: CountryCard

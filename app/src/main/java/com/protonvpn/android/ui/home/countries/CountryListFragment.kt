@@ -21,14 +21,13 @@ package com.protonvpn.android.ui.home.countries
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
@@ -38,13 +37,14 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_country_list)
-class CountryListFragment : BaseFragmentV2<FragmentCountryListBinding>(), NetworkLoader {
+class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
 
+    private val binding by viewBinding(FragmentCountryListBinding::bind)
     private val viewModel: CountryListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

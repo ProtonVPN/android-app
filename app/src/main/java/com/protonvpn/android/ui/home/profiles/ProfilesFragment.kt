@@ -23,13 +23,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentProfilesBinding
 import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
@@ -44,13 +43,13 @@ import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_profiles)
-class ProfilesFragment : BaseFragmentV2<FragmentProfilesBinding>() {
+class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
 
     private val viewModel: ProfilesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentProfilesBinding.bind(view)
         val adapter = GroupAdapter<GroupieViewHolder>()
         val prebakedProfilesSection = Section(HeaderViewHolder(R.string.recommendedProfilesHeader))
         val customProfilesSection = Section(HeaderViewHolder(R.string.yourProfilesHeader))
@@ -74,12 +73,6 @@ class ProfilesFragment : BaseFragmentV2<FragmentProfilesBinding>() {
         viewModel.userCreatedProfiles.observe(viewLifecycleOwner, Observer {
             customProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
         })
-    }
-
-    override fun onDestroyView() {
-        // Force recycling of view holders to enable cleanup
-        binding.list.adapter = null
-        super.onDestroyView()
     }
 
     private class ProfileViewHolder(
