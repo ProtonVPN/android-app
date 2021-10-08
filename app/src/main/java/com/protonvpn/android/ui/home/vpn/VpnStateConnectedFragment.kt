@@ -39,13 +39,13 @@ import com.github.mikephil.charting.jobs.MoveViewJob
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
@@ -60,9 +60,9 @@ private const val CHART_GRID_LINE_WIDTH_DP = 1f
 private const val CHART_MIN_HEIGHT_DP = 100
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_vpn_state_connected)
-class VpnStateConnectedFragment : VpnStateFragmentWithNetShield<FragmentVpnStateConnectedBinding>() {
+class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragment_vpn_state_connected) {
 
+    private val binding by viewBinding(FragmentVpnStateConnectedBinding::bind)
     private val viewModel: VpnStateConnectedViewModel by viewModels()
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {

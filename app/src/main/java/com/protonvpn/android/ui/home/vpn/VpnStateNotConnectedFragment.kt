@@ -25,15 +25,16 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_vpn_state_not_connected)
-class VpnStateNotConnectedFragment : VpnStateFragmentWithNetShield<FragmentVpnStateNotConnectedBinding>() {
+class VpnStateNotConnectedFragment :
+    VpnStateFragmentWithNetShield(R.layout.fragment_vpn_state_not_connected) {
 
+    private val binding by viewBinding(FragmentVpnStateNotConnectedBinding::bind)
     private val viewModel: VpnStateNotConnectedViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

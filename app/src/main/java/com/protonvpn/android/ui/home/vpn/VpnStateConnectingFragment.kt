@@ -21,21 +21,20 @@ package com.protonvpn.android.ui.home.vpn
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentVpnStateConnectingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-@ContentLayout(R.layout.fragment_vpn_state_connecting)
-class VpnStateConnectingFragment : BaseFragmentV2<FragmentVpnStateConnectingBinding>() {
+class VpnStateConnectingFragment : Fragment(R.layout.fragment_vpn_state_connecting) {
 
     private val parentViewModel: VpnStateViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentVpnStateConnectingBinding.bind(view)
         binding.buttonCancel.setOnClickListener { parentViewModel.disconnectAndClose() }
     }
 }
