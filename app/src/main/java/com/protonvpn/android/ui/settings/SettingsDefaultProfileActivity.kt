@@ -22,7 +22,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -42,15 +41,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
-class SettingsDefaultProfileActivity :
-    BaseActivityV2<ActivityRecyclerWithToolbarBinding, ViewModel>() {
+class SettingsDefaultProfileActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
 
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var userData: UserData
-
-    override fun initViewModel() {
-        // No ViewModel.
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

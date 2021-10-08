@@ -32,10 +32,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -63,12 +64,11 @@ const val LOGO_VERTICAL_BIAS_WITH_KEYBOARD = 0.1f
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_login)
-class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
+class LoginActivity : BaseActivityV2<ActivityLoginBinding>(),
         KeyboardVisibilityEventListener, Observer<LoginState> {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-    }
+    @VisibleForTesting
+    val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevent screen capture etc. to record user password

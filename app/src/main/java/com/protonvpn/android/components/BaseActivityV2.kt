@@ -35,7 +35,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -45,16 +44,11 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.NoVpnPermissionUi
 
-abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> :
+abstract class BaseActivityV2<DB : ViewDataBinding> :
     AppCompatActivity(), NoVpnPermissionUi {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     lateinit var binding: DB
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var viewModel: VM
-
-    protected abstract fun initViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +59,6 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> :
         binding = DataBindingUtil.inflate(layoutInflater,
                 AnnotationParser.getAnnotatedLayout(this), null, false)
         setContentView(binding.root)
-        initViewModel()
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {

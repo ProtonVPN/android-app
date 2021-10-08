@@ -28,8 +28,8 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineData
@@ -61,8 +61,9 @@ private const val CHART_MIN_HEIGHT_DP = 100
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.fragment_vpn_state_connected)
-class VpnStateConnectedFragment :
-    VpnStateFragmentWithNetShield<VpnStateConnectedViewModel, FragmentVpnStateConnectedBinding>() {
+class VpnStateConnectedFragment : VpnStateFragmentWithNetShield<FragmentVpnStateConnectedBinding>() {
+
+    private val viewModel: VpnStateConnectedViewModel by viewModels()
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {
         initDataSet(ContextCompat.getColor(requireContext(), R.color.download))
@@ -76,12 +77,6 @@ class VpnStateConnectedFragment :
 
         override fun getFormattedValue(value: Float): String =
             speedAxisFormatter(value, formatter)
-    }
-
-    override fun initViewModel() {
-        super.initViewModel()
-        viewModel =
-            ViewModelProvider(this).get(VpnStateConnectedViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -22,7 +22,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
@@ -35,7 +34,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_switch_dialog)
-class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewModel>() {
+class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding>() {
 
     @Inject lateinit var serverManager: ServerManager
 
@@ -119,10 +118,6 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
             serverManager.getVpnCountries().size
         )
         return "$serversText, $countriesText"
-    }
-
-    override fun initViewModel() {
-
     }
 
     companion object {

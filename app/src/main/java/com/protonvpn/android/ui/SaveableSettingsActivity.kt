@@ -44,7 +44,9 @@ import kotlin.reflect.KClass
  * if anything has been saved.
  */
 abstract class SaveableSettingsActivity<DB : ViewDataBinding, VM : SaveableSettingsViewModel>
-    : BaseActivityV2<DB, VM>() {
+    : BaseActivityV2<DB>() {
+
+    protected abstract val viewModel: VM
 
     override fun onBackPressed() {
         viewModel.onGoBack()

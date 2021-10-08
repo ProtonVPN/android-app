@@ -23,8 +23,8 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeClipBounds
 import androidx.transition.ChangeImageTransform
@@ -46,11 +46,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.fragment_tv_country_details)
-class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryDetailsBinding>() {
+class CountryDetailFragment : BaseFragmentV2<FragmentTvCountryDetailsBinding>() {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity()).get(TvMainViewModel::class.java)
-    }
+    private val viewModel: TvMainViewModel by viewModels()
 
     lateinit var card: CountryCard
 

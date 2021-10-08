@@ -24,8 +24,8 @@ import android.text.Editable
 import android.util.Patterns
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -49,10 +49,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class SettingsExcludeIpsActivity
     : SaveableSettingsActivity<ActivitySettingsExcludeIpsBinding, SettingsExcludeIpsViewModel>()
 {
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this).get(SettingsExcludeIpsViewModel::class.java)
-    }
+
+    override val viewModel: SettingsExcludeIpsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

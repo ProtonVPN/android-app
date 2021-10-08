@@ -24,7 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -43,12 +43,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
-class CountrySelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding, CountrySelectionViewModel>() {
+class CountrySelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
 
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this).get(CountrySelectionViewModel::class.java)
-    }
+    private val viewModel: CountrySelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

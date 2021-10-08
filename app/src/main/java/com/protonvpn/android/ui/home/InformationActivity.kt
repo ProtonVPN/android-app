@@ -24,10 +24,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexboxLayout
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -47,11 +47,9 @@ import me.proton.core.presentation.utils.openBrowserLink
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_information)
-class InformationActivity : BaseActivityV2<ActivityInformationBinding, InformationViewModel>() {
+class InformationActivity : BaseActivityV2<ActivityInformationBinding>() {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(InformationViewModel::class.java)
-    }
+    private val viewModel: InformationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

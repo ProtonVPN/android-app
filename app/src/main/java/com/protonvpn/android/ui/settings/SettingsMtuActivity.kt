@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ContentLayout
@@ -36,10 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @ContentLayout(R.layout.activity_settings_mtu)
 class SettingsMtuActivity : SaveableSettingsActivity<ActivitySettingsMtuBinding, SettingsMtuViewModel>() {
 
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this)[SettingsMtuViewModel::class.java]
-    }
+    override val viewModel: SettingsMtuViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

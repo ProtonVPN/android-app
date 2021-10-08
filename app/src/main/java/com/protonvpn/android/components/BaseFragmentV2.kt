@@ -25,10 +25,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 
-abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : Fragment() {
-    lateinit var viewModel: VM
+abstract class BaseFragmentV2<DB : ViewDataBinding> : Fragment() {
 
     private var internalBinding: DB? = null
     protected val binding: DB
@@ -42,13 +40,6 @@ abstract class BaseFragmentV2<VM : ViewModel, DB : ViewDataBinding> : Fragment()
     }
 
     open fun onViewCreated() {}
-
-    abstract fun initViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initViewModel()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
