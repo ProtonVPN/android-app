@@ -24,10 +24,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -50,12 +50,9 @@ import kotlinx.parcelize.Parcelize
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_server_selection)
-class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding, ServerSelectionViewModel>() {
+class ServerSelectionActivity : BaseActivityV2<ActivityServerSelectionBinding>() {
 
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this).get(ServerSelectionViewModel::class.java)
-    }
+    private val viewModel: ServerSelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -36,7 +36,6 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -68,7 +67,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_settings)
-class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
+class SettingsActivity : BaseActivityV2<ActivitySettingsBinding>() {
 
     @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
@@ -100,10 +99,6 @@ class SettingsActivity : BaseActivityV2<ActivitySettingsBinding, ViewModel>() {
         registerForActivityResult(SettingsExcludeIpsActivity.createContract(), connectionSettingResultHandler)
     private val mtuSizeSettings =
         registerForActivityResult(SettingsMtuActivity.createContract(), connectionSettingResultHandler)
-
-    override fun initViewModel() {
-        // No ViewModel.
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

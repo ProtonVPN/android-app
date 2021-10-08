@@ -21,11 +21,9 @@ package com.protonvpn.android.ui.home.vpn
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
@@ -40,10 +38,9 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
-abstract class VpnStateFragmentWithNetShield<VM : ViewModel, DB : ViewDataBinding> :
-    BaseFragmentV2<VM, DB>() {
+abstract class VpnStateFragmentWithNetShield<DB : ViewDataBinding> : BaseFragmentV2<DB>() {
 
-    protected lateinit var parentViewModel: VpnStateViewModel
+    protected val parentViewModel: VpnStateViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     // All these dependencies are required by the NetShieldSwitch.
     // Once we refactor it, they should be removed.
@@ -52,12 +49,6 @@ abstract class VpnStateFragmentWithNetShield<VM : ViewModel, DB : ViewDataBindin
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     // End of NetShieldSwitch's dependencies.
-
-    @CallSuper
-    override fun initViewModel() {
-        parentViewModel =
-            ViewModelProvider(requireParentFragment()).get(VpnStateViewModel::class.java)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

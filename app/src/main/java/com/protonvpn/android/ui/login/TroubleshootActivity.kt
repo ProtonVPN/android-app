@@ -24,8 +24,8 @@ import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.core.content.withStyledAttributes
-import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.ContentLayout
@@ -37,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_troubleshoot)
-class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, TroubleshootViewModel>() {
+class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding>() {
 
     companion object {
         private const val TOR_URL = "https://www.torproject.org/"
@@ -46,6 +46,8 @@ class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, Trouble
         private const val MAIL_URL = "mailto:support@protonvpn.com"
         private const val TWITTER_URL = "https://twitter.com/ProtonVPN"
     }
+
+    private val viewModel: TroubleshootViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +72,6 @@ class TroubleshootActivity : BaseActivityV2<ActivityTroubleshootBinding, Trouble
                 openProtonUrl(SUPPORT_URL)
             }
         }
-    }
-
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(TroubleshootViewModel::class.java)
     }
 }
 

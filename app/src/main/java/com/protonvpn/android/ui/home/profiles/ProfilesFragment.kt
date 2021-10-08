@@ -22,8 +22,8 @@ import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
@@ -44,11 +44,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.fragment_profiles)
-class ProfilesFragment : BaseFragmentV2<ProfilesViewModel, FragmentProfilesBinding>() {
+class ProfilesFragment : BaseFragmentV2<FragmentProfilesBinding>() {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(ProfilesViewModel::class.java)
-    }
+    private val viewModel: ProfilesViewModel by viewModels()
 
     override fun onViewCreated() {
         val adapter = GroupAdapter<GroupieViewHolder>()

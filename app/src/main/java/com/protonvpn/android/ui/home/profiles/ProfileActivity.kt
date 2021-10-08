@@ -26,10 +26,10 @@ import android.view.Menu
 import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -67,10 +67,7 @@ class ProfileActivity : SaveableSettingsActivity<ActivityProfileBinding, Profile
         if (it != null) viewModel.setProtocol(it)
     }
 
-    override fun initViewModel() {
-        viewModel =
-                ViewModelProvider(this).get(ProfileViewModel::class.java)
-    }
+    override val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -31,7 +31,6 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -50,7 +49,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_always_on)
 @RequiresApi(24)
-class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewModel>() {
+class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding>() {
 
     @Inject lateinit var dispatcherProvider: DispatcherProvider
 
@@ -86,8 +85,6 @@ class SettingsAlwaysOnActivity : BaseActivityV2<ActivityAlwaysOnBinding, ViewMod
         }
         preloadDrawables()
     }
-
-    override fun initViewModel() {}
 
     private fun preloadDrawables() {
         lifecycleScope.launch(dispatcherProvider.Io) {

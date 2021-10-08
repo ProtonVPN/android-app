@@ -35,11 +35,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 
 @ContentLayout(R.layout.activity_recycler_with_toolbar)
-class ProtocolSelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding, ViewModel>() {
-
-    override fun initViewModel() {
-        // No viewModel.
-    }
+class ProtocolSelectionActivity : BaseActivityV2<ActivityRecyclerWithToolbarBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

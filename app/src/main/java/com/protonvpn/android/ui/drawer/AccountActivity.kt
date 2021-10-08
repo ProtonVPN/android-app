@@ -19,7 +19,7 @@
 package com.protonvpn.android.ui.drawer
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -34,11 +34,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_account)
-class AccountActivity : BaseActivityV2<ActivityAccountBinding, AccountActivityViewModel>() {
+class AccountActivity : BaseActivityV2<ActivityAccountBinding>() {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(AccountActivityViewModel::class.java)
-    }
+    private val viewModel: AccountActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

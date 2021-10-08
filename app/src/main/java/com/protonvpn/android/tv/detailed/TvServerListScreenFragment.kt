@@ -28,7 +28,7 @@ import com.protonvpn.android.databinding.FragmentTvServerListScreenBinding
 import com.protonvpn.android.utils.CountryTools
 
 @ContentLayout(R.layout.fragment_tv_server_list_screen)
-class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, FragmentTvServerListScreenBinding>() {
+class TvServerListScreenFragment : BaseFragmentV2<FragmentTvServerListScreenBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +51,4 @@ class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, Fragmen
     companion object {
         const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
     }
-
-    override fun initViewModel() {}
 }

@@ -19,7 +19,7 @@
 package com.protonvpn.android.ui.home.countries
 
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -41,12 +41,9 @@ import me.proton.core.network.domain.ApiResult
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.fragment_country_list)
-class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountryListBinding>(), NetworkLoader {
+class CountryListFragment : BaseFragmentV2<FragmentCountryListBinding>(), NetworkLoader {
 
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this)[CountryListViewModel::class.java]
-    }
+    private val viewModel: CountryListViewModel by viewModels()
 
     override fun onViewCreated() {
         initList()

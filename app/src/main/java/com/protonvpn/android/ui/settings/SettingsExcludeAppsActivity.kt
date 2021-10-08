@@ -20,9 +20,9 @@
 package com.protonvpn.android.ui.settings
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -43,10 +43,7 @@ import javax.inject.Inject
 class SettingsExcludeAppsActivity :
     SaveableSettingsActivity<ActivityRecyclerWithToolbarBinding, SettingsExcludeAppsViewModel>() {
 
-    override fun initViewModel() {
-        viewModel =
-            ViewModelProvider(this).get(SettingsExcludeAppsViewModel::class.java)
-    }
+    override val viewModel: SettingsExcludeAppsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
