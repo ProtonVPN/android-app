@@ -22,9 +22,11 @@ import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.ui.settings.SettingsItem
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.results.SettingsResults
 import com.protonvpn.tests.upgrade.UpgradeTestData
 import com.protonvpn.testsHelper.ConditionalActionsHelper
+import com.protonvpn.testsHelper.scrollToEx
 
 class SettingsRobot : BaseRobot() {
     fun navigateBackToHomeScreen(): SettingsRobot = clickElementByContentDescription("Navigate up")
@@ -33,34 +35,36 @@ class SettingsRobot : BaseRobot() {
 
     fun setRandomQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileRandom)
 
+    fun openExcludedIPAddressesList(): SettingsRobot =
+            clickElementByContentDescription("Exclude IP addresses")
+
+    fun clickOnDoneButton(): SettingsRobot = clickElementByText("DONE")
+
+    fun clickOnSaveMenuButton(): SettingsRobot = clickElementById(R.id.action_save)
+
     fun openMtuSettings(): SettingsRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
-            R.id.scrollView,
-            R.id.buttonMtuSize
+                R.id.scrollView,
+                R.id.buttonMtuSize
         )
-        return clickElement(R.id.buttonMtuSize, SettingsItem::class.java)
+        clickElement<SettingsRobot>(R.id.buttonMtuSize, SettingsItem::class.java)
+        return this
     }
 
     fun setMTU(mtu: Int): SettingsRobot {
         clearText<SettingsResults>(R.id.inputMtu)
-        return setText(R.id.inputMtu, mtu.toString())
+        setText<SettingsRobot>(R.id.inputMtu, mtu.toString())
+        return this
     }
 
-    fun toggleSplitTunneling(): SettingsResults {
+    fun toggleSplitTunneling(): SettingsRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
-            R.id.scrollView,
-            "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic."
+                R.id.scrollView,
+                "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic."
         )
-        return clickElementByText(R.string.settingsSplitTunnelingTitle)
+        clickElementByText<SettingsRobot>(R.string.settingsSplitTunnelingTitle)
+        return this
     }
-
-    fun openExcludedIPAddressesList(): SettingsRobot =
-        clickElementByContentDescription("Exclude IP addresses")
-
-
-    fun clickOnDoneButton(): SettingsRobot = clickElementByText("DONE")
-
-    fun clickOnSaveMenuButton(): SettingsResults = clickElementById(R.id.action_save)
 
     fun addIpAddressInSplitTunneling(): SettingsRobot {
         openExcludedIPAddressesList()
@@ -68,13 +72,38 @@ class SettingsRobot : BaseRobot() {
             .withContentDesc("Add IP Address")
             .typeText(UpgradeTestData.excludedIPAddress)
         clickElementByText<SettingsRobot>("ADD")
-        return clickOnDoneButton()
+        clickOnDoneButton()
+        return this
     }
 
     private fun setQuickConnection(@StringRes profileName: Int): SettingsRobot {
         clickElement<SettingsRobot>(R.id.buttonDefaultProfile, SettingsItem::class.java)
         clickElementByText<SettingsRobot>(profileName)
-        view.withText(profileName).checkDisplayed()
         return this
     }
+
+    class Verify : BaseVerify(){
+
+        fun settingsMtuErrorIsShown(): Verify =
+                checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
+
+        fun splitTunnelIPIsVisible(): SettingsResults =
+                checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
+
+        fun splitTunnelIpIsNotVisible() : SettingsResults =
+                checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
+
+        fun quickConnectFastestProfileIsVisible() : SettingsResults =
+                checkIfElementIsDisplayedByStringId(R.string.profileFastest)
+
+        fun mainSettingsAreDisplayed(){
+            checkIfElementIsDisplayedById<Verify>(R.id.textSectionQuickConnect)
+            ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
+                    R.id.buttonProtocol)
+            ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
+                    R.id.switchShowSplitTunnel)
+        }
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }

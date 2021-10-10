@@ -29,7 +29,7 @@ import com.protonvpn.tests.profiles.ProfilesRobotFreeUserTests
 import com.protonvpn.tests.profiles.ProfilesRobotTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotTests
-import com.protonvpn.tests.settings.SettingsRobotTests
+import com.protonvpn.tests.settings.SettingsRobotTest
 import com.protonvpn.tests.upgrade.CheckUpgradeTests
 import com.protonvpn.tests.upgrade.UpgradeTests
 import com.protonvpn.tests.util.LiveEventTests
@@ -52,7 +52,7 @@ import org.junit.runners.Suite
         ProtonLoggerImplTests::class,
         SecureCoreRobotTests::class,
         SecureCoreRobotSecurityTests::class,
-        SettingsRobotTests::class,
+        SettingsRobotTest::class,
         CheckUpgradeTests::class,
         UpgradeTests::class,
         VpnConnectionTests::class,
