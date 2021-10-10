@@ -264,14 +264,6 @@ public class UIActionsTestHelper {
         object.check(doesNotExist());
     }
 
-    public void checkIfErrorMessageHasAppeared(String errorMessage) {
-        UICustomMatchers.withErrorText(Matchers.containsString(errorMessage));
-    }
-
-    public void checkIfErrorMessageHasAppeared(@StringRes int stringId) {
-        checkIfErrorMessageHasAppeared(getContext().getString(stringId));
-    }
-
     public static void pressDeviceBackButton() {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.pressBack();

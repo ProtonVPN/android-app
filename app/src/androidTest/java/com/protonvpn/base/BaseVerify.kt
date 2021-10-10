@@ -41,6 +41,12 @@ open class BaseVerify : BaseRobot(){
                 .checkDisplayed()
     }
 
+    inline fun <reified T> checkIfElementIsNotDisplayedById(@IdRes Id: Int): T = executeAndReturnRobot{
+        view
+                .withId(Id)
+                .checkNotDisplayed()
+    }
+
     inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int): T = executeAndReturnRobot{
         view
                 .withId(id)

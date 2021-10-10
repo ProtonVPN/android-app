@@ -25,25 +25,6 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class SettingsResults extends UIActionsTestHelper {
 
-    public SettingsResults settingsViewIsVisible() {
-        checkIfObjectWithIdIsDisplayed(R.id.textSectionQuickConnect);
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
-            R.id.buttonProtocol);
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
-            R.id.switchShowSplitTunnel);
-        return new SettingsResults();
-    }
-
-    public SettingsResults settingsMtuRangeInvalidError() {
-        checkIfErrorMessageHasAppeared(R.string.settingsMtuRangeInvalid);
-        return this;
-    }
-
-    public SettingsResults splitTunnelIPIsVisible() {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView, R.id.buttonExcludeIps);
-        return this;
-    }
-
     public SettingsResults checkIfRandomServerIsSelected() {
         checkIfObjectWithTextIsDisplayed("Random");
         return this;
