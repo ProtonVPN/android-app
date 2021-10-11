@@ -21,6 +21,8 @@ package com.protonvpn.tests.testRules
 import androidx.test.rule.ActivityTestRule
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.login.LoginActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -34,7 +36,7 @@ class ProtonLoginActivityTestRule : TestWatcher() {
         userData = activityTestRule.activity.viewModel.userData
     }
 
-    override fun finished(description: Description) {
+    override fun finished(description: Description) = runBlocking(Dispatchers.Main) {
         userData.logout()
     }
 

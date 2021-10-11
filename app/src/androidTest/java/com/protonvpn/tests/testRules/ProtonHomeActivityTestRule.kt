@@ -25,6 +25,8 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.testsHelper.ServiceTestHelper
 import com.protonvpn.testsHelper.UserDataHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.runner.Description
 
 class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
@@ -40,10 +42,12 @@ class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
 
     override fun finished(description: Description) {
         super.finished(description)
-        service.enableSecureCore(false)
-        service.connectionManager.disconnect()
-        UserDataHelper().userData.logout()
-        service.deleteCreatedProfiles()
+        runBlocking(Dispatchers.Main) {
+            service.enableSecureCore(false)
+            service.connectionManager.disconnect()
+            UserDataHelper().userData.logout()
+            service.deleteCreatedProfiles()
+        }
         activityTestRule.finishActivity()
     }
 

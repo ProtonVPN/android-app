@@ -26,6 +26,8 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class UserDataHelper {
 
@@ -43,17 +45,17 @@ class UserDataHelper {
         userData = hiltEntry.userData()
     }
 
-    fun setUserData(user: TestUser) {
+    fun setUserData(user: TestUser) = runBlocking(Dispatchers.Main) {
         userData.isLoggedIn = true
         userData.user = user.email
         userData.vpnInfoResponse = user.vpnInfoResponse
     }
 
-    fun setProtocol(protocol: VpnProtocol) {
+    fun setProtocol(protocol: VpnProtocol) = runBlocking(Dispatchers.Main)  {
         userData.setProtocols(protocol, null)
     }
 
-    fun logoutUser() {
+    fun logoutUser() = runBlocking(Dispatchers.Main)  {
         userData.isLoggedIn = false
     }
 }
