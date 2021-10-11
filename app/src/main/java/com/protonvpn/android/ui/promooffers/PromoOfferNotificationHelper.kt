@@ -56,7 +56,13 @@ class PromoOfferNotificationHelper(
                 .error(R.drawable.ic_gift)
                 .into(object : DrawableImageViewTarget(imageNotification) {
                     override fun setDrawable(drawable: Drawable?) {
+                        // setDrawable is called to set the error drawable.
                         super.setDrawable(getNotificationDrawable(drawable, notification.visited))
+                    }
+
+                    override fun setResource(drawable: Drawable?) {
+                        // setResource is called to set the downloaded image.
+                        super.setResource(getNotificationDrawable(drawable, notification.visited))
                     }
                 })
             imageNotification.setOnClickListener { _ -> viewModel.onOpenOffer(notification) }
