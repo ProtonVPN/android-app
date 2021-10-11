@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:paddingHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
