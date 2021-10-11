@@ -155,6 +155,7 @@
   <string name="onboardingSignup">Registreren</string>
   <string name="onboardingSkip">OVERSLAAN</string>
   <string name="onboardingNext">DOORGAAN</string>
+  <string name="offerTooltipShowOffer">See the offer</string>
   <string name="listItemMaintenance">In onderhoud</string>
   <string name="listAllCountries">Alle locaties (%1$d)</string>
   <string name="listFreeCountries">GRATIS locaties (%1$d)</string>

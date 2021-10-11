@@ -155,6 +155,7 @@
   <string name="onboardingSignup">Зарегистрироваться</string>
   <string name="onboardingSkip">ПРОПУСТИТЬ</string>
   <string name="onboardingNext">ДАЛЕЕ</string>
+  <string name="offerTooltipShowOffer">Посмотрите предложение</string>
   <string name="listItemMaintenance">На техобслуживании</string>
   <string name="listAllCountries">Все местоположения (%1$d)</string>
   <string name="listFreeCountries">Места FREE (%1$d)</string>
@@ -321,7 +322,7 @@
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN и Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Настройка, как ProtonVPN будет вести себя, когда подключение нарушено</string>
-  <string name="settingsAlwaysOnWindowHeader">Как включить Постоянную VPN и Аварийный Стоп:</string>
+  <string name="settingsAlwaysOnWindowHeader">Как включить Постоянную VPN и Kill Switch:</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Найдите ProtonVPN и нажмите %1$s</string>
@@ -333,7 +334,7 @@
      Android settings.
      Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
      find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Аварийный Стоп]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Эта кнопка перенаправит Вас в настройки Android, где Вы сможете управлять этими функциями.</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
