@@ -41,17 +41,17 @@
 
                 <ImageView
                     android:id="@+id/imageCountry"
-                    android:layout_width="32dp"
+                    android:layout_width="@dimen/server_list_flag_size"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp" />
+                    android:layout_marginEnd="@dimen/server_list_flag_margin" />
 
                 <ImageView
                     android:id="@+id/imageDoubleArrows"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="@dimen/server_list_flag_margin"
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_secure_core_arrow_color" />
 
