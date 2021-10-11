@@ -241,6 +241,8 @@ public final class UserData implements Serializable {
         this.vpnInfoResponse = vpnInfoResponse;
         if (isFreeUser()) {
             setNetShieldProtocol(NetShieldProtocol.DISABLED);
+        } else {
+            netShieldProtocolLiveData.setValue(getNetShieldProtocol());
         }
         if (!isUserPlusOrAbove()) {
             setSecureCoreEnabled(false);
@@ -255,6 +257,7 @@ public final class UserData implements Serializable {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+        netShieldProtocolLiveData.setValue(getNetShieldProtocol());
         saveToStorage();
     }
 
@@ -432,7 +435,7 @@ public final class UserData implements Serializable {
 
     public void setNetShieldProtocol(NetShieldProtocol value) {
         netShieldProtocol = value;
-        netShieldProtocolLiveData.postValue(getNetShieldProtocol());
+        netShieldProtocolLiveData.setValue(getNetShieldProtocol());
         saveToStorage();
     }
 

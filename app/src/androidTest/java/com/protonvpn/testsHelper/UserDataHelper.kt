@@ -16,29 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.testsHelper;
+package com.protonvpn.testsHelper
 
-import com.protonvpn.TestApplication;
-import com.protonvpn.android.models.config.UserData;
-import com.protonvpn.test.shared.TestUser;
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.TestApplication
+import com.protonvpn.android.models.config.UserData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-import javax.inject.Inject;
+class UserDataHelper {
 
-public class UserDataHelper {
+    @Inject lateinit var userData: UserData
 
-    @Inject public UserData userData;
-
-    public UserDataHelper() {
-        TestApplication.testAppComponent.provideUserPrefs(this);
+    fun setUserData(user: TestUser) = runBlocking(Dispatchers.Main) {
+        userData.isLoggedIn = true
+        userData.user = user.email
+        userData.vpnInfoResponse = user.vpnInfoResponse
     }
 
-    public void setUserData(TestUser user) {
-        userData.setLoggedIn(true);
-        userData.setUser(user.email);
-        userData.setVpnInfoResponse(user.getVpnInfoResponse());
+    fun logoutUser() {
+        userData.isLoggedIn = false
     }
 
-    public void logoutUser(){
-        userData.setLoggedIn(false);
+    init {
+        TestApplication.testAppComponent.provideUserPrefs(this)
     }
 }
