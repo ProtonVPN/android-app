@@ -155,6 +155,7 @@
   <string name="onboardingSignup">Registe-se</string>
   <string name="onboardingSkip">SALTAR</string>
   <string name="onboardingNext">SEGUINTE</string>
+  <string name="offerTooltipShowOffer">See the offer</string>
   <string name="listItemMaintenance">Em manutenção</string>
   <string name="listAllCountries">All Locations (%1$d)</string>
   <string name="listFreeCountries">FREE Locations (%1$d)</string>

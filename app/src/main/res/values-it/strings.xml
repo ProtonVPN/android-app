@@ -155,6 +155,7 @@
   <string name="onboardingSignup">Iscriviti</string>
   <string name="onboardingSkip">SALTA</string>
   <string name="onboardingNext">PROSSIMO</string>
+  <string name="offerTooltipShowOffer">See the offer</string>
   <string name="listItemMaintenance">In manutenzione</string>
   <string name="listAllCountries">Tutte le località (%1$d)</string>
   <string name="listFreeCountries">Posizioni GRATUITE (%1$d)</string>
