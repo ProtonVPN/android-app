@@ -2,6 +2,8 @@ package com.protonvpn.tests.account
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.protonvpn.actions.AccountRobot
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.kotlinActions.HomeRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
@@ -13,12 +15,16 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [AccountRobotTests] contains UI tests for Account view
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class AccountRobotTests {
 
     private val homeRobot = HomeRobot()
+    private val accountRobot = AccountRobot()
     private val testUser = TestUser.getPlusUser()
 
     @get:Rule
@@ -31,9 +37,14 @@ class AccountRobotTests {
     fun checkIfUserNameDisplayedInAccountSection(){
         homeRobot
                 .openAccountView()
+        accountRobot
                 .verify {
                     checkIfCorrectUsernameIsDisplayed(testUser)
-                    checkIfAccountButtonOpenUrl()
+                }
+        accountRobot
+                .clickManageAccount()
+                .verify {
+                    checkIfAccountButtonOpensBrowser("com.android.chrome")
                 }
     }
 }

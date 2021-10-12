@@ -23,78 +23,56 @@ import com.protonvpn.android.R
 import com.protonvpn.android.ui.settings.SettingsItem
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.results.SettingsResults
-import com.protonvpn.tests.upgrade.UpgradeTestData
 import com.protonvpn.testsHelper.ConditionalActionsHelper
-import com.protonvpn.testsHelper.scrollToEx
 
+/**
+ * [SettingsRobot] Contains all actions for settings component
+ */
 class SettingsRobot : BaseRobot() {
-    fun navigateBackToHomeScreen(): SettingsRobot = clickElementByContentDescription("Navigate up")
 
     fun setFastestQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileFastest)
-
-    fun setRandomQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileRandom)
-
-    fun openExcludedIPAddressesList(): SettingsRobot =
-            clickElementByContentDescription("Exclude IP addresses")
-
-    fun clickOnDoneButton(): SettingsRobot = clickElementByText("DONE")
 
     fun clickOnSaveMenuButton(): SettingsRobot = clickElementById(R.id.action_save)
 
     fun openMtuSettings(): SettingsRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
-                R.id.scrollView,
-                R.id.buttonMtuSize
+            R.id.scrollView,
+            R.id.buttonMtuSize
         )
-        clickElement<SettingsRobot>(R.id.buttonMtuSize, SettingsItem::class.java)
-        return this
+        return clickElement(R.id.buttonMtuSize, SettingsItem::class.java)
     }
 
     fun setMTU(mtu: Int): SettingsRobot {
-        clearText<SettingsResults>(R.id.inputMtu)
-        setText<SettingsRobot>(R.id.inputMtu, mtu.toString())
-        return this
+        clearText<SettingsRobot>(R.id.inputMtu)
+        return setText(R.id.inputMtu, mtu.toString())
     }
 
     fun toggleSplitTunneling(): SettingsRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
-                R.id.scrollView,
-                "Split tunneling allows certain apps or IPs to be excluded from the VPN traffic."
+            R.id.scrollView,
+            R.string.settingsSplitTunnelingDescription
         )
-        clickElementByText<SettingsRobot>(R.string.settingsSplitTunnelingTitle)
-        return this
-    }
-
-    fun addIpAddressInSplitTunneling(): SettingsRobot {
-        openExcludedIPAddressesList()
-        view
-            .withContentDesc("Add IP Address")
-            .typeText(UpgradeTestData.excludedIPAddress)
-        clickElementByText<SettingsRobot>("ADD")
-        clickOnDoneButton()
-        return this
+        return clickElementByText(R.string.settingsSplitTunnelingTitle)
     }
 
     private fun setQuickConnection(@StringRes profileName: Int): SettingsRobot {
         clickElement<SettingsRobot>(R.id.buttonDefaultProfile, SettingsItem::class.java)
-        clickElementByText<SettingsRobot>(profileName)
-        return this
+        return clickElementByText(profileName)
     }
 
     class Verify : BaseVerify(){
 
         fun settingsMtuErrorIsShown(): Verify =
-                checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
+            checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
 
-        fun splitTunnelIPIsVisible(): SettingsResults =
-                checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelIPIsVisible(): Verify =
+            checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
 
-        fun splitTunnelIpIsNotVisible() : SettingsResults =
-                checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelIpIsNotVisible() : Verify =
+            checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
 
-        fun quickConnectFastestProfileIsVisible() : SettingsResults =
-                checkIfElementIsDisplayedByStringId(R.string.profileFastest)
+        fun quickConnectFastestProfileIsVisible() : Verify =
+            checkIfElementIsDisplayedByStringId(R.string.profileFastest)
 
         fun mainSettingsAreDisplayed(){
             checkIfElementIsDisplayedById<Verify>(R.id.textSectionQuickConnect)

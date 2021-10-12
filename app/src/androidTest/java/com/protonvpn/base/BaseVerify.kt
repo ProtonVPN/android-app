@@ -21,7 +21,10 @@ package com.protonvpn.base
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.ProtonApplication
+import com.google.common.truth.Truth.assertThat
 
 /**
  * [BaseVerify] Contains common view independent verification methods
@@ -63,5 +66,11 @@ open class BaseVerify : BaseRobot(){
         view
                 .withText(resId)
                 .checkDoesNotExist()
+    }
+
+    inline fun <reified T> checkIfBrowserIsOpened(browserPackageName: String): T = executeAndReturnRobot{
+        val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val currentPackage = myDevice.currentPackageName
+        assertThat(currentPackage).isEqualTo(browserPackageName)
     }
 }
