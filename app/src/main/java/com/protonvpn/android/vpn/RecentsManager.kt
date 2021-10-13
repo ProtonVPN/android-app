@@ -93,7 +93,10 @@ class RecentsManager(
     }
 
     private fun addToRecentCountries(profile: Profile) {
-        recentConnections.removeFirst { profile.name == it.name || profile.connectCountry == it.connectCountry }
+        recentConnections.removeFirst {
+            (profile.name.isNotBlank() && profile.name == it.name)
+                    || profile.connectCountry == it.connectCountry
+        }
         if (recentConnections.size > RECENT_MAX_SIZE) {
             recentConnections.removeLast()
         }
