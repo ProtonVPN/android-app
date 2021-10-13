@@ -47,8 +47,6 @@ class RecentsManager(
 
     @Transient val update = MutableSharedFlow<Unit>()
 
-    private var connectionOnHold: ConnectionParams? = null
-
     init {
         Storage.load(RecentsManager::class.java)?.let {
             recentConnections.addAll(it.recentConnections)
@@ -61,9 +59,7 @@ class RecentsManager(
         scope.launch {
             stateMonitor.status.collect { status ->
                 if (status.state == VpnState.Connected) {
-                    connectionOnHold = status.connectionParams
-                } else if (status.state == VpnState.Disconnecting) {
-                    connectionOnHold?.let { params ->
+                    status.connectionParams?.let { params ->
                         addToRecentServers(params.server)
                         addToRecentCountries(params.profile)
                         Storage.save(this@RecentsManager)
@@ -75,7 +71,6 @@ class RecentsManager(
         logoutHandler.logoutEvent.observeForever {
             recentConnections.clear()
             recentServers.clear()
-            connectionOnHold = null
             Storage.delete(RecentsManager::class.java)
         }
     }
