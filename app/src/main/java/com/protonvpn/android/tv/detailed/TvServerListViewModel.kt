@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tv.detailed
 
+import android.app.Activity
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -151,10 +152,10 @@ class TvServerListViewModel @Inject constructor(
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())
 
-        fun click(context: Context, onUpgrade: () -> Unit) = when (actionState) {
+        fun click(activity: Activity, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager)
-                vpnConnectionManager.connect(context, profile, "TV server list")
+                vpnConnectionManager.connect(activity, profile, "TV server list")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
                 vpnConnectionManager.disconnect()
