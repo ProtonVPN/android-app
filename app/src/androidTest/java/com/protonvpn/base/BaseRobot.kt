@@ -61,6 +61,18 @@ open class BaseRobot : CoreRobot() {
                 .click()
     }
 
+    inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeLeft()
+    }
+
+    inline fun <reified T> swipeRightOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeRight()
+    }
+
     inline fun <reified T> clickElementByIdAndContentDescription(
         @IdRes id: Int,
         description: String

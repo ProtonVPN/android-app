@@ -21,10 +21,18 @@ package com.protonvpn.base
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.ProtonApplication
 import com.google.common.truth.Truth.assertThat
+import me.proton.core.presentation.ui.view.ProtonButton
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.nullValue
+import kotlin.test.assertNull
 
 /**
  * [BaseVerify] Contains common view independent verification methods
