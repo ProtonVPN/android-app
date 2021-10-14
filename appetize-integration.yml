@@ -52,7 +52,8 @@
     action: stop
   variables:
     GIT_STRATEGY: none
-  when: manual
+  rules:
+    - when: manual
   script:
     - appetize version
     - appetize delete $APPETIZE_PUBLIC_KEY
