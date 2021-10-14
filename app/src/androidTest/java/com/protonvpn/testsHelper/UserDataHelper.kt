@@ -35,7 +35,7 @@ class UserDataHelper {
         userData.vpnInfoResponse = user.vpnInfoResponse
     }
 
-    fun logoutUser() {
+    fun logoutUser() = runBlocking(Dispatchers.Main) {
         userData.isLoggedIn = false
     }
 

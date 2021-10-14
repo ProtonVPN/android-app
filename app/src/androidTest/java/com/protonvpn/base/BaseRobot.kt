@@ -20,6 +20,7 @@ package com.protonvpn.base
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.test.espresso.matcher.ViewMatchers
 import me.proton.core.test.android.instrumented.CoreRobot
 
 /**
@@ -43,6 +44,13 @@ open class BaseRobot : CoreRobot {
         view
                 .withText(text)
                 .click()
+    }
+
+    inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
+        view
+            .withVisibility(ViewMatchers.Visibility.VISIBLE)
+            .withText(resId)
+            .click()
     }
 
     inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long): T = executeAndReturnRobot{
