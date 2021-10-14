@@ -42,12 +42,9 @@ class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
 
     override fun finished(description: Description) {
         super.finished(description)
-        runBlocking(Dispatchers.Main) {
-            service.enableSecureCore(false)
-            service.connectionManager.disconnect()
-            UserDataHelper().userData.logout()
-            service.deleteCreatedProfiles()
-        }
+        service.enableSecureCore(false)
+        UserDataHelper().logoutUser()
+        service.deleteCreatedProfiles()
         activityTestRule.finishActivity()
     }
 
