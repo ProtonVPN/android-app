@@ -21,6 +21,7 @@ package com.protonvpn.base
 import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.data.Timeouts
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
@@ -72,6 +73,13 @@ open class BaseRobot : CoreRobot() {
                 .withParent(view.withId(parentId))
                 .withParentIndex(index)
                 .click()
+    }
+
+    inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
+        view
+            .withVisibility(ViewMatchers.Visibility.VISIBLE)
+            .withText(resId)
+            .click()
     }
 
     inline fun <reified T> clearText(
