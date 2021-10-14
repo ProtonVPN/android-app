@@ -15,7 +15,6 @@ class RealConnectionRobot : BaseRobot() {
     }
 
     fun connectThroughQuickConnectRealConnection() : RealConnectionRobot{
-        view.withText("Argentina").wait()
         HomeRobot().connectThroughQuickConnect()
         waitUntilDisplayed<RealConnectionRobot>(R.id.buttonDisconnect)
         return this;
