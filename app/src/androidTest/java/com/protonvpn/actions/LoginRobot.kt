@@ -42,9 +42,10 @@ class LoginRobot : BaseRobot() {
         return LoginResult(user)
     }
 
-    fun loginWithWait(user: TestUser){
+    fun loginWithWaitUntilServerListIsLoaded(user: TestUser, firstCountry: String){
         login(user)
         waitUntilDisplayedByContentDesc<LoginRobot>(R.string.hamburgerMenu)
+        waitUntilDisplayedByText<LoginRobot>(firstCountry)
     }
 
     fun viewUserPassword(user: TestUser): LoginFormResult {

@@ -68,7 +68,8 @@ class RealConnectionRobotTests(private val protocol: VpnProtocol) {
     @Test
     //Don't run this test case individually, Junit has a bug https://github.com/android/android-test/issues/960
     fun realConnection() {
-            loginRobot.loginWithWait(TestUser.getPlusUser())
+            loginRobot
+                    .loginWithWaitUntilServerListIsLoaded(TestUser.getPlusUser(),"Argentina")
             connectionRobot
                     .connectThroughQuickConnectRealConnection()
                     .verify {

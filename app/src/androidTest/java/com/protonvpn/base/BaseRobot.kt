@@ -110,6 +110,12 @@ open class BaseRobot : CoreRobot() {
                 .wait(time)
     }
 
+    inline fun <reified T> waitUntilDisplayedByText(text: String, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
+        view
+                .withText(text)
+                .wait(time)
+    }
+
     inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
         view
                 .withContentDesc(resId)
