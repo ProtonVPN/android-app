@@ -23,6 +23,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.data.Timeouts
+import me.proton.core.presentation.ui.view.ProtonButton
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 
@@ -37,8 +38,9 @@ open class BaseRobot : CoreRobot() {
                 .click()
     }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot{
+    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>? = null): T = executeAndReturnRobot{
         view
+                .instanceOf(clazz)
                 .withId(id)
                 .click()
     }
@@ -71,6 +73,12 @@ open class BaseRobot : CoreRobot() {
         view
                 .withId(id)
                 .swipeRight()
+    }
+
+    inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeDown()
     }
 
     inline fun <reified T> clickElementByIdAndContentDescription(
@@ -131,6 +139,12 @@ open class BaseRobot : CoreRobot() {
     inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
         view
                 .withContentDesc(resId)
+                .wait(time)
+    }
+
+    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+        view
+                .withContentDesc(desc)
                 .wait(time)
     }
 

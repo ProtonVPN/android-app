@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Proton Technologies AG
+ * Copyright (c) 2021 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.tests.settings
+package com.protonvpn.tests.map
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.SettingsRobot
-import com.protonvpn.base.BaseVerify
+import androidx.test.filters.SdkSuppress
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.kotlinActions.HomeRobot
+import com.protonvpn.kotlinActions.MapRobot
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonSettingsActivityTestRule
+import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -32,66 +34,48 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
-/**
- * [SettingsRobotTests] Contains UI tests for Settings
- */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class SettingsRobotTests {
+class MapRobotTests {
 
-    private val settingsRobot = SettingsRobot()
+    private val testRule = ProtonHomeActivityTestRule()
+    private val homeRobot = HomeRobot()
+    private val mapRobot = MapRobot()
+    private val country = "United States"
 
     @get:Rule
     var rules = RuleChain
             .outerRule(HiltAndroidRule(this))
             .around(SetUserPreferencesRule(TestUser.getPlusUser()))
-            .around(ProtonSettingsActivityTestRule())
+            .around(testRule)
 
     @Test
-    fun checkIfSettingsViewIsVisible() {
-        settingsRobot.verify {
-            mainSettingsAreDisplayed()
-        }
-    }
-
-    @Test
-    fun selectFastestQuickConnection() {
-        settingsRobot.setFastestQuickConnection()
+    fun mapNodeSuccessfullySelected() {
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        homeRobot.swipeLeftToOpenMap()
+        mapRobot.clickOnCountryNode(country)
+                .clickConnectButton()
                 .verify {
-                    quickConnectFastestProfileIsVisible()
+                    isConnectedToVPN()
+                }
+        mapRobot.swipeDownToCloseConnectionInfoLayout()
+                .verify {
+                    isCountryNodeSelected(country)
                 }
     }
 
     @Test
-    fun setTooLowMTU() {
-        settingsRobot.openMtuSettings()
-                .setMTU(1279)
-                .clickOnSaveMenuButton()
-                .verify {
-                    settingsMtuErrorIsShown()
-                }
-    }
-
-    @Test
-    fun setTooHighMTU() {
-        settingsRobot.openMtuSettings()
-                .setMTU(1501)
-                .clickOnSaveMenuButton()
-                .verify {
-                    settingsMtuErrorIsShown()
-                }
-    }
-
-    @Test
-    fun switchSplitTunneling() {
-        settingsRobot.toggleSplitTunneling()
-                .verify {
-                    splitTunnelIPIsVisible()
-                }
-        settingsRobot.toggleSplitTunneling()
-                .verify {
-                    splitTunnelIpIsNotVisible()
+    @SdkSuppress(minSdkVersion = 28)
+    fun mapNodeIsNotSelected() {
+        testRule.mockStatusOnConnect(VpnState.Connecting)
+        homeRobot.swipeLeftToOpenMap()
+        mapRobot.clickOnCountryNode(country)
+                .clickConnectButtonWithoutVpnHandling()
+                .clickCancelConnectionButton()
+        mapRobot.verify {
+                    isDisconnectedFromVpn()
+                    isCountryNodeNotSelected(country)
                 }
     }
 }

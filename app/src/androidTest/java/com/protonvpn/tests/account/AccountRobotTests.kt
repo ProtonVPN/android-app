@@ -35,14 +35,11 @@ class AccountRobotTests {
 
     @Test
     fun checkIfUserNameDisplayedInAccountSection(){
-        homeRobot
-                .openAccountView()
-        accountRobot
-                .verify {
+        homeRobot.openAccountView()
+        accountRobot.verify {
                     checkIfCorrectUsernameIsDisplayed(testUser)
                 }
-        accountRobot
-                .clickManageAccount()
+        accountRobot.clickManageAccount()
                 .verify {
                     checkIfAccountButtonOpensBrowser("com.android.chrome")
                 }
