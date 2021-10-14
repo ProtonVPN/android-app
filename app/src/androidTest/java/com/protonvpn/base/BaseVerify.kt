@@ -58,6 +58,12 @@ open class BaseVerify : BaseRobot(){
                 .checkNotDisplayed()
     }
 
+    inline fun <reified T> checkIfElementDoesNotExistByContentDesc(contentDesc: String): T = executeAndReturnRobot{
+        view
+                .withContentDesc(contentDesc)
+                .checkDoesNotExist()
+    }
+
     inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int): T = executeAndReturnRobot{
         view
                 .withId(id)
@@ -74,6 +80,12 @@ open class BaseVerify : BaseRobot(){
         view
                 .withText(resId)
                 .checkDoesNotExist()
+    }
+
+    inline fun <reified T> checkIfElementIsDisplayedByContentDesc(text: String): T = executeAndReturnRobot{
+        view
+                .withContentDesc(text)
+                .checkDisplayed()
     }
 
     inline fun <reified T> checkIfBrowserIsOpened(browserPackageName: String): T = executeAndReturnRobot{

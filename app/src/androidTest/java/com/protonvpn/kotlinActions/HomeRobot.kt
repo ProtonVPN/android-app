@@ -21,6 +21,7 @@ package com.protonvpn.kotlinActions
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.testsHelper.ConditionalActionsHelper
 
 class HomeRobot : BaseRobot() {
 
@@ -28,5 +29,10 @@ class HomeRobot : BaseRobot() {
         clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
         clickElementById<HomeRobot>(R.id.layoutUserInfo)
         return AccountRobot()
+    }
+
+    fun swipeLeftToOpenMap(): MapRobot {
+        swipeLeftOnElementById<MapRobot>(R.id.list)
+        return waitUntilDisplayed(R.id.mapView)
     }
 }
