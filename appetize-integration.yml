@@ -5,11 +5,6 @@
     name: review/$CI_COMMIT_REF_NAME
     url: https://appetize.io/app/$APPETIZE_PUBLIC_KEY
     on_stop: stopReview
-  only:
-    refs:
-      - branches
-  except:
-    - master
   script:
     - appetize version
     - pwd
@@ -58,11 +53,6 @@
   variables:
     GIT_STRATEGY: none
   when: manual
-  only:
-    refs:
-      - branches
-  except:
-    - master
   script:
     - appetize version
     - appetize delete $APPETIZE_PUBLIC_KEY
