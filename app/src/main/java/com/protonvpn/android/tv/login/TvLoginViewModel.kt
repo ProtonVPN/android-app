@@ -159,7 +159,8 @@ class TvLoginViewModel @Inject constructor(
                             }
                             else -> {
                                 mainScope.launch {
-                                    certificateRepository.updateCertificate(loginResponse.sessionId, cancelOngoing = true)
+                                    certificateRepository.updateCertificate(
+                                        loginResponse.sessionId, cancelOngoing = true)
                                 }
                                 userData.setLoggedIn(result.value.sessionId, infoResult.value)
                                 loadInitialConfig()
