@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
   <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
   <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
-  <string name="restrictedBasicTitle">سرور غیررایگان</string>
-  <string name="restrictedPlusTitle">سرور Plus</string>
-  <string name="restrictedSecureCoreTitle">سرور Secure Core</string>
-  <string name="restrictedBasic">شما قصد اتصال به یک سرور غیررایگان را دارید.\n برای دسترسی به سرورهای تمامی کشورها با سرعت بالا، لطفاً اشتراک خود را ارتقا دهید. </string>
-  <string name="restrictedPlus">شما قصد اتصال به یک سرور که به اشتراک ProtonVPN Plus یا بالاتر نیاز دارد را دارید.\nبرای دسترسی به سرورهای بیشتر در تمامی کشورها، لطفا اشتراک خود را ارتقا دهید.</string>
-  <string name="restrictedSecureCore">قابلیت Secure Core یک قابلیت ویژه است که نیاز به اشتراک ProtonVPN پلاس یا بالاتر دارد. Secure Core حفاظت پیشرفته را در برابر شنود سرورهای VPN فراهم می‌کند.\nبرای دسترسی به Secure Core، طرح‌های اشتراک دیگر ما را که شامل این امکان هستند بررسی کنید.</string>
   <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
   <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح ProtonVPN خود را ارتقا دهید.</string>
   <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
@@ -335,8 +329,6 @@
   <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
   <string name="dialogDontShowAgain">دوباره نشان نده</string>
   <string name="paidFeature">قابلیت غیررایگان</string>
-  <string name="upgradeRequired">ارتقاء لازم است</string>
-  <string name="netShieldPaidFeature">استفاده از این قابلیت نیاز به یک اشتراک پرداختی ProtonVPN دارد. \n به صورت آنلاین اشتراک خود را ارتقا دهید تا دسترسی به همهٔ امکانات را باز کنید و از ProtonVPN پشتیبانی کنید</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>

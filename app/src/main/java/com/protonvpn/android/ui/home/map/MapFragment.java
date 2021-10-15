@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home.map;
 
+import android.content.Intent;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
@@ -39,7 +40,7 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
-import com.protonvpn.android.utils.Constants;
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnConnectionManager;
@@ -62,7 +63,6 @@ import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import dagger.hilt.android.AndroidEntryPoint;
 
-import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static java.util.Collections.sort;
 
 @AndroidEntryPoint
@@ -304,7 +304,9 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             binding.imageMarker.setImageResource(
                 currentConnection ? R.drawable.ic_marker_colored : R.drawable.ic_marker_available);
         } else {
-            binding.buttonUpgrade.setOnClickListener(v -> openProtonUrl(requireContext(), Constants.DASHBOARD_URL));
+            binding.buttonUpgrade.setOnClickListener(v ->
+                requireContext().startActivity(new Intent(requireContext(), UpgradePlusCountriesDialogActivity.class))
+            );
 
             binding.buttonConnect.setVisibility(View.GONE);
             binding.buttonDisconnect.setVisibility(View.GONE);

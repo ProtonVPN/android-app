@@ -154,14 +154,7 @@
     <string name="settingsDefaultConnectionDescription">Quick connect button connects you to the selected profile</string>
 
     <string name="restrictedMaintenanceTitle">Under maintenance</string>
-
     <string name="restrictedMaintenanceDescription">Server you are currently trying to connect is under maintenance. Please try another server.</string>
-    <string name="restrictedBasicTitle">Paid Server</string>
-    <string name="restrictedPlusTitle">Plus Server</string>
-    <string name="restrictedSecureCoreTitle">Secure Core Server</string>
-    <string name="restrictedBasic">You are trying to connect to a server which requires a paid subscription.\n\nTo access high speed servers in all countries, please upgrade your subscription.</string>
-    <string name="restrictedPlus">You are trying to connect to a server which requires a ProtonVPN Plus subscription or higher.\n\nTo access more servers in all countries, please upgrade your subscription.</string>
-    <string name="restrictedSecureCore">Secure Core is a premium feature which requires ProtonVPN Plus or higher. Secure Core adds advanced protection against VPN server monitoring.\n\nTo access Secure Core, check out our other subscription plans which include this feature.</string>
     <string name="errorUserDelinquent"><![CDATA[Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">You have hit the maximum number of simultaneous connections allowed for your account. Please upgrade your ProtonVPN plan to get more connections.</string>
     <string name="errorEmptyName">Profile name field cannot be empty</string>
@@ -388,8 +381,6 @@
     <string name="netShieldFullBlock">Block malware, tracking, ads</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="paidFeature">Paid feature</string>
-    <string name="upgradeRequired">Upgrade required</string>
-    <string name="netShieldPaidFeature">This feature requires a ProtonVPN paid subscription.\n\nUpgrade online to unlock all features and support ProtonVPN</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
@@ -531,6 +522,52 @@
     </plurals>
 
     <string name="upsell_upgrade_again">Upgrade again to enjoy all the features:</string>
+
+    <string name="upgrade_netshield_title">Unlock NetShield</string>
+    <string name="upgrade_secure_core_title">Unlock Secure Core</string>
+    <string name="upgrade_plus_title">Unlock Plus countries</string>
+    <string name="upgrade_netshield_message">Block malware, ads, and trackers in browsers and in apps. Available with any paid plan.</string>
+    <string name="upgrade_secure_core_message">Route your most sensitive data through our safest servers in privacy-friendly countries. Available with Plus and Visionary plans.</string>
+
+    <!-- Parameters:
+         %1$s - replaced with "upgrade_plus_servers"
+         %2$s - replaced with "upgrade_plus_countries"
+
+         Example:
+         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
+         -->
+    <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200+ servers
+         -->
+    <plurals name="upgrade_plus_servers">
+        <item quantity="one">%d server</item>
+        <item quantity="other">%d+ servers</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d country</item>
+        <item quantity="other">%d countries</item>
+    </plurals>
+
+    <string name="upgrade_plus_countries_streaming">Access streaming services globally</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="upgrade_plus_countries_many_devices">
+        <item quantity="one">Connect %d device</item>
+        <item quantity="other">Connect %d devices simultaneously</item>
+    </plurals>
+    <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
+    <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
+
+    <string name="upgrade_see_plans_button">See plans and pricing</string>
+    <string name="upgrade_not_now_button">Not now</string>
 
     <!-- Information activity -->
     <string name="activity_information_title">Information</string>

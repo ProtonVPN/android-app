@@ -23,7 +23,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.CompoundButton
@@ -33,14 +32,13 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.showGenericReconnectDialog
-import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 
@@ -226,16 +224,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun showUpgradeDialog() {
-        MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.upgradeRequired)
-            .setMessage(R.string.netShieldPaidFeature)
-            .setPositiveButton(R.string.upgrade) { _, _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse(Constants.DASHBOARD_URL))
-                context.startActivity(browserIntent)
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        context.startActivity(Intent(context, UpgradeNetShieldDialogActivity::class.java))
     }
 
     private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {

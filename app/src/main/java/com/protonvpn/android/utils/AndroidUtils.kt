@@ -34,6 +34,7 @@ import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
@@ -46,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
+import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
@@ -60,6 +62,12 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 object AndroidUtils {
+
+    fun <T : ViewBinding> Activity.setContentViewBinding(inflater: (LayoutInflater) -> T): T {
+        val binding = inflater(LayoutInflater.from(this))
+        setContentView(binding.root)
+        return binding
+    }
 
     fun isPackageSignedWith(
         context: Context,

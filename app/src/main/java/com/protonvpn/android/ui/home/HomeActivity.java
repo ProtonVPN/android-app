@@ -239,7 +239,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !userData.hasAccessToSecureCore()) {
-                showUpgradeDialog(true, false);
+                showSecureCoreUpgradeDialog();
                 return true;
             } else if (vpnStateMonitor.isConnected()
                 && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
@@ -634,7 +634,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
         if (secureCoreServer && !userData.hasAccessToSecureCore()) {
-            showUpgradeDialog(true, false);
+            showSecureCoreUpgradeDialog();
         } else if (secureCoreServer != secureCoreOn) {
             showSecureCoreChangeDialog(profile, connectionCauseLog);
         } else {

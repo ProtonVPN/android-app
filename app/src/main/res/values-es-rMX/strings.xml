@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">El botón de conexión rápida le conecta con el perfil seleccionado</string>
   <string name="restrictedMaintenanceTitle">En mantenimiento</string>
   <string name="restrictedMaintenanceDescription">El servidor al que intenta conectar está en mantenimiento. Intente con otro servidor.</string>
-  <string name="restrictedBasicTitle">Servidor de pago</string>
-  <string name="restrictedPlusTitle">Servidor Plus</string>
-  <string name="restrictedSecureCoreTitle">Servidor Secure Core</string>
-  <string name="restrictedBasic">Está intentando conectarse a un servidor que requiere de una suscripción de pago.\nPara acceder a los servidores de alta velocidad en todos los países, mejore su suscripción. </string>
-  <string name="restrictedPlus">Está intentando conectarse a un servidor que requiere de una suscripción ProtonVPN Plus o superior.\nPara acceder a más servidores en todos los países, mejore su suscripción.</string>
-  <string name="restrictedSecureCore">Secure Core es una función premium que requiere ProtonVPN Plus o superior. Secure Core añade protección avanzada contra el monitoreo de servidores VPN.\nPara acceder a Secure Core, revise nuestros demás planes de suscripción que incluyen esta función.</string>
   <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Ha alcanzado el número máximo de conexiones simultáneas permitidas para su cuenta. Mejore su plan de ProtonVPN para obtener más conexiones.</string>
   <string name="errorEmptyName">El campo del nombre del perfil no puede estar vacío</string>
@@ -335,8 +329,6 @@
   <string name="netShieldFullBlock">Bloquear malware, rastreadores, anuncios</string>
   <string name="dialogDontShowAgain">No volver a mostrar</string>
   <string name="paidFeature">Función de pago</string>
-  <string name="upgradeRequired">Mejora necesaria</string>
-  <string name="netShieldPaidFeature">Esta función requiere una suscripción de pago de ProtonVPN.\n\nActualice en línea para desbloquear todas las funciones y apoyar a ProtonVPN</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una app dual (por ejemplo, Dual Messenger) y Tunelización dividida. Deshabilite una de ellas y reinicie su dispositivo.</string>
