@@ -24,8 +24,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
-private const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
-
 @Singleton
 class VpnErrorUIManager(
     scope: CoroutineScope,
@@ -128,8 +126,8 @@ class VpnErrorUIManager(
                     } else {
                         appContext.resources.getQuantityString(
                             R.plurals.notification_max_sessions_upsell_content,
-                            MAX_CONNECTIONS_IN_PLUS_PLAN,
-                            MAX_CONNECTIONS_IN_PLUS_PLAN,
+                            Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
+                            Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
                         )
                     }
                     ReconnectionNotification(

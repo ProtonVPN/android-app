@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">Il pulsante di connessione rapida ti collega al profilo selezionato</string>
   <string name="restrictedMaintenanceTitle">In manutenzione</string>
   <string name="restrictedMaintenanceDescription">Il server al quale stai cercando di connetterti è in manutenzione. Per favore prova un altro server.</string>
-  <string name="restrictedBasicTitle">Server a pagamento</string>
-  <string name="restrictedPlusTitle">Server Plus</string>
-  <string name="restrictedSecureCoreTitle">Server Secure Core</string>
-  <string name="restrictedBasic">Stai cercando di connetterti a un server che richiede un abbonamento a pagamento.\nPer accedere a server ad alta velocità in tutti i paesi, per favore effettua l\'upgrade del tuo abbonamento. </string>
-  <string name="restrictedPlus">Stai cercando di connetterti a un server che richiede un abbonamento ProtonVPN Plus o superiore.\nPer accedere a più server in tutti i paesi, per favore effettua l\'upgrade del tuo abbonamento.</string>
-  <string name="restrictedSecureCore">Secure Core è una funzionalità premium che richiede ProtonVPN Plus o superiore. Secure Core aggiunge protezione avanzata contro il monitoraggio del server VPN.\nPer accedere a Secure Core, controlla i nostri piani di abbonamento che includono questa funzionalità.</string>
   <string name="errorUserDelinquent"><![CDATA[Il tuo account ha attualmente una fattura scaduta. Si prega di pagare tutte le fatture non pagate a&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Hai raggiunto il numero massimo di connessioni simultanee consentite per il tuo account. Per favore effettua l\'upgrade del tuo piano ProtonVPN per ottenere più connessioni.</string>
   <string name="errorEmptyName">Il campo nome del profilo non può essere vuoto</string>
@@ -335,8 +329,6 @@
   <string name="netShieldFullBlock">Blocca malware, tracciamento, pubblicità</string>
   <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
   <string name="paidFeature">Funzione a pagamento</string>
-  <string name="upgradeRequired">Aggiornamento richiesto</string>
-  <string name="netShieldPaidFeature">Questa funzione richiede un abbonamento a pagamento di ProtonVPN.\n\nAggiorna online per sbloccare tutte le funzionalità e supportare ProtonVPN</string>
   <string name="guestHoleActivated">L\'accesso a ProtonVPN può essere limitato nella tua zona, quindi ci vorrà più tempo del solito. Per favore attendi mentre aggiriamo questo problema.</string>
   <string name="onMaintenanceDetected">Il server VPN a cui sei stato connesso è in manutenzione. Ti abbiamo ricollegato automaticamente al server più veloce disponibile.</string>
   <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>

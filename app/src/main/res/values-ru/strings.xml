@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">Кнопка «Быстрое подключение» подключит вас к выбранному профилю</string>
   <string name="restrictedMaintenanceTitle">На техобслуживании</string>
   <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
-  <string name="restrictedBasicTitle">Платный сервер</string>
-  <string name="restrictedPlusTitle">Сервер Plus</string>
-  <string name="restrictedSecureCoreTitle">Серверы Secure Core</string>
-  <string name="restrictedBasic">Вы пытаетесь подключиться к серверу, который требует платной подписки.\nДля доступа к высокоскоростным серверам во всех странах, пожалуйста, улучшите свою подписку. </string>
-  <string name="restrictedPlus">Вы пытаетесь подключиться к серверу, который требует требует подписки ProtonVPN Plus или выше.\nДля доступа к большему количеству серверов во всех странах, улучшите подписку.</string>
-  <string name="restrictedSecureCore">Secure Core является премиум-функцией, которая требует ProtonVPN или выше. Secure Core обеспечивает расширенную защиту от мониторинга VPN-серверов.\nДля доступа к Secure Core, ознакомьтесь с другими нашими планами подписки, которые включают эту функцию.</string>
   <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Вы достигли максимального количества одновременных подключений, разрешенных для вашего аккаунта. Пожалуйста, улучшите свой тарифный план ProtonVPN, чтобы иметь больше количество одновременных подключений.</string>
   <string name="errorEmptyName">Поле названия профиля не может быть пустым</string>
@@ -339,8 +333,6 @@
   <string name="netShieldFullBlock">Блокировать вредоносные программы, трекеры, рекламу</string>
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
-  <string name="upgradeRequired">Требуется улучшение</string>
-  <string name="netShieldPaidFeature">Эта функция требует платной подписки ProtonVPN.\n\nУлучшите онлайн, чтобы разблокировать все функции и поддержать ProtonVPN</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
   <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>

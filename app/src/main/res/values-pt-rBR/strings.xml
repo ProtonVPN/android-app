@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">O botão de conexão rápida conecta você ao perfil selecionado</string>
   <string name="restrictedMaintenanceTitle">Em manutenção</string>
   <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Por favor, tente outro servidor.</string>
-  <string name="restrictedBasicTitle">Servidor pago</string>
-  <string name="restrictedPlusTitle">Servidor Plus</string>
-  <string name="restrictedSecureCoreTitle">Servidor Secure Core</string>
-  <string name="restrictedBasic">Você está tentando conectar-se a um servidor que requer uma assinatura paga.\nPara acessar os servidores com alta velocidade em todos os países, faça o upgrade da sua assinatura. </string>
-  <string name="restrictedPlus">Você está tentando conectar-se a um servidor que requer uma assinatura paga.\nPara acessar os servidores com alta velocidade em todos os países, faça o upgrade da sua assinatura.</string>
-  <string name="restrictedSecureCore">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Por favor, faça o upgrade do seu plano do ProtonVPN para obter mais conexões.</string>
   <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Por favor, faça o upgrade do seu plano ProtonVPN para ter mais conexões.</string>
   <string name="errorEmptyName">O nome do perfil não pode estar vazio</string>
@@ -335,8 +329,6 @@
   <string name="netShieldFullBlock">Bloquear malware, rastreadores e anúncios</string>
   <string name="dialogDontShowAgain">Não mostrar novamente</string>
   <string name="paidFeature">Recurso pago</string>
-  <string name="upgradeRequired">Requer atualização</string>
-  <string name="netShieldPaidFeature">Este recurso requer ProtonVPN Plus.\n\nAtualize online para desbloquear todos os recursos e oferecer suporte ao ProtonVPN</string>
   <string name="guestHoleActivated">O acesso ao ProtonVPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
   <string name="onMaintenanceDetected">O servidor VPN ao qual você estava conectado está passando por uma manutenção. Vamos conectar você automaticamente ao servidor mais rápido disponível.</string>
   <string name="errorTunMultiUserPermission">Não foi possível inicializar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicialize seu dispositivo.</string>

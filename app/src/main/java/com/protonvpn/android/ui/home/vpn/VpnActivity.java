@@ -32,7 +32,8 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.utils.Constants;
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 
@@ -45,8 +46,6 @@ import java.io.File;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-
-import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 public abstract class VpnActivity extends BaseActivity {
 
@@ -98,23 +97,17 @@ public abstract class VpnActivity extends BaseActivity {
         }
     }
 
-    protected void showUpgradeDialog(boolean secureCore, boolean isPlusServer) {
-        new MaterialAlertDialogBuilder(this)
-            .setTitle(secureCore ? R.string.restrictedSecureCoreTitle :
-                isPlusServer ? R.string.restrictedPlusTitle : R.string.restrictedBasicTitle)
-            .setMessage(secureCore ? R.string.restrictedSecureCore :
-                isPlusServer ? R.string.restrictedPlus : R.string.restrictedBasic)
-            .setPositiveButton(
-                R.string.upgrade,
-                (dialog, which) -> openProtonUrl(this, Constants.DASHBOARD_URL)
-            )
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+    protected void showSecureCoreUpgradeDialog() {
+        startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
+    }
+
+    protected void showPlusUpgradeDialog() {
+        startActivity(new Intent(this, UpgradePlusCountriesDialogActivity.class));
     }
 
     private void connectingToRestrictedServer(Server server) {
         if (server.getOnline()) {
-            showUpgradeDialog(server.isSecureCoreServer(), server.isPlusServer());
+            showPlusUpgradeDialog();
         } else {
             new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.restrictedMaintenanceTitle)

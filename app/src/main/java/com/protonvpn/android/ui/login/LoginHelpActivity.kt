@@ -20,9 +20,9 @@
 package com.protonvpn.android.ui.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLoginHelpBinding
+import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,8 +31,7 @@ class LoginHelpActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityLoginHelpBinding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
+        val binding = setContentViewBinding(ActivityLoginHelpBinding::inflate)
         initToolbarWithUpEnabled(binding.toolbar)
         title = null
 

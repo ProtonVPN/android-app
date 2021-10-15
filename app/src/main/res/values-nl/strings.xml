@@ -119,12 +119,6 @@
   <string name="settingsDefaultConnectionDescription">De knop \'Snel Verbinden\' verbindt u met het geselecteerde profiel</string>
   <string name="restrictedMaintenanceTitle">In onderhoud</string>
   <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
-  <string name="restrictedBasicTitle">Betaalde server</string>
-  <string name="restrictedPlusTitle">Plus Server</string>
-  <string name="restrictedSecureCoreTitle">Secure Core Server</string>
-  <string name="restrictedBasic">U probeert verbinding te maken met een server waar een betaald abonnement voor nodig is.\nOm toegang te krijgen tot snelle servers in alle landen, upgrade uw abonnement. </string>
-  <string name="restrictedPlus">U probeert verbinding te maken met een server waar een ProtonVPN Plus abonnement of hoger voor nodig is.\nOm toegang te krijgen tot meer servers in alle landen, upgrade uw abonnement.</string>
-  <string name="restrictedSecureCore">Secure Core is een premium functie die ProtonVPN Plus of hoger vereist. Secure Core voegt geavanceerde bescherming toe tegen VPN server monitoring.\nOm toegang te krijgen tot Secure Core, bekijk dan onze andere abonnementsplannen die deze functie bevatten.</string>
   <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
   <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw ProtonVPN-abonnement om meer verbindingen te krijgen.</string>
   <string name="errorEmptyName">Het profielnaam veld kan niet leeg zijn</string>
@@ -335,8 +329,6 @@
   <string name="netShieldFullBlock">Malware, tracking, advertenties blokkeren</string>
   <string name="dialogDontShowAgain">Niet meer weergeven</string>
   <string name="paidFeature">Functie tegen betaling</string>
-  <string name="upgradeRequired">Upgrade vereist</string>
-  <string name="netShieldPaidFeature">Deze functie vereist een ProtonVPN betaald abonnement.\n\nUpgrade online om alle functies te ontgrendelen en ProtonVPN te ondersteunen</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
   <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
