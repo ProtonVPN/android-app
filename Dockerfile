@@ -36,6 +36,11 @@ RUN apt update && apt-get install -y \
   openssh-client \
   rubygems
 
+# Install Firebase cli
+RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN apt-get update && apt-get install google-cloud-sdk -y
+
 # Install appetize cli
 RUN gem install appetize-cli --no-document
 
