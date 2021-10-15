@@ -20,7 +20,12 @@
 package com.protonvpn.android.ui.main
 
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.utils.launchAndCollectIn
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.presentation.ui.alert.ForceUpdateActivity
 
 abstract class MainActivityHelper(val activity: FragmentActivity) {
@@ -35,15 +40,17 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
                 activity.startActivity(ForceUpdateActivity(activity, it))
             }
 
-            state.launchAndCollectIn(activity) { state ->
-                when (state) {
-                    AccountViewModel.State.LoginNeeded ->
-                        onLoginNeeded()
-                    AccountViewModel.State.Ready ->
-                        onReady()
-                    AccountViewModel.State.Initial -> {}
-                }
-            }
+            state.flowWithLifecycle(activity.lifecycle)
+                .distinctUntilChanged()
+                .onEach { state ->
+                    when (state) {
+                        AccountViewModel.State.LoginNeeded ->
+                            onLoginNeeded()
+                        AccountViewModel.State.Ready ->
+                            onReady()
+                        AccountViewModel.State.Initial -> {}
+                    }
+                }.launchIn(activity.lifecycleScope)
         }
     }
 
