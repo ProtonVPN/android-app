@@ -18,12 +18,14 @@
  */
 package com.protonvpn.testsHelper
 
-import android.app.Instrumentation
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.ui.home.LogoutHandler
+import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -64,11 +66,21 @@ class UserDataHelper {
     }
 
     fun logoutUser() {
-        runBlocking(Dispatchers.Main)  {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        // Logging out starts the login activity, block it, otherwise it may crash when starting
+        // after the test has finished and Hilt can no longer provide dependencies.
+        val loginActivityClass =
+            if (instrumentation.targetContext.isTV()) TvLoginActivity::class.java
+            else LoginActivity::class.java
+        val monitor =
+            instrumentation.addMonitor(loginActivityClass.canonicalName, null, true)
+        runBlocking(Dispatchers.Main) {
             logoutHandler.logout(true)
         }
-        // Logging out starts the login activity, wait for it to show up to avoid crashes when the
-        // activity is being created after test tear-down.
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        // Remove the monitor so that it doesn't avoid any other tests.
+        if (!instrumentation.checkMonitorHit(monitor, 1)) {
+            monitor.waitForActivityWithTimeout(1000)
+            instrumentation.removeMonitor(monitor)
+        }
     }
 }
