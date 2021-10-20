@@ -137,10 +137,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
-    private fun showReconnectDialog(reconnectCallback: () -> Unit) {
+    private fun showReconnectDialog(needsNote: Boolean, reconnectCallback: () -> Unit) {
+        val message =
+            if (needsNote) R.string.reconnectToEnableNetshield
+            else R.string.settingsReconnectToChangeDialogContent
         showGenericReconnectDialog(
             context,
-            R.string.settingsReconnectToChangeDialogContent,
+            message,
             PREF_SHOW_NETSHIELD_RECONNECT_DIALOG,
             reconnectCallback = reconnectCallback
         )
@@ -174,11 +177,17 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
+                val needsNoteOnAdBlocking = when {
+                    this == switchNetshield -> !isSwitchedOn && extendedProtocol
+                    this == radioFullBlocking -> isSwitchedOn
+                    else -> false
+                }
+                val needsToReconnect = stateMonitor.connectionProtocol?.localAgentEnabled() == false
                 val needsReconnectDialog =
-                    withReconnectDialog && stateMonitor.connectionProtocol?.localAgentEnabled() == false
+                    withReconnectDialog && (needsToReconnect || needsNoteOnAdBlocking)
 
                 if (stateMonitor.isConnected && needsReconnectDialog) {
-                    showReconnectDialog {
+                    showReconnectDialog(needsNoteOnAdBlocking) {
                         isChecked = !isChecked
                         onStateChange(currentState)
                         changeCallback(currentState)

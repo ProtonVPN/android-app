@@ -73,7 +73,6 @@
     <string name="logoutConfirmDialogButton">Log out</string>
     <string name="showAllProfiles">Show all profiles</string>
 
-
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
@@ -472,6 +471,7 @@
     <string name="settingsSmartReconnectNotificationsDescription">Get notified when VPN Accelerator switches you to a faster server</string>
     <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
     <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
+    <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
 
     <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
     <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
