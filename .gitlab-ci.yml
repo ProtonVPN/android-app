@@ -168,13 +168,6 @@ unit tests:
   script:
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
-    - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-    - mkdir -p /tmp/sdk-dir
-    - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /tmp/sdk-dir
-    - /tmp/sdk-dir/google-cloud-sdk/install.sh --quiet
-    - source /tmp/sdk-dir/google-cloud-sdk/path.bash.inc
-
-    - gcloud components update
     - echo $CLOUD_PROJECT_ID
     - gcloud config set project $CLOUD_PROJECT_ID
     - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
