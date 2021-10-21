@@ -50,6 +50,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         val excludedIpsAdapter = GroupAdapter<GroupieViewHolder>()
