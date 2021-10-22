@@ -140,6 +140,10 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service
+            android:name=".ui.settings.AppInfoService"
+            android:exported="false"
+            android:process=":app_info_service" />
 
         <receiver
             android:name=".components.BootReceiver"

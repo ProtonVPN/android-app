@@ -34,6 +34,8 @@ import kotlinx.coroutines.flow.onStart
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
+private const val APP_ICON_SIZE_DP = 24
+
 @HiltViewModel
 class SettingsExcludeAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -50,11 +52,12 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     }
 
     private val allApps: Flow<Map<String, LabeledItem>> = flow {
-        val items = installedAppsProvider.getInstalledInternetApps().map {
+        val iconSizePx = APP_ICON_SIZE_DP.toPx()
+        val items = installedAppsProvider.getInstalledInternetApps(iconSizePx).map {
             LabeledItem(
                 id = it.packageName,
                 label = it.name,
-                iconDrawable = it.icon.mutate().apply { setBounds(0, 0, 24.toPx(), 24.toPx()) }
+                iconDrawable = it.icon.mutate().apply { setBounds(0, 0, iconSizePx, iconSizePx) }
             )
         }
         emit(items.associateBy { it.id })
