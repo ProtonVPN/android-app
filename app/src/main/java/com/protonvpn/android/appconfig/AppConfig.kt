@@ -26,13 +26,20 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 
-class AppConfig(private val scope: CoroutineScope, val api: ProtonApiRetroFit, val userData: UserData) {
+class AppConfig(
+    private val scope: CoroutineScope,
+    val api: ProtonApiRetroFit,
+    val userData: UserData,
+    val userPlanManager: UserPlanManager
+) {
 
     private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
 
@@ -49,31 +56,18 @@ class AppConfig(private val scope: CoroutineScope, val api: ProtonApiRetroFit, v
     init {
         appConfigResponseObservable = MutableLiveData(Storage.load(AppConfigResponse::class.java, getDefaultConfig()))
         updateTask.scheduleIn(0)
+
+        scope.launch {
+            userPlanManager.planChangeFlow.collect {
+                updateInternal()
+            }
+        }
     }
 
     fun update() {
         scope.launch {
             updateInternal()
         }
-    }
-
-    private suspend fun updateInternal() {
-        val result = api.getAppConfig()
-        result.valueOrNull?.let { config ->
-            Storage.save(config)
-            appConfigResponseObservable.value = config
-            if (userData.isLoggedIn) {
-                val notificationsResponse = if (config.featureFlags.pollApiNotifications)
-                    api.getApiNotifications().valueOrNull
-                else
-                    ApiNotificationsResponse(emptyArray())
-                notificationsResponse?.let {
-                    apiNotificationsResponseObservable.value = it
-                    Storage.save(apiNotificationsResponseObservable.value)
-                }
-            }
-        }
-        updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
     }
 
     fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
@@ -95,6 +89,25 @@ class AppConfig(private val scope: CoroutineScope, val api: ProtonApiRetroFit, v
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     fun getLiveConfig(): LiveData<AppConfigResponse> = appConfigResponseObservable
+
+    private suspend fun updateInternal() {
+        val result = api.getAppConfig()
+        result.valueOrNull?.let { config ->
+            Storage.save(config)
+            appConfigResponseObservable.value = config
+            if (userData.isLoggedIn) {
+                val notificationsResponse = if (config.featureFlags.pollApiNotifications)
+                    api.getApiNotifications().valueOrNull
+                else
+                    ApiNotificationsResponse(emptyArray())
+                notificationsResponse?.let {
+                    apiNotificationsResponseObservable.value = it
+                    Storage.save(apiNotificationsResponseObservable.value)
+                }
+            }
+        }
+        updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
+    }
 
     private fun getDefaultConfig(): AppConfigResponse {
         val defaultPorts = DefaultPortsConfig.defaultConfig

@@ -222,7 +222,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData): AppConfig = AppConfig(scope, api, userData)
+    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData, userPlanManager: UserPlanManager): AppConfig =
+        AppConfig(scope, api, userData, userPlanManager)
 
     @Singleton
     @Provides
