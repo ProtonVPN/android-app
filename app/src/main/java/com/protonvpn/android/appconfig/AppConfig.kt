@@ -40,8 +40,7 @@ class AppConfig(private val scope: CoroutineScope, val api: ProtonApiRetroFit, v
             Storage.load<ApiNotificationsResponse>(
                     ApiNotificationsResponse::class.java, ApiNotificationsResponse(emptyArray())))
 
-    val appConfigResponse get() = appConfigResponseObservable.value!!
-    val apiNotifications get() = apiNotificationsResponseObservable.value!!.notifications
+    private val appConfigResponse get() = appConfigResponseObservable.value!!
 
     private var updateTask = ReschedulableTask(scope, SystemClock::elapsedRealtime) {
         updateInternal()

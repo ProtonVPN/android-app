@@ -29,6 +29,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationOfferFeature
@@ -38,6 +39,7 @@ import com.protonvpn.android.databinding.ActivityPromoOfferBinding
 import com.protonvpn.android.databinding.ItemPromoFeatureBinding
 import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
 
@@ -54,12 +56,14 @@ class PromoOfferActivity : BaseActivityV2() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val offerId = getOfferId(intent)
-        val panel = offerId?.let { viewModel.getPanel(offerId) }
-        if (panel != null) {
-            setViews(binding, panel)
-        } else {
-            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
-            finish()
+        lifecycleScope.launch {
+            val panel = offerId?.let { viewModel.getPanel(offerId) }
+            if (panel != null) {
+                setViews(binding, panel)
+            } else {
+                Toast.makeText(this@PromoOfferActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 

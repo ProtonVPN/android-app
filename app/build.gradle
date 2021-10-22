@@ -581,6 +581,11 @@ dependencies {
     implementation "me.proton.core:country:1.15"
     implementation 'me.proton.core:user:1.15.2'
 
+    testImplementation('me.proton.core:test-kotlin:1.15') {
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
+
     androidTestImplementation('me.proton.core:test-kotlin:1.15') {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"

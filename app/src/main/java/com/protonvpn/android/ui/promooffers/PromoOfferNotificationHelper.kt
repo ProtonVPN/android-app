@@ -35,7 +35,7 @@ class PromoOfferNotificationHelper(
     private val viewModel: PromoOfferNotificationViewModel
 ) {
     init {
-        viewModel.offerNotification.observe(
+        viewModel.offerNotification.asLiveData().observe(
             activity,
             Observer { notification -> this.updateOfferNotification(notification) }
         )
