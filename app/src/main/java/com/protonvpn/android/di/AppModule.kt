@@ -227,7 +227,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
-        ApiNotificationManager(scope, System::currentTimeMillis, appConfig)
+        ApiNotificationManager(System::currentTimeMillis, appConfig)
 
     @Singleton
     @Provides
