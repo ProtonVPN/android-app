@@ -20,26 +20,34 @@
 package com.protonvpn.android.components
 
 import android.Manifest
-import android.app.ActivityManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Process
-import com.protonvpn.android.utils.ProtonLogger
-import kotlinx.coroutines.delay
+import android.os.SystemClock
+import com.protonvpn.android.ui.settings.AppInfoService
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
-// Since API23, @see MemoryInfo.getMemoryStat
-private const val MEMORY_STAT_CODE = "summary.code"
-private const val GC_TIMEOUT_MS = 1000L
-private const val GC_CHECK_DELAY_MS = 100L
+private const val APP_INFO_RESULT_TIMEOUT_MS = 5_000L
 
 class InstalledAppsProvider @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val dispatcherProvider: DispatcherProvider,
-    private val packageManager: PackageManager,
-    private val activityManager: ActivityManager
+    private val packageManager: PackageManager
 ) {
     data class AppInfo(
         val packageName: String,
@@ -47,26 +55,15 @@ class InstalledAppsProvider @Inject constructor(
         val icon: Drawable
     )
 
-    suspend fun getInstalledInternetApps(): List<AppInfo> =
+    suspend fun getInstalledInternetApps(iconSizePx: Int): List<AppInfo> =
         withContext(dispatcherProvider.Io) {
-            val initialCodeSizeKb = getCodeMemoryKb()
-            ProtonLogger.log("getInstalledInternetApps: initial code size: $initialCodeSizeKb KB")
-
-            val apps = packageManager.getInstalledApplications(
+            val packageNames = packageManager.getInstalledApplications(
                 PackageManager.GET_META_DATA
             ).filter { appInfo ->
                 (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
                         == PackageManager.PERMISSION_GRANTED)
-            }.map { appInfo ->
-                AppInfo(
-                    packageName = appInfo.packageName,
-                    name = appInfo.loadLabel(packageManager).toString(),
-                    icon = appInfo.loadIcon(packageManager)
-                )
-            }
-            ProtonLogger.log("getInstalledInternetApps: final code size: ${getCodeMemoryKb()} KB")
-            tryReleaseMemory(initialCodeSizeKb)
-            apps
+            }.map { it.packageName }
+            getAppInfos(appContext,iconSizePx, packageNames)
         }
 
     /**
@@ -84,24 +81,74 @@ class InstalledAppsProvider @Inject constructor(
             }
         }
 
-    @Suppress("ExplicitGarbageCollectionCall")
-    private suspend fun tryReleaseMemory(initialCodeSizeKb: Int) {
-        // Loading application metadata with loadLabel and loadIcon increases memory use in the
-        // "code" category. On some devices it's not released immediately causing OOMs.
-        // Try to force GC (System.gc() doesn't work).
-        Runtime.getRuntime().gc()
-        withTimeoutOrNull(GC_TIMEOUT_MS) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun getAppInfos(
+        context: Context,
+        iconSizePx: Int,
+        packages: List<String>
+    ): List<AppInfo> {
+        val channel = getAppInfosChannel(context, iconSizePx, packages)
+        val results = ArrayList<AppInfo>(packages.size)
+        try {
             do {
-                delay(GC_CHECK_DELAY_MS)
-                val codeSizeKb = getCodeMemoryKb()
-                ProtonLogger.log("getInstalledInternetApps: code size $codeSizeKb KB")
-            } while (codeSizeKb > 2 * initialCodeSizeKb)
+                val appInfo = withTimeoutOrNull(APP_INFO_RESULT_TIMEOUT_MS) {
+                    channel.receiveCatching().getOrNull()
+                }
+                if (appInfo != null) {
+                    results.add(appInfo)
+                }
+            } while (appInfo != null)
+        } catch (cancellation : CancellationException) {
+            channel.close()
         }
+        if (results.size < packages.size) {
+            coroutineContext.ensureActive()
+            // Something went wrong, add missing items with no icon nor label.
+            val defaultIcon = context.packageManager.defaultActivityIcon
+            packages.subList(results.size, packages.size).forEach { packageName ->
+                results.add(AppInfo(packageName, packageName, defaultIcon))
+            }
+        }
+        return results
     }
 
-    private fun getCodeMemoryKb(): Int {
-        val myPid = intArrayOf(Process.myPid())
-        val memoryInfo = activityManager.getProcessMemoryInfo(myPid)[0]
-        return memoryInfo.getMemoryStat(MEMORY_STAT_CODE).toInt()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun getAppInfosChannel(
+        context: Context,
+        iconSizePx: Int,
+        packages: List<String>
+    ): Channel<AppInfo> {
+        val requestCode = SystemClock.elapsedRealtime() // Unique value.
+        val resultsChannel = Channel<AppInfo>()
+        var resultCount = 0
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val resultRequestCode = intent.getLongExtra(AppInfoService.EXTRA_REQUEST_CODE, 0)
+                if (resultRequestCode != requestCode)
+                    return
+
+                val packageName = intent.getStringExtra(AppInfoService.EXTRA_PACKAGE_NAME) ?: return
+                val name = intent.getStringExtra(AppInfoService.EXTRA_APP_LABEL) ?: packageName
+                val iconBytes = intent.getByteArrayExtra(AppInfoService.EXTRA_APP_ICON)
+                val iconDrawable =
+                    if (iconBytes != null) {
+                        val iconBitmap = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.size)
+                        BitmapDrawable(context.resources, iconBitmap)
+                    } else {
+                        context.packageManager.defaultActivityIcon
+                    }
+                resultsChannel.trySendBlocking(AppInfo(packageName, name, iconDrawable))
+                if (++resultCount == packages.size)
+                    resultsChannel.close()
+            }
+        }
+
+        context.registerReceiver(receiver, IntentFilter(AppInfoService.RESULT_ACTION))
+        resultsChannel.invokeOnClose {
+            context.unregisterReceiver(receiver)
+            context.stopService(AppInfoService.createStopIntent(context))
+        }
+        context.startService(AppInfoService.createIntent(context, packages, iconSizePx, requestCode))
+        return resultsChannel
     }
 }
