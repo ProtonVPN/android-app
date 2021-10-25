@@ -28,7 +28,6 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.SystemClock
 import com.protonvpn.android.ui.settings.AppInfoService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -55,15 +54,19 @@ class InstalledAppsProvider @Inject constructor(
         val icon: Drawable
     )
 
-    suspend fun getInstalledInternetApps(iconSizePx: Int): List<AppInfo> =
+    suspend fun getInstalledInternetApps(withLaunchIntent: Boolean): List<String> =
         withContext(dispatcherProvider.Io) {
-            val packageNames = packageManager.getInstalledApplications(
-                PackageManager.GET_META_DATA
-            ).filter { appInfo ->
-                (packageManager.checkPermission(Manifest.permission.INTERNET, appInfo.packageName)
-                        == PackageManager.PERMISSION_GRANTED)
-            }.map { it.packageName }
-            getAppInfos(appContext,iconSizePx, packageNames)
+            packageManager.getInstalledApplications(
+                0
+            ).map {
+                it.packageName
+            }.filter { packageName ->
+                val hasLaunchIntent = packageManager.getLaunchIntentForPackage(packageName) != null
+                val hasInternetPermission =
+                    (packageManager.checkPermission(Manifest.permission.INTERNET, packageName)
+                            == PackageManager.PERMISSION_GRANTED)
+                hasInternetPermission && hasLaunchIntent == withLaunchIntent
+            }
         }
 
     /**
@@ -82,12 +85,8 @@ class InstalledAppsProvider @Inject constructor(
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private suspend fun getAppInfos(
-        context: Context,
-        iconSizePx: Int,
-        packages: List<String>
-    ): List<AppInfo> {
-        val channel = getAppInfosChannel(context, iconSizePx, packages)
+    suspend fun getAppInfos(iconSizePx: Int, packages: List<String>): List<AppInfo> {
+        val channel = getAppInfosChannel(appContext, iconSizePx, packages)
         val results = ArrayList<AppInfo>(packages.size)
         try {
             do {
@@ -98,13 +97,13 @@ class InstalledAppsProvider @Inject constructor(
                     results.add(appInfo)
                 }
             } while (appInfo != null)
-        } catch (cancellation : CancellationException) {
+        } catch (cancellation: CancellationException) {
             channel.close()
         }
         if (results.size < packages.size) {
             coroutineContext.ensureActive()
             // Something went wrong, add missing items with no icon nor label.
-            val defaultIcon = context.packageManager.defaultActivityIcon
+            val defaultIcon = appContext.packageManager.defaultActivityIcon
             packages.subList(results.size, packages.size).forEach { packageName ->
                 results.add(AppInfo(packageName, packageName, defaultIcon))
             }
@@ -118,7 +117,7 @@ class InstalledAppsProvider @Inject constructor(
         iconSizePx: Int,
         packages: List<String>
     ): Channel<AppInfo> {
-        val requestCode = SystemClock.elapsedRealtime() // Unique value.
+        val requestCode = getRequestCode()
         val resultsChannel = Channel<AppInfo>()
         var resultCount = 0
         val receiver = object : BroadcastReceiver() {
@@ -146,9 +145,14 @@ class InstalledAppsProvider @Inject constructor(
         context.registerReceiver(receiver, IntentFilter(AppInfoService.RESULT_ACTION))
         resultsChannel.invokeOnClose {
             context.unregisterReceiver(receiver)
-            context.stopService(AppInfoService.createStopIntent(context))
         }
         context.startService(AppInfoService.createIntent(context, packages, iconSizePx, requestCode))
         return resultsChannel
+    }
+
+    companion object {
+        private var requestCode = 0L
+
+        private fun getRequestCode() = ++requestCode
     }
 }

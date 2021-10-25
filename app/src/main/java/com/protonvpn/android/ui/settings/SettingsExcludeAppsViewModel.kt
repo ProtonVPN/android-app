@@ -19,18 +19,27 @@
 
 package com.protonvpn.android.ui.settings
 
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 
@@ -43,55 +52,125 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     private val userData: UserData
 ) : SaveableSettingsViewModel() {
 
+    sealed class SystemAppsState {
+        class NotLoaded(val packageNames: List<String>) : SystemAppsState()
+        class Loading(val packageNames: List<String>) : SystemAppsState()
+        class Content(val apps: List<LabeledItem>) : SystemAppsState()
+    }
+
     sealed class ViewState {
         object Loading : ViewState()
         data class Content(
             val selectedApps: List<LabeledItem>,
-            val availableApps: List<LabeledItem>
+            val availableRegularApps: List<LabeledItem>,
+            val availableSystemApps: SystemAppsState
         ) : ViewState()
     }
 
-    private val allApps: Flow<Map<String, LabeledItem>> = flow {
+    private val shouldLoadSystemApps = MutableStateFlow(false)
+
+    private val selectedPackages = MutableStateFlow<Set<String>>(HashSet(userData.splitTunnelApps))
+
+    private val regularAppPackages = flow {
+        emit(installedAppsProvider.getInstalledInternetApps(true))
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+
+    private val regularApps = regularAppPackages.map { packageNames ->
+        loadApps(packageNames)
+    }.shareIn(viewModelScope, SharingStarted.Lazily)
+
+    private val systemAppPackages = flow {
+        emit(installedAppsProvider.getInstalledInternetApps(false))
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+
+    private val selectedNonRegularApps = MutableSharedFlow<List<LabeledItem>>(replay = 1)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val systemAppsState: Flow<SystemAppsState> = shouldLoadSystemApps.flatMapLatest { load ->
+        if (load) {
+            flow {
+                val packageNames = systemAppPackages.first()
+                emit(SystemAppsState.Loading(packageNames))
+                emit(SystemAppsState.Content(loadApps(packageNames)))
+            }
+        } else {
+            systemAppPackages.map { SystemAppsState.NotLoaded(it) }
+        }
+    }.shareIn(viewModelScope, SharingStarted.Lazily)
+
+    init {
+        viewModelScope.launch {
+            val packageNames = selectedPackages.first() - regularAppPackages.first()
+            selectedNonRegularApps.emit(loadApps(packageNames.toList()))
+        }
+    }
+
+    val viewState: Flow<ViewState> = combine(
+        regularApps,
+        systemAppsState,
+        selectedPackages,
+        selectedNonRegularApps
+    ) { regularApps, systemAppsState, selectedPackages, selectedNonRegularApps ->
+        val allAppsByPackage =
+            (regularApps.toSet() + systemAppsState.getApps() + selectedNonRegularApps).associateBy { it.id }
+        val selectedApps = selectedPackages.mapNotNullTo(mutableSetOf()) { packageName ->
+            allAppsByPackage.getOrDefault(packageName, null)
+        }
+        val availableRegularApps = regularApps.filterNot { selectedApps.contains(it) }
+        val availableSystemAppsState = when (systemAppsState) {
+            is SystemAppsState.Loading ->
+                SystemAppsState.Loading(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
+            is SystemAppsState.NotLoaded ->
+                SystemAppsState.NotLoaded(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
+            is SystemAppsState.Content ->
+                SystemAppsState.Content(
+                    systemAppsState.apps.filterNot { selectedApps.contains(it) }
+                        .sortedByLocaleAware { it.label }
+                )
+        }
+        ViewState.Content(
+            selectedApps.toList().sortedByLocaleAware { it.label },
+            availableRegularApps.toList().sortedByLocaleAware { it.label },
+            availableSystemAppsState
+        ) as ViewState
+    }
+        .flowOn(dispatcherProvider.Comp)
+        .onStart { emit(ViewState.Loading) }
+
+    fun triggerLoadSystemApps() {
+        shouldLoadSystemApps.value = true
+    }
+
+    fun addAppToExcluded(item: LabeledItem) {
+        selectedPackages.value = selectedPackages.value + item.id
+    }
+    fun removeAppFromExcluded(item: LabeledItem) {
+        selectedPackages.value = selectedPackages.value - item.id
+    }
+
+    override fun saveChanges() {
+        userData.splitTunnelApps = selectedPackages.value.toList()
+    }
+
+    override fun hasUnsavedChanges() = selectedPackages.value != HashSet(userData.splitTunnelApps)
+
+    private suspend fun loadApps(packageNames: List<String>): List<LabeledItem> {
+        if (packageNames.isEmpty()) return emptyList()
+
         val iconSizePx = APP_ICON_SIZE_DP.toPx()
-        val items = installedAppsProvider.getInstalledInternetApps(iconSizePx).map {
+        return installedAppsProvider.getAppInfos(iconSizePx, packageNames).map {
             LabeledItem(
                 id = it.packageName,
                 label = it.name,
                 iconDrawable = it.icon.mutate().apply { setBounds(0, 0, iconSizePx, iconSizePx) }
             )
         }
-        emit(items.associateBy { it.id })
     }
 
-    private val selectedApps = MutableStateFlow<Set<String>>(HashSet(userData.splitTunnelApps))
-
-    val viewState: Flow<ViewState> = combine(
-        allApps,
-        selectedApps
-    ) { all, selectedPackages ->
-        val selectedApps = selectedPackages.mapNotNullTo(mutableSetOf()) { packageName ->
-            all.getOrDefault(packageName, null)
+    private fun SystemAppsState.getApps(): List<LabeledItem> =
+        if (this is SystemAppsState.Content) {
+            apps
+        } else {
+            emptyList()
         }
-        val availableApps = all.values.filterNot { selectedApps.contains(it) }
-        ViewState.Content(
-            selectedApps.toList().sortedByLocaleAware { it.label },
-            availableApps.toList().sortedByLocaleAware { it.label }
-        ) as ViewState
-    }
-        .flowOn(dispatcherProvider.Comp)
-        .onStart { emit(ViewState.Loading) }
-
-
-    fun addAppToExcluded(item: LabeledItem) {
-        selectedApps.value = selectedApps.value + item.id
-    }
-    fun removeAppFromExcluded(item: LabeledItem) {
-        selectedApps.value = selectedApps.value - item.id
-    }
-
-    override fun saveChanges() {
-        userData.splitTunnelApps = selectedApps.value.toList()
-    }
-
-    override fun hasUnsavedChanges() = selectedApps.value != HashSet(userData.splitTunnelApps)
 }
