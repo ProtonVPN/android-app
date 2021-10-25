@@ -80,12 +80,23 @@ create-ci-image-latest:
     - make latest
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .gradle
+  - key: $CI_COMMIT_REF_SLUG
+    policy: pull
+    paths:
+      - .gradle
+
+  - key: ${CI_COMMIT_SHORT_SHA}
+    policy: pull
+    paths:
+      - '**/build/tmp/'
 
 detekt analysis:
   stage: analyze
+  cache:
+    - key: $CI_COMMIT_REF_SLUG
+      policy: pull-push
+      paths:
+        - .gradle
   tags:
     - small
   script:
@@ -93,10 +104,21 @@ detekt analysis:
   artifacts:
     expire_in: 4 weeks
     reports:
-        codequality: app/build/reports/detekt.json
+      codequality: app/build/reports/detekt.json
 
 build debug:
   stage: build
+  cache:
+    - key: $CI_COMMIT_REF_SLUG
+      policy: pull
+      paths:
+        - .gradle
+
+    - key: ${CI_COMMIT_SHORT_SHA}
+      policy: push
+      paths:
+        - '**/build/tmp/'
+
   tags:
     - large
   script:
