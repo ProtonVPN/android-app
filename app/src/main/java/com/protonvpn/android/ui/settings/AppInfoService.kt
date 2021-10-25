@@ -41,12 +41,14 @@ private const val WEBP_QUALITY = 70
 @Suppress("Deprecation")
 class AppInfoService : IntentService("AppInfoService") {
 
+    @Suppress("TooGenericExceptionCaught", "TooGenericExceptionThrown")
     override fun onHandleIntent(intent: Intent?) {
         try {
             val packageNames = intent?.getStringArrayExtra(EXTRA_PACKAGE_NAME_LIST) ?: return
             val iconSizePx = intent.getIntExtra(EXTRA_ICON_SIZE, 48)
             val requestCode = intent.getLongExtra(EXTRA_REQUEST_CODE, 0)
 
+            Log.i(Constants.SECONDARY_PROCESS_TAG, "Request $requestCode for ${packageNames.size}")
             val scope = CoroutineScope(Dispatchers.Default)
             val appMetaDataChannel = Channel<AppMetaData>(10)
             val processAndSendJob = scope.launch {
