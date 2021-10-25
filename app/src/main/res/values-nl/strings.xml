@@ -35,14 +35,35 @@
   <string name="connectionAllocationHelpDescription">Om uw verkenning in ProtonVPN te starten, moet u VPN-verbindingen aan uw account of een ander subaccount toewijzen.\n\nDeze stap neemt slechts een paar minuten in beslag. Daarna kunt u inloggen en al uw apparaten beschermen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
+  <string name="loginHelpTitle">How can we help?</string>
+  <string name="loginHelpForgotPassword">Forgot password</string>
+  <string name="loginHelpForgotUsername">Gebruikersnaam vergeten</string>
+  <string name="loginHelpOtherIssues">Other sign-in issues</string>
+  <string name="helpCustomerSupportTitle">Meer hulp nodig? Neem dan rechtstreeks contact me ons op</string>
+  <string name="helpCustomerSupport">Klantondersteuning</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Verbreken</string>
   <string name="mapSwitchSecureCore">Secure Core</string>
   <string name="warning">Waarschuwing</string>
-  <string name="secureCoreSwitchOn">U probeert verbinding te maken met een Secure Core server. Dit schakelt Secure Core mode%1$s in. Doorgaan?</string>
-  <string name="secureCoreSwitchOff">U probeert verbinding te maken met een server zonder Secure Core-functionaliteit. Dit zal Secure Core uitschakelen%1$s Doorgaan?</string>
-  <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;en <b>verbreek uw huidige verbinding</b>.]]></string>
-  <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN server verbreken.</string>
+  <string name="secureCoreSwitchOnTitle">Connect to Secure Core server?</string>
+  <string name="secureCoreSwitchOffTitle">Connect to non-Secure Core server?</string>
+  <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
+  <string name="secureCoreSwitchOn">You are trying to connect to a Secure Core server. This will enable Secure Core mode%1$s.</string>
+  <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
+  <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
+  <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
+         NOTE: use \u0020 for space at the beginning or end if needed. -->
+  <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
+  <string name="secureCoreSwitchConnect">Yes, connect</string>
+  <string name="logoutConfirmDialogTitle">Log out?</string>
+  <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
+  <string name="logoutConfirmDialogButton">Log out</string>
   <string name="showAllProfiles">Alle profielen weergeven</string>
   <string name="yes">Ja</string>
   <string name="no">Nee</string>
@@ -70,7 +91,7 @@
   <string name="quickConnect">Snel verbinden</string>
   <string name="notConnectedCurrentIp">Huidige IP: %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.
-     Example value: "70%" -->
+         Example value: "70%" -->
   <string name="serverLoad">%1$s%%</string>
   <string name="cancel">Annuleren</string>
   <string name="close">Sluiten</string>
@@ -143,7 +164,7 @@
   <string name="onboardingSignup">Registreren</string>
   <string name="onboardingSkip">OVERSLAAN</string>
   <string name="onboardingNext">DOORGAAN</string>
-  <string name="offerTooltipShowOffer">See the offer</string>
+  <string name="offerTooltipShowOffer">Bekijk de aanbieding</string>
   <string name="listItemMaintenance">In onderhoud</string>
   <string name="listAllCountries">Alle locaties (%1$d)</string>
   <string name="listFreeCountries">GRATIS locaties (%1$d)</string>
@@ -168,8 +189,10 @@
   <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
   <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
   <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
-  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
+  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/>
+    <br/> Details: %1$s</string>
   <string name="reconnect">Opnieuw verbinden</string>
+  <string name="reconnect_now">Reconnect now</string>
   <string name="connect">Verbind</string>
   <string name="upgrade">Upgraden</string>
   <string name="retry">Opnieuw proberen</string>
@@ -193,12 +216,13 @@
   <string name="report_bug_message_hint">Beschrijf de bug en hoe en waar u die gevonden hebt</string>
   <string name="send_report">Verstuur melding</string>
   <string name="excludeIpTitle">IP-adressen uitsluiten</string>
-  <string name="discardChanges">Er zijn wijzigingen die nog niet zijn opgeslagen. Weet u zeker dat u deze niet wil opslaan?</string>
+  <string name="discardChanges">Discard unsaved changes?</string>
   <string name="discard">Weggooien</string>
   <string name="selectedProfileColor">Selecteer kleur voor uw profiel</string>
   <string name="excludeIpDescription">Voeg IP-adressen toe die u wilt uitsluiten van het VPN-verkeer.</string>
   <string name="done">KLAAR</string>
   <string name="add">TOEVOEGEN</string>
+  <string name="copy_to_clipboard">Kopieer</string>
   <string name="the_list_is_empty">De lijst is leeg</string>
   <string name="got_it">Begrepen</string>
   <string name="onboardingWelcome">Welkom aan boord</string>
@@ -207,8 +231,9 @@
   <string name="try_again">Probeer opnieuw</string>
   <string name="manage">Beheer</string>
   <string name="delete">Verwijderen</string>
+  <string name="remove">Remove</string>
   <string name="deleteProfileButton">Profiel verwijderen</string>
-  <string name="deleteProfile">Weet u zeker, dat u dit profiel wilt verwijderen?</string>
+  <string name="deleteProfile">Delete profile?</string>
   <string name="doneButton">Klaar</string>
   <string name="saveButton">Opslaan</string>
   <string name="recommendedHeader">Aanbevolen</string>
@@ -264,15 +289,15 @@
   <string name="settingsExcludedAppsAvailableHeader">Beschikbare apps (%1$d)</string>
   <string name="listNoItems">Geen</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-     %2$d - a number of remaining items.
-     Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
   <plurals name="listFewItemsAndMore">
     <item quantity="one">%1$s en nog %2$d meer</item>
     <item quantity="other">%1$s and %2$d more</item>
   </plurals>
   <string name="settingsCannotChangeWhileConnected">Kan dit niet wijzigen terwijl u verbonden bent</string>
   <string name="excludeAlreadyExcluded">Al uitgesloten</string>
-  <string name="removeExcludedIpDialogDescription">Weet je zeker dat u dit IP uit de lijst wilt verwijderen?</string>
+  <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
   <string name="loaderFetchingServers">Servers ophalen…</string>
   <string name="toastProfileSaved">Opgeslagen</string>
   <string name="freeTrialExpiredTitle">ProtonVPN Plus proefperiode verlopen</string>
@@ -311,13 +336,13 @@
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Find ProtonVPN and tap %1$s</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
-     find this phrase in your phone's settings. -->
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
   <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-     Android settings.
-     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
-     find this phrase in your phone's settings. -->
+         Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
@@ -400,9 +425,9 @@
   <string name="tv_country_maintenance_dialog_title">Land is niet beschikbaar</string>
   <string name="tv_country_maintenance_dialog_description">Probeer het later opnieuw of selecteer een ander land.</string>
   <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
-     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-     Example: 76% Server Load -->
+         Example: 76% Server Load -->
   <string name="tv_server_list_load">%1$s%% serverbelasting</string>
   <string name="tv_recently_used_servers">Recent gebruikte servers (%1$d)</string>
   <string name="tv_available_servers">Beschikbare servers (%1$d)</string>
@@ -416,7 +441,9 @@
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
   <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
-  <string name="settingsReconnectToApplySettingsDialogContent">The new settings will be applied on the next connection. Reconnect now?</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
+  <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
+  <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
   <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
   <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
@@ -445,24 +472,66 @@
   <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
   <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
   <!-- Number of servers available in the service. This phrase will be combined with
-     "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
-     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
-     Example: 1364 servers, 55 countries -->
+         Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_servers">
     <item quantity="one">%1$d server</item>
     <item quantity="other">%1$d servers</item>
   </plurals>
   <!-- Number of countries available in the service. This phrase will be combined with
-     "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
-     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
-     Example: 1364 servers, 55 countries -->
+         Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_countries">
     <item quantity="one">%1$d country</item>
     <item quantity="other">%1$d countries</item>
   </plurals>
   <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
+  <string name="upgrade_netshield_title">Unlock NetShield</string>
+  <string name="upgrade_secure_core_title">Unlock Secure Core</string>
+  <string name="upgrade_plus_title">Unlock Plus countries</string>
+  <string name="upgrade_netshield_message">Block malware, ads, and trackers in browsers and in apps. Available with any paid plan.</string>
+  <string name="upgrade_secure_core_message">Route your most sensitive data through our safest servers in privacy-friendly countries. Available with Plus and Visionary plans.</string>
+  <!-- Parameters:
+         %1$s - replaced with "upgrade_plus_servers"
+         %2$s - replaced with "upgrade_plus_countries"
+
+         Example:
+         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
+         -->
+  <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+  <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200+ servers
+         -->
+  <plurals name="upgrade_plus_servers">
+    <item quantity="one">%d server</item>
+    <item quantity="other">%d+ servers</item>
+  </plurals>
+  <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+
+         Example:
+         55 countries
+         -->
+  <plurals name="upgrade_plus_countries">
+    <item quantity="one">%d land</item>
+    <item quantity="other">%d landen</item>
+  </plurals>
+  <string name="upgrade_plus_countries_streaming">Access streaming services globally</string>
+  <!-- The number of devices will always be greater than 1. -->
+  <plurals name="upgrade_plus_countries_many_devices">
+    <item quantity="one">Connect %d device</item>
+    <item quantity="other">Connect %d devices simultaneously</item>
+  </plurals>
+  <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
+  <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
+  <string name="upgrade_see_plans_button">See plans and pricing</string>
+  <string name="upgrade_not_now_button">Niet nu</string>
   <!-- Information activity -->
   <string name="activity_information_title">Informatie</string>
   <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
