@@ -35,14 +35,35 @@
   <string name="connectionAllocationHelpDescription">Pour commencer votre voyage dans ProtonVPN, veuillez assigner des connexions VPN à votre compte ou à tout autre sous-compte.\n\nCette étape ne prendra que quelques minutes. Après cela, vous pourrez vous connecter et protéger tous vos appareils.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Affecter des connexions VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
+  <string name="loginHelpTitle">How can we help?</string>
+  <string name="loginHelpForgotPassword">Forgot password</string>
+  <string name="loginHelpForgotUsername">Nom d\'utilisateur oublié</string>
+  <string name="loginHelpOtherIssues">Other sign-in issues</string>
+  <string name="helpCustomerSupportTitle">Vous avez toujours besoin d\'aide ? Contactez-nous directement</string>
+  <string name="helpCustomerSupport">Service client</string>
   <string name="mapCalloutConnect">Se connecter</string>
   <string name="mapCalloutDisconnect">Se déconnecter</string>
   <string name="mapSwitchSecureCore">Secure Core</string>
   <string name="warning">Attention</string>
-  <string name="secureCoreSwitchOn">Vous essayez de vous connecter au serveur Secure Core. Cela activera le mode Secure Core%1$s Continuer ?</string>
-  <string name="secureCoreSwitchOff">Vous essayez de vous connecter à un serveur non-Secure Core. Cela désactivera le mode Secure Core%1$s Continuer ?</string>
-  <string name="currentConnectionWillBeLost"><![CDATA[&nbsp;et <b>abandonner votre connexion actuelle</b>.]]></string>
-  <string name="logoutConfirmDialogMessage">La fermeture de la session déconnectera votre appareil du serveur VPN.</string>
+  <string name="secureCoreSwitchOnTitle">Connect to Secure Core server?</string>
+  <string name="secureCoreSwitchOffTitle">Connect to non-Secure Core server?</string>
+  <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
+         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
+  <string name="secureCoreSwitchOn">You are trying to connect to a Secure Core server. This will enable Secure Core mode%1$s.</string>
+  <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
+         Examples:
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
+         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
+  <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
+  <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
+         NOTE: use \u0020 for space at the beginning or end if needed. -->
+  <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
+  <string name="secureCoreSwitchConnect">Yes, connect</string>
+  <string name="logoutConfirmDialogTitle">Log out?</string>
+  <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
+  <string name="logoutConfirmDialogButton">Log out</string>
   <string name="showAllProfiles">Afficher tous les profils</string>
   <string name="yes">Oui</string>
   <string name="no">Non</string>
@@ -70,7 +91,7 @@
   <string name="quickConnect">Connexion rapide</string>
   <string name="notConnectedCurrentIp">IP actuelle : %1$s</string>
   <!-- Displays a percentage value. Please use %% sign for %.
-     Example value: "70%" -->
+         Example value: "70%" -->
   <string name="serverLoad">%1$s%%</string>
   <string name="cancel">Annuler</string>
   <string name="close">Fermer</string>
@@ -168,8 +189,10 @@
   <string name="error_auth_failed">Échec d\'authentification de l\'utilisateur.</string>
   <string name="error_assessment_failed">Échec de l\'évaluation de sécurité.</string>
   <string name="error_generic">Échec indéterminé lors de la connexion.</string>
-  <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
+  <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/>
+    <br/> Détails : %1$s</string>
   <string name="reconnect">Nouvelle connexion</string>
+  <string name="reconnect_now">Reconnect now</string>
   <string name="connect">Se connecter</string>
   <string name="upgrade">Changer d\'offre</string>
   <string name="retry">Réessayer</string>
@@ -193,12 +216,13 @@
   <string name="report_bug_message_hint">Veuillez décrire le bogue, comment et où vous l\'avez trouvé</string>
   <string name="send_report">Envoyer le rapport</string>
   <string name="excludeIpTitle">Exclure des adresses IP</string>
-  <string name="discardChanges">Il y a des modifications non enregistrées. Êtes-vous sûr de vouloir les abandonner ?</string>
+  <string name="discardChanges">Discard unsaved changes?</string>
   <string name="discard">Ignorer</string>
   <string name="selectedProfileColor">Veuillez sélectionner une couleur pour votre profil</string>
   <string name="excludeIpDescription">Ajoutez les adresses IP que vous souhaitez exclure du trafic VPN.</string>
   <string name="done">TERMINÉ</string>
   <string name="add">AJOUTER</string>
+  <string name="copy_to_clipboard">Copier</string>
   <string name="the_list_is_empty">La liste est vide</string>
   <string name="got_it">Compris</string>
   <string name="onboardingWelcome">Bienvenue à bord</string>
@@ -207,8 +231,9 @@
   <string name="try_again">Réessayer</string>
   <string name="manage">Gérer</string>
   <string name="delete">Supprimer</string>
+  <string name="remove">Remove</string>
   <string name="deleteProfileButton">Supprimer le profil</string>
-  <string name="deleteProfile">Êtes-vous sûr de vouloir supprimer ce profil?</string>
+  <string name="deleteProfile">Delete profile?</string>
   <string name="doneButton">Terminé</string>
   <string name="saveButton">Sauvegarder</string>
   <string name="recommendedHeader">Recommandé</string>
@@ -264,15 +289,15 @@
   <string name="settingsExcludedAppsAvailableHeader">Applications disponibles (%1$d)</string>
   <string name="listNoItems">Aucun</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-     %2$d - a number of remaining items.
-     Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
   <plurals name="listFewItemsAndMore">
     <item quantity="one">%1$s et %2$d de plus</item>
     <item quantity="other">%1$s et %2$d de plus</item>
   </plurals>
   <string name="settingsCannotChangeWhileConnected">Impossible de changer ceci en étant connecté</string>
   <string name="excludeAlreadyExcluded">Déjà exclue</string>
-  <string name="removeExcludedIpDialogDescription">Êtes-vous sûr de vouloir retirer cette adresse IP de la liste ?</string>
+  <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
   <string name="loaderFetchingServers">Récupération des serveurs…</string>
   <string name="toastProfileSaved">Sauvegardé</string>
   <string name="freeTrialExpiredTitle">L\'essai de ProtonVPN PLUS a expiré</string>
@@ -311,13 +336,13 @@
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Trouvez ProtonVPN et appuyez sur %1$s</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
-     find this phrase in your phone's settings. -->
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Appuyez sur le commutateur à côté de <b>VPN permanent</b> pour l\'activer]]></string>
   <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-     Android settings.
-     Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
-     find this phrase in your phone's settings. -->
+         Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le commutateur à côté de <b>Bloquer les connexions sans VPN</b> pour activer kill switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ce bouton vous redirigera vers les paramètres Android, où vous pourrez gérer ces fonctionnalités.</string>
@@ -400,9 +425,9 @@
   <string name="tv_country_maintenance_dialog_title">Le pays n\'est pas disponible</string>
   <string name="tv_country_maintenance_dialog_description">Veuillez réessayer plus tard ou sélectionner un autre pays.</string>
   <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
-     Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-     Example: 76% Server Load -->
+         Example: 76% Server Load -->
   <string name="tv_server_list_load">%1$s%% de charge serveur</string>
   <string name="tv_recently_used_servers">Serveurs récemment utilisés (%1$d)</string>
   <string name="tv_available_servers">Serveurs disponibles (%1$d)</string>
@@ -416,7 +441,9 @@
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator active un ensemble de technologies uniques pour améliorer les performances qui peuvent augmenter les vitesses VPN jusqu\'à 400 %%. <a href="%1$s">En savoir plus</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Notifications VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Soyez averti lorsque VPN Accelerator vous permet de passer à un serveur plus rapide</string>
-  <string name="settingsReconnectToApplySettingsDialogContent">Les nouveaux paramètres seront appliqués à la prochaine connexion. Se reconnecter maintenant ?</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
+  <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
+  <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
   <string name="notification_subscription_expired_title">Votre abonnement ProtonVPN a expiré</string>
   <string name="notification_subscription_expired_content">Nous avons dû rétrograder votre abonnement, mais nous vous reconnectons au serveur le plus rapide disponible sur cet abonnement.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement a été rétrogradé. </string>
@@ -445,24 +472,66 @@
   <string name="upsell_advanced_features">Fonctionnalités avancées : NetShield, Secure Core, Tor, P2P</string>
   <string name="upsell_streaming_services">Accédez aux services de streaming (Netflix, Disney+, etc.) partout dans le monde</string>
   <!-- Number of servers available in the service. This phrase will be combined with
-     "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
-     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
-     Example: 1364 servers, 55 countries -->
+         Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_servers">
     <item quantity="one">%1$d serveur</item>
     <item quantity="other">%1$d serveurs</item>
   </plurals>
   <!-- Number of countries available in the service. This phrase will be combined with
-     "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
-     Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
-     Example: 1364 servers, 55 countries -->
+         Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_countries">
     <item quantity="one">%1$d pays</item>
     <item quantity="other">%1$d pays</item>
   </plurals>
   <string name="upsell_upgrade_again">Passez de nouveau à une offre supérieure pour profiter de toutes les fonctionnalités :</string>
+  <string name="upgrade_netshield_title">Unlock NetShield</string>
+  <string name="upgrade_secure_core_title">Unlock Secure Core</string>
+  <string name="upgrade_plus_title">Unlock Plus countries</string>
+  <string name="upgrade_netshield_message">Block malware, ads, and trackers in browsers and in apps. Available with any paid plan.</string>
+  <string name="upgrade_secure_core_message">Route your most sensitive data through our safest servers in privacy-friendly countries. Available with Plus and Visionary plans.</string>
+  <!-- Parameters:
+         %1$s - replaced with "upgrade_plus_servers"
+         %2$s - replaced with "upgrade_plus_countries"
+
+         Example:
+         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
+         -->
+  <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+  <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200+ servers
+         -->
+  <plurals name="upgrade_plus_servers">
+    <item quantity="one">%d server</item>
+    <item quantity="other">%d+ servers</item>
+  </plurals>
+  <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+
+         Example:
+         55 countries
+         -->
+  <plurals name="upgrade_plus_countries">
+    <item quantity="one">%d pays</item>
+    <item quantity="other">%d pays</item>
+  </plurals>
+  <string name="upgrade_plus_countries_streaming">Access streaming services globally</string>
+  <!-- The number of devices will always be greater than 1. -->
+  <plurals name="upgrade_plus_countries_many_devices">
+    <item quantity="one">Connect %d device</item>
+    <item quantity="other">Connect %d devices simultaneously</item>
+  </plurals>
+  <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
+  <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
+  <string name="upgrade_see_plans_button">See plans and pricing</string>
+  <string name="upgrade_not_now_button">Pas maintenant</string>
   <!-- Information activity -->
   <string name="activity_information_title">Information</string>
   <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
