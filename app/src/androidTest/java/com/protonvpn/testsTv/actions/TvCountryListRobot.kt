@@ -75,9 +75,9 @@ class TvCountryListRobot : BaseRobot() {
     private fun pressFavourite() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_favourite)
 
     class Verify : ConnectionVerify(){
-        fun userIsLoggedIn(): OnView = checkIfElementIsDisplayedById(R.id.textStatus)
+        fun userIsLoggedIn() = checkIfElementIsDisplayedById(R.id.textStatus)
 
-        fun signOutWhileConnectedWarningMessageIsDisplayed() : OnView =
+        fun signOutWhileConnectedWarningMessageIsDisplayed() =
                 checkIfElementByIdContainsText(R.id.md_content,R.string.tv_signout_dialog_description_connected)
     }
 

@@ -48,20 +48,17 @@ class MapRobot : BaseRobot() {
     }
 
     class Verify : BaseVerify(){
-        fun isCountryNodeSelected(country: String): Verify =
+        fun isDisconnectedFromVpn() = ServiceTestHelper().checkIfDisconnectedFromVPN()
+
+        fun isCountryNodeSelected(country: String) =
             checkIfElementIsDisplayedByContentDesc("$country Selected")
 
-        fun isCountryNodeNotSelected(country: String): Verify =
-                checkIfElementDoesNotExistByContentDesc("$country Selected")
+        fun isCountryNodeNotSelected(country: String) =
+            checkIfElementDoesNotExistByContentDesc("$country Selected")
 
-        fun isConnectedToVPN(): Verify {
+        fun isConnectedToVPN() {
             ServiceTestHelper().checkIfConnectedToVPN()
-            return checkIfElementIsDisplayedById(R.id.buttonDisconnect)
-        }
-
-        fun isDisconnectedFromVpn(): Verify{
-            ServiceTestHelper().checkIfDisconnectedFromVPN()
-            return this
+            checkIfElementIsDisplayedById(R.id.buttonDisconnect)
         }
     }
 

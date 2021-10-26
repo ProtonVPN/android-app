@@ -31,10 +31,10 @@ class AccountRobot : BaseRobot() {
     fun clickManageAccount(): AccountRobot = clickElementById(R.id.buttonManageAccount)
 
     class Verify : BaseVerify(){
-        fun checkIfAccountButtonOpensBrowser(browserPackageName: String) : Verify =
+        fun checkIfAccountButtonOpensBrowser(browserPackageName: String) =
             checkIfBrowserIsOpened(browserPackageName)
 
-        fun checkIfCorrectUsernameIsDisplayed(testUser: TestUser) : Verify =
+        fun checkIfCorrectUsernameIsDisplayed(testUser: TestUser)  =
             checkIfElementByIdContainsText(R.id.textUser, testUser.email)
     }
 

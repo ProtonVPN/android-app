@@ -62,20 +62,16 @@ class SettingsRobot : BaseRobot() {
 
     class Verify : BaseVerify(){
 
-        fun settingsMtuErrorIsShown(): Verify =
-            checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
+        fun settingsMtuErrorIsShown() = checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
 
-        fun splitTunnelIPIsVisible(): Verify =
-            checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelIPIsVisible() = checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
 
-        fun splitTunnelIpIsNotVisible() : Verify =
-            checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelIpIsNotVisible() = checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
 
-        fun quickConnectFastestProfileIsVisible() : Verify =
-            checkIfElementIsDisplayedByStringId(R.string.profileFastest)
+        fun quickConnectFastestProfileIsVisible() = checkIfElementIsDisplayedByStringId(R.string.profileFastest)
 
         fun mainSettingsAreDisplayed(){
-            checkIfElementIsDisplayedById<Verify>(R.id.textSectionQuickConnect)
+            checkIfElementIsDisplayedById(R.id.textSectionQuickConnect)
             ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
                     R.id.buttonProtocol)
             ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
