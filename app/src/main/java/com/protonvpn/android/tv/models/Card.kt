@@ -38,7 +38,7 @@ class CountryCard(
     @DrawableRes bottomTitleResId: Int?,
     val vpnCountry: VpnCountry
 ) : Card(
-    title = if (hasStreamingService) Title("", R.drawable.ic_play) else null,
+    title = if (hasStreamingService) Title("", R.drawable.ic_streaming_tv) else null,
     bottomTitle = Title(countryName, bottomTitleResId),
     backgroundImage = backgroundImage
 )
