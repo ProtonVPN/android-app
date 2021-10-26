@@ -23,7 +23,9 @@ import android.os.Bundle
 import android.webkit.WebView
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLicensesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OssLicensesActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
