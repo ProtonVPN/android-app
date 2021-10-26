@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.login
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,6 +32,7 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.ConstantTime
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
@@ -119,23 +119,23 @@ class LoginViewModel @Inject constructor(
             false)
     }
 
-    suspend fun login(context: Context, user: String, password: ByteArray) {
+    suspend fun login(vpnPermissionDelegate: VpnPermissionDelegate, user: String, password: ByteArray) {
         _loginState.postValue(LoginState.InProgress)
         var result = makeInfoResponseCall(user, password)
         if (result is LoginState.Error && result.error.isPotentialBlocking) {
-            loginWithGuestHole(context, user, password)?.let { result = it }
+            loginWithGuestHole(vpnPermissionDelegate, user, password)?.let { result = it }
         }
         _loginState.postValue(result)
         appConfig.update()
     }
 
     private suspend fun loginWithGuestHole(
-        context: Context,
+        vpnPermissionDelegate: VpnPermissionDelegate,
         user: String,
         password: ByteArray
     ): LoginState? {
         _loginState.postValue(LoginState.GuestHoleActivated)
-        return guestHole.call(context) {
+        return guestHole.call(vpnPermissionDelegate) {
             appConfig.update()
             makeInfoResponseCall(user, password).apply {
                 if (this is LoginState.Success && serverManager.isOutdated) {

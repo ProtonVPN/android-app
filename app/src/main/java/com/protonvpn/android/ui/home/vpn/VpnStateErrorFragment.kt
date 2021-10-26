@@ -29,6 +29,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +43,9 @@ class VpnStateErrorFragment : Fragment(R.layout.fragment_vpn_state_error) {
         val binding = FragmentVpnStateErrorBinding.bind(view)
 
         with(binding) {
-            buttonRetry.setOnClickListener { parentViewModel.reconnect(requireContext()) }
+            buttonRetry.setOnClickListener {
+                parentViewModel.reconnect(requireActivity() as VpnPermissionDelegate)
+            }
             buttonCancelRetry.setOnClickListener { parentViewModel.disconnect() }
         }
 
