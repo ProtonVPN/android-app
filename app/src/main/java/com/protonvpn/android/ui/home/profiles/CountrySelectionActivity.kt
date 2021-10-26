@@ -62,7 +62,8 @@ class CountrySelectionActivity : BaseActivityV2() {
         val sections = viewModel.getCountryGroups(secureCore).mapIndexed { index, group ->
             Section(
                 HeaderViewHolder(text = getString(group.label, group.size), itemId = index.toLong()),
-                group.countries.map { CountryItemSelectionViewHolder(it, group.isAccessible) } )
+                group.countries.map { CountryItemSelectionViewHolder(it, group.isAccessible) }
+            )
         }
 
         val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {

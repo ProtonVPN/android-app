@@ -32,7 +32,7 @@ private const val BITS_IN_BYTE = 8
 @OptIn(ExperimentalUnsignedTypes::class)
 class SettingsExcludeIpsViewModel @Inject constructor(
     private val userData: UserData
-): SaveableSettingsViewModel() {
+) : SaveableSettingsViewModel() {
 
     private val ipAddresses = MutableStateFlow(userData.splitTunnelIpAddresses)
 
@@ -60,6 +60,7 @@ class SettingsExcludeIpsViewModel @Inject constructor(
             (acc shl BITS_IN_BYTE) + str.toUInt()
         }
 
+    @Suppress("MagicNumber")
     private fun UInt.toIpv4(): String =
         arrayOf(3, 2, 1, 0).map { index ->
             val shift = index * BITS_IN_BYTE
