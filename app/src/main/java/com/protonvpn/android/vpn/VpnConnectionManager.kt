@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.VpnService
-import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -61,8 +60,9 @@ import kotlin.coroutines.coroutineContext
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
-interface NoVpnPermissionUi {
-    fun onVpnPermissionDenied()
+interface VpnPermissionDelegate {
+    fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit)
+    fun getContext(): Context
 }
 
 @Singleton
@@ -123,7 +123,7 @@ open class VpnConnectionManager(
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
             userData.setProtocols(VpnProtocol.Smart, null)
-            connect(appContext, profileToSwitch)
+            connectInBackground(appContext, profileToSwitch)
         }
         stateInternal.observeForever {
             if (initialized) {
@@ -341,32 +341,41 @@ open class VpnConnectionManager(
 
     fun onRestoreProcess(context: Context, profile: Profile): Boolean {
         if (state == VpnState.Disabled && Storage.getString(STORAGE_KEY_STATE, null) == VpnState.Connected.name) {
-            connect(context, profile, "Process restore")
+            connectInBackground(context, profile, "Process restore")
             return true
         }
         return false
     }
 
-    fun connect(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+    fun connect(
+        permissionDelegate: VpnPermissionDelegate,
+        profile: Profile,
+        connectionCauseLog: String? = null
+    ) {
+        connect(permissionDelegate.getContext(), profile, connectionCauseLog) { intent ->
+            permissionDelegate.askForPermissions(intent) {
+                connectWithPermission(permissionDelegate.getContext(), profile)
+            }
+        }
+    }
+
+    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+        connect(context, profile, connectionCauseLog) {
+            showInsufficientPermissionNotification(context)
+        }
+    }
+
+    private fun connect(
+        context: Context,
+        profile: Profile,
+        connectionCauseLog: String? = null,
+        onPermissionNeeded: (Intent) -> Unit
+    ) {
         connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
         val intent = prepare(context)
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
-            if (context is ActivityResultRegistryOwner) {
-                DebugUtils.debugAssert { context is NoVpnPermissionUi }
-                val permissionCall = context.activityResultRegistry.register(
-                    "VPNPermission", PermissionContract(intent)
-                ) { permissionGranted ->
-                    if (permissionGranted) {
-                        connectWithPermission(context, profile)
-                    } else {
-                        (context as NoVpnPermissionUi).onVpnPermissionDenied()
-                    }
-                }
-                permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
-            } else {
-                showInsufficientPermissionNotification(context)
-            }
+            onPermissionNeeded(intent)
         } else {
             connectWithPermission(context, profile)
         }
@@ -457,16 +466,16 @@ open class VpnConnectionManager(
         }
     }
 
-    fun reconnect(context: Context) = scope.launch {
+    fun reconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
         clearOngoingConnection()
         if (activeBackend != null)
             activeBackend?.reconnect()
         else
-            lastProfile?.let { connect(context, it, "reconnection") }
+            lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
     }
 
-    fun fullReconnect(context: Context) = scope.launch {
+    fun fullReconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
         disconnectBlocking()
-        lastProfile?.let { connect(context, it, "reconnection") }
+        lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
     }
 }

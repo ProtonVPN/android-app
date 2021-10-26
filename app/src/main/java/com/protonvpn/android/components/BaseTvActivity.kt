@@ -19,6 +19,7 @@
 package com.protonvpn.android.components
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
@@ -27,20 +28,31 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.vpn.NoVpnPermissionUi
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 
-abstract class BaseTvActivity : FragmentActivity(), NoVpnPermissionUi {
+abstract class BaseTvActivity : FragmentActivity(), VpnPermissionDelegate {
 
-    override fun onVpnPermissionDenied() {
+    @Suppress("LeakingThis")
+    private val vpnPermissionDelegate =
+        VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
+
+    override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted)
+    }
+
+    override fun getContext(): Context = this
+
+    private fun onVpnPermissionDenied() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             showNoVpnPermissionDialog()
         }
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    fun showNoVpnPermissionDialog() {
+    private fun showNoVpnPermissionDialog() {
         val content = HtmlTools.fromHtml(
             getString(
                 R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS

@@ -34,6 +34,7 @@ import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.protonvpn.android.R
+import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
@@ -103,7 +104,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
         connectStreaming.setOnClickListener {
             if (viewModel.isPlusUser()) {
-                viewModel.connect(requireActivity(), card)
+                viewModel.connect(requireActivity() as BaseTvActivity, card)
             } else {
                 viewModel.onUpgradeClicked(requireContext())
             }
@@ -113,7 +114,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
         connectFastest.initLolipopButtonFocus()
         connectFastest.setOnClickListener {
-            viewModel.connect(requireActivity(), card)
+            viewModel.connect(requireActivity() as BaseTvActivity, card)
         }
 
         disconnect.initLolipopButtonFocus()

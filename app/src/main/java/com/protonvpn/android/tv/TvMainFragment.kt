@@ -38,6 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
@@ -128,10 +129,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     }
                 }
                 is ProfileCard -> {
-                    viewModel.connect(requireActivity(), item)
+                    viewModel.connect(requireActivity() as BaseTvActivity, item)
                 }
                 is QuickConnectCard -> {
-                    viewModel.onQuickConnectAction(requireActivity())
+                    viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
                 is LogoutCard -> {
                     logout()

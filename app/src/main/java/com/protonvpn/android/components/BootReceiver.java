@@ -43,7 +43,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (userData.getConnectOnBoot() && userData.isLoggedIn()) {
             Profile defaultProfile = manager.getDefaultConnection();
             if (defaultProfile != null) {
-                vpnConnectionManager.connect(context, defaultProfile, "legacy always-on");
+                vpnConnectionManager.connectInBackground(context, defaultProfile, "legacy always-on");
             }
         }
     }

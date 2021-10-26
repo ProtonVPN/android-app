@@ -20,6 +20,7 @@ package com.protonvpn.android.components
 
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -37,18 +38,22 @@ import com.protonvpn.android.R
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.vpn.NoVpnPermissionUi
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import javax.inject.Inject
 
-abstract class BaseActivityV2 : AppCompatActivity(), NoVpnPermissionUi {
+abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
+
+    @Suppress("LeakingThis")
+    private val vpnPermissionDelegate = VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +76,13 @@ abstract class BaseActivityV2 : AppCompatActivity(), NoVpnPermissionUi {
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onVpnPermissionDenied() {
+    override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted)
+    }
+
+    override fun getContext(): Context = this
+
+    private fun onVpnPermissionDenied() {
         onVpnPrepareFailed()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             showNoVpnPermissionDialog(this)

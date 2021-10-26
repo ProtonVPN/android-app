@@ -42,6 +42,7 @@ import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,9 +72,10 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
         onItemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
             require(item is TvServerListViewModel.ServerViewModel)
-            item.click(requireActivity(), onUpgrade = {
-                requireContext().launchActivity<TvUpgradeActivity>()
-            })
+            item.click(
+                (requireActivity() as VpnPermissionDelegate),
+                onUpgrade = { requireContext().launchActivity<TvUpgradeActivity>() }
+            )
         }
 
         startEntranceTransition()

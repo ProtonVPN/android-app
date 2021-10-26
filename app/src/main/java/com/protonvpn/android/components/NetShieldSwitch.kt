@@ -40,6 +40,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -238,7 +239,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
         if (stateMonitor.isConnected && stateMonitor.connectionProtocol?.localAgentEnabled() == false) {
-            connectionManager.reconnect(context)
+            connectionManager.reconnect(context as VpnPermissionDelegate)
         }
     }
 

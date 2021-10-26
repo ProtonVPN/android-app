@@ -27,14 +27,16 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper;
 import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.vpn.NoVpnPermissionUi;
+import com.protonvpn.android.vpn.VpnPermissionDelegate;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,18 +45,23 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
 public abstract class BaseActivity extends AppCompatActivity
-    implements NetworkLoader, NoVpnPermissionUi {
+        implements NetworkLoader, VpnPermissionDelegate {
 
     @Nullable @BindView(R.id.loadingContainer) NetworkFrameLayout loadingContainer;
     @Nullable @BindView(R.id.layoutDrawer) protected DrawerLayout drawer;
     @Nullable @BindView(R.id.toolbar) protected Toolbar toolbar;
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
+
+    private final VpnPermissionDelegate vpnPermissionDelegate =
+            new VpnPermissionActivityDelegate(this, this::onVpnPermissionDenied);
 
     private DelegatedSnackbarHelper snackbarHelper;
     @Inject public DelegatedSnackManager delegatedSnackManager;
@@ -158,10 +165,15 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onVpnPermissionDenied() {
+    public void askForPermissions(@NonNull Intent intent, @NonNull Function0<Unit> onPermissionGranted) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted);
+    }
+
+    private Unit onVpnPermissionDenied() {
         // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
         // with BaseActivity.
         BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
+        return Unit.INSTANCE;
     }
 
     public SnackbarHelper getSnackbarHelper() {

@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.home.vpn
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -27,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,8 +46,8 @@ class VpnStateViewModel @Inject constructor(
     val netShieldExpandStatus = MutableStateFlow(false)
     val bottomSheetFullyExpanded = MutableLiveData(false)
 
-    fun reconnect(context: Context) {
-        vpnConnectionManager.reconnect(context)
+    fun reconnect(vpnPermissionDelegate: VpnPermissionDelegate) {
+        vpnConnectionManager.reconnect(vpnPermissionDelegate)
     }
 
     fun disconnect() {
