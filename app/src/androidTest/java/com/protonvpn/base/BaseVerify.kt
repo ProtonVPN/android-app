@@ -21,74 +21,40 @@ package com.protonvpn.base
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.ProtonApplication
 import com.google.common.truth.Truth.assertThat
-import me.proton.core.presentation.ui.view.ProtonButton
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.nullValue
-import kotlin.test.assertNull
 
 /**
  * [BaseVerify] Contains common view independent verification methods
  */
 open class BaseVerify : BaseRobot(){
 
-    inline fun <reified T> checkIfElementIsDisplayedByStringId(@StringRes resId: Int): T = executeAndReturnRobot{
+    fun checkIfElementIsDisplayedById(@IdRes Id: Int) = view.withId(Id).checkDisplayed()
+
+    fun checkIfElementIsNotDisplayedById(@IdRes Id: Int) = view.withId(Id).checkNotDisplayed()
+
+    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) = view.withId(id).checkContains(text)
+
+    fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) = view.withText(resId).checkDoesNotExist()
+
+    fun checkIfElementIsDisplayedByContentDesc(text: String) = view.withContentDesc(text).checkDisplayed()
+
+    fun checkIfElementDoesNotExistByContentDesc(text: String) = view.withContentDesc(text).checkDoesNotExist()
+
+    fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
+        view
+                .withId(id)
+                .checkContains(ProtonApplication.getAppContext().getString(resId))
+
+    fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view
                 .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withText(resId)
                 .checkDisplayed()
-    }
 
-    inline fun <reified T> checkIfElementIsDisplayedById(@IdRes Id: Int): T = executeAndReturnRobot{
-        view
-                .withId(Id)
-                .checkDisplayed()
-    }
-
-    inline fun <reified T> checkIfElementIsNotDisplayedById(@IdRes Id: Int): T = executeAndReturnRobot{
-        view
-                .withId(Id)
-                .checkNotDisplayed()
-    }
-
-    inline fun <reified T> checkIfElementDoesNotExistByContentDesc(contentDesc: String): T = executeAndReturnRobot{
-        view
-                .withContentDesc(contentDesc)
-                .checkDoesNotExist()
-    }
-
-    inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int): T = executeAndReturnRobot{
-        view
-                .withId(id)
-                .checkContains(ProtonApplication.getAppContext().getString(resId))
-    }
-
-    inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, text: String): T  = executeAndReturnRobot{
-        view
-                .withId(id)
-                .checkContains(text)
-    }
-
-    inline fun <reified T> checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int): T = executeAndReturnRobot{
-        view
-                .withText(resId)
-                .checkDoesNotExist()
-    }
-
-    inline fun <reified T> checkIfElementIsDisplayedByContentDesc(text: String): T = executeAndReturnRobot{
-        view
-                .withContentDesc(text)
-                .checkDisplayed()
-    }
-
-    inline fun <reified T> checkIfBrowserIsOpened(browserPackageName: String): T = executeAndReturnRobot{
+    fun checkIfBrowserIsOpened(browserPackageName: String){
         val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val currentPackage = myDevice.currentPackageName
         assertThat(currentPackage).isEqualTo(browserPackageName)

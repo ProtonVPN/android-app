@@ -40,14 +40,13 @@ class TvLoginRobot : BaseRobot() {
     }
 
     class Verify : BaseVerify(){
-        fun loginCodeViewIsDisplayed(): OnView =
-                checkIfElementIsDisplayedByStringId(R.string.tv_login_step3_description)
-        fun signInButtonIsDisplayed(): OnView {
-            waitUntilDisplayedByText<OnView>(R.string.tv_login_welcome_button)
-            checkIfElementIsDisplayedByStringId<OnView>(R.string.tv_login_welcome_button)
-            return OnView()
-        }
 
+        fun loginCodeViewIsDisplayed() = checkIfElementIsDisplayedByStringId(R.string.tv_login_step3_description)
+
+        fun signInButtonIsDisplayed() {
+            waitUntilDisplayedByText<OnView>(R.string.tv_login_welcome_button)
+            checkIfElementIsDisplayedByStringId(R.string.tv_login_welcome_button)
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

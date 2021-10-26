@@ -10,28 +10,25 @@ class RealConnectionRobot : BaseRobot() {
 
     fun disconnectFromVPN() : RealConnectionRobot {
         clickElementById<RealConnectionRobot>(R.id.buttonDisconnect)
-        waitUntilDisplayedByText<RealConnectionRobot>(R.string.loaderNotConnected)
-        return this
+        return waitUntilDisplayedByText(R.string.loaderNotConnected)
     }
 
     fun connectThroughQuickConnectRealConnection() : RealConnectionRobot{
         HomeRobot().connectThroughQuickConnect()
-        waitUntilDisplayed<RealConnectionRobot>(R.id.buttonDisconnect)
-        return this;
+        return waitUntilDisplayed(R.id.buttonDisconnect)
     }
 
     class Verify : BaseVerify(){
 
-        fun checkIfDisconnected() = checkIfElementIsDisplayedById<RealConnectionRobot>(R.id.textNotConnectedSuggestion)
+        fun checkIfDisconnected() = checkIfElementIsDisplayedById(R.id.textNotConnectedSuggestion)
 
-        fun checkProtocol(protocol: VpnProtocol) {
-            checkIfElementByIdContainsText<RealConnectionRobot>(R.id.textProtocol, protocol.displayName())
-        }
+        fun checkProtocol(protocol: VpnProtocol) =
+            checkIfElementByIdContainsText(R.id.textProtocol, protocol.displayName())
 
         suspend fun checkIfConnectedAndCorrectIpAddressIsDisplayed(api: ProtonApiRetroFit){
             val ipAddress = api.getLocation().valueOrNull?.ipAddress.toString()
-            checkIfElementIsDisplayedById<RealConnectionRobot>(R.id.buttonDisconnect)
-            checkIfElementByIdContainsText<RealConnectionRobot>(R.id.textServerIp, ipAddress)
+            checkIfElementIsDisplayedById(R.id.buttonDisconnect)
+            checkIfElementByIdContainsText(R.id.textServerIp, ipAddress)
         }
     }
 

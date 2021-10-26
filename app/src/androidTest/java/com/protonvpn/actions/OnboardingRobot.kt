@@ -41,31 +41,28 @@ class OnboardingRobot : BaseRobot() {
             waitUntilDisplayedByText(R.string.onboardingStartSlideTitle)
 
     class Verify : BaseVerify(){
-        fun signUpButtonHasLink(browserPackageName: String): Verify = checkIfBrowserIsOpened(browserPackageName)
+        fun signUpButtonHasLink(browserPackageName: String) = checkIfBrowserIsOpened(browserPackageName)
+
+        fun isLoginPageDisplayed() = checkIfElementIsDisplayedById(R.id.buttonLogin)
 
         fun isTextWeBelieveIsDisplayed(): Verify =
             waitUntilDisplayedByText(R.string.onboardingMiddleSlideTitle)
 
-        fun isTextWelcomeIsDisplayed(): Verify =
+        fun isTextWelcomeIsDisplayed() =
             checkIfElementIsDisplayedByStringId(R.string.onboardingStartSlideDescription)
 
-        fun isLoginPageDisplayed(): Verify =
+        fun isFinalPageDisplayed(){
+            checkIfElementIsDisplayedByStringId(R.string.onboardingEndingSlideDescription)
             checkIfElementIsDisplayedById(R.id.buttonLogin)
-
-        fun isFinalPageDisplayed(): Verify {
-            checkIfElementIsDisplayedByStringId<Verify>(R.string.onboardingEndingSlideDescription)
-            checkIfElementIsDisplayedById<Verify>(R.id.buttonLogin)
-            checkIfElementIsDisplayedById<Verify>(R.id.buttonSignup)
-            return this
+            checkIfElementIsDisplayedById(R.id.buttonSignup)
         }
 
-        fun onboardingViewIsVisible(): Verify {
-            checkIfElementIsDisplayedById<Verify>(R.id.protonLogo)
-            checkIfElementIsDisplayedById<Verify>(R.id.buttonSkip)
-            checkIfElementIsDisplayedById<Verify>(R.id.buttonNext)
-            checkIfElementIsDisplayedByStringId<Verify>(R.string.onboardingStartSlideTitle)
-            checkIfElementIsDisplayedByStringId<Verify>(R.string.onboardingStartSlideDescription)
-            return this
+        fun onboardingViewIsVisible() {
+            checkIfElementIsDisplayedById(R.id.protonLogo)
+            checkIfElementIsDisplayedById(R.id.buttonSkip)
+            checkIfElementIsDisplayedById(R.id.buttonNext)
+            checkIfElementIsDisplayedByStringId(R.string.onboardingStartSlideTitle)
+            checkIfElementIsDisplayedByStringId(R.string.onboardingStartSlideDescription)
         }
     }
 
