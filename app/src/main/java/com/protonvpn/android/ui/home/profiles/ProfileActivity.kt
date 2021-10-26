@@ -41,11 +41,11 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.SaveableSettingsActivity
-import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
-import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 
@@ -194,7 +194,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
         checkboxSecureCore.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setSecureCore(isChecked)
         }
-        buttonUpgrade.setOnClickListener { openProtonUrl(Constants.DASHBOARD_URL) }
+        buttonUpgrade.setOnClickListener { launchActivity<UpgradeSecureCoreDialogActivity>() }
         layoutSecureCoreUpgrade.isVisible = !viewModel.isSecureCoreAvailable
         checkboxSecureCore.isVisible = viewModel.isSecureCoreAvailable
     }
