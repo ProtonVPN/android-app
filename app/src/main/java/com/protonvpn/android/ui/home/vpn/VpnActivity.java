@@ -18,13 +18,7 @@
  */
 package com.protonvpn.android.ui.home.vpn;
 
-import android.app.Service;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
@@ -38,8 +32,6 @@ import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 
 import org.strongswan.android.logic.CharonVpnService;
-import org.strongswan.android.logic.TrustedCertificateManager;
-import org.strongswan.android.logic.VpnStateService;
 
 import java.io.File;
 
@@ -53,34 +45,11 @@ public abstract class VpnActivity extends BaseActivity {
     @Inject UserData userData;
     @Inject protected VpnConnectionManager vpnConnectionManager;
 
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = ((VpnStateService.LocalBinder) service).getService();
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.bindService(new Intent(this, VpnStateService.class), mServiceConnection,
-            Service.BIND_AUTO_CREATE);
         registerForEvents();
         Log.checkForLogTruncation(getFilesDir() + File.separator + CharonVpnService.LOG_FILE);
-        new LoadCertificatesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mService != null) {
-            this.unbindService(mServiceConnection);
-        }
     }
 
     public final void onConnect(@NonNull Profile profileToConnect) {
@@ -114,27 +83,6 @@ public abstract class VpnActivity extends BaseActivity {
                 .setMessage(R.string.restrictedMaintenanceDescription)
                 .setNegativeButton(R.string.got_it, null)
                 .show();
-        }
-    }
-
-    /**
-     * Class that loads the cached CA certificates.
-     */
-    private class LoadCertificatesTask extends AsyncTask<Void, Void, TrustedCertificateManager> {
-
-        @Override
-        protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected TrustedCertificateManager doInBackground(Void... params) {
-            return TrustedCertificateManager.getInstance().load();
-        }
-
-        @Override
-        protected void onPostExecute(TrustedCertificateManager result) {
-            setProgressBarIndeterminateVisibility(false);
         }
     }
 }
