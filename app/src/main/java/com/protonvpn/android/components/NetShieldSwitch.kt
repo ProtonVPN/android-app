@@ -184,8 +184,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     else -> false
                 }
                 val needsToReconnect = stateMonitor.connectionProtocol?.localAgentEnabled() == false
-                val needsReconnectDialog =
-                    withReconnectDialog && (needsToReconnect || needsNoteOnAdBlocking)
+                val needsReconnectDialog = withReconnectDialog && needsToReconnect
 
                 if (stateMonitor.isConnected && needsReconnectDialog) {
                     showReconnectDialog(needsNoteOnAdBlocking) {
