@@ -17,13 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.api
+package com.protonvpn.android.auth.data
 
-import me.proton.core.network.domain.client.ClientId
-import me.proton.core.network.domain.humanverification.HumanVerificationDetails
+import me.proton.core.data.room.db.Database
 
-// This class is left only for the purpose of migration
-class HumanVerificationHandler {
-
-    class HumanVerificationDetailsData(val details: MutableMap<ClientId, HumanVerificationDetails>)
+interface VpnUserDatabase : Database {
+    fun vpnUserDao(): VpnUserDao
 }

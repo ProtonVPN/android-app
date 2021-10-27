@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 
 import android.content.Context
 import androidx.room.Room.databaseBuilder
+import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import dagger.Binds
@@ -49,6 +50,13 @@ object AppDatabaseModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
+object AppDatabaseDaoModule {
+    @Provides
+    fun provideVpnUserDao(db: VpnUserDatabase) = db.vpnUserDao()
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
 abstract class AppDatabaseBindsModule {
     @Binds
     abstract fun provideAccountDatabase(appDatabase: AppDatabase): AccountDatabase
@@ -70,4 +78,7 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideOrganizationDatabase(appDatabase: AppDatabase): OrganizationDatabase
+
+    @Binds
+    abstract fun provideVpnUserDatabase(appDatabase: AppDatabase): VpnUserDatabase
 }

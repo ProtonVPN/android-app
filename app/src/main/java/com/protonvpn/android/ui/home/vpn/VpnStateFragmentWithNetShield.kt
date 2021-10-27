@@ -28,12 +28,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
+import com.protonvpn.android.utils.launchAndCollectIn
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -49,32 +51,34 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
+    @Inject lateinit var currentUser: CurrentUser
     // End of NetShieldSwitch's dependencies.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         netShieldSwitch().init(
-            userData.netShieldProtocol,
+            userData.getNetShieldProtocol(currentUser.vpnUserCached()),
             appConfig,
             viewLifecycleOwner,
-            userData,
+            currentUser.vpnUserCached()?.isFreeUser == true,
             NetShieldSwitch.ReconnectDialogDelegate(
                 requireActivity() as VpnPermissionDelegate,
                 stateMonitor,
                 vpnConnectionManager
             )
         ) { s: NetShieldProtocol? ->
-            userData.netShieldProtocol = s
+            userData.setNetShieldProtocol(s)
         }
         netShieldSwitch().onRadiosExpandClicked = { parentViewModel.onNetShieldExpandClicked() }
         parentViewModel.netShieldExpandStatus.asLiveData()
             .observe(viewLifecycleOwner, Observer { netShieldSwitch().radiosExpanded = it })
-        userData.netShieldLiveData.observe(viewLifecycleOwner, Observer<NetShieldProtocol> { state ->
-            if (state != null) {
-                netShieldSwitch().setNetShieldValue(state)
-            }
-        })
+        userData.netShieldSettingUpdateEvent.observe(viewLifecycleOwner) {
+            netShieldSwitch().setNetShieldValue(userData.getNetShieldProtocol(currentUser.vpnUserCached()))
+        }
+        currentUser.vpnUserFlow.launchAndCollectIn(viewLifecycleOwner) {
+            netShieldSwitch().setNetShieldValue(userData.getNetShieldProtocol(it))
+        }
 
         parentViewModel.bottomSheetFullyExpanded.observe(viewLifecycleOwner, Observer { isExpanded ->
             if (isExpanded) {

@@ -24,6 +24,7 @@ import android.content.Intent
 import android.net.VpnService
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -48,6 +49,7 @@ class ProtonCharonVpnService : CharonVpnService() {
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var currentUser: CurrentUser
 
     override fun onCreate() {
         super.onCreate()
@@ -74,18 +76,19 @@ class ProtonCharonVpnService : CharonVpnService() {
         if (intent?.action != VpnService.SERVICE_INTERFACE) {
             startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
         }
+        val user = currentUser.vpnUserCached()
         when {
             intent == null ->
                 handleRestoreState()
-            intent.action == VpnService.SERVICE_INTERFACE && userData.isLoggedIn ->
+            intent.action == VpnService.SERVICE_INTERFACE && currentUser.isLoggedInCached() ->
                 handleAlwaysOn()
             intent.action == DISCONNECT_ACTION -> {
                 Log.i("[IKEv2] disconnecting")
                 setNextProfile(null)
             }
-            else -> {
+            user != null -> {
                 val serverToConnect = Storage.load(ConnectionParams::class.java, ConnectionParamsIKEv2::class.java)
-                setNextProfile(serverToConnect?.getStrongSwanProfile(this, userData, appConfig))
+                setNextProfile(serverToConnect?.getStrongSwanProfile(this, userData, user, appConfig))
                 Log.i("[IKEv2] start next profile: " + serverToConnect?.server?.displayName)
                 return if (serverToConnect != null) {
                     START_STICKY

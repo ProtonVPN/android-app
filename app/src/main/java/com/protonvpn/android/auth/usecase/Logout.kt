@@ -17,13 +17,20 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.api
+package com.protonvpn.android.auth.usecase
 
-import me.proton.core.network.domain.client.ClientId
-import me.proton.core.network.domain.humanverification.HumanVerificationDetails
+import kotlinx.coroutines.flow.first
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.accountmanager.domain.getPrimaryAccount
+import javax.inject.Inject
 
-// This class is left only for the purpose of migration
-class HumanVerificationHandler {
-
-    class HumanVerificationDetailsData(val details: MutableMap<ClientId, HumanVerificationDetails>)
+class Logout @Inject constructor(
+    val accountManager: AccountManager,
+    val onSessionClosed: OnSessionClosed
+) {
+    suspend operator fun invoke() {
+        accountManager.getPrimaryAccount().first()?.let { account ->
+            onSessionClosed(account)
+        }
+    }
 }

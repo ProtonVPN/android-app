@@ -8,6 +8,7 @@ import android.net.Uri
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.ActionItem
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
@@ -30,6 +31,7 @@ class VpnErrorUIManager(
     private val appContext: Context,
     private val appConfig: AppConfig,
     private val userData: UserData,
+    private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val stateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper
@@ -121,7 +123,8 @@ class VpnErrorUIManager(
             }
             is VpnFallbackResult.Error -> {
                 if (switch.type == ErrorType.MAX_SESSIONS) {
-                    val content = if (userData.isUserPlusOrAbove) {
+                    val isUserPlusOrAbove = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
+                    val content = if (isUserPlusOrAbove) {
                         appContext.getString(R.string.notification_max_sessions_content)
                     } else {
                         appContext.resources.getQuantityString(
@@ -133,11 +136,11 @@ class VpnErrorUIManager(
                     ReconnectionNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
-                        action = if (!userData.isUserPlusOrAbove) ActionItem(
+                        action = if (!isUserPlusOrAbove) ActionItem(
                             appContext.getString(R.string.upgrade), getPendingIntentForDashboard()
                         ) else null,
                         fullScreenDialog = FullScreenDialog(
-                            fullScreenIcon = if (userData.isUserPlusOrAbove)
+                            fullScreenIcon = if (isUserPlusOrAbove)
                                 R.drawable.ic_exclamation_tunnel_illustration
                             else
                                 R.drawable.ic_upsell_tunnel_illustration

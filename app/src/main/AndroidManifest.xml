@@ -93,6 +93,7 @@
 
         <activity
             android:name=".ui.main.MobileMainActivity"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"/>
 

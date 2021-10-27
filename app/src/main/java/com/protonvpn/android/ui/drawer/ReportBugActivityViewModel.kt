@@ -29,7 +29,8 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ProtonLoggerImpl
@@ -47,7 +48,7 @@ import javax.inject.Inject
 class ReportBugActivityViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,
-    private val userData: UserData
+    private val currentUser: CurrentUser
 ) : ViewModel() {
 
     sealed class ViewState {
@@ -74,9 +75,9 @@ class ReportBugActivityViewModel @Inject constructor(
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("Client", "Android app")
             .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
-            .addFormDataPart("Username", userData.user)
+            .addFormDataPart("Username", currentUser.user()?.displayName ?: "unknown")
             .addFormDataPart("Email", email)
-            .addFormDataPart("Plan", userData.vpnInfoResponse?.userTierName ?: "unknown")
+            .addFormDataPart("Plan", currentUser.vpnUser()?.userTierName ?: "unknown")
             .addFormDataPart("OS", "Android")
             .addFormDataPart("OSVersion", Build.VERSION.RELEASE.toString())
             .addFormDataPart("ClientType", "2")

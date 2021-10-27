@@ -28,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUser;
+import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.android.tv.main.MainViewModelKt;
 import com.protonvpn.android.utils.HtmlTools;
 
 import java.util.concurrent.TimeUnit;
@@ -48,16 +51,24 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class WelcomeDialog extends AppCompatDialogFragment {
 
     private static final String TAG = "WelcomeDialog";
+
     @BindView(R.id.textTitle) TextView textTitle;
     @BindView(R.id.textDescription) TextView textDescription;
     @BindView(R.id.image) ImageView imageView;
+
     @Inject UserData userData;
+    @Inject CurrentUser currentVpnUser;
 
     final CountDownTimer timer = new CountDownTimer(TimeUnit.MINUTES.toMillis(4), 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            textDescription.setText(HtmlTools.fromHtml(getString(R.string.accountTrialExpires,
-                userData.getVpnInfoResponse().getTrialRemainingTimeString(getContext()))));
+            VpnUser user = currentVpnUser.vpnUserCached();
+            if (user == null)
+                return;
+            String remainingTimeString = MainViewModelKt.trialRemainingTimeString(
+                getContext(), user.getTrialRemainingTime());
+            textDescription.setText(
+                HtmlTools.fromHtml(getString(R.string.accountTrialExpires, remainingTimeString)));
         }
 
         @Override

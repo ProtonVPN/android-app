@@ -38,6 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivityV2
@@ -79,6 +80,7 @@ class SettingsActivity : BaseActivityV2() {
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
+    @Inject lateinit var currentUser: CurrentUser
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
@@ -125,17 +127,17 @@ class SettingsActivity : BaseActivityV2() {
                 userPrefs.connectOnBoot = isChecked
             }
             netShieldSwitch.init(
-                userPrefs.netShieldProtocol,
+                userPrefs.getNetShieldProtocol(currentUser.vpnUserCached()),
                 appConfig,
                 this@SettingsActivity,
-                userPrefs,
+                currentUser.vpnUserCached()?.isFreeUser == true,
                 NetShieldSwitch.ReconnectDialogDelegate(
                     this@SettingsActivity,
                     stateMonitor,
                     connectionManager
                 )
             ) {
-                userPrefs.netShieldProtocol = it
+                userPrefs.setNetShieldProtocol(it)
             }
             switchShowIcon.isChecked = userPrefs.shouldShowIcon()
             switchShowIcon.setOnCheckedChangeListener { _, isChecked ->

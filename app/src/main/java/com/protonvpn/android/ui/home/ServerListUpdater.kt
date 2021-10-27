@@ -24,7 +24,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
@@ -46,7 +46,7 @@ class ServerListUpdater(
     val scope: CoroutineScope,
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
-    val userData: UserData,
+    val currentUser: CurrentUser,
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
 ) {
@@ -87,7 +87,7 @@ class ServerListUpdater(
     }
 
     private val task = ReschedulableTask(scope, ::now) {
-        if (userData.isLoggedIn) {
+        if (currentUser.isLoggedIn()) {
             if (vpnStateMonitor.isDisabled && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocation())
                     updateServerList(networkLoader)

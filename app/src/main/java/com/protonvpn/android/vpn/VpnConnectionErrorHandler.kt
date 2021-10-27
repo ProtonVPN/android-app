@@ -19,9 +19,9 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -33,8 +33,8 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
-import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
+import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -42,8 +42,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
+import java.io.Serializable
 
-sealed class SwitchServerReason : java.io.Serializable {
+sealed class SwitchServerReason : Serializable {
 
     data class Downgrade(val fromTier: String, val toTier: String) : SwitchServerReason()
     object TrialEnded : SwitchServerReason()
@@ -54,9 +55,9 @@ sealed class SwitchServerReason : java.io.Serializable {
     object UnknownAuthFailure : SwitchServerReason()
 }
 
-sealed class VpnFallbackResult : java.io.Serializable {
+sealed class VpnFallbackResult : Serializable {
 
-    sealed class Switch() : VpnFallbackResult() {
+    sealed class Switch : VpnFallbackResult() {
 
         // null means change should be transparent for the user (no notification)
         abstract val log: String
@@ -92,7 +93,6 @@ data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDo
 
 class VpnConnectionErrorHandler(
     scope: CoroutineScope,
-    private val appContext: Context,
     private val api: ProtonApiRetroFit,
     private val appConfig: AppConfig,
     private val userData: UserData,
@@ -100,9 +100,9 @@ class VpnConnectionErrorHandler(
     private val serverManager: ServerManager,
     private val stateMonitor: VpnStateMonitor,
     private val serverListUpdater: ServerListUpdater,
-    private val errorUIManager: VpnErrorUIManager,
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: VpnBackendProvider,
+    private val currentUser: CurrentUser
 ) {
     private var handlingAuthError = false
 
@@ -326,7 +326,7 @@ class VpnConnectionErrorHandler(
         if (orgProfile.city.isNullOrBlank() || orgProfile.city == server.city)
             score += 1 shl CompatibilityAspect.City.ordinal
 
-        if (userData.userTier == server.tier)
+        if (currentUser.vpnUserCached()?.userTier == server.tier)
             // Prefer servers from user tier
             score += 1 shl CompatibilityAspect.Tier.ordinal
 
@@ -361,9 +361,9 @@ class VpnConnectionErrorHandler(
                     // Now that credentials are refreshed we can try reconnecting.
                     return VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, connectionParams.profile)
 
-                val vpnInfo = requireNotNull(userData.vpnInfoResponse)
+                val maxSessions = requireNotNull(currentUser.vpnUser()?.maxConnect)
                 val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-                if (vpnInfo.maxSessionCount <= sessionCount)
+                if (maxSessions <= sessionCount)
                     return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
             }
 

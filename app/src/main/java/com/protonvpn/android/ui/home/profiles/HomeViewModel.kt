@@ -19,7 +19,11 @@
 package com.protonvpn.android.ui.home.profiles
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.Logout
+import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.Profile.Companion.getTempProfile
@@ -33,19 +37,24 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    mainScope: CoroutineScope,
     val userData: UserData,
     private val vpnStateMonitor: VpnStateMonitor,
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
-    certificateRepository: CertificateRepository
-) : MainViewModel(userData, userPlanManager, certificateRepository) {
+    certificateRepository: CertificateRepository,
+    currentUser: CurrentUser,
+    logoutUseCase: Logout,
+    onSessionClosed: OnSessionClosed
+) : MainViewModel(mainScope, userData, userPlanManager, certificateRepository, logoutUseCase, currentUser) {
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {
@@ -76,4 +85,7 @@ class HomeViewModel @Inject constructor(
             vpnConnectionManager.disconnect()
         }
     }
+
+    val userLiveData = currentUser.userFlow.asLiveData()
+    val logoutEvent = onSessionClosed.logoutFlow.asLiveData()
 }

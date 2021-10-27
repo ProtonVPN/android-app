@@ -22,8 +22,10 @@ import android.os.Bundle;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUser;
+import com.protonvpn.android.auth.data.VpnUser;
+import com.protonvpn.android.auth.data.VpnUserKt;
 import com.protonvpn.android.components.BaseActivity;
-import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
@@ -41,8 +43,7 @@ import androidx.annotation.NonNull;
 
 public abstract class VpnActivity extends BaseActivity {
 
-    private VpnStateService mService;
-    @Inject UserData userData;
+    @Inject CurrentUser currentVpnUser;
     @Inject protected VpnConnectionManager vpnConnectionManager;
 
     @Override
@@ -58,7 +59,8 @@ public abstract class VpnActivity extends BaseActivity {
 
     public void onConnect(@NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
         Server server = profileToConnect.getServer();
-        if ((userData.hasAccessToServer(server) && server.getOnline()) || server == null) {
+        VpnUser vpnUser = currentVpnUser.vpnUserCached();
+        if ((VpnUserKt.hasAccessToServer(vpnUser, server) && server.getOnline()) || server == null) {
             vpnConnectionManager.connect(this, profileToConnect, connectionCauseLog);
         }
         else {

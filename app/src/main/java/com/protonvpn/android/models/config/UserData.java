@@ -21,9 +21,9 @@ package com.protonvpn.android.models.config;
 import android.os.Build;
 
 import com.protonvpn.android.ProtonApplication;
+import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.models.login.VpnInfoResponse;
 import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.LiveEvent;
 import com.protonvpn.android.utils.Storage;
@@ -41,27 +41,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import me.proton.core.network.domain.session.SessionId;
 
 public final class UserData implements Serializable {
 
-    private String user;
+    // TODO: remove some time after migration
+    @com.google.gson.annotations.SerializedName("user")
+    public String migrateUser;
+    @com.google.gson.annotations.SerializedName("loggedIn")
+    public boolean migrateLoggedIn;
+    @com.google.gson.annotations.SerializedName("vpnInfoResponse")
+    public VpnInfoResponse migrateVpnInfoResponse;
+
     private boolean connectOnBoot;
-    private boolean isLoggedIn;
-    private boolean useIon;
     private boolean showIcon;
     private boolean useSplitTunneling;
     private int mtuSize;
-    private VpnInfoResponse vpnInfoResponse;
+
     private List<String> splitTunnelApps;
     private List<String> splitTunnelIpAddresses;
     private Profile defaultConnection;
     private boolean bypassLocalTraffic;
     private int timesAppUsed;
     private DateTime lastTimeAppOpened;
-    private DateTime vpnInfoUpdatedAt;
     private DateTime trialDialogShownAt;
-    private String selectedCountry;
     private VpnProtocol selectedProtocol;
     private boolean secureCoreEnabled;
     private TransmissionProtocol transmissionProtocol;
@@ -69,23 +71,20 @@ public final class UserData implements Serializable {
     private NetShieldProtocol netShieldProtocol;
     private boolean vpnAcceleratorEnabled;
     private boolean showVpnAcceleratorNotifications;
-    private SessionId sessionId;
 
-    private transient MutableLiveData<NetShieldProtocol> netShieldProtocolLiveData;
+    private transient LiveEvent netShieldSettingUpdateEvent;
     private transient MutableLiveData<Boolean> vpnAcceleratorLiveData;
     private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
 
     private transient LiveEvent updateEvent = new LiveEvent();
 
     private UserData() {
-        user = "";
         mtuSize = 1375;
         showIcon = true;
         splitTunnelApps = new ArrayList<>();
         splitTunnelIpAddresses = new ArrayList<>();
         selectedProtocol = VpnProtocol.Smart;
         transmissionProtocol = TransmissionProtocol.TCP;
-        useIon = false;
         apiUseDoH = true;
         vpnAcceleratorEnabled = true;
         showVpnAcceleratorNotifications = true;
@@ -107,69 +106,14 @@ public final class UserData implements Serializable {
 
     // Handles post-deserialization initialization
     public void init() {
-        netShieldProtocolLiveData = new MutableLiveData<>(getNetShieldProtocol());
+        netShieldSettingUpdateEvent = new LiveEvent();
         vpnAcceleratorLiveData = new MutableLiveData<>(isVpnAcceleratorEnabled());
         selectedProtocolLiveData = new MutableLiveData<>(getSelectedProtocol());
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getVpnUserName() {
-        return isLoggedIn ? getVpnInfoResponse().getVpnUserName() : "guest";
-    }
-
-    public String getVpnPassword() {
-        return isLoggedIn ? getVpnInfoResponse().getPassword() : "guest";
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-        saveToStorage();
     }
 
     private void saveToStorage() {
         Storage.save(this);
         updateEvent.emit();
-    }
-
-    public boolean hasAccessToServer(@Nullable Server serverToAccess) {
-        return serverToAccess != null && (getVpnInfoResponse() != null &&
-            getVpnInfoResponse().hasAccessToTier(serverToAccess.getTier()));
-    }
-
-    public boolean isFreeUser() {
-        return getUserTier() == 0;
-    }
-
-    public boolean isBasicUser() {
-        return getVpnInfoResponse().getUserTier() == 1;
-    }
-
-    public boolean isUserPlusOrAbove() {
-        return getVpnInfoResponse().getUserTier() > 1;
-    }
-
-    public boolean hasAccessToSecureCore() {
-        return isUserPlusOrAbove();
-    }
-
-    public int getUserTier() {
-        return getVpnInfoResponse() != null ? getVpnInfoResponse().getUserTier() : 0;
-    }
-
-    public boolean isTrialUser() {
-        return getVpnInfoResponse().getUserTierName().equals("trial");
-    }
-
-    public boolean hasAccessToAnyServer(List<Server> serverList) {
-        for (Server server : serverList) {
-            if (hasAccessToServer(server)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Deprecated
@@ -192,16 +136,10 @@ public final class UserData implements Serializable {
         return timesAppUsed;
     }
 
-    public void logout() {
-        sessionId = null;
-        setLoggedIn(false);
+    public void onLogout() {
         setTrialDialogShownAt(null);
         setDefaultConnection(null);
         setNetShieldProtocol(null);
-    }
-
-    public boolean isMaxSessionReached(int currentSessionCount) {
-        return getVpnInfoResponse().getMaxSessionCount() <= currentSessionCount;
     }
 
     @Nullable
@@ -223,46 +161,6 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
-    @Nullable
-    public VpnInfoResponse getVpnInfoResponse() {
-        return vpnInfoResponse;
-    }
-
-    public void setVpnInfoResponse(VpnInfoResponse vpnInfoResponse) {
-        this.vpnInfoResponse = vpnInfoResponse;
-        if (isFreeUser()) {
-            setNetShieldProtocol(NetShieldProtocol.DISABLED);
-        } else {
-            netShieldProtocolLiveData.setValue(getNetShieldProtocol());
-        }
-        if (!isUserPlusOrAbove()) {
-            setSecureCoreEnabled(false);
-        }
-        this.setVpnInfoUpdatedAt(new DateTime());
-        saveToStorage();
-    }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-        netShieldProtocolLiveData.setValue(getNetShieldProtocol());
-        saveToStorage();
-    }
-
-    public void setLoggedIn(SessionId sessionId, VpnInfoResponse response) {
-        this.sessionId = sessionId;
-        setVpnInfoResponse(response);
-        setLoggedIn(true);
-    }
-
-    public void setSessionId(@NotNull SessionId sessionId) {
-        this.sessionId = sessionId;
-        saveToStorage();
-    }
-
     public boolean shouldShowIcon() {
         return Build.VERSION.SDK_INT >= 26 || showIcon;
     }
@@ -274,20 +172,6 @@ public final class UserData implements Serializable {
 
     public LiveEvent getUpdateEvent() {
         return updateEvent;
-    }
-
-    public boolean wasVpnInfoRecentlyUpdated(int minutesAgo) {
-        return vpnInfoUpdatedAt != null && (
-            Minutes.minutesBetween(vpnInfoUpdatedAt, new DateTime()).getMinutes() < minutesAgo);
-    }
-
-    public DateTime getVpnInfoUpdatedAt() {
-        return vpnInfoUpdatedAt;
-    }
-
-    private void setVpnInfoUpdatedAt(DateTime vpnInfoUpdatedAt) {
-        this.vpnInfoUpdatedAt = vpnInfoUpdatedAt;
-        saveToStorage();
     }
 
     public boolean wasTrialDialogRecentlyShowed() {
@@ -421,12 +305,12 @@ public final class UserData implements Serializable {
 
     public void setNetShieldProtocol(NetShieldProtocol value) {
         netShieldProtocol = value;
-        netShieldProtocolLiveData.setValue(getNetShieldProtocol());
+        netShieldSettingUpdateEvent.emit();
         saveToStorage();
     }
 
-    public LiveData<NetShieldProtocol> getNetShieldLiveData() {
-        return netShieldProtocolLiveData;
+    public LiveEvent getNetShieldSettingUpdateEvent() {
+        return netShieldSettingUpdateEvent;
     }
 
     public LiveData<Boolean> getVpnAcceleratorLiveData() {
@@ -437,12 +321,9 @@ public final class UserData implements Serializable {
         return selectedProtocolLiveData;
     }
 
-    public NetShieldProtocol getNetShieldProtocol() {
-        return !isLoggedIn || isFreeUser() ? NetShieldProtocol.DISABLED :
+    public NetShieldProtocol getNetShieldProtocol(@Nullable VpnUser vpnUser) {
+        return vpnUser == null || vpnUser.isFreeUser() ?
+            NetShieldProtocol.DISABLED :
             netShieldProtocol == null ? NetShieldProtocol.ENABLED : netShieldProtocol;
-    }
-
-    public SessionId getSessionId() {
-        return sessionId;
     }
 }

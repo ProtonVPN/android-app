@@ -36,7 +36,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -167,14 +166,14 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         initialValue: NetShieldProtocol,
         appConfig: AppConfig,
         lifecycleOwner: LifecycleOwner,
-        userData: UserData,
+        isFreeUser: Boolean,
         reconnectDialogDelegate: ReconnectDialogDelegate,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
             root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         })
-        netshieldFreeMode = userData.isFreeUser
+        netshieldFreeMode = isFreeUser
         onStateChange(initialValue)
         initUserTier()
 

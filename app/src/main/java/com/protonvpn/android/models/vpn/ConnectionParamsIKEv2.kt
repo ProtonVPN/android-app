@@ -20,6 +20,7 @@ package com.protonvpn.android.models.vpn
 
 import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -34,15 +35,20 @@ class ConnectionParamsIKEv2(
     connectingDomain: ConnectingDomain
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), java.io.Serializable {
 
-    fun getStrongSwanProfile(context: Context, userData: UserData, appConfig: AppConfig) = VpnProfile().apply {
+    fun getStrongSwanProfile(
+        context: Context,
+        userData: UserData,
+        vpnUser: VpnUser,
+        appConfig: AppConfig
+    ) = VpnProfile().apply {
         name = server.displayName
 
         mtu = userData.mtuSize
         natKeepAlive = NAT_KEEP_ALIVE_SECONDS
         vpnType = VpnType.IKEV2_EAP
         id = 1
-        username = getVpnUsername(userData, appConfig)
-        password = userData.vpnPassword
+        username = getVpnUsername(userData, vpnUser, appConfig)
+        password = vpnUser.password
         splitTunneling = VpnProfile.SPLIT_TUNNELING_BLOCK_IPV6
         flags = VpnProfile.FLAGS_SUPPRESS_CERT_REQS
         gateway = connectingDomain!!.entryIp

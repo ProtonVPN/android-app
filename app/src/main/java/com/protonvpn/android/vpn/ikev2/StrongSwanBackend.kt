@@ -25,6 +25,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -54,7 +55,8 @@ class StrongSwanBackend(
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    currentUser: CurrentUser
 ) : VpnBackend(
     userData,
     appConfig,
@@ -62,7 +64,8 @@ class StrongSwanBackend(
     networkManager,
     VpnProtocol.IKEv2,
     mainScope,
-    dispatcherProvider
+    dispatcherProvider,
+    currentUser
 ), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null

@@ -18,10 +18,9 @@
  */
 package com.protonvpn.android.models.vpn
 
-import android.content.Context
-import com.protonvpn.android.components.Listable
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.components.Markable
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.utils.CountryTools
 import java.io.Serializable
@@ -48,11 +47,11 @@ class VpnCountry(
         this.translatedCoordinates = TranslatedCoordinates(flag)
     }
 
-    fun hasAccessibleServer(userData: UserData): Boolean =
-        serverList.any { userData.hasAccessToServer(it) }
+    fun hasAccessibleServer(vpnUser: VpnUser?): Boolean =
+        serverList.any { vpnUser.hasAccessToServer(it) }
 
-    fun hasAccessibleOnlineServer(userData: UserData): Boolean =
-        serverList.any { userData.hasAccessToServer(it) && it.online }
+    fun hasAccessibleOnlineServer(vpnUser: VpnUser?): Boolean =
+        serverList.any { vpnUser.hasAccessToServer(it) && it.online }
 
     fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
 

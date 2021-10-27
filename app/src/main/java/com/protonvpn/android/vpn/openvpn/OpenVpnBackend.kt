@@ -22,6 +22,7 @@ import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -65,7 +66,8 @@ class OpenVpnBackend(
     val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    currentUser: CurrentUser
 ) : VpnBackend(
     userData,
     appConfig,
@@ -73,7 +75,8 @@ class OpenVpnBackend(
     networkManager,
     VpnProtocol.OpenVPN,
     mainScope,
-    dispatcherProvider
+    dispatcherProvider,
+    currentUser
 ), VpnStatus.StateListener {
 
     init {

@@ -26,7 +26,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -48,7 +49,7 @@ class TvServerListViewModel @Inject constructor(
     val serverManager: ServerManager,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
-    val userData: UserData,
+    val currentUser: CurrentUser,
     private val recentsManager: RecentsManager
 ) : ViewModel() {
 
@@ -56,8 +57,8 @@ class TvServerListViewModel @Inject constructor(
     val recents = MutableLiveData<List<ServerViewModel>>()
 
     fun init(country: String) {
-        populateServerList(country)
         viewModelScope.launch {
+            populateServerList(country)
             planManager.planChangeFlow.collect {
                 populateServerList(country)
             }
@@ -76,11 +77,12 @@ class TvServerListViewModel @Inject constructor(
     private fun getRecents(country: String) =
         recentsManager.getRecentServers(country)?.map(::ServerViewModel)
 
-    private fun populateServerList(country: String) {
+    private suspend fun populateServerList(country: String) {
         val vpnCountry = serverManager.getVpnExitCountry(country, false) ?: return
 
+        val vpnUser = currentUser.vpnUser()
         val serversVM = linkedMapOf<ServerGroup, List<ServerViewModel>>()
-        if (userData.isUserPlusOrAbove) {
+        if (vpnUser?.isUserPlusOrAbove == true) {
             val cities = vpnCountry.serverList.groupBy { it.city }
                 .toSortedMap(Comparator { o1, o2 ->
                     // Put servers without city at the end
@@ -94,7 +96,7 @@ class TvServerListViewModel @Inject constructor(
             }
         } else {
             val groups = vpnCountry.serverList.groupBy {
-                userData.hasAccessToServer(it)
+                vpnUser.hasAccessToServer(it)
             }.mapKeys { (available, _) ->
                 if (available) ServerGroup.Available else ServerGroup.Locked
             }.mapValues { (_, list) ->
