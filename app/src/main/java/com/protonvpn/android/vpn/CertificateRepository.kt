@@ -25,7 +25,6 @@ import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.UserPlanManager
@@ -44,6 +43,7 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import com.proton.gopenpgp.ed25519.KeyPair
+import com.protonvpn.android.auth.usecase.CurrentUser
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -65,10 +65,10 @@ class CertificateRepository(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
     val appContext: Context,
-    val userData: UserData,
     val api: ProtonApiRetroFit,
     val wallClock: () -> Long,
-    val userPlanManager: UserPlanManager
+    val userPlanManager: UserPlanManager,
+    val currentUser: CurrentUser
 ) {
     sealed class CertificateResult {
         data class Error(val error: ApiResult.Error?) : CertificateResult()
@@ -98,7 +98,7 @@ class CertificateRepository(
     init {
         refreshCertTask.scheduleIn(0)
         mainScope.launch {
-            userData.sessionId?.let {
+            currentUser.sessionId()?.let {
                 val certInfo = getCertInfo(it)
                 ProtonLogger.log("Current cert: ${if (certInfo.certificatePem == null)
                     null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)})"}")
@@ -146,7 +146,7 @@ class CertificateRepository(
 
     private fun updateCurrentCert(force: Boolean) {
         mainScope.launch {
-            userData.sessionId?.let {
+            currentUser.sessionId()?.let {
                 val certInfo = getCertInfo(it)
                 if (force || certInfo.certificatePem == null || wallClock() >= certInfo.refreshAt)
                     updateCertificate(it, cancelOngoing = force)
@@ -188,7 +188,7 @@ class CertificateRepository(
                     refreshCount = 0)
                 setInfo(sessionId, newInfo)
                 ProtonLogger.log("New certificate expires at: " + Date(cert.expirationTimeMs))
-                if (sessionId == userData.sessionId)
+                if (sessionId == currentUser.sessionId())
                     rescheduleRefreshTo(cert.refreshTimeMs)
                 CertificateResult.Success(cert.certificate, info.privateKeyPem)
             }

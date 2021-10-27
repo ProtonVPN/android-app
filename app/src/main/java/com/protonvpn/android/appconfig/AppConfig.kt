@@ -22,7 +22,7 @@ import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit
 
 class AppConfig(
     private val scope: CoroutineScope,
-    val api: ProtonApiRetroFit,
-    val userData: UserData,
-    val userPlanManager: UserPlanManager
+    private val api: ProtonApiRetroFit,
+    private val currentUser: CurrentUser,
+    private val userPlanManager: UserPlanManager
 ) {
 
     private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
@@ -95,7 +95,7 @@ class AppConfig(
         result.valueOrNull?.let { config ->
             Storage.save(config)
             appConfigResponseObservable.value = config
-            if (userData.isLoggedIn) {
+            if (currentUser.isLoggedIn()) {
                 val notificationsResponse = if (config.featureFlags.pollApiNotifications)
                     api.getApiNotifications().valueOrNull
                 else

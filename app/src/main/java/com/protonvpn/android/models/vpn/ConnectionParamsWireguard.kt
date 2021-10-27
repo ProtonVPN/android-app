@@ -28,6 +28,7 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
 import de.blinkt.openvpn.core.NetworkUtils
+import me.proton.core.network.domain.session.SessionId
 import org.strongswan.android.utils.IPRange
 import org.strongswan.android.utils.IPRangeSet
 
@@ -47,6 +48,7 @@ class ConnectionParamsWireguard(
     suspend fun getTunnelConfig(
         context: Context,
         userData: UserData,
+        sessionId: SessionId?,
         certificateRepository: CertificateRepository
     ): Config {
         if (connectingDomain?.publicKeyX25519 == null) {
@@ -57,7 +59,7 @@ class ConnectionParamsWireguard(
 
         config.interfaceProxy.addresses = "10.2.0.2/32"
         config.interfaceProxy.dnsServers = "10.2.0.1"
-        config.interfaceProxy.privateKey = certificateRepository.getX25519Key(userData.sessionId!!)
+        config.interfaceProxy.privateKey = certificateRepository.getX25519Key(sessionId)
 
         val peerProxy = config.addPeer()
         peerProxy.publicKey = connectingDomain.publicKeyX25519

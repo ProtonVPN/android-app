@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.protonvpn.android.auth.usecase.CurrentUser;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.utils.ServerManager;
@@ -36,11 +37,12 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Inject ServerManager manager;
     @Inject UserData userData;
+    @Inject CurrentUser currentVpnUser;
     @Inject VpnConnectionManager vpnConnectionManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (userData.getConnectOnBoot() && userData.isLoggedIn()) {
+        if (userData.getConnectOnBoot() && currentVpnUser.isLoggedInCached()) {
             Profile defaultProfile = manager.getDefaultConnection();
             if (defaultProfile != null) {
                 vpnConnectionManager.connectInBackground(context, defaultProfile, "legacy always-on");

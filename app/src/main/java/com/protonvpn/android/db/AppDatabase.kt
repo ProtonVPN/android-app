@@ -22,6 +22,8 @@ package com.protonvpn.android.db
 import androidx.room.Database
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
+import com.protonvpn.android.auth.data.VpnUserDatabase
+import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.account.data.db.AccountConverters
 import me.proton.core.account.data.db.AccountDatabase
 import me.proton.core.account.data.entity.AccountEntity
@@ -70,7 +72,10 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         UserSettingsEntity::class,
         // organization
         OrganizationEntity::class,
-        OrganizationKeysEntity::class
+        OrganizationKeysEntity::class,
+
+        // vpn
+        VpnUser::class
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -91,7 +96,8 @@ abstract class AppDatabase :
     KeySaltDatabase,
     HumanVerificationDatabase,
     UserSettingsDatabase,
-    OrganizationDatabase {
+    OrganizationDatabase,
+    VpnUserDatabase {
 
     companion object {
         const val version = 1

@@ -57,7 +57,7 @@ open class CountryExpandedViewHolder(
         clear()
         val secureCoreEnabled = viewModel.userData.isSecureCoreEnabled
         with(binding) {
-            val haveAccess = viewModel.userData.hasAccessToServer(server)
+            val haveAccess = viewModel.hasAccessToServer(server)
 
             textServer.isVisible = true
             textServer.isEnabled = haveAccess && server.online
@@ -143,7 +143,7 @@ open class CountryExpandedViewHolder(
 
     private fun updateButtons() {
         val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val haveAccess = viewModel.userData.hasAccessToServer(server)
+        val haveAccess = viewModel.hasAccessToServer(server)
         with(binding) {
             buttonUpgrade.isVisible = !haveAccess
             imageWrench.isVisible = haveAccess && !server.online

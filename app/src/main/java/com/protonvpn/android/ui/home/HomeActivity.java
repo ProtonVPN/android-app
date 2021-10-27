@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,7 +60,7 @@ import com.protonvpn.android.ui.CommonDialogsKt;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
-import com.protonvpn.android.ui.settings.SettingsActivity;
+import com.protonvpn.android.ui.main.MobileMainActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
@@ -73,6 +72,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.TooltipManager;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
+import com.protonvpn.android.ui.settings.SettingsActivity;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -129,15 +129,15 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.imageNotification) ImageView imageNotification;
+    @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
 
     VpnStateFragment fragment;
-    public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
-    @Inject LogoutHandler logoutHandler;
     @Inject NotificationHelper notificationHelper;
+
     private HomeViewModel viewModel;
 
     private final TooltipManager tooltipManager = new TooltipManager(this);
@@ -157,7 +157,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
         initSecureCoreSwitch();
         initSnackbarHelper();
-        Sentry.getContext().setUser(new UserBuilder().setUsername(userData.getUser()).build());
         checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
             initLayout();
@@ -182,9 +181,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
         serverManager.getProfilesUpdateEventLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
-        logoutHandler.getLogoutEvent().observe(this, () -> {
+        viewModel.getLogoutEvent().observe(this, account -> {
+            navigateTo(MobileMainActivity.class);
             finish();
-            return Unit.INSTANCE;
         });
 
         viewModel.collectPlanChange(this, changes -> {
@@ -236,7 +235,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     private void initSecureCoreSwitch() {
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
-            if (!switchView.isChecked() && !userData.hasAccessToSecureCore()) {
+            if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 showSecureCoreUpgradeDialog();
                 return true;
             } else if (vpnStateMonitor.isConnected()
@@ -317,14 +316,16 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initDrawerView() {
-        String userName = userData.getUser();
-        textUser.setText(userName);
-        textUserInitials.setText(getInitials(userName));
-        String userEmail = Patterns.EMAIL_ADDRESS.matcher(userName).matches()
-            ? userName
-            : userName + "@protonmail.com";
-        textUserEmail.setText(userEmail);
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
+        viewModel.getUserLiveData().observe(this, (user) -> {
+            if (user != null) {
+                Sentry.getContext().setUser(new UserBuilder().setUsername(user.getDisplayName()).build());
+                String userName = user.getDisplayName();
+                textUser.setText(userName);
+                textUserInitials.setText(getInitials(userName));
+                textUserEmail.setText(user.getEmail());
+            }
+        });
     }
 
     private void initSnackbarHelper() {
@@ -379,12 +380,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.logoutConfirmDialogTitle)
                 .setMessage(R.string.logoutConfirmDialogMessage)
-                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> logoutHandler.logout())
+                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> viewModel.logout())
                 .setNegativeButton(R.string.cancel, null)
                 .show();
         }
         else {
-            logoutHandler.logout();
+            viewModel.logout();
         }
     }
 
@@ -565,7 +566,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         switchSecureCore.setChecked(userData.isSecureCoreEnabled());
         if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
             showExpiredDialog();
-        initDrawerView();
         EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
     }
 
@@ -634,7 +634,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
         boolean secureCoreOn = userData.isSecureCoreEnabled();
-        if (secureCoreServer && !userData.hasAccessToSecureCore()) {
+        if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
             showSecureCoreUpgradeDialog();
         } else if (secureCoreServer != secureCoreOn) {
             showSecureCoreChangeDialog(profile, connectionCauseLog);

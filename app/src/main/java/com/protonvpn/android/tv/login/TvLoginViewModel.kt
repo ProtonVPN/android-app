@@ -25,10 +25,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.login.LoginResponse
+import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
@@ -54,6 +59,8 @@ import javax.inject.Inject
 class TvLoginViewModel @Inject constructor(
     val mainScope: CoroutineScope,
     val userData: UserData,
+    val currentUser: CurrentUser,
+    val vpnUserDao: VpnUserDao,
     val appConfig: AppConfig,
     val api: ProtonApiRetroFit,
     val serverListUpdater: ServerListUpdater,
@@ -64,8 +71,8 @@ class TvLoginViewModel @Inject constructor(
 
     val state = MutableLiveData<TvLoginViewState>()
 
-    fun onEnterScreen(scope: CoroutineScope) {
-        if (userData.isLoggedIn) {
+    suspend fun onEnterScreen(scope: CoroutineScope) {
+        if (currentUser.isLoggedIn()) {
             if (serverManager.isDownloadedAtLeastOnce)
                 state.value = TvLoginViewState.Success
             else scope.launch {
@@ -124,48 +131,48 @@ class TvLoginViewModel @Inject constructor(
                 // We don't have access token yet as forked session don't return it, use
                 // invalid access token so it's refreshed by the core network module.
                 val loginResponse = result.value.toLoginResponse("invalid")
-                userData.sessionId = loginResponse.sessionId
-                with(loginResponse) {
-                    accountManager.addAccount(Account(
-                        UserId(userId),
-                        "",
-                        null,
-                        AccountState.Ready,
-                        sessionId,
-                        SessionState.Authenticated,
-                        AccountDetails(null)
-                    ), Session(
-                        sessionId,
-                        accessToken,
-                        refreshToken,
-                        scope.split(" ")))
-                }
+                val userId = UserId(loginResponse.userId)
+                onSessionActive(userId, loginResponse)
+            }
+        }
+    }
 
-                when (val infoResult = api.getVPNInfo()) {
-                    is ApiResult.Error -> {
-                        userData.logout()
-                        state.value = infoResult.toLoginError()
+    private suspend fun onSessionActive(userId: UserId, loginResponse: LoginResponse) {
+        with(loginResponse) {
+            accountManager.addAccount(Account(
+                userId,
+                "",
+                null,
+                AccountState.Ready,
+                sessionId,
+                SessionState.Authenticated,
+                AccountDetails(null)
+            ), Session(
+                sessionId,
+                accessToken,
+                refreshToken,
+                scope.split(" ")))
+        }
+        when (val infoResult = api.getVPNInfo(loginResponse.sessionId)) {
+            is ApiResult.Error -> {
+                accountManager.removeAccount(userId)
+                state.value = infoResult.toLoginError()
+            }
+            is ApiResult.Success -> {
+                val vpnInfo = infoResult.value.vpnInfo
+                when {
+                    vpnInfo.hasNoConnectionsAssigned -> {
+                        accountManager.removeAccount(userId)
+                        state.value = TvLoginViewState.ConnectionAllocationPrompt
                     }
-                    is ApiResult.Success -> {
-                        val vpnInfo = infoResult.value.vpnInfo
-                        when {
-                            vpnInfo.hasNoConnectionsAssigned -> {
-                                api.logout()
-                                state.value = TvLoginViewState.ConnectionAllocationPrompt
-                            }
-                            vpnInfo.userTierUnknown -> {
-                                api.logout()
-                                state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
-                            }
-                            else -> {
-                                mainScope.launch {
-                                    certificateRepository.updateCertificate(
-                                        loginResponse.sessionId, cancelOngoing = true)
-                                }
-                                userData.setLoggedIn(result.value.sessionId, infoResult.value)
-                                loadInitialConfig()
-                            }
-                        }
+                    vpnInfo.userTierUnknown -> {
+                        accountManager.removeAccount(userId)
+                        state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
+                    }
+                    else -> {
+                        vpnUserDao.insertOrUpdate(
+                            infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId))
+                        loadInitialConfig()
                     }
                 }
             }

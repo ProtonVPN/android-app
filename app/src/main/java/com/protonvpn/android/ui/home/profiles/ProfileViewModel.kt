@@ -2,6 +2,7 @@ package com.protonvpn.android.ui.home.profiles
 
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    private val userData: UserData
+    private val userData: UserData,
+    private val currentUser: CurrentUser
 ) : SaveableSettingsViewModel() {
 
     data class ServerViewState(
@@ -54,7 +56,7 @@ class ProfileViewModel @Inject constructor(
     private val country = MutableStateFlow<VpnCountry?>(null)
     private val server = MutableStateFlow<ServerSelection?>(null)
 
-    val isSecureCoreAvailable: Boolean get() = userData.hasAccessToSecureCore()
+    val isSecureCoreAvailable: Boolean get() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
     val isSecureCoreEnabled: Boolean get() = secureCore.value
     val selectedCountryCode: String? get() = country.value?.flag
     val canDeleteProfile: Boolean get() = editedProfile != null
@@ -66,7 +68,7 @@ class ProfileViewModel @Inject constructor(
         country,
         server
     ) { secureCore, country, server ->
-        val serverNameRes = when(server) {
+        val serverNameRes = when (server) {
             ServerSelection.FastestInCountry -> R.string.profileFastest
             ServerSelection.RandomInCountry -> R.string.profileRandom
             is ServerSelection.Specific -> if (secureCore) R.string.secureCoreConnectVia else 0
@@ -134,7 +136,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun setServer(serverIdSelection: ServerIdSelection) {
-        val serverSelection: ServerSelection? = when(serverIdSelection) {
+        val serverSelection: ServerSelection? = when (serverIdSelection) {
             ServerIdSelection.FastestInCountry -> ServerSelection.FastestInCountry
             ServerIdSelection.RandomInCountry -> ServerSelection.RandomInCountry
             is ServerIdSelection.Specific ->
@@ -172,10 +174,10 @@ class ProfileViewModel @Inject constructor(
     override fun hasUnsavedChanges(): Boolean {
         val currentProfile = editedProfile
         return if (currentProfile != null) {
-            profileNameInput != currentProfile.name
-                    || profileColor.value != currentProfile.profileColor
-                    || currentProfile.country != country.value?.flag
-                    || server.value != getServerSelection(currentProfile)
+            profileNameInput != currentProfile.name ||
+                profileColor.value != currentProfile.profileColor ||
+                currentProfile.country != country.value?.flag ||
+                server.value != getServerSelection(currentProfile)
         } else {
             profileNameInput.isNotBlank() || country.value != null || server.value != null
         }
@@ -225,7 +227,7 @@ class ProfileViewModel @Inject constructor(
         country: VpnCountry,
         isSecureCore: Boolean,
         serverManager: ServerManager
-    ): ServerWrapper = when(serverSelection) {
+    ): ServerWrapper = when (serverSelection) {
             ServerSelection.FastestInCountry ->
                 ServerWrapper.makeFastestForCountry(country.flag, serverManager)
             ServerSelection.RandomInCountry ->

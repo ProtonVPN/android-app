@@ -22,6 +22,8 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -45,7 +47,8 @@ import java.io.Serializable
 class ServerManager(
     @Transient private val appContext: Context,
     @Transient private val mainScope: CoroutineScope,
-    @Transient val userData: UserData
+    @Transient val userData: UserData,
+    @Transient val currentUser: CurrentUser,
 ) : Serializable, ServerDeliver {
 
     private var serverListAppVersionCode = 0
@@ -247,7 +250,7 @@ class ServerManager(
             .filterNotNull()
             .first {
                 it.wrapper.setDeliverer(this)
-                it.isSecureCore.implies(userData.hasAccessToSecureCore())
+                it.isSecureCore.implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
             }
 
 
@@ -279,7 +282,7 @@ class ServerManager(
 
     private fun getRandomServer(): Server? {
         val allCountries = getExitCountries(userData.isSecureCoreEnabled)
-        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(userData) }
+        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
         return (if (accessibleCountries.isEmpty())
             allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
     }
@@ -357,7 +360,7 @@ class ServerManager(
     }
 
     override fun hasAccessToServer(server: Server): Boolean =
-        userData.hasAccessToServer(server)
+        currentUser.vpnUserCached().hasAccessToServer(server)
 
     fun setStreamingServices(value: StreamingServicesResponse) {
         streamingServices = value
@@ -371,6 +374,6 @@ class ServerManager(
         }.sortedBy { it.score }.toList()
 
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
-        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }
+        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
                 ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }

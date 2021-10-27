@@ -26,7 +26,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
-import com.protonvpn.android.ui.home.LogoutHandler
+import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,6 +41,7 @@ import me.proton.core.accountmanager.presentation.disableInitialNotReadyAccounts
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
+import me.proton.core.accountmanager.presentation.onAccountReady
 import me.proton.core.accountmanager.presentation.onSessionForceLogout
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.auth.presentation.AuthOrchestrator
@@ -58,8 +60,9 @@ class AccountViewModel @Inject constructor(
     val humanVerificationManager: HumanVerificationManager,
     val accountManager: AccountManager,
     val accountType: AccountType,
-    val logoutHandler: LogoutHandler,
     val vpnApiClient: VpnApiClient,
+    val onSessionClosed: OnSessionClosed,
+    val certificateRepository: CertificateRepository
 ) : ViewModel() {
 
     sealed class State {
@@ -93,11 +96,8 @@ class AccountViewModel @Inject constructor(
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
-                .onSessionForceLogout {
-                    it.sessionId?.let { sessionId ->
-                        logoutHandler.onLogout(sessionId)
-                    }
-                }
+                .onSessionForceLogout { onSessionClosed(it) }
+                .onAccountReady { account -> account.sessionId?.let { certificateRepository.generateNewKey(it) } }
                 .disableInitialNotReadyAccounts()
         }
 

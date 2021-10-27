@@ -62,7 +62,7 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val accessible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
+            val accessible = viewModel.hasAccessibleOnlineServer(vpnCountry)
             countryItem.setBackgroundResource(if (accessible)
                 countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(textCountry.getThemeColor(

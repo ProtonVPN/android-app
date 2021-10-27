@@ -22,6 +22,8 @@ import android.os.Bundle;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUser;
+import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
 import com.protonvpn.android.utils.Constants;
@@ -36,11 +38,13 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 public abstract class PoolingActivity extends VpnActivity {
 
     @Inject UserData userData;
+    @Inject CurrentUser currentVpnUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if ("trial".equals(userData.getVpnInfoResponse().getUserTierName())
+        VpnUser user = currentVpnUser.vpnUserCached();
+        if (user != null && "trial".equals(user.getUserTierName())
             && !userData.wasTrialDialogRecentlyShowed()) {
             WelcomeDialog.showDialog(getSupportFragmentManager(), WelcomeDialog.DialogType.TRIAL);
             userData.setTrialDialogShownAt(new DateTime());

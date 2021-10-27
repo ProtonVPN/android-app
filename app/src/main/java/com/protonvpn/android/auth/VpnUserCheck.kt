@@ -20,30 +20,24 @@
 package com.protonvpn.android.auth
 
 import android.content.Context
-import com.protonvpn.android.R
-import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.domain.usecase.SetupAccountCheck
 import me.proton.core.auth.presentation.DefaultUserCheck
-import me.proton.core.network.domain.ApiResult
-import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.entity.User
-import me.proton.core.util.kotlin.takeIfNotBlank
 
 class VpnUserCheck(
     val mainScope: CoroutineScope,
-    val api: ProtonApiRetroFit,
     val userData: UserData,
     val context: Context,
     val accountManager: AccountManager,
     userManager: UserManager,
     val certificateRepository: CertificateRepository,
-    private val sessionProvider: SessionProvider
+    private val vpnLoginUseCase: VpnLogin
 ) : DefaultUserCheck(context, accountManager, userManager) {
 
     override suspend fun invoke(user: User): SetupAccountCheck.UserCheckResult {
@@ -51,34 +45,11 @@ class VpnUserCheck(
         if (result != SetupAccountCheck.UserCheckResult.Success)
             return result
 
-        val sessionId = sessionProvider.getSessionId(user.userId)
-        requireNotNull(sessionId)
-        userData.setSessionId(sessionId)
-
-        return when (val vpnResult = api.getVPNInfo()) {
-            is ApiResult.Error -> {
-                userData.logout()
-                SetupAccountCheck.UserCheckResult.Error(
-                    context.getString(R.string.auth_login_general_error))
-            }
-            is ApiResult.Success -> {
-                val vpnInfo = vpnResult.value.vpnInfo
-                if (vpnInfo.userTierUnknown) {
-                    userData.logout()
-                    SetupAccountCheck.UserCheckResult.Error(context.getString(R.string.auth_login_general_error))
-                } else {
-                    userData.setLoggedIn(sessionId, vpnResult.value)
-                    userData.user = user.email?.takeIfNotBlank()
-                        ?: user.name?.takeIfNotBlank()
-                        ?: vpnResult.value.vpnUserName
-
-                    mainScope.launch {
-                        certificateRepository.generateNewKey(sessionId)
-                    }
-
-                    SetupAccountCheck.UserCheckResult.Success
-                }
-            }
+        return when (val vpnLoginResult = vpnLoginUseCase(user, context)) {
+            is VpnLogin.Result.Success ->
+                SetupAccountCheck.UserCheckResult.Success
+            is VpnLogin.Result.Error ->
+                SetupAccountCheck.UserCheckResult.Error(vpnLoginResult.message)
         }
     }
 }

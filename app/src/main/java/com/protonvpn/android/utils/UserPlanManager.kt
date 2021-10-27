@@ -18,9 +18,10 @@
  */
 package com.protonvpn.android.utils
 
-import android.content.Context
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.delay
@@ -30,8 +31,9 @@ import kotlinx.coroutines.flow.mapNotNull
 
 class UserPlanManager(
     private val api: ProtonApiRetroFit,
-    private val userData: UserData,
-    private val vpnStateMonitor: VpnStateMonitor
+    private val vpnStateMonitor: VpnStateMonitor,
+    private val currentUser: CurrentUser,
+    private val vpnUserDao: VpnUserDao
 ) {
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
@@ -45,7 +47,7 @@ class UserPlanManager(
         override fun toString(): String = this.javaClass.simpleName
     }
 
-    fun isTrialUser() = "trial" == userData.vpnInfoResponse?.userTierName
+    fun isTrialUser() = currentUser.vpnUserCached()?.isTrialUser == true
 
     val infoChangeFlow = MutableSharedFlow<List<InfoChange>>()
 
@@ -55,25 +57,26 @@ class UserPlanManager(
 
     // Will return list of changes (can be empty) or null if refresh failed.
     suspend fun refreshVpnInfo(): List<InfoChange>? {
-        val changes = api.getVPNInfo().valueOrNull?.let { newInfo ->
+        val changes = api.getVPNInfo().valueOrNull?.let { vpnInfoResponse ->
             val changes = mutableListOf<InfoChange>()
-            val oldInfo = userData.vpnInfoResponse
-            userData.vpnInfoResponse = newInfo
-            if (oldInfo != null) {
-                if (newInfo.password != oldInfo.password || newInfo.vpnUserName != oldInfo.vpnUserName)
+            currentUser.vpnUser()?.let { currentUserInfo ->
+                val newUserInfo = vpnInfoResponse.toVpnUserEntity(currentUserInfo.userId, currentUserInfo.sessionId)
+                vpnUserDao.insertOrUpdate(newUserInfo)
+
+                if (newUserInfo.password != currentUserInfo.password || newUserInfo.name != currentUserInfo.name)
                     changes += InfoChange.VpnCredentials
-                if (newInfo.isUserDelinquent && !oldInfo.isUserDelinquent)
+                if (newUserInfo.isUserDelinquent && !currentUserInfo.isUserDelinquent)
                     changes += InfoChange.UserBecameDelinquent
                 when {
-                    newInfo.userTier < oldInfo.userTier -> {
-                        changes += if (oldInfo.userTierName == "trial") {
+                    newUserInfo.userTier < currentUserInfo.userTier -> {
+                        changes += if (currentUserInfo.isTrialUser) {
                             Storage.saveBoolean(PREF_EXPIRATION_DIALOG_DUE, true)
                             InfoChange.PlanChange.TrialEnded
                         } else {
-                            InfoChange.PlanChange.Downgrade(oldInfo.userTierName, newInfo.userTierName)
+                            InfoChange.PlanChange.Downgrade(currentUserInfo.userTierName, newUserInfo.userTierName)
                         }
                     }
-                    newInfo.userTier > oldInfo.userTier ->
+                    newUserInfo.userTier > currentUserInfo.userTier ->
                         changes += InfoChange.PlanChange.Upgrade
                 }
             }
@@ -86,19 +89,22 @@ class UserPlanManager(
         return changes
     }
 
-    fun getTrialPeriodFlow(context: Context) = flow {
-        while (userData.isTrialUser) {
-            if (userData.vpnInfoResponse?.vpnInfo?.isRemainingTimeAccessible == true &&
-                userData.vpnInfoResponse?.isTrialExpired == true) {
+    fun getTrialPeriodFlow() = flow {
+        do {
+            val user = currentUser.vpnUser()
+            if (user == null || !user.isTrialUser)
+                break
+
+            if (user.isRemainingTimeAccessible && user.isTrialExpired()) {
                 refreshVpnInfo()
-                return@flow
-            } else {
-                if (userData.vpnInfoResponse?.vpnInfo?.isRemainingTimeAccessible == false &&
-                    vpnStateMonitor.isConnected) refreshVpnInfo()
+                break
             }
-            emit(userData.vpnInfoResponse?.getTrialRemainingTimeString(context))
+            if (!user.isRemainingTimeAccessible && vpnStateMonitor.isConnected)
+                refreshVpnInfo()
+
+            currentUser.vpnUser()?.let { emit(it.trialRemainingTime) }
             delay(TRIAL_UPDATE_DELAY_MILLIS)
-        }
+        } while (true)
     }
 
     companion object {

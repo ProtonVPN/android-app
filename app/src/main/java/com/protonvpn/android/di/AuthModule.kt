@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 
 import android.content.Context
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.CertificateRepository
@@ -40,7 +41,6 @@ import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.domain.UserManager
 import javax.inject.Singleton
 
@@ -71,9 +71,9 @@ object AuthModule {
         accountManager: AccountManager,
         userManager: UserManager,
         certificateRepository: CertificateRepository,
-        sessionProvider: SessionProvider
+        vpnLogin: VpnLogin
     ): SetupAccountCheck.UserCheck = VpnUserCheck(
-        mainScope, api, userData, context, accountManager, userManager, certificateRepository, sessionProvider)
+        mainScope, userData, context, accountManager, userManager, certificateRepository, vpnLogin)
 }
 
 @Module

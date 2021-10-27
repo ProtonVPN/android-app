@@ -20,7 +20,7 @@ package com.protonvpn.android.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,10 +28,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InformationViewModel @Inject constructor(
-    val userData: UserData,
+    val currentUser: CurrentUser,
     override val serverManager: ServerManager,
     override val appConfig: AppConfig
 ) : ViewModel(), StreamingViewModelHelper {
 
-    fun isPlusUser() = userData.isUserPlusOrAbove
+    fun isPlusUser() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
 }

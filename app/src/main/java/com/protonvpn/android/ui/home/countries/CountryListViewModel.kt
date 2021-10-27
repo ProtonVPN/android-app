@@ -23,6 +23,8 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -40,10 +42,12 @@ class CountryListViewModel @Inject constructor(
     val serverListUpdater: ServerListUpdater,
     val vpnStateMonitor: VpnStateMonitor,
     val userData: UserData,
+    val currentUser: CurrentUser,
     val api: ProtonApiRetroFit
 ) : ViewModel() {
 
     val vpnStatus = vpnStateMonitor.status.asLiveData()
+    val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
@@ -78,17 +82,17 @@ class CountryListViewModel @Inject constructor(
         }
         val infoKey = if (serverManager.streamingServices?.countryToServices?.get(country.flag)?.isNotEmpty() == true)
             country.flag else null
-        if (userData.isFreeUser) {
+        if (currentUser.vpnUserCached()?.isFreeUser == true) {
             freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
             plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
         }
-        if (userData.isBasicUser) {
+        if (currentUser.vpnUserCached()?.isBasicUser == true) {
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
             freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
             plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
         }
-        if (userData.isUserPlusOrAbove) {
+        if (currentUser.vpnUserCached()?.isUserPlusOrAbove == true) {
             plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
             freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
@@ -103,8 +107,14 @@ class CountryListViewModel @Inject constructor(
             serverManager.getVpnCountries()
 
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
-        getCountriesForList().partition { it.hasAccessibleServer(userData) }
+        getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
 
     fun shouldShowSmartRouting(vpnCountry: VpnCountry) =
         vpnCountry.serverList.all { !it.hostCountry.isNullOrBlank() && it.hostCountry != it.entryCountry }
+
+    fun hasAccessToServer(server: Server) =
+        currentUser.vpnUserCached().hasAccessToServer(server)
+
+    fun hasAccessibleOnlineServer(country: VpnCountry) =
+        country.hasAccessibleOnlineServer(currentUser.vpnUserCached())
 }

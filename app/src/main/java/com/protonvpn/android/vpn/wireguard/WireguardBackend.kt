@@ -21,6 +21,7 @@ package com.protonvpn.android.vpn.wireguard
 
 import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -54,9 +55,10 @@ class WireguardBackend(
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
     dispatcherProvider: DispatcherProvider,
-    mainScope: CoroutineScope
+    mainScope: CoroutineScope,
+    currentUser: CurrentUser
 ) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-        dispatcherProvider) {
+        dispatcherProvider, currentUser) {
 
     private var service: WireguardWrapperService? = null
     private val testTunnel = WireGuardTunnel(
@@ -107,7 +109,8 @@ class WireguardBackend(
         super.connect(connectionParams)
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
-            val config = wireguardParams.getTunnelConfig(context, userData, certificateRepository)
+            val config = wireguardParams.getTunnelConfig(
+                context, userData, currentUser.sessionId(), certificateRepository)
             withContext(Dispatchers.IO) {
                 backend.setState(testTunnel, Tunnel.State.UP, config)
             }

@@ -37,12 +37,14 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvLoginBinding
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
+import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.onAnimationEnd
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.openBrowserLink
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
@@ -58,7 +60,9 @@ class TvLoginActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.onEnterScreen(lifecycleScope)
+        lifecycleScope.launch {
+            viewModel.onEnterScreen(lifecycleScope)
+        }
         with(binding) {
             actionButton.initLolipopButtonFocus()
             actionButton.setOnClickListener {
@@ -125,7 +129,7 @@ class TvLoginActivity : BaseTvActivity() {
                 if (loadingView.isAnimating)
                     finishLoadingAnimation()
                 else
-                    finish()
+                    finishLogin()
             }
         }
         // Focus the action button first, not the link.
@@ -153,8 +157,13 @@ class TvLoginActivity : BaseTvActivity() {
         repeatCount = 0
         playAnimation()
         onAnimationEnd {
-            finish()
+            finishLogin()
         }
+    }
+
+    private fun finishLogin() {
+        startActivity(Intent(this, TvMainActivity::class.java))
+        finish()
     }
 
     companion object {

@@ -50,6 +50,8 @@ import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
 import com.proton.gopenpgp.vpnPing.VpnPing
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.utils.LiveEvent
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
 
@@ -87,6 +89,7 @@ abstract class VpnBackend(
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
+    val currentUser: CurrentUser
 ) : VpnStateSource {
 
     abstract suspend fun prepareForConnection(
@@ -246,11 +249,19 @@ abstract class VpnBackend(
     private val splitTcpValue get() = !appConfig.getFeatureFlags().vpnAccelerator || userData.isVpnAcceleratorEnabled
 
     private fun initFeatures() {
-        observeFeature(userData.netShieldLiveData) {
-            setInt(FEATURES_NETSHIELD, it.ordinal.toLong())
+        observeFeature(userData.netShieldSettingUpdateEvent) {
+            setInt(FEATURES_NETSHIELD, userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong())
         }
         observeFeature(userData.vpnAcceleratorLiveData) {
             setBool(FEATURES_SPLIT_TCP, splitTcpValue)
+        }
+    }
+
+    private fun observeFeature(featureChange: LiveEvent, update: Features.() -> Unit) {
+        features.update()
+        featureChange.observeForever {
+            features.update()
+            agent?.setFeatures(features)
         }
     }
 
@@ -273,7 +284,7 @@ abstract class VpnBackend(
     }
 
     private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
-        if (vpnProtocol.localAgentEnabled() && userData.sessionId != null) {
+        if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null) {
             when (vpnState) {
                 VpnState.Connected -> handleLocalAgentStates(localAgentState)
                 VpnState.Disabled, VpnState.Disconnecting -> {
@@ -319,16 +330,18 @@ abstract class VpnBackend(
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            val result = if (force)
-                certificateRepository.updateCertificate(userData.sessionId!!, false)
-            else
-                certificateRepository.getCertificate(userData.sessionId!!, false)
-            when (result) {
-                is CertificateRepository.CertificateResult.Success ->
-                    connectToLocalAgent()
-                is CertificateRepository.CertificateResult.Error -> {
-                    // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh certificate")
+            currentUser.sessionId()?.let { sessionId ->
+                val result = if (force)
+                    certificateRepository.updateCertificate(sessionId, false)
+                else
+                    certificateRepository.getCertificate(sessionId, false)
+                when (result) {
+                    is CertificateRepository.CertificateResult.Success ->
+                        connectToLocalAgent()
+                    is CertificateRepository.CertificateResult.Error -> {
+                        // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
+                        setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh certificate")
+                    }
                 }
             }
         }
@@ -338,15 +351,17 @@ abstract class VpnBackend(
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            certificateRepository.generateNewKey(userData.sessionId!!)
-            when (certificateRepository.updateCertificate(userData.sessionId!!, true)) {
-                is CertificateRepository.CertificateResult.Error -> {
-                    // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh revoked certificate")
-                }
-                is CertificateRepository.CertificateResult.Success -> {
-                    yield()
-                    reconnect()
+            currentUser.sessionId()?.let { sessionId ->
+                certificateRepository.generateNewKey(sessionId)
+                when (certificateRepository.updateCertificate(sessionId, true)) {
+                    is CertificateRepository.CertificateResult.Error -> {
+                        // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
+                        setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh revoked certificate")
+                    }
+                    is CertificateRepository.CertificateResult.Success -> {
+                        yield()
+                        reconnect()
+                    }
                 }
             }
         }
@@ -357,7 +372,7 @@ abstract class VpnBackend(
         if (agent == null && agentConnectionJob == null) {
             val hostname = lastConnectionParams?.connectingDomain?.entryDomain
             agentConnectionJob = mainScope.launch {
-                val certInfo = certificateRepository.getCertificate(userData.sessionId!!)
+                val certInfo = certificateRepository.getCertificate(currentUser.sessionId()!!)
                 if (certInfo is CertificateRepository.CertificateResult.Success) {
                     // Tunnel needs a moment to become functional
                     delay(500)

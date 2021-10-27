@@ -17,13 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.api
+package com.protonvpn.android.auth.data
 
-import me.proton.core.network.domain.client.ClientId
-import me.proton.core.network.domain.humanverification.HumanVerificationDetails
+import androidx.room.Dao
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+import me.proton.core.data.room.db.BaseDao
+import me.proton.core.domain.entity.UserId
 
-// This class is left only for the purpose of migration
-class HumanVerificationHandler {
+@Dao
+abstract class VpnUserDao : BaseDao<VpnUser>() {
 
-    class HumanVerificationDetailsData(val details: MutableMap<ClientId, HumanVerificationDetails>)
+    @Query("SELECT * FROM VpnUser WHERE userId = :userId")
+    abstract fun getByUserId(userId: UserId): Flow<VpnUser?>
 }

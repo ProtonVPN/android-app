@@ -20,7 +20,8 @@
 package com.protonvpn.android.ui.home.profiles
 
 import androidx.lifecycle.ViewModel
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ServerSelectionViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    private val userData: UserData
+    private val currentUser: CurrentUser
 ) : ViewModel() {
 
     data class ServerItem(
@@ -48,7 +49,7 @@ class ServerSelectionViewModel @Inject constructor(
                 if (secureCore) it.entryCountry else it.exitCountry,
                 if (secureCore) CountryTools.getFullName(it.entryCountry) else it.serverName,
                 it.online,
-                userData.hasAccessToServer(it)
+                currentUser.vpnUserCached().hasAccessToServer(it)
             )
         }
 }
