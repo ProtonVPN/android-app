@@ -19,7 +19,9 @@
 
 package com.protonvpn.android
 
+import com.protonvpn.android.auth.usecase.CoreLoginMigration
 import com.protonvpn.android.vpn.VpnLogCapture
+import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -28,8 +30,12 @@ class ProtonApplicationHilt : ProtonApplication() {
 
     @Inject lateinit var vpnLogCapture: VpnLogCapture
 
+    // Lazy as some of the dependencies assume application is created (and available through static getter).
+    @Inject lateinit var coreLoginMigration: Lazy<CoreLoginMigration>
+
     override fun onCreate() {
         super.onCreate()
         vpnLogCapture.startCapture()
+        coreLoginMigration.get().migrateIfNeeded()
     }
 }
