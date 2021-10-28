@@ -26,22 +26,18 @@ import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
+import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity
 import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.AndroidUtils.isTV
-import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import javax.inject.Inject
 
@@ -91,22 +87,12 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
 
     protected open fun onVpnPrepareFailed() {}
 
-    private fun getContentView(): View {
-        return findViewById(android.R.id.content)
-    }
+    private fun getContentView(): View = findViewById(android.R.id.content)
 
     companion object {
         @TargetApi(Build.VERSION_CODES.N)
         fun showNoVpnPermissionDialog(activity: Activity) {
-            val content = HtmlTools.fromHtml(activity.getString(
-                R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS))
-            MaterialDialog.Builder(activity).theme(Theme.DARK)
-                .title(R.string.error_prepare_vpn_title)
-                .content(content)
-                .positiveText(R.string.error_prepare_vpn_settings)
-                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    activity.startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-                }.show()
+            activity.launchActivity<NoVpnPermissionActivity>()
         }
     }
 }
