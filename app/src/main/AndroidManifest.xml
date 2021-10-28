@@ -92,6 +92,8 @@
         <activity
             android:name=".ui.promooffers.PromoOfferActivity" />
         <activity
+            android:name=".ui.vpn.NoVpnPermissionActivity" />
+        <activity
             android:name=".utils.DeepLinkActivity"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>

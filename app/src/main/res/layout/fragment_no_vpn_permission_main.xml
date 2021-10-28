@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        app:srcCompat="@drawable/ic_warning_symbol" />
+
+    <TextView
+        style="@style/Proton.Text.Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/noVpnPermissionMainTitle" />
+
+    <TextView
+        style="@style/Proton.Text.Default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/noVpnPermissionMainMessage" />
+
+    <LinearLayout
+        android:id="@+id/layoutGrantPermissions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+
+        <TextView
+            style="@style/Proton.Text.Default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="12dp"
+            android:paddingVertical="12dp"
+            android:text="@string/noVpnPermissionGrantPermissionTitle"
+            app:drawableStartCompat="@drawable/ic_key" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_chevron_right"
+            app:tint="?attr/proton_icon_hint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutDisableAlwaysOn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+
+        <TextView
+            style="@style/Proton.Text.Default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="12dp"
+            android:paddingVertical="12dp"
+            android:text="@string/noVpnPermissionDisableAlwaysOnTitle"
+            app:drawableStartCompat="@drawable/ic_unavailable_circle" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_chevron_right"
+            app:tint="?attr/proton_icon_hint" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonReconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:text="@string/try_reconnecting" />
+
+</LinearLayout>
