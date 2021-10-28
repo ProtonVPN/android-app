@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.components
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -34,11 +35,13 @@ import com.protonvpn.android.ui.login.TroubleshootActivity
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.presentation.utils.errorSnack
 
+@SuppressLint("ClickableViewAccessibility")
 class NetworkFrameLayout : RelativeLayout, LoaderUI {
 
     private val loadingView by lazy {
         val inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.fragment_app_loading, this, false).also {
+            it.setOnTouchListener { _, _ -> /* capture all events */ true }
             addView(it)
         }
     }
@@ -53,6 +56,7 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
             it.findViewById<View>(R.id.buttonRetry).setOnClickListener {
                 retryListener?.invoke()
             }
+            it.setOnTouchListener { _, _ -> /* capture all events */ true }
             addView(it)
         }
     }
