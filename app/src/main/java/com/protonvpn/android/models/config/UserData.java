@@ -47,8 +47,8 @@ public final class UserData implements Serializable {
     // TODO: remove some time after migration
     @com.google.gson.annotations.SerializedName("user")
     public String migrateUser;
-    @com.google.gson.annotations.SerializedName("loggedIn")
-    public boolean migrateLoggedIn;
+    @com.google.gson.annotations.SerializedName("isLoggedIn")
+    public boolean migrateIsLoggedIn;
     @com.google.gson.annotations.SerializedName("vpnInfoResponse")
     public VpnInfoResponse migrateVpnInfoResponse;
 
@@ -325,5 +325,13 @@ public final class UserData implements Serializable {
         return vpnUser == null || vpnUser.isFreeUser() ?
             NetShieldProtocol.DISABLED :
             netShieldProtocol == null ? NetShieldProtocol.ENABLED : netShieldProtocol;
+    }
+
+    @NotNull
+    public void finishUserMigration() {
+        migrateIsLoggedIn = false;
+        migrateUser = null;
+        migrateVpnInfoResponse = null;
+        saveToStorage();
     }
 }
