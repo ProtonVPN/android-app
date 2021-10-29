@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
+import java.util.Locale
 
 data class Profile(
     val name: String,
@@ -43,12 +44,15 @@ data class Profile(
 
     fun migrateColor(): Profile =
         if (color != null && colorId == null && !isPreBakedProfile) {
-            val profileColor = ProfileColor.values().find {
-                it.legacyColorString.equals(color, ignoreCase = true)
-            } ?: ProfileColor.random() // Should not happen.
+            val profileColor = ProfileColor.legacyColors.getOrElse(color.uppercase(Locale.US)) {
+                ProfileColor.random() // Should not happen.
+            }
             copy(color = null, colorId = profileColor.id)
         } else if (color != null && isPreBakedProfile) {
             copy(color = null, colorId = null)
+        } else if (color == null && colorId != null && ProfileColor.byId(colorId) == null) {
+            // Internal tester migration.
+            copy(color = null, colorId = ProfileColor.values().first().id)
         } else {
             this
         }

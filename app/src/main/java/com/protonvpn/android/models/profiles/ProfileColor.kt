@@ -24,33 +24,46 @@ import com.protonvpn.android.R
 
 enum class ProfileColor(
     val id: Int,
-    @ColorRes val colorRes: Int,
-    val legacyColorString: String?
+    @ColorRes val colorRes: Int
 ) {
-    PURPLE(1, R.color.purple_base, null),
-    HEATHER(2, R.color.heather_base, null),
-    STRAWBERRY(3, R.color.strawberry_base, "#FFE01623"),
-    BLUSH(4, R.color.blush_base, "#FFBD6566"),
-    PINK(5, R.color.pink_base, "#FFD21BB5"),
-    LILAC(6, R.color.lilac_base, "#FFB14FA3"),
-    SLATEBLUE(7, R.color.slateblue_base, "#FF9F49DA"),
-    KIMBERLY(8, R.color.kimberly_base, "#FF9369B1"),
-    PACIFIC(9, R.color.pacific_base, "#FF6071DA"),
-    GLACIER(10, R.color.glacier_base, "#FF6871A5"),
-    PROFILE_11(11, R.color.profile11, "#FF39C5CA"),
-    PROFILE_12(12, R.color.profile12, "#FF579191"),
-    FERN(13, R.color.fern_base, "#FF3DB965"),
-    MOSS(14, R.color.moss_base, "#FF5C946F"),
-    PEAR(15, R.color.pear_base, "#FF9DBF3A"),
-    OLIVE(16, R.color.olive_base, "#FF909F66"),
-    MUSTARD(17, R.color.mustard_base, "#FFE9C652"),
-    SAHARA(18, R.color.sahara_base, "#FFA39364"),
-    CARROT(19, R.color.carrot_base, "#FFD77124"),
-    CINNAMON(20, R.color.cinnamon_base, "#FFA97D57");
+    PURPLE(1, R.color.purple_base),
+    STRAWBERRY(3, R.color.strawberry_base),
+    PINK(5, R.color.pink_base),
+    SLATEBLUE(7, R.color.slateblue_base),
+    PACIFIC(9, R.color.pacific_base),
+    REEF(11, R.color.reef_base),
+    FERN(13, R.color.fern_base),
+    OLIVE(16, R.color.olive_base),
+    SAHARA(18, R.color.sahara_base),
+    CARROT(19, R.color.carrot_base);
 
     companion object {
+
+        val legacyColors by lazy {
+            mapOf(
+                "#FFE01623" to STRAWBERRY,
+                "#FFBD6566" to STRAWBERRY,
+                "#FFD21BB5" to PINK,
+                "#FFB14FA3" to PINK,
+                "#FF9F49DA" to SLATEBLUE,
+                "#FF9369B1" to SLATEBLUE,
+                "#FF6071DA" to PACIFIC,
+                "#FF6871A5" to PACIFIC,
+                "#FF39C5CA" to REEF,
+                "#FF579191" to REEF,
+                "#FF3DB965" to FERN,
+                "#FF5C946F" to FERN,
+                "#FF9DBF3A" to OLIVE,
+                "#FF909F66" to OLIVE,
+                "#FFE9C652" to SAHARA,
+                "#FFA39364" to SAHARA,
+                "#FFD77124" to CARROT,
+                "#FFA97D57" to CARROT
+            )
+        }
+
         @JvmStatic
-        fun byId(id: Int) = requireNotNull(values().find { it.id == id })
+        fun byId(id: Int) = values().find { it.id == id }
         @JvmStatic
         fun random() = values().random()
     }
