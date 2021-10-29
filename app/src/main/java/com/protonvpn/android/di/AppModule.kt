@@ -113,14 +113,37 @@ object AppModuleProd {
             override fun onServerTimeUpdated(epochSeconds: Long) {}
         }
         return if (BuildConfig.DEBUG) {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
-                networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
-                humanVerificationHandler, cookieStore, scope, certificatePins = emptyArray(),
-                alternativeApiPins = emptyList())
+            ApiManagerFactory(
+                PRIMARY_VPN_API_URL,
+                apiClient,
+                clientIdProvider,
+                serverTimeListener,
+                networkManager,
+                NetworkPrefs(appContext),
+                sessionProvider,
+                sessionProvider,
+                humanVerificationHandler,
+                humanVerificationHandler,
+                cookieStore,
+                scope,
+                certificatePins = emptyArray(),
+                alternativeApiPins = emptyList()
+            )
         } else {
-            ApiManagerFactory(PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
-                networkManager, NetworkPrefs(appContext), sessionProvider, sessionProvider, humanVerificationHandler,
-                humanVerificationHandler, cookieStore, scope)
+            ApiManagerFactory(
+                PRIMARY_VPN_API_URL,
+                apiClient,
+                clientIdProvider,
+                serverTimeListener,
+                networkManager,
+                NetworkPrefs(appContext),
+                sessionProvider,
+                sessionProvider,
+                humanVerificationHandler,
+                humanVerificationHandler,
+                cookieStore,
+                scope
+            )
         }
     }
 
@@ -179,6 +202,7 @@ object AppModuleProd {
         )
 }
 
+@Suppress("TooManyFunctions")
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -203,7 +227,8 @@ object AppModule {
 
     @Provides
     fun provideActivityManager(): ActivityManager =
-        ProtonApplication.getAppContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        ProtonApplication.getAppContext()
+            .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Singleton
     @Provides
@@ -222,7 +247,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAppConfig(api: ProtonApiRetroFit, userData: UserData, userPlanManager: UserPlanManager): AppConfig =
+    fun provideAppConfig(
+        api: ProtonApiRetroFit,
+        userData: UserData,
+        userPlanManager: UserPlanManager
+    ): AppConfig =
         AppConfig(scope, api, userData, userPlanManager)
 
     @Singleton
@@ -299,8 +328,20 @@ object AppModule {
         errorUIManager: VpnErrorUIManager,
         networkManager: NetworkManager,
         vpnBackendProvider: VpnBackendProvider,
-    ) = VpnConnectionErrorHandler(scope, ProtonApplication.getAppContext(), api, appConfig, userData, userPlanManager,
-        serverManager, vpnStateMonitor, serverListUpdater, errorUIManager, networkManager, vpnBackendProvider)
+    ) = VpnConnectionErrorHandler(
+        scope,
+        ProtonApplication.getAppContext(),
+        api,
+        appConfig,
+        userData,
+        userPlanManager,
+        serverManager,
+        vpnStateMonitor,
+        serverListUpdater,
+        errorUIManager,
+        networkManager,
+        vpnBackendProvider
+    )
 
     @Singleton
     @Provides
@@ -310,8 +351,10 @@ object AppModule {
         userPlanManager: UserPlanManager,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
-    ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
-        vpnStateMonitor, notificationHelper)
+    ) = VpnErrorUIManager(
+        scope, ProtonApplication.getAppContext(), appConfig, userData, userPlanManager,
+        vpnStateMonitor, notificationHelper
+    )
 
     @Singleton
     @Provides
@@ -327,7 +370,8 @@ object AppModule {
         userData,
         api,
         System::currentTimeMillis,
-        userPlanManager)
+        userPlanManager
+    )
 
     @Singleton
     @Provides
@@ -342,7 +386,12 @@ object AppModule {
     fun provideNotificationHelper(
         vpnStateMonitor: VpnStateMonitor,
         trafficMonitor: TrafficMonitor,
-    ) = NotificationHelper(ProtonApplication.getAppContext(), scope, vpnStateMonitor, trafficMonitor)
+    ) = NotificationHelper(
+        ProtonApplication.getAppContext(),
+        scope,
+        vpnStateMonitor,
+        trafficMonitor
+    )
 
     @Singleton
     @Provides
@@ -372,13 +421,13 @@ object AppModule {
         certificateRepository: CertificateRepository,
         dispatcherProvider: DispatcherProvider
     ) = StrongSwanBackend(
-            random,
-            networkManager,
-            scope,
-            userData,
-            appConfig,
-            certificateRepository,
-            dispatcherProvider
+        random,
+        networkManager,
+        scope,
+        userData,
+        appConfig,
+        certificateRepository,
+        dispatcherProvider
     )
 
     @Singleton
@@ -390,14 +439,14 @@ object AppModule {
         certificateRepository: CertificateRepository,
         dispatcherProvider: DispatcherProvider
     ) = OpenVpnBackend(
-            random,
-            networkManager,
-            userData,
-            appConfig,
-            System::currentTimeMillis,
-            certificateRepository,
-            scope,
-            dispatcherProvider
+        random,
+        networkManager,
+        userData,
+        appConfig,
+        System::currentTimeMillis,
+        certificateRepository,
+        scope,
+        dispatcherProvider
     )
 
     @Singleton
@@ -406,7 +455,13 @@ object AppModule {
         appConfig: AppConfig,
         vpnStateMonitor: VpnStateMonitor,
         vpnErrorHandler: VpnConnectionErrorHandler
-    ) = MaintenanceTracker(scope, ProtonApplication.getAppContext(), appConfig, vpnStateMonitor, vpnErrorHandler)
+    ) = MaintenanceTracker(
+        scope,
+        ProtonApplication.getAppContext(),
+        appConfig,
+        vpnStateMonitor,
+        vpnErrorHandler
+    )
 
     @Singleton
     @Provides
@@ -440,8 +495,18 @@ object AppModule {
         vpnApiClient: VpnApiClient,
         humanVerificationHandler: HumanVerificationHandler,
         certificateRepository: CertificateRepository
-    ): LogoutHandler = LogoutHandler(scope, userData, serverManager, vpnApiManager, userData.apiSessionProvider,
-        vpnStateMonitor, vpnConnectionManager, humanVerificationHandler, certificateRepository, vpnApiClient)
+    ): LogoutHandler = LogoutHandler(
+        scope,
+        userData,
+        serverManager,
+        vpnApiManager,
+        userData.apiSessionProvider,
+        vpnStateMonitor,
+        vpnConnectionManager,
+        humanVerificationHandler,
+        certificateRepository,
+        vpnApiClient
+    )
 
     @Provides
     @Singleton
