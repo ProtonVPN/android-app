@@ -22,6 +22,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -48,6 +50,7 @@ import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -92,6 +95,8 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var serverListUpdater: ServerListUpdater
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
+    @RelaxedMockK private lateinit var currentUser: CurrentUser
+    @RelaxedMockK private lateinit var vpnUser: VpnUser
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
@@ -118,8 +123,9 @@ class VpnConnectionErrorHandlerTests {
 
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
-        every { userData.vpnInfoResponse?.maxSessionCount } returns 2
-        every { userData.userTier } returns 2
+        currentUser.mockVpnUser { vpnUser }
+        every { vpnUser.maxConnect } returns 2
+        every { vpnUser.userTier } returns 2
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { networkManager.isConnectedToNetwork() } returns true
@@ -133,9 +139,9 @@ class VpnConnectionErrorHandlerTests {
         directProfile.setProtocol(VpnProtocol.IKEv2)
         directConnectionParams = ConnectionParamsIKEv2(directProfile, server, server.getRandomConnectingDomain())
 
-        handler = VpnConnectionErrorHandler(TestCoroutineScope(), mockk(relaxed = true), api, appConfig,
-            userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater, mockk(relaxed = true),
-            networkManager, vpnBackendProvider)
+        handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
+            userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
+            networkManager, vpnBackendProvider, currentUser)
     }
 
     @Test
@@ -157,8 +163,8 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testAuthErrorDowngrade() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
-        every { userData.isFreeUser } returns false
-        every { userData.isBasicUser } returns true
+        every { vpnUser.isFreeUser } returns false
+        every { vpnUser.isBasicUser } returns true
 
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -168,8 +174,8 @@ class VpnConnectionErrorHandlerTests {
             ),
             handler.onAuthError(directConnectionParams))
 
-        every { userData.isFreeUser } returns true
-        every { userData.isBasicUser } returns false
+        every { vpnUser.isFreeUser } returns true
+        every { vpnUser.isBasicUser } returns false
 
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -344,8 +350,8 @@ class VpnConnectionErrorHandlerTests {
             VpnFallbackResult.Switch.SwitchProfile(mockedServer, defaultFallbackConnection, SwitchServerReason.TrialEnded)
         )
 
-        every { userData.isFreeUser } returns true
-        every { userData.isBasicUser } returns false
+        every { vpnUser.isFreeUser } returns true
+        every { vpnUser.isBasicUser } returns false
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free")),
             VpnFallbackResult.Switch.SwitchProfile(mockedServer, defaultFallbackConnection, SwitchServerReason.Downgrade("vpnplus", "free"))

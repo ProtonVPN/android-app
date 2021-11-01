@@ -32,19 +32,24 @@ import org.junit.runner.Description
 class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
 
     private lateinit var service: ServiceTestHelper
+    private lateinit var userDataHelper: UserDataHelper
 
     var activityTestRule = ActivityTestRule(HomeActivity::class.java, false, false)
     override fun starting(description: Description) {
         super.starting(description)
         service = ServiceTestHelper()
+        userDataHelper = UserDataHelper()
         activityTestRule.launchActivity(null)
     }
 
     override fun finished(description: Description) {
         super.finished(description)
-        service.enableSecureCore(false)
-        UserDataHelper().logoutUser()
-        service.deleteCreatedProfiles()
+        runBlocking(Dispatchers.Main) {
+            service.enableSecureCore(false)
+            service.connectionManager.disconnect()
+            userDataHelper.userData.onLogout()
+            service.deleteCreatedProfiles()
+        }
         activityTestRule.finishActivity()
     }
 

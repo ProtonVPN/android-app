@@ -76,8 +76,8 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
-        lifecycleScope.launch {
-            unlockAndRun {
+        unlockAndRun {
+            lifecycleScope.launch {
                 if (qsTile.state == Tile.STATE_INACTIVE) {
                     if (currentUser.isLoggedIn()) {
                         ProtonLogger.log("Connecting via quick tile")

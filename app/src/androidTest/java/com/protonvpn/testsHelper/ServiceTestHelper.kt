@@ -61,7 +61,7 @@ class ServiceTestHelper {
     fun deleteCreatedProfiles() {
         mainThreadHandler.post {
             serverManager.deleteSavedProfiles()
-            userData.setDefaultConnection(null)
+            userData.defaultConnection = null
         }
     }
 

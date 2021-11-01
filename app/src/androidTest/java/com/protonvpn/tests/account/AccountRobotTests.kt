@@ -25,12 +25,12 @@ class AccountRobotTests {
 
     private val homeRobot = HomeRobot()
     private val accountRobot = AccountRobot()
-    private val testUser = TestUser.getPlusUser()
+    private val testUser = TestUser.plusUser
 
     @get:Rule
     var rules = RuleChain
             .outerRule(HiltAndroidRule(this))
-            .around(SetUserPreferencesRule(TestUser.getPlusUser()))
+            .around(SetUserPreferencesRule(TestUser.plusUser))
             .around(ProtonHomeActivityTestRule())
 
     @Test

@@ -21,7 +21,6 @@ package com.protonvpn.testSuites
 import com.protonvpn.tests.account.AccountRobotTests
 import com.protonvpn.tests.connection.ConnectionRobotTests
 import com.protonvpn.tests.login.LoginRobotTests
-import com.protonvpn.tests.login.LoginViewModelTest
 import com.protonvpn.tests.login.LogoutRobotTests
 import com.protonvpn.tests.map.MapRobotTests
 import com.protonvpn.tests.onboarding.OnboardingRobotTests
@@ -41,7 +40,6 @@ import org.junit.runners.Suite
         AccountRobotTests::class,
         ConnectionRobotTests::class,
         LoginRobotTests::class,
-        LoginViewModelTest::class,
         LogoutRobotTests::class,
         MapRobotTests::class,
         OnboardingRobotTests::class,

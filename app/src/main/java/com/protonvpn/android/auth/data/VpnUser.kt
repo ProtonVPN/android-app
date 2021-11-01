@@ -48,7 +48,6 @@ import org.joda.time.Period
 )
 data class VpnUser(
     val userId: UserId,
-    val code: Int,
     val subscribed: Int,
     val services: Int,
     val delinquent: Int,

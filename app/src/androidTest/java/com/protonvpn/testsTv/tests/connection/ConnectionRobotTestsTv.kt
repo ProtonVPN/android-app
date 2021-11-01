@@ -65,7 +65,7 @@ class ConnectionRobotTestsTv {
         userDataHelper = UserDataHelper()
         serviceTestHelper = ServiceTestHelper()
         userDataHelper
-                .setUserData(TestUser.getPlusUser())
+                .setUserData(TestUser.plusUser)
         activityRule.scenario
         loginRobot
                 .signIn()

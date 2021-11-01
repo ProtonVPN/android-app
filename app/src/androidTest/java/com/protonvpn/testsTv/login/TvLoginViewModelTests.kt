@@ -25,10 +25,13 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
@@ -41,8 +44,10 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineScope
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
 import me.proton.core.test.kotlin.assertIs
@@ -50,10 +55,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @SdkSuppress(minSdkVersion = 28) // Mocking final classes doesn't work on older API levels.
 class TvLoginViewModelTests : CoroutinesTest {
+
+    val scope = TestCoroutineScope()
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -70,6 +78,12 @@ class TvLoginViewModelTests : CoroutinesTest {
     private lateinit var certificateRepository: CertificateRepository
     @MockK
     private lateinit var serverManager: ServerManager
+    @RelaxedMockK
+    private lateinit var currentUser: CurrentUser
+    @RelaxedMockK
+    private lateinit var vpnUserDao: VpnUserDao
+    @RelaxedMockK
+    private lateinit var accountManager: AccountManager
 
     private lateinit var viewModel: TvLoginViewModel
 
@@ -102,7 +116,8 @@ class TvLoginViewModelTests : CoroutinesTest {
         coEvery { api.getForkedSession(selector) } returns ApiResult.Success(forkedSessionResponse)
         coEvery { serverListUpdater.updateServerList() } returns ApiResult.Success(ServerList(listOf()))
 
-        viewModel = TvLoginViewModel(userData, appConfig, api, serverListUpdater, serverManager, certificateRepository)
+        viewModel = TvLoginViewModel(scope, userData, currentUser, vpnUserDao, appConfig, api,
+            serverListUpdater, serverManager, certificateRepository, accountManager)
     }
 
     @Test
@@ -110,14 +125,15 @@ class TvLoginViewModelTests : CoroutinesTest {
         viewModel.onEnterScreen(this)
         assertEquals(TvLoginViewState.Welcome, viewModel.state.value)
 
-        coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
+        coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.basicUser.vpnInfoResponse)
         viewModel.startLogin(this)
         assertIs<TvLoginViewState.PollingSession>(viewModel.state.value)
         advanceUntilIdle()
 
         assertEquals(TvLoginViewState.Success, viewModel.state.value)
-        verify { userData.setLoginResponse(forkedSessionResponse.toLoginResponse("invalid")) }
-        verify { userData.setLoggedIn(TestUser.getBasicUser().vpnInfoResponse) }
+        assertEquals(currentUser.vpnUser(),
+            TestUser.basicUser.vpnInfoResponse.toVpnUserEntity(
+                UserId(forkedSessionResponse.userId), forkedSessionResponse.sessionId))
     }
 
     @Test
@@ -128,8 +144,7 @@ class TvLoginViewModelTests : CoroutinesTest {
         advanceUntilIdle()
 
         assertEquals(TvLoginViewState.ConnectionAllocationPrompt, viewModel.state.value)
-        verify { userData.setLoginResponse(forkedSessionResponse.toLoginResponse("invalid")) }
-        verify(exactly = 0) { userData.setLoggedIn(any<VpnInfoResponse>()) }
+        assertNull(currentUser.vpnUser())
         coVerify { api.logout() }
     }
 }

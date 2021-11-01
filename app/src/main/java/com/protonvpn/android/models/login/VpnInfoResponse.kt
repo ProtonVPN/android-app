@@ -35,6 +35,6 @@ data class VpnInfoResponse(
 ) : java.io.Serializable
 
 fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
-    VpnUser(userId, code, subscribed, services, delinquent, vpnInfo.status, vpnInfo.expirationTime,
+    VpnUser(userId, subscribed, services, delinquent, vpnInfo.status, vpnInfo.expirationTime,
         vpnInfo.tierName, vpnInfo.maxTier, vpnInfo.maxConnect, vpnInfo.name, vpnInfo.groupId, vpnInfo.password,
         DateTime().millis, sessionId)

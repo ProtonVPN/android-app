@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home.vpn;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
