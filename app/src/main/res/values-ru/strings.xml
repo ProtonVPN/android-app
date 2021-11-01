@@ -56,14 +56,14 @@
          Examples:
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-  <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
+  <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу не Secure Core. Это приведет к отключению режима Secure Core%1$s.</string>
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
   <string name="currentConnectionWillBeLost">\u0020и сбросить Ваше подключение</string>
   <string name="secureCoreSwitchConnect">Да, подключиться</string>
   <string name="logoutConfirmDialogTitle">Выйти?</string>
-  <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
-  <string name="logoutConfirmDialogButton">Log out</string>
+  <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
+  <string name="logoutConfirmDialogButton">Bыйти</string>
   <string name="showAllProfiles">Показать все профили</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
@@ -192,7 +192,7 @@
   <string name="error_generic_with_reason">ProtonVPN не смог установить VPN-соединение. Пожалуйста, повторите попытку через несколько секунд.<br/>
     <br/> Подробнее: %1$s</string>
   <string name="reconnect">Переподключиться</string>
-  <string name="reconnect_now">Reconnect now</string>
+  <string name="reconnect_now">Повторное подключение</string>
   <string name="connect">Подключиться</string>
   <string name="upgrade">Улучшить</string>
   <string name="retry">Повторить</string>
@@ -218,7 +218,7 @@
   <string name="report_bug_message_hint">Пожалуйста, опишите ошибку, и где вы нашли её</string>
   <string name="send_report">Отправить сообщение</string>
   <string name="excludeIpTitle">Исключенные IP-адреса</string>
-  <string name="discardChanges">Discard unsaved changes?</string>
+  <string name="discardChanges">Сбросить несохраненные изменения?</string>
   <string name="discard">Не сохранять</string>
   <string name="selectedProfileColor">Пожалуйста, выберите цвет для вашего профиля</string>
   <string name="excludeIpDescription">Добавьте IP-адреса, которые вы хотите исключить из трафика через VPN.</string>
@@ -233,9 +233,9 @@
   <string name="try_again">Попробовать снова</string>
   <string name="manage">Управление</string>
   <string name="delete">Удалить</string>
-  <string name="remove">Remove</string>
+  <string name="remove">Удалить</string>
   <string name="deleteProfileButton">Удалить профиль</string>
-  <string name="deleteProfile">Delete profile?</string>
+  <string name="deleteProfile">Удалить профиль?</string>
   <string name="doneButton">Готово</string>
   <string name="saveButton">Сохранить</string>
   <string name="recommendedHeader">Рекомендованное</string>
@@ -288,7 +288,9 @@
   <string name="settingsExcludedApps">Исключенные приложения</string>
   <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
   <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableHeader">Доступные приложения (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">Разрешенные обычные приложения (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Разрешенные обычные приложения (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">Показать системные приложения</string>
   <string name="listNoItems">Нет</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
@@ -301,7 +303,7 @@
   </plurals>
   <string name="settingsCannotChangeWhileConnected">Нельзя изменить это при подключении</string>
   <string name="excludeAlreadyExcluded">Уже исключено</string>
-  <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
+  <string name="removeExcludedIpDialogDescription">Удалить IP-адреса из списка?</string>
   <string name="loaderFetchingServers">Загрузка списка серверов…</string>
   <string name="toastProfileSaved">Сохранено</string>
   <string name="freeTrialExpiredTitle">Пробная версия ProtonVPN Plus истекла</string>
@@ -453,9 +455,9 @@
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator позволяет использовать набор уникальных технологий для улучшения производительности, которые могут увеличить скорость VPN до 400%%. <a href="%1$s">Узнать больше</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
-  <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
-  <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
-  <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">Новые настройки будут применены при следующем подключении.</string>
+  <string name="settingsReconnectToChangeDialogContent">Это перезапустит ваше соединение.</string>
+  <string name="reconnectToEnableNetshield">Это перезапустит ваше соединение.\n\nПримечание: Некоторые сайты могут не загружаться при включенном NetShield.</string>
   <string name="notification_subscription_expired_title">Срок вашей подписки на ProtonVPN истек</string>
   <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
@@ -508,11 +510,11 @@
     <item quantity="other">%1$d+ стран</item>
   </plurals>
   <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
-  <string name="upgrade_netshield_title">Unlock NetShield</string>
-  <string name="upgrade_secure_core_title">Unlock Secure Core</string>
-  <string name="upgrade_plus_title">Unlock Plus countries</string>
-  <string name="upgrade_netshield_message">Block malware, ads, and trackers in browsers and in apps. Available with any paid plan.</string>
-  <string name="upgrade_secure_core_message">Route your most sensitive data through our safest servers in privacy-friendly countries. Available with Plus and Visionary plans.</string>
+  <string name="upgrade_netshield_title">Разблокировать NetShield</string>
+  <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
+  <string name="upgrade_plus_title">Разблокировать страны Plus</string>
+  <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом тарифе.</string>
+  <string name="upgrade_secure_core_message">Направляйте свои самые конфиденциальные данные через наши самые безопасные серверы в странах, где соблюдается конфиденциальность. Доступно в тарифах планах Plus и Visionary.</string>
   <!-- Parameters:
          %1$s - replaced with "upgrade_plus_servers"
          %2$s - replaced with "upgrade_plus_countries"
@@ -520,7 +522,7 @@
          Example:
          Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
          -->
-  <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+  <string name="upgrade_plus_message">Получите доступ к %1$s в %2$s. Доступно в тарифах Plus и Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -528,10 +530,10 @@
          1200+ servers
          -->
   <plurals name="upgrade_plus_servers">
-    <item quantity="one">%d server</item>
-    <item quantity="few">%d+ servers</item>
-    <item quantity="many">%d+ servers</item>
-    <item quantity="other">%d+ servers</item>
+    <item quantity="one">%d сервер</item>
+    <item quantity="few">%d серверов</item>
+    <item quantity="many">%d серверов</item>
+    <item quantity="other">%d серверы</item>
   </plurals>
   <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
 
@@ -544,17 +546,17 @@
     <item quantity="many">%d+ стран</item>
     <item quantity="other">%d+ стран</item>
   </plurals>
-  <string name="upgrade_plus_countries_streaming">Access streaming services globally</string>
+  <string name="upgrade_plus_countries_streaming">Доступ к службам трансляции по всему миру</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
-    <item quantity="one">Connect %d device</item>
-    <item quantity="few">Connect %d devices simultaneously</item>
-    <item quantity="many">Connect %d devices simultaneously</item>
-    <item quantity="other">Connect %d devices simultaneously</item>
+    <item quantity="one">Подключить %d устройство</item>
+    <item quantity="few">Подключить %d устройств одновременно</item>
+    <item quantity="many">Подключить %d устройств одновременно</item>
+    <item quantity="other">Подключить %d устройств одновременно</item>
   </plurals>
-  <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
-  <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
-  <string name="upgrade_see_plans_button">See plans and pricing</string>
+  <string name="upgrade_plus_countries_netshield">Встроенный блокировщик рекламы (NetShield)</string>
+  <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
+  <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
   <string name="upgrade_not_now_button">Не сейчас</string>
   <!-- Information activity -->
   <string name="activity_information_title">Информация</string>
