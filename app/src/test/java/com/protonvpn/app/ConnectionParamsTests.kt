@@ -23,6 +23,8 @@ import android.content.Context
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -33,6 +35,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -52,6 +55,8 @@ class ConnectionParamsTests {
     @MockK lateinit var profile: Profile
     @MockK lateinit var server: Server
     @MockK lateinit var connectingDomain: ConnectingDomain
+    @MockK lateinit var currentUser: CurrentUser
+    @MockK lateinit var vpnUser: VpnUser
 
     private lateinit var params: ConnectionParams
 
@@ -66,9 +71,10 @@ class ConnectionParamsTests {
 
         mockkObject(Constants)
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
-        every { userData.vpnUserName } returns "user"
+        every { vpnUser.name } returns "user"
+        currentUser.mockVpnUser { vpnUser }
         every { userData.isVpnAcceleratorEnabled } returns true
-        every { profile.getNetShieldProtocol(any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
+        every { profile.getNetShieldProtocol(any(), any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
         every { featureFlags.vpnAccelerator } returns false
@@ -85,13 +91,13 @@ class ConnectionParamsTests {
     fun testUsernameSuffixes() {
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label"),
-            params.getVpnUsername(userData, appConfig).split("+").toSet())
+            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet())
     }
 
     @Test
     fun testTvSuffix() {
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pt"
-        val result = params.getVpnUsername(userData, appConfig).split("+")
+        val result = params.getVpnUsername(userData, vpnUser, appConfig).split("+")
 
         Assert.assertEquals(
             setOf("user", "f2", "pt", "b:label"),
@@ -103,7 +109,7 @@ class ConnectionParamsTests {
         every { connectingDomain.label } returns null
         Assert.assertEquals(
             setOf("user", "f2", "pa"),
-            params.getVpnUsername(userData, appConfig).split("+").toSet())
+            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet())
     }
 
     @Test
@@ -112,7 +118,7 @@ class ConnectionParamsTests {
         every { userData.isVpnAcceleratorEnabled } returns false
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label", "nst"),
-            params.getVpnUsername(userData, appConfig).split("+").toSet())
+            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet())
     }
 
     @Test
@@ -121,6 +127,6 @@ class ConnectionParamsTests {
         every { userData.isVpnAcceleratorEnabled } returns false
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label"),
-            params.getVpnUsername(userData, appConfig).split("+").toSet())
+            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet())
     }
 }

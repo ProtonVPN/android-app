@@ -45,7 +45,7 @@ class SettingsRobotTests {
     @get:Rule
     var rules = RuleChain
             .outerRule(HiltAndroidRule(this))
-            .around(SetUserPreferencesRule(TestUser.getPlusUser()))
+            .around(SetUserPreferencesRule(TestUser.plusUser))
             .around(ProtonSettingsActivityTestRule())
 
     @Test

@@ -23,17 +23,17 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.test.shared.TestUser
+import me.proton.core.test.android.robots.auth.login.LoginRobot
 
 class LogoutResult(val user: TestUser? = null) : BaseRobot() {
     @JvmField val connectionResult: ConnectionResult = ConnectionResult()
 
-    //checks if login form appeared
+    //checks if sign-in/up screen appeared
     val isSuccessful: LogoutResult
         get() {
-            //checks if login form appeared
-            checkInputDisplayed(R.id.inputEmail)
-            checkInputDisplayed(R.id.inputPassword)
-            view.withId(R.id.buttonLogin).checkDisplayed()
+            //checks if login screen appeared
+            waitUntilDisplayed<LoginRobot>(R.id.sign_in)
+            waitUntilDisplayed<LoginRobot>(R.id.sign_up)
             return LogoutResult()
         }
 
@@ -41,16 +41,16 @@ class LogoutResult(val user: TestUser? = null) : BaseRobot() {
     val isFailure: LogoutResult
         get() {
             //checks if login form has not appeared
-            checkInputNotDisplayed(R.id.inputEmail)
-            checkInputNotDisplayed(R.id.inputPassword)
+            checkInputNotDisplayed(R.id.sign_in)
+            checkInputNotDisplayed(R.id.sign_up)
             view.withId(R.id.buttonLogin).checkNotDisplayed()
             return LogoutResult()
         }
 
     // Check that login screen isn't shown.
     fun noLoginScreen(): LogoutResult {
-        view.withId(R.id.inputEmail).checkDoesNotExist()
-        view.withId(R.id.inputPassword).checkDoesNotExist()
+        view.withId(R.id.sign_in).checkDoesNotExist()
+        view.withId(R.id.sign_up).checkDoesNotExist()
         view.withId(R.id.buttonLogin).checkDoesNotExist()
         return LogoutResult()
     }
@@ -69,7 +69,7 @@ class LogoutResult(val user: TestUser? = null) : BaseRobot() {
     fun userNameVisible(): LogoutResult {
         view
             .instanceOf(EditText::class.java)
-            .withId(R.id.inputEmail)
+            .withId(R.id.usernameInput)
             .withText(user!!.email)
             .checkDisplayed()
         return this

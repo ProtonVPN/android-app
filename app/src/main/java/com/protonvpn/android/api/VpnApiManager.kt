@@ -25,7 +25,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 
 // ApiManager instance representing current session (or unauthorized session at all when logged out)
-class VpnApiManager(
+open class VpnApiManager(
     private val apiProvider: ApiProvider,
     private val currentUser: CurrentUser,
 ) : ApiManager<ProtonVPNRetrofit> {
@@ -40,7 +40,7 @@ class VpnApiManager(
     ): ApiResult<T> =
         invoke(currentUser.sessionId(), forceNoRetryOnConnectionErrors, block)
 
-    suspend operator fun <T> invoke(
+    open suspend operator fun <T> invoke(
         sessionId: SessionId? = null,
         forceNoRetryOnConnectionErrors: Boolean = false,
         block: suspend ProtonVPNRetrofit.() -> T

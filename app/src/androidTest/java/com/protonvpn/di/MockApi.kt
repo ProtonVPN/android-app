@@ -21,6 +21,7 @@ package com.protonvpn.di
 import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
+import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
@@ -29,6 +30,7 @@ import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.DefaultPortsConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
@@ -41,21 +43,41 @@ import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.test.shared.ApiNotificationTestHelper
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testsHelper.toVpnInfoResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import me.proton.core.network.domain.ApiManager
+import me.proton.core.domain.arch.DataResult
+import me.proton.core.domain.arch.ResponseSource
+import me.proton.core.domain.entity.SessionUserId
+import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkStatus
+import me.proton.core.network.domain.session.SessionId
+import me.proton.core.user.data.repository.UserRepositoryImpl
+import me.proton.core.user.domain.entity.User
+import me.proton.core.user.domain.repository.UserRepository
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 class MockApi(
     scope: CoroutineScope,
-    manager: ApiManager<ProtonVPNRetrofit>,
-    val userData: UserData
-) : ProtonApiRetroFit(scope, MockNetworkApiManagerWrapper(manager)) {
+    apiProvider: ApiProvider,
+    val userData: UserData,
+    val currentUser: CurrentUser
+) : ProtonApiRetroFit(scope, MockNetworkApiManager(apiProvider, currentUser)) {
 
-    private class MockNetworkApiManagerWrapper(private val manager: ApiManager<ProtonVPNRetrofit>) :
-        ApiManager<ProtonVPNRetrofit> {
+    private class MockNetworkApiManager(
+        apiProvider: ApiProvider,
+        currentUser: CurrentUser,
+    ) : VpnApiManager(apiProvider, currentUser) {
 
         override suspend fun <T> invoke(
             forceNoRetryOnConnectionErrors: Boolean,
@@ -64,9 +86,19 @@ class MockApi(
             if (MockNetworkManager.currentStatus == NetworkStatus.Disconnected) {
                 ApiResult.Error.NoInternet()
             } else {
-                manager.invoke(forceNoRetryOnConnectionErrors, block)
+                super.invoke(forceNoRetryOnConnectionErrors, block)
             }
 
+        override suspend fun <T> invoke(
+            sessionId: SessionId?,
+            forceNoRetryOnConnectionErrors: Boolean,
+            block: suspend ProtonVPNRetrofit.() -> T
+        ): ApiResult<T> =
+            if (MockNetworkManager.currentStatus == NetworkStatus.Disconnected) {
+                ApiResult.Error.NoInternet()
+            } else {
+                super.invoke(sessionId, forceNoRetryOnConnectionErrors, block)
+            }
     }
 
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
@@ -93,15 +125,17 @@ class MockApi(
     override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         ApiResult.Success(ServerList(MockedServers.serverList))
 
-    override suspend fun getVPNInfo(): ApiResult<VpnInfoResponse> =
-        ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
+    override suspend fun getVPNInfo(sessionId: SessionId?): ApiResult<VpnInfoResponse> =
+        ApiResult.Success(currentVpnInfoResponse ?: TestUser.basicUser.vpnInfoResponse)
 
     override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
-        ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
+        ApiResult.Success(currentVpnInfoResponse ?: TestUser.basicUser.vpnInfoResponse)
     }
 
+    private val currentVpnInfoResponse get() = currentUser.vpnUserCached()?.toVpnInfoResponse()
+
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
-        ApiResult.Success(TestUser.getForkedSessionResponse())
+        ApiResult.Success(TestUser.forkedSessionResponse)
 
     override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =
         ApiResult.Success(ApiNotificationTestHelper.mockResponse(
@@ -140,4 +174,30 @@ class MockApi(
             "kQE=\n" +
             "-----END CERTIFICATE-----"
     }
+}
+
+@Singleton
+class MockUserRepository @Inject constructor(
+    private val userRepositoryImpl: UserRepositoryImpl
+) : UserRepository by userRepositoryImpl {
+
+    private val useMockUser = MutableStateFlow(false)
+    private val mockUser = MutableSharedFlow<User>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
+    suspend fun setMockUser(user: User) {
+        useMockUser.value = true
+        mockUser.emit(user)
+    }
+
+    override suspend fun getUser(sessionUserId: SessionUserId, refresh: Boolean) =
+        if (useMockUser.value) mockUser.first() else userRepositoryImpl.getUser(sessionUserId, refresh)
+
+    override fun getUserFlow(sessionUserId: SessionUserId, refresh: Boolean): Flow<DataResult<User>> =
+        useMockUser.flatMapLatest { useMockUser ->
+            if (useMockUser) mockUser.map {
+                DataResult.Success(ResponseSource.Local, it)
+            } else {
+                userRepositoryImpl.getUserFlow(sessionUserId, refresh)
+            }
+        }
 }

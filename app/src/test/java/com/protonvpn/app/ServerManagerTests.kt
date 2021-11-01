@@ -3,6 +3,8 @@ package com.protonvpn.app
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
@@ -10,6 +12,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.app.mocks.MockSharedPreference
+import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -33,6 +36,8 @@ class ServerManagerTests {
     private lateinit var mainScope: CoroutineScope
 
     @RelaxedMockK private lateinit var userData: UserData
+    @RelaxedMockK private lateinit var currentUser: CurrentUser
+    @RelaxedMockK private lateinit var vpnUser: VpnUser
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -46,10 +51,10 @@ class ServerManagerTests {
         val contextMock = mockk<Context>(relaxed = true)
         mockkObject(CountryTools)
         ProtonApplication.setAppContextForTest(contextMock)
-        every { userData.hasAccessToServer(any()) } returns true
-        every { userData.hasAccessToAnyServer(any()) } returns true
+        currentUser.mockVpnUser { vpnUser }
+        every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale(any()) } returns Locale.US
-        manager = ServerManager(contextMock, mainScope, userData)
+        manager = ServerManager(contextMock, mainScope, userData, currentUser)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

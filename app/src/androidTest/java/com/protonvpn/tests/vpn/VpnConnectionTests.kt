@@ -65,6 +65,7 @@ import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
+import com.protonvpn.android.auth.usecase.CurrentUser
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -87,6 +88,9 @@ class VpnConnectionTests {
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
+
+    @RelaxedMockK
+    private lateinit var currentUser: CurrentUser
 
     @RelaxedMockK
     lateinit var serverManager: ServerManager
@@ -132,18 +136,18 @@ class VpnConnectionTests {
         context = InstrumentationRegistry.getInstrumentation().context
         scope = TestCoroutineScope()
         userData = spyk(UserData.create())
-        every { userData.sessionId } returns SessionId("1")
+        coEvery { currentUser.sessionId() } returns SessionId("1")
         networkManager = MockNetworkManager()
 
         every { mockVpnPermissionDelegate.getContext() } returns context
         every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
         mockStrongSwan = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2))
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2, currentUser))
         mockOpenVpn = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN))
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN, currentUser))
         mockWireguard = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard))
+            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard, currentUser))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -283,7 +287,8 @@ class VpnConnectionTests {
     @Test
     fun localAgentNotUsedForGuestHole() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        every { userData.sessionId } returns null
+        coEvery { currentUser.sessionId() } returns null
+        every { currentUser.sessionIdCached() } returns null
         manager.connectInBackground(context, profileWireguard)
 
         coVerify(exactly = 1) {
@@ -476,7 +481,7 @@ class VpnConnectionTests {
     fun testExpiredCert() = runBlockingTest {
         coEvery { certificateRepository.getCertificate(any(), any()) } coAnswers {
             if (currentCert == badCert)
-                certificateRepository.updateCertificate(userData.sessionId!!, false)
+                certificateRepository.updateCertificate(currentUser.sessionId()!!, false)
             else
                 currentCert
         }

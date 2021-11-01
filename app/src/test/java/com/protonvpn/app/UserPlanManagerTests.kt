@@ -21,15 +21,21 @@ package com.protonvpn.app
 import android.content.Context
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -43,8 +49,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.session.SessionId
 import org.joda.time.DateTime
+import org.joda.time.Period
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -57,21 +66,32 @@ class UserPlanManagerTests {
 
     @RelaxedMockK private lateinit var vpnStateMonitor: VpnStateMonitor
     @RelaxedMockK private lateinit var apiRetroFit: ProtonApiRetroFit
-
+    @RelaxedMockK private lateinit var currentUser: CurrentUser
+    @RelaxedMockK private lateinit var vpnUserDao: VpnUserDao
     @MockK lateinit var mockContext: Context
 
     @MockK lateinit var mockResources: Resources
 
     lateinit var userData: UserData
+    private var vpnUser: VpnUser? = null
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        ProtonApplication.setAppContextForTest(mockk(relaxed = true))
         Storage.setPreferences(mockk(relaxed = true))
         userData = UserData.create()
-        manager = UserPlanManager(apiRetroFit, userData, vpnStateMonitor)
+        currentUser.mockVpnUser {
+            vpnUser
+        }
+        val userSlot = slot<VpnUser>()
+        coEvery { vpnUserDao.insertOrUpdate(capture(userSlot)) } answers {
+            vpnUser = userSlot.captured
+            userData.onVpnUserUpdated(vpnUser)
+        }
+        manager = UserPlanManager(apiRetroFit, vpnStateMonitor, currentUser, vpnUserDao)
     }
 
     @Test
@@ -80,7 +100,7 @@ class UserPlanManagerTests {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Upgrade, planChange)
         }
-        changePlan(TestUser.getFreeUser().vpnInfoResponse, TestUser.getPlusUser().vpnInfoResponse)
+        changePlan(TestUser.freeUser.vpnUser, TestUser.plusUser.vpnInfoResponse)
     }
 
     @Test
@@ -88,7 +108,7 @@ class UserPlanManagerTests {
         launch {
             Assert.assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
-        changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getBadUser().vpnInfoResponse)
+        changePlan(TestUser.basicUser.vpnUser, TestUser.badUser.vpnInfoResponse)
     }
 
     @Test
@@ -97,21 +117,21 @@ class UserPlanManagerTests {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"), planChange)
         }
-        changePlan(TestUser.getPlusUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
+        changePlan(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
     }
 
     @Test
     fun planDowngradeDisablesSecureCore() = runBlockingTest {
         userData.isSecureCoreEnabled = true
-        changePlan(TestUser.getPlusUser().vpnInfoResponse, TestUser.getBasicUser().vpnInfoResponse)
+        changePlan(TestUser.plusUser.vpnUser, TestUser.basicUser.vpnInfoResponse)
         Assert.assertFalse(userData.isSecureCoreEnabled)
     }
 
     @Test
     fun planDowngradeDisablesNetshield() = runBlockingTest {
-        userData.netShieldProtocol = NetShieldProtocol.ENABLED
-        changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
-        Assert.assertEquals(NetShieldProtocol.DISABLED, userData.netShieldProtocol)
+        userData.setNetShieldProtocol(NetShieldProtocol.ENABLED)
+        changePlan(TestUser.basicUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
+        Assert.assertEquals(NetShieldProtocol.DISABLED, userData.getNetShieldProtocol(currentUser.vpnUser()))
     }
 
     @Test
@@ -120,7 +140,7 @@ class UserPlanManagerTests {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnbasic", "free"), planChange)
         }
-        changePlan(TestUser.getBasicUser().vpnInfoResponse, TestUser.getFreeUser().vpnInfoResponse)
+        changePlan(TestUser.basicUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
     }
 
     @Test
@@ -130,25 +150,25 @@ class UserPlanManagerTests {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.TrialEnded, planChange)
         }
-        userData.vpnInfoResponse = mockVpnTrialResponse((DateTime().plusSeconds(2).millis / 1000L).toInt())
-        coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.getFreeUser().vpnInfoResponse)
-        val list = manager.getTrialPeriodFlow(mockContext).toList()
-        Assert.assertEquals(list.last(), "0 0 0 0")
+        vpnUser = mockVpnTrialUser((DateTime().plusSeconds(2).millis / 1000L).toInt()) //TODO: use virtual time
+        coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.freeUser.vpnInfoResponse)
+        val list = manager.getTrialPeriodFlow().toList()
+        Assert.assertEquals(list.last(), Period(0, 0, 0, 0))
         coVerify(exactly = 1) { apiRetroFit.getVPNInfo() }
     }
 
     @Test
     fun managerFiresRefreshOnTrialStart() = runBlockingTest {
         mockContext()
-        userData.vpnInfoResponse = mockVpnTrialResponse()
+        vpnUser = mockVpnTrialUser()
         every { vpnStateMonitor.isConnected } returns true
-        coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.getFreeUser().vpnInfoResponse)
-        manager.getTrialPeriodFlow(mockContext).toList()
+        coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.freeUser.vpnInfoResponse)
+        manager.getTrialPeriodFlow().toList()
         coVerify(exactly = 1) { apiRetroFit.getVPNInfo() }
     }
 
-    private suspend fun changePlan(oldResponse: VpnInfoResponse, newResponse: VpnInfoResponse) {
-        userData.vpnInfoResponse = oldResponse
+    private suspend fun changePlan(oldUser: VpnUser, newResponse: VpnInfoResponse) {
+        vpnUser = oldUser
         coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(newResponse)
         manager.refreshVpnInfo()
     }
@@ -163,10 +183,11 @@ class UserPlanManagerTests {
         } answers { slot.captured.toString() }
     }
 
-    private fun mockVpnTrialResponse(time: Int? = null): VpnInfoResponse {
+    private fun mockVpnTrialUser(time: Int? = null): VpnUser {
         val mockVpnInfo = VPNInfo(
             1, time ?: 0, "trial", 3, 2, "username", "16", ""
         )
         return VpnInfoResponse(0, mockVpnInfo, 4, 4, 0)
+            .toVpnUserEntity(UserId("userId"), SessionId("sessionId"))
     }
 }
