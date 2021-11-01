@@ -1,0 +1,4 @@
+What's new:
+* Fixes recent country list on AndroidTV
+* Fixes NetShield being disabled after login
+* Improves WireGuard VPN connections
