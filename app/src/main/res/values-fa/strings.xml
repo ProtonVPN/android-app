@@ -286,7 +286,9 @@
   <string name="settingsExcludedApps">برنامه‌های جدا شده</string>
   <string name="settingsExcludedAppsEmpty">برنامه‌ها را اضافه کنید تا از ترافیک VPN جدا شوند.</string>
   <string name="settingsExcludedAppsSelectedHeader">برنامه‌های جدا شده (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableHeader">برنامه‌های موجود (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
   <string name="listNoItems">هیچ‌کدام</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.

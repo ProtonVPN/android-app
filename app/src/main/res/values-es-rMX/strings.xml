@@ -286,7 +286,9 @@
   <string name="settingsExcludedApps">Apps excluidas</string>
   <string name="settingsExcludedAppsEmpty">Añada apps para ser excluidas del tráfico VPN.</string>
   <string name="settingsExcludedAppsSelectedHeader">Apps excluidas (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableHeader">Apps disponibles (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">Apps regulares permitidas (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Apps del sistema permitidas (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar apps del sistema</string>
   <string name="listNoItems">Ninguna</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.

@@ -60,7 +60,7 @@
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
   <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
-  <string name="secureCoreSwitchConnect">Si, connetti</string>
+  <string name="secureCoreSwitchConnect">Sì, connetti</string>
   <string name="logoutConfirmDialogTitle">Uscire?</string>
   <string name="logoutConfirmDialogMessage">La disconnessione disconnetterà il dispositivo dalla VPN.</string>
   <string name="logoutConfirmDialogButton">Esci</string>
@@ -286,7 +286,9 @@
   <string name="settingsExcludedApps">App escluse</string>
   <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
   <string name="settingsExcludedAppsSelectedHeader">App escluse (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableHeader">App disponibili (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
   <string name="listNoItems">Nessuno</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.

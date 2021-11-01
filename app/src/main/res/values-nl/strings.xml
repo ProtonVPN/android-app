@@ -286,7 +286,9 @@
   <string name="settingsExcludedApps">Uitgesloten apps</string>
   <string name="settingsExcludedAppsEmpty">Voeg apps toe die moeten worden uitgesloten van het VPN-verkeer.</string>
   <string name="settingsExcludedAppsSelectedHeader">Uitgesloten apps (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableHeader">Beschikbare apps (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">Toegestane normale apps (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Toegestane systeemapps (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">Systeemapps weergeven</string>
   <string name="listNoItems">Geen</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
