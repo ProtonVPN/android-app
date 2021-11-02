@@ -88,12 +88,9 @@
     <color name="tvGuidedActionsBackground">#E01623</color>
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
 
-    <!-- VPN-specific colors -->
-    <color name="upload">#DC3251</color>
-    <color name="download">#1EA885</color>
-
     <!--
     Workaround for https://github.com/material-components/material-components-android/issues/2455
     -->
     <color name="ripple_norm">#1f17181C</color>
+
 </resources>

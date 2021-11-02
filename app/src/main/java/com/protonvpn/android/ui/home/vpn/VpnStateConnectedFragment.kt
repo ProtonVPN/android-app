@@ -25,7 +25,6 @@ import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -68,10 +67,10 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
     private val viewModel: VpnStateConnectedViewModel by viewModels()
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {
-        initDataSet(ContextCompat.getColor(requireContext(), R.color.download))
+        initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_success))
     }
     private val uploadDataSet by lazy(LazyThreadSafetyMode.NONE) {
-        initDataSet(ContextCompat.getColor(requireContext(), R.color.upload))
+        initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_error))
     }
 
     private val yAxisValueFormatter = object : ValueFormatter() {
