@@ -18,8 +18,10 @@
 
 package com.protonvpn.base
 
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.android.ProtonApplication
 
 /**
@@ -29,6 +31,7 @@ open class BaseVerify : BaseRobot(){
 
     inline fun <reified T> checkIfElementIsDisplayedByStringId(@StringRes resId: Int): T = executeAndReturnRobot{
         view
+                .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withText(resId)
                 .checkDisplayed()
     }

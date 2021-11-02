@@ -28,7 +28,6 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.ui.drawer.DrawerArrowDrawableEx;
 import com.protonvpn.android.utils.AndroidUtils;
 
 import androidx.annotation.Nullable;
@@ -53,7 +52,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
     protected ActionBarDrawerToggle toggle;
-    protected DrawerArrowDrawableEx toggleDrawable;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -96,8 +94,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     public void initDrawer() {
         toggle =
             new ActionBarDrawerToggle(this, drawer, toolbar, R.string.hamburgerMenu, R.string.hamburgerMenu);
-        toggleDrawable = new DrawerArrowDrawableEx(getDrawerToggleDelegate().getActionBarThemedContext());
-        toggle.setDrawerArrowDrawable(toggleDrawable);
         getDrawer().addDrawerListener(toggle);
         toggle.syncState();
         setDrawerState(true, navigationDrawer);

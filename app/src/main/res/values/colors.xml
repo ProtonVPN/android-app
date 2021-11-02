@@ -104,4 +104,5 @@
     <color name="interaction_weak_vpn">@color/shade_40</color>
     <color name="interaction_weak_pressed_vpn">@color/shade_60</color>
     <color name="interaction_weak_disabled_vpn">@color/shade_10</color>
+    <color name="notification_dot">#DC3251</color>
 </resources>

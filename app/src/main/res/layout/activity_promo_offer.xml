@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2021. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#17181C"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/offer_panel_bottom_margin">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textIncentive"
+                    style="@style/CaptionMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/textPill"
+                    app:layout_constraintEnd_toEndOf="@id/layoutFeatures"
+                    app:layout_constraintStart_toStartOf="@id/layoutFeatures"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="Upgrade to PLUS now for only $x.xx/mo*" />
+
+                <TextView
+                    android:id="@+id/textPill"
+                    style="@style/CaptionMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_rounded_white_filled"
+                    android:backgroundTint="#DC3251"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/imagePicture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textIncentive"
+                    tools:text="Save xx%" />
+
+                <ImageView
+                    android:id="@+id/imagePicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/offer_panel_picture_horizontal_margin"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="@dimen/offer_panel_picture_max_height"
+                    app:layout_constraintBottom_toTopOf="@id/textTitle"
+                    app:layout_constraintTop_toBottomOf="@id/textPill" />
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/layoutFeatures"
+                    app:layout_constraintTop_toBottomOf="@id/imagePicture"
+                    tools:text="Special year-end offer" />
+
+                <LinearLayout
+                    android:id="@+id/layoutFeatures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/buttonOpenOffer"
+            style="@style/Button.Green.Filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:layout_marginTop="@dimen/offer_panel_content_button_distance"
+            tools:text="Get the deal now" />
+
+        <TextView
+            android:id="@+id/textFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:layout_marginTop="@dimen/offer_panel_feature_spacing"
+            android:gravity="center_horizontal"
+            tools:text="* Billed at $xxx.xx for two years" />
+
+    </LinearLayout>
+
+</layout>

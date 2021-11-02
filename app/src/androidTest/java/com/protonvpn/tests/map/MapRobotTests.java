@@ -27,6 +27,7 @@ import com.protonvpn.tests.testRules.SetUserPreferencesRule;
 import com.protonvpn.test.shared.TestUser;
 
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +60,7 @@ public class MapRobotTests {
         mapResult.isUSNodeSelected();
     }
 
+    @Ignore("The test is unstable.")
     @Test
     @SdkSuppress(minSdkVersion = 28)
     public void mapNodeIsNotSelected() {

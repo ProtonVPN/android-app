@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.SystemClock
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.utils.ReschedulableTask
+import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class MaintenanceTracker(
         scope.launch {
             vpnStateMonitor.status.collect { status ->
                 if (status.state == VpnState.Connected) {
-                    task.scheduleIn(getScheduleDelay())
+                    task.scheduleIn(jitterMs(getScheduleDelay()))
                 }
             }
         }

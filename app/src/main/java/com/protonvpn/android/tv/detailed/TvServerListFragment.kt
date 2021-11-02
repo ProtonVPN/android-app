@@ -69,7 +69,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
         onItemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
             require(item is TvServerListViewModel.ServerViewModel)
-            item.click(requireContext(), onUpgrade = {
+            item.click(requireActivity(), onUpgrade = {
                 requireContext().launchActivity<TvUpgradeActivity>()
             })
         }

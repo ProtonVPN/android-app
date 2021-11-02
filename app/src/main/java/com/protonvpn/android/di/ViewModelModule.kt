@@ -32,6 +32,8 @@ import com.protonvpn.android.ui.home.profiles.ProfileViewModel
 import com.protonvpn.android.ui.home.profiles.ProfilesViewModel
 import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.TroubleshootViewModel
+import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel
+import com.protonvpn.android.ui.promooffers.PromoOfferViewModel
 import com.protonvpn.android.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -99,6 +101,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountActivityViewModel::class)
     abstract fun bindsAccountActivityViewModel(viewModel: AccountActivityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PromoOfferViewModel::class)
+    abstract fun bindsPromoOfferViewModel(viewModel: PromoOfferViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PromoOfferNotificationViewModel::class)
+    abstract fun bindsPromoOfferNotificationVM(viewModel: PromoOfferNotificationViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(vmFactory: ViewModelFactory): ViewModelProvider.Factory

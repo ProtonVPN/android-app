@@ -26,11 +26,13 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 
-class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData: UserData) {
+class AppConfig(private val scope: CoroutineScope, val api: ProtonApiRetroFit, val userData: UserData) {
 
     private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
 
@@ -42,7 +44,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
     val apiNotifications get() = apiNotificationsResponseObservable.value!!.notifications
 
     private var updateTask = ReschedulableTask(scope, SystemClock::elapsedRealtime) {
-        update()
+        updateInternal()
     }
 
     init {
@@ -50,7 +52,13 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
         updateTask.scheduleIn(0)
     }
 
-    suspend fun update() {
+    fun update() {
+        scope.launch {
+            updateInternal()
+        }
+    }
+
+    private suspend fun updateInternal() {
         val result = api.getAppConfig()
         result.valueOrNull?.let { config ->
             Storage.save(config)
@@ -66,7 +74,7 @@ class AppConfig(scope: CoroutineScope, val api: ProtonApiRetroFit, val userData:
                 }
             }
         }
-        updateTask.scheduleIn(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY)
+        updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
     }
 
     fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,

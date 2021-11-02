@@ -45,6 +45,16 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
+                <ImageView
+                    android:id="@+id/imageNotification"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/round_selectable_item_bg"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    app:tint="@color/white" />
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout

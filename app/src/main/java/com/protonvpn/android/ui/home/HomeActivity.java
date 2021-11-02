@@ -19,7 +19,6 @@
 package com.protonvpn.android.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +59,6 @@ import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.drawer.AccountActivity;
-import com.protonvpn.android.ui.drawer.DrawerNotificationsContainer;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.ReportBugActivity;
 import com.protonvpn.android.ui.drawer.SettingsActivity;
@@ -72,6 +71,8 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.login.LoginActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
+import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
+import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
@@ -121,7 +122,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.switchSecureCoreLayout) LinearLayout switchSecureCoreLayout;
-    @BindView(R.id.drawerNotifications) DrawerNotificationsContainer drawerNotifications;
+    @BindView(R.id.imageNotification) ImageView imageNotification;
     VpnStateFragment fragment;
     public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     boolean doubleBackToExitPressedOnce = false;
@@ -156,12 +157,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         else {
             minimizedLoader.switchToEmpty();
         }
-        if (serverManager.isDownloadedAtLeastOnce()) {
+        if (canShowPopups()) {
             initOnboarding();
         }
 
         serverManager.getUpdateEvent().observe(this, () -> {
-            if (serverManager.isDownloadedAtLeastOnce()) {
+            if (canShowPopups()) {
                 initOnboarding();
                 EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
             }
@@ -182,17 +183,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             return Unit.INSTANCE;
         });
 
-        viewModel.getHaveNonVisitedOffers().observe(this, (unreadNotifications) ->
-            toggleDrawable.setShowIndicator(unreadNotifications));
-
-        viewModel.getOffersViewModel().observe(this, (notifications) -> {
-            drawerNotifications.updateNotifications(this, notifications);
-        });
-
         viewModel.collectPlanChange(this, changes -> {
             onPlanChanged(changes);
             return Unit.INSTANCE;
         });
+        new PromoOfferNotificationHelper(this, imageNotification,
+            new ViewModelProvider(this, viewModelFactory).get(PromoOfferNotificationViewModel.class));
 
         serverListUpdater.startSchedule(getLifecycle(), this);
     }
@@ -600,5 +596,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         TypedValue value = new TypedValue();
         view.getContext().getTheme().resolveAttribute(attr, value, true);
         return value.resourceId;
+    }
+
+    private boolean canShowPopups() {
+        return serverManager.isDownloadedAtLeastOnce();
     }
 }

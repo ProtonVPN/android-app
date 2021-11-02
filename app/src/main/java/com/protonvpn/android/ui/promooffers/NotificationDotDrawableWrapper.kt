@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2021. Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,33 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.drawer
+
+package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.DrawableWrapper
 import com.protonvpn.android.R
-import com.protonvpn.android.utils.getThemeColor
 
-class DrawerArrowDrawableEx(val context: Context) : DrawerArrowDrawable(context) {
+class NotificationDotDrawableWrapper(
+    private val context: Context,
+    drawable: Drawable
+) : DrawableWrapper(drawable) {
 
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getThemeColor(R.attr.colorAccent)
+        color = context.getColor(R.color.notification_dot)
     }
-
-    var showIndicator: Boolean = false
-        set(value) {
-            field = value
-            invalidateSelf()
-        }
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        if (showIndicator) {
-            val indicatorSize = context.resources.getDimension(R.dimen.new_indicator_size)
-            canvas.drawOval(bounds.width() - indicatorSize, 0f, bounds.width().toFloat(),
-                    indicatorSize, indicatorPaint)
-        }
+        val indicatorSize = context.resources.getDimension(R.dimen.new_indicator_size)
+        canvas.drawOval(bounds.width() - indicatorSize, 0f, bounds.width().toFloat(),
+            indicatorSize, indicatorPaint)
     }
 }
