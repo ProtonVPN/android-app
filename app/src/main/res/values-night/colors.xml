@@ -22,4 +22,9 @@
     <color name="notificationDetailsStroke">#494D55</color>
     <color name="notificationArrow">@color/white</color>
     <color name="notificationDisabled">#727680</color>
+
+    <!--
+    Workaround for https://github.com/material-components/material-components-android/issues/2455
+    -->
+    <color name="ripple_norm">#1fffffff</color>
 </resources>
