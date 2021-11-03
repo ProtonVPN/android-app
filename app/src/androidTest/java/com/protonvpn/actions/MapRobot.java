@@ -32,11 +32,6 @@ public class MapRobot extends UIActionsTestHelper {
         conditionalActionsHelper = new ConditionalActionsHelper();
     }
 
-    public MapRobot clickOnUSNode() {
-        conditionalActionsHelper.clickOnMapNodeUntilConnectButtonAppears("United States");
-        return this;
-    }
-
     public MapRobot clickOnSecureCoreSwedenNode() {
         clickOnMapNode("Sweden");
         return this;

@@ -18,12 +18,23 @@
  */
 package com.protonvpn.kotlinActions
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
+import com.protonvpn.MockSwitch
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.LoginRobot
+import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.testsHelper.ConditionalActionsHelper
+import com.protonvpn.matchers.ProtonMatcher.lastChild
+import org.hamcrest.Matchers
 
 class HomeRobot : BaseRobot() {
 
@@ -41,6 +52,40 @@ class HomeRobot : BaseRobot() {
     fun swipeLeftToOpenMap(): MapRobot {
         swipeLeftOnElementById<MapRobot>(R.id.list)
         return waitUntilDisplayed(R.id.mapView)
+    }
+
+    fun swipeLeftToOpenProfiles(): ProfilesRobot {
+        view.waitForCondition(
+                {
+                    Espresso.onView(ViewMatchers.withId(R.id.coordinator)).perform(ViewActions.swipeLeft())
+                    Espresso.onView(ViewMatchers.withId(R.id.textCreateProfile))
+                        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                })
+        return ProfilesRobot()
+    }
+
+    fun connectThroughQuickConnect(profileName: String): ConnectionRobot {
+        longClickByCustomMatcher<HomeRobot>(
+                lastChild(
+                        ViewMatchers.withId(R.id.fabQuickConnect),
+                        withClassName(Matchers.endsWith("FloatingActionButton")))
+        )
+        clickElementByText<HomeRobot>(profileName)
+        if (!MockSwitch.mockedConnectionUsed) {
+            allowVpnToBeUsed()
+        }
+        return ConnectionRobot()
+    }
+
+    fun allowVpnToBeUsed() {
+        if (isAllowVpnRequestVisible()) {
+            device.clickNotificationByText("OK")
+        }
+    }
+
+    private fun isAllowVpnRequestVisible(): Boolean {
+        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        return uiDevice.findObject(UiSelector().textContains("Connection request")).exists()
     }
 
     class Verify : BaseVerify() {

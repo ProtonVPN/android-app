@@ -29,7 +29,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.matchers.UiElementMatcher
 import com.protonvpn.testsTv.verification.ConnectionVerify
 
 /**
@@ -43,7 +42,7 @@ class TvCountryListRobot : BaseRobot() {
     fun disconnectFromCountry() : TvCountryListRobot = clickElementByText(R.string.disconnect)
     fun confirmSignOut() : TvLoginRobot = clickElementById(R.id.md_buttonDefaultPositive)
     fun cancelSignOut() : TvCountryListRobot = clickElementById(R.id.md_buttonDefaultNegative)
-    fun getConnectionStatus() : String = UiElementMatcher().getText(onView(withId(R.id.textStatus)))
+    fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 
     fun connectToFavouriteCountry() : TvCountryListRobot {
         pressFavourite()
@@ -53,8 +52,7 @@ class TvCountryListRobot : BaseRobot() {
     }
 
     fun openFirstCountryConnectionWindow() : TvDetailedCountryRobot {
-        view
-            .withText(R.string.tv_quick_connect_recommened)
+        view.withText(R.string.tv_quick_connect_recommened)
         uiDevice.pressDPadDown()
         uiDevice.pressDPadCenter()
         return TvDetailedCountryRobot()

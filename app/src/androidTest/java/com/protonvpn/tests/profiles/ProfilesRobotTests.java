@@ -143,7 +143,7 @@ public class ProfilesRobotTests {
         profilesRobot.selectRandomServer();
         profilesRobot.clickOnSaveButton().isSuccess().getProfilesResult().profileIsVisible(profileName);
 
-        ConnectionResult result = profilesRobot.clickOnConnectButton(profileName);
+        ConnectionResult result = profilesRobot.clickOnConnectButtonUntilConnected(profileName);
         result.isConnectedToVpn();
 
         new ConnectionRobot().clickDisconnectButton().isDisconnectedFromVpn();

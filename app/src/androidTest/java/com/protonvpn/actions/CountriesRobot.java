@@ -30,20 +30,11 @@ public class CountriesRobot extends UIActionsTestHelper {
         return this;
     }
 
-    public CountriesRobot tryToSelectCountry(String country) {
-        checkIfObjectWithTextIsNotDisplayed(country);
-        return this;
-    }
-
     public ConnectionResult clickConnectButton(String contentDescription) {
         clickOnObjectWithIdAndContentDescription(R.id.buttonConnect, contentDescription);
         if (!MockSwitch.mockedConnectionUsed) {
             new HomeRobot().allowToUseVpn();
         }
         return new ConnectionResult();
-    }
-
-    public ConnectionResult connectToFastestServer() {
-        return clickConnectButton("fastest");
     }
 }

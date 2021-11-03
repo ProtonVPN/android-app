@@ -5,6 +5,8 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.data.DefaultData
+import com.protonvpn.kotlinActions.HomeRobot
 
 class RealConnectionRobot : BaseRobot() {
 
@@ -14,7 +16,7 @@ class RealConnectionRobot : BaseRobot() {
     }
 
     fun connectThroughQuickConnectRealConnection() : RealConnectionRobot{
-        HomeRobot().connectThroughQuickConnect()
+        HomeRobot().connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
         return waitUntilDisplayed(R.id.buttonDisconnect)
     }
 

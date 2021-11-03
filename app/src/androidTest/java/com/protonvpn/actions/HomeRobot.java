@@ -45,11 +45,6 @@ public class HomeRobot extends UIActionsTestHelper {
         }
     }
 
-    public HomeRobot disableSecureCore() {
-        setStateOfSecureCoreSwitch(false);
-        return this;
-    }
-
     public void openDrawer() {
         if (!isDrawerOpened()) {
             clickOnObjectWithContentDescription(R.string.hamburgerMenu);
@@ -58,12 +53,6 @@ public class HomeRobot extends UIActionsTestHelper {
 
     public boolean isDrawerOpened() {
         return isObjectWithIdVisible(R.id.navigationDrawer);
-    }
-
-    public SettingsRobot openSettings() {
-        clickOnObjectWithContentDescription(R.string.hamburgerMenu);
-        clickOnObjectWithText("Settings");
-        return new SettingsRobot();
     }
 
     public CountriesRobot clickOnCountriesTab() {
@@ -95,24 +84,8 @@ public class HomeRobot extends UIActionsTestHelper {
         return new ConnectionResult();
     }
 
-    public ConnectionResult connectThroughQuickConnectWithoutVPNHandling() {
-        longClickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
-        handleQuickConnectLongClick();
-        return new ConnectionResult();
-    }
-
-    public ConnectionResult disconnectThroughQuickConnect() {
-        clickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
-        return new ConnectionResult();
-    }
-
     public void allowToUseVpn() {
         allowVpnToBeUsed(isAllowVpnRequestVisible());
-    }
-
-    public HomeRobot handleQuickConnectLongClick() {
-        clickOnRandomButtonFromQuickConnectMenu(isLongClickOnQuickConnect());
-        return this;
     }
 
     public LogoutResult logout() {
@@ -133,21 +106,6 @@ public class HomeRobot extends UIActionsTestHelper {
 
     public HomeResult enableSecureCore() {
         setStateOfSecureCoreSwitch(true);
-        return new HomeResult();
-    }
-
-    public HomeResult clickButtonGotIt() {
-        clickOnObjectWithId(R.id.buttonGotIt);
-        return new HomeResult();
-    }
-
-    public HomeResult clickButtonCancel() {
-        clickOnObjectWithId(R.id.md_buttonDefaultNegative);
-        return new HomeResult();
-    }
-
-    public HomeResult clickButtonUpgrade() {
-        clickOnObjectWithId(R.id.md_buttonDefaultPositive);
         return new HomeResult();
     }
 

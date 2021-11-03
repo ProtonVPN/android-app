@@ -18,12 +18,10 @@
  */
 package com.protonvpn.actions;
 
-import com.protonvpn.android.R;
 import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.testsHelper.ConditionalActionsHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
-import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
 public class ConnectionRobot extends UIActionsTestHelper {
 
@@ -33,22 +31,5 @@ public class ConnectionRobot extends UIActionsTestHelper {
         conditionalActions.clickOnDisconnectButtonUntilUserIsDisconnected();
         return new ConnectionResult();
     }
-
-    public ConnectionResult clickCancelConnectionButton() {
-        clickOnObjectWithIdAndText(R.id.buttonCancel, R.string.loaderCancel);
-        return new ConnectionResult();
-    }
-
-    public ConnectionRobot checkIfNotReachableErrorAppears() {
-        String errorMessage = getContext().getString(R.string.error_server_unreachable);
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.textError, errorMessage);
-        return this;
-    }
-
-    public ConnectionResult clickCancelRetry() {
-        clickOnObjectWithId(R.id.buttonCancelRetry);
-        return new ConnectionResult();
-    }
-
 }
 

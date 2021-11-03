@@ -34,12 +34,12 @@ class MapRobot : BaseRobot() {
 
     fun clickCancelConnectionButton(): MapRobot = clickElement(R.id.buttonCancel)
 
-    fun clickConnectButton(): MapRobot {
-        clickElement<Any>(connectButtonInMap())
+    fun clickConnectButton(): ConnectionRobot {
+        clickElement<MapRobot>(connectButtonInMap())
         if (!MockSwitch.mockedConnectionUsed) {
             HomeRobot().allowToUseVpn()
         }
-        return MapRobot()
+        return ConnectionRobot()
     }
 
     fun clickOnCountryNode(country: String): MapRobot {
@@ -59,11 +59,6 @@ class MapRobot : BaseRobot() {
 
         fun isCountryNodeNotSelected(country: String) =
             checkIfElementDoesNotExistByContentDesc("$country Selected")
-
-        fun isConnectedToVPN() {
-            ServiceTestHelper().checkIfConnectedToVPN()
-            checkIfElementIsDisplayedById(R.id.buttonDisconnect)
-        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

@@ -22,6 +22,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.data.DefaultData
 import com.protonvpn.kotlinActions.HomeRobot
 import com.protonvpn.kotlinActions.MapRobot
 import com.protonvpn.test.shared.TestUser
@@ -42,7 +43,6 @@ class MapRobotTests {
     private val testRule = ProtonHomeActivityTestRule()
     private val homeRobot = HomeRobot()
     private val mapRobot = MapRobot()
-    private val country = "United States"
 
     @get:Rule
     var rules = RuleChain
@@ -54,14 +54,14 @@ class MapRobotTests {
     fun mapNodeSuccessfullySelected() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode(country)
+        mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
                 .clickConnectButton()
                 .verify {
-                    isConnectedToVPN()
+                    isConnected()
                 }
         mapRobot.swipeDownToCloseConnectionInfoLayout()
                 .verify {
-                    isCountryNodeSelected(country)
+                    isCountryNodeSelected(DefaultData.TEST_COUNTRY)
                 }
     }
 
@@ -70,12 +70,12 @@ class MapRobotTests {
     fun mapNodeIsNotSelected() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode(country)
+        mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
                 .clickConnectButtonWithoutVpnHandling()
                 .clickCancelConnectionButton()
         mapRobot.verify {
                     isDisconnectedFromVpn()
-                    isCountryNodeNotSelected(country)
+                    isCountryNodeNotSelected(DefaultData.TEST_COUNTRY)
                 }
     }
 }
