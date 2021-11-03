@@ -28,12 +28,12 @@ import com.protonvpn.kotlinActions.ConnectionRobot
 import com.protonvpn.kotlinActions.CountriesRobot
 import com.protonvpn.kotlinActions.HomeRobot
 import com.protonvpn.kotlinActions.MapRobot
+import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import okhttp3.internal.wait
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -69,48 +69,32 @@ class ConnectionRobotTests {
     @Test
     fun connectAndDisconnectViaQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot
-            .connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
-            .verify {
-                isConnected()
-            }
-        connectionRobot
-            .disconnectFromVPN()
-            .verify {
-                isDisconnected()
-            }
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
+            .verify { isConnected() }
+        connectionRobot.disconnectFromVPN()
+            .verify { isDisconnected() }
     }
 
     @Test
     fun connectAndDisconnectViaCountryList() {
         testRule.mockStatusOnConnect(VpnState.Connected)
-        Thread.sleep(2000)
-        val country = ServiceRobot().firstCountryFromBackend
+        val country = MockedServers.serverList[0].displayName
         countriesRobot.selectCountry(country)
             .connectToFastestServer()
-            .verify {
-                isConnected()
-            }
+            .verify { isConnected() }
         connectionRobot.disconnectFromVPN()
-            .verify {
-                isDisconnected()
-            }
+            .verify { isDisconnected() }
     }
 
     @Test
     fun connectAndDisconnectViaMapView() {
         testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot
-            .swipeLeftToOpenMap()
+        homeRobot.swipeLeftToOpenMap()
         mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
             .clickConnectButton()
-            .verify {
-                isConnected()
-            }
+            .verify { isConnected() }
         connectionRobot.disconnectFromVPN()
-            .verify {
-                isDisconnected()
-            }
+            .verify { isDisconnected() }
     }
 
     @Test
@@ -118,13 +102,9 @@ class ConnectionRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
             .clickOnConnectButtonUntilConnected(DefaultData.DEFAULT_PROFILE)
-        connectionRobot.verify {
-            isConnected()
-        }
+        connectionRobot.verify { isConnected() }
         connectionRobot.disconnectFromVPN()
-            .verify {
-                isDisconnected()
-            }
+            .verify { isDisconnected() }
     }
 
     @Test
@@ -132,21 +112,15 @@ class ConnectionRobotTests {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
             .clickCancelConnectionButton()
-            .verify {
-                isDisconnected()
-            }
+            .verify { isDisconnected() }
     }
 
     @Test
     fun connectToServerWhenInternetIsDown() {
         testRule.mockErrorOnConnect(ErrorType.UNREACHABLE)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
-        connectionRobot.verify {
-            isNotReachableErrorDisplayed()
-        }
+        connectionRobot.verify { isNotReachableErrorDisplayed() }
         connectionRobot.clickCancelRetry()
-            .verify {
-                isDisconnected()
-            }
+            .verify { isDisconnected() }
     }
 }

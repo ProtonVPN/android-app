@@ -28,6 +28,8 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.conditions.NetworkInstruction
 import com.protonvpn.test.shared.MockedServers.getProfile
 import com.protonvpn.test.shared.MockedServers.serverList
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 
 class ServiceTestHelper {
 
@@ -65,20 +67,8 @@ class ServiceTestHelper {
         }
     }
 
-    fun getExpiredTrialUserNotification(activity: HomeActivity) {
-        mainThreadHandler.post { activity.showExpiredDialog() }
-    }
-
     fun checkIfConnectedToVPN() {
-        try {
-            ConditionWatcher.waitForCondition(object : NetworkInstruction() {
-                override fun checkCondition(): Boolean {
-                    return stateMonitor.isConnected
-                }
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        assertTrue("User was not connected to VPN", stateMonitor.isConnected)
     }
 
     fun enableSecureCore(state: Boolean) {
@@ -86,14 +76,6 @@ class ServiceTestHelper {
     }
 
     fun checkIfDisconnectedFromVPN() {
-        try {
-            ConditionWatcher.waitForCondition(object : NetworkInstruction() {
-                override fun checkCondition(): Boolean {
-                    return !stateMonitor.isConnected
-                }
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        assertFalse("User was not disconnected from VPN", stateMonitor.isConnected)
     }
 }
