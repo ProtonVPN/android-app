@@ -36,6 +36,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.serialization.Serializable
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
@@ -75,7 +76,16 @@ class CertificateRepository(
     }
 
     // Use getCertPrefs() to access this.
-    private lateinit var certPreferences: SharedPreferences
+    private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
+        @Suppress("BlockingMethodInNonBlockingContext")
+        EncryptedSharedPreferences.create(
+            "cert_data",
+            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+            appContext,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
 
     private val certRequests = mutableMapOf<SessionId, Deferred<CertificateResult>>()
 
@@ -226,19 +236,5 @@ class CertificateRepository(
         }
     }
 
-    private suspend fun getCertPrefs(): SharedPreferences {
-        if (!this::certPreferences.isInitialized) {
-            certPreferences = withContext(dispatcherProvider.Io) {
-                @Suppress("BlockingMethodInNonBlockingContext")
-                EncryptedSharedPreferences.create(
-                    "cert_data",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    appContext,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                )
-            }
-        }
-        return certPreferences
-    }
+    private suspend fun getCertPrefs() = certPreferences.await()
 }
