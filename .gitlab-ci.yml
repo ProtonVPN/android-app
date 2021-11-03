@@ -250,6 +250,7 @@ firebase tv tests:
 
 firebase real connection tests:
   <<: *tests_preparation_script
+  when: manual
   variables:
     TESTS_TYPE: realConnectionTest
     APP_LOCATION: "app/build/outputs/apk/direct/debug/"
