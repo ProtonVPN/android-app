@@ -22,9 +22,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.matchers.UiElementMatcher
 import com.protonvpn.testsTv.verification.ConnectionVerify
-import me.proton.core.test.android.instrumented.builders.OnView
 
 /**
  * [TvDetailedCountryRobot] Contains all actions and verifications for country detail screen
@@ -36,7 +34,7 @@ class TvDetailedCountryRobot : BaseRobot(){
     fun openServerList() : TvServerListRobot = clickElementByText(R.string.tv_server_list)
     fun addServerToFavourites() : TvDetailedCountryRobot = clickElementById(R.id.defaultConnection)
     fun goBackToCountryListView() : TvCountryListRobot = pressBack(R.id.container)
-    fun getCountryName() : String = UiElementMatcher().getText(onView(withId(R.id.countryName)))
+    fun getCountryName() : String = getText(onView(withId(R.id.countryName)))
 
     class Verify : ConnectionVerify(){
         fun userIsDisconnectedStreaming() = checkIfElementIsDisplayedById(R.id.connectStreaming)

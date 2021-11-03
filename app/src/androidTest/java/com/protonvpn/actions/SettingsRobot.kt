@@ -35,7 +35,7 @@ class SettingsRobot : BaseRobot() {
     fun clickOnSaveMenuButton(): SettingsRobot = clickElementById(R.id.action_save)
 
     fun openMtuSettings(): SettingsRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.scrollView,
             R.id.buttonMtuSize
         )
@@ -46,7 +46,7 @@ class SettingsRobot : BaseRobot() {
         replaceText(R.id.inputMtu, mtu.toString())
 
     fun toggleSplitTunneling(): SettingsRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithTextAppears(
             R.id.scrollView,
             R.string.settingsSplitTunnelingDescription
         )
@@ -70,9 +70,9 @@ class SettingsRobot : BaseRobot() {
 
         fun mainSettingsAreDisplayed(){
             checkIfElementIsDisplayedById(R.id.textSectionQuickConnect)
-            ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
+            ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
                     R.id.buttonProtocol)
-            ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
+            ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(R.id.scrollView,
                     R.id.switchShowSplitTunnel)
         }
     }

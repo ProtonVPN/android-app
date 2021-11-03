@@ -18,14 +18,20 @@
 
 package com.protonvpn.base
 
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.ViewMatchers
-import com.google.android.material.textfield.TextInputEditText
+import com.protonvpn.testsHelper.UIActionsTestHelper
 import me.proton.core.presentation.ui.view.ProtonInput
-import me.proton.core.test.android.instrumented.builders.OnView
 import me.proton.core.test.android.robots.CoreRobot
+import org.hamcrest.Matcher
+import org.strongswan.android.logic.StrongSwanApplication
 
 /**
  * [BaseRobot] Contains common actions for views
@@ -38,20 +44,12 @@ open class BaseRobot : CoreRobot() {
             .click()
     }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>): T =
+    inline fun <reified T> clickElementById(@IdRes id: Int): T =
         executeAndReturnRobot {
             view
-                .instanceOf(clazz)
                 .withId(id)
                 .click()
         }
-
-    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .click()
-    }
-
 
     inline fun <reified T> clickElementByText(text: String): T = executeAndReturnRobot {
         view
@@ -194,6 +192,40 @@ open class BaseRobot : CoreRobot() {
         view
             .withText(resId)
             .longClick()
+    }
+
+    inline fun <reified T> longClickByCustomMatcher(matcher: Matcher<View>): T =
+        executeAndReturnRobot {
+            view
+                .withCustomMatcher(matcher)
+                .longClick()
+        }
+
+    open fun isButtonWithIdAndTextVisible(@IdRes buttonId: Int, @StringRes resId: Int): Boolean {
+        return UIActionsTestHelper.isButtonWithIdAndTextVisible(
+            buttonId,
+            StrongSwanApplication.getContext().getString(resId)
+        )
+    }
+
+    fun getText(matcher: ViewInteraction): String {
+        var text = String()
+        matcher.perform(object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isAssignableFrom(TextView::class.java)
+            }
+
+            override fun getDescription(): String {
+                return "Gets text from element."
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                val textView = view as TextView
+                text = textView.text.toString()
+            }
+        })
+
+        return text
     }
 
     fun checkInputDisplayed(@IdRes id: Int) {

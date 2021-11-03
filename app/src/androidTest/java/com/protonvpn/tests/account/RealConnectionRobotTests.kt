@@ -36,7 +36,6 @@ import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
-import me.proton.core.auth.presentation.ui.LoginActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -110,5 +109,4 @@ class RealConnectionRobotTests(private val protocol: VpnProtocol) {
         MockSwitch.mockedServersUsed = true
         userDataHelper.setProtocol(DefaultData.DEFAULT_PROTOCOL)
     }
-
 }

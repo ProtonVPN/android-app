@@ -20,7 +20,6 @@ package com.protonvpn.actions
 
 import androidx.annotation.IdRes
 import androidx.test.espresso.matcher.ViewMatchers
-import com.protonvpn.MockSwitch
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.results.ConnectionResult
@@ -39,13 +38,13 @@ class ProfilesRobot : BaseRobot() {
 
     fun clickOnFastestOption(): ProfilesRobot = clickElementByText(R.string.profileFastest)
 
-    fun clickOnConnectButton(profileName: String): ConnectionResult {
-        clickElementByIdAndContentDescription<ProfilesRobot>(R.id.buttonConnect, profileName)
-        if (!MockSwitch.mockedConnectionUsed) {
-            HomeRobot().allowToUseVpn()
-        }
+    fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionResult {
+        ConditionalActionsHelper().clickConnectUntilConnectedToProfile(profileName)
         return ConnectionResult()
     }
+
+    fun clickOnConnectButton(profileName: String): ConnectionResult =
+            clickElementByIdAndContentDescription(R.id.buttonConnect, profileName)
 
     fun clickOnCreateNewProfileButton(): ProfilesRobot =
         clickElementByText(R.string.create_new_profile)
@@ -98,7 +97,7 @@ class ProfilesRobot : BaseRobot() {
     fun clickDiscardButton(): ProfilesResult = clickElementByText(R.string.discard)
 
     fun enableSecureCore(): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.checkboxSecureCore
         )
@@ -121,7 +120,7 @@ class ProfilesRobot : BaseRobot() {
     fun updateProfileName(newProfileName: String): ProfilesRobot = replaceText(R.id.inputName, newProfileName)
 
     fun clickDeleteProfile(): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.buttonDelete
         )
@@ -138,7 +137,7 @@ class ProfilesRobot : BaseRobot() {
     }
 
     private fun scrollToAndClickDropDown(@IdRes id: Int): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.inputProtocol,
             ProtonAutoCompleteInput::class.java
@@ -147,7 +146,7 @@ class ProfilesRobot : BaseRobot() {
     }
 
     private fun scrollTo(@IdRes id: Int, clazz: Class<out Any>): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             id,
             clazz
