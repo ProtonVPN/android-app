@@ -42,6 +42,7 @@ import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
+import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
@@ -128,8 +129,11 @@ class SettingsActivity : BaseActivityV2() {
                 appConfig,
                 this@SettingsActivity,
                 userPrefs,
-                stateMonitor,
-                connectionManager
+                NetShieldSwitch.ReconnectDialogDelegate(
+                    this@SettingsActivity,
+                    stateMonitor,
+                    connectionManager
+                )
             ) {
                 userPrefs.netShieldProtocol = it
             }
