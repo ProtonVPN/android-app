@@ -29,8 +29,8 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ProtonLoggerImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,22 +50,27 @@ class ReportBugActivityViewModel @Inject constructor(
     private val userData: UserData
 ) : ViewModel() {
 
-    data class ViewState(@StringRes val emailError: Int?, @StringRes val reportError: Int?)
+    sealed class ViewState {
+        data class Form(@StringRes val emailError: Int?, @StringRes val reportError: Int?) : ViewState()
+        object Submitting : ViewState()
+        data class Error(val error: ApiResult.Error) : ViewState()
+        object Finish : ViewState()
+    }
 
-    private val _state = MutableLiveData(ViewState(null, null))
+    private val _state = MutableLiveData<ViewState>(ViewState.Form(null, null))
     val state: LiveData<ViewState> get() { return _state }
 
     suspend fun prepareAndPostReport(
-        loaderUi: LoaderUI,
         emailRaw: String,
         description: String,
         attachLog: Boolean
-    ): Boolean {
+    ) {
         val email = emailRaw.trim { it <= ' ' }
         val inputValid = checkInput(email, description)
         if (!inputValid)
-            return false
+            return
 
+        _state.value = ViewState.Submitting
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("Client", "Android app")
             .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
@@ -93,11 +98,12 @@ class ReportBugActivityViewModel @Inject constructor(
                 } catch (e: IOException) {
                     emptyList<ProtonLoggerImpl.LogFile>()
                 }
-                val isSuccess = postReport(loaderUi, builder)
+                val result = api.postBugReport(builder.build())
                 ProtonLogger.clearUploadTempFiles(logFiles)
-                isSuccess
+                _state.value = result.toViewState()
             } else {
-                postReport(loaderUi, builder)
+                val result = api.postBugReport(builder.build())
+                _state.value = result.toViewState()
             }
         }.await()
     }
@@ -115,16 +121,15 @@ class ReportBugActivityViewModel @Inject constructor(
             null
         }
 
-        _state.value = ViewState(emailError, descriptionError)
+        _state.value = ViewState.Form(emailError, descriptionError)
         return emailError == null && descriptionError == null
     }
 
     private fun isEmailValid(email: CharSequence): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    private suspend fun postReport(loaderUi: LoaderUI, builder: MultipartBody.Builder): Boolean {
-        val result = api.postBugReport(loaderUi, builder.build())
-        return result is ApiResult.Success
+    private fun ApiResult<GenericResponse>.toViewState() = when(this) {
+        is ApiResult.Success<GenericResponse> -> ViewState.Finish
+        is ApiResult.Error -> ViewState.Error(this)
     }
-
 }

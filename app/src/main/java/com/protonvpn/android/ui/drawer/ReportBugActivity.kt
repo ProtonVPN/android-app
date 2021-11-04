@@ -52,10 +52,10 @@ class ReportBugActivity : BaseActivityV2() {
     }
 
     private fun initUi() = with(binding) {
-        viewModel.state.observe(this@ReportBugActivity, Observer { state ->
-            editEmail.setOrClearError(state.emailError?.let { getString(it) })
-            editReport.setOrClearError(state.reportError?.let { getString(it) })
-        })
+        viewModel.state.observe(this@ReportBugActivity, Observer { updateState(it) })
+        loadingContainer.setRetryListener {
+            postReport()
+        }
         layoutReport.buttonReport.setOnClickListener {
             postReport()
         }
@@ -77,18 +77,31 @@ class ReportBugActivity : BaseActivityV2() {
         }
     }
 
+    private fun updateState(state: ReportBugActivityViewModel.ViewState) = with(binding) {
+        when (state) {
+            is ReportBugActivityViewModel.ViewState.Form -> {
+                loadingContainer.switchToEmpty()
+                editEmail.setOrClearError(state.emailError?.let { getString(it) })
+                editReport.setOrClearError(state.reportError?.let { getString(it) })
+            }
+            is ReportBugActivityViewModel.ViewState.Submitting ->
+                loadingContainer.switchToLoading()
+            is ReportBugActivityViewModel.ViewState.Error ->
+                loadingContainer.switchToRetry(state.error)
+            is ReportBugActivityViewModel.ViewState.Finish -> {
+                delegatedSnackManager.postSnack(getString(R.string.bugReportThankYouToast), true)
+                finish()
+            }
+        }
+    }
+
     private fun postReport() {
         lifecycleScope.launch {
-            val isSuccess = viewModel.prepareAndPostReport(
-                binding.loadingContainer,
+            viewModel.prepareAndPostReport(
                 editEmail.text.toString(),
                 editReport.text.toString(),
                 binding.layoutReport.checkboxIncludeLogs.isChecked
             )
-            if (isSuccess) {
-                delegatedSnackManager.postSnack(getString(R.string.bugReportThankYouToast), true)
-                finish()
-            }
         }
     }
 
