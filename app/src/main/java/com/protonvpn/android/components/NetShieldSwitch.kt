@@ -45,6 +45,21 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
+    class ReconnectDialogDelegate(
+        private val vpnPermissionDelegate: VpnPermissionDelegate,
+        private val stateMonitor: VpnStateMonitor,
+        private val connectionManager: VpnConnectionManager,
+    ) {
+        fun needsToReconnect() =
+            stateMonitor.isConnected && stateMonitor.connectionProtocol?.localAgentEnabled() == false
+
+        fun reconnectIfNeeded() {
+            if (needsToReconnect()) {
+                connectionManager.reconnect(vpnPermissionDelegate)
+            }
+        }
+    }
+
     private val binding: ItemNetshieldBinding
     private val isInConnectedScreen: Boolean
     private val withReconnectDialog: Boolean
@@ -79,8 +94,6 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         get() {
             return binding.radioGroupSettings.checkedRadioButtonId == R.id.radioFullBlocking
         }
-
-    fun isSwitchVisible() = binding.root.isVisible
 
     fun setNetShieldValue(newProtocol: NetShieldProtocol) {
         onStateChange(newProtocol)
@@ -155,8 +168,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         appConfig: AppConfig,
         lifecycleOwner: LifecycleOwner,
         userData: UserData,
-        stateMonitor: VpnStateMonitor,
-        connectionManager: VpnConnectionManager,
+        reconnectDialogDelegate: ReconnectDialogDelegate,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
@@ -172,7 +184,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             val checkedChangeListener = {
                 onStateChange(currentState)
                 changeCallback(currentState)
-                checkForReconnection(stateMonitor, connectionManager)
+                reconnectDialogDelegate.reconnectIfNeeded()
             }
             radioGroupSettings.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
             switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
@@ -183,15 +195,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     this == radioFullBlocking -> isSwitchedOn
                     else -> false
                 }
-                val needsToReconnect = stateMonitor.connectionProtocol?.localAgentEnabled() == false
-                val needsReconnectDialog = withReconnectDialog && needsToReconnect
 
-                if (stateMonitor.isConnected && needsReconnectDialog) {
+                if (withReconnectDialog && reconnectDialogDelegate.needsToReconnect()) {
                     showReconnectDialog(needsNoteOnAdBlocking) {
                         isChecked = !isChecked
                         onStateChange(currentState)
                         changeCallback(currentState)
-                        checkForReconnection(stateMonitor, connectionManager)
+                        reconnectDialogDelegate.reconnectIfNeeded()
                     }
                     true
                 } else false
@@ -234,12 +244,6 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun showUpgradeDialog() {
         context.startActivity(Intent(context, UpgradeNetShieldDialogActivity::class.java))
-    }
-
-    private fun checkForReconnection(stateMonitor: VpnStateMonitor, connectionManager: VpnConnectionManager) {
-        if (stateMonitor.isConnected && stateMonitor.connectionProtocol?.localAgentEnabled() == false) {
-            connectionManager.reconnect(context as VpnPermissionDelegate)
-        }
     }
 
     private fun showExpandToggle(show: Boolean) {

@@ -22,7 +22,6 @@ package com.protonvpn.android.ui.home.vpn
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -36,6 +35,7 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
@@ -59,8 +59,11 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             appConfig,
             viewLifecycleOwner,
             userData,
-            stateMonitor,
-            vpnConnectionManager
+            NetShieldSwitch.ReconnectDialogDelegate(
+                requireActivity() as VpnPermissionDelegate,
+                stateMonitor,
+                vpnConnectionManager
+            )
         ) { s: NetShieldProtocol? ->
             userData.netShieldProtocol = s
         }
