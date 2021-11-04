@@ -139,9 +139,9 @@ class SettingsActivity : BaseActivityV2() {
             ) {
                 userPrefs.setNetShieldProtocol(it)
             }
-            switchShowIcon.isChecked = userPrefs.shouldShowIcon()
+            switchShowIcon.isChecked = userPrefs.showIcon
             switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setShowIcon(isChecked)
+                userPrefs.showIcon = isChecked
                 EventBus.getInstance().post(StatusSettingChanged(isChecked))
             }
 
@@ -204,10 +204,9 @@ class SettingsActivity : BaseActivityV2() {
             }
 
             switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled
-            switchVpnAcceleratorNotifications.isChecked =
-                userPrefs.showVpnAcceleratorNotifications()
+            switchVpnAcceleratorNotifications.isChecked = userPrefs.showVpnAcceleratorNotifications
             switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setShowVpnAcceleratorNotifications(isChecked)
+                userPrefs.showVpnAcceleratorNotifications = isChecked
             }
         } else {
             switchVpnAccelerator.isVisible = false
@@ -274,7 +273,7 @@ class SettingsActivity : BaseActivityV2() {
             PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
-            userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+            userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
         }
     }
 
