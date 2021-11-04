@@ -47,7 +47,7 @@ class CoreLoginMigration @Inject constructor(
             val session = Storage.load(LoginResponse::class.java)
             val user = userData.migrateUser
             val vpnInfo = userData.migrateVpnInfoResponse
-            if (session != null && user.isNotBlank() && vpnInfo != null) {
+            if (session != null && !user.isNullOrBlank() && vpnInfo != null) {
                 val userId = UserId(session.userId)
 
                 // Run migration as blocking to avoid race conditions with synchronous user code

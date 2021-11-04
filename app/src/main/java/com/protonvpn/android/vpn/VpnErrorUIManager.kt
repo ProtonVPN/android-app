@@ -187,5 +187,5 @@ class VpnErrorUIManager(
     private fun vpnAcceleratorNotificationsEnabled() =
         appConfig.getFeatureFlags().vpnAccelerator &&
                 userData.isVpnAcceleratorEnabled &&
-                userData.showVpnAcceleratorNotifications()
+                userData.showVpnAcceleratorNotifications
 }
