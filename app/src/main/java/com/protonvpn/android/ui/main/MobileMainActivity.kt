@@ -19,8 +19,13 @@
 
 package com.protonvpn.android.ui.main
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.ui.home.HomeActivity
@@ -29,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MobileMainActivity : AppCompatActivity() {
 
+    private lateinit var mainLauncher: ActivityResultLauncher<Unit>
     private val accountViewModel: AccountViewModel by viewModels()
     private val helper = object : MainActivityHelper(this) {
 
@@ -37,13 +43,21 @@ class MobileMainActivity : AppCompatActivity() {
         }
 
         override suspend fun onReady() {
-            startActivity(Intent(this@MobileMainActivity, HomeActivity::class.java))
+            mainLauncher.launch(Unit)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         helper.onCreate(accountViewModel)
+        mainLauncher = registerForActivityResult(createHomeContract()) {
+            if (it.resultCode == Activity.RESULT_CANCELED)
+                finish()
+        }
     }
 
+    private fun createHomeContract() = object : ActivityResultContract<Unit, ActivityResult>() {
+        override fun createIntent(context: Context, input: Unit?) = Intent(context, HomeActivity::class.java)
+        override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
+    }
 }
