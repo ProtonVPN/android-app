@@ -20,12 +20,14 @@
 package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.domain.arch.DataResult
@@ -42,6 +44,7 @@ class CurrentUser @Inject constructor(
     private val accountManager: AccountManager,
     vpnUserDao: VpnUserDao,
     private val userManager: UserManager,
+    private val userData: UserData
 ) {
     val vpnUserFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
         userId?.let { vpnUserDao.getByUserId(it) } ?: flowOf(null)
@@ -55,7 +58,7 @@ class CurrentUser @Inject constructor(
         }
     }
 
-    private val vpnUserState by SyncStateFlow(mainScope, vpnUserFlow)
+    private val vpnUserState by SyncStateFlow(mainScope, vpnUserFlow.onEach { userData.onVpnUserUpdated(it) })
     private val accountState by SyncStateFlow(mainScope, accountManager.getPrimaryAccount())
 
     suspend fun vpnUser() = vpnUserFlow.first()

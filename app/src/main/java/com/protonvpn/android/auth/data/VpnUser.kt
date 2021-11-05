@@ -68,6 +68,7 @@ data class VpnUser(
     val isFreeUser get() = maxTier == 0
     val isTrialUser get() = planName == "trial"
     val isBasicUser get() = userTier == 1
+    val isUserBasicOrAbove get() = userTier > 0
     val isUserPlusOrAbove get() = userTier > 1
     val isUserDelinquent get() = delinquent >= 3
 
