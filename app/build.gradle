@@ -592,25 +592,24 @@ dependencies {
 
     // Proton Core libs
     implementation 'me.proton.vpn:go-vpn-lib:0.1.6'
-    implementation 'me.proton.core:domain:1.16'
+    implementation 'me.proton.core:domain:1.18'
     implementation 'me.proton.core:network:1.15.7'
     implementation 'me.proton.core:util-kotlin:1.15.2'
-    implementation 'me.proton.core:presentation:1.16'
-    implementation 'me.proton.core:human-verification:1.16'
-    implementation "me.proton.core:country:1.16"
-    implementation "me.proton.core:country-presentation:1.16"
-    implementation "me.proton.core:user:1.16.2"
-    implementation "me.proton.core:user-data:1.16.2"
-    implementation 'me.proton.core:user-settings:1.16'
+    implementation 'me.proton.core:presentation:1.18.3'
+    implementation 'me.proton.core:human-verification:1.16.2'
+    implementation "me.proton.core:country:1.16.1"
+    implementation "me.proton.core:user:1.18"
+    implementation "me.proton.core:user-data:1.18"
+    implementation 'me.proton.core:user-settings:1.18.1'
     implementation "me.proton.core:account:1.15.2"
-    implementation 'me.proton.core:account-manager:1.16'
-    implementation 'me.proton.core:account-manager-dagger:1.16'
-    implementation "me.proton.core:auth:1.17.2"
-    implementation 'me.proton.core:crypto:1.15.5'
-    implementation "me.proton.core:domain:1.16"
-    implementation 'me.proton.core:payment:1.17'
-    implementation 'me.proton.core:plan:1.17'
-    implementation "me.proton.core:key:1.15.6"
+    implementation 'me.proton.core:account-manager:1.16.1'
+    implementation 'me.proton.core:account-manager-dagger:1.16.1'
+    implementation "me.proton.core:auth:1.18"
+    implementation 'me.proton.core:crypto:1.16'
+    implementation "me.proton.core:domain:1.18"
+    implementation 'me.proton.core:payment:1.17.2'
+    implementation 'me.proton.core:plan:1.18'
+    implementation "me.proton.core:key:1.16"
     implementation "me.proton.core:data:1.15"
     implementation "me.proton.core:data-room:1.16"
 

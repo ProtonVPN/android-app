@@ -34,10 +34,10 @@ open class SnackbarHelper(private val resources: Resources, private val view: Vi
     var anchorView: View? = null
 
     fun successSnack(@StringRes messageRes: Int) = successSnack(resources.getString(messageRes))
-    fun successSnack(message: String) = showSnack(message, R.drawable.background_success)
+    fun successSnack(message: String) = showSnack(message, R.drawable.snackbar_background_success)
 
     fun errorSnack(@StringRes messageRes: Int) = errorSnack(resources.getString(messageRes))
-    fun errorSnack(message: String) = showSnack(message, R.drawable.background_error)
+    fun errorSnack(message: String) = showSnack(message, R.drawable.snackbar_background_error)
 
     protected fun showSnack(
         message: String,
