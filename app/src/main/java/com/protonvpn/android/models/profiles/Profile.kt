@@ -30,15 +30,14 @@ import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
 import java.util.Locale
 
-data class Profile(
+data class Profile @JvmOverloads constructor(
     val name: String,
     private val color: String?,
     val wrapper: ServerWrapper,
-    private val colorId: Int?
-) : Serializable {
-
-    private var protocol: String? = null
+    private val colorId: Int?,
+    private var protocol: String? = null,
     private var transmissionProtocol: String? = null
+) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
 
