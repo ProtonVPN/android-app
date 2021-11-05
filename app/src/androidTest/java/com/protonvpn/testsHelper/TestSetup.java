@@ -27,13 +27,11 @@ import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.MAPVIEW_
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.NETSHIELD_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.PROFILES_DIALOG;
 import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.SECURECORE_DIALOG;
-import static com.protonvpn.android.ui.onboarding.OnboardingPreferences.SLIDES_SHOWN;
 
 public class TestSetup {
 
     public static void setCompletedOnboarding() {
         //set flag to slide show to be visible
-        Storage.saveBoolean(SLIDES_SHOWN, true);
         Storage.saveBoolean(MAPVIEW_DIALOG, true);
         Storage.saveBoolean(PROFILES_DIALOG, true);
         Storage.saveBoolean(SECURECORE_DIALOG, true);

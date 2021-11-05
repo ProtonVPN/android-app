@@ -43,7 +43,6 @@ class LogoutResult(val user: TestUser? = null) : BaseRobot() {
             //checks if login form has not appeared
             checkInputNotDisplayed(R.id.sign_in)
             checkInputNotDisplayed(R.id.sign_up)
-            view.withId(R.id.buttonLogin).checkNotDisplayed()
             return LogoutResult()
         }
 
@@ -51,7 +50,6 @@ class LogoutResult(val user: TestUser? = null) : BaseRobot() {
     fun noLoginScreen(): LogoutResult {
         view.withId(R.id.sign_in).checkDoesNotExist()
         view.withId(R.id.sign_up).checkDoesNotExist()
-        view.withId(R.id.buttonLogin).checkDoesNotExist()
         return LogoutResult()
     }
 

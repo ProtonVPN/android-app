@@ -151,12 +151,6 @@
   <string name="onboardingDialogSecureCoreDescription">از این قابلیت غیررایگان استفاده کنید تا به امن‌ترین سرورهای جهان متصل شوید. شما می‌توانید آن‌ها را در برگهٔ کشور‌ها یا برگهٔ نقشه هم مشاهده کنید.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">در این لیست می توانید کشور و سروری را که می خواهید به آن متصل شوید، انتخاب کنید</string>
-  <string name="onboardingStartSlideTitle">به اینترنت بهتر خوش آمدید</string>
-  <string name="onboardingStartSlideDescription">از طرف دانشمندان و مهندسانی که ProtonMail را ایجاد کرده‌اند، به اینترنت امن‌تر و دارای حریم خصوصی بیشتر خوش آمدید.</string>
-  <string name="onboardingMiddleSlideTitle">ما معتقدیم که اینترنت باید آزاد باشد</string>
-  <string name="onboardingMiddleSlideDescription">سانسور و محدودیت‌های منطقه‌ای را از بین ببرید. ما تبلیغات و محدودیت پهنای باند نداریم و داده‌های شما را نمی‌فروشیم.</string>
-  <string name="onboardingEndingSlideTitle">امنیت شما، اولویت ماست</string>
-  <string name="onboardingEndingSlideDescription">ما یک شرکت امنیتی هستیم. چه در معماری Secure Core و چه در رمزگذاری پیشرفته، امنیت همیشه اولویت اول ماست.</string>
   <string name="onboardingNetshield">شما را از بدافزار، آگهی، و ردیابها محافظت می‌‌کند.\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیر فعال کردن NetShield را امتحان کنید. </string>
   <string name="onboardingFAB">اتصال سریع / پروفایل‌ها</string>
   <string name="onboardingFABDescription">برای سریع‌ترین راه اتصال، روی این دکمه ضربه بزنید</string>
