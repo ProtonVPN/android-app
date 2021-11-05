@@ -179,7 +179,7 @@ class TvMainViewModel @Inject constructor(
             .forEach {
                 recentsList.add(
                     ProfileCard(
-                        title = it.name,
+                        title = it.name.ifEmpty { it.server?.displayName ?: "" },
                         titleDrawable = profileCardTitleIcon(it),
                         backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
                         profile = it
