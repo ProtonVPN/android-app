@@ -152,7 +152,7 @@ android {
     def helpers = new Helpers()
 
     ndkVersion "21.3.6528147"
-    compileSdkVersion 30
+    compileSdkVersion 31
     useLibrary 'org.apache.http.legacy'
     flavorDimensions "default"
     signingConfigs {

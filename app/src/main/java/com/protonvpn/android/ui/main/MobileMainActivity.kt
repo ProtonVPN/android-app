@@ -57,7 +57,7 @@ class MobileMainActivity : AppCompatActivity() {
     }
 
     private fun createHomeContract() = object : ActivityResultContract<Unit, ActivityResult>() {
-        override fun createIntent(context: Context, input: Unit?) = Intent(context, HomeActivity::class.java)
+        override fun createIntent(context: Context, input: Unit) = Intent(context, HomeActivity::class.java)
         override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
     }
 }
