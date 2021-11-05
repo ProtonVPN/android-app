@@ -78,7 +78,7 @@ class DelegatedSnackManager(private val monoClock: () -> Long) {
             Snack(
                 monoClock(),
                 text,
-                if (isSuccess) R.drawable.background_success else R.drawable.background_error,
+                if (isSuccess) R.drawable.snackbar_background_success else R.drawable.snackbar_background_error,
                 action,
                 length
             )
