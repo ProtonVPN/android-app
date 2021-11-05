@@ -230,9 +230,6 @@
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
-        <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>
 

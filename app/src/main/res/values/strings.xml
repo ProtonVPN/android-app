@@ -168,12 +168,6 @@
     <string name="onboardingDialogSecureCoreDescription">Use this paid feature and connect to the most secure servers on the planet. You can see them in both Countries tab and Map View.</string>
     <string name="onboardingDialogSecureCoreTitle">Secure core</string>
     <string name="onboardingListDescription">In this list you can choose a country and server you would like to connect to</string>
-    <string name="onboardingStartSlideTitle">Welcome to a better internet</string>
-    <string name="onboardingStartSlideDescription">From the scientists and engineers that created ProtonMail, welcome to a more secure and private Internet.</string>
-    <string name="onboardingMiddleSlideTitle">We believe internet should be free</string>
-    <string name="onboardingMiddleSlideDescription">Beat censorship and regional restrictions. We have no ads, no bandwidth limits, and don\'t sell your data.</string>
-    <string name="onboardingEndingSlideTitle">Your security is our priority</string>
-    <string name="onboardingEndingSlideDescription">We are a security company. Whether it is our secure core architecture or advanced encryption, security always comes first.</string>
     <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield. </string>
     <string name="onboardingFAB">Quick connect / Profiles</string>
     <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>

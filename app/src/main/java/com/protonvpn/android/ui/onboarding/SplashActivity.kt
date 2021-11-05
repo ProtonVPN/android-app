@@ -30,14 +30,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val nextActivity = when {
-            isTV() ->
-                TvMainActivity::class.java
-            !OnboardingPreferences.wasOnboardingShown() ->
-                OnboardingActivity::class.java
-            else ->
-                MobileMainActivity::class.java
-        }
+        val nextActivity = if (isTV())
+            TvMainActivity::class.java
+        else
+            MobileMainActivity::class.java
+
         startActivity(Intent(this, nextActivity))
 
         finish()
