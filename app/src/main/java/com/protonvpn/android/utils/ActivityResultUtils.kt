@@ -62,8 +62,8 @@ object ActivityResultUtils {
 
     inline fun <reified I : Parcelable, O : Parcelable> createContract(
         clazz: KClass<out Activity>
-    ): ActivityResultContract<I, O> {
-        return object : ActivityResultContract<I, O>() {
+    ): ActivityResultContract<I, O?> {
+        return object : ActivityResultContract<I, O?>() {
             override fun createIntent(context: Context, input: I): Intent =
                 Intent(context, clazz.java).apply {
                     putExtra(INPUT_KEY, input)

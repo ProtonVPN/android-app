@@ -27,7 +27,7 @@ class PermissionContract(val intent: Intent) : ActivityResultContract<Int, Boole
 
     override fun parseResult(resultCode: Int, intent: Intent?): Boolean = resultCode == Activity.RESULT_OK
 
-    override fun createIntent(context: Context, input: Int?): Intent = intent
+    override fun createIntent(context: Context, input: Int): Intent = intent
 
     companion object {
         const val VPN_PERMISSION_ACTIVITY = 1

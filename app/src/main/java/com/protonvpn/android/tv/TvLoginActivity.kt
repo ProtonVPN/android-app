@@ -168,7 +168,7 @@ class TvLoginActivity : BaseTvActivity() {
 
     companion object {
         fun createContract() = object : ActivityResultContract<Unit, ActivityResult>() {
-            override fun createIntent(context: Context, input: Unit?) = Intent(context, TvLoginActivity::class.java)
+            override fun createIntent(context: Context, input: Unit) = Intent(context, TvLoginActivity::class.java)
             override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
         }
 

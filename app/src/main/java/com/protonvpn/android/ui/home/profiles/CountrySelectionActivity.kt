@@ -102,7 +102,7 @@ class CountrySelectionActivity : BaseActivityV2() {
     }
 
     companion object {
-        fun createContract() = object : ActivityResultContract<Boolean, String>() {
+        fun createContract() = object : ActivityResultContract<Boolean, String?>() {
             override fun createIntent(context: Context, secureCore: Boolean): Intent =
                 Intent(context, CountrySelectionActivity::class.java).apply {
                     putExtra(SECURE_CORE_KEY, secureCore)
