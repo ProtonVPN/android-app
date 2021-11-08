@@ -297,7 +297,7 @@
   </plurals>
   <string name="settingsCannotChangeWhileConnected">Tidak dapat merubah ini ketika tersambung</string>
   <string name="excludeAlreadyExcluded">Sudah dikecualikan</string>
-  <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
+  <string name="removeExcludedIpDialogDescription">Hapus alamat IP dari daftar?</string>
   <string name="loaderFetchingServers">Mengambil server…</string>
   <string name="toastProfileSaved">Disimpan</string>
   <string name="freeTrialExpiredTitle">Uji coba ProtonVPN Plus kedaluwarsa</string>
@@ -312,7 +312,7 @@
   <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon ulangi lagi.</string>
   <string name="troubleshootButton">Penyelesaian Masalah</string>
   <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>
-  <string name="troubleshootPotentialSolutionsSectionTitle">Potential solutions</string>
+  <string name="troubleshootPotentialSolutionsSectionTitle">Solusi-solusi potensial</string>
   <string name="troubleshootNoInternetDescription">Mohon pastikan sambungan internet Anda bekerja.</string>
   <string name="troubleshootNoInternetTitle">Tidak ada koneksi internet</string>
   <string name="troubleshootIspProblemTitle">Masalah Penyedia Layanan Internet (ISP)</string>
@@ -323,7 +323,7 @@
   <string name="troubleshootProxyFirewallProblemDescription">Nonaktifkan proksi atau firewall apa pun, atau hubungi pegelola jaringan anda.</string>
   <string name="troubleshootProtonDownTitle">Proton tumbang</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Cek <a href=\"%1$s\">Proton Status</a> untuk status sistem kami.]]></string>
-  <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
+  <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
   <string name="troubleshootCustomerSupport">Layanan dukungan</string>
   <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas data alternatif</string>
   <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
