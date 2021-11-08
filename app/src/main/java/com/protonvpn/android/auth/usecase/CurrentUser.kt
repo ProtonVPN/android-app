@@ -33,6 +33,8 @@ import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.domain.arch.DataResult
 import me.proton.core.domain.entity.SessionUserId
 import me.proton.core.user.domain.UserManager
+import me.proton.core.user.domain.entity.User
+import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -78,3 +80,6 @@ class CurrentUser @Inject constructor(
     @Deprecated("use suspending version of this fun")
     fun isLoggedInCached() = vpnUserState.value != null
 }
+
+fun User.uiName() =
+    displayName?.takeIfNotBlank() ?: name?.takeIfNotBlank() ?: email
