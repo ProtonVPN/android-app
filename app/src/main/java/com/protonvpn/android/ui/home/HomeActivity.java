@@ -39,6 +39,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUserKt;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -319,8 +320,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
         viewModel.getUserLiveData().observe(this, (user) -> {
             if (user != null) {
-                Sentry.getContext().setUser(new UserBuilder().setUsername(user.getDisplayName()).build());
-                String userName = user.getDisplayName();
+                String userName = CurrentUserKt.uiName(user);
+                Sentry.getContext().setUser(new UserBuilder().setUsername(userName).build());
                 textUser.setText(userName);
                 textUserInitials.setText(getInitials(userName));
                 textUserEmail.setText(user.getEmail());

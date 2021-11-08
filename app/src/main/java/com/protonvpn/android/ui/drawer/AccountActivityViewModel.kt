@@ -23,13 +23,14 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.uiName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountActivityViewModel @Inject constructor(val currentUser: CurrentUser) : ViewModel() {
 
-    suspend fun displayName() = currentUser.user()?.displayName
+    suspend fun displayName() = currentUser.user()?.uiName()
     suspend fun accountType() = currentUser.vpnUser()?.accountType
 
     suspend fun accountTier(context: Context) =
