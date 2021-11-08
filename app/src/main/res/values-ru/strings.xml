@@ -469,10 +469,10 @@
   <string name="notification_max_sessions_title">Вы достигли лимита на устройства</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="notification_max_sessions_upsell_content">
-    <item quantity="one">Отключите устройство для подключения этого или перейдите на версию Plus для подключения %1$d устройства.</item>
-    <item quantity="few">Отключите устройство, чтобы подключить это, или перейдите на версию Plus, чтобы подключить до %1$d устройств.</item>
-    <item quantity="many">Отключите устройство, чтобы подключить это, или перейдите на версию Plus, чтобы подключить до %1$d устройств.</item>
-    <item quantity="other">Отключите устройство, чтобы подключить это, или перейдите на версию Plus, чтобы подключить до %1$d устройств(а).</item>
+    <item quantity="one">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройства.</item>
+    <item quantity="few">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
+    <item quantity="many">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
+    <item quantity="other">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
   </plurals>
   <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее.</string>
   <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифом. Доступны бесплатные серверы и функции.</string>
@@ -531,9 +531,9 @@
          -->
   <plurals name="upgrade_plus_servers">
     <item quantity="one">%d сервер</item>
-    <item quantity="few">%d серверов</item>
-    <item quantity="many">%d серверов</item>
-    <item quantity="other">%d серверы</item>
+    <item quantity="few">%d+ сервера</item>
+    <item quantity="many">%d+ серверов</item>
+    <item quantity="other">%d+ серверов</item>
   </plurals>
   <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
 
