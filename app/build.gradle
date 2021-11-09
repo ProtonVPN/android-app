@@ -624,7 +624,7 @@ dependencies {
         exclude group: "io.mockk", module: "mockk"
     }
 
-    androidTestImplementation('me.proton.core:test-android-instrumented:1.15.1') {
+    androidTestImplementation('me.proton.core:test-android-instrumented:1.15.5') {
         exclude group: "me.proton.core"
     }
     // Enforce org.checkerframework:checker's version to avoid duplicate classes.

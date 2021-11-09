@@ -42,10 +42,8 @@ class SettingsRobot : BaseRobot() {
         return clickElement(R.id.buttonMtuSize, SettingsItem::class.java)
     }
 
-    fun setMTU(mtu: Int): SettingsRobot {
-        clearText<SettingsRobot>(R.id.inputMtu)
-        return setText(R.id.inputMtu, mtu.toString())
-    }
+    fun setMTU(mtu: Int): SettingsRobot =
+        replaceText(R.id.inputMtu, mtu.toString())
 
     fun toggleSplitTunneling(): SettingsRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithTextAppears(

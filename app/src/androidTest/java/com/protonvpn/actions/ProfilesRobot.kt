@@ -118,10 +118,7 @@ class ProfilesRobot : BaseRobot() {
         return this
     }
 
-    fun updateProfileName(newProfileName: String): ProfilesRobot {
-        clearText<ProfilesRobot>(R.id.inputName)
-        return setText(R.id.inputName, newProfileName)
-    }
+    fun updateProfileName(newProfileName: String): ProfilesRobot = replaceText(R.id.inputName, newProfileName)
 
     fun clickDeleteProfile(): ProfilesRobot {
         ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
