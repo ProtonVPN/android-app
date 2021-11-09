@@ -29,12 +29,12 @@ import me.proton.core.test.android.instrumented.builders.OnView
  */
 class TvLoginRobot : BaseRobot() {
 
-    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayed(R.id.textStatus, Timeouts.MEDIUM_TIMEOUT)
+    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayed(R.id.textStatus)
     fun waitUntilLoginCodeIsDisplayed(): TvLoginRobot =
-            waitUntilDisplayedByText(R.string.tv_login_step3_description,Timeouts.MEDIUM_TIMEOUT)
+            waitUntilDisplayedByText(R.string.tv_login_step3_description)
 
     fun signIn(): TvLoginRobot {
-        waitUntilDisplayedByText<TvLoginRobot>(R.string.tv_login_welcome_button,Timeouts.MEDIUM_TIMEOUT)
+        waitUntilDisplayedByText<TvLoginRobot>(R.string.tv_login_welcome_button)
         clickElementByText<TvLoginRobot>(R.string.tv_login_welcome_button)
         return TvLoginRobot()
     }

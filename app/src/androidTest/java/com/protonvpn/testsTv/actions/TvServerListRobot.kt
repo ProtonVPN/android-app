@@ -32,9 +32,8 @@ class TvServerListRobot : BaseRobot() {
     fun connectToServer() : TvServerListRobot {
         recyclerView
                 .withId(R.id.row_content)
-                .onItemChildView(view.withId(R.id.actionButton))
                 .onItemAtPosition(0)
-                .longClick()
+                .click()
         return TvServerListRobot()
     }
 

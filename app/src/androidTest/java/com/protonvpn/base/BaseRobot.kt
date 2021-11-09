@@ -22,8 +22,6 @@ import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
-import com.protonvpn.data.Timeouts
-import me.proton.core.presentation.ui.view.ProtonButton
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 
@@ -38,12 +36,19 @@ open class BaseRobot : CoreRobot() {
                 .click()
     }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>? = null): T = executeAndReturnRobot{
+    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>): T = executeAndReturnRobot{
         view
                 .instanceOf(clazz)
                 .withId(id)
                 .click()
     }
+
+    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot{
+        view
+            .withId(id)
+            .click()
+    }
+
 
     inline fun <reified T> clickElementByText(text: String): T = executeAndReturnRobot{
         view
@@ -118,34 +123,34 @@ open class BaseRobot : CoreRobot() {
                 .clearText()
     }
 
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T = executeAndReturnRobot{
         view
                 .withId(id)
-                .wait(time)
+                .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int): T  = executeAndReturnRobot{
         view
                 .withText(resId)
-                .wait(time)
+                .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(text: String, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByText(text: String): T  = executeAndReturnRobot{
         view
                 .withText(text)
-                .wait(time)
+                .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int): T = executeAndReturnRobot{
         view
                 .withContentDesc(resId)
-                .wait(time)
+                .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String): T = executeAndReturnRobot{
         view
                 .withContentDesc(desc)
-                .wait(time)
+                .checkDisplayed()
     }
 
     inline fun <reified T> scrollToObjectByResId(@StringRes resId: Int): T = executeAndReturnRobot{
