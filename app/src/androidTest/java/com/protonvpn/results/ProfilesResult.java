@@ -19,58 +19,13 @@
 package com.protonvpn.results;
 
 import com.protonvpn.actions.ProfilesRobot;
-import com.protonvpn.android.R;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
-
-import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
 public class ProfilesResult extends UIActionsTestHelper {
 
     public ProfilesRobot isSuccess() {
         checkIfObjectWithTextIsDisplayed("Random");
         checkIfObjectWithTextIsDisplayed("Fastest");
-        return new ProfilesRobot();
-    }
-
-    public ProfilesRobot profileIsVisible(String profileName) {
-        checkIfObjectWithTextIsDisplayed(profileName);
-        return new ProfilesRobot();
-    }
-
-    public ProfilesRobot profileIsNotVisible(String profileName) {
-        checkIfObjectWithTextIsNotDisplayed(profileName);
-        return new ProfilesRobot();
-    }
-
-    public ProfilesResult isFailure() {
-        checkIfObjectWithTextIsNotDisplayed("Random");
-        checkIfObjectWithTextIsNotDisplayed("Fastest");
-        return this;
-    }
-
-    public ProfilesResult nonAccessibleServersVisible() {
-        checkIfObjectWithTextIsDisplayed("Random (Upgrade)");
-        checkIfObjectWithTextIsDisplayed("Fastest (Upgrade)");
-        return this;
-    }
-
-    public ProfilesResult emptyProfileNameError() {
-        checkIfObjectWithTextIsDisplayed(R.string.errorEmptyName);
-        return this;
-    }
-
-    public ProfilesResult emptyCountryError() {
-        checkIfObjectWithTextIsDisplayed(R.string.errorEmptyCountry);
-        return this;
-    }
-
-    public ProfilesRobot notSavedProfileWarning() {
-        checkIfObjectWithTextIsDisplayedInDialog("Discard unsaved changes?");
-        return new ProfilesRobot();
-    }
-
-    public ProfilesRobot connectingToSecureCoreWarning() {
-        checkIfObjectWithTextIsNotDisplayed(getContext().getString(R.string.secureCoreSwitchOn));
         return new ProfilesRobot();
     }
 }

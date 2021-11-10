@@ -23,8 +23,7 @@ import com.protonvpn.tests.connection.ConnectionRobotTests
 import com.protonvpn.tests.login.LoginRobotTests
 import com.protonvpn.tests.login.LogoutRobotTests
 import com.protonvpn.tests.map.MapRobotTests
-import com.protonvpn.tests.profiles.ProfilesRobotFreeUserTests
-import com.protonvpn.tests.profiles.ProfilesRobotTests
+import com.protonvpn.tests.profiles.ProfileRobotTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotTests
 import com.protonvpn.tests.settings.SettingsRobotTests
@@ -41,8 +40,7 @@ import org.junit.runners.Suite
         LoginRobotTests::class,
         LogoutRobotTests::class,
         MapRobotTests::class,
-        ProfilesRobotFreeUserTests::class,
-        ProfilesRobotTests::class,
+        ProfileRobotTests::class,
         ProtonLoggerImplTests::class,
         SecureCoreRobotTests::class,
         SecureCoreRobotSecurityTests::class,

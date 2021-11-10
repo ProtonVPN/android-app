@@ -35,11 +35,7 @@ open class BaseVerify : BaseRobot() {
 
     fun checkIfElementIsNotDisplayedById(@IdRes Id: Int) = view.withId(Id).checkNotDisplayed()
 
-    fun checkIfElementIsDisplayedByText(text: String, clazz: Class<*>) =
-        view.instanceOf(clazz).withText(text).checkDisplayed()
-
-    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) =
-        view.withId(id).checkContains(text)
+    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) = view.withId(id).checkContains(text)
 
     fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) =
         view.withText(resId).checkDoesNotExist()
@@ -53,14 +49,15 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view.withVisibility(ViewMatchers.Visibility.VISIBLE).withText(resId).checkDisplayed()
 
-    fun checkIfElementByIdContainsText(
-        @IdRes id: Int,
-        @StringRes resId: Int
-    ) =
+    fun checkIfElementIsDisplayedByText(text: String) = view.withText(text).checkDisplayed()
+
+    fun checkIfElementIsDisplayedByText(text: String, clazz: Class<*>) =
+        view.instanceOf(clazz).withText(text).checkDisplayed()
+
+    fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
         view
             .withId(id)
             .checkContains(ProtonApplication.getAppContext().getString(resId))
-
 
     fun checkIfBrowserIsOpened(browserPackageName: String) {
         val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())

@@ -6,5 +6,6 @@ object DefaultData {
     val DEFAULT_PROTOCOL = VpnProtocol.IKEv2
     val EXCLUDED_IP_ADDRESS = "192.168.1.2"
     val TEST_COUNTRY = "United States"
-    val DEFAULT_PROFILE = "Fastest"
+    val DEFAULT_CONNECTION_PROFILE = "Fastest"
+    val PROFILE_NAME = "Test Profile"
 }

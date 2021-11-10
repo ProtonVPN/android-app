@@ -16,7 +16,7 @@ class RealConnectionRobot : BaseRobot() {
     }
 
     fun connectThroughQuickConnectRealConnection() : RealConnectionRobot{
-        HomeRobot().connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
+        HomeRobot().connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
         return waitUntilDisplayed(R.id.buttonDisconnect)
     }
 
