@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.main
 
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.utils.launchAndCollectIn
@@ -36,7 +37,9 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
 
             onAddAccountClosed(activity::finish)
 
-            eventForceUpdate.launchAndCollectIn(activity) {
+            // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
+            // removed once home is introduced to MobileMainActivity as a fragment (as already the case for TV)
+            eventForceUpdate.launchAndCollectIn(activity, Lifecycle.State.CREATED) {
                 activity.startActivity(ForceUpdateActivity(activity, it))
             }
 
