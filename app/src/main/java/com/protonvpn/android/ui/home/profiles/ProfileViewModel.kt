@@ -210,10 +210,11 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun getServerSelection(profile: Profile): ServerSelection = when {
+    private fun getServerSelection(profile: Profile): ServerSelection? = when {
         profile.wrapper.isFastestInCountry -> ServerSelection.FastestInCountry
         profile.wrapper.isRandomInCountry -> ServerSelection.RandomInCountry
-        else -> ServerSelection.Specific(profile.server!!)
+        profile.server != null -> ServerSelection.Specific(profile.server!!)
+        else -> null
     }
 
     private fun getDefaultProtocol(userData: UserData) =
