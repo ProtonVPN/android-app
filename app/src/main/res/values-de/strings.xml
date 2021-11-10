@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Neues Konto erstellen</string>
   <string name="loginNeedHelp">Benötigen Sie Hilfe?</string>
   <string name="connectionAllocationHelpTitle">Danke für den Umstieg auf\nProfessional/Visionary</string>
-  <string name="connectionAllocationHelpDescription">Um Ihre Reise mit ProtonVPN zu beginnen, weisen Sie bitte Ihrem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.\n\nDieser Schritt wird nur wenige Minuten dauern. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
+  <string name="connectionAllocationHelpDescription1">Um Ihre Reise mit ProtonVPN zu beginnen, weisen Sie bitte Ihrem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.</string>
+  <string name="connectionAllocationHelpDescription2">Dieser Schritt wird nur wenige Minuten dauern. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen zuweisen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Erneut anmelden</string>
   <string name="loginHelpTitle">Wie können wir behilflich sein?</string>

@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Создать новый аккаунт</string>
   <string name="loginNeedHelp">Нужна помощь?</string>
   <string name="connectionAllocationHelpTitle">Спасибо за переход на\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Чтобы начать ваше путешествие в ProtonVPN, пожалуйста, привяжите VPN-подключения к своей учетной записи или к любой другой дополнительной учетной записи.\n\nЭтот шаг займет всего несколько минут. После этого вы сможете войти и защитить все ваши устройства.</string>
+  <string name="connectionAllocationHelpDescription1">Чтобы начать ваше путешествие в ProtonVPN, пожалуйста, привяжите VPN-подключения к своей учетной записи или к любой другой дополнительной учетной записи.</string>
+  <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти и защитить все ваши устройства.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
   <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
   <string name="loginHelpTitle">Как мы можем помочь?</string>

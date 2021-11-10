@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
@@ -89,6 +90,7 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
         viewModel.loginState.observe(this@LoginActivity, this@LoginActivity)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() = with(binding) {
         buttonLogin.setOnClickListener { attemptLogin() }
         buttonCreateAccount.setOnClickListener { openUrl(SIGNUP_URL) }
@@ -97,6 +99,7 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
         }
         buttonAssignVpnConnections.setOnClickListener { openUrl(URL_SUPPORT_ASSIGN_VPN_CONNECTION) }
         buttonReturnToLogin.setOnClickListener { viewModel.onBackToLogin() }
+        layoutConnectionAllocationHelp.setOnClickListener { /* prevents click through */ }
     }
 
     private fun initInputFields() {

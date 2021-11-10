@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Criar nova conta</string>
   <string name="loginNeedHelp">Precisa de ajuda?</string>
   <string name="connectionAllocationHelpTitle">Obrigado por actualizar para\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Para iniciar a sua jornada no ProtonVPN, por favor, atribua ligações VPN à sua conta ou qualquer outra sub-conta.\n\nEste passo levará apenas alguns minutos. Em seguida, poderá iniciar sessão e proteger todos os seus dispositivos.</string>
+  <string name="connectionAllocationHelpDescription1">Para iniciar a sua jornada no ProtonVPN, por favor, atribua ligações VPN à sua conta ou qualquer outra sub-conta.</string>
+  <string name="connectionAllocationHelpDescription2">Este passo levará apenas alguns minutos. Em seguida, poderá iniciar sessão e proteger todos os seus dispositivos.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Atribuir ligações VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
   <string name="loginHelpTitle">How can we help?</string>

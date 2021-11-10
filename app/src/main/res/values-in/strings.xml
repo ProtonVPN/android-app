@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Buat akun baru</string>
   <string name="loginNeedHelp">Butuh bantuan?</string>
   <string name="connectionAllocationHelpTitle">Terima kasih telah memperbarui ke\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Untuk memulai perjalanan Anda di ProtonVPN, mohon tetapkan koneksi VPN ke akun Anda atau sub-akun lainnya.\n\nLangkah ini akan hanya perlu beberapa menit. Setelah itu Anda akan dapat masuk dan melindungi semua perangkat Anda.</string>
+  <string name="connectionAllocationHelpDescription1">Untuk memulai perjalanan Anda di ProtonVPN, mohon tetapkan koneksi VPN ke akun Anda atau sub-akun lainnya.</string>
+  <string name="connectionAllocationHelpDescription2">Langkah ini akan hanya perlu beberapa menit. Setelah itu Anda akan dapat masuk dan melindungi semua perangkat Anda.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Menetapkan koneksi VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
   <string name="loginHelpTitle">Bagaimana kami dapat membantu Anda?</string>

@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Crea nuovo account</string>
   <string name="loginNeedHelp">Hai bisogno di aiuto?</string>
   <string name="connectionAllocationHelpTitle">Grazie per l\'aggiornamento a\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Per iniziare il tuo viaggio in ProtonVPN, assegna connessioni VPN al tuo account o a qualsiasi altro sotto-account.\n\nQuesto passo richiederà pochi minuti. Dopo di che sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
+  <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in ProtonVPN, assegna connessioni VPN al tuo account o a qualsiasi altro sotto-account.</string>
+  <string name="connectionAllocationHelpDescription2">Questo passo richiederà pochi minuti. Dopo di che sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assegna connessioni VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Accedi di nuovo</string>
   <string name="loginHelpTitle">Come possiamo aiutare?</string>

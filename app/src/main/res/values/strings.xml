@@ -33,8 +33,9 @@
     <string name="loginStartWithDevice">Start with device</string>
     <string name="loginCreateAccount">Create new account</string>
     <string name="loginNeedHelp">Need help?</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nPROFESSIONAL/VISIONARY</string>
-    <string name="connectionAllocationHelpDescription">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.\n\nThis step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
     <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
 

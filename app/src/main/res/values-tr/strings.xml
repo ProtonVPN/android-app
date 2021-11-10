@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Yeni hesap oluşturun</string>
   <string name="loginNeedHelp">Yardım mı lazım?</string>
   <string name="connectionAllocationHelpTitle">PROFESYONEL/VİZYONER\npaketine güncellediğiniz için teşekkürler</string>
-  <string name="connectionAllocationHelpDescription">ProtonVPN\'de yolculuğunuza başlamak için lütfen hesabınıza veya başka bir alt hesaba VPN bağlantıları atayın.\n\nBu adım sadece birkaç dakika sürecektir. Bundan sonra giriş yapabilir ve tüm cihazlarınızı koruyabilirsiniz.</string>
+  <string name="connectionAllocationHelpDescription1">ProtonVPN\'de yolculuğunuza başlamak için lütfen hesabınıza veya başka bir alt hesaba VPN bağlantıları atayın.</string>
+  <string name="connectionAllocationHelpDescription2">Bu adım sadece birkaç dakika sürecektir. Bundan sonra giriş yapabilir ve tüm cihazlarınızı koruyabilirsiniz.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
   <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
   <string name="loginHelpTitle">Nasıl yardımcı olabiliriz?</string>
