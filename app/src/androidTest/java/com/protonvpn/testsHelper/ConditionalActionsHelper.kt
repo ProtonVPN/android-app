@@ -81,6 +81,24 @@ class ConditionalActionsHelper : BaseRobot() {
         checkCondition(instruction)
     }
 
+    fun clickOnCreateProfileUntilProfileCreationViewAppears() {
+        val instruction: Instruction = object : Instruction() {
+            override fun getDescription(): String {
+                return "Waiting until profile creation view appears"
+            }
+
+            override fun checkCondition(): Boolean {
+                try{
+                    clickElementByText<Any>(R.string.create_new_profile)
+                }catch(e: Exception){
+                    e.printStackTrace()
+                }
+                return isButtonWithIdAndTextVisible(R.id.action_save, R.string.done)
+            }
+        }
+        checkCondition(instruction)
+    }
+
     fun scrollDownInViewWithIdUntilObjectWithIdAppears(
         @IdRes viewId: Int,
         @IdRes objectId: Int

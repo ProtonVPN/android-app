@@ -20,7 +20,6 @@ package com.protonvpn.tests.connection
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.ServiceRobot
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
@@ -69,7 +68,7 @@ class ConnectionRobotTests {
     @Test
     fun connectAndDisconnectViaQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
             .verify { isConnected() }
         connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
@@ -101,7 +100,7 @@ class ConnectionRobotTests {
     fun connectAndDisconnectViaProfiles() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
-            .clickOnConnectButtonUntilConnected(DefaultData.DEFAULT_PROFILE)
+            .clickOnConnectButtonUntilConnected(DefaultData.DEFAULT_CONNECTION_PROFILE)
         connectionRobot.verify { isConnected() }
         connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
@@ -110,7 +109,7 @@ class ConnectionRobotTests {
     @Test
     fun cancelWhileConnecting() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
-        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
             .clickCancelConnectionButton()
             .verify { isDisconnected() }
     }
@@ -118,7 +117,7 @@ class ConnectionRobotTests {
     @Test
     fun connectToServerWhenInternetIsDown() {
         testRule.mockErrorOnConnect(ErrorType.UNREACHABLE)
-        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_PROFILE)
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
         connectionRobot.verify { isNotReachableErrorDisplayed() }
         connectionRobot.clickCancelRetry()
             .verify { isDisconnected() }

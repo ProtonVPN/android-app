@@ -47,6 +47,10 @@ class ConnectionRobot : BaseRobot() {
             checkIfElementIsDisplayedById(R.id.textNotConnectedSuggestion)
         }
 
+        fun isDisconnectedServiceHelper(){
+            ServiceTestHelper().checkIfDisconnectedFromVPN()
+        }
+
         fun isNotReachableErrorDisplayed() =
             checkIfElementByIdContainsText(R.id.textError, R.string.error_server_unreachable)
     }
