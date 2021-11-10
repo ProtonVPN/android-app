@@ -32,7 +32,8 @@
   <string name="loginCreateAccount">Stvori novi račun</string>
   <string name="loginNeedHelp">Trebate pomoć?</string>
   <string name="connectionAllocationHelpTitle">Hvala što ste nadogradili na\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription">Da biste započeli putovanje u ProtonVPN-u, dodijelite VPN veze vašem računu ili bilo kojem drugom podračunu.\n\nOvaj će korak potrajati samo nekoliko minuta. Nakon toga moći ćete se prijaviti i zaštititi sve svoje uređaje.</string>
+  <string name="connectionAllocationHelpDescription1">Da biste započeli putovanje u ProtonVPN-u, dodijelite VPN veze vašem računu ili bilo kojem drugom podračunu.</string>
+  <string name="connectionAllocationHelpDescription2">Ovaj će korak potrajati samo nekoliko minuta. Nakon toga moći ćete se prijaviti i zaštititi sve svoje uređaje.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Dodijeli VPN veze</string>
   <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
   <string name="loginHelpTitle">How can we help?</string>

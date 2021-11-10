@@ -185,6 +185,7 @@ sealed class TvLoginViewState(
     @StringRes val titleRes: Int = 0,
     @StringRes val buttonLabelRes: Int = 0,
     @StringRes val descriptionRes: Int = 0,
+    @StringRes val description2Res: Int = 0,
     val helpLink: String? = null
 ) {
     object Welcome : TvLoginViewState(
@@ -204,7 +205,8 @@ sealed class TvLoginViewState(
     ) : TvLoginViewState(errorTitle, errorTitleRes, errorButtonLabelRes)
     object ConnectionAllocationPrompt : TvLoginViewState(
         titleRes = R.string.connectionAllocationHelpTitle,
-        descriptionRes = R.string.connectionAllocationHelpDescription,
+        descriptionRes = R.string.connectionAllocationHelpDescription1,
+        description2Res = R.string.connectionAllocationHelpDescription2,
         helpLink = Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION,
         buttonLabelRes = R.string.connectionAllocationHelpLoginAgainButton
     )

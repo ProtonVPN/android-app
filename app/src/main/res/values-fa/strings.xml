@@ -32,7 +32,6 @@
   <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
   <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
   <string name="connectionAllocationHelpTitle">ممنون از اینکه به طرح\nPROFESSIONAL/VISIONARY به‌روزرسانی کردید</string>
-  <string name="connectionAllocationHelpDescription">برای آغاز سفر خود در ProtonVPN لطفاً اتصالات VPN را به حساب کاربری خود یا هر حساب وابستهٔ دیگری اختصاص دهید.\n\nاین مرحله فقط چند دقیقه طول می‌کشد. بس از آن قادر خواهید بود وارد شوید و از همهٔ دستگاه‌های‌تان محافظت کنید.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">اختصاص اتصالات VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
   <string name="loginHelpTitle">How can we help?</string>

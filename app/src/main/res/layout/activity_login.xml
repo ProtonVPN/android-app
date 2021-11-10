@@ -167,88 +167,77 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:id="@+id/layoutConnectionAllocationHelp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:background="?attr/proton_background_norm"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal"
+        android:paddingBottom="24dp"
         android:visibility="gone">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="?attr/proton_background_norm"
-            android:paddingHorizontal="@dimen/screen_padding_horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/layoutConnectionAllocationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/textConnectionAllocationDescription"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="24dp"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_proton_green" />
+                    app:srcCompat="@drawable/assign_vpn_connection" />
 
                 <TextView
                     style="@style/Proton.Text.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/connectionAllocationHelpTitle" />
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textConnectionAllocationDescription"
-                style="@style/Proton.Text.Default"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/connectionAllocationHelpDescription"
-                app:layout_constraintBottom_toTopOf="@id/layoutConnectionAllocationButtons"
-                app:layout_constraintTop_toBottomOf="@id/layoutConnectionAllocationTitle" />
-
-            <LinearLayout
-                android:id="@+id/layoutConnectionAllocationButtons"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textConnectionAllocationDescription">
-
-                <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonAssignVpnConnections"
-                    style="@style/ProtonButton.OutlinedButton"
+                <TextView
+                    style="@style/Proton.Text.Default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/connectionAllocationHelpAssignConnectionsButton" />
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/connectionAllocationHelpDescription1"/>
 
-                <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonReturnToLogin"
-                    style="@style/ProtonButton.OutlinedButton"
+                <TextView
+                    style="@style/Proton.Text.DefaultSmall.Weak"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/connectionAllocationHelpLoginAgainButton" />
+                    android:gravity="center_horizontal"
+                    android:text="@string/connectionAllocationHelpDescription2"/>
             </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonAssignVpnConnections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="@string/connectionAllocationHelpAssignConnectionsButton" />
+
+        <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonReturnToLogin"
+            style="@style/ProtonButton.Borderless.Text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="@string/connectionAllocationHelpLoginAgainButton" />
+    </LinearLayout>
 
     <com.protonvpn.android.components.NetworkFrameLayout
         android:id="@+id/loadingContainer"

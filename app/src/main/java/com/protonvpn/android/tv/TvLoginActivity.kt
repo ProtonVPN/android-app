@@ -100,6 +100,7 @@ class TvLoginActivity : BaseTvActivity() {
         title.init(state.titleRes, state.title)
         helpLink.initLink(state.helpLink)
         description.init(state.descriptionRes)
+        description2.init(state.description2Res)
         actionButton.init(state.buttonLabelRes)
         loadingView.isVisible = state == TvLoginViewState.Loading || state == TvLoginViewState.Success
         createAccountDescription.isVisible = state == TvLoginViewState.Welcome
