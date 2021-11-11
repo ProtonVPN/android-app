@@ -138,7 +138,7 @@ class CertificateRepository(
 
         certRequests.remove(sessionId)?.cancel()
         setInfo(sessionId, info)
-        launch {
+        mainScope.launch {
             updateCertificate(sessionId, cancelOngoing = true)
         }
         info
