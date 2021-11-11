@@ -20,7 +20,6 @@
 package com.protonvpn.actions
 
 import com.protonvpn.base.BaseRobot
-import android.widget.EditText
 import com.google.android.material.textfield.TextInputEditText
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseVerify
@@ -29,10 +28,16 @@ import com.protonvpn.test.shared.TestUser
 
 
 class LoginRobot : BaseRobot() {
+
     fun signIn(testUser: TestUser): HomeRobot {
         enterCredentials(testUser)
         clickElementById<HomeRobot>(R.id.signInButton)
-        return waitUntilDisplayed(R.id.fabQuickConnect)
+        return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
+    }
+
+    fun signInAndWaitForCountryInCountryList(testUser: TestUser, country: String): RealConnectionRobot{
+        signIn(testUser)
+        return waitUntilDisplayedByText(country)
     }
 
     fun signInWithIncorrectCredentials(): LoginRobot {
@@ -46,9 +51,7 @@ class LoginRobot : BaseRobot() {
     }
 
     fun viewPassword(): LoginRobot = clickElement(
-        view
-            .isDescendantOf(view.withId(R.id.passwordInput))
-            .withId(R.id.text_input_end_icon)
+        view.isDescendantOf(view.withId(R.id.passwordInput)).withId(R.id.text_input_end_icon)
     )
 
     fun selectNeedHelp(): LoginRobot = clickElementById(R.id.helpButton)
@@ -75,7 +78,6 @@ class LoginRobot : BaseRobot() {
                 R.id.snackbar_text,
                 "Incorrect login credentials. Please try again"
             )
-            //view.withId(R.id.snackbar_text).withText("Incorrect login credentials. Please try again").checkDisplayed()
         }
     }
 
