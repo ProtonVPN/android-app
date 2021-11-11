@@ -97,7 +97,7 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onSessionForceLogout { onSessionClosed(it) }
-                .onAccountReady { account -> account.sessionId?.let { certificateRepository.generateNewKey(it) } }
+                .onAccountReady { certificateRepository.checkCertificateValidity() }
                 .disableInitialNotReadyAccounts()
         }
 
