@@ -26,6 +26,8 @@ import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -73,7 +75,8 @@ class LoginRobotTestsTv {
 
     @After
     fun tearDown() {
-        userDataHelper
-                .logoutUser()
+        runBlocking(Dispatchers.Main) {
+            userDataHelper.userData.onLogout()
+        }
     }
 }
