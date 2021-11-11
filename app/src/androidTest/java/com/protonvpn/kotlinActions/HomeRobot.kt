@@ -19,8 +19,10 @@
 package com.protonvpn.kotlinActions
 
 import com.protonvpn.actions.AccountRobot
+import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 
 class HomeRobot : BaseRobot() {
@@ -31,8 +33,19 @@ class HomeRobot : BaseRobot() {
         return AccountRobot()
     }
 
+    fun logout(): LoginRobot {
+        clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
+        return clickElementByIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut)
+    }
+
     fun swipeLeftToOpenMap(): MapRobot {
         swipeLeftOnElementById<MapRobot>(R.id.list)
         return waitUntilDisplayed(R.id.mapView)
     }
+
+    class Verify : BaseVerify() {
+        fun successfullyLoggedIn() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }

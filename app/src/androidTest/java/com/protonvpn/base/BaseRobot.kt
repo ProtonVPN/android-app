@@ -22,7 +22,9 @@ import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
+import com.google.android.material.textfield.TextInputEditText
 import me.proton.core.presentation.ui.view.ProtonInput
+import me.proton.core.test.android.instrumented.builders.OnView
 import me.proton.core.test.android.robots.CoreRobot
 
 /**
@@ -32,58 +34,69 @@ open class BaseRobot : CoreRobot() {
 
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
-                .withText(resId)
-                .click()
+            .withText(resId)
+            .click()
     }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>): T = executeAndReturnRobot{
-        view
+    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>): T =
+        executeAndReturnRobot {
+            view
                 .instanceOf(clazz)
                 .withId(id)
                 .click()
-    }
+        }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot{
+    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot {
         view
             .withId(id)
             .click()
     }
 
 
-    inline fun <reified T> clickElementByText(text: String): T = executeAndReturnRobot{
+    inline fun <reified T> clickElementByText(text: String): T = executeAndReturnRobot {
         view
-                .withText(text)
-                .click()
+            .withText(text)
+            .click()
     }
 
-    inline fun <reified T> clickElementByContentDescription(text: String): T = executeAndReturnRobot {
-        view
+    inline fun <reified T> clickElementByIdAndText(@IdRes id: Int, @StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
+                .withId(id)
+                .withText(resId)
+                .click()
+        }
+
+    inline fun <reified T> clickElementByContentDescription(text: String): T =
+        executeAndReturnRobot {
+            view
                 .withContentDesc(text)
                 .click()
-    }
+        }
 
-    inline fun <reified T> clickElementByContentDescription(@StringRes resId: Int): T = executeAndReturnRobot {
-        view
+    inline fun <reified T> clickElementByContentDescription(@StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
                 .withContentDesc(resId)
                 .click()
-    }
+        }
 
     inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .swipeLeft()
+            .withId(id)
+            .swipeLeft()
     }
 
     inline fun <reified T> swipeRightOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .swipeRight()
+            .withId(id)
+            .swipeRight()
     }
 
     inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .swipeDown()
+            .withId(id)
+            .swipeDown()
     }
 
     inline fun <reified T> clickElementByIdAndContentDescription(
@@ -91,9 +104,9 @@ open class BaseRobot : CoreRobot() {
         description: String
     ): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .withContentDesc(description)
-                .click()
+            .withId(id)
+            .withContentDesc(description)
+            .click()
     }
 
     inline fun <reified T> clickElementByIndexInParent(
@@ -101,81 +114,86 @@ open class BaseRobot : CoreRobot() {
         index: Int
     ): T = executeAndReturnRobot {
         view
-                .withParent(view.withId(parentId))
-                .withParentIndex(index)
-                .click()
-    }
-
-    inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
-        view
-            .withVisibility(ViewMatchers.Visibility.VISIBLE)
-            .withText(resId)
+            .withParent(view.withId(parentId))
+            .withParentIndex(index)
             .click()
     }
+
+    inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
+                .withVisibility(ViewMatchers.Visibility.VISIBLE)
+                .withText(resId)
+                .click()
+        }
 
     inline fun <reified T> clearText(
         @IdRes id: Int,
         clazz: Class<*> = EditText::class.java
     ): T = executeAndReturnRobot {
         view
-                .instanceOf(clazz)
-                .withId(id)
-                .clearText()
+            .instanceOf(clazz)
+            .withId(id)
+            .clearText()
     }
 
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .checkDisplayed()
+            .withId(id)
+            .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int): T  = executeAndReturnRobot{
-        view
+    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
                 .withText(resId)
                 .checkDisplayed()
+        }
+
+    inline fun <reified T> waitUntilDisplayedByText(text: String): T = executeAndReturnRobot {
+        view
+            .withText(text)
+            .checkDisplayed()
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(text: String): T  = executeAndReturnRobot{
-        view
-                .withText(text)
-                .checkDisplayed()
-    }
-
-    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int): T = executeAndReturnRobot{
-        view
+    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
                 .withContentDesc(resId)
                 .checkDisplayed()
-    }
+        }
 
-    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String): T = executeAndReturnRobot{
-        view
+    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String): T =
+        executeAndReturnRobot {
+            view
                 .withContentDesc(desc)
                 .checkDisplayed()
-    }
+        }
 
-    inline fun <reified T> scrollToObjectByResId(@StringRes resId: Int): T = executeAndReturnRobot{
+    inline fun <reified T> scrollToObjectByResId(@StringRes resId: Int): T = executeAndReturnRobot {
         view
-                .withText(resId)
-                .scrollTo()
+            .withText(resId)
+            .scrollTo()
     }
 
-    inline fun <reified T> clickOnRecycleViewByPosition(@IdRes id: Int, position: Int): T = executeAndReturnRobot{
-        recyclerView
+    inline fun <reified T> clickOnRecycleViewByPosition(@IdRes id: Int, position: Int): T =
+        executeAndReturnRobot {
+            recyclerView
                 .withId(id)
                 .onItemAtPosition(position)
                 .doubleClick()
+        }
+
+    inline fun <reified T> pressBack(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+            .withId(id)
+            .pressBack()
     }
 
-    inline fun <reified T> pressBack(@IdRes id: Int): T = executeAndReturnRobot{
+    inline fun <reified T> longClickByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
-                .withId(id)
-                .pressBack()
-    }
-
-    inline fun <reified T> longClickByText(@StringRes resId : Int): T = executeAndReturnRobot{
-        view
-                .withText(resId)
-                .longClick()
+            .withText(resId)
+            .longClick()
     }
 
     fun checkInputDisplayed(@IdRes id: Int) {
