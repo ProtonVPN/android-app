@@ -422,11 +422,16 @@ class Helpers {
                 exec("git rev-parse --abbrev-ref HEAD").trim() == "master"
         // On master or public repo just use last tag for version name
         if (!onMaster && exec("git rev-parse --verify origin/development", false) != null) {
-            def branchPoint = exec("git merge-base origin/development HEAD").trim()
-            // add #commits from tag to branch point with development to dev
-            dev += exec("git rev-list --count ${tag}..${branchPoint}").trim().toInteger()
-            // add #commits from branch point to HEAD to release
-            release += exec("git rev-list --count origin/development..HEAD").trim().toInteger()
+            // Tag is on development
+            if (exec("git merge-base --is-ancestor ${tag} origin/development", false) != null) {
+                def branchPoint = exec("git merge-base origin/development HEAD").trim()
+                // add #commits from tag to branch point with development to dev
+                dev += exec("git rev-list --count ${tag}..${branchPoint}").trim().toInteger()
+                // add #commits from branch point to HEAD to release
+                release += exec("git rev-list --count origin/development..HEAD").trim().toInteger()
+            } else { // Tag is on current branch
+                release += exec("git rev-list --count ${tag}..HEAD").trim().toInteger()
+            }
         }
         return "${major}.${minor}.${dev}.${release}"
     }
