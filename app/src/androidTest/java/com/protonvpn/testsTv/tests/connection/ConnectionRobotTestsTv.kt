@@ -31,6 +31,8 @@ import com.protonvpn.testsTv.actions.TvLoginRobot
 import com.protonvpn.testsTv.actions.TvServerListRobot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -131,12 +133,9 @@ class ConnectionRobotTestsTv {
 
     @After
     fun tearDown() {
-        userDataHelper
-                .logoutUser()
-        serviceTestHelper
-                .deleteCreatedProfiles()
-        serviceTestHelper
-                .connectionManager
-                .disconnect()
+        runBlocking(Dispatchers.Main) {
+            serviceTestHelper.connectionManager.disconnect()
+            userDataHelper.userData.onLogout()
+        }
     }
 }

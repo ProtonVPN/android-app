@@ -55,11 +55,9 @@ open class BaseVerify : BaseRobot() {
 
     fun checkIfElementByIdContainsText(
         @IdRes id: Int,
-        @StringRes resId: Int,
-        clazz: Class<*>? = null
+        @StringRes resId: Int
     ) =
         view
-            .instanceOf(clazz)
             .withId(id)
             .checkContains(ProtonApplication.getAppContext().getString(resId))
 
