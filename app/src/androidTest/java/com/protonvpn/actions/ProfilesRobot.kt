@@ -20,12 +20,13 @@ package com.protonvpn.actions
 
 import android.app.Instrumentation
 import androidx.annotation.IdRes
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.kotlinActions.ConnectionRobot
 import com.protonvpn.results.ConnectionResult
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
@@ -50,19 +51,8 @@ class ProfilesRobot : BaseRobot() {
     fun selectColorIndex(index: Int): ProfilesRobot =
         clickElementByIndexInParent(R.id.layoutPalette, index)
 
-    fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionRobot {
-        ConditionalActionsHelper().clickConnectUntilConnectedToProfile(profileName)
-        return ConnectionRobot()
-    }
-
     fun clickOnConnectButton(profileName: String): ConnectionRobot =
         clickElementByIdAndContentDescription(R.id.buttonConnect, profileName)
-
-    fun clickOnCreateNewProfileButton(): ProfilesRobot {
-        waitUntilDisplayedByText<Any>(R.string.create_new_profile)
-        ConditionalActionsHelper().clickOnCreateProfileUntilProfileCreationViewAppears()
-        return this
-    }
 
     fun insertTextInProfileNameField(text: String): ProfilesRobot {
         scrollTo(R.id.inputName, ProtonInput::class.java)
@@ -98,8 +88,27 @@ class ProfilesRobot : BaseRobot() {
         return clickElement(R.id.checkboxSecureCore, ProtonCheckbox::class.java)
     }
 
-    fun clickOnUpgradeButton(contentDescription: String): ConnectionResult =
-        clickElementByIdAndContentDescription(R.id.buttonUpgrade, contentDescription)
+    fun clickOnUpgradeButton(contentDescription: String): ConnectionRobot {
+        view.waitForCondition(
+            {
+                clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
+                Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            }
+        )
+        return ConnectionRobot()
+    }
+
+    fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionRobot {
+        view.waitForCondition(
+            {
+                clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
+                Espresso.onView(ViewMatchers.withId(R.id.buttonDisconnect))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            }
+        )
+        return ConnectionRobot()
+    }
 
     fun clickEditProfile(): ProfilesRobot {
         view
@@ -143,6 +152,18 @@ class ProfilesRobot : BaseRobot() {
             R.id.coordinator,
             id,
             clazz
+        )
+        return this
+    }
+
+    fun clickOnCreateNewProfileButton(): ProfilesRobot {
+        waitUntilDisplayedByText<Any>(R.string.create_new_profile)
+        view.waitForCondition(
+            {
+                clickElementByText<Any>(R.string.create_new_profile)
+                Espresso.onView(ViewMatchers.withId(R.id.action_save))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            }
         )
         return this
     }

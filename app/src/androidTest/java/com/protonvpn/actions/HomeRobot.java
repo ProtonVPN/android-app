@@ -21,29 +21,15 @@ package com.protonvpn.actions;
 import com.protonvpn.MockSwitch;
 import com.protonvpn.android.R;
 import com.protonvpn.results.ConnectionResult;
-import com.protonvpn.results.HomeResult;
 import com.protonvpn.results.LogoutResult;
-import com.protonvpn.results.ProfilesResult;
-import com.protonvpn.testsHelper.ServiceTestHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import androidx.annotation.NonNull;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static com.protonvpn.testsHelper.UICustomViewActions.waitObjectWithId;
 import static org.hamcrest.Matchers.endsWith;
 
 public class HomeRobot extends UIActionsTestHelper {
-
-    ServiceTestHelper serviceTestHelper;
-
-    public HomeRobot(){
-        if(MockSwitch.mockedConnectionUsed){
-            serviceTestHelper = new ServiceTestHelper();
-        }
-    }
 
     public void openDrawer() {
         if (!isDrawerOpened()) {
@@ -53,21 +39,6 @@ public class HomeRobot extends UIActionsTestHelper {
 
     public boolean isDrawerOpened() {
         return isObjectWithIdVisible(R.id.navigationDrawer);
-    }
-
-    public CountriesRobot clickOnCountriesTab() {
-        clickOnObjectChildWithinChildWithIdAndPosition(R.id.tabs, 0, 0);
-        return new CountriesRobot();
-    }
-
-    public MapRobot clickOnMapViewTab() {
-        clickOnObjectChildWithinChildWithIdAndPosition(R.id.tabs, 0, 1);
-        return new MapRobot();
-    }
-
-    public ProfilesResult clickOnProfilesTab() {
-        clickOnObjectChildWithinChildWithIdAndPosition(R.id.tabs, 0, 2);
-        return new ProfilesResult();
     }
 
     public ConnectionResult connectThroughQuickConnect() {
@@ -102,17 +73,5 @@ public class HomeRobot extends UIActionsTestHelper {
     public LogoutResult cancelLogoutAfterWarning() {
         clickOnObjectWithText(R.string.cancel);
         return new LogoutResult();
-    }
-
-    public HomeResult enableSecureCore() {
-        setStateOfSecureCoreSwitch(true);
-        return new HomeResult();
-    }
-
-    protected void setStateOfSecureCoreSwitch(boolean state) {
-        onView(isRoot()).perform(waitObjectWithId(R.id.switchSecureCore));
-        if (state != serviceTestHelper.isSecureCoreEnabled()) {
-            clickOnObjectWithId(R.id.switchSecureCore);
-        }
     }
 }

@@ -33,72 +33,6 @@ import org.hamcrest.Matchers
 
 class ConditionalActionsHelper : BaseRobot() {
 
-    var stateMonitor = ServerManagerHelper().vpnStateMonitor
-
-    fun clickConnectUntilConnectedToProfile(profileName: String) {
-        val instruction: Instruction = object : Instruction() {
-            override fun getDescription(): String {
-                return "Waiting until connected"
-            }
-
-            override fun checkCondition(): Boolean {
-                try{
-                    clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
-                }catch(ex: Exception){
-                    ex.printStackTrace()
-                }
-                return isButtonWithIdAndTextVisible(R.id.buttonDisconnect, R.string.disconnect)
-            }
-        }
-        checkCondition(instruction)
-    }
-
-    fun clickOnDisconnectButtonUntilUserIsDisconnected() {
-        val instruction: Instruction = object : Instruction() {
-            override fun getDescription(): String {
-                return "Waiting until disconnected"
-            }
-
-            override fun checkCondition(): Boolean {
-                clickElementById<Any>(R.id.buttonDisconnect)
-                return !stateMonitor.isConnected
-            }
-        }
-        checkCondition(instruction)
-    }
-
-    fun clickOnMapNodeUntilConnectButtonAppears(countryName: String) {
-        val instruction: Instruction = object : Instruction() {
-            override fun getDescription(): String {
-                return "Waiting until connect button appears"
-            }
-
-            override fun checkCondition(): Boolean {
-                clickElementByContentDescription<Any>(countryName)
-                return isButtonWithIdAndTextVisible(R.id.buttonConnect, R.string.connect)
-            }
-        }
-        checkCondition(instruction)
-    }
-
-    fun clickOnCreateProfileUntilProfileCreationViewAppears() {
-        val instruction: Instruction = object : Instruction() {
-            override fun getDescription(): String {
-                return "Waiting until profile creation view appears"
-            }
-
-            override fun checkCondition(): Boolean {
-                try{
-                    clickElementByText<Any>(R.string.create_new_profile)
-                }catch(e: Exception){
-                    e.printStackTrace()
-                }
-                return isButtonWithIdAndTextVisible(R.id.action_save, R.string.done)
-            }
-        }
-        checkCondition(instruction)
-    }
-
     fun scrollDownInViewWithIdUntilObjectWithIdAppears(
         @IdRes viewId: Int,
         @IdRes objectId: Int
@@ -130,14 +64,5 @@ class ConditionalActionsHelper : BaseRobot() {
             viewId,
             ProtonApplication.getAppContext().getString(textId)
         )
-    }
-
-    private fun checkCondition(instruction: Instruction) {
-        ConditionWatcher.setWatchInterval(500)
-        try {
-            ConditionWatcher.waitForCondition(instruction)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.kotlinActions
+package com.protonvpn.actions
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.MockSwitch
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -28,7 +30,8 @@ import com.protonvpn.testsHelper.ServiceTestHelper
 
 class MapRobot : BaseRobot() {
 
-    fun swipeDownToCloseConnectionInfoLayout() : MapRobot = swipeDownOnElementById(R.id.layoutBottomSheet)
+    fun swipeDownToCloseConnectionInfoLayout(): MapRobot =
+        swipeDownOnElementById(R.id.layoutBottomSheet)
 
     fun clickConnectButtonWithoutVpnHandling(): MapRobot = clickElement(connectButtonInMap())
 
@@ -42,16 +45,32 @@ class MapRobot : BaseRobot() {
         return ConnectionRobot()
     }
 
+    fun clickOnCountryNodeUntilConnectButtonAppears(country: String): MapRobot {
+        view.waitForCondition(
+            {
+                clickElementByContentDescription<Any>(country)
+                Espresso.onView(ViewMatchers.withText(R.string.connect))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            }
+        )
+        return this
+    }
+
     fun clickOnCountryNode(country: String): MapRobot {
-        ConditionalActionsHelper().clickOnMapNodeUntilConnectButtonAppears(country)
+        view.waitForCondition(
+            {
+                clickElementByContentDescription<Any>(country)
+                Espresso.onView(ViewMatchers.withContentDescription("$country Selected"))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            }
+        )
         return this
     }
 
     private fun connectButtonInMap() =
-        view.isDescendantOf(view.withId(R.id.mapView))
-            .withId(R.id.buttonConnect)
+        view.isDescendantOf(view.withId(R.id.mapView)).withId(R.id.buttonConnect)
 
-    class Verify : BaseVerify(){
+    class Verify : BaseVerify() {
         fun isDisconnectedFromVpn() = ServiceTestHelper().checkIfDisconnectedFromVPN()
 
         fun isCountryNodeSelected(country: String) =

@@ -52,17 +52,6 @@ public class UICustomViewActions {
                 isEnabled()), "wait for specific view with id: " + id + " text: " + text);
     }
 
-    public static ViewAction waitObjectWithId(final int id) {
-        return waitForObject(Matchers.allOf(withId(id), isDisplayed()),
-            "wait for a specific view with id: " + id);
-    }
-
-    public static ViewAction waitObjectWithContentDescription(String contentDescription) {
-        return waitForObject(
-            Matchers.allOf(withContentDescription(equalToIgnoringCase(contentDescription)), isDisplayed()),
-            "wait for a specific view with content description: + " + contentDescription);
-    }
-
     private static ViewAction waitForObject(Matcher<View> matcher, String description) {
         return new ViewAction() {
             @Override

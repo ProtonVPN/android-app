@@ -29,16 +29,20 @@ import androidx.test.uiautomator.UiSelector
 import com.protonvpn.MockSwitch
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.LoginRobot
+import com.protonvpn.actions.ConnectionRobot
+import com.protonvpn.actions.MapRobot
 import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.matchers.ProtonMatcher.lastChild
+import com.protonvpn.testsHelper.ServiceTestHelper
 import org.hamcrest.Matchers
+import kotlin.test.assertFalse
 
 class HomeRobot : BaseRobot() {
 
-    fun openAccountView() : AccountRobot {
+    fun openAccountView(): AccountRobot {
         clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
         clickElementById<HomeRobot>(R.id.layoutUserInfo)
         return AccountRobot()
@@ -54,21 +58,28 @@ class HomeRobot : BaseRobot() {
         return waitUntilDisplayed(R.id.mapView)
     }
 
+    fun setStateOfSecureCoreSwitch(state: Boolean): HomeRobot {
+        if (state != ServiceTestHelper().isSecureCoreEnabled)
+            clickElementById<HomeRobot>(R.id.switchSecureCore)
+        return this;
+    }
+
     fun swipeLeftToOpenProfiles(): ProfilesRobot {
         view.waitForCondition(
-                {
-                    Espresso.onView(ViewMatchers.withId(R.id.coordinator)).perform(ViewActions.swipeLeft())
-                    Espresso.onView(ViewMatchers.withId(R.id.textCreateProfile))
-                        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                })
+            {
+                view.withId(R.id.coordinator).swipeLeft()
+                Espresso.onView(ViewMatchers.withId(R.id.textCreateProfile))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            })
         return ProfilesRobot()
     }
 
     fun connectThroughQuickConnect(profileName: String): ConnectionRobot {
         longClickByCustomMatcher<HomeRobot>(
-                lastChild(
-                        ViewMatchers.withId(R.id.fabQuickConnect),
-                        withClassName(Matchers.endsWith("FloatingActionButton")))
+            lastChild(
+                ViewMatchers.withId(R.id.fabQuickConnect),
+                withClassName(Matchers.endsWith("FloatingActionButton"))
+            )
         )
         clickElementByText<HomeRobot>(profileName)
         if (!MockSwitch.mockedConnectionUsed) {
@@ -90,6 +101,16 @@ class HomeRobot : BaseRobot() {
 
     class Verify : BaseVerify() {
         fun successfullyLoggedIn() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
+
+        fun dialogUpgradeVisible() {
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_message)
+            checkIfElementByIdContainsText(R.id.buttonShowPlans, R.string.upgrade_see_plans_button)
+            checkIfElementByIdContainsText(R.id.buttonClose, R.string.upgrade_not_now_button)
+        }
+
+        fun isSecureCoreDisabled() {
+            assertFalse(ServiceTestHelper().isSecureCoreEnabled)
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
