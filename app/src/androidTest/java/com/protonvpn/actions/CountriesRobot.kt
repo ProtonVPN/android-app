@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.results;
 
-import com.protonvpn.testsHelper.UIActionsTestHelper;
+package com.protonvpn.actions
 
-public class MapResult extends UIActionsTestHelper {
+import com.protonvpn.MockSwitch
+import com.protonvpn.android.R
+import com.protonvpn.base.BaseRobot
+import com.protonvpn.kotlinActions.HomeRobot
 
-    public MapResult isSwedenNodeSelected() {
-        checkIfMapNodeIsSelected("Sweden");
-        return this;
+class CountriesRobot : BaseRobot() {
+
+    fun selectCountry(country: String): CountriesRobot = clickElementByText(country)
+
+    fun clickConnectButton(contentDescription: String): ConnectionRobot {
+        clickElementByIdAndContentDescription<HomeRobot>(R.id.buttonConnect, contentDescription)
+        if (!MockSwitch.mockedConnectionUsed) {
+            HomeRobot().allowVpnToBeUsed()
+        }
+        return ConnectionRobot()
     }
 }

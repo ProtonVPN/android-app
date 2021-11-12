@@ -24,7 +24,7 @@ import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
 import com.protonvpn.kotlinActions.HomeRobot
-import com.protonvpn.kotlinActions.MapRobot
+import com.protonvpn.actions.MapRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule
@@ -54,7 +54,7 @@ class MapRobotTests {
     fun mapNodeSuccessfullySelected() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
+        mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
                 .clickConnectButton()
                 .verify {
                     isConnected()
@@ -70,7 +70,7 @@ class MapRobotTests {
     fun mapNodeIsNotSelected() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
+        mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
                 .clickConnectButtonWithoutVpnHandling()
                 .clickCancelConnectionButton()
         mapRobot.verify {

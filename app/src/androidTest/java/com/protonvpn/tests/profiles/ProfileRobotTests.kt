@@ -24,7 +24,7 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
-import com.protonvpn.kotlinActions.ConnectionRobot
+import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.kotlinActions.HomeRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule

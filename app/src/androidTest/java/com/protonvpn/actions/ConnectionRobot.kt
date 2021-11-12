@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,24 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.kotlinActions
+package com.protonvpn.actions
 
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ConditionalActionsHelper
+import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
+import junit.framework.TestCase.assertFalse
 
 class ConnectionRobot : BaseRobot() {
 
-    fun disconnectFromVPN() : ConnectionRobot {
-        ConditionalActionsHelper().clickOnDisconnectButtonUntilUserIsDisconnected()
-        return waitUntilDisplayedByText(R.string.loaderNotConnected)
-    }
+    private val stateMonitor = ServerManagerHelper().vpnStateMonitor
 
     fun clickCancelConnectionButton(): ConnectionRobot = clickElementById(R.id.buttonCancel)
 
     fun clickCancelRetry() : ConnectionRobot = clickElementById(R.id.buttonCancelRetry)
+
+    fun disconnectFromVPN() : ConnectionRobot {
+        view.waitForCondition(
+            {
+                clickElementById<Any>(R.id.buttonDisconnect)
+                assertFalse(stateMonitor.isConnected)
+            }
+        )
+        return waitUntilDisplayedByText(R.string.loaderNotConnected)
+    }
 
     class Verify : BaseVerify(){
 
