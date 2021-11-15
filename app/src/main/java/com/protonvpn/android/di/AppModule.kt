@@ -233,7 +233,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideServerManager(userData: UserData) =
-        ServerManager(ProtonApplication.getAppContext(), scope, userData)
+        ServerManager(ProtonApplication.getAppContext(), userData)
 
     @Singleton
     @Provides

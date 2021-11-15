@@ -85,6 +85,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
+
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
                 setupRowAdapter()
