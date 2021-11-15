@@ -92,7 +92,7 @@ class ServerManager(
         }
 
     private val allServers get() =
-        sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
+        sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
     /** Get the number of all servers. Not very efficient. */
