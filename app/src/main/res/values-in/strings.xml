@@ -538,7 +538,7 @@
   <string name="info_performance">Performa</string>
   <string name="server_load_title">Beban Server</string>
   <string name="server_load_description">Server dengan beban tinggi lebih lambat daripada server dengan beban rendah.</string>
-  <string name="streaming_title_with_country">Tontonan - %1$s</string>
+  <string name="streaming_title_with_country">Streaming - %1$s</string>
   <string name="streaming_services_description">Sambungkan VPN Anda ke server Plus yang berada di negara ini untuk dapat mulai menikmati tontonan.\n\nCatatan: Bersihkan cache aplikasi streaming yang Anda gunakan untuk memuat konten-konten baru.</string>
   <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
   <string name="server_load_low">Rendah</string>
