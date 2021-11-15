@@ -18,20 +18,20 @@
  */
 package com.protonvpn.android.ui.home.profiles
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,34 +47,25 @@ class ProfilesViewModel @Inject constructor(
         val hasAccess: Boolean
     )
 
-    private val profiles = MutableLiveData<List<ProfileItem>>(getProfiles())
-    val preBakedProfiles: LiveData<List<ProfileItem>> = Transformations.map(profiles) { allProfiles ->
+    private val profiles = combine(
+        serverManager.profiles,
+        serverManager.serverListVersion,
+        stateMonitor.status
+    ) { allProfiles, _, _ ->
+        allProfiles.map {
+            val server = it.server
+            ProfileItem(it, isConnected = isConnectedTo(server), hasAccess = hasAccessToServer(server))
+        }
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+
+    val preBakedProfiles: Flow<List<ProfileItem>> = profiles.map { allProfiles ->
         allProfiles.filter { it.profile.isPreBakedProfile }
     }
-    val userCreatedProfiles = Transformations.map(profiles) { allProfiles ->
+    val userCreatedProfiles = profiles.map { allProfiles ->
         allProfiles.filter { it.profile.isPreBakedProfile.not() }
-    }
-
-    init {
-        viewModelScope.launch {
-            stateMonitor.status.collect { updateProfiles() }
-        }
-        viewModelScope.launch {
-            serverManager.profilesUpdateEvent.collect { updateProfiles() }
-        }
     }
 
     private fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 
     private fun hasAccessToServer(server: Server?) = currentUser.vpnUserCached().hasAccessToServer(server)
-
-    private fun updateProfiles() {
-        profiles.value = getProfiles()
-    }
-
-    private fun getProfiles(): List<ProfileItem> =
-        serverManager.getSavedProfiles().map {
-            val server = it.server
-            ProfileItem(it, isConnected = isConnectedTo(server), hasAccess = hasAccessToServer(server))
-        }
 }

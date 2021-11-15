@@ -26,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
@@ -66,10 +67,10 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             list.itemAnimator = null
         }
         val editAction = { profile: Profile -> ProfileActivity.navigateForEdit(this, profile) }
-        viewModel.preBakedProfiles.observe(viewLifecycleOwner, Observer {
+        viewModel.preBakedProfiles.asLiveData().observe(viewLifecycleOwner, Observer {
             prebakedProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
         })
-        viewModel.userCreatedProfiles.observe(viewLifecycleOwner, Observer {
+        viewModel.userCreatedProfiles.asLiveData().observe(viewLifecycleOwner, Observer {
             customProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
         })
     }

@@ -23,6 +23,8 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -60,9 +62,9 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             if (viewModel.isFreeUser)
                 binding.list.scrollToPosition(0)
         }
-        viewModel.serverManager.updateEvent.observe(viewLifecycleOwner) {
+        viewModel.serverManager.serverListVersion.asLiveData().observe(viewLifecycleOwner, Observer {
             updateListData()
-        }
+        })
     }
 
     private fun initList() = with(binding.list) {
@@ -73,8 +75,6 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         adapter = groupAdapter
         layoutManager = groupLayoutManager
         (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-
-        updateListData()
     }
 
     private fun addCountriesGroup(

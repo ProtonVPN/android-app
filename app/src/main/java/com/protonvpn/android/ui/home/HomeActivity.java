@@ -169,7 +169,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             initOnboarding();
         }
 
-        serverManager.getUpdateEvent().observe(this, () -> {
+        serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
             if (canShowPopups()) {
                 initOnboarding();
                 EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
@@ -177,10 +177,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             else {
                 initLayout();
             }
-            return Unit.INSTANCE;
         });
 
-        serverManager.getProfilesUpdateEventLiveData().observe(this, (Unit) -> initQuickConnectFab());
+        serverManager.getProfilesLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
         viewModel.getLogoutEvent().observe(this, account -> {
             // Result CANCELLED will close MobileMainActivity
