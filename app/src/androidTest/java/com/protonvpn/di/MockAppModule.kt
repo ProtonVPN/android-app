@@ -29,6 +29,7 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -37,11 +38,14 @@ import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.di.UserManagerBindsModule
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.tv.login.TvLoginPollDelayMs
+import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -74,6 +78,7 @@ import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserRepository
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -213,6 +218,21 @@ class MockAppModule {
                 config = appConfig
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideRecentManager(
+        scope: CoroutineScope,
+        vpnStateMonitor: VpnStateMonitor,
+        serverManager: ServerManager,
+        onSessionClosed: OnSessionClosed
+    ) = RecentsManager(scope, vpnStateMonitor, serverManager, onSessionClosed).apply { clear() }
+
+    @Singleton
+    @Provides
+    @TvLoginPollDelayMs
+    fun provideTvLoginPollDelayMs() = if (MockSwitch.mockedConnectionUsed)
+        TimeUnit.MILLISECONDS.toMillis(50) else TvLoginViewModel.POLL_DELAY_MS
 }
 
 @Module

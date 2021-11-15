@@ -38,6 +38,8 @@ import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.tv.login.TvLoginPollDelayMs
+import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
@@ -201,6 +203,20 @@ object AppModuleProd {
             wireguardBackend,
             serverManager
         )
+
+    @Singleton
+    @Provides
+    fun provideRecentManager(
+        scope: CoroutineScope,
+        vpnStateMonitor: VpnStateMonitor,
+        serverManager: ServerManager,
+        onSessionClosed: OnSessionClosed
+    ) = RecentsManager(scope, vpnStateMonitor, serverManager, onSessionClosed)
+
+    @Singleton
+    @Provides
+    @TvLoginPollDelayMs
+    fun provideTvLoginPollDelayMs() = TvLoginViewModel.POLL_DELAY_MS
 }
 
 @Suppress("TooManyFunctions")
@@ -300,14 +316,6 @@ object AppModule {
     @Provides
     fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
         VpnApiClient(scope, userData, vpnStateMonitor)
-
-    @Singleton
-    @Provides
-    fun provideRecentManager(
-        vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager,
-        onSessionClosed: OnSessionClosed
-    ) = RecentsManager(scope, vpnStateMonitor, serverManager, onSessionClosed)
 
     @Singleton
     @Provides

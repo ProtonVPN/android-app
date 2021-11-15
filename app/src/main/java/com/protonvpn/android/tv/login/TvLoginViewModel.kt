@@ -25,7 +25,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
@@ -54,6 +53,11 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.Session
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Qualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TvLoginPollDelayMs
 
 @HiltViewModel
 class TvLoginViewModel @Inject constructor(
@@ -66,7 +70,8 @@ class TvLoginViewModel @Inject constructor(
     val serverListUpdater: ServerListUpdater,
     val serverManager: ServerManager,
     val certificateRepository: CertificateRepository,
-    val accountManager: AccountManager
+    val accountManager: AccountManager,
+    @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
 ) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
@@ -112,7 +117,7 @@ class TvLoginViewModel @Inject constructor(
                 }
             }
             repeatWithTimeoutOrNull(POLL_TIMEOUT_MS) {
-                delay(POLL_DELAY_MS)
+                delay(pollDelayMs)
                 pollSession(code.selector)
             }.also {
                 updateTimer.cancel()
