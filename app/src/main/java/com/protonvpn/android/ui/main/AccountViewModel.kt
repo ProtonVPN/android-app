@@ -46,6 +46,7 @@ import me.proton.core.accountmanager.presentation.onSessionForceLogout
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.onAddAccountResult
+import me.proton.core.auth.presentation.onSecondFactorResult
 import me.proton.core.humanverification.domain.HumanVerificationManager
 import me.proton.core.humanverification.presentation.HumanVerificationOrchestrator
 import me.proton.core.humanverification.presentation.observe
@@ -109,6 +110,10 @@ class AccountViewModel @Inject constructor(
 
     fun onAddAccountClosed(block: () -> Unit) {
         authOrchestrator.onAddAccountResult { result -> if (result == null) block() }
+    }
+
+    fun onSecondFactorClosed(block: () -> Unit) {
+        authOrchestrator.onSecondFactorResult { if (it == null) block() }
     }
 
     suspend fun startLogin() {
