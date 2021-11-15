@@ -114,7 +114,7 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    val listUpdateEvent = serverManager.updateEvent
+    val listVersion = serverManager.serverListVersion
 
     fun onViewInit(lifecycle: Lifecycle) {
         serverListUpdater.startSchedule(lifecycle, null)

@@ -18,9 +18,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
@@ -33,7 +31,6 @@ import java.util.Locale
 class ServerManagerTests {
 
     private lateinit var manager: ServerManager
-    private lateinit var mainScope: CoroutineScope
 
     @RelaxedMockK private lateinit var userData: UserData
     @RelaxedMockK private lateinit var currentUser: CurrentUser
@@ -46,7 +43,6 @@ class ServerManagerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        mainScope = TestCoroutineScope()
         Storage.setPreferences(MockSharedPreference())
         val contextMock = mockk<Context>(relaxed = true)
         mockkObject(CountryTools)
@@ -54,7 +50,7 @@ class ServerManagerTests {
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale(any()) } returns Locale.US
-        manager = ServerManager(contextMock, mainScope, userData, currentUser)
+        manager = ServerManager(contextMock, userData, currentUser)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

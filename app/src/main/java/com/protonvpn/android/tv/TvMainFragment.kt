@@ -34,6 +34,7 @@ import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -89,9 +90,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
-        viewModel.listUpdateEvent.observe(viewLifecycleOwner) {
+        viewModel.listVersion.asLiveData().observe(viewLifecycleOwner, Observer {
             setupRowAdapter()
-        }
+        })
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
                 setupRowAdapter()
