@@ -20,7 +20,6 @@ package com.protonvpn.android.vpn
 
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -71,10 +70,14 @@ class RecentsManager(
             }
         }
         onSessionClosed.logoutFlow.onEach {
-            recentConnections.clear()
-            recentServers.clear()
-            Storage.delete(RecentsManager::class.java)
+            clear()
         }.launchIn(scope)
+    }
+
+    fun clear() {
+        recentConnections.clear()
+        recentServers.clear()
+        Storage.delete(RecentsManager::class.java)
     }
 
     fun getRecentCountries(): List<Profile> = recentConnections
