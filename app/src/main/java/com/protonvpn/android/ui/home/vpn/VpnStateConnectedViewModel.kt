@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.home.vpn
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.map
@@ -35,7 +34,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 private const val MILLIS_IN_SECOND = 1000f
@@ -64,7 +63,9 @@ class VpnStateConnectedViewModel @Inject constructor(
     data class SnackbarNotification(@StringRes val text: Int, val isSuccess: Boolean = true)
 
     val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
-    val connectionState = stateMonitor.status.map { toConnectionState(it) }
+    val connectionState = combine(stateMonitor.status, serverManager.serverListVersion) { status, _ ->
+        toConnectionState(status)
+    }
     val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
 
     fun saveToProfile() {
