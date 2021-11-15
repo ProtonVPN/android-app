@@ -27,6 +27,7 @@ import com.protonvpn.android.utils.launchAndCollectIn
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.alert.ForceUpdateActivity
 
 abstract class MainActivityHelper(val activity: FragmentActivity) {
@@ -36,6 +37,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             init(activity)
 
             onAddAccountClosed(activity::finish)
+            onSecondFactorClosed { activity.lifecycleScope.launch { onLoginNeeded() } }
 
             // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
             // removed once home is introduced to MobileMainActivity as a fragment (as already the case for TV)
