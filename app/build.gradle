@@ -603,7 +603,7 @@ dependencies {
     implementation "me.proton.core:account:1.15.2"
     implementation 'me.proton.core:account-manager:1.16.1'
     implementation 'me.proton.core:account-manager-dagger:1.16.1'
-    implementation "me.proton.core:auth:1.18"
+    implementation "me.proton.core:auth:1.18.2"
     implementation 'me.proton.core:crypto:1.16'
     implementation "me.proton.core:domain:1.18"
     implementation 'me.proton.core:payment:1.17.2'
