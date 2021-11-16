@@ -40,6 +40,7 @@ object Constants {
     const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
+    const val FORCE_UPDATE_URL = "https://protonvpn.com/support/vpn-update/"
     const val URL_SUPPORT_ASSIGN_VPN_CONNECTION = "https://protonvpn.com/support/assign-vpn-connection"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     val AVAILABLE_LOCALES = listOf("de", "en", "es", "fa", "fr", "hr", "in", "it", "nl", "pl", "pt", "ru", "tr")

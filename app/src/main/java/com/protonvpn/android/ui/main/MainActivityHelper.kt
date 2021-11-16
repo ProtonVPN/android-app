@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.launchAndCollectIn
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -42,7 +43,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
             // removed once home is introduced to MobileMainActivity as a fragment (as already the case for TV)
             eventForceUpdate.launchAndCollectIn(activity, Lifecycle.State.CREATED) {
-                activity.startActivity(ForceUpdateActivity(activity, it))
+                activity.startActivity(ForceUpdateActivity(activity, it, Constants.FORCE_UPDATE_URL))
             }
 
             state.flowWithLifecycle(activity.lifecycle)
