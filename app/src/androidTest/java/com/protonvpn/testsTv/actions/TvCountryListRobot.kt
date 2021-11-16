@@ -52,10 +52,10 @@ class TvCountryListRobot : BaseRobot() {
     }
 
     fun openFirstCountryConnectionWindow() : TvDetailedCountryRobot {
-        view.withText(R.string.tv_quick_connect_recommened)
+        waitUntilDisplayedByText<Any>(R.string.tv_quick_connect_recommened)
         uiDevice.pressDPadDown()
         uiDevice.pressDPadCenter()
-        return TvDetailedCountryRobot()
+        return waitUntilDisplayed(R.id.countryDescription)
     }
 
     fun signOut() : TvCountryListRobot {
