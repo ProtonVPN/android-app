@@ -183,8 +183,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         serverManager.getProfilesUpdateEventLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
         viewModel.getLogoutEvent().observe(this, account -> {
-            navigateTo(MobileMainActivity.class);
+            // Result CANCELLED will close MobileMainActivity
+            setResult(RESULT_OK);
             finish();
+
+            // This is needed only for tests that launch home activity directly to make sure main activity
+            // starts login flow after logout.
+            navigateTo(MobileMainActivity.class);
         });
 
         viewModel.collectPlanChange(this, changes -> {
