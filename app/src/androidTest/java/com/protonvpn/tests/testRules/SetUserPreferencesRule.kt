@@ -16,34 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.tests.testRules;
+package com.protonvpn.tests.testRules
 
-import com.protonvpn.android.utils.Storage;
-import com.protonvpn.testsHelper.TestSetup;
-import com.protonvpn.test.shared.TestUser;
-import com.protonvpn.testsHelper.UserDataHelper;
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testsHelper.TestSetup.Companion.setCompletedOnboarding
+import com.protonvpn.testsHelper.UserDataHelper
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
-
-public class SetUserPreferencesRule extends TestWatcher {
-
-    TestUser user;
-
-    public SetUserPreferencesRule(TestUser testUser) {
-        user = testUser;
-    }
-
-    @Override
-    protected void starting(Description description) {
-        TestSetup.setCompletedOnboarding();
+class SetUserPreferencesRule(var user: TestUser?) : TestWatcher() {
+    override fun starting(description: Description) {
+        setCompletedOnboarding()
         if (user != null) {
-            new UserDataHelper().setUserData(user);
+            UserDataHelper().setUserData(user!!)
         }
     }
 
-    @Override
-    protected void finished(Description description) {
-        Storage.clearAllPreferences();
+    override fun finished(description: Description) {
+        Storage.clearAllPreferences()
     }
 }

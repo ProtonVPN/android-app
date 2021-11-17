@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn;
 
-public class MockSwitch {
+package com.protonvpn
 
-    public static boolean mockedServersUsed = true;
-    public static boolean mockedConnectionUsed = true;
+object MockSwitch {
+    @JvmStatic var mockedServersUsed = true
+    @JvmStatic var mockedConnectionUsed = true
 }
