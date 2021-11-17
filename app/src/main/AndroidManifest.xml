@@ -95,6 +95,7 @@
             android:name=".ui.main.MobileMainActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name"
+            android:theme="@style/ProtonTheme.Splash.Vpn"
             android:screenOrientation="portrait"/>
 
         <activity
