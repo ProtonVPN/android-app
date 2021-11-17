@@ -38,7 +38,7 @@ object PlansModule {
     @Provides
     @SupportedPaidPlans
     fun provideClientSupportedPaidPlanIds(): List<String> =
-        listOf("vpn2021")
+        emptyList()
 
     @Provides
     @Singleton
