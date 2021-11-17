@@ -22,7 +22,6 @@ package com.protonvpn.actions
 import com.protonvpn.MockSwitch
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
-import com.protonvpn.kotlinActions.HomeRobot
 
 class CountriesRobot : BaseRobot() {
 

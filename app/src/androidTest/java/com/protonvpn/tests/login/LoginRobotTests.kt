@@ -25,7 +25,7 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.kotlinActions.HomeRobot
+import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -95,6 +95,9 @@ class LoginRobotTests {
         loginRobot.signIn(TestUser.plusUser)
             .verify { successfullyLoggedIn() }
         homeRobot.logout()
-            .verify { userNameIsVisible(TestUser.plusUser) }
+            .selectSignInOption()
+            .verify {
+                userNameIsVisible(TestUser.plusUser)
+            }
     }
 }

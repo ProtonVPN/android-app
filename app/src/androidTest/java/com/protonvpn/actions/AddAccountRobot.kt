@@ -21,8 +21,17 @@ package com.protonvpn.actions
 
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
-import me.proton.core.test.android.robots.auth.login.LoginRobot
+import com.protonvpn.base.BaseVerify
 
 class AddAccountRobot : BaseRobot() {
     fun selectSignInOption() : LoginRobot = clickElementById(R.id.sign_in)
+
+    class Verify : BaseVerify(){
+        fun successfullyLoggedOut() {
+            checkIfElementIsDisplayedById(R.id.sign_in)
+            checkIfElementIsDisplayedById(R.id.sign_up)
+        }
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }

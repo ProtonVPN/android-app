@@ -24,8 +24,9 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.CountryTools.getFullName
+import com.protonvpn.base.BaseRobot
 
-class NetworkTestHelper : UIActionsTestHelper() {
+class NetworkTestHelper : BaseRobot() {
 
     val serverManager = ServerManagerHelper().serverManager
 
@@ -39,26 +40,5 @@ class NetworkTestHelper : UIActionsTestHelper() {
     fun getEntryVpnCountry(exitCountry: VpnCountry?): String {
         val countryCode = serverManager.getBestScoreServer(exitCountry!!)!!.entryCountry
         return getFullName(countryCode)
-    }
-
-    fun waitUntilNetworkErrorAppears(loader: LoaderUI) {
-        val networkErrorInstruction: Instruction = object : Instruction() {
-            override fun getDescription(): String {
-                return "Waiting until network loader returns Error state"
-            }
-
-            override fun checkCondition(): Boolean {
-                return loader.state === NetworkFrameLayout.State.ERROR
-            }
-        }
-        checkCondition(networkErrorInstruction)
-    }
-
-    private fun checkCondition(instruction: Instruction) {
-        try {
-            ConditionWatcher.waitForCondition(instruction)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }

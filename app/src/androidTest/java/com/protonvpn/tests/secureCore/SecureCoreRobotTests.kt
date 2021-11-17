@@ -25,7 +25,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.CountriesRobot
-import com.protonvpn.kotlinActions.HomeRobot
+import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule

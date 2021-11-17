@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.kotlinActions
+package com.protonvpn.actions
 
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
@@ -27,11 +26,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.protonvpn.MockSwitch
-import com.protonvpn.actions.AccountRobot
-import com.protonvpn.actions.LoginRobot
-import com.protonvpn.actions.ConnectionRobot
-import com.protonvpn.actions.MapRobot
-import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -48,9 +42,17 @@ class HomeRobot : BaseRobot() {
         return AccountRobot()
     }
 
-    fun logout(): LoginRobot {
+    fun logout(): AddAccountRobot {
         clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
         return clickElementByIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut)
+    }
+
+    fun logoutAfterWarning(): AddAccountRobot {
+        return clickElementByText(R.string.logoutConfirmDialogButton)
+    }
+
+    fun cancelLogout(): HomeRobot {
+        return clickElementByText(R.string.cancel)
     }
 
     fun swipeLeftToOpenMap(): MapRobot {
@@ -110,6 +112,16 @@ class HomeRobot : BaseRobot() {
 
         fun isSecureCoreDisabled() {
             assertFalse(ServiceTestHelper().isSecureCoreEnabled)
+        }
+
+        fun loginScreenIsNotDisplayed() {
+            checkIfElementDoesNotExistById(R.id.sign_in)
+            checkIfElementDoesNotExistById(R.id.sign_up)
+        }
+
+        fun warningMessageIsDisplayed() {
+            checkIfElementIsDisplayedByStringId(R.string.logoutConfirmDialogTitle)
+            checkIfElementIsDisplayedByStringId(R.string.logoutConfirmDialogMessage)
         }
     }
 

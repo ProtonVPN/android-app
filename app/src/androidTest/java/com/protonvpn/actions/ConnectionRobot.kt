@@ -21,7 +21,6 @@ package com.protonvpn.actions
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.testsHelper.ConditionalActionsHelper
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
 import junit.framework.TestCase.assertFalse

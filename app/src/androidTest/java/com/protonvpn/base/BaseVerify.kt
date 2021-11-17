@@ -46,6 +46,8 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementDoesNotExistByContentDesc(text: String) =
         view.withContentDesc(text).checkDoesNotExist()
 
+    fun checkIfElementDoesNotExistById(@IdRes id: Int) = view.withId(id).checkDoesNotExist()
+
     fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view.withVisibility(ViewMatchers.Visibility.VISIBLE).withText(resId).checkDisplayed()
 

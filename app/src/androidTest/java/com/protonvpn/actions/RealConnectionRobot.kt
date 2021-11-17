@@ -6,7 +6,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.DefaultData
-import com.protonvpn.kotlinActions.HomeRobot
 
 class RealConnectionRobot : BaseRobot() {
 

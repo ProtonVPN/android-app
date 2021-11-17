@@ -18,8 +18,8 @@
  */
 package com.protonvpn.actions
 
-import com.protonvpn.testsHelper.NetworkTestHelper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.testsHelper.NetworkTestHelper
 
 class ServiceRobot {
 

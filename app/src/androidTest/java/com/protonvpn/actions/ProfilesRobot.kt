@@ -18,7 +18,6 @@
  */
 package com.protonvpn.actions
 
-import android.app.Instrumentation
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
@@ -27,7 +26,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.results.ConnectionResult
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonCheckbox

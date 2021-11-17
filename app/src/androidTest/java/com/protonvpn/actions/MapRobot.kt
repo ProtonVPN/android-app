@@ -25,7 +25,6 @@ import com.protonvpn.MockSwitch
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.testsHelper.ConditionalActionsHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
 
 class MapRobot : BaseRobot() {
@@ -40,7 +39,7 @@ class MapRobot : BaseRobot() {
     fun clickConnectButton(): ConnectionRobot {
         clickElement<MapRobot>(connectButtonInMap())
         if (!MockSwitch.mockedConnectionUsed) {
-            HomeRobot().allowToUseVpn()
+            HomeRobot().allowVpnToBeUsed()
         }
         return ConnectionRobot()
     }
