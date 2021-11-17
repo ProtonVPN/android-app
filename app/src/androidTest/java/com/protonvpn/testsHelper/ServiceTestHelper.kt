@@ -20,12 +20,9 @@ package com.protonvpn.testsHelper
 
 import android.os.Handler
 import android.os.Looper
-import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.conditions.NetworkInstruction
 import com.protonvpn.test.shared.MockedServers.getProfile
 import com.protonvpn.test.shared.MockedServers.serverList
 import junit.framework.TestCase.assertFalse

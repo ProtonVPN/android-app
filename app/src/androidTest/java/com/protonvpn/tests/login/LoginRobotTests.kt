@@ -23,9 +23,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.AddAccountRobot
+import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidRule

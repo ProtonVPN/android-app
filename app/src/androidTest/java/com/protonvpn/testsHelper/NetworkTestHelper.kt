@@ -18,10 +18,6 @@
  */
 package com.protonvpn.testsHelper
 
-import com.azimolabs.conditionwatcher.ConditionWatcher
-import com.azimolabs.conditionwatcher.Instruction
-import com.protonvpn.android.components.LoaderUI
-import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.CountryTools.getFullName
 import com.protonvpn.base.BaseRobot
