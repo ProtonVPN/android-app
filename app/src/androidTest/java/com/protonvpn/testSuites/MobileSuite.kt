@@ -21,7 +21,7 @@ package com.protonvpn.testSuites
 import com.protonvpn.tests.account.AccountRobotTests
 import com.protonvpn.tests.connection.ConnectionRobotTests
 import com.protonvpn.tests.login.LoginRobotTests
-import com.protonvpn.tests.login.LogoutRobotTests
+import com.protonvpn.tests.login.LogoutRobotTest
 import com.protonvpn.tests.map.MapRobotTests
 import com.protonvpn.tests.profiles.ProfileRobotTests
 import com.protonvpn.tests.secureCore.SecureCoreRobotSecurityTests
@@ -38,7 +38,7 @@ import org.junit.runners.Suite
         AccountRobotTests::class,
         ConnectionRobotTests::class,
         LoginRobotTests::class,
-        LogoutRobotTests::class,
+        LogoutRobotTest::class,
         MapRobotTests::class,
         ProfileRobotTests::class,
         ProtonLoggerImplTests::class,

@@ -17,20 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.secureCore
+package com.protonvpn.tests.login
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
-import com.protonvpn.actions.ProfilesRobot
-import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.HomeRobot
-import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.TestUser.Companion.plusUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule
-import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -42,64 +39,57 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class SecureCoreRobotSecurityTests {
-
+class LogoutRobotTest {
     private val testRule = ProtonHomeActivityTestRule()
-    private val secureCoreServerDomain = "se-fr-01.protonvpn.com"
 
     @get:Rule
     var rules = RuleChain
         .outerRule(HiltAndroidRule(this))
-        .around(SetUserPreferencesRule(TestUser.freeUser))
+        .around(SetUserPreferencesRule(plusUser))
         .around(testRule)
 
     private lateinit var homeRobot: HomeRobot
     private lateinit var connectionRobot: ConnectionRobot
-    private lateinit var serviceTestHelper: ServiceTestHelper
-    private lateinit var profilesRobot: ProfilesRobot
 
     @Before
     fun setup() {
         homeRobot = HomeRobot()
         connectionRobot = ConnectionRobot()
-        serviceTestHelper = ServiceTestHelper()
-        profilesRobot = ProfilesRobot()
     }
 
     @Test
-    fun tryToEnableSecureCoreAsFreeUser() {
-        homeRobot.setStateOfSecureCoreSwitch(true)
-            .verify {
-                dialogUpgradeVisible()
-                isSecureCoreDisabled()
+    fun successfulLogout() {
+        homeRobot.logout()
+            .verify { successfullyLoggedOut() }
+    }
+
+    @Test
+    fun logoutWhileConnectedToVpn() {
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
+            .verify { isConnected() }
+        homeRobot.logout()
+        homeRobot.verify {
+                loginScreenIsNotDisplayed()
+                warningMessageIsDisplayed()
             }
-    }
-
-    @Test
-    fun tryToConnectToSecureCoreThroughProfilesAsFreeUser() {
-        serviceTestHelper.addProfile(
-            VpnProtocol.Smart,
-            DefaultData.PROFILE_NAME,
-            secureCoreServerDomain
-        )
-        homeRobot.swipeLeftToOpenProfiles()
-        profilesRobot.clickOnUpgradeButton(DefaultData.PROFILE_NAME)
-        homeRobot.verify { dialogUpgradeVisible() }
+        homeRobot.logoutAfterWarning()
+            .verify { successfullyLoggedOut() }
         connectionRobot.verify { isDisconnectedServiceHelper() }
     }
 
     @Test
-    @SdkSuppress(minSdkVersion = 28)
-    fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
-        val testProfile =
-            serviceTestHelper.addProfile(
-                VpnProtocol.Smart,
-                DefaultData.PROFILE_NAME,
-                secureCoreServerDomain
-            )
-        serviceTestHelper.setDefaultProfile(testProfile)
-        homeRobot.connectThroughQuickConnect(DefaultData.PROFILE_NAME)
-        homeRobot.verify { dialogUpgradeVisible() }
-        connectionRobot.verify { isDisconnectedServiceHelper() }
+    fun cancelLogoutWhileConnectedToVpn() {
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
+            .verify { isConnected() }
+        homeRobot.logout()
+        homeRobot.verify {
+                loginScreenIsNotDisplayed()
+                warningMessageIsDisplayed()
+            }
+        homeRobot.cancelLogout()
+        homeRobot.verify { loginScreenIsNotDisplayed() }
+        connectionRobot.verify { isConnected() }
     }
 }

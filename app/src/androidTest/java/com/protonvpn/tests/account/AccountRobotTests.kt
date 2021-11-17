@@ -3,8 +3,7 @@ package com.protonvpn.tests.account
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.AccountRobot
-import com.protonvpn.base.BaseVerify
-import com.protonvpn.kotlinActions.HomeRobot
+import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.tests.testRules.SetUserPreferencesRule

@@ -19,13 +19,11 @@
 
 package com.protonvpn.actions
 
-import com.protonvpn.base.BaseRobot
 import com.google.android.material.textfield.TextInputEditText
 import com.protonvpn.android.R
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.kotlinActions.HomeRobot
 import com.protonvpn.test.shared.TestUser
-
 
 class LoginRobot : BaseRobot() {
 

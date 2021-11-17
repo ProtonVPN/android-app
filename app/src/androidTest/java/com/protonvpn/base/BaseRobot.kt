@@ -27,11 +27,9 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.ViewMatchers
-import com.protonvpn.testsHelper.UIActionsTestHelper
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 import org.hamcrest.Matcher
-import org.strongswan.android.logic.StrongSwanApplication
 
 /**
  * [BaseRobot] Contains common actions for views
@@ -200,13 +198,6 @@ open class BaseRobot : CoreRobot() {
                 .withCustomMatcher(matcher)
                 .longClick()
         }
-
-    open fun isButtonWithIdAndTextVisible(@IdRes buttonId: Int, @StringRes resId: Int): Boolean {
-        return UIActionsTestHelper.isButtonWithIdAndTextVisible(
-            buttonId,
-            StrongSwanApplication.getContext().getString(resId)
-        )
-    }
 
     fun getText(matcher: ViewInteraction): String {
         var text = String()
