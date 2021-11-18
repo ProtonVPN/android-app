@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import com.protonvpn.android.logging.ProtonLogger
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine

@@ -24,7 +24,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
-import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.logging.ProtonLogger
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull

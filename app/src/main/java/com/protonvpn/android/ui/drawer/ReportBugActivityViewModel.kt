@@ -30,9 +30,9 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.ProtonLoggerImpl
 import com.protonvpn.android.models.login.GenericResponse
-import com.protonvpn.android.utils.ProtonLogger
-import com.protonvpn.android.utils.ProtonLoggerImpl
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.proton.core.network.domain.ApiResult

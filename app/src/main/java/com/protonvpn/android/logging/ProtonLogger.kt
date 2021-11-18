@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils
+package com.protonvpn.android.logging
 
 import android.app.Activity
 import android.content.Context
@@ -41,8 +41,10 @@ object ProtonLogger : ProtonLoggerImpl(
 
     @JvmStatic
     fun logActivityResumed(activity: Activity) {
-        log("App in foreground ${activity.javaClass.simpleName} " +
-            "${BuildConfig.VERSION_NAME} ${dateFormat.format(Date())}")
+        log(
+            "App in foreground ${activity.javaClass.simpleName} " +
+                "${BuildConfig.VERSION_NAME} ${dateFormat.format(Date())}"
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val pm = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
             log("Battery optimization ignored: " + pm.isIgnoringBatteryOptimizations(activity.packageName))

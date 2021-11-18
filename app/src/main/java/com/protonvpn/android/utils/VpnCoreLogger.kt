@@ -20,6 +20,7 @@
 package com.protonvpn.android.utils
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.Logger
 import me.proton.core.util.kotlin.LoggerLogTag
 

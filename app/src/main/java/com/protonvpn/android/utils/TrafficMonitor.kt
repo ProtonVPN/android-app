@@ -26,6 +26,7 @@ import android.os.PowerManager
 import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnState

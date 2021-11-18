@@ -28,8 +28,8 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

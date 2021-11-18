@@ -46,8 +46,8 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P
 import android.net.NetworkCapabilities.NET_CAPABILITY_XCAP
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch

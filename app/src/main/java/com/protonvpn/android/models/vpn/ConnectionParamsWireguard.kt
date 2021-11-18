@@ -20,11 +20,11 @@ package com.protonvpn.android.models.vpn
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
 import de.blinkt.openvpn.core.NetworkUtils
@@ -42,7 +42,8 @@ class ConnectionParamsWireguard(
     server,
     connectingDomain,
     VpnProtocol.WireGuard
-), java.io.Serializable {
+),
+    java.io.Serializable {
 
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(

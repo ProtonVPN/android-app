@@ -33,6 +33,7 @@ import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -41,7 +42,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull

@@ -23,6 +23,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -30,7 +31,6 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.utils.takeRandomStable
 import kotlinx.coroutines.CoroutineScope

@@ -26,13 +26,13 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
