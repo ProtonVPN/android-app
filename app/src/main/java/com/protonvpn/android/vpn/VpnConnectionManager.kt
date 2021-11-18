@@ -103,7 +103,8 @@ open class VpnConnectionManager(
 
     // State taken from active backend or from monitor when no active backend, value always != null
     private val stateInternal: LiveData<VpnState> = Transformations.switchMap(
-        activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable)
+        activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable
+    )
     private val state get() = stateInternal.value!!
 
     val retryInfo get() = activeBackend?.retryInfo
@@ -152,8 +153,12 @@ open class VpnConnectionManager(
 
                 ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
                 DebugUtils.debugAssert {
-                    (state in arrayOf(VpnState.Connecting, VpnState.Connected, VpnState.Reconnecting))
-                        .implies(connectionParams != null && activeBackend != null)
+                    val isConnectedOrConnecting = state in arrayOf(
+                        VpnState.Connecting,
+                        VpnState.Connected,
+                        VpnState.Reconnecting
+                    )
+                    isConnectedOrConnecting.implies(connectionParams != null && activeBackend != null)
                 }
 
                 when (state) {
@@ -257,12 +262,17 @@ open class VpnConnectionManager(
             ProtonLogger.log("Server in maintenance. Finding alternative...")
             vpnErrorHandler.onServerInMaintenance(profile, null)
         }
+
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
             notificationHelper.showInformationNotification(
-                context, context.getString(if (server == null)
-                    R.string.error_server_not_set else R.string.restrictedMaintenanceDescription))
+                context,
+                context.getString(
+                    if (server == null) R.string.error_server_not_set
+                    else R.string.restrictedMaintenanceDescription
+                )
+            )
         }
     }
 
@@ -291,13 +301,16 @@ open class VpnConnectionManager(
         val hasNetwork = networkManager.isConnectedToNetwork()
         if (!hasNetwork && protocol == VpnProtocol.Smart)
             protocol = FALLBACK_PROTOCOL
-        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
+        var preparedConnection =
+            backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
-            val fallbackProtocol = if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
+            val fallbackProtocol =
+                if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
             ProtonLogger.log("No response for ${server.domain}, using fallback $fallbackProtocol")
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
-            preparedConnection = backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
+            preparedConnection =
+                backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
         }
 
         preparedConnect(preparedConnection)
@@ -332,7 +345,8 @@ open class VpnConnectionManager(
     }
 
     fun onRestoreProcess(context: Context, profile: Profile): Boolean {
-        if (state == VpnState.Disabled && Storage.getString(STORAGE_KEY_STATE, null) == VpnState.Connected.name) {
+        val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
+        if (state == VpnState.Disabled && stateKey == VpnState.Connected.name) {
             connectInBackground(context, profile, "Process restore")
             return true
         }
