@@ -17,12 +17,12 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.util
+package com.protonvpn.tests.logging
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
-import com.protonvpn.android.utils.ProtonLoggerImpl
-import com.protonvpn.android.utils.timeZoneSuffix
+import com.protonvpn.android.logging.ProtonLoggerImpl
+import com.protonvpn.android.logging.timeZoneSuffix
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel

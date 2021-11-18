@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils
+package com.protonvpn.android.logging
 
 import android.content.Context
 import ch.qos.logback.classic.LoggerContext
@@ -58,7 +58,6 @@ import java.io.IOException
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 private const val LOG_PATTERN = "%d{HH:mm:ss}%property{timeZone}: %msg"
 private const val LOG_QUEUE_MAX_SIZE = 100

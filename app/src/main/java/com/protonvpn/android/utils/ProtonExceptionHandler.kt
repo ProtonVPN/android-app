@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import com.protonvpn.android.logging.ProtonLogger
 import java.io.PrintWriter
 import java.io.StringWriter
 

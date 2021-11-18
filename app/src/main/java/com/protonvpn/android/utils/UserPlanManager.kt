@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.vpn.VpnStateMonitor

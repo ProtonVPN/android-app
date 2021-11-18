@@ -23,6 +23,7 @@ import android.os.Build
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -34,7 +35,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository

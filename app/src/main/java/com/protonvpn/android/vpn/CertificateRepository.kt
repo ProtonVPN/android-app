@@ -24,7 +24,7 @@ import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CancellationException

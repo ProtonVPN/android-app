@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

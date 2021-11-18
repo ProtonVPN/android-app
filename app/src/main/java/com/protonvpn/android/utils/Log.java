@@ -19,6 +19,7 @@
 package com.protonvpn.android.utils;
 
 import com.protonvpn.android.BuildConfig;
+import com.protonvpn.android.logging.ProtonLogger;
 
 import java.io.File;
 import java.io.FileOutputStream;

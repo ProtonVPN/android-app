@@ -3,6 +3,7 @@ package com.protonvpn.android.ui.home.profiles
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -12,7 +13,6 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -228,13 +228,13 @@ class ProfileViewModel @Inject constructor(
         isSecureCore: Boolean,
         serverManager: ServerManager
     ): ServerWrapper = when (serverSelection) {
-            ServerSelection.FastestInCountry ->
-                ServerWrapper.makeFastestForCountry(country.flag, serverManager)
-            ServerSelection.RandomInCountry ->
-                ServerWrapper.makeRandomForCountry(country.flag, serverManager)
-            is ServerSelection.Specific ->
-                ServerWrapper.makeWithServer(serverSelection.server, serverManager)
-        }.apply {
-            setSecureCore(isSecureCore)
-        }
+        ServerSelection.FastestInCountry ->
+            ServerWrapper.makeFastestForCountry(country.flag, serverManager)
+        ServerSelection.RandomInCountry ->
+            ServerWrapper.makeRandomForCountry(country.flag, serverManager)
+        is ServerSelection.Specific ->
+            ServerWrapper.makeWithServer(serverSelection.server, serverManager)
+    }.apply {
+        setSecureCore(isSecureCore)
+    }
 }
