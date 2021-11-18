@@ -86,10 +86,13 @@ class VpnStateConnectedViewModel @Inject constructor(
     private fun toConnectionState(vpnStatus: VpnStateMonitor.Status): ConnectionState =
         if (vpnStatus.state is VpnState.Connected) {
             with(requireNotNull(vpnStatus.connectionParams)) {
+                // The server in ConnectionParams may be a stale object if the whole server list
+                // is refreshed.
+                val upToDateServer = serverManager.getServerById(server.serverId) ?: server
                 ConnectionState(
-                    server.serverName,
-                    server.load.toInt(),
-                    server.loadState,
+                    upToDateServer.serverName,
+                    upToDateServer.load.toInt(),
+                    upToDateServer.loadState,
                     exitIpAddress ?: "-",
                     requireNotNull(protocol).displayName()
                 )
