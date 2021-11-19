@@ -57,8 +57,10 @@ class WireguardBackend(
     dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope,
     currentUser: CurrentUser
-) : VpnBackend(userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-        dispatcherProvider, currentUser) {
+) : VpnBackend(
+    userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+    dispatcherProvider, currentUser
+) {
 
     private var service: WireguardWrapperService? = null
     private val testTunnel = WireGuardTunnel(
@@ -110,7 +112,8 @@ class WireguardBackend(
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
             val config = wireguardParams.getTunnelConfig(
-                context, userData, currentUser.sessionId(), certificateRepository)
+                context, userData, currentUser.sessionId(), certificateRepository
+            )
             withContext(Dispatchers.IO) {
                 backend.setState(testTunnel, Tunnel.State.UP, config)
             }

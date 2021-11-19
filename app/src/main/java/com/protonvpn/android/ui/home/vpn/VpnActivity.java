@@ -41,6 +41,7 @@ import java.io.File;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public abstract class VpnActivity extends BaseActivity {
 
@@ -54,8 +55,8 @@ public abstract class VpnActivity extends BaseActivity {
         Log.checkForLogTruncation(getFilesDir() + File.separator + CharonVpnService.LOG_FILE);
     }
 
-    public final void onConnect(@NonNull Profile profileToConnect) {
-        onConnect(profileToConnect, "mobile home screen (unspecified)");
+    public final void onConnect(@Nullable String triggerAction, @NonNull Profile profileToConnect) {
+        onConnect(profileToConnect, triggerAction != null ? triggerAction : "mobile home screen (unspecified)");
     }
 
     public void onConnect(@NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {

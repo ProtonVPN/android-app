@@ -99,7 +99,7 @@ class LogoutTestsTv {
     @After
     fun tearDown() {
         runBlocking(Dispatchers.Main) {
-            serviceTestHelper.connectionManager.disconnect()
+            serviceTestHelper.connectionManager.disconnect("test tear down")
             userDataHelper.userData.onLogout()
         }
     }

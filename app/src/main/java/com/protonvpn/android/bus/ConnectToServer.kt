@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components;
+package com.protonvpn.android.bus
 
-import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.vpn.Server
 
-public interface SecureCoreCallback {
-
-    void onConnect(Profile server);
-}
+class ConnectToServer(val triggerAction: String, val server: Server?)

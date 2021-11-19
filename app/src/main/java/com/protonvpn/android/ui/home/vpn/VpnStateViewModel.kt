@@ -50,13 +50,12 @@ class VpnStateViewModel @Inject constructor(
         vpnConnectionManager.reconnect(vpnPermissionDelegate)
     }
 
-    fun disconnect() {
-        vpnConnectionManager.disconnect()
+    fun disconnect(triggerAction: String) {
+        vpnConnectionManager.disconnect(triggerAction)
     }
 
-    fun disconnectAndClose() {
-        ProtonLogger.log("Canceling connection")
-        disconnect()
+    fun disconnectAndClose(triggerAction: String) {
+        disconnect(triggerAction)
         eventCollapseBottomSheet.tryEmit(Unit)
     }
 

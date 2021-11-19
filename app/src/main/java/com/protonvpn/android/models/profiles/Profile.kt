@@ -77,6 +77,8 @@ data class Profile @JvmOverloads constructor(
 
     val isPreBakedProfile: Boolean
         get() = wrapper.isPreBakedProfile
+    val isPreBakedFastest: Boolean
+        get() = wrapper.isPreBakedFastest
 
     val server: Server? get() = wrapper.server
     val city: String? get() = wrapper.city

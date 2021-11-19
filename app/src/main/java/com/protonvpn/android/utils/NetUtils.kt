@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import com.protonvpn.android.logging.ConnConnectScanFailed
 import com.protonvpn.android.logging.ProtonLogger
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.Dispatchers
@@ -43,9 +44,9 @@ object NetUtils {
         return """(.*)\.[0-9]+""".toRegex().matchEntire(ip)?.let {
             "${it.groups[1]!!.value}.0"
         }
-                ?: """([0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+):.*""".toRegex().matchEntire(ip)?.let {
-                    "${it.groups[1]!!.value}:0:0:0:0"
-                } ?: ip
+            ?: """([0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+):.*""".toRegex().matchEntire(ip)?.let {
+                "${it.groups[1]!!.value}:0:0:0:0"
+            } ?: ip
     }
 
     suspend fun ping(
@@ -64,7 +65,11 @@ object NetUtils {
                     pingUdp(pingData, address, continuation, timeout)
                 result
             } catch (e: IOException) {
-                ProtonLogger.log("Pinging server $ip:$port exception: $e")
+                val protocol = (if (tcp) "TCP" else "UDP")
+                ProtonLogger.log(
+                    ConnConnectScanFailed,
+                    "destination: $ip:$port ($protocol); error: $e"
+                )
                 false
             }
             continuation.resume(result)

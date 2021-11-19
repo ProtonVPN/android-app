@@ -19,12 +19,15 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.logging.ConnConnectScanResult
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -45,7 +48,7 @@ class ProtonVpnBackendProvider(
         server: Server,
         alwaysScan: Boolean
     ): PrepareResult? {
-        ProtonLogger.log("Preparing connection with protocol: " + protocol.name)
+        ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Preparing connection with protocol: " + protocol.name)
         return when (protocol) {
             VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
             VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = alwaysScan)
@@ -67,6 +70,16 @@ class ProtonVpnBackendProvider(
                 }
             }
         }?.firstOrNull()
+            .also {
+                if (it == null) {
+                    ProtonLogger.log(ConnConnectScanResult, "no result")
+                } else {
+                    ProtonLogger.log(
+                        ConnConnectScanResult,
+                        "Connect to: ${it.connectionParams.info}"
+                    )
+                }
+            }
     }
 
     override suspend fun pingAll(

@@ -40,7 +40,7 @@ class OnSessionClosed @Inject constructor(
     val logoutFlow = MutableSharedFlow<Account>()
 
     suspend operator fun invoke(account: Account) {
-        vpnConnectionManager.disconnectSync()
+        vpnConnectionManager.disconnectSync("log out")
         logoutFlow.emit(account)
         accountManager.removeAccount(account.userId)
         account.sessionId?.let { certificateRepository.clear(it) }

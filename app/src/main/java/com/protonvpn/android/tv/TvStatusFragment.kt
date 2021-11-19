@@ -173,7 +173,7 @@ class TvStatusFragment : Fragment() {
     }
 
     private fun showErrorDialog(content: CharSequence) {
-        viewModel.disconnect()
+        viewModel.disconnect("status (TV)")
         MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
             .title(R.string.tv_vpn_error_dialog_title)
             .content(content)

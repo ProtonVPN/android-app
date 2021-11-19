@@ -251,7 +251,7 @@ class TvMainViewModel @Inject constructor(
         )
     }
 
-    fun disconnect() = vpnConnectionManager.disconnect()
+    fun disconnect(uiElementName: String) = vpnConnectionManager.disconnect("user via $uiElementName")
 
     fun isConnected() = vpnStateMonitor.isConnected
 
@@ -286,7 +286,7 @@ class TvMainViewModel @Inject constructor(
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
-            vpnConnectionManager.disconnect()
+            vpnConnectionManager.disconnect("country details (TV)")
         } else {
             connect(activity, serverManager.defaultConnection)
         }

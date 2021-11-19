@@ -88,7 +88,9 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         with(binding) {
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-            buttonDisconnect.setOnClickListener { parentViewModel.disconnectAndClose() }
+            buttonDisconnect.setOnClickListener {
+                parentViewModel.disconnectAndClose("user via connection panel")
+            }
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
         }
 

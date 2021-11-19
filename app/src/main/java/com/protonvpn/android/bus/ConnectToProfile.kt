@@ -16,22 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.bus;
+package com.protonvpn.android.bus
 
-import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.models.profiles.Profile
 
-import org.jetbrains.annotations.Nullable;
-
-public class ConnectToProfile {
-
-    private final Profile profile;
-
-    public ConnectToProfile(@Nullable Profile profile) {
-        this.profile = profile;
-    }
-
-    @Nullable
-    public Profile getProfile() {
-        return profile;
-    }
-}
+class ConnectToProfile(val triggerAction: String, val profile: Profile?)

@@ -169,7 +169,7 @@ class GuestHole @Inject constructor(
         } finally {
             if (!vpnMonitor.isDisabled) {
                 withContext(dispatcherProvider.Main) {
-                    vpnConnectionManager.get().disconnectSync()
+                    vpnConnectionManager.get().disconnectSync("guest hole call completed")
                 }
             }
         }

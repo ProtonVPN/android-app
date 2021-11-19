@@ -330,7 +330,10 @@ public class VpnStateFragment extends BaseFragment {
             .setTitle(R.string.dialogTitleAttention)
             .setMessage(message)
             .setCancelable(false)
-            .setNegativeButton(R.string.close, (dialog, which) -> vpnConnectionManager.disconnect())
+            .setNegativeButton(
+                    R.string.close,
+                    (dialog, which) -> vpnConnectionManager.disconnect("user via auth error dialog")
+            )
             .show();
     }
 

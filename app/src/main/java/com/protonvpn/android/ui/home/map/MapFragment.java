@@ -294,12 +294,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
                 EventBus.post(
-                    new ConnectToServer(serverManager.getBestScoreServer(country.getConnectableServers())));
+                        new ConnectToServer("user via map marker",
+                                serverManager.getBestScoreServer(country.getConnectableServers())));
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
             binding.buttonDisconnect.setOnClickListener(v -> {
-                vpnConnectionManager.disconnect();
+                vpnConnectionManager.disconnect("user via map marker");
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });

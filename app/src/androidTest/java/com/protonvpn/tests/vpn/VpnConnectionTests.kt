@@ -216,7 +216,7 @@ class VpnConnectionTests {
     fun testSmartFallbackToOpenVPN() = runBlockingTest {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
-        manager.connectInBackground(context, profileSmart)
+        manager.connectInBackground(context, profileSmart, "test")
         yield()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -229,7 +229,7 @@ class VpnConnectionTests {
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
         userData.setProtocols(VpnProtocol.OpenVPN, null)
-        manager.connectInBackground(context, profileSmart)
+        manager.connectInBackground(context, profileSmart, "test")
         yield()
 
         // When scanning fails we'll fallback to attempt connecting with IKEv2 regardless of
@@ -246,7 +246,7 @@ class VpnConnectionTests {
     fun smartNoInternet() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userData.setProtocols(VpnProtocol.OpenVPN, null)
-        manager.connectInBackground(context, profileSmart)
+        manager.connectInBackground(context, profileSmart, "test")
         yield()
 
         // Always fall back to StrongSwan, regardless of selected protocol.
@@ -264,7 +264,7 @@ class VpnConnectionTests {
     @Test
     fun connectToLocalAgent() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        manager.connectInBackground(context, profileWireguard)
+        manager.connectInBackground(context, profileWireguard, "test")
         scope.advanceUntilIdle()
 
         coVerify(exactly = 1) {
@@ -277,7 +277,7 @@ class VpnConnectionTests {
     @Test
     fun localAgentNotUsedForIKEv2() = runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        manager.connectInBackground(context, profileIKEv2)
+        manager.connectInBackground(context, profileIKEv2, "test")
 
         coVerify(exactly = 1) {
             mockStrongSwan.prepareForConnection(any(), any(), false)
@@ -293,7 +293,7 @@ class VpnConnectionTests {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         coEvery { currentUser.sessionId() } returns null
         every { currentUser.sessionIdCached() } returns null
-        manager.connectInBackground(context, profileWireguard)
+        manager.connectInBackground(context, profileWireguard, "test")
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), false)
@@ -366,7 +366,7 @@ class VpnConnectionTests {
             }
         }
 
-        manager.connectInBackground(context, profileIKEv2)
+        manager.connectInBackground(context, profileIKEv2, "test")
         advanceUntilIdle()
         collectJob.cancel()
 
@@ -394,7 +394,7 @@ class VpnConnectionTests {
             }
         }
 
-        manager.connectInBackground(context, profileIKEv2)
+        manager.connectInBackground(context, profileIKEv2, "test")
         advanceUntilIdle()
         collectJob.cancel()
 
@@ -424,7 +424,7 @@ class VpnConnectionTests {
             }
         }
 
-        manager.connectInBackground(context, profileIKEv2)
+        manager.connectInBackground(context, profileIKEv2, "test")
         advanceUntilIdle()
         collectJob.cancel()
 
@@ -444,7 +444,7 @@ class VpnConnectionTests {
             }
         }
 
-        manager.connectInBackground(context, profileIKEv2)
+        manager.connectInBackground(context, profileIKEv2, "test")
         advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -475,7 +475,7 @@ class VpnConnectionTests {
             SwitchServerReason.ServerInMaintenance
         )
 
-        manager.connectInBackground(context, profile)
+        manager.connectInBackground(context, profile, "test")
         scope.advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -514,7 +514,7 @@ class VpnConnectionTests {
         }
 
         currentCert = badCert
-        manager.connectInBackground(context, profileWireguard)
+        manager.connectInBackground(context, profileWireguard, "test")
         scope.advanceUntilIdle()
 
         coVerify(exactly = 1) {
@@ -531,7 +531,7 @@ class VpnConnectionTests {
             client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
             mockAgent
         }
-        manager.connectInBackground(context, profileWireguard)
+        manager.connectInBackground(context, profileWireguard, "test")
         scope.advanceUntilIdle()
 
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
