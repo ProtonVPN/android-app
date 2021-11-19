@@ -342,7 +342,8 @@ object AppModule {
         serverListUpdater: ServerListUpdater,
         networkManager: NetworkManager,
         vpnBackendProvider: VpnBackendProvider,
-        currentUser: CurrentUser
+        currentUser: CurrentUser,
+        vpnErrorUiManager: VpnErrorUIManager
     ) = VpnConnectionErrorHandler(
         scope,
         api,
@@ -354,7 +355,8 @@ object AppModule {
         serverListUpdater,
         networkManager,
         vpnBackendProvider,
-        currentUser
+        currentUser,
+        vpnErrorUiManager
     )
 
     @Singleton

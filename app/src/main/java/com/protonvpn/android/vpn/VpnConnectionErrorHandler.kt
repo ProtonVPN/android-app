@@ -102,7 +102,8 @@ class VpnConnectionErrorHandler(
     private val serverListUpdater: ServerListUpdater,
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: VpnBackendProvider,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    @Suppress("unused") errorUIManager: VpnErrorUIManager // Forces creation of a VpnErrorUiManager instance.
 ) {
     private var handlingAuthError = false
 

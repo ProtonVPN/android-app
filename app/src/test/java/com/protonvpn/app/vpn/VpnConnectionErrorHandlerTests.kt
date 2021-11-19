@@ -47,6 +47,7 @@ import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
@@ -97,6 +98,7 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUser: VpnUser
+    @RelaxedMockK private lateinit var errorUIManager: VpnErrorUIManager
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
@@ -141,7 +143,7 @@ class VpnConnectionErrorHandlerTests {
 
         handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
             userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
-            networkManager, vpnBackendProvider, currentUser)
+            networkManager, vpnBackendProvider, currentUser, errorUIManager)
     }
 
     @Test
