@@ -26,8 +26,8 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser.Companion.plusUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -36,10 +36,13 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [LogoutRobotTests] contains tests related to Logout process
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class LogoutRobotTest {
+class LogoutRobotTests {
     private val testRule = ProtonHomeActivityTestRule()
 
     @get:Rule

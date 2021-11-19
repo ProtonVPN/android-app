@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.tests.testRules
+package com.protonvpn.testRules
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.ActivityTestRule
-import com.protonvpn.android.ui.settings.SettingsActivity
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testsHelper.TestSetup.Companion.setCompletedOnboarding
+import com.protonvpn.testsHelper.UserDataHelper
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class ProtonSettingsActivityTestRule : TestWatcher() {
-    var activityTestRule = ActivityTestRule(
-        SettingsActivity::class.java, false, false
-    )
-
+class SetUserPreferencesRule(var user: TestUser?) : TestWatcher() {
     override fun starting(description: Description) {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("echo \"chrome --disable-fre --no-default-browser-check --no-first-run\" > /data/local/tmp/chrome-command-line")
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("am set-debug-app --persistent com.android.chrome ")
-        activityTestRule.launchActivity(null)
+        setCompletedOnboarding()
+        if (user != null) {
+            UserDataHelper().setUserData(user!!)
+        }
     }
 
     override fun finished(description: Description) {
-        activityTestRule.finishActivity()
+        Storage.clearAllPreferences()
     }
 }

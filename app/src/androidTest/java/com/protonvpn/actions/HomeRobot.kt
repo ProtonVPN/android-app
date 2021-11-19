@@ -34,6 +34,9 @@ import com.protonvpn.testsHelper.ServiceTestHelper
 import org.hamcrest.Matchers
 import kotlin.test.assertFalse
 
+/**
+ * [HomeRobot] Contains all actions and verifications for home screen
+ */
 class HomeRobot : BaseRobot() {
 
     fun openAccountView(): AccountRobot {
@@ -47,13 +50,9 @@ class HomeRobot : BaseRobot() {
         return clickElementByIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut)
     }
 
-    fun logoutAfterWarning(): AddAccountRobot {
-        return clickElementByText(R.string.logoutConfirmDialogButton)
-    }
+    fun logoutAfterWarning(): AddAccountRobot = clickElementByText(R.string.logoutConfirmDialogButton)
 
-    fun cancelLogout(): HomeRobot {
-        return clickElementByText(R.string.cancel)
-    }
+    fun cancelLogout(): HomeRobot = clickElementByText(R.string.cancel)
 
     fun swipeLeftToOpenMap(): MapRobot {
         swipeLeftOnElementById<MapRobot>(R.id.list)

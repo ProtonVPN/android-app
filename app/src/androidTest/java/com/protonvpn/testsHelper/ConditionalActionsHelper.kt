@@ -24,10 +24,7 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import com.azimolabs.conditionwatcher.ConditionWatcher
-import com.azimolabs.conditionwatcher.Instruction
-import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.R
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.base.BaseRobot
 import org.hamcrest.Matchers
 
@@ -62,7 +59,7 @@ class ConditionalActionsHelper : BaseRobot() {
     ) {
         scrollDownInViewWithIdUntilObjectWithTextAppears(
             viewId,
-            ProtonApplication.getAppContext().getString(textId)
+            InstrumentationRegistry.getInstrumentation().targetContext.getString(textId)
         )
     }
 }

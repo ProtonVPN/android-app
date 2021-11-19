@@ -22,7 +22,11 @@ package com.protonvpn.actions
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 
+/**
+ * [AddAccountRobot] Contains all actions and verifications for first step of login view
+ */
 class AddAccountRobot : BaseRobot() {
     fun selectSignInOption() : LoginRobot = clickElementById(R.id.sign_in)
 

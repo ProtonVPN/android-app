@@ -20,10 +20,14 @@ package com.protonvpn.matchers
 
 import android.view.View
 import android.view.ViewGroup
+import com.protonvpn.base.BaseRobot
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 
+/**
+ * [ProtonMatcher] Contains custom matchers
+ */
 object ProtonMatcher {
 
     @JvmStatic

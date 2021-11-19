@@ -31,6 +31,9 @@ import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonCheckbox
 import me.proton.core.presentation.ui.view.ProtonInput
 
+/**
+ * [ProfilesRobot] Contains all actions and verifications for profiles screen
+ */
 class ProfilesRobot : BaseRobot() {
 
     private val serviceRobot = ServiceRobot()

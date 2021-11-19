@@ -27,6 +27,9 @@ import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ServiceTestHelper
 
+/**
+ * [MapRobot] Contains all actions and verifications for map screen
+ */
 class MapRobot : BaseRobot() {
 
     fun swipeDownToCloseConnectionInfoLayout(): MapRobot =
