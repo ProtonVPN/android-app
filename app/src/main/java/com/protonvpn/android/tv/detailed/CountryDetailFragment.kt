@@ -119,7 +119,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
         disconnect.initLolipopButtonFocus()
         disconnect.setOnClickListener {
-            viewModel.disconnect()
+            viewModel.disconnect("country details (TV)")
         }
 
         openServerList.initLolipopButtonFocus()

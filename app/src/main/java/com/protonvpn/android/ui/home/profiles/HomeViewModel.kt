@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
@@ -69,7 +70,7 @@ class HomeViewModel @Inject constructor(
     }
 
     // Convert to a suspend method and remove the callback once HomeActivity is in Kotlin.
-    fun reconnectToSameCountry(connectCallback: (newProfile: Profile) -> Unit) {
+    fun reconnectToSameCountry(triggerAction: String, connectCallback: (newProfile: Profile) -> Unit) {
         DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
         val connectedCountry: String = vpnStateMonitor.connectionParams!!.server.exitCountry
         val exitCountry: VpnCountry? =
@@ -81,11 +82,11 @@ class HomeViewModel @Inject constructor(
         }
         if (newServer != null) {
             val newProfile = getTempProfile(newServer, serverManager)
-            vpnConnectionManager.disconnectWithCallback { connectCallback(newProfile) }
+            vpnConnectionManager.disconnectWithCallback(triggerAction) { connectCallback(newProfile) }
         } else {
             val toOrFrom = if (userData.isSecureCoreEnabled) "to" else "from"
-            ProtonLogger.log("Unable to find a server to connect to when switching $toOrFrom Secure Core")
-            vpnConnectionManager.disconnect()
+            ProtonLogger.log(ConnError, "Unable to find a server to connect to when switching $toOrFrom Secure Core")
+            vpnConnectionManager.disconnect(triggerAction)
         }
     }
 

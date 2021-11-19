@@ -88,8 +88,7 @@ class QuickTileService : TileService() {
                         startActivity(NotificationHelper.createMainActivityIntent(applicationContext))
                     }
                 } else {
-                    ProtonLogger.log("Disconnecting via quick tile")
-                    vpnConnectionManager.disconnect()
+                    vpnConnectionManager.disconnect("user via quick tile")
                 }
             }
         }

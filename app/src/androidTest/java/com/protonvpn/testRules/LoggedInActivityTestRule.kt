@@ -52,7 +52,7 @@ open class LoggedInActivityTestRule<T : Activity>(activityClass: Class<T>) : Ins
         super.finished(description)
         runBlocking(Dispatchers.Main) {
             service.enableSecureCore(false)
-            service.connectionManager.disconnect()
+            service.connectionManager.disconnect("test tear down")
             userDataHelper.userData.onLogout()
             service.deleteCreatedProfiles()
         }

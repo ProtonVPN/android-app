@@ -63,6 +63,13 @@ private const val LOG_PATTERN = "%d{HH:mm:ss}%property{timeZone}: %msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
+// TODO: log only INFO+ in release builds
+enum class LogLevel {
+    DEBUG, INFO, WARNING, ERROR;
+
+    fun toLog() = name.lowercase(Locale.US)
+}
+
 open class ProtonLoggerImpl(
     appContext: Context,
     private val mainScope: CoroutineScope,
@@ -271,6 +278,22 @@ open class ProtonLoggerImpl(
         getUniqueLoggerName()
     )
 
+    // TODO: add timestamps in the log methods on the logging thread, not on the writing thread.
+    fun log(event: LogEventType, message: String) {
+        val text = "$event $message"
+        logMessageQueue.tryEmit(text)
+    }
+
+    // Log custom event/message with log level info.
+    fun logCustom(category: LogCategory, message: String) =
+        logCustom(LogLevel.INFO, category, message)
+
+    fun logCustom(level: LogLevel, category: LogCategory, message: String) {
+        val text = "${level.toLog()} ${category.toLog()} $message"
+        logMessageQueue.tryEmit(text)
+    }
+
+    @Deprecated("Stop logging events to Sentry")
     fun logSentryEvent(event: Event) {
         if (!BuildConfig.DEBUG) {
             Sentry.capture(event)
@@ -278,10 +301,13 @@ open class ProtonLoggerImpl(
         log(event.message)
     }
 
+    @Deprecated("Use log with LogEventType or logCustom")
     fun log(message: String) {
         logMessageQueue.tryEmit(message)
     }
 
+    // TODO: implement a replacement
+    @Deprecated("")
     fun logBlocking(msg: String) {
         backgroundLogger.logBlocking(msg)
     }

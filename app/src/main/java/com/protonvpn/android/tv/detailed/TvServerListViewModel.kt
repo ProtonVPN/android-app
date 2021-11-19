@@ -160,7 +160,7 @@ class TvServerListViewModel @Inject constructor(
                 vpnConnectionManager.connect(vpnPermissionDelegate, profile, "TV server list")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
-                vpnConnectionManager.disconnect()
+                vpnConnectionManager.disconnect("user via server tile (TV)")
             ServerActionState.UPGRADE ->
                 onUpgrade()
             ServerActionState.UNAVAILABLE -> {}

@@ -50,7 +50,6 @@ import com.protonvpn.android.components.MinimizedNetworkLayout;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
-import com.protonvpn.android.components.SecureCoreCallback;
 import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.logging.ProtonLogger;
@@ -116,7 +115,7 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
-public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
+public class HomeActivity extends PoolingActivity {
 
     private static final String PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG";
 
@@ -258,7 +257,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                     () -> {
                         switchView.toggle();
                         postSecureCoreSwitched(switchView);
-                        viewModel.reconnectToSameCountry(newProfile -> {
+                        viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
                             onConnect(newProfile, "Secure Core switch");
                             return Unit.INSTANCE;
                         });
@@ -415,20 +414,20 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Subscribe
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
-            vpnConnectionManager.disconnect();
+            vpnConnectionManager.disconnect(connectTo.getTriggerAction());
         }
         else {
             Server server = connectTo.getServer();
-            onConnect(Profile.Companion.getTempProfile(server, serverManager));
+            onConnect(connectTo.getTriggerAction(), Profile.getTempProfile(server, serverManager));
         }
     }
 
     @Subscribe
-    public void onConnectToProfile(@NotNull ConnectToProfile profile) {
-        if (profile.getProfile() == null) {
-            vpnConnectionManager.disconnect();
+    public void onConnectToProfile(@NotNull ConnectToProfile event) {
+        if (event.getProfile() == null) {
+            vpnConnectionManager.disconnect(event.getTriggerAction());
         } else {
-            onConnect(profile.getProfile());
+            onConnect(event.getTriggerAction(), event.getProfile());
         }
     }
 
@@ -445,7 +444,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 if (!vpnStateMonitor.isConnected()) {
                     connectToDefaultProfile();
                 } else {
-                    vpnConnectionManager.disconnect();
+                    vpnConnectionManager.disconnect("user via quick connect");
                     fragment.collapseBottomSheet();
                 }
 
@@ -494,7 +493,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 profile.getDisplayName(getContext()),
                 profile.getProfileSpecialIcon() != null ? profile.getProfileSpecialIcon() : R.drawable.ic_profile_custom_fab,
                 v -> {
-                    onConnectToProfile(new ConnectToProfile(profile));
+                    onConnectToProfile(new ConnectToProfile("user via quick connect menu", profile));
                     fabQuickConnect.close(true);
                 });
         }
@@ -507,7 +506,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 getString(R.string.disconnect),
                 R.drawable.ic_power_off,
                 v -> {
-                    vpnConnectionManager.disconnect();
+                    vpnConnectionManager.disconnect("user via quick connect menu");
                     fabQuickConnect.close(true);
                 });
         } else {
@@ -554,7 +553,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     private void connectToDefaultProfile() {
         Profile profile = serverManager.getDefaultConnection();
-        onConnectToProfile(new ConnectToProfile(profile));
+        onConnectToProfile(new ConnectToProfile("user via quick connect", profile));
     }
 
     private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {

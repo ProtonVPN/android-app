@@ -92,7 +92,7 @@ class OnboardingViewModel @Inject constructor(
         if (state == VpnState.Connected)
             return null
 
-        vpnConnectionManager.disconnect()
+        vpnConnectionManager.disconnect("onboarding connection failed")
         return if (state is VpnState.Error)
             Error(state.type.mapToErrorMessage(app, state.description))
         else

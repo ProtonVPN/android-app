@@ -325,7 +325,7 @@ class SettingsActivity : BaseActivityV2() {
                 showReconnectDialogPrefKey,
                 R.string.reconnect_now
             ) {
-                connectionManager.fullReconnect(this)
+                connectionManager.fullReconnect("user via settings change", this)
             }
         }
     }

@@ -51,6 +51,8 @@ import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
 import com.proton.gopenpgp.vpnPing.VpnPing
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnConnectScan
+import com.protonvpn.android.logging.ConnConnectScanFailed
 import com.protonvpn.android.utils.LiveEvent
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
@@ -411,16 +413,27 @@ abstract class VpnBackend(
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<Int> = withContext(dispatcherProvider.Io) {
-        if (connectingDomain.publicKeyX25519 == null)
+        if (connectingDomain.publicKeyX25519 == null) {
+            ProtonLogger.log(ConnConnectScanFailed, "no public key")
             emptyList()
-        else {
+        } else {
             val candidatePorts = ports.takeRandomStable(numberOfPorts)
-            ProtonLogger.log("${connectingDomain.entryDomain}/$vpnProtocol port scan: $candidatePorts")
+            ProtonLogger.log(
+                ConnConnectScan,
+                "${connectingDomain.entryDomain}/$vpnProtocol, ports: ${candidatePorts}"
+            )
             candidatePorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) {
-                VpnPing.pingSync(connectingDomain.entryIp, it.toLong(),
-                    connectingDomain.publicKeyX25519, SCAN_TIMEOUT_MILLIS)
+                pingUdp(connectingDomain.entryIp, it, connectingDomain.publicKeyX25519)
             }
         }
+    }
+
+    private fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
+        val responds = VpnPing.pingSync(ip, port.toLong(), publicKeyX25519, SCAN_TIMEOUT_MILLIS)
+        if (!responds) {
+            ProtonLogger.log(ConnConnectScanFailed, "destination: $ip:$port (UDP)")
+        }
+        return responds
     }
 
     companion object {

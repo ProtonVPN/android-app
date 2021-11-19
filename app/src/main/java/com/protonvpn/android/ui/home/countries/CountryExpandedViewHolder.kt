@@ -109,7 +109,7 @@ open class CountryExpandedViewHolder(
             val connectUpgradeClickListener = View.OnClickListener {
                 val connectTo =
                     if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
-                EventBus.post(ConnectToServer(connectTo))
+                EventBus.post(ConnectToServer("user via server list power button", connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonConnect.setMinSizeTouchDelegate()

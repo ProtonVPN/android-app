@@ -33,7 +33,12 @@ import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
+import com.protonvpn.android.logging.ConnConnectStart
+import com.protonvpn.android.logging.ConnConnectTrigger
+import com.protonvpn.android.logging.ConnDisconnectTrigger
+import com.protonvpn.android.logging.ConnStateChange
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -116,7 +121,7 @@ open class VpnConnectionManager(
 
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
-                NotificationHelper.DISCONNECT_ACTION -> disconnect()
+                NotificationHelper.DISCONNECT_ACTION -> disconnect("user via notification")
             }
         }
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->
@@ -124,7 +129,7 @@ open class VpnConnectionManager(
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
             userData.setProtocols(VpnProtocol.Smart, null)
-            connectInBackground(appContext, profileToSwitch)
+            connectInBackground(appContext, profileToSwitch, "Enable Smart protocol from notification")
         }
         stateInternal.observeForever {
             if (initialized) {
@@ -151,7 +156,10 @@ open class VpnConnectionManager(
                     vpnStateMonitor.updateStatus(VpnStateMonitor.Status(newState, connectionParams))
                 }
 
-                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
+                ProtonLogger.log(
+                    ConnStateChange,
+                    "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}"
+                )
                 DebugUtils.debugAssert {
                     val isConnectedOrConnecting = state in arrayOf(
                         VpnState.Connecting,
@@ -218,7 +226,7 @@ open class VpnConnectionManager(
                 vpnStateMonitor.fallbackConnectionFlow.emit(result)
                 ProtonLogger.log("Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
-                    disconnect()
+                    disconnect("max sessions reached")
                 } else {
                     activeBackend?.setSelfState(VpnState.Error(result.type))
                 }
@@ -241,7 +249,7 @@ open class VpnConnectionManager(
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(appContext, fallback.toProfile)
+                connectWithPermission(appContext, fallback.toProfile, fallback.log)
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
                 if (fallback.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
@@ -284,7 +292,6 @@ open class VpnConnectionManager(
     }
 
     private suspend fun smartConnect(profile: Profile, server: Server) {
-        ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
 
         if (activeBackend != null) {
@@ -322,10 +329,15 @@ open class VpnConnectionManager(
 
         val newBackend = preparedConnection.backend
         if (activeBackend != null && activeBackend != newBackend)
-            disconnectBlocking()
+            disconnectBlocking("new connection")
 
         connectionParams = preparedConnection.connectionParams
-        ProtonLogger.log("Connecting using ${connectionParams?.info}")
+        with (preparedConnection) {
+            ProtonLogger.log(
+                ConnConnectStart,
+                "backend: ${backend.vpnProtocol}, params: ${connectionParams.info}"
+            )
+        }
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
@@ -356,16 +368,16 @@ open class VpnConnectionManager(
     fun connect(
         permissionDelegate: VpnPermissionDelegate,
         profile: Profile,
-        connectionCauseLog: String? = null
+        triggerAction: String
     ) {
-        connect(permissionDelegate.getContext(), profile, connectionCauseLog) { intent ->
+        connect(permissionDelegate.getContext(), profile, triggerAction) { intent ->
             permissionDelegate.askForPermissions(intent) {
-                connectWithPermission(permissionDelegate.getContext(), profile)
+                connectWithPermission(permissionDelegate.getContext(), profile, triggerAction)
             }
         }
     }
 
-    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String) {
         connect(context, profile, connectionCauseLog) {
             showInsufficientPermissionNotification(context)
         }
@@ -374,20 +386,20 @@ open class VpnConnectionManager(
     private fun connect(
         context: Context,
         profile: Profile,
-        connectionCauseLog: String? = null,
+        triggerAction: String,
         onPermissionNeeded: (Intent) -> Unit
     ) {
-        connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
         val intent = prepare(context)
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             onPermissionNeeded(intent)
         } else {
-            connectWithPermission(context, profile)
+            connectWithPermission(context, profile, triggerAction)
         }
     }
 
-    private fun connectWithPermission(context: Context, profile: Profile) {
+    private fun connectWithPermission(context: Context, profile: Profile, triggerAction: String) {
+        ProtonLogger.log(ConnConnectTrigger, "Profile: ${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
         if (server?.online == true) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
@@ -433,7 +445,8 @@ open class VpnConnectionManager(
 
     open fun prepare(context: Context): Intent? = VpnService.prepare(context)
 
-    private suspend fun disconnectBlocking() {
+    private suspend fun disconnectBlocking(triggerAction: String) {
+        ProtonLogger.log(ConnDisconnectTrigger, "reason: $triggerAction")
         Storage.delete(ConnectionParams::class.java)
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
@@ -442,6 +455,7 @@ open class VpnConnectionManager(
     }
 
     private suspend fun disconnectForNewConnection() {
+        ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
         Storage.delete(ConnectionParams::class.java)
         // The UI relies on going through this state to properly show that a new connection is
         // being established (as opposed to reconnecting to the same server).
@@ -453,20 +467,19 @@ open class VpnConnectionManager(
         previousBackend?.disconnect()
     }
 
-    open fun disconnect() {
-        ProtonLogger.log("Manually disconnecting")
-        disconnectWithCallback()
+    open fun disconnect(triggerAction: String) {
+        disconnectWithCallback(triggerAction)
     }
 
-    suspend fun disconnectSync() {
+    suspend fun disconnectSync(triggerAction: String) {
         clearOngoingConnection()
-        disconnectBlocking()
+        disconnectBlocking(triggerAction)
     }
 
-    open fun disconnectWithCallback(afterDisconnect: (() -> Unit)? = null) {
+    open fun disconnectWithCallback(triggerAction: String, afterDisconnect: (() -> Unit)? = null) {
         clearOngoingConnection()
         scope.launch {
-            disconnectBlocking()
+            disconnectBlocking(triggerAction)
             vpnStateMonitor.onDisconnectedByUser.emit(Unit)
             afterDisconnect?.invoke()
         }
@@ -480,8 +493,20 @@ open class VpnConnectionManager(
             lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
     }
 
-    fun fullReconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
-        disconnectBlocking()
+    fun fullReconnect(triggerAction: String, permissionDelegate: VpnPermissionDelegate) = scope.launch {
+        disconnectBlocking("reconnect: $triggerAction")
         lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+    }
+
+    private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
+        VpnState.Disabled -> "Disconnected"
+        VpnState.ScanningPorts,
+        VpnState.CheckingAvailability,
+        VpnState.Connecting -> "Connecting"
+        VpnState.Connected -> "Connected"
+        VpnState.Disconnecting -> "Disconnecting"
+        is VpnState.Error -> "Disconnecting"
+        VpnState.Reconnecting -> "Connecting"
+        VpnState.WaitingForNetwork -> "Disconnected"
     }
 }

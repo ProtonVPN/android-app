@@ -38,6 +38,6 @@ class VpnStateNotConnectedViewModel @Inject constructor(
 
     fun quickConnect() {
         val defaultProfile: Profile = manager.defaultConnection
-        EventBus.post(ConnectToProfile(defaultProfile))
+        EventBus.post(ConnectToProfile("user via quick connect in connection panel", defaultProfile))
     }
 }
