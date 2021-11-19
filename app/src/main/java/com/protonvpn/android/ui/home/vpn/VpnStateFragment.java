@@ -228,9 +228,11 @@ public class VpnStateFragment extends BaseFragment {
         textConnectedTo.setText(statusText);
         if (country != null) {
             countryFlags.setVisibility(View.VISIBLE);
+            textProfile.setVisibility(View.INVISIBLE);
             countryFlags.setCountry(country);
         } else {
             textProfile.setVisibility(View.VISIBLE);
+            countryFlags.setVisibility(View.INVISIBLE);
             textProfile.setText(profile.getDisplayName(requireContext()));
             Drawable profileDot = null;
             if (profile.getProfileColor() != null) {
