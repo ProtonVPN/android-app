@@ -23,7 +23,6 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.protonvpn.android.ProtonApplication
 import com.google.common.truth.Truth.assertThat
 
 /**
@@ -31,11 +30,14 @@ import com.google.common.truth.Truth.assertThat
  */
 open class BaseVerify : BaseRobot() {
 
-    fun checkIfElementIsDisplayedById(@IdRes Id: Int) = view.withId(Id).checkDisplayed()
+    fun checkIfElementIsDisplayedById(@IdRes Id: Int) =
+        view.withId(Id).checkDisplayed()
 
-    fun checkIfElementIsNotDisplayedById(@IdRes Id: Int) = view.withId(Id).checkNotDisplayed()
+    fun checkIfElementIsNotDisplayedById(@IdRes Id: Int) =
+        view.withId(Id).checkNotDisplayed()
 
-    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) = view.withId(id).checkContains(text)
+    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) =
+        view.withId(id).checkContains(text)
 
     fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) =
         view.withText(resId).checkDoesNotExist()
@@ -46,20 +48,21 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementDoesNotExistByContentDesc(text: String) =
         view.withContentDesc(text).checkDoesNotExist()
 
-    fun checkIfElementDoesNotExistById(@IdRes id: Int) = view.withId(id).checkDoesNotExist()
+    fun checkIfElementDoesNotExistById(@IdRes id: Int) =
+        view.withId(id).checkDoesNotExist()
 
     fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view.withVisibility(ViewMatchers.Visibility.VISIBLE).withText(resId).checkDisplayed()
 
-    fun checkIfElementIsDisplayedByText(text: String) = view.withText(text).checkDisplayed()
+    fun checkIfElementIsDisplayedByText(text: String) =
+        view.withText(text).checkDisplayed()
 
     fun checkIfElementIsDisplayedByText(text: String, clazz: Class<*>) =
         view.instanceOf(clazz).withText(text).checkDisplayed()
 
     fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
-        view
-            .withId(id)
-            .checkContains(ProtonApplication.getAppContext().getString(resId))
+        view.withId(id)
+            .checkContains(InstrumentationRegistry.getInstrumentation().targetContext.getString(resId))
 
     fun checkIfBrowserIsOpened(browserPackageName: String) {
         val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())

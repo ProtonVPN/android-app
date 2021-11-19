@@ -29,8 +29,8 @@ import com.protonvpn.actions.MapRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -39,6 +39,9 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [ConnectionRobot] contains tests related to how UI handles VPN connection (Mocked API and connection is used)
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest

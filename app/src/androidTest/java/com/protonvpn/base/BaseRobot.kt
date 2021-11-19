@@ -19,7 +19,6 @@
 package com.protonvpn.base
 
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -27,7 +26,6 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.ViewMatchers
-import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.test.android.robots.CoreRobot
 import org.hamcrest.Matcher
 
@@ -36,11 +34,12 @@ import org.hamcrest.Matcher
  */
 open class BaseRobot : CoreRobot() {
 
-    inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
-        view
-            .withText(resId)
-            .click()
-    }
+    inline fun <reified T> clickElementByText(@StringRes resId: Int): T =
+        executeAndReturnRobot {
+            view
+                .withText(resId)
+                .click()
+        }
 
     inline fun <reified T> clickElementById(@IdRes id: Int): T =
         executeAndReturnRobot {
@@ -49,11 +48,12 @@ open class BaseRobot : CoreRobot() {
                 .click()
         }
 
-    inline fun <reified T> clickElementByText(text: String): T = executeAndReturnRobot {
-        view
-            .withText(text)
-            .click()
-    }
+    inline fun <reified T> clickElementByText(text: String): T =
+        executeAndReturnRobot {
+            view
+                .withText(text)
+                .click()
+        }
 
     inline fun <reified T> clickElementByIdAndText(@IdRes id: Int, @StringRes resId: Int): T =
         executeAndReturnRobot {
@@ -77,33 +77,30 @@ open class BaseRobot : CoreRobot() {
                 .click()
         }
 
-    inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .swipeLeft()
-    }
+    inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T =
+        executeAndReturnRobot {
+            view
+                .withId(id)
+                .swipeLeft()
+        }
 
-    inline fun <reified T> swipeRightOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .swipeRight()
-    }
-
-    inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .swipeDown()
-    }
+    inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T =
+        executeAndReturnRobot {
+            view
+                .withId(id)
+                .swipeDown()
+        }
 
     inline fun <reified T> clickElementByIdAndContentDescription(
         @IdRes id: Int,
         description: String
-    ): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .withContentDesc(description)
-            .click()
-    }
+    ): T =
+        executeAndReturnRobot {
+            view
+                .withId(id)
+                .withContentDesc(description)
+                .click()
+        }
 
     inline fun <reified T> clickElementByIndexInParent(
         @IdRes parentId: Int,
@@ -123,21 +120,12 @@ open class BaseRobot : CoreRobot() {
                 .click()
         }
 
-    inline fun <reified T> clearText(
-        @IdRes id: Int,
-        clazz: Class<*> = EditText::class.java
-    ): T = executeAndReturnRobot {
-        view
-            .instanceOf(clazz)
-            .withId(id)
-            .clearText()
-    }
-
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .checkDisplayed()
-    }
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T =
+        executeAndReturnRobot {
+            view
+                .withId(id)
+                .checkDisplayed()
+        }
 
     inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int): T =
         executeAndReturnRobot {
@@ -146,11 +134,12 @@ open class BaseRobot : CoreRobot() {
                 .checkDisplayed()
         }
 
-    inline fun <reified T> waitUntilDisplayedByText(text: String): T = executeAndReturnRobot {
-        view
-            .withText(text)
-            .checkDisplayed()
-    }
+    inline fun <reified T> waitUntilDisplayedByText(text: String): T =
+        executeAndReturnRobot {
+            view
+                .withText(text)
+                .checkDisplayed()
+        }
 
     inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int): T =
         executeAndReturnRobot {
@@ -159,38 +148,12 @@ open class BaseRobot : CoreRobot() {
                 .checkDisplayed()
         }
 
-    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String): T =
+    inline fun <reified T> pressBack(@IdRes id: Int): T =
         executeAndReturnRobot {
             view
-                .withContentDesc(desc)
-                .checkDisplayed()
-        }
-
-    inline fun <reified T> scrollToObjectByResId(@StringRes resId: Int): T = executeAndReturnRobot {
-        view
-            .withText(resId)
-            .scrollTo()
-    }
-
-    inline fun <reified T> clickOnRecycleViewByPosition(@IdRes id: Int, position: Int): T =
-        executeAndReturnRobot {
-            recyclerView
                 .withId(id)
-                .onItemAtPosition(position)
-                .doubleClick()
+                .pressBack()
         }
-
-    inline fun <reified T> pressBack(@IdRes id: Int): T = executeAndReturnRobot {
-        view
-            .withId(id)
-            .pressBack()
-    }
-
-    inline fun <reified T> longClickByText(@StringRes resId: Int): T = executeAndReturnRobot {
-        view
-            .withText(resId)
-            .longClick()
-    }
 
     inline fun <reified T> longClickByCustomMatcher(matcher: Matcher<View>): T =
         executeAndReturnRobot {
@@ -217,14 +180,6 @@ open class BaseRobot : CoreRobot() {
         })
 
         return text
-    }
-
-    fun checkInputDisplayed(@IdRes id: Int) {
-        view.instanceOf(ProtonInput::class.java).withId(id).checkDisplayed()
-    }
-
-    fun checkInputNotDisplayed(@IdRes id: Int) {
-        view.instanceOf(ProtonInput::class.java).withId(id).checkNotDisplayed()
     }
 
     inline fun <reified T> executeAndReturnRobot(block: () -> Unit): T {

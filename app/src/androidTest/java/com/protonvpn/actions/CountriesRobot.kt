@@ -22,7 +22,11 @@ package com.protonvpn.actions
 import com.protonvpn.MockSwitch
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 
+/**
+ * [CountriesRobot] Contains all actions and verifications for country detailed screen
+ */
 class CountriesRobot : BaseRobot() {
 
     fun selectCountry(country: String): CountriesRobot = clickElementByText(country)

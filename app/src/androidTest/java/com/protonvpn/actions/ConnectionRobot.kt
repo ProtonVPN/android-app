@@ -23,8 +23,12 @@ import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
+import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 import junit.framework.TestCase.assertFalse
 
+/**
+ * [ConnectionRobot] Contains all actions and verifications for connection steps
+ */
 class ConnectionRobot : BaseRobot() {
 
     private val stateMonitor = ServerManagerHelper().vpnStateMonitor

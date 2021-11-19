@@ -28,8 +28,8 @@ import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -39,6 +39,9 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [ConnectionRobot] contains tests related to how restrictions handle Secure Core
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest

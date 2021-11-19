@@ -96,8 +96,6 @@ class LoginRobotTests {
             .verify { successfullyLoggedIn() }
         homeRobot.logout()
             .selectSignInOption()
-            .verify {
-                userNameIsVisible(TestUser.plusUser)
-            }
+            .verify { userNameIsVisible(TestUser.plusUser) }
     }
 }

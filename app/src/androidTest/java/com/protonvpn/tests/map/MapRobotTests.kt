@@ -26,8 +26,8 @@ import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
@@ -35,6 +35,9 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [MapRobotTests] contains tests related to map view
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
@@ -56,13 +59,9 @@ class MapRobotTests {
         homeRobot.swipeLeftToOpenMap()
         mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
                 .clickConnectButton()
-                .verify {
-                    isConnected()
-                }
+                .verify { isConnected() }
         mapRobot.swipeDownToCloseConnectionInfoLayout()
-                .verify {
-                    isCountryNodeSelected(DefaultData.TEST_COUNTRY)
-                }
+                .verify { isCountryNodeSelected(DefaultData.TEST_COUNTRY) }
     }
 
     @Test

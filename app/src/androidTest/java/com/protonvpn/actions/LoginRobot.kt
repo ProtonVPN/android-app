@@ -25,6 +25,9 @@ import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.TestUser
 
+/**
+ * [LoginRobot] Contains all actions and verifications for login screen
+ */
 class LoginRobot : BaseRobot() {
 
     fun signIn(testUser: TestUser): HomeRobot {

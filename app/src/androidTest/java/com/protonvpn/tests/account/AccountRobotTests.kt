@@ -5,8 +5,8 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule

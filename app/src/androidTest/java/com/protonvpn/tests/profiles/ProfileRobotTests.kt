@@ -27,8 +27,8 @@ import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.tests.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.tests.testRules.SetUserPreferencesRule
+import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetUserPreferencesRule
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -38,6 +38,9 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
+/**
+ * [ProfileRobotTests] contains tests related to profile actions
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
