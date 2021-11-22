@@ -22,6 +22,7 @@ import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import me.proton.core.network.domain.ApiResult
 import java.io.IOException
 import java.lang.Long.min
 import java.net.DatagramPacket
@@ -118,3 +119,6 @@ fun jitterMs(
     val rangeMs = min(maxMs, (diff * baseMs).toLong())
     return baseMs + random.nextLong(rangeMs)
 }
+
+fun ApiResult.Error.displayText(): String? =
+    (this as? ApiResult.Error.Http)?.proton?.error ?: cause?.localizedMessage

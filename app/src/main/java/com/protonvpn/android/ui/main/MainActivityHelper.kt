@@ -37,7 +37,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
         with(accountViewModel) {
             init(activity)
 
-            onAddAccountClosed(activity::finish)
+            onAddAccountClosed = activity::finish
             onSecondFactorClosed { activity.lifecycleScope.launch { onLoginNeeded() } }
 
             // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be

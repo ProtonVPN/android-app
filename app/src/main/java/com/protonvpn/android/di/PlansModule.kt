@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.di
 
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,21 +34,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object PlansModule {
 
+    // For signup we don't want plan selection, we define them below for "upgrade"
     @Provides
     @SupportedSignupPaidPlans
-    fun provideClientSupportedPaidPlanIds(): List<String> =
-        emptyList()
+    fun provideClientSupportedPaidPlanIds(): List<String> = emptyList()
+
+    @Provides
+    @SupportedUpgradePaidPlans
+    fun provideClientUpgradeSupportedPaidPlanIds(): List<String> =
+        listOf("vpnplus")
 
     @Provides
     @Singleton
     fun providePlansRepository(apiProvider: ApiProvider): PlansRepository =
         PlansRepositoryImpl(apiProvider)
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-interface PlansBindsModule {
-    @Binds
-    @SupportedUpgradePaidPlans
-    fun bindClientSupportedUpgradePaidPlanNames(@SupportedSignupPaidPlans plans: List<String>): List<String>
 }

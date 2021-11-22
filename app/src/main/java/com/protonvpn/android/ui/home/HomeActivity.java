@@ -67,6 +67,7 @@ import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.main.MobileMainActivity;
+import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.TooltipManager;
@@ -168,7 +169,9 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             initOnboarding();
         }
 
+        checkForOnboarding();
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
+            checkForOnboarding();
             if (canShowPopups()) {
                 initOnboarding();
                 notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
@@ -199,6 +202,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
         serverListUpdater.startSchedule(getLifecycle(), this);
+    }
+
+    private void checkForOnboarding() {
+        viewModel.handleUserOnboarding(() -> {
+            navigateTo(OnboardingActivity.class);
+            return Unit.INSTANCE;
+        });
     }
 
     @Override

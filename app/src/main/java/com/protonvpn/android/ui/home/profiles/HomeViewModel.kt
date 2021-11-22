@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home.profiles
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
@@ -29,9 +30,11 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.Profile.Companion.getTempProfile
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.tv.main.MainViewModel
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -84,6 +87,14 @@ class HomeViewModel @Inject constructor(
             ProtonLogger.log("Unable to find a server to connect to when switching $toOrFrom Secure Core")
             vpnConnectionManager.disconnect()
         }
+    }
+
+    fun handleUserOnboarding(block: () -> Unit) = viewModelScope.launch {
+        val onboardingId = Storage.getString(OnboardingPreferences.ONBOARDING_USER_ID, null)
+        if (serverManager.isDownloadedAtLeastOnce &&
+                onboardingId != null &&
+                currentUser.user()?.userId?.id == onboardingId)
+            block()
     }
 
     val userLiveData = currentUser.userFlow.asLiveData()
