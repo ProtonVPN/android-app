@@ -40,7 +40,7 @@ enum class LogCategory {
 class LogEventType(
     private val category: LogCategory,
     private val name: String,
-    private val level: LogLevel
+    val level: LogLevel
 ) {
     override fun toString() = "${level.toLog()} ${category.toLog()}:$name"
 }

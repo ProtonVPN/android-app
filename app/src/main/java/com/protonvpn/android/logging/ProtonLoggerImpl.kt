@@ -52,18 +52,18 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
-import java.util.GregorianCalendar
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
-private const val LOG_PATTERN = "%d{HH:mm:ss}%property{timeZone}: %msg"
+private const val LOG_PATTERN = "%msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
-// TODO: log only INFO+ in release builds
 enum class LogLevel {
     DEBUG, INFO, WARNING, ERROR;
 
@@ -75,7 +75,7 @@ open class ProtonLoggerImpl(
     private val mainScope: CoroutineScope,
     loggerDispatcher: CoroutineDispatcher,
     logDir: String,
-    logPattern: String = LOG_PATTERN
+    private val wallClock: () -> Long
 ) {
     data class LogFile(val name: String, val file: File)
 
@@ -85,7 +85,6 @@ open class ProtonLoggerImpl(
         private val loggerDispatcher: CoroutineDispatcher,
         private val messages: Flow<String>,
         private val logDir: String,
-        private val logPattern: String,
         uniqueLoggerName: String
     ) {
 
@@ -147,7 +146,7 @@ open class ProtonLoggerImpl(
                         .forEach { line -> send(line) }
                 }
             }
-            val encoder = createAndStartEncoder(logger.loggerContext, logPattern)
+            val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN)
             val appender = ChannelAdapter(this, encoder)
             appender.start()
             logger.addAppender(appender)
@@ -157,7 +156,7 @@ open class ProtonLoggerImpl(
         private fun initialize() {
             logContext = LoggerFactory.getILoggerFactory() as LoggerContext
 
-            val patternEncoder = createAndStartEncoder(logContext, "$logPattern%n")
+            val patternEncoder = createAndStartEncoder(logContext, "$LOG_PATTERN%n")
 
             val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
                 this.context = logContext
@@ -244,7 +243,6 @@ open class ProtonLoggerImpl(
         }
 
         fun logInternal(msg: String) {
-            logContext.putProperty("timeZone", timeZoneSuffix(GregorianCalendar()))
             logger.debug(msg)
         }
 
@@ -267,6 +265,7 @@ open class ProtonLoggerImpl(
 
     private val logMessageQueue =
         MutableSharedFlow<String>(10, LOG_QUEUE_MAX_SIZE, BufferOverflow.DROP_LATEST)
+    private val timestampFormatter = ISODateTimeFormat.dateTime()
 
     private val backgroundLogger = BackgroundLogger(
         appContext,
@@ -274,13 +273,13 @@ open class ProtonLoggerImpl(
         loggerDispatcher,
         logMessageQueue,
         logDir,
-        logPattern,
         getUniqueLoggerName()
     )
 
-    // TODO: add timestamps in the log methods on the logging thread, not on the writing thread.
     fun log(event: LogEventType, message: String) {
-        val text = "$event $message"
+        if (!shouldLog(event.level)) return
+
+        val text = "${getTimestampNow()} $event $message"
         logMessageQueue.tryEmit(text)
     }
 
@@ -289,7 +288,9 @@ open class ProtonLoggerImpl(
         logCustom(LogLevel.INFO, category, message)
 
     fun logCustom(level: LogLevel, category: LogCategory, message: String) {
-        val text = "${level.toLog()} ${category.toLog()} $message"
+        if (!shouldLog(level)) return
+
+        val text = "${getTimestampNow()} ${level.toLog()} ${category.toLog()} $message"
         logMessageQueue.tryEmit(text)
     }
 
@@ -337,6 +338,11 @@ open class ProtonLoggerImpl(
         }
     }
 
+    private fun getTimestampNow(): String =
+        timestampFormatter.print(DateTime(wallClock(), DateTimeZone.UTC))
+
+    private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
+
     companion object {
         private var instanceNumber = 0
 
@@ -354,10 +360,4 @@ private fun logException(message: String, throwable: Throwable) {
         .withSentryInterface(ExceptionInterface(throwable))
         .build()
     ProtonLogger.logSentryEvent(event)
-}
-
-fun timeZoneSuffix(time: GregorianCalendar): String {
-    val timeZoneOffsetMs = time.timeZone.getOffset(time.timeInMillis)
-    val timeZoneOffsetH = TimeUnit.MILLISECONDS.toMinutes(timeZoneOffsetMs.toLong()) / 60.0
-    return (if (timeZoneOffsetH % 1.0 == 0.0) "%+.0f" else "%+.1f").format(Locale.US, timeZoneOffsetH)
 }

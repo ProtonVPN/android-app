@@ -21,8 +21,10 @@ package com.protonvpn.tests.logging
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogEventType
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLoggerImpl
-import com.protonvpn.android.logging.timeZoneSuffix
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
@@ -30,18 +32,24 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
-import java.util.GregorianCalendar
-import java.util.TimeZone
+import java.util.Locale
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-private const val LOG_PATTERN = "%msg"
+private const val TIMESTAMP = "2011-11-11T11:11:11.123Z"
+private val TIMESTAMP_DATE = ISODateTimeFormat.dateTimeParser().parseDateTime(TIMESTAMP)
+private val FIXED_CLOCK = { TIMESTAMP_DATE.millis }
+
+private val TestEvent = LogEventType(LogCategory.APP, "test", LogLevel.INFO)
+private const val TEST_EVENT = "info app:test"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProtonLoggerImplTests {
@@ -121,10 +129,22 @@ class ProtonLoggerImplTests {
     }
 
     @Test
-    fun testTimeZoneSuffix() {
-        assertEquals("+0", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT+0"))))
-        assertEquals("+1.5", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT+1:30"))))
-        assertEquals("-2", timeZoneSuffix(GregorianCalendar(TimeZone.getTimeZone("GMT-2"))))
+    @Suppress("BlockingMethodInNonBlockingContext")
+    fun testUtcTimestamp() = runLoggerTest { logger ->
+        val originalTZ = DateTimeZone.getDefault()
+        arrayOf(DateTimeZone.forOffsetHours(1), DateTimeZone.forOffsetHours(5)).forEach { tz ->
+            DateTimeZone.setDefault(tz)
+            logger.log(TestEvent, tz.toString())
+        }
+        DateTimeZone.setDefault(originalTZ)
+
+        val uploadFiles = logger.getLogFilesForUpload()
+        assertEquals(1, uploadFiles.size)
+        val uploadFile = uploadFiles[0].file
+        assertEquals(
+            listOf("$TIMESTAMP $TEST_EVENT +01:00", "$TIMESTAMP $TEST_EVENT +05:00"),
+            uploadFile.readLines()
+        )
     }
 
     private fun runLoggerTest(block: suspend CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {
@@ -137,7 +157,7 @@ class ProtonLoggerImplTests {
                 loggerScope,
                 testDispatcher,
                 logDir.absolutePath,
-                LOG_PATTERN
+                FIXED_CLOCK
             )
             block(logger)
             loggerScope.cancel()
