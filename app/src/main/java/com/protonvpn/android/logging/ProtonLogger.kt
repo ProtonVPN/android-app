@@ -35,7 +35,8 @@ object ProtonLogger : ProtonLoggerImpl(
     ProtonApplication.getAppContext(),
     MainScope(),
     Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
-    ProtonApplication.getAppContext().applicationInfo.dataDir + "/log"
+    ProtonApplication.getAppContext().applicationInfo.dataDir + "/log",
+    System::currentTimeMillis
 ) {
     private val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK)
 
