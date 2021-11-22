@@ -67,8 +67,10 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
         groupAdapter.add(customProfilesSection)
 
         groupAdapter.setOnItemClickListener { item, _ ->
-            userData.defaultConnection = (item as ProfileViewHolder).profile
-            finish()
+            if (item is ProfileViewHolder) {
+                userData.defaultConnection = item.profile
+                finish()
+            }
         }
 
         with(binding.recyclerItems) {
