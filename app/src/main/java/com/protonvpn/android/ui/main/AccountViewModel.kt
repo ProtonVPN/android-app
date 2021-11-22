@@ -28,7 +28,9 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.ProtonLogger
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +51,7 @@ import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
 import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
 import me.proton.core.auth.presentation.AuthOrchestrator
+import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.auth.presentation.onSecondFactorResult
 import me.proton.core.humanverification.domain.HumanVerificationManager
@@ -78,6 +81,7 @@ class AccountViewModel @Inject constructor(
     }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
+    var onAddAccountClosed: (() -> Unit)? = null
 
     private val _state = MutableStateFlow<State>(State.Initial)
     val state = _state.asStateFlow()
@@ -100,6 +104,12 @@ class AccountViewModel @Inject constructor(
             }.launchIn(activity.lifecycleScope)
 
         with(authOrchestrator) {
+            onAddAccountResult { result ->
+                if (result == null)
+                    onAddAccountClosed?.invoke()
+                else if (result.workflow == AddAccountWorkflow.SignUp)
+                    Storage.saveString(OnboardingPreferences.ONBOARDING_USER_ID, result.userId)
+            }
             accountManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.CREATED)
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
@@ -114,10 +124,6 @@ class AccountViewModel @Inject constructor(
             humanVerificationManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.RESUMED)
                 .onHumanVerificationNeeded { startHumanVerificationWorkflow(it) }
         }
-    }
-
-    fun onAddAccountClosed(block: () -> Unit) {
-        authOrchestrator.onAddAccountResult { result -> if (result == null) block() }
     }
 
     fun onSecondFactorClosed(block: () -> Unit) {

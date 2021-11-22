@@ -22,10 +22,14 @@ package com.protonvpn.android.ui.planupgrade
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpgradeDialogBinding
@@ -33,17 +37,32 @@ import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
 import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class UpgradeDialogActivity : BaseActivityV2() {
 
+    val viewModel by viewModels<UpgradeDialogViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = setContentViewBinding(ActivityUpgradeDialogBinding::inflate)
+        viewModel.setupOrchestrators(this)
+        viewModel.upgradeResult.asLiveData().observe(this, Observer { result ->
+            if (result != null) {
+                if (result.billingResult.subscriptionCreated)
+                    startActivity(CongratsPlanActivity.create(this))
+                finish()
+            }
+        })
+
         binding.buttonClose.setOnClickListener { finish() }
-        binding.buttonShowPlans.setOnClickListener { openProtonUrl(Constants.PLANS_AND_PRICING_URL) }
+        binding.buttonGetPlus.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.planUpgrade()
+            }
+        }
 
         setViews(binding)
     }
@@ -72,16 +91,16 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
+open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
 
     @Inject lateinit var serverManager: ServerManager
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {
         imagePicture.setImageResource(R.drawable.upgrade_plus_countries)
-        textTitle.setText(R.string.upgrade_plus_title)
+        textTitle.text = createTitle()
         // No margin between the image and title, the image fades out at the bottom.
         textTitle.updateLayoutParams<ViewGroup.MarginLayoutParams> { topMargin = 0 }
-        textMessage.text = createMessage()
+        textMessage.setText(R.string.upgrade_plus_countries_message)
 
         with(layoutFeatureItems) {
             val manyDevices = resources.getQuantityString(
@@ -97,7 +116,7 @@ class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
         }
     }
 
-    private fun createMessage(): String {
+    private fun createTitle(): String {
         val serverCount = serverManager.allServerCount
         val countryCount = serverManager.getVpnCountries().size
 
@@ -112,7 +131,7 @@ class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
             countryCount,
             countryCount
         )
-        return getString(R.string.upgrade_plus_message, servers, countries)
+        return getString(R.string.upgrade_plus_countries_title, servers, countries)
     }
 
     private fun ViewGroup.addFeature(@StringRes textRes: Int, @DrawableRes iconRes: Int) {
@@ -123,5 +142,15 @@ class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
         val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
         views.text.text = text
         views.text.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+    }
+}
+
+@AndroidEntryPoint
+class UpgradePlusOnboardingDialogActivity : UpgradePlusCountriesDialogActivity() {
+    override fun setViews(binding: ActivityUpgradeDialogBinding) {
+        super.setViews(binding)
+        with(binding) {
+            buttonClose.setText(R.string.upgrade_use_limited_free_button)
+        }
     }
 }
