@@ -19,6 +19,7 @@
 package com.protonvpn.testRules
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.rule.ActivityTestRule
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.vpn.ErrorType
@@ -51,6 +52,7 @@ class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
             service.deleteCreatedProfiles()
         }
         activityTestRule.finishActivity()
+        IdlingRegistry.getInstance().unregister()
     }
 
     fun mockStatusOnConnect(state: VpnState) {

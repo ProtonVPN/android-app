@@ -18,11 +18,10 @@
  */
 package com.protonvpn.testsHelper
 
-import androidx.annotation.CheckResult
 import androidx.test.espresso.IdlingResource
+import androidx.test.espresso.IdlingResource.ResourceCallback
 import okhttp3.OkHttpClient
 import okhttp3.Dispatcher
-import java.lang.NullPointerException
 
 class IdlingResourceHelper private constructor(
     private val name: String,
@@ -30,38 +29,30 @@ class IdlingResourceHelper private constructor(
 ) : IdlingResource {
 
     @Volatile
-    var callback: IdlingResource.ResourceCallback? = null
+    var callback: ResourceCallback? = null
 
     override fun getName(): String = name
 
     override fun isIdleNow(): Boolean {
         val idle = dispatcher.runningCallsCount() == 0
-        if (idle && callback != null) {
+        if (idle) {
             callback!!.onTransitionToIdle()
         }
         return idle
     }
 
-    override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback) {
+    override fun registerIdleTransitionCallback(callback: ResourceCallback) {
         this.callback = callback
     }
 
     companion object {
-        @CheckResult  // Extra guards as a library.
         fun create(name: String, client: OkHttpClient): IdlingResourceHelper {
-            if (name == null) {
-                throw NullPointerException("name == null")
-            }
-            if (client == null) {
-                throw NullPointerException("client == null")
-            }
             return IdlingResourceHelper(name, client.dispatcher)
         }
     }
 
     init {
         dispatcher.idleCallback = Runnable {
-            val callback = callback
             callback?.onTransitionToIdle()
         }
     }
