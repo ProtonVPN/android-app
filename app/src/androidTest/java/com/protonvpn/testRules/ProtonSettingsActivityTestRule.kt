@@ -18,6 +18,7 @@
  */
 package com.protonvpn.testRules
 
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.protonvpn.android.ui.settings.SettingsActivity
@@ -37,5 +38,6 @@ class ProtonSettingsActivityTestRule : TestWatcher() {
 
     override fun finished(description: Description) {
         activityTestRule.finishActivity()
+        IdlingRegistry.getInstance().unregister()
     }
 }

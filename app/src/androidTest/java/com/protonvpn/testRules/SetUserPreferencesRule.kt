@@ -25,12 +25,10 @@ import com.protonvpn.testsHelper.UserDataHelper
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class SetUserPreferencesRule(var user: TestUser?) : TestWatcher() {
+class SetUserPreferencesRule(var user: TestUser) : TestWatcher() {
     override fun starting(description: Description) {
         setCompletedOnboarding()
-        if (user != null) {
-            UserDataHelper().setUserData(user!!)
-        }
+        UserDataHelper().setUserData(user)
     }
 
     override fun finished(description: Description) {
