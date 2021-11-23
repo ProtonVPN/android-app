@@ -41,8 +41,8 @@ class OnSessionClosed @Inject constructor(
 
     suspend operator fun invoke(account: Account) {
         vpnConnectionManager.disconnectSync()
-        accountManager.removeAccount(account.userId)
         logoutFlow.emit(account)
+        accountManager.removeAccount(account.userId)
         account.sessionId?.let { certificateRepository.clear(it) }
         userData.onLogout()
         serverManager.clearCache()
