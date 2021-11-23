@@ -53,6 +53,11 @@ import com.proton.gopenpgp.vpnPing.VpnPing
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
+import com.protonvpn.android.logging.LocalAgentError
+import com.protonvpn.android.logging.LocalAgentLog
+import com.protonvpn.android.logging.LocalAgentStateChange
+import com.protonvpn.android.logging.LocalAgentStatus
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.utils.LiveEvent
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
@@ -161,11 +166,11 @@ abstract class VpnBackend(
     // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
     private fun createNativeClient() = object : NativeClient {
         override fun log(msg: String) {
-            ProtonLogger.log(msg)
+            ProtonLogger.log(LocalAgentLog, msg)
         }
 
         override fun onError(code: Long, description: String) {
-            ProtonLogger.log("Local agent error: $code $description")
+            ProtonLogger.log(LocalAgentError, "code: $code, $description")
             when (code) {
                 agentConstants.errorCodeMaxSessionsBasic,
                 agentConstants.errorCodeMaxSessionsFree,
@@ -197,7 +202,7 @@ abstract class VpnBackend(
                     setError(ErrorType.SERVER_ERROR)
                 agentConstants.errorCodeRestrictedServer ->
                     // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
-                    ProtonLogger.log("Local agent: Restricted server, waiting...")
+                    ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, "Restricted server, waiting...")
                 else -> {
                     if (agent?.status?.reason?.final == true)
                         setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
@@ -206,11 +211,13 @@ abstract class VpnBackend(
         }
 
         override fun onState(state: String) {
-            ProtonLogger.log("Local agent state: $state")
+            ProtonLogger.log(LocalAgentStateChange, state)
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
 
-        override fun onStatusUpdate(status: StatusMessage) {}
+        override fun onStatusUpdate(status: StatusMessage) {
+            ProtonLogger.log(LocalAgentStatus, status.toString())
+        }
     }
 
     private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null) {

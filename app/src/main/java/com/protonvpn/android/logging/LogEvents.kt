@@ -56,3 +56,8 @@ val ConnConnectStart = LogEventType(LogCategory.CONN_CONNECT, "start", LogLevel.
 val ConnConnectConnected = LogEventType(LogCategory.CONN_CONNECT, "connected", LogLevel.INFO)
 
 val ConnDisconnectTrigger = LogEventType(LogCategory.CONN_DISCONNECT, "trigger", LogLevel.INFO)
+
+val LocalAgentLog = LogEventType(LogCategory.LOCAL_AGENT, "log", LogLevel.INFO)
+val LocalAgentStateChange = LogEventType(LogCategory.LOCAL_AGENT, "state_change", LogLevel.INFO)
+val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "error", LogLevel.ERROR)
+val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "status", LogLevel.INFO)
