@@ -130,7 +130,8 @@ object AppModuleProd {
                 cookieStore,
                 scope,
                 certificatePins = emptyArray(),
-                alternativeApiPins = emptyList()
+                alternativeApiPins = emptyList(),
+                apiConnectionListener = null
             )
         } else {
             ApiManagerFactory(
@@ -145,7 +146,8 @@ object AppModuleProd {
                 humanVerificationProvider,
                 humanVerificationListener,
                 cookieStore,
-                scope
+                scope,
+                apiConnectionListener = null
             )
         }
     }
