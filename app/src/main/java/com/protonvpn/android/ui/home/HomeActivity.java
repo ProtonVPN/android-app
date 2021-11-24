@@ -289,13 +289,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                                 getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
                                 OnboardingPreferences.PROFILES_DIALOG);
                     }
-                    if (getString(R.string.tabsCountries).equals(tab.getText().toString())
-                            && OnboardingPreferences.wasFloatingButtonUsed() && !vpnStateMonitor.isConnected()
-                            && !isBottomSheetExpanded()) {
-                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                                getString(R.string.tabsCountries), getString(R.string.onboardingListDescription),
-                                OnboardingPreferences.COUNTRY_DIALOG);
-                    }
                 }
             }
 

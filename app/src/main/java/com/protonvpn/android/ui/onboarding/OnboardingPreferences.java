@@ -30,7 +30,6 @@ public class OnboardingPreferences implements Serializable {
     public static String NETSHIELD_DIALOG = "NetShieldShown";
     public static String FLOATINGACTION_DIALOG = "FloatingActionShown";
     public static String FLOATING_BUTTON_USED = "FloatingActionUsed";
-    public static String COUNTRY_DIALOG = "CountryDialogShown";
 
     public static void clearPreferences() {
         Storage.saveBoolean(MAPVIEW_DIALOG, false);
@@ -38,11 +37,6 @@ public class OnboardingPreferences implements Serializable {
         Storage.saveBoolean(SECURECORE_DIALOG, false);
         Storage.saveBoolean(FLOATINGACTION_DIALOG, false);
         Storage.saveBoolean(FLOATING_BUTTON_USED, false);
-        Storage.saveBoolean(COUNTRY_DIALOG, false);
-    }
-
-    public static boolean wasCountryDialogShown() {
-        return Storage.getBoolean(COUNTRY_DIALOG);
     }
 
     public static boolean wasFloatingButtonUsed() {
