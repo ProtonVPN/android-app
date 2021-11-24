@@ -115,7 +115,7 @@ class MockAppModule {
         val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
             networkManager, NetworkPrefs(appContext), sessionProvider, sessionListener, humanVerificationProvider,
             humanVerificationListener, cookieStore, scope, certificatePins = emptyArray(),
-            alternativeApiPins = emptyList())
+            alternativeApiPins = emptyList(), apiConnectionListener = null)
 
         val resource: IdlingResource =
             IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)

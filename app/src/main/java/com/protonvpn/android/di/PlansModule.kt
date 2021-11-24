@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,8 @@ import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.plan.data.repository.PlansRepositoryImpl
-import me.proton.core.plan.domain.SupportedPaidPlans
+import me.proton.core.plan.domain.SupportedSignupPaidPlans
+import me.proton.core.plan.domain.SupportedUpgradePaidPlans
 import me.proton.core.plan.domain.repository.PlansRepository
 import javax.inject.Singleton
 
@@ -36,7 +38,7 @@ import javax.inject.Singleton
 object PlansModule {
 
     @Provides
-    @SupportedPaidPlans
+    @SupportedSignupPaidPlans
     fun provideClientSupportedPaidPlanIds(): List<String> =
         emptyList()
 
@@ -48,4 +50,12 @@ object PlansModule {
     @Singleton
     fun providePlansRepository(apiProvider: ApiProvider): PlansRepository =
         PlansRepositoryImpl(apiProvider)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface PlansBindsModule {
+    @Binds
+    @SupportedUpgradePaidPlans
+    fun bindClientSupportedUpgradePaidPlanNames(@SupportedSignupPaidPlans plans: List<String>): List<String>
 }

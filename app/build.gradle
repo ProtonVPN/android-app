@@ -590,41 +590,42 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
+    def core_version = "2.0.0"
     implementation 'me.proton.vpn:go-vpn-lib:0.1.6'
-    implementation 'me.proton.core:domain:1.18'
-    implementation 'me.proton.core:network:1.15.7'
-    implementation 'me.proton.core:util-kotlin:1.15.2'
-    implementation 'me.proton.core:presentation:1.18.3'
-    implementation 'me.proton.core:human-verification:1.16.3'
-    implementation "me.proton.core:country:1.16.2"
-    implementation "me.proton.core:user:1.18"
-    implementation "me.proton.core:user-data:1.18"
-    implementation 'me.proton.core:user-settings:1.18.1'
-    implementation "me.proton.core:account:1.15.2"
-    implementation 'me.proton.core:account-manager:1.16.2'
-    implementation 'me.proton.core:account-manager-dagger:1.16.1'
-    implementation "me.proton.core:auth:1.18.3"
-    implementation 'me.proton.core:crypto:1.16'
-    implementation "me.proton.core:domain:1.18"
-    implementation 'me.proton.core:payment:1.17.3'
-    implementation 'me.proton.core:plan:1.18.1'
-    implementation "me.proton.core:key:1.16.1"
-    implementation "me.proton.core:data:1.15"
-    implementation "me.proton.core:data-room:1.16"
+    implementation "me.proton.core:domain:$core_version"
+    implementation "me.proton.core:network:$core_version"
+    implementation "me.proton.core:util-kotlin:$core_version"
+    implementation "me.proton.core:presentation:$core_version"
+    implementation "me.proton.core:human-verification:$core_version"
+    implementation "me.proton.core:country:$core_version"
+    implementation "me.proton.core:user:$core_version"
+    implementation "me.proton.core:user-data:$core_version"
+    implementation "me.proton.core:user-settings:$core_version"
+    implementation "me.proton.core:account:$core_version"
+    implementation "me.proton.core:account-manager:$core_version"
+    implementation "me.proton.core:account-manager-dagger:$core_version"
+    implementation "me.proton.core:auth:$core_version"
+    implementation "me.proton.core:crypto:$core_version"
+    implementation "me.proton.core:domain:$core_version"
+    implementation "me.proton.core:payment:$core_version"
+    implementation "me.proton.core:plan:$core_version"
+    implementation "me.proton.core:key:$core_version"
+    implementation "me.proton.core:data:$core_version"
+    implementation "me.proton.core:data-room:$core_version"
 
-    testImplementation('me.proton.core:test-kotlin:1.15') {
+    testImplementation("me.proton.core:test-kotlin:$core_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
 
-    androidTestImplementation('me.proton.core:test-kotlin:1.15') {
+    androidTestImplementation("me.proton.core:test-kotlin:$core_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
         // Use mockk-android from our own dependencies.
         exclude group: "io.mockk", module: "mockk"
     }
 
-    androidTestImplementation('me.proton.core:test-android-instrumented:1.15.5') {
+    androidTestImplementation("me.proton.core:test-android-instrumented:$core_version") {
         exclude group: "me.proton.core"
     }
     // Enforce org.checkerframework:checker's version to avoid duplicate classes.
