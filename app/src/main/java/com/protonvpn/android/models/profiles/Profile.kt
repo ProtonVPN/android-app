@@ -37,7 +37,8 @@ data class Profile @JvmOverloads constructor(
     val wrapper: ServerWrapper,
     private val colorId: Int?,
     private var protocol: String? = null,
-    private var transmissionProtocol: String? = null
+    private var transmissionProtocol: String? = null,
+    private var guestHoleConnection: Boolean? = false
 ) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
@@ -61,6 +62,12 @@ data class Profile @JvmOverloads constructor(
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
     else
         name
+
+    fun setGuestHole(enabled: Boolean) {
+        guestHoleConnection = enabled
+    }
+
+    fun isGuestHoleProfile() = guestHoleConnection
 
     @get:DrawableRes val profileSpecialIcon: Int? get() = when {
         wrapper.isPreBakedFastest -> R.drawable.ic_fast

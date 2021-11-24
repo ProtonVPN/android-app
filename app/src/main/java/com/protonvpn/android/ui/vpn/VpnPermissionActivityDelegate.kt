@@ -24,10 +24,11 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.vpn.PermissionContract
 import com.protonvpn.android.vpn.VpnPermissionDelegate
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class VpnPermissionActivityDelegate(
-    private val activity: ComponentActivity,
-    private val onPermissionDenied: () -> Unit
+    private val activity: ComponentActivity, private val onPermissionDenied: (() -> Unit)? = null
 ) : VpnPermissionDelegate {
 
     override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
@@ -37,10 +38,22 @@ class VpnPermissionActivityDelegate(
             if (permissionGranted) {
                 onPermissionGranted()
             } else {
-                onPermissionDenied()
+                onPermissionDenied?.invoke()
             }
         }
         permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
+    }
+
+    suspend fun suspendForPermissions(permissionIntent: Intent?): Boolean {
+        if (permissionIntent == null) return true
+        return suspendCancellableCoroutine { continuation ->
+            val permissionCall = activity.activityResultRegistry.register(
+                "VPNPermission", PermissionContract(permissionIntent)
+            ) { permissionGranted ->
+                continuation.resume(permissionGranted)
+            }
+            permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
+        }
     }
 
     override fun getContext(): Context = activity

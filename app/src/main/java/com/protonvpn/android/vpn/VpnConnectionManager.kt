@@ -417,7 +417,7 @@ open class VpnConnectionManager(
         )
     }
 
-    protected open fun prepare(context: Context): Intent? = VpnService.prepare(context)
+    open fun prepare(context: Context): Intent? = VpnService.prepare(context)
 
     private suspend fun disconnectBlocking() {
         Storage.delete(ConnectionParams::class.java)
