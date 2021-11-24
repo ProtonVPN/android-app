@@ -24,6 +24,7 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import com.protonvpn.TestSettings
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
@@ -72,11 +73,13 @@ import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.server.ServerTimeListener
+import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserRepository
+import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -106,7 +109,8 @@ class MockAppModule {
         sessionListener: SessionListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
+        guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
@@ -115,7 +119,9 @@ class MockAppModule {
         val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
             networkManager, NetworkPrefs(appContext), sessionProvider, sessionListener, humanVerificationProvider,
             humanVerificationListener, cookieStore, scope, certificatePins = emptyArray(),
-            alternativeApiPins = emptyList(), apiConnectionListener = null)
+            alternativeApiPins = emptyList(),
+            apiConnectionListener = guestHoleFallbackListener
+        )
 
         val resource: IdlingResource =
             IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
@@ -218,6 +224,24 @@ class MockAppModule {
                 config = appConfig
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideGuestHoleFallbackListener(
+        @ApplicationContext appContext: Context,
+        serverManager: dagger.Lazy<ServerManager>,
+        dispatcherProvider: DispatcherProvider,
+        vpnMonitor: VpnStateMonitor,
+        connectionManager: dagger.Lazy<VpnConnectionManager>
+    ): ApiConnectionListener =
+        GuestHole(
+            appContext,
+            scope,
+            dispatcherProvider,
+            serverManager,
+            vpnMonitor,
+            connectionManager
+        )
 
     @Singleton
     @Provides

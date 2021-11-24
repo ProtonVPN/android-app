@@ -32,7 +32,6 @@ class TestSetup {
             Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true)
             Storage.saveBoolean(OnboardingPreferences.NETSHIELD_DIALOG, true)
-            Storage.saveBoolean(OnboardingPreferences.COUNTRY_DIALOG, true)
         }
     }
 }

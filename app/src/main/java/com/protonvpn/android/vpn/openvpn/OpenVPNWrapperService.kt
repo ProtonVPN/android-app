@@ -57,10 +57,8 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     }
 
     override fun getProfile(): VpnProfile? =
-        currentUser.vpnUserCached()?.let { vpnUser ->
             Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
-                ?.openVpnProfile(userData, vpnUser, appConfig)
-        }
+                ?.openVpnProfile(userData, currentUser.vpnUserCached(), appConfig)
 
     override fun onProcessRestore(): Boolean {
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)

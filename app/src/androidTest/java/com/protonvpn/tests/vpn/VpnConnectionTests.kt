@@ -19,6 +19,7 @@
 package com.protonvpn.tests.vpn
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
@@ -66,6 +67,9 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.protonvpn.android.auth.usecase.CurrentUser
+import kotlinx.coroutines.runBlocking
+import me.proton.core.network.domain.ApiResult
+import me.proton.core.test.kotlin.TestDispatcherProvider
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -301,13 +305,17 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun executeInGuestHole() = runBlockingTest {
-        val guestHole = GuestHole(this, serverManager, monitor, manager)
-        val wasConnected = guestHole.call(mockVpnPermissionDelegate) {
-            monitor.isConnected
+    fun executeInGuestHole() = runBlocking {
+        mockOpenVpn.stateOnConnect = VpnState.Connected
+        val guestHole = spyk(
+            GuestHole(context, this, TestDispatcherProvider, dagger.Lazy { serverManager }, monitor, dagger.Lazy { manager })
+        )
+        every { guestHole.getCurrentActivity() } returns mockk<ComponentActivity>()
+        val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/vpn", null) {
+            ApiResult.Success<Any>(mockk())
         }
         Assert.assertTrue(monitor.isDisabled)
-        Assert.assertEquals(true, wasConnected)
+        Assert.assertNotNull(guestHoleResult)
     }
 
     @Test
@@ -315,12 +323,15 @@ class VpnConnectionTests {
         mockOpenVpn.failScanning = true
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
-        val guestHole = GuestHole(scope, serverManager, monitor, manager)
-        val result = guestHole.call(mockVpnPermissionDelegate) {
-            Assert.fail()
+        val guestHole = spyk(
+            GuestHole(context, this, TestDispatcherProvider, dagger.Lazy { serverManager }, monitor, dagger.Lazy { manager })
+        )
+        every { guestHole.getCurrentActivity() } returns mockk()
+        val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/randomCall", null) {
+            ApiResult.Success<Any>(mockk())
         }
         Assert.assertTrue(monitor.isDisabled)
-        Assert.assertEquals(null, result)
+        Assert.assertNull(guestHoleResult)
     }
 
     @Test

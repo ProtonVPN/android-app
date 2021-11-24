@@ -85,6 +85,7 @@ import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.server.ServerTimeListener
+import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.util.kotlin.DispatcherProvider
@@ -114,7 +115,8 @@ object AppModuleProd {
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
         extraHeaderProvider: ExtraHeaderProvider,
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
+        guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
@@ -137,7 +139,7 @@ object AppModuleProd {
                 certificatePins = emptyArray(),
                 alternativeApiPins = emptyList(),
                 extraHeaderProvider = extraHeaderProvider,
-                apiConnectionListener = null
+                apiConnectionListener = guestHoleFallbackListener
             )
         } else {
             ApiManagerFactory(
@@ -153,7 +155,7 @@ object AppModuleProd {
                 humanVerificationListener,
                 cookieStore,
                 scope,
-                apiConnectionListener = null
+                apiConnectionListener = guestHoleFallbackListener
             )
         }
     }
@@ -514,11 +516,21 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGuestHole(
-        serverManager: ServerManager,
+    fun provideGuestHoleFallbackListener(
+        @ApplicationContext appContext: Context,
+        dispatcherProvider: DispatcherProvider,
+        serverManager: dagger.Lazy<ServerManager>,
         vpnMonitor: VpnStateMonitor,
-        connectionManager: VpnConnectionManager
-    ) = GuestHole(scope, serverManager, vpnMonitor, connectionManager)
+        connectionManager: dagger.Lazy<VpnConnectionManager>
+    ): ApiConnectionListener =
+        GuestHole(
+            appContext,
+            scope,
+            dispatcherProvider,
+            serverManager,
+            vpnMonitor,
+            connectionManager
+        )
 
     @Provides
     @Singleton

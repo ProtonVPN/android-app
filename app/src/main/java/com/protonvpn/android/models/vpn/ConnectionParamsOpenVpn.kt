@@ -41,7 +41,7 @@ class ConnectionParamsOpenVpn(
 
     fun openVpnProfile(
         userData: UserData,
-        vpnUser: VpnUser,
+        vpnUser: VpnUser?,
         appConfig: AppConfig
     ) = VpnProfile(server.getLabel()).apply {
         mAuthenticationType = VpnProfile.TYPE_USERPASS
@@ -50,7 +50,8 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = getVpnUsername(userData, vpnUser, appConfig)
+        mUsername =
+            if (profile.isGuestHoleProfile() == true) "guest" else getVpnUsername(userData, vpnUser!!, appConfig)
         mUseTLSAuth = true
         mTunMtu = 1500
         mMssFix = userData.mtuSize - 40
@@ -72,7 +73,7 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-        mPassword = vpnUser.password
+        mPassword = if (profile.isGuestHoleProfile() == true) "guest" else vpnUser?.password
     }
 
     override fun hasSameProtocolParams(other: ConnectionParams) =
