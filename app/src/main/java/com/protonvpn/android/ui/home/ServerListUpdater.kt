@@ -88,6 +88,11 @@ class ServerListUpdater(
 
     private val task = ReschedulableTask(scope, ::now) {
         if (currentUser.isLoggedIn()) {
+            // force downloading serverlist first time for guesthole case
+            if (!serverManager.isDownloadedAtLeastOnce) {
+                updateServerList(networkLoader)
+            }
+
             if (vpnStateMonitor.isDisabled && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocation())
                     updateServerList(networkLoader)
@@ -180,15 +185,17 @@ class ServerListUpdater(
                 updateServerList(networkLoader)
             }
         }
+        loaderUI?.switchToLoading()
 
         api.getStreamingServices().valueOrNull?.let {
             serverManager.setStreamingServices(it)
         }
 
-        val result = api.getServerList(loaderUI, ipAddress.value)
+        val result = api.getServerList(null, ipAddress.value)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList)
         }
+        loaderUI?.switchToEmpty()
         return result
     }
 }
