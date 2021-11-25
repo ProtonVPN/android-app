@@ -68,3 +68,7 @@ val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "revoked", LogLevel.IN
 val UserCertNewCert = LogEventType(LogCategory.USER_CERT, "new_cert", LogLevel.INFO)
 val UserCertRefreshError = LogEventType(LogCategory.USER_CERT, "refresh_error", LogLevel.WARNING)
 val UserCertScheduleRefresh = LogEventType(LogCategory.USER_CERT, "schedule_refresh", LogLevel.INFO)
+
+val UserPlanCurrent = LogEventType(LogCategory.USER_PLAN, "current", LogLevel.INFO)
+val UserPlanChange = LogEventType(LogCategory.USER_PLAN, "change", LogLevel.INFO)
+val UserPlanMaxSessionsReached = LogEventType(LogCategory.USER_PLAN, "max_sessions_reached", LogLevel.INFO)

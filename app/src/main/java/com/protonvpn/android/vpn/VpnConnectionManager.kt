@@ -38,6 +38,7 @@ import com.protonvpn.android.logging.ConnConnectTrigger
 import com.protonvpn.android.logging.ConnDisconnectTrigger
 import com.protonvpn.android.logging.ConnStateChange
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -226,6 +227,7 @@ open class VpnConnectionManager(
                 vpnStateMonitor.fallbackConnectionFlow.emit(result)
                 ProtonLogger.log("Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
+                    ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
                     disconnect("max sessions reached")
                 } else {
                     activeBackend?.setSelfState(VpnState.Error(result.type))
