@@ -45,7 +45,7 @@ class LogEventType(
     override fun toString() = "${level.toLog()} ${category.toLog()}:$name"
 }
 
-val ConnCurrentState = LogEventType(LogCategory.CONN, "current_state", LogLevel.INFO)
+val ConnCurrentState = LogEventType(LogCategory.CONN, "current", LogLevel.INFO)
 val ConnStateChange = LogEventType(LogCategory.CONN, "state_change", LogLevel.INFO)
 val ConnError = LogEventType(LogCategory.CONN, "error", LogLevel.ERROR)
 val ConnConnectTrigger = LogEventType(LogCategory.CONN_CONNECT, "trigger", LogLevel.INFO)
@@ -61,3 +61,10 @@ val LocalAgentLog = LogEventType(LogCategory.LOCAL_AGENT, "log", LogLevel.INFO)
 val LocalAgentStateChange = LogEventType(LogCategory.LOCAL_AGENT, "state_change", LogLevel.INFO)
 val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "error", LogLevel.ERROR)
 val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "status", LogLevel.INFO)
+
+val UserCertCurrentState = LogEventType(LogCategory.USER_CERT, "current", LogLevel.INFO)
+val UserCertRefresh = LogEventType(LogCategory.USER_CERT, "refresh", LogLevel.INFO)
+val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "revoked", LogLevel.INFO)
+val UserCertNewCert = LogEventType(LogCategory.USER_CERT, "new_cert", LogLevel.INFO)
+val UserCertRefreshError = LogEventType(LogCategory.USER_CERT, "refresh_error", LogLevel.WARNING)
+val UserCertScheduleRefresh = LogEventType(LogCategory.USER_CERT, "schedule_refresh", LogLevel.INFO)

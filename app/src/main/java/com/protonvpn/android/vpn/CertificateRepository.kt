@@ -43,7 +43,11 @@ import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import com.proton.gopenpgp.ed25519.KeyPair
 import com.protonvpn.android.auth.usecase.CurrentUser
-import java.util.Date
+import com.protonvpn.android.logging.UserCertCurrentState
+import com.protonvpn.android.logging.UserCertNewCert
+import com.protonvpn.android.logging.UserCertRefresh
+import com.protonvpn.android.logging.UserCertRefreshError
+import com.protonvpn.android.logging.UserCertScheduleRefresh
 import java.util.concurrent.TimeUnit
 
 private const val MAX_REFRESH_COUNT = 2
@@ -99,8 +103,15 @@ class CertificateRepository(
         mainScope.launch {
             currentUser.sessionId()?.let {
                 val certInfo = getCertInfo(it)
-                ProtonLogger.log("Current cert: ${if (certInfo.certificatePem == null)
-                    null else "expires ${Date(certInfo.expiresAt)} (refresh at ${Date(certInfo.refreshAt)})"}")
+                val certString =
+                    if (certInfo.certificatePem == null) {
+                        "none"
+                    } else {
+                        val expires = ProtonLogger.formatTime(certInfo.expiresAt)
+                        val refreshes = ProtonLogger.formatTime(certInfo.refreshAt)
+                        "expires ${expires} (refresh at ${refreshes})"
+                    }
+                ProtonLogger.log(UserCertCurrentState, "Current cert: $certString")
             }
         }
         mainScope.launch {
@@ -108,8 +119,10 @@ class CertificateRepository(
                 for (change in changes) when (change) {
                     is UserPlanManager.InfoChange.PlanChange.Downgrade,
                     is UserPlanManager.InfoChange.PlanChange.Upgrade,
-                    is UserPlanManager.InfoChange.UserBecameDelinquent ->
+                    is UserPlanManager.InfoChange.UserBecameDelinquent -> {
+                        ProtonLogger.log(UserCertRefresh, "reason: user plan change: $change")
                         updateCurrentCert(force = true)
+                    }
                     else -> {}
                 }
             }
@@ -121,7 +134,7 @@ class CertificateRepository(
     }
 
     private fun rescheduleRefreshTo(time: Long) {
-        ProtonLogger.log("Certificate refresh scheduled to " + Date(time))
+        ProtonLogger.log(UserCertScheduleRefresh, "at: ${ProtonLogger.formatTime(time)}")
         refreshCertTask.scheduleTo(time)
     }
 
@@ -177,6 +190,7 @@ class CertificateRepository(
 
     private suspend fun updateCertificateInternal(sessionId: SessionId): CertificateResult {
         val info = getCertInfo(sessionId)
+        ProtonLogger.log(UserCertRefresh, "retry count: ${info.refreshCount}")
         return when (val response = api.getCertificate(info.publicKeyPem)) {
             is ApiResult.Success -> {
                 val cert = response.value
@@ -184,19 +198,26 @@ class CertificateRepository(
                     expiresAt = cert.expirationTimeMs,
                     refreshAt = cert.refreshTimeMs,
                     certificatePem = cert.certificate,
-                    refreshCount = 0)
+                    refreshCount = 0
+                )
                 setInfo(sessionId, newInfo)
-                ProtonLogger.log("New certificate expires at: " + Date(cert.expirationTimeMs))
+                ProtonLogger.log(
+                    UserCertNewCert,
+                    "expires at ${ProtonLogger.formatTime(cert.expirationTimeMs)}"
+                )
                 if (sessionId == currentUser.sessionId())
                     rescheduleRefreshTo(cert.refreshTimeMs)
                 CertificateResult.Success(cert.certificate, info.privateKeyPem)
             }
             is ApiResult.Error -> {
-                if (info.certificatePem == null)
-                    ProtonLogger.log("Failed to get certificate (${info.refreshCount})")
+                val certString = if (info.certificatePem == null)
+                    "current certificate: none"
                 else
-                    ProtonLogger.log("Failed to refresh (${info.refreshCount}) certificate expiring at " +
-                        Date(info.expiresAt))
+                    "current certificate expiring at ${ProtonLogger.formatTime(info.expiresAt)}"
+                ProtonLogger.log(
+                    UserCertRefreshError,
+                    "$certString, retry count: ${info.refreshCount}, error: $response"
+                )
 
                 if (info.refreshCount < MAX_REFRESH_COUNT) {
                     setInfo(sessionId, info.copy(refreshCount = info.refreshCount + 1))
