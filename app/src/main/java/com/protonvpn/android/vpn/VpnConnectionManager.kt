@@ -266,10 +266,8 @@ open class VpnConnectionManager(
 
     private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
         val fallback = if (server == null) {
-            ProtonLogger.log("Server not available. Finding alternative...")
             vpnErrorHandler.onServerNotAvailable(profile)
         } else {
-            ProtonLogger.log("Server in maintenance. Finding alternative...")
             vpnErrorHandler.onServerInMaintenance(profile, null)
         }
 
