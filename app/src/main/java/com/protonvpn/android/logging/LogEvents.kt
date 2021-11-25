@@ -19,22 +19,25 @@
 
 package com.protonvpn.android.logging
 
-import java.util.Locale
+enum class LogCategory(private val categoryName: String) {
+    API("api"),
+    APP("app"),
+    APP_UPDATE("app.update"),
+    CONN("conn"),
+    CONN_CONNECT("conn.connect"),
+    CONN_DISCONNECT("conn.disconnect"),
+    CONN_SERVER_SWITCH("conn.server_switch"),
+    LOCAL_AGENT("local_agent"),
+    NET("net"),
+    OS("os"),
+    PROTOCOL("protocol"),
+    SETTINGS("settings"),
+    UI("ui"),
+    USER("user"),
+    USER_CERT("user.cert"),
+    USER_PLAN("user.plan");
 
-enum class LogCategory {
-    CONN, CONN_CONNECT, CONN_DISCONNECT, CONN_SERVER_SWITCH,
-    LOCAL_AGENT,
-    UI,
-    USER, USER_CERT, USER_PLAN,
-    API,
-    NET,
-    PROTOCOL,
-    APP,
-    APP_UPDATE,
-    OS,
-    SETTINGS;
-
-    fun toLog() = name.lowercase(Locale.US).replace('_', '.')
+    fun toLog() = categoryName
 }
 
 class LogEventType(
