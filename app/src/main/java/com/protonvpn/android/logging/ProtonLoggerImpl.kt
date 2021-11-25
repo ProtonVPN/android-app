@@ -338,8 +338,10 @@ open class ProtonLoggerImpl(
         }
     }
 
-    private fun getTimestampNow(): String =
-        timestampFormatter.print(DateTime(wallClock(), DateTimeZone.UTC))
+    fun formatTime(timeMs: Long): String =
+        timestampFormatter.print(DateTime(timeMs, DateTimeZone.UTC))
+
+    private fun getTimestampNow(): String = formatTime(wallClock())
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
 
