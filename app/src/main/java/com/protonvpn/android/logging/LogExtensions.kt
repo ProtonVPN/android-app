@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.logging
 
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -39,3 +40,7 @@ fun Profile.toLog(userData: UserData): String {
     }
     return "Profile: $type, protocol: $protocol, server: $serverInfo"
 }
+
+fun VpnUser.toLog() =
+    "plan: $planName, maxTier: $maxTier, maxConnect: $maxConnect, status: $status, subscribed: $subscribed, " +
+        "services: $services, delinquent: $delinquent"

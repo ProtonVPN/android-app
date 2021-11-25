@@ -24,6 +24,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UserPlanChange
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +59,7 @@ class VpnLogin @Inject constructor(
                     Result.Error(context.getString(R.string.auth_login_general_error))
                 } else {
                     val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
+                    ProtonLogger.log(UserPlanChange, "logged in: $vpnUser.toLog()")
                     vpnUserDao.insertOrUpdate(vpnUser)
                     Result.Success(vpnUser)
                 }
