@@ -22,7 +22,12 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnServerSwitchFailed
+import com.protonvpn.android.logging.ConnServerSwitchServerSelected
+import com.protonvpn.android.logging.ConnServerSwitchTrigger
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -181,12 +186,13 @@ class VpnConnectionErrorHandler(
         reason: SwitchServerReason
     ): VpnFallbackResult.Switch? {
         if (!smartReconnectEnabled) {
-            ProtonLogger.log("Smart Reconnect disabled")
+            ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Smart Reconnect disabled")
             return null
         }
 
+        ProtonLogger.log(ConnServerSwitchTrigger, "reason: $reason")
         if (!networkManager.isConnectedToNetwork()) {
-            ProtonLogger.log("No internet: aborting fallback")
+            ProtonLogger.log(ConnServerSwitchFailed, "No internet: aborting fallback")
             return null
         }
 
@@ -194,11 +200,14 @@ class VpnConnectionErrorHandler(
         val candidates = getCandidateServers(orgProfile, orgPhysicalServer, includeOriginalServer)
 
         candidates.forEach {
-            ProtonLogger.log("Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}")
+            ProtonLogger.logCustom(
+                LogCategory.CONN_SERVER_SWITCH,
+                "Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}"
+            )
         }
 
         val pingResult = vpnBackendProvider.pingAll(candidates, orgPhysicalServer) ?: run {
-            ProtonLogger.log("No server responded")
+            ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }
 
@@ -207,7 +216,10 @@ class VpnConnectionErrorHandler(
             pingResult.physicalServer == orgPhysicalServer &&
             pingResult.responses.any { it.connectionParams.hasSameProtocolParams(orgParams) }
         ) {
-            ProtonLogger.log("Got response for current connection - don't switch VPN server")
+            ProtonLogger.log(
+                ConnServerSwitchServerSelected,
+                "Got response for current connection - don't switch VPN server"
+            )
             return null
         }
 
@@ -218,6 +230,7 @@ class VpnConnectionErrorHandler(
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
 
+        ProtonLogger.log(ConnServerSwitchServerSelected, pingResult.profile.toLog(userData))
         return VpnFallbackResult.Switch.SwitchServer(
             orgParams?.server,
             pingResult.profile,
@@ -265,8 +278,8 @@ class VpnConnectionErrorHandler(
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    it.onlineConnectingDomains.any {
-                        domain -> domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
+                    it.onlineConnectingDomains.any { domain ->
+                        domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
                     }
                 }
             } else
