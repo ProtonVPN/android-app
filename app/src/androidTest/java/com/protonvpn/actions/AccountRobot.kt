@@ -18,7 +18,11 @@
  */
 package com.protonvpn.actions
 
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.TestUser
@@ -30,12 +34,13 @@ class AccountRobot : BaseRobot() {
 
     fun clickManageAccount(): AccountRobot = clickElementById(R.id.buttonManageAccount)
 
-    class Verify : BaseVerify(){
-        fun checkIfAccountButtonOpensBrowser(browserPackageName: String) =
-            checkIfBrowserIsOpened(browserPackageName)
-
-        fun checkIfCorrectUsernameIsDisplayed(testUser: TestUser)  =
+    class Verify : BaseVerify() {
+        fun checkIfCorrectUsernameIsDisplayed(testUser: TestUser) =
             checkIfElementByIdContainsText(R.id.textUser, testUser.email)
+
+        fun checkIfAccountButtonHasCorrectUrl() {
+            intended(hasData(Constants.ACCOUNT_LOGIN_URL + "?utm_source=" + Constants.PROTON_URL_UTM_SOURCE))
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
