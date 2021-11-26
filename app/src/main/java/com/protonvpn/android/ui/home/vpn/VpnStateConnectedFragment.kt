@@ -99,8 +99,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             updateTrafficInfo(it)
         })
         viewModel.eventNotification.asLiveData().observe(viewLifecycleOwner, Observer { snack ->
-            if (snack.isSuccess) getSnackbarHelper()?.successSnack(snack.text)
-            else getSnackbarHelper()?.errorSnack(snack.text)
+            getSnackbarHelper()?.snack(snack.text, snack.type)
         })
         viewModel.trafficSpeedKbpsHistory.observe(viewLifecycleOwner, Observer {
             updateChart(it)

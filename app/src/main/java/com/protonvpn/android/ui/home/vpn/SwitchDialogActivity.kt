@@ -30,6 +30,7 @@ import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.SnackType
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +59,7 @@ class SwitchDialogActivity : BaseActivityV2() {
                 fullScreenDialog.cancelToastMessage?.let { message ->
                     delegatedSnackManager.postSnack(
                         message,
-                        true,
+                        SnackType.Success,
                         DelegatedSnackManager.SnackActionType.GOT_IT,
                         Snackbar.LENGTH_INDEFINITE
                     )

@@ -35,6 +35,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
+import me.proton.core.presentation.utils.SnackType
 import javax.inject.Inject
 
 private const val MILLIS_IN_SECOND = 1000f
@@ -60,7 +61,7 @@ class VpnStateConnectedViewModel @Inject constructor(
         val downloadKbpsHistory: List<Entry>
     )
 
-    data class SnackbarNotification(@StringRes val text: Int, val isSuccess: Boolean = true)
+    data class SnackbarNotification(@StringRes val text: Int, val type: SnackType)
 
     val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
     val connectionState = combine(stateMonitor.status, serverManager.serverListVersion) { status, _ ->
@@ -73,13 +74,13 @@ class VpnStateConnectedViewModel @Inject constructor(
             for (profile in serverManager.getSavedProfiles()) {
                 if (profile.server?.domain == currentServer.domain) {
                     val notification =
-                        SnackbarNotification(R.string.saveProfileAlreadySaved, isSuccess = false)
+                        SnackbarNotification(R.string.saveProfileAlreadySaved, SnackType.Norm)
                     eventNotification.tryEmit(notification)
                     return
                 }
             }
             serverManager.addToProfileList(currentServer.serverName, random(), currentServer)
-            eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved))
+            eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved, SnackType.Success))
         }
     }
 

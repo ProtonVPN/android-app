@@ -53,7 +53,7 @@ class DelegatedSnackbarHelper(
     private fun DelegatedSnackManager.Snack.show() {
         val actionCallback = actions.getOrDefault(action, null)
         val actionString = action?.text?.let { activity.resources.getString(it) }
-        showSnack(text, background, length) {
+        showSnack(text, type, length) {
             if (actionCallback != null && actionString != null) setAction(actionString) { actionCallback() }
             anchorView = this@DelegatedSnackbarHelper.anchorView
         }
