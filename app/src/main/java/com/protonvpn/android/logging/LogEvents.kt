@@ -48,6 +48,8 @@ class LogEventType(
     override fun toString() = "${level.toLog()} ${category.toLog()}:$name"
 }
 
+val AppCrash = LogEventType(LogCategory.APP, "crash", LogLevel.ERROR)
+
 val ConnCurrentState = LogEventType(LogCategory.CONN, "current", LogLevel.INFO)
 val ConnStateChange = LogEventType(LogCategory.CONN, "state_change", LogLevel.INFO)
 val ConnError = LogEventType(LogCategory.CONN, "error", LogLevel.ERROR)
