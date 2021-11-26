@@ -238,7 +238,7 @@ open class VpnConnectionManager(
     }
 
     private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
-        fallback.notificationReason?.let {
+        if (fallback.notifyUser && fallback.reason != null) {
             vpnStateMonitor.fallbackConnectionFlow.emit(fallback)
         }
 
@@ -254,7 +254,7 @@ open class VpnConnectionManager(
                 connectWithPermission(appContext, fallback.toProfile, fallback.log)
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
-                if (fallback.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
+                if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
                     // Not compatible protocol needs to ask user permission to switch
                     // If user accepts then continue through broadcast receiver
                     if (fallback.compatibleProtocol)

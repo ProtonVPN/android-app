@@ -414,7 +414,7 @@ class VpnConnectionTests {
             fallbackOpenVpnProfile, fallbackOpenVpnProfile.server!!, true).first()
         val fallbackResult = VpnFallbackResult.Switch.SwitchServer(profileIKEv2.server,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
-            compatibleProtocol = false, switchedSecureCore = false)
+            compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)
         coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
 
         val fallbacks = mutableListOf<VpnFallbackResult>()

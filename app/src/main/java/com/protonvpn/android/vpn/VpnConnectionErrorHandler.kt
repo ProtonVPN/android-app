@@ -67,30 +67,32 @@ sealed class VpnFallbackResult : Serializable {
 
     sealed class Switch : VpnFallbackResult() {
 
-        // null means change should be transparent for the user (no notification)
         abstract val log: String
-        abstract val notificationReason: SwitchServerReason?
+        abstract val reason: SwitchServerReason?
+        abstract val notifyUser: Boolean
         abstract val fromServer: Server?
         abstract val toProfile: Profile
 
         data class SwitchProfile(
             override val fromServer: Server?,
             override val toProfile: Profile,
-            override val notificationReason: SwitchServerReason? = null,
+            override val reason: SwitchServerReason? = null,
         ) : Switch() {
-            override val log get() = "SwitchProfile ${toProfile.name} reason=$notificationReason"
+            override val notifyUser = reason != null
+            override val log get() = "SwitchProfile ${toProfile.name} reason: $reason"
         }
 
         data class SwitchServer(
             override val fromServer: Server?,
             override val toProfile: Profile,
             val preparedConnection: PrepareResult,
-            override val notificationReason: SwitchServerReason?,
+            override val reason: SwitchServerReason,
             val compatibleProtocol: Boolean,
             val switchedSecureCore: Boolean,
+            override val notifyUser: Boolean
         ) : Switch() {
             override val log get() = "SwitchServer ${preparedConnection.connectionParams.info} " +
-                "reason=$notificationReason compatibleProtocol=$compatibleProtocol"
+                "reason: $reason compatibleProtocol: $compatibleProtocol"
         }
     }
 
@@ -238,7 +240,8 @@ class VpnConnectionErrorHandler(
             orgParams?.server,
             pingResult.profile,
             expectedProtocolConnection ?: pingResult.responses.first(),
-            if (isCompatible) null else reason,
+            reason,
+            notifyUser = !isCompatible,
             compatibleProtocol = expectedProtocolConnection != null,
             switchedSecureCore = switchedSecureCore
         )
