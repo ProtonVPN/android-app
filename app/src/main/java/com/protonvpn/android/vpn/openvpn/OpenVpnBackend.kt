@@ -23,6 +23,7 @@ import android.os.Build
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -126,7 +127,10 @@ class OpenVpnBackend(
             val tcpPingData = getPingData(tcp = true)
             val tcpPorts = async {
                 val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
-                ProtonLogger.log("${connectingDomain.entryDomain}/OpenVPN/TCP port scan: $ports")
+                ProtonLogger.log(
+                    ConnConnectScan,
+                    "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: ${ports}"
+                )
                 ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
                     NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
                 }
