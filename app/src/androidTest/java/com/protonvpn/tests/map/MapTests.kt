@@ -36,12 +36,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [MapRobotTests] contains tests related to map view
+ * [MapTests] contains tests related to map view
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class MapRobotTests {
+class MapTests {
 
     private val testRule = ProtonHomeActivityTestRule()
     private val homeRobot = HomeRobot()

@@ -38,12 +38,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [LogoutRobotTestsTv] Contains all tests related to Logout actions.
+ * [LogoutTestsTv] Contains all tests related to Logout actions.
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 @HiltAndroidTest
-class LogoutRobotTestsTv {
+class LogoutTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
     @get:Rule val rules = RuleChain

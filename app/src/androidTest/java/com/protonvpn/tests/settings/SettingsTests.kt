@@ -32,12 +32,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [SettingsRobotTests] Contains UI tests for Settings
+ * [SettingsTests] Contains UI tests for Settings
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class SettingsRobotTests {
+class SettingsTests {
 
     private val settingsRobot = SettingsRobot()
 

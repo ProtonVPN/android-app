@@ -26,12 +26,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [AccountRobotTests] contains UI tests for Account view
+ * [AccountTests] contains UI tests for Account view
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class AccountRobotTests {
+class AccountTests {
 
     private val homeRobot = HomeRobot()
     private val accountRobot = AccountRobot()

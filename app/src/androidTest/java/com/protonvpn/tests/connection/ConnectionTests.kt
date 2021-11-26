@@ -45,7 +45,7 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class ConnectionRobotTests {
+class ConnectionTests {
 
     private val testRule = ProtonHomeActivityTestRule()
 

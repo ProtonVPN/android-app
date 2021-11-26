@@ -38,12 +38,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [LoginRobotTests] contains UI tests for Login flow
+ * [LoginTests] contains UI tests for Login flow
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class LoginRobotTests {
+class LoginTests {
 
     private lateinit var addAccountRobot: AddAccountRobot
     private lateinit var loginRobot: LoginRobot
