@@ -132,6 +132,7 @@ class VpnConnectionErrorHandlerTests {
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { networkManager.isConnectedToNetwork() } returns true
         every { userData.isSecureCoreEnabled } returns false
+        every { userData.selectedProtocol } returns VpnProtocol.Smart
         every { vpnStateMonitor.isEstablishingOrConnected } returns false
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         prepareServerManager()
@@ -263,7 +264,8 @@ class VpnConnectionErrorHandlerTests {
                 directConnectionParams.server,
                 pingResult.captured.connectionParams.profile,
                 pingResult.captured,
-                SwitchServerReason.ServerInMaintenance, // Country is not compatible
+                SwitchServerReason.ServerInMaintenance,
+                notifyUser = true, // Country is not compatible
                 compatibleProtocol = true,
                 switchedSecureCore = false),
             fallback)
@@ -284,7 +286,8 @@ class VpnConnectionErrorHandlerTests {
                 directConnectionParams.server,
                 pingResult.captured.connectionParams.profile,
                 pingResult.captured,
-                null, // CA#2 is compatible with CA#1, switch silently
+                SwitchServerReason.ServerUnreachable,
+                notifyUser = false, // CA#2 is compatible with CA#1, switch silently
                 compatibleProtocol = true,
                 switchedSecureCore = false),
             fallback)
@@ -307,7 +310,7 @@ class VpnConnectionErrorHandlerTests {
         preparePings(useOpenVPN = true, failSecureCore = true)
         val fallback = handler.onUnreachableError(directConnectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertFalse(fallback.compatibleProtocol)
-        assertEquals(SwitchServerReason.ServerUnreachable, fallback.notificationReason)
+        assertEquals(SwitchServerReason.ServerUnreachable, fallback.reason)
         assertEquals("CA#1", fallback.preparedConnection.connectionParams.server.serverName)
         assertTrue(fallback.preparedConnection.connectionParams is ConnectionParamsOpenVpn)
     }
@@ -323,7 +326,7 @@ class VpnConnectionErrorHandlerTests {
         preparePings(failServerName = secureCoreServer.serverName)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertEquals("FR-FI#1", fallback.preparedConnection.connectionParams.server.serverName)
-        assertEquals(null, fallback.notificationReason) // fallback is compatible
+        assertFalse(fallback.notifyUser) // fallback is compatible
     }
 
     @Test
@@ -337,7 +340,7 @@ class VpnConnectionErrorHandlerTests {
         preparePings(failSecureCore = true)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertEquals("FI#1", fallback.preparedConnection.connectionParams.server.serverName)
-        assertEquals(SwitchServerReason.ServerUnreachable, fallback.notificationReason)
+        assertEquals(SwitchServerReason.ServerUnreachable, fallback.reason)
         assertTrue(fallback.switchedSecureCore)
     }
 
@@ -371,7 +374,7 @@ class VpnConnectionErrorHandlerTests {
     ) = coroutineScope {
         launch {
             val event = handler.switchConnectionFlow.first()
-            assertEquals(fallback.notificationReason, event.notificationReason)
+            assertEquals(fallback.reason, event.reason)
         }
         infoChangeFlow.emit(infoChange)
     }

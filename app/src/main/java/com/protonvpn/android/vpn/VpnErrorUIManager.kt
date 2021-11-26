@@ -96,8 +96,8 @@ class VpnErrorUIManager(
     private fun shouldAlwaysInform(switch: VpnFallbackResult): Boolean {
         return when (switch) {
             is VpnFallbackResult.Switch ->
-                switch.notificationReason is SwitchServerReason.Downgrade ||
-                        switch.notificationReason is SwitchServerReason.UserBecameDelinquent
+                switch.reason is SwitchServerReason.Downgrade ||
+                        switch.reason is SwitchServerReason.UserBecameDelinquent
             is VpnFallbackResult.Error -> switch.type == ErrorType.MAX_SESSIONS
         }
     }
@@ -105,7 +105,7 @@ class VpnErrorUIManager(
     private fun buildNotificationInformation(switch: VpnFallbackResult): ReconnectionNotification? {
         return when (switch) {
             is VpnFallbackResult.Switch -> {
-                switch.notificationReason?.let {
+                switch.reason?.let {
                     ReconnectionNotification(
                         title = notificationHelper.getContentTitle(it),
                         content = notificationHelper.getContentString(it),
@@ -163,7 +163,7 @@ class VpnErrorUIManager(
         val toServer = switch.toProfile.server
         val fromServer = switch.fromServer
         return if (toServer != null && fromServer != null
-            && switch.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
+            && switch.reason !is SwitchServerReason.UserBecameDelinquent) {
             NotificationHelper.ReconnectionInformation(
                 fromServerName = fromServer.serverName,
                 fromCountry = fromServer.exitCountry,
