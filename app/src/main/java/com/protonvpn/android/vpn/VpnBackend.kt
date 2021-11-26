@@ -431,7 +431,7 @@ abstract class VpnBackend(
             val candidatePorts = ports.takeRandomStable(numberOfPorts)
             ProtonLogger.log(
                 ConnConnectScan,
-                "${connectingDomain.entryDomain}/$vpnProtocol, ports: ${candidatePorts}"
+                "${connectingDomain.entryDomain}/$vpnProtocol, UDP ports: ${candidatePorts}"
             )
             candidatePorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) {
                 pingUdp(connectingDomain.entryIp, it, connectingDomain.publicKeyX25519)

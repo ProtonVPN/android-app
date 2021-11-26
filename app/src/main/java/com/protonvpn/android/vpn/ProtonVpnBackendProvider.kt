@@ -27,7 +27,6 @@ import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.toLog
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -49,36 +48,26 @@ class ProtonVpnBackendProvider(
         alwaysScan: Boolean
     ): PrepareResult? {
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Preparing connection with protocol: " + protocol.name)
+        val scan = when (protocol) {
+            VpnProtocol.IKEv2 -> false
+            VpnProtocol.OpenVPN -> alwaysScan
+            VpnProtocol.WireGuard -> alwaysScan
+            VpnProtocol.Smart -> true
+        }
         return when (protocol) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan = false)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan = alwaysScan)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan = alwaysScan)
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan)
             VpnProtocol.Smart -> {
-                val backends = mutableListOf<VpnBackend>()
-                with(config.getSmartProtocolConfig()) {
-                    if (wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
-                        backends += wireGuard
-                    if (ikeV2Enabled)
-                        backends += strongSwan
-                    if (openVPNEnabled)
-                        backends += openVpn
-                }
-                backends.asFlow().map {
-                    it.prepareForConnection(profile, server, scan = true)
+                getEnabledBackends(server).asFlow().map {
+                    it.prepareForConnection(profile, server, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
                 }
             }
         }?.firstOrNull()
             .also {
-                if (it == null) {
-                    ProtonLogger.log(ConnConnectScanResult, "no result")
-                } else {
-                    ProtonLogger.log(
-                        ConnConnectScanResult,
-                        "Connect to: ${it.connectionParams.info}"
-                    )
-                }
+                if (scan) logScanResult(it)
             }
     }
 
@@ -106,6 +95,26 @@ class ProtonVpnBackendProvider(
             }
         }
         return null
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    private fun getEnabledBackends(server: Server) = buildList {
+        with(config.getSmartProtocolConfig()) {
+            if (wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
+                add(wireGuard)
+            if (ikeV2Enabled)
+                add(strongSwan)
+            if (openVPNEnabled)
+                add(openVpn)
+        }
+    }
+
+    private fun logScanResult(result: PrepareResult?) {
+        if (result == null) {
+            ProtonLogger.log(ConnConnectScanResult, "no result")
+        } else {
+            ProtonLogger.log(ConnConnectScanResult, "Connect to: ${result.connectionParams.info}")
+        }
     }
 
     companion object {
