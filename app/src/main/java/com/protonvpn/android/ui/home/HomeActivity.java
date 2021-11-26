@@ -36,7 +36,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
-import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
 import com.protonvpn.android.auth.usecase.CurrentUserKt;
@@ -274,29 +273,40 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         viewPager.setAdapter(adapter);
 
         tabs.setupWithViewPager(viewPager);
-        RxTabLayout.selectionEvents(tabs)
-            .subscribe(tabLayoutSelectionEvent -> fragment.collapseBottomSheet());
-        RxTabLayout.selections(tabs).subscribe(tab -> {
-            if (tab.isSelected()) {
-                View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
-                if (getString(R.string.tabsMap).equals(tab.getText().toString())
-                    && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
-                        getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                fragment.collapseBottomSheet();
+                if (tab.isSelected()) {
+                    View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
+                    if (getString(R.string.tabsMap).equals(tab.getText().toString())
+                            && !isBottomSheetExpanded()) {
+                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
+                                getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
+                    }
+                    if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
+                            && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
+                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
+                                getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
+                                OnboardingPreferences.PROFILES_DIALOG);
+                    }
+                    if (getString(R.string.tabsCountries).equals(tab.getText().toString())
+                            && OnboardingPreferences.wasFloatingButtonUsed() && !vpnStateMonitor.isConnected()
+                            && !isBottomSheetExpanded()) {
+                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
+                                getString(R.string.tabsCountries), getString(R.string.onboardingListDescription),
+                                OnboardingPreferences.COUNTRY_DIALOG);
+                    }
                 }
-                if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
-                    && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                        getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
-                        OnboardingPreferences.PROFILES_DIALOG);
-                }
-                if (getString(R.string.tabsCountries).equals(tab.getText().toString())
-                    && OnboardingPreferences.wasFloatingButtonUsed() && !vpnStateMonitor.isConnected()
-                    && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                        getString(R.string.tabsCountries), getString(R.string.onboardingListDescription),
-                        OnboardingPreferences.COUNTRY_DIALOG);
-                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                fragment.collapseBottomSheet();
             }
         });
 

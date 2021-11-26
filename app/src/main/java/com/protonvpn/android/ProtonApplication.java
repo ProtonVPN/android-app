@@ -48,7 +48,6 @@ import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import me.proton.core.util.kotlin.CoreLogger;
-import rx_activity_result2.RxActivityResult;
 
 public class ProtonApplication extends Application {
 
@@ -67,7 +66,6 @@ public class ProtonApplication extends Application {
 
         initPreferences();
 
-        RxActivityResult.register(this);
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
         if (BuildConfig.DEBUG)

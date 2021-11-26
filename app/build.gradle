@@ -548,8 +548,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation 'com.github.VictorAlbertos:RxActivityResult:0.5.0-2.x'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.2.0'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
