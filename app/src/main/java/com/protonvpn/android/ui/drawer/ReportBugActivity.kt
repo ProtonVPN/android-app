@@ -37,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.view.ProtonInput
+import me.proton.core.presentation.utils.SnackType
 
 @AndroidEntryPoint
 class ReportBugActivity : BaseActivityV2() {
@@ -116,7 +117,7 @@ class ReportBugActivity : BaseActivityV2() {
             is ReportBugActivityViewModel.ViewState.Error ->
                 loadingContainer.switchToRetry(state.error)
             is ReportBugActivityViewModel.ViewState.Finish -> {
-                delegatedSnackManager.postSnack(getString(R.string.bugReportThankYouToast), true)
+                delegatedSnackManager.postSnack(getString(R.string.bugReportThankYouToast), SnackType.Success)
                 finish()
             }
         }

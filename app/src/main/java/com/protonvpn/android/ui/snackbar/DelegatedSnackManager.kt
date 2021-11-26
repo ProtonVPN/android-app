@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
+import me.proton.core.presentation.utils.SnackType
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -61,7 +62,7 @@ class DelegatedSnackManager(private val monoClock: () -> Long) {
     data class Snack(
         val timestampMs: Long,
         val text: String,
-        @DrawableRes val background: Int,
+        val type: SnackType,
         val action: SnackActionType?,
         val length: Int
     )
@@ -70,18 +71,11 @@ class DelegatedSnackManager(private val monoClock: () -> Long) {
 
     fun postSnack(
         text: String,
-        isSuccess: Boolean,
+        type: SnackType,
         action: SnackActionType? = null,
         length: Int = Snackbar.LENGTH_LONG
     ) {
-        pendingSnack =
-            Snack(
-                monoClock(),
-                text,
-                if (isSuccess) R.drawable.snackbar_background_success else R.drawable.snackbar_background_error,
-                action,
-                length
-            )
+        pendingSnack = Snack(monoClock(), text, type, action, length)
     }
 
     fun getPendingSnackOrNull(): Snack? {
