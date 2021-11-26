@@ -276,11 +276,18 @@ open class ProtonLoggerImpl(
         getUniqueLoggerName()
     )
 
-    fun log(event: LogEventType, message: String) {
+    private fun logEvent(event: LogEventType, message: String, logMessage: (text: String) -> Unit) {
         if (!shouldLog(event.level)) return
 
-        val text = "${getTimestampNow()} $event $message"
-        logMessageQueue.tryEmit(text)
+        val preparedMessage = multiLine(message)
+        val text = "${getTimestampNow()} $event $preparedMessage"
+        logMessage(text)
+    }
+
+    fun log(event: LogEventType, message: String) {
+        logEvent(event, message) { text ->
+            logMessageQueue.tryEmit(text)
+        }
     }
 
     // Log custom event/message with log level info.
@@ -290,8 +297,15 @@ open class ProtonLoggerImpl(
     fun logCustom(level: LogLevel, category: LogCategory, message: String) {
         if (!shouldLog(level)) return
 
-        val text = "${getTimestampNow()} ${level.toLog()} ${category.toLog()} $message"
+        val preparedMessage = multiLine(message)
+        val text = "${getTimestampNow()} ${level.toLog()} ${category.toLog()} $preparedMessage"
         logMessageQueue.tryEmit(text)
+    }
+
+    fun logBlocking(event: LogEventType, message: String) {
+        logEvent(event, message) { text ->
+            backgroundLogger.logBlocking(text)
+        }
     }
 
     @Deprecated("Stop logging events to Sentry")
@@ -305,12 +319,6 @@ open class ProtonLoggerImpl(
     @Deprecated("Use log with LogEventType or logCustom")
     fun log(message: String) {
         logMessageQueue.tryEmit(message)
-    }
-
-    // TODO: implement a replacement
-    @Deprecated("")
-    fun logBlocking(msg: String) {
-        backgroundLogger.logBlocking(msg)
     }
 
     fun getLogLines() = backgroundLogger.getLogLines()
@@ -342,6 +350,8 @@ open class ProtonLoggerImpl(
         timestampFormatter.print(DateTime(timeMs, DateTimeZone.UTC))
 
     private fun getTimestampNow(): String = formatTime(wallClock())
+
+    private fun multiLine(message: String) = message.replace("\n", "\n ")
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
 

@@ -130,6 +130,24 @@ class ProtonLoggerImplTests {
 
     @Test
     @Suppress("BlockingMethodInNonBlockingContext")
+    fun testMultilineMessage() = runLoggerTest { logger ->
+        logger.log(TestEvent, "line 1\nline 2\nline 3")
+        logger.logCustom(LogCategory.APP, "custom line 1\ncustom line 2")
+        val uploadFile = logger.getLogFilesForUpload().first().file
+        assertEquals(
+            listOf(
+                "$TIMESTAMP $TEST_EVENT line 1",
+                " line 2",
+                " line 3",
+                "$TIMESTAMP info app custom line 1",
+                " custom line 2"
+            ),
+            uploadFile.readLines()
+        )
+    }
+
+    @Test
+    @Suppress("BlockingMethodInNonBlockingContext")
     fun testUtcTimestamp() = runLoggerTest { logger ->
         val originalTZ = DateTimeZone.getDefault()
         arrayOf(DateTimeZone.forOffsetHours(1), DateTimeZone.forOffsetHours(5)).forEach { tz ->
