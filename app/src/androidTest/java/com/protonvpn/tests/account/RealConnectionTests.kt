@@ -46,11 +46,11 @@ import org.junit.runners.Parameterized.Parameters
 import javax.inject.Inject
 
 /**
- * [RealConnectionRobotTests] Contains tests related to real VPN connection.
+ * [RealConnectionTests] Contains tests related to real VPN connection.
  */
 @RunWith(Parameterized::class)
 @HiltAndroidTest
-class RealConnectionRobotTests(private val protocol: VpnProtocol) {
+class RealConnectionTests(private val protocol: VpnProtocol) {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 

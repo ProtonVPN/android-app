@@ -39,12 +39,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [ProfileRobotTests] contains tests related to profile actions
+ * [ProfileTests] contains tests related to profile actions
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class ProfileRobotTests {
+class ProfileTests {
 
     private val testRule = ProtonHomeActivityTestRule()
     private val newProfileName = "New test profile"

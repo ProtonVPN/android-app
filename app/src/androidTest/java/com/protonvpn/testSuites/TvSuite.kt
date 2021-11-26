@@ -18,16 +18,16 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.testsTv.tests.connection.ConnectionRobotTestsTv
-import com.protonvpn.testsTv.tests.login.LoginRobotTestsTv
-import com.protonvpn.testsTv.tests.login.LogoutRobotTestsTv
+import com.protonvpn.testsTv.tests.connection.ConnectionTestsTv
+import com.protonvpn.testsTv.tests.login.LoginTestsTv
+import com.protonvpn.testsTv.tests.login.LogoutTestsTv
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        LoginRobotTestsTv::class,
-        LogoutRobotTestsTv::class,
-        ConnectionRobotTestsTv::class
+        LoginTestsTv::class,
+        LogoutTestsTv::class,
+        ConnectionTestsTv::class
 )
 class TvSuite

@@ -21,15 +21,16 @@ package com.protonvpn.tests.secureCore
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.android.vpn.VpnState
+import androidx.test.filters.SdkSuppress
+import com.protonvpn.actions.ProfilesRobot
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
-import com.protonvpn.actions.CountriesRobot
 import com.protonvpn.actions.HomeRobot
-import com.protonvpn.actions.MapRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
+import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -39,65 +40,69 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [SecureCoreRobotTests] contains tests related to Secure Core connection (Mocked API and connection is used)
+ * [ConnectionRobot] contains tests related to how restrictions handle Secure Core
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class SecureCoreRobotTests {
+class SecureCoreSecurityTests {
+
     private val testRule = ProtonHomeActivityTestRule()
+    private val secureCoreServerDomain = "se-fr-01.protonvpn.com"
 
     @get:Rule
     var rules = RuleChain
         .outerRule(HiltAndroidRule(this))
-        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(SetUserPreferencesRule(TestUser.freeUser))
         .around(testRule)
 
     private lateinit var homeRobot: HomeRobot
-    private lateinit var mapRobot: MapRobot
     private lateinit var connectionRobot: ConnectionRobot
-    private lateinit var countriesRobot: CountriesRobot
+    private lateinit var serviceTestHelper: ServiceTestHelper
+    private lateinit var profilesRobot: ProfilesRobot
 
     @Before
     fun setup() {
         homeRobot = HomeRobot()
-        mapRobot = MapRobot()
         connectionRobot = ConnectionRobot()
-        countriesRobot = CountriesRobot()
+        serviceTestHelper = ServiceTestHelper()
+        profilesRobot = ProfilesRobot()
     }
 
     @Test
-    fun connectAndDisconnectFromSecureCoreThroughMap() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
+    fun tryToEnableSecureCoreAsFreeUser() {
         homeRobot.setStateOfSecureCoreSwitch(true)
-            .swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode("Sweden")
-            .verify { isCountryNodeSelected("Sweden") }
-        mapRobot.clickOnCountryNodeUntilConnectButtonAppears("Sweden >> France")
-            .clickConnectButton()
-            .verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
-            .verify { isDisconnected() }
+            .verify {
+                dialogUpgradeVisible()
+                isSecureCoreDisabled()
+            }
     }
 
     @Test
-    fun connectAndDisconnectFromSecureCoreThroughQuickConnect() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.setStateOfSecureCoreSwitch(true)
-            .connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
-            .verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
-            .verify { isDisconnected() }
+    fun tryToConnectToSecureCoreThroughProfilesAsFreeUser() {
+        serviceTestHelper.addProfile(
+            VpnProtocol.Smart,
+            DefaultData.PROFILE_NAME,
+            secureCoreServerDomain
+        )
+        homeRobot.swipeLeftToOpenProfiles()
+        profilesRobot.clickOnUpgradeButton(DefaultData.PROFILE_NAME)
+        homeRobot.verify { dialogUpgradeVisible() }
+        connectionRobot.verify { isDisconnectedServiceHelper() }
     }
 
     @Test
-    fun connectAndDisconnectFromSecureCoreThroughCountryList() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.setStateOfSecureCoreSwitch(true)
-        countriesRobot.selectCountry("Finland")
-            .clickConnectButton("via Sweden")
-            .verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
-            .verify { isDisconnected() }
+    @SdkSuppress(minSdkVersion = 28)
+    fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
+        val testProfile =
+            serviceTestHelper.addProfile(
+                VpnProtocol.Smart,
+                DefaultData.PROFILE_NAME,
+                secureCoreServerDomain
+            )
+        serviceTestHelper.setDefaultProfile(testProfile)
+        homeRobot.connectThroughQuickConnect(DefaultData.PROFILE_NAME)
+        homeRobot.verify { dialogUpgradeVisible() }
+        connectionRobot.verify { isDisconnectedServiceHelper() }
     }
 }

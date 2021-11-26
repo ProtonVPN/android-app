@@ -18,15 +18,15 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.account.AccountRobotTests
-import com.protonvpn.tests.connection.ConnectionRobotTests
-import com.protonvpn.tests.login.LoginRobotTests
-import com.protonvpn.tests.login.LogoutRobotTests
-import com.protonvpn.tests.map.MapRobotTests
-import com.protonvpn.tests.profiles.ProfileRobotTests
-import com.protonvpn.tests.secureCore.SecureCoreRobotSecurityTests
-import com.protonvpn.tests.secureCore.SecureCoreRobotTests
-import com.protonvpn.tests.settings.SettingsRobotTests
+import com.protonvpn.tests.account.AccountTests
+import com.protonvpn.tests.connection.ConnectionTests
+import com.protonvpn.tests.login.LoginTests
+import com.protonvpn.tests.login.LogoutTests
+import com.protonvpn.tests.map.MapTests
+import com.protonvpn.tests.profiles.ProfileTests
+import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
+import com.protonvpn.tests.secureCore.SecureCoreTests
+import com.protonvpn.tests.settings.SettingsTests
 import com.protonvpn.tests.util.LiveEventTests
 import com.protonvpn.tests.util.ProtonLoggerImplTests
 import com.protonvpn.tests.vpn.VpnConnectionTests
@@ -35,16 +35,16 @@ import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        AccountRobotTests::class,
-        ConnectionRobotTests::class,
-        LoginRobotTests::class,
-        LogoutRobotTests::class,
-        MapRobotTests::class,
-        ProfileRobotTests::class,
+        AccountTests::class,
+        ConnectionTests::class,
+        LoginTests::class,
+        LogoutTests::class,
+        MapTests::class,
+        ProfileTests::class,
         ProtonLoggerImplTests::class,
-        SecureCoreRobotTests::class,
-        SecureCoreRobotSecurityTests::class,
-        SettingsRobotTests::class,
+        SecureCoreTests::class,
+        SecureCoreSecurityTests::class,
+        SettingsTests::class,
         VpnConnectionTests::class,
         LiveEventTests::class
 )

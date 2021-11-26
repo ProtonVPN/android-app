@@ -1,11 +1,11 @@
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.account.RealConnectionRobotTests
+import com.protonvpn.tests.account.RealConnectionTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        RealConnectionRobotTests::class,
+        RealConnectionTests::class,
 )
 class RealConnectionSuite

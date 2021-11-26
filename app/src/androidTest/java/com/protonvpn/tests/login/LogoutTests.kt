@@ -37,12 +37,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [LogoutRobotTests] contains tests related to Logout process
+ * [LogoutTests] contains tests related to Logout process
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class LogoutRobotTests {
+class LogoutTests {
     private val testRule = ProtonHomeActivityTestRule()
 
     @get:Rule
