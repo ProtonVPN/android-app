@@ -36,6 +36,7 @@ import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITC
 import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
 import com.protonvpn.android.logging.ConnDisconnectTrigger
+import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnStateChange
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
@@ -247,7 +248,6 @@ open class VpnConnectionManager(
             .withExtra("Info", fallback.log)
             .build()
         ProtonLogger.logSentryEvent(sentryEvent)
-        ProtonLogger.log("Fallback connect: ${fallback.log}")
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
@@ -259,6 +259,8 @@ open class VpnConnectionManager(
                     // If user accepts then continue through broadcast receiver
                     if (fallback.compatibleProtocol)
                         switchServerConnect(fallback)
+                } else {
+                    ProtonLogger.log(ConnServerSwitchFailed, "User became delinquent")
                 }
             }
         }
@@ -286,6 +288,7 @@ open class VpnConnectionManager(
 
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection()
+        ProtonLogger.log(ConnConnectTrigger, switch.log)
         ongoingConnect = scope.launch {
             preparedConnect(switch.preparedConnection)
         }

@@ -58,6 +58,9 @@ sealed class SwitchServerReason : Serializable {
     object ServerUnreachable : SwitchServerReason()
     object ServerUnavailable : SwitchServerReason()
     object UnknownAuthFailure : SwitchServerReason()
+
+    // Used in logging, provides readable names for the objects.
+    override fun toString() = this::class.java.simpleName
 }
 
 sealed class VpnFallbackResult : Serializable {
@@ -396,18 +399,19 @@ class VpnConnectionErrorHandler(
         if (!appConfig.isMaintenanceTrackerEnabled())
             return null
 
-        ProtonLogger.log("Checking if server is not in maintenance")
+        ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Checking if server is not in maintenance")
         val domainId = connectionParams.connectingDomain?.id ?: return null
         val result = api.getConnectingDomain(domainId)
         if (result is ApiResult.Success) {
             val connectingDomain = result.value.connectingDomain
             if (!connectingDomain.isOnline) {
-                ProtonLogger.log("Current server is in maintenance (${connectingDomain.entryDomain})")
+                ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Current server is in maintenance (${connectingDomain.entryDomain})")
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
                 return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile, connectionParams)
                 } else {
+                    ProtonLogger.log(ConnServerSwitchServerSelected, "Smart reconnect disabled, fall back to default connection")
                     VpnFallbackResult.Switch.SwitchProfile(
                         connectionParams.server,
                         serverManager.defaultFallbackConnection
