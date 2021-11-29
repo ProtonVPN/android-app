@@ -71,14 +71,6 @@ class TrafficMonitor constructor(
             }
         }
         scope.launch {
-            connectivityMonitor.networkCapabilitiesFlow.collect {
-                ProtonLogger.log("Network changes")
-                ProtonLogger.log("---------------")
-                ProtonLogger.log(it.toString())
-                ProtonLogger.log("---------------")
-            }
-        }
-        scope.launch {
             vpnStateMonitor.newSessionEvent.collect {
                 resetSession()
             }

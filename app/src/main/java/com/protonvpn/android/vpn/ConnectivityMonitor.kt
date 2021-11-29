@@ -44,8 +44,19 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_TRUSTED
 import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
 import android.net.NetworkCapabilities.NET_CAPABILITY_WIFI_P2P
 import android.net.NetworkCapabilities.NET_CAPABILITY_XCAP
+import android.net.NetworkCapabilities.TRANSPORT_BLUETOOTH
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
+import android.net.NetworkCapabilities.TRANSPORT_LOWPAN
+import android.net.NetworkCapabilities.TRANSPORT_USB
+import android.net.NetworkCapabilities.TRANSPORT_VPN
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import android.net.NetworkCapabilities.TRANSPORT_WIFI_AWARE
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.NetNetworkChanged
+import com.protonvpn.android.logging.NetNetworkUnavailable
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import kotlinx.coroutines.CoroutineScope
@@ -60,8 +71,11 @@ class ConnectivityMonitor(
     coroutineScope: CoroutineScope,
     context: Context
 ) {
+    private val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     private var currentCapabilities: Map<String, Boolean> = LinkedHashMap()
+    private var currentTransports: Set<String> = emptySet()
 
     val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
 
@@ -93,46 +107,93 @@ class ConnectivityMonitor(
         }
     } as Map<String, Int>
 
+    private val transportConstantsMap: Map<String, Int> = mutableMapOf(
+        "Bluetooth" to TRANSPORT_BLUETOOTH,
+        "Cellular" to TRANSPORT_CELLULAR,
+        "Ethernet" to TRANSPORT_ETHERNET,
+        "VPN" to TRANSPORT_VPN,
+        "WiFi" to TRANSPORT_WIFI,
+    ).apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            put("WiFi-Aware", TRANSPORT_WIFI_AWARE)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            put("Lowpan", TRANSPORT_LOWPAN)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            put("USB", TRANSPORT_USB)
+        }
+    }
+
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-            val diffMap = capabilitiesConstantMap.mapValues {
+            val newCapabilities = capabilitiesConstantMap.mapValues {
                 networkCapabilities.hasCapability(it.value)
             }
-            if (currentCapabilities != diffMap) {
+            val newTransports = getTransports(networkCapabilities)
+            val capabilitiesChanged = currentCapabilities != newCapabilities
+            if (currentTransports != newTransports || capabilitiesChanged) {
+                ProtonLogger.log(
+                    NetNetworkChanged,
+                    "default network: $network; transports: ${newTransports.joinToString(", ")}; " +
+                        "capabilities: $newCapabilities"
+                )
+                currentTransports = newTransports
+            }
+            if (capabilitiesChanged) {
                 coroutineScope.launch {
-                    networkCapabilitiesFlow.emit(diffMap)
+                    networkCapabilitiesFlow.emit(newCapabilities)
                 }
-                currentCapabilities = diffMap
+                currentCapabilities = newCapabilities
             }
         }
 
         override fun onLosing(network: Network, maxMsToLive: Int) {
-            ProtonLogger.log("Loosing network ($maxMsToLive)")
+            ProtonLogger.logCustom(LogCategory.NET, "NetworkCallback: losing network ($maxMsToLive)")
         }
 
         override fun onUnavailable() {
-            ProtonLogger.log("Network unavailable")
+            ProtonLogger.log(NetNetworkUnavailable, "")
         }
 
         override fun onAvailable(network: Network) {
-            ProtonLogger.log("Network available")
+            logNetworkEvent("network available", network)
         }
 
         override fun onLost(network: Network) {
-            ProtonLogger.log("Network lost")
+            logNetworkEvent("network lost", network)
+            // onUnavailable is not being called when there no longer is a default network
+            // (possibly a bug: https://issuetracker.google.com/issues/144891976 )
+            // Check if there is an active network to log NetNetworkUnavailable.
+            if (connectivityManager.activeNetwork == null) {
+                ProtonLogger.log(NetNetworkUnavailable, "")
+            }
+        }
+
+        private fun logNetworkEvent(event: String, network: Network) {
+            val transports = connectivityManager.getNetworkCapabilities(network)?.let {
+                getTransports(it).joinToString(", ")
+            }.orEmpty()
+            ProtonLogger.log(NetNetworkChanged, "$event: $network $transports")
         }
     }
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            cm.registerDefaultNetworkCallback(networkCallback)
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
-            ProtonLogger.log("Airplane mode: " + it?.getBooleanExtra("state", false))
+            ProtonLogger.logCustom(
+                LogCategory.NET,
+                "Airplane mode: " + it?.getBooleanExtra("state", false)
+            )
         }
     }
 
+    private fun getTransports(networkCapabilities: NetworkCapabilities): Set<String> =
+        transportConstantsMap.entries.mapNotNullTo(mutableSetOf()) {
+            if (networkCapabilities.hasTransport(it.value)) it.key else null
+        }
 }
