@@ -72,6 +72,10 @@ val LocalAgentStateChange = LogEventType(LogCategory.LOCAL_AGENT, "state_change"
 val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "error", LogLevel.ERROR)
 val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "status", LogLevel.INFO)
 
+val NetCurrent = LogEventType(LogCategory.NET, "current", LogLevel.INFO)
+val NetNetworkChanged = LogEventType(LogCategory.NET, "network_changed", LogLevel.INFO)
+val NetNetworkUnavailable = LogEventType(LogCategory.NET, "network_unavailable", LogLevel.INFO)
+
 val UserCertCurrentState = LogEventType(LogCategory.USER_CERT, "current", LogLevel.INFO)
 val UserCertRefresh = LogEventType(LogCategory.USER_CERT, "refresh", LogLevel.INFO)
 val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "revoked", LogLevel.INFO)
