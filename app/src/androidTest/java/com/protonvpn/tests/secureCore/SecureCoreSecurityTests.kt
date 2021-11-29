@@ -45,6 +45,8 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
+//There is occasional OOM crash on API 23. Remove this annotation when it's fixed
+@SdkSuppress(minSdkVersion = 28)
 class SecureCoreSecurityTests {
 
     private val testRule = ProtonHomeActivityTestRule()
@@ -92,7 +94,6 @@ class SecureCoreSecurityTests {
     }
 
     @Test
-    @SdkSuppress(minSdkVersion = 28)
     fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
         val testProfile =
             serviceTestHelper.addProfile(
