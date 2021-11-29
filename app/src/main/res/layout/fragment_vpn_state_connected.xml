@@ -134,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
         android:text="@string/disconnect"
         app:backgroundTint="?attr/proton_notification_error" />

@@ -58,7 +58,8 @@ private const val CHART_AXIS_LABEL_COLOR_ATTR = R.attr.proton_text_weak
 private const val CHART_GRID_LINE_COLOR_ATTR = R.attr.proton_separator_norm
 private const val CHART_GRID_LINE_DASH_SPACE = 8f
 private const val CHART_GRID_LINE_WIDTH_DP = 1f
-private const val CHART_MIN_HEIGHT_DP = 100
+private const val CHART_MIN_HEIGHT_DP = 50
+private const val CHART_SINGLE_LABEL_MIN_HEIGHT_DP = 100
 
 @AndroidEntryPoint
 class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragment_vpn_state_connected) {
@@ -161,6 +162,9 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
                 val chartHeightInDp: Float = chart.height.toDp()
                 chart.visibility =
                     if (chartHeightInDp < CHART_MIN_HEIGHT_DP) View.INVISIBLE else View.VISIBLE
+                chart.axisLeft.labelCount =
+                    if (chartHeightInDp < CHART_SINGLE_LABEL_MIN_HEIGHT_DP) 1
+                    else CHART_LABEL_COUNT
             }
 
             chart.data = LineData().apply {
