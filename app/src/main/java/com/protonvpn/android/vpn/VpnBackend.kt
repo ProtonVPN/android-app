@@ -53,6 +53,7 @@ import com.proton.gopenpgp.vpnPing.VpnPing
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
+import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.LocalAgentError
 import com.protonvpn.android.logging.LocalAgentLog
 import com.protonvpn.android.logging.LocalAgentStateChange
@@ -224,7 +225,7 @@ abstract class VpnBackend(
 
     private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null) {
         description?.let {
-            ProtonLogger.log(it)
+            ProtonLogger.log(ConnError, it)
         }
         mainScope.launch {
             if (disconnectVPN)

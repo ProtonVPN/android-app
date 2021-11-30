@@ -38,6 +38,7 @@ import com.protonvpn.android.logging.ConnConnectTrigger
 import com.protonvpn.android.logging.ConnDisconnectTrigger
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnStateChange
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
@@ -211,7 +212,7 @@ open class VpnConnectionManager(
     }
 
     private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
-        ProtonLogger.log("Attempting to recover from error: $errorType")
+        ProtonLogger.logCustom(LogCategory.CONN, "Attempting to recover from error: $errorType")
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.CheckingAvailability, params))
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
@@ -226,7 +227,7 @@ open class VpnConnectionManager(
                 fallbackConnect(result)
             is VpnFallbackResult.Error -> {
                 vpnStateMonitor.fallbackConnectionFlow.emit(result)
-                ProtonLogger.log("Failed to recover, entering $result")
+                ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
                     disconnect("max sessions reached")
@@ -298,11 +299,11 @@ open class VpnConnectionManager(
         connectionParams = ConnectionParams(profile, server, null, null)
 
         if (activeBackend != null) {
-            ProtonLogger.log("Disconnecting first...")
+            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
             disconnectForNewConnection()
             if (!coroutineContext.isActive)
                 return // Don't connect if the scope has been cancelled.
-            ProtonLogger.log("Disconnected, start connecting to new server.")
+            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnected, start connecting to new server.")
         }
 
         setSelfState(VpnState.ScanningPorts)
@@ -316,7 +317,10 @@ open class VpnConnectionManager(
         if (preparedConnection == null) {
             val fallbackProtocol =
                 if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
-            ProtonLogger.log("No response for ${server.domain}, using fallback $fallbackProtocol")
+            ProtonLogger.logCustom(
+                LogCategory.CONN_CONNECT,
+                "No response for ${server.domain}, using fallback $fallbackProtocol"
+            )
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
             preparedConnection =
