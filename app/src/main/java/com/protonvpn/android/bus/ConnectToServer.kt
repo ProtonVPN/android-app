@@ -20,4 +20,4 @@ package com.protonvpn.android.bus
 
 import com.protonvpn.android.models.vpn.Server
 
-class ConnectToServer(val triggerAction: String, val server: Server?)
+class ConnectToServer(val uiElement: String, val server: Server?)

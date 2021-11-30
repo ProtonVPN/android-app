@@ -27,6 +27,8 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.Profile.Companion.getTempProfile
@@ -71,6 +73,7 @@ class HomeViewModel @Inject constructor(
 
     // Convert to a suspend method and remove the callback once HomeActivity is in Kotlin.
     fun reconnectToSameCountry(triggerAction: String, connectCallback: (newProfile: Profile) -> Unit) {
+        ProtonLogger.log(UiReconnect, triggerAction)
         DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
         val connectedCountry: String = vpnStateMonitor.connectionParams!!.server.exitCountry
         val exitCountry: VpnCountry? =

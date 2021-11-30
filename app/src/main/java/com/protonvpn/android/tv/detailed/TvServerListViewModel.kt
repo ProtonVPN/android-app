@@ -28,6 +28,9 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -157,10 +160,13 @@ class TvServerListViewModel @Inject constructor(
         fun click(vpnPermissionDelegate: VpnPermissionDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager)
-                vpnConnectionManager.connect(vpnPermissionDelegate, profile, "TV server list")
+                ProtonLogger.log(UiConnect, "server tile (TV)")
+                vpnConnectionManager.connect(vpnPermissionDelegate, profile, "user via server tile (TV)")
             }
-            ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
+            ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
+                ProtonLogger.log(UiDisconnect, "server tile (TV)")
                 vpnConnectionManager.disconnect("user via server tile (TV)")
+            }
             ServerActionState.UPGRADE ->
                 onUpgrade()
             ServerActionState.UNAVAILABLE -> {}

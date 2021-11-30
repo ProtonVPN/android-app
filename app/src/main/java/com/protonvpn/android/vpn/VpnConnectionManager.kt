@@ -40,6 +40,7 @@ import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnStateChange
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.UserData
@@ -124,7 +125,10 @@ open class VpnConnectionManager(
 
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
-                NotificationHelper.DISCONNECT_ACTION -> disconnect("user via notification")
+                NotificationHelper.DISCONNECT_ACTION -> {
+                    ProtonLogger.log(UiDisconnect, "notification")
+                    disconnect("user via notification")
+                }
             }
         }
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->

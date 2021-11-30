@@ -47,7 +47,7 @@ class VpnStateErrorFragment : Fragment(R.layout.fragment_vpn_state_error) {
                 parentViewModel.reconnect(requireActivity() as VpnPermissionDelegate)
             }
             buttonCancelRetry.setOnClickListener {
-                parentViewModel.disconnect("user via cancel automatic retry")
+                parentViewModel.disconnect("cancel automatic retry")
             }
         }
 

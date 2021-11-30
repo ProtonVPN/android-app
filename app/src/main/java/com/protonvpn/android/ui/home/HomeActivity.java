@@ -53,6 +53,7 @@ import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.logging.LogCategory;
+import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
@@ -409,20 +410,19 @@ public class HomeActivity extends PoolingActivity {
     @Subscribe
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
-            vpnConnectionManager.disconnect(connectTo.getTriggerAction());
-        }
-        else {
+            disconnect(connectTo.getUiElement());
+        } else {
             Server server = connectTo.getServer();
-            onConnect(connectTo.getTriggerAction(), Profile.getTempProfile(server, serverManager));
+            onConnect(connectTo.getUiElement(), Profile.getTempProfile(server, serverManager));
         }
     }
 
     @Subscribe
     public void onConnectToProfile(@NotNull ConnectToProfile event) {
         if (event.getProfile() == null) {
-            vpnConnectionManager.disconnect(event.getTriggerAction());
+            disconnect(event.getUiElement());
         } else {
-            onConnect(event.getTriggerAction(), event.getProfile());
+            onConnect(event.getUiElement(), event.getProfile());
         }
     }
 
@@ -439,7 +439,7 @@ public class HomeActivity extends PoolingActivity {
                 if (!vpnStateMonitor.isConnected()) {
                     connectToDefaultProfile();
                 } else {
-                    vpnConnectionManager.disconnect("user via quick connect");
+                    disconnect("quick connect");
                     fragment.collapseBottomSheet();
                 }
 
@@ -488,7 +488,7 @@ public class HomeActivity extends PoolingActivity {
                 profile.getDisplayName(getContext()),
                 profile.getProfileSpecialIcon() != null ? profile.getProfileSpecialIcon() : R.drawable.ic_profile_custom_fab,
                 v -> {
-                    onConnectToProfile(new ConnectToProfile("user via quick connect menu", profile));
+                    onConnectToProfile(new ConnectToProfile("quick connect menu", profile));
                     fabQuickConnect.close(true);
                 });
         }
@@ -501,7 +501,7 @@ public class HomeActivity extends PoolingActivity {
                 getString(R.string.disconnect),
                 R.drawable.ic_power_off,
                 v -> {
-                    vpnConnectionManager.disconnect("user via quick connect menu");
+                    disconnect("quick connect menu");
                     fabQuickConnect.close(true);
                 });
         } else {
@@ -548,7 +548,7 @@ public class HomeActivity extends PoolingActivity {
 
     private void connectToDefaultProfile() {
         Profile profile = serverManager.getDefaultConnection();
-        onConnectToProfile(new ConnectToProfile("user via quick connect", profile));
+        onConnectToProfile(new ConnectToProfile("quick connect", profile));
     }
 
     private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {
@@ -649,6 +649,11 @@ public class HomeActivity extends PoolingActivity {
         } else {
             super.onConnect(profile, connectionCauseLog);
         }
+    }
+
+    private void disconnect(@NonNull String uiElement) {
+        ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, uiElement);
+        vpnConnectionManager.disconnect("user via " + uiElement);
     }
 
     private void showSecureCoreChangeDialog(

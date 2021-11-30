@@ -33,6 +33,9 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -251,7 +254,10 @@ class TvMainViewModel @Inject constructor(
         )
     }
 
-    fun disconnect(uiElementName: String) = vpnConnectionManager.disconnect("user via $uiElementName")
+    fun disconnect(uiElementName: String) {
+        ProtonLogger.log(UiDisconnect, uiElementName)
+        vpnConnectionManager.disconnect("user via $uiElementName")
+    }
 
     fun isConnected() = vpnStateMonitor.isConnected
 
@@ -286,9 +292,9 @@ class TvMainViewModel @Inject constructor(
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
-            vpnConnectionManager.disconnect("country details (TV)")
+            disconnect("quick connect (TV)")
         } else {
-            connect(activity, serverManager.defaultConnection)
+            connect(activity, serverManager.defaultConnection, "quick connect (TV)")
         }
     }
 
@@ -299,15 +305,16 @@ class TvMainViewModel @Inject constructor(
             }
         else
             serverManager.defaultConnection
-        connect(activity, profile)
+        connect(activity, profile, "country card (TV)")
     }
 
-    private fun connect(activity: BaseTvActivity, profile: Profile?) {
+    private fun connect(activity: BaseTvActivity, profile: Profile?, uiElement: String) {
         if (profile?.server?.online != true) {
             showMaintenanceDialog(activity)
         } else {
             if (currentUser.vpnUserCached().hasAccessToServer(profile.server)) {
-                vpnConnectionManager.connect(activity, profile, "TV home view")
+                ProtonLogger.log(UiConnect, uiElement)
+                vpnConnectionManager.connect(activity, profile, "user via $uiElement")
             } else {
                 activity.launchActivity<TvUpgradeActivity>()
             }
@@ -315,7 +322,7 @@ class TvMainViewModel @Inject constructor(
     }
 
     fun connect(activity: BaseTvActivity, card: ProfileCard) {
-        connect(activity, card.profile)
+        connect(activity, card.profile, "recents (TV)")
     }
 
     fun resetMap() {

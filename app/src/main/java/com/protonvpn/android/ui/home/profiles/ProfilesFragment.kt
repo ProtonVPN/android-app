@@ -101,7 +101,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             }
             val connectUpgradeClickListener = View.OnClickListener {
                 val connectTo = if (item.isConnected) null else profile
-                EventBus.post(ConnectToProfile("user via profile power button", connectTo))
+                EventBus.post(ConnectToProfile("profile power button", connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)

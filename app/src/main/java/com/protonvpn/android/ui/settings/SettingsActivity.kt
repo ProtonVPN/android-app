@@ -45,6 +45,8 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.ActivitySettingsBinding
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
@@ -271,6 +273,7 @@ class SettingsActivity : BaseActivityV2() {
     private fun tryToggleVpnAccelerator() {
         tryToggleSwitch(
             PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
+            "VPN Accelerator toggle",
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
             userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
@@ -280,6 +283,7 @@ class SettingsActivity : BaseActivityV2() {
     private fun tryToggleSplitTunneling() {
         tryToggleSwitch(
             PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
+            "split tunneling toggle",
             !userPrefs.isSplitTunnelingConfigEmpty,
         ) {
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
@@ -293,7 +297,8 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleBypassLocal() {
         tryToggleSwitch(
-            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG
+            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
+            "LAN connections toggle"
         ) {
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
         }
@@ -301,12 +306,14 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleSwitch(
         showDialogPrefsKey: String,
+        uiElement: String,
         needsReconnectIfConnected: Boolean = true,
         toggle: () -> Unit
     ) {
         if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
             showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
                 toggle()
+                ProtonLogger.log(UiReconnect, uiElement)
                 connectionManager.reconnect(this)
             }
         } else {
@@ -325,6 +332,7 @@ class SettingsActivity : BaseActivityV2() {
                 showReconnectDialogPrefKey,
                 R.string.reconnect_now
             ) {
+                ProtonLogger.log(UiReconnect, "apply new settings")
                 connectionManager.fullReconnect("user via settings change", this)
             }
         }
