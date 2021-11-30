@@ -24,6 +24,8 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -45,6 +47,7 @@ import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import de.blinkt.openvpn.core.ConnectionStatus
+import de.blinkt.openvpn.core.LogItem
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
@@ -82,9 +85,7 @@ class OpenVpnBackend(
 
     init {
         VpnStatus.addStateListener(this)
-        VpnStatus.addLogListener {
-            ProtonLogger.log(it.getString(ProtonApplication.getAppContext()))
-        }
+        VpnStatus.addLogListener(this::vpnLog)
     }
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
@@ -269,6 +270,18 @@ class OpenVpnBackend(
 
     override fun setConnectedVPN(uuid: String) {
         Log.e("set connected vpn: $uuid")
+    }
+
+    private fun vpnLog(item: LogItem) {
+        val logLevel = when(item.logLevel) {
+            VpnStatus.LogLevel.VERBOSE -> LogLevel.DEBUG
+            VpnStatus.LogLevel.DEBUG -> LogLevel.DEBUG
+            VpnStatus.LogLevel.INFO -> LogLevel.INFO
+            VpnStatus.LogLevel.WARNING -> LogLevel.WARNING
+            VpnStatus.LogLevel.ERROR -> LogLevel.ERROR
+            null -> LogLevel.INFO
+        }
+        ProtonLogger.logCustom(logLevel, LogCategory.PROTOCOL, item.getString(ProtonApplication.getAppContext()))
     }
 
     companion object {
