@@ -80,6 +80,13 @@ val NetCurrent = LogEventType(LogCategory.NET, "current", LogLevel.INFO)
 val NetNetworkChanged = LogEventType(LogCategory.NET, "network_changed", LogLevel.INFO)
 val NetNetworkUnavailable = LogEventType(LogCategory.NET, "network_unavailable", LogLevel.INFO)
 
+@JvmField
+val UiConnect = LogEventType(LogCategory.UI, "connect", LogLevel.INFO)
+@JvmField
+val UiDisconnect = LogEventType(LogCategory.UI, "disconnect", LogLevel.INFO)
+val UiReconnect = LogEventType(LogCategory.UI, "reconnect", LogLevel.INFO)
+val UiSetting = LogEventType(LogCategory.UI, "setting", LogLevel.INFO)
+
 val UserCertCurrentState = LogEventType(LogCategory.USER_CERT, "current", LogLevel.INFO)
 val UserCertRefresh = LogEventType(LogCategory.USER_CERT, "refresh", LogLevel.INFO)
 val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "revoked", LogLevel.INFO)

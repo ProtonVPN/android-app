@@ -20,4 +20,4 @@ package com.protonvpn.android.bus
 
 import com.protonvpn.android.models.profiles.Profile
 
-class ConnectToProfile(val triggerAction: String, val profile: Profile?)
+class ConnectToProfile(val uiElement: String, val profile: Profile?)

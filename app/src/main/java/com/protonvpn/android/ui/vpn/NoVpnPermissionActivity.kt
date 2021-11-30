@@ -87,7 +87,7 @@ abstract class NoVpnPermissionFragmentBase(
 
     protected fun reconnect() {
         val event =
-            ConnectToProfile("user via reconnect in no-VPN-permission screen", serverManager.defaultConnection)
+            ConnectToProfile("reconnect in no-VPN-permission screen", serverManager.defaultConnection)
         EventBus.post(event)
         requireActivity().finish()
     }

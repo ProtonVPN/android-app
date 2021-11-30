@@ -39,6 +39,8 @@ import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.Markable;
 import com.protonvpn.android.databinding.ItemMarkerCalloutBinding;
+import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
@@ -294,12 +296,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
                 EventBus.post(
-                        new ConnectToServer("user via map marker",
+                        new ConnectToServer("map marker",
                                 serverManager.getBestScoreServer(country.getConnectableServers())));
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
             binding.buttonDisconnect.setOnClickListener(v -> {
+                ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, "map marker");
                 vpnConnectionManager.disconnect("user via map marker");
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();

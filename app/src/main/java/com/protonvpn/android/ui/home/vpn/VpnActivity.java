@@ -27,6 +27,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser;
 import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.auth.data.VpnUserKt;
 import com.protonvpn.android.components.BaseActivity;
+import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
@@ -55,15 +57,16 @@ public abstract class VpnActivity extends BaseActivity {
         Log.checkForLogTruncation(getFilesDir() + File.separator + CharonVpnService.LOG_FILE);
     }
 
-    public final void onConnect(@Nullable String triggerAction, @NonNull Profile profileToConnect) {
-        onConnect(profileToConnect, triggerAction != null ? triggerAction : "mobile home screen (unspecified)");
+    public final void onConnect(@Nullable String uiElement, @NonNull Profile profileToConnect) {
+        onConnect(profileToConnect, uiElement != null ? uiElement : "mobile home screen (unspecified)");
     }
 
-    public void onConnect(@NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
+    public void onConnect(@NonNull Profile profileToConnect, @NonNull String uiElement) {
+        ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, uiElement);
         Server server = profileToConnect.getServer();
         VpnUser vpnUser = currentVpnUser.vpnUserCached();
         if ((VpnUserKt.hasAccessToServer(vpnUser, server) && server.getOnline()) || server == null) {
-            vpnConnectionManager.connect(this, profileToConnect, connectionCauseLog);
+            vpnConnectionManager.connect(this, profileToConnect, "user via " + uiElement);
         }
         else {
             connectingToRestrictedServer(profileToConnect.getServer());
