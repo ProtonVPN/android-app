@@ -20,6 +20,7 @@ package com.protonvpn.android.models.vpn
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -73,7 +74,7 @@ class ConnectionParamsWireguard(
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
                 excludedIPs += it
             }
-            userData.splitTunnelApps?.takeIf { it.isNotEmpty() }?.let {
+            userData.splitTunnelApps.takeIf { it.isNotEmpty() }?.let {
                 config.interfaceProxy.excludedApplications = it.toSortedSet()
             }
         }
@@ -81,8 +82,7 @@ class ConnectionParamsWireguard(
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
         val allowedIps = calculateAllowedIps(excludedIPs)
-        ProtonLogger.log("Port: $port")
-        ProtonLogger.log("Allowed IPs: $allowedIps")
+        ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIps")
         peerProxy.allowedIps = allowedIps
 
         return config.resolve()
