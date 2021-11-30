@@ -30,13 +30,10 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ProtonLoggerImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import me.proton.core.network.domain.ApiResult
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -46,7 +43,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportBugActivityViewModel @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser
 ) : ViewModel() {
@@ -86,27 +82,25 @@ class ReportBugActivityViewModel @Inject constructor(
             .addFormDataPart("Title", "Report from Android app")
             .addFormDataPart("Description", description)
 
-        @Suppress("RedundantAsync") // async-await used to avoid cancellation of the task.
-        return mainScope.async {
-            if (attachLog) {
-                val logFiles = try {
-                    @Suppress("BlockingMethodInNonBlockingContext")
-                    val logFiles = ProtonLogger.getLogFilesForUpload()
-                    logFiles.forEach { (name, file) ->
-                        builder.addFormDataPart(name, name, file.asRequestBody(name.toMediaTypeOrNull()))
-                    }
-                    logFiles
-                } catch (e: IOException) {
-                    emptyList<ProtonLoggerImpl.LogFile>()
+
+        if (attachLog) {
+            val logFiles = try {
+                @Suppress("BlockingMethodInNonBlockingContext")
+                val logFiles = ProtonLogger.getLogFilesForUpload()
+                logFiles.forEach { (name, file) ->
+                    builder.addFormDataPart(name, name, file.asRequestBody(name.toMediaTypeOrNull()))
                 }
-                val result = api.postBugReport(builder.build())
-                ProtonLogger.clearUploadTempFiles(logFiles)
-                _state.value = result.toViewState()
-            } else {
-                val result = api.postBugReport(builder.build())
-                _state.value = result.toViewState()
+                logFiles
+            } catch (e: IOException) {
+                emptyList<ProtonLoggerImpl.LogFile>()
             }
-        }.await()
+            val result = api.postBugReport(builder.build())
+            ProtonLogger.clearUploadTempFiles(logFiles)
+            _state.value = result.toViewState()
+        } else {
+            val result = api.postBugReport(builder.build())
+            _state.value = result.toViewState()
+        }
     }
 
     private fun checkInput(email: String, description: String): Boolean {
