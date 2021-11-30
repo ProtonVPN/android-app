@@ -49,6 +49,10 @@ class LogEventType(
 }
 
 val AppCrash = LogEventType(LogCategory.APP, "crash", LogLevel.ERROR)
+@JvmField
+val AppProcessStart = LogEventType(LogCategory.APP, "process_start", LogLevel.INFO)
+@JvmField
+val AppUpdateUpdated = LogEventType(LogCategory.APP_UPDATE, "updated", LogLevel.INFO)
 
 val ConnCurrentState = LogEventType(LogCategory.CONN, "current", LogLevel.INFO)
 val ConnStateChange = LogEventType(LogCategory.CONN, "state_change", LogLevel.INFO)

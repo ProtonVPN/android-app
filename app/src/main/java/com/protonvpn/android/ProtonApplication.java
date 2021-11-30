@@ -26,6 +26,7 @@ import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
@@ -58,6 +59,9 @@ public class ProtonApplication extends Application {
         initPreferences();
         SentryIntegration.initSentry(this);
         initStrongSwan();
+
+        ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
+
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
@@ -72,8 +76,13 @@ public class ProtonApplication extends Application {
         // Initialize go-libraries early to avoid crashes in StrongSwan
         Seq.touch();
 
+        boolean isUpdated = handleUpdate();
+        if (isUpdated) {
+            ProtonLogger.INSTANCE.log(
+                    LogEventsKt.AppUpdateUpdated, "new version: " + BuildConfig.VERSION_NAME);
+        }
+
         CoreLogger.INSTANCE.set(new VpnCoreLogger());
-        ProtonLogger.INSTANCE.log("--------- App start ---------");
     }
 
     private void initActivityObserver() {
@@ -114,6 +123,12 @@ public class ProtonApplication extends Application {
                 .build();
             AppWatcher.setConfig(config);
         }
+    }
+
+    private boolean handleUpdate() {
+        int versionCode = Storage.getInt("VERSION_CODE");
+        Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
+        return versionCode != BuildConfig.VERSION_CODE;
     }
 
     @NotNull

@@ -157,7 +157,6 @@ public class HomeActivity extends PoolingActivity {
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
         initSecureCoreSwitch();
         initSnackbarHelper();
-        checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
             initLayout();
         }
@@ -224,11 +223,6 @@ public class HomeActivity extends PoolingActivity {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
-    }
-
-    private void checkForUpdate() {
-        int versionCode = Storage.getInt("VERSION_CODE");
-        Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
     }
 
     public boolean isBottomSheetExpanded() {
