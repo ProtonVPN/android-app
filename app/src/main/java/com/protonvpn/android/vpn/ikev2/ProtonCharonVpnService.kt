@@ -26,6 +26,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -101,7 +102,7 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ProtonLogger.log("ProtonCharonVpnService: onTrimMemory level $level")
+        ProtonLogger.logCustom(LogCategory.APP, "ProtonCharonVpnService: onTrimMemory level $level")
     }
 
     private fun handleRestoreState() {

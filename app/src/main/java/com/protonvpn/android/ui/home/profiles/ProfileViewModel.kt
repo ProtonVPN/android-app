@@ -3,6 +3,8 @@ package com.protonvpn.android.ui.home.profiles
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
@@ -128,7 +130,11 @@ class ProfileViewModel @Inject constructor(
     fun setCountryCode(newCountryCode: String) {
         val newCountry = serverManager.getVpnExitCountry(newCountryCode, secureCore.value)
         if (newCountry == null) {
-            ProtonLogger.log("ProfileViewModel: no country found for code `$newCountryCode`")
+            ProtonLogger.logCustom(
+                LogLevel.ERROR,
+                LogCategory.APP,
+                "ProfileViewModel: no country found for code `$newCountryCode`"
+            )
             eventSomethingWrong.tryEmit(Unit)
         }
         country.value = newCountry
@@ -143,7 +149,11 @@ class ProfileViewModel @Inject constructor(
                 serverManager.getServerById(serverIdSelection.id)?.let { ServerSelection.Specific(it) }
         }
         if (serverSelection == null) {
-            ProtonLogger.log("ProfileViewModel: no server found for $serverIdSelection")
+            ProtonLogger.logCustom(
+                LogLevel.ERROR,
+                LogCategory.APP,
+                "ProfileViewModel: no server found for $serverIdSelection"
+            )
             eventSomethingWrong.tryEmit(Unit)
         }
         server.value = serverSelection

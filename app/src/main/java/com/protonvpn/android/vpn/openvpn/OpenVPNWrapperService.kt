@@ -22,6 +22,7 @@ import android.content.Intent
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -69,6 +70,6 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ProtonLogger.log("OpenVPNWrapperService: onTrimMemory level $level")
+        ProtonLogger.logCustom(LogCategory.APP, "OpenVPNWrapperService: onTrimMemory level $level")
     }
 }

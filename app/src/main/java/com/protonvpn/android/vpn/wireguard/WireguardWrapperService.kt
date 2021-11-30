@@ -20,6 +20,7 @@ package com.protonvpn.android.vpn.wireguard
 
 import android.content.Intent
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.utils.Constants
@@ -69,7 +70,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ProtonLogger.log("WirguardWrapperService: onTrimMemory level $level")
+        ProtonLogger.logCustom(LogCategory.APP, "WirguardWrapperService: onTrimMemory level $level")
     }
 
     fun close() {

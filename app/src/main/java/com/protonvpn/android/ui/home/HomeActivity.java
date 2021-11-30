@@ -52,6 +52,7 @@ import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
 import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
+import com.protonvpn.android.logging.LogCategory;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
@@ -222,7 +223,7 @@ public class HomeActivity extends PoolingActivity {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
+        ProtonLogger.INSTANCE.logCustom(LogCategory.APP, "HomeActivity: onTrimMemory level " + level);
     }
 
     public boolean isBottomSheetExpanded() {

@@ -33,6 +33,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityServerSelectionBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.utils.ActivityResultUtils
@@ -66,7 +68,7 @@ class ServerSelectionActivity : BaseActivityV2() {
             initServerList(binding.recyclerServers, config.secureCore, servers)
         } else {
             snackbarHelper.errorSnack(R.string.something_went_wrong)
-            ProtonLogger.log("No servers for country '$config.countryCode`")
+            ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "No servers for country '$config.countryCode`")
             finish()
         }
     }
