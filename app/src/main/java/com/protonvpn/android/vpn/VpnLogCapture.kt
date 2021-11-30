@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +32,8 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
+private const val TAG_MESSAGE_SEPARATOR = ": " // This is what logcat uses.
 
 @Singleton
 class VpnLogCapture(
@@ -50,21 +54,51 @@ class VpnLogCapture(
             try {
                 val wireguardTag = "WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}"
                 val process = Runtime.getRuntime().exec(
-                    "logcat -s ${wireguardTag}:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1 -v raw"
+                    "logcat -s $wireguardTag:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1 -v brief"
                 )
                 BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
                     lines.forEach {
-                        ProtonLogger.log(it)
+                        parseAndLog(it)
                     }
                 }
-                ProtonLogger.log("Logcat streaming ended")
+                ProtonLogger.logCustom(LogLevel.WARNING, LogCategory.APP, "Logcat streaming ended")
             } catch (e: IOException) {
-                ProtonLogger.log("Log capturing from logcat failed: ${e.message}")
+                ProtonLogger.logCustom(
+                    LogLevel.WARNING,
+                    LogCategory.APP,
+                    "Log capturing from logcat failed: ${e.message}"
+                )
             }
             // Avoid busy loop if capture fails early
             if (monoClock() - start < TimeUnit.MINUTES.toMillis(5))
                 delay(TimeUnit.MINUTES.toMillis(1))
-            ProtonLogger.log("Restarting logcat capture")
+            ProtonLogger.logCustom(LogCategory.APP, "Restarting logcat capture")
         } while (true)
     }
+
+    private fun parseAndLog(line: String) {
+        if (line.isEmpty() || line.startsWith("--------- beginning")) return
+        val split = line.split(TAG_MESSAGE_SEPARATOR, limit = 2)
+        if (split.size == 2) {
+            val level = toLogLevel(split[0][0])
+            val category = toCategory(split[0])
+            ProtonLogger.logCustom(level, category, split[1])
+        } else {
+            ProtonLogger.logCustom(LogCategory.APP, line)
+        }
+    }
+
+    private fun toLogLevel(logcatLevel: Char) = when (logcatLevel) {
+        'V' -> LogLevel.DEBUG
+        'D' -> LogLevel.INFO // We want to log debug messages from protocols
+        'I' -> LogLevel.INFO
+        'W' -> LogLevel.WARNING
+        else -> LogLevel.ERROR
+    }
+
+    private fun toCategory(lineBeginning: String): LogCategory =
+        if (lineBeginning.contains(Constants.SECONDARY_PROCESS_TAG))
+            LogCategory.APP
+        else
+            LogCategory.PROTOCOL
 }
