@@ -55,7 +55,7 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
-import com.protonvpn.android.vpn.VpnLogCapture
+import com.protonvpn.android.vpn.LogcatLogCapture
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
@@ -540,7 +540,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideLogCapture(dispatcherProvider: DispatcherProvider) =
-        VpnLogCapture(scope, dispatcherProvider, SystemClock::elapsedRealtime)
+        LogcatLogCapture(scope, dispatcherProvider, SystemClock::elapsedRealtime)
 
     @Provides
     @Singleton

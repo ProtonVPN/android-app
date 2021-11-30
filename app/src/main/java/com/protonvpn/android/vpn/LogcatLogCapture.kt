@@ -35,8 +35,11 @@ import javax.inject.Singleton
 
 private const val TAG_MESSAGE_SEPARATOR = ": " // This is what logcat uses.
 
+/**
+ * Capture logcat messages from VPN libraries and the secondary process and log them to ProtonLogger.
+ */
 @Singleton
-class VpnLogCapture(
+class LogcatLogCapture(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
     val monoClock: () -> Long
