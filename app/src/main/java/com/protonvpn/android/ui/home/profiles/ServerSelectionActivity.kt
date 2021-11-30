@@ -105,9 +105,10 @@ class ServerSelectionActivity : BaseActivityV2() {
         groupAdapter.add(recommendedSection)
         groupAdapter.add(serversSection)
         groupAdapter.setOnItemClickListener { item, _ ->
-            val selection = (item as ServerItemViewHolderBase).selection
-            ActivityResultUtils.setResult(this, selection)
-            finish()
+            if (item is ServerItemViewHolderBase) {
+                ActivityResultUtils.setResult(this, item.selection)
+                finish()
+            }
         }
 
         with(recyclerServers) {
