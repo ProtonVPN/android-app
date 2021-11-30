@@ -21,6 +21,7 @@ package com.protonvpn.android;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.PowerManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -28,8 +29,8 @@ import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
+import com.protonvpn.android.ui.ForegroundActivityTracker;
 import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
@@ -41,7 +42,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import go.Seq;
@@ -50,7 +51,8 @@ import me.proton.core.util.kotlin.CoreLogger;
 
 public class ProtonApplication extends Application {
 
-    public Activity foregroundActivity;
+    @Nullable
+    private ForegroundActivityTracker foregroundTracker;
 
     @Override
     public void onCreate() {
@@ -86,18 +88,9 @@ public class ProtonApplication extends Application {
     }
 
     private void initActivityObserver() {
-        registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks() {
-
-            @Override public void onActivityResumed(@NonNull Activity activity) {
-                foregroundActivity = activity;
-                ProtonLogger.logActivityResumed(activity);
-            }
-
-            @Override public void onActivityPaused(@NonNull Activity activity) {
-                foregroundActivity = null;
-                ProtonLogger.logActivityPaused(activity);
-            }
-        });
+        foregroundTracker =
+                new ForegroundActivityTracker((PowerManager) getSystemService(Context.POWER_SERVICE));
+        registerActivityLifecycleCallbacks(foregroundTracker);
     }
 
     private void initStrongSwan() {
@@ -141,6 +134,11 @@ public class ProtonApplication extends Application {
     }
 
     public boolean isInForeground() {
-        return foregroundActivity != null;
+        return foregroundTracker != null && foregroundTracker.isInForeground();
+    }
+
+    @Nullable
+    public Activity getForegroundActivity() {
+        return foregroundTracker != null ? foregroundTracker.foregroundActivity() : null;
     }
 }
