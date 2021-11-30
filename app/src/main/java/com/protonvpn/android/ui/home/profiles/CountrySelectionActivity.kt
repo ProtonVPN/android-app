@@ -69,12 +69,13 @@ class CountrySelectionActivity : BaseActivityV2() {
         val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
             addAll(sections)
             setOnItemClickListener { item, _ ->
-                val country = (item as CountryItemSelectionViewHolder).country
-                setResult(
-                    Activity.RESULT_OK,
-                    Intent().apply { putExtra(COUNTRY_CODE_KEY, country.flag) }
-                )
-                finish()
+                if (item is CountryItemSelectionViewHolder) {
+                    setResult(
+                        Activity.RESULT_OK,
+                        Intent().apply { putExtra(COUNTRY_CODE_KEY, item.country.flag) }
+                    )
+                    finish()
+                }
             }
         }
         with(recyclerItems) {
