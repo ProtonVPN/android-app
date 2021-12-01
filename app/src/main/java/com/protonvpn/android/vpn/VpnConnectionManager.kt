@@ -343,10 +343,11 @@ open class VpnConnectionManager(
             disconnectBlocking("new connection")
 
         connectionParams = preparedConnection.connectionParams
-        with (preparedConnection) {
+        with(preparedConnection) {
+            val profileInfo = connectionParams.profile.toLog(userData)
             ProtonLogger.log(
                 ConnConnectStart,
-                "backend: ${backend.vpnProtocol}, params: ${connectionParams.info}"
+                "backend: ${backend.vpnProtocol}, params: ${connectionParams.info}, $profileInfo"
             )
         }
 
@@ -410,7 +411,7 @@ open class VpnConnectionManager(
     }
 
     private fun connectWithPermission(context: Context, profile: Profile, triggerAction: String) {
-        ProtonLogger.log(ConnConnectTrigger, "Profile: ${profile.toLog(userData)}, reason: $triggerAction")
+        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
         if (server?.online == true) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
