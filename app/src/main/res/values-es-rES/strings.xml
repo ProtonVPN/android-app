@@ -31,9 +31,9 @@
   <string name="loginStartWithDevice">Iniciar con el dispositivo</string>
   <string name="loginCreateAccount">Crear una cuenta nueva</string>
   <string name="loginNeedHelp">¿Necesitas ayuda?</string>
-  <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje por ProtonVPN por favor asigna sesiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
-  <string name="connectionAllocationHelpDescription2">Este paso tardará solo unos pocos minutos. Después podrás iniciar sesión y proteger todos tus dispositivos.</string>
+  <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
+  <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Asignar conexiones VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
   <string name="loginHelpTitle">¿Cómo podemos ayudarle?</string>
@@ -153,6 +153,12 @@
   <string name="onboardingDialogSecureCoreDescription">Use esta función paga y conéctese a los servidores más seguros del planeta. Puede verlos en la pestaña Países y en la Vista de mapa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">En esta lista puedes elegir un país y un servidor al que quieras conectarte</string>
+  <string name="onboardingStartSlideTitle">Bienvenido/a a un Internet mejor</string>
+  <string name="onboardingStartSlideDescription">De parte de los científicos e ingenieros que crearon ProtonMail, bienvenidos a un Internet más seguro y privado.</string>
+  <string name="onboardingMiddleSlideTitle">Creemos que Internet debe ser gratis</string>
+  <string name="onboardingMiddleSlideDescription">Golpeamos la censura y las restricciones regionales. No tenemos anuncios, ni límites de ancho de banda, y no vendemos sus datos.</string>
+  <string name="onboardingEndingSlideTitle">Tu seguridad es nuestra prioridad</string>
+  <string name="onboardingEndingSlideDescription">Somos una empresa de seguridad. Ya sea nuestra arquitectura secure core o nuestro cifrado avanzado, la seguridad siempre es lo primero.</string>
   <string name="onboardingNetshield">Te mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, prueba a desactivar NetShield. </string>
   <string name="onboardingFAB">Conexión rápida / Perfiles</string>
   <string name="onboardingFABDescription">Pulse este botón para la forma más rápida de conectarse</string>
@@ -188,6 +194,7 @@
     <br/> Details: %1$s</string>
   <string name="reconnect">Reconectar</string>
   <string name="reconnect_now">Reconectar ahora</string>
+  <string name="try_reconnecting">Try reconnecting</string>
   <string name="connect">Conectar</string>
   <string name="upgrade">Mejorar</string>
   <string name="retry">Reintentar</string>
@@ -255,6 +262,15 @@
   <string name="notConnected">No estás conectado a un servidor \n</string>
   <string name="activityLicensesTitle">Licencias de terceros</string>
   <string name="stateFragmentUnknownIp">Desconocido</string>
+  <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
+  <string name="noVpnPermissionMainMessage">To connect to ProtonVPN, please do the following:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to ProtonVPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than ProtonVPN.</string>
+  <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
+  <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
+  <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
   <string name="error_prepare_vpn_description"><![CDATA[Por favor, deshabilite la VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema VPN de Android, ya que eso evita que ProtonVPN pueda establecer una conexión VPN. Por favor, otorgue también permisos VPN si aparece un cuadro de diálogo que solicite los permisos VPN. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después, por favor intentelo de nuevo. <a href="%1$s">Más información</a>]]></string>
   <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
   <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>

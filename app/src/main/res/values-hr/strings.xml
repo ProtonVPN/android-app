@@ -31,9 +31,9 @@
   <string name="loginStartWithDevice">Pokreni s uređajem</string>
   <string name="loginCreateAccount">Stvori novi račun</string>
   <string name="loginNeedHelp">Trebate pomoć?</string>
-  <string name="connectionAllocationHelpTitle">Hvala što ste nadogradili na\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription1">Da biste započeli putovanje u ProtonVPN-u, dodijelite VPN veze vašem računu ili bilo kojem drugom podračunu.</string>
-  <string name="connectionAllocationHelpDescription2">Ovaj će korak potrajati samo nekoliko minuta. Nakon toga moći ćete se prijaviti i zaštititi sve svoje uređaje.</string>
+  <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
+  <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Dodijeli VPN veze</string>
   <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
   <string name="loginHelpTitle">How can we help?</string>
@@ -153,6 +153,12 @@
   <string name="onboardingDialogSecureCoreDescription">Iskoristite ovu plaćenu značajku i povežite se sa najsigurnijim poslužiteljima na planeti. Možete ih vidjeti u kartici Države i prikazu Karte.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">Na ovom popisu možete odabrati državu i poslužitelja s kojim se želite povezati</string>
+  <string name="onboardingStartSlideTitle">Dobrodošli na bolji internet</string>
+  <string name="onboardingStartSlideDescription">Od znanstvenika i inženjera koji su stvorili ProtonMail, dobrodošli na sigurniji i privatniji Internet.</string>
+  <string name="onboardingMiddleSlideTitle">Vjerujemo da bi internet trebao biti slobodan</string>
+  <string name="onboardingMiddleSlideDescription">Pobijedite cenzuru i regionalna ograničenja. Nemamo oglase, nemamo ograničenja propusnosti i ne prodajemo vaše podatke.</string>
+  <string name="onboardingEndingSlideTitle">Vaša sigurnost je naš prioritet</string>
+  <string name="onboardingEndingSlideDescription">Mi smo sigurnosna tvrtka. Bilo da se radi o secure core arhitekturi ili naprednom šifriranju, sigurnost je uvijek na prvom mjestu.</string>
   <string name="onboardingNetshield">Štiti vas od zlonamjernog softvera, oglasa i pratitelja.\nNapomena: ako se neke web stranice ne učitaju, pokušajte onemogućiti NetShield. </string>
   <string name="onboardingFAB">Brzo povezivanje / Profili</string>
   <string name="onboardingFABDescription">Dodirnite ovo dugme za najbrži način povezivanja</string>
@@ -188,6 +194,7 @@
     <br/> Details: %1$s</string>
   <string name="reconnect">Ponovno povezivanje</string>
   <string name="reconnect_now">Reconnect now</string>
+  <string name="try_reconnecting">Try reconnecting</string>
   <string name="connect">Poveži</string>
   <string name="upgrade">Nadogradnja</string>
   <string name="retry">Pokušaj ponovno</string>
@@ -256,6 +263,15 @@
   <string name="notConnected">Niste povezani \n s poslužiteljem</string>
   <string name="activityLicensesTitle">Licence trećih strana</string>
   <string name="stateFragmentUnknownIp">Nepoznato</string>
+  <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
+  <string name="noVpnPermissionMainMessage">To connect to ProtonVPN, please do the following:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to ProtonVPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than ProtonVPN.</string>
+  <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
+  <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
+  <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
   <string name="error_prepare_vpn_description"><![CDATA[Onemogućite Always-On VPN za sve ostale VPN aplikacije u Android VPN postavkama sustava jer to spriječava ProtonVPN da uspostavi VPN vezu. Odobrite i VPN dopuštenja ako se pojavi dijalog koji zahtijeva dopuštenja VPN-a. Za uklanjanje konflikata možda će trebati deinstalirati i druge VPN aplikacije. Nakon toga, pokušajte ponovo. <a href="%1$s">Saznajte više</a>]]></string>
   <string name="error_prepare_vpn_settings">Idite u VPN postavke Androida</string>
   <string name="error_prepare_vpn_title">Pogreška: problem s VPN dopuštenjima</string>

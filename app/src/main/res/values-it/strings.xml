@@ -31,9 +31,9 @@
   <string name="loginStartWithDevice">Avvia con il dispositivo</string>
   <string name="loginCreateAccount">Crea nuovo account</string>
   <string name="loginNeedHelp">Hai bisogno di aiuto?</string>
-  <string name="connectionAllocationHelpTitle">Grazie per l\'aggiornamento a\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in ProtonVPN, assegna connessioni VPN al tuo account o a qualsiasi altro sotto-account.</string>
-  <string name="connectionAllocationHelpDescription2">Questo passo richiederà pochi minuti. Dopo di che sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
+  <string name="connectionAllocationHelpTitle">Grazie per l\'aggiornamento a \nProfessional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in ProtonVPN, assegna le connessioni VPN al tuo account o a qualsiasi altro account secondario.</string>
+  <string name="connectionAllocationHelpDescription2">Questo passaggio richiederà solo pochi minuti. Dopodiché sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assegna connessioni VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Accedi di nuovo</string>
   <string name="loginHelpTitle">Come possiamo aiutare?</string>
@@ -153,6 +153,12 @@
   <string name="onboardingDialogSecureCoreDescription">Usa questa funzione a pagamento e connettiti ai server più sicuri del pianeta. Puoi vederli sia nella scheda Paesi che nella vista Mappa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
   <string name="onboardingListDescription">In questa lista puoi scegliere un paese e un server a cui vuoi connetterti</string>
+  <string name="onboardingStartSlideTitle">Benvenuto in un internet migliore</string>
+  <string name="onboardingStartSlideDescription">Dagli scienziati e ingegneri che hanno creato ProtonMail, benvenuto in un Internet più sicuro e privato.</string>
+  <string name="onboardingMiddleSlideTitle">Noi crediamo che internet debba essere libero</string>
+  <string name="onboardingMiddleSlideDescription">Batti la censura e le restrizioni regionali. Non abbiamo annunci, limiti di larghezza di banda e non vendiamo i tuoi dati.</string>
+  <string name="onboardingEndingSlideTitle">La tua sicurezza è la nostra priorità</string>
+  <string name="onboardingEndingSlideDescription">Siamo una società di sicurezza. Che si tratti della nostra architettura di base sicura o di una crittografia avanzata, la sicurezza viene sempre al primo posto.</string>
   <string name="onboardingNetshield">Ti protegge da malware, annunci e tracker.\nNota: se alcuni siti non vengono caricati, prova a disabilitare NetShield. </string>
   <string name="onboardingFAB">Connessione rapida / Profili</string>
   <string name="onboardingFABDescription">Tocca questo pulsante per connetterti nel modo più rapido</string>
@@ -184,10 +190,11 @@
   <string name="error_auth_failed">Autenticazione utente fallita.</string>
   <string name="error_assessment_failed">Valutazione di sicurezza non riuscita.</string>
   <string name="error_generic">Errore non specificato durante la connessione.</string>
-  <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/>
-    <br/> Details: %1$s</string>
+  <string name="error_generic_with_reason">ProtonVPN non è riuscito a stabilire una connessione VPN. Per favore, riprova tra qualche secondo. <br/>
+    <br/> Dettagli: %1$s</string>
   <string name="reconnect">Riconetti</string>
   <string name="reconnect_now">Riconnetti adesso</string>
+  <string name="try_reconnecting">Prova a riconnetterti</string>
   <string name="connect">Connetti</string>
   <string name="upgrade">Effettua l\'upgrade</string>
   <string name="retry">Riprova</string>
@@ -255,6 +262,15 @@
   <string name="notConnected">Non sei connesso \n a un server</string>
   <string name="activityLicensesTitle">Licenze di terze parti</string>
   <string name="stateFragmentUnknownIp">Sconosciuto</string>
+  <string name="noVpnPermissionMainTitle">Richiesta azione per connetterti alla VPN</string>
+  <string name="noVpnPermissionMainMessage">Per connetterti a ProtonVPN, fai quanto segue:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">Consenti i permessi VPN</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android ha bisogno della tua autorizzazione per connettersi a ProtonVPN. Concedila toccando \"OK\" quando ricevi la finestra \"Richiesta di connessione\" da Android.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">Disattiva Always-on per altre app</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android non supporta più app VPN. Disabilita Always-on per qualsiasi app VPN diversa da ProtonVPN.</string>
+  <string name="noVpnPermissionProtonAppLabel">App ProtonVpn</string>
+  <string name="noVpnPermissionOtherAppLabel">Altre app VPN</string>
+  <string name="noVpnPermissionOpenSettings">Apri le impostazioni VPN di Android</string>
   <string name="error_prepare_vpn_description"><![CDATA[Per favore disabilita l\'opzione VPN Sempre Attiva per tutte le altre applicazioni VPN nelle impostazioni VPN di sistema di Android, in quanto ciò impedisce a ProtonVPN di stabilire una connessione VPN. Per favore concedi anche le autorizzazioni se appare una finestra di dialogo che richiede le autorizzazioni VPN. Altre applicazioni VPN potrebbero anche aver bisogno di essere disinstallate per prevenire i conflitti. Dopo, per favore, prova di nuovo. <a href="%1$s">Per saperne di più</a>]]></string>
   <string name="error_prepare_vpn_settings">Vai alle impostazioni VPN di Android</string>
   <string name="error_prepare_vpn_title">Errore: problema di autorizzazione VPN</string>
@@ -452,8 +468,8 @@
   <string name="notification_max_sessions_title">Hai raggiunto il limite di dispositivi</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="notification_max_sessions_upsell_content">
-    <item quantity="one">Disconnect a device to connect this one or upgrade to Plus to connect %1$d device.</item>
-    <item quantity="other">Disconnect a device to connect this one or upgrade to Plus to connect up to %1$d devices.</item>
+    <item quantity="one">Disconnetti un dispositivo per connettere questo o esegui l\'upgrade a Plus per connettere %1$d dispositivo.</item>
+    <item quantity="other">Disconnetti un dispositivo per connettere questo o esegui l\'upgrade a Plus per connettere fino a %1$d dispositivi.</item>
   </plurals>
   <string name="notification_max_sessions_content">Disconnetti un altro dispositivo per connettere questo.</string>
   <string name="notification_cancel_to_free">Sei sul piano GRATUITO. Sono disponibili i server e le funzioni GRATUITE.</string>
@@ -499,7 +515,7 @@
          Example:
          Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
          -->
-  <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+  <string name="upgrade_plus_message">Ottieni l\'accesso a %1$s tra %2$s. Disponibile con i piani Plus e Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
