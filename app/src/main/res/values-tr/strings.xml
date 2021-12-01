@@ -31,9 +31,9 @@
   <string name="loginStartWithDevice">Cihazla başla</string>
   <string name="loginCreateAccount">Yeni hesap oluşturun</string>
   <string name="loginNeedHelp">Yardım mı lazım?</string>
-  <string name="connectionAllocationHelpTitle">PROFESYONEL/VİZYONER\npaketine güncellediğiniz için teşekkürler</string>
-  <string name="connectionAllocationHelpDescription1">ProtonVPN\'de yolculuğunuza başlamak için lütfen hesabınıza veya başka bir alt hesaba VPN bağlantıları atayın.</string>
-  <string name="connectionAllocationHelpDescription2">Bu adım sadece birkaç dakika sürecektir. Bundan sonra giriş yapabilir ve tüm cihazlarınızı koruyabilirsiniz.</string>
+  <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
+  <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
   <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
   <string name="loginHelpTitle">Nasıl yardımcı olabiliriz?</string>
@@ -153,6 +153,12 @@
   <string name="onboardingDialogSecureCoreDescription">Bu ücretli özelliği kullanın ve gezegendeki en güvenli sunuculara bağlanın. Bunları hem Ülkeler sekmesinde hem de Harita Görünümünde görebilirsiniz.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">Bu listede bağlanmak istediğiniz ülke ve sunucuyu seçebilirsiniz</string>
+  <string name="onboardingStartSlideTitle">Daha iyi bir internete hoş geldiniz</string>
+  <string name="onboardingStartSlideDescription">ProtonMail\'i yaratan bilim insanlarından ve mühendislerinden, daha güvenli ve özel bir İnternet\'e hoş geldiniz.</string>
+  <string name="onboardingMiddleSlideTitle">İnternetin özgür olması gerektiğine inanıyoruz</string>
+  <string name="onboardingMiddleSlideDescription">Sansür ve bölgesel kısıtlamaları yenin. Reklam yok, bant genişliği sınırımız yok ve verilerinizi satmıyoruz.</string>
+  <string name="onboardingEndingSlideTitle">Güvenliğiniz önceliğimizdir</string>
+  <string name="onboardingEndingSlideDescription">Biz bir güvenlik şirketiyiz. Secure core mimarimiz veya gelişmiş şifreleme olsun, güvenlik her zaman önce gelir.</string>
   <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield\'ı devre dışı bırakmayı deneyin. </string>
   <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
   <string name="onboardingFABDescription">Daha hızlı bağlantı için butona tıklayın</string>
@@ -188,6 +194,7 @@
     <br/> Details: %1$s</string>
   <string name="reconnect">Yeniden bağlan</string>
   <string name="reconnect_now">Reconnect now</string>
+  <string name="try_reconnecting">Try reconnecting</string>
   <string name="connect">Bağlan</string>
   <string name="upgrade">Yükselt</string>
   <string name="retry">Yeniden dene</string>
@@ -255,6 +262,15 @@
   <string name="notConnected">Herhangi bir sunucuya \n bağlı değilsiniz</string>
   <string name="activityLicensesTitle">Üçüncül parti lisansları</string>
   <string name="stateFragmentUnknownIp">Bilinmeyen</string>
+  <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
+  <string name="noVpnPermissionMainMessage">To connect to ProtonVPN, please do the following:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to ProtonVPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than ProtonVPN.</string>
+  <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
+  <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
+  <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
   <string name="error_prepare_vpn_description"><![CDATA[Lütfen ProtonVPN\'in bir VPN bağlantısı kurmasını engellediği için Android VPN sistem ayarlarındaki diğer tüm VPN uygulamaları için Her zaman açık VPN\'yi devre dışı bırakın.  Lütfen VPN izinleri isteyen bir iletişim kutusu görünürse VPN izinleri verin.  Çakışmaları önlemek için diğer VPN uygulamalarının da kaldırılması gerekebilir.  Daha sonra, lütfen tekrar deneyin.  <a href="%1$s"> Daha fazla bilgi </a>]]></string>
   <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
   <string name="error_prepare_vpn_title">Hata: VPN izin problemi</string>

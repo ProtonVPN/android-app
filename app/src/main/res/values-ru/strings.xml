@@ -31,9 +31,9 @@
   <string name="loginStartWithDevice">Запуск при включении устройства</string>
   <string name="loginCreateAccount">Создать новый аккаунт</string>
   <string name="loginNeedHelp">Нужна помощь?</string>
-  <string name="connectionAllocationHelpTitle">Спасибо за переход на\nPROFESSIONAL/VISIONARY</string>
-  <string name="connectionAllocationHelpDescription1">Чтобы начать ваше путешествие в ProtonVPN, пожалуйста, привяжите VPN-подключения к своей учетной записи или к любой другой дополнительной учетной записи.</string>
-  <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти и защитить все ваши устройства.</string>
+  <string name="connectionAllocationHelpTitle">Спасибо за улучшение до\nProfessional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в ProtonVPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
+  <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти в систему и защитить все свои устройства.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
   <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
   <string name="loginHelpTitle">Как мы можем помочь?</string>
@@ -46,21 +46,21 @@
   <string name="mapCalloutDisconnect">Отключиться</string>
   <string name="mapSwitchSecureCore">Secure Core</string>
   <string name="warning">Внимание</string>
-  <string name="secureCoreSwitchOnTitle">Подключиться к Secure Core серверу?</string>
-  <string name="secureCoreSwitchOffTitle">Подключиться к non-Secure Core серверу?</string>
+  <string name="secureCoreSwitchOnTitle">Подключиться к серверу Secure Core?</string>
+  <string name="secureCoreSwitchOffTitle">Подключиться к серверу без Secure Core?</string>
   <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
          Examples:
          "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
          "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-  <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к Secure Core серверу. Это включит Secure Core режим%1$s.</string>
+  <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Будет включен режим Secure Core%1$s.</string>
   <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
          Examples:
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-  <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу не Secure Core. Это приведет к отключению режима Secure Core%1$s.</string>
+  <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу без Secure Core. Режим Secure Core будет выключен%1$s.</string>
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
-  <string name="currentConnectionWillBeLost">\u0020и сбросить Ваше подключение</string>
+  <string name="currentConnectionWillBeLost">\u0020и ваше подключение сбросится</string>
   <string name="secureCoreSwitchConnect">Да, подключиться</string>
   <string name="logoutConfirmDialogTitle">Выйти?</string>
   <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
@@ -153,6 +153,12 @@
   <string name="onboardingDialogSecureCoreDescription">Используйте эту платную функцию и подключайтесь к самым безопасным серверам на планете. Вы можете увидеть их на вкладке \"Страны\" и \"Просмотр карты\".</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">В этом списке вы можете выбрать страну и сервер, к которому хотите подключиться</string>
+  <string name="onboardingStartSlideTitle">Добро пожаловать в лучший интернет</string>
+  <string name="onboardingStartSlideDescription">Учёные и инженеры, создавшие ProtonMail, приглашают вас в более безопасный Интернет без цензуры.</string>
+  <string name="onboardingMiddleSlideTitle">Мы считаем, что Интернет должен быть свободным</string>
+  <string name="onboardingMiddleSlideDescription">Победите цензуру и региональные ограничения. У нас нет рекламы, нет ограничений пропускной способности и мы не продаём ваши данные.</string>
+  <string name="onboardingEndingSlideTitle">Ваша безопасность является нашим приоритетом</string>
+  <string name="onboardingEndingSlideDescription">Наша компания специализируется на безопасности. Идёт ли речь о нашей архитектуре Secure Core или о передовом шифровании — безопасность всегда находится на первом месте.</string>
   <string name="onboardingNetshield">Защищает вас от вредоносных программ, рекламы и трекеров.\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield. </string>
   <string name="onboardingFAB">Быстрое подключение / Профили</string>
   <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
@@ -187,7 +193,8 @@
   <string name="error_generic_with_reason">ProtonVPN не смог установить VPN-соединение. Пожалуйста, повторите попытку через несколько секунд.<br/>
     <br/> Подробнее: %1$s</string>
   <string name="reconnect">Переподключиться</string>
-  <string name="reconnect_now">Повторное подключение</string>
+  <string name="reconnect_now">Переподключиться</string>
+  <string name="try_reconnecting">Try reconnecting</string>
   <string name="connect">Подключиться</string>
   <string name="upgrade">Улучшить</string>
   <string name="retry">Повторить</string>
@@ -257,6 +264,15 @@
   <string name="notConnected">Вы не подключены \n к серверу</string>
   <string name="activityLicensesTitle">Лицензии третьих сторон</string>
   <string name="stateFragmentUnknownIp">Неизвестно</string>
+  <string name="noVpnPermissionMainTitle">Действия, необходимые для подключения к VPN</string>
+  <string name="noVpnPermissionMainMessage">Чтобы подключиться к ProtonVPN, выполните следующие действия:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к ProtonVPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите функцию \"Постоянная VPN\" для других приложений</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN во всех остальных приложениях VPN, кроме ProtonVPN.</string>
+  <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
+  <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
+  <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
   <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает ProtonVPN устанавливать VPN-соединение. Также, пожалуйста, предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN также, возможно, понадобится удалить для предотвращения конфликтов. После этого, пожалуйста, попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
   <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
   <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
@@ -284,7 +300,7 @@
   <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
   <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
   <string name="settingsExcludedAppsAvailableRegularHeader">Разрешенные обычные приложения (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableSystemHeader">Разрешенные обычные приложения (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">Разрешенные системные приложения (%1$d)</string>
   <string name="settingsExcludedAppsLoadSystemAppsButton">Показать системные приложения</string>
   <string name="listNoItems">Нет</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
@@ -451,8 +467,8 @@
   <string name="settingsSmartReconnectNotificationsTitle">Уведомления VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">Получать уведомления при переключении на более быстрый сервер с помощью VPN Accelerator</string>
   <string name="settingsReconnectToApplySettingsDialogContent">Новые настройки будут применены при следующем подключении.</string>
-  <string name="settingsReconnectToChangeDialogContent">Это перезапустит ваше соединение.</string>
-  <string name="reconnectToEnableNetshield">Это перезапустит ваше соединение.\n\nПримечание: Некоторые сайты могут не загружаться при включенном NetShield.</string>
+  <string name="settingsReconnectToChangeDialogContent">Ваше подключение перезапустится.</string>
+  <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
   <string name="notification_subscription_expired_title">Срок вашей подписки на ProtonVPN истек</string>
   <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
@@ -501,15 +517,15 @@
   <plurals name="upsell_many_countries">
     <item quantity="one">%1$d страна</item>
     <item quantity="few">%1$d страны</item>
-    <item quantity="many">%1$d+ стран</item>
-    <item quantity="other">%1$d+ стран</item>
+    <item quantity="many">%1$d стран</item>
+    <item quantity="other">%1$d стран</item>
   </plurals>
   <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
   <string name="upgrade_netshield_title">Разблокировать NetShield</string>
   <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
   <string name="upgrade_plus_title">Разблокировать страны Plus</string>
-  <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом тарифе.</string>
-  <string name="upgrade_secure_core_message">Направляйте свои самые конфиденциальные данные через наши самые безопасные серверы в странах, где соблюдается конфиденциальность. Доступно в тарифах планах Plus и Visionary.</string>
+  <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом платном тарифе.</string>
+  <string name="upgrade_secure_core_message">Направляйте свои самые конфиденциальные данные через наши самые безопасные серверы в странах, где соблюдается конфиденциальность. Доступно в тарифах Plus и Visionary.</string>
   <!-- Parameters:
          %1$s - replaced with "upgrade_plus_servers"
          %2$s - replaced with "upgrade_plus_countries"
@@ -544,10 +560,10 @@
   <string name="upgrade_plus_countries_streaming">Доступ к службам трансляции по всему миру</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
-    <item quantity="one">Подключить %d устройство</item>
-    <item quantity="few">Подключить %d устройств одновременно</item>
-    <item quantity="many">Подключить %d устройств одновременно</item>
-    <item quantity="other">Подключить %d устройств одновременно</item>
+    <item quantity="one">Подключайте %d устройство</item>
+    <item quantity="few">Подключайте %d устройства одновременно</item>
+    <item quantity="many">Подключайте %d устройств одновременно</item>
+    <item quantity="other">Подключайте %d устройств одновременно</item>
   </plurals>
   <string name="upgrade_plus_countries_netshield">Встроенный блокировщик рекламы (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
