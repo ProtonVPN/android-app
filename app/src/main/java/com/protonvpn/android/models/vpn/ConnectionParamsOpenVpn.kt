@@ -36,7 +36,7 @@ class ConnectionParamsOpenVpn(
     private val port: Int
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), java.io.Serializable {
 
-    override val info get() = "${super.info} $transmissionProtocol port=$port"
+    override val info get() = "${super.info} $transmissionProtocol port: $port"
     override val transmission get() = transmissionProtocol
 
     fun openVpnProfile(

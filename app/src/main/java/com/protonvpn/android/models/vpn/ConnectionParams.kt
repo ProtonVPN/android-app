@@ -33,7 +33,7 @@ open class ConnectionParams(
     val protocol: VpnProtocol?
 ) : java.io.Serializable {
 
-    open val info get() = "Profile: ${profile.name} IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
+    open val info get() = "IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
     open val transmission: TransmissionProtocol? get() = null
 
     val exitIpAddress: String?

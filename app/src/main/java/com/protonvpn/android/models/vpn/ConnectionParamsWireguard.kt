@@ -46,7 +46,7 @@ class ConnectionParamsWireguard(
 ),
     java.io.Serializable {
 
-    override val info get() = "${super.info} port=$port"
+    override val info get() = "${super.info} port: $port"
 
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(
