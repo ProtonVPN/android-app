@@ -68,7 +68,7 @@ class TvMainActivity : BaseTvActivity() {
                 finish()
         }
 
-        viewModel.selectedCountryFlag.observe(this, Observer {
+        viewModel.highlightedCountryFlag.observe(this, Observer {
             updateMapSelection(binding)
         })
         viewModel.connectedCountryFlag.observe(this, Observer {
@@ -83,7 +83,7 @@ class TvMainActivity : BaseTvActivity() {
 
     private fun updateMapSelection(binding: ActivityTvMainBinding) {
         binding.mapView.setSelection(
-                CountryTools.codeToMapCountryName[viewModel.selectedCountryFlag.value],
+                CountryTools.codeToMapCountryName[viewModel.highlightedCountryFlag.value],
                 CountryTools.codeToMapCountryName[viewModel.connectedCountryFlag.value]
         )
     }
