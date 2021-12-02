@@ -66,7 +66,7 @@ public class WelcomeDialog extends AppCompatDialogFragment {
             if (user == null)
                 return;
             String remainingTimeString = MainViewModelKt.trialRemainingTimeString(
-                getContext(), user.getTrialRemainingTime());
+                getContext(), user.trialRemainingTime(System.currentTimeMillis()));
             textDescription.setText(
                 HtmlTools.fromHtml(getString(R.string.accountTrialExpires, remainingTimeString)));
         }
