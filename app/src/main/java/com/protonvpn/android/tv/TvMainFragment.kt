@@ -70,12 +70,13 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {
-                viewModel.selectedCountryFlag.value = when (item) {
+                val selectedCountry = when (item) {
                     is CountryCard -> item.vpnCountry.flag
                     is QuickConnectCard -> viewModel.quickConnectFlag
                     is ProfileCard -> item.profile.connectCountry
                     else -> null
                 }
+                viewModel.setSelectedCountry(selectedCountry)
             }
         }
 

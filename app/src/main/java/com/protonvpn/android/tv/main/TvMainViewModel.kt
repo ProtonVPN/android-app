@@ -19,6 +19,7 @@
 package com.protonvpn.android.tv.main
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
@@ -49,6 +50,7 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.utils.mapMany
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -75,7 +77,7 @@ class TvMainViewModel @Inject constructor(
     certificateRepository: CertificateRepository
 ) : MainViewModel(userData, userPlanManager, certificateRepository), StreamingViewModelHelper {
 
-    val selectedCountryFlag = MutableLiveData<String>()
+    private val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
     val logoutEvent get() = logoutHandler.logoutEvent
@@ -93,6 +95,16 @@ class TvMainViewModel @Inject constructor(
             else -> ConnectionState.Connected
         }
     }.distinctUntilChanged().asLiveData()
+
+    val highlightedCountryFlag =
+        if (limitedCountryHighlighting()) {
+            mapMany(selectedCountryFlag, mapRegion) { selected, mapRegion ->
+                selected.takeIf { mapRegion.isZoomedIn() }
+            }
+        } else {
+            selectedCountryFlag
+        }
+
 
     init {
         viewModelScope.launch {
@@ -123,6 +135,10 @@ class TvMainViewModel @Inject constructor(
             R.string.cancel
         else
             R.string.disconnect
+
+    fun setSelectedCountry(flag: String?) {
+        selectedCountryFlag.value = flag
+    }
 
     private fun countryListItemIcon(country: VpnCountry) = when {
         country.isUnderMaintenance() -> R.drawable.ic_wrench
@@ -293,6 +309,8 @@ class TvMainViewModel @Inject constructor(
         mapRegion.value = TvMapRenderer.MapRegion(0f, 0f, 1f)
     }
 
+    private fun TvMapRenderer.MapRegion.isZoomedIn() = x != 0f || y != 0f || w != 1f
+
     fun isDefaultCountry(vpnCountry: VpnCountry) =
         userData.defaultConnection?.wrapper?.country == vpnCountry.flag
 
@@ -316,4 +334,9 @@ class TvMainViewModel @Inject constructor(
     }
 
     fun logout() = logoutHandler.logout(false)
+
+
+    private fun limitedCountryHighlighting(): Boolean =
+        // nVidia Shield crashes when the map is rendered too often :-/
+        Build.MANUFACTURER == "NVIDIA" && Build.MODEL == "SHIELD Android TV"
 }
