@@ -330,7 +330,7 @@ object AppModule {
         vpnUserDao: VpnUserDao,
         currentUser: CurrentUser,
         vpnStateMonitor: VpnStateMonitor,
-    ): UserPlanManager = UserPlanManager(api, vpnStateMonitor, currentUser, vpnUserDao)
+    ): UserPlanManager = UserPlanManager(api, vpnStateMonitor, currentUser, vpnUserDao, System::currentTimeMillis)
 
     @Singleton
     @Provides

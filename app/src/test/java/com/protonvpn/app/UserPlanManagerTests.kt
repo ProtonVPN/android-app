@@ -46,6 +46,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -74,6 +75,7 @@ class UserPlanManagerTests {
 
     lateinit var userData: UserData
     private var vpnUser: VpnUser? = null
+    private var nowMs: Long = 0L
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
@@ -91,7 +93,8 @@ class UserPlanManagerTests {
             vpnUser = userSlot.captured
             userData.onVpnUserUpdated(vpnUser)
         }
-        manager = UserPlanManager(apiRetroFit, vpnStateMonitor, currentUser, vpnUserDao)
+        nowMs = 0L
+        manager = UserPlanManager(apiRetroFit, vpnStateMonitor, currentUser, vpnUserDao, { nowMs })
     }
 
     @Test
@@ -150,10 +153,13 @@ class UserPlanManagerTests {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.TrialEnded, planChange)
         }
-        vpnUser = mockVpnTrialUser((DateTime().plusSeconds(2).millis / 1000L).toInt()) //TODO: use virtual time
+        val expiresIn = Period.seconds(2)
+        val expirationTimeMs = (DateTime(nowMs) + expiresIn).millis
+        vpnUser = mockVpnTrialUser((expirationTimeMs / 1000L).toInt())
         coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(TestUser.freeUser.vpnInfoResponse)
-        val list = manager.getTrialPeriodFlow().toList()
-        Assert.assertEquals(list.last(), Period(0, 0, 0, 0))
+        Assert.assertEquals(expiresIn, manager.getTrialPeriodFlow().first())
+        nowMs = expirationTimeMs + 1
+        Assert.assertNull(manager.getTrialPeriodFlow().firstOrNull())
         coVerify(exactly = 1) { apiRetroFit.getVPNInfo() }
     }
 

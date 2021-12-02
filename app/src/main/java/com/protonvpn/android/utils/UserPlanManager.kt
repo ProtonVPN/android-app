@@ -33,7 +33,8 @@ class UserPlanManager(
     private val api: ProtonApiRetroFit,
     private val vpnStateMonitor: VpnStateMonitor,
     private val currentUser: CurrentUser,
-    private val vpnUserDao: VpnUserDao
+    private val vpnUserDao: VpnUserDao,
+    private val wallClock: () -> Long
 ) {
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
@@ -95,14 +96,14 @@ class UserPlanManager(
             if (user == null || !user.isTrialUser)
                 break
 
-            if (user.isRemainingTimeAccessible && user.isTrialExpired()) {
+            if (user.isRemainingTimeAccessible && user.isTrialExpired(wallClock())) {
                 refreshVpnInfo()
                 break
             }
             if (!user.isRemainingTimeAccessible && vpnStateMonitor.isConnected)
                 refreshVpnInfo()
 
-            currentUser.vpnUser()?.let { emit(it.trialRemainingTime) }
+            currentUser.vpnUser()?.let { emit(it.trialRemainingTime(wallClock())) }
             delay(TRIAL_UPDATE_DELAY_MILLIS)
         } while (true)
     }
