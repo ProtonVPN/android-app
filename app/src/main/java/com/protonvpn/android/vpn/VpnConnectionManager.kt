@@ -27,12 +27,14 @@ import android.net.VpnService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.distinctUntilChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
+import com.protonvpn.android.logging.ConnConnectConnected
 import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
 import com.protonvpn.android.logging.ConnDisconnectTrigger
@@ -185,6 +187,9 @@ open class VpnConnectionManager(
                     }
                 }
             }
+        }
+        stateInternal.distinctUntilChanged().observeForever {
+            if (it == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
         }
 
         scope.launch {

@@ -155,7 +155,7 @@ class ConnectivityMonitor(
         }
 
         override fun onUnavailable() {
-            ProtonLogger.log(NetNetworkUnavailable, "")
+            ProtonLogger.log(NetNetworkUnavailable)
         }
 
         override fun onAvailable(network: Network) {
@@ -168,7 +168,7 @@ class ConnectivityMonitor(
             // (possibly a bug: https://issuetracker.google.com/issues/144891976 )
             // Check if there is an active network to log NetNetworkUnavailable.
             if (connectivityManager.activeNetwork == null) {
-                ProtonLogger.log(NetNetworkUnavailable, "")
+                ProtonLogger.log(NetNetworkUnavailable)
             }
         }
 
