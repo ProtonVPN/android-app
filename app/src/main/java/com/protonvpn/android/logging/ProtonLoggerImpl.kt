@@ -284,7 +284,7 @@ open class ProtonLoggerImpl(
         logMessage(text)
     }
 
-    fun log(event: LogEventType, message: String) {
+    fun log(event: LogEventType, message: String = "") {
         logEvent(event, message) { text ->
             logMessageQueue.tryEmit(text)
         }
