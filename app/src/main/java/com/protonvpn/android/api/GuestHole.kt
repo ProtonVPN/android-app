@@ -23,10 +23,13 @@ import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.R
+import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
@@ -57,6 +60,7 @@ class GuestHole @Inject constructor(
     private val serverManager: dagger.Lazy<ServerManager>,
     private val vpnMonitor: VpnStateMonitor,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
+    private val notificationHelper: NotificationHelper
 ) : ApiConnectionListener {
 
     private var lastGuestHoleServer: Server? = null
@@ -146,6 +150,11 @@ class GuestHole @Inject constructor(
     ): ApiResult<T>? {
         var result: ApiResult<T>? = null
         try {
+            notificationHelper.showInformationNotification(
+                appContext,
+                appContext.getString(R.string.guestHoleNotificationContent),
+                notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
+            )
             ProtonLogger.log("Guesthole Establishing hole for call: " + path)
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {

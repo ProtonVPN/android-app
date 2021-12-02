@@ -206,8 +206,8 @@ class NotificationHelper(
             .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
 
-    fun cancelInformationNotification() =
-        NotificationManagerCompat.from(appContext).cancel(Constants.NOTIFICATION_INFO_ID)
+    fun cancelInformationNotification(notificationId: Int = Constants.NOTIFICATION_INFO_ID) =
+        NotificationManagerCompat.from(appContext).cancel(notificationId)
 
     private fun buildStatusNotification(
         vpnStatus: VpnStateMonitor.Status,
@@ -316,7 +316,8 @@ class NotificationHelper(
         content: String,
         title: String? = null,
         @DrawableRes icon: Int = R.drawable.ic_info,
-        action: ActionItem? = null
+        action: ActionItem? = null,
+        notificationId: Int = Constants.NOTIFICATION_INFO_ID
     ) {
         with(NotificationManagerCompat.from(context)) {
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -340,7 +341,7 @@ class NotificationHelper(
                     NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
                 )
             }
-            notify(Constants.NOTIFICATION_INFO_ID, builder.build())
+            notify(notificationId, builder.build())
         }
     }
 
