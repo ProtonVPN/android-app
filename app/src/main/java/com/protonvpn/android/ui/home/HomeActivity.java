@@ -74,6 +74,7 @@ import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;
 import com.protonvpn.android.utils.AnimationTools;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
@@ -170,6 +171,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
             if (canShowPopups()) {
                 initOnboarding();
+                notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
                 EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
             }
             else {

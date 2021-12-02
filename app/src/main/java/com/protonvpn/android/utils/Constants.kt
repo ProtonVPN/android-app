@@ -30,6 +30,7 @@ object Constants {
     const val MAX_LOG_SIZE = 200 * 1024.toLong()
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
+    const val NOTIFICATION_GUESTHOLE_ID = 8
     const val SIGNUP_URL = "https://account.protonvpn.com/signup?from=mobile"
     const val TV_SIGNUP_LINK = "protonvpn.com/signup"
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"

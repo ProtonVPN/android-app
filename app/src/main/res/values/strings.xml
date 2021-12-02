@@ -387,6 +387,7 @@
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="paidFeature">Paid feature</string>
     <string name="guestHoleActivated">The access to ProtonVPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
+    <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>

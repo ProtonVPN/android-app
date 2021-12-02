@@ -308,7 +308,15 @@ class VpnConnectionTests {
     fun executeInGuestHole() = runBlocking {
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = spyk(
-            GuestHole(context, this, TestDispatcherProvider, dagger.Lazy { serverManager }, monitor, dagger.Lazy { manager })
+            GuestHole(
+                mockk(relaxed = true),
+                this,
+                TestDispatcherProvider,
+                dagger.Lazy { serverManager },
+                monitor,
+                dagger.Lazy { manager },
+                mockk(relaxed = true)
+            )
         )
         every { guestHole.getCurrentActivity() } returns mockk<ComponentActivity>()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/vpn", null) {
@@ -324,7 +332,15 @@ class VpnConnectionTests {
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
         val guestHole = spyk(
-            GuestHole(context, this, TestDispatcherProvider, dagger.Lazy { serverManager }, monitor, dagger.Lazy { manager })
+            GuestHole(
+                context,
+                this,
+                TestDispatcherProvider,
+                dagger.Lazy { serverManager },
+                monitor,
+                dagger.Lazy { manager },
+                mockk(relaxed = true)
+            )
         )
         every { guestHole.getCurrentActivity() } returns mockk()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/randomCall", null) {

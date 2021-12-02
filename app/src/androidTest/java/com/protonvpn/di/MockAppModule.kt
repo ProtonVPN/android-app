@@ -232,7 +232,8 @@ class MockAppModule {
         serverManager: dagger.Lazy<ServerManager>,
         dispatcherProvider: DispatcherProvider,
         vpnMonitor: VpnStateMonitor,
-        connectionManager: dagger.Lazy<VpnConnectionManager>
+        connectionManager: dagger.Lazy<VpnConnectionManager>,
+        notificationHelper: NotificationHelper,
     ): ApiConnectionListener =
         GuestHole(
             appContext,
@@ -240,7 +241,8 @@ class MockAppModule {
             dispatcherProvider,
             serverManager,
             vpnMonitor,
-            connectionManager
+            connectionManager,
+            notificationHelper
         )
 
     @Singleton
