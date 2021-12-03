@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -55,6 +56,7 @@ class AccountTests {
     }
 
     @Test
+    @TestID(86)
     fun checkIfUserNameDisplayedInAccountSection() {
         homeRobot.openAccountView()
         accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser) }

@@ -22,11 +22,12 @@ package com.protonvpn.tests.secureCore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
-import com.protonvpn.actions.ProfilesRobot
-import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
+import com.protonvpn.actions.ProfilesRobot
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.annotations.TestID
+import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -72,6 +73,7 @@ class SecureCoreSecurityTests {
     }
 
     @Test
+    @TestID(103971)
     fun tryToEnableSecureCoreAsFreeUser() {
         homeRobot.setStateOfSecureCoreSwitch(true)
             .verify {
@@ -81,6 +83,7 @@ class SecureCoreSecurityTests {
     }
 
     @Test
+    @TestID(103972)
     fun tryToConnectToSecureCoreThroughProfilesAsFreeUser() {
         serviceTestHelper.addProfile(
             VpnProtocol.Smart,
@@ -94,6 +97,7 @@ class SecureCoreSecurityTests {
     }
 
     @Test
+    @TestID(103973)
     fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
         val testProfile =
             serviceTestHelper.addProfile(

@@ -57,11 +57,6 @@ class TestUser private constructor(
             get() = TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", 2, 5)
         val badUser: TestUser
             get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", 2, 5)
-        @JvmStatic val trialUser: TestUser
-            get() = TestUser("Testas5", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "trial", 1, 2)
-
-        fun setTrialUserAsExpired() =
-            TestUser("Testas5", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "free", 1, 2)
 
         val forkedSessionResponse: ForkedSessionResponse
             get() = ForkedSessionResponse(

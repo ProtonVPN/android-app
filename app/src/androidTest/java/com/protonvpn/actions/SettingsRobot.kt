@@ -30,7 +30,7 @@ import com.protonvpn.testsHelper.ConditionalActionsHelper
  */
 class SettingsRobot : BaseRobot() {
 
-    fun setFastestQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileFastest)
+    fun setRandomQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileRandom)
 
     fun clickOnSaveMenuButton(): SettingsRobot = clickElementById(R.id.action_save)
 
@@ -62,11 +62,17 @@ class SettingsRobot : BaseRobot() {
 
         fun settingsMtuErrorIsShown() = checkIfElementIsDisplayedByStringId(R.string.settingsMtuRangeInvalid)
 
-        fun splitTunnelIPIsVisible() = checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelUIIsVisible() {
+            checkIfElementIsDisplayedById(R.id.buttonExcludeIps)
+            checkIfElementIsDisplayedById(R.id.buttonExcludeApps)
+        }
 
-        fun splitTunnelIpIsNotVisible() = checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
+        fun splitTunnelUIIsNotVisible() {
+            checkIfElementIsNotDisplayedById(R.id.buttonExcludeIps)
+            checkIfElementIsNotDisplayedById(R.id.buttonExcludeApps)
+        }
 
-        fun quickConnectFastestProfileIsVisible() = checkIfElementIsDisplayedByStringId(R.string.profileFastest)
+        fun quickConnectRandomProfileIsVisible() = checkIfElementIsDisplayedByStringId(R.string.profileRandom)
 
         fun mainSettingsAreDisplayed(){
             checkIfElementIsDisplayedById(R.id.textSectionQuickConnect)

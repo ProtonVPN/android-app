@@ -17,9 +17,8 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn
+package com.protonvpn.annotations
 
-object MockSwitch {
-    @JvmStatic var mockedServersUsed = true
-    @JvmStatic var mockedConnectionUsed = true
-}
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+annotation class TestID(val id: Long)

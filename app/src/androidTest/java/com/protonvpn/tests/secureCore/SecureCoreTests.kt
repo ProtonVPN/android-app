@@ -21,12 +21,13 @@ package com.protonvpn.tests.secureCore
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.CountriesRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.annotations.TestID
+import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -67,6 +68,7 @@ class SecureCoreTests {
     }
 
     @Test
+    @TestID(78)
     fun connectAndDisconnectFromSecureCoreThroughMap() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)
@@ -81,6 +83,7 @@ class SecureCoreTests {
     }
 
     @Test
+    @TestID(80)
     fun connectAndDisconnectFromSecureCoreThroughQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)
@@ -91,6 +94,7 @@ class SecureCoreTests {
     }
 
     @Test
+    @TestID(82)
     fun connectAndDisconnectFromSecureCoreThroughCountryList() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)

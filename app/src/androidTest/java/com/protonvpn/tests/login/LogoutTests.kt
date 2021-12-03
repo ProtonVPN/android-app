@@ -22,9 +22,10 @@ package com.protonvpn.tests.login
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.ConnectionRobot
-import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.HomeRobot
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.annotations.TestID
+import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser.Companion.plusUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -61,12 +62,14 @@ class LogoutTests {
     }
 
     @Test
+    @TestID(54)
     fun successfulLogout() {
         homeRobot.logout()
             .verify { successfullyLoggedOut() }
     }
 
     @Test
+    @TestID(55)
     fun logoutWhileConnectedToVpn() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
@@ -82,6 +85,7 @@ class LogoutTests {
     }
 
     @Test
+    @TestID(103965)
     fun cancelLogoutWhileConnectedToVpn() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)

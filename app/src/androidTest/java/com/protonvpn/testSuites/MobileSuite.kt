@@ -35,17 +35,17 @@ import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        AccountTests::class,
-        ConnectionTests::class,
-        LoginTests::class,
-        LogoutTests::class,
-        MapTests::class,
-        ProfileTests::class,
-        ProtonLoggerImplTests::class,
-        SecureCoreTests::class,
-        SecureCoreSecurityTests::class,
-        SettingsTests::class,
-        VpnConnectionTests::class,
-        LiveEventTests::class
+    AccountTests::class,
+    ConnectionTests::class,
+    LoginTests::class,
+    LogoutTests::class,
+    MapTests::class,
+    ProfileTests::class,
+    ProtonLoggerImplTests::class,
+    SecureCoreTests::class,
+    SecureCoreSecurityTests::class,
+    SettingsTests::class,
+    VpnConnectionTests::class,
+    LiveEventTests::class
 )
 class MobileSuite

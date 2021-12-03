@@ -67,8 +67,7 @@ class LoginTestsTv {
 
     @Test
     fun loginCodeIsDisplayed() {
-        loginRobot
-                .signIn()
+        loginRobot.signIn()
                 .waitUntilLoginCodeIsDisplayed()
                 .verify { loginCodeViewIsDisplayed() }
     }

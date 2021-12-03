@@ -21,6 +21,7 @@ package com.protonvpn.tests.settings
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.SettingsRobot
+import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonSettingsActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -43,42 +44,46 @@ class SettingsTests {
 
     @get:Rule
     var rules = RuleChain
-            .outerRule(HiltAndroidRule(this))
-            .around(SetUserPreferencesRule(TestUser.plusUser))
-            .around(ProtonSettingsActivityTestRule())
+        .outerRule(HiltAndroidRule(this))
+        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(ProtonSettingsActivityTestRule())
 
     @Test
+    @TestID(103967)
     fun checkIfSettingsViewIsVisible() {
         settingsRobot.verify { mainSettingsAreDisplayed() }
     }
 
     @Test
-    fun selectFastestQuickConnection() {
-        settingsRobot.setFastestQuickConnection()
-                .verify { quickConnectFastestProfileIsVisible() }
+    @TestID(103969)
+    fun selectRandomQuickConnection() {
+        settingsRobot.setRandomQuickConnection()
+            .verify { quickConnectRandomProfileIsVisible() }
     }
 
     @Test
+    @TestID(91)
     fun setTooLowMTU() {
         settingsRobot.openMtuSettings()
-                .setMTU(1279)
-                .clickOnSaveMenuButton()
-                .verify { settingsMtuErrorIsShown() }
+            .setMTU(1279)
+            .clickOnSaveMenuButton()
+            .verify { settingsMtuErrorIsShown() }
     }
 
     @Test
+    @TestID(103968)
     fun setTooHighMTU() {
         settingsRobot.openMtuSettings()
-                .setMTU(1501)
-                .clickOnSaveMenuButton()
-                .verify { settingsMtuErrorIsShown() }
+            .setMTU(1501)
+            .clickOnSaveMenuButton()
+            .verify { settingsMtuErrorIsShown() }
     }
 
     @Test
     fun switchSplitTunneling() {
         settingsRobot.toggleSplitTunneling()
-                .verify { splitTunnelIPIsVisible() }
+            .verify { splitTunnelUIIsVisible() }
         settingsRobot.toggleSplitTunneling()
-                .verify { splitTunnelIpIsNotVisible() }
+            .verify { splitTunnelUIIsNotVisible() }
     }
 }
