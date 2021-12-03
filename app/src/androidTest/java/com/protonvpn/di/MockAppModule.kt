@@ -22,7 +22,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
-import com.protonvpn.MockSwitch
+import com.protonvpn.TestSettings
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
@@ -132,7 +132,7 @@ class MockAppModule {
         userData: UserData,
         currentUser: CurrentUser
     ): ProtonApiRetroFit =
-        if (MockSwitch.mockedConnectionUsed) {
+        if (TestSettings.mockedConnectionUsed) {
             MockApi(scope, apiProvider, userData, currentUser)
         } else {
             ProtonApiRetroFit(scope, apiManager)
@@ -158,7 +158,7 @@ class MockAppModule {
         certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ): VpnConnectionManager =
-            if (MockSwitch.mockedConnectionUsed) {
+            if (TestSettings.mockedConnectionUsed) {
                 MockVpnConnectionManager(
                         userData,
                         backendManager,
@@ -198,7 +198,7 @@ class MockAppModule {
         wireguardBackend: WireguardBackend,
         currentUser: CurrentUser
     ): VpnBackendProvider =
-    if (MockSwitch.mockedConnectionUsed) {
+    if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
                 strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
                         VpnProtocol.IKEv2, currentUser),
@@ -231,7 +231,7 @@ class MockAppModule {
     @Singleton
     @Provides
     @TvLoginPollDelayMs
-    fun provideTvLoginPollDelayMs() = if (MockSwitch.mockedConnectionUsed)
+    fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
         TimeUnit.MILLISECONDS.toMillis(50) else TvLoginViewModel.POLL_DELAY_MS
 }
 

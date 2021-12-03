@@ -25,7 +25,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
-import com.protonvpn.MockSwitch
+import com.protonvpn.TestSettings
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -83,7 +83,7 @@ class HomeRobot : BaseRobot() {
             )
         )
         clickElementByText<HomeRobot>(profileName)
-        if (!MockSwitch.mockedConnectionUsed) {
+        if (!TestSettings.mockedConnectionUsed) {
             allowVpnToBeUsed()
         }
         return ConnectionRobot()

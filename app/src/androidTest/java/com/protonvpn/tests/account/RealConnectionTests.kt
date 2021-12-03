@@ -20,7 +20,7 @@
 package com.protonvpn.tests.account
 
 import androidx.test.core.app.ActivityScenario
-import com.protonvpn.MockSwitch
+import com.protonvpn.TestSettings
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
@@ -76,8 +76,8 @@ class RealConnectionTests(private val protocol: VpnProtocol) {
 
     @Before
     fun setUp(){
-        MockSwitch.mockedConnectionUsed = false
-        MockSwitch.mockedServersUsed = false
+        TestSettings.mockedConnectionUsed = false
+        TestSettings.mockedServersUsed = false
         userDataHelper = UserDataHelper()
         userDataHelper.logoutUser()
         hiltRule.inject()
@@ -105,8 +105,8 @@ class RealConnectionTests(private val protocol: VpnProtocol) {
     fun tearDown(){
         userDataHelper.logoutUser()
         Storage.clearAllPreferences()
-        MockSwitch.mockedConnectionUsed = true
-        MockSwitch.mockedServersUsed = true
+        TestSettings.mockedConnectionUsed = true
+        TestSettings.mockedServersUsed = true
         userDataHelper.setProtocol(DefaultData.DEFAULT_PROTOCOL)
     }
 }

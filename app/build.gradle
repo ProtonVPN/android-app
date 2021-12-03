@@ -185,7 +185,9 @@ android {
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
-
+        buildConfigField "String", "TESTRAIL_CREDENTIALS",  "\"${System.getenv("TESTRAIL_USER")}\""
+        buildConfigField "String", "CI_BRANCH_NAME", "\"${System.getenv("CI_COMMIT_BRANCH")}\""
+        buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${System.getenv("CI_COMMIT_MESSAGE")?.trim()}\""
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]

@@ -26,6 +26,7 @@ import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -65,18 +66,21 @@ class LoginTests {
     }
 
     @Test
+    @TestID(51)
     fun loginWithPlusUser(){
         loginRobot.signIn(TestUser.plusUser)
             .verify { successfullyLoggedIn() }
     }
 
     @Test
+    @TestID(52)
     fun loginWithIncorrectCredentials() {
         loginRobot.signInWithIncorrectCredentials()
             .verify { incorrectLoginCredentialsIsShown() }
     }
 
     @Test
+    @TestID(103957)
     fun viewPasswordIsVisible() {
         loginRobot.enterCredentials(TestUser.plusUser)
             .viewPassword()
@@ -84,6 +88,7 @@ class LoginTests {
     }
 
     @Test
+    @TestID(103958)
     fun needHelpMenuIsOpened() {
         loginRobot.selectNeedHelp()
             .verify { needHelpOptionsAreDisplayed() }
@@ -91,6 +96,7 @@ class LoginTests {
 
     @Ignore //Remove when https://jira.protontech.ch/browse/VPNAND-705 will be done
     @Test
+    @TestID(103959)
     fun rememberMeFunctionality() {
         loginRobot.signIn(TestUser.plusUser)
             .verify { successfullyLoggedIn() }

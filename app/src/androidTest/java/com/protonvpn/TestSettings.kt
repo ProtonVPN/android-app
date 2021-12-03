@@ -17,24 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.actions
+package com.protonvpn
 
-import com.protonvpn.TestSettings
-import com.protonvpn.android.R
-import com.protonvpn.base.BaseRobot
-
-/**
- * [CountriesRobot] Contains all actions and verifications for country detailed screen
- */
-class CountriesRobot : BaseRobot() {
-
-    fun selectCountry(country: String): CountriesRobot = clickElementByText(country)
-
-    fun clickConnectButton(contentDescription: String): ConnectionRobot {
-        clickElementByIdAndContentDescription<HomeRobot>(R.id.buttonConnect, contentDescription)
-        if (!TestSettings.mockedConnectionUsed) {
-            HomeRobot().allowVpnToBeUsed()
-        }
-        return ConnectionRobot()
-    }
+object TestSettings {
+    @JvmStatic var mockedServersUsed = true
+    @JvmStatic var mockedConnectionUsed = true
+    @JvmStatic var testRailReportingUsed = true
 }

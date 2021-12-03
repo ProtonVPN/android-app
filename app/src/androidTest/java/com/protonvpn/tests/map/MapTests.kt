@@ -21,10 +21,11 @@ package com.protonvpn.tests.map
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
-import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.data.DefaultData
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.annotations.TestID
+import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -49,32 +50,34 @@ class MapTests {
 
     @get:Rule
     var rules = RuleChain
-            .outerRule(HiltAndroidRule(this))
-            .around(SetUserPreferencesRule(TestUser.plusUser))
-            .around(testRule)
+        .outerRule(HiltAndroidRule(this))
+        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(testRule)
 
     @Test
+    @TestID(77)
     fun mapNodeSuccessfullySelected() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
         mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
-                .clickConnectButton()
-                .verify { isConnected() }
+            .clickConnectButton()
+            .verify { isConnected() }
         mapRobot.swipeDownToCloseConnectionInfoLayout()
-                .verify { isCountryNodeSelected(DefaultData.TEST_COUNTRY) }
+            .verify { isCountryNodeSelected(DefaultData.TEST_COUNTRY) }
     }
 
     @Test
+    @TestID(103966)
     @SdkSuppress(minSdkVersion = 28)
     fun mapNodeIsNotSelected() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.swipeLeftToOpenMap()
         mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
-                .clickConnectButtonWithoutVpnHandling()
-                .clickCancelConnectionButton()
+            .clickConnectButtonWithoutVpnHandling()
+            .clickCancelConnectionButton()
         mapRobot.verify {
-                    isDisconnectedFromVpn()
-                    isCountryNodeNotSelected(DefaultData.TEST_COUNTRY)
-                }
+            isDisconnectedFromVpn()
+            isCountryNodeNotSelected(DefaultData.TEST_COUNTRY)
+        }
     }
 }
