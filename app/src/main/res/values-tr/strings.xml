@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Güvenlik</string>
   <string name="settingsSectionAdvanced">Gelişmiş</string>
   <string name="settingsAutoStartTitle">Android ile başla</string>
-  <string name="settingsShowIconTitle">Durum simgesi</string>
-  <string name="settingsShowIconDescription">VPN durumunu göstermek için durum tepsisinde bir simge göster</string>
   <string name="settingsAutoStartDescription">ProtonVPN her sistem başlangıcında otomatik olarak başlayacaktır</string>
   <string name="settingsBypassLocalTitle">LAN connections</string>
   <string name="settingsDnsLeakProtectionTitle">DNS Sızıntı Koruması</string>

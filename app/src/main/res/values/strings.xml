@@ -133,8 +133,6 @@
     <string name="settingsSectionSecurity">Security</string>
     <string name="settingsSectionAdvanced">Advanced</string>
     <string name="settingsAutoStartTitle">Start with Android</string>
-    <string name="settingsShowIconTitle">Status icon</string>
-    <string name="settingsShowIconDescription">Show an icon in the status tray to indicate VPN status</string>
     <string name="settingsAutoStartDescription">ProtonVPN will start automatically with each system start</string>
     <string name="settingsBypassLocalTitle">LAN connections</string>
     <string name="settingsDnsLeakProtectionTitle">DNS Leak Protection</string>

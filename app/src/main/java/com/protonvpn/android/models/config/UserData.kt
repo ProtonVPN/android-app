@@ -43,10 +43,6 @@ class UserData private constructor() : Serializable {
         get() = Build.VERSION.SDK_INT < 26 && field
         set(value) { field = value; saveToStorage() }
 
-    var showIcon = true
-        get() = Build.VERSION.SDK_INT >= 26 || field
-        set(value) { field = value; saveToStorage() }
-
     var useSplitTunneling = false
         set(value) { field = value; saveToStorage() }
 

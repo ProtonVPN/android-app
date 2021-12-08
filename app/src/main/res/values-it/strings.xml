@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Sicurezza</string>
   <string name="settingsSectionAdvanced">Avanzate</string>
   <string name="settingsAutoStartTitle">Avvia con Android</string>
-  <string name="settingsShowIconTitle">Icona di stato</string>
-  <string name="settingsShowIconDescription">Mostra un\'icona nella barra di stato per indicare lo stato VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN si attiverà automaticamente ad ogni avvio del sistema</string>
   <string name="settingsBypassLocalTitle">Connessioni LAN</string>
   <string name="settingsDnsLeakProtectionTitle">Protezione dalle perdite di DNS</string>
