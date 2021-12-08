@@ -20,6 +20,7 @@
 package com.protonvpn.android.logging
 
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -44,3 +45,7 @@ fun Profile.toLog(userData: UserData): String {
 fun VpnUser.toLog() =
     "plan: $planName, maxTier: $maxTier, maxConnect: $maxConnect, status: $status, subscribed: $subscribed, " +
         "services: $services, delinquent: $delinquent"
+
+fun ProtonLogger.logUiSettingChange(setting: Setting, where: String) {
+    log(UiSetting, "Changing \"${setting.logName}\" in $where.")
+}

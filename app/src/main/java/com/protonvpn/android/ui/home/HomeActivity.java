@@ -54,7 +54,9 @@ import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.logging.LogCategory;
 import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.LogExtensionsKt;
 import com.protonvpn.android.logging.ProtonLogger;
+import com.protonvpn.android.models.config.Setting;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
@@ -582,6 +584,7 @@ public class HomeActivity extends PoolingActivity {
             getString(R.string.onboardingDialogSecureCoreTitle),
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
+        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
@@ -668,7 +671,10 @@ public class HomeActivity extends PoolingActivity {
                     disconnect))
             .setCancelable(false)
             .setPositiveButton(R.string.secureCoreSwitchConnect,
-                (dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
+                (dialog, which) -> {
+                    LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "connecting to profile");
+                    super.onConnect(profileToConnect, connectionCauseLog);
+                })
             .setNegativeButton(R.string.cancel, null)
             .show();
     }

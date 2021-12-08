@@ -19,6 +19,9 @@
 
 package com.protonvpn.android.ui.settings
 
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,6 +71,7 @@ class SettingsExcludeIpsViewModel @Inject constructor(
         }.joinToString(".")
 
     override fun saveChanges() {
+        ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_IPS, "settings")
         userData.splitTunnelIpAddresses = ipAddresses.value
     }
 

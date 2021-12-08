@@ -44,7 +44,9 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -137,6 +139,7 @@ open class VpnConnectionManager(
             val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
+            ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
             userData.setProtocols(VpnProtocol.Smart, null)
             connectInBackground(appContext, profileToSwitch, "Enable Smart protocol from notification")
         }
