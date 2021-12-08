@@ -80,6 +80,9 @@ val NetCurrent = LogEventType(LogCategory.NET, "current", LogLevel.INFO)
 val NetNetworkChanged = LogEventType(LogCategory.NET, "network_changed", LogLevel.INFO)
 val NetNetworkUnavailable = LogEventType(LogCategory.NET, "network_unavailable", LogLevel.INFO)
 
+val SettingsChange = LogEventType(LogCategory.SETTINGS, "change", LogLevel.INFO)
+val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "current", LogLevel.INFO)
+
 @JvmField
 val UiConnect = LogEventType(LogCategory.UI, "connect", LogLevel.INFO)
 @JvmField
