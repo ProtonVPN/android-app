@@ -39,8 +39,6 @@ import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.StatusSettingChanged
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
@@ -141,11 +139,6 @@ class SettingsActivity : BaseActivityV2() {
             ) {
                 userPrefs.setNetShieldProtocol(it)
             }
-            switchShowIcon.isChecked = userPrefs.showIcon
-            switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.showIcon = isChecked
-                EventBus.getInstance().post(StatusSettingChanged(isChecked))
-            }
 
             switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
             switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
@@ -219,7 +212,6 @@ class SettingsActivity : BaseActivityV2() {
     private fun initOSRelatedVisibility() = with(binding.contentSettings) {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
-        switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
     }
 
     private fun initDnsLeakProtection() {

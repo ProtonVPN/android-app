@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Sicherheit</string>
   <string name="settingsSectionAdvanced">Erweitert</string>
   <string name="settingsAutoStartTitle">Mit Android starten</string>
-  <string name="settingsShowIconTitle">Statussymbol</string>
-  <string name="settingsShowIconDescription">Ein Symbol im Statusbereich anzeigen, um den VPN‐Status anzugeben</string>
   <string name="settingsAutoStartDescription">ProtonVPN startet automatisch bei jedem Systemstart</string>
   <string name="settingsBypassLocalTitle">LAN‐Verbindungen</string>
   <string name="settingsDnsLeakProtectionTitle">Schutz vor Offenlegung Ihrer DNS-Anfragen</string>

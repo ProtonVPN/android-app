@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Keamanan</string>
   <string name="settingsSectionAdvanced">Lanjutan</string>
   <string name="settingsAutoStartTitle">Awali dengan Android</string>
-  <string name="settingsShowIconTitle">Ikon status</string>
-  <string name="settingsShowIconDescription">Tampilkan ikon di penampan status untuk menunjukkan status VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN akan berjalan secara otomatis di setiap awalan sistem</string>
   <string name="settingsBypassLocalTitle">Koneksi-koneksi LAN</string>
   <string name="settingsDnsLeakProtectionTitle">Perlindungan Kebocoran DNS</string>

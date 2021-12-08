@@ -62,13 +62,6 @@
             app:infoText="@string/settingsAutoStartDescription"
             app:title="@string/settingsAutoStartTitle" />
 
-        <com.protonvpn.android.ui.settings.SettingsSwitch
-            android:id="@+id/switchShowIcon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:infoText="@string/settingsShowIconDescription"
-            app:title="@string/settingsShowIconTitle" />
-
         <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonAlwaysOn"
             android:layout_width="match_parent"

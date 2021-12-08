@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Beveiliging</string>
   <string name="settingsSectionAdvanced">Geavanceerd</string>
   <string name="settingsAutoStartTitle">Starten samen met Android</string>
-  <string name="settingsShowIconTitle">Statussymbool</string>
-  <string name="settingsShowIconDescription">Toon een symbool in de statusbalk om de VPN-status aan te geven</string>
   <string name="settingsAutoStartDescription">ProtonVPN zal automatisch starten tijdens het starten van uw systeem</string>
   <string name="settingsBypassLocalTitle">LAN-verbindingen</string>
   <string name="settingsDnsLeakProtectionTitle">DNS-lekbescherming</string>

@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Bezpieczeństwo</string>
   <string name="settingsSectionAdvanced">Zaawansowane</string>
   <string name="settingsAutoStartTitle">Uruchamiaj przy starcie systemu</string>
-  <string name="settingsShowIconTitle">Ikona statusu</string>
-  <string name="settingsShowIconDescription">Pokaż ikonę na pasku stanu, aby wskazać status usługi VPN</string>
   <string name="settingsAutoStartDescription">Aplikacja ProtonVPN uruchomi się automatycznie przy każdym uruchomieniu systemu</string>
   <string name="settingsBypassLocalTitle">Połączenia LAN</string>
   <string name="settingsDnsLeakProtectionTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>

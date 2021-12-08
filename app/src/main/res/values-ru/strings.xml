@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Безопасность</string>
   <string name="settingsSectionAdvanced">Продвинутые</string>
   <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
-  <string name="settingsShowIconTitle">Значок состояния</string>
-  <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
   <string name="settingsBypassLocalTitle">Подключения по LAN</string>
   <string name="settingsDnsLeakProtectionTitle">Защита от утечки DNS</string>

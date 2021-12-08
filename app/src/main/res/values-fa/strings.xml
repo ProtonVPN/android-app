@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">امنیت</string>
   <string name="settingsSectionAdvanced">پیشرفته</string>
   <string name="settingsAutoStartTitle">آغاز با اندروید</string>
-  <string name="settingsShowIconTitle">آیکون وضعیت</string>
-  <string name="settingsShowIconDescription">نشان دادن آیکون اتصال VPN در نوار وضعیت</string>
   <string name="settingsAutoStartDescription">برنامه ProtonVPN به صورت خودکار بعد از هر شروع سیستم، اجرا می‌شود</string>
   <string name="settingsBypassLocalTitle">اتصالات LAN</string>
   <string name="settingsDnsLeakProtectionTitle">محافظت از نشت DNS</string>

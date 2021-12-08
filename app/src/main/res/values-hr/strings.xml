@@ -121,8 +121,6 @@
   <string name="settingsSectionSecurity">Sigurnost</string>
   <string name="settingsSectionAdvanced">Napredno</string>
   <string name="settingsAutoStartTitle">Pokreni s Androidom</string>
-  <string name="settingsShowIconTitle">Ikona u statusnoj traci</string>
-  <string name="settingsShowIconDescription">Prikaži ikonu na statusnoj traci za prikaz VPN statusa</string>
   <string name="settingsAutoStartDescription">ProtonVPN će se automatski pokrenuti pri svakom pokretanju sustava</string>
   <string name="settingsBypassLocalTitle">LAN connections</string>
   <string name="settingsDnsLeakProtectionTitle">Zaštita od curenja DNS-a</string>
