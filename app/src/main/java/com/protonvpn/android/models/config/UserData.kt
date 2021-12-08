@@ -28,9 +28,26 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.joda.time.DateTime
 import org.joda.time.Minutes
 import java.io.Serializable
+
+enum class Setting(val logName: String) {
+    QUICK_CONNECT_PROFILE("Connect on boot"),
+    DEFAULT_PROTOCOL("Default protocol"),
+    NETSHIELD_PROTOCOL("NetShield protocol"),
+    SECURE_CORE("Secure Core"),
+    LAN_CONNECTIONS("LAN connections"),
+    SPLIT_TUNNEL_ENABLED("Split Tunneling enabled"),
+    SPLIT_TUNNEL_APPS("Split Tunneling excluded apps"),
+    SPLIT_TUNNEL_IPS("Split Tunneling excluded IPs"),
+    DEFAULT_MTU("Default MTU"),
+    VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
+    VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
+    API_DOH("Use DoH for API"),
+    CONNECT_ON_BOOT("Connect on boot")
+}
 
 class UserData private constructor() : Serializable {
 
@@ -41,40 +58,40 @@ class UserData private constructor() : Serializable {
 
     var connectOnBoot = false
         get() = Build.VERSION.SDK_INT < 26 && field
-        set(value) { field = value; saveToStorage() }
-
-    var useSplitTunneling = false
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.CONNECT_ON_BOOT) }
 
     var mtuSize = 1375
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.DEFAULT_MTU) }
+
+    var useSplitTunneling = false
+        set(value) { field = value; commitUpdate(Setting.SPLIT_TUNNEL_ENABLED) }
 
     var splitTunnelApps: List<String> = emptyList()
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.SPLIT_TUNNEL_APPS) }
 
     var splitTunnelIpAddresses: List<String> = emptyList()
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.SPLIT_TUNNEL_IPS) }
 
     var defaultConnection: Profile? = null
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.QUICK_CONNECT_PROFILE) }
 
     var showVpnAcceleratorNotifications = true
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.VPN_ACCELERATOR_NOTIFICATIONS) }
 
     var bypassLocalTraffic = false
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.LAN_CONNECTIONS) }
 
     var isSecureCoreEnabled = false
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.SECURE_CORE) }
 
     var apiUseDoH: Boolean = true
-        set(value) { field = value; saveToStorage() }
+        set(value) { field = value; commitUpdate(Setting.API_DOH) }
 
     var vpnAcceleratorEnabled: Boolean = true
         set(value) {
             field = value
             vpnAcceleratorLiveData.postValue(value)
-            saveToStorage()
+            commitUpdate(Setting.VPN_ACCELERATOR_ENABLED)
         }
 
     private var trialDialogShownAt: DateTime? = null
@@ -91,6 +108,9 @@ class UserData private constructor() : Serializable {
     @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
     @Transient val selectedProtocolLiveData = MutableLiveData<VpnProtocol>()
     @Transient val updateEvent = LiveEvent()
+    // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
+    // when observer resumes.
+    @Transient val settingChangeEvent = MutableSharedFlow<Setting>(extraBufferCapacity = 1)
 
     // Handles post-deserialization initialization
     private fun init() {
@@ -98,8 +118,9 @@ class UserData private constructor() : Serializable {
         selectedProtocolLiveData.value = selectedProtocol
     }
 
-    private fun saveToStorage() {
+    private fun commitUpdate(setting: Setting) {
         Storage.save(this)
+        settingChangeEvent.tryEmit(setting)
         updateEvent.emit()
     }
 
@@ -114,7 +135,8 @@ class UserData private constructor() : Serializable {
 
     fun setTrialDialogShownAt(trialDialogShownAt: DateTime?) {
         this.trialDialogShownAt = trialDialogShownAt
-        saveToStorage()
+        Storage.save(this)
+        updateEvent.emit()
     }
 
     /**
@@ -131,7 +153,7 @@ class UserData private constructor() : Serializable {
         }
         selectedProtocol = protocol
         selectedProtocolLiveData.postValue(selectedProtocol)
-        saveToStorage()
+        commitUpdate(Setting.DEFAULT_PROTOCOL)
     }
 
     fun shouldBypassLocalTraffic() =
@@ -140,7 +162,7 @@ class UserData private constructor() : Serializable {
     fun setNetShieldProtocol(value: NetShieldProtocol?) {
         netShieldProtocol = value
         netShieldSettingUpdateEvent.emit()
-        saveToStorage()
+        commitUpdate(Setting.NETSHIELD_PROTOCOL)
     }
 
     fun getNetShieldProtocol(vpnUser: VpnUser?) = if (vpnUser == null || vpnUser.isFreeUser)
@@ -159,7 +181,7 @@ class UserData private constructor() : Serializable {
         migrateIsLoggedIn = false
         migrateUser = null
         migrateVpnInfoResponse = null
-        saveToStorage()
+        Storage.save(this)
     }
 
     companion object {
