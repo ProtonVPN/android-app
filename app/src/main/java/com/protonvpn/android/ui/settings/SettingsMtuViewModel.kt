@@ -19,6 +19,9 @@
 
 package com.protonvpn.android.ui.settings
 
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +44,7 @@ class SettingsMtuViewModel @Inject constructor(
     }
 
     override fun saveChanges() {
+        ProtonLogger.logUiSettingChange(Setting.DEFAULT_MTU, "settings")
         // At this point the MTU value must be valid.
         userData.mtuSize = validMtu()!!
     }

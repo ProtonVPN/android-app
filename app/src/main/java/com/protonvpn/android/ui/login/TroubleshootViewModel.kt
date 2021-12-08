@@ -19,6 +19,9 @@
 package com.protonvpn.android.ui.login
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,6 +32,7 @@ class TroubleshootViewModel @Inject constructor(val userData: UserData) : ViewMo
     var dnsOverHttpsEnabled: Boolean
         get() = userData.apiUseDoH
         set(value) {
+            ProtonLogger.logUiSettingChange(Setting.API_DOH, "troubleshooting screen")
             userData.apiUseDoH = value
         }
 }

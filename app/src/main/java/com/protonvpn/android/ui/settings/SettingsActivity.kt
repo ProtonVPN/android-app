@@ -45,6 +45,8 @@ import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiReconnect
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
@@ -89,6 +91,7 @@ class SettingsActivity : BaseActivityV2() {
         registerForActivityResult(ProtocolSelectionActivity.createContract()) {
             if (it != null) {
                 val settingsUpdated = getProtocolSelection(userPrefs) != it
+                logUiEvent(Setting.DEFAULT_PROTOCOL)
                 userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
                 if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
@@ -124,6 +127,7 @@ class SettingsActivity : BaseActivityV2() {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
             switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
+                logUiEvent(Setting.CONNECT_ON_BOOT)
                 userPrefs.connectOnBoot = isChecked
             }
             netShieldSwitch.init(
@@ -137,11 +141,13 @@ class SettingsActivity : BaseActivityV2() {
                     connectionManager
                 )
             ) {
+                logUiEvent(Setting.NETSHIELD_PROTOCOL)
                 userPrefs.setNetShieldProtocol(it)
             }
 
             switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
             switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
+                logUiEvent(Setting.API_DOH)
                 userPrefs.apiUseDoH = isChecked
             }
 
@@ -278,6 +284,7 @@ class SettingsActivity : BaseActivityV2() {
             "split tunneling toggle",
             !userPrefs.isSplitTunnelingConfigEmpty,
         ) {
+            logUiEvent(Setting.SPLIT_TUNNEL_ENABLED)
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
             with(binding.contentSettings) {
                 if (switchShowSplitTunnel.isChecked) {
@@ -292,6 +299,7 @@ class SettingsActivity : BaseActivityV2() {
             PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
             "LAN connections toggle"
         ) {
+            logUiEvent(Setting.LAN_CONNECTIONS)
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
         }
     }
@@ -359,5 +367,9 @@ class SettingsActivity : BaseActivityV2() {
             mixDstOver(bg.green, thumb.green, thumbAlpha),
             mixDstOver(bg.blue, thumb.blue, thumbAlpha)
         )
+    }
+
+    private fun logUiEvent(setting: Setting) {
+        ProtonLogger.logUiSettingChange(setting, "settings screen")
     }
 }

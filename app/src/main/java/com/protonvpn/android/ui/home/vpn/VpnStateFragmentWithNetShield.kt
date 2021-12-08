@@ -30,7 +30,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.NetShieldProtocol
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs
@@ -68,6 +71,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
                 vpnConnectionManager
             )
         ) { s: NetShieldProtocol? ->
+            ProtonLogger.logUiSettingChange(Setting.NETSHIELD_PROTOCOL, "connection_bottom_sheet")
             userData.setNetShieldProtocol(s)
         }
         netShieldSwitch().onRadiosExpandClicked = { parentViewModel.onNetShieldExpandClicked() }

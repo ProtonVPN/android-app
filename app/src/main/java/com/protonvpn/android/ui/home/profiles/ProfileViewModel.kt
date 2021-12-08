@@ -6,6 +6,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -207,6 +209,9 @@ class ProfileViewModel @Inject constructor(
                 setProtocol(protocol.value.protocol)
             }
         editedProfile?.let {
+            if (it == userData.defaultConnection) {
+                ProtonLogger.logUiSettingChange(Setting.QUICK_CONNECT_PROFILE, "profile edit")
+            }
             serverManager.editProfile(it, newProfile)
         } ?: serverManager.addToProfileList(newProfile)
     }
