@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -58,6 +59,7 @@ import org.joda.time.format.ISODateTimeFormat
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
+import java.lang.IllegalArgumentException
 import java.util.Locale
 
 private const val LOG_PATTERN = "%msg"
@@ -321,7 +323,9 @@ open class ProtonLoggerImpl(
         logMessageQueue.tryEmit(message)
     }
 
-    fun getLogLines() = backgroundLogger.getLogLines()
+    fun getLogLinesForDiplay() = backgroundLogger.getLogLines().map {
+        replaceDateForDisplay(it)
+    }
 
     @Suppress("BlockingMethodInNonBlockingContext")
     @Throws(IOException::class)
@@ -354,6 +358,22 @@ open class ProtonLoggerImpl(
     private fun multiLine(message: String) = message.replace("\n", "\n ")
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
+
+    private fun replaceDateForDisplay(logLine: String): String {
+        val firstSeparatorIndex = logLine.indexOf(' ')
+        return if (firstSeparatorIndex > 0) {
+            try {
+                val date = timestampFormatter.parseDateTime(logLine.substring(0, firstSeparatorIndex))
+                val localDateString = date.toLocalTime().toString()
+                logLine.replaceRange(0, firstSeparatorIndex, localDateString)
+            } catch (e: IllegalArgumentException) {
+                logLine
+            }
+        } else {
+            logLine
+        }
+    }
+
 
     companion object {
         private var instanceNumber = 0

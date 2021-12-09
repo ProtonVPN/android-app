@@ -51,7 +51,7 @@ class LogFragment : BaseFragment() {
     override fun onViewCreated() {
         recyclerView?.adapter = logAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            ProtonLogger.getLogLines().collect { addToLog(it) }
+            ProtonLogger.getLogLinesForDiplay().collect { addToLog(it) }
         }
     }
 
