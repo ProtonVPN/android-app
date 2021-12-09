@@ -57,7 +57,7 @@ class LogcatLogCapture(
             try {
                 val wireguardTag = "WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}"
                 val process = Runtime.getRuntime().exec(
-                    "logcat -s $wireguardTag:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1 -v brief"
+                    "logcat -v brief -s $wireguardTag:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1"
                 )
                 BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
                     lines.forEach {
