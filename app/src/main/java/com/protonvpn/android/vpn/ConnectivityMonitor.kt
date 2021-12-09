@@ -192,6 +192,9 @@ class ConnectivityMonitor(
         }
     }
 
+    fun getCurrentStateForLog(): String =
+        "transports: ${currentTransports.joinToString(", ")} capabilities: $currentCapabilities"
+
     private fun getTransports(networkCapabilities: NetworkCapabilities): Set<String> =
         transportConstantsMap.entries.mapNotNullTo(mutableSetOf()) {
             if (networkCapabilities.hasTransport(it.value)) it.key else null

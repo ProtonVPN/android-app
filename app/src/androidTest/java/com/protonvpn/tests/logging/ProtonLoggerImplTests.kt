@@ -21,10 +21,13 @@ package com.protonvpn.tests.logging
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.logging.CurrentStateLoggerGlobal
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogEventType
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLoggerImpl
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
@@ -59,11 +62,15 @@ class ProtonLoggerImplTests {
     private lateinit var testDir: File
     private lateinit var logDir: File
 
+    @MockK
+    private lateinit var currentStateLogger: CurrentStateLoggerGlobal
+
     // Use an explicit dispatcher because it needs to be passed to ProtonLoggerImpl
     private lateinit var testDispatcher: TestCoroutineDispatcher
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         testDir = File(context.cacheDir, "tests")
         logDir = File(testDir, "proton_logger")
@@ -174,6 +181,7 @@ class ProtonLoggerImplTests {
                 loggerScope,
                 testDispatcher,
                 logDir.absolutePath,
+                currentStateLogger,
                 FIXED_CLOCK
             )
             block(logger)

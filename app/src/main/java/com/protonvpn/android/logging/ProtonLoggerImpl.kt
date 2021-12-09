@@ -26,7 +26,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.UnsynchronizedAppenderBase
 import ch.qos.logback.core.encoder.Encoder
 import ch.qos.logback.core.rolling.FixedWindowRollingPolicy
-import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
 import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
@@ -77,6 +76,7 @@ open class ProtonLoggerImpl(
     private val mainScope: CoroutineScope,
     loggerDispatcher: CoroutineDispatcher,
     logDir: String,
+    currentStateLogger: CurrentStateLoggerGlobal,
     private val wallClock: () -> Long
 ) {
     data class LogFile(val name: String, val file: File)
@@ -87,6 +87,7 @@ open class ProtonLoggerImpl(
         private val loggerDispatcher: CoroutineDispatcher,
         private val messages: Flow<String>,
         private val logDir: String,
+        private val currentStateLogger: CurrentStateLoggerGlobal,
         uniqueLoggerName: String
     ) {
 
@@ -160,9 +161,10 @@ open class ProtonLoggerImpl(
 
             val patternEncoder = createAndStartEncoder(logContext, "$LOG_PATTERN%n")
 
-            val fileAppender = RollingFileAppender<ILoggingEvent>().apply {
+            val fileAppender = ExtendedRollingFileAppender<ILoggingEvent>().apply {
                 this.context = logContext
                 file = "$logDir/$fileName"
+                rolloverListener = { currentStateLogger.logCurrentState() }
             }
 
             val rollingPolicy = FixedWindowRollingPolicy().apply {
@@ -275,6 +277,7 @@ open class ProtonLoggerImpl(
         loggerDispatcher,
         logMessageQueue,
         logDir,
+        currentStateLogger,
         getUniqueLoggerName()
     )
 
@@ -373,7 +376,6 @@ open class ProtonLoggerImpl(
             logLine
         }
     }
-
 
     companion object {
         private var instanceNumber = 0
