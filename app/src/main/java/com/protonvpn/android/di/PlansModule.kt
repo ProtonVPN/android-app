@@ -25,8 +25,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.data.client.ExtraHeaderProviderImpl
-import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.plan.data.repository.PlansRepositoryImpl
 import me.proton.core.plan.domain.SupportedSignupPaidPlans
 import me.proton.core.plan.domain.SupportedUpgradePaidPlans
@@ -41,10 +39,6 @@ object PlansModule {
     @SupportedSignupPaidPlans
     fun provideClientSupportedPaidPlanIds(): List<String> =
         emptyList()
-
-    @Provides
-    @Singleton
-    fun provideExtraHeaderProvider(): ExtraHeaderProvider = ExtraHeaderProviderImpl()
 
     @Provides
     @Singleton

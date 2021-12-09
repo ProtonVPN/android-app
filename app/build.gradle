@@ -136,7 +136,6 @@ licenseReport {
 }
 
 def productionServer = "\"api.protonvpn.ch\""
-def testingServer = project.hasProperty('testingServerUrl') ? testingServerUrl : productionServer
 def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "protonkey.jks"
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
@@ -188,6 +187,7 @@ android {
         buildConfigField "String", "TESTRAIL_CREDENTIALS",  "\"${System.getenv("TESTRAIL_USER")}\""
         buildConfigField "String", "CI_BRANCH_NAME", "\"${System.getenv("CI_COMMIT_BRANCH")}\""
         buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${System.getenv("CI_COMMIT_MESSAGE")?.trim()}\""
+        buildConfigField "String", "BLACK_TOKEN", "\"\""
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -208,7 +208,8 @@ android {
         black {
             versionNameSuffix "-black"
             buildConfigField "String", "STORE_SUFFIX", "\"\""
-            buildConfigField "String", "API_DOMAIN", testingServer
+            buildConfigField "String", "BLACK_TOKEN", "\"${System.getenv("BLACK_TOKEN")}\""
+            buildConfigField "String", "API_DOMAIN", "\"${System.getenv("BLACK_DOMAIN")}\""
         }
         googlePlay {
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
