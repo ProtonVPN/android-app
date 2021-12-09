@@ -39,7 +39,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
-import java.util.Locale
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -92,7 +91,7 @@ class ProtonLoggerImplTests {
         logger.log("message2")
         val logLines = mutableListOf<String>()
         val collectJob = launch {
-            logger.getLogLines().toList(logLines)
+            logger.getLogLinesForDiplay().toList(logLines)
         }
         assertEquals(listOf("message1", "message2"), logLines)
 
