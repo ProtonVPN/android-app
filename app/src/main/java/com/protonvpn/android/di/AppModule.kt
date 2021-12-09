@@ -76,15 +76,18 @@ import me.proton.core.network.data.NetworkManager
 import me.proton.core.network.data.NetworkPrefs
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.client.ClientIdProviderImpl
+import me.proton.core.network.data.client.ExtraHeaderProviderImpl
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.core.util.kotlin.takeIfNotBlank
 import java.util.Random
 import javax.inject.Singleton
 
@@ -109,6 +112,7 @@ object AppModuleProd {
         sessionListener: SessionListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
+        extraHeaderProvider: ExtraHeaderProvider
     ): ApiManagerFactory {
         val appContext = ProtonApplication.getAppContext()
         val serverTimeListener = object : ServerTimeListener {
@@ -131,6 +135,7 @@ object AppModuleProd {
                 scope,
                 certificatePins = emptyArray(),
                 alternativeApiPins = emptyList(),
+                extraHeaderProvider = extraHeaderProvider,
                 apiConnectionListener = null
             )
         } else {
@@ -246,6 +251,14 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMainScope(): CoroutineScope = scope
+
+    @Provides
+    @Singleton
+    fun provideExtraHeaderProvider(): ExtraHeaderProvider = ExtraHeaderProviderImpl().apply {
+        BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
+            addHeaders("X-atlas-secret" to it)
+        }
+    }
 
     @Provides
     @Singleton
