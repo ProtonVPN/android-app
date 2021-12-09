@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2021. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,18 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.protonvpn.android.logging
 
-import com.protonvpn.android.ProtonApplication
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.asCoroutineDispatcher
-import java.util.concurrent.Executors
+import ch.qos.logback.core.rolling.RollingFileAppender
 
-object ProtonLogger : ProtonLoggerImpl(
-    ProtonApplication.getAppContext(),
-    MainScope(),
-    Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
-    ProtonApplication.getAppContext().applicationInfo.dataDir + "/log",
-    CurrentStateLoggerGlobal(ProtonApplication.getAppContext()),
-    System::currentTimeMillis
-)
+typealias OnLogRotated = () -> Unit
+
+class ExtendedRollingFileAppender<E> : RollingFileAppender<E>() {
+
+    var rolloverListener: OnLogRotated? = null
+
+    override fun rollover() {
+        super.rollover()
+        rolloverListener?.invoke()
+    }
+}
