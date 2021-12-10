@@ -39,7 +39,7 @@ import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
 import com.protonvpn.android.logging.ConnDisconnectTrigger
 import com.protonvpn.android.logging.ConnServerSwitchFailed
-import com.protonvpn.android.logging.ConnStateChange
+import com.protonvpn.android.logging.ConnStateChanged
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
@@ -169,7 +169,7 @@ open class VpnConnectionManager(
                 }
 
                 ProtonLogger.log(
-                    ConnStateChange,
+                    ConnStateChanged,
                     "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}"
                 )
                 DebugUtils.debugAssert {

@@ -64,10 +64,10 @@ class LogcatLogCapture(
                         parseAndLog(it)
                     }
                 }
-                ProtonLogger.logCustom(LogLevel.WARNING, LogCategory.APP, "Logcat streaming ended")
+                ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP, "Logcat streaming ended")
             } catch (e: IOException) {
                 ProtonLogger.logCustom(
-                    LogLevel.WARNING,
+                    LogLevel.WARN,
                     LogCategory.APP,
                     "Log capturing from logcat failed: ${e.message}"
                 )
@@ -95,7 +95,7 @@ class LogcatLogCapture(
         'V' -> LogLevel.DEBUG
         'D' -> LogLevel.INFO // We want to log debug messages from protocols
         'I' -> LogLevel.INFO
-        'W' -> LogLevel.WARNING
+        'W' -> LogLevel.WARN
         else -> LogLevel.ERROR
     }
 

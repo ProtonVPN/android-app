@@ -98,7 +98,7 @@ class ProtonLoggerImplTests {
         logger.log("message2")
         val logLines = mutableListOf<String>()
         val collectJob = launch {
-            logger.getLogLinesForDiplay().toList(logLines)
+            logger.getLogLinesForDisplay().toList(logLines)
         }
         assertEquals(listOf("message1", "message2"), logLines)
 

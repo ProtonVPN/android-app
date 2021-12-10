@@ -55,8 +55,7 @@ import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.LocalAgentError
-import com.protonvpn.android.logging.LocalAgentLog
-import com.protonvpn.android.logging.LocalAgentStateChange
+import com.protonvpn.android.logging.LocalAgentStateChanged
 import com.protonvpn.android.logging.LocalAgentStatus
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.UserCertRefresh
@@ -169,7 +168,7 @@ abstract class VpnBackend(
     // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
     private fun createNativeClient() = object : NativeClient {
         override fun log(msg: String) {
-            ProtonLogger.log(LocalAgentLog, msg)
+            ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, msg)
         }
 
         override fun onError(code: Long, description: String) {
@@ -214,7 +213,7 @@ abstract class VpnBackend(
         }
 
         override fun onState(state: String) {
-            ProtonLogger.log(LocalAgentStateChange, state)
+            ProtonLogger.log(LocalAgentStateChanged, state)
             selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
         }
 

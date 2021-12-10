@@ -20,83 +20,81 @@
 package com.protonvpn.android.logging
 
 enum class LogCategory(private val categoryName: String) {
-    API("api"),
-    APP("app"),
-    APP_UPDATE("app.update"),
-    CONN("conn"),
-    CONN_CONNECT("conn.connect"),
-    CONN_DISCONNECT("conn.disconnect"),
-    CONN_SERVER_SWITCH("conn.server_switch"),
-    LOCAL_AGENT("local_agent"),
-    NET("net"),
-    OS("os"),
-    PROTOCOL("protocol"),
-    SETTINGS("settings"),
-    UI("ui"),
-    USER("user"),
-    USER_CERT("user.cert"),
-    USER_PLAN("user.plan");
+    API("API"),
+    APP("APP"),
+    APP_UPDATE("APP.UPDATE"),
+    CONN("CONN"),
+    CONN_CONNECT("CONN.CONNECT"),
+    CONN_DISCONNECT("CONN.DISCONNECT"),
+    CONN_GUEST_HOLE("CONN.GUEST_HOLE"),
+    CONN_SERVER_SWITCH("CONN.SERVER_SWITCH"),
+    LOCAL_AGENT("LOCAL_AGENT"),
+    NETWORK("NETWORK"),
+    OS("OS"),
+    PROTOCOL("PROTOCOL"),
+    SETTINGS("SETTINGS"),
+    UI("UI"),
+    USER("USER"),
+    USER_CERT("USER.CERT"),
+    USER_PLAN("USER.PLAN");
 
     fun toLog() = categoryName
 }
 
 class LogEventType(
-    private val category: LogCategory,
-    private val name: String,
+    val category: LogCategory,
+    val name: String,
     val level: LogLevel
-) {
-    override fun toString() = "${level.toLog()} ${category.toLog()}:$name"
-}
+)
 
-val AppCrash = LogEventType(LogCategory.APP, "crash", LogLevel.ERROR)
+val AppCrash = LogEventType(LogCategory.APP, "CRASH", LogLevel.FATAL)
 @JvmField
-val AppProcessStart = LogEventType(LogCategory.APP, "process_start", LogLevel.INFO)
+val AppProcessStart = LogEventType(LogCategory.APP, "PROCESS_START", LogLevel.INFO)
 @JvmField
-val AppUpdateUpdated = LogEventType(LogCategory.APP_UPDATE, "updated", LogLevel.INFO)
+val AppUpdateUpdated = LogEventType(LogCategory.APP_UPDATE, "UPDATED", LogLevel.INFO)
 
-val ConnCurrentState = LogEventType(LogCategory.CONN, "current", LogLevel.INFO)
-val ConnStateChange = LogEventType(LogCategory.CONN, "state_change", LogLevel.INFO)
-val ConnError = LogEventType(LogCategory.CONN, "error", LogLevel.ERROR)
-val ConnConnectTrigger = LogEventType(LogCategory.CONN_CONNECT, "trigger", LogLevel.INFO)
-val ConnConnectScan = LogEventType(LogCategory.CONN_CONNECT, "scan", LogLevel.INFO)
-val ConnConnectScanFailed = LogEventType(LogCategory.CONN_CONNECT, "scan_failed", LogLevel.INFO)
-val ConnConnectScanResult = LogEventType(LogCategory.CONN_CONNECT, "scan_result", LogLevel.INFO)
-val ConnConnectStart = LogEventType(LogCategory.CONN_CONNECT, "start", LogLevel.INFO)
-val ConnConnectConnected = LogEventType(LogCategory.CONN_CONNECT, "connected", LogLevel.INFO)
+val ConnCurrentState = LogEventType(LogCategory.CONN, "CURRENT", LogLevel.INFO)
+val ConnStateChanged = LogEventType(LogCategory.CONN, "STATE_CHANGED", LogLevel.INFO)
+val ConnError = LogEventType(LogCategory.CONN, "ERROR", LogLevel.ERROR)
+val ConnConnectTrigger = LogEventType(LogCategory.CONN_CONNECT, "TRIGGER", LogLevel.INFO)
+val ConnConnectScan = LogEventType(LogCategory.CONN_CONNECT, "SCAN", LogLevel.INFO)
+val ConnConnectScanFailed = LogEventType(LogCategory.CONN_CONNECT, "SCAN_FAILED", LogLevel.INFO)
+val ConnConnectScanResult = LogEventType(LogCategory.CONN_CONNECT, "SCAN_RESULT", LogLevel.INFO)
+val ConnConnectStart = LogEventType(LogCategory.CONN_CONNECT, "START", LogLevel.INFO)
+val ConnConnectConnected = LogEventType(LogCategory.CONN_CONNECT, "CONNECTED", LogLevel.INFO)
 
-val ConnDisconnectTrigger = LogEventType(LogCategory.CONN_DISCONNECT, "trigger", LogLevel.INFO)
+val ConnDisconnectTrigger = LogEventType(LogCategory.CONN_DISCONNECT, "TRIGGER", LogLevel.INFO)
 
-val ConnServerSwitchTrigger = LogEventType(LogCategory.CONN_SERVER_SWITCH, "trigger", LogLevel.INFO)
+val ConnServerSwitchTrigger = LogEventType(LogCategory.CONN_SERVER_SWITCH, "TRIGGER", LogLevel.INFO)
 val ConnServerSwitchServerSelected =
-    LogEventType(LogCategory.CONN_SERVER_SWITCH, "server_selected", LogLevel.INFO)
-val ConnServerSwitchFailed = LogEventType(LogCategory.CONN_SERVER_SWITCH, "switch_failed", LogLevel.INFO)
+    LogEventType(LogCategory.CONN_SERVER_SWITCH, "SERVER_SELECTED", LogLevel.INFO)
+val ConnServerSwitchFailed = LogEventType(LogCategory.CONN_SERVER_SWITCH, "FAILED", LogLevel.INFO)
 
-val LocalAgentLog = LogEventType(LogCategory.LOCAL_AGENT, "log", LogLevel.INFO)
-val LocalAgentStateChange = LogEventType(LogCategory.LOCAL_AGENT, "state_change", LogLevel.INFO)
-val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "error", LogLevel.ERROR)
-val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "status", LogLevel.INFO)
+val LocalAgentStateChanged = LogEventType(LogCategory.LOCAL_AGENT, "STATE_CHANGED", LogLevel.INFO)
+val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "ERROR", LogLevel.ERROR)
+val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "STATUS", LogLevel.INFO)
 
-val NetCurrent = LogEventType(LogCategory.NET, "current", LogLevel.INFO)
-val NetNetworkChanged = LogEventType(LogCategory.NET, "network_changed", LogLevel.INFO)
-val NetNetworkUnavailable = LogEventType(LogCategory.NET, "network_unavailable", LogLevel.INFO)
+val NetworkCurrent = LogEventType(LogCategory.NETWORK, "CURRENT", LogLevel.INFO)
+val NetworkChanged = LogEventType(LogCategory.NETWORK, "CHANGED", LogLevel.INFO)
+val NetworkUnavailable = LogEventType(LogCategory.NETWORK, "UNAVAILABLE", LogLevel.INFO)
 
-val SettingsChange = LogEventType(LogCategory.SETTINGS, "change", LogLevel.INFO)
-val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "current", LogLevel.INFO)
+val SettingsChanged = LogEventType(LogCategory.SETTINGS, "CHANGED", LogLevel.INFO)
+val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "CURRENT", LogLevel.INFO)
 
 @JvmField
-val UiConnect = LogEventType(LogCategory.UI, "connect", LogLevel.INFO)
+val UiConnect = LogEventType(LogCategory.UI, "CONNECT", LogLevel.INFO)
+val UiReconnect = LogEventType(LogCategory.UI, "RECONNECT", LogLevel.INFO)
 @JvmField
-val UiDisconnect = LogEventType(LogCategory.UI, "disconnect", LogLevel.INFO)
-val UiReconnect = LogEventType(LogCategory.UI, "reconnect", LogLevel.INFO)
-val UiSetting = LogEventType(LogCategory.UI, "setting", LogLevel.INFO)
+val UiDisconnect = LogEventType(LogCategory.UI, "DISCONNECT", LogLevel.INFO)
+val UiSetting = LogEventType(LogCategory.UI, "SETTING", LogLevel.INFO)
 
-val UserCertCurrentState = LogEventType(LogCategory.USER_CERT, "current", LogLevel.INFO)
-val UserCertRefresh = LogEventType(LogCategory.USER_CERT, "refresh", LogLevel.INFO)
-val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "revoked", LogLevel.INFO)
-val UserCertNewCert = LogEventType(LogCategory.USER_CERT, "new_cert", LogLevel.INFO)
-val UserCertRefreshError = LogEventType(LogCategory.USER_CERT, "refresh_error", LogLevel.WARNING)
-val UserCertScheduleRefresh = LogEventType(LogCategory.USER_CERT, "schedule_refresh", LogLevel.INFO)
+val UserCertCurrentState = LogEventType(LogCategory.USER_CERT, "CURRENT", LogLevel.INFO)
+val UserCertRefresh = LogEventType(LogCategory.USER_CERT, "REFRESH", LogLevel.INFO)
+val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "REVOKED", LogLevel.INFO)
+val UserCertNew = LogEventType(LogCategory.USER_CERT, "NEW", LogLevel.INFO)
+val UserCertRefreshError = LogEventType(LogCategory.USER_CERT, "REFRESH_ERROR", LogLevel.WARN)
+val UserCertScheduleRefresh = LogEventType(LogCategory.USER_CERT, "SCHEDULE_REFRESH", LogLevel.INFO)
 
-val UserPlanCurrent = LogEventType(LogCategory.USER_PLAN, "current", LogLevel.INFO)
-val UserPlanChange = LogEventType(LogCategory.USER_PLAN, "change", LogLevel.INFO)
-val UserPlanMaxSessionsReached = LogEventType(LogCategory.USER_PLAN, "max_sessions_reached", LogLevel.INFO)
+val UserPlanCurrent = LogEventType(LogCategory.USER_PLAN, "CURRENT", LogLevel.INFO)
+val UserPlanChanged = LogEventType(LogCategory.USER_PLAN, "CHANGED", LogLevel.INFO)
+val UserPlanMaxSessionsReached = LogEventType(LogCategory.USER_PLAN, "MAX_SESSIONS_REACHED", LogLevel.INFO)
