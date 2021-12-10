@@ -50,8 +50,8 @@ private const val TIMESTAMP = "2011-11-11T11:11:11.123Z"
 private val TIMESTAMP_DATE = ISODateTimeFormat.dateTimeParser().parseDateTime(TIMESTAMP)
 private val FIXED_CLOCK = { TIMESTAMP_DATE.millis }
 
-private val TestEvent = LogEventType(LogCategory.APP, "test", LogLevel.INFO)
-private const val TEST_EVENT = "info app:test"
+private val TestEvent = LogEventType(LogCategory.APP, "TEST", LogLevel.INFO)
+private const val TEST_EVENT = "| INFO  | APP:TEST |"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProtonLoggerImplTests {
@@ -86,40 +86,60 @@ class ProtonLoggerImplTests {
 
     @Test
     fun testLogsWritten() = runLoggerTest { logger ->
-        logger.log("message1")
-        logger.log("message2")
+        logger.log(TestEvent, "message1")
+        logger.log(TestEvent, "message2")
 
-        assertEquals(listOf("message1", "message2"), File(logDir, "Data.log").readLines())
+        assertEquals(
+            testEventLines("message1", "message2"),
+            File(logDir, "Data.log").readLines()
+        )
     }
 
     @Test
-    fun testGetLogLines() = runLoggerTest { logger ->
-        logger.log("message1")
-        logger.log("message2")
+    fun testGetLogLinesForDisplay() = runLoggerTest { logger ->
+        logger.log(TestEvent, "message1")
+        logger.log(TestEvent, "message2")
         val logLines = mutableListOf<String>()
-        val collectJob = launch {
-            logger.getLogLinesForDisplay().toList(logLines)
+
+        val originalTZ = DateTimeZone.getDefault()
+        val timeZone = DateTimeZone.forOffsetHours(5)
+        DateTimeZone.setDefault(timeZone)
+        try {
+            val collectJob = launch {
+                logger.getLogLinesForDisplay().toList(logLines)
+            }
+            val localTime = TIMESTAMP_DATE.withZone(timeZone).toLocalTime().toString()
+
+            assertEquals(
+                listOf("message1", "message2").map { testEventLine(localTime, it) },
+                logLines
+            )
+
+            logger.log(TestEvent, "message3")
+            assertEquals(
+                listOf("message1", "message2", "message3").map { testEventLine(localTime, it) },
+                logLines
+            )
+
+            collectJob.cancel()
+        } finally {
+            DateTimeZone.setDefault(originalTZ)
         }
-        assertEquals(listOf("message1", "message2"), logLines)
 
-        logger.log("message3")
-        assertEquals(listOf("message1", "message2", "message3"), logLines)
-
-        collectJob.cancel()
     }
 
     @Test
     @Suppress("BlockingMethodInNonBlockingContext")
     fun testUploadFilesNotAppendedTo() = runLoggerTest { logger ->
-        logger.log("message1")
-        logger.log("message2")
+        logger.log(TestEvent, "message1")
+        logger.log(TestEvent, "message2")
 
         val uploadFiles = logger.getLogFilesForUpload()
-        logger.log("message3")
+        logger.log(TestEvent, "message3")
 
         assertEquals(1, uploadFiles.size)
         val uploadFile = uploadFiles[0].file
-        assertEquals(listOf("message1", "message2"), uploadFile.readLines())
+        assertEquals(testEventLines("message1", "message2"), uploadFile.readLines())
 
         logger.clearUploadTempFiles(uploadFiles)
     }
@@ -127,7 +147,7 @@ class ProtonLoggerImplTests {
     @Test
     @Suppress("BlockingMethodInNonBlockingContext")
     fun testClearUploadTempFiles() = runLoggerTest { logger ->
-        logger.log("message1")
+        logger.log(TestEvent, "message1")
         val uploadFiles = logger.getLogFilesForUpload()
         assertEquals(1, uploadFiles.size)
         logger.clearUploadTempFiles(uploadFiles)
@@ -145,7 +165,7 @@ class ProtonLoggerImplTests {
                 "$TIMESTAMP $TEST_EVENT line 1",
                 " line 2",
                 " line 3",
-                "$TIMESTAMP info app custom line 1",
+                "$TIMESTAMP | INFO  | APP | custom line 1",
                 " custom line 2"
             ),
             uploadFile.readLines()
@@ -170,6 +190,12 @@ class ProtonLoggerImplTests {
             uploadFile.readLines()
         )
     }
+
+    private fun testEventLines(vararg msg: String): List<String> =
+        msg.map { testEventLine(TIMESTAMP, it) }
+
+    private fun testEventLine(timestamp: String, message: String) =
+        "$timestamp $TEST_EVENT $message"
 
     private fun runLoggerTest(block: suspend CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {
         testDispatcher.runBlockingTest {

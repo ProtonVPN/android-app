@@ -311,12 +311,7 @@ open class ProtonLoggerImpl(
         if (!BuildConfig.DEBUG) {
             Sentry.capture(event)
         }
-        log(event.message)
-    }
-
-    @Deprecated("Use log with LogEventType or logCustom")
-    fun log(message: String) {
-        logMessageQueue.tryEmit(message)
+        logCustom(LogCategory.APP, event.message)
     }
 
     fun getLogLinesForDisplay() = backgroundLogger.getLogLines().map {
