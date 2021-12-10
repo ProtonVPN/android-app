@@ -65,7 +65,7 @@ private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
 enum class LogLevel {
-    DEBUG, INFO, WARN, ERROR, FATAL;
+    TRACE, DEBUG, INFO, WARN, ERROR, FATAL;
 }
 
 open class ProtonLoggerImpl(

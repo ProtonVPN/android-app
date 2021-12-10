@@ -32,6 +32,7 @@ enum class LogCategory(private val categoryName: String) {
     NETWORK("NETWORK"),
     OS("OS"),
     PROTOCOL("PROTOCOL"),
+    SECURE_STORE("SECURE_STORE"),
     SETTINGS("SETTINGS"),
     UI("UI"),
     USER("USER"),
@@ -46,6 +47,11 @@ class LogEventType(
     val name: String,
     val level: LogLevel
 )
+
+// The API events get the "Log" infix to avoid confusion with types like ApiResult.
+val ApiLogRequest = LogEventType(LogCategory.API, "REQUEST", LogLevel.INFO)
+val ApiLogResponse = LogEventType(LogCategory.API, "RESPONSE", LogLevel.INFO)
+val ApiLogError = LogEventType(LogCategory.API, "ERROR", LogLevel.WARN)
 
 val AppCrash = LogEventType(LogCategory.APP, "CRASH", LogLevel.FATAL)
 @JvmField
