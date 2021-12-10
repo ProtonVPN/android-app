@@ -334,19 +334,6 @@ open class ProtonLoggerImpl(
     @Throws(IOException::class)
     suspend fun getLogFilesForUpload(): List<LogFile> = backgroundLogger.getFilesForUpload()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    fun getLogFilesForUpload(callback: (List<LogFile>) -> Unit) {
-        mainScope.launch {
-            val files = try {
-                backgroundLogger.getFilesForUpload()
-            } catch (e: IOException) {
-                logException("Unable to prepare logs for upload", e)
-                emptyList<LogFile>()
-            }
-            callback(files)
-        }
-    }
-
     fun clearUploadTempFiles(files: List<LogFile>) {
         mainScope.launch {
             backgroundLogger.clearUploadTempFiles(files)
