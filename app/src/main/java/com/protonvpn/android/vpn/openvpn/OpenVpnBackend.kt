@@ -274,7 +274,7 @@ class OpenVpnBackend(
 
     private fun vpnLog(item: LogItem) {
         val logLevel = when(item.logLevel) {
-            VpnStatus.LogLevel.VERBOSE -> LogLevel.DEBUG
+            VpnStatus.LogLevel.VERBOSE -> LogLevel.TRACE
             VpnStatus.LogLevel.DEBUG -> LogLevel.DEBUG
             VpnStatus.LogLevel.INFO -> LogLevel.INFO
             VpnStatus.LogLevel.WARNING -> LogLevel.WARN
