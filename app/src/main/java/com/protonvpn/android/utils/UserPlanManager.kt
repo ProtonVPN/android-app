@@ -22,7 +22,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UserPlanChange
+import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -83,7 +83,7 @@ class UserPlanManager(
                         changes += InfoChange.PlanChange.Upgrade
                 }
                 changes.whenNotNullNorEmpty {
-                    ProtonLogger.log(UserPlanChange, "change: $it, user: $newUserInfo.toLog()")
+                    ProtonLogger.log(UserPlanChanged, "change: $it, user: $newUserInfo.toLog()")
                 }
             }
             changes

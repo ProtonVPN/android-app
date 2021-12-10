@@ -44,7 +44,7 @@ import me.proton.core.util.kotlin.serialize
 import com.proton.gopenpgp.ed25519.KeyPair
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.UserCertCurrentState
-import com.protonvpn.android.logging.UserCertNewCert
+import com.protonvpn.android.logging.UserCertNew
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRefreshError
 import com.protonvpn.android.logging.UserCertScheduleRefresh
@@ -202,7 +202,7 @@ class CertificateRepository(
                 )
                 setInfo(sessionId, newInfo)
                 ProtonLogger.log(
-                    UserCertNewCert,
+                    UserCertNew,
                     "expires at ${ProtonLogger.formatTime(cert.expirationTimeMs)}"
                 )
                 if (sessionId == currentUser.sessionId())

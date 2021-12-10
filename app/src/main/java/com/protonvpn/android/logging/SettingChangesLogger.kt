@@ -42,7 +42,7 @@ class SettingChangesLogger @Inject constructor(
         mainScope.launch {
             val currentVpnUser = currentUser.vpnUserFlow.stateIn(mainScope)
             userData.settingChangeEvent.collect { setting ->
-                settingLogLine(setting, currentVpnUser.value)?.let { ProtonLogger.log(SettingsChange, it) }
+                settingLogLine(setting, currentVpnUser.value)?.let { ProtonLogger.log(SettingsChanged, it) }
             }
         }
     }

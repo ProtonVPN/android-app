@@ -55,8 +55,8 @@ import android.net.NetworkCapabilities.TRANSPORT_WIFI_AWARE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.NetNetworkChanged
-import com.protonvpn.android.logging.NetNetworkUnavailable
+import com.protonvpn.android.logging.NetworkChanged
+import com.protonvpn.android.logging.NetworkUnavailable
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import kotlinx.coroutines.CoroutineScope
@@ -136,7 +136,7 @@ class ConnectivityMonitor(
             val capabilitiesChanged = currentCapabilities != newCapabilities
             if (currentTransports != newTransports || capabilitiesChanged) {
                 ProtonLogger.log(
-                    NetNetworkChanged,
+                    NetworkChanged,
                     "default network: $network; transports: ${newTransports.joinToString(", ")}; " +
                         "capabilities: $newCapabilities"
                 )
@@ -151,11 +151,11 @@ class ConnectivityMonitor(
         }
 
         override fun onLosing(network: Network, maxMsToLive: Int) {
-            ProtonLogger.logCustom(LogCategory.NET, "NetworkCallback: losing network ($maxMsToLive)")
+            ProtonLogger.logCustom(LogCategory.NETWORK, "NetworkCallback: losing network ($maxMsToLive)")
         }
 
         override fun onUnavailable() {
-            ProtonLogger.log(NetNetworkUnavailable)
+            ProtonLogger.log(NetworkUnavailable)
         }
 
         override fun onAvailable(network: Network) {
@@ -168,7 +168,7 @@ class ConnectivityMonitor(
             // (possibly a bug: https://issuetracker.google.com/issues/144891976 )
             // Check if there is an active network to log NetNetworkUnavailable.
             if (connectivityManager.activeNetwork == null) {
-                ProtonLogger.log(NetNetworkUnavailable)
+                ProtonLogger.log(NetworkUnavailable)
             }
         }
 
@@ -176,7 +176,7 @@ class ConnectivityMonitor(
             val transports = connectivityManager.getNetworkCapabilities(network)?.let {
                 getTransports(it).joinToString(", ")
             }.orEmpty()
-            ProtonLogger.log(NetNetworkChanged, "$event: $network $transports")
+            ProtonLogger.log(NetworkChanged, "$event: $network $transports")
         }
     }
 
@@ -186,7 +186,7 @@ class ConnectivityMonitor(
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
             ProtonLogger.logCustom(
-                LogCategory.NET,
+                LogCategory.NETWORK,
                 "Airplane mode: " + it?.getBooleanExtra("state", false)
             )
         }

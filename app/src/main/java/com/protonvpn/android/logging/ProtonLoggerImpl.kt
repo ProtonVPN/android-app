@@ -59,16 +59,13 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
 import java.lang.IllegalArgumentException
-import java.util.Locale
 
 private const val LOG_PATTERN = "%msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
 
 enum class LogLevel {
-    DEBUG, INFO, WARNING, ERROR;
-
-    fun toLog() = name.lowercase(Locale.US)
+    DEBUG, INFO, WARN, ERROR, FATAL;
 }
 
 open class ProtonLoggerImpl(
@@ -284,9 +281,7 @@ open class ProtonLoggerImpl(
     private fun logEvent(event: LogEventType, message: String, logMessage: (text: String) -> Unit) {
         if (!shouldLog(event.level)) return
 
-        val preparedMessage = multiLine(message)
-        val text = "${getTimestampNow()} $event $preparedMessage"
-        logMessage(text)
+        logMessage(createLine(event.level, event.category, event.name, message))
     }
 
     fun log(event: LogEventType, message: String = "") {
@@ -302,9 +297,7 @@ open class ProtonLoggerImpl(
     fun logCustom(level: LogLevel, category: LogCategory, message: String) {
         if (!shouldLog(level)) return
 
-        val preparedMessage = multiLine(message)
-        val text = "${getTimestampNow()} ${level.toLog()} ${category.toLog()} $preparedMessage"
-        logMessageQueue.tryEmit(text)
+        logMessageQueue.tryEmit(createLine(level, category, null, message))
     }
 
     fun logBlocking(event: LogEventType, message: String) {
@@ -326,7 +319,7 @@ open class ProtonLoggerImpl(
         logMessageQueue.tryEmit(message)
     }
 
-    fun getLogLinesForDiplay() = backgroundLogger.getLogLines().map {
+    fun getLogLinesForDisplay() = backgroundLogger.getLogLines().map {
         replaceDateForDisplay(it)
     }
 
@@ -348,6 +341,13 @@ open class ProtonLoggerImpl(
     private fun multiLine(message: String) = message.replace("\n", "\n ")
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
+
+    private fun createLine(level: LogLevel, category: LogCategory, event: String?, message: String): String {
+        val levelPart = level.name.padEnd(5, ' ')
+        val eventPart = event?.let { ":$it" }.orEmpty()
+        val messagePart = multiLine(message)
+        return "${getTimestampNow()} | $levelPart | ${category.toLog()}$eventPart | $messagePart"
+    }
 
     private fun replaceDateForDisplay(logLine: String): String {
         val firstSeparatorIndex = logLine.indexOf(' ')

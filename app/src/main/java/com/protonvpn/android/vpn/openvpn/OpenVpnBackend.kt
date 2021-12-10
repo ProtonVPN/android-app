@@ -277,7 +277,7 @@ class OpenVpnBackend(
             VpnStatus.LogLevel.VERBOSE -> LogLevel.DEBUG
             VpnStatus.LogLevel.DEBUG -> LogLevel.DEBUG
             VpnStatus.LogLevel.INFO -> LogLevel.INFO
-            VpnStatus.LogLevel.WARNING -> LogLevel.WARNING
+            VpnStatus.LogLevel.WARNING -> LogLevel.WARN
             VpnStatus.LogLevel.ERROR -> LogLevel.ERROR
             null -> LogLevel.INFO
         }
