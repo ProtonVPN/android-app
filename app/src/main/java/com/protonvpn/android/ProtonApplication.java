@@ -25,7 +25,6 @@ import android.content.Context;
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
-import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
@@ -62,7 +61,6 @@ public class ProtonApplication extends Application {
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
-        new ANRWatchDog(15000).start();
 
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
