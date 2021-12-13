@@ -392,11 +392,6 @@ class VpnConnectionErrorHandler(
                 ProtonLogger.log("Current server is in maintenance (${connectingDomain.entryDomain})")
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
-                val sentryEvent = EventBuilder()
-                    .withMessage("Maintenance detected")
-                    .withExtra("Server", result.value.connectingDomain.entryDomain)
-                    .build()
-                ProtonLogger.logSentryEvent(sentryEvent)
                 return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile, connectionParams)
                 } else {

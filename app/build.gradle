@@ -558,7 +558,6 @@ dependencies {
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'net.danlew:android.joda:2.10.12.2'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation 'me.relex:circleindicator:2.1.6@aar'
