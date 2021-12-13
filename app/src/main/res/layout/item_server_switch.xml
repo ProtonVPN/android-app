@@ -19,25 +19,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:background="@drawable/bg_square_rounded_theme_aware"
         android:padding="14dp">
 
-        <ImageView
-            android:id="@+id/imageArrow"
-            android:layout_width="24dp"
-            android:layout_height="16dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_arrow_forward_theme_aware" />
-
         <FrameLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/imageArrow">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -48,11 +40,11 @@
 
                 <TextView
                     android:id="@+id/textFrom"
+                    style="@style/Proton.Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reconnect_from_server"
-                    android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                    android:textSize="14sp" />
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/reconnect_from_server" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -63,32 +55,33 @@
                     <ImageView
                         android:id="@+id/imageFromCountrySc"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         android:visibility="gone"
-                        tools:src="@drawable/lt" />
+                        tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowFromSc"
-                        android:layout_width="8dp"
-                        android:layout_height="6dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/ic_secure_core_arrow_grey"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/imageFromCountry"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         tools:src="@drawable/lt" />
 
                     <TextView
                         android:id="@+id/textFromServer"
+                        style="@style/Proton.Text.DefaultSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp"
                         tools:text="LT#5" />
 
                 </LinearLayout>
@@ -97,11 +90,17 @@
 
         </FrameLayout>
 
+        <ImageView
+            android:id="@+id/imageArrow"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_arrow_forward" />
+
         <FrameLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/imageArrow">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -110,22 +109,13 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textTo"
+                    style="@style/Proton.Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textTo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/reconnect_to_server"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/reconnect_to_server" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -136,33 +126,34 @@
                     <ImageView
                         android:id="@+id/imageToCountrySc"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
                         android:visibility="gone"
-                        tools:src="@drawable/lt" />
+                        tools:src="@drawable/se" />
 
                     <ImageView
                         android:id="@+id/arrowToSc"
-                        android:layout_width="8dp"
-                        android:layout_height="6dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:src="@drawable/ic_secure_core_arrow_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_secure_core_arrow_color"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/imageToCountry"
                         android:layout_width="16dp"
-                        android:layout_height="10dp"
-                        tools:src="@drawable/lt" />
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        tools:src="@drawable/de" />
 
                     <TextView
                         android:id="@+id/textToServer"
+                        style="@style/Proton.Text.DefaultSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:textAppearance="@style/TextAppearance.Compat.Notification.Info"
-                        android:textSize="14sp"
-                        tools:text="LT#5" />
+                        tools:text="DE#1" />
 
                 </LinearLayout>
 
@@ -170,6 +161,6 @@
 
         </FrameLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

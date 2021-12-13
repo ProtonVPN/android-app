@@ -26,13 +26,13 @@ import android.view.ViewGroup;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
 
 // Deprecated in favor of using BaseFragmentV2
 @Deprecated
@@ -51,7 +51,6 @@ public abstract class BaseFragment extends Fragment implements NetworkLoader {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(AnnotationParser.getAnnotatedLayout(this), container, false);
         unbinder = ButterKnife.bind(this, view);
-        AndroidSupportInjection.inject(this);
         onViewCreated();
         if (isRegisteredForEvents && !hasRegistered) {
             EventBus.getInstance().register(this);

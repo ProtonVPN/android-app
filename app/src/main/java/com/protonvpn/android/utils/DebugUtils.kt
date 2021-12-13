@@ -18,9 +18,7 @@
  */
 package com.protonvpn.android.utils
 
-import android.app.Activity
 import com.protonvpn.android.BuildConfig
-import java.lang.RuntimeException
 
 fun Boolean.implies(right: Boolean) = !this || right
 
@@ -31,7 +29,4 @@ object DebugUtils {
             throw RuntimeException("assertion failed: $message")
         }
     }
-
-    fun isTest(activity: Activity?) =
-        activity?.intent?.getBooleanExtra("isTest", false)
 }

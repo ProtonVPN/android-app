@@ -24,21 +24,16 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.HtmlTools
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class AccountActivityViewModel @Inject constructor(val userData: UserData) : ViewModel() {
 
     val user get(): CharSequence? = if (userData.vpnInfoResponse != null) userData.user else "development@protonvpn.com"
     val accountType get(): CharSequence? = HtmlTools.fromHtml(userData.vpnInfoResponse?.accountType) ?: "Debug"
 
     fun accountTier(context: Context) = userTierName?.let { context.getText(getAccountTypeNaming(it)) } ?: "development"
-
-    val tierColor get() = when (userTierName) {
-        "vpnbasic" -> R.color.accountTypeBasic
-        "vpnplus" -> R.color.accountTypePlus
-        "visionary" -> R.color.accountTypeVisionary
-        else -> null
-    }
 
     @StringRes
     private fun getAccountTypeNaming(accountType: String) = when (accountType) {

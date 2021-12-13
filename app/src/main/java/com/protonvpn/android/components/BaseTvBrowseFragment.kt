@@ -24,18 +24,12 @@ import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
-import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.utils.whenCancelled
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 
 abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
         headersState = HEADERS_DISABLED
     }
 

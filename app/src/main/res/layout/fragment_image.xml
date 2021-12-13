@@ -16,53 +16,46 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:fillViewport="true">
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="vertical">
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:contentDescription="@null"
+        android:src="@drawable/onboarding_middle" />
 
-        <ImageView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="TODO"
-            android:src="@drawable/onboarding_middle" />
+    <TextView
+        android:id="@+id/textTitle"
+        style="@style/Proton.Text.Default.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:textColor="?attr/brand_norm"
+        android:gravity="center_horizontal|center_vertical"
+        tools:text="Ops... Not done yet" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:textColor="?colorAccent"
-            android:textSize="16sp"
-            android:textAllCaps="true"
-            tools:text="Ops... Not done yet" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textDescription"
+        style="@style/Proton.Text.Caption.Weak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        tools:text="Seems developer might be still doing\n Something else..." />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:gravity="center_horizontal|top"
-            android:lineSpacingMultiplier="1.2"
-            android:textColor="@color/white70"
-            tools:text="Seems developer might be still doing\n Something else..." />
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
-
+</LinearLayout>

@@ -23,16 +23,20 @@ import com.azimolabs.conditionwatcher.Instruction;
 import com.protonvpn.android.R;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 
+import org.hamcrest.Matchers;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.protonvpn.testsHelper.ScrollToExKt.scrollToEx;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
 public class ConditionalActionsHelper extends UIActionsTestHelper {
@@ -86,6 +90,14 @@ public class ConditionalActionsHelper extends UIActionsTestHelper {
     public static void scrollDownInViewWithIdUntilObjectWithIdAppears(@IdRes int viewId,
                                                                       @IdRes int objectId) {
         onView(withId(objectId)).perform(scrollToEx()).check(matches(isDisplayed()));
+    }
+
+    public static void scrollDownInViewWithIdUntilObjectWithIdAppears(@IdRes int viewId,
+                                                                      @IdRes int objectId,
+                                                                      Class<?> clazz) {
+        onView(Matchers.allOf(instanceOf(clazz), withId(objectId)))
+            .perform(scrollToEx())
+            .check(matches(isDisplayed()));
     }
 
     public static void scrollDownInViewWithIdUntilObjectWithTextAppears(@IdRes int viewId, String text) {

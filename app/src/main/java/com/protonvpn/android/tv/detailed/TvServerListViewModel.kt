@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.tv.detailed
 
-import android.app.Activity
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -34,13 +33,16 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+@HiltViewModel
 class TvServerListViewModel @Inject constructor(
     private val planManager: UserPlanManager,
     val serverManager: ServerManager,
@@ -150,10 +152,10 @@ class TvServerListViewModel @Inject constructor(
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())
 
-        fun click(activity: Activity, onUpgrade: () -> Unit) = when (actionState) {
+        fun click(vpnPermissionDelegate: VpnPermissionDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager)
-                vpnConnectionManager.connect(activity, profile, "TV server list")
+                vpnConnectionManager.connect(vpnPermissionDelegate, profile, "TV server list")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
                 vpnConnectionManager.disconnect()

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2017 Proton Technologies AG
  
  This file is part of ProtonVPN.
@@ -19,15 +18,19 @@
 -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.protonvpn.android.ui.drawer.AccountActivity">
 
-    <include layout="@layout/content_appbar" />
+    <include
+        android:id="@+id/layoutAppbar"
+        layout="@layout/content_appbar" />
 
-    <include layout="@layout/content_report" />
+    <include
+        android:id="@+id/layoutReport"
+        layout="@layout/content_report" />
 
     <com.protonvpn.android.components.NetworkFrameLayout
         android:id="@+id/loadingContainer"

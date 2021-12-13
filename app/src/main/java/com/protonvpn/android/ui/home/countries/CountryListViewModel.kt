@@ -30,9 +30,11 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.apache.commons.lang3.SerializationUtils
 import javax.inject.Inject
 
+@HiltViewModel
 class CountryListViewModel @Inject constructor(
     val serverManager: ServerManager,
     val serverListUpdater: ServerListUpdater,

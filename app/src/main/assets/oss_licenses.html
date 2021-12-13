@@ -21,38 +21,87 @@
 <head>
     <style>
         body {
-            background: black;
+            background: #17181C;
             color: white;
             margin: 0px;
         }
 
         .container {
-            background: #4B4B57;
             font-weight: bold;
-            margin: 15px 5px;
-            padding: 10px;
             word-wrap: break-word;
         }
 
-        .version {
-            font-size: small;
-            color: lightgrey;
+        h1 {
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: 0.25px;
+            margin: 0px 16px;
+            padding-top: 24px;
+            padding-bottom: 0px;
         }
 
-        .by {
+        .row {
+            display: flex;
+            justify-content: space-between;
             font-size: small;
-            color: lightgrey;
+            padding: 12px 16px;
+            border-bottom: 1px solid #303239;
+
+            //styleName: Body 2 / body-2-regular;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0.25px;
+        }
+
+        .label {
+            color: #9CA0AA;
+            min-width: 5em;
         }
 
         .licenses {
-            font-size: small;
-            margin-top: 10px;
+            padding: 12px 16px;
+
+            // styleName: Caption / caption-regular;
+            font-family: Roboto;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 0.4000000059604645px;
+            text-align: left;
+        }
+
+        .licensesLabel {
+            color: #9CA0AA;
+            // styleName: Body 2 / body-2-regular;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0.25px;
         }
 
         a {
-            color: #66D2D8;
-            font-size: small;
-            display: block;
+            text-decoration: none;
+            color: #4DA358;
+        }
+
+        a.icon {
+            display: inline;
+            margin-left: 0.5em;
+        }
+
+        a.icon img {
+            position: relative;
+            top: -2px;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -145,38 +194,54 @@
             }
         }
 
+        function createLabelWithValue(labelText, valueText) {
+            var row = document.createElement('div');
+            row.className = 'row';
+            var versionLabel = document.createElement('span')
+            versionLabel.className = 'label';
+            versionLabel.innerText = labelText
+            var versionValue = document.createElement('span')
+            versionValue.className = 'value';
+            versionValue.innerText = valueText;
+            row.appendChild(versionLabel);
+            row.appendChild(versionValue);
+            return row;
+        }
+
         function processDependencies(dependencies) {
             for (var i in dependencies) {
                 var dependency = dependencies[i];
                 var elem = document.createElement('div');
                 elem.className = 'container';
-                elem.innerText = dependency.project
+                var header = document.createElement('h1');
+                header.innerText = dependency.project
+                elem.appendChild(header);
 
                 if (dependency.url !== null) {
-                    var url = document.createElement('a');
-                    url.href = dependency.url;
-                    url.innerText = dependency.url;
-                    elem.appendChild(url);
+                    var icon = document.createElement('img');
+                    icon.src = 'ic-external-link.svg'
+                    var link = document.createElement('a');
+                    link.className = 'icon';
+                    link.href = dependency.url;
+                    link.appendChild(icon);
+                    header.appendChild(link);
                 }
 
                 if (dependency.version !== null) {
-                    var version = document.createElement('div');
-                    version.className = 'version';
-                    version.innerText = 'version: ' + dependency.version
-                    elem.appendChild(version);
+                    elem.appendChild(createLabelWithValue('Version:', dependency.version));
                 }
 
                 if (dependency.developers.length > 0) {
-                    var devs = document.createElement('div');
-                    devs.className = 'by'
-                    devs.innerText = 'by: ' + dependency.developers.join(', ');
-                    elem.appendChild(devs);
+                    elem.appendChild(createLabelWithValue('By:', dependency.developers.join(', ')));
                 }
 
                 if (dependency.licenses.length > 0) {
                     var licensesBlock = document.createElement('div');
                     licensesBlock.className = 'licenses';
-                    licensesBlock.innerText = 'licenses:'
+                    var licensesLabel = document.createElement('div');
+                    licensesLabel.className = 'licensesLabel';
+                    licensesLabel.innerText = 'Licenses:'
+                    licensesBlock.appendChild(licensesLabel);
                     for (j in dependency.licenses) {
                         var license = dependency.licenses[j];
                         var licenseElem = document.createElement('a');

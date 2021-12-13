@@ -21,222 +21,203 @@ package com.protonvpn.android.ui.home.profiles
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
-import android.view.MenuItem
-import android.widget.EditText
-import android.widget.Toast
-import androidx.annotation.StringRes
+import android.view.View
+import android.widget.GridLayout
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
-import com.google.android.material.textfield.TextInputLayout
+import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.IntentExtras
-import com.protonvpn.android.components.ProtonSpinner
+import com.protonvpn.android.components.ProtonColorCircle
 import com.protonvpn.android.databinding.ActivityProfileBinding
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.models.vpn.VpnCountry
-import javax.inject.Inject
+import com.protonvpn.android.models.profiles.ProfileColor
+import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.SaveableSettingsActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.utils.ViewUtils.hideKeyboard
+import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.ViewUtils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 
-@ContentLayout(R.layout.activity_profile)
-class ProfileActivity : BaseActivityV2<ActivityProfileBinding, ProfileViewModel>() {
+@AndroidEntryPoint
+class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val binding by viewBinding(ActivityProfileBinding::inflate)
+    private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
 
-    override fun initViewModel() {
-        viewModel =
-                ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
+    private val countrySelection = registerForActivityResult(CountrySelectionActivity.createContract()) {
+        if (it != null) viewModel.setCountryCode(it)
     }
+    private val serverSelection = registerForActivityResult(ServerSelectionActivity.createContract()) {
+        if (it != null) viewModel.setServer(it)
+    }
+    private val protocolSelection = registerForActivityResult(ProtocolSelectionActivity.createContract()) {
+        if (it != null) viewModel.setProtocol(it)
+    }
+
+    override val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.initWithProfile(intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?)
-        initSpinners()
-        initProtocolSelection()
+        setContentView(binding.root)
+        val profile = intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?
+        viewModel.initWithProfile(profile)
+        initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
+        initProfileName(profile)
+        initPalette()
+        initDeleteButton()
+        initServerAndProtocolFields()
         initSecureCoreSwitch()
-        initEditableProfile()
+
+        viewModel.profileColor.asLiveData().observe(this, Observer { setColorChecked(it) })
+        viewModel.protocol.asLiveData().observe(this, Observer { updateProtocolField(it) })
+        viewModel.serverViewState.asLiveData().observe(this, Observer {
+            updateServerFields(it)
+        })
+        viewModel.eventSomethingWrong.asLiveData().observe(this, Observer {
+            snackbarHelper.errorSnack(R.string.something_went_wrong)
+        })
+        viewModel.eventValidationFailed.asLiveData().observe(this, Observer {
+            updateErrors(it)
+        })
     }
 
-    private fun checkInputFields(): Boolean {
-        with(binding.contentProfile) {
-            val nameNotEmpty = editTextNotEmpty(inputName, editName, R.string.errorEmptyName)
-            val countryNotEmpty = editTextNotEmpty(
-                    inputLayoutCountry, spinnerCountry,
-                    if (switchSecureCore.isChecked) R.string.errorEmptyExitCountry else R.string.errorEmptyCountry)
-            val serverNotEmpty = editTextNotEmpty(inputLayoutServer, spinnerServer,
-                    if (switchSecureCore.isChecked) R.string.errorEmptyEntryCountry else R.string.errorEmptyServer)
-            return nameNotEmpty && countryNotEmpty && serverNotEmpty &&
-                    profileColorSelected()
+    private fun initProfileName(profile: Profile?) = with(binding.contentProfile) {
+        if (profile != null) inputName.text = profile.name
+        inputName.addTextChangedListener(object : TextWatcherAdapter() {
+            override fun afterTextChanged(s: Editable) {
+                viewModel.onProfileNameTextChanged(s.toString())
+            }
+        })
+    }
+
+    private fun initPalette() {
+        ProfileColor.values().forEach { profileColor ->
+            val circle = ProtonColorCircle(this)
+            binding.contentProfile.layoutPalette.addView(circle)
+            circle.setColor(profileColor.colorRes)
+            paletteViews[circle] = profileColor
+            circle.updateLayoutParams<GridLayout.LayoutParams> {
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.CENTER, 1f)
+                topMargin = 8.toPx()
+                bottomMargin = 8.toPx()
+            }
+            circle.setOnClickListener(this::selectProfileColor)
         }
     }
 
-    private fun initServerSelection() {
-        with(binding.contentProfile) {
-            val spinnerCountry = spinnerCountry as ProtonSpinner<VpnCountry>
-            spinnerCountry.setText("")
-            spinnerCountry.setItems(viewModel.getCountryItems())
-            spinnerCountry.setOnItemSelectedListener { item, _ ->
-                spinnerServer.setItems(item.wrapperServers)
-                inputLayoutServer.isVisible = true
-                spinnerServer.setText("")
-                inputLayoutCountry.error = ""
-                spinnerServer.selectedItem = item.wrapperServers.firstOrNull()
-            }
-            val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
-            spinnerServer.setText("")
+    private fun selectProfileColor(colorView: View) {
+        viewModel.setProfileColor(requireNotNull(paletteViews[colorView]))
+    }
 
-            inputLayoutCountry.hint =
-                    getString(if (viewModel.secureCoreEnabled) R.string.exitCountry else R.string.country)
-            inputLayoutServer.hint =
-                    getString(if (viewModel.secureCoreEnabled) R.string.entryCountry else R.string.serverSelection)
-
-            inputLayoutServer.isVisible = false
-            spinnerServer.setOnItemSelectedListener { _, _ ->
-                inputLayoutServer.error = ""
-            }
-            spinnerServer.setOnValidateSelection(viewModel.serverValidateSelection)
+    private fun setColorChecked(newColor: ProfileColor) {
+        paletteViews.forEach { (view, color) ->
+            view.setChecked(color == newColor, true)
         }
     }
 
-    private fun initSpinners() {
+    private fun initServerAndProtocolFields() = with(binding.contentProfile) {
+        inputCountry.setOnClickListener { view ->
+            hideKeyboard()
+            view.clearFocus()
+            countrySelection.launch(viewModel.isSecureCoreEnabled)
+        }
+        inputServer.setOnClickListener { view ->
+            hideKeyboard()
+            view.clearFocus()
+            serverSelection.launch(
+                ServerSelectionActivity.Config(
+                    requireNotNull(viewModel.selectedCountryCode),
+                    viewModel.isSecureCoreEnabled
+                )
+            )
+        }
+        inputProtocol.setOnClickListener { view ->
+            hideKeyboard()
+            view.clearFocus()
+            protocolSelection.launch(viewModel.protocol.value)
+        }
+    }
+
+    private fun updateProtocolField(protocol: ProtocolSelection) {
+        binding.contentProfile.inputProtocol.text = getString(protocol.displayName)
+    }
+
+    private fun updateServerFields(state: ProfileViewModel.ServerViewState) {
         with(binding.contentProfile) {
-            initServerSelection()
-            binding.fabSave.setOnClickListener {
-                if (checkInputFields()) {
-                    val newProfile =
-                            Profile(editName.text.toString(), palette.selectedColor,
-                                    spinnerServer.selectedItem as ServerWrapper)
-                    newProfile.apply {
-                        setTransmissionProtocol(protocolSelection.transmissionProtocol.toString())
-                        setProtocol(protocolSelection.protocol)
-                        wrapper.setSecureCore(switchSecureCore.isChecked)
-                    }
-                    viewModel.saveProfile(newProfile)
-                    setResult(Activity.RESULT_OK)
-                    finish()
+            checkboxSecureCore.isChecked = state.secureCore
+            inputCountry.text = state.countryName
+            if (inputCountry.labelText != getString(state.serverLabel))
+                inputCountry.clearInputError()
+            inputCountry.labelText = getString(state.countryLabel)
+            inputServer.text = if (state.serverNameRes != 0) {
+                getString(state.serverNameRes, state.serverNameValue)
+            } else {
+                state.serverNameValue
+            }
+            inputServer.isVisible = state.serverNameVisible
+            inputServer.labelText = getString(state.serverLabel)
+            inputServer.hintText = getString(state.serverHint)
+        }
+    }
+
+    private fun initDeleteButton() {
+        if (viewModel.canDeleteProfile) {
+            with(binding.contentProfile.buttonDelete) {
+                isVisible = true
+                setOnClickListener {
+                    MaterialAlertDialogBuilder(this@ProfileActivity)
+                        .setMessage(R.string.deleteProfile)
+                        .setPositiveButton(R.string.delete) { _, _ ->
+                            viewModel.deleteProfile()
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 }
             }
         }
     }
 
-    private fun initSecureCoreSwitch() {
+    private fun initSecureCoreSwitch() = with(binding.contentProfile) {
+        checkboxSecureCore.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setSecureCore(isChecked)
+        }
+        buttonUpgrade.setOnClickListener { launchActivity<UpgradeSecureCoreDialogActivity>() }
+        layoutSecureCoreUpgrade.isVisible = !viewModel.isSecureCoreAvailable
+        checkboxSecureCore.isVisible = viewModel.isSecureCoreAvailable
+    }
+
+    private fun updateErrors(errors: ProfileViewModel.InputValidation) {
         with(binding.contentProfile) {
-            switchSecureCore.isChecked = viewModel.secureCoreEnabled
-            switchSecureCore.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.secureCoreEnabled = isChecked
-                initServerSelection()
-            }
+            if (errors.profileNameError != 0)
+                inputName.setInputError(getString(errors.profileNameError))
+            else
+                inputName.clearInputError()
+            updateError(inputCountry, errors.countryError)
+            updateError(inputServer, errors.serverError)
         }
     }
 
-    private fun initProtocolSelection() = with(binding.contentProfile) {
-        val protocol = viewModel.selectedProtocol
-        val manualProtocol = if (protocol == VpnProtocol.Smart) VpnProtocol.IKEv2 else protocol
-        protocolSelection.init(protocol == VpnProtocol.Smart, manualProtocol,
-                viewModel.transmissionProtocol) {
-            viewModel.editableProfile?.setProtocol(protocolSelection.protocol)
-            viewModel.editableProfile?.setTransmissionProtocol(
-                    protocolSelection.transmissionProtocol.toString())
-        }
-    }
-
-    private fun editTextNotEmpty(errorLayout: TextInputLayout?, editText: EditText, @StringRes errorId: Int): Boolean {
-        if (editText.text.toString().isEmpty()) {
-            errorLayout!!.error = getString(errorId)
-            return false
-        }
-        return true
-    }
-
-    private fun profileColorSelected(): Boolean {
-        if (binding.contentProfile.palette.selectedColor.isEmpty()) {
-            Toast.makeText(this, R.string.selectedProfileColor, Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
-    }
-
-    private fun initEditableProfile() {
-        val profile = viewModel.editableProfile
-        val server = viewModel.profileServer
-        with(binding.contentProfile) {
-            val spinnerCountry = spinnerCountry as ProtonSpinner<VpnCountry>
-            val spinnerServer = spinnerServer as ProtonSpinner<ServerWrapper>
-            editName.setText(profile?.getDisplayName(baseContext))
-            palette.setSelectedColor(profile?.color
-                    ?: Profile.getRandomProfileColor(this@ProfileActivity), false)
-
-            // Profile server or country might be null if it was removed from API server list responses
-            if (server != null) {
-                val country = viewModel.getServerCountry(server)
-                if (country != null) {
-                    spinnerCountry.selectedItem = country
-                    spinnerServer.selectedItem = profile?.wrapper
-                    spinnerServer.setItems(country.wrapperServers)
-                    inputLayoutServer.isVisible = true
-                }
-            }
-        }
-    }
-
-    private fun hasUnchangedSettings(): Boolean {
-        with(binding.contentProfile) {
-            val currentName = editName.text.toString()
-            val editableProfile = viewModel.editableProfile
-            return if (editableProfile != null) {
-                editableProfile.wrapper != spinnerServer.selectedItem || currentName.isNotEmpty() &&
-                        currentName != editableProfile.getDisplayName(baseContext)
-            } else currentName.isNotEmpty() || spinnerCountry.text!!.toString().isNotEmpty() ||
-                    spinnerServer.text!!.toString().isNotEmpty()
-        }
-    }
-
-    override fun onBackPressed() {
-        if (hasUnchangedSettings()) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                    .title(R.string.warning)
-                    .content(R.string.discardChanges)
-                    .positiveText(R.string.discard)
-                    .onPositive { _, _ -> finish() }
-                    .negativeText(R.string.cancel)
-                    .show()
-        } else {
-            super.onBackPressed()
-        }
+    private fun updateError(input: ProtonAutoCompleteInput, errorRes: Int) {
+        if (errorRes != 0) input.setInputError(getString(errorRes)) else input.clearInputError()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_profile, menu)
-        menu.findItem(R.id.action_delete).isVisible = viewModel.editableProfile != null
+        super.onCreateOptionsMenu(menu)
+        menu.findItem(R.id.action_save).setTitle(viewModel.saveButtonLabel)
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_delete) {
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                    .title(R.string.warning)
-                    .content(R.string.deleteProfile)
-                    .positiveText(R.string.delete)
-                    .onPositive { _, _ ->
-                        viewModel.deleteProfile()
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    }
-                    .negativeText(R.string.cancel)
-                    .show()
-            return true
-        }
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
     }
 
     companion object {

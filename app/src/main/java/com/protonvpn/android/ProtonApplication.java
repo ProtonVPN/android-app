@@ -19,27 +19,21 @@
 package com.protonvpn.android;
 
 import android.app.Activity;
-import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
-import android.os.Build;
-import android.os.SystemClock;
-import android.util.Log;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
-import com.protonvpn.android.di.AppComponent;
-import com.protonvpn.android.di.DaggerAppComponent;
 import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
 import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.Storage;
-import com.protonvpn.android.vpn.VpnLogCapture;
+import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -47,37 +41,25 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import dagger.android.AndroidInjector;
-import dagger.android.support.DaggerApplication;
+import androidx.lifecycle.LifecycleObserver;
 import go.Seq;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
+import me.proton.core.util.kotlin.CoreLogger;
 import rx_activity_result2.RxActivityResult;
 
-public class ProtonApplication extends DaggerApplication {
+public class ProtonApplication extends Application {
 
     public Activity foregroundActivity;
-
-    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        String processName = AndroidUtils.getMyProcessName(this);
-        boolean isMainProcess = processName.equals(getPackageName());
-
-        initSentry();
-        if (!isMainProcess) {
-            Log.i(Constants.SECONDARY_PROCESS_TAG, "Starting process: " + processName);
-            return;
-        }
-
         initActivityObserver();
+        initSentry();
         initStrongSwan();
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
@@ -97,9 +79,8 @@ public class ProtonApplication extends DaggerApplication {
         // Initialize go-libraries early to avoid crashes in StrongSwan
         Seq.touch();
 
+        CoreLogger.INSTANCE.set(new VpnCoreLogger());
         ProtonLogger.INSTANCE.log("--------- App start ---------");
-        // Inject VpnLogCapture once injection into ProtonApplication is fixed in androidTests.
-        (new VpnLogCapture(getAppComponent(), SystemClock::elapsedRealtime)).startCapture();
     }
 
     private void initActivityObserver() {
@@ -148,18 +129,6 @@ public class ProtonApplication extends DaggerApplication {
                 .build();
             AppWatcher.setConfig(config);
         }
-    }
-
-    @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return getAppComponent();
-    }
-
-    private AppComponent getAppComponent() {
-        if (appComponent == null) {
-            appComponent = DaggerAppComponent.builder().application(this).build();
-        }
-        return appComponent;
     }
 
     @NotNull

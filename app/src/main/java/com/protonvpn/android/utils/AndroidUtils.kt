@@ -19,9 +19,6 @@
 package com.protonvpn.android.utils
 
 import android.app.Activity
-import android.app.ActivityManager
-import android.app.ActivityManager.RunningAppProcessInfo
-import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -33,11 +30,11 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Process
 import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
@@ -50,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
+import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
@@ -64,6 +62,12 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 object AndroidUtils {
+
+    fun <T : ViewBinding> Activity.setContentViewBinding(inflater: (LayoutInflater) -> T): T {
+        val binding = inflater(LayoutInflater.from(this))
+        setContentView(binding.root)
+        return binding
+    }
 
     fun isPackageSignedWith(
         context: Context,
@@ -157,25 +161,16 @@ object AndroidUtils {
     fun playMarketIntentFor(appId: String) =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appId"))
 
+    @JvmStatic
     fun Resources.getFloatRes(@DimenRes id: Int) = TypedValue().also {
         getValue(id, it, true)
     }.float
 
     fun Context.isChromeOS() =
             packageManager.hasSystemFeature("org.chromium.arc.device_management")
-
-    @JvmStatic
-    fun getMyProcessName(context: Context): String {
-        return if (Build.VERSION.SDK_INT >= 28) {
-            Application.getProcessName()
-        } else {
-            val pid = Process.myPid()
-            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val allProcesses = manager.runningAppProcesses
-            allProcesses?.find { it.pid == pid }?.processName ?: ""
-        }
-    }
 }
+
+fun Context.openUrl(url: String) = openUrl(Uri.parse(url))
 
 fun Context.openUrl(url: Uri) {
     try {

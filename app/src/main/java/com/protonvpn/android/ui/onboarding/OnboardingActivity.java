@@ -22,23 +22,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.protonvpn.android.R;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.ViewPagerAdapter;
 import com.protonvpn.android.ui.login.LoginActivity;
-import com.protonvpn.android.utils.AnimationTools;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.hilt.android.AndroidEntryPoint;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 import static com.protonvpn.android.utils.Constants.SIGNUP_URL;
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.onboarding_intro)
 public class OnboardingActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
@@ -47,8 +48,8 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
     @BindView(R.id.buttonLayout) LinearLayout buttonLayout;
     @BindView(R.id.buttonSignup) Button buttonSignup;
     @BindView(R.id.buttonLogin) Button buttonLogin;
-    @BindView(R.id.textSkip) TextView textSkip;
-    @BindView(R.id.textNext) TextView textNext;
+    @BindView(R.id.buttonSkip) Button buttonSkip;
+    @BindView(R.id.buttonNext) Button buttonNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,35 +96,20 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
     }
 
     private void transformButtons(int position, float offset) {
-        translateButton(position, offset, buttonLogin, false);
-        translateButton(position, offset, buttonSignup, true);
         if (position == 1) {
-            textSkip.setAlpha(1 - offset);
-            textNext.setAlpha(1 - offset);
-        }
-    }
-
-    private void translateButton(int position, float positionOffset, View view, boolean translateLeft) {
-        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-        float leftOrRight = AnimationTools.convertDpToPixel(isTablet ? 640 : 220);
-        if (translateLeft) {
-            leftOrRight = -leftOrRight;
-        }
-        if (position == 1) {
-            float offset = 1 - positionOffset;
-            int translationX = (int) (leftOrRight * offset);
-            view.setTranslationX(translationX);
+            setAlpha(indicator, 1 - offset);
+            setAlpha(buttonSkip, 1 - offset);
+            setAlpha(buttonNext, 1 - offset);
+            setAlpha(buttonLayout, offset);
         }
     }
 
     @Override
     public void onPageSelected(int position) {
-
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
 
     @OnClick(R.id.buttonLogin)
@@ -137,15 +123,19 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
         openProtonUrl(this, SIGNUP_URL);
     }
 
-    @OnClick(R.id.textSkip)
-    public void textSkip() {
+    @OnClick(R.id.buttonSkip)
+    public void buttonSkip() {
         navigateTo(LoginActivity.class);
         finish();
     }
 
-    @OnClick(R.id.textNext)
-    public void textNext() {
+    @OnClick(R.id.buttonNext)
+    public void buttonNext() {
         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
     }
 
+    private void setAlpha(@NonNull View view, float alpha) {
+        view.setVisibility(alpha == 0f ? View.INVISIBLE : View.VISIBLE);
+        view.setAlpha(alpha);
+    }
 }

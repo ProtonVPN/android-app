@@ -34,6 +34,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@HiltViewModel
 class TvLoginViewModel @Inject constructor(
     val userData: UserData,
     val appConfig: AppConfig,
@@ -183,6 +185,7 @@ sealed class TvLoginViewState(
     @StringRes val titleRes: Int = 0,
     @StringRes val buttonLabelRes: Int = 0,
     @StringRes val descriptionRes: Int = 0,
+    @StringRes val description2Res: Int = 0,
     val helpLink: String? = null
 ) {
     object Welcome : TvLoginViewState(
@@ -202,7 +205,8 @@ sealed class TvLoginViewState(
     ) : TvLoginViewState(errorTitle, errorTitleRes, errorButtonLabelRes)
     object ConnectionAllocationPrompt : TvLoginViewState(
         titleRes = R.string.connectionAllocationHelpTitle,
-        descriptionRes = R.string.connectionAllocationHelpDescription,
+        descriptionRes = R.string.connectionAllocationHelpDescription1,
+        description2Res = R.string.connectionAllocationHelpDescription2,
         helpLink = Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION,
         buttonLabelRes = R.string.connectionAllocationHelpLoginAgainButton
     )

@@ -23,5 +23,5 @@
     android:shape="rectangle">
 
     <corners android:radius="24sp"/>
-    <solid android:color="@color/interaction_weak_disabled_vpn"/>
+    <solid android:color="@color/interaction_weak_disabled"/>
 </shape>

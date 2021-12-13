@@ -21,28 +21,26 @@ package com.protonvpn.android.tv
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvGenericBinding
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-@ContentLayout(R.layout.dialog_tv_generic)
-class TvGenericDialogActivity : BaseTvActivity<DialogTvGenericBinding>() {
+@AndroidEntryPoint
+class TvGenericDialogActivity : BaseTvActivity() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<MainViewModel> { viewModelFactory }
+    val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initUI()
+        val binding = DialogTvGenericBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initUI(binding)
     }
 
-    private fun initUI() = with(binding) {
+    private fun initUI(binding: DialogTvGenericBinding) = with(binding) {
         backButton.setOnClickListener { finish() }
         backButton.initLolipopButtonFocus()
 

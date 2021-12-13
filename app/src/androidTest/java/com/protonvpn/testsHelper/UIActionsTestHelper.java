@@ -58,6 +58,7 @@ import static com.protonvpn.testsHelper.UICustomViewActions.waitObjectWithIdAndT
 import static com.protonvpn.testsHelper.UICustomViewActions.waitText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.strongswan.android.logic.StrongSwanApplication.getContext;
 
@@ -75,13 +76,6 @@ public class UIActionsTestHelper {
         }
         catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
-        }
-    }
-
-    protected void setStateOfSecureCoreSwitch(boolean state) {
-        onView(isRoot()).perform(waitObjectWithId(R.id.switchSecureCore));
-        if (state != ServiceTestHelper.isSecureCoreEnabled()) {
-            clickOnObjectWithId(R.id.switchSecureCore);
         }
     }
 
@@ -119,10 +113,14 @@ public class UIActionsTestHelper {
     }
 
     protected boolean isLongClickOnQuickConnect() {
-        String resourceName = getContext().getResources().getResourceName(R.drawable.ic_fastest);
+        String resourceName = getContext().getResources().getResourceName(R.drawable.ic_fast);
 
         ViewInteraction object = onView(withResourceName(resourceName));
         return !object.equals(nullValue());
+    }
+
+    protected void clickOnLastChildWithId(@IdRes final int id, @NonNull Matcher<View> childMatcher) {
+        onView(lastChild(withId(id), childMatcher)).perform(click());
     }
 
     protected void longClickOnLastChildWithId(@IdRes final int id, @NonNull Matcher<View> childMatcher) {
@@ -178,6 +176,10 @@ public class UIActionsTestHelper {
     protected void clickOnObjectWithId(@IdRes int objectId) {
         ViewInteraction object = onView(Matchers.allOf(withId(objectId), isDisplayed()));
         object.perform(click());
+    }
+
+    protected void checkIfObjectWithIdIsDisabled(@IdRes int objectId) {
+        onView(withId(objectId)).check(matches(not(isEnabled())));
     }
 
     protected void checkIfObjectWithIdIsDisplayed(@IdRes int objectId) {
@@ -260,14 +262,6 @@ public class UIActionsTestHelper {
     protected void checkIfMapNodeIsNotSelected(String countryName) {
         ViewInteraction object = onView(Matchers.allOf(withContentDescription(countryName + " Selected")));
         object.check(doesNotExist());
-    }
-
-    public void checkIfErrorMessageHasAppeared(String errorMessage) {
-        UICustomMatchers.withErrorText(Matchers.containsString(errorMessage));
-    }
-
-    public void checkIfErrorMessageHasAppeared(@StringRes int stringId) {
-        checkIfErrorMessageHasAppeared(getContext().getString(stringId));
     }
 
     public static void pressDeviceBackButton() {
@@ -382,7 +376,7 @@ public class UIActionsTestHelper {
         checkCondition(instruction);
     }
 
-    public static void waitUntilObjectWithContentDescriptionAppearsInView(@IdRes int contentDescription) {
+    public static void waitUntilObjectWithContentDescriptionAppearsInView(@StringRes int contentDescription) {
         waitUntilObjectWithContentDescriptionAppearsInView(getContext().getString(contentDescription));
     }
 
@@ -396,7 +390,7 @@ public class UIActionsTestHelper {
     }
 
     protected static Matcher<View> lastChild(
-        final Matcher<View> parentMatcher, final Matcher<View> childMatcher) {
+            final Matcher<View> parentMatcher, final Matcher<View> childMatcher) {
         return new TypeSafeMatcher<View>() {
 
             @Override

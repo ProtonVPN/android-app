@@ -104,4 +104,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @POST("vpn/v1/certificate")
     suspend fun getCertificate(@Body params: CertificateRequestBody): CertificateResponse
+
+    @GET("internal/tests/humanverification")
+    suspend fun triggerHumanVerification(): GenericResponse
 }

@@ -25,10 +25,13 @@ import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Disabled
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class VpnStateMonitor {
 
-    val status = MutableStateFlow(Status(Disabled, null))
+    private val statusInternal = MutableStateFlow(Status(Disabled, null))
+
+    val status: StateFlow<Status> = statusInternal
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
     val fallbackConnectionFlow = MutableSharedFlow<VpnFallbackResult>()
     val newSessionEvent = MutableSharedFlow<Unit>()
@@ -71,6 +74,10 @@ class VpnStateMonitor {
         isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
             connectingToDomain in servers.asSequence().map { it.domain }
         } == true
+
+    fun updateStatus(newStatus: Status) {
+        statusInternal.value = newStatus
+    }
 
     data class Status(
         val state: VpnState,

@@ -20,8 +20,10 @@ package com.protonvpn.android.ui.login
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.models.config.UserData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class TroubleshootViewModel @Inject constructor(val userData: UserData) : ViewModel() {
 
     var dnsOverHttpsEnabled: Boolean

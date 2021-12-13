@@ -23,13 +23,20 @@ import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import io.sentry.util.Nullable;
+
 public interface Markable {
 
     TranslatedCoordinates getCoordinates();
 
     boolean isSecureCoreMarker();
 
-    String getMarkerText();
+    @Nullable
+    String getMarkerEntryCountryCode();
+
+    @NonNull
+    String getMarkerCountryCode();
 
     List<Server> getConnectableServers();
 }

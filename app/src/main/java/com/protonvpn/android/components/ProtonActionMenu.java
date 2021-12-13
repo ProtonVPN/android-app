@@ -25,6 +25,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -33,11 +34,21 @@ import com.protonvpn.android.utils.Storage;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class ProtonActionMenu extends FloatingActionMenu {
+
+    public interface Listener {
+        void onOpening();
+        void onClosing();
+    }
 
     FloatingActionButton button;
     private long lastClickTime = 0;
     boolean isInited = false;
+    @Nullable
+    private Listener openListener;
 
     public ProtonActionMenu(Context context) {
         this(context, null);
@@ -84,11 +95,36 @@ public class ProtonActionMenu extends FloatingActionMenu {
         });
     }
 
-    private void animateMenu() {
+    public void setOpenListener(@Nullable Listener listener) {
+        openListener = listener;
+    }
+
+    @Override
+    public void open(boolean animate) {
+        super.open(animate);
+        if (openListener != null) {
+            openListener.onOpening();
+        }
+    }
+
+    @Override
+    public void close(boolean animate) {
+        super.close(animate);
+        if (openListener != null) {
+            openListener.onClosing();
+        }
+    }
+
+    public static Animator createPulseAnimator(@NonNull View button) {
         final AnimatorSet animSetXY = new AnimatorSet();
         animSetXY.playTogether(ObjectAnimator.ofFloat(button, "scaleX", 1f, 1.1f, 1f),
             ObjectAnimator.ofFloat(button, "scaleY", 1f, 1.1f, 1f));
         animSetXY.setDuration(1000);
+        return animSetXY;
+    }
+
+    private void animateMenu() {
+        final Animator animSetXY = createPulseAnimator(button);
         animSetXY.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

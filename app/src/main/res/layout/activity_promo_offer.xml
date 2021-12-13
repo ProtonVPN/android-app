@@ -23,7 +23,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#17181C"
         android:orientation="vertical"
         android:paddingBottom="@dimen/offer_panel_bottom_margin">
 
@@ -47,12 +46,11 @@
 
                 <TextView
                     android:id="@+id/textIncentive"
-                    style="@style/CaptionMedium"
+                    style="@style/Proton.Text.Caption.Strong"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/textPill"
                     app:layout_constraintEnd_toEndOf="@id/layoutFeatures"
                     app:layout_constraintStart_toStartOf="@id/layoutFeatures"
@@ -62,18 +60,17 @@
 
                 <TextView
                     android:id="@+id/textPill"
-                    style="@style/CaptionMedium"
+                    style="@style/Proton.Text.Caption.Strong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_rounded_white_filled"
-                    android:backgroundTint="#DC3251"
+                    android:backgroundTint="?attr/proton_notification_error"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/imagePicture"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,12 +89,11 @@
 
                 <TextView
                     android:id="@+id/textTitle"
+                    style="@style/Proton.Text.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                     android:gravity="center_horizontal"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@id/layoutFeatures"
                     app:layout_constraintTop_toBottomOf="@id/imagePicture"
                     tools:text="Special year-end offer" />
@@ -107,10 +103,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:paddingHorizontal="@dimen/screen_padding_horizontal"
                     android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
                     android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/screen_padding_horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,9 +114,8 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <Button
+        <me.proton.core.presentation.ui.view.ProtonButton
             android:id="@+id/buttonOpenOffer"
-            style="@style/Button.Green.Filled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
@@ -130,6 +124,7 @@
 
         <TextView
             android:id="@+id/textFooter"
+            style="@style/Proton.Text.Caption.Weak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"

@@ -24,14 +24,26 @@ import com.protonvpn.results.ConnectionResult;
 import com.protonvpn.results.HomeResult;
 import com.protonvpn.results.LogoutResult;
 import com.protonvpn.results.ProfilesResult;
+import com.protonvpn.testsHelper.ServiceTestHelper;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 import androidx.annotation.NonNull;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static com.protonvpn.testsHelper.UICustomViewActions.waitObjectWithId;
 import static org.hamcrest.Matchers.endsWith;
 
 public class HomeRobot extends UIActionsTestHelper {
+
+    ServiceTestHelper serviceTestHelper;
+
+    public HomeRobot(){
+        if(MockSwitch.mockedConnectionUsed){
+            serviceTestHelper = new ServiceTestHelper();
+        }
+    }
 
     public HomeRobot disableSecureCore() {
         setStateOfSecureCoreSwitch(false);
@@ -39,7 +51,13 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public void openDrawer() {
-        clickOnObjectWithContentDescription(R.string.hamburgerMenu);
+        if (!isDrawerOpened()) {
+            clickOnObjectWithContentDescription(R.string.hamburgerMenu);
+        }
+    }
+
+    public boolean isDrawerOpened() {
+        return isObjectWithIdVisible(R.id.navigationDrawer);
     }
 
     public SettingsRobot openSettings() {
@@ -78,19 +96,18 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public ConnectionResult connectThroughQuickConnectWithoutVPNHandling() {
-        longClickOnObjectChildWithIdAndPosition(R.id.fabQuickConnect, 2);
+        longClickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
         handleQuickConnectLongClick();
         return new ConnectionResult();
     }
 
     public ConnectionResult disconnectThroughQuickConnect() {
-        clickOnObjectChildWithIdAndPosition(R.id.fabQuickConnect, 3);
+        clickOnLastChildWithId(R.id.fabQuickConnect, withClassName(endsWith("FloatingActionButton")));
         return new ConnectionResult();
     }
 
-    public ConnectionResult allowToUseVpn() {
+    public void allowToUseVpn() {
         allowVpnToBeUsed(isAllowVpnRequestVisible());
-        return new ConnectionResult();
     }
 
     public HomeRobot handleQuickConnectLongClick() {
@@ -99,17 +116,13 @@ public class HomeRobot extends UIActionsTestHelper {
     }
 
     public LogoutResult logout() {
-        //clicks on the menu
-        clickOnObjectWithContentDescription(R.string.hamburgerMenu);
-
-        //clicks on the logout button
-        clickOnObjectWithIdAndText(R.id.drawerButtonLogout, R.string.menuActionLogout);
-
+        openDrawer();
+        clickOnObjectWithIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut);
         return new LogoutResult();
     }
 
     public LogoutResult logoutAfterWarning() {
-        clickOnObjectWithIdAndText(R.id.md_buttonDefaultPositive, "OK");
+        clickOnObjectWithText(R.string.logoutConfirmDialogButton);
         return new LogoutResult();
     }
 
@@ -136,5 +149,12 @@ public class HomeRobot extends UIActionsTestHelper {
     public HomeResult clickButtonUpgrade() {
         clickOnObjectWithId(R.id.md_buttonDefaultPositive);
         return new HomeResult();
+    }
+
+    protected void setStateOfSecureCoreSwitch(boolean state) {
+        onView(isRoot()).perform(waitObjectWithId(R.id.switchSecureCore));
+        if (state != serviceTestHelper.isSecureCoreEnabled()) {
+            clickOnObjectWithId(R.id.switchSecureCore);
+        }
     }
 }

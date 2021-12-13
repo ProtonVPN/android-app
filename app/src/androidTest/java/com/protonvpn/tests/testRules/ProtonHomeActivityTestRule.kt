@@ -20,7 +20,6 @@ package com.protonvpn.tests.testRules
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.rule.ActivityTestRule
-import androidx.test.rule.ServiceTestRule
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
@@ -31,40 +30,32 @@ import kotlinx.coroutines.runBlocking
 import org.junit.runner.Description
 
 class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
-    private var service: ServiceTestHelper? = null
-    private val userDataHelper = UserDataHelper()
-    var activityTestRule: ActivityTestRule<HomeActivity> =
-        ActivityTestRule<HomeActivity>(HomeActivity::class.java, false, false)
 
+    private lateinit var service: ServiceTestHelper
+
+    var activityTestRule = ActivityTestRule(HomeActivity::class.java, false, false)
     override fun starting(description: Description) {
         super.starting(description)
-        if (service == null) {
-            service = ServiceTestHelper(ServiceTestRule())
-        }
-        val testIntent = TestIntent()
-        activityTestRule.launchActivity(testIntent.intent)
+        service = ServiceTestHelper()
+        activityTestRule.launchActivity(null)
     }
 
     override fun finished(description: Description) {
         super.finished(description)
-        runBlocking(Dispatchers.Main) {
-            service!!.enableSecureCore(false)
-            ServiceTestHelper.connectionManager.disconnect()
-            service!!.disconnectFromServer()
-            userDataHelper.userData.logout()
-            ServiceTestHelper.deleteCreatedProfiles()
-        }
+        service.enableSecureCore(false)
+        UserDataHelper().logoutUser()
+        service.deleteCreatedProfiles()
         activityTestRule.finishActivity()
     }
 
     fun mockStatusOnConnect(state: VpnState) {
-        service!!.mockVpnBackend.stateOnConnect = state
+        service.mockVpnBackend.stateOnConnect = state
     }
 
     fun mockErrorOnConnect(type: ErrorType) {
-        service!!.mockVpnBackend.stateOnConnect = VpnState.Error(type, null)
+        service.mockVpnBackend.stateOnConnect = VpnState.Error(type, null)
     }
 
     val activity: HomeActivity
-        get() = activityTestRule.getActivity()
+        get() = activityTestRule.activity
 }

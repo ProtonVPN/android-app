@@ -39,6 +39,7 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.vpn.SwitchServerReason
@@ -53,10 +54,10 @@ import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 
 class NotificationHelper(
     private val appContext: Context,
@@ -216,12 +217,19 @@ class NotificationHelper(
         val disconnectIntent = Intent(DISCONNECT_ACTION)
         val disconnectPendingIntent = PendingIntent.getBroadcast(
             context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val state = vpnStatus.state
+
+        val notificationContentString =
+            if (state is Error)
+                HtmlTools.fromHtml(state.type.mapToErrorMessage(appContext, state.description))
+            else
+                trafficUpdate?.notificationString
 
         val builder =
                 NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(getIconForState(vpnStatus.state))
+                        .setSmallIcon(getIconForState(state))
                         .setContentTitle(getStringFromState(vpnStatus))
-                        .setContentText(trafficUpdate?.notificationString)
+                        .setContentText(notificationContentString)
                         .setStyle(NotificationCompat.BigTextStyle())
                         .setOngoing(true)
                         .setOnlyAlertOnce(true)

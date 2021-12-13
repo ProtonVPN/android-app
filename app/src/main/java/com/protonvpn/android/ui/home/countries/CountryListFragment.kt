@@ -18,15 +18,18 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
@@ -36,21 +39,18 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
-import javax.inject.Inject
 
-@ContentLayout(R.layout.fragment_country_list)
-class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountryListBinding>(), NetworkLoader {
+@AndroidEntryPoint
+class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val binding by viewBinding(FragmentCountryListBinding::bind)
+    private val viewModel: CountryListViewModel by viewModels()
 
-    override fun initViewModel() {
-        viewModel =
-                ViewModelProviders.of(this, viewModelFactory).get(CountryListViewModel::class.java)
-    }
-
-    override fun onViewCreated() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initList()
         observeLiveEvents()
         binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
@@ -62,9 +62,9 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
             if (viewModel.userData.isFreeUser)
                 binding.list.scrollToPosition(0)
         }
-        viewModel.serverManager.updateEvent.observe(viewLifecycleOwner) {
+        viewModel.serverManager.serverListVersion.asLiveData().observe(viewLifecycleOwner, Observer {
             updateListData()
-        }
+        })
     }
 
     private fun initList() = with(binding.list) {
@@ -75,8 +75,6 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         adapter = groupAdapter
         layoutManager = groupLayoutManager
         (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-
-        updateListData()
     }
 
     private fun addCountriesGroup(
@@ -85,15 +83,19 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
         countries: List<VpnCountry>,
         expandedCountriesIds: Set<Long>
     ) {
-        if (header != null)
-            groups.add(HeaderItem(header, null))
+        if (header != null) {
+            val headerTitle = resources.getString(header, countries.size)
+            groups.add(HeaderItem(headerTitle, null, false))
+        }
 
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
-                    this@CountryListFragment.binding.list.smoothScrollToPosition(
-                            position + if (viewModel.userData.isSecureCoreEnabled) 1 else 2
-                    )
+                    if (!viewModel.userData.isSecureCoreEnabled) {
+                        val layoutManager =
+                            this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
+                        layoutManager.scrollToPositionWithOffset(position, 0)
+                    }
                 }
             }
 
@@ -101,7 +103,10 @@ class CountryListFragment : BaseFragmentV2<CountryListViewModel, FragmentCountry
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
                         country.hasAccessibleOnlineServer(viewModel.userData)
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers, infoKey) ->
-                    title?.let { add(HeaderItem(it, infoKey)) }
+                    title?.let {
+                        val titleString = resources.getString(it, servers.size)
+                        add(HeaderItem(titleString, infoKey, true))
+                    }
                     servers.forEach {
                         add(CountryExpandedViewHolder(
                             viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))

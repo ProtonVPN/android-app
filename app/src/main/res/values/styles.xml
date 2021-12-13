@@ -44,8 +44,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:colorPrimary">#4B4B57</item>
         <item name="android:colorBackground">@color/dimmedGrey</item>
-        <item name="guidedActionsBackground">@color/pickerColor1</item>
-        <item name="guidedActionsBackgroundDark">@color/pickerColor2</item>
+        <item name="guidedActionsBackground">@color/tvGuidedActionsBackground</item>
+        <item name="guidedActionsBackgroundDark">@color/tvGuidedActionsBackgroundDark</item>
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:colorControlActivated">?colorAccent</item>
         <item name="android:colorForeground">#4B4B57</item>
@@ -102,38 +102,39 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
-    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/dimmedGrey</item>
+    <style name="SettingsItem">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
     <style name="TextView" />
 
     <style name="TextView.Connected" parent="TextView">
-        <item name="android:background">@drawable/bg_rounded_grey</item>
+        <item name="android:background">@drawable/bg_rounded</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingTop">4dp</item>
+        <item name="android:textAppearance">@style/Proton.Text.Overline.Strong</item>
         <item name="android:text">@string/connected</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">?attr/colorOnPrimarySurface</item>
     </style>
 
     <style name="TextView.Drawer" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14sp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:drawablePadding">16dp</item>
-        <item name="android:paddingStart">22dp</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">12dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
     </style>
 
     <style name="EditText.Login" parent="Widget.AppCompat.EditText">
@@ -283,8 +284,91 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="CaptionMedium">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="ShapeAppearance.Oval" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
     </style>
+
+    <style name="TableRowLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">@dimen/screen_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/screen_padding_horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TableLabelText" parent="@style/Proton.Text.DefaultSmall.Weak">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="TableValueText" parent="@style/Proton.Text.DefaultSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="FabMenuLabelStyle">
+        <item name="android:background">@drawable/bg_fab_label</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+    </style>
+
+    <style name="SectionHeadlineText">
+        <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+        <item name="android:textColor">?attr/proton_text_hint</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SectionHeadlineText.Brand">
+        <item name="android:textColor">?attr/brand_norm</item>
+    </style>
+
+    <style name="PowerButton" parent="">
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:backgroundTint">@color/power_button_bg</item>
+        <item name="android:padding">8dp</item>
+        <item name="icon">@drawable/ic_power_off</item>
+        <item name="iconTint">?attr/proton_icon_norm</item>
+        <item name="rippleColor">@color/power_button_ripple</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Oval</item>
+    </style>
+
+    <style name="ProtonSwitch.AlwaysOn">
+        <!-- Thumb tint is set programmatically -->
+        <item name="android:textColor">?attr/proton_text_norm</item>
+        <item name="trackTint">@color/switch_track_always_on</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonSwitchAlwaysOn" parent="">
+        <item name="switchStyle">@style/ProtonSwitch.AlwaysOn</item>
+    </style>
+
+    <style name="ProtonTheme.Vpn.Mobile">
+        <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
+             for now. -->
+        <item name="proton_text_disabled">?attr/proton_text_hint</item>
+        <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
+        <item name="colorControlHighlight">@color/ripple_norm</item>
+    </style>
+
+    <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
+    <style name="ThemeOverlay.ProtonButton.Neutral" parent="">
+        <item name="colorPrimary">?attr/proton_interaction_strong</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonButton.Warning" parent="">
+        <item name="colorPrimary">?attr/proton_notification_error</item>
+    </style>
+
 </resources>

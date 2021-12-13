@@ -26,10 +26,13 @@ import com.protonvpn.testsHelper.ServiceTestHelper
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvCountryListRobot
 import com.protonvpn.testsTv.actions.TvLoginRobot
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
@@ -37,18 +40,25 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
+@HiltAndroidTest
 class LogoutRobotTestsTv {
 
-    private val homeRobot = TvCountryListRobot()
-    private val loginRobot = TvLoginRobot()
+    private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    @get:Rule val rules = RuleChain
+        .outerRule(HiltAndroidRule(this))
+        .around(activityRule)
 
-    private val userDataHelper = UserDataHelper()
-
-    @get:Rule
-    val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    private lateinit var loginRobot: TvLoginRobot
+    private lateinit var homeRobot: TvCountryListRobot
+    private lateinit var serviceTestHelper: ServiceTestHelper
+    private lateinit var userDataHelper: UserDataHelper
 
     @Before
-    fun setUp(){
+    fun setUp() {
+        loginRobot = TvLoginRobot()
+        homeRobot = TvCountryListRobot()
+        serviceTestHelper = ServiceTestHelper()
+        userDataHelper = UserDataHelper()
         activityRule.scenario
         loginRobot
                 .signIn()
@@ -56,7 +66,7 @@ class LogoutRobotTestsTv {
     }
 
     @Test
-    fun logoutHappyPath(){
+    fun logoutHappyPath() {
         homeRobot
                 .signOut()
                 .confirmSignOut()
@@ -64,7 +74,7 @@ class LogoutRobotTestsTv {
     }
 
     @Test
-    fun logoutWhileConnectedToServer(){
+    fun logoutWhileConnectedToServer() {
         homeRobot
                 .connectToRecommendedCountry()
                 .signOut()
@@ -72,11 +82,11 @@ class LogoutRobotTestsTv {
     }
 
     @Test
-    fun cancelLogoutWhileConnectedToServer(){
+    fun cancelLogoutWhileConnectedToServer() {
         homeRobot
                 .connectToRecommendedCountry()
 
-        var connectionStatus = homeRobot.getConnectionStatus()
+        val connectionStatus = homeRobot.getConnectionStatus()
 
         homeRobot
                 .signOut()
@@ -85,10 +95,10 @@ class LogoutRobotTestsTv {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         userDataHelper
                 .logoutUser()
-        ServiceTestHelper
+        serviceTestHelper
                 .connectionManager
                 .disconnect()
     }

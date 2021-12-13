@@ -20,15 +20,14 @@
 package com.protonvpn.android.tv.detailed
 
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.FragmentTvServerListScreenBinding
 import com.protonvpn.android.utils.CountryTools
 
-@ContentLayout(R.layout.fragment_tv_server_list_screen)
-class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, FragmentTvServerListScreenBinding>() {
+class TvServerListScreenFragment : Fragment(R.layout.fragment_tv_server_list_screen) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +38,9 @@ class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, Fragmen
         }
     }
 
-    override fun onViewCreated() {
-        super.onViewCreated()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentTvServerListScreenBinding.bind(view)
 
         val country = requireArguments()[EXTRA_COUNTRY] as String
         binding.countryName.text = CountryTools.getFullName(country)
@@ -51,6 +51,4 @@ class TvServerListScreenFragment : BaseFragmentV2<TvServerListViewModel, Fragmen
     companion object {
         const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
     }
-
-    override fun initViewModel() {}
 }

@@ -22,9 +22,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeClipBounds
 import androidx.transition.ChangeImageTransform
@@ -33,25 +34,22 @@ import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.protonvpn.android.R
-import com.protonvpn.android.components.BaseFragmentV2
-import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
+import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
-import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
-import javax.inject.Inject
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-@ContentLayout(R.layout.fragment_tv_country_details)
-class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryDetailsBinding>() {
+@AndroidEntryPoint
+class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(TvMainViewModel::class.java)
-    }
+    private val binding by viewBinding(FragmentTvCountryDetailsBinding::bind)
+    private val viewModel: TvMainViewModel by viewModels()
 
     lateinit var card: CountryCard
 
@@ -106,7 +104,7 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
             if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
         connectStreaming.setOnClickListener {
             if (viewModel.isPlusUser()) {
-                viewModel.connect(requireActivity(), card)
+                viewModel.connect(requireActivity() as BaseTvActivity, card)
             } else {
                 viewModel.onUpgradeClicked(requireContext())
             }
@@ -116,7 +114,7 @@ class CountryDetailFragment : BaseFragmentV2<TvMainViewModel, FragmentTvCountryD
 
         connectFastest.initLolipopButtonFocus()
         connectFastest.setOnClickListener {
-            viewModel.connect(requireActivity(), card)
+            viewModel.connect(requireActivity() as BaseTvActivity, card)
         }
 
         disconnect.initLolipopButtonFocus()

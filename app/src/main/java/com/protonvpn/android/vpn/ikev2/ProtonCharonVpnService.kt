@@ -35,10 +35,11 @@ import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import org.strongswan.android.logic.CharonVpnService
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProtonCharonVpnService : CharonVpnService() {
 
     @Inject lateinit var api: ProtonApiRetroFit
@@ -52,7 +53,6 @@ class ProtonCharonVpnService : CharonVpnService() {
         super.onCreate()
 
         Log.i("[IKEv2] onCreate")
-        AndroidInjection.inject(this)
     }
 
     override fun onDestroy() {
@@ -115,6 +115,6 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connect(this, manager.defaultAvailableConnection, "always-on")
+        vpnConnectionManager.connectInBackground(this, manager.defaultAvailableConnection, "always-on")
     }
 }

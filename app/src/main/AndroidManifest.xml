@@ -46,11 +46,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/ProtonTheme.Vpn.Mobile"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
-        <activity android:name=".ui.home.vpn.SwitchDialogActivity"
-            android:theme="@style/AppTheme.NoActionBar.ForceDark"/>
+        <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"
             android:theme="@style/AppTheme.TV.Browse" />
@@ -66,7 +65,6 @@
 
         <activity
             android:name="me.proton.core.humanverification.presentation.ui.HumanVerificationActivity"
-            android:theme="@style/ProtonTheme.Vpn"
             android:windowSoftInputMode="adjustResize" />
 
         <uses-library
@@ -76,23 +74,25 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
+        <activity
+            android:name=".ui.login.LoginHelpActivity"
+            android:label="@string/app_name" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_home"
             android:launchMode="singleTop"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:resizeableActivity="true"/>
         <activity
             android:name=".ui.drawer.LogActivity"
             android:label="@string/log_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.promooffers.PromoOfferActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.promooffers.PromoOfferActivity" />
+        <activity
+            android:name=".ui.vpn.NoVpnPermissionActivity" />
         <activity
             android:name=".utils.DeepLinkActivity"
             android:theme="@android:style/Theme.NoDisplay">
@@ -143,7 +143,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".AppInfoService"
+            android:name=".ui.settings.AppInfoService"
             android:exported="false"
             android:process=":app_info_service" />
 
@@ -166,33 +166,60 @@
                 android:value="com.protonvpn.android.ui.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.drawer.AccountActivity"
-            android:label="@string/activityAccountTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.home.profiles.CountrySelectionActivity"
+            android:label="@string/country"
+            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+        </activity>
         <activity
-            android:name=".ui.drawer.OssLicensesActivity"
-            android:label="@string/activityLicensesTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.home.profiles.ServerSelectionActivity"
+            android:label="@string/serverSelection"
+            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".ui.ProtocolSelectionActivity"
+            android:label="@string/protocolLabel"/>
+        <activity
+            android:name=".ui.drawer.AccountActivity"
+            android:label="@string/activityAccountTitle" />
+        <activity
+            android:name=".ui.settings.OssLicensesActivity"
+            android:label="@string/activityLicensesTitle" />
         <activity
             android:name=".ui.home.InformationActivity"
-            android:label="@string/activity_information_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activity_information_title" />
         <activity
             android:name=".ui.login.TroubleshootActivity"
-            android:label="@string/activityTroubleshootTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/activityTroubleshootTitle" />
         <activity
-            android:name=".ui.drawer.SettingsActivity"
-            android:label="@string/activitySettingsTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/activitySettingsTitle" />
         <activity
-            android:name=".ui.drawer.AlwaysOnSettingsActivity"
-            android:label="@string/settingsAlwaysOnAndKillSwitchTitle"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.settings.SettingsDefaultProfileActivity"
+            android:label="@string/settingsDefaultConnectionTitle" />
+        <activity
+            android:name=".ui.settings.SettingsExcludeAppsActivity"
+            android:label="@string/settingsExcludedApps" />
+        <activity
+            android:name=".ui.settings.SettingsExcludeIpsActivity"
+            android:label="@string/settingsExcludedIPAddresses" />
+        <activity
+            android:name=".ui.settings.SettingsMtuActivity"
+            android:label="@string/settingsMtuSizeTitle" />
+        <activity
+            android:name=".ui.settings.SettingsAlwaysOnActivity"
+            android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
             android:name=".ui.drawer.ReportBugActivity"
-            android:label="@string/drawerReportBug"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/drawerReportProblem" />
+        <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
         <activity android:name=".ui.onboarding.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -202,7 +229,6 @@
         </activity>
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
         <activity
             android:name=".tv.TvLoginActivity"

@@ -19,7 +19,6 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -27,15 +26,19 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.utils.AndroidUtils.getFloatRes
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.BindableItemEx
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
-import com.protonvpn.android.utils.openProtonUrl
+import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
+
+private const val EXPAND_DURATION_MS = 300L
 
 abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
@@ -62,18 +65,18 @@ abstract class CountryViewHolder(
             val accessible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
             countryItem.setBackgroundResource(if (accessible)
                 countryItem.getSelectableItemBackgroundRes() else 0)
-            textCountry.setTextColor(ContextCompat.getColor(context,
-                    if (vpnCountry.hasAccessibleOnlineServer(viewModel.userData)) R.color.white else R.color.white50))
-            textCountry.text = if (accessible)
-                vpnCountry.countryName
-            else
-                vpnCountry.countryName + " " + context.getString(if (vpnCountry.isUnderMaintenance()) R.string.listItemMaintenance else R.string.premium)
+            textCountry.setTextColor(textCountry.getThemeColor(
+                    if (accessible) R.attr.proton_text_norm else R.attr.proton_text_hint))
+            textCountry.text = vpnCountry.countryName
 
             buttonCross.isVisible = accessible
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
+            adjustDivider(divider, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
+            imageCountry.alpha =
+                if (accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
@@ -89,14 +92,16 @@ abstract class CountryViewHolder(
                         if (expandableGroup.isExpanded) {
                             onExpanded(position)
                         }
-                        adjustCross(buttonCross, expandableGroup.isExpanded, 300)
+                        adjustCross(buttonCross, expandableGroup.isExpanded, EXPAND_DURATION_MS)
+                        adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                     }
                 }
             }
 
+            iconUnderMaintenance.isVisible = vpnCountry.isUnderMaintenance()
             buttonUpgrade.isVisible = !vpnCountry.isUnderMaintenance() && !accessible
             buttonUpgrade.setOnClickListener {
-                buttonUpgrade.context.openProtonUrl(Constants.DASHBOARD_URL)
+                it.context.launchActivity<UpgradePlusCountriesDialogActivity>()
             }
         }
     }
@@ -111,6 +116,10 @@ abstract class CountryViewHolder(
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {
         view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat()).start()
+    }
+
+    private fun adjustDivider(view: View, expanded: Boolean, animDurationMs: Long) {
+        view.animate().setDuration(animDurationMs).alpha(if (expanded) 0f else 1f)
     }
 
     override fun setExpandableGroup(onToggleListener: ExpandableGroup) {

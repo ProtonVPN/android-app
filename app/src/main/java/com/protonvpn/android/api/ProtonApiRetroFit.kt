@@ -42,17 +42,15 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     open suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         manager { getAppConfig() }
 
-    suspend fun getLocation() =
+    open suspend fun getLocation() =
         manager { getLocation() }
 
     suspend fun refreshToken(request: RefreshTokenRequest) =
         manager { refreshToken(request) }
 
-    fun postBugReport(
-        loader: LoaderUI,
+    open suspend fun postBugReport(
         params: RequestBody,
-        callback: NetworkResultCallback<GenericResponse>
-    ) = makeCall(callback, loader) { it.postBugReport(params) }
+    ) = manager { postBugReport(params) }
 
     open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
         makeCall(loader) { it.getServers(createNetZoneHeaders(ip)) }
@@ -95,6 +93,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
 
     open suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
         manager { getAvailableDomains() }
+
+    open suspend fun triggerHumanVerification(): ApiResult<GenericResponse> =
+        manager { triggerHumanVerification() }
 
     open suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
         manager {

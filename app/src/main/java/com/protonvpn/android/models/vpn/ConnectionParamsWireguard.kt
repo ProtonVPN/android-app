@@ -72,7 +72,7 @@ class ConnectionParamsWireguard(
                 config.interfaceProxy.excludedApplications = it.toSortedSet()
             }
         }
-        if (userData.bypassLocalTraffic())
+        if (userData.shouldBypassLocalTraffic())
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
         val allowedIps = calculateAllowedIps(excludedIPs)

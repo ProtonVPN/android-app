@@ -18,45 +18,45 @@
 
 package com.protonvpn.base
 
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.ProtonApplication
+import com.google.common.truth.Truth.assertThat
 
 /**
  * [BaseVerify] Contains common view independent verification methods
  */
 open class BaseVerify : BaseRobot(){
 
-    inline fun <reified T> checkIfElementIsDisplayedByStringId(@StringRes resId: Int): T = executeAndReturnRobot{
+    fun checkIfElementIsDisplayedById(@IdRes Id: Int) = view.withId(Id).checkDisplayed()
+
+    fun checkIfElementIsNotDisplayedById(@IdRes Id: Int) = view.withId(Id).checkNotDisplayed()
+
+    fun checkIfElementByIdContainsText(@IdRes id: Int, text: String) = view.withId(id).checkContains(text)
+
+    fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) = view.withText(resId).checkDoesNotExist()
+
+    fun checkIfElementIsDisplayedByContentDesc(text: String) = view.withContentDesc(text).checkDisplayed()
+
+    fun checkIfElementDoesNotExistByContentDesc(text: String) = view.withContentDesc(text).checkDoesNotExist()
+
+    fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
+        view
+                .withId(id)
+                .checkContains(ProtonApplication.getAppContext().getString(resId))
+
+    fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view
                 .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withText(resId)
                 .checkDisplayed()
-    }
 
-    inline fun <reified T> checkIfElementIsDisplayedById(@IdRes Id: Int): T = executeAndReturnRobot{
-        view
-                .withId(Id)
-                .checkDisplayed()
-    }
-
-    inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int): T = executeAndReturnRobot{
-        view
-                .withId(id)
-                .checkContains(ProtonApplication.getAppContext().getString(resId))
-    }
-
-    inline fun <reified T> checkIfElementByIdContainsText(@IdRes id: Int, text: String): T  = executeAndReturnRobot{
-        view
-                .withId(id)
-                .checkContains(text)
-    }
-
-    inline fun <reified T> checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int): T = executeAndReturnRobot{
-        view
-                .withText(resId)
-                .checkDoesNotExist()
+    fun checkIfBrowserIsOpened(browserPackageName: String){
+        val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val currentPackage = myDevice.currentPackageName
+        assertThat(currentPackage).isEqualTo(browserPackageName)
     }
 }

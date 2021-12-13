@@ -19,9 +19,9 @@
 
 package com.protonvpn.tests.login
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SdkSuppress
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
@@ -36,6 +36,7 @@ import com.protonvpn.android.ui.login.LoginViewModel
 import com.protonvpn.android.ui.login.ProofsProvider
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -76,7 +77,7 @@ class LoginViewModelTest : CoroutinesTest {
     @RelaxedMockK
     private lateinit var certificateRepository: CertificateRepository
     @MockK
-    private lateinit var mockContext: Context
+    private lateinit var vpnPermissionDelegate: VpnPermissionDelegate
 
     private val fakeLoginResponse = LoginResponse(
         "access-token",
@@ -112,6 +113,7 @@ class LoginViewModelTest : CoroutinesTest {
         every { userData.isLoggedIn() } returns false
         coEvery { api.postLogin(any()) } returns ApiResult.Success(fakeLoginResponse)
         coEvery { api.postLoginInfo(any()) } returns ApiResult.Success(fakeLoginInfoResponse)
+        every { vpnPermissionDelegate.getContext() } returns InstrumentationRegistry.getInstrumentation().context
 
         viewModel =
             LoginViewModel(userData, appConfig, api, guestHole, serverManager, proofsProvider, certificateRepository)
@@ -120,7 +122,7 @@ class LoginViewModelTest : CoroutinesTest {
     @Test
     fun successfulLogin() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.getBasicUser().vpnInfoResponse)
-        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
+        viewModel.login(vpnPermissionDelegate, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Success, viewModel.loginState.value)
         verify { userData.setLoggedIn(TestUser.getBasicUser().vpnInfoResponse) }
     }
@@ -129,16 +131,16 @@ class LoginViewModelTest : CoroutinesTest {
     fun vpnConnectionAllocationNeeded() = coroutinesTest {
         coEvery { api.getVPNInfo() } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         coEvery { api.logout() } returns ApiResult.Success(GenericResponse(1000))
-        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
+        viewModel.login(vpnPermissionDelegate, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.ConnectionAllocationPrompt, viewModel.loginState.value)
         coVerify { api.logout() }
     }
 
     @Test
     fun noInternet() = coroutinesTest {
-        val error = ApiResult.Error.NoInternet
+        val error = ApiResult.Error.NoInternet()
         coEvery { api.postLogin(any()) } returns error
-        viewModel.login(mockContext, "dummy", "dummy".toByteArray())
+        viewModel.login(vpnPermissionDelegate, "dummy", "dummy".toByteArray())
         assertEquals(LoginState.Error(error, false), viewModel.loginState.value)
     }
 

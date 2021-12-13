@@ -30,7 +30,7 @@ import com.protonvpn.android.R
 import com.protonvpn.testsTv.matchers.UiElementMatcher
 import com.protonvpn.testsTv.verification.ConnectionVerify
 import me.proton.core.test.android.instrumented.builders.OnView
-import me.proton.core.test.android.instrumented.uiwaits.UIWaits
+import me.proton.core.test.android.instrumented.waits.UIWaits
 
 /**
  * [TvCountryListRobot] Contains all actions and verifications for home view
@@ -45,6 +45,7 @@ class TvCountryListRobot : BaseRobot() {
 
     fun connectToFavouriteCountry() : TvCountryListRobot {
         pressFavourite()
+        Thread.sleep(75) // Wait for the card to be selected.
         pressFavourite()
         return TvCountryListRobot()
     }
@@ -74,9 +75,9 @@ class TvCountryListRobot : BaseRobot() {
     private fun pressFavourite() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_favourite)
 
     class Verify : ConnectionVerify(){
-        fun userIsLoggedIn(): OnView = checkIfElementIsDisplayedById(R.id.textStatus)
+        fun userIsLoggedIn() = checkIfElementIsDisplayedById(R.id.textStatus)
 
-        fun signOutWhileConnectedWarningMessageIsDisplayed() : OnView =
+        fun signOutWhileConnectedWarningMessageIsDisplayed() =
                 checkIfElementByIdContainsText(R.id.md_content,R.string.tv_signout_dialog_description_connected)
     }
 

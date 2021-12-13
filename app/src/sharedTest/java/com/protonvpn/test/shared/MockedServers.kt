@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
@@ -38,10 +39,10 @@ object MockedServers {
     val server by lazy { serverList.first() }
 
     fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
-        Profile(name, "#E01623", ServerWrapper.makeWithServer(server, object : ServerDeliver {
+        Profile(name, null, ServerWrapper.makeWithServer(server, object : ServerDeliver {
             override fun hasAccessToServer(server: Server?) = true
             override fun getServer(wrapper: ServerWrapper?): Server = server
-        })).apply {
+        }), ProfileColor.CARROT.id).apply {
             setProtocol(protocol)
         }
 

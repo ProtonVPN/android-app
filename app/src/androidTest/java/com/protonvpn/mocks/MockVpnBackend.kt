@@ -81,7 +81,7 @@ class MockVpnBackend(
         vpnProtocolState = stateOnConnect
     }
 
-    override suspend fun closeVpnTunnel() {
+    override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         vpnProtocolState = VpnState.Disconnecting
         vpnProtocolState = VpnState.Disabled
     }

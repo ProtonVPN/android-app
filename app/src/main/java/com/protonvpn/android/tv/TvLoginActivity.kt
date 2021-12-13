@@ -26,12 +26,10 @@ import androidx.annotation.StringRes
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieDrawable
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityTvLoginBinding
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
@@ -39,21 +37,23 @@ import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.onAnimationEnd
+import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.openBrowserLink
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-@ContentLayout(R.layout.activity_tv_login)
-class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
+@AndroidEntryPoint
+class TvLoginActivity : BaseTvActivity() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<TvLoginViewModel> { viewModelFactory }
+    private val binding by viewBinding(ActivityTvLoginBinding::inflate)
+    val viewModel by viewModels<TvLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         viewModel.onEnterScreen(lifecycleScope)
         with(binding) {
@@ -100,6 +100,7 @@ class TvLoginActivity : BaseTvActivity<ActivityTvLoginBinding>() {
         title.init(state.titleRes, state.title)
         helpLink.initLink(state.helpLink)
         description.init(state.descriptionRes)
+        description2.init(state.description2Res)
         actionButton.init(state.buttonLabelRes)
         loadingView.isVisible = state == TvLoginViewState.Loading || state == TvLoginViewState.Success
         createAccountDescription.isVisible = state == TvLoginViewState.Welcome

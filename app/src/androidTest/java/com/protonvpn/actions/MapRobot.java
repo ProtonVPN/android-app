@@ -47,11 +47,6 @@ public class MapRobot extends UIActionsTestHelper {
         return this;
     }
 
-    public MapRobot clickOnSelectedSecureCoreFranceNode() {
-        conditionalActionsHelper.clickOnMapNodeUntilConnectButtonAppears("Sweden >> France Selected");
-        return this;
-    }
-
     public ConnectionResult clickConnectButton() {
         clickOnObjectWithIdAndText(R.id.buttonConnect, R.string.connect);
         if (!MockSwitch.mockedConnectionUsed) {
@@ -60,18 +55,8 @@ public class MapRobot extends UIActionsTestHelper {
         return new ConnectionResult();
     }
 
-    public ConnectionResult clickConnectButtonWithoutVpnHandling() {
-        clickOnObjectWithIdAndText(R.id.buttonConnect, R.string.connect);
-        return new ConnectionResult();
-    }
-
     public MapRobot enableSecureCore() {
         clickOnObjectWithId(R.id.switchSecureCore);
         return this;
-    }
-
-    public ConnectionResult clickDisconnectButton() {
-        clickOnObjectWithText(R.string.disconnect);
-        return new ConnectionResult();
     }
 }

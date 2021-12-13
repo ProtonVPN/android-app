@@ -21,31 +21,30 @@ package com.protonvpn.android.tv
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.ViewModelProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.DialogTvUpgradeBinding
-import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-@ContentLayout(R.layout.dialog_tv_upgrade)
-class TvUpgradeActivity : BaseTvActivity<DialogTvUpgradeBinding>() {
+@AndroidEntryPoint
+class TvUpgradeActivity : BaseTvActivity() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<TvMainViewModel> { viewModelFactory }
+    val viewModel by viewModels<TvMainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initUI()
+        val binding = DialogTvUpgradeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initUI(binding)
     }
 
-    private fun initUI() = with(binding) {
+    private fun initUI(binding: DialogTvUpgradeBinding) = with(binding) {
         backButton.initLolipopButtonFocus()
         backButton.setOnClickListener { finish() }
         val accentColor = binding.root.getThemeColor(R.attr.colorAccent)

@@ -35,6 +35,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
+import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
@@ -123,7 +124,7 @@ class OpenVpnBackend(
             val tcpPorts = async {
                 val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
                 ProtonLogger.log("${connectingDomain.entryDomain}/OpenVPN/TCP port scan: $ports")
-                ports.parallelSearch(waitForAll) { port ->
+                ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
                     NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
                 }
             }
@@ -136,9 +137,9 @@ class OpenVpnBackend(
 
     private fun samplePorts(list: List<Int>, count: Int) =
         if (list.contains(PRIMARY_PORT))
-            list.filter { it != PRIMARY_PORT }.shuffled().take(count - 1) + PRIMARY_PORT
+            list.filter { it != PRIMARY_PORT }.takeRandomStable(count - 1) + PRIMARY_PORT
         else
-            list.shuffled().take(count)
+            list.takeRandomStable(count)
 
     private fun getPingData(tcp: Boolean): ByteArray {
         // P_CONTROL_HARD_RESET_CLIENT_V2 TLS message.
@@ -189,7 +190,7 @@ class OpenVpnBackend(
         startOpenVPN(null)
     }
 
-    override suspend fun closeVpnTunnel() {
+    override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
         startOpenVPN(PAUSE_VPN)

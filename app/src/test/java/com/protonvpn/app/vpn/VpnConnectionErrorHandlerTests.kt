@@ -80,7 +80,7 @@ class VpnConnectionErrorHandlerTests {
     private lateinit var handler: VpnConnectionErrorHandler
     private lateinit var directProfile: Profile
     private lateinit var directConnectionParams: ConnectionParams
-    private val defaultFallbackConnection = Profile("fastest", "", mockk())
+    private val defaultFallbackConnection = Profile("fastest", null, mockk(), null)
     private val infoChangeFlow = MutableSharedFlow<List<UserPlanManager.InfoChange>>()
 
     @MockK private lateinit var api: ProtonApiRetroFit

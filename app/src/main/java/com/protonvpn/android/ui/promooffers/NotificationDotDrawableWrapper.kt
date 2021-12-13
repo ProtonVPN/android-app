@@ -25,6 +25,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableWrapper
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.getThemeColor
 
 class NotificationDotDrawableWrapper(
     private val context: Context,
@@ -32,7 +33,7 @@ class NotificationDotDrawableWrapper(
 ) : DrawableWrapper(drawable) {
 
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getColor(R.color.notification_dot)
+        color = context.getThemeColor(R.attr.proton_notification_error)
     }
 
     override fun draw(canvas: Canvas) {

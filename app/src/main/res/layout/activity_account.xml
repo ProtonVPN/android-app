@@ -17,8 +17,6 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -34,5 +32,3 @@
         layout="@layout/content_account" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</layout>

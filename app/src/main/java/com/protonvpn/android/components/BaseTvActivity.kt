@@ -19,71 +19,49 @@
 package com.protonvpn.android.components
 
 import android.annotation.TargetApi
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.provider.Settings
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 
-abstract class BaseTvActivity<DB : ViewDataBinding> : FragmentActivity(), HasAndroidInjector {
+abstract class BaseTvActivity : FragmentActivity(), VpnPermissionDelegate {
 
-    lateinit var binding: DB
+    @Suppress("LeakingThis")
+    private val vpnPermissionDelegate =
+        VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
 
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any?>? = androidInjector
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(layoutInflater,
-                AnnotationParser.getAnnotatedLayout(this), null, false)
-        setContentView(binding.root)
+    override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PREPARE_VPN_SERVICE) {
-            if (resultCode == Activity.RESULT_OK) {
-                onVpnPrepared()
-            } else if (resultCode == Activity.RESULT_CANCELED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                onVpnPrepareFailed()
-                showNoVpnPermissionDialog()
-            }
-        } else super.onActivityResult(requestCode, resultCode, data)
-    }
+    override fun getContext(): Context = this
 
-    protected open fun onVpnPrepared() {}
-    protected open fun onVpnPrepareFailed() {}
-
-    companion object {
-        const val PREPARE_VPN_SERVICE = 0
-
-        @TargetApi(Build.VERSION_CODES.N)
-        fun Activity.showNoVpnPermissionDialog() {
-            val content = HtmlTools.fromHtml(
-                getString(
-                    R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS
-                )
-            )
-            MaterialDialog.Builder(this).theme(Theme.DARK).title(R.string.error_prepare_vpn_title)
-                .content(content).positiveText(R.string.error_prepare_vpn_settings)
-                .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-                }.show()
+    private fun onVpnPermissionDenied() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            showNoVpnPermissionDialog()
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun showNoVpnPermissionDialog() {
+        val content = HtmlTools.fromHtml(
+            getString(
+                R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS
+            )
+        )
+        MaterialDialog.Builder(this).theme(Theme.DARK).title(R.string.error_prepare_vpn_title)
+            .content(content).positiveText(R.string.error_prepare_vpn_settings)
+            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+                startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
+            }.show()
     }
 }

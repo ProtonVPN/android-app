@@ -18,15 +18,19 @@
 
 package com.protonvpn.base
 
+import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers
-import me.proton.core.test.android.instrumented.CoreRobot
+import com.protonvpn.data.Timeouts
+import me.proton.core.presentation.ui.view.ProtonButton
+import me.proton.core.presentation.ui.view.ProtonInput
+import me.proton.core.test.android.robots.CoreRobot
 
 /**
  * [BaseRobot] Contains common actions for views
  */
-open class BaseRobot : CoreRobot {
+open class BaseRobot : CoreRobot() {
 
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
@@ -34,8 +38,9 @@ open class BaseRobot : CoreRobot {
                 .click()
     }
 
-    inline fun <reified T> clickElementById(@IdRes id: Int): T = executeAndReturnRobot{
+    inline fun <reified T> clickElementById(@IdRes id: Int, clazz: Class<*>? = null): T = executeAndReturnRobot{
         view
+                .instanceOf(clazz)
                 .withId(id)
                 .click()
     }
@@ -46,6 +51,56 @@ open class BaseRobot : CoreRobot {
                 .click()
     }
 
+    inline fun <reified T> clickElementByContentDescription(text: String): T = executeAndReturnRobot {
+        view
+                .withContentDesc(text)
+                .click()
+    }
+
+    inline fun <reified T> clickElementByContentDescription(@StringRes resId: Int): T = executeAndReturnRobot {
+        view
+                .withContentDesc(resId)
+                .click()
+    }
+
+    inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeLeft()
+    }
+
+    inline fun <reified T> swipeRightOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeRight()
+    }
+
+    inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .swipeDown()
+    }
+
+    inline fun <reified T> clickElementByIdAndContentDescription(
+        @IdRes id: Int,
+        description: String
+    ): T = executeAndReturnRobot {
+        view
+                .withId(id)
+                .withContentDesc(description)
+                .click()
+    }
+
+    inline fun <reified T> clickElementByIndexInParent(
+        @IdRes parentId: Int,
+        index: Int
+    ): T = executeAndReturnRobot {
+        view
+                .withParent(view.withId(parentId))
+                .withParentIndex(index)
+                .click()
+    }
+
     inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T = executeAndReturnRobot {
         view
             .withVisibility(ViewMatchers.Visibility.VISIBLE)
@@ -53,15 +108,43 @@ open class BaseRobot : CoreRobot {
             .click()
     }
 
-    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long): T = executeAndReturnRobot{
+    inline fun <reified T> clearText(
+        @IdRes id: Int,
+        clazz: Class<*> = EditText::class.java
+    ): T = executeAndReturnRobot {
+        view
+                .instanceOf(clazz)
+                .withId(id)
+                .clearText()
+    }
+
+    inline fun <reified T> waitUntilDisplayed(@IdRes id: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
         view
                 .withId(id)
                 .wait(time)
     }
 
-    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = 10_000): T  = executeAndReturnRobot{
+    inline fun <reified T> waitUntilDisplayedByText(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
         view
                 .withText(resId)
+                .wait(time)
+    }
+
+    inline fun <reified T> waitUntilDisplayedByText(text: String, time : Long = Timeouts.SMALL_TIMEOUT): T  = executeAndReturnRobot{
+        view
+                .withText(text)
+                .wait(time)
+    }
+
+    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+        view
+                .withContentDesc(resId)
+                .wait(time)
+    }
+
+    inline fun <reified T> waitUntilDisplayedByContentDesc(desc: String, time : Long = Timeouts.SMALL_TIMEOUT): T = executeAndReturnRobot{
+        view
+                .withContentDesc(desc)
                 .wait(time)
     }
 
@@ -88,6 +171,14 @@ open class BaseRobot : CoreRobot {
         view
                 .withText(resId)
                 .longClick()
+    }
+
+    fun checkInputDisplayed(@IdRes id: Int) {
+        view.instanceOf(ProtonInput::class.java).withId(id).checkDisplayed()
+    }
+
+    fun checkInputNotDisplayed(@IdRes id: Int) {
+        view.instanceOf(ProtonInput::class.java).withId(id).checkNotDisplayed()
     }
 
     inline fun <reified T> executeAndReturnRobot(block: () -> Unit): T {

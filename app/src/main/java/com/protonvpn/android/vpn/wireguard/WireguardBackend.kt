@@ -117,12 +117,14 @@ class WireguardBackend(
         }
     }
 
-    override suspend fun closeVpnTunnel() {
+    override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         service?.close()
-        // after setState call our process might be killed. Set state to disabled right away and give
-        // app some time to close the notification.
-        vpnProtocolState = VpnState.Disabled
-        delay(10)
+        if (withStateChange) {
+            // Set state to disabled right away to give app some time to close notification
+            // as the service might be killed right away on disconnection
+            vpnProtocolState = VpnState.Disabled
+            delay(10)
+        }
         withContext(Dispatchers.IO) { backend.setState(testTunnel, Tunnel.State.DOWN, null) }
     }
 

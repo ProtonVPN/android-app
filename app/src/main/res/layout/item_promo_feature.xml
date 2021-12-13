@@ -30,12 +30,12 @@
         android:layout_height="16dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/offer_panel_feature_spacing"
-        app:tint="?attr/colorAccent" />
+        app:tint="?attr/brand_norm" />
 
     <TextView
         android:id="@+id/text"
+        style="@style/Proton.Text.Caption.Strong"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

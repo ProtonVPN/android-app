@@ -1,3 +1,0 @@
-What's new:
-* Fixes "Server List" button being inaccessible on some TV devices
-* Improves "Report bug" functionality

@@ -39,6 +39,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -77,8 +78,7 @@ public final class UserData implements Serializable {
     private transient MutableLiveData<VpnProtocol> selectedProtocolLiveData;
 
     private transient LiveEvent updateEvent = new LiveEvent();
-    private transient ApiSessionProvider apiSessionProvider =
-        new ApiSessionProvider(ProtonApplication.getAppContext());
+    private transient ApiSessionProvider apiSessionProvider = new ApiSessionProvider();
 
     private UserData() {
         user = "";
@@ -86,11 +86,10 @@ public final class UserData implements Serializable {
         showIcon = true;
         splitTunnelApps = new ArrayList<>();
         splitTunnelIpAddresses = new ArrayList<>();
-        selectedProtocol = VpnProtocol.IKEv2;
+        selectedProtocol = VpnProtocol.Smart;
         transmissionProtocol = TransmissionProtocol.TCP;
         useIon = false;
         apiUseDoH = true;
-        useSmartProtocol = true;
         vpnAcceleratorEnabled = true;
         showVpnAcceleratorNotifications = true;
     }
@@ -320,25 +319,13 @@ public final class UserData implements Serializable {
         return splitTunnelApps;
     }
 
-    public void addAppToSplitTunnel(String app) {
-        splitTunnelApps.add(app);
+    public void setSplitTunnelApps(@NonNull List<String> apps) {
+        splitTunnelApps = apps;
         saveToStorage();
     }
 
-    public void addIpToSplitTunnel(String ip) {
-        if (!splitTunnelIpAddresses.contains(ip)) {
-            this.splitTunnelIpAddresses.add(ip);
-            saveToStorage();
-        }
-    }
-
-    public void removeIpFromSplitTunnel(String ip) {
-        splitTunnelIpAddresses.remove(ip);
-        saveToStorage();
-    }
-
-    public void removeAppFromSplitTunnel(String app) {
-        splitTunnelApps.remove(app);
+    public void setSplitTunnelIpAddresses(@NonNull List<String> ipAddresses) {
+        splitTunnelIpAddresses = ipAddresses;
         saveToStorage();
     }
 
@@ -347,20 +334,23 @@ public final class UserData implements Serializable {
         return splitTunnelIpAddresses;
     }
 
+    /**
+     * @return true if changing "useSplitTunneling" has no effect.
+     */
+    public boolean isSplitTunnelingConfigEmpty() {
+        return splitTunnelApps.isEmpty() && splitTunnelIpAddresses.isEmpty();
+    }
+
     @NotNull
     public VpnProtocol getSelectedProtocol() {
-        if (useSmartProtocol) {
-            return VpnProtocol.Smart;
-        }
         return selectedProtocol;
     }
 
-    public boolean getUseSmartProtocol() {
-        return useSmartProtocol;
-    }
-
-    public void setUseSmartProtocol(boolean value) {
-        useSmartProtocol = value;
+    public void setProtocols(@NonNull VpnProtocol protocol, @Nullable TransmissionProtocol transmissionProtocol) {
+        if (transmissionProtocol != null) {
+            this.transmissionProtocol = transmissionProtocol;
+        }
+        selectedProtocol = protocol;
         selectedProtocolLiveData.postValue(getSelectedProtocol());
         saveToStorage();
     }
@@ -384,17 +374,6 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
-    @NotNull
-    public VpnProtocol getManualProtocol() {
-        return selectedProtocol;
-    }
-
-    public void setManualProtocol(VpnProtocol value) {
-        selectedProtocol = value;
-        selectedProtocolLiveData.postValue(getSelectedProtocol());
-        saveToStorage();
-    }
-
     public TransmissionProtocol getTransmissionProtocol() {
         return transmissionProtocol;
     }
@@ -404,13 +383,17 @@ public final class UserData implements Serializable {
         saveToStorage();
     }
 
-    public boolean bypassLocalTraffic() {
+    public boolean shouldBypassLocalTraffic() {
         return AndroidUtils.INSTANCE.isTV(ProtonApplication.getAppContext()) || bypassLocalTraffic;
     }
 
     public void setBypassLocalTraffic(boolean bypassLocalTraffic) {
         this.bypassLocalTraffic = bypassLocalTraffic;
         saveToStorage();
+    }
+
+    public boolean getBypassLocalTraffic() {
+        return bypassLocalTraffic;
     }
 
     public boolean isSecureCoreEnabled() {

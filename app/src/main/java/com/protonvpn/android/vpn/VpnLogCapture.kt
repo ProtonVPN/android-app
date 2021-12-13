@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.vpn
 
-import com.protonvpn.android.di.AppComponent
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
@@ -30,18 +29,14 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VpnLogCapture(appComponent: AppComponent, val monoClock: () -> Long) {
-
-    @Inject lateinit var mainScope: CoroutineScope
-    @Inject lateinit var dispatcherProvider: DispatcherProvider
-
-    init {
-        appComponent.inject(this)
-    }
+class VpnLogCapture(
+    val mainScope: CoroutineScope,
+    val dispatcherProvider: DispatcherProvider,
+    val monoClock: () -> Long
+) {
 
     fun startCapture() {
         mainScope.launch(dispatcherProvider.Io) {

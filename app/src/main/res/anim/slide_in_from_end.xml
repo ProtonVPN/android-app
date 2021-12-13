@@ -19,7 +19,8 @@
 -->
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/decelerate_interpolator"
-    android:fillBefore="true">
+    android:fillBefore="true"
+    android:duration="300">
 
     <translate
         android:fromXDelta="100%"

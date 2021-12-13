@@ -23,7 +23,9 @@ import android.view.Window
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.ContentLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ContentLayout(R.layout.log_activity)
 class LogActivity : BaseActivity() {
 

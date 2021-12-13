@@ -32,13 +32,14 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 @RequiresApi(VERSION_CODES.N)
 class QuickTileService : TileService() {
 
@@ -49,11 +50,6 @@ class QuickTileService : TileService() {
 
     private val job = Job()
     private val lifecycleScope = CoroutineScope(job)
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
 
     override fun onDestroy() {
         job.cancel()
@@ -78,18 +74,20 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
-        if (qsTile.state == Tile.STATE_INACTIVE) {
-            if (userData.isLoggedIn) {
-                ProtonLogger.log("Connecting via quick tile")
-                vpnConnectionManager.connect(this, manager.defaultConnection, "Quick tile service")
+        unlockAndRun {
+            if (qsTile.state == Tile.STATE_INACTIVE) {
+                if (userData.isLoggedIn) {
+                    ProtonLogger.log("Connecting via quick tile")
+                    vpnConnectionManager.connectInBackground(this, manager.defaultConnection, "Quick tile service")
+                } else {
+                    val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
             } else {
-                val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                ProtonLogger.log("Disconnecting via quick tile")
+                vpnConnectionManager.disconnect()
             }
-        } else {
-            ProtonLogger.log("Disconnecting via quick tile")
-            vpnConnectionManager.disconnect()
         }
     }
 

@@ -18,41 +18,50 @@
  */
 package com.protonvpn.android.ui.home.vpn
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@ContentLayout(R.layout.activity_switch_dialog)
-class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewModel>() {
+@AndroidEntryPoint
+class SwitchDialogActivity : BaseActivityV2() {
 
     @Inject lateinit var serverManager: ServerManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initUI()
+        val binding = ActivitySwitchDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        initUI(binding)
     }
 
-    private fun initUI() = with(binding) {
+    private fun initUI(binding: ActivitySwitchDialogBinding) = with(binding) {
         val reconnectionNotification =
             intent.getParcelableExtra<NotificationHelper.ReconnectionNotification>(EXTRA_NOTIFICATION_DETAILS)!!
         reconnectionNotification.reconnectionInformation?.let {
-            initReconnectionUI(it)
+            initReconnectionUI(binding, it)
         }
         textDescription.text = reconnectionNotification.content
         textTitle.text = reconnectionNotification.title
         reconnectionNotification.fullScreenDialog?.let { fullScreenDialog ->
             buttonBack.setOnClickListener {
-                fullScreenDialog.cancelToastMessage?.let {
-                    Toast.makeText(baseContext, it, Toast.LENGTH_LONG).show()
+                fullScreenDialog.cancelToastMessage?.let { message ->
+                    delegatedSnackManager.postSnack(
+                        message,
+                        true,
+                        DelegatedSnackManager.SnackActionType.GOT_IT,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
                 }
                 finish()
             }
@@ -60,8 +69,7 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         }
 
         layoutUpsell.root.isVisible = reconnectionNotification.fullScreenDialog?.hasUpsellLayout == true
-        layoutUpsell.textManyCountries.text = getString(R.string.upsell_many_countries, serverManager.getVpnCountries().size)
-        layoutUpsell.textDeviceCount.text = getString(R.string.upsell_device_count, getString(R.string.device_count))
+        layoutUpsell.textManyCountries.text = getManyServersInManyCountriesText()
         reconnectionNotification.action?.let { actionItem ->
             buttonUpgrade.text = actionItem.title
             buttonUpgrade.setOnClickListener { actionItem.pendingIntent.send() }
@@ -74,38 +82,51 @@ class SwitchDialogActivity : BaseActivityV2<ActivitySwitchDialogBinding, ViewMod
         }
     }
 
-    private fun initReconnectionUI(reconnectionInformation: NotificationHelper.ReconnectionInformation) =
-        with(binding.itemSwitchLayout) {
-            root.isVisible = true
+    private fun initReconnectionUI(
+        binding: ActivitySwitchDialogBinding,
+        reconnectionInformation: NotificationHelper.ReconnectionInformation
+    ) = with(binding.itemSwitchLayout) {
+        root.isVisible = true
 
-            textFromServer.text = reconnectionInformation.fromServerName
-            textToServer.text = reconnectionInformation.toServerName
-            reconnectionInformation.toCountrySecureCore?.let {
-                imageToCountrySc.setImageResource(
-                    CountryTools.getFlagResource(this@SwitchDialogActivity, it)
-                )
-                imageToCountrySc.isVisible = true
-                arrowToSc.isVisible = true
-            }
-            reconnectionInformation.fromCountrySecureCore?.let {
-                imageFromCountrySc.setImageResource(
-                    CountryTools.getFlagResource(
-                        this@SwitchDialogActivity, it
-                    )
-                )
-                imageFromCountrySc.isVisible = true
-                arrowFromSc.isVisible = true
-            }
-            imageToCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.toCountry)
+        textFromServer.text = reconnectionInformation.fromServerName
+        textToServer.text = reconnectionInformation.toServerName
+        reconnectionInformation.toCountrySecureCore?.let {
+            imageToCountrySc.setImageResource(
+                CountryTools.getFlagResource(this@SwitchDialogActivity, it)
             )
-            imageFromCountry.setImageResource(
-                CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
-            )
+            imageToCountrySc.isVisible = true
+            arrowToSc.isVisible = true
         }
+        reconnectionInformation.fromCountrySecureCore?.let {
+            imageFromCountrySc.setImageResource(
+                CountryTools.getFlagResource(
+                    this@SwitchDialogActivity, it
+                )
+            )
+            imageFromCountrySc.isVisible = true
+            arrowFromSc.isVisible = true
+        }
+        imageToCountry.setImageResource(
+            CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.toCountry)
+        )
+        imageFromCountry.setImageResource(
+            CountryTools.getFlagResource(this@SwitchDialogActivity, reconnectionInformation.fromCountry)
+        )
+    }
 
-    override fun initViewModel() {
-
+    @SuppressLint("SetTextI18n")
+    private fun getManyServersInManyCountriesText(): String {
+        val serversText = resources.getQuantityString(
+            R.plurals.upsell_many_servers,
+            serverManager.allServerCount,
+            serverManager.allServerCount
+        )
+        val countriesText = resources.getQuantityString(
+            R.plurals.upsell_many_countries,
+            serverManager.getVpnCountries().size,
+            serverManager.getVpnCountries().size
+        )
+        return "$serversText, $countriesText"
     }
 
     companion object {

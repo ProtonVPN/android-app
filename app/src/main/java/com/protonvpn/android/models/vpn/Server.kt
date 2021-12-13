@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.models.vpn
 
-import android.content.Context
-import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.CountryTools
@@ -52,7 +50,7 @@ data class Server(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Status")
     private var isOnline: Boolean
-) : Markable, java.io.Serializable, Listable {
+) : Markable, java.io.Serializable {
 
     val online get() = isOnline && connectingDomains.any { it.isOnline }
 
@@ -128,8 +126,8 @@ data class Server(
         connectingDomains.any { it.supportsProtocol(protocol) }
 
     private val secureCoreServerNaming: String
-        get() = CountryTools.getFullName(entryCountry) + " >> " + CountryTools.getFullName(
-                exitCountry)
+        get() = CountryTools.getFullName(entryCountry) + " $SECURE_CORE_SEPARATOR " +
+                CountryTools.getFullName(exitCountry)
 
     val displayName: String get() = if (isSecureCoreServer)
         secureCoreServerNaming
@@ -140,7 +138,9 @@ data class Server(
 
     override fun isSecureCoreMarker() = false
 
-    override fun getMarkerText(): String = secureCoreServerNaming
+    override fun getMarkerEntryCountryCode(): String? = if (isSecureCoreServer) entryCountry else null
+
+    override fun getMarkerCountryCode(): String = flag
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 
@@ -150,8 +150,12 @@ data class Server(
 
     override fun toString() = "$domain $entryCountry"
 
-    override fun getLabel(context: Context): String = if (isSecureCoreServer)
-        CountryTools.getFullName(entryCountry) else serverName
+    @Suppress("DeprecatedCallableAddReplaceWith")
+    @Deprecated("Use displayName for UI.")
+    fun getLabel(): String = if (isSecureCoreServer)
+        CountryTools.getFullName(entryCountry)
+    else
+        serverName
 
     fun setOnline(value: Boolean) {
         isOnline = value
@@ -162,5 +166,6 @@ data class Server(
 
     companion object {
         val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")
+        const val SECURE_CORE_SEPARATOR = ">>"
     }
 }

@@ -18,13 +18,13 @@
  */
 package com.protonvpn.android.api
 
-import android.content.Context
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
@@ -44,13 +44,13 @@ class GuestHole(
 ) {
 
     suspend fun <T> call(
-        context: Context,
+        vpnPermissionDelegate: VpnPermissionDelegate,
         block: suspend () -> T
     ): T? {
         var result: T? = null
         try {
             getGuestHoleServers().any { server ->
-                executeConnected(context, server) {
+                executeConnected(vpnPermissionDelegate, server) {
                     result = block()
                 }
             }
@@ -69,7 +69,7 @@ class GuestHole(
     }
 
     private suspend fun <T> executeConnected(
-        context: Context,
+        vpnPermissionDelegate: VpnPermissionDelegate,
         server: Server,
         block: suspend () -> T
     ): Boolean {
@@ -83,7 +83,7 @@ class GuestHole(
                         // with gosrp and Strongswan
                         setProtocol(VpnProtocol.OpenVPN)
                     }
-                    vpnConnectionManager.connect(context, profile, "Guest hole")
+                    vpnConnectionManager.connect(vpnPermissionDelegate, profile, "Guest hole")
                     val observerJob = scope.launch {
                         vpnStatus.collect { newState ->
                             if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {

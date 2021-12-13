@@ -43,8 +43,12 @@ class RecentsManagerTests {
         vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, connectionParams)
     }
 
-    private fun mockedConnectionParams(country: String, serverName: String = country): ConnectionParams {
-        val profile = Profile(country, "", mockk(relaxed = true))
+    private fun mockedConnectionParams(
+        country: String,
+        serverName: String = country,
+        profileName: String = ""
+    ): ConnectionParams {
+        val profile = Profile(profileName, null, mockk(relaxed = true), null)
         every { profile.server?.exitCountry }.returns(country)
         every { profile.country }.returns(country)
         val server = mockk<Server>()

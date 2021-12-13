@@ -18,10 +18,7 @@
  */
 package com.protonvpn.android.ui.home.countries
 
-import android.content.res.ColorStateList
 import android.view.View
-import android.view.View.VISIBLE
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
@@ -36,7 +33,9 @@ import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setColorTint
+import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlin.math.ceil
 
 open class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
@@ -46,13 +45,7 @@ open class CountryExpandedViewHolder(
 ) : BindableItemEx<ItemServerListBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
-        val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val colorValue = when {
-            connected -> binding.root.getThemeColor(R.attr.colorAccent)
-            !server.online -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_disabled_vpn)
-            else -> ContextCompat.getColor(binding.root.context, R.color.interaction_weak_vpn)
-        }
-        binding.buttonConnect.backgroundTintList = ColorStateList.valueOf(colorValue)
+        updateButtons()
     }
 
     override fun getId() = server.serverId.hashCode().toLong()
@@ -62,41 +55,47 @@ open class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val context = viewBinding.root.context
+        val secureCoreEnabled = viewModel.userData.isSecureCoreEnabled
         with(binding) {
             val haveAccess = viewModel.userData.hasAccessToServer(server)
 
-            val textColorRes = when {
-                !haveAccess -> R.color.text_hint
-                !server.online -> R.color.text_disabled
-                else -> R.color.text_norm
-            }
-            textServer.visibility = VISIBLE
-            textServer.setTextColor(ContextCompat.getColor(context, textColorRes))
+            textServer.isVisible = true
+            textServer.isEnabled = haveAccess && server.online
 
-            val cityColorRes = when {
-                !haveAccess -> R.color.text_hint
-                !server.online -> R.color.text_disabled
-                else -> R.color.text_hint
-            }
-            textCity.isVisible = server.city != null
+            textCity.isVisible = server.city != null && !secureCoreEnabled
             textCity.text = if (server.isFreeServer) "" else server.city
-            textCity.setTextColor(ContextCompat.getColor(context, cityColorRes))
+            textCity.isEnabled = haveAccess && server.online
 
-            buttonUpgrade.isVisible = !haveAccess
-            imageWrench.isVisible = haveAccess && !server.online
-            buttonConnect.isVisible = haveAccess && server.online
+            updateButtons()
 
-            textLoad.isVisible = haveAccess && server.online
-            textLoad.text = "${server.load.toInt()}%"
-            serverLoadColor.isVisible = haveAccess && server.online
+            textLoad.visibility = when {
+                haveAccess && server.online -> View.VISIBLE
+                haveAccess -> View.INVISIBLE
+                else -> View.GONE
+            }
+            textLoad.text =
+                textLoad.resources.getString(R.string.serverLoad, server.load.toInt().toString())
+            textLoad.minWidth = ceil(
+                textLoad.paint.measureText(textLoad.resources.getString(R.string.serverLoad, "100"))
+            ).toInt()
+
+            serverLoadColor.visibility = when {
+                !haveAccess -> View.GONE
+                !server.online -> View.INVISIBLE
+                else -> View.VISIBLE
+            }
             serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
 
-            imageCountry.isVisible = viewModel.userData.isSecureCoreEnabled
-            if (viewModel.userData.isSecureCoreEnabled) {
+            imageCountry.isVisible = secureCoreEnabled
+            if (secureCoreEnabled) {
                 textServer.text = textServer.context.getString(R.string.secureCoreConnectVia,
                     CountryTools.getFullName(server.entryCountry))
-                textServer.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_right, 0)
+                textServer.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.ic_secure_core_arrow_color,
+                    0
+                )
                 imageCountry.setImageResource(
                     CountryTools.getFlagResource(imageCountry.context, server.entryCountry))
             } else {
@@ -104,14 +103,16 @@ open class CountryExpandedViewHolder(
                 textServer.setCompoundDrawablesRelative(null, null, null, null)
             }
             buttonConnect.contentDescription = if (fastest) "fastest" else textServer.text
-            initFeatureIcons()
+            initFeatureIcons(haveAccess && server.online)
             viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
 
             val connectUpgradeClickListener = View.OnClickListener {
-                val connectTo = if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
+                val connectTo =
+                    if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
                 EventBus.post(ConnectToServer(connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
+            buttonConnect.setMinSizeTouchDelegate()
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)
         }
     }
@@ -120,9 +121,10 @@ open class CountryExpandedViewHolder(
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
-    private fun initFeatureIcons() = with(binding) {
-        val color = ContextCompat.getColor(
-            root.context, if (server.online) R.color.icon_hint else R.color.icon_disabled)
+    private fun initFeatureIcons(isServerAvailable: Boolean) = with(binding) {
+        val color = root.getThemeColor(
+            if (isServerAvailable) R.attr.proton_icon_hint else R.attr.proton_icon_disabled
+        )
         featureIcons.isVisible = server.keywords.isNotEmpty()
         if (featureIcons.isVisible) {
             featureIcons.children.forEach { it.isVisible = false }
@@ -136,6 +138,17 @@ open class CountryExpandedViewHolder(
                 iconView.isVisible = true
                 iconView.setColorFilter(color)
             }
+        }
+    }
+
+    private fun updateButtons() {
+        val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
+        val haveAccess = viewModel.userData.hasAccessToServer(server)
+        with(binding) {
+            buttonUpgrade.isVisible = !haveAccess
+            imageWrench.isVisible = haveAccess && !server.online
+            buttonConnect.isVisible = haveAccess && server.online
+            buttonConnect.isOn = connected
         }
     }
 

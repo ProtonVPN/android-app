@@ -19,52 +19,42 @@
 
 package com.protonvpn.android.appconfig
 
-import com.protonvpn.android.utils.ReschedulableTask
-import com.protonvpn.android.utils.eagerMapNotNull
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import java.util.concurrent.TimeUnit
 
 class ApiNotificationManager(
-    scope: CoroutineScope,
     private val wallClockMs: () -> Long,
-    private val appConfig: AppConfig
+    appConfig: AppConfig
 ) {
-    private val activityCheckTask = ReschedulableTask(scope, wallClockMs) {
-        activeListObservable.value = getActiveAndSchedule()
-    }
 
-    val activeListObservable = appConfig.apiNotificationsResponseObservable.eagerMapNotNull {
-        getActiveAndSchedule()
-    }
-
-    val activeList get() = activeListObservable.value!!
-
-    fun getActiveNotification(id: String): ApiNotification? =
-        activeList.find { it.id == id }
-
-    private fun getActiveNotifications(timeS: Long): List<ApiNotification> =
-        appConfig.apiNotifications.filter {
-            timeS >= it.startTime && timeS < it.endTime
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val activeListFlow = appConfig.apiNotificationsResponseObservable.asFlow()
+        .flatMapLatest { response ->
+            val notifications = response.notifications
+            flow {
+                var nextUpdateDelayS: Long? = 0
+                while(nextUpdateDelayS != null) {
+                    delay(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
+                    val nowS = TimeUnit.MILLISECONDS.toSeconds(wallClockMs())
+                    emit(activeNotifications(nowS, notifications))
+                    nextUpdateDelayS = nextUpdateDelayS(nowS, notifications)
+                }
+            }
         }
 
-    private fun scheduleNextUpdate(nowS: Long) {
-        val nextUpdateDelayS = appConfig.apiNotifications.mapNotNull {
+    private fun activeNotifications(nowS: Long, notifications: Array<ApiNotification>) =
+        notifications.filter { nowS >= it.startTime && nowS < it.endTime }
+
+    private fun nextUpdateDelayS(nowS: Long, notifications: Array<ApiNotification>): Long? =
+        notifications.mapNotNull {
             when {
                 nowS < it.startTime -> it.startTime - nowS
                 nowS < it.endTime -> it.endTime - nowS
                 else -> null
             }
-        }.min()
-        if (nextUpdateDelayS == null)
-            activityCheckTask.cancelSchedule()
-        else
-            activityCheckTask.scheduleIn(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
-    }
-
-    // Get list of active notifications and schedule next time list needs to be updated
-    private fun getActiveAndSchedule(): List<ApiNotification> {
-        val nowS = wallClockMs() / 1000 // Api resolution is in seconds
-        scheduleNextUpdate(nowS)
-        return getActiveNotifications(nowS)
-    }
+        }.minOrNull()
 }

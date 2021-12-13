@@ -18,7 +18,6 @@
  */
 package com.protonvpn.di
 
-import com.protonvpn.MockSwitch
 import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
@@ -37,6 +36,8 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.StreamingServicesResponse
+import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.test.shared.ApiNotificationTestHelper
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -44,9 +45,29 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.NetworkStatus
 import java.util.concurrent.TimeUnit
 
-class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val userData: UserData) : ProtonApiRetroFit(scope, manager) {
+class MockApi(
+    scope: CoroutineScope,
+    manager: ApiManager<ProtonVPNRetrofit>,
+    val userData: UserData
+) : ProtonApiRetroFit(scope, MockNetworkApiManagerWrapper(manager)) {
+
+    private class MockNetworkApiManagerWrapper(private val manager: ApiManager<ProtonVPNRetrofit>) :
+        ApiManager<ProtonVPNRetrofit> {
+
+        override suspend fun <T> invoke(
+            forceNoRetryOnConnectionErrors: Boolean,
+            block: suspend ProtonVPNRetrofit.() -> T
+        ): ApiResult<T> =
+            if (MockNetworkManager.currentStatus == NetworkStatus.Disconnected) {
+                ApiResult.Error.NoInternet()
+            } else {
+                manager.invoke(forceNoRetryOnConnectionErrors, block)
+            }
+
+    }
 
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(
@@ -70,10 +91,7 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
         ApiResult.Success(GenericResponse(1000))
 
     override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
-        if (MockSwitch.mockedServersUsed)
-            ApiResult.Success(ServerList(MockedServers.serverList))
-        else
-            super.getServerList(loader, ip)
+        ApiResult.Success(ServerList(MockedServers.serverList))
 
     override suspend fun getVPNInfo(): ApiResult<VpnInfoResponse> =
         ApiResult.Success(userData.vpnInfoResponse ?: TestUser.getBasicUser().vpnInfoResponse)
@@ -83,7 +101,7 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
     }
 
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
-            ApiResult.Success(TestUser.getForkedSessionResponse())
+        ApiResult.Success(TestUser.getForkedSessionResponse())
 
     override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =
         ApiResult.Success(ApiNotificationTestHelper.mockResponse(
@@ -93,15 +111,19 @@ class MockApi(scope: CoroutineScope, manager: ApiManager<ProtonVPNRetrofit>, val
             ApiNotification("2", Long.MIN_VALUE, Long.MAX_VALUE, ApiNotificationTypes.TYPE_OFFER + 1)
         ))
 
-    override suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
-        if (MockSwitch.mockedConnectionUsed) {
-            val now = System.currentTimeMillis()
-            ApiResult.Success(CertificateResponse(
+    override suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> {
+        val now = System.currentTimeMillis()
+        return ApiResult.Success(CertificateResponse(
                 TEST_CERT,
                 now + TimeUnit.DAYS.toMillis(1),
                 now + TimeUnit.HOURS.toMillis(16)))
-        } else
-            super.getCertificate(clientPublicKey)
+    }
+
+
+    override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1"))
+
+    override suspend fun getStreamingServices() = ApiResult.Success(
+        StreamingServicesResponse("https://protonvpn.com/download/resources/", emptyMap()))
 
     companion object {
         const val OFFER_LABEL = "Offer"

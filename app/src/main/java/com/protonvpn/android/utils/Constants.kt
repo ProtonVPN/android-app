@@ -44,7 +44,7 @@ object Constants {
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     const val URL_SUPPORT_ASSIGN_VPN_CONNECTION = "https://protonvpn.com/support/assign-vpn-connection"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
-    val AVAILABLE_LOCALES = listOf("en", "es", "pl", "pt", "it", "fr", "nl", "de", "ru", "fa")
+    val AVAILABLE_LOCALES = listOf("de", "en", "es", "fa", "fr", "hr", "in", "it", "nl", "pl", "pt", "ru", "tr")
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 30L
     const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3
@@ -62,6 +62,9 @@ object Constants {
     const val TOR_INFO_URL = "https://protonvpn.com/support/tor-vpn/"
     const val SERVER_LOAD_INFO_URL = "https://protonvpn.com/support/server-load-percentages-and-colors-explained/"
     const val VPN_ACCELERATOR_INFO_URL = "https://protonvpn.com/support/how-to-use-vpn-accelerator"
+
+    const val PLANS_AND_PRICING_URL = "https://protonvpn.com/pricing"
+    const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
 
     init {
         if (ProtonApplication.getAppContext().isTV()) {

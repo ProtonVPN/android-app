@@ -18,66 +18,50 @@
  */
 package com.protonvpn.android.components
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.annotation.VisibleForTesting
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
+import com.protonvpn.android.ui.snackbar.SnackbarHelper
+import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.AndroidUtils.isTV
-import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.HtmlTools
-import dagger.android.support.DaggerAppCompatActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.vpn.VpnPermissionDelegate
+import javax.inject.Inject
 
-abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppCompatActivity() {
+abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var binding: DB
+    @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var viewModel: VM
+    lateinit var snackbarHelper: SnackbarHelper
+        private set
 
-    protected abstract fun initViewModel()
+    @Suppress("LeakingThis")
+    private val vpnPermissionDelegate = VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
-
-        binding = DataBindingUtil.inflate(layoutInflater,
-                AnnotationParser.getAnnotatedLayout(this), null, false)
-        setContentView(binding.root)
-        initViewModel()
+        snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    fun openUrl(url: String?) {
-        try {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(browserIntent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -88,34 +72,27 @@ abstract class BaseActivityV2<DB : ViewDataBinding, VM : ViewModel> : DaggerAppC
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PREPARE_VPN_SERVICE) {
-            if (resultCode == Activity.RESULT_OK) {
-                onVpnPrepared()
-            } else if (resultCode == Activity.RESULT_CANCELED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                onVpnPrepareFailed()
-                showNoVpnPermissionDialog()
-            }
-        } else super.onActivityResult(requestCode, resultCode, data)
+    override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted)
     }
 
-    protected open fun onVpnPrepared() {}
+    override fun getContext(): Context = this
+
+    private fun onVpnPermissionDenied() {
+        onVpnPrepareFailed()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            showNoVpnPermissionDialog(this)
+        }
+    }
+
     protected open fun onVpnPrepareFailed() {}
 
-    companion object {
-        const val PREPARE_VPN_SERVICE = 0
+    private fun getContentView(): View = findViewById(android.R.id.content)
 
+    companion object {
         @TargetApi(Build.VERSION_CODES.N)
-        fun Activity.showNoVpnPermissionDialog() {
-            val content = HtmlTools.fromHtml(getString(
-                    R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS))
-            MaterialDialog.Builder(this).theme(Theme.DARK)
-                    .title(R.string.error_prepare_vpn_title)
-                    .content(content)
-                    .positiveText(R.string.error_prepare_vpn_settings)
-                    .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                        startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-                    }.show()
+        fun showNoVpnPermissionDialog(activity: Activity) {
+            activity.launchActivity<NoVpnPermissionActivity>()
         }
     }
 }

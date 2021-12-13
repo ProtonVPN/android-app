@@ -36,6 +36,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToLong
 
 class TrafficMonitor constructor(
@@ -45,7 +46,13 @@ class TrafficMonitor constructor(
     val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
 ) {
+    companion object {
+        const val TRAFFIC_HISTORY_LENGTH_S = 31L
+    }
+
     val trafficStatus = MutableLiveData<TrafficUpdate?>()
+
+    val trafficHistory = MutableLiveData<List<TrafficUpdate>>(emptyList())
 
     private var sessionStart = 0L
     private var sessionDownloaded = 0L
@@ -88,7 +95,8 @@ class TrafficMonitor constructor(
     }
 
     private fun resetSession() {
-        trafficStatus.value = TrafficUpdate(0, 0, 0, 0, 0)
+        trafficStatus.value = TrafficUpdate(0, 0, 0, 0, 0, 0)
+        trafficHistory.value = emptyList()
 
         lastTimestamp = now()
         lastTotalDownload = TrafficStats.getTotalRxBytes()
@@ -114,10 +122,9 @@ class TrafficMonitor constructor(
         if (updateJob == null) {
             updateJob = scope.launch(Dispatchers.Main) {
                 while (true) {
-                    delay(1000)
-
                     val timestamp = now()
-                    val elapsedSeconds = (timestamp - lastTimestamp) / 1000f
+                    val elapsedMillis = timestamp - lastTimestamp
+                    val elapsedSeconds = elapsedMillis / 1000f
 
                     // Speeds need to be divided by two due to TrafficStats calculating both phone and VPN
                     // interfaces which leads to doubled data. NetworkStatsManager may have solved this
@@ -133,12 +140,21 @@ class TrafficMonitor constructor(
                     sessionUploaded += uploaded
 
                     val sessionTimeSeconds = (timestamp - sessionStart).toInt() / 1000
-                    trafficStatus.value = TrafficUpdate(downloadSpeed, uploadSpeed, sessionDownloaded,
-                            sessionUploaded, sessionTimeSeconds)
+                    val update = TrafficUpdate(
+                        timestamp, downloadSpeed, uploadSpeed, sessionDownloaded,
+                        sessionUploaded, sessionTimeSeconds
+                    )
+                    trafficStatus.value = update
+                    trafficHistory.value = (trafficHistory.value!! + update)
+                        .takeLastWhile {
+                            it.timestampMs > timestamp - TimeUnit.SECONDS.toMillis(TRAFFIC_HISTORY_LENGTH_S)
+                        }
 
                     lastTotalDownload = totalDownload
                     lastTotalUpload = totalUpload
                     lastTimestamp = timestamp
+
+                    delay(1000)
                 }
             }
         }
@@ -147,6 +163,7 @@ class TrafficMonitor constructor(
     private fun stopUpdateJob() {
         updateJob?.cancel()
         updateJob = null
+        trafficHistory.value = emptyList()
     }
 
     private fun stateChanged(state: VpnState) {

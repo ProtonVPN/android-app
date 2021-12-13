@@ -2,7 +2,7 @@ default:
   image:
     # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
     #name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
-    name: $CI_REGISTRY_IMAGE:branch-development
+    name: $CI_REGISTRY_IMAGE:latest
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -20,6 +20,7 @@ stages:
   - image
   - analyze
   - build
+  - startReview
   - test
   - report
   - bot
@@ -79,12 +80,23 @@ create-ci-image-latest:
     - make latest
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .gradle
+  - key: $CI_COMMIT_REF_SLUG
+    policy: pull
+    paths:
+      - .gradle
+
+  - key: ${CI_COMMIT_SHORT_SHA}
+    policy: pull
+    paths:
+      - '**/build/tmp/'
 
 detekt analysis:
   stage: analyze
+  cache:
+    - key: $CI_COMMIT_REF_SLUG
+      policy: pull-push
+      paths:
+        - .gradle
   tags:
     - small
   script:
@@ -92,19 +104,35 @@ detekt analysis:
   artifacts:
     expire_in: 4 weeks
     reports:
-        codequality: app/build/reports/detekt.json
+      codequality: app/build/reports/detekt.json
 
 build debug:
   stage: build
+  cache:
+    - key: $CI_COMMIT_REF_SLUG
+      policy: pull
+      paths:
+        - .gradle
+
+    - key: ${CI_COMMIT_SHORT_SHA}
+      policy: push
+      paths:
+        - '**/build/tmp/'
+
   tags:
     - large
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" > deploy.env
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+    reports:
+      dotenv: deploy.env
 
 build black:
   stage: build
@@ -162,13 +190,6 @@ unit tests:
   script:
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
-    - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-    - mkdir -p /tmp/sdk-dir
-    - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /tmp/sdk-dir
-    - /tmp/sdk-dir/google-cloud-sdk/install.sh --quiet
-    - source /tmp/sdk-dir/google-cloud-sdk/path.bash.inc
-
-    - gcloud components update
     - echo $CLOUD_PROJECT_ID
     - gcloud config set project $CLOUD_PROJECT_ID
     - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
@@ -183,7 +204,7 @@ unit tests:
         --app "$APP"
         --test "$TEST_APP"
         --num-flaky-test-attempts=2
-        --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec"
+        --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
         --directories-to-pull /sdcard
         --test-targets "class $TEST_SUITE"
     - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/$COVERAGE_FILE_NAME.ec | tail -1`
@@ -203,11 +224,6 @@ firebase quick tests:
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
     COVERAGE_FILE_NAME: "coverageMobile.ec"
-  only:
-    - branches
-  except:
-    - master
-    - development
 
 firebase full tests:
   <<: *tests_preparation_script
@@ -218,10 +234,8 @@ firebase full tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobile.ec"
-  only:
-  - master
-  - development
+    COVERAGE_FILE_NAME: "coverageMobileFull.ec"
+  when: manual
 
 firebase tv tests:
   <<: *tests_preparation_script
@@ -233,6 +247,17 @@ firebase tv tests:
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     COVERAGE_FILE_NAME: "coverageTv.ec"
+
+firebase real connection tests:
+  <<: *tests_preparation_script
+  variables:
+    TESTS_TYPE: realConnectionTest
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
+    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
 
 coverage report:
   stage: report
@@ -289,6 +314,15 @@ publish-apk-internal:
     - ./gradlew openvpn:assemble
     - ./gradlew publishInternal -PabiSplit
 
+startReview:
+  before_script:
+    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/direct/debug/"${ARCHIVES_BASE_NAME}-direct-debug.apk
+    - echo ${REVIEW_APP_ARTIFACT_PATH}
+  extends: .startReview
+
+stopReview:
+  before_script: []
+  extends: .stopReview
 
 include:
   - project: 'translations/generator'
@@ -302,6 +336,8 @@ include:
   - project: 'agarroux/publish-github'
     ref: master
     file: '/jobs/release.gitlab-ci.yml'
+
+  - local: '/appetize-integration.yml'
 
 i18n-sync-crowdin:
   variables:

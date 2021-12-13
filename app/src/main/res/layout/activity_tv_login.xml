@@ -76,6 +76,17 @@
         app:layout_constraintTop_toBottomOf="@+id/title"/>
 
     <TextView
+        android:id="@+id/description2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxWidth="500dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        android:visibility="gone"/>
+
+    <TextView
         android:id="@+id/helpLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +95,7 @@
         android:foreground="@drawable/tv_focus_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintTop_toBottomOf="@+id/description2"
         android:visibility="gone"/>
 
     <Button

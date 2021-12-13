@@ -18,6 +18,7 @@
  */
 package com.protonvpn.results;
 
+import com.protonvpn.MockSwitch;
 import com.protonvpn.actions.ConnectionRobot;
 import com.protonvpn.actions.ServiceRobot;
 import com.protonvpn.android.R;
@@ -29,15 +30,15 @@ import androidx.test.rule.ServiceTestRule;
 public class ConnectionResult extends UIActionsTestHelper {
 
     public ConnectionRobot connectionRobot;
-    public ServiceRobot serviceRobot;
     public ProfilesResult profilesResult;
     public ServiceTestHelper serviceTestHelper;
 
     public ConnectionResult() {
         connectionRobot = new ConnectionRobot();
-        serviceRobot = new ServiceRobot();
         profilesResult = new ProfilesResult();
-        serviceTestHelper = new ServiceTestHelper(new ServiceTestRule());
+        if (MockSwitch.mockedConnectionUsed) {
+            serviceTestHelper = new ServiceTestHelper();
+        }
     }
 
     public ConnectionResult isConnectedToVpn() {
@@ -51,11 +52,11 @@ public class ConnectionResult extends UIActionsTestHelper {
     }
 
     public ConnectionResult cannotAccessSecureCoreAsFreeUser() {
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.md_title, R.string.restrictedSecureCoreTitle);
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.md_content, R.string.restrictedSecureCore);
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.md_buttonDefaultPositive, "Upgrade");
-        checkIfObjectWithIdAndTextIsDisplayed(R.id.md_buttonDefaultNegative, R.string.cancel);
-        clickOnObjectWithText(R.string.cancel);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.textTitle, R.string.upgrade_secure_core_title);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.textMessage, R.string.upgrade_secure_core_message);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.buttonShowPlans, R.string.upgrade_see_plans_button);
+        checkIfObjectWithIdAndTextIsDisplayed(R.id.buttonClose, R.string.upgrade_not_now_button);
+        clickOnObjectWithText(R.string.upgrade_not_now_button);
         return this;
     }
 }

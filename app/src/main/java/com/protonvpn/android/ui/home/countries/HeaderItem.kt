@@ -18,29 +18,39 @@
  */
 package com.protonvpn.android.ui.home.countries
 
-import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
 import com.protonvpn.android.ui.home.InformationActivity
+import com.protonvpn.android.utils.getThemeColor
+import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.databinding.BindableItem
 
 class HeaderItem(
-    @StringRes private val titleStringResId: Int,
+    private val titleString: String,
     private val countryInfoKey: String?,
+    private val isServer: Boolean,
 ) : BindableItem<ItemCountryHeaderBinding>() {
 
     override fun getLayout() = R.layout.item_country_header
 
     override fun bind(viewBinding: ItemCountryHeaderBinding, position: Int) {
-        viewBinding.textTitle.setText(titleStringResId)
+        viewBinding.textTitle.text = titleString
         with(viewBinding.serversInfo) {
+            setMinSizeTouchDelegate()
             isVisible = countryInfoKey != null
             if (countryInfoKey != null) setOnClickListener {
                 context.startActivity(InformationActivity.createIntent(context, countryInfoKey))
             }
         }
+        with(viewBinding.root) {
+            setBackgroundColor(
+                getThemeColor(
+                    if (isServer) R.attr.proton_background_secondary else R.attr.proton_background_norm
+                )
+            )
+        }
     }
 
-    override fun getId() = titleStringResId.toLong()
+    override fun getId() = titleString.hashCode().toLong()
 }

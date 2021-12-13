@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2021 Proton Technologies AG
   ~
   ~ This file is part of ProtonVPN.
@@ -18,66 +17,66 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:tools="http://schemas.android.com/tools">
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingHorizontal="16dp"
-    android:layout_marginBottom="32dp">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="2dp"
-        android:tint="@color/icon_norm"
-        tools:src="@drawable/ic_smart_routing"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        style="@style/Body2Regular"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
-            style="@style/Body2Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_norm"
-            tools:text="@string/smart_routing_title"/>
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            app:tint="@color/icon_norm"
+            tools:src="@drawable/ic_smart_routing" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/description"
-            style="@style/CaptionRegular"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/text_weak"
-            tools:text="@string/smart_routing_description"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/customViewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/title"
+                style="@style/Proton.Text.DefaultSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                tools:text="@string/smart_routing_title" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/learnMore"
-            style="@style/Body2Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="?colorAccent"
-            android:background="?attr/selectableItemBackground"
-            android:text="@string/activity_information_learn_more"/>
+            <TextView
+                android:id="@+id/description"
+                style="@style/Proton.Text.Caption.Weak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                tools:text="@string/smart_routing_description" />
+
+            <FrameLayout
+                android:id="@+id/customViewContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/learnMore"
+                style="@style/Proton.Text.DefaultSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawablePadding="8dp"
+                android:text="@string/activity_information_learn_more"
+                android:textColor="?attr/brand_norm"
+                app:drawableEndCompat="@drawable/ic_external_link" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
 </layout>

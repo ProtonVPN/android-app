@@ -38,6 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
+import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
@@ -54,11 +55,13 @@ import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class TvMainFragment : BaseTvBrowseFragment() {
 
-    private val viewModel by activityViewModels<TvMainViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<TvMainViewModel>()
 
     private var rowsAdapter: ArrayObjectAdapter? = null
 
@@ -82,6 +85,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
+
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
                 setupRowAdapter()
@@ -126,10 +130,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     }
                 }
                 is ProfileCard -> {
-                    viewModel.connect(requireActivity(), item)
+                    viewModel.connect(requireActivity() as BaseTvActivity, item)
                 }
                 is QuickConnectCard -> {
-                    viewModel.onQuickConnectAction(requireActivity())
+                    viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
                 is LogoutCard -> {
                     logout()

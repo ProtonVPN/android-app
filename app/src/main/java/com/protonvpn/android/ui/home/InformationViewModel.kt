@@ -23,8 +23,10 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class InformationViewModel @Inject constructor(
     val userData: UserData,
     override val serverManager: ServerManager,

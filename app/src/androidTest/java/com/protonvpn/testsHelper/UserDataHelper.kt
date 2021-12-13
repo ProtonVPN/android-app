@@ -18,16 +18,42 @@
  */
 package com.protonvpn.testsHelper
 
-import com.protonvpn.test.shared.TestUser
-import com.protonvpn.TestApplication
+import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.tv.TvLoginActivity
+import com.protonvpn.android.ui.home.LogoutHandler
+import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.test.shared.TestUser
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 class UserDataHelper {
 
-    @Inject lateinit var userData: UserData
+    private lateinit var userData: UserData
+    private lateinit var logoutHandler: LogoutHandler
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface UserDataHelperEntryPoint {
+        fun userData(): UserData
+        fun logoutHandler(): LogoutHandler
+    }
+
+    init {
+        val hiltEntry = EntryPoints.get(
+            ProtonApplication.getAppContext(), UserDataHelperEntryPoint::class.java)
+        runBlocking(Dispatchers.Main.immediate) {
+            userData = hiltEntry.userData()
+            logoutHandler = hiltEntry.logoutHandler()
+        }
+    }
 
     fun setUserData(user: TestUser) = runBlocking(Dispatchers.Main) {
         userData.isLoggedIn = true
@@ -35,11 +61,26 @@ class UserDataHelper {
         userData.vpnInfoResponse = user.vpnInfoResponse
     }
 
-    fun logoutUser() = runBlocking(Dispatchers.Main) {
-        userData.isLoggedIn = false
+    fun setProtocol(protocol: VpnProtocol) = runBlocking(Dispatchers.Main)  {
+        userData.setProtocols(protocol, null)
     }
 
-    init {
-        TestApplication.testAppComponent.provideUserPrefs(this)
+    fun logoutUser() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        // Logging out starts the login activity, block it, otherwise it may crash when starting
+        // after the test has finished and Hilt can no longer provide dependencies.
+        val loginActivityClass =
+            if (instrumentation.targetContext.isTV()) TvLoginActivity::class.java
+            else LoginActivity::class.java
+        val monitor =
+            instrumentation.addMonitor(loginActivityClass.canonicalName, null, true)
+        runBlocking(Dispatchers.Main) {
+            logoutHandler.logout(true)
+        }
+        // Remove the monitor so that it doesn't avoid any other tests.
+        if (!instrumentation.checkMonitorHit(monitor, 1)) {
+            monitor.waitForActivityWithTimeout(1000)
+            instrumentation.removeMonitor(monitor)
+        }
     }
 }

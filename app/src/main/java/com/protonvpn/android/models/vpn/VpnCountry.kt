@@ -23,17 +23,15 @@ import com.protonvpn.android.components.Listable
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.ServerDeliver
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.CountryTools
 import java.io.Serializable
 import java.util.Collections
-import kotlin.collections.ArrayList
 
 class VpnCountry(
     val flag: String,
     serverList: List<Server>,
     deliverer: ServerDeliver
-) : Markable, Serializable, Listable {
+) : Markable, Serializable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
 
@@ -41,17 +39,6 @@ class VpnCountry(
 
     val countryName: String
         get() = CountryTools.getFullName(flag)
-
-    val wrapperServers: List<ServerWrapper>
-        get() {
-            val wrapperList = ArrayList<ServerWrapper>()
-            if (connectableServers.size > 1) {
-                wrapperList.add(ServerWrapper.makeFastestForCountry(flag, deliverer))
-                wrapperList.add(ServerWrapper.makeRandomForCountry(flag, deliverer))
-            }
-            connectableServers.mapTo(wrapperList) { ServerWrapper.makeWithServer(it, deliverer) }
-            return wrapperList
-        }
 
     val keywords get() = serverList.flatMap { it.keywords }.distinct()
 
@@ -88,11 +75,11 @@ class VpnCountry(
 
     override fun isSecureCoreMarker(): Boolean = isSecureCoreCountry()
 
-    override fun getMarkerText(): String = countryName
+    override fun getMarkerEntryCountryCode(): String? = null
+
+    override fun getMarkerCountryCode(): String = flag
 
     override fun getConnectableServers(): List<Server> = serverList
-
-    override fun getLabel(context: Context): String = countryName
 
     fun isSecureCoreCountry(): Boolean = flag == "IS" || flag == "SE" || flag == "CH"
 }

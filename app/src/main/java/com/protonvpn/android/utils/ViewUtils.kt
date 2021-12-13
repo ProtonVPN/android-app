@@ -22,8 +22,11 @@ import android.animation.Animator
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
@@ -32,6 +35,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.doOnLayout
+import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
@@ -40,6 +45,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.ViewUtils.toPx
 import kotlin.math.roundToInt
 
 object ViewUtils {
@@ -61,6 +67,9 @@ object ViewUtils {
             }
         }
     }
+
+    inline fun <VB : ViewBinding> Activity.viewBinding(crossinline inflater: (LayoutInflater) -> VB) =
+        lazy(LazyThreadSafetyMode.NONE) { inflater(layoutInflater) }
 
     fun View.requestAllFocus() {
         requestFocus()
@@ -150,3 +159,32 @@ fun View.getThemeColor(@AttrRes attr: Int): Int = MaterialColors.getColor(this, 
 
 @ColorRes
 fun View.getThemeColorId(@AttrRes attr: Int): Int = context.getThemeColorId(attr)
+
+fun View.setMinSizeTouchDelegate() {
+    doOnLayout {
+        val minSizePx = 48.toPx()
+        val rect = Rect()
+        getHitRect(rect)
+
+        if (rect.expandTo(minSizePx, minSizePx)) {
+            (parent as View).touchDelegate = TouchDelegate(rect, this)
+        }
+    }
+}
+
+private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {
+    var hasChanged = false
+    if (width() < minWidth) {
+        val leftOffset = (minWidth - width()) / 2
+        left -= leftOffset
+        right = left + minWidth
+        hasChanged = true
+    }
+    if (height() < minHeight) {
+        val topOffset = (minHeight - height()) / 2
+        top -= topOffset
+        bottom = top + minHeight
+        hasChanged = true
+    }
+    return hasChanged
+}

@@ -20,9 +20,11 @@ package com.protonvpn.android.utils
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -33,6 +35,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
@@ -60,9 +63,15 @@ class ServerManager(
     @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(appContext, this))
+            .migrateColors()
 
-    @Transient val updateEvent = LiveEvent()
-    @Transient val profilesUpdateEvent = LiveEvent()
+    // Expose a version number of the server list so that it can be used in flow operators like
+    // combine to react to updates.
+    @Transient val serverListVersion = MutableStateFlow(0)
+    @Transient val profiles = MutableStateFlow(savedProfiles.profileList.toList())
+    // TODO: remove the LiveDatas once there is no more Java code using them.
+    @Transient val serverListVersionLiveData = serverListVersion.asLiveData()
+    @Transient val profilesLiveData = profiles.asLiveData()
 
     val isDownloadedAtLeastOnce: Boolean
         get() = updatedAt != null && vpnCountries.isNotEmpty()
@@ -80,10 +89,13 @@ class ServerManager(
         }
 
     private val allServers get() =
-        sequenceOf(filteredVpnCountries, filteredSecureCoreEntryCountries, filteredSecureCoreExitCountries)
+        sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
             .flatten().flatMap { it.serverList.asSequence() }
 
-    private fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+    /** Get the number of all servers. Not very efficient. */
+    val allServerCount get() = allServers.count()
+
+    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
         filteredSecureCoreExitCountries else filteredVpnCountries
@@ -127,8 +139,7 @@ class ServerManager(
 
     private fun onServersUpdate() {
         filterServers()
-        updateEvent.emit()
-        profilesUpdateEvent.emit()
+        ++serverListVersion.value
     }
 
     private fun filterServers() {
@@ -241,8 +252,8 @@ class ServerManager(
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
-    fun getVpnExitCountry(country: String, secureCoreCountry: Boolean): VpnCountry? =
-        getExitCountries(secureCoreCountry).firstOrNull { it.flag == country }
+    fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
+        getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
     fun getBestScoreServer(country: VpnCountry): Server? =
         getBestScoreServer(country.serverList)
@@ -253,7 +264,7 @@ class ServerManager(
                 .map(VpnCountry::serverList)
                 .mapNotNull(::getBestScoreServer)
                 .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minBy(Server::score) }
+                .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
@@ -261,7 +272,7 @@ class ServerManager(
         val map = serverList.asSequence()
                 .filter { Server.Keyword.TOR !in it.keywords && it.online }
                 .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minBy(Server::score) }
+                .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
@@ -285,16 +296,16 @@ class ServerManager(
     fun deleteSavedProfiles() {
         val defaultProfiles =
                 SavedProfilesV3.defaultProfiles(appContext, this).profileList
-        for (profile in getSavedProfiles()) {
+        for (profile in getSavedProfiles().toList()) {
             if (profile !in defaultProfiles) {
                 deleteProfile(profile)
             }
         }
     }
 
-    fun addToProfileList(serverName: String?, color: String?, server: Server) {
+    fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
-                Profile(serverName!!, color!!, ServerWrapper.makeWithServer(server, this))
+                Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
         newProfile.wrapper.setSecureCore(userData.isSecureCoreEnabled)
         addToProfileList(newProfile)
     }
@@ -303,7 +314,7 @@ class ServerManager(
         if (!savedProfiles.profileList.contains(profileToSave)) {
             savedProfiles.profileList.add(profileToSave)
             Storage.save(savedProfiles)
-            profilesUpdateEvent.emit()
+            profiles.value = getSavedProfiles().toList()
             return true
         }
         return false
@@ -315,13 +326,13 @@ class ServerManager(
         }
         savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
         Storage.save(savedProfiles)
-        profilesUpdateEvent.emit()
+        profiles.value = getSavedProfiles().toList()
     }
 
     fun deleteProfile(profileToSave: Profile?) {
         savedProfiles.profileList.remove(profileToSave)
         Storage.save(savedProfiles)
-        profilesUpdateEvent.emit()
+        profiles.value = getSavedProfiles().toList()
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =

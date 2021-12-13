@@ -20,11 +20,20 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="appbar_elevation">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="connection_bottom_sheet_button_distance">8dp</dimen>
+    <dimen name="connection_bottom_sheet_single_button_bottom_margin">64dp</dimen>
+    <dimen name="connection_bottom_sheet_multi_button_bottom_margin">32dp</dimen>
+    <dimen name="dialog_content_padding_horizontal">24dp</dimen>
     <dimen name="drawer_icon_size">24dp</dimen>
     <dimen name="new_indicator_size">5dp</dimen>
     <dimen name="screen_padding_horizontal">16dp</dimen>
+    <dimen name="server_load_dot_size">8dp</dimen>
+    <dimen name="server_list_flag_size">24dp</dimen>
+    <dimen name="server_list_flag_margin">8dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
+    <item name="inactive_flag_alpha" format="float" type="dimen">0.5</item>
 
     <!-- Promo offer panel (small screens) -->
     <dimen name="offer_panel_bottom_margin">4dp</dimen>

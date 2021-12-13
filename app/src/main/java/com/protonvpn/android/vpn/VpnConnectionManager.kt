@@ -24,17 +24,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.VpnService
-import android.os.Build
-import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.components.BaseActivityV2.Companion.showNoVpnPermissionDialog
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.models.config.UserData
@@ -64,6 +60,11 @@ import kotlin.coroutines.coroutineContext
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
+interface VpnPermissionDelegate {
+    fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit)
+    fun getContext(): Context
+}
+
 @Singleton
 open class VpnConnectionManager(
     private val appContext: Context,
@@ -84,7 +85,9 @@ open class VpnConnectionManager(
         private val RECOVERABLE_ERRORS = listOf(
             ErrorType.AUTH_FAILED_INTERNAL,
             ErrorType.LOOKUP_FAILED_INTERNAL,
-            ErrorType.UNREACHABLE_INTERNAL)
+            ErrorType.UNREACHABLE_INTERNAL,
+            ErrorType.POLICY_VIOLATION_LOW_PLAN
+        )
     }
 
     private var ongoingConnect: Job? = null
@@ -119,8 +122,8 @@ open class VpnConnectionManager(
             val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
-            userData.useSmartProtocol = true
-            connect(appContext, profileToSwitch)
+            userData.setProtocols(VpnProtocol.Smart, null)
+            connectInBackground(appContext, profileToSwitch)
         }
         stateInternal.observeForever {
             if (initialized) {
@@ -144,7 +147,7 @@ open class VpnConnectionManager(
                     if (state == VpnState.Connected)
                         clearOngoingFallback()
 
-                    vpnStateMonitor.status.value = VpnStateMonitor.Status(newState, connectionParams)
+                    vpnStateMonitor.updateStatus(VpnStateMonitor.Status(newState, connectionParams))
                 }
 
                 ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
@@ -155,10 +158,10 @@ open class VpnConnectionManager(
 
                 when (state) {
                     VpnState.Connected -> {
-                        EventBus.postOnMain(ConnectedToServer(connectionParams!!.server))
+                        EventBus.post(ConnectedToServer(connectionParams!!.server))
                     }
                     VpnState.Disabled -> {
-                        EventBus.postOnMain(ConnectedToServer(null))
+                        EventBus.post(ConnectedToServer(null))
                     }
                 }
             }
@@ -194,11 +197,11 @@ open class VpnConnectionManager(
 
     private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
         ProtonLogger.log("Attempting to recover from error: $errorType")
-        vpnStateMonitor.status.value = VpnStateMonitor.Status(VpnState.CheckingAvailability, params)
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.CheckingAvailability, params))
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
                 vpnErrorHandler.onUnreachableError(params)
-            ErrorType.AUTH_FAILED_INTERNAL ->
+            ErrorType.AUTH_FAILED_INTERNAL, ErrorType.POLICY_VIOLATION_LOW_PLAN ->
                 vpnErrorHandler.onAuthError(params)
             else ->
                 VpnFallbackResult.Error(errorType)
@@ -247,21 +250,13 @@ open class VpnConnectionManager(
     }
 
     private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
-        val fallback = if (profile.getProtocol(userData) == VpnProtocol.WireGuard) {
-            // TODO Re-enable onServerInMaintenance logic once we have Wireguard pinging
-                VpnFallbackResult.Switch.SwitchProfile(
-                    server, serverManager.defaultFallbackConnection
-                )
-            } else {
-                if (server == null) {
-                    ProtonLogger.log("Server not available. Finding alternative...")
-                    vpnErrorHandler.onServerNotAvailable(profile)
-                } else {
-                    ProtonLogger.log("Server in maintenance. Finding alternative...")
-                    vpnErrorHandler.onServerInMaintenance(profile, null)
-                }
-            }
-
+        val fallback = if (server == null) {
+            ProtonLogger.log("Server not available. Finding alternative...")
+            vpnErrorHandler.onServerNotAvailable(profile)
+        } else {
+            ProtonLogger.log("Server in maintenance. Finding alternative...")
+            vpnErrorHandler.onServerInMaintenance(profile, null)
+        }
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
@@ -338,31 +333,41 @@ open class VpnConnectionManager(
 
     fun onRestoreProcess(context: Context, profile: Profile): Boolean {
         if (state == VpnState.Disabled && Storage.getString(STORAGE_KEY_STATE, null) == VpnState.Connected.name) {
-            connect(context, profile, "Process restore")
+            connectInBackground(context, profile, "Process restore")
             return true
         }
         return false
     }
 
-    fun connect(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+    fun connect(
+        permissionDelegate: VpnPermissionDelegate,
+        profile: Profile,
+        connectionCauseLog: String? = null
+    ) {
+        connect(permissionDelegate.getContext(), profile, connectionCauseLog) { intent ->
+            permissionDelegate.askForPermissions(intent) {
+                connectWithPermission(permissionDelegate.getContext(), profile)
+            }
+        }
+    }
+
+    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String? = null) {
+        connect(context, profile, connectionCauseLog) {
+            showInsufficientPermissionNotification(context)
+        }
+    }
+
+    private fun connect(
+        context: Context,
+        profile: Profile,
+        connectionCauseLog: String? = null,
+        onPermissionNeeded: (Intent) -> Unit
+    ) {
         connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
         val intent = prepare(context)
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
-            if (context is ActivityResultRegistryOwner) {
-                val permissionCall = context.activityResultRegistry.register(
-                    "VPNPermission", PermissionContract(intent)
-                ) { permissionGranted ->
-                    if (permissionGranted) {
-                        connectWithPermission(context, profile)
-                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        (context as Activity).showNoVpnPermissionDialog()
-                    }
-                }
-                permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
-            } else {
-                showInsufficientPermissionNotification(context)
-            }
+            onPermissionNeeded(intent)
         } else {
             connectWithPermission(context, profile)
         }
@@ -390,9 +395,9 @@ open class VpnConnectionManager(
 
     private fun protocolNotSupportedDialog(context: Context) {
         if (context is Activity) {
-            MaterialDialog.Builder(context).theme(Theme.DARK)
-                .content(R.string.serverNoWireguardSupport)
-                .positiveText(R.string.close)
+            MaterialAlertDialogBuilder(context)
+                .setMessage(R.string.serverNoWireguardSupport)
+                .setPositiveButton(R.string.close, null)
                 .show()
         } else {
             notificationHelper.showInformationNotification(
@@ -453,11 +458,16 @@ open class VpnConnectionManager(
         }
     }
 
-    fun reconnect(context: Context) = scope.launch {
+    fun reconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
         clearOngoingConnection()
         if (activeBackend != null)
             activeBackend?.reconnect()
         else
-            lastProfile?.let { connect(context, it, "reconnection") }
+            lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+    }
+
+    fun fullReconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
+        disconnectBlocking()
+        lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
     }
 }

@@ -29,8 +29,9 @@ import com.protonvpn.android.vpn.VpnConnectionManager;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class BootReceiver extends BroadcastReceiver {
 
     @Inject ServerManager manager;
@@ -39,11 +40,10 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AndroidInjection.inject(this, context);
         if (userData.getConnectOnBoot() && userData.isLoggedIn()) {
             Profile defaultProfile = manager.getDefaultConnection();
             if (defaultProfile != null) {
-                vpnConnectionManager.connect(context, defaultProfile, "legacy always-on");
+                vpnConnectionManager.connectInBackground(context, defaultProfile, "legacy always-on");
             }
         }
     }

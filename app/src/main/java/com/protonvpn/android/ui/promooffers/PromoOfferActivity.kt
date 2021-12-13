@@ -26,59 +26,60 @@ import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
 import android.util.Size
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationOfferFeature
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityPromoOfferBinding
 import com.protonvpn.android.databinding.ItemPromoFeatureBinding
-import com.protonvpn.android.utils.ViewModelFactory
-import javax.inject.Inject
+import com.protonvpn.android.utils.openUrl
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
 
-@ContentLayout(R.layout.activity_promo_offer)
-class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferViewModel>() {
+@AndroidEntryPoint
+class PromoOfferActivity : BaseActivityV2() {
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
-
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(PromoOfferViewModel::class.java)
-    }
+    private val viewModel: PromoOfferViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityPromoOfferBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val offerId = getOfferId(intent)
-        val panel = offerId?.let { viewModel.getPanel(offerId) }
-        if (panel != null) {
-            setViews(panel)
-        } else {
-            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
-            finish()
+        lifecycleScope.launch {
+            val panel = offerId?.let { viewModel.getPanel(offerId) }
+            if (panel != null) {
+                setViews(binding, panel)
+            } else {
+                Toast.makeText(this@PromoOfferActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
-    private fun setViews(panel: ApiNotificationOfferPanel) {
+    private fun setViews(binding: ActivityPromoOfferBinding, panel: ApiNotificationOfferPanel) {
         with(binding) {
             textIncentive.text = createIncentiveText(panel.incentive, panel.incentivePrice)
             textPill.text = panel.pill
             textTitle.text = panel.title
             textFooter.text = panel.pageFooter
 
-            panel.features.forEach { addFeatureLine(it) }
+            panel.features.forEach { addFeatureLine(layoutFeatures, it) }
             val activity = this@PromoOfferActivity
             val featureFooterViews =
                 ItemPromoFeatureBinding.inflate(LayoutInflater.from(activity), layoutFeatures, true)
             featureFooterViews.text.text = panel.featuresFooter
-            featureFooterViews.text.setTextColor(ContextCompat.getColor(activity, R.color.lightGrey))
+            featureFooterViews.text.setTextAppearance(R.style.Proton_Text_Caption_Weak)
 
             val maxSize = getPictureMaxSize(activity)
             Glide.with(activity)
@@ -92,8 +93,8 @@ class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferV
         }
     }
 
-    private fun addFeatureLine(feature: ApiNotificationOfferFeature) {
-        val views = ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), binding.layoutFeatures, true)
+    private fun addFeatureLine(container: ViewGroup, feature: ApiNotificationOfferFeature) {
+        val views = ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), container, true)
         views.text.text = feature.text
         Glide.with(this)
             .load(feature.iconUrl)
@@ -110,7 +111,7 @@ class PromoOfferActivity : BaseActivityV2<ActivityPromoOfferBinding, PromoOfferV
         val placeholderIndex = nonBreakingTemplate.indexOf(INCENTIVE_PRICE_PLACEHOLDER)
         return if (placeholderIndex != -1) {
             val richText = SpannableString(nonBreakingTemplate.replace(INCENTIVE_PRICE_PLACEHOLDER, nonBreakingPrice))
-            val priceSpan = TextAppearanceSpan(this, R.style.TextAppearance_AppCompat_Headline)
+            val priceSpan = TextAppearanceSpan(this, R.style.Proton_Text_Hero)
             richText.setSpan(priceSpan, placeholderIndex, placeholderIndex + nonBreakingPrice.length, 0)
             richText
         } else {

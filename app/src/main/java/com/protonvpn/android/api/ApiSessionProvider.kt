@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.api
 
-import android.content.Context
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.Storage
@@ -30,7 +29,7 @@ import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 
 // TODO: true multi-user support will be added when core Auth is integrated.
-class ApiSessionProvider(val appContext: Context) : SessionProvider, SessionListener {
+class ApiSessionProvider() : SessionProvider, SessionListener {
 
     val forceLogoutEvent = MutableSharedFlow<Session>()
     val currentSessionId: SessionId? get() = currentSession?.uid?.let { SessionId(it) }

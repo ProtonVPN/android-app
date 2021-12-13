@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.tv.main
 
-import android.app.Activity
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
@@ -29,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -54,12 +54,14 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TvMainViewModel @Inject constructor(
     override val appConfig: AppConfig,
     override val serverManager: ServerManager,
@@ -177,7 +179,7 @@ class TvMainViewModel @Inject constructor(
             .forEach {
                 recentsList.add(
                     ProfileCard(
-                        title = it.name,
+                        title = it.name.ifEmpty { it.server?.displayName ?: "" },
                         titleDrawable = profileCardTitleIcon(it),
                         backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
                         profile = it
@@ -253,7 +255,7 @@ class TvMainViewModel @Inject constructor(
     private fun quickConnectBackground(context: Context) =
         CountryTools.getFlagResource(context, quickConnectFlag)
 
-    fun onQuickConnectAction(activity: Activity) {
+    fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
             vpnConnectionManager.disconnect()
         } else {
@@ -261,7 +263,7 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    fun connect(activity: Activity, card: CountryCard?) {
+    fun connect(activity: BaseTvActivity, card: CountryCard?) {
         val profile = if (card != null)
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
                 Profile.getTempProfile(it, serverManager)
@@ -271,7 +273,7 @@ class TvMainViewModel @Inject constructor(
         connect(activity, profile)
     }
 
-    private fun connect(activity: Activity, profile: Profile?) {
+    private fun connect(activity: BaseTvActivity, profile: Profile?) {
         if (profile?.server?.online != true) {
             showMaintenanceDialog(activity)
         } else {
@@ -283,7 +285,7 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    fun connect(activity: Activity, card: ProfileCard) {
+    fun connect(activity: BaseTvActivity, card: ProfileCard) {
         connect(activity, card.profile)
     }
 
@@ -296,7 +298,10 @@ class TvMainViewModel @Inject constructor(
 
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
         userData.defaultConnection = if (checked) Profile(
-            vpnCountry.countryName, "", ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager)
+            vpnCountry.countryName,
+            null,
+            ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager),
+            null
         ) else null
     }
 

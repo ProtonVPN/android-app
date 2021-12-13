@@ -18,18 +18,21 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="12dp"
     android:gravity="center_vertical">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:src="@drawable/oval"
-        android:tint="@color/serverLoadLow"/>
+        app:tint="@color/serverLoadLow" />
 
     <TextView
         style="@style/CaptionRegular"
@@ -39,12 +42,12 @@
         android:textColor="@color/text_weak"
         android:text="@string/server_load_low"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        android:tint="@color/serverLoadMedium"/>
+        app:tint="@color/serverLoadMedium" />
 
     <TextView
         style="@style/CaptionRegular"
@@ -54,12 +57,12 @@
         android:textColor="@color/text_weak"
         android:text="@string/server_load_medium"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        android:tint="@color/serverLoadHigh"/>
+        app:tint="@color/serverLoadHigh" />
 
     <TextView
         style="@style/CaptionRegular"

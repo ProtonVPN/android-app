@@ -21,37 +21,50 @@ package com.protonvpn.android.components;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate;
+import com.protonvpn.android.ui.snackbar.DelegatedSnackManager;
+import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper;
+import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.vpn.VpnPermissionDelegate;
 
+import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
-import dagger.android.support.DaggerAppCompatActivity;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-public abstract class BaseActivity extends DaggerAppCompatActivity implements NetworkLoader {
+public abstract class BaseActivity extends AppCompatActivity
+        implements NetworkLoader, VpnPermissionDelegate {
 
     @Nullable @BindView(R.id.loadingContainer) NetworkFrameLayout loadingContainer;
     @Nullable @BindView(R.id.layoutDrawer) protected DrawerLayout drawer;
     @Nullable @BindView(R.id.toolbar) protected Toolbar toolbar;
     @Nullable @BindView(R.id.navigationDrawer) View navigationDrawer;
     boolean isRegisteredForEvents = false;
-    protected ActionBarDrawerToggle toggle;
+
+    private final VpnPermissionDelegate vpnPermissionDelegate =
+            new VpnPermissionActivityDelegate(this, this::onVpnPermissionDenied);
+
+    private DelegatedSnackbarHelper snackbarHelper;
+    @Inject public DelegatedSnackManager delegatedSnackManager;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -64,11 +77,11 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
         checkOrientation();
         setContentView(AnnotationParser.getAnnotatedLayout(this));
         ButterKnife.bind(this);
-        AndroidInjection.inject(this);
 
         if (isRegisteredForEvents) {
             EventBus.getInstance().register(this);
         }
+        snackbarHelper = new DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager);
     }
 
     public void checkOrientation() {
@@ -92,15 +105,14 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
     }
 
     public void initDrawer() {
-        toggle =
-            new ActionBarDrawerToggle(this, drawer, toolbar, R.string.hamburgerMenu, R.string.hamburgerMenu);
-        getDrawer().addDrawerListener(toggle);
-        toggle.syncState();
+        toolbar.setNavigationIcon(R.drawable.ic_hamburger_with_margin);
+        toolbar.setNavigationContentDescription(R.string.hamburgerMenu);
+        toolbar.setNavigationOnClickListener(view -> toggleDrawer());
         setDrawerState(true, navigationDrawer);
     }
 
     public void closeDrawer() {
-        getDrawer().closeDrawer(Gravity.START, false);
+        getDrawer().closeDrawer(GravityCompat.START, false);
     }
 
     public void setDrawerState(boolean isEnabled, View view) {
@@ -150,5 +162,33 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Ne
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void askForPermissions(@NonNull Intent intent, @NonNull Function0<Unit> onPermissionGranted) {
+        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted);
+    }
+
+    private Unit onVpnPermissionDenied() {
+        // Delegating to BaseactivityV2's static method isn't pretty but it should be removed soon together
+        // with BaseActivity.
+        BaseActivityV2.Companion.showNoVpnPermissionDialog(this);
+        return Unit.INSTANCE;
+    }
+
+    public SnackbarHelper getSnackbarHelper() {
+        return snackbarHelper;
+    }
+
+    private View getContentView() {
+        return findViewById(android.R.id.content);
+    }
+
+    private void toggleDrawer() {
+        if (getDrawer().isDrawerOpen(GravityCompat.START)) {
+            getDrawer().closeDrawer(GravityCompat.START, true);
+        } else {
+            getDrawer().openDrawer(GravityCompat.START, true);
+        }
     }
 }

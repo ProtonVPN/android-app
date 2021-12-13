@@ -18,13 +18,12 @@
  */
 package com.protonvpn.android.ui.login
 
-import android.content.res.ColorStateList
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -34,20 +33,14 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatEditText
+import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.CompressedTextWatcher
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.databinding.ActivityLoginBinding
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
@@ -56,31 +49,35 @@ import com.protonvpn.android.utils.Constants.SIGNUP_URL
 import com.protonvpn.android.utils.Constants.URL_SUPPORT_ASSIGN_VPN_CONNECTION
 import com.protonvpn.android.utils.DeepLinkActivity
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
-import com.protonvpn.android.utils.getThemeColor
-import com.protonvpn.android.utils.overrideMemoryClear
+import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.toSafeUtf8ByteArray
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.exhaustive
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
-import javax.inject.Inject
 
-@ContentLayout(R.layout.activity_login)
-class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
-        KeyboardVisibilityEventListener, Observer<LoginState> {
+const val LOGO_VERTICAL_BIAS = 0.5f
+const val LOGO_VERTICAL_BIAS_WITH_KEYBOARD = 0.1f
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+@AndroidEntryPoint
+class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observer<LoginState> {
 
-    override fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-    }
+    @VisibleForTesting
+    val viewModel: LoginViewModel by viewModels()
+    private val binding by viewBinding(ActivityLoginBinding::inflate)
+
+    @VisibleForTesting
+    fun getLoadingContainer() = binding.loadingContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevent screen capture etc. to record user password
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         if (viewModel.userData.isLoggedIn) {
             launchActivity<HomeActivity>()
             finish()
@@ -93,17 +90,16 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         viewModel.loginState.observe(this@LoginActivity, this@LoginActivity)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() = with(binding) {
         buttonLogin.setOnClickListener { attemptLogin() }
-        textCreateAccount.setOnClickListener { openUrl(SIGNUP_URL) }
-        textNeedHelp.setOnClickListener {
-            val dialog =
-                MaterialDialog.Builder(this@LoginActivity).theme(Theme.DARK).title(R.string.loginNeedHelp)
-                    .customView(R.layout.dialog_help, true).negativeText(R.string.cancel).show()
-            initNeedHelpDialog(dialog.customView!!)
+        buttonCreateAccount.setOnClickListener { openUrl(SIGNUP_URL) }
+        buttonNeedHelp.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, LoginHelpActivity::class.java))
         }
         buttonAssignVpnConnections.setOnClickListener { openUrl(URL_SUPPORT_ASSIGN_VPN_CONNECTION) }
         buttonReturnToLogin.setOnClickListener { viewModel.onBackToLogin() }
+        layoutConnectionAllocationHelp.setOnClickListener { /* prevents click through */ }
     }
 
     private fun initInputFields() {
@@ -114,9 +110,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             switchStartWithDevice.visibility =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) GONE else VISIBLE
             switchStartWithDevice.isChecked = viewModel.userData.connectOnBoot
-            editEmail.addTextChangedListener(getTextWatcher(editEmail))
-            editPassword.addTextChangedListener(getTextWatcher(editPassword))
-            editPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
+            inputPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
                     attemptLogin()
                     return@OnEditorActionListener true
@@ -124,26 +118,26 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                 false
             })
 
-            editEmail.setText(viewModel.userData.user)
+            inputEmail.text = viewModel.userData.user
         }
     }
 
     private fun checkIfOpenedFromWeb() {
         if (intent.getBooleanExtra(DeepLinkActivity.FROM_DEEPLINK, false)) {
-            binding.editEmail.setText(intent.getStringExtra(DeepLinkActivity.USER_NAME))
+            binding.inputEmail.text = intent.getStringExtra(DeepLinkActivity.USER_NAME)
             WelcomeDialog.showDialog(supportFragmentManager, WelcomeDialog.DialogType.WELCOME)
         }
     }
 
     override fun onVisibilityChanged(isOpen: Boolean) {
-        val visibility = if (isOpen) View.GONE else View.VISIBLE
+        val visibility = if (isOpen) GONE else VISIBLE
         with(binding) {
-            textCreateAccount.visibility = visibility
-            textNeedHelp.visibility = visibility
+            buttonCreateAccount.visibility = visibility
+            buttonNeedHelp.visibility = visibility
             layoutCredentials.gravity = if (isOpen) Gravity.TOP else Gravity.CENTER_VERTICAL
 
             val params = protonLogo.layoutParams as ConstraintLayout.LayoutParams
-            params.verticalBias = if (isOpen) 0.1f else 0.5f
+            params.verticalBias = if (isOpen) LOGO_VERTICAL_BIAS_WITH_KEYBOARD else LOGO_VERTICAL_BIAS
             protonLogo.layoutParams = params
         }
     }
@@ -153,8 +147,8 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
             if (currentFocus is EditText) {
                 val emailRect = Rect()
                 val passRect = Rect()
-                binding.editEmail.getGlobalVisibleRect(emailRect)
-                binding.editPassword.getGlobalVisibleRect(passRect)
+                binding.inputEmail.getGlobalVisibleRect(emailRect)
+                binding.inputPassword.getGlobalVisibleRect(passRect)
                 if (!emailRect.contains(event.rawX.toInt(), event.rawY.toInt()) &&
                         !passRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     hideKeyboard()
@@ -164,48 +158,23 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
         return super.dispatchTouchEvent(event)
     }
 
-    private fun getTextWatcher(editText: AppCompatEditText?): TextWatcher {
-        return object : CompressedTextWatcher() {
-            override fun afterTextChanged(editable: Editable) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val color = if (editable.toString() == "")
-                        ContextCompat.getColor(this@LoginActivity, R.color.lightGrey)
-                    else
-                        this@LoginActivity.getThemeColor(R.attr.colorAccent)
-                    editText?.backgroundTintList = ColorStateList.valueOf(color)
-                }
-            }
-        }
-    }
-
-    private fun initNeedHelpDialog(view: View) {
-        view.findViewById<View>(R.id.buttonResetPassword)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/reset-password") }
-        view.findViewById<View>(R.id.buttonForgotUser)
-                .setOnClickListener { openUrl("https://account.protonvpn.com/forgot-username") }
-        view.findViewById<View>(R.id.buttonLoginProblems)
-                .setOnClickListener { openUrl("https://protonvpn.com/support/login-problems/") }
-        view.findViewById<View>(R.id.buttonGetSupport)
-                .setOnClickListener { openUrl("https://protonvpn.com/support") }
-    }
-
     private fun attemptLogin() = with(binding) {
-        inputEmail.error = null
-        inputPassword.error = null
+        inputEmail.clearInputError()
+        inputPassword.clearInputError()
 
-        val email = editEmail.text.toString()
+        val email = inputEmail.text.toString()
         var cancel = false
         var focusView: View? = null
 
         if (TextUtils.isEmpty(email)) {
-            inputEmail.error = getString(R.string.error_field_required)
-            focusView = editEmail
+            inputEmail.setInputError(getString(R.string.error_field_required))
+            focusView = inputEmail
             cancel = true
         }
 
-        if (TextUtils.isEmpty(editPassword.text)) {
-            inputPassword.error = getString(R.string.error_field_required)
-            focusView = editPassword
+        if (TextUtils.isEmpty(inputPassword.text)) {
+            inputPassword.setInputError(getString(R.string.error_field_required))
+            focusView = inputPassword
             cancel = true
         }
 
@@ -230,8 +199,8 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
     private fun login() = with(binding) {
         if (loginJob?.isActive != true) {
             loginJob = lifecycleScope.launch {
-                viewModel.login(this@LoginActivity, editEmail.text.toString(),
-                    editPassword.text!!.toSafeUtf8ByteArray())
+                viewModel.login(this@LoginActivity, inputEmail.text.toString(),
+                    inputPassword.text!!.toSafeUtf8ByteArray())
             }
         }
     }
@@ -253,8 +222,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                 }
                 is LoginState.Success -> {
                     launchActivity<HomeActivity>()
-                    editPassword.text?.overrideMemoryClear()
-                    editPassword.clearComposingText()
+                    inputPassword.clearTextAndOverwriteMemory()
                     finish()
                 }
                 is LoginState.InProgress -> {
@@ -270,8 +238,7 @@ class LoginActivity : BaseActivityV2<ActivityLoginBinding, LoginViewModel>(),
                 }
                 is LoginState.UnsupportedAuth -> {
                     loadingContainer.switchToEmpty()
-                    Toast.makeText(this@LoginActivity,
-                        R.string.toastLoginAuthVersionError, Toast.LENGTH_LONG).show()
+                    snackbarHelper.errorSnack(R.string.toastLoginAuthVersionError)
                 }
                 is LoginState.ConnectionAllocationPrompt -> {
                     loadingContainer.switchToEmpty()

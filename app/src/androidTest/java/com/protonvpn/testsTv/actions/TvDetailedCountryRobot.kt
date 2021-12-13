@@ -39,8 +39,7 @@ class TvDetailedCountryRobot : BaseRobot(){
     fun getCountryName() : String = UiElementMatcher().getText(onView(withId(R.id.countryName)))
 
     class Verify : ConnectionVerify(){
-        fun userIsDisconnectedStreaming(): OnView =
-                checkIfElementIsDisplayedById(R.id.connectStreaming)
+        fun userIsDisconnectedStreaming() = checkIfElementIsDisplayedById(R.id.connectStreaming)
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

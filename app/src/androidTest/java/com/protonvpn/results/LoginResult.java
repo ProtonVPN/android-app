@@ -19,7 +19,9 @@
 package com.protonvpn.results;
 
 import com.protonvpn.android.R;
+import com.protonvpn.android.databinding.ActivityLoginBinding;
 import com.protonvpn.android.ui.login.LoginActivity;
+import com.protonvpn.actions.AccountRobot;
 import com.protonvpn.testsHelper.NetworkTestHelper;
 import com.protonvpn.test.shared.TestUser;
 import com.protonvpn.testsHelper.UIActionsTestHelper;
@@ -27,6 +29,7 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 public class LoginResult extends UIActionsTestHelper {
 
     private TestUser user;
+    private NetworkTestHelper networkTestHelper = new NetworkTestHelper();
 
     public LoginResult(TestUser testUser) {
         user = testUser;
@@ -37,7 +40,7 @@ public class LoginResult extends UIActionsTestHelper {
         return this;
     }
 
-    public AccountResults usernameDisplayed() {
+    public AccountRobot usernameDisplayed() {
         clickOnObjectWithContentDescription(R.string.hamburgerMenu);
 
         //clicks on the user info button
@@ -46,7 +49,7 @@ public class LoginResult extends UIActionsTestHelper {
         //checks if correct username is visible
         checkIfObjectWithIdAndTextIsDisplayed(R.id.textUser, user.email);
 
-        return new AccountResults();
+        return new AccountRobot();
     }
 
     public LoginResult isFailure() {
@@ -60,7 +63,7 @@ public class LoginResult extends UIActionsTestHelper {
     }
 
     public LoginResult noInternetConnectionError(LoginActivity activity) {
-        NetworkTestHelper.waitUntilNetworkErrorAppears(activity.binding.loadingContainer);
+        networkTestHelper.waitUntilNetworkErrorAppears(activity.getLoadingContainer());
 
         checkIfObjectWithIdIsDisplayed(R.id.buttonRetry);
 

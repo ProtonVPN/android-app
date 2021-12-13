@@ -22,23 +22,8 @@ import com.protonvpn.testsHelper.UIActionsTestHelper;
 
 public class MapResult extends UIActionsTestHelper {
 
-    public MapResult isUSNodeSelected() {
-        checkIfMapNodeIsSelected("United States");
-        return this;
-    }
-
-    public MapResult isUSNodeNotSelected() {
-        checkIfMapNodeIsNotSelected("United States");
-        return this;
-    }
-
     public MapResult isSwedenNodeSelected() {
         checkIfMapNodeIsSelected("Sweden");
-        return this;
-    }
-
-    public MapResult isFranceSecureCoreNodeSelected() {
-        checkIfMapNodeIsSelected("Sweden >> France");
         return this;
     }
 }

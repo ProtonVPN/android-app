@@ -22,12 +22,19 @@ package com.protonvpn.android.ui.promooffers
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
+@HiltViewModel
 class PromoOfferViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager
 ): ViewModel() {
 
-    fun getPanel(offerId: String): ApiNotificationOfferPanel? =
-        apiNotificationManager.getActiveNotification(offerId)?.offer?.panel
+    suspend fun getPanel(offerId: String): ApiNotificationOfferPanel? =
+        apiNotificationManager.activeListFlow
+            .firstOrNull()
+            ?.find { it.id == offerId }
+            ?.offer
+            ?.panel
 }
