@@ -107,8 +107,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
-import io.sentry.Sentry;
-import io.sentry.event.UserBuilder;
+
 import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
@@ -335,7 +334,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         viewModel.getUserLiveData().observe(this, (user) -> {
             if (user != null) {
                 String userName = CurrentUserKt.uiName(user);
-                Sentry.getContext().setUser(new UserBuilder().setUsername(userName).build());
                 textUser.setText(userName);
                 textUserInitials.setText(getInitials(userName));
                 textUserEmail.setText(user.getEmail());
