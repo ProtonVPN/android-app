@@ -90,7 +90,7 @@ class UserDataHelper {
         val userId = UserId("userId")
         accountManager.addAccount(
             Account(userId, user.email, user.email, AccountState.Ready, sessionId, SessionState.Authenticated,
-                AccountDetails(null)),
+                AccountDetails(null, null)),
             Session(sessionId, "accessToken", "refreshToken", emptyList()))
 
         vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId))

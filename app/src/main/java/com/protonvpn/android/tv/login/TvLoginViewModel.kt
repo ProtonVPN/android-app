@@ -151,7 +151,7 @@ class TvLoginViewModel @Inject constructor(
                 AccountState.Ready,
                 sessionId,
                 SessionState.Authenticated,
-                AccountDetails(null)
+                AccountDetails(null, null)
             ), Session(
                 sessionId,
                 accessToken,

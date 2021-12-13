@@ -65,6 +65,7 @@ import com.wireguard.android.backend.GoBackend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -97,8 +98,8 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideNetworkManager(): NetworkManager =
-        NetworkManager(ProtonApplication.getAppContext())
+    fun provideNetworkManager(@ApplicationContext appContext: Context): NetworkManager =
+        NetworkManager(appContext)
 
     @Singleton
     @Provides
@@ -112,9 +113,9 @@ object AppModuleProd {
         sessionListener: SessionListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
-        extraHeaderProvider: ExtraHeaderProvider
+        extraHeaderProvider: ExtraHeaderProvider,
+        @ApplicationContext appContext: Context
     ): ApiManagerFactory {
-        val appContext = ProtonApplication.getAppContext()
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
             override fun onServerTimeUpdated(epochSeconds: Long) {}
