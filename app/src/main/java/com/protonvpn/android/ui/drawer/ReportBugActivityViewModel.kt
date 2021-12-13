@@ -33,6 +33,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ProtonLoggerImpl
+import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.proton.core.network.domain.ApiResult
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -59,13 +60,15 @@ class ReportBugActivityViewModel @Inject constructor(
 
     suspend fun prepareAndPostReport(
         emailRaw: String,
-        description: String,
+        descriptionInput: String,
         attachLog: Boolean
     ) {
         val email = emailRaw.trim { it <= ' ' }
-        val inputValid = checkInput(email, description)
+        val inputValid = checkInput(email, descriptionInput)
         if (!inputValid)
             return
+
+        val description = "$descriptionInput\n\nSentry user ID: ${SentryIntegration.getInstallationId()}"
 
         _state.value = ViewState.Submitting
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)

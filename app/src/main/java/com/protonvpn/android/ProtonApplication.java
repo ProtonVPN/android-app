@@ -29,9 +29,9 @@ import com.github.anrwatchdog.ANRWatchDog;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
-import com.protonvpn.android.utils.ProtonExceptionHandler;
 import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
+import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
@@ -43,9 +43,8 @@ import org.strongswan.android.logic.StrongSwanApplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+
 import go.Seq;
-import io.sentry.Sentry;
-import io.sentry.android.AndroidSentryClientFactory;
 import leakcanary.AppWatcher;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -57,14 +56,13 @@ public class ProtonApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initActivityObserver();
-        initSentry();
+        initPreferences();
+        SentryIntegration.initSentry(this);
         initStrongSwan();
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
         new ANRWatchDog(15000).start();
-
-        initPreferences();
 
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
@@ -108,14 +106,6 @@ public class ProtonApplication extends Application {
         ProtonPreferences preferences =
             new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
         Storage.setPreferences(preferences);
-    }
-
-    private void initSentry() {
-        String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
-        Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
-
-        Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(new ProtonExceptionHandler(currentHandler));
     }
 
     private void initLeakCanary() {
