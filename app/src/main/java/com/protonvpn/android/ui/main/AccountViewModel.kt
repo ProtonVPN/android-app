@@ -28,6 +28,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,13 +40,14 @@ import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
 import me.proton.core.accountmanager.domain.AccountManager
-import me.proton.core.accountmanager.presentation.disableInitialNotReadyAccounts
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
 import me.proton.core.accountmanager.presentation.onAccountReady
 import me.proton.core.accountmanager.presentation.onSessionForceLogout
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
+import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
+import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.auth.presentation.onSecondFactorResult
@@ -72,6 +74,7 @@ class AccountViewModel @Inject constructor(
         object Initial : State()
         object LoginNeeded : State()
         object Ready : State()
+        object Processing : State()
     }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
@@ -91,6 +94,8 @@ class AccountViewModel @Inject constructor(
                         _state.emit(State.LoginNeeded)
                     accounts.any { it.isReady() } ->
                         _state.emit(State.Ready)
+                    else ->
+                        _state.emit(State.Processing)
                 }
             }.launchIn(activity.lifecycleScope)
 
@@ -101,7 +106,8 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onSessionForceLogout { onSessionClosed(it) }
                 .onAccountReady { certificateRepository.checkCertificateValidity() }
-                .disableInitialNotReadyAccounts()
+                .onUserKeyCheckFailed { ProtonLogger.log("UserKeyCheckFailed") }
+                .onUserAddressKeyCheckFailed { ProtonLogger.log("UserAddressKeyCheckFailed") }
         }
 
         with(humanVerificationOrchestrator) {

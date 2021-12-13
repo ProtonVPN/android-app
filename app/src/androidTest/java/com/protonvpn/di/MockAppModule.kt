@@ -106,8 +106,8 @@ class MockAppModule {
         sessionListener: SessionListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
+        @ApplicationContext appContext: Context
     ): ApiManagerFactory {
-        val appContext = ProtonApplication.getAppContext()
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
             override fun onServerTimeUpdated(epochSeconds: Long) {}

@@ -20,9 +20,8 @@
 package com.protonvpn.android.di
 
 import android.content.Context
-import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.auth.VpnUserCheck
+import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
@@ -36,7 +35,7 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.data.repository.AuthRepositoryImpl
 import me.proton.core.auth.domain.ClientSecret
 import me.proton.core.auth.domain.repository.AuthRepository
-import me.proton.core.auth.domain.usecase.SetupAccountCheck
+import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
@@ -67,12 +66,11 @@ object AuthModule {
         mainScope: CoroutineScope,
         @ApplicationContext context: Context,
         userData: UserData,
-        api: ProtonApiRetroFit,
         accountManager: AccountManager,
         userManager: UserManager,
         certificateRepository: CertificateRepository,
         vpnLogin: VpnLogin
-    ): SetupAccountCheck.UserCheck = VpnUserCheck(
+    ): PostLoginAccountSetup.UserCheck = VpnUserCheck(
         mainScope, userData, context, accountManager, userManager, certificateRepository, vpnLogin)
 }
 

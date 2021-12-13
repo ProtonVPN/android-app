@@ -25,7 +25,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.accountmanager.domain.AccountManager
-import me.proton.core.auth.domain.usecase.SetupAccountCheck
+import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.DefaultUserCheck
 import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.entity.User
@@ -40,16 +40,16 @@ class VpnUserCheck(
     private val vpnLoginUseCase: VpnLogin
 ) : DefaultUserCheck(context, accountManager, userManager) {
 
-    override suspend fun invoke(user: User): SetupAccountCheck.UserCheckResult {
+    override suspend fun invoke(user: User): PostLoginAccountSetup.UserCheckResult {
         val result = super.invoke(user)
-        if (result != SetupAccountCheck.UserCheckResult.Success)
+        if (result != PostLoginAccountSetup.UserCheckResult.Success)
             return result
 
         return when (val vpnLoginResult = vpnLoginUseCase(user, context)) {
             is VpnLogin.Result.Success ->
-                SetupAccountCheck.UserCheckResult.Success
+                PostLoginAccountSetup.UserCheckResult.Success
             is VpnLogin.Result.Error ->
-                SetupAccountCheck.UserCheckResult.Error(vpnLoginResult.message)
+                PostLoginAccountSetup.UserCheckResult.Error(vpnLoginResult.message)
         }
     }
 }

@@ -21,7 +21,6 @@ package com.protonvpn.android.db
 
 import androidx.room.Database
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.account.data.db.AccountConverters
@@ -100,9 +99,11 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 1
+        const val version = 2
 
-        private val migrations = listOf<Migration>()
+        private val migrations = listOf(
+            DatabaseMigrations.MIGRATION_1_2
+        )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
             migrations.forEach { addMigrations(it) }
