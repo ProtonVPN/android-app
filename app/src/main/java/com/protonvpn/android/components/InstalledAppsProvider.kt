@@ -33,7 +33,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
@@ -118,7 +117,9 @@ class InstalledAppsProvider @Inject constructor(
         packages: List<String>
     ): Channel<AppInfo> {
         val requestCode = getRequestCode()
-        val resultsChannel = Channel<AppInfo>()
+        // The channel should not need much capacity but it doesn't hurt to have enough for the
+        // worst possible case.
+        val resultsChannel = Channel<AppInfo>(capacity = packages.size)
         var resultCount = 0
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -136,7 +137,7 @@ class InstalledAppsProvider @Inject constructor(
                     } else {
                         context.packageManager.defaultActivityIcon
                     }
-                resultsChannel.trySendBlocking(AppInfo(packageName, name, iconDrawable))
+                resultsChannel.trySend(AppInfo(packageName, name, iconDrawable))
                 if (++resultCount == packages.size)
                     resultsChannel.close()
             }
