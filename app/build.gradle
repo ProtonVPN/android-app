@@ -186,7 +186,8 @@ android {
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
         buildConfigField "String", "TESTRAIL_CREDENTIALS",  "\"${System.getenv("TESTRAIL_USER")}\""
         buildConfigField "String", "CI_BRANCH_NAME", "\"${System.getenv("CI_COMMIT_BRANCH")}\""
-        buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${System.getenv("CI_COMMIT_MESSAGE")?.trim()}\""
+        def commitFirstLine = System.getenv("CI_COMMIT_MESSAGE")?.split('\n')?.first()?.trim()
+        buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${commitFirstLine}\""
         buildConfigField "String", "BLACK_TOKEN", "\"\""
         javaCompileOptions {
             annotationProcessorOptions {
