@@ -232,7 +232,7 @@ class MockAppModule {
     @Provides
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
-        TimeUnit.MILLISECONDS.toMillis(50) else TvLoginViewModel.POLL_DELAY_MS
+        TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
 }
 
 @Module
