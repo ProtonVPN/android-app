@@ -23,3 +23,22 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontoptimize
+-dontobfuscate
+-verbose
+-keepattributes SourceFile,LineNumberTable,Exceptions,InnerClasses,Signature,Deprecated,*Annotation*,EnclosingMethod
+
+# explicitly define classes that get optimized, keep everything by default
+-keep class !com.android.support.**,!com.google.android.**,** { *; }
+
+# disable logcat logs in release builds
+-assumenosideeffects class android.util.Log {
+    v(...);
+    d(...);
+    i(...);
+    w(...);
+    e(...);
+    wtf(...);
+    println(...);
+}
