@@ -31,40 +31,40 @@
   <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
   <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
   <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
-  <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
-  <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
-  <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+  <string name="connectionAllocationHelpTitle">با تشکر از شما برای ارتقا به \nProfissional\u00a0/\u00a0Visionary</string>
+  <string name="connectionAllocationHelpDescription1">برای آغاز سفر خود در ProtonVPN لطفاً اتصال‌های VPN خود را به حساب کاربری خود یا هر حساب-فرعی دیگری اختصاص دهید.</string>
+  <string name="connectionAllocationHelpDescription2">این کار چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">اختصاص اتصالات VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
-  <string name="loginHelpTitle">How can we help?</string>
-  <string name="loginHelpForgotPassword">Forgot password</string>
+  <string name="loginHelpTitle">چگونه می‌توانیم کمک کنیم؟</string>
+  <string name="loginHelpForgotPassword">فراموشی گذرواژه</string>
   <string name="loginHelpForgotUsername">فراموشی نام کاربری</string>
-  <string name="loginHelpOtherIssues">Other sign-in issues</string>
+  <string name="loginHelpOtherIssues">سایر مشکلات ورود</string>
   <string name="helpCustomerSupportTitle">هنوز به کمک نیاز دارید؟ با ما به صورت مستقیم تماس بگیرید</string>
   <string name="helpCustomerSupport">پشتیبانی مشتری</string>
   <string name="mapCalloutConnect">اتصال</string>
   <string name="mapCalloutDisconnect">قطع اتصال</string>
   <string name="mapSwitchSecureCore">Secure core</string>
   <string name="warning">هشدار</string>
-  <string name="secureCoreSwitchOnTitle">Connect to Secure Core server?</string>
-  <string name="secureCoreSwitchOffTitle">Connect to non-Secure Core server?</string>
+  <string name="secureCoreSwitchOnTitle">اتصال به سرور Secure Core؟</string>
+  <string name="secureCoreSwitchOffTitle">اتصال به سرور غیر-Secure Core؟</string>
   <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
          Examples:
          "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
          "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-  <string name="secureCoreSwitchOn">You are trying to connect to a Secure Core server. This will enable Secure Core mode%1$s.</string>
+  <string name="secureCoreSwitchOn">شما در حال تلاش برای اتصال به سرور Secure Core هستید. این کار حالت Secure Core را فعال می‌کند%1$s.</string>
   <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
          Examples:
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
          "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-  <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
+  <string name="secureCoreSwitchOff">شما در حال تلاش برای اتصال به سرور Secure Core هستید. این کار حالت Secure Core را غیرفعال می‌کند%1$s.</string>
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
-  <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
-  <string name="secureCoreSwitchConnect">Yes, connect</string>
-  <string name="logoutConfirmDialogTitle">Log out?</string>
-  <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
-  <string name="logoutConfirmDialogButton">Log out</string>
+  <string name="currentConnectionWillBeLost">\u0020و اتصال خود را بازنشانی کنید</string>
+  <string name="secureCoreSwitchConnect">بله، وصل شود</string>
+  <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
+  <string name="logoutConfirmDialogMessage">خارج شدن، اتصال VPN دستگاه شما را قطع می‌کند.</string>
+  <string name="logoutConfirmDialogButton">خروج از حساب</string>
   <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
   <string name="yes">بله</string>
   <string name="no">خیر</string>
@@ -165,7 +165,7 @@
   <string name="onboardingSignup">ثبت نام</string>
   <string name="onboardingSkip">رد کردن</string>
   <string name="onboardingNext">بعدی</string>
-  <string name="offerTooltipShowOffer">See the offer</string>
+  <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
   <string name="listItemMaintenance">تحت عملیات نگهداری</string>
   <string name="listAllCountries">همهٔ مکان‌ها (%1$d)</string>
   <string name="listFreeCountries">مکان‌های رایگان (%1$d)</string>
@@ -193,7 +193,7 @@
   <string name="error_generic_with_reason">ProtonVPN نمی‌توانست یک اتصال VPN برقرار کند. لطفاً، پس از چند ثانیه دوباره تلاش کنید. <br/>
     <br/> جزئیات: %1$s</string>
   <string name="reconnect">اتصال مجدد</string>
-  <string name="reconnect_now">Reconnect now</string>
+  <string name="reconnect_now">حالا مجددا متصل شوید</string>
   <string name="try_reconnecting">Try reconnecting</string>
   <string name="connect">اتصال</string>
   <string name="upgrade">ارتقا</string>
@@ -218,7 +218,7 @@
   <string name="report_bug_message_hint">لطفاً اشکال و چگونگی و محلی که آن را پیدا کردید شرح دهید</string>
   <string name="send_report">ارسال گزارش</string>
   <string name="excludeIpTitle">جدا کردن نشانی‌های IP</string>
-  <string name="discardChanges">Discard unsaved changes?</string>
+  <string name="discardChanges">تغییرات ذخیره نشده را نادیده می‌گیرید؟</string>
   <string name="discard">لغو</string>
   <string name="selectedProfileColor">لطفاً رنگ پروفایل را انتخاب کنید</string>
   <string name="excludeIpDescription">نشانی‌های IP را که می‌خواهید از ترافیک VPN جدا شوند اضافه کنید.</string>
@@ -233,13 +233,13 @@
   <string name="try_again">تلاش دوباره</string>
   <string name="manage">مدیریت</string>
   <string name="delete">حذف</string>
-  <string name="remove">Remove</string>
+  <string name="remove">حذف</string>
   <string name="deleteProfileButton">حذف پروفایل</string>
-  <string name="deleteProfile">Delete profile?</string>
+  <string name="deleteProfile">حذف پروفایل؟</string>
   <string name="doneButton">انجام شد</string>
   <string name="saveButton">ذخیره</string>
   <string name="recommendedHeader">توصیه شده</string>
-  <string name="countryServersHeader">Country servers</string>
+  <string name="countryServersHeader">سرورهای کشورها</string>
   <string name="secureCoreCountriesHeader">کشورهای Secure Core</string>
   <string name="recommendedProfilesHeader">پروفایل‌های توصیه شده</string>
   <string name="yourProfilesHeader">پروفایل‌های شما</string>
@@ -262,15 +262,15 @@
   <string name="notConnected">شما به سروری \n متصل نیستید</string>
   <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
   <string name="stateFragmentUnknownIp">ناشناخته</string>
-  <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
-  <string name="noVpnPermissionMainMessage">To connect to ProtonVPN, please do the following:</string>
-  <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
-  <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to ProtonVPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
-  <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
-  <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than ProtonVPN.</string>
-  <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
-  <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
-  <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
+  <string name="noVpnPermissionMainTitle">عملی برای اتصال به VPN لازم است</string>
+  <string name="noVpnPermissionMainMessage">برای اتصال به ProtonVPN، لطفاً کارهای زیر را انجام دهید:</string>
+  <string name="noVpnPermissionGrantPermissionTitle">مجوز VPN را اعطا کنید</string>
+  <string name="noVpnPermissionGrantPemrissionMessage">Android به اجازهٔ شما برای اتصال به ProtonVPN نیاز دارد. با ضربه زدن روی «قبول» هنگامی که پنجرهٔ «درخواست اتصال» را از اندروید دریافت می‌کنید آن را اعطا کنید.</string>
+  <string name="noVpnPermissionDisableAlwaysOnTitle">همیشه-روشن را برای برنامه‌های دیگر غیرفعال کنید</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN چندگانه پشتیبانی نمی‌کند. همیشه-روشن را برای هر برنامهٔ VPNای به غیر از ProtonVPN غیرفعال کنید.</string>
+  <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
+  <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
+  <string name="noVpnPermissionOpenSettings">تنظیمات VPN را در Android باز کنید</string>
   <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعّال کنید، زیرا مانع برقراری اتصال ProtonVPN می‌شود. لطفاً همچنین مجوز VPN را در صورت ظاهر شدن صفحهٔ درخواست اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
   <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
   <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>
@@ -297,9 +297,9 @@
   <string name="settingsExcludedApps">برنامه‌های جدا شده</string>
   <string name="settingsExcludedAppsEmpty">برنامه‌ها را اضافه کنید تا از ترافیک VPN جدا شوند.</string>
   <string name="settingsExcludedAppsSelectedHeader">برنامه‌های جدا شده (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
-  <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">برنامه‌های معمول مجاز (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">برنامه‌های سیستم مجاز (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستم</string>
   <string name="listNoItems">هیچ‌کدام</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
@@ -310,7 +310,7 @@
   </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
-  <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
+  <string name="removeExcludedIpDialogDescription">حذف نشانی IP از فهرست؟</string>
   <string name="loaderFetchingServers">بارگیری سرورها…</string>
   <string name="toastProfileSaved">ذخیره شد</string>
   <string name="freeTrialExpiredTitle">دورهٔ آزمایشی ProtonVPN Plus به پایان رسید</string>
@@ -339,13 +339,13 @@
   <string name="troubleshootContactUsSectionTitle">هنوز به کمک نیاز دارید؟ با ما به صورت مستقیم تماس بگیرید</string>
   <string name="troubleshootCustomerSupport">پشتیبانی مشتری</string>
   <string name="settingsAllowAlternativeRoutingTitle">مسیریابی جایگزین</string>
-  <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
+  <string name="settingsAllowAlternativeRoutingDescription">در صورتی که Proton مسدود است، به برنامه اجازه دهید که مسیرهای جایگزین را برای دستیابی به سرورهای Proton امتحان کند</string>
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Set up how ProtonVPN behaves if your connection is disrupted</string>
-  <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
+  <string name="settingsAlwaysOnKillSwitchDescription">تنظیم کنید ProtonVPN در صورت مختل شدن اتصال شما چگونه رفتار می‌کند</string>
+  <string name="settingsAlwaysOnWindowHeader">چگونگی روشن کردن VPN همیشه-روشن و Kill Switch:</string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">۲. ProtonVPN را پیدا کنید و روی %1$s ضربه بزنید</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
@@ -356,9 +356,9 @@
          Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[۴. دکمهٔ کنار <b>مسدود کردن اتصالات بدون VPN </b> را لمس کنید تا Kill Switch فعال شود]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">این دکمه شما را به تنظیمات Android هدایت می‌کند، که در آنجا می‌توانید این قابلیت‌ها را مدیریت کنید.</string>
   <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
   <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
   <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>
@@ -370,7 +370,7 @@
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
-  <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
+  <string name="errorTorrentNotAllowed">روی این سرور P2P اجازه داده نمی‌شود</string>
   <string name="errorWireguardWithPlaceholder">خطای %1$s WireGuard</string>
   <string name="serverNoWireguardSupport">سرور این پروفایل هنوز از WireGuard پشتیبانی نمی‌کند. برای اتصال، از یک پروتکل دیگر یا سروری که از WireGuard پشتیبانی می‌کند استفاده کنید.</string>
   <string name="stateConnectedTo">متصل شده به %1$s</string>
@@ -454,9 +454,9 @@
   <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت‌های VPN را تا ٪۴۰۰ افزایش دهد. <a href="%1$s">بیشتر یاد بگیرید</a>.]]></string>
   <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
   <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
-  <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
-  <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
-  <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
+  <string name="settingsReconnectToApplySettingsDialogContent">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
+  <string name="settingsReconnectToChangeDialogContent">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.</string>
+  <string name="reconnectToEnableNetshield">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.\n\nتوجه: ممکن است برخی از سایت‌ها در صورت روشن بودن NetShield بارگذاری نشوند.</string>
   <string name="notification_subscription_expired_title">اشتراک ProtonVPN شما به پایان رسیده است</string>
   <string name="notification_subscription_expired_content">ما مجبور بودیم تا اشتراک شما را تنزیل دهیم، اما در حال اتصال شما به سریع‌ترین سرور در آن اشتراک هستیم.</string>
   <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزیل یافته است. </string>
@@ -503,11 +503,11 @@
     <item quantity="other">%1$d کشور</item>
   </plurals>
   <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
-  <string name="upgrade_netshield_title">Unlock NetShield</string>
-  <string name="upgrade_secure_core_title">Unlock Secure Core</string>
-  <string name="upgrade_plus_title">Unlock Plus countries</string>
-  <string name="upgrade_netshield_message">Block malware, ads, and trackers in browsers and in apps. Available with any paid plan.</string>
-  <string name="upgrade_secure_core_message">Route your most sensitive data through our safest servers in privacy-friendly countries. Available with Plus and Visionary plans.</string>
+  <string name="upgrade_netshield_title">باز کردن NetShield</string>
+  <string name="upgrade_secure_core_title">باز کردن Secure Core</string>
+  <string name="upgrade_plus_title">باز کردن کشورهای Plus</string>
+  <string name="upgrade_netshield_message">بدافزار، آگهی‌ها، و ردیاب‌ها را در مرورگرها و در برنامه‌ها مسدود کنید. قابل دسترس در همهٔ طرح‌های پرداختی.</string>
+  <string name="upgrade_secure_core_message">حساس‌ترین داده‌های خود را از طریق امن‌ترین سرورهای ما در کشورهای دوست‌دار حریم خصوصی عبور دهید. قابل دسترس در طرح‌های Plus و Visionary.</string>
   <!-- Parameters:
          %1$s - replaced with "upgrade_plus_servers"
          %2$s - replaced with "upgrade_plus_countries"
@@ -515,7 +515,7 @@
          Example:
          Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
          -->
-  <string name="upgrade_plus_message">Get access to %1$s in %2$s. Available with Plus and Visionary plans.</string>
+  <string name="upgrade_plus_message">به %1$s در %2$s دسترسی پیدا کنید. قابل دسترس در طرح‌های Plus و Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -523,8 +523,8 @@
          1200+ servers
          -->
   <plurals name="upgrade_plus_servers">
-    <item quantity="one">%d server</item>
-    <item quantity="other">%d+ servers</item>
+    <item quantity="one">%d سرور</item>
+    <item quantity="other">%d+ سرور</item>
   </plurals>
   <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
 
@@ -535,15 +535,15 @@
     <item quantity="one">%d کشور</item>
     <item quantity="other">%d کشور</item>
   </plurals>
-  <string name="upgrade_plus_countries_streaming">Access streaming services globally</string>
+  <string name="upgrade_plus_countries_streaming">به سرویس‌های پخش آنلاین به صورت جهانی دسترسی پیدا کنید</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
-    <item quantity="one">Connect %d device</item>
-    <item quantity="other">Connect %d devices simultaneously</item>
+    <item quantity="one">اتصال %d دستگاه</item>
+    <item quantity="other">اتصال %d دستگاه به صورت همزمان</item>
   </plurals>
-  <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
-  <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
-  <string name="upgrade_see_plans_button">See plans and pricing</string>
+  <string name="upgrade_plus_countries_netshield">مسدودکنندهٔ آگهی درون برنامه (NetShield)</string>
+  <string name="upgrade_plus_countries_speeds">بالاترین سرعت‌ها (تا سقف 10Gbps)</string>
+  <string name="upgrade_see_plans_button">طرح‌ها و قیمت‌ها را ببینید</string>
   <string name="upgrade_not_now_button">الان نه</string>
   <!-- Information activity -->
   <string name="activity_information_title">اطلاعات</string>

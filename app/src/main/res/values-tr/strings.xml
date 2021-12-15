@@ -323,7 +323,7 @@
   <string name="welcomeDialogTitleTrial">Teşekkür etmek için, size Plus planımızın ücretsiz 7 günlük deneme sürümünü veriyoruz. Bu deneme ile gelişmiş özellikleri ve Plus sunucularını kullanabilirsiniz. Deneme süresinin sonunda, Ücretsiz plana geri dönecek ve yalnızca Ücretsiz sunuculara erişebileceksiniz.</string>
   <string name="toastLoginAuthVersionError">Desteklenmeyen kimlik doğrulama sürümü nedeniyle oturum açılamıyor. Lütfen desteğe başvurun.</string>
   <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen tekrar deneyiniz.</string>
-  <string name="troubleshootButton">Sorun Gider</string>
+  <string name="troubleshootButton">Sorunu gider</string>
   <string name="activityTroubleshootTitle">Sorun Giderme</string>
   <string name="troubleshootPotentialSolutionsSectionTitle">Olası çözümler</string>
   <string name="troubleshootNoInternetDescription">Lütfen internet bağlantınızın çalıştığından emin olun.</string>

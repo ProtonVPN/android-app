@@ -61,10 +61,10 @@
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
   <string name="currentConnectionWillBeLost">\u0020y restablecer su conexión</string>
-  <string name="secureCoreSwitchConnect">Sí, conecte</string>
-  <string name="logoutConfirmDialogTitle">¿Cerrar la sesión?</string>
+  <string name="secureCoreSwitchConnect">Sí, conectarse</string>
+  <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
   <string name="logoutConfirmDialogMessage">Al cerrar la sesión, su dispositivo se desconectará de la VPN.</string>
-  <string name="logoutConfirmDialogButton">Cerrar la sesión</string>
+  <string name="logoutConfirmDialogButton">Cerrar sesión</string>
   <string name="showAllProfiles">Mostrar todos los perfiles</string>
   <string name="yes">Sí</string>
   <string name="no">No</string>
@@ -100,7 +100,7 @@
   <string name="drawerAccount">Cuenta</string>
   <string name="drawerHelp">Ayuda</string>
   <string name="drawerShowLog">Mostrar registro</string>
-  <string name="drawerReportProblem">Report problem</string>
+  <string name="drawerReportProblem">Notificar un problema</string>
   <string name="drawerSignOut">@string/menuActionSignOut</string>
   <string name="drawerAppVersion">v%1$s</string>
   <string name="accountDetails">Detalles de la cuenta</string>
@@ -165,15 +165,15 @@
   <string name="onboardingSignup">Regístrate</string>
   <string name="onboardingSkip">OMITIR</string>
   <string name="onboardingNext">SIGUIENTE</string>
-  <string name="offerTooltipShowOffer">See the offer</string>
+  <string name="offerTooltipShowOffer">Ver la oferta</string>
   <string name="listItemMaintenance">En mantenimiento</string>
-  <string name="listAllCountries">All Locations (%1$d)</string>
-  <string name="listFreeCountries">FREE Locations (%1$d)</string>
-  <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
-  <string name="listFastestServer">Fastest Server</string>
-  <string name="listFreeServers">FREE Servers (%1$d)</string>
-  <string name="listBasicServers">BASIC Servers (%1$d)</string>
-  <string name="listPlusServers">PLUS Servers (%1$d)</string>
+  <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
+  <string name="listFreeCountries">Ubicaciones Gratuitas (%1$d)</string>
+  <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
+  <string name="listFastestServer">Servidor más rápido</string>
+  <string name="listFreeServers">Servidores GRATUITOS (%1$d)</string>
+  <string name="listBasicServers">Servidores BASIC (%1$d)</string>
+  <string name="listPlusServers">Servidores PLUS (%1$d)</string>
   <string name="insufficientPermissionsTitle">Es necesaria la acción del usuario</string>
   <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese manualmente una vez para otorgar permisos.</string>
   <string name="tabsCountries">Países</string>
@@ -214,7 +214,7 @@
   <string name="report_message">Mensaje del informe</string>
   <string name="report_bug_email_label">Your email</string>
   <string name="report_bug_email_hint">Enter your email address</string>
-  <string name="report_bug_message_label">Message</string>
+  <string name="report_bug_message_label">Mensaje</string>
   <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
   <string name="send_report">Enviar informe</string>
   <string name="excludeIpTitle">Excluir direcciones IP</string>
@@ -235,22 +235,22 @@
   <string name="delete">Eliminar</string>
   <string name="remove">Eliminar</string>
   <string name="deleteProfileButton">Eliminar perfil</string>
-  <string name="deleteProfile">Eliminar perfil?</string>
+  <string name="deleteProfile">¿Eliminar perfil?</string>
   <string name="doneButton">Completado</string>
   <string name="saveButton">Guardar</string>
   <string name="recommendedHeader">Recomendado</string>
-  <string name="countryServersHeader">Country servers</string>
+  <string name="countryServersHeader">Servidores del país</string>
   <string name="secureCoreCountriesHeader">Secure Core countries</string>
   <string name="recommendedProfilesHeader">Recommended profiles</string>
   <string name="yourProfilesHeader">Your profiles</string>
   <string name="exitCountry">Salir del país</string>
   <string name="entryCountry">País de entrada</string>
   <string name="country">País</string>
-  <string name="selectCountry">Select country</string>
+  <string name="selectCountry">Seleccionar país</string>
   <string name="serverSelection">Servidor</string>
-  <string name="selectServer">Select server</string>
+  <string name="selectServer">Seleccionar servidor</string>
   <string name="protocolLabel">Protocolo</string>
-  <string name="selectProtocol">Select protocol</string>
+  <string name="selectProtocol">Seleccionar protocolo</string>
   <string name="protocol">Protocolo:</string>
   <string name="ip">IP:</string>
   <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -289,12 +289,12 @@
   <string name="loaderErrorNoInternet">No hay conexión a Internet</string>
   <string name="loaderErrorGeneric">Algo salió mal</string>
   <string name="loaderLoadingServers">Cargando servidores…</string>
-  <string name="inputIpAddressLabel">IP Address</string>
-  <string name="inputIpAddressHint">Write IP address</string>
-  <string name="inputIpAddressErrorInvalid">Invalid IP address</string>
-  <string name="settingsExcludedIPAddresses">Excluded IP Addresses</string>
-  <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
-  <string name="settingsExcludedApps">Excluded Apps</string>
+  <string name="inputIpAddressLabel">Dirección IP</string>
+  <string name="inputIpAddressHint">Escribe la dirección IP</string>
+  <string name="inputIpAddressErrorInvalid">Dirección IP no válida</string>
+  <string name="settingsExcludedIPAddresses">Direcciones IP excluidas</string>
+  <string name="settingsExcludedIPAddressesListHeader">Direcciones IP excluidas (%1$d)</string>
+  <string name="settingsExcludedApps">Apps excluidas</string>
   <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
   <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
   <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
@@ -305,12 +305,12 @@
          %2$d - a number of remaining items.
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
   <plurals name="listFewItemsAndMore">
-    <item quantity="one">%1$s and %2$d more</item>
-    <item quantity="other">%1$s and %2$d more</item>
+    <item quantity="one">%1$s y %2$d más</item>
+    <item quantity="other">%1$s y %2$d más</item>
   </plurals>
   <string name="settingsCannotChangeWhileConnected">No se puede cambiar esto mientras estás conectado</string>
   <string name="excludeAlreadyExcluded">Ya excluido</string>
-  <string name="removeExcludedIpDialogDescription">¿Quitar la dirección IP de la lista?</string>
+  <string name="removeExcludedIpDialogDescription">¿Eliminar la dirección IP de la lista?</string>
   <string name="loaderFetchingServers">Obteniendo servidores…</string>
   <string name="toastProfileSaved">Guardado</string>
   <string name="freeTrialExpiredTitle">La prueba de ProtonVPN Plus ha expirado</string>
@@ -325,7 +325,7 @@
   <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Por favor, inténtalo de nuevo.</string>
   <string name="troubleshootButton">Resolución de problemas</string>
   <string name="activityTroubleshootTitle">Solución de problemas</string>
-  <string name="troubleshootPotentialSolutionsSectionTitle">Potential solutions</string>
+  <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
   <string name="troubleshootNoInternetDescription">Por favor, asegúrese de que su conexión a Internet está funcionando.</string>
   <string name="troubleshootNoInternetTitle">No hay conexión a Internet</string>
   <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
@@ -490,8 +490,8 @@
 
          Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_servers">
-    <item quantity="one">%1$d server</item>
-    <item quantity="other">%1$d servers</item>
+    <item quantity="one">%1$d servidor</item>
+    <item quantity="other">%1$d servidores</item>
   </plurals>
   <!-- Number of countries available in the service. This phrase will be combined with
          "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
@@ -499,8 +499,8 @@
 
          Example: 1364 servers, 55 countries -->
   <plurals name="upsell_many_countries">
-    <item quantity="one">%1$d country</item>
-    <item quantity="other">%1$d countries</item>
+    <item quantity="one">%1$d país</item>
+    <item quantity="other">%1$d países</item>
   </plurals>
   <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
   <string name="upgrade_netshield_title">Desbloquear NetShield</string>
@@ -542,7 +542,7 @@
     <item quantity="other">Conectar simultáneamente %d dispositivos</item>
   </plurals>
   <string name="upgrade_plus_countries_netshield">Bloqueador de anuncios integrado (NetShield)</string>
-  <string name="upgrade_plus_countries_speeds">Las velocidades más altas (hasta 10 Gbps)</string>
+  <string name="upgrade_plus_countries_speeds">Máxima velocidad (hasta 10 Gbps)</string>
   <string name="upgrade_see_plans_button">Ver los planes y precios</string>
   <string name="upgrade_not_now_button">Ahora no</string>
   <!-- Information activity -->
