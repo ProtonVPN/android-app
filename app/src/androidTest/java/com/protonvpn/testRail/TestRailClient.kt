@@ -28,7 +28,7 @@ import org.joda.time.DateTime
 class TestRailClient {
 
     private val data = HashMap<Any?, Any?>()
-    private val client: ApiClient
+    private lateinit var client: ApiClient
 
     fun createTestRun(): String {
         data["name"] =
@@ -55,8 +55,10 @@ class TestRailClient {
     }
 
     init {
-        val email = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[0]
-        val apiKey = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[1]
-        client = ApiClient(DefaultData.TESTRAIL_PROJECT_URL, email, apiKey)
+        if(shouldReport()){
+            val email = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[0]
+            val apiKey = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[1]
+            client = ApiClient(DefaultData.TESTRAIL_PROJECT_URL, email, apiKey)
+        }
     }
 }
