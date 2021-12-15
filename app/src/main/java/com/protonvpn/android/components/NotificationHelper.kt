@@ -196,7 +196,7 @@ class NotificationHelper(
         }
 
         if (notificationInfo.fullScreenDialog != null) {
-            val intent = Intent(appContext, Constants.MAIN_ACTIVITY_CLASS)
+            val intent = createMainActivityIntent(appContext)
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
             val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             notificationBuilder.setContentIntent(pending)
@@ -246,7 +246,7 @@ class NotificationHelper(
             else -> builder.color = ContextCompat.getColor(context, R.color.red)
         }
 
-        val intent = Intent(context, Constants.MAIN_ACTIVITY_CLASS)
+        val intent = createMainActivityIntent(context)
         intent.putExtra("OpenStatus", true)
         val pending =
                 PendingIntent.getActivity(context, PENDING_REQUEST_STATUS, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -332,7 +332,7 @@ class NotificationHelper(
             builder.setContentIntent(
                 PendingIntent.getActivity(
                     context, 0,
-                    Intent(context, Constants.MAIN_ACTIVITY_CLASS),
+                    createMainActivityIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT))
 
             action?.let {
@@ -365,5 +365,9 @@ class NotificationHelper(
                 manager.createNotificationChannel(notificationChannel)
             }
         }
+
+        // Use NEW_TASK flag to bring back the existing task to foreground.
+        fun createMainActivityIntent(context: Context) =
+            Intent(context, Constants.LOGIN_ACTIVITY_CLASS).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
     }
 }

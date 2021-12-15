@@ -49,6 +49,7 @@
         android:theme="@style/ProtonTheme.Vpn.Mobile"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
+
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"
@@ -76,6 +77,7 @@
             android:label="@string/app_name"
             android:configChanges="orientation"
             android:windowSoftInputMode="stateUnchanged|adjustResize" />
+
         <activity
             android:name=".ui.login.LoginHelpActivity"
             android:label="@string/app_name" />
@@ -220,7 +222,8 @@
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
-        <activity android:name=".ui.onboarding.SplashActivity">
+        <activity android:name=".ui.onboarding.SplashActivity"
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

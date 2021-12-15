@@ -43,6 +43,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLoginBinding
 import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.android.ui.onboarding.OnboardingActivity
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.ui.onboarding.WelcomeDialog
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants.SIGNUP_URL
@@ -73,6 +75,15 @@ class LoginActivity : BaseActivityV2(), KeyboardVisibilityEventListener, Observe
     fun getLoadingContainer() = binding.loadingContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (!OnboardingPreferences.wasOnboardingShown()) {
+            startActivity(
+                Intent(this, OnboardingActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                }
+            )
+            finish()
+        }
+
         // Prevent screen capture etc. to record user password
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 

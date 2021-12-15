@@ -30,16 +30,17 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val nextActivity = when {
-            isTV() ->
-                TvLoginActivity::class.java
-            !OnboardingPreferences.wasOnboardingShown() ->
-                OnboardingActivity::class.java
-            else ->
-                LoginActivity::class.java
-        }
-        startActivity(Intent(this, nextActivity))
+        val nextActivity =
+            if (isTV()) TvLoginActivity::class.java
+            else LoginActivity::class.java
+
+        startActivity(
+            Intent(this, nextActivity).apply {
+                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            }
+        )
 
         finish()
+        overridePendingTransition(0, 0) // Disable animation.
     }
 }

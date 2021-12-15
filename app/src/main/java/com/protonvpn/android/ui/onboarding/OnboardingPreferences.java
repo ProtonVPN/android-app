@@ -33,7 +33,7 @@ public class OnboardingPreferences implements Serializable {
     public static String COUNTRY_DIALOG = "CountryDialogShown";
     public static String SLIDES_SHOWN = "OnboardingShown";
 
-    static boolean wasOnboardingShown() {
+    public static boolean wasOnboardingShown() {
         if (!Storage.getBoolean(SLIDES_SHOWN)) {
             Storage.saveBoolean(SLIDES_SHOWN, true);
             return false;
