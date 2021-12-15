@@ -153,12 +153,6 @@
   <string name="onboardingDialogSecureCoreDescription">Bu ücretli özelliği kullanın ve gezegendeki en güvenli sunuculara bağlanın. Bunları hem Ülkeler sekmesinde hem de Harita Görünümünde görebilirsiniz.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">Bu listede bağlanmak istediğiniz ülke ve sunucuyu seçebilirsiniz</string>
-  <string name="onboardingStartSlideTitle">Daha iyi bir internete hoş geldiniz</string>
-  <string name="onboardingStartSlideDescription">ProtonMail\'i yaratan bilim insanlarından ve mühendislerinden, daha güvenli ve özel bir İnternet\'e hoş geldiniz.</string>
-  <string name="onboardingMiddleSlideTitle">İnternetin özgür olması gerektiğine inanıyoruz</string>
-  <string name="onboardingMiddleSlideDescription">Sansür ve bölgesel kısıtlamaları yenin. Reklam yok, bant genişliği sınırımız yok ve verilerinizi satmıyoruz.</string>
-  <string name="onboardingEndingSlideTitle">Güvenliğiniz önceliğimizdir</string>
-  <string name="onboardingEndingSlideDescription">Biz bir güvenlik şirketiyiz. Secure core mimarimiz veya gelişmiş şifreleme olsun, güvenlik her zaman önce gelir.</string>
   <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield\'ı devre dışı bırakmayı deneyin. </string>
   <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
   <string name="onboardingFABDescription">Daha hızlı bağlantı için butona tıklayın</string>
