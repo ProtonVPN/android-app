@@ -35,7 +35,11 @@ class SplashActivity : AppCompatActivity() {
         else
             MobileMainActivity::class.java
 
-        startActivity(Intent(this, nextActivity))
+        startActivity(
+            Intent(this, nextActivity).apply {
+                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        )
 
         finish()
     }
