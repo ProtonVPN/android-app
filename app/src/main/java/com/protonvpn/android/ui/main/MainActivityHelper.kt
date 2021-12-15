@@ -48,18 +48,26 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
 
             state.flowWithLifecycle(activity.lifecycle)
                 .distinctUntilChanged()
-                .onEach { state ->
-                    when (state) {
-                        AccountViewModel.State.LoginNeeded ->
-                            onLoginNeeded()
-                        AccountViewModel.State.Ready ->
-                            onReady()
-                        AccountViewModel.State.Initial -> {}
-                    }
-                }.launchIn(activity.lifecycleScope)
+                .onEach { state -> onStateChange(state) }
+                .launchIn(activity.lifecycleScope)
+        }
+    }
+
+    fun onNewIntent(accountViewModel: AccountViewModel) {
+        activity.lifecycleScope.launch {
+            onStateChange(accountViewModel.state.value)
         }
     }
 
     abstract suspend fun onLoginNeeded()
     abstract suspend fun onReady()
+
+    private suspend fun onStateChange(state: AccountViewModel.State) = when (state) {
+        AccountViewModel.State.LoginNeeded ->
+            onLoginNeeded()
+        AccountViewModel.State.Ready ->
+            onReady()
+        AccountViewModel.State.Initial -> {}
+        AccountViewModel.State.Processing -> {}
+    }
 }
