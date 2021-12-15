@@ -56,6 +56,11 @@ class MobileMainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        helper.onNewIntent(accountViewModel)
+    }
+
     private fun createHomeContract() = object : ActivityResultContract<Unit, ActivityResult>() {
         override fun createIntent(context: Context, input: Unit) = Intent(context, HomeActivity::class.java)
         override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
