@@ -153,12 +153,6 @@
   <string name="onboardingDialogSecureCoreDescription">Użyj tej płatnej funkcji i połącz się z najbezpieczniejszymi serwerami na świecie. Możesz je zobaczyć zarówno na liście krajów, jak i w widoku mapy.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
   <string name="onboardingListDescription">Na tej liście możesz wybrać kraj i serwer, z którym chcesz się połączyć</string>
-  <string name="onboardingStartSlideTitle">Witaj w lepszym Internecie</string>
-  <string name="onboardingStartSlideDescription">Naukowcy i inżynierowie, którzy stworzyli pocztę ProtonMail, witają w bezpieczniejszym i bardziej prywatnym Internecie.</string>
-  <string name="onboardingMiddleSlideTitle">Wierzymy w konieczność wolności w Internecie</string>
-  <string name="onboardingMiddleSlideDescription">Pokonaj cenzurę i ograniczenia regionalne. Nie posiadamy reklam, limitów danych i nie sprzedajemy Twoich informacji.</string>
-  <string name="onboardingEndingSlideTitle">Twoje bezpieczeństwo jest naszym priorytetem</string>
-  <string name="onboardingEndingSlideDescription">Zajmujemy się ochroną prywatności. Od trybu Secure Core po zaawansowane szyfrowanie, bezpieczeństwo stawiamy zawsze na pierwszym miejscu.</string>
   <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i skryptami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać. </string>
   <string name="onboardingFAB">Szybkie połączenie / profile</string>
   <string name="onboardingFABDescription">Kliknij na ten przycisk, aby połączyć się najszybciej</string>

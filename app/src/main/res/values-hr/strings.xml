@@ -153,12 +153,6 @@
   <string name="onboardingDialogSecureCoreDescription">Iskoristite ovu plaćenu značajku i povežite se sa najsigurnijim poslužiteljima na planeti. Možete ih vidjeti u kartici Države i prikazu Karte.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">Na ovom popisu možete odabrati državu i poslužitelja s kojim se želite povezati</string>
-  <string name="onboardingStartSlideTitle">Dobrodošli na bolji internet</string>
-  <string name="onboardingStartSlideDescription">Od znanstvenika i inženjera koji su stvorili ProtonMail, dobrodošli na sigurniji i privatniji Internet.</string>
-  <string name="onboardingMiddleSlideTitle">Vjerujemo da bi internet trebao biti slobodan</string>
-  <string name="onboardingMiddleSlideDescription">Pobijedite cenzuru i regionalna ograničenja. Nemamo oglase, nemamo ograničenja propusnosti i ne prodajemo vaše podatke.</string>
-  <string name="onboardingEndingSlideTitle">Vaša sigurnost je naš prioritet</string>
-  <string name="onboardingEndingSlideDescription">Mi smo sigurnosna tvrtka. Bilo da se radi o secure core arhitekturi ili naprednom šifriranju, sigurnost je uvijek na prvom mjestu.</string>
   <string name="onboardingNetshield">Štiti vas od zlonamjernog softvera, oglasa i pratitelja.\nNapomena: ako se neke web stranice ne učitaju, pokušajte onemogućiti NetShield. </string>
   <string name="onboardingFAB">Brzo povezivanje / Profili</string>
   <string name="onboardingFABDescription">Dodirnite ovo dugme za najbrži način povezivanja</string>

@@ -153,12 +153,6 @@
   <string name="onboardingDialogSecureCoreDescription">Utilice esta función de pago y conéctese a los servidores más seguros del planeta. Puede verlos en las pestañas Países y Mapa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
   <string name="onboardingListDescription">En esta lista puede elegir un país y un servidor al que desea conectar</string>
-  <string name="onboardingStartSlideTitle">Bienvenido/a a un internet mejor</string>
-  <string name="onboardingStartSlideDescription">De los científicos e ingenieros que crearon ProtonMail, bienvenidos a un internet más seguro y privado.</string>
-  <string name="onboardingMiddleSlideTitle">Creemos que internet debe ser gratis</string>
-  <string name="onboardingMiddleSlideDescription">Golpeamos la censura y las restricciones regionales. No tenemos anuncios, ni límites de ancho de banda y no vendemos sus datos.</string>
-  <string name="onboardingEndingSlideTitle">Su seguridad es nuestra prioridad</string>
-  <string name="onboardingEndingSlideDescription">Somos una empresa de seguridad. Ya sea nuestra arquitectura Secure Core o nuestro cifrado avanzado, la seguridad siempre es primero.</string>
   <string name="onboardingNetshield">Le mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, intente desactivar NetShield. </string>
   <string name="onboardingFAB">Conexión rápida / Perfiles</string>
   <string name="onboardingFABDescription">Toque este botón para la forma más rápida de conectarse</string>

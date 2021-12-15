@@ -153,12 +153,6 @@
   <string name="onboardingDialogSecureCoreDescription">Gunakan fitur berbayar ini dan tersambunglah ke server-server teraman di dunia. Anda dapat melihatnya di tab Negara dan Tilik Peta.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
   <string name="onboardingListDescription">Di daftar ini Anda dapat memilih negara dan server yang ingin Anda sambungkan</string>
-  <string name="onboardingStartSlideTitle">Selamat datang di internet yang lebih baik</string>
-  <string name="onboardingStartSlideDescription">Dari para ilmuwan dan insinyur yang menciptakan ProtonMail, selamat datang di internet yang lebih aman dan privat.</string>
-  <string name="onboardingMiddleSlideTitle">Kami meyakini internet harus bebas</string>
-  <string name="onboardingMiddleSlideDescription">Kalahkan penyensoran dan pembatasan regional. Kami tidak beriklan, tanpa batas bandwidth, dan tidak menjual data Anda.</string>
-  <string name="onboardingEndingSlideTitle">Keamanan Anda adalah prioritas kami</string>
-  <string name="onboardingEndingSlideDescription">Kami sebuah perusahan keamanan. Baik itu arsitektur secure core atau encryption kami yang maju, keamanan selalu diutamakan.</string>
   <string name="onboardingNetshield">Mengamankan Anda dari malware, iklan, dan pelacak.\nCatatan: jika beberapa situs tidak termuat, coba nonaktifkan NetShield. </string>
   <string name="onboardingFAB">Sambung cepat / Profil</string>
   <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
