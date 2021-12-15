@@ -83,7 +83,7 @@
   <string name="loaderDisconnecting">Rozłączanie</string>
   <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
   <string name="loaderReconnecting">Ponowne łączenie</string>
-  <string name="loaderReconnectingSuggestion">Lub kliknij \"Ponów Próbę\" aby ręcznie połączyć się ponownie</string>
+  <string name="loaderReconnectingSuggestion">Lub kliknij przycisk  \"Ponów Próbę\", aby połączyć się ponownie</string>
   <string name="loaderReconnectNoNetwork">Oczekiwanie na sieć</string>
   <string name="loaderReconnectNoNetworkSuggestion">Sprawdź połączenie sieciowe</string>
   <string name="loaderCheckingAvailability">Sprawdzanie dostępności serwera</string>
@@ -142,7 +142,7 @@
   <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
   <string name="restrictedMaintenanceDescription">Serwer, z którym próbujesz się połączyć, jest w trakcie przerwy technicznej. Wybierz inny serwer.</string>
   <string name="errorUserDelinquent"><![CDATA[Twoje konto posiada obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-  <string name="errorMaxSessions">Osiągnąłeś maksymalną liczbę jednoczesnych połączeń, dozwolonych dla Twojego konta. Aby zwiększyć liczbę połączeń, ulepsz swój plan ProtonVPN.</string>
+  <string name="errorMaxSessions">Osiągnięto maksymalną liczbę jednoczesnych połączeń, dozwolonych dla Twojego konta. Aby zwiększyć liczbę połączeń, ulepsz swój plan ProtonVPN.</string>
   <string name="errorEmptyName">Nazwa profilu nie może być pusta</string>
   <string name="errorEmptyCountry">Pole kraju nie może być puste</string>
   <string name="errorEmptyServer">Pole serwera nie może być puste</string>
@@ -217,7 +217,7 @@
   <string name="report_bug_email_label">Adres e-mail</string>
   <string name="report_bug_email_hint">Wpisz adres e-mail</string>
   <string name="report_bug_message_label">Wiadomość</string>
-  <string name="report_bug_message_hint">Proszę opisz błąd oraz jak i gdzie go znalazłeś</string>
+  <string name="report_bug_message_hint">Opisz błąd i dołącz informację jak i gdzie go znaleźć</string>
   <string name="send_report">Wyślij raport</string>
   <string name="excludeIpTitle">Wyklucz adresy IP</string>
   <string name="discardChanges">Odrzucić niezapisane zmiany?</string>
@@ -282,7 +282,7 @@
   <string name="bugReportErrorInvalidEmail">Adres e-mail jest nieprawidłowy</string>
   <string name="bugReportErrorEmptyDescription">Napisz, co się stało</string>
   <string name="bugReportLabelVpnLogsTitle">Dołącz logi błędów</string>
-  <string name="bugReportErrorLabelVpnLogsDescription">To wysyła lokalne logi błędów (nie przechowujemy logów aktywności), aby pomóc nam rozwiązać problem</string>
+  <string name="bugReportErrorLabelVpnLogsDescription">To opcja wysyła lokalne logi błędów, aby pomóc nam rozwiązać problem (nie przechowujemy logów aktywności)</string>
   <string name="profileFastest">Najszybszy</string>
   <string name="profileRandom">Losowy</string>
   <string name="settingsSplitTunnelingDescription">Funkcja Split Tunneling umożliwia wykluczenie wybranych aplikacji lub adresów IP z połączenia VPN.</string>
@@ -349,7 +349,7 @@
   <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
   <string name="settingsAlwaysOnKillSwitchDescription">Skonfiguruj jak aplikacja ProtonVPN ma się zachowywać podczas przerwania połączenia</string>
   <string name="settingsAlwaysOnWindowHeader">Jak włączyć stale aktywny VPN i funkcję Kill Switch:</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[Otwórz <b>Ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otwórz <b>ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Znajdź aplikację ProtonVPN i kliknij ikonę %1$s</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
@@ -362,7 +362,7 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[Aby włączyć funkcję Kill Switch, kliknij przełącznik <b>Blokuj połączenia bez VPN</b>]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ten przycisk przeniesie Cię do ustawień Androida, gdzie możesz zarządzać tymi funkcjami.</string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ten przycisk przekieruję Cię do ustawień systemu Android, gdzie możesz zarządzać tymi funkcjami.</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
@@ -477,7 +477,7 @@
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Serwer został automatycznie zmieniony na szybszy, podobny do wybranego.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-  <string name="notification_max_sessions_title">Wykorzystałeś limit liczby podłączonych urządzeń</string>
+  <string name="notification_max_sessions_title">Wykorzystano limit liczby podłączonych urządzeń</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="notification_max_sessions_upsell_content">
     <item quantity="one">Rozłącz inne urządzenie, aby połączyć to lub ulepsz plan do wersji Plus, aby połączyć %1$d urządzenie.</item>

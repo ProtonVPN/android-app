@@ -130,7 +130,7 @@
   <string name="settingsShowIconTitle">Значок состояния</string>
   <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
-  <string name="settingsBypassLocalTitle">LAN-подключения</string>
+  <string name="settingsBypassLocalTitle">Подключения в локальной сети</string>
   <string name="settingsDnsLeakProtectionTitle">Защита от утечки DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
   <string name="settingsDefaultMtu">1375</string>
