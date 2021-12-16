@@ -18,51 +18,6 @@
  */
 package com.protonvpn.testRules
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.espresso.IdlingRegistry
-import androidx.test.rule.ActivityTestRule
 import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.android.vpn.ErrorType
-import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.testsHelper.ServiceTestHelper
-import com.protonvpn.testsHelper.UserDataHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import org.junit.runner.Description
 
-class ProtonHomeActivityTestRule : InstantTaskExecutorRule() {
-
-    private lateinit var service: ServiceTestHelper
-    private lateinit var userDataHelper: UserDataHelper
-
-    var activityTestRule = ActivityTestRule(HomeActivity::class.java, false, false)
-    override fun starting(description: Description) {
-        super.starting(description)
-        service = ServiceTestHelper()
-        userDataHelper = UserDataHelper()
-        activityTestRule.launchActivity(null)
-    }
-
-    override fun finished(description: Description) {
-        super.finished(description)
-        runBlocking(Dispatchers.Main) {
-            service.enableSecureCore(false)
-            service.connectionManager.disconnect()
-            userDataHelper.userData.onLogout()
-            service.deleteCreatedProfiles()
-        }
-        activityTestRule.finishActivity()
-        IdlingRegistry.getInstance().unregister()
-    }
-
-    fun mockStatusOnConnect(state: VpnState) {
-        service.mockVpnBackend.stateOnConnect = state
-    }
-
-    fun mockErrorOnConnect(type: ErrorType) {
-        service.mockVpnBackend.stateOnConnect = VpnState.Error(type, null)
-    }
-
-    val activity: HomeActivity
-        get() = activityTestRule.activity
-}
+class ProtonHomeActivityTestRule : LoggedInActivityTestRule<HomeActivity>(HomeActivity::class.java)
