@@ -499,17 +499,8 @@
   <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
   <string name="upgrade_netshield_title">NetShield ontgrendelen</string>
   <string name="upgrade_secure_core_title">Unlock Secure Core</string>
-  <string name="upgrade_plus_title">Unlock Plus-landen</string>
   <string name="upgrade_netshield_message">Blokkeer malware, advertenties en trackers in browsers en in apps. Beschikbaar bij elk betaald abonnement.</string>
   <string name="upgrade_secure_core_message">Routeer uw meest gevoelige gegevens via onze veiligste servers in privacy-vriendelijke landen. Beschikbaar met Plus- en Visionary-plannen.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">Krijg toegang tot %1$s in %2$s. Beschikbaar met Plus- en Visionary-abonnementen.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

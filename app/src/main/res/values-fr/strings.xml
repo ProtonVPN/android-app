@@ -499,17 +499,8 @@
   <string name="upsell_upgrade_again">Passez de nouveau à une offre supérieure pour profiter de toutes les fonctionnalités :</string>
   <string name="upgrade_netshield_title">Déverrouiller NetShield</string>
   <string name="upgrade_secure_core_title">Déverrouiller Secore Core</string>
-  <string name="upgrade_plus_title">Déverrouiller les pays PLUS</string>
   <string name="upgrade_netshield_message">Bloquez les logiciels malveillants, les publicités et les trackers dans les navigateurs et dans les applications. Disponible avec n\'importe quel abonnement payant.</string>
   <string name="upgrade_secure_core_message">Routez vos données les plus sensibles à travers nos serveurs les plus sûrs dans des pays respectueux de la vie privée. Disponible avec les abonnements PLUS et VISIONARY.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">Accédez à %1$s dans %2$s. Disponible avec les abonnements PLUS et VISIONARY.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
