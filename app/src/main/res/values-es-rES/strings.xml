@@ -499,17 +499,8 @@
   <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
   <string name="upgrade_netshield_title">Desbloquear NetShield</string>
   <string name="upgrade_secure_core_title">Desbloquear Secure Core</string>
-  <string name="upgrade_plus_title">Desbloquear los países Plus</string>
   <string name="upgrade_netshield_message">Bloquea el malware, los anuncios y los rastreadores en los navegadores y en las aplicaciones. Disponible con cualquier plan de pago.</string>
   <string name="upgrade_secure_core_message">Dirija sus datos más sensibles a través de nuestros servidores más seguros en países que respetan la privacidad. Disponible con los planes Plus y Visionario.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">Acceda a %1$s en %2$s. Disponible con los planes Plus y Visionario.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

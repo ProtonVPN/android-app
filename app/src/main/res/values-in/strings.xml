@@ -490,17 +490,8 @@
   <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
   <string name="upgrade_netshield_title">Unlock NetShield</string>
   <string name="upgrade_secure_core_title">Unlock Secure Core</string>
-  <string name="upgrade_plus_title">Unlock Plus countries</string>
   <string name="upgrade_netshield_message">Blokir malware, iklan, dan pelacak di peramban dan di aplikasi. Tersedia di semua paket berbayar.</string>
   <string name="upgrade_secure_core_message">Alihkan data paling sensitif Anda melalui server teraman kami di negara ramah privasi. Tersedia dengan paket Plus dan Visionary.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">Dapatkan akses menuju %1$s di %2$s. Tersedia bagi para pengguna Plus dan Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

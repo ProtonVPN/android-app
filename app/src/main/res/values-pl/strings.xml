@@ -517,17 +517,8 @@
   <string name="upsell_upgrade_again">Ulepsz plan ponownie, aby korzystać z funkcji:</string>
   <string name="upgrade_netshield_title">Odblokuj funkcję NetShield</string>
   <string name="upgrade_secure_core_title">Odblokuj serwery Secure Core</string>
-  <string name="upgrade_plus_title">Odblokuj kraje planu Plus</string>
   <string name="upgrade_netshield_message">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach. Dostępne w płatnych planach.</string>
   <string name="upgrade_secure_core_message">Przekieruj swoje najbardziej poufne dane przez nasze najbezpieczniejsze serwery ulokowane w krajach szanujących prywatność. Dostępne w planach Plus i Visionary.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">Uzyskaj dostęp do %1$s w %2$s. Dostępne w planach Plus i Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

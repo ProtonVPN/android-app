@@ -499,17 +499,8 @@
   <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
   <string name="upgrade_netshield_title">باز کردن NetShield</string>
   <string name="upgrade_secure_core_title">باز کردن Secure Core</string>
-  <string name="upgrade_plus_title">باز کردن کشورهای Plus</string>
   <string name="upgrade_netshield_message">بدافزار، آگهی‌ها، و ردیاب‌ها را در مرورگرها و در برنامه‌ها مسدود کنید. قابل دسترس در همهٔ طرح‌های پرداختی.</string>
   <string name="upgrade_secure_core_message">حساس‌ترین داده‌های خود را از طریق امن‌ترین سرورهای ما در کشورهای دوست‌دار حریم خصوصی عبور دهید. قابل دسترس در طرح‌های Plus و Visionary.</string>
-  <!-- Parameters:
-         %1$s - replaced with "upgrade_plus_servers"
-         %2$s - replaced with "upgrade_plus_countries"
-
-         Example:
-         Get access to 1200+ servers in 58 countries. Available with Plus and Visionary plans.
-         -->
-  <string name="upgrade_plus_message">به %1$s در %2$s دسترسی پیدا کنید. قابل دسترس در طرح‌های Plus و Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
