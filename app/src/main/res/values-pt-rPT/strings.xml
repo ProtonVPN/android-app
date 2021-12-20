@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Atribuir ligações VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
-  <string name="loginHelpTitle">How can we help?</string>
-  <string name="loginHelpForgotPassword">Forgot password</string>
-  <string name="loginHelpForgotUsername">Utilizador esquecido</string>
-  <string name="loginHelpOtherIssues">Other sign-in issues</string>
-  <string name="helpCustomerSupportTitle">Still need help? Contact us directly</string>
-  <string name="helpCustomerSupport">Apoio ao cliente</string>
   <string name="mapCalloutConnect">Ligar</string>
   <string name="mapCalloutDisconnect">Desligar</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

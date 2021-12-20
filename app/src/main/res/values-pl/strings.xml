@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">Ten krok zajmie tylko kilka minut. Po tym kroku, będziesz mógł zalogować się i chronić wszystkie swoje urządzenia.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Przypisz połączenia VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Zaloguj się ponownie</string>
-  <string name="loginHelpTitle">Jak możemy pomóc?</string>
-  <string name="loginHelpForgotPassword">Przypomnij hasło</string>
-  <string name="loginHelpForgotUsername">Przypomnij nazwę użytkownika</string>
-  <string name="loginHelpOtherIssues">Inne problemy z logowaniem</string>
-  <string name="helpCustomerSupportTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
-  <string name="helpCustomerSupport">Wsparcie klienta</string>
   <string name="mapCalloutConnect">Połącz</string>
   <string name="mapCalloutDisconnect">Rozłącz</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

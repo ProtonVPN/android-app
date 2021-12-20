@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти в систему и защитить все свои устройства.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
   <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
-  <string name="loginHelpTitle">Как мы можем помочь?</string>
-  <string name="loginHelpForgotPassword">Забыли пароль</string>
-  <string name="loginHelpForgotUsername">Забыли имя пользователя</string>
-  <string name="loginHelpOtherIssues">Другие проблемы с входом</string>
-  <string name="helpCustomerSupportTitle">Не удалось решить проблему? Свяжитесь с нами</string>
-  <string name="helpCustomerSupport">Поддержка клиентов</string>
   <string name="mapCalloutConnect">Подключиться</string>
   <string name="mapCalloutDisconnect">Отключиться</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

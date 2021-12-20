@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Menetapkan koneksi VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
-  <string name="loginHelpTitle">Bagaimana kami dapat membantu Anda?</string>
-  <string name="loginHelpForgotPassword">Lupa kata sandi</string>
-  <string name="loginHelpForgotUsername">Lupa nama pengguna</string>
-  <string name="loginHelpOtherIssues">Masalah masuk lainnya</string>
-  <string name="helpCustomerSupportTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
-  <string name="helpCustomerSupport">Layanan dukungan</string>
   <string name="mapCalloutConnect">Sambungkan</string>
   <string name="mapCalloutDisconnect">Putuskan</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

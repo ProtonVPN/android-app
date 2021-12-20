@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
   <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
-  <string name="loginHelpTitle">Nasıl yardımcı olabiliriz?</string>
-  <string name="loginHelpForgotPassword">Parolamı unuttum</string>
-  <string name="loginHelpForgotUsername">Kullanıcı adını unuttum</string>
-  <string name="loginHelpOtherIssues">Diğer oturum açma sorunları</string>
-  <string name="helpCustomerSupportTitle">Hala yardıma ihtiyacınız var mı? Doğrudan bizimle iletişime geçin</string>
-  <string name="helpCustomerSupport">Müşteri desteği</string>
   <string name="mapCalloutConnect">Bağlan</string>
   <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

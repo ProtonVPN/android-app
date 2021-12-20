@@ -39,13 +39,6 @@
     <string name="connectionAllocationHelpAssignConnectionsButton">Assign VPN connections</string>
     <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
 
-    <string name="loginHelpTitle">How can we help?</string>
-    <string name="loginHelpForgotPassword">Forgot password</string>
-    <string name="loginHelpForgotUsername">Forgot username</string>
-    <string name="loginHelpOtherIssues">Other sign-in issues</string>
-    <string name="helpCustomerSupportTitle">Still need help? Contact us directly</string>
-    <string name="helpCustomerSupport">Customer support</string>
-
     <string name="mapCalloutConnect">Connect</string>
     <string name="mapCalloutDisconnect">Disconnect</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
