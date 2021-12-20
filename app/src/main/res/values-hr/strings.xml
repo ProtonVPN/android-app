@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Dodijeli VPN veze</string>
   <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
-  <string name="loginHelpTitle">How can we help?</string>
-  <string name="loginHelpForgotPassword">Forgot password</string>
-  <string name="loginHelpForgotUsername">Zaboravili ste korisničko ime</string>
-  <string name="loginHelpOtherIssues">Other sign-in issues</string>
-  <string name="helpCustomerSupportTitle">Still need help? Contact us directly</string>
-  <string name="helpCustomerSupport">Korisnička podrška</string>
   <string name="mapCalloutConnect">Poveži</string>
   <string name="mapCalloutDisconnect">Odspoji</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

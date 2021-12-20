@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">این کار چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">اختصاص اتصالات VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
-  <string name="loginHelpTitle">چگونه می‌توانیم کمک کنیم؟</string>
-  <string name="loginHelpForgotPassword">فراموشی گذرواژه</string>
-  <string name="loginHelpForgotUsername">فراموشی نام کاربری</string>
-  <string name="loginHelpOtherIssues">سایر مشکلات ورود</string>
-  <string name="helpCustomerSupportTitle">هنوز به کمک نیاز دارید؟ با ما به صورت مستقیم تماس بگیرید</string>
-  <string name="helpCustomerSupport">پشتیبانی مشتری</string>
   <string name="mapCalloutConnect">اتصال</string>
   <string name="mapCalloutDisconnect">قطع اتصال</string>
   <string name="mapSwitchSecureCore">Secure core</string>

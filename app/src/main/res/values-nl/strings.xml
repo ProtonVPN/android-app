@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich aanmelden en al uw apparaten beveiligen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
-  <string name="loginHelpTitle">Hoe kunnen we helpen?</string>
-  <string name="loginHelpForgotPassword">Wachtwoord vergeten</string>
-  <string name="loginHelpForgotUsername">Gebruikersnaam vergeten</string>
-  <string name="loginHelpOtherIssues">Andere inlogproblemen</string>
-  <string name="helpCustomerSupportTitle">Meer hulp nodig? Neem dan rechtstreeks contact me ons op</string>
-  <string name="helpCustomerSupport">Klantondersteuning</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Verbreken</string>
   <string name="mapSwitchSecureCore">Secure Core</string>

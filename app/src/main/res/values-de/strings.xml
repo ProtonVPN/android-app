@@ -36,12 +36,6 @@
   <string name="connectionAllocationHelpDescription2">Dieser Schritt dauert nur wenige Minuten. Danach können Sie sich anmelden und alle Ihre Geräte schützen.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen zuweisen</string>
   <string name="connectionAllocationHelpLoginAgainButton">Erneut anmelden</string>
-  <string name="loginHelpTitle">Wie können wir behilflich sein?</string>
-  <string name="loginHelpForgotPassword">Passwort vergessen</string>
-  <string name="loginHelpForgotUsername">Benutzername vergessen</string>
-  <string name="loginHelpOtherIssues">Andere Anmeldeprobleme</string>
-  <string name="helpCustomerSupportTitle">Benötigen Sie noch Hilfe? Kontaktieren Sie uns direkt</string>
-  <string name="helpCustomerSupport">Kundensupport</string>
   <string name="mapCalloutConnect">Verbinden</string>
   <string name="mapCalloutDisconnect">Trennen</string>
   <string name="mapSwitchSecureCore">Secure Core</string>
