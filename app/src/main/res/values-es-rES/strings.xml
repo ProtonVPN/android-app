@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Cree perfiles para sus servidores favoritos y acceda fácilmente a ellos. Además, un toque prolongado en el icono de ProtonVPN en la pantalla inferior le mostrará todos sus perfiles. Un toque en uno de los perfiles lo conectará a VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Use esta función paga y conéctese a los servidores más seguros del planeta. Puede verlos en la pestaña Países y en la Vista de mapa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">En esta lista puedes elegir un país y un servidor al que quieras conectarte</string>
   <string name="onboardingNetshield">Te mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, prueba a desactivar NetShield. </string>
   <string name="onboardingFAB">Conexión rápida / Perfiles</string>
   <string name="onboardingFABDescription">Pulse este botón para la forma más rápida de conectarse</string>
@@ -356,6 +355,7 @@
   <string name="dialogDontShowAgain">No mostrar de nuevo</string>
   <string name="paidFeature">Característica de pago</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Por favor, espera mientras trabajamos en este problema.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>
   <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>

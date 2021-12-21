@@ -34,7 +34,7 @@
   <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan jenis akun Anda ke \nProfessional\u00a0/\u00a0Visionary</string>
   <string name="connectionAllocationHelpDescription1">Untuk memulai perjalanan ProtonVPN Anda, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
   <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
-  <string name="connectionAllocationHelpAssignConnectionsButton">Menetapkan koneksi VPN</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">Tetapkan koneksi VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
   <string name="mapCalloutConnect">Sambungkan</string>
   <string name="mapCalloutDisconnect">Putuskan</string>
@@ -71,7 +71,7 @@
   <string name="loaderConnectingTo">Menyambungkan ke %1$s</string>
   <string name="loaderConnectingToLabel">Menghubungkan ke…</string>
   <string name="loaderNotConnected">Tidak tersambung (Tidak terlindung)</string>
-  <string name="loaderNotConnectedSuggestion">Ketuk tombol sambung cepat</string>
+  <string name="loaderNotConnectedSuggestion">Ketuk tombol quick connect</string>
   <string name="loaderConnectedTo">Tersambung ke %1$s</string>
   <string name="loaderConnectedToLabel">Terhubung ke:</string>
   <string name="loaderDisconnecting">Memutuskan</string>
@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Buat profil untuk server kesukaan Anda dan mengaksesnya dengan mudah. Sentuh lama lambang ProtonVPN di bagian bawah layar juga memperlihatkan semua profil Anda. Satu sentuhan di salah satu profil menyambungkan Anda ke VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Gunakan fitur berbayar ini dan tersambunglah ke server-server teraman di dunia. Anda dapat melihatnya di tab Negara dan Tilik Peta.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">Di daftar ini Anda dapat memilih negara dan server yang ingin Anda sambungkan</string>
   <string name="onboardingNetshield">Mengamankan Anda dari malware, iklan, dan pelacak.\nCatatan: jika beberapa situs tidak termuat, coba nonaktifkan NetShield. </string>
   <string name="onboardingFAB">Sambung cepat / Profil</string>
   <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
@@ -226,7 +225,7 @@
   <string name="doneButton">Selesai</string>
   <string name="saveButton">Simpan</string>
   <string name="recommendedHeader">Disarankan</string>
-  <string name="countryServersHeader">Country servers</string>
+  <string name="countryServersHeader">Server-server negara</string>
   <string name="secureCoreCountriesHeader">Negara-negara dengan server Secure Core</string>
   <string name="recommendedProfilesHeader">Profil-profil yang disarankan</string>
   <string name="yourProfilesHeader">Profil-profil Anda</string>
@@ -266,7 +265,7 @@
   <string name="bugReportErrorEmptyEmail">Surel tidak boleh kosong</string>
   <string name="bugReportErrorInvalidEmail">Alamat surel tidak valid</string>
   <string name="bugReportErrorEmptyDescription">Mohon tulis ke kami mengenai apa yang sedang terjadi</string>
-  <string name="bugReportLabelVpnLogsTitle">Sertakan catatan-catatan error</string>
+  <string name="bugReportLabelVpnLogsTitle">Sertakan log-log error</string>
   <string name="bugReportErrorLabelVpnLogsDescription">Ini mengirimkan log galat lokal (kami tidak mencatat aktivitas) untuk membantu kami memperbaiki masalah Anda</string>
   <string name="profileFastest">Tercepat</string>
   <string name="profileRandom">Acak</string>
@@ -337,12 +336,12 @@
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
+  <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Ketuk tombol yang ada di samping tulisan <b>Always-On VPN</b> untuk mengaktifkannya]]></string>
   <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ketuk tombol yang ada di samping tulisan <b>Block connections without VPN</b> untuk mengaktifkan Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Buka pengaturan Android</string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Tombol ini akan mengarahkan Anda ke Pengaturan Android, di mana Anda bisa mengelola fitur ini.</string>
   <string name="settingsSmartProtocolDescription">Secara otomatis menggunakan protokol dan port yang menawarkan konektivitas terbaik.</string>
@@ -354,6 +353,7 @@
   <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
   <string name="paidFeature">Fitur berbayar</string>
   <string name="guestHoleActivated">Akses menuju PotonVPN mungkin terbatas di wilayah Anda sehingga ini akan memakan waktu lebih lama dibanding biasanya. Mohon tunggu saat kamu mencoba memperbaiki masalah ini.</string>
+  <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi ProtonVPN Anda.</string>
   <string name="onMaintenanceDetected">Server VPN yang terhubung dengan Anda sedang dalam pemeliharaan. Kami menghubungkan ulang Anda secara otomatis ke server tercepat yang tersedia.</string>
   <string name="errorTunMultiUserPermission">Tidak dapat menginisialisasi sambungan VPN karena konflik antar dua aplikasi (contohnya Dual Messenger) dan Split Tunneling. Mohon nonaktifkan salah satunya dan mulai ulang perangkat Anda.</string>
   <string name="errorTorrentNotAllowed">Koneksi P2P tidak diizinkan di server ini</string>
@@ -482,8 +482,8 @@
     <item quantity="other">%1$d negara</item>
   </plurals>
   <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
-  <string name="upgrade_netshield_title">Unlock NetShield</string>
-  <string name="upgrade_secure_core_title">Unlock Secure Core</string>
+  <string name="upgrade_netshield_title">Dapatkan fitur NetShield</string>
+  <string name="upgrade_secure_core_title">Dapatkan fitur Secure Core</string>
   <string name="upgrade_netshield_message">Blokir malware, iklan, dan pelacak di peramban dan di aplikasi. Tersedia di semua paket berbayar.</string>
   <string name="upgrade_secure_core_message">Alihkan data paling sensitif Anda melalui server teraman kami di negara ramah privasi. Tersedia dengan paket Plus dan Visionary.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".

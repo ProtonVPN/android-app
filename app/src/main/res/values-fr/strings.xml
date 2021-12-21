@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Créez des profils pour vos serveurs favoris et accédez facilement à ceux-ci. De plus, un clic long sur l\'icône ProtonVPN en bas de l\'écran vous montrera tous vos profils. Un clic sur l\'un de ces profils vous connectera au VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Utilisez cette fonctionnalité payante et connectez-vous aux serveurs les plus sécurisés au monde. Vous pouvez les voir dans les onglets Pays et Carte.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
-  <string name="onboardingListDescription">Dans cette liste, vous pouvez choisir un pays et un serveur auquel vous souhaitez vous connecter</string>
   <string name="onboardingNetshield">Vous protège contre les logiciels malveillants, les publicités et les traqueurs.\nNote : si certains sites ne se chargent pas, essayez de désactiver NetShield. </string>
   <string name="onboardingFAB">Connexion rapide / Profils</string>
   <string name="onboardingFABDescription">Appuyez sur ce bouton pour vous connecter plus rapidement</string>
@@ -356,6 +355,7 @@
   <string name="dialogDontShowAgain">Ne plus afficher</string>
   <string name="paidFeature">Fonctionnalité payante</string>
   <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
+  <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à ProtonVPN.</string>
   <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
   <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Veuillez désactiver l\'un d\'entre eux et redémarrer votre appareil.</string>
   <string name="errorTorrentNotAllowed">Le P2P n\'est pas autorisé sur ce serveur</string>

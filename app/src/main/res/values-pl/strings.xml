@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Utwórz profile dla swoich ulubionych serwerów i miej do nich łatwy dostęp. Długie naciśnięcie ikony ProtonVPN u dołu ekranu wyświetli wszystkie Twoje profile. Po wybraniu profilu połączysz sie z siecią VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Użyj tej płatnej funkcji i połącz się z najbezpieczniejszymi serwerami na świecie. Możesz je zobaczyć zarówno na liście krajów, jak i w widoku mapy.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
-  <string name="onboardingListDescription">Na tej liście możesz wybrać kraj i serwer, z którym chcesz się połączyć</string>
   <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i skryptami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać. </string>
   <string name="onboardingFAB">Szybkie połączenie / profile</string>
   <string name="onboardingFABDescription">Kliknij na ten przycisk, aby połączyć się najszybciej</string>
@@ -360,6 +359,7 @@
   <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
   <string name="paidFeature">Płatna funkcja</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
   <string name="errorTorrentNotAllowed">Na tym serwerze ruch P2P nie jest dozwolony</string>

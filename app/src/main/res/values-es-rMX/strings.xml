@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Cree perfiles para sus servidores favoritos y tener un acceso fácil a ellos. Además, un toque largo en el ícono de ProtonVPN en la pantalla inferior le mostrará todos sus perfiles. Un toque uno de los perfiles le conectará al VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Utilice esta función de pago y conéctese a los servidores más seguros del planeta. Puede verlos en las pestañas Países y Mapa.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
-  <string name="onboardingListDescription">En esta lista puede elegir un país y un servidor al que desea conectar</string>
   <string name="onboardingNetshield">Le mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, intente desactivar NetShield. </string>
   <string name="onboardingFAB">Conexión rápida / Perfiles</string>
   <string name="onboardingFABDescription">Toque este botón para la forma más rápida de conectarse</string>
@@ -356,6 +355,7 @@
   <string name="dialogDontShowAgain">No volver a mostrar</string>
   <string name="paidFeature">Función de pago</string>
   <string name="guestHoleActivated">El acceso a ProtonVPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
+  <string name="guestHoleNotificationContent">Intentando eludir problemas de red. Esto le ayudará a acceder a ProtonVPN.</string>
   <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
   <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una app dual (por ejemplo, Dual Messenger) y Tunelización dividida. Deshabilite una de ellas y reinicie su dispositivo.</string>
   <string name="errorTorrentNotAllowed">P2P no está permitido en este servidor</string>

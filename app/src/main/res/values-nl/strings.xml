@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Maak profielen van uw favoriete servers en heb gemakkelijke toegang tot ze. Een lange tik op ProtonVPN-pictogram op het onderkant scherm zal al uw profielen tonen. Een tik op een van de profielen zal u verbinden met de VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Gebruik deze betaalde functie en verbind met de meest beveiligde servers op de planeet. U kunt ze zien in zowel het tabblad Land als de Kaartweergave.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
-  <string name="onboardingListDescription">In deze lijst kunt u een land en server kiezen waarmee u wilt verbinden</string>
   <string name="onboardingNetshield">Houdt u beschermd tegen malware, advertenties en trackers.\nOpmerking: als sommige sites niet laden, probeer NetShield uit te schakelen. </string>
   <string name="onboardingFAB">Snel verbinden / Profielen</string>
   <string name="onboardingFABDescription">Druk op deze knop voor de snelste manier om te verbinden</string>
@@ -356,6 +355,7 @@
   <string name="dialogDontShowAgain">Niet meer weergeven</string>
   <string name="paidFeature">Functie tegen betaling</string>
   <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
   <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
   <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
