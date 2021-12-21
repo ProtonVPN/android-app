@@ -55,6 +55,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -62,12 +63,7 @@
         <activity
             android:name=".tv.main.TvMainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.TV.Browse">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.TV.Browse"/>
         <activity
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
