@@ -30,6 +30,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
@@ -43,6 +44,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -192,6 +194,14 @@ fun Context.getStringHtmlColorNoAlpha(@ColorRes res: Int) =
 
 fun Context.openProtonUrl(url: String) =
     openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())
+
+@RequiresApi(24)
+fun Activity.openVpnSettings() =
+    startActivity(
+        Intent(Settings.ACTION_VPN_SETTINGS).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+    )
 
 fun ImageView.setColorTint(@ColorRes colorRes: Int) {
     this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(

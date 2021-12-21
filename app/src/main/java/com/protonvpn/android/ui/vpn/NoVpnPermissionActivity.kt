@@ -41,6 +41,7 @@ import com.protonvpn.android.databinding.FragmentNoVpnPermissionGrantBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionMainBinding
 import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.openVpnSettings
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -148,7 +149,7 @@ class NoVpnPermissionDisableAlwaysOnFragment : NoVpnPermissionFragmentBase(
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentNoVpnPermissionDisableAlwaysOnBinding.bind(view)
         binding.buttonOpenVpnSettings.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
+            requireActivity().openVpnSettings()
         }
         binding.buttonReconnect.setOnClickListener {
             reconnect()

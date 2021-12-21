@@ -18,9 +18,7 @@
  */
 package com.protonvpn.android.ui.settings
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.ImageSpan
 import android.view.View
@@ -40,6 +38,7 @@ import com.protonvpn.android.databinding.ActivityAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentAlwaysOnStepBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
+import com.protonvpn.android.utils.openVpnSettings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
@@ -63,9 +62,7 @@ class SettingsAlwaysOnActivity : BaseActivityV2() {
                 getThemeColor(R.attr.proton_interaction_weak)
             )
 
-            buttonOpenVpnSettings.setOnClickListener {
-                startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-            }
+            buttonOpenVpnSettings.setOnClickListener { openVpnSettings() }
 
             val adapter = StepFragmentAdapter(this@SettingsAlwaysOnActivity)
             pagerScreens.adapter = adapter
