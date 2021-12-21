@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Stvorite profile za svoje omiljene poslužitelje i imajte lagan pristup do njih. Također, duže pritisnite na ikonu ProtonVPN-a u donjem dijelu zaslona i prikazat će vam se svi vaši profili. Pritiskom na jedan od profila povezivat će te se s VPN-om.</string>
   <string name="onboardingDialogSecureCoreDescription">Iskoristite ovu plaćenu značajku i povežite se sa najsigurnijim poslužiteljima na planeti. Možete ih vidjeti u kartici Države i prikazu Karte.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">Na ovom popisu možete odabrati državu i poslužitelja s kojim se želite povezati</string>
   <string name="onboardingNetshield">Štiti vas od zlonamjernog softvera, oglasa i pratitelja.\nNapomena: ako se neke web stranice ne učitaju, pokušajte onemogućiti NetShield. </string>
   <string name="onboardingFAB">Brzo povezivanje / Profili</string>
   <string name="onboardingFABDescription">Dodirnite ovo dugme za najbrži način povezivanja</string>
@@ -358,6 +357,7 @@
   <string name="dialogDontShowAgain">Ne prikazuj ponovno</string>
   <string name="paidFeature">Plaćene značajke</string>
   <string name="guestHoleActivated">Pristup ProtonVPN-u možda je ograničen na vašem području, tako da će ovo trajati duže nego inače. Pričekajte dok riješimo ovaj problem.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">VPN poslužitelj na koji ste bili povezani je u procesu održavanja. Automatski smo vas povezali s najbržim dostupnim poslužiteljem.</string>
   <string name="errorTunMultiUserPermission">VPN vezu nije moguće započeti zbog sukoba između dvostrukih aplikacije (npr. Dual Messenger) i Podijeljenog tuneliranja. Onemogućite jedno od njih i ponovno pokrenite uređaj.</string>
   <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>

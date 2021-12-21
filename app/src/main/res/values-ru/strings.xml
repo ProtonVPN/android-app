@@ -71,7 +71,7 @@
   <string name="loaderConnectingTo">Подключение к %1$s</string>
   <string name="loaderConnectingToLabel">Подключение к…</string>
   <string name="loaderNotConnected">Не подключен (не защищен)</string>
-  <string name="loaderNotConnectedSuggestion">Нажмите на кнопку Быстрое подключение</string>
+  <string name="loaderNotConnectedSuggestion">Нажмите на кнопку \"Быстрое подключение\"</string>
   <string name="loaderConnectedTo">Подключен к %1$s</string>
   <string name="loaderConnectedToLabel">Подключен к:</string>
   <string name="loaderDisconnecting">Отключение</string>
@@ -124,7 +124,7 @@
   <string name="settingsShowIconTitle">Значок состояния</string>
   <string name="settingsShowIconDescription">Показывать значок в статусном лотке для указания статуса VPN</string>
   <string name="settingsAutoStartDescription">ProtonVPN будет автоматически запускаться с каждым запуском системы</string>
-  <string name="settingsBypassLocalTitle">Подключения в локальной сети</string>
+  <string name="settingsBypassLocalTitle">Подключения по LAN</string>
   <string name="settingsDnsLeakProtectionTitle">Защита от утечки DNS</string>
   <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
   <string name="settingsDefaultMtu">1375</string>
@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Создавайте профили для ваших любимых серверов и получайте к ним легкий доступ. Кроме того, долгое нажатие на значок ProtonVPN в нижней части экрана покажет вам все ваши профили. Нажатие на один из профилей соединит вас с VPN.</string>
   <string name="onboardingDialogSecureCoreDescription">Используйте эту платную функцию и подключайтесь к самым безопасным серверам на планете. Вы можете увидеть их на вкладке \"Страны\" и \"Просмотр карты\".</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">В этом списке вы можете выбрать страну и сервер, к которому хотите подключиться</string>
   <string name="onboardingNetshield">Защищает вас от вредоносных программ, рекламы и трекеров.\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield. </string>
   <string name="onboardingFAB">Быстрое подключение / Профили</string>
   <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
@@ -360,6 +359,7 @@
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
   <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
   <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>

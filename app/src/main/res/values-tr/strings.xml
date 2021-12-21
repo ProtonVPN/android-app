@@ -146,7 +146,6 @@
   <string name="onboardingDialogProfiles">Favori sunucularınız için profiller oluşturun ve bunlara kolayca erişin. Ayrıca, alt ekrandaki ProtonVPN simgesine uzunca dokunmak tüm profillerinizi gösterecektir. Profillerden birine dokunmanız VPN\'e bağlanacaktır.</string>
   <string name="onboardingDialogSecureCoreDescription">Bu ücretli özelliği kullanın ve gezegendeki en güvenli sunuculara bağlanın. Bunları hem Ülkeler sekmesinde hem de Harita Görünümünde görebilirsiniz.</string>
   <string name="onboardingDialogSecureCoreTitle">Secure core</string>
-  <string name="onboardingListDescription">Bu listede bağlanmak istediğiniz ülke ve sunucuyu seçebilirsiniz</string>
   <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield\'ı devre dışı bırakmayı deneyin. </string>
   <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
   <string name="onboardingFABDescription">Daha hızlı bağlantı için butona tıklayın</string>
@@ -356,6 +355,7 @@
   <string name="dialogDontShowAgain">Tekrar gösterme</string>
   <string name="paidFeature">Ücretli özellik</string>
   <string name="guestHoleActivated">ProtonVPN\'ye erişim bölgenizde sınırlı olabilir, bu yüzden bu normalden daha uzun sürecektir. Biz bu sorunu çözerken lütfen bekleyin.</string>
+  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
   <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusu bakımda. Sizi otomatik olarak mevcut en hızlı sunucuya yeniden bağladık.</string>
   <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve Bölünmüş Tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakın ve cihazınızı yeniden başlatın.</string>
   <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
