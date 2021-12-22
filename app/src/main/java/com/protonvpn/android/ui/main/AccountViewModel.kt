@@ -28,6 +28,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
@@ -116,8 +117,8 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onSessionForceLogout { onSessionClosed(it) }
                 .onAccountReady { certificateRepository.checkCertificateValidity() }
-                .onUserKeyCheckFailed { ProtonLogger.log("UserKeyCheckFailed") }
-                .onUserAddressKeyCheckFailed { ProtonLogger.log("UserAddressKeyCheckFailed") }
+                .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
+                .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }
 
         with(humanVerificationOrchestrator) {
