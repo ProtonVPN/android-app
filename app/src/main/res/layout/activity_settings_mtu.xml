@@ -40,10 +40,12 @@
         app:label="@string/settingsMtuSizeTitle" />
 
     <TextView
+        android:id="@+id/textDescription"
         style="@style/Proton.Text.Caption.Weak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:soundEffectsEnabled="false"
         android:text="@string/settingsMtuDescription" />
 
 </LinearLayout>
