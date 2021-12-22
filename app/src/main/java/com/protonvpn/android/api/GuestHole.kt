@@ -25,6 +25,7 @@ import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -121,13 +122,13 @@ class GuestHole @Inject constructor(
         query: String?,
         backendCall: suspend () -> ApiResult<T>
     ): ApiResult<T>? {
-        ProtonLogger.log("Guesthole for call: " + path + " with query: " + query)
+        logMessage("Guesthole for call: " + path + " with query: " + query)
 
         // Do not execute guesthole for calls running in background, due to inability to call permission intent
         val currentActivity: Activity = getCurrentActivity() ?: return null
 
         if (!isEligibleForGuestHole(path, query)) {
-            ProtonLogger.log("Guesthole not available for this call: " + path)
+            logMessage("Guesthole not available for this call: " + path)
             return null
         }
         val delegate = VpnPermissionActivityDelegate(currentActivity as ComponentActivity)
@@ -155,15 +156,15 @@ class GuestHole @Inject constructor(
                 appContext.getString(R.string.guestHoleNotificationContent),
                 notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
             )
-            ProtonLogger.log("Guesthole Establishing hole for call: " + path)
+            logMessage("Establishing hole for call: " + path)
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {
                     // Add slight delay before retrying original call to avoid network timeout right after connection
                     delay(500)
                     lastGuestHoleServer = server
                     result = backendCall()
-                    ProtonLogger.log("Guesthole succesful for call: " + path)
-                    ProtonLogger.log("Guesthole result: " + result?.valueOrNull.toString())
+                    logMessage("Guesthole succesful for call: " + path)
+                    logMessage("Guesthole result: " + result?.valueOrNull.toString())
                 }
             }
         } finally {
@@ -184,6 +185,10 @@ class GuestHole @Inject constructor(
         if (path == DOMAINS_CALL && query != null) return false
 
         return CORE_GUESTHOLE_CALLS.contains(path)
+    }
+
+    private fun logMessage(message: String) {
+        ProtonLogger.logCustom(LogCategory.CONN_GUEST_HOLE, message)
     }
 
     companion object {
