@@ -27,7 +27,6 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile

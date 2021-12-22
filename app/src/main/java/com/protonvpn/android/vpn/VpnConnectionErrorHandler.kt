@@ -408,13 +408,19 @@ class VpnConnectionErrorHandler(
         if (result is ApiResult.Success) {
             val connectingDomain = result.value.connectingDomain
             if (!connectingDomain.isOnline) {
-                ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Current server is in maintenance (${connectingDomain.entryDomain})")
+                ProtonLogger.logCustom(
+                    LogCategory.CONN_SERVER_SWITCH,
+                    "Current server is in maintenance (${connectingDomain.entryDomain})"
+                )
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
                 return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile, connectionParams)
                 } else {
-                    ProtonLogger.log(ConnServerSwitchServerSelected, "Smart reconnect disabled, fall back to default connection")
+                    ProtonLogger.log(
+                        ConnServerSwitchServerSelected,
+                        "Smart reconnect disabled, fall back to default connection"
+                    )
                     VpnFallbackResult.Switch.SwitchProfile(
                         connectionParams.server,
                         serverManager.defaultFallbackConnection
