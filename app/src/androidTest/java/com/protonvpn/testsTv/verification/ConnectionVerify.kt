@@ -20,7 +20,7 @@ package com.protonvpn.testsTv.verification
 
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseVerify
-import me.proton.core.test.android.instrumented.builders.OnView
+import me.proton.core.test.android.instrumented.ui.espresso.OnView
 import org.strongswan.android.logic.StrongSwanApplication.getContext
 
 /**
