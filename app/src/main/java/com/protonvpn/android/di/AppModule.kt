@@ -71,6 +71,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.domain.entity.Product
+import me.proton.core.humanverification.data.utils.NetworkRequestOverriderImpl
+import me.proton.core.humanverification.domain.utils.NetworkRequestOverrider
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkManager
@@ -90,6 +92,7 @@ import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.takeIfNotBlank
+import okhttp3.OkHttpClient
 import java.util.Random
 import javax.inject.Singleton
 
@@ -542,4 +545,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
+
+    @Provides
+    fun provideNetworkRequestOverrider(): NetworkRequestOverrider =
+        NetworkRequestOverriderImpl(OkHttpClient())
 }
