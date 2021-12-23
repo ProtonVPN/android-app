@@ -34,6 +34,7 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.UserId
 import me.proton.core.humanverification.domain.repository.HumanVerificationRepository
 import me.proton.core.network.domain.session.Session
+import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
 class CoreLoginMigration @Inject constructor(
@@ -45,9 +46,9 @@ class CoreLoginMigration @Inject constructor(
     fun migrateIfNeeded() {
         if (userData.migrateIsLoggedIn) {
             val session = Storage.load(LoginResponse::class.java)
-            val user = userData.migrateUser
+            val user = userData.migrateUser?.takeIfNotBlank() ?: "unknown"
             val vpnInfo = userData.migrateVpnInfoResponse
-            if (session != null && !user.isNullOrBlank() && vpnInfo != null) {
+            if (session != null && vpnInfo != null) {
                 val userId = UserId(session.userId)
 
                 // Run migration as blocking to avoid race conditions with synchronous user code
