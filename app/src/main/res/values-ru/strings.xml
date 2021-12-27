@@ -150,8 +150,8 @@
   <string name="onboardingFAB">Быстрое подключение / Профили</string>
   <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
   <string name="onboardingSignup">Зарегистрироваться</string>
-  <string name="onboardingSkip">ПРОПУСТИТЬ</string>
-  <string name="onboardingNext">ДАЛЕЕ</string>
+  <string name="onboardingSkip">Пропустить</string>
+  <string name="onboardingNext">Далее</string>
   <string name="offerTooltipShowOffer">Посмотрите предложение</string>
   <string name="listItemMaintenance">На техобслуживании</string>
   <string name="listAllCountries">Все местоположения (%1$d)</string>
@@ -359,7 +359,7 @@
   <string name="dialogDontShowAgain">Больше не показывать</string>
   <string name="paidFeature">Платная функция</string>
   <string name="guestHoleActivated">Доступ к ProtonVPN может быть ограничен в вашем регионе, поэтому это займет больше времени, чем обычно. Пожалуйста подождите, пока мы ищем обходной путь.</string>
-  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
+  <string name="guestHoleNotificationContent">Пытаемся обойти проблемы с сетью. Это поможет вам получить доступ к ProtonVPN.</string>
   <string name="onMaintenanceDetected">На VPN-сервере, к которому вы были подключены, проводится техническое обслуживание. Мы автоматически переподключили Вас к самому быстрому доступному серверу.</string>
   <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
   <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>
@@ -513,7 +513,7 @@
   <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
   <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом платном тарифе.</string>
   <string name="upgrade_secure_core_message">Направляйте свои самые конфиденциальные данные через наши самые безопасные серверы в странах, где соблюдается конфиденциальность. Доступно в тарифах Plus и Visionary.</string>
-  <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+  <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -525,7 +525,19 @@
     <item quantity="many">%d+ серверов</item>
     <item quantity="other">%d+ серверов</item>
   </plurals>
-  <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+  <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ secure servers
+     -->
+  <plurals name="upgrade_plus_secure_servers">
+    <item quantity="one">%d защищенный сервер</item>
+    <item quantity="few">%d защищенных сервера</item>
+    <item quantity="many">%d защищенных серверов</item>
+    <item quantity="other">%d защищенных сервера</item>
+  </plurals>
+  <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
          Example:
          55 countries
@@ -536,6 +548,22 @@
     <item quantity="many">%d+ стран</item>
     <item quantity="other">%d+ стран</item>
   </plurals>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access all 1300+ servers in 61 countries with PLUS
+     -->
+  <string name="upgrade_plus_countries_title">Доступ ко всем %1$s в%2$s с помощью PLUS</string>
+  <string name="upgrade_plus_countries_message">Воспользуйтесь расширенными возможностями прямо сейчас!</string>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_secure_servers"
+
+     Example:
+     You now have access to 1300+ secure servers and other premium features.
+     -->
+  <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим премиум-функциям.</string>
   <string name="upgrade_plus_countries_streaming">Доступ к службам трансляции по всему миру</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
@@ -547,6 +575,7 @@
   <string name="upgrade_plus_countries_netshield">Встроенный блокировщик рекламы (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
   <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
+  <string name="upgrade_get_plus_button">Получить PLUS</string>
   <string name="upgrade_not_now_button">Не сейчас</string>
   <!-- Information activity -->
   <string name="activity_information_title">Информация</string>
@@ -571,4 +600,26 @@
   <string name="server_load_medium">Средняя</string>
   <string name="server_load_high">Высокая</string>
   <!-- Override Human verification links from core -->
+  <!-- Onboarding -->
+  <string name="onboarding_welcome_title">Добро пожаловать в ProtonVPN</string>
+  <string name="onboarding_welcome_description">Узнайте, как получить максимум от ProtonVPN всего за несколько секунд.</string>
+  <string name="onboarding_welcome_action">Приступить к работе</string>
+  <string name="onboarding_available_on_plus">Доступно с PLUS</string>
+  <string name="onboarding_streaming_title">Разблокируйте трансляции</string>
+  <string name="onboarding_streaming_description">Защищенный доступ к любому содержимому даже во время путешествий в другие страны. Теперь и на AndroidTV.</string>
+  <string name="onboarding_protection_title">Будьте защищены везде</string>
+  <string name="onboarding_protection_description">ProtonVPN поддерживает все устройства, включая Windows, macOS и многие другие.</string>
+  <string name="onboarding_netshield_title">Блокируйте рекламу и многое другое</string>
+  <string name="onboarding_netshield_description">Блокируйте вредоносные программы, рекламу и трекеры в браузере и во всех приложениях.</string>
+  <string name="onboarding_connection_title">Установите первое подключение</string>
+  <string name="onboarding_connection_description">Подписка FREE предлагает %1$d серверов в %2$d странах</string>
+  <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
+  <string name="onboading_connect_now">Подключить сейчас</string>
+  <string name="onboading_connecting_now">Подключается сейчас</string>
+  <string name="onboarding_access_plus">Получите доступ ко всем странам с PLUS</string>
+  <string name="onboarding_congrats_description">Ваше подключение защищено, и вы готовы к работе в Интернете.\n\nБезопасно.</string>
+  <string name="onboarding_congrats_title">Поздравляем!</string>
+  <string name="onboarding_plan_congrats_description_privacy">Пользуйтесь миром конфиденциальности.</string>
+  <string name="onboading_connect_to_plus">Подключитесь к серверу PLUS</string>
+  <string name="upgrade_use_limited_free_button">Используйте ограниченный план FREE</string>
 </resources>

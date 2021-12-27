@@ -31,7 +31,7 @@
   <string name="loginStartWithDevice">Démarrer</string>
   <string name="loginCreateAccount">Créer un nouveau compte</string>
   <string name="loginNeedHelp">Besoin d\'aide ?</string>
-  <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’offre\nPROFESSIONAL\u00a0/\u00a0VISIONARY</string>
+  <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’offre\nProfessional\u00a0/\u00a0Visionary</string>
   <string name="connectionAllocationHelpDescription1">Pour commencer votre expérience dans ProtonVPN, veuillez attribuer des connexions VPN à votre compte ou à tout autre sous-compte.</string>
   <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Après cela, vous pourrez vous connecter et protéger tous vos appareils.</string>
   <string name="connectionAllocationHelpAssignConnectionsButton">Affecter des connexions VPN</string>
@@ -106,13 +106,13 @@
   <string name="accountVersion">Version :</string>
   <string name="accountSubscriptionDetails"><![CDATA[Pour gérer votre abonnement, allez dans le menu <font color="%1$s">protonvpn.com</font>.]]></string>
   <string name="accountButtonManage">Gérer le compte</string>
-  <string name="accountTrial">ProtonVPN PLUS version d’essai</string>
+  <string name="accountTrial">ProtonVPN Plus version d’essai</string>
   <string name="accountFree">ProtonVPN FREE</string>
-  <string name="accountBasic">ProtonVPN BASIC</string>
-  <string name="accountPlus">ProtonVPN PLUS</string>
-  <string name="accountVisionary">Proton VISIONARY</string>
-  <string name="freeTrialExpired">"Votre essai gratuit de 7 jours de ProtonVPN PLUS a expiré. Vous pouvez continuer à utiliser ProtonVPN FREE, mais si vous souhaitez soutenir le projet et avoir plus de débit et de fonctionnalités, veuillez mettre à niveau vers une offre payante."</string>
-  <string name="freeTVTrialExpired"><![CDATA[Votre essai gratuit de 7 jours pour ProtonVPN PLUS a expiré.<br>Vous pouvez continuer à utiliser ProtonVPN FREE ou profiter de tous les services de streaming que nous proposons en passant à ProtonVPN PLUS.<br>Rendez-vous sur<font color="%1$s">%2$s</font> pour gérer votre abonnement.]]></string>
+  <string name="accountBasic">ProtonVPN Basic</string>
+  <string name="accountPlus">ProtonVPN Plus</string>
+  <string name="accountVisionary">Proton Visionary</string>
+  <string name="freeTrialExpired">"Votre essai gratuit de 7 jours de ProtonVPN Plus a expiré. Vous pouvez continuer à utiliser ProtonVPN Free, mais si vous souhaitez soutenir le projet et avoir plus de débit et de fonctionnalités, veuillez mettre à niveau vers une offre payante."</string>
+  <string name="freeTVTrialExpired"><![CDATA[Votre essai gratuit de 7 jours pour ProtonVPN Plus a expiré.<br>Vous pouvez continuer à utiliser ProtonVPN Free ou profiter de tous les services de streaming que nous proposons en passant à ProtonVPN Plus.<br>Rendez-vous sur<font color="%1$s">%2$s</font> pour gérer votre abonnement.]]></string>
   <string name="activityProfileTitle">Profil</string>
   <string name="activityAccountTitle">Compte</string>
   <string name="activitySettingsTitle">Paramètres</string>
@@ -150,8 +150,8 @@
   <string name="onboardingFAB">Connexion rapide / Profils</string>
   <string name="onboardingFABDescription">Appuyez sur ce bouton pour vous connecter plus rapidement</string>
   <string name="onboardingSignup">S\'inscrire</string>
-  <string name="onboardingSkip">IGNORER</string>
-  <string name="onboardingNext">SUIVANT</string>
+  <string name="onboardingSkip">Ignorer</string>
+  <string name="onboardingNext">Suivant</string>
   <string name="offerTooltipShowOffer">Voir l’offre</string>
   <string name="listItemMaintenance">En maintenance</string>
   <string name="listAllCountries">Tous les emplacements (%1$d)</string>
@@ -300,14 +300,14 @@
   <string name="removeExcludedIpDialogDescription">Supprimer l’adresse IP de la liste ?</string>
   <string name="loaderFetchingServers">Récupération des serveurs…</string>
   <string name="toastProfileSaved">Sauvegardé</string>
-  <string name="freeTrialExpiredTitle">L\'essai de ProtonVPN PLUS a expiré</string>
+  <string name="freeTrialExpiredTitle">L\'essai de ProtonVPN Plus a expiré</string>
   <string name="tileConnected">Connecté : %1$s</string>
   <string name="dialogTitleAttention">Attention</string>
   <string name="saveProfileAlreadySaved">Déjà sauvegardé</string>
   <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur Web n\'a pas été détecté sur votre appareil.</string>
   <string name="welcomeDialogTitle">Merci de rejoindre la communauté toujours plus nombreuse de ProtonVPN.</string>
   <string name="welcomeDialogDescription">Utilisez les identifiants de votre nouveau compte pour vous connecter.</string>
-  <string name="welcomeDialogTitleTrial">Afin de vous remercier, nous vous offrons une période d\'essai de 7 jours avec l\'offre Plus. Vous pourrez ainsi utiliser les fonctionnalités et les serveurs spécifiques à l\'offre Plus. A l\'issue de cette période d\'essai, vous reviendrez sur l\'offre Free, limitant donc l\'accès aux serveurs disponibles pour l\'offre Free uniquement.</string>
+  <string name="welcomeDialogTitleTrial">Afin de vous remercier, nous vous offrons une période d\'essai de 7 jours avec l\'offre Plus. Vous pourrez ainsi utiliser les fonctionnalités et les serveurs spécifiques à l\'offre Plus. À l\'issue de cette période d\'essai, vous reviendrez à l\'offre Free, limitant donc votre accès aux serveurs disponibles pour l\'offre Free uniquement.</string>
   <string name="toastLoginAuthVersionError">Connexion impossible en raison d\'une version d\'authentification non prise en charge. Veuillez contacter l’assistance.</string>
   <string name="loaderErrorTimeout">La connexion a expiré. Veuillez réessayer.</string>
   <string name="troubleshootButton">Dépannage</string>
@@ -374,15 +374,15 @@
   <string name="tvRowMore">Plus</string>
   <string name="tv_detail_default_connection_checkbox">Mon pays favori</string>
   <string name="tv_detail_default_connection_checkbox_short">Favori</string>
-  <string name="tv_detail_connect_streaming">Regardez avec PLUS</string>
+  <string name="tv_detail_connect_streaming">Regardez avec Plus</string>
   <string name="tv_detail_connect">Connecter</string>
-  <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement ProtonVPN PLUS.</string>
-  <string name="tv_detail_description_no_streaming_country">Regardez plus de vos contenus favoris avec un abonnement ProtonVPN PLUS.</string>
-  <string name="tv_detail_description_country_not_available">Ce pays n\'est pas disponible. Obtenez plus d\'options de streaming avec un abonnement ProtonVPN PLUS.</string>
+  <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement ProtonVPN Plus.</string>
+  <string name="tv_detail_description_no_streaming_country">Regardez plus de vos contenus favoris avec un abonnement ProtonVPN Plus.</string>
+  <string name="tv_detail_description_country_not_available">Ce pays n\'est pas disponible. Obtenez plus d\'options de streaming avec un abonnement ProtonVPN Plus.</string>
   <string name="tv_detail_description_plus">Regardez vos vidéos, vos films ou vos sports préférés avec vos applications.</string>
   <string name="tv_login_title_signin">Se connecter à ProtonVPN</string>
   <string name="tv_login_title_welcome">Visionnez votre contenu vidéo favori</string>
-  <string name="tv_login_welcome_description">Visionnez du contenu vidéo de plus de 50 pays, y compris de YouTube et Twitch. Regardez Netflix, Amazon Prime, et Hulu avec ProtonVPN PLUS.</string>
+  <string name="tv_login_welcome_description">Visionnez du contenu vidéo de plus de 50 pays, y compris de YouTube et Twitch. Regardez Netflix, Amazon Prime, et Hulu avec ProtonVPN Plus.</string>
   <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenez votre compte ProtonVPN à <b>%1$s</b>]]></string>
   <string name="tv_login_welcome_button">Se connecter</string>
   <string name="tv_login_step1_description"><![CDATA[Allez à <b>%1$s</b> sur votre appareil mobile ou votre ordinateur]]></string>
@@ -392,10 +392,10 @@
   <string name="tv_login_refresh">Actualiser</string>
   <string name="tv_login_title_loading">Chargement…</string>
   <string name="tv_login_title_refresh">Votre session a expiré. Cliquez sur Actualiser pour recommencer.</string>
-  <string name="tv_upgrade_title">Commencez à regarder avec PLUS</string>
+  <string name="tv_upgrade_title">Commencez à regarder avec Plus</string>
   <string name="back">Retour</string>
-  <string name="tv_upgrade_url_details"><![CDATA[Visitez <font color="%1$s">%2$s</font> pour passer à ProtonVPN PLUS maintenant.]]></string>
-  <string name="tv_upgrade_description">Obtenez une offre ProtonVPN PLUS pour accéder à plus de 500 serveurs dans le monde entier et optimiser les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
+  <string name="tv_upgrade_url_details"><![CDATA[Visitez <font color="%1$s">%2$s</font> pour passer à ProtonVPN Plus maintenant.]]></string>
+  <string name="tv_upgrade_description">Obtenez une offre ProtonVPN Plus pour accéder à plus de 500 serveurs dans le monde entier et optimiser les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
   <string name="tv_vpn_error_dialog_title">Échec de la connexion au VPN</string>
   <string name="tv_signout_label">Se déconnecter</string>
   <string name="tv_signout_dialog_title">Êtes-vous sûr de vouloir vous déconnecter ?</string>
@@ -405,7 +405,7 @@
   <string name="tv_quick_connect_favourite">Favori</string>
   <string name="tv_trial_counter_label">Essai</string>
   <string name="tv_trial_title">7 jours de streaming complet</string>
-  <string name="tv_trial_summary"><![CDATA[En guise de cadeau de bienvenue, vous avez accès à tous les serveurs ProtonVPN et aux services de streaming pendant les 7 premiers jours avec une offre d\'essai PLUS. Votre formule va ensuite revenir à l’offre FREE et l\'accès à certains services pourrait être limité.]]></string>
+  <string name="tv_trial_summary"><![CDATA[En guise de cadeau de bienvenue, vous avez accès à tous les serveurs ProtonVPN et aux services de streaming pendant les 7 premiers jours avec une <b>offre d\'essai Plus</b>.<br>Votre formule va ensuite revenir à l’offre <b>Free</b> et l\'accès à certains services pourrait être limité.]]></string>
   <string name="tv_trial_ends_in">Votre essai gratuit se termine dans</string>
   <plurals name="counter_days">
     <item quantity="one">%1$s jour</item>
@@ -456,8 +456,8 @@
   <string name="notification_max_sessions_title">Vous avez atteint votre limite maximale d\'appareils</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="notification_max_sessions_upsell_content">
-    <item quantity="one">Déconnectez un appareil pour connecter celui-ci ou passez à l’offre PLUS pour connecter %1$d appareil.</item>
-    <item quantity="other">Déconnectez un appareil pour connecter celui-ci ou passez à l’offre PLUS pour connecter %1$d appareils.</item>
+    <item quantity="one">Déconnectez un appareil pour connecter celui-ci ou passez à l’offre Plus pour connecter %1$d appareil.</item>
+    <item quantity="other">Déconnectez un appareil pour connecter celui-ci ou passez à l’offre Plus pour connecter %1$d appareils.</item>
   </plurals>
   <string name="notification_max_sessions_content">Veuillez déconnecter un autre appareil pour connecter celui-ci.</string>
   <string name="notification_cancel_to_free">Vous êtes sur l\'offre FREE. Des serveurs et des fonctionnalités FREE sont disponibles.</string>
@@ -494,8 +494,8 @@
   <string name="upgrade_netshield_title">Déverrouiller NetShield</string>
   <string name="upgrade_secure_core_title">Déverrouiller Secore Core</string>
   <string name="upgrade_netshield_message">Bloquez les logiciels malveillants, les publicités et les trackers dans les navigateurs et dans les applications. Disponible avec n\'importe quel abonnement payant.</string>
-  <string name="upgrade_secure_core_message">Routez vos données les plus sensibles à travers nos serveurs les plus sûrs dans des pays respectueux de la vie privée. Disponible avec les abonnements PLUS et VISIONARY.</string>
-  <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+  <string name="upgrade_secure_core_message">Routez vos données les plus sensibles à travers nos serveurs les plus sûrs dans des pays respectueux de la vie privée. Disponible avec les abonnements Plus et Visionary.</string>
+  <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -505,7 +505,17 @@
     <item quantity="one">%d serveur</item>
     <item quantity="other">%d+ serveurs</item>
   </plurals>
-  <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+  <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ secure servers
+     -->
+  <plurals name="upgrade_plus_secure_servers">
+    <item quantity="one">%d serveur sécurisé</item>
+    <item quantity="other">%d serveurs sécurisés</item>
+  </plurals>
+  <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
          Example:
          55 countries
@@ -514,6 +524,22 @@
     <item quantity="one">%d pays</item>
     <item quantity="other">%d pays</item>
   </plurals>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access all 1300+ servers in 61 countries with PLUS
+     -->
+  <string name="upgrade_plus_countries_title">Accédez à tous les %1$s dans %2$s avec Plus</string>
+  <string name="upgrade_plus_countries_message">Profitez dès maintenant des fonctionnalités avancées !</string>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_secure_servers"
+
+     Example:
+     You now have access to 1300+ secure servers and other premium features.
+     -->
+  <string name="onboarding_plan_congrats_description">Vous avez maintenant accès à %1$s et à d\'autres fonctionnalités premium.</string>
   <string name="upgrade_plus_countries_streaming">Accédez aux services de streaming dans le monde entier</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
@@ -523,11 +549,12 @@
   <string name="upgrade_plus_countries_netshield">Bloqueur de publicités intégré (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Vitesses maximales (jusqu’à 10 Gbit/s)</string>
   <string name="upgrade_see_plans_button">Voir les abonnements et les tarifs</string>
+  <string name="upgrade_get_plus_button">Obtenir PLUS</string>
   <string name="upgrade_not_now_button">Pas maintenant</string>
   <!-- Information activity -->
   <string name="activity_information_title">Information</string>
   <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-  <string name="activity_information_plus_title">%1$s - serveurs PLUS</string>
+  <string name="activity_information_plus_title">%1$s - serveurs Plus</string>
   <string name="info_features">Fonctionnalités</string>
   <string name="smart_routing_title">Smart Routing</string>
   <string name="smart_routing_description">Cette technologie permet à ProtonVPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
@@ -541,10 +568,32 @@
   <string name="server_load_title">Charge du serveur</string>
   <string name="server_load_description">Les serveurs avec une charge élevée sont plus lents que les serveurs avec une faible charge.</string>
   <string name="streaming_title_with_country">Streaming - %1$s</string>
-  <string name="streaming_services_description">Connectez-vous à un serveur PLUS dans ce pays pour commencer à streamer.\n\nAstuce : videz le cache des applications de streaming pour vous assurer que le nouveau contenu apparaisse.</string>
+  <string name="streaming_services_description">Connectez-vous à un serveur Plus dans ce pays pour commencer à streamer.\n\nAstuce : videz le cache des applications de streaming pour vous assurer que le nouveau contenu apparaisse.</string>
   <string name="activity_information_learn_more">En savoir plus</string>
   <string name="server_load_low">Faible</string>
   <string name="server_load_medium">Moyenne</string>
   <string name="server_load_high">Élevée</string>
   <!-- Override Human verification links from core -->
+  <!-- Onboarding -->
+  <string name="onboarding_welcome_title">Bienvenue sur ProtonVPN</string>
+  <string name="onboarding_welcome_description">Apprenez à tirer le meilleur parti de ProtonVPN en quelques secondes seulement.</string>
+  <string name="onboarding_welcome_action">Commencer</string>
+  <string name="onboarding_available_on_plus">Disponible avec PLUS</string>
+  <string name="onboarding_streaming_title">Débloquez le streaming</string>
+  <string name="onboarding_streaming_description">Accédez en toute sécurité à n\'importe quel contenu, même lorsque vous voyagez dans d\'autres pays. Maintenant aussi sur Android TV.</string>
+  <string name="onboarding_protection_title">Soyez protégé partout</string>
+  <string name="onboarding_protection_description">ProtonVPN prend en charge tous les appareils, y compris Windows, macOS et bien d\'autres.</string>
+  <string name="onboarding_netshield_title">Bloquez les publicités et bien plus encore</string>
+  <string name="onboarding_netshield_description">Bloquez les logiciels malveillants, les publicités et les traqueurs dans le navigateur et dans toutes les applications.</string>
+  <string name="onboarding_connection_title">Établissez votre première connexion</string>
+  <string name="onboarding_connection_description">L\'abonnement FREE offre %1$d serveurs dans %2$d pays</string>
+  <string name="onboarding_connection_info">Nous vous connecterons au serveur le plus rapide et le plus stable pour votre emplacement.</string>
+  <string name="onboading_connect_now">Se connecter maintenant</string>
+  <string name="onboading_connecting_now">Connexion en cours</string>
+  <string name="onboarding_access_plus">Accédez à tous les pays avec PLUS</string>
+  <string name="onboarding_congrats_description">Votre connexion est protégée et vous êtes prêt à naviguer sur le Web.\n\nEn toute sécurité.</string>
+  <string name="onboarding_congrats_title">Félicitations !</string>
+  <string name="onboarding_plan_congrats_description_privacy">Profitez d’un monde plus confidentiel.</string>
+  <string name="onboading_connect_to_plus">Connectez-vous à un serveur PLUS</string>
+  <string name="upgrade_use_limited_free_button">Utilisez une offre FREE limitée</string>
 </resources>
