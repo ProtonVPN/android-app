@@ -150,8 +150,8 @@
   <string name="onboardingFAB">Conexión rápida / Perfiles</string>
   <string name="onboardingFABDescription">Toque este botón para la forma más rápida de conectarse</string>
   <string name="onboardingSignup">Registrarse</string>
-  <string name="onboardingSkip">SALTAR</string>
-  <string name="onboardingNext">SIGUIENTE</string>
+  <string name="onboardingSkip">Omitir</string>
+  <string name="onboardingNext">Siguiente</string>
   <string name="offerTooltipShowOffer">Ver la oferta</string>
   <string name="listItemMaintenance">En mantenimiento</string>
   <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
@@ -495,7 +495,7 @@
   <string name="upgrade_secure_core_title">Desbloquear Secure Core</string>
   <string name="upgrade_netshield_message">Bloquee malware, anuncios y rastreadores en navegadores y aplicaciones. Disponible con cualquier plan de pago.</string>
   <string name="upgrade_secure_core_message">Enrute sus datos más confidenciales a través de nuestros servidores más seguros en países que respetan la privacidad. Disponible con planes Plus y Visionary.</string>
-  <!-- Number of servers inserted as %1$s in the "upgrade_plus_message".
+  <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -505,7 +505,17 @@
     <item quantity="one">%d servidor</item>
     <item quantity="other">%d servidores</item>
   </plurals>
-  <!-- Number of countries inserted as %2$s in "upgrade_plus_message".
+  <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ secure servers
+     -->
+  <plurals name="upgrade_plus_secure_servers">
+    <item quantity="one">%d servidor seguro</item>
+    <item quantity="other">%d servidores seguros</item>
+  </plurals>
+  <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
          Example:
          55 countries
@@ -514,6 +524,22 @@
     <item quantity="one">%d país</item>
     <item quantity="other">%d países</item>
   </plurals>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access all 1300+ servers in 61 countries with PLUS
+     -->
+  <string name="upgrade_plus_countries_title">Acceda a %1$s en %2$s con PLUS</string>
+  <string name="upgrade_plus_countries_message">¡Tome ventaja de las funciones avanzadas ahora!</string>
+  <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_secure_servers"
+
+     Example:
+     You now have access to 1300+ secure servers and other premium features.
+     -->
+  <string name="onboarding_plan_congrats_description">Ahora tiene acceso a %1$s y otras funciones premium.</string>
   <string name="upgrade_plus_countries_streaming">Acceda a servicios de streaming globales</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
@@ -523,6 +549,7 @@
   <string name="upgrade_plus_countries_netshield">Bloqueador de anuncios integrado (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Velocidad máxima (hasta 10 Gbps)</string>
   <string name="upgrade_see_plans_button">Ver planes y precios</string>
+  <string name="upgrade_get_plus_button">Obtener PLUS</string>
   <string name="upgrade_not_now_button">Ahora no</string>
   <!-- Information activity -->
   <string name="activity_information_title">Información</string>
@@ -547,4 +574,26 @@
   <string name="server_load_medium">Media</string>
   <string name="server_load_high">Alta</string>
   <!-- Override Human verification links from core -->
+  <!-- Onboarding -->
+  <string name="onboarding_welcome_title">Bienvenido a ProtonVPN</string>
+  <string name="onboarding_welcome_description">Aprenda a aprovechar al máximo ProtonVPN en solo unos segundos.</string>
+  <string name="onboarding_welcome_action">Comenzar</string>
+  <string name="onboarding_available_on_plus">Disponible con PLUS</string>
+  <string name="onboarding_streaming_title">Desbloquear streaming</string>
+  <string name="onboarding_streaming_description">Acceda de forma segura a cualquier contenido, incluso mientras viaja a otros países. Ahora también en Android TV.</string>
+  <string name="onboarding_protection_title">Esté protegido en todas partes</string>
+  <string name="onboarding_protection_description">ProtonVPN es compatible con todos los dispositivos, incluidos Windows, macOS y muchos otros.</string>
+  <string name="onboarding_netshield_title">Bloquee anuncios y más</string>
+  <string name="onboarding_netshield_description">Bloquee malware, anuncios y rastreadores en el navegador y en todas las apps.</string>
+  <string name="onboarding_connection_title">Establezca su primera conexión</string>
+  <string name="onboarding_connection_description">La suscripción gratuita ofrece %1$d servidores en %2$d países</string>
+  <string name="onboarding_connection_info">Le conectaremos al servidor más rápido y estable para su ubicación.</string>
+  <string name="onboading_connect_now">Conectar ahora</string>
+  <string name="onboading_connecting_now">Conectando ahora</string>
+  <string name="onboarding_access_plus">Acceda a todos los países con PLUS</string>
+  <string name="onboarding_congrats_description">Su conexión está protegida y está listo para navegar por la web.\n\nDe forma segura.</string>
+  <string name="onboarding_congrats_title">¡Felicitaciones!</string>
+  <string name="onboarding_plan_congrats_description_privacy">Disfrute del mundo de la privacidad.</string>
+  <string name="onboading_connect_to_plus">Conéctese a un servidor PLUS</string>
+  <string name="upgrade_use_limited_free_button">Usar plan gratuito limitado</string>
 </resources>
