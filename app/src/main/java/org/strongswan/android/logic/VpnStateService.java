@@ -279,7 +279,7 @@ public class VpnStateService extends Service
 		Context context = getApplicationContext();
 		Intent intent = new Intent(context, ProtonCharonVpnService.class);
 		intent.setAction(CharonVpnService.DISCONNECT_ACTION);
-		context.startService(intent);
+		ContextCompat.startForegroundService(context, intent);
 	}
 
 	/**
