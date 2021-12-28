@@ -40,7 +40,8 @@ class SplashActivity : AppCompatActivity() {
             }
         )
 
-        finish()
+        // Remove the task to make sure the main activity has its own. See VPNAND-763.
+        finishAndRemoveTask()
         overridePendingTransition(0, 0) // Disable animation.
     }
 }
