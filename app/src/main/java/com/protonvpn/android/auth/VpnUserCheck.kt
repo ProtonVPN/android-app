@@ -20,10 +20,13 @@
 package com.protonvpn.android.auth
 
 import android.content.Context
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.DefaultUserCheck
@@ -40,6 +43,9 @@ class VpnUserCheck(
     private val vpnLoginUseCase: VpnLogin
 ) : DefaultUserCheck(context, accountManager, userManager) {
 
+    val assignConnectionNeeded = MutableSharedFlow<User>(
+        extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
     override suspend fun invoke(user: User): PostLoginAccountSetup.UserCheckResult {
         val result = super.invoke(user)
         if (result != PostLoginAccountSetup.UserCheckResult.Success)
@@ -50,6 +56,11 @@ class VpnUserCheck(
                 PostLoginAccountSetup.UserCheckResult.Success
             is VpnLogin.Result.Error ->
                 PostLoginAccountSetup.UserCheckResult.Error(vpnLoginResult.message)
+            VpnLogin.Result.AssignConnections -> {
+                assignConnectionNeeded.emit(user)
+                PostLoginAccountSetup.UserCheckResult.Error(
+                    context.getString(R.string.connectionAllocationHelpDescription1))
+            }
         }
     }
 }

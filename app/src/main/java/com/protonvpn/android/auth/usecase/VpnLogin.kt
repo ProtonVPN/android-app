@@ -46,6 +46,7 @@ class VpnLogin @Inject constructor(
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
         class Error(val message: String) : Result()
+        object AssignConnections : Result()
     }
 
     suspend operator fun invoke(user: User, context: Context): Result {
@@ -56,13 +57,17 @@ class VpnLogin @Inject constructor(
                 Result.Error(context.getString(R.string.auth_login_general_error))
             is ApiResult.Success -> {
                 val vpnInfo = vpnResult.value.vpnInfo
-                if (vpnInfo.userTierUnknown) {
-                    Result.Error(context.getString(R.string.auth_login_general_error))
-                } else {
-                    val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
-                    ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
-                    vpnUserDao.insertOrUpdate(vpnUser)
-                    Result.Success(vpnUser)
+                when {
+                    vpnInfo.userTierUnknown ->
+                        Result.Error(context.getString(R.string.auth_login_general_error))
+                    vpnInfo.hasNoConnectionsAssigned ->
+                        Result.AssignConnections
+                    else -> {
+                        val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
+                        ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
+                        vpnUserDao.insertOrUpdate(vpnUser)
+                        Result.Success(vpnUser)
+                    }
                 }
             }
         }

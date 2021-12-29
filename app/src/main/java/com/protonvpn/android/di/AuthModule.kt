@@ -62,7 +62,7 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideUserCheck(
+    fun provideVpnUserCheck(
         mainScope: CoroutineScope,
         @ApplicationContext context: Context,
         userData: UserData,
@@ -70,8 +70,12 @@ object AuthModule {
         userManager: UserManager,
         certificateRepository: CertificateRepository,
         vpnLogin: VpnLogin
-    ): PostLoginAccountSetup.UserCheck = VpnUserCheck(
+    ): VpnUserCheck = VpnUserCheck(
         mainScope, userData, context, accountManager, userManager, certificateRepository, vpnLogin)
+
+    @Provides
+    @Singleton
+    fun provideUserCheck(vpnUserCheck: VpnUserCheck): PostLoginAccountSetup.UserCheck = vpnUserCheck
 }
 
 @Module
