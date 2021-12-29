@@ -41,7 +41,7 @@ public final class Log {
                 outChan.truncate(0);
             }
             catch (Exception e) {
-                Sentry.capture(e);
+                Sentry.captureException(e);
             }
         }
     }

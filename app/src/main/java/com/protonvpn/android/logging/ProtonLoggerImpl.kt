@@ -31,9 +31,8 @@ import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
-import io.sentry.event.Event
-import io.sentry.event.EventBuilder
-import io.sentry.event.interfaces.ExceptionInterface
+import io.sentry.SentryEvent
+import io.sentry.protocol.Message
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -306,14 +305,6 @@ open class ProtonLoggerImpl(
         }
     }
 
-    @Deprecated("Stop logging events to Sentry")
-    fun logSentryEvent(event: Event) {
-        if (!BuildConfig.DEBUG) {
-            Sentry.capture(event)
-        }
-        logCustom(LogCategory.APP, event.message)
-    }
-
     fun getLogLinesForDisplay() = backgroundLogger.getLogLines().map {
         replaceDateForDisplay(it)
     }
@@ -371,9 +362,8 @@ open class ProtonLoggerImpl(
 }
 
 private fun logException(message: String, throwable: Throwable) {
-    val event = EventBuilder()
-        .withMessage(message)
-        .withSentryInterface(ExceptionInterface(throwable))
-        .build()
-    ProtonLogger.logSentryEvent(event)
+    val event = SentryEvent(throwable).apply {
+        this.message = Message().apply { this.message = message }
+    }
+    Sentry.captureEvent(event)
 }

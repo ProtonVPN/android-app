@@ -19,12 +19,9 @@
 
 package com.protonvpn.android.utils
 
-import android.annotation.SuppressLint
 import android.app.Application
 import com.protonvpn.android.BuildConfig
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
-import io.sentry.event.UserBuilder
+import io.sentry.android.core.SentryAndroid
 import java.util.UUID
 
 object SentryIntegration {
@@ -32,8 +29,7 @@ object SentryIntegration {
     private const val SENTRY_INSTALLATION_ID_KEY = "sentry_installation_id"
     private const val SENTRY_ENABLED_KEY = "sentry_is_enabled"
 
-    @SuppressLint("StaticFieldLeak")
-    private lateinit var sentryClientFactory: AndroidSentryClientFactory
+    private lateinit var application: Application
 
     @JvmStatic
     fun getInstallationId(): String =
@@ -44,7 +40,7 @@ object SentryIntegration {
 
     @JvmStatic
     fun initSentry(app: Application) {
-        sentryClientFactory = AndroidSentryClientFactory(app)
+        application = app
         initSentry()
 
         val currentHandler = Thread.getDefaultUncaughtExceptionHandler()
@@ -59,8 +55,10 @@ object SentryIntegration {
     fun isEnabled() = Storage.getBoolean(SENTRY_ENABLED_KEY, true)
 
     private fun initSentry() {
-        val sentryDsn = if (!BuildConfig.DEBUG && isEnabled()) BuildConfig.Sentry_DSN else null
-        val client = Sentry.init(sentryDsn, sentryClientFactory)
-        client.context.user = UserBuilder().setId(getInstallationId()).build()
+        val sentryDsn = if (!BuildConfig.DEBUG && isEnabled()) BuildConfig.Sentry_DSN else ""
+        SentryAndroid.init(application) { options ->
+            options.dsn = sentryDsn
+            options.distinctId = getInstallationId()
+        }
     }
 }
