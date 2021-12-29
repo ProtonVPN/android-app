@@ -46,6 +46,7 @@ import com.protonvpn.android.utils.onAnimationEnd
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.openBrowserLink
+import me.proton.core.util.kotlin.exhaustive
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
@@ -131,7 +132,8 @@ class TvLoginActivity : BaseTvActivity() {
                 else
                     finishLogin()
             }
-        }
+            TvLoginViewState.ConnectionAllocationPrompt -> {}
+        }.exhaustive
         // Focus the action button first, not the link.
         if (actionButton.isVisible) actionButton.requestFocus()
     }
@@ -168,7 +170,10 @@ class TvLoginActivity : BaseTvActivity() {
 
     companion object {
         fun createContract() = object : ActivityResultContract<Unit, ActivityResult>() {
-            override fun createIntent(context: Context, input: Unit) = Intent(context, TvLoginActivity::class.java)
+            override fun createIntent(context: Context, input: Unit) =
+                Intent(context, TvLoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
             override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
         }
 
