@@ -59,6 +59,9 @@ object SentryIntegration {
         SentryAndroid.init(application) { options ->
             options.dsn = sentryDsn
             options.distinctId = getInstallationId()
+            options.setBeforeSend { event, _ ->
+                SentryFingerprints.setFingerprints(event)
+            }
         }
     }
 }
