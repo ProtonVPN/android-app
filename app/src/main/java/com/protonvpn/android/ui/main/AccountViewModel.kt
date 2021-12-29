@@ -27,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -71,7 +72,8 @@ class AccountViewModel @Inject constructor(
     val accountType: AccountType,
     val vpnApiClient: VpnApiClient,
     val onSessionClosed: OnSessionClosed,
-    val certificateRepository: CertificateRepository
+    val certificateRepository: CertificateRepository,
+    val vpnUserCheck: VpnUserCheck
 ) : ViewModel() {
 
     sealed class State {
@@ -83,6 +85,7 @@ class AccountViewModel @Inject constructor(
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
     var onAddAccountClosed: (() -> Unit)? = null
+    var onAssignConnectionHandler: (() -> Unit)? = null
 
     private val _state = MutableStateFlow<State>(State.Initial)
     val state = _state.asStateFlow()
@@ -103,6 +106,10 @@ class AccountViewModel @Inject constructor(
                         _state.emit(State.Processing)
                 }
             }.launchIn(activity.lifecycleScope)
+
+        vpnUserCheck.assignConnectionNeeded.onEach {
+            onAssignConnectionHandler?.invoke()
+        }.launchIn(activity.lifecycleScope)
 
         with(authOrchestrator) {
             onAddAccountResult { result ->

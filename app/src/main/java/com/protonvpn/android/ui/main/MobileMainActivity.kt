@@ -29,6 +29,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +45,10 @@ class MobileMainActivity : AppCompatActivity() {
 
         override suspend fun onReady() {
             mainLauncher.launch(Unit)
+        }
+
+        override fun onAssignConnectionNeeded() {
+            startActivity(Intent(this@MobileMainActivity, AssignVpnConnectionActivity::class.java))
         }
     }
 

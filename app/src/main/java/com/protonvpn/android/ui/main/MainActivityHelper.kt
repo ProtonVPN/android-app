@@ -39,6 +39,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
 
             onAddAccountClosed = activity::finish
             onSecondFactorClosed { activity.lifecycleScope.launch { onLoginNeeded() } }
+            onAssignConnectionHandler = this@MainActivityHelper::onAssignConnectionNeeded
 
             // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
             // removed once home is introduced to MobileMainActivity as a fragment (as already the case for TV)
@@ -61,6 +62,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
 
     abstract suspend fun onLoginNeeded()
     abstract suspend fun onReady()
+    abstract fun onAssignConnectionNeeded()
 
     private suspend fun onStateChange(state: AccountViewModel.State) = when (state) {
         AccountViewModel.State.LoginNeeded ->
