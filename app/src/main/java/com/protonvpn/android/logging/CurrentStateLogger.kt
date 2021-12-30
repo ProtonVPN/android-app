@@ -36,7 +36,8 @@ import javax.inject.Singleton
  * A bridge to use CurrentStateLogger with Hilt-injected dependencies in ProtonLogger.
  *
  * ProtonLogger is a global object and cannot have Hilt-injected dependencies (especially that
- * dependencies are recreated for each test). This acts as a bridge between
+ * dependencies are recreated for each test). This acts as a bridge to request CurrentStateLogger
+ * from Hilt on each call to logCurrentState().
  */
 class CurrentStateLoggerGlobal(private val appContext: Context) {
 

@@ -29,7 +29,7 @@ fun Profile.toLog(userData: UserData): String {
     val type = when {
         isPreBakedFastest -> "Fastest"
         isPreBakedProfile -> "Random"
-        name.isNotBlank() -> "\"$name\""
+        name.isNotBlank() -> "Custom" // Logs are sent to Sentry, let's not send profile names.
         else -> "None"
     }
     val protocol = getProtocol(userData)
