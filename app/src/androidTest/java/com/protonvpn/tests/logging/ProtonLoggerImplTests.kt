@@ -22,6 +22,7 @@ package com.protonvpn.tests.logging
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal
+import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogEventType
 import com.protonvpn.android.logging.LogLevel
@@ -203,12 +204,14 @@ class ProtonLoggerImplTests {
             // runBlockingTest block finishes.
             val loggerScope = CoroutineScope(EmptyCoroutineContext + testDispatcher)
             val logger = ProtonLoggerImpl(
-                InstrumentationRegistry.getInstrumentation().targetContext,
-                loggerScope,
-                testDispatcher,
-                logDir.absolutePath,
-                currentStateLogger,
-                FIXED_CLOCK
+                FIXED_CLOCK,
+                FileLogWriter(
+                    InstrumentationRegistry.getInstrumentation().targetContext,
+                    loggerScope,
+                    testDispatcher,
+                    logDir.absolutePath,
+                    currentStateLogger
+                )
             )
             block(logger)
             loggerScope.cancel()
