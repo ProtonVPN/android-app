@@ -21,7 +21,6 @@ package com.protonvpn.app
 import android.content.Context
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
@@ -82,7 +81,6 @@ class UserPlanManagerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        ProtonApplication.setAppContextForTest(mockk(relaxed = true))
         Storage.setPreferences(mockk(relaxed = true))
         userData = UserData.create()
         currentUser.mockVpnUser {
