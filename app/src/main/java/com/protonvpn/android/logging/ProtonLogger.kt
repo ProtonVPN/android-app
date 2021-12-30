@@ -31,5 +31,6 @@ object ProtonLogger : ProtonLoggerImpl(
         Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
         ProtonApplication.getAppContext().applicationInfo.dataDir + "/log",
         CurrentStateLoggerGlobal(ProtonApplication.getAppContext()),
-    )
+    ),
+    SentryLogWriter(ProtonApplication.getAppContext())
 )
