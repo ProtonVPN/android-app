@@ -30,8 +30,8 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.ProtonLoggerImpl
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -95,7 +95,7 @@ class ReportBugActivityViewModel @Inject constructor(
                 }
                 logFiles
             } catch (e: IOException) {
-                emptyList<ProtonLoggerImpl.LogFile>()
+                emptyList<FileLogWriter.LogFile>()
             }
             val result = api.postBugReport(builder.build())
             ProtonLogger.clearUploadTempFiles(logFiles)
