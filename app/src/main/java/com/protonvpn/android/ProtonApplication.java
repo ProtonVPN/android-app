@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android;
 
+import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -27,8 +29,13 @@ import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
+import com.protonvpn.android.logging.FileLogWriter;
+import com.protonvpn.android.logging.GlobalSentryLogWriter;
 import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.LogWriter;
 import com.protonvpn.android.logging.ProtonLogger;
+import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.ui.ForegroundActivityTracker;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
@@ -45,7 +52,12 @@ import org.strongswan.android.logic.StrongSwanApplication;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executors;
+
 import go.Seq;
+import kotlinx.coroutines.ExecutorsKt;
 import leakcanary.AppWatcher;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -62,6 +74,7 @@ public class ProtonApplication extends Application {
         SentryIntegration.initSentry(this);
         initStrongSwan();
 
+        initLogger();
         ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
 
         NotificationHelper.Companion.initNotificationChannel(this);
@@ -116,6 +129,25 @@ public class ProtonApplication extends Application {
                 .build();
             AppWatcher.setConfig(config);
         }
+    }
+
+    private void initLogger() {
+        // Add GlobalSentryLogWriter only in real application, it doesn't work with Hilt tests
+        // because some message are being logged already in ProtonApplication.onCreate() - Hilt
+        // dependencies are not available in tests this early.
+        List<LogWriter> secondaryWriters = this instanceof ProtonApplicationHilt
+                ? Collections.singletonList(new GlobalSentryLogWriter(this))
+                : Collections.emptyList();
+
+        ProtonLogger.setLogger(new ProtonLoggerImpl(
+                System::currentTimeMillis,
+                new FileLogWriter(
+                        ProtonApplication.getAppContext(),
+                        MainScope(),
+                        ExecutorsKt.from(Executors.newSingleThreadExecutor()),
+                        getApplicationInfo().dataDir + "/log",
+                        new CurrentStateLoggerGlobal(this)),
+                secondaryWriters));
     }
 
     private boolean handleUpdate() {

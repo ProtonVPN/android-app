@@ -19,6 +19,7 @@
 package com.protonvpn.android.logging
 
 import com.protonvpn.android.BuildConfig
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -42,31 +43,45 @@ interface LogWriter {
     )
 }
 
+interface ProtonLoggerInterface {
+    fun log(event: LogEventType, message: String = "")
+
+    // Log custom event/message with log level info.
+    fun logCustom(category: LogCategory, message: String)
+    fun logCustom(level: LogLevel, category: LogCategory, message: String)
+    fun logBlocking(event: LogEventType, message: String)
+    fun formatTime(timeMs: Long): String
+
+    suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile>
+    fun getLogLinesForDisplay(): Flow<String>
+    fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>)
+}
+
 open class ProtonLoggerImpl(
     private val wallClock: () -> Long,
     private val fileLogWriter: FileLogWriter,
     otherWriters: List<LogWriter> = emptyList()
-) {
+) : ProtonLoggerInterface {
     private val writers = otherWriters + fileLogWriter
     private val timestampFormatter: DateTimeFormatter = ISODateTimeFormat.dateTime()
 
-    fun log(event: LogEventType, message: String = "") {
+    override fun log(event: LogEventType, message: String) {
         logEvent(event.level, event.category, event.name, message, false)
     }
 
     // Log custom event/message with log level info.
-    fun logCustom(category: LogCategory, message: String) =
+    override fun logCustom(category: LogCategory, message: String) =
         logCustom(LogLevel.INFO, category, message)
 
-    fun logCustom(level: LogLevel, category: LogCategory, message: String) {
+    override fun logCustom(level: LogLevel, category: LogCategory, message: String) {
         logEvent(level, category, null, message, false)
     }
 
-    fun logBlocking(event: LogEventType, message: String) {
+    override fun logBlocking(event: LogEventType, message: String) {
         logEvent(event.level, event.category, event.name, message, true)
     }
 
-    fun formatTime(timeMs: Long): String =
+    override fun formatTime(timeMs: Long): String =
         timestampFormatter.print(DateTime(timeMs, DateTimeZone.UTC))
 
     private fun getTimestampNow(): String = formatTime(wallClock())
@@ -84,13 +99,13 @@ open class ProtonLoggerImpl(
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun getLogFilesForUpload() = fileLogWriter.getLogFilesForUpload()
+    override suspend fun getLogFilesForUpload() = fileLogWriter.getLogFilesForUpload()
 
-    fun getLogLinesForDisplay() = fileLogWriter.getLogLinesForDisplay().map {
+    override fun getLogLinesForDisplay() = fileLogWriter.getLogLinesForDisplay().map {
         replaceDateForDisplay(it)
     }
 
-    fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)
+    override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
 

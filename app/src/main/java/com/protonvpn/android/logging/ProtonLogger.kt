@@ -18,19 +18,54 @@
  */
 package com.protonvpn.android.logging
 
-import com.protonvpn.android.ProtonApplication
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.asCoroutineDispatcher
-import java.util.concurrent.Executors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
-object ProtonLogger : ProtonLoggerImpl(
-    System::currentTimeMillis,
-    FileLogWriter(
-        ProtonApplication.getAppContext(),
-        MainScope(),
-        Executors.newSingleThreadExecutor().asCoroutineDispatcher(),
-        ProtonApplication.getAppContext().applicationInfo.dataDir + "/log",
-        CurrentStateLoggerGlobal(ProtonApplication.getAppContext()),
-    ),
-    SentryLogWriter(ProtonApplication.getAppContext())
-)
+/**
+ * A static facade for a logger.
+ *
+ * It allows easy access to logging anywhere in the code base without any assumptions on the actual
+ * logging implementation. This allows logging to be used in code that is unit tested (the default
+ * implementation does nothing).
+ *
+ * Typically an Application subclass creates a real logger implementation and sets it by calling
+ * setLogger().
+ */
+object ProtonLogger : ProtonLoggerInterface {
+
+    private var logger: ProtonLoggerInterface = NoopProtonLogger()
+
+    override fun log(event: LogEventType, message: String) = logger.log(event, message)
+
+    override fun logCustom(category: LogCategory, message: String) = logger.logCustom(category, message)
+
+    override fun logCustom(level: LogLevel, category: LogCategory, message: String) =
+        logger.logCustom(level, category, message)
+
+    override fun logBlocking(event: LogEventType, message: String) = logger.logBlocking(event, message)
+
+    override fun formatTime(timeMs: Long): String = logger.formatTime(timeMs)
+
+    override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = getLogFilesForUpload()
+
+    override fun getLogLinesForDisplay(): Flow<String> = logger.getLogLinesForDisplay()
+
+    override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) =
+        logger.clearUploadTempFiles(files)
+
+    @JvmStatic
+    fun setLogger(newLogger: ProtonLoggerInterface) {
+        logger = newLogger
+    }
+}
+
+private class NoopProtonLogger : ProtonLoggerInterface {
+    override fun log(event: LogEventType, message: String) {}
+    override fun logCustom(category: LogCategory, message: String) {}
+    override fun logCustom(level: LogLevel, category: LogCategory, message: String) {}
+    override fun logBlocking(event: LogEventType, message: String) {}
+    override fun formatTime(timeMs: Long): String = ""
+    override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = emptyList()
+    override fun getLogLinesForDisplay(): Flow<String> = emptyFlow()
+    override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) {}
+}
