@@ -42,6 +42,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
     open suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         manager { getAppConfig() }
 
+    open suspend fun getDynamicReportConfig() =
+        manager { getDynamicReportConfig() }
+
     open suspend fun getLocation() =
         manager { getLocation() }
 
