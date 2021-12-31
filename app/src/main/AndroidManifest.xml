@@ -39,10 +39,10 @@
         android:name=".ProtonApplicationHilt"
         android:allowBackup="false"
         android:banner="@drawable/tv_banner"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:extractNativeLibs="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -51,7 +51,11 @@
         android:taskAffinity=""
         tools:replace="android:theme">
 
-        <activity android:name=".ui.onboarding.SplashActivity"
+        <activity
+            android:name="com.protonvpn.android.ui.drawer.bugreport.FullScreenDialog"
+            android:exported="false" />
+        <activity
+            android:name=".ui.onboarding.SplashActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +68,8 @@
         <activity
             android:name=".tv.main.TvMainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.TV.Browse"/>
+            android:theme="@style/AppTheme.TV.Browse" />
+
         <activity
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
@@ -241,9 +246,11 @@
         <activity
             android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
+
         <activity
-            android:name=".ui.drawer.ReportBugActivity"
+            android:name=".ui.drawer.bugreport.DynamicReportActivity"
             android:label="@string/drawerReportProblem" />
+        
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />

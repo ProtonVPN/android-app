@@ -75,7 +75,7 @@
                 android:drawablePadding="8dp"
                 android:text="@string/activity_information_learn_more"
                 android:textColor="?attr/brand_norm"
-                app:drawableEndCompat="@drawable/ic_external_link" />
+                app:drawableEndCompat="@drawable/ic_external_link_brand" />
         </LinearLayout>
     </LinearLayout>
 
