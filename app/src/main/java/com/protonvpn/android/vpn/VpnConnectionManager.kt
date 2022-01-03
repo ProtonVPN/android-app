@@ -61,7 +61,6 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
-import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -261,13 +260,6 @@ open class VpnConnectionManager(
         if (fallback.notifyUser && fallback.reason != null) {
             vpnStateMonitor.fallbackConnectionFlow.emit(fallback)
         }
-
-        val sentryEvent = EventBuilder()
-            .withMessage("Fallback connect")
-            .withExtra("From", connectionParams?.info)
-            .withExtra("Info", fallback.log)
-            .build()
-        ProtonLogger.logSentryEvent(sentryEvent)
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
