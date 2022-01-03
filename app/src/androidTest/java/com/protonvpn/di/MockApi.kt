@@ -29,6 +29,7 @@ import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.DefaultPortsConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.LoaderUI
@@ -136,6 +137,9 @@ class MockApi(
     }
 
     private val currentVpnInfoResponse get() = currentUser.vpnUserCached()?.toVpnInfoResponse()
+
+    override suspend fun getSessionForkSelector(): ApiResult<SessionForkSelectorResponse> =
+        ApiResult.Success(SessionForkSelectorResponse("dummy value", "1234ABCD"))
 
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
         forkedUserResponse
