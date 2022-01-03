@@ -101,6 +101,9 @@ class MockApi(
             }
     }
 
+    var forkedUserResponse: ApiResult<ForkedSessionResponse> =
+        ApiResult.Success(TestUser.forkedSessionResponse)
+
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(
             featureFlags = FeatureFlags(
@@ -135,7 +138,7 @@ class MockApi(
     private val currentVpnInfoResponse get() = currentUser.vpnUserCached()?.toVpnInfoResponse()
 
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
-        ApiResult.Success(TestUser.forkedSessionResponse)
+        forkedUserResponse
 
     override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =
         ApiResult.Success(ApiNotificationTestHelper.mockResponse(

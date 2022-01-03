@@ -21,19 +21,25 @@ package com.protonvpn.testsTv.tests.login
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.tv.TvLoginActivity
+import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.di.MockApi
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import me.proton.core.network.domain.ApiResult
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 /**
  * [LoginTestsTv] Contains all tests related to Login actions.
@@ -44,15 +50,25 @@ import org.junit.runner.RunWith
 class LoginTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    private val hiltRule = HiltAndroidRule(this)
     @get:Rule val rules = RuleChain
-        .outerRule(HiltAndroidRule(this))
+        .outerRule(hiltRule)
         .around(activityRule)
 
     private val loginRobot = TvLoginRobot()
     private lateinit var userDataHelper: UserDataHelper
 
+    @Inject
+    lateinit var injectedApi: ProtonApiRetroFit
+    lateinit var mockApi: MockApi
+
     @Before
     fun setUp() {
+        hiltRule.inject()
+        mockApi = injectedApi as MockApi
+        // Login tests start with mock API in logged out state.
+        mockApi.forkedUserResponse =
+            ApiResult.Error.Http(TvLoginViewModel.Companion.HTTP_CODE_KEEP_POLLING, "")
         userDataHelper = UserDataHelper()
         activityRule.scenario
     }
@@ -60,16 +76,18 @@ class LoginTestsTv {
     @Test
     fun loginHappyPath() {
         loginRobot
-                .signIn()
-                .waitUntilLoggedIn()
-                .verify { userIsLoggedIn() }
+            .signIn()
+        mockApi.forkedUserResponse = ApiResult.Success(TestUser.forkedSessionResponse)
+        loginRobot
+            .waitUntilLoggedIn()
+            .verify { userIsLoggedIn() }
     }
 
     @Test
     fun loginCodeIsDisplayed() {
         loginRobot.signIn()
-                .waitUntilLoginCodeIsDisplayed()
-                .verify { loginCodeViewIsDisplayed() }
+            .waitUntilLoginCodeIsDisplayed()
+            .verify { loginCodeViewIsDisplayed() }
     }
 
     @After
