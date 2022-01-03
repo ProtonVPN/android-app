@@ -324,7 +324,6 @@
   <string name="troubleshootContactUsSectionTitle">هنوز به کمک نیاز دارید؟ با ما به صورت مستقیم تماس بگیرید</string>
   <string name="troubleshootCustomerSupport">پشتیبانی مشتری</string>
   <string name="settingsAllowAlternativeRoutingTitle">مسیریابی جایگزین</string>
-  <string name="settingsAllowAlternativeRoutingDescription">در صورتی که Proton مسدود است، به برنامه اجازه دهید که مسیرهای جایگزین را برای دستیابی به سرورهای Proton امتحان کند</string>
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>

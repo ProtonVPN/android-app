@@ -322,7 +322,6 @@
   <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
   <string name="troubleshootCustomerSupport">Layanan dukungan</string>
   <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas data alternatif</string>
-  <string name="settingsAllowAlternativeRoutingDescription">Jika Proton diblokir, izinkan aplikasi untuk mencoba jalur alternatif untuk mencapai server Proton</string>
   <string name="troubleshootGovernmentBlockTitle">Blokir dari Pemerintah</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara anda mungkin memblokir akses ke Proton. Coba gunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
