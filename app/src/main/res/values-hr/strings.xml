@@ -326,7 +326,6 @@
   <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
   <string name="troubleshootCustomerSupport">Korisnička podrška</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternativno usmjeravanje</string>
-  <string name="settingsAllowAlternativeRoutingDescription">In case Proton is blocked, allow app to try alternative paths to reach Proton servers</string>
   <string name="troubleshootGovernmentBlockTitle">Državna cenzura</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država možda blokira pristup Protonu. Pokušajte koristiti <a href=\'%1$s\'>Tor</a> za pristup Protonu.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN i Kill Switch</string>

@@ -328,7 +328,6 @@
   <string name="troubleshootContactUsSectionTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
   <string name="troubleshootCustomerSupport">Wsparcie klienta</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatywne przekierowanie połączenia</string>
-  <string name="settingsAllowAlternativeRoutingDescription">W przypadku gdy Proton jest zablokowany, zezwól aplikacji na wypróbowanie alternatywnych ścieżek aby połączyć z serwerami Protona</string>
   <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>

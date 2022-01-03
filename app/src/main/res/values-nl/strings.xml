@@ -324,7 +324,6 @@
   <string name="troubleshootContactUsSectionTitle">Meer hulp nodig? Neem dan rechtstreeks contact me ons op</string>
   <string name="troubleshootCustomerSupport">Klantondersteuning</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatieve routing</string>
-  <string name="settingsAllowAlternativeRoutingDescription">Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Proton-servers te bereiken</string>
   <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>

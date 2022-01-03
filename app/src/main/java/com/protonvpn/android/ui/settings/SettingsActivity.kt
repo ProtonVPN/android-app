@@ -123,6 +123,7 @@ class SettingsActivity : BaseActivityV2() {
     private fun initSettings() {
         initOSRelatedVisibility()
         initDnsLeakProtection()
+        initDohToggle()
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
@@ -143,12 +144,6 @@ class SettingsActivity : BaseActivityV2() {
             ) {
                 logUiEvent(Setting.NETSHIELD_PROTOCOL)
                 userPrefs.setNetShieldProtocol(it)
-            }
-
-            switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
-            switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
-                logUiEvent(Setting.API_DOH)
-                userPrefs.apiUseDoH = isChecked
             }
 
             buttonDefaultProfile.setOnClickListener {
@@ -187,6 +182,17 @@ class SettingsActivity : BaseActivityV2() {
         onUserDataUpdated()
         userPrefs.updateEvent.observe(this) {
             onUserDataUpdated()
+        }
+    }
+
+    private fun initDohToggle() = with(binding.contentSettings) {
+        switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
+        val info =
+            getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
+        switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+        switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
+            logUiEvent(Setting.API_DOH)
+            userPrefs.apiUseDoH = isChecked
         }
     }
 
