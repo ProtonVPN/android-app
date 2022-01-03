@@ -62,8 +62,8 @@ class SettingChangesLogger @Inject constructor(
         Setting.SECURE_CORE -> userData.isSecureCoreEnabled
         Setting.LAN_CONNECTIONS -> userData.shouldBypassLocalTraffic()
         Setting.SPLIT_TUNNEL_ENABLED -> userData.useSplitTunneling
-        Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.joinToString()
-        Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.joinToString()
+        Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.toLog()
+        Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.toLog()
         Setting.DEFAULT_MTU -> userData.mtuSize
         Setting.API_DOH -> userData.apiUseDoH
         Setting.VPN_ACCELERATOR_ENABLED -> userData.vpnAcceleratorEnabled
@@ -78,4 +78,6 @@ class SettingChangesLogger @Inject constructor(
             else ""
         return "${userData.selectedProtocol} $transmission"
     }
+
+    private fun List<*>.toLog() = if (isEmpty()) "None" else joinToString()
 }
