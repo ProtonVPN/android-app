@@ -34,7 +34,7 @@ import org.joda.time.Minutes
 import java.io.Serializable
 
 enum class Setting(val logName: String) {
-    QUICK_CONNECT_PROFILE("Connect on boot"),
+    QUICK_CONNECT_PROFILE("Quick connect"),
     DEFAULT_PROTOCOL("Default protocol"),
     NETSHIELD_PROTOCOL("NetShield protocol"),
     SECURE_CORE("Secure Core"),
