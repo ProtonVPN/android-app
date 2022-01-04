@@ -526,6 +526,7 @@ object AppModule {
         vpnMonitor: VpnStateMonitor,
         connectionManager: dagger.Lazy<VpnConnectionManager>,
         notificationHelper: NotificationHelper,
+        currentUser: dagger.Lazy<CurrentUser>
     ): ApiConnectionListener =
         GuestHole(
             appContext,
@@ -534,7 +535,8 @@ object AppModule {
             serverManager,
             vpnMonitor,
             connectionManager,
-            notificationHelper
+            notificationHelper,
+            currentUser,
         )
 
     @Provides
