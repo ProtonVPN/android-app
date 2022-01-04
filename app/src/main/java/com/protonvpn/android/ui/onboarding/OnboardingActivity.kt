@@ -181,7 +181,7 @@ class OnboardingActivity : BaseActivityV2() {
                 lifecycleScope.launch {
                     connect.setText(R.string.onboading_connecting_now)
                     connect.setLoading()
-                    val error = viewModel.connect(this@OnboardingActivity)
+                    val error = viewModel.connect(vpnPermissionDelegate)
                     if (error == null) {
                         startActivity(Intent(this@OnboardingActivity, CongratsActivity::class.java))
                         finish()
