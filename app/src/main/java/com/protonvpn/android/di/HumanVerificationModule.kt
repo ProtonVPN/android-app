@@ -49,7 +49,7 @@ object HumanVerificationModule {
 
     @Provides
     @HumanVerificationApiHost
-    fun provideCaptchaBaseUrl(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
+    fun provideHumanVerificationApiHost(): String = "https://verify.protonvpn.com"
 
     @Provides
     fun provideHumanVerificationOrchestrator(): HumanVerificationOrchestrator =
