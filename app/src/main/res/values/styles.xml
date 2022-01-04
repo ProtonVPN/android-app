@@ -312,6 +312,22 @@
         <item name="android:gravity">end</item>
     </style>
 
+    <!--
+      item_server_switch.xml is included both in regular UI and in notification.
+      Notifications should not use the application styles.
+      -->
+    <style name="ThemeOverlay.ProtonItemServerSwitch" parent="">
+        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward</item>
+        <item name="serverSwitchLabelTextStyle">@style/Proton.Text.Caption</item>
+        <item name="serverSwitchServerTextStyle">@style/Proton.Text.DefaultSmall</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonItemServerSwitch.Notification" parent="">
+        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward_grey</item>
+        <item name="serverSwitchLabelTextStyle">@style/TextAppearance.Compat.Notification.Info</item>
+        <item name="serverSwitchServerTextStyle">@style/TextAppearance.Compat.Notification</item>
+    </style>
+
     <style name="FabMenuLabelStyle">
         <item name="android:background">@drawable/bg_fab_label</item>
         <item name="android:paddingLeft">8dp</item>

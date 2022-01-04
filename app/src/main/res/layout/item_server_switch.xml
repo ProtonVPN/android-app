@@ -40,7 +40,7 @@
 
                 <TextView
                     android:id="@+id/textFrom"
-                    style="@style/Proton.Text.Caption"
+                    style="?attr/serverSwitchLabelTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -78,7 +78,7 @@
 
                     <TextView
                         android:id="@+id/textFromServer"
-                        style="@style/Proton.Text.DefaultSmall"
+                        style="?attr/serverSwitchServerTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -95,7 +95,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_arrow_forward" />
+            android:src="?attr/serverSwitchArrowDrawable" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -111,7 +111,7 @@
 
                 <TextView
                     android:id="@+id/textTo"
-                    style="@style/Proton.Text.Caption"
+                    style="?attr/serverSwitchLabelTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -149,7 +149,7 @@
 
                     <TextView
                         android:id="@+id/textToServer"
-                        style="@style/Proton.Text.DefaultSmall"
+                        style="?attr/serverSwitchServerTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"

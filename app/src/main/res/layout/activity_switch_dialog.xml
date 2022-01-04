@@ -63,6 +63,7 @@
             <include
                 android:id="@+id/itemSwitchLayout"
                 layout="@layout/item_server_switch"
+                android:theme="@style/ThemeOverlay.ProtonItemServerSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
