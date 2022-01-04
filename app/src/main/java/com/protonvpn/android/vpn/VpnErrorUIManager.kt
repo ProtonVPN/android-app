@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.net.Uri
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
@@ -17,6 +16,7 @@ import com.protonvpn.android.components.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.components.NotificationHelper.ReconnectionNotification
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -154,16 +154,15 @@ class VpnErrorUIManager(
     private fun getPendingIntentForDashboard(): PendingIntent = PendingIntent.getActivity(
         appContext,
         Constants.NOTIFICATION_INFO_ID,
-        Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(Constants.DASHBOARD_URL) },
+        Intent(appContext, UpgradePlusCountriesDialogActivity::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
     private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {
         val toServer = switch.toProfile.server
         val fromServer = switch.fromServer
-        return if (toServer != null && fromServer != null
-            && switch.reason !is SwitchServerReason.UserBecameDelinquent) {
+        return if (toServer != null && fromServer != null &&
+                switch.reason !is SwitchServerReason.UserBecameDelinquent) {
             NotificationHelper.ReconnectionInformation(
                 fromServerName = fromServer.serverName,
                 fromCountry = fromServer.exitCountry,

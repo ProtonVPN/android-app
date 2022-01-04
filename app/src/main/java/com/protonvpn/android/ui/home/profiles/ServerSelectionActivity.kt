@@ -37,11 +37,10 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.openProtonUrl
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -95,7 +94,9 @@ class ServerSelectionActivity : BaseActivityV2() {
                 )
             )
         )
-        val upgradeButtonListener = View.OnClickListener { openProtonUrl(Constants.DASHBOARD_URL) }
+        val upgradeButtonListener = View.OnClickListener {
+            startActivity(Intent(this, UpgradePlusCountriesDialogActivity::class.java))
+        }
         val serversHeaderString =
             if (secureCore) R.string.secureCoreCountriesHeader else R.string.countryServersHeader
         val serversSection = Section(

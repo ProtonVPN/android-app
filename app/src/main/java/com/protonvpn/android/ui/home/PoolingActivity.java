@@ -26,7 +26,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser;
 import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.ui.onboarding.WelcomeDialog;
-import com.protonvpn.android.utils.Constants;
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnActivity;
 
 import org.joda.time.DateTime;
@@ -61,7 +61,7 @@ public abstract class PoolingActivity extends VpnActivity {
             .setMessage(R.string.freeTrialExpired)
             .setPositiveButton(
                 R.string.upgrade,
-                (dlg, which) -> openProtonUrl(this, Constants.DASHBOARD_URL)
+                (dlg, which) -> navigateTo(UpgradePlusCountriesDialogActivity.class)
             )
             .setNegativeButton(R.string.cancel, null)
             .show();
