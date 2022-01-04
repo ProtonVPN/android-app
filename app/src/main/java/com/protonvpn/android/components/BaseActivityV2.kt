@@ -49,7 +49,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
         private set
 
     @Suppress("LeakingThis")
-    private val vpnPermissionDelegate = VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
+    protected val vpnPermissionDelegate = VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

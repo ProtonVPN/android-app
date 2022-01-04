@@ -25,10 +25,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingPlanCongratsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
 
@@ -68,8 +70,10 @@ class CongratsPlanActivity : BaseActivityV2() {
         binding.description.text = getString(R.string.onboarding_plan_congrats_description, servers)
 
         binding.connect.onClick {
-            viewModel.connectPlus(this@CongratsPlanActivity)
-            finish()
+            lifecycleScope.launch {
+                if (viewModel.connectPlus(this@CongratsPlanActivity, vpnPermissionDelegate))
+                    finish()
+            }
         }
     }
 

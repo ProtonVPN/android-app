@@ -69,11 +69,10 @@ class OnboardingViewModel @Inject constructor(
 
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
 
-    suspend fun connect(activity: OnboardingActivity): Error? {
-        val delegate = VpnPermissionActivityDelegate(activity)
+    suspend fun connect(delegate: VpnPermissionActivityDelegate): Error? {
         val intent = vpnConnectionManager.prepare(delegate.getContext())
         return if (delegate.suspendForPermissions(intent))
-            connectInternal(activity)
+            connectInternal(delegate)
         else
             Error(null, 0)
     }

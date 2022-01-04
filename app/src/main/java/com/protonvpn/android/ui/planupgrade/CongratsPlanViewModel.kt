@@ -19,8 +19,10 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.displayText
@@ -58,9 +60,13 @@ class CongratsPlanViewModel @Inject constructor(
             State.Success
     }
 
-    fun connectPlus(vpnPermissionDelegate: VpnPermissionDelegate) {
-        vpnConnectionManager.connect(
-            vpnPermissionDelegate, serverManager.defaultFallbackConnection, "onboarding plus")
+    suspend fun connectPlus(context: Context, vpnPermissionDelegate: VpnPermissionActivityDelegate): Boolean {
+        if (vpnPermissionDelegate.suspendForPermissions(vpnConnectionManager.prepare(context))) {
+            vpnConnectionManager.connect(
+                vpnPermissionDelegate, serverManager.defaultFallbackConnection, "onboarding plus")
+            return true
+        }
+        return false
     }
 
     val serverCount get() = serverManager.allServerCount
