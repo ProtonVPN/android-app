@@ -315,7 +315,8 @@ class VpnConnectionTests {
                 dagger.Lazy { serverManager },
                 monitor,
                 dagger.Lazy { manager },
-                mockk(relaxed = true)
+                mockk(relaxed = true),
+                dagger.Lazy { currentUser }
             )
         )
         every { guestHole.getCurrentActivity() } returns mockk<ComponentActivity>()
@@ -339,7 +340,8 @@ class VpnConnectionTests {
                 dagger.Lazy { serverManager },
                 monitor,
                 dagger.Lazy { manager },
-                mockk(relaxed = true)
+                mockk(relaxed = true),
+                dagger.Lazy { currentUser }
             )
         )
         every { guestHole.getCurrentActivity() } returns mockk()

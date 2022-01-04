@@ -24,6 +24,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -61,7 +62,8 @@ class GuestHole @Inject constructor(
     private val serverManager: dagger.Lazy<ServerManager>,
     private val vpnMonitor: VpnStateMonitor,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
+    private val currentUser: dagger.Lazy<CurrentUser>
 ) : ApiConnectionListener {
 
     private var lastGuestHoleServer: Server? = null
@@ -177,12 +179,15 @@ class GuestHole @Inject constructor(
         return result
     }
 
-    private fun isEligibleForGuestHole(path: String?, query: String?): Boolean {
+    private suspend fun isEligibleForGuestHole(path: String?, query: String?): Boolean {
         // Only trigger guesthole for server list if it hasn't been downloaded before
         if (path == ONE_TIME_LOGICAL_CALL && serverManager.get().isDownloadedAtLeastOnce) return false
 
         // Do not run guesthole for domain call with type, as that is not necessary for the flow
         if (path == DOMAINS_CALL && query != null) return false
+
+        // Do not run guesthole for /vpn endpoint if user is already logged in
+        if (path == ONE_TIME_VPN_CALL && currentUser.get().isLoggedIn()) return false
 
         return CORE_GUESTHOLE_CALLS.contains(path)
     }
@@ -199,6 +204,7 @@ class GuestHole @Inject constructor(
         private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
 
         private const val ONE_TIME_LOGICAL_CALL = "/vpn/logicals"
+        private const val ONE_TIME_VPN_CALL = "/vpn"
         private const val DOMAINS_CALL = "/domains/available"
         private val CORE_GUESTHOLE_CALLS = listOf(
             "/auth/info",
@@ -225,7 +231,7 @@ class GuestHole @Inject constructor(
 
             // VPN specific calls
 
-            "/vpn",
+            ONE_TIME_VPN_CALL,
             ONE_TIME_LOGICAL_CALL
         )
     }
