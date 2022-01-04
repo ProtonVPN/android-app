@@ -227,6 +227,7 @@ class GuestHole @Inject constructor(
             "/payments/v4/subscription/check",
             "/v4/users/code",
             "/v4/users/check",
+            "/keys/salts",
             DOMAINS_CALL,
 
             // VPN specific calls
