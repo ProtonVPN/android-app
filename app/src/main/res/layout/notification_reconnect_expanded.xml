@@ -49,7 +49,8 @@
         layout="@layout/item_server_switch"
         android:layout_width="match_parent"
         android:layout_height="68dp"
+        android:layout_below="@id/notification_main"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/notification_main" />
+        android:theme="@style/ThemeOverlay.ProtonItemServerSwitch.Notification" />
 
 </RelativeLayout>

@@ -24,6 +24,11 @@
     <declare-styleable name="CountryWithFlagsView">
         <attr name="android:textAppearance" />
     </declare-styleable>
+    <declare-styleable name="ItemServerSwitch">
+        <attr name="serverSwitchArrowDrawable" format="reference" />
+        <attr name="serverSwitchLabelTextStyle" format="reference" />
+        <attr name="serverSwitchServerTextStyle" format="reference" />
+    </declare-styleable>
     <declare-styleable name="ProtonCompatTextView">
         <attr name="drawableStart" format="reference" />
         <attr name="drawableTop" format="reference" />
