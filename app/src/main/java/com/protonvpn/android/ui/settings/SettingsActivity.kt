@@ -55,6 +55,7 @@ import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
@@ -124,6 +125,7 @@ class SettingsActivity : BaseActivityV2() {
         initOSRelatedVisibility()
         initDnsLeakProtection()
         initDohToggle()
+        initSendCrashReportsToggle()
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
@@ -218,6 +220,13 @@ class SettingsActivity : BaseActivityV2() {
         } else {
             switchVpnAccelerator.isVisible = false
             switchVpnAcceleratorNotifications.isVisible = false
+        }
+    }
+
+    private fun initSendCrashReportsToggle() = with(binding.contentSettings) {
+        switchSendCrashReports.isChecked = SentryIntegration.isEnabled()
+        switchSendCrashReports.setOnCheckedChangeListener { _, isChecked ->
+            SentryIntegration.setEnabled(isChecked)
         }
     }
 
