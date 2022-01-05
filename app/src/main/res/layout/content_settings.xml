@@ -173,6 +173,13 @@
 
         <View style="@style/Divider.Small" />
 
+        <com.protonvpn.android.ui.settings.SettingsSwitch
+            android:id="@+id/switchSendCrashReports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/settingsSendCrashReportsTitle"
+            app:infoText="@string/settingsSendCrashReportsDescription" />
+
         <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonLicenses"
             android:layout_width="match_parent"
