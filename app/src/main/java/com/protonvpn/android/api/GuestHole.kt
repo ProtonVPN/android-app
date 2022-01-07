@@ -181,15 +181,13 @@ class GuestHole @Inject constructor(
 
     private suspend fun isEligibleForGuestHole(path: String?, query: String?): Boolean {
         // Only trigger guesthole for server list if it hasn't been downloaded before
-        if (path == ONE_TIME_LOGICAL_CALL && serverManager.get().isDownloadedAtLeastOnce) return false
+        if (path == ONE_TIME_LOGICAL_CALL && !serverManager.get().isDownloadedAtLeastOnce) return true
 
         // Do not run guesthole for domain call with type, as that is not necessary for the flow
         if (path == DOMAINS_CALL && query != null) return false
 
-        // Do not run guesthole for /vpn endpoint if user is already logged in
-        if (path == ONE_TIME_VPN_CALL && currentUser.get().isLoggedIn()) return false
-
-        return CORE_GUESTHOLE_CALLS.contains(path)
+        // Do not run guesthole calls if user is already logged in
+        return CORE_GUESTHOLE_CALLS.contains(path) && !currentUser.get().isLoggedIn()
     }
 
     private fun logMessage(message: String) {
