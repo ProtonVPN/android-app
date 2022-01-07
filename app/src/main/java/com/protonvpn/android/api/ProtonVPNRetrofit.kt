@@ -22,6 +22,7 @@ import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.models.login.FeatureResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
@@ -107,4 +108,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("internal/tests/humanverification")
     suspend fun triggerHumanVerification(): GenericResponse
+
+    @GET("core/v4/features/{id}")
+    suspend fun getFeature(@Path("id") id: String): FeatureResponse
 }

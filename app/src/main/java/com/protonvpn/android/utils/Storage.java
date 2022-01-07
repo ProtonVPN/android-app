@@ -140,10 +140,12 @@ public final class Storage {
         return fromJson;
     }
 
-    public static <T> void delete(Class<T> objClass) {
-
-        String key = objClass.getName();
+    public static void delete(String key) {
         preferences.edit().remove(key).apply();
+    }
+
+    public static <T> void delete(Class<T> objClass) {
+        delete(objClass.getName());
     }
 
     @Deprecated // use load() with lambda defaultValue

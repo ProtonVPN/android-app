@@ -76,6 +76,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
     suspend fun postLoginInfo(email: String) =
         manager { postLoginInfo(LoginInfoBody(email)) }
 
+    suspend fun getFeature(feature: String) =
+        manager { getFeature(feature) }
+
     open suspend fun getVPNInfo(sessionId: SessionId? = null) =
         manager(sessionId) { getVPNInfo() }
 

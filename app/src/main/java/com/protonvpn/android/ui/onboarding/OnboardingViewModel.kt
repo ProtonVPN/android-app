@@ -24,6 +24,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
 import com.protonvpn.android.utils.ServerManager
@@ -62,6 +63,8 @@ class OnboardingViewModel @Inject constructor(
             country.serverList.filter { it.isFreeServer }
         }
     }
+
+    val showConnect get() = Storage.getBoolean(OnboardingPreferences.ONBOARDING_SHOW_CONNECT, false)
 
     suspend fun countriesCount() =
         freeServers.await().map { it.exitCountry }.distinct().count().takeIf { it != 0 } ?: COUNTRIES_COUNT
