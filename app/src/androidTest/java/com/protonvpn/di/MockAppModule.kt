@@ -54,6 +54,9 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.di.MockApi
+import com.protonvpn.di.MockNetworkManager
+import com.protonvpn.di.MockVpnConnectionManager
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Binds
@@ -66,12 +69,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.data.NetworkPrefs
+import me.proton.core.network.data.NetworkPrefsImpl
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkPrefs
 import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
+import me.proton.core.network.domain.scopes.MissingScopeListener
 import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.network.domain.session.SessionListener
@@ -97,6 +102,10 @@ class MockAppModule {
     @Provides
     fun provideNetworkManager(): NetworkManager = MockNetworkManager()
 
+    @Provides
+    fun provideNetworkPrefs(@ApplicationContext context: Context): NetworkPrefs =
+        NetworkPrefsImpl(context)
+
     @Singleton
     @Provides
     fun provideApiFactory(
@@ -107,9 +116,10 @@ class MockAppModule {
         scope: CoroutineScope,
         sessionProvider: SessionProvider,
         sessionListener: SessionListener,
+        missingScopeListener: MissingScopeListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
-        @ApplicationContext appContext: Context,
+        networkPrefs: NetworkPrefs,
         guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
@@ -117,8 +127,8 @@ class MockAppModule {
             override fun onServerTimeUpdated(epochSeconds: Long) {}
         }
         val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
-            networkManager, NetworkPrefs(appContext), sessionProvider, sessionListener, humanVerificationProvider,
-            humanVerificationListener, cookieStore, scope, certificatePins = emptyArray(),
+            networkManager, networkPrefs, sessionProvider, sessionListener, humanVerificationProvider,
+            humanVerificationListener, missingScopeListener, cookieStore, scope, certificatePins = emptyArray(),
             alternativeApiPins = emptyList(),
             apiConnectionListener = guestHoleFallbackListener
         )
