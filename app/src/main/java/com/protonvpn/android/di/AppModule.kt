@@ -76,16 +76,19 @@ import me.proton.core.humanverification.domain.utils.NetworkRequestOverrider
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkManager
-import me.proton.core.network.data.NetworkPrefs
+import me.proton.core.network.data.NetworkPrefsImpl
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
+import me.proton.core.network.data.di.Constants
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkPrefs
 import me.proton.core.network.domain.client.ClientIdProvider
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
+import me.proton.core.network.domain.scopes.MissingScopeListener
 import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.network.domain.session.SessionListener
@@ -105,6 +108,11 @@ object AppModuleProd {
     fun provideNetworkManager(@ApplicationContext appContext: Context): NetworkManager =
         NetworkManager(appContext)
 
+    @Provides
+    fun provideNetworkPrefs(@ApplicationContext context: Context): NetworkPrefs =
+        NetworkPrefsImpl(context)
+
+
     @Singleton
     @Provides
     fun provideApiFactory(
@@ -117,51 +125,41 @@ object AppModuleProd {
         sessionListener: SessionListener,
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
+        missingScopeListener: MissingScopeListener,
         extraHeaderProvider: ExtraHeaderProvider,
-        @ApplicationContext appContext: Context,
+        networkPrefs: NetworkPrefs,
         guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
             // We'd need to implement that when we start using core's crypto module.
             override fun onServerTimeUpdated(epochSeconds: Long) {}
         }
-        return if (BuildConfig.DEBUG) {
-            ApiManagerFactory(
+        val developmentFlavors = listOf("dev", "black")
+        val isDevelopmentFlavor = developmentFlavors.any { BuildConfig.FLAVOR.startsWith(it) }
+        val certificatePins = if (!isDevelopmentFlavor) Constants.DEFAULT_SPKI_PINS else emptyArray()
+        val alternativeCertificatePins =
+            if (!isDevelopmentFlavor) Constants.ALTERNATIVE_API_SPKI_PINS else emptyList()
+        return ApiManagerFactory(
                 PRIMARY_VPN_API_URL,
                 apiClient,
                 clientIdProvider,
                 serverTimeListener,
                 networkManager,
-                NetworkPrefs(appContext),
+                networkPrefs,
                 sessionProvider,
                 sessionListener,
                 humanVerificationProvider,
                 humanVerificationListener,
+                missingScopeListener,
                 cookieStore,
                 scope,
-                certificatePins = emptyArray(),
-                alternativeApiPins = emptyList(),
+                certificatePins = certificatePins,
+                alternativeApiPins = alternativeCertificatePins,
                 extraHeaderProvider = extraHeaderProvider,
                 apiConnectionListener = guestHoleFallbackListener
             )
-        } else {
-            ApiManagerFactory(
-                PRIMARY_VPN_API_URL,
-                apiClient,
-                clientIdProvider,
-                serverTimeListener,
-                networkManager,
-                NetworkPrefs(appContext),
-                sessionProvider,
-                sessionListener,
-                humanVerificationProvider,
-                humanVerificationListener,
-                cookieStore,
-                scope,
-                apiConnectionListener = guestHoleFallbackListener
-            )
-        }
     }
+
 
     @Singleton
     @Provides
@@ -549,6 +547,7 @@ object AppModule {
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
 
     @Provides
-    fun provideNetworkRequestOverrider(): NetworkRequestOverrider =
-        NetworkRequestOverriderImpl(OkHttpClient())
+    fun provideNetworkRequestOverrider(@ApplicationContext context: Context): NetworkRequestOverrider =
+        NetworkRequestOverriderImpl(OkHttpClient(), context)
+
 }

@@ -597,7 +597,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
-    def core_version = "4.1.0"
+    def core_version = "5.1.1"
     implementation 'me.proton.vpn:go-vpn-lib:0.1.7'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"
@@ -619,6 +619,7 @@ dependencies {
     implementation "me.proton.core:key:$core_version"
     implementation "me.proton.core:data:$core_version"
     implementation "me.proton.core:data-room:$core_version"
+    implementation "me.proton.core:util-android-shared-preferences:$core_version"
 
     testImplementation("me.proton.core:test-kotlin:$core_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
