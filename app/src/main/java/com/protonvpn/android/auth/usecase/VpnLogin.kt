@@ -28,6 +28,8 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
+import com.protonvpn.android.ui.onboarding.OnboardingPreferences
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.ApiResult
@@ -66,11 +68,21 @@ class VpnLogin @Inject constructor(
                         val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
                         ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
                         vpnUserDao.insertOrUpdate(vpnUser)
+                        val showConnectFeature = api.getFeature(ONBOARDING_SHOW_CONNECT_FEATURE)
+                        if (showConnectFeature is ApiResult.Success) {
+                            Storage.saveBoolean(
+                                OnboardingPreferences.ONBOARDING_SHOW_CONNECT,
+                                showConnectFeature.value.feature.value)
+                        }
                         Result.Success(vpnUser)
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val ONBOARDING_SHOW_CONNECT_FEATURE = "OnboardingShowFirstConnection"
     }
 }
 

@@ -26,7 +26,6 @@ import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -111,7 +110,8 @@ class OnboardingActivity : BaseActivityV2() {
     )
 
     private val steps = mutableListOf<Step>()
-    init {
+
+    private fun initSteps() {
         steps += Step(actionText = R.string.onboarding_welcome_action) {
             Fragment(R.layout.fragment_onboarding_welcome)
         }
@@ -144,8 +144,10 @@ class OnboardingActivity : BaseActivityV2() {
                 }
             }
         }
-        steps += Step(actionText = R.string.onboading_connect_now, showConnect = true) {
-            FirstConnection()
+        if (viewModel.showConnect) {
+            steps += Step(actionText = R.string.onboading_connect_now, showConnect = true) {
+                FirstConnection()
+            }
         }
     }
 
@@ -155,7 +157,12 @@ class OnboardingActivity : BaseActivityV2() {
     }
 
     private fun navigateNext() = with(binding.pager) {
-        setCurrentItem(currentItem + 1, true)
+        if (currentItem + 1 == adapter?.itemCount) {
+            startActivity(Intent(this@OnboardingActivity, UpgradePlusOnboardingDialogActivity::class.java))
+            finish()
+        } else {
+            setCurrentItem(currentItem + 1, true)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,6 +170,9 @@ class OnboardingActivity : BaseActivityV2() {
         setContentView(binding.root)
 
         viewModel.init()
+
+        initSteps()
+
         with(binding) {
             skip.onClick { finish() }
             pager.adapter = PagerAdapter()
