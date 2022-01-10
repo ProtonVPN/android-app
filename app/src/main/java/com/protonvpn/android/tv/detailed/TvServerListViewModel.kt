@@ -37,7 +37,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -157,11 +157,11 @@ class TvServerListViewModel @Inject constructor(
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())
 
-        fun click(vpnPermissionDelegate: VpnPermissionDelegate, onUpgrade: () -> Unit) = when (actionState) {
+        fun click(vpnUiDelegate: VpnUiDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager)
                 ProtonLogger.log(UiConnect, "server tile (TV)")
-                vpnConnectionManager.connect(vpnPermissionDelegate, profile, "user via server tile (TV)")
+                vpnConnectionManager.connect(vpnUiDelegate, profile, "user via server tile (TV)")
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
                 ProtonLogger.log(UiDisconnect, "server tile (TV)")

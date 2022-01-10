@@ -21,17 +21,10 @@ package com.protonvpn.android.ui.home.vpn;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.protonvpn.android.R;
-import com.protonvpn.android.auth.usecase.CurrentUser;
-import com.protonvpn.android.auth.data.VpnUser;
-import com.protonvpn.android.auth.data.VpnUserKt;
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.vpn.VpnConnectionManager;
@@ -47,7 +40,6 @@ import androidx.annotation.Nullable;
 
 public abstract class VpnActivity extends BaseActivity {
 
-    @Inject CurrentUser currentVpnUser;
     @Inject protected VpnConnectionManager vpnConnectionManager;
 
     @Override
@@ -63,33 +55,10 @@ public abstract class VpnActivity extends BaseActivity {
 
     public void onConnect(@NonNull Profile profileToConnect, @NonNull String uiElement) {
         ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, uiElement);
-        Server server = profileToConnect.getServer();
-        VpnUser vpnUser = currentVpnUser.vpnUserCached();
-        if ((VpnUserKt.hasAccessToServer(vpnUser, server) && server.getOnline()) || server == null) {
-            vpnConnectionManager.connect(this, profileToConnect, "user via " + uiElement);
-        }
-        else {
-            connectingToRestrictedServer(profileToConnect.getServer());
-        }
+        vpnConnectionManager.connect(getVpnUiDelegate(), profileToConnect, "user via " + uiElement);
     }
 
     protected void showSecureCoreUpgradeDialog() {
         startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
-    }
-
-    protected void showPlusUpgradeDialog() {
-        startActivity(new Intent(this, UpgradePlusCountriesDialogActivity.class));
-    }
-
-    private void connectingToRestrictedServer(Server server) {
-        if (server.getOnline()) {
-            showPlusUpgradeDialog();
-        } else {
-            new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.restrictedMaintenanceTitle)
-                .setMessage(R.string.restrictedMaintenanceDescription)
-                .setNegativeButton(R.string.got_it, null)
-                .show();
-        }
     }
 }

@@ -19,15 +19,15 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
+import com.protonvpn.android.components.suspendForPermissions
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,11 +60,13 @@ class CongratsPlanViewModel @Inject constructor(
             State.Success
     }
 
-    suspend fun connectPlus(context: Context, vpnPermissionDelegate: VpnPermissionActivityDelegate): Boolean {
-        if (vpnPermissionDelegate.suspendForPermissions(vpnConnectionManager.prepare(context))) {
-            vpnConnectionManager.connect(
-                vpnPermissionDelegate, serverManager.defaultFallbackConnection, "onboarding plus")
+    suspend fun connectPlus(activity: ComponentActivity, vpnPermissionDelegate: VpnUiActivityDelegate): Boolean {
+        val profile = serverManager.defaultFallbackConnection
+        if (activity.suspendForPermissions(vpnConnectionManager.prepare(activity))) {
+            vpnConnectionManager.connect(vpnPermissionDelegate, profile, "onboarding plus")
             return true
+        } else {
+            vpnPermissionDelegate.onPermissionDenied(profile)
         }
         return false
     }

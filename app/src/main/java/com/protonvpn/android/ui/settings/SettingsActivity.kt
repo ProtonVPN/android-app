@@ -56,7 +56,6 @@ import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -77,7 +76,6 @@ private const val PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG = "PREF_SHOW_MTU_SIZE_RECO
 @AndroidEntryPoint
 class SettingsActivity : BaseActivityV2() {
 
-    @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
@@ -139,7 +137,7 @@ class SettingsActivity : BaseActivityV2() {
                 this@SettingsActivity,
                 currentUser.vpnUserCached()?.isFreeUser == true,
                 NetShieldSwitch.ReconnectDialogDelegate(
-                    this@SettingsActivity,
+                    getVpnUiDelegate(),
                     stateMonitor,
                     connectionManager
                 )
@@ -329,7 +327,7 @@ class SettingsActivity : BaseActivityV2() {
             showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
                 toggle()
                 ProtonLogger.log(UiReconnect, uiElement)
-                connectionManager.reconnect(this)
+                connectionManager.reconnect(getVpnUiDelegate())
             }
         } else {
             toggle()
@@ -348,7 +346,7 @@ class SettingsActivity : BaseActivityV2() {
                 R.string.reconnect_now
             ) {
                 ProtonLogger.log(UiReconnect, "apply new settings")
-                connectionManager.fullReconnect("user via settings change", this)
+                connectionManager.fullReconnect("user via settings change", getVpnUiDelegate())
             }
         }
     }

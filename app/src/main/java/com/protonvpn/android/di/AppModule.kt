@@ -183,6 +183,7 @@ object AppModuleProd {
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
         serverManager: ServerManager,
+        currentUser: CurrentUser,
         certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
         maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ) = VpnConnectionManager(
@@ -195,7 +196,8 @@ object AppModuleProd {
         notificationHelper,
         serverManager,
         scope,
-        System::currentTimeMillis
+        System::currentTimeMillis,
+        currentUser
     )
 
     @Singleton

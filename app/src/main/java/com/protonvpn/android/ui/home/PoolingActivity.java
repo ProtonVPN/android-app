@@ -33,8 +33,6 @@ import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
-import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
-
 public abstract class PoolingActivity extends VpnActivity {
 
     @Inject UserData userData;

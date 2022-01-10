@@ -36,6 +36,7 @@ import com.protonvpn.android.databinding.ActivityOnboardingBinding
 import com.protonvpn.android.databinding.FragmentOnboardingConnectionBinding
 import com.protonvpn.android.databinding.FragmentOnboardingStepBinding
 import com.protonvpn.android.databinding.OnboardingStepDotBinding
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
@@ -188,26 +189,34 @@ class OnboardingActivity : BaseActivityV2() {
                 }
             })
             connect.onClick {
-                lifecycleScope.launch {
-                    connect.setText(R.string.onboading_connecting_now)
-                    connect.setLoading()
-                    val error = viewModel.connect(vpnPermissionDelegate)
-                    if (error == null) {
-                        startActivity(Intent(this@OnboardingActivity, CongratsActivity::class.java))
-                        finish()
-                    } else {
-                        val errorText = error.html?.let { HtmlTools.fromHtml(it).toString() }
-                            ?: if (error.res != 0) getString(error.res) else null
-                        errorText?.let { snackbarHelper.errorSnack(it) }
-
-                        connect.setText(R.string.onboading_connect_now)
-                        connect.setIdle()
-                    }
-                }
+                onConnect()
             }
             getPlus.onClick {
                 startActivity(Intent(this@OnboardingActivity, UpgradePlusOnboardingDialogActivity::class.java))
                 finish()
+            }
+        }
+    }
+
+    override fun retryConnection(profile: Profile) {
+        onConnect()
+    }
+
+    private fun onConnect() = with(binding) {
+        lifecycleScope.launch {
+            connect.setText(R.string.onboading_connecting_now)
+            connect.setLoading()
+            val error = viewModel.connect(this@OnboardingActivity, getVpnUiDelegate())
+            if (error == null) {
+                startActivity(Intent(this@OnboardingActivity, CongratsActivity::class.java))
+                finish()
+            } else {
+                val errorText = error.html?.let { HtmlTools.fromHtml(it).toString() }
+                    ?: if (error.res != 0) getString(error.res) else null
+                errorText?.let { snackbarHelper.errorSnack(it) }
+
+                connect.setText(R.string.onboading_connect_now)
+                connect.setIdle()
             }
         }
     }

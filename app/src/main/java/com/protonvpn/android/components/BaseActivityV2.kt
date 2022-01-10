@@ -18,38 +18,47 @@
  */
 package com.protonvpn.android.components
 
-import android.annotation.TargetApi
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_USER
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
-import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity
-import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import com.protonvpn.android.utils.AndroidUtils.isTV
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
-import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.PermissionContract
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
-abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
+interface VpnUiDelegateProvider {
+    fun getVpnUiDelegate(): VpnUiActivityDelegate
+}
+
+abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
+    @Inject lateinit var serverManager: ServerManager
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
 
     @Suppress("LeakingThis")
-    protected val vpnPermissionDelegate = VpnPermissionActivityDelegate(this) { onVpnPermissionDenied() }
+    private lateinit var vpnUiDelegate: VpnUiActivityDelegateMobile
+
+    open fun retryConnection(profile: Profile) {}
+
+    override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnUiDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +66,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
         snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
+        vpnUiDelegate = VpnUiActivityDelegateMobile(this, serverManager) { retryConnection(it) }
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {
@@ -72,27 +82,18 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnPermissionDelegate {
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit) {
-        vpnPermissionDelegate.askForPermissions(intent, onPermissionGranted)
-    }
-
-    override fun getContext(): Context = this
-
-    private fun onVpnPermissionDenied() {
-        onVpnPrepareFailed()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            showNoVpnPermissionDialog(this)
-        }
-    }
-
-    protected open fun onVpnPrepareFailed() {}
-
     private fun getContentView(): View = findViewById(android.R.id.content)
+}
 
-    companion object {
-        @TargetApi(Build.VERSION_CODES.N)
-        fun showNoVpnPermissionDialog(activity: Activity) {
-            activity.launchActivity<NoVpnPermissionActivity>()
+suspend fun ComponentActivity.suspendForPermissions(permissionIntent: Intent?): Boolean {
+    if (permissionIntent == null) return true
+    val granted = suspendCancellableCoroutine<Boolean> { continuation ->
+        val permissionCall = activityResultRegistry.register(
+            "VPNPermission", PermissionContract(permissionIntent)
+        ) { permissionGranted ->
+            continuation.resume(permissionGranted)
         }
+        permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
     }
+    return granted
 }

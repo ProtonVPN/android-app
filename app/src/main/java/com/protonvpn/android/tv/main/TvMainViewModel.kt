@@ -314,7 +314,7 @@ class TvMainViewModel @Inject constructor(
         } else {
             if (currentUser.vpnUserCached().hasAccessToServer(profile.server)) {
                 ProtonLogger.log(UiConnect, uiElement)
-                vpnConnectionManager.connect(activity, profile, "user via $uiElement")
+                vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, "user via $uiElement")
             } else {
                 activity.launchActivity<TvUpgradeActivity>()
             }

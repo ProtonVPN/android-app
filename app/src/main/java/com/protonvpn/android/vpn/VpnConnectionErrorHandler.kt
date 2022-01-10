@@ -40,7 +40,6 @@ import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
-import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
