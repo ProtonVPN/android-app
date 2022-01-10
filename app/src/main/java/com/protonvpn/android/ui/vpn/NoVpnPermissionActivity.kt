@@ -19,10 +19,14 @@
 
 package com.protonvpn.android.ui.vpn
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -30,13 +34,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import com.protonvpn.android.R
-import com.protonvpn.android.bus.ConnectToProfile
-import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityNoVpnPermissionBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionDisableAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionGrantBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionMainBinding
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity.Companion.EXTRA_RECONNECT_PROFILE
 import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.openVpnSettings
@@ -69,6 +73,21 @@ class NoVpnPermissionActivity : BaseActivityV2() {
     } else {
         super.onOptionsItemSelected(item)
     }
+
+    companion object {
+
+        const val EXTRA_RECONNECT_PROFILE = "PROFILE"
+
+        class Contract : ActivityResultContract<Profile, Profile?>() {
+            override fun createIntent(context: Context, input: Profile) =
+                Intent(context, NoVpnPermissionActivity::class.java).apply {
+                    putExtra(EXTRA_RECONNECT_PROFILE, input)
+                }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Profile? =
+                intent?.getSerializableExtra(EXTRA_RECONNECT_PROFILE) as? Profile
+        }
+    }
 }
 
 abstract class NoVpnPermissionFragmentBase(
@@ -84,10 +103,11 @@ abstract class NoVpnPermissionFragmentBase(
     }
 
     protected fun reconnect() {
-        val event =
-            ConnectToProfile("reconnect in no-VPN-permission screen", serverManager.defaultConnection)
-        EventBus.post(event)
-        requireActivity().finish()
+        with(requireActivity()) {
+            val profile = intent?.getSerializableExtra(EXTRA_RECONNECT_PROFILE)
+            setResult(Activity.RESULT_OK, Intent().apply { putExtra(EXTRA_RECONNECT_PROFILE, profile) })
+            finish()
+        }
     }
 }
 

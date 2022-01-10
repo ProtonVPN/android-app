@@ -40,7 +40,7 @@ import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnFallbackResult
-import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.di.MockNetworkManager
@@ -66,7 +66,9 @@ import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.test.shared.mockVpnUser
 import kotlinx.coroutines.runBlocking
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.TestDispatcherProvider
@@ -112,7 +114,10 @@ class VpnConnectionTests {
     lateinit var mockAgent: AgentConnectionInterface
 
     @MockK
-    lateinit var mockVpnPermissionDelegate: VpnPermissionDelegate
+    lateinit var mockVpnUiDelegate: VpnUiDelegate
+
+    @RelaxedMockK
+    lateinit var vpnUser: VpnUser
 
     private lateinit var mockStrongSwan: MockVpnBackend
     private lateinit var mockOpenVpn: MockVpnBackend
@@ -140,10 +145,14 @@ class VpnConnectionTests {
         context = InstrumentationRegistry.getInstrumentation().context
         scope = TestCoroutineScope()
         userData = spyk(UserData.create())
+
         coEvery { currentUser.sessionId() } returns SessionId("1")
+        every { vpnUser.userTier } returns 1
+        currentUser.mockVpnUser { vpnUser }
+
         networkManager = MockNetworkManager()
 
-        every { mockVpnPermissionDelegate.getContext() } returns context
+        every { mockVpnUiDelegate.getContext() } returns context
         every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
         mockStrongSwan = spyk(MockVpnBackend(
@@ -165,7 +174,7 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockk(relaxed = true), scope, ::time)
+            mockk(relaxed = true), mockk(relaxed = true), scope, ::time, currentUser)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 

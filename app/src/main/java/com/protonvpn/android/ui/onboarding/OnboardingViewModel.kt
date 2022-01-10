@@ -20,20 +20,22 @@
 package com.protonvpn.android.ui.onboarding
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.suspendForPermissions
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineStart
@@ -72,22 +74,24 @@ class OnboardingViewModel @Inject constructor(
 
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
 
-    suspend fun connect(delegate: VpnPermissionActivityDelegate): Error? {
+    suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {
         val intent = vpnConnectionManager.prepare(delegate.getContext())
-        return if (delegate.suspendForPermissions(intent))
-            connectInternal(delegate)
-        else
+        val profile = serverManager.defaultAvailableConnection
+        return if (activity.suspendForPermissions(intent))
+            connectInternal(delegate, profile)
+        else {
+            delegate.onPermissionDenied(profile)
             Error(null, 0)
+        }
     }
 
-    private suspend fun connectInternal(vpnPermissionDelegate: VpnPermissionDelegate): Error? {
+    private suspend fun connectInternal(vpnUiDelegate: VpnUiDelegate, profile: Profile): Error? {
         if (serverManager.isOutdated) {
             val result = serverListUpdater.updateServerList()
             if (result is ApiResult.Error)
                 return Error(result.displayText())
         }
-        val profile = serverManager.defaultAvailableConnection
-        vpnConnectionManager.connect(vpnPermissionDelegate, profile, "onboarding")
+        vpnConnectionManager.connect(vpnUiDelegate, profile, "onboarding")
         val state = withTimeoutOrNull(VPN_CONNECTION_WAIT_MS) {
             vpnStateMonitor.status.map { it.state }.first { it == VpnState.Connected || it is VpnState.Error }
         }

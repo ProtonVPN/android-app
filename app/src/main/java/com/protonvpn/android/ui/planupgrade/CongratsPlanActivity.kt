@@ -71,7 +71,7 @@ class CongratsPlanActivity : BaseActivityV2() {
 
         binding.connect.onClick {
             lifecycleScope.launch {
-                if (viewModel.connectPlus(this@CongratsPlanActivity, vpnPermissionDelegate))
+                if (viewModel.connectPlus(this@CongratsPlanActivity, getVpnUiDelegate()))
                     finish()
             }
         }

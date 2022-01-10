@@ -428,6 +428,12 @@ public class HomeActivity extends PoolingActivity {
         }
     }
 
+    @Override
+    protected Unit retryConnection(@NonNull Profile profile) {
+        onConnect(profile, "retry after missing vpn permission");
+        return Unit.INSTANCE;
+    }
+
     private void initQuickConnectFab() {
         fabQuickConnect.removeAllMenuButtons();
         ImageView menuIcon = fabQuickConnect.getMenuIconView();

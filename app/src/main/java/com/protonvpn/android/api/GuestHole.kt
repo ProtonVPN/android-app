@@ -26,31 +26,32 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.ui.vpn.VpnPermissionActivityDelegate
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -81,7 +82,7 @@ class GuestHole @Inject constructor(
     }
 
     private suspend fun <T> executeConnected(
-        vpnPermissionDelegate: VpnPermissionDelegate,
+        vpnUiDelegate: VpnUiDelegate,
         server: Server,
         block: suspend () -> T
     ): Boolean {
@@ -95,7 +96,7 @@ class GuestHole @Inject constructor(
                             setProtocol(VpnProtocol.OpenVPN)
                             setGuestHole(true)
                         }
-                    vpnConnectionManager.get().connect(vpnPermissionDelegate, profile, "Guest hole")
+                    vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
                     val observerJob = scope.launch {
                         vpnStatus.collect { newState ->
                             if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {
@@ -124,21 +125,20 @@ class GuestHole @Inject constructor(
         query: String?,
         backendCall: suspend () -> ApiResult<T>
     ): ApiResult<T>? {
-        logMessage("Guesthole for call: " + path + " with query: " + query)
+        logMessage("Guesthole for call: $path with query: $query")
 
         // Do not execute guesthole for calls running in background, due to inability to call permission intent
-        val currentActivity: Activity = getCurrentActivity() ?: return null
+        val currentActivity = getCurrentActivity() as? ComponentActivity ?: return null
 
         if (!isEligibleForGuestHole(path, query)) {
-            logMessage("Guesthole not available for this call: " + path)
+            logMessage("Guesthole not available for this call: $path")
             return null
         }
-        val delegate = VpnPermissionActivityDelegate(currentActivity as ComponentActivity)
-
+        val delegate = GuestHoleVpnUiDelegate(currentActivity)
         val intent = vpnConnectionManager.get().prepare(delegate.getContext())
 
         // Ask for permissions and if granted execute original method and return it back to core
-        return if (delegate.suspendForPermissions(intent)) {
+        return if (currentActivity.suspendForPermissions(intent)) {
             withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
                 return@withTimeoutOrNull unblockCall(path, delegate, backendCall)
             }
@@ -148,7 +148,7 @@ class GuestHole @Inject constructor(
 
     private suspend fun <T> unblockCall(
         path: String?,
-        delegate: VpnPermissionActivityDelegate,
+        delegate: VpnUiActivityDelegate,
         backendCall: suspend () -> ApiResult<T>
     ): ApiResult<T>? {
         var result: ApiResult<T>? = null
@@ -158,15 +158,15 @@ class GuestHole @Inject constructor(
                 appContext.getString(R.string.guestHoleNotificationContent),
                 notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
             )
-            logMessage("Establishing hole for call: " + path)
+            logMessage("Establishing hole for call: $path")
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {
                     // Add slight delay before retrying original call to avoid network timeout right after connection
                     delay(500)
                     lastGuestHoleServer = server
                     result = backendCall()
-                    logMessage("Guesthole succesful for call: " + path)
-                    logMessage("Guesthole result: " + result?.valueOrNull.toString())
+                    logMessage("Guesthole succesful for call: $path")
+                    logMessage("Guesthole result: ${result?.valueOrNull.toString()}")
                 }
             }
         } finally {
@@ -234,4 +234,10 @@ class GuestHole @Inject constructor(
             ONE_TIME_LOGICAL_CALL
         )
     }
+}
+
+class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {
+    override fun onPermissionDenied(profile: Profile) {}
+    override fun showPlusUpgradeDialog() {}
+    override fun showMaintenanceDialog() {}
 }

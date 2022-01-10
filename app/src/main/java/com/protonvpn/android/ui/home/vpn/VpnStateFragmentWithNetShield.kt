@@ -30,6 +30,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.NetShieldProtocol
@@ -40,7 +41,6 @@ import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.launchAndCollectIn
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import javax.inject.Inject
 
@@ -66,7 +66,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             viewLifecycleOwner,
             currentUser.vpnUserCached()?.isFreeUser == true,
             NetShieldSwitch.ReconnectDialogDelegate(
-                requireActivity() as VpnPermissionDelegate,
+                (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
                 stateMonitor,
                 vpnConnectionManager
             )

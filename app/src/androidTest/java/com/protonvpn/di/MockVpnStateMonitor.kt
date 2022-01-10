@@ -21,6 +21,7 @@ package com.protonvpn.di
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ServerManager
@@ -40,9 +41,10 @@ class MockVpnConnectionManager(
     notificationHelper: NotificationHelper,
     serverManager: ServerManager,
     scope: CoroutineScope,
-    now: () -> Long
+    now: () -> Long,
+    currentUser: CurrentUser
 ) : VpnConnectionManager(ProtonApplication.getAppContext(), userData, vpnBackendProvider, networkManager,
-        vpnErrorHandler, vpnStateMonitor, notificationHelper, serverManager, scope, now) {
+        vpnErrorHandler, vpnStateMonitor, notificationHelper, serverManager, scope, now, currentUser) {
 
     override fun prepare(context: Context): Intent? = null
 }

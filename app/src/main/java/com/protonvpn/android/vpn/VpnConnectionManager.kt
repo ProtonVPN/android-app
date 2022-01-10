@@ -30,6 +30,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.distinctUntilChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.NotificationHelper
@@ -73,9 +75,12 @@ import kotlin.coroutines.coroutineContext
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
-interface VpnPermissionDelegate {
-    fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit)
+enum class ReasonRestricted { UpgradeNeeded, Maintenance }
+
+interface VpnUiDelegate {
+    fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit)
     fun getContext(): Context
+    fun onServerRestricted(reason: ReasonRestricted)
 }
 
 @Singleton
@@ -89,7 +94,8 @@ open class VpnConnectionManager(
     private val notificationHelper: NotificationHelper,
     private val serverManager: ServerManager,
     private val scope: CoroutineScope,
-    private val now: () -> Long
+    private val now: () -> Long,
+    private val currentUser: CurrentUser
 ) : VpnStateSource {
 
     companion object {
@@ -264,7 +270,7 @@ open class VpnConnectionManager(
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(appContext, fallback.toProfile, fallback.log)
+                connectWithPermission(appContext, fallback.toProfile, fallback.log, null)
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
                 if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
@@ -386,42 +392,48 @@ open class VpnConnectionManager(
     }
 
     fun connect(
-        permissionDelegate: VpnPermissionDelegate,
+        uiDelegate: VpnUiDelegate,
         profile: Profile,
         triggerAction: String
     ) {
-        connect(permissionDelegate.getContext(), profile, triggerAction) { intent ->
-            permissionDelegate.askForPermissions(intent) {
-                connectWithPermission(permissionDelegate.getContext(), profile, triggerAction)
-            }
-        }
+        connect(uiDelegate.getContext(), profile, triggerAction, uiDelegate)
     }
 
     fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String) {
-        connect(context, profile, connectionCauseLog) {
-            showInsufficientPermissionNotification(context)
-        }
+        connect(context, profile, connectionCauseLog, null)
     }
 
     private fun connect(
         context: Context,
         profile: Profile,
         triggerAction: String,
-        onPermissionNeeded: (Intent) -> Unit
+        uiDelegate: VpnUiDelegate?,
     ) {
         val intent = prepare(context)
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
-            onPermissionNeeded(intent)
+            if (uiDelegate != null) {
+                uiDelegate.askForPermissions(intent, profile) {
+                    connectWithPermission(uiDelegate.getContext(), profile, triggerAction, uiDelegate)
+                }
+            } else {
+                showInsufficientPermissionNotification(context)
+            }
         } else {
-            connectWithPermission(context, profile, triggerAction)
+            connectWithPermission(context, profile, triggerAction, uiDelegate)
         }
     }
 
-    private fun connectWithPermission(context: Context, profile: Profile, triggerAction: String) {
+    private fun connectWithPermission(
+        context: Context,
+        profile: Profile,
+        triggerAction: String,
+        delegate: VpnUiDelegate?
+    ) {
         ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
-        if (server?.online == true) {
+        val vpnUser = currentUser.vpnUserCached()
+        if (server?.online == true && vpnUser.hasAccessToServer(server)) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
@@ -432,9 +444,14 @@ open class VpnConnectionManager(
                 protocolNotSupportedDialog(context)
             }
         } else {
-            ongoingFallback = scope.launch {
-                onServerNotAvailable(context, profile, server)
-                ongoingFallback = null
+            if (delegate != null && server != null) {
+                delegate.onServerRestricted(if (!server.online)
+                    ReasonRestricted.Maintenance else ReasonRestricted.UpgradeNeeded)
+            } else {
+                ongoingFallback = scope.launch {
+                    onServerNotAvailable(context, profile, server)
+                    ongoingFallback = null
+                }
             }
         }
     }
@@ -505,17 +522,17 @@ open class VpnConnectionManager(
         }
     }
 
-    fun reconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
+    fun reconnect(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection()
         if (activeBackend != null)
             activeBackend?.reconnect()
         else
-            lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+            lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
 
-    fun fullReconnect(triggerAction: String, permissionDelegate: VpnPermissionDelegate) = scope.launch {
+    fun fullReconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
         disconnectBlocking("reconnect: $triggerAction")
-        lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+        lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
 
     private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
