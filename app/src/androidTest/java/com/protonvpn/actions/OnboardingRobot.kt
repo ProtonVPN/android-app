@@ -21,7 +21,6 @@ package com.protonvpn.actions
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import me.proton.core.presentation.ui.view.ProtonButton
 
 class OnboardingRobot : BaseRobot() {
 

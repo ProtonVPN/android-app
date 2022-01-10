@@ -69,6 +69,7 @@ public class OnboardingActivity extends BaseActivity implements ViewPager.OnPage
         indicator.setViewPager(viewPager);
         viewPager.addOnPageChangeListener(this);
         arrangeButtons();
+        OnboardingPreferences.setOnboardingShown();
     }
 
     @Override
