@@ -223,7 +223,8 @@
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
-        <activity android:name=".ui.onboarding.SplashActivity">
+        <activity android:name=".ui.onboarding.SplashActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
