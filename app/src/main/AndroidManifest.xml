@@ -51,7 +51,8 @@
         android:taskAffinity=""
         tools:replace="android:theme">
 
-        <activity android:name=".ui.onboarding.SplashActivity">
+        <activity android:name=".ui.onboarding.SplashActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
 
         startActivity(
             Intent(this, nextActivity).apply {
-                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION)
             }
         )
 
