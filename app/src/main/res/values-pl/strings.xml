@@ -328,6 +328,7 @@
   <string name="troubleshootContactUsSectionTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
   <string name="troubleshootCustomerSupport">Wsparcie klienta</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatywne przekierowanie połączenia</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi, zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
@@ -356,7 +357,7 @@
   <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
   <string name="paidFeature">Płatna funkcja</string>
   <string name="guestHoleActivated">Dostęp do usługi ProtonVPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
-  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
+  <string name="guestHoleNotificationContent">Próba obejścia problemów z siecią. To pomoże uzyskać dostęp do usługi ProtonVPN.</string>
   <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
   <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
   <string name="errorTorrentNotAllowed">Na tym serwerze ruch P2P nie jest dozwolony</string>
@@ -509,7 +510,7 @@
   <string name="upgrade_netshield_title">Odblokuj funkcję NetShield</string>
   <string name="upgrade_secure_core_title">Odblokuj serwery Secure Core</string>
   <string name="upgrade_netshield_message">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach. Dostępne w płatnych planach.</string>
-  <string name="upgrade_secure_core_message">Przekieruj swoje najbardziej poufne dane przez nasze najbezpieczniejsze serwery ulokowane w krajach szanujących prywatność. Dostępne w planach Plus i Visionary.</string>
+  <string name="upgrade_secure_core_message">Przekieruj swoje najbardziej poufne dane przez nasze najbezpieczniejsze serwery ulokowane w krajach szanujących prywatność.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -610,11 +611,11 @@
   <string name="onboarding_netshield_description">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach.</string>
   <string name="onboarding_connection_title">Nawiąż pierwsze połączenie</string>
   <string name="onboarding_connection_description">FREE subscription offers %1$d servers in %2$d countries</string>
-  <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
+  <string name="onboarding_connection_info">Połączenie zostanie nawiązane z najszybszym i najbardziej stabilnym serwerem dla Twojej lokalizacji.</string>
   <string name="onboading_connect_now">Połącz</string>
   <string name="onboading_connecting_now">Łączenie</string>
   <string name="onboarding_access_plus">Dostęp do wszystkich krajów z planem PLUS</string>
-  <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
+  <string name="onboarding_congrats_description">Twoje połączenie jest chronione i możesz przeglądać Internet.\n\nBezpiecznie.</string>
   <string name="onboarding_congrats_title">Gratulacje!</string>
   <string name="onboarding_plan_congrats_description_privacy">Ciesz się prywatnością.</string>
   <string name="onboading_connect_to_plus">Połącz się z serwerem planu PLUS</string>

@@ -324,6 +324,7 @@
   <string name="troubleshootContactUsSectionTitle">Vous avez toujours besoin d\'aide ? Contactez-nous directement</string>
   <string name="troubleshootCustomerSupport">Service client</string>
   <string name="settingsAllowAlternativeRoutingTitle">Routage alternatif</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Si Proton est bloqué, autorisez l\'application à essayer des chemins alternatifs pour atteindre les serveurs Proton. <a href="%1$s">En savoir plus</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blocage gouvernemental</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>Tor</a> pour accéder à Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent &amp; Kill Switch</string>
@@ -491,7 +492,7 @@
   <string name="upgrade_netshield_title">Déverrouiller NetShield</string>
   <string name="upgrade_secure_core_title">Déverrouiller Secore Core</string>
   <string name="upgrade_netshield_message">Bloquez les logiciels malveillants, les publicités et les trackers dans les navigateurs et dans les applications. Disponible avec n\'importe quel abonnement payant.</string>
-  <string name="upgrade_secure_core_message">Routez vos données les plus sensibles à travers nos serveurs les plus sûrs dans des pays respectueux de la vie privée. Disponible avec les abonnements Plus et Visionary.</string>
+  <string name="upgrade_secure_core_message">Routez vos données les plus sensibles à travers nos serveurs les plus sûrs dans des pays respectueux de la vie privée.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

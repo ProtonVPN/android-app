@@ -324,6 +324,7 @@
   <string name="troubleshootContactUsSectionTitle">Meer hulp nodig? Neem dan rechtstreeks contact me ons op</string>
   <string name="troubleshootCustomerSupport">Klantondersteuning</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatieve routing</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
@@ -491,7 +492,7 @@
   <string name="upgrade_netshield_title">NetShield ontgrendelen</string>
   <string name="upgrade_secure_core_title">Unlock Secure Core</string>
   <string name="upgrade_netshield_message">Blokkeer malware, advertenties en trackers in browsers en in apps. Beschikbaar bij elk betaald abonnement.</string>
-  <string name="upgrade_secure_core_message">Routeer uw meest gevoelige gegevens via onze veiligste servers in privacy-vriendelijke landen. Beschikbaar met Plus- en Visionary-plannen.</string>
+  <string name="upgrade_secure_core_message">Stuur uw meest gevoelige gegevens door onze veiligste servers in privacy-vriendelijke landen.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

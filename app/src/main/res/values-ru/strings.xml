@@ -328,6 +328,7 @@
   <string name="troubleshootContactUsSectionTitle">Не удалось решить проблему? Свяжитесь с нами</string>
   <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
   <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN и Kill Switch</string>
@@ -509,7 +510,7 @@
   <string name="upgrade_netshield_title">Разблокировать NetShield</string>
   <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
   <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом платном тарифе.</string>
-  <string name="upgrade_secure_core_message">Направляйте свои самые конфиденциальные данные через наши самые безопасные серверы в странах, где соблюдается конфиденциальность. Доступно в тарифах Plus и Visionary.</string>
+  <string name="upgrade_secure_core_message">Направляйте свои самые чувствительные данные через наши самые безопасные серверы в дружелюбных по отношению к конфиденциальности странах.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

@@ -23,7 +23,7 @@
   <string name="hintPassword">Passwort</string>
   <string name="splitTunnellingSwitch">Tunnel-Schalter teilen</string>
   <string name="login">Anmelden</string>
-  <string name="hamburgerMenu">Hamburger‐Menü</string>
+  <string name="hamburgerMenu">Menüleiste</string>
   <string name="error_field_required">Dieses Feld ist erforderlich</string>
   <string name="title_activity_home">@string/app_name</string>
   <string name="menuActionSignOut">Abmelden</string>
@@ -324,6 +324,7 @@
   <string name="troubleshootContactUsSectionTitle">Benötigen Sie noch Hilfe? Kontaktieren Sie uns direkt</string>
   <string name="troubleshootCustomerSupport">Kundensupport</string>
   <string name="settingsAllowAlternativeRoutingTitle">Alternatives Routing</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktives VPN und Kill Switch</string>
@@ -491,7 +492,7 @@
   <string name="upgrade_netshield_title">NetShield freischalten</string>
   <string name="upgrade_secure_core_title">Secure Core freischalten</string>
   <string name="upgrade_netshield_message">Sperrt Malware, Werbung und Tracker in Browsern und Anwendungen. Verfügbar mit jedem kostenpflichtigen Abonnement.</string>
-  <string name="upgrade_secure_core_message">Leiten Sie Ihre sensiblen Daten über unsere sichersten Server in datenschutzfreundlichen Ländern. Verfügbar in den Plus- und Visionary-Abonnements.</string>
+  <string name="upgrade_secure_core_message">Leite deine sensibelsten Daten über unsere sichersten Server in datenschutzfreundlichen Ländern weiter.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

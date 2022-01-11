@@ -324,6 +324,7 @@
   <string name="troubleshootContactUsSectionTitle">¿Aún necesita ayuda? Contáctenos directamente.</string>
   <string name="troubleshootCustomerSupport">Atención al cliente</string>
   <string name="settingsAllowAlternativeRoutingTitle">Ruta alternativa</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permita que la app intente rutas alternas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Su país puede estar bloqueando el acceso a Proton. Pruebe usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Siempre Activa e interruptor de apagado</string>
@@ -491,7 +492,7 @@
   <string name="upgrade_netshield_title">Desbloquear NetShield</string>
   <string name="upgrade_secure_core_title">Desbloquear Secure Core</string>
   <string name="upgrade_netshield_message">Bloquee malware, anuncios y rastreadores en navegadores y aplicaciones. Disponible con cualquier plan de pago.</string>
-  <string name="upgrade_secure_core_message">Enrute sus datos más confidenciales a través de nuestros servidores más seguros en países que respetan la privacidad. Disponible con planes Plus y Visionary.</string>
+  <string name="upgrade_secure_core_message">Envía sus datos más sensibles a través de nuestros servidores más seguros en países que no tengan privacidad.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 

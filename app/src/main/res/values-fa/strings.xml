@@ -41,7 +41,7 @@
   <string name="mapSwitchSecureCore">Secure core</string>
   <string name="warning">هشدار</string>
   <string name="secureCoreSwitchOnTitle">اتصال به سرور Secure Core؟</string>
-  <string name="secureCoreSwitchOffTitle">اتصال به سرور غیر-Secure Core؟</string>
+  <string name="secureCoreSwitchOffTitle">اتصال به سرور غیر Secure Core؟</string>
   <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
          Examples:
          "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
@@ -247,7 +247,7 @@
   <string name="notConnected">شما به سروری \n متصل نیستید</string>
   <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
   <string name="stateFragmentUnknownIp">ناشناخته</string>
-  <string name="noVpnPermissionMainTitle">عملی برای اتصال به VPN لازم است</string>
+  <string name="noVpnPermissionMainTitle">اقدامی برای اتصال به VPN لازم است</string>
   <string name="noVpnPermissionMainMessage">برای اتصال به ProtonVPN، لطفاً کارهای زیر را انجام دهید:</string>
   <string name="noVpnPermissionGrantPermissionTitle">مجوز VPN را اعطا کنید</string>
   <string name="noVpnPermissionGrantPemrissionMessage">Android به اجازهٔ شما برای اتصال به ProtonVPN نیاز دارد. با ضربه زدن روی «قبول» هنگامی که پنجرهٔ «درخواست اتصال» را از اندروید دریافت می‌کنید آن را اعطا کنید.</string>
@@ -275,16 +275,16 @@
   <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
   <string name="loaderLoadingServers">بارگیری سرورها…</string>
   <string name="inputIpAddressLabel">نشانی IP</string>
-  <string name="inputIpAddressHint">نشانی IP را بنویسید</string>
-  <string name="inputIpAddressErrorInvalid">نشانی IP نامعتبر</string>
-  <string name="settingsExcludedIPAddresses">نشانی‌های IP جدا شده</string>
-  <string name="settingsExcludedIPAddressesListHeader">نشانی‌های IP جدا شده (%1$d)</string>
-  <string name="settingsExcludedApps">برنامه‌های جدا شده</string>
-  <string name="settingsExcludedAppsEmpty">برنامه‌ها را اضافه کنید تا از ترافیک VPN جدا شوند.</string>
-  <string name="settingsExcludedAppsSelectedHeader">برنامه‌های جدا شده (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableRegularHeader">برنامه‌های معمول مجاز (%1$d)</string>
-  <string name="settingsExcludedAppsAvailableSystemHeader">برنامه‌های سیستم مجاز (%1$d)</string>
-  <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستم</string>
+  <string name="inputIpAddressHint">IP را بنویسید</string>
+  <string name="inputIpAddressErrorInvalid">IP نامعتبر</string>
+  <string name="settingsExcludedIPAddresses">IP های مستثنی شده</string>
+  <string name="settingsExcludedIPAddressesListHeader">IP های مستثنی شده (%1$d)</string>
+  <string name="settingsExcludedApps">برنامه‌های مستثنی شده</string>
+  <string name="settingsExcludedAppsEmpty">برنامه‌ها را اضافه کنید تا از ترافیک VPN استثنا شوند.</string>
+  <string name="settingsExcludedAppsSelectedHeader">برنامه‌های مستثنی شده (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableRegularHeader">برنامه‌های عادی مجاز (%1$d)</string>
+  <string name="settingsExcludedAppsAvailableSystemHeader">برنامه‌های سیستمی مجاز (%1$d)</string>
+  <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستمی</string>
   <string name="listNoItems">هیچ‌کدام</string>
   <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
@@ -295,7 +295,7 @@
   </plurals>
   <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
   <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
-  <string name="removeExcludedIpDialogDescription">حذف نشانی IP از فهرست؟</string>
+  <string name="removeExcludedIpDialogDescription">حذف نشانی IP از لیست؟</string>
   <string name="loaderFetchingServers">بارگیری سرورها…</string>
   <string name="toastProfileSaved">ذخیره شد</string>
   <string name="freeTrialExpiredTitle">دورهٔ آزمایشی ProtonVPN Plus به پایان رسید</string>
@@ -310,7 +310,7 @@
   <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
   <string name="troubleshootButton">عیب یابی</string>
   <string name="activityTroubleshootTitle">اشکال‌زدایی</string>
-  <string name="troubleshootPotentialSolutionsSectionTitle">راه حل‌های بالقوه</string>
+  <string name="troubleshootPotentialSolutionsSectionTitle">راه‌حل‌های بالقوه</string>
   <string name="troubleshootNoInternetDescription">لطفاً مطمئن شوید که اتصال اینترنت شما کار میکند.</string>
   <string name="troubleshootNoInternetTitle">اتصال اینترنت برقرار نیست</string>
   <string name="troubleshootIspProblemTitle">مشکل ارائه‌دهندهً خدمات اینترنتی (ISP)</string>
@@ -321,13 +321,14 @@
   <string name="troubleshootProxyFirewallProblemDescription">هرگونه پروکسی یا دیوار آتشین را غیر فعال کنید، یا با مدیر شبکهً خود تماس بگیرید.</string>
   <string name="troubleshootProtonDownTitle">برنامه Proton کار نمی‌کند</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[وضعیت سامانهٔ ما را در <a href=\"%1$s\">وضعیت Proton</a> بررسی کنید.]]></string>
-  <string name="troubleshootContactUsSectionTitle">هنوز به کمک نیاز دارید؟ با ما به صورت مستقیم تماس بگیرید</string>
+  <string name="troubleshootContactUsSectionTitle">هنوز به کمک نیاز دارید؟ مستقیم با ما تماس بگیرید</string>
   <string name="troubleshootCustomerSupport">پشتیبانی مشتری</string>
   <string name="settingsAllowAlternativeRoutingTitle">مسیریابی جایگزین</string>
+  <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[در صورتی که Proton مسدود است، به برنامه اجازه دهید که مسیرهای جایگزین را برای دستیابی به سرورهای Proton امتحان کند. <a href="%1$s">اطلاعات بیشتر</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">تنظیم کنید ProtonVPN در صورت مختل شدن اتصال شما چگونه رفتار می‌کند</string>
+  <string name="settingsAlwaysOnKillSwitchDescription">تنظیم کنید ProtonVPN در صورت مختل شدن اتصال شما چگونه رفتار کند</string>
   <string name="settingsAlwaysOnWindowHeader">چگونگی روشن کردن VPN همیشه-روشن و Kill Switch:</string>
   <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
@@ -352,11 +353,11 @@
   <string name="dialogDontShowAgain">دوباره نشان نده</string>
   <string name="paidFeature">قابلیت غیررایگان</string>
   <string name="guestHoleActivated">دسترسی به ProtonVPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
-  <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
+  <string name="guestHoleNotificationContent">در تلاش برای دور زدن مشکلات شبکه. این به شما کمک خواهد کرد که به ProtonVPN دسترسی پیدا کنید.</string>
   <string name="onMaintenanceDetected">سرور VPN که شما به آن متّصل بودید در حال تعمیر میباشد. ما بطور خودکار شما را به سریعترین سرور در دسترس دوباره وصل کردیم.</string>
   <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
   <string name="errorTorrentNotAllowed">روی این سرور P2P اجازه داده نمی‌شود</string>
-  <string name="errorWireguardWithPlaceholder">خطای %1$s WireGuard</string>
+  <string name="errorWireguardWithPlaceholder">خطا WireGuard %1$s</string>
   <string name="serverNoWireguardSupport">سرور این پروفایل هنوز از WireGuard پشتیبانی نمی‌کند. برای اتصال، از یک پروتکل دیگر یا سروری که از WireGuard پشتیبانی می‌کند استفاده کنید.</string>
   <string name="stateConnectedTo">متصل شده به %1$s</string>
   <string name="stateNotConnected">شما متصل نیستید</string>
@@ -491,7 +492,7 @@
   <string name="upgrade_netshield_title">باز کردن NetShield</string>
   <string name="upgrade_secure_core_title">باز کردن Secure Core</string>
   <string name="upgrade_netshield_message">بدافزار، آگهی‌ها، و ردیاب‌ها را در مرورگرها و در برنامه‌ها مسدود کنید. قابل دسترس در همهٔ طرح‌های پرداختی.</string>
-  <string name="upgrade_secure_core_message">حساس‌ترین داده‌های خود را از طریق امن‌ترین سرورهای ما در کشورهای دوست‌دار حریم خصوصی عبور دهید. قابل دسترس در طرح‌های Plus و Visionary.</string>
+  <string name="upgrade_secure_core_message">حساس‌ترین داده‌های خود را از طریق امن‌ترین سرورهای ما در کشورهای دوستدار حریم خصوصی مسیرگذاری کنید.</string>
   <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -509,8 +510,8 @@
      1200+ secure servers
      -->
   <plurals name="upgrade_plus_secure_servers">
-    <item quantity="one">%d secure server</item>
-    <item quantity="other">%d+ secure servers</item>
+    <item quantity="one">%d سرور امن</item>
+    <item quantity="other">%d+ سرور امن</item>
   </plurals>
   <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
@@ -528,15 +529,15 @@
      Example:
      Access all 1300+ servers in 61 countries with PLUS
      -->
-  <string name="upgrade_plus_countries_title">Access all %1$s in %2$s with PLUS</string>
-  <string name="upgrade_plus_countries_message">Take advantage of advanced features now!</string>
+  <string name="upgrade_plus_countries_title">دسترسی به تمام %1$s در %2$s با PLUS</string>
+  <string name="upgrade_plus_countries_message">همین حالا از امکانات پیشرفته بهره ببرید!</string>
   <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-  <string name="onboarding_plan_congrats_description">You now have access to %1$s and other premium features.</string>
+  <string name="onboarding_plan_congrats_description">حالا شما به %1$s و دیگر ویژگی های پولی دسترسی دارید.</string>
   <string name="upgrade_plus_countries_streaming">به سرویس‌های پخش آنلاین به صورت جهانی دسترسی پیدا کنید</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
@@ -544,9 +545,9 @@
     <item quantity="other">اتصال %d دستگاه به صورت همزمان</item>
   </plurals>
   <string name="upgrade_plus_countries_netshield">مسدودکنندهٔ آگهی درون برنامه (NetShield)</string>
-  <string name="upgrade_plus_countries_speeds">بالاترین سرعت‌ها (تا سقف 10Gbps)</string>
+  <string name="upgrade_plus_countries_speeds">بالاترین سرعت‌ها (تا 10Gbps)</string>
   <string name="upgrade_see_plans_button">طرح‌ها و قیمت‌ها را ببینید</string>
-  <string name="upgrade_get_plus_button">Get PLUS</string>
+  <string name="upgrade_get_plus_button">دریافت Plus</string>
   <string name="upgrade_not_now_button">الان نه</string>
   <!-- Information activity -->
   <string name="activity_information_title">اطلاعات</string>
@@ -572,25 +573,25 @@
   <string name="server_load_high">بالا</string>
   <!-- Override Human verification links from core -->
   <!-- Onboarding -->
-  <string name="onboarding_welcome_title">Welcome to ProtonVPN</string>
-  <string name="onboarding_welcome_description">Learn how to get the most out of ProtonVPN in just a few seconds.</string>
+  <string name="onboarding_welcome_title">به ProtonVPN خوش آمدید</string>
+  <string name="onboarding_welcome_description">تنها در چند ثانیه با ProtonVPN آشنا شوید.</string>
   <string name="onboarding_welcome_action">شروع کنید</string>
-  <string name="onboarding_available_on_plus">Available with PLUS</string>
-  <string name="onboarding_streaming_title">Unblock streaming</string>
-  <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on AndroidTV.</string>
-  <string name="onboarding_protection_title">Be protected everywhere</string>
-  <string name="onboarding_protection_description">ProtonVPN supports all devices, including Windows, macOS, and many others.</string>
-  <string name="onboarding_netshield_title">Block ads and much more</string>
-  <string name="onboarding_netshield_description">Block malware, ads, and trackers in browser and in all apps.</string>
-  <string name="onboarding_connection_title">Establish your first connection</string>
-  <string name="onboarding_connection_description">FREE subscription offers %1$d servers in %2$d countries</string>
-  <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
-  <string name="onboading_connect_now">Connect now</string>
-  <string name="onboading_connecting_now">Connecting now</string>
-  <string name="onboarding_access_plus">Access all countries with PLUS</string>
-  <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
-  <string name="onboarding_congrats_title">Congratulations!</string>
-  <string name="onboarding_plan_congrats_description_privacy">Enjoy the world of privacy.</string>
-  <string name="onboading_connect_to_plus">Connect to a PLUS server</string>
-  <string name="upgrade_use_limited_free_button">Use limited FREE plan</string>
+  <string name="onboarding_available_on_plus">در نسخه Plus در دسترس است</string>
+  <string name="onboarding_streaming_title">رفع انسداد پخش آنلاین</string>
+  <string name="onboarding_streaming_description">دسترسی امن به هر گونه محتوا، حتی وقتی در حال سفر در کشورهای دیگر هستید. دسترسی امن در AndroidTV نیز برقرار است.</string>
+  <string name="onboarding_protection_title">همه‌جا محافظت شوید</string>
+  <string name="onboarding_protection_description">ProtonVPN از تمام دستگاه ها از جمله ویندوز، مک و بسیاری دیگر پشتیبانی می کند.</string>
+  <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
+  <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
+  <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
+  <string name="onboarding_connection_description">اشتراک رایگان %1$d سرور را در %2$d کشور ارائه می دهد</string>
+  <string name="onboarding_connection_info">ما شما را به سریع ترین و پایدارترین سرور برای مکان شما، متصل می کنیم.</string>
+  <string name="onboading_connect_now">اتصال</string>
+  <string name="onboading_connecting_now">در حال اتصال</string>
+  <string name="onboarding_access_plus">دسترسی به تمام کشورها با نسخه Plus</string>
+  <string name="onboarding_congrats_description">اتصال شما محافظت شده است و آماده برای مرور وب هستید. \n\n با امنیت.</string>
+  <string name="onboarding_congrats_title">تبریک!</string>
+  <string name="onboarding_plan_congrats_description_privacy">از دنیای حریم خصوصی لذت ببرید.</string>
+  <string name="onboading_connect_to_plus">اتصال به یک سرور Plus</string>
+  <string name="upgrade_use_limited_free_button">استفاده از طرح رایگان محدود</string>
 </resources>
