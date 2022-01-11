@@ -171,7 +171,7 @@ class TvMainViewModel @Inject constructor(
         }, { country ->
             CountryCard(
                 countryName = country.countryName,
-                hasStreamingService = !streamingServices(country.flag).isNullOrEmpty(),
+                hasStreamingService = streamingServices(country.flag).isNotEmpty(),
                 backgroundImage = DrawableImage(CountryTools.getFlagResource(context, country.flag)),
                 bottomTitleResId = countryListItemIcon(country),
                 vpnCountry = country
@@ -271,7 +271,7 @@ class TvMainViewModel @Inject constructor(
     fun getCountryDescription(vpnCountry: VpnCountry) = when {
         isPlusUser() -> R.string.tv_detail_description_plus
         !hasAccessibleServers(vpnCountry) -> R.string.tv_detail_description_country_not_available
-        streamingServices(vpnCountry.flag).isNullOrEmpty() -> R.string.tv_detail_description_no_streaming_country
+        streamingServices(vpnCountry.flag).isEmpty() -> R.string.tv_detail_description_no_streaming_country
         else -> R.string.tv_detail_description_streaming_country
     }
 
