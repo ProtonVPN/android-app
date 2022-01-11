@@ -57,8 +57,9 @@ class ServerManager(
     @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
 
-    var streamingServices: StreamingServicesResponse? = null
-        private set
+    private var streamingServices: StreamingServicesResponse? = null
+    val streamingServicesModel: StreamingServicesModel?
+        get() = streamingServices?.let { StreamingServicesModel(it) }
 
     var updatedAt: DateTime? = null
         private set

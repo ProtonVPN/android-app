@@ -80,7 +80,7 @@ class CountryListViewModel @Inject constructor(
         fastestServer?.let {
             groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
         }
-        val infoKey = if (serverManager.streamingServices?.countryToServices?.get(country.flag)?.isNotEmpty() == true)
+        val infoKey = if (serverManager.streamingServicesModel?.getForAllTiers(country.flag)?.isNotEmpty() == true)
             country.flag else null
         if (currentUser.vpnUserCached()?.isFreeUser == true) {
             freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
