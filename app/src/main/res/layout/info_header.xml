@@ -17,17 +17,14 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <TextView
-        android:id="@+id/label"
-        style="@style/Proton.Text.DefaultSmall.Weak"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="8dp"
-        android:paddingHorizontal="@dimen/screen_padding_horizontal"
-        tools:text="Header" />
-
-</layout>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/label"
+    style="@style/Proton.Text.DefaultSmall.Weak"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="8dp"
+    android:paddingHorizontal="@dimen/screen_padding_horizontal"
+    tools:text="Header" />

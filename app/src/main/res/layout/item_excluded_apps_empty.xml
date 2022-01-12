@@ -16,24 +16,22 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Proton.Text.Caption.Weak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginVertical="24dp"
+        android:gravity="center"
+        android:text="@string/settingsExcludedAppsEmpty" />
 
-        <TextView
-            style="@style/Proton.Text.Caption.Weak"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:layout_marginVertical="24dp"
-            android:gravity="center"
-            android:text="@string/settingsExcludedAppsEmpty" />
+    <View style="@style/Divider.Small" />
 
-        <View style="@style/Divider.Small" />
-
-    </LinearLayout>
-
-</layout>
+</LinearLayout>

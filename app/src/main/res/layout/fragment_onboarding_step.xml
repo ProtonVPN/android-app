@@ -16,76 +16,75 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="55"
+        android:background="@color/background_secondary">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="36dp"
+            app:srcCompat="@drawable/ic_welcome_to_protonvpn"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="45"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="16dp"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="55"
-            android:background="@color/background_secondary">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="36dp"
-                app:srcCompat="@drawable/ic_welcome_to_protonvpn"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </FrameLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="45"
-            android:gravity="center_horizontal"
-            android:paddingHorizontal="16dp"
-            android:orientation="vertical">
+            android:id="@+id/indicator"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="24dp"/>
 
-            <LinearLayout
-                android:id="@+id/indicator"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginVertical="24dp"/>
-            
-            <TextView
-                android:id="@+id/available_on_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded"
-                android:backgroundTint="?brand_norm"
-                android:textColor="@color/text_norm"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textAllCaps="true"
-                android:textSize="10sp"
-                android:text="@string/onboarding_available_on_plus"/>
+        <TextView
+            android:id="@+id/available_on_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="?brand_norm"
+            android:textColor="@color/text_norm"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textAllCaps="true"
+            android:textSize="10sp"
+            android:text="@string/onboarding_available_on_plus"/>
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/Proton.Text.Headline"
-                tools:text="@string/onboarding_streaming_title"
-                android:layout_marginVertical="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/title"
+            style="@style/Proton.Text.Headline"
+            tools:text="@string/onboarding_streaming_title"
+            android:layout_marginVertical="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/description"
-                style="@style/Proton.Text.Default"
-                tools:text="@string/onboarding_streaming_description"
-                android:breakStrategy="balanced"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/description"
+            style="@style/Proton.Text.Default"
+            tools:text="@string/onboarding_streaming_description"
+            android:breakStrategy="balanced"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-</layout>
+</LinearLayout>

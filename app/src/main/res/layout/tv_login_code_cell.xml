@@ -18,11 +18,9 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
 <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="26sp"
     android:layout_height="26sp"
     android:layout_marginStart="2dp"
@@ -31,5 +29,3 @@
     android:textStyle="bold"
     android:textColor="?android:attr/textColor"
     tools:text="A"/>
-
-</layout>

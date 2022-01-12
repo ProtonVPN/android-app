@@ -16,121 +16,120 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/proton_background_norm">
+
+    <LinearLayout
+        android:id="@+id/countryItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/proton_background_norm">
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/countryItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageCountry"
+                android:layout_width="@dimen/server_list_flag_size"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/server_list_flag_margin" />
+
+            <ImageView
+                android:id="@+id/imageDoubleArrows"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/server_list_flag_margin"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_secure_core_arrow_color" />
+
+            <TextView
+                android:id="@+id/textCountry"
+                style="@style/Proton.Text.Default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginEnd="16dp"
-                android:gravity="center_vertical">
+                android:layout_weight="1"
+                tools:text="Germany" />
 
-                <ImageView
-                    android:id="@+id/imageCountry"
-                    android:layout_width="@dimen/server_list_flag_size"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/server_list_flag_margin" />
+            <TextView
+                android:id="@+id/textConnected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Connected"
+                android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/imageDoubleArrows"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/server_list_flag_margin"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_secure_core_arrow_color" />
+            <ImageView
+                android:id="@+id/iconP2P"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_p2p"
+                app:tint="?attr/proton_icon_hint"
+                android:layout_marginEnd="4dp"/>
 
-                <TextView
-                    android:id="@+id/textCountry"
-                    style="@style/Proton.Text.Default"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
-                    tools:text="Germany" />
+            <ImageView
+                android:id="@+id/iconTor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_tor"
+                app:tint="?attr/proton_icon_hint"
+                android:layout_marginEnd="4dp"/>
 
-                <TextView
-                    android:id="@+id/textConnected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TextView.Connected"
-                    android:visibility="gone" />
+            <ImageView
+                android:id="@+id/iconSmartRouting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_smart_routing"
+                app:tint="?attr/proton_icon_hint"
+                android:layout_marginEnd="4dp"/>
 
-                <ImageView
-                    android:id="@+id/iconP2P"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_p2p"
-                    app:tint="?attr/proton_icon_hint"
-                    android:layout_marginEnd="4dp"/>
+            <me.proton.core.presentation.ui.view.ProtonButton
+                android:id="@+id/buttonUpgrade"
+                style="@style/ProtonButton.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginVertical="4dp"
+                android:text="@string/upgrade"/>
 
-                <ImageView
-                    android:id="@+id/iconTor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_tor"
-                    app:tint="?attr/proton_icon_hint"
-                    android:layout_marginEnd="4dp"/>
+            <ImageView
+                android:id="@+id/buttonCross"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@null"
+                android:rotation="180"
+                android:scaleType="center"
+                android:layout_marginStart="8dp"
+                app:srcCompat="@drawable/ic_chevron_up" />
 
-                <ImageView
-                    android:id="@+id/iconSmartRouting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_smart_routing"
-                    app:tint="?attr/proton_icon_hint"
-                    android:layout_marginEnd="4dp"/>
-
-                <me.proton.core.presentation.ui.view.ProtonButton
-                    android:id="@+id/buttonUpgrade"
-                    style="@style/ProtonButton.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginVertical="4dp"
-                    android:text="@string/upgrade"/>
-
-                <ImageView
-                    android:id="@+id/buttonCross"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@null"
-                    android:rotation="180"
-                    android:scaleType="center"
-                    android:layout_marginStart="8dp"
-                    app:srcCompat="@drawable/ic_chevron_up" />
-
-                <ImageView
-                    android:id="@+id/iconUnderMaintenance"
-                    android:layout_width="28dp"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/listItemMaintenance"
-                    app:srcCompat="@drawable/ic_wrench_icon"
-                    app:tint="?proton_icon_hint"/>
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider"
-                style="@style/Divider.Small"/>
-
+            <ImageView
+                android:id="@+id/iconUnderMaintenance"
+                android:layout_width="28dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/listItemMaintenance"
+                app:srcCompat="@drawable/ic_wrench_icon"
+                app:tint="?proton_icon_hint"/>
         </LinearLayout>
-    </FrameLayout>
-</layout>
+
+        <View
+            android:id="@+id/divider"
+            style="@style/Divider.Small"/>
+
+    </LinearLayout>
+</FrameLayout>
