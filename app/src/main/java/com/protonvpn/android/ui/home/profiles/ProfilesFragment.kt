@@ -127,5 +127,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         }
 
         override fun getLayout(): Int = R.layout.item_profile_list
+
+        override fun initializeViewBinding(view: View) = ItemProfileListBinding.bind(view)
     }
 }

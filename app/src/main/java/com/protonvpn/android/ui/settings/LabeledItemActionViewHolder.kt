@@ -25,8 +25,8 @@ import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemLabelWithActionButtonBinding
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
-import com.xwray.groupie.databinding.BindableItem
-import com.xwray.groupie.databinding.GroupieViewHolder
+import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 
 typealias LabeledItemAction = (item: LabeledItem) -> Unit
 
@@ -58,4 +58,6 @@ data class LabeledItemActionViewHolder(
     override fun getId(): Long = item.id.hashCode().toLong()
 
     override fun getLayout(): Int = R.layout.item_label_with_action_button
+
+    override fun initializeViewBinding(view: View) = ItemLabelWithActionButtonBinding.bind(view)
 }

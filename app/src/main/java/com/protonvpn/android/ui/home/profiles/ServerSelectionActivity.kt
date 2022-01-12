@@ -44,7 +44,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
 
@@ -128,6 +128,7 @@ class ServerSelectionActivity : BaseActivityV2() {
         override fun getViewType(): Int = this::class.hashCode()
 
         override fun getLayout(): Int = R.layout.item_server_selection
+        override fun initializeViewBinding(view: View) = ItemServerSelectionBinding.bind(view)
     }
 
     private class RecommendedServerViewHolder(

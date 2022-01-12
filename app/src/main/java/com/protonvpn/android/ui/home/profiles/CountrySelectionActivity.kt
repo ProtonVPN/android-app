@@ -23,6 +23,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +39,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -100,6 +101,7 @@ class CountrySelectionActivity : BaseActivityV2() {
         }
 
         override fun getLayout(): Int = R.layout.item_server_selection
+        override fun initializeViewBinding(view: View) = ItemServerSelectionBinding.bind(view)
     }
 
     companion object {

@@ -18,13 +18,14 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.view.View
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 
 class HeaderItem(
     private val titleString: String,
@@ -33,6 +34,8 @@ class HeaderItem(
 ) : BindableItem<ItemCountryHeaderBinding>() {
 
     override fun getLayout() = R.layout.item_country_header
+
+    override fun initializeViewBinding(view: View) = ItemCountryHeaderBinding.bind(view)
 
     override fun bind(viewBinding: ItemCountryHeaderBinding, position: Int) {
         viewBinding.textTitle.text = titleString

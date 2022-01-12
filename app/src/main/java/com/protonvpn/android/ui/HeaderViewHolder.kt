@@ -19,17 +19,18 @@
 
 package com.protonvpn.android.ui
 
+import android.view.View
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemHeaderBinding
 import com.protonvpn.android.utils.DebugUtils
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 
 data class HeaderViewHolder(
     @StringRes private val textRes: Int = 0,
     private val text: String? = null,
     private val itemId: Long = 1
-) : BindableItem<ItemHeaderBinding>() {
+) : BindableItem<ItemHeaderBinding>(itemId) {
 
     init {
         DebugUtils.debugAssert("One of text and textRes needs to be defined") {
@@ -45,7 +46,7 @@ data class HeaderViewHolder(
         }
     }
 
-    override fun getId() = itemId
+    override fun initializeViewBinding(view: View): ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
     override fun getLayout(): Int = R.layout.item_header
 }
