@@ -17,55 +17,53 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/onboarding_connection"/>
+
+        <TextView
+            style="@style/Proton.Text.Headline"
+            android:text="@string/onboarding_connection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"/>
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/Proton.Text.Default"
+            android:text="@string/onboarding_connection_description"
             android:gravity="center"
-            android:orientation="vertical">
+            android:breakStrategy="balanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/onboarding_connection"/>
-
-            <TextView
-                style="@style/Proton.Text.Headline"
-                android:text="@string/onboarding_connection_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"/>
-
-            <TextView
-                android:id="@+id/description"
-                style="@style/Proton.Text.Default"
-                android:text="@string/onboarding_connection_description"
-                android:gravity="center"
-                android:breakStrategy="balanced"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="16dp"/>
-
-            <TextView
-                style="@style/Proton.Text.Default.Weak"
-                android:text="@string/onboarding_connection_info"
-                android:gravity="center"
-                android:breakStrategy="balanced"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"/>
-        </LinearLayout>
-    </FrameLayout>
-</layout>
+        <TextView
+            style="@style/Proton.Text.Default.Weak"
+            android:text="@string/onboarding_connection_info"
+            android:gravity="center"
+            android:breakStrategy="balanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+</FrameLayout>

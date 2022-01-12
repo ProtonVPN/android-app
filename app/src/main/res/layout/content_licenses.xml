@@ -17,26 +17,24 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dimmedGrey"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.protonvpn.android.ui.settings.OssLicensesActivity"
+    tools:ignore="RtlHardcoded"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp"
+    tools:showIn="@layout/activity_licenses">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dimmedGrey"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.protonvpn.android.ui.settings.OssLicensesActivity"
-        tools:ignore="RtlHardcoded"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="81dp"
-        tools:showIn="@layout/activity_licenses">
+        android:layout_height="match_parent"/>
 
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

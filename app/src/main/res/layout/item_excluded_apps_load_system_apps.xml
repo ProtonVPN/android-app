@@ -16,16 +16,13 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<layout>
 
-    <me.proton.core.presentation.ui.view.ProtonButton xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/buttonLoadSystemApps"
-        style="@style/ProtonButton.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/settingsExcludedAppsLoadSystemAppsButton" />
-
-</layout>
+<me.proton.core.presentation.ui.view.ProtonButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonLoadSystemApps"
+    style="@style/ProtonButton.OutlinedButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="32dp"
+    android:text="@string/settingsExcludedAppsLoadSystemAppsButton" />
