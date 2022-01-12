@@ -171,10 +171,12 @@ class UserData private constructor() : Serializable {
         netShieldProtocol ?: NetShieldProtocol.ENABLED
 
     fun onVpnUserUpdated(vpnUser: VpnUser?) {
-        if (vpnUser?.isUserBasicOrAbove != true)
-            setNetShieldProtocol(NetShieldProtocol.DISABLED)
-        if (vpnUser?.isUserPlusOrAbove != true)
-            isSecureCoreEnabled = false
+        if (vpnUser != null) {
+            if (!vpnUser.isUserBasicOrAbove)
+                setNetShieldProtocol(null)
+            if (!vpnUser.isUserPlusOrAbove)
+                isSecureCoreEnabled = false
+        }
     }
 
     fun finishUserMigration() {
