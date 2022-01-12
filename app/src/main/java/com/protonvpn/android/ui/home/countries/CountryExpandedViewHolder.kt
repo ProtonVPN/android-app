@@ -153,4 +153,6 @@ class CountryExpandedViewHolder(
     }
 
     override fun getLayout() = R.layout.item_server_list
+
+    override fun initializeViewBinding(view: View) = ItemServerListBinding.bind(view)
 }

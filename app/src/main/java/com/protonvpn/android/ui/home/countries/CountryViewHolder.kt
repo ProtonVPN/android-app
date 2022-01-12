@@ -110,9 +110,9 @@ abstract class CountryViewHolder(
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
-    override fun getLayout(): Int {
-        return R.layout.item_vpn_country
-    }
+    override fun getLayout(): Int = R.layout.item_vpn_country
+
+    override fun initializeViewBinding(view: View) = ItemVpnCountryBinding.bind(view)
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {
         view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat()).start()

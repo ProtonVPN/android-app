@@ -19,13 +19,13 @@
 package com.protonvpn.android.utils
 
 import androidx.annotation.CallSuper
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.OnItemLongClickListener
-import com.xwray.groupie.databinding.BindableItem
-import com.xwray.groupie.databinding.GroupieViewHolder
+import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 
-abstract class BindableItemEx<T : ViewDataBinding> : BindableItem<T>() {
+abstract class BindableItemEx<T : ViewBinding> : BindableItem<T>() {
 
     private var bindingInternal: T? = null
 
@@ -59,7 +59,6 @@ abstract class BindableItemEx<T : ViewDataBinding> : BindableItem<T>() {
     override fun unbind(viewHolder: GroupieViewHolder<T>) {
         super.unbind(viewHolder)
         clear()
-        bindingInternal?.unbind()
         bindingInternal = null
     }
 

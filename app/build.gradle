@@ -550,7 +550,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation 'com.datatheorem.android.trustkit:trustkit:1.1.5'
     implementation 'com.github.lisawray.groupie:groupie:2.10.0'
-    implementation 'com.github.lisawray.groupie:groupie-databinding:2.10.0'
+    implementation 'com.github.lisawray.groupie:groupie-viewbinding:2.10.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0'

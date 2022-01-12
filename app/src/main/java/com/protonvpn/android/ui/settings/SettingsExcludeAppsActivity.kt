@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.settings
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -36,7 +37,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.OnAsyncUpdateListener
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -185,6 +186,8 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         }
 
         override fun getLayout(): Int = R.layout.item_excluded_apps_load_system_apps
+
+        override fun initializeViewBinding(view: View) = ItemExcludedAppsLoadSystemAppsBinding.bind(view)
 
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
     }
