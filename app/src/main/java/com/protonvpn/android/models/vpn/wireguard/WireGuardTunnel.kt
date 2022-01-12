@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.models.vpn.wireguard
 
-import androidx.databinding.BaseObservable
 import com.wireguard.android.backend.Statistics
 import com.wireguard.android.backend.Tunnel
 import com.wireguard.config.Config
@@ -31,7 +30,7 @@ class WireGuardTunnel internal constructor(
     private var name: String,
     config: Config?,
     state: Tunnel.State
-) : BaseObservable(), Tunnel {
+) : Tunnel {
 
     override fun getName() = name
 
