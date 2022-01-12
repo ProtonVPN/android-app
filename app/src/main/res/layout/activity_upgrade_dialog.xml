@@ -25,6 +25,13 @@
     android:orientation="vertical"
     android:paddingBottom="24dp">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:navigationIcon="@drawable/ic_close" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -80,15 +87,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/buttonGetPlus"
+        android:id="@+id/buttonUpgrade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:paddingHorizontal="@dimen/screen_padding_horizontal"
-        android:text="@string/upgrade_get_plus_button" />
+        android:text="@string/upgrade" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/buttonClose"
+        android:id="@+id/buttonOther"
         style="@style/ProtonButton.Borderless.Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

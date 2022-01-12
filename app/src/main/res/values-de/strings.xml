@@ -549,7 +549,6 @@
   <string name="upgrade_plus_countries_netshield">Integrierter Werbeblocker (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Höchste Geschwindigkeit (bis zu 10 GBit/s)</string>
   <string name="upgrade_see_plans_button">Tarife und Preise anzeigen</string>
-  <string name="upgrade_get_plus_button">Zu PLUS wechseln</string>
   <string name="upgrade_not_now_button">Nicht jetzt</string>
   <!-- Information activity -->
   <string name="activity_information_title">Information</string>

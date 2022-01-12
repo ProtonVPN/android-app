@@ -575,7 +575,6 @@
   <string name="upgrade_plus_countries_netshield">Встроенный блокировщик рекламы (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
   <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
-  <string name="upgrade_get_plus_button">Получить PLUS</string>
   <string name="upgrade_not_now_button">Не сейчас</string>
   <!-- Information activity -->
   <string name="activity_information_title">Информация</string>

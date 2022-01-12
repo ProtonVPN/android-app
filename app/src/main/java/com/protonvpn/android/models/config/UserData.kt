@@ -22,6 +22,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.profiles.Profile
@@ -43,6 +44,7 @@ enum class Setting(val logName: String) {
     SPLIT_TUNNEL_APPS("Split Tunneling excluded apps"),
     SPLIT_TUNNEL_IPS("Split Tunneling excluded IPs"),
     DEFAULT_MTU("Default MTU"),
+    SAFE_MODE("Safe Mode"),
     VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
     VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
     API_DOH("Use DoH for API"),
@@ -94,6 +96,13 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.VPN_ACCELERATOR_ENABLED)
         }
 
+    var safeModeEnabled: Boolean? = null
+        set(value) {
+            field = value
+            safeModeLiveData.value = value
+            commitUpdate(Setting.SAFE_MODE)
+        }
+
     private var trialDialogShownAt: DateTime? = null
 
     var selectedProtocol: VpnProtocol = VpnProtocol.Smart
@@ -107,6 +116,7 @@ class UserData private constructor() : Serializable {
     @Transient val netShieldSettingUpdateEvent = LiveEvent()
     @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
     @Transient val selectedProtocolLiveData = MutableLiveData<VpnProtocol>()
+    @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
     @Transient val updateEvent = LiveEvent()
     // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
     // when observer resumes.
@@ -147,6 +157,9 @@ class UserData private constructor() : Serializable {
 
     val isVpnAcceleratorEnabled get() = vpnAcceleratorEnabled
 
+    fun isSafeModeEnabled(featureFlags: FeatureFlags): Boolean =
+        safeModeEnabled ?: featureFlags.safeMode
+
     fun setProtocols(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?) {
         if (transmissionProtocol != null) {
             this.transmissionProtocol = transmissionProtocol
@@ -172,10 +185,13 @@ class UserData private constructor() : Serializable {
 
     fun onVpnUserUpdated(vpnUser: VpnUser?) {
         if (vpnUser != null) {
-            if (!vpnUser.isUserBasicOrAbove)
+            if (!vpnUser.isUserBasicOrAbove) {
                 setNetShieldProtocol(null)
-            if (!vpnUser.isUserPlusOrAbove)
+                safeModeEnabled = null
+            }
+            if (!vpnUser.isUserPlusOrAbove) {
                 secureCoreEnabled = false
+            }
         }
     }
 

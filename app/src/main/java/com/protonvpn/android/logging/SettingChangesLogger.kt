@@ -20,6 +20,7 @@
 package com.protonvpn.android.logging
 
 import android.os.Build
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.Setting
@@ -36,7 +37,8 @@ class SettingChangesLogger @Inject constructor(
     private val mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager,
-    private val userData: UserData
+    private val userData: UserData,
+    private val appConfig: AppConfig
 ) {
     fun startLoggingSettingsChanges() {
         mainScope.launch {
@@ -65,6 +67,7 @@ class SettingChangesLogger @Inject constructor(
         Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.toLog()
         Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.toLog()
         Setting.DEFAULT_MTU -> userData.mtuSize
+        Setting.SAFE_MODE -> userData.safeModeEnabled ?: "default: " + appConfig.getFeatureFlags().safeMode
         Setting.API_DOH -> userData.apiUseDoH
         Setting.VPN_ACCELERATOR_ENABLED -> userData.vpnAcceleratorEnabled
         Setting.VPN_ACCELERATOR_NOTIFICATIONS -> userData.showVpnAcceleratorNotifications

@@ -575,7 +575,6 @@
   <string name="upgrade_plus_countries_netshield">Wbudowana blokada reklam (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Najwyższa prędkość (do 10 Gb/s)</string>
   <string name="upgrade_see_plans_button">Zobacz plany i cennik</string>
-  <string name="upgrade_get_plus_button">Wybierz plan PLUS</string>
   <string name="upgrade_not_now_button">Nie teraz</string>
   <!-- Information activity -->
   <string name="activity_information_title">Informacje</string>

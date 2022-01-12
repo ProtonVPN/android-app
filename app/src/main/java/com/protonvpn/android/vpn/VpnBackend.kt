@@ -258,10 +258,14 @@ abstract class VpnBackend(
     }
 
     private val splitTcpValue get() = !appConfig.getFeatureFlags().vpnAccelerator || userData.isVpnAcceleratorEnabled
+    private val safeModeValue get() = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
 
     private fun initFeatures() {
         observeFeature(userData.netShieldSettingUpdateEvent) {
             setInt(FEATURES_NETSHIELD, userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong())
+        }
+        observeFeature(userData.safeModeLiveData) {
+            setBool(FEATURES_SAFE_MODE, safeModeValue)
         }
         observeFeature(userData.vpnAcceleratorLiveData) {
             setBool(FEATURES_SPLIT_TCP, splitTcpValue)
@@ -286,6 +290,7 @@ abstract class VpnBackend(
     }
 
     private fun prepareFeaturesForAgentConnection() {
+        features.setBool(FEATURES_SAFE_MODE, safeModeValue)
         features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
         val bouncing = lastConnectionParams?.bouncing
         if (bouncing == null)
@@ -451,8 +456,9 @@ abstract class VpnBackend(
         // During this time pings will prefer ports in order in which they were defined
         const val PING_PRIORITY_WAIT_DELAY = 1000L
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
-        private const val FEATURES_NETSHIELD = "netshield-level"
-        private const val FEATURES_SPLIT_TCP = "split-tcp"
         private const val FEATURES_BOUNCING = "bouncing"
+        private const val FEATURES_NETSHIELD = "netshield-level"
+        private const val FEATURES_SAFE_MODE = "safe-mode"
+        private const val FEATURES_SPLIT_TCP = "split-tcp"
     }
 }
