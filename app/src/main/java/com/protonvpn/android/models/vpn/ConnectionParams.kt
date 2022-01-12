@@ -44,6 +44,10 @@ open class ConnectionParams(
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
         if (appConfig.getFeatureFlags().vpnAccelerator && !userData.isVpnAcceleratorEnabled)
             username += "+nst"
+        if (userData.isSafeModeEnabled(appConfig.getFeatureFlags()))
+            username += "+sm"
+        else
+            username += "+nsm"
         bouncing?.let { username += "+b:$it" }
         return username
     }

@@ -59,6 +59,7 @@ object Constants {
     const val TOR_INFO_URL = "https://protonvpn.com/support/tor-vpn/"
     const val SERVER_LOAD_INFO_URL = "https://protonvpn.com/support/server-load-percentages-and-colors-explained/"
     const val VPN_ACCELERATOR_INFO_URL = "https://protonvpn.com/support/how-to-use-vpn-accelerator"
+    const val SAFE_MODE_INFO_URL = "https://protonvpn.com/support/non-standard-ports"
 
     const val PLANS_AND_PRICING_URL = "https://protonvpn.com/pricing"
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10

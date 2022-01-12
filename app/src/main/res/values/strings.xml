@@ -143,6 +143,8 @@
     <string name="settingsMtuRangeInvalid">MTU value must be in 1280–1500 range</string>
     <string name="settingsDefaultConnectionTitle">Quick Connect</string>
     <string name="settingsDefaultConnectionDescription">Quick connect button connects you to the selected profile</string>
+    <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
 
     <string name="restrictedMaintenanceTitle">Under maintenance</string>
     <string name="restrictedMaintenanceDescription">Server you are currently trying to connect is under maintenance. Please try another server.</string>
@@ -587,9 +589,12 @@
     <string name="upgrade_plus_countries_netshield">Built-in adblocker (NetShield)</string>
     <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
 
+    <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
+    <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
+
     <string name="upgrade_see_plans_button">See plans and pricing</string>
-    <string name="upgrade_get_plus_button">Get PLUS</string>
     <string name="upgrade_not_now_button">Not now</string>
+    <string name="upgrade_learn_more">Learn more</string>
 
     <!-- Information activity -->
     <string name="activity_information_title">Information</string>

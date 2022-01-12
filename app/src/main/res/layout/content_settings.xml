@@ -28,7 +28,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:orientation="vertical"
         tools:context="com.protonvpn.android.ui.settings.SettingsActivity"
         tools:showIn="@layout/activity_settings">
@@ -179,6 +178,14 @@
             android:layout_height="wrap_content"
             app:title="@string/settingsSendCrashReportsTitle"
             app:infoText="@string/settingsSendCrashReportsDescription" />
+
+        <com.protonvpn.android.ui.settings.SettingsSwitch
+            android:id="@+id/switchNonStandardPorts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:infoText="@string/settingsAllowNonStandardPortsDescription"
+            app:title="@string/settingsAllowNonStandardPortsTitle" />
 
         <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonLicenses"

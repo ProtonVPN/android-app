@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.settings
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -50,6 +51,7 @@ import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
@@ -62,6 +64,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -72,6 +75,7 @@ private const val PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_
 private const val PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG"
 private const val PREF_SHOW_PROTOCOL_RECONNECT_DIALOG = "PREF_SHOW_PROTOCOL_RECONNECT_DIALOG"
 private const val PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG = "PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG"
+private const val PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG = "PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG"
 
 @AndroidEntryPoint
 class SettingsActivity : BaseActivityV2() {
@@ -124,6 +128,11 @@ class SettingsActivity : BaseActivityV2() {
         initDnsLeakProtection()
         initDohToggle()
         initSendCrashReportsToggle()
+
+        lifecycleScope.launch {
+            initNonStandardPortsToggle()
+            onUiReady()
+        }
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
@@ -185,6 +194,14 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
+    private fun onUiReady() {
+        // Enable layout animations only after all UI elements have their state set, including those
+        // that require an async operation to get their state.
+        // For some reason in UI tests the UI scrolls down when animations are enabled and
+        // switchNonStandardPorts is set to visible, which breaks the tests.
+        binding.contentSettings.scrollView.layoutTransition = LayoutTransition()
+    }
+
     private fun initDohToggle() = with(binding.contentSettings) {
         switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
         val info =
@@ -221,6 +238,26 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
+    private suspend fun initNonStandardPortsToggle() = with(binding.contentSettings) {
+        val flags = appConfig.getFeatureFlags()
+        val user = currentUser.vpnUserFlow.firstOrNull()
+        val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
+        switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+        if (user?.isUserBasicOrAbove == true) {
+            switchNonStandardPorts.isVisible = true
+            switchNonStandardPorts.switchClickInterceptor = {
+                tryToggleSafeMode()
+                true
+            }
+        } else {
+            switchNonStandardPorts.isVisible = flags.safeMode
+            switchNonStandardPorts.switchClickInterceptor = {
+                navigateTo(UpgradeSafeModeDialogActivity::class.java)
+                true
+            }
+        }
+    }
+
     private fun initSendCrashReportsToggle() = with(binding.contentSettings) {
         switchSendCrashReports.isChecked = SentryIntegration.isEnabled()
         switchSendCrashReports.setOnCheckedChangeListener { _, isChecked ->
@@ -249,6 +286,7 @@ class SettingsActivity : BaseActivityV2() {
         switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
         switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
+        switchNonStandardPorts.isChecked = !userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags())
 
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
@@ -314,6 +352,17 @@ class SettingsActivity : BaseActivityV2() {
         ) {
             logUiEvent(Setting.LAN_CONNECTIONS)
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
+        }
+    }
+
+    private fun tryToggleSafeMode() {
+        tryToggleSwitch(
+            PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG,
+            "safe mode toggle",
+            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+        ) {
+            logUiEvent(Setting.SAFE_MODE)
+            userPrefs.safeModeEnabled = !userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags())
         }
     }
 

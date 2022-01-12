@@ -36,4 +36,6 @@ data class FeatureFlags(
     @SerialName(value = "StreamingServicesLogos") val streamingServicesLogos: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "VpnAccelerator") val vpnAccelerator: Boolean = false,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "SafeMode") val safeMode: Boolean = false,
 ) : java.io.Serializable

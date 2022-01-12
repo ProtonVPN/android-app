@@ -256,6 +256,7 @@
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusOnboardingDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeSafeModeDialogActivity" />
         <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>

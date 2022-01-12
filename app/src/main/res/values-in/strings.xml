@@ -536,7 +536,6 @@
   <string name="upgrade_plus_countries_netshield">Adblocker yang tersedia secara bawaan (NetShield)</string>
   <string name="upgrade_plus_countries_speeds">Kecepatan tertinggi (hingga 10Gbps)</string>
   <string name="upgrade_see_plans_button">Lihat daftar paket dan harga</string>
-  <string name="upgrade_get_plus_button">Dapatkan PLUS</string>
   <string name="upgrade_not_now_button">Tidak sekarang</string>
   <!-- Information activity -->
   <string name="activity_information_title">Informasi</string>

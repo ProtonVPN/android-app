@@ -36,6 +36,7 @@ import com.protonvpn.android.databinding.ActivityUpgradeDialogBinding
 import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
 import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,8 +56,8 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
             }
         })
 
-        binding.buttonClose.setOnClickListener { finish() }
-        binding.buttonGetPlus.setOnClickListener {
+        binding.buttonOther.setOnClickListener { finish() }
+        binding.buttonUpgrade.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.planUpgrade()
             }
@@ -146,7 +147,27 @@ class UpgradePlusOnboardingDialogActivity : UpgradePlusCountriesDialogActivity()
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         super.setViews(binding)
         with(binding) {
-            buttonClose.setText(R.string.upgrade_use_limited_free_button)
+            buttonOther.setText(R.string.upgrade_use_limited_free_button)
         }
     }
+}
+
+@AndroidEntryPoint
+class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
+
+    override fun setViews(binding: ActivityUpgradeDialogBinding) {
+        with(binding) {
+            initToolbarWithUpEnabled(toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+            toolbar.isVisible = true
+
+            imagePicture.setImageResource(R.drawable.upgrade_safemode)
+            textTitle.setText(R.string.upgrade_safe_mode_title)
+            textMessage.setText(R.string.upgrade_safe_mode_message)
+
+            buttonOther.setText(R.string.upgrade_learn_more)
+            buttonOther.setOnClickListener { openProtonUrl(Constants.SAFE_MODE_INFO_URL) }
+        }
+    }
+
 }
