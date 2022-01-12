@@ -141,8 +141,8 @@ android {
             keyPassword storeKeyPass
         }
     }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
     }
     defaultConfig {
         applicationId appId
