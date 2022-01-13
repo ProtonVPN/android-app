@@ -155,7 +155,8 @@ class UserData private constructor() : Serializable {
     val isSplitTunnelingConfigEmpty: Boolean
         get() = splitTunnelApps.isEmpty() && splitTunnelIpAddresses.isEmpty()
 
-    val isVpnAcceleratorEnabled get() = vpnAcceleratorEnabled
+    fun isVpnAcceleratorEnabled(featureFlags: FeatureFlags) =
+        !featureFlags.vpnAccelerator || vpnAcceleratorEnabled
 
     fun isSafeModeEnabled(featureFlags: FeatureFlags): Boolean =
         safeModeEnabled ?: featureFlags.safeMode

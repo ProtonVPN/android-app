@@ -42,7 +42,7 @@ open class ConnectionParams(
     fun getVpnUsername(userData: UserData, vpnUser: VpnUser, appConfig: AppConfig): String {
         var username = vpnUser.name + profile.getNetShieldProtocol(userData, vpnUser, appConfig).protocolString +
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
-        if (appConfig.getFeatureFlags().vpnAccelerator && !userData.isVpnAcceleratorEnabled)
+        if (!userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags()))
             username += "+nst"
         if (userData.isSafeModeEnabled(appConfig.getFeatureFlags()))
             username += "+sm"

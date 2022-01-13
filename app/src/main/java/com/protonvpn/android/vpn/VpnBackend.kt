@@ -257,7 +257,7 @@ abstract class VpnBackend(
         initFeatures()
     }
 
-    private val splitTcpValue get() = !appConfig.getFeatureFlags().vpnAccelerator || userData.isVpnAcceleratorEnabled
+    private val splitTcpValue get() = userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
     private val safeModeValue get() = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
 
     private fun initFeatures() {

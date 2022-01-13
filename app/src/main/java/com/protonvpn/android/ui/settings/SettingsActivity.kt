@@ -227,7 +227,7 @@ class SettingsActivity : BaseActivityV2() {
                 updateVpnAcceleratorToggles()
             }
 
-            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled
+            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
             switchVpnAcceleratorNotifications.isChecked = userPrefs.showVpnAcceleratorNotifications
             switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
                 userPrefs.showVpnAcceleratorNotifications = isChecked
@@ -277,7 +277,7 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
-        val isEnabled = userPrefs.isVpnAcceleratorEnabled
+        val isEnabled = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
         switchVpnAccelerator.isChecked = isEnabled
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
@@ -325,7 +325,7 @@ class SettingsActivity : BaseActivityV2() {
             "VPN Accelerator toggle",
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
-            userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+            userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
         }
     }
 
