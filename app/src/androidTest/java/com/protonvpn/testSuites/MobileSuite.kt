@@ -24,6 +24,7 @@ import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.login.LogoutTests
 import com.protonvpn.tests.map.MapTests
+import com.protonvpn.tests.models.config.UserDataTests
 import com.protonvpn.tests.profiles.ProfileTests
 import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreTests
@@ -45,6 +46,7 @@ import org.junit.runners.Suite
     SecureCoreTests::class,
     SecureCoreSecurityTests::class,
     SettingsTests::class,
+    UserDataTests::class,
     VpnConnectionTests::class,
     LiveEventTests::class
 )

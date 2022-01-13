@@ -73,12 +73,11 @@ class ConnectionParamsTests {
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
         every { vpnUser.name } returns "user"
         currentUser.mockVpnUser { vpnUser }
-        every { userData.isVpnAcceleratorEnabled } returns true
+        every { userData.isVpnAcceleratorEnabled(any()) } returns true
         every { userData.isSafeModeEnabled(any()) } returns false
         every { profile.getNetShieldProtocol(any(), any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
-        every { featureFlags.vpnAccelerator } returns false
 
         params = ConnectionParams(profile, server, connectingDomain, VpnProtocol.Smart)
     }
@@ -118,20 +117,9 @@ class ConnectionParamsTests {
 
     @Test
     fun testSplitTcpSuffixSettings() {
-        every { featureFlags.vpnAccelerator } returns true
-        every { userData.isVpnAcceleratorEnabled } returns false
+        every { userData.isVpnAcceleratorEnabled(any()) } returns false
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label", "nst", "nsm"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testSplitTcpSuffixFeatureDisabled() {
-        every { featureFlags.vpnAccelerator } returns false
-        every { userData.isVpnAcceleratorEnabled } returns false
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label", "nsm"),
             params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
         )
     }
