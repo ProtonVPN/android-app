@@ -347,7 +347,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[Aby włączyć funkcję Kill Switch, kliknij przełącznik <b>Blokuj połączenia bez VPN</b>]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ten przycisk przekieruję Cię do ustawień systemu Android, gdzie możesz zarządzać tymi funkcjami.</string>
   <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
   <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
   <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
