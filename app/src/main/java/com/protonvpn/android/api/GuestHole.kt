@@ -240,4 +240,5 @@ class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegat
     override fun onPermissionDenied(profile: Profile) {}
     override fun showPlusUpgradeDialog() {}
     override fun showMaintenanceDialog() {}
+    override fun shouldSkipAccessRestrictions() = true
 }

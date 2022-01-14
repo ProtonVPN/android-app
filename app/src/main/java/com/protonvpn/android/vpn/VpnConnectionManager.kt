@@ -81,6 +81,7 @@ interface VpnUiDelegate {
     fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit)
     fun getContext(): Context
     fun onServerRestricted(reason: ReasonRestricted)
+    fun shouldSkipAccessRestrictions(): Boolean = false
 }
 
 @Singleton
@@ -433,7 +434,9 @@ open class VpnConnectionManager(
         ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
         val vpnUser = currentUser.vpnUserCached()
-        if (server?.online == true && vpnUser.hasAccessToServer(server)) {
+        if (server?.online == true &&
+            (delegate?.shouldSkipAccessRestrictions() == true || vpnUser.hasAccessToServer(server))
+        ) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
