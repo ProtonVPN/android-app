@@ -363,7 +363,7 @@
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Open Android settings</string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activating Kill Switch will disable Split Tunneling, as Kill Switch blocks all connections outside the VPN tunnel</string>
     <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
     <string name="settingsProtocolNameSmart" translatable="false">Smart (auto)</string>
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>

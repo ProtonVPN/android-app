@@ -345,7 +345,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otvori postavke Androida</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
   <string name="settingsSmartProtocolDescription">Automatski koristi protokol i port koji nude najbolje povezivanje.</string>
   <string name="netShieldEnabledWarning">Imajte na umu da neke web stranice možda neće funkcionirati u potpunosti zbog blokiranog sadržaja.</string>
   <string name="netShieldDescription">Blokirajte oglase, pratitelje i neželjene programe </string>

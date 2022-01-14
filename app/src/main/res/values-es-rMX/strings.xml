@@ -343,7 +343,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Presione el interruptor al lado de <b>Bloquear conexiones sin VPN</b> para habilitar el interruptor de apagado]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir ajustes de Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Este botón le redireccionará a los ajustes de Android, donde puede administrar estas funciones.</string>
   <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
   <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
   <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>

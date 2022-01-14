@@ -343,7 +343,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le commutateur à côté de <b>Bloquer les connexions sans VPN</b> pour activer kill switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Ce bouton vous redirigera vers les paramètres Android, où vous pourrez gérer ces fonctionnalités.</string>
   <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
   <string name="netShieldEnabledWarning">Attention, certains sites Web pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
   <string name="netShieldDescription">Bloquer les publicités, les traqueurs et les logiciels malveillants </string>

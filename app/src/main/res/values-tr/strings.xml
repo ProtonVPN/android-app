@@ -343,7 +343,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">This button will redirect you to Android settings, where you can manage these features.</string>
   <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan protokolü ve bağlantı noktasını otomatik olarak kullanın.</string>
   <string name="netShieldEnabledWarning">Bazı web sitelerinin engellenen içerik nedeniyle tam olarak çalışmayacağına dikkat edin.</string>
   <string name="netShieldDescription">Reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin </string>

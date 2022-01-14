@@ -341,7 +341,6 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ketuk tombol yang ada di samping tulisan <b>Block connections without VPN</b> untuk mengaktifkan Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Buka pengaturan Android</string>
-  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Tombol ini akan mengarahkan Anda ke Pengaturan Android, di mana Anda bisa mengelola fitur ini.</string>
   <string name="settingsSmartProtocolDescription">Secara otomatis menggunakan protokol dan port yang menawarkan konektivitas terbaik.</string>
   <string name="netShieldEnabledWarning">Waspada beberapa situs web mungkin tidak sepenuhnya berfungsi karena konten yang diblokir.</string>
   <string name="netShieldDescription">Memblokir iklan, pelacak, dan malware </string>
