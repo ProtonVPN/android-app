@@ -50,6 +50,7 @@ import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
@@ -98,6 +99,7 @@ open class VpnConnectionManager(
     private val notificationHelper: NotificationHelper,
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val serverManager: ServerManager,
+    private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
     private val now: () -> Long,
     private val currentUser: CurrentUser
@@ -339,6 +341,28 @@ open class VpnConnectionManager(
         val newBackend = preparedConnection.backend
         if (activeBackend != null && activeBackend != newBackend)
             disconnectBlocking("new connection")
+
+        val sessionId = currentUser.sessionId()
+        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN && sessionId != null) {
+            // OpenVpnWrapperService is unable to obtain the certificate from
+            // CertificateRepository because all the methods are synchronous.
+            // Save the certificate to storage for easier access.
+            // Also don't try to refresh the certificate now, if it is invalid it will be refreshed
+            // via the VPN tunnel.
+            val result = certificateRepository.getCertificateWithoutRefresh(sessionId)
+            if (result is CertificateRepository.CertificateResult.Success) {
+                Storage.save(
+                    CertificateData(result.privateKeyPem, result.certificate),
+                    CertificateData::class.java
+                )
+            } else {
+                // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
+                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate"))
+                return
+            }
+        } else {
+            Storage.save(null, CertificateData::class.java)
+        }
 
         connectionParams = preparedConnection.connectionParams
         with(preparedConnection) {

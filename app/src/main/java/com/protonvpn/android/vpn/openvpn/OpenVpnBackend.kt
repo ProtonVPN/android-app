@@ -110,7 +110,7 @@ class OpenVpnBackend(
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
-                    profile, server, connectingDomain, it.transmissionProtocol, it.port))
+                profile, server, connectingDomain, it.transmissionProtocol, it.port))
         }
     }
 

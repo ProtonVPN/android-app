@@ -130,6 +130,8 @@ public final class Storage {
     public static <T> void save(@Nullable T data, Class<T> as) {
         if (data != null) {
             preferences.edit().putString(as.getName(), GSON.toJson(data)).apply();
+        } else {
+            preferences.edit().remove(as.getName()).apply();
         }
     }
 

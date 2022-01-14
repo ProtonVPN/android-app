@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -41,17 +39,22 @@ class ConnectionParamsOpenVpn(
 
     fun openVpnProfile(
         userData: UserData,
-        vpnUser: VpnUser?,
-        appConfig: AppConfig
+        clientCertificate: CertificateData?
     ) = VpnProfile(server.getLabel()).apply {
-        mAuthenticationType = VpnProfile.TYPE_USERPASS
+        if (clientCertificate != null) {
+            mAuthenticationType = VpnProfile.TYPE_CERTIFICATES
+            mClientKeyFilename = inlineFile(clientCertificate.key)
+            mClientCertFilename = inlineFile(clientCertificate.certificate)
+        } else {
+            mAuthenticationType = VpnProfile.TYPE_USERPASS
+            mUsername = "guest"
+            mPassword = "guest"
+        }
         mCaFilename = Constants.VPN_ROOT_CERTS
         mTLSAuthFilename = TLS_AUTH_KEY
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername =
-            if (profile.isGuestHoleProfile() == true) "guest" else getVpnUsername(userData, vpnUser!!, appConfig)
         mUseTLSAuth = true
         mTunMtu = 1500
         mMssFix = userData.mtuSize - 40
@@ -73,11 +76,12 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-        mPassword = if (profile.isGuestHoleProfile() == true) "guest" else vpnUser?.password
     }
 
     override fun hasSameProtocolParams(other: ConnectionParams) =
         other is ConnectionParamsOpenVpn && other.transmissionProtocol == transmissionProtocol && other.port == port
+
+    private fun inlineFile(data: String) = "[[INLINE]]$data"
 
     companion object {
 
