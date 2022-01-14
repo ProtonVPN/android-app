@@ -65,11 +65,11 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
+import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
@@ -183,7 +183,7 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockVpnBackgroundUiDelegate, mockk(relaxed = true), scope, ::time, currentUser)
+            mockk(relaxed = true), mockVpnBackgroundUiDelegate, mockk(relaxed = true), certificateRepository, scope, ::time, currentUser)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -204,7 +204,8 @@ class VpnConnectionTests {
     private fun setupMockAgent() {
         var agentState = agentConsts.stateDisconnected
         every { mockAgent.state } answers { agentState }
-        mockWireguard.setAgentProvider { certificate, _, client ->
+
+        val mockAgentProvider: MockAgentProvider = { certificate, _, client ->
             agentState = if (certificate == validCert)
                 agentConsts.stateConnected else agentConsts.stateHardJailed
             scope.launch {
@@ -220,8 +221,14 @@ class VpnConnectionTests {
             mockAgent
         }
 
+        mockWireguard.setAgentProvider(mockAgentProvider)
+        mockOpenVpn.setAgentProvider(mockAgentProvider)
+
         currentCert = validCert
         coEvery { certificateRepository.getCertificate(any(), any()) } answers {
+            currentCert
+        }
+        coEvery { certificateRepository.getCertificateWithoutRefresh(any()) } answers {
             currentCert
         }
         coEvery { certificateRepository.updateCertificate(any(), any()) } answers {
@@ -236,6 +243,7 @@ class VpnConnectionTests {
         mockStrongSwan.failScanning = true
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
         yield()
+        advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocol)
@@ -323,7 +331,11 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun executeInGuestHole() = runBlocking {
+    fun executeInGuestHole() = scope.runBlockingTest {
+        // Guest Hole requires no user is logged in.
+        coEvery { currentUser.sessionId() } returns null
+        every { currentUser.sessionIdCached() } returns null
+
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(
             this,
@@ -446,7 +458,7 @@ class VpnConnectionTests {
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
         switchServerFlow.emit(fallbackResult)
-        advanceUntilIdle()
+        scope.advanceUntilIdle()
 
         collectJob.cancel()
 

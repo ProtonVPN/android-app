@@ -172,7 +172,8 @@ class MockAppModule {
         notificationHelper: NotificationHelper,
         vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
-        currentUser: CurrentUser
+        currentUser: CurrentUser,
+        certificateRepository: CertificateRepository
     ): VpnConnectionManager =
             if (TestSettings.mockedConnectionUsed) {
                 MockVpnConnectionManager(
@@ -184,6 +185,7 @@ class MockAppModule {
                     notificationHelper,
                     vpnBackgroundUiDelegate,
                     serverManager,
+                    certificateRepository,
                     scope,
                     System::currentTimeMillis,
                     currentUser
@@ -199,6 +201,7 @@ class MockAppModule {
                     notificationHelper,
                     vpnBackgroundUiDelegate,
                     serverManager,
+                    certificateRepository,
                     scope,
                     System::currentTimeMillis,
                     currentUser

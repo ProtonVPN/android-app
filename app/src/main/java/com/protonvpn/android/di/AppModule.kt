@@ -196,6 +196,7 @@ object AppModuleProd {
         vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
         currentUser: CurrentUser,
+        certificateRepository: CertificateRepository
     ) = VpnConnectionManager(
         ProtonApplication.getAppContext(),
         userData,
@@ -206,6 +207,7 @@ object AppModuleProd {
         notificationHelper,
         vpnBackgroundUiDelegate,
         serverManager,
+        certificateRepository,
         scope,
         System::currentTimeMillis,
         currentUser

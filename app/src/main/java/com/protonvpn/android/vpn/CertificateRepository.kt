@@ -317,6 +317,20 @@ class CertificateRepository @Inject constructor(
                 updateCertificate(sessionId, cancelOngoing = cancelOngoing)
         }
 
+    /**
+     * Returns the locally stored certificate.
+     * Does not try to fetch it if there isn't one nor refresh it if its expired.
+     * In most cases getCertificate should be used.
+     */
+    suspend fun getCertificateWithoutRefresh(sessionId: SessionId): CertificateResult =
+        withContext(mainScope.coroutineContext) {
+            val certInfo = getCertInfo(sessionId)
+            if (certInfo.certificatePem != null)
+                CertificateResult.Success(certInfo.certificatePem, certInfo.privateKeyPem)
+            else
+                CertificateResult.Error(null)
+        }
+
     suspend fun clear(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
         certRequests.remove(sessionId)?.cancel()
         certificateStorage.remove(sessionId)
