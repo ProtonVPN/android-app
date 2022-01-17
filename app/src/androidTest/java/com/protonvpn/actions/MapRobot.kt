@@ -48,24 +48,20 @@ class MapRobot : BaseRobot() {
     }
 
     fun clickOnCountryNodeUntilConnectButtonAppears(country: String): MapRobot {
-        view.waitForCondition(
-            {
-                clickElementByContentDescription<Any>(country)
-                Espresso.onView(ViewMatchers.withText(R.string.connect))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            }
-        )
+        view.waitForCondition {
+            clickElementByContentDescription<Any>(country)
+            Espresso.onView(ViewMatchers.withText(R.string.connect))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return this
     }
 
     fun clickOnCountryNode(country: String): MapRobot {
-        view.waitForCondition(
-            {
-                clickElementByContentDescription<Any>(country)
-                Espresso.onView(ViewMatchers.withContentDescription("$country Selected"))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            }
-        )
+        view.waitForCondition {
+            clickElementByContentDescription<Any>(country)
+            Espresso.onView(ViewMatchers.withContentDescription("$country Selected"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return this
     }
 

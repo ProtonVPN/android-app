@@ -66,12 +66,11 @@ class HomeRobot : BaseRobot() {
     }
 
     fun swipeLeftToOpenProfiles(): ProfilesRobot {
-        view.waitForCondition(
-            {
-                view.withId(R.id.coordinator).swipeLeft()
-                Espresso.onView(ViewMatchers.withId(R.id.textCreateProfile))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            })
+        view.waitForCondition {
+            view.withId(R.id.coordinator).swipeLeft()
+            Espresso.onView(ViewMatchers.withId(R.id.textCreateProfile))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return ProfilesRobot()
     }
 
