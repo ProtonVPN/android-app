@@ -33,7 +33,7 @@ object CountryTools {
         val desiredFlag = flag?.let {
             val flagCode =
                 if (it.lowercase(Locale.ROOT) == "uk") "gb" else it.lowercase(Locale.ROOT)
-            context.resources.getIdentifier(flagCode, "drawable", context.packageName)
+            context.resources.getIdentifier("flag_$flagCode", "drawable", context.packageName)
         } ?: 0
         return if (desiredFlag > 0)
             desiredFlag

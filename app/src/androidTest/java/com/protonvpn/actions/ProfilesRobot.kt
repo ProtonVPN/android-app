@@ -90,24 +90,20 @@ class ProfilesRobot : BaseRobot() {
     }
 
     fun clickOnUpgradeButton(contentDescription: String): ConnectionRobot {
-        view.waitForCondition(
-            {
-                clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
-                Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            }
-        )
+        view.waitForCondition {
+            clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
+            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return ConnectionRobot()
     }
 
     fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionRobot {
-        view.waitForCondition(
-            {
-                clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
-                Espresso.onView(ViewMatchers.withId(R.id.buttonDisconnect))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            }
-        )
+        view.waitForCondition {
+            clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
+            Espresso.onView(ViewMatchers.withId(R.id.buttonDisconnect))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return ConnectionRobot()
     }
 
@@ -159,13 +155,11 @@ class ProfilesRobot : BaseRobot() {
 
     fun clickOnCreateNewProfileButton(): ProfilesRobot {
         waitUntilDisplayedByText<Any>(R.string.create_new_profile)
-        view.waitForCondition(
-            {
-                clickElementByText<Any>(R.string.create_new_profile)
-                Espresso.onView(ViewMatchers.withId(R.id.action_save))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            }
-        )
+        view.waitForCondition {
+            clickElementByText<Any>(R.string.create_new_profile)
+            Espresso.onView(ViewMatchers.withId(R.id.action_save))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
         return this
     }
 

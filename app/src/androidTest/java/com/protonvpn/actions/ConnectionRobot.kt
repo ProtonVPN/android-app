@@ -23,7 +23,6 @@ import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
-import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 import junit.framework.TestCase.assertFalse
 
 /**
@@ -38,12 +37,10 @@ class ConnectionRobot : BaseRobot() {
     fun clickCancelRetry() : ConnectionRobot = clickElementById(R.id.buttonCancelRetry)
 
     fun disconnectFromVPN() : ConnectionRobot {
-        view.waitForCondition(
-            {
-                clickElementById<Any>(R.id.buttonDisconnect)
-                assertFalse(stateMonitor.isConnected)
-            }
-        )
+        view.waitForCondition {
+            clickElementById<Any>(R.id.buttonDisconnect)
+            assertFalse(stateMonitor.isConnected)
+        }
         return waitUntilDisplayedByText(R.string.loaderNotConnected)
     }
 

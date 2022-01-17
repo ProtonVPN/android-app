@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/us"/>
+            android:src="@drawable/flag_us"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/countryName"
