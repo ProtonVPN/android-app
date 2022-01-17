@@ -226,7 +226,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testSmartFallbackToOpenVPN() = runBlockingTest {
+    fun testSmartFallbackToOpenVPN() = scope.runBlockingTest {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         manager.connectInBackground(context, profileSmart, "test")
@@ -237,7 +237,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testAllBlocked() = runBlockingTest {
+    fun testAllBlocked() = scope.runBlockingTest {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
@@ -256,7 +256,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun smartNoInternet() = runBlockingTest {
+    fun smartNoInternet() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userData.setProtocols(VpnProtocol.OpenVPN, null)
         manager.connectInBackground(context, profileSmart, "test")
@@ -275,10 +275,10 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun connectToLocalAgent() = runBlockingTest {
+    fun connectToLocalAgent() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         manager.connectInBackground(context, profileWireguard, "test")
-        scope.advanceUntilIdle()
+        advanceUntilIdle()
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), false)
@@ -288,7 +288,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun localAgentNotUsedForIKEv2() = runBlockingTest {
+    fun localAgentNotUsedForIKEv2() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         manager.connectInBackground(context, profileIKEv2, "test")
 
@@ -302,7 +302,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun localAgentNotUsedForGuestHole() = runBlockingTest {
+    fun localAgentNotUsedForGuestHole() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         coEvery { currentUser.sessionId() } returns null
         every { currentUser.sessionIdCached() } returns null
@@ -340,7 +340,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun guestHoleFail() = runBlockingTest {
+    fun guestHoleFail() = scope.runBlockingTest {
         mockOpenVpn.failScanning = true
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
@@ -364,7 +364,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun authErrorHandleDowngrade() = runBlockingTest {
+    fun authErrorHandleDowngrade() = scope.runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val fallbackResult =
@@ -396,7 +396,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun authErrorHandleMaxSessions() = runBlockingTest {
+    fun authErrorHandleMaxSessions() = scope.runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
 
@@ -420,7 +420,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun handleUnreachableFallbackToOtherProtocol() = runBlockingTest {
+    fun handleUnreachableFallbackToOtherProtocol() = scope.runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
@@ -449,7 +449,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testSwitchingConnection() = runBlockingTest {
+    fun testSwitchingConnection() = scope.runBlockingTest {
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
@@ -477,7 +477,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testSwitchOfflineServer() = runBlockingTest {
+    fun testSwitchOfflineServer() = scope.runBlockingTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
         val profile = Profile.getTempProfile(offlineServer, serverManager)
         coEvery {
@@ -489,14 +489,14 @@ class VpnConnectionTests {
         )
 
         manager.connectInBackground(context, profile, "test")
-        scope.advanceUntilIdle()
+        advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(profileIKEv2, monitor.connectionProfile)
     }
 
     @Test
-    fun testDontSwitchWhenDisconnected() = runBlockingTest {
+    fun testDontSwitchWhenDisconnected() = scope.runBlockingTest {
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
             monitor.fallbackConnectionFlow.collect {
@@ -518,7 +518,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testExpiredCert() = runBlockingTest {
+    fun testExpiredCert() = scope.runBlockingTest {
         coEvery { certificateRepository.getCertificate(any(), any()) } coAnswers {
             if (currentCert == badCert)
                 certificateRepository.updateCertificate(currentUser.sessionId()!!, false)
@@ -528,7 +528,7 @@ class VpnConnectionTests {
 
         currentCert = badCert
         manager.connectInBackground(context, profileWireguard, "test")
-        scope.advanceUntilIdle()
+        advanceUntilIdle()
 
         coVerify(exactly = 1) {
             certificateRepository.updateCertificate(any(), any())
@@ -538,14 +538,14 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testDowngradeWithLocalAgent() = runBlockingTest {
+    fun testDowngradeWithLocalAgent() = scope.runBlockingTest {
         mockWireguard.setAgentProvider { certificate, _, client ->
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
             mockAgent
         }
         manager.connectInBackground(context, profileWireguard, "test")
-        scope.advanceUntilIdle()
+        advanceUntilIdle()
 
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
