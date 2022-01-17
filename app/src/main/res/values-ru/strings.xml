@@ -34,7 +34,7 @@
   <string name="connectionAllocationHelpTitle">Спасибо за улучшение до\nProfessional\u00a0/\u00a0Visionary</string>
   <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в ProtonVPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
   <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти в систему и защитить все свои устройства.</string>
-  <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN соединения</string>
+  <string name="connectionAllocationHelpAssignConnectionsButton">Назначить подключения к VPN</string>
   <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
   <string name="mapCalloutConnect">Подключиться</string>
   <string name="mapCalloutDisconnect">Отключиться</string>
@@ -54,7 +54,7 @@
   <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу без Secure Core. Режим Secure Core будет выключен%1$s.</string>
   <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
          NOTE: use \u0020 for space at the beginning or end if needed. -->
-  <string name="currentConnectionWillBeLost">\u0020и ваше подключение сбросится</string>
+  <string name="currentConnectionWillBeLost">\u0020и сбросить Ваше подключение</string>
   <string name="secureCoreSwitchConnect">Да, подключиться</string>
   <string name="logoutConfirmDialogTitle">Выйти?</string>
   <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
@@ -175,7 +175,7 @@
   <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
   <string name="error_assessment_failed">Сбой проверки безопасности.</string>
   <string name="error_generic">Неизвестный сбой при подключении.</string>
-  <string name="error_generic_with_reason">ProtonVPN не смог установить VPN-соединение. Пожалуйста, повторите попытку через несколько секунд.<br/>
+  <string name="error_generic_with_reason">ProtonVPN не смог установить подключение к VPN. Пожалуйста, повторите попытку через несколько секунд.<br/>
     <br/> Подробнее: %1$s</string>
   <string name="reconnect">Переподключиться</string>
   <string name="reconnect_now">Переподключиться</string>
@@ -202,7 +202,7 @@
   <string name="report_bug_email_label">Ваша эл. почта</string>
   <string name="report_bug_email_hint">Введите адрес вашей электронной почты</string>
   <string name="report_bug_message_label">Сообщение</string>
-  <string name="report_bug_message_hint">Пожалуйста, опишите ошибку, и где вы нашли её</string>
+  <string name="report_bug_message_hint">Пожалуйста, опишите ошибку и как и где вы её нашли</string>
   <string name="send_report">Отправить сообщение</string>
   <string name="excludeIpTitle">Исключенные IP-адреса</string>
   <string name="discardChanges">Сбросить несохраненные изменения?</string>
@@ -254,7 +254,7 @@
   <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
   <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к ProtonVPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
   <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите функцию \"Постоянная VPN\" для других приложений</string>
-  <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN во всех остальных приложениях VPN, кроме ProtonVPN.</string>
+  <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN для всех остальных приложений VPN, кроме ProtonVPN.</string>
   <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
   <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
   <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
@@ -266,11 +266,11 @@
   <string name="bugReportErrorEmptyEmail">Адрес эл. почты не может быть пустым</string>
   <string name="bugReportErrorInvalidEmail">Недействительный адрес эл. почты</string>
   <string name="bugReportErrorEmptyDescription">Пожалуйста, напишите нам, что происходит</string>
-  <string name="bugReportLabelVpnLogsTitle">Включая журналы ошибок</string>
+  <string name="bugReportLabelVpnLogsTitle">Включите журналы ошибок</string>
   <string name="bugReportErrorLabelVpnLogsDescription">Это отправляет локальные журналы ошибок (мы не регистрируем активность), чтобы помочь нам устранить вашу проблему</string>
   <string name="profileFastest">Быстрейший</string>
   <string name="profileRandom">Случайный</string>
-  <string name="settingsSplitTunnelingDescription">Разделение туннелирования позволяет исключить некоторые приложения или IP-адреса из VPN трафика.</string>
+  <string name="settingsSplitTunnelingDescription">Раздельное туннелирование позволяет исключить некоторые приложения или IP-адреса из трафика VPN.</string>
   <string name="settingsSplitTunnelingTitle">Раздельное туннелирование</string>
   <string name="loaderAuthenticatingUser">Аутентификация пользователя…</string>
   <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
@@ -325,16 +325,16 @@
   <string name="troubleshootProxyFirewallProblemDescription">Отключите все прокси-серверы или брандмауэры, или обратитесь к своему сетевому администратору.</string>
   <string name="troubleshootProtonDownTitle">Proton не работает</string>
   <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">статус ProtonVPN</a>, чтобы узнать состояние нашей системы.]]></string>
-  <string name="troubleshootContactUsSectionTitle">Не удалось решить проблему? Свяжитесь с нами</string>
+  <string name="troubleshootContactUsSectionTitle">Еще не удалось решить проблему? Свяжитесь с нами напрямую</string>
   <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
   <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
   <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>.]]></string>
   <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
   <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
   <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN и Kill Switch</string>
-  <string name="settingsAlwaysOnKillSwitchDescription">Настройка, как ProtonVPN будет вести себя, когда подключение нарушено</string>
-  <string name="settingsAlwaysOnWindowHeader">Как включить Постоянную VPN и Kill Switch:</string>
-  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
+  <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия ProtonVPN при нарушении подключения</string>
+  <string name="settingsAlwaysOnWindowHeader">Как включить Постоянную VPN и Аварийный стоп:</string>
+  <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
   <!-- %1$s here will be replaced by "gear" icon -->
   <string name="settingsAlwaysOnWindowStep2">2. Найдите ProtonVPN и нажмите %1$s</string>
   <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
@@ -345,9 +345,12 @@
          Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
+  <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Аварийный стоп]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
+  <string name="settingsAlwaysOnWindowAndroidSettingsButtonInfo">Эта кнопка перенаправит Вас в настройки Android, где Вы сможете управлять этими функциями.</string>
   <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
+  <string name="settingsSendCrashReportsTitle">Анонимные отчеты о сбоях</string>
+  <string name="settingsSendCrashReportsDescription">Если приложение аварийно завершает работу или неожиданно выключается, нашим инженерам будет отправлен отчет, в котором будет указано, что вызвало ошибку. Мы будем использовать их только для улучшения приложения.</string>
   <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
   <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
   <string name="netshield">NetShield</string>
@@ -454,15 +457,15 @@
   <string name="settingsReconnectToApplySettingsDialogContent">Новые настройки будут применены при следующем подключении.</string>
   <string name="settingsReconnectToChangeDialogContent">Ваше подключение перезапустится.</string>
   <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
-  <string name="notification_subscription_expired_title">Срок вашей подписки на ProtonVPN истек</string>
+  <string name="notification_subscription_expired_title">Срок вашей подписки на тариф ProtonVPN истек</string>
   <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
   <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
-  <string name="notification_delinquent_title">В Вашей учетной записи ProtonVPN есть неоплаченные счета</string>
+  <string name="notification_delinquent_title">В Вашем аккаунте ProtonVPN есть неоплаченные счета</string>
   <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
   <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
   <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
   <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-  <string name="notification_max_sessions_title">Вы достигли лимита на устройства</string>
+  <string name="notification_max_sessions_title">Вы достигли лимита на количество устройств</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="notification_max_sessions_upsell_content">
     <item quantity="one">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройства.</item>
@@ -470,7 +473,7 @@
     <item quantity="many">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
     <item quantity="other">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
   </plurals>
-  <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить текущее.</string>
+  <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить это.</string>
   <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифом. Доступны бесплатные серверы и функции.</string>
   <string name="notification_cancel_to_basic">Вы находитесь на тарифе BASIC. Вам доступны серверы и функции BASIC &amp; FREE.</string>
   <string name="notification_cancel_to_delinquent">Вы сможете снова получить доступ к расширенным функциям после оплаты текущих счетов.</string>
@@ -480,7 +483,7 @@
   <string name="no_thanks">Нет, спасибо</string>
   <string name="enable">Включить</string>
   <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
-  <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружил, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
+  <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
   <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
   <string name="upsell_streaming_services">Доступ к потоковым сервисам (Netflix, Disney+ и т. д.) в любой точке мира</string>
   <!-- Number of servers available in the service. This phrase will be combined with
@@ -505,7 +508,7 @@
     <item quantity="many">%1$d стран</item>
     <item quantity="other">%1$d стран</item>
   </plurals>
-  <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
+  <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
   <string name="upgrade_netshield_title">Разблокировать NetShield</string>
   <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
   <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом платном тарифе.</string>
@@ -560,7 +563,7 @@
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-  <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим премиальным функциям.</string>
+  <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим платным функциям.</string>
   <string name="upgrade_plus_countries_streaming">Доступ к службам трансляции по всему миру</string>
   <!-- The number of devices will always be greater than 1. -->
   <plurals name="upgrade_plus_countries_many_devices">
@@ -619,4 +622,6 @@
   <string name="onboarding_plan_congrats_description_privacy">Пользуйтесь миром конфиденциальности.</string>
   <string name="onboading_connect_to_plus">Подключитесь к серверу PLUS</string>
   <string name="upgrade_use_limited_free_button">Используйте ограниченный бесплатный план</string>
+  <!-- Core strings overrides -->
+  <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>
