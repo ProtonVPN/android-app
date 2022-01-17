@@ -219,12 +219,6 @@ class CertificateRepository @Inject constructor(
         info
     }
 
-    fun checkCertificateValidity() {
-        mainScope.launch {
-            updateCertificateIfNeeded()
-        }
-    }
-
     suspend fun updateCertificateIfNeeded() {
         currentUser.sessionId()?.let {
             val certInfo = getCertInfo(it)
@@ -259,7 +253,7 @@ class CertificateRepository @Inject constructor(
     private suspend fun updateCertificateInternal(sessionId: SessionId): CertificateResult {
         val info = getCertInfo(sessionId)
         ProtonLogger.log(UserCertRefresh, "retry count: ${info.refreshCount}")
-        return when (val response = api.getCertificate(info.publicKeyPem)) {
+        return when (val response = api.getCertificate(sessionId, info.publicKeyPem)) {
             is ApiResult.Success -> {
                 val cert = response.value
                 val newInfo = info.copy(

@@ -65,19 +65,34 @@ class VpnLogin @Inject constructor(
                     vpnInfo.hasNoConnectionsAssigned ->
                         Result.AssignConnections
                     else -> {
-                        val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
-                        ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
-                        vpnUserDao.insertOrUpdate(vpnUser)
-                        val showConnectFeature = api.getFeature(ONBOARDING_SHOW_CONNECT_FEATURE)
-                        if (showConnectFeature is ApiResult.Success) {
-                            Storage.saveBoolean(
-                                OnboardingPreferences.ONBOARDING_SHOW_CONNECT,
-                                showConnectFeature.value.feature.value)
+                        certificateRepository.generateNewKey(sessionId)
+                        val certificateFetched =
+                            certificateRepository.updateCertificate(
+                                sessionId,
+                                false
+                            ) is CertificateRepository.CertificateResult.Success
+                        if (certificateFetched) {
+                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
+                            finalizeLogin(vpnUser)
+                            Result.Success(vpnUser)
+                        } else {
+                            Result.Error(context.getString(R.string.auth_login_general_error))
                         }
-                        Result.Success(vpnUser)
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun finalizeLogin(vpnUser: VpnUser) {
+        ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
+        vpnUserDao.insertOrUpdate(vpnUser)
+        val showConnectFeature = api.getFeature(ONBOARDING_SHOW_CONNECT_FEATURE)
+        if (showConnectFeature is ApiResult.Success) {
+            Storage.saveBoolean(
+                OnboardingPreferences.ONBOARDING_SHOW_CONNECT,
+                showConnectFeature.value.feature.value
+            )
         }
     }
 

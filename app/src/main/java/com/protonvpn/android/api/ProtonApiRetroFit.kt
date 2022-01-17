@@ -103,8 +103,8 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
     open suspend fun triggerHumanVerification(): ApiResult<GenericResponse> =
         manager { triggerHumanVerification() }
 
-    open suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> =
-        manager {
+    open suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse> =
+        manager(sessionId) {
             getCertificate(CertificateRequestBody(
                 clientPublicKey, "EC", Build.MODEL, "session", emptyList()))
         }

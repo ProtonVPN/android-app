@@ -128,7 +128,6 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onSessionForceLogout { onSessionClosed(it) }
-                .onAccountReady { certificateRepository.checkCertificateValidity() }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }

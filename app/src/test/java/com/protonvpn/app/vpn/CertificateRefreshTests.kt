@@ -93,7 +93,7 @@ class CertificateRefreshTests {
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
         every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
         every { mockAppInUseMonitor.isInUse } returns appInUseFlow.value
-        coEvery { mockApi.getCertificate(any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
+        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
         coEvery { mockStorage.get(any()) } returns CERT_INFO
     }
@@ -103,7 +103,7 @@ class CertificateRefreshTests {
         coEvery { mockStorage.get(any()) } returns null
 
         withTestRepository {
-            coVerify { mockApi.getCertificate(any()) }
+            coVerify { mockApi.getCertificate(any(), any()) }
             coVerify { mockStorage.put(SESSION_ID, any()) }
         }
     }
@@ -115,7 +115,7 @@ class CertificateRefreshTests {
             coVerify { mockApi wasNot Called }
 
             appInUseFlow.value = true
-            coVerify { mockApi.getCertificate(any()) }
+            coVerify { mockApi.getCertificate(any(), any()) }
         }
     }
 
@@ -134,7 +134,7 @@ class CertificateRefreshTests {
         currentTimeMs = CERT_INFO.refreshAt + 1
 
         withTestRepository {
-            coVerify { mockApi.getCertificate(any()) }
+            coVerify { mockApi.getCertificate(any(), any()) }
             verify { mockRefeshScheduler wasNot Called }
         }
     }
@@ -145,7 +145,7 @@ class CertificateRefreshTests {
             coVerify { mockApi wasNot Called }
 
             infoChangeFlow.value = listOf(UserPlanManager.InfoChange.PlanChange.Upgrade)
-            coVerify { mockApi.getCertificate(any()) }
+            coVerify { mockApi.getCertificate(any(), any()) }
         }
     }
 
