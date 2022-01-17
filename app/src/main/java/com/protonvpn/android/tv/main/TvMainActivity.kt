@@ -18,13 +18,16 @@
  */
 package com.protonvpn.android.tv.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
@@ -81,6 +84,15 @@ class TvMainActivity : BaseTvActivity() {
         viewModel.mapRegion.observe(this, Observer {
             binding.mapView.setMapRegion(lifecycleScope, it)
         })
+
+        with(binding.versionLabel) {
+            alpha = 0f
+            @SuppressLint("SetTextI18n")
+            text = "ProtonVPN v${BuildConfig.VERSION_NAME}"
+            viewModel.showVersion.asLiveData().observe(this@TvMainActivity, Observer { show ->
+                animate().alpha(if (show) 1f else 0f)
+            })
+        }
 
         viewModel.onViewInit(lifecycle)
     }

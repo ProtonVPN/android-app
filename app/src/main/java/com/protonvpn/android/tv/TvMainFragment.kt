@@ -271,6 +271,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 binding.label.setText(row.title)
             }
         }
+
+        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
+            super.onRowViewSelected(holder, selected)
+            val index = rowsAdapter?.indexOf(holder?.rowObject) ?: -1
+            val isLastRow = index >= 0 && index == (rowsAdapter?.size() ?: 0) - 1
+            if (isLastRow)
+                viewModel.onLastRowSelection(selected)
+        }
     }
 
     companion object {

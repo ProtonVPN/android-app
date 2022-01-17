@@ -63,6 +63,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -97,6 +98,7 @@ class TvMainViewModel @Inject constructor(
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
 
     val vpnStatus = vpnStateMonitor.status.asLiveData()
+    val showVersion = MutableStateFlow(false)
 
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
     enum class ConnectionState { None, Connecting, Connected }
@@ -356,4 +358,8 @@ class TvMainViewModel @Inject constructor(
     private fun limitedCountryHighlighting(): Boolean =
         // nVidia Shield crashes when the map is rendered too often :-/
         Build.MANUFACTURER == "NVIDIA" && Build.MODEL == "SHIELD Android TV"
+
+    fun onLastRowSelection(selected: Boolean) {
+        showVersion.value = selected
+    }
 }
