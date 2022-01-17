@@ -375,7 +375,6 @@
              for now. -->
         <item name="proton_text_disabled">?attr/proton_text_hint</item>
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
-        <item name="colorControlHighlight">@color/ripple_norm</item>
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
