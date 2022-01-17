@@ -152,14 +152,16 @@ class MockApi(
             ApiNotification("2", Long.MIN_VALUE, Long.MAX_VALUE, ApiNotificationTypes.TYPE_OFFER + 1)
         ))
 
-    override suspend fun getCertificate(clientPublicKey: String): ApiResult<CertificateResponse> {
+    override suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse> {
         val now = System.currentTimeMillis()
-        return ApiResult.Success(CertificateResponse(
+        return ApiResult.Success(
+            CertificateResponse(
                 TEST_CERT,
                 now + TimeUnit.DAYS.toMillis(1),
-                now + TimeUnit.HOURS.toMillis(16)))
+                now + TimeUnit.HOURS.toMillis(16)
+            )
+        )
     }
-
 
     override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1"))
 
