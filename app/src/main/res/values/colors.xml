@@ -88,9 +88,4 @@
     <color name="tvGuidedActionsBackground">#E01623</color>
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
 
-    <!--
-    Workaround for https://github.com/material-components/material-components-android/issues/2455
-    -->
-    <color name="ripple_norm">#1f17181C</color>
-
 </resources>
