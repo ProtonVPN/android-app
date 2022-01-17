@@ -184,11 +184,7 @@ unit tests:
   script:
     - ./gradlew testDirectDebug
 
-.tests_preparation_script: &tests_preparation_script
-  stage: test
-  tags:
-    - small
-  script:
+.firebase_authenticate_script: &firebase_authenticate_script
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo $CLOUD_PROJECT_ID
@@ -200,6 +196,13 @@ unit tests:
     - echo $APP
     - echo $TEST_APP
     - echo $PWD
+
+.tests_preparation_script: &tests_preparation_script
+  stage: test
+  tags:
+    - small
+  script:
+    - *firebase_authenticate_script
     - gcloud firebase test android
         run firebase-device-config.yml:${TESTS_TYPE}
         --app "$APP"
@@ -259,6 +262,21 @@ firebase real connection tests:
     TEST_APP_TYPE: "direct-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     COVERAGE_FILE_NAME: "coverageRealConnection.ec"
+
+firebase robo tests:
+  stage: test
+  tags:
+    - small
+  script:
+    - *firebase_authenticate_script
+    - gcloud firebase test android run
+      --type robo
+      --app "$APP"
+      --device model=Pixel3,version=30,locale=en,orientation=portrait
+      --timeout 300s
+  variables:
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
 
 coverage report:
   stage: report
