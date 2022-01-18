@@ -41,6 +41,8 @@ class HeaderItem(
             isVisible = countryInfoKey != null
             if (countryInfoKey != null) setOnClickListener {
                 context.startActivity(InformationActivity.createIntent(context, countryInfoKey))
+            } else {
+                setOnClickListener(null)
             }
         }
         with(viewBinding.root) {
