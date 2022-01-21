@@ -125,9 +125,9 @@ class UserPlanManagerTests {
 
     @Test
     fun planDowngradeDisablesSecureCore() = runBlockingTest {
-        userData.isSecureCoreEnabled = true
+        userData.secureCoreEnabled = true
         changePlan(TestUser.plusUser.vpnUser, TestUser.basicUser.vpnInfoResponse)
-        Assert.assertFalse(userData.isSecureCoreEnabled)
+        Assert.assertFalse(userData.secureCoreEnabled)
     }
 
     @Test

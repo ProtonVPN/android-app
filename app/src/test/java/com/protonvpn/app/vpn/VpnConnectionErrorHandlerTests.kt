@@ -131,7 +131,7 @@ class VpnConnectionErrorHandlerTests {
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { networkManager.isConnectedToNetwork() } returns true
-        every { userData.isSecureCoreEnabled } returns false
+        every { userData.secureCoreEnabled } returns false
         every { userData.selectedProtocol } returns VpnProtocol.Smart
         every { vpnStateMonitor.isEstablishingOrConnected } returns false
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))

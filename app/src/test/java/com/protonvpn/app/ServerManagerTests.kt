@@ -67,7 +67,7 @@ class ServerManagerTests {
     @Test
     fun doNotChooseOfflineServerFromAll() {
         Assert.assertEquals(
-            "DE#1", manager.getBestScoreServer(userData.isSecureCoreEnabled)!!.serverName
+            "DE#1", manager.getBestScoreServer(userData.secureCoreEnabled)!!.serverName
         )
     }
 

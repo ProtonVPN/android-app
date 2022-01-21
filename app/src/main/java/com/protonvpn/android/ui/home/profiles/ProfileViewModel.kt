@@ -56,7 +56,7 @@ class ProfileViewModel @Inject constructor(
     val protocol = MutableStateFlow(getDefaultProtocol(userData))
     val eventSomethingWrong = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventValidationFailed = MutableSharedFlow<InputValidation>(extraBufferCapacity = 1)
-    private val secureCore = MutableStateFlow(userData.isSecureCoreEnabled)
+    private val secureCore = MutableStateFlow(userData.secureCoreEnabled)
     private val country = MutableStateFlow<VpnCountry?>(null)
     private val server = MutableStateFlow<ServerSelection?>(null)
 

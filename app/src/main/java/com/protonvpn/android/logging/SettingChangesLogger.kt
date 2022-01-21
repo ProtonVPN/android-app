@@ -59,7 +59,7 @@ class SettingChangesLogger @Inject constructor(
         Setting.QUICK_CONNECT_PROFILE -> serverManager.defaultConnection.toLog(userData)
         Setting.DEFAULT_PROTOCOL -> protocolDescription(userData)
         Setting.NETSHIELD_PROTOCOL -> userData.getNetShieldProtocol(vpnUser)
-        Setting.SECURE_CORE -> userData.isSecureCoreEnabled
+        Setting.SECURE_CORE -> userData.secureCoreEnabled
         Setting.LAN_CONNECTIONS -> userData.shouldBypassLocalTraffic()
         Setting.SPLIT_TUNNEL_ENABLED -> userData.useSplitTunneling
         Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.toLog()

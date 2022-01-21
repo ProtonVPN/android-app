@@ -76,17 +76,17 @@ class HomeViewModel @Inject constructor(
         DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
         val connectedCountry: String = vpnStateMonitor.connectionParams!!.server.exitCountry
         val exitCountry: VpnCountry? =
-            serverManager.getVpnExitCountry(connectedCountry, userData.isSecureCoreEnabled)
+            serverManager.getVpnExitCountry(connectedCountry, userData.secureCoreEnabled)
         val newServer = if (exitCountry != null) {
             serverManager.getBestScoreServer(exitCountry)
         } else {
-            serverManager.getBestScoreServer(userData.isSecureCoreEnabled)
+            serverManager.getBestScoreServer(userData.secureCoreEnabled)
         }
         if (newServer != null) {
             val newProfile = getTempProfile(newServer, serverManager)
             vpnConnectionManager.disconnectWithCallback(triggerAction) { connectCallback(newProfile) }
         } else {
-            val toOrFrom = if (userData.isSecureCoreEnabled) "to" else "from"
+            val toOrFrom = if (userData.secureCoreEnabled) "to" else "from"
             ProtonLogger.log(ConnError, "Unable to find a server to connect to when switching $toOrFrom Secure Core")
             vpnConnectionManager.disconnect(triggerAction)
         }

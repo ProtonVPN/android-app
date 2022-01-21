@@ -55,7 +55,7 @@ open class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val secureCoreEnabled = viewModel.userData.isSecureCoreEnabled
+        val secureCoreEnabled = viewModel.userData.secureCoreEnabled
         with(binding) {
             val haveAccess = viewModel.hasAccessToServer(server)
 

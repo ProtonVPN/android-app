@@ -70,7 +70,6 @@ import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
-import com.protonvpn.android.ui.main.MobileMainActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
@@ -177,7 +176,7 @@ public class HomeActivity extends PoolingActivity {
             if (canShowPopups()) {
                 initOnboarding();
                 notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
-                EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
+                EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
             }
             else {
                 initLayout();
@@ -241,7 +240,7 @@ public class HomeActivity extends PoolingActivity {
     }
 
     private void initSecureCoreSwitch() {
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 showSecureCoreUpgradeDialog();
@@ -579,10 +578,10 @@ public class HomeActivity extends PoolingActivity {
     }
 
     private void onPlanChanged(UserPlanManager.InfoChange.PlanChange change) {
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
             showExpiredDialog();
-        EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
+        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
     }
 
     private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
@@ -610,8 +609,8 @@ public class HomeActivity extends PoolingActivity {
         if (server.getServer() != null) {
             userData.setSecureCoreEnabled(server.getServer().isSecureCoreServer());
         }
-        EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         initQuickConnectFab();
     }
 
@@ -650,7 +649,7 @@ public class HomeActivity extends PoolingActivity {
     @Override
     public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
-        boolean secureCoreOn = userData.isSecureCoreEnabled();
+        boolean secureCoreOn = userData.getSecureCoreEnabled();
         if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
             showSecureCoreUpgradeDialog();
         } else if (secureCoreServer != secureCoreOn) {

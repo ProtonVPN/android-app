@@ -127,9 +127,9 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     }
 
     private void initMapState() {
-        addPins(true, userData.isSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
+        addPins(true, userData.getSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
             serverManager.getVpnCountries());
-        if (userData.isSecureCoreEnabled()) {
+        if (userData.getSecureCoreEnabled()) {
             if (stateMonitor.isConnected()) {
                 addPins(false, Collections.singletonList(stateMonitor.getConnectionProfile() != null ?
                     stateMonitor.getConnectionProfile().getServer() : null));
@@ -168,7 +168,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
 
-            if ((country.equals(selectedCountry)) && userData.isSecureCoreEnabled()
+            if ((country.equals(selectedCountry)) && userData.getSecureCoreEnabled()
                 && country.isSecureCoreMarker()) {
                 secureCoreMarker = marker;
             }
@@ -185,12 +185,12 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                     stateMonitor.isConnectedToAny(country.getConnectableServers()) || marker.isSelected()));
 
             marker.setImageResource(
-                userData.isSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
+                userData.getSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
                     selectedMarker);
 
             if (country.getCoordinates().hasValidCoordinates()) {
                 mapView.addMarker(marker, coordinates.getPositionX(), coordinates.getPositionY(), -0.5f,
-                    userData.isSecureCoreEnabled() && country.isSecureCoreMarker() ? -0.5f : -1.0f);
+                    userData.getSecureCoreEnabled() && country.isSecureCoreMarker() ? -0.5f : -1.0f);
             }
         }
     }
@@ -261,7 +261,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         }
         if (view.getTag() instanceof VpnCountry) {
             VpnCountry country = (VpnCountry) view.getTag();
-            if (userData.isSecureCoreEnabled() && country.isSecureCoreCountry()) {
+            if (userData.getSecureCoreEnabled() && country.isSecureCoreCountry()) {
                 removePaths();
                 initMapState();
                 addPins(false, serverManager.getSecureCoreEntryCountries(), country);

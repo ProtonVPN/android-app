@@ -79,7 +79,7 @@ abstract class CountryViewHolder(
                 if (accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
-            imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
+            imageDoubleArrows.isVisible = viewModel.userData.secureCoreEnabled
             val keywords = vpnCountry.keywords
             iconP2P.isVisible = keywords.contains(Server.Keyword.P2P)
             iconTor.isVisible = keywords.contains(Server.Keyword.TOR)
