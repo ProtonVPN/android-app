@@ -183,9 +183,6 @@ class GuestHole @Inject constructor(
         // Only trigger guesthole for server list if it hasn't been downloaded before
         if (path == ONE_TIME_LOGICAL_CALL && !serverManager.get().isDownloadedAtLeastOnce) return true
 
-        // Do not run guesthole for domain call with type, as that is not necessary for the flow
-        if (path == DOMAINS_CALL && query != null) return false
-
         // Do not run guesthole calls if user is already logged in
         return CORE_GUESTHOLE_CALLS.contains(path) && !currentUser.get().isLoggedIn()
     }
@@ -203,30 +200,18 @@ class GuestHole @Inject constructor(
 
         private const val ONE_TIME_LOGICAL_CALL = "/vpn/logicals"
         private const val ONE_TIME_VPN_CALL = "/vpn"
-        private const val DOMAINS_CALL = "/domains/available"
+
         private val CORE_GUESTHOLE_CALLS = listOf(
             "/auth/info",
             "/auth/modulus",
             "/auth/scopes",
             "/auth",
             "/auth/2fa",
-            "/core/v4/validate/email",
-            "/core/v4/validate/phone",
-            "/users",
-            "/users/available",
-            "/v4/users",
-            "/v4/users/external",
             "/addresses",
             "/addresses/setup",
-            "/payments/v4/plans",
-            "/payments/v4/tokens",
-            "/payments/v4/methods",
-            "/payments/v4/subscription",
-            "/payments/v4/subscription/check",
-            "/v4/users/code",
-            "/v4/users/check",
+            "/users",
+            "/v4/users",
             "/keys/salts",
-            DOMAINS_CALL,
 
             // VPN specific calls
 
