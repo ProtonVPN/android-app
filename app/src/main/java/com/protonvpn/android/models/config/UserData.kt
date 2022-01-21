@@ -81,7 +81,7 @@ class UserData private constructor() : Serializable {
     var bypassLocalTraffic = false
         set(value) { field = value; commitUpdate(Setting.LAN_CONNECTIONS) }
 
-    var isSecureCoreEnabled = false
+    var secureCoreEnabled = false
         set(value) { field = value; commitUpdate(Setting.SECURE_CORE) }
 
     var apiUseDoH: Boolean = true
@@ -175,7 +175,7 @@ class UserData private constructor() : Serializable {
             if (!vpnUser.isUserBasicOrAbove)
                 setNetShieldProtocol(null)
             if (!vpnUser.isUserPlusOrAbove)
-                isSecureCoreEnabled = false
+                secureCoreEnabled = false
         }
     }
 

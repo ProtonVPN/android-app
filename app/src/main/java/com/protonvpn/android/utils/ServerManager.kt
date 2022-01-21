@@ -281,7 +281,7 @@ class ServerManager(
     }
 
     private fun getRandomServer(): Server? {
-        val allCountries = getExitCountries(userData.isSecureCoreEnabled)
+        val allCountries = getExitCountries(userData.secureCoreEnabled)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
         return (if (accessibleCountries.isEmpty())
             allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
@@ -310,7 +310,7 @@ class ServerManager(
     fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
                 Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
-        newProfile.wrapper.setSecureCore(userData.isSecureCoreEnabled)
+        newProfile.wrapper.setSecureCore(userData.secureCoreEnabled)
         addToProfileList(newProfile)
     }
 
@@ -344,7 +344,7 @@ class ServerManager(
 
     override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->
-            getBestScoreServer(userData.isSecureCoreEnabled)
+            getBestScoreServer(userData.secureCoreEnabled)
         ProfileType.RANDOM ->
             getRandomServer()
         ProfileType.RANDOM_IN_COUNTRY ->

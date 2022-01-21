@@ -91,7 +91,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
-                    if (!viewModel.userData.isSecureCoreEnabled) {
+                    if (!viewModel.userData.secureCoreEnabled) {
                         val layoutManager =
                             this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
                         layoutManager.scrollToPositionWithOffset(position, 0)
@@ -121,7 +121,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
 
         val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
-        if (viewModel.isFreeUser && !viewModel.userData.isSecureCoreEnabled) {
+        if (viewModel.isFreeUser && !viewModel.userData.secureCoreEnabled) {
             val (free, premium) = viewModel.getFreeAndPremiumCountries()
             addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
             addCountriesGroup(newGroups, R.string.listPremiumCountries, premium, expandedCountriesIds)

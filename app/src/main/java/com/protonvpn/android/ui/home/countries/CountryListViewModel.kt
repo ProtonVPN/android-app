@@ -55,7 +55,7 @@ class CountryListViewModel @Inject constructor(
 
     data class ServersGroup(val titleRes: Int?, val servers: List<Server>, val infoKey: String? = null)
     fun getMappedServersForCountry(country: VpnCountry): List<ServersGroup> {
-        return if (userData.isSecureCoreEnabled) {
+        return if (userData.secureCoreEnabled) {
             listOf(ServersGroup(null, country.connectableServers))
         } else {
             getMappedServersForClassicView(country)
@@ -101,7 +101,7 @@ class CountryListViewModel @Inject constructor(
     }
 
     fun getCountriesForList(): List<VpnCountry> =
-        if (userData.isSecureCoreEnabled)
+        if (userData.secureCoreEnabled)
             serverManager.getSecureCoreExitCountries()
         else
             serverManager.getVpnCountries()

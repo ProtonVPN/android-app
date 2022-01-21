@@ -40,7 +40,7 @@ class ServiceTestHelper {
     @JvmField var connectionManager = helper.vpnConnectionManager
     private val mainThreadHandler = Handler(Looper.getMainLooper())
 
-    val isSecureCoreEnabled get() = userData.isSecureCoreEnabled
+    val isSecureCoreEnabled get() = userData.secureCoreEnabled
 
     fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String): Profile {
         var server: Server? = null
@@ -69,7 +69,7 @@ class ServiceTestHelper {
     }
 
     fun enableSecureCore(state: Boolean) {
-        mainThreadHandler.postDelayed({ userData.isSecureCoreEnabled = state }, 100)
+        mainThreadHandler.postDelayed({ userData.secureCoreEnabled = state }, 100)
     }
 
     fun checkIfDisconnectedFromVPN() {
