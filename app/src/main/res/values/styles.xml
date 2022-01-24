@@ -31,10 +31,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.ForceDark" parent="AppTheme.NoActionBar">
-        <item name="android:forceDarkAllowed">true</item>
-    </style>
-
     <style name="AppTheme.TV.Leanback" parent="Theme.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -63,43 +59,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TransparentCompat" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="OnboardingDialogStyle" parent="Base.Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">97%</item>
         <item name="android:windowMinWidthMinor">97%</item>
-    </style>
-
-    <style name="AppTheme.WhiteAccent" parent="AppTheme">
-        <item name="colorAccent">@color/white</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="SCSwitch" parent="Base.Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <item name="android:colorForeground">#646464</item>
-    </style>
-
-    <style name="SCSwitch.Green" parent="SCSwitch">
-        <item name="thumbTint">@color/white</item>
-        <item name="trackTint">@color/switch_track</item>
-    </style>
-
-    <style name="RadioButton.Branded" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">?colorAccent</item>
-        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="SettingsItem">
@@ -137,50 +99,6 @@
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
     </style>
 
-    <style name="EditText.Login" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="colorAccent">?colorAccent</item>
-    </style>
-
-    <style name="Button" />
-
-    <style name="Button.Secondary">
-        <item name="android:background">@drawable/button_secondary_bg</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">32sp</item>
-        <item name="android:elevation">0dp</item>
-    </style>
-
-    <style name="Button.Green" parent="Button">
-        <item name="android:textColor">?colorAccent</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@drawable/button_rounded_accent</item>
-        <item name="android:paddingLeft">24dp</item>
-        <item name="android:paddingRight">24dp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="Button.Green.Filled" parent="Button.Green">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/button_rounded_accent_filled</item>
-    </style>
-
-    <style name="Button.Green.Borderless" parent="Button.Green">
-        <item name="android:textColor">?colorAccent</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-    </style>
-
-    <style name="TextLabel" parent="AppTheme">
-        <item name="android:textColorHint">@color/lightGrey</item>
-        <item name="android:textSize">16sp</item>
-        <item name="colorAccent">@color/lightGrey</item>
-        <item name="colorControlNormal">@color/lightGrey</item>
-        <item name="colorControlActivated">@color/lightGrey</item>
-    </style>
-
     <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
         <item name="android:layout_width">@dimen/tv_item_size_width</item>
         <item name="android:layout_height">@dimen/tv_item_size_height</item>
@@ -193,61 +111,6 @@
     <style name="DefaultCardTheme" parent="Theme.Leanback">
         <item name="imageCardViewStyle">@style/DefaultCardStyle</item>
         <item name="imageCardViewImageStyle">@style/DefaultCardImageStyle</item>
-    </style>
-
-    <style name="SingleLineCardTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="IconCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/IconCardViewStyle</item>
-        <item name="imageCardViewTitleStyle">@style/IconCardTitleStyle</item>
-        <item name="imageCardViewImageStyle">@style/IconCardImageStyle</item>
-        <item name="imageCardViewInfoAreaStyle">@style/IconCardInfoAreaStyle</item>
-    </style>
-    <!-- Icon card style with custom focus handler. Used in cards example. -->
-    <style name="IconCardViewStyle" parent="DefaultCardStyle">
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <style name="IconCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:layout_height">96dp</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <style name="IconCardTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:maxLines">2</item>
-        <item name="android:minLines">2</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="IconCardInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:background">@null</item>
-        <item name="layout_viewType">main</item>
-    </style>
-
-    <style name="SingleLineCardInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:layout_width">124dp</item>
-        <item name="layout_viewType">main</item>
-    </style>
-
-    <style name="SingleLineCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">124dp</item>
-        <item name="android:layout_height">124dp</item>
-    </style>
-
-    <style name="SingleLineCardStyle" parent="DefaultCardStyle">
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <!-- Theme corresponding to the SingleLineCardStyle -->
-    <style name="SingleLineCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/SingleLineCardStyle</item>
-        <item name="imageCardViewTitleStyle">@style/SingleLineCardTitleStyle</item>
-        <item name="imageCardViewImageStyle">@style/SingleLineCardImageStyle</item>
-        <item name="imageCardViewInfoAreaStyle">@style/SingleLineCardInfoAreaStyle</item>
     </style>
 
     <style name="TvButton" parent="TextAppearance.AppCompat.Button">
