@@ -73,7 +73,6 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/Proton.Text.Headline"
-                android:textColor="@color/text_norm"
                 tools:text="@string/onboarding_streaming_title"
                 android:layout_marginVertical="8dp"
                 android:layout_width="wrap_content"
@@ -81,8 +80,7 @@
 
             <TextView
                 android:id="@+id/description"
-                style="@style/Body1Regular"
-                android:textColor="@color/text_norm"
+                style="@style/Proton.Text.Default"
                 tools:text="@string/onboarding_streaming_description"
                 android:breakStrategy="balanced"
                 android:gravity="center"

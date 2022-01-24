@@ -41,7 +41,6 @@
             <TextView
                 style="@style/Proton.Text.Headline"
                 android:text="@string/onboarding_connection_title"
-                android:textColor="@color/text_norm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -49,10 +48,9 @@
 
             <TextView
                 android:id="@+id/description"
-                style="@style/Body1Regular"
+                style="@style/Proton.Text.Default"
                 android:text="@string/onboarding_connection_description"
                 android:gravity="center"
-                android:textColor="@color/text_norm"
                 android:breakStrategy="balanced"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,9 +58,8 @@
                 android:layout_marginHorizontal="16dp"/>
 
             <TextView
-                style="@style/Body2Regular"
+                style="@style/Proton.Text.Default.Weak"
                 android:text="@string/onboarding_connection_info"
-                android:textColor="@color/text_weak"
                 android:gravity="center"
                 android:breakStrategy="balanced"
                 android:layout_width="wrap_content"

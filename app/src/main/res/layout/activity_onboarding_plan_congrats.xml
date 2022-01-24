@@ -54,26 +54,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textColor="@color/text_norm"
             android:text="@string/onboarding_congrats_title"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/description"
-            style="@style/Body1Regular"
+            style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textColor="@color/text_norm"
             android:text="@string/onboarding_plan_congrats_description"
             android:breakStrategy="balanced"
             android:textAlignment="center"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Body1Regular"
+            style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textColor="@color/text_norm"
             android:text="@string/onboarding_plan_congrats_description_privacy"
             android:breakStrategy="balanced"
             android:textAlignment="center"/>

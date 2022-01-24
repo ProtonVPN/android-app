@@ -53,15 +53,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textColor="@color/text_norm"
             android:text="@string/onboarding_congrats_title"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Body1Regular"
+            style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@color/text_norm"
             android:text="@string/onboarding_congrats_description"
             android:breakStrategy="balanced"
             android:textAlignment="center"/>
@@ -77,10 +75,9 @@
             android:background="@drawable/onboarding_connected_to_background">
 
             <TextView
-                style="@style/CaptionRegular"
+                style="@style/Proton.Text.Caption.Weak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_weak"
                 android:text="@string/loaderConnectedToLabel"/>
 
             <com.protonvpn.android.components.CountryWithFlagsView
