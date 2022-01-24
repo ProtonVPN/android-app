@@ -140,7 +140,7 @@ def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath :
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
 def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
-def sentryDns = project.hasProperty('sentryDns') ? sentryDns : "\"\""
+def sentryDsn = project.hasProperty('sentryDsn') ? sentryDsn : ""
 def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
 def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
@@ -180,7 +180,7 @@ android {
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "Sentry_DSN",  sentryDns
+        buildConfigField "String", "Sentry_DSN",  "\"${StringEscapeUtils.escapeJava(sentryDsn)}\""
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
