@@ -341,6 +341,7 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ketuk tombol yang ada di samping tulisan <b>Block connections without VPN</b> untuk mengaktifkan Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Buka pengaturan Android</string>
+  <string name="settingsAlwaysOnWindowSplitTunellingWarning">Mengaktifkan kill switch akan menonaktifkan split tunneling, karena kill switch akan memblokir seluruh koneksi yang berada di luar tunnel VPN utama</string>
   <string name="settingsSmartProtocolDescription">Secara otomatis menggunakan protokol dan port yang menawarkan konektivitas terbaik.</string>
   <string name="settingsSendCrashReportsTitle">Laporan crash anonim</string>
   <string name="settingsSendCrashReportsDescription">Apabila aplikasi Anda mengalami crash atau menutup dirinya sendiri secara tiba-tiba, sebuah laporan anonim akan dikirimkan kepada tim kami untuk dapat diteliti lebih lanjut. Kami hanya akan menggunakan laporan ini untuk menyempurnakan aplikasi kami.</string>
