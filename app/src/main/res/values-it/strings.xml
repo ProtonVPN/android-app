@@ -343,6 +343,7 @@
          find this phrase in your phone's settings. -->
   <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tocca l\'interruttore accanto a <b>Blocca connessioni senza VPN</b> per abilitare Kill Switch]]></string>
   <string name="settingsAlwaysOnWindowAndroidSettingsButton">Apri impostazioni Android</string>
+  <string name="settingsAlwaysOnWindowSplitTunellingWarning">Attivare il Kill Switch disabiliterà lo split tunneling, poiché il Kill Switch blocca tutte le connessioni al di fuori del tunnel VPN</string>
   <string name="settingsSmartProtocolDescription">Utilizza automaticamente il protocollo e la porta che offrono la migliore connettività.</string>
   <string name="settingsSendCrashReportsTitle">Rapporti anonimi sugli arresti anomali</string>
   <string name="settingsSendCrashReportsDescription">Se l\'app si arresta in modo anomalo o si arresta in modo imprevisto, verrà inviato un report ai nostri tecnici che mostra la causa dell\'errore. Li useremo sempre e solo per migliorare l\'app.</string>
