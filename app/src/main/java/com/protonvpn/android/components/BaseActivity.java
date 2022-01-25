@@ -76,6 +76,10 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkOrientation();
+
+        vpnUiDelegate = new VpnUiActivityDelegateMobile(
+            this, serverManager, this::retryConnection);
+
         setContentView(AnnotationParser.getAnnotatedLayout(this));
         ButterKnife.bind(this);
 
@@ -83,8 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity
             EventBus.getInstance().register(this);
         }
         snackbarHelper = new DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager);
-        vpnUiDelegate = new VpnUiActivityDelegateMobile(
-            this, serverManager, this::retryConnection);
     }
 
     public void checkOrientation() {
