@@ -34,6 +34,7 @@ import com.protonvpn.android.logging.FileLogWriter;
 import com.protonvpn.android.logging.GlobalSentryLogWriter;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.LogWriter;
+import com.protonvpn.android.logging.LogcatLogWriter;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.ui.ForegroundActivityTracker;
@@ -52,7 +53,7 @@ import org.strongswan.android.logic.StrongSwanApplication;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -132,12 +133,16 @@ public class ProtonApplication extends Application {
     }
 
     private void initLogger() {
-        // Add GlobalSentryLogWriter only in real application, it doesn't work with Hilt tests
-        // because some message are being logged already in ProtonApplication.onCreate() - Hilt
-        // dependencies are not available in tests this early.
-        List<LogWriter> secondaryWriters = this instanceof ProtonApplicationHilt
-                ? Collections.singletonList(new GlobalSentryLogWriter(this))
-                : Collections.emptyList();
+        List<LogWriter> secondaryWriters = new ArrayList<>();
+        if (this instanceof ProtonApplicationHilt) {
+            // Add GlobalSentryLogWriter only in real application, it doesn't work with Hilt tests
+            // because some message are being logged already in ProtonApplication.onCreate() - Hilt
+            // dependencies are not available in tests this early.
+            secondaryWriters.add(new GlobalSentryLogWriter(this));
+        }
+        if (BuildConfig.DEBUG) {
+            secondaryWriters.add(new LogcatLogWriter());
+        }
 
         ProtonLogger.setLogger(new ProtonLoggerImpl(
                 System::currentTimeMillis,

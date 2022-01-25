@@ -187,18 +187,10 @@ class FileLogWriter(
 
             fileAppender.triggeringPolicy = triggerPolicy
             fileAppender.rollingPolicy = rollingPolicy
-
-            val logcatAppender = LogcatAppender().apply {
-                this.context = logContext
-                encoder = patternEncoder
-                start()
-            }
-
             fileAppender.encoder = patternEncoder
             fileAppender.start()
 
             logger.addAppender(fileAppender)
-            logger.addAppender(logcatAppender)
 
             StatusPrinter.print(logContext)
         }
