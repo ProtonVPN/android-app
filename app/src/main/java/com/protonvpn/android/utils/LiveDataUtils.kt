@@ -23,6 +23,7 @@ import androidx.lifecycle.MediatorLiveData
 
 // Transformations.map equivalent that always serves non-null and up-to-date value (even when no
 // observers are attached)
+@Deprecated("Use flows instead")
 inline fun <S, reified T : Any> LiveData<S>.eagerMapNotNull(
     ignoreIfEqual: Boolean = false,
     crossinline transform: (S?) -> T
