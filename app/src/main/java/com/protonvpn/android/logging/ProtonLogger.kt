@@ -46,7 +46,7 @@ object ProtonLogger : ProtonLoggerInterface {
 
     override fun formatTime(timeMs: Long): String = logger.formatTime(timeMs)
 
-    override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = getLogFilesForUpload()
+    override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = logger.getLogFilesForUpload()
 
     override fun getLogLinesForDisplay(): Flow<String> = logger.getLogLinesForDisplay()
 
