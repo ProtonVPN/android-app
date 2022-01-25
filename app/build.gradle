@@ -25,7 +25,7 @@ buildscript {
 
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '3.0.0'
+    id 'com.github.triplet.play' version '3.7.0'
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
 }
 
