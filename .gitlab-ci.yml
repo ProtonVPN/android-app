@@ -92,7 +92,6 @@ cache:
 
 detekt analysis:
   stage: analyze
-  image: $CI_REGISTRY_IMAGE:latest
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
@@ -101,11 +100,11 @@ detekt analysis:
   tags:
     - small
   script:
-    - ./gradlew detekt
+    - ./gradlew multiModuleDetekt
   artifacts:
     expire_in: 4 weeks
     reports:
-      codequality: app/build/reports/detekt.json
+      codequality: config/detekt/reports/mergedReport.json
 
 build debug:
   stage: build

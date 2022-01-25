@@ -4,6 +4,7 @@
 /.idea
 .DS_Store
 /build
+/config
 strongswan-android-complete/build/**
 openvpn/build/**
 /captures
