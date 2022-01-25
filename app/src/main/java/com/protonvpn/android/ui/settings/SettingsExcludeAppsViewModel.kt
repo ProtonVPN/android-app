@@ -80,7 +80,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     private val regularApps = regularAppPackages.map { packageNames ->
         loadApps(packageNames)
-    }.shareIn(viewModelScope, SharingStarted.Lazily)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private val systemAppPackages = flow {
         emit(installedAppsProvider.getInstalledInternetApps(false))
@@ -99,7 +99,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         } else {
             systemAppPackages.map { SystemAppsState.NotLoaded(it) }
         }
-    }.shareIn(viewModelScope, SharingStarted.Lazily)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     init {
         viewModelScope.launch {
