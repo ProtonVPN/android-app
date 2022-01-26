@@ -509,7 +509,6 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.qozix:tileview:2.2.7'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
