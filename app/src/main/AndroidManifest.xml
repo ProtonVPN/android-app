@@ -91,6 +91,10 @@
         <activity
             android:name="me.proton.core.auth.presentation.ui.AuthHelpActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="me.proton.core.presentation.ui.alert.ForceUpdateActivity"
+            android:theme="@style/ProtonTheme.Vpn.Transparent"
+            tools:replace="android:theme" />
 
         <uses-library
             android:name="org.apache.http.legacy"
