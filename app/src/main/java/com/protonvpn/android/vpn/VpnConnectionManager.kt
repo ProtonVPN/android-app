@@ -98,17 +98,6 @@ open class VpnConnectionManager(
     private val currentUser: CurrentUser
 ) : VpnStateSource {
 
-    companion object {
-        private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
-
-        private val RECOVERABLE_ERRORS = listOf(
-            ErrorType.AUTH_FAILED_INTERNAL,
-            ErrorType.LOOKUP_FAILED_INTERNAL,
-            ErrorType.UNREACHABLE_INTERNAL,
-            ErrorType.POLICY_VIOLATION_LOW_PLAN
-        )
-    }
-
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
@@ -540,5 +529,16 @@ open class VpnConnectionManager(
         is VpnState.Error -> "Disconnecting"
         VpnState.Reconnecting -> "Connecting"
         VpnState.WaitingForNetwork -> "Disconnected"
+    }
+
+    companion object {
+        private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
+
+        private val RECOVERABLE_ERRORS = listOf(
+            ErrorType.AUTH_FAILED_INTERNAL,
+            ErrorType.LOOKUP_FAILED_INTERNAL,
+            ErrorType.UNREACHABLE_INTERNAL,
+            ErrorType.POLICY_VIOLATION_LOW_PLAN
+        )
     }
 }
