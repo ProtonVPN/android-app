@@ -144,11 +144,6 @@ android {
     viewBinding {
         enabled = true
     }
-    dexOptions {
-        javaMaxHeapSize "4g"
-        incremental true
-        preDexLibraries true
-    }
     defaultConfig {
         applicationId appId
         minSdkVersion 23
