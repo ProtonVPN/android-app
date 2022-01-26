@@ -566,7 +566,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
-    def core_version = "5.2.2"
+    def core_version = "5.2.3"
     implementation 'me.proton.vpn:go-vpn-lib:0.1.7'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"
