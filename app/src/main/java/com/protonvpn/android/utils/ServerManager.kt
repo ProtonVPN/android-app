@@ -276,15 +276,13 @@ class ServerManager(
     private fun getRandomServer(): Server? {
         val allCountries = getExitCountries(userData.secureCoreEnabled)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
-        return (if (accessibleCountries.isEmpty())
-            allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
+        return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let(::getRandomServer)
     }
 
     private fun getRandomServer(country: VpnCountry): Server? {
         val online = country.serverList.filter(Server::online)
         val accessible = online.filter(::hasAccessToServer)
-        return (if (accessible.isEmpty())
-            online else accessible).randomNullable()
+        return accessible.ifEmpty { online }.randomNullable()
     }
 
     fun getSavedProfiles(): List<Profile> =
