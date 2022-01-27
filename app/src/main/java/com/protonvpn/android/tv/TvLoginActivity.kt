@@ -47,7 +47,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.openBrowserLink
 import me.proton.core.util.kotlin.exhaustive
-import org.apache.commons.lang3.time.DurationFormatUtils
+import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
 
@@ -56,6 +57,16 @@ class TvLoginActivity : BaseTvActivity() {
 
     private val binding by viewBinding(ActivityTvLoginBinding::inflate)
     val viewModel by viewModels<TvLoginViewModel>()
+
+    private val timeLeftFormatter = PeriodFormatterBuilder()
+        .minimumPrintedDigits(1)
+        .printZeroIfSupported()
+        .appendMinutes()
+        .appendSeparator(":")
+        .minimumPrintedDigits(2)
+        .printZeroIfSupported()
+        .appendSeconds()
+        .toFormatter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,8 +126,7 @@ class TvLoginActivity : BaseTvActivity() {
         when (state) {
             TvLoginViewState.Welcome, TvLoginViewState.FetchingCode -> {}
             is TvLoginViewState.PollingSession -> {
-                timer.text = DurationFormatUtils.formatDuration(
-                    TimeUnit.SECONDS.toMillis(state.secondsLeft), "m:ss")
+                timer.text = timeLeftFormatter.print(Period(TimeUnit.SECONDS.toMillis(state.secondsLeft)))
                 updateCode(state.code)
             }
             is TvLoginViewState.Error -> {

@@ -32,10 +32,11 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.utils.Storage;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class ProtonActionMenu extends FloatingActionMenu {
 
@@ -70,12 +71,7 @@ public class ProtonActionMenu extends FloatingActionMenu {
     }
 
     private void initActionButton() {
-        try {
-            button = (FloatingActionButton) FieldUtils.readField(this, "mMenuButton", true);
-        }
-        catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        button = getFieldByReflection("mMenuButton");
     }
 
     public void onboardingAnimation() {
@@ -135,5 +131,16 @@ public class ProtonActionMenu extends FloatingActionMenu {
             }
         });
         animSetXY.start();
+    }
+
+    @NonNull
+    private FloatingActionButton getFieldByReflection(@NonNull String fieldName) {
+        try {
+            Field field = FloatingActionMenu.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return (FloatingActionButton) Objects.requireNonNull(field.get(this));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Cannot access field: " + fieldName, e);
+        }
     }
 }
