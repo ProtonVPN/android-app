@@ -58,6 +58,7 @@ object SentryIntegration {
         val sentryDsn = if (!BuildConfig.DEBUG && isEnabled()) BuildConfig.Sentry_DSN else ""
         SentryAndroid.init(application) { options ->
             options.dsn = sentryDsn
+            options.release = BuildConfig.VERSION_NAME
             options.distinctId = getInstallationId()
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.setBeforeSend { event, _ ->
