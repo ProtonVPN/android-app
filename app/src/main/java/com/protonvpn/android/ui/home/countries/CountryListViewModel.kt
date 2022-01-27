@@ -33,7 +33,6 @@ import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.apache.commons.lang3.SerializationUtils
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,8 +69,7 @@ class CountryListViewModel @Inject constructor(
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
         val internalServers = countryServers.filter { it.isPMTeamServer }
-        val fastestServer =
-            SerializationUtils.clone(serverManager.getBestScoreServer(countryServers))
+        val fastestServer = serverManager.getBestScoreServer(countryServers)?.copy()
 
         val groups: MutableList<ServersGroup> = mutableListOf()
         if (internalServers.isNotEmpty()) {
