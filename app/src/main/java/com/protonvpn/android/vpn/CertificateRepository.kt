@@ -43,12 +43,16 @@ import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import com.proton.gopenpgp.ed25519.KeyPair
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.UserCertCurrentState
 import com.protonvpn.android.logging.UserCertNew
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRefreshError
 import com.protonvpn.android.logging.UserCertScheduleRefresh
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val MAX_REFRESH_COUNT = 2
 private val MIN_REFRESH_DELAY = TimeUnit.SECONDS.toMillis(30)
@@ -64,12 +68,13 @@ data class CertInfo(
     val refreshCount: Int = 0,
 )
 
-class CertificateRepository(
+@Singleton
+class CertificateRepository @Inject constructor(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
-    val appContext: Context,
+    @ApplicationContext val appContext: Context,
     val api: ProtonApiRetroFit,
-    val wallClock: () -> Long,
+    @WallClock val wallClock: () -> Long,
     val userPlanManager: UserPlanManager,
     val currentUser: CurrentUser
 ) {
