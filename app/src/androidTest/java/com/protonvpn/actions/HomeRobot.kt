@@ -18,41 +18,59 @@
  */
 package com.protonvpn.actions
 
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.protonvpn.TestSettings
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.matchers.ProtonMatcher
 import com.protonvpn.matchers.ProtonMatcher.lastChild
 import com.protonvpn.testsHelper.ServiceTestHelper
+import io.mockk.InternalPlatformDsl.toArray
 import org.hamcrest.Matchers
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 /**
  * [HomeRobot] Contains all actions and verifications for home screen
  */
 class HomeRobot : BaseRobot() {
 
-    fun openAccountView(): AccountRobot {
-        clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
-        clickElementById<HomeRobot>(R.id.layoutUserInfo)
-        return AccountRobot()
-    }
+    fun openAccountView(): AccountRobot = selectDrawerMenuOption(R.id.layoutUserInfo)
 
-    fun logout(): AddAccountRobot {
-        clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
-        return clickElementByIdAndText(R.id.drawerButtonLogout, R.string.menuActionSignOut)
-    }
+    fun logout(): AddAccountRobot = selectDrawerMenuOption(R.id.drawerButtonLogout)
 
-    fun logoutAfterWarning(): AddAccountRobot = clickElementByText(R.string.logoutConfirmDialogButton)
+    fun clickOnDrawerMenuAccountOption(): AccountRobot =
+        selectDrawerMenuOption(R.id.drawerButtonAccount)
 
-    fun cancelLogout(): HomeRobot = clickElementByText(R.string.cancel)
+    fun clickOnDrawerMenuShowLogOption(): HomeRobot =
+        selectDrawerMenuOption(R.id.drawerButtonShowLog)
+
+    fun clickOnDrawerMenuHelpOption(): HomeRobot =
+        selectDrawerMenuOption(R.id.drawerButtonHelp)
+
+    fun logoutAfterWarning(): AddAccountRobot =
+        clickElementByText(R.string.logoutConfirmDialogButton)
+
+    fun clickOnInformationIcon(): HomeRobot = clickElementById(R.id.action_info)
+
+    fun clickCancel(): HomeRobot = clickElementByText(R.string.cancel)
+
+    fun clickReconnect(): ConnectionRobot = clickElementByText(R.string.reconnect)
+
+    fun swipeDownToCloseConnectionInfoLayout(): HomeRobot =
+        swipeDownOnElementById(R.id.layoutBottomSheet)
 
     fun swipeLeftToOpenMap(): MapRobot {
         swipeLeftOnElementById<MapRobot>(R.id.list)
@@ -94,9 +112,20 @@ class HomeRobot : BaseRobot() {
         }
     }
 
+    fun scrollUpToTheLogs() {
+        for (i in 1..3) {
+            swipeDownOnElementById<HomeRobot>(R.id.log_frag)
+        }
+    }
+
     private fun isAllowVpnRequestVisible(): Boolean {
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         return uiDevice.findObject(UiSelector().textContains("Connection request")).exists()
+    }
+
+    private inline fun <reified T> selectDrawerMenuOption(@IdRes drawerMenuOptionId: Int): T {
+        clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
+        return clickElementById(drawerMenuOptionId)
     }
 
     class Verify : BaseVerify() {
@@ -120,6 +149,39 @@ class HomeRobot : BaseRobot() {
         fun warningMessageIsDisplayed() {
             checkIfElementIsDisplayedByStringId(R.string.logoutConfirmDialogTitle)
             checkIfElementIsDisplayedByStringId(R.string.logoutConfirmDialogMessage)
+        }
+
+        fun assertThatSecureCoreSwitchIsDisabled() {
+            checkIfElementIsNotChecked(R.id.switchSecureCore)
+            assertFalse(ServiceTestHelper().isSecureCoreEnabled)
+        }
+
+        fun assertThatSecureCoreSwitchIsEnabled() {
+            checkIfElementIsChecked(R.id.switchSecureCore)
+            assertTrue(ServiceTestHelper().isSecureCoreEnabled)
+        }
+
+        fun assertThatInLogsScreen() {
+            checkIfElementIsDisplayedById(R.id.titleLog)
+        }
+
+        fun helpOptionOpensUrl() {
+            Intents.intended(IntentMatchers.hasData("https://protonvpn.com/support?utm_source=" + Constants.PROTON_URL_UTM_SOURCE))
+        }
+
+        fun serverInfoLegendDescribesAllServerTypes() {
+            checkIfElementIsDisplayedByStringId(R.string.info_features)
+            checkIfElementIsDisplayedByStringId(R.string.smart_routing_title)
+            checkIfElementIsDisplayedByStringId(R.string.smart_routing_description)
+            checkIfElementIsDisplayedByStringId(R.string.streaming_title)
+            checkIfElementIsDisplayedByStringId(R.string.streaming_description)
+            checkIfElementIsDisplayedByStringId(R.string.p2p_title)
+            checkIfElementIsDisplayedByStringId(R.string.p2p_description)
+            checkIfElementIsDisplayedByStringId(R.string.tor_title)
+            checkIfElementIsDisplayedByStringId(R.string.tor_description)
+            checkIfElementIsDisplayedByStringId(R.string.info_performance)
+            checkIfElementIsDisplayedByStringId(R.string.server_load_title)
+            checkIfElementIsDisplayedByStringId(R.string.server_load_description)
         }
     }
 

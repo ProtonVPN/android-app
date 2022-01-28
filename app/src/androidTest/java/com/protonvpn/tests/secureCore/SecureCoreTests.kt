@@ -104,4 +104,35 @@ class SecureCoreTests {
         connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
     }
+
+    @Test
+    @TestID(121422)
+    fun cancelSecureCoreReconnection(){
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        homeRobot.verify { assertThatSecureCoreSwitchIsDisabled() }
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
+            .verify { isConnected() }
+        homeRobot.swipeDownToCloseConnectionInfoLayout()
+            .setStateOfSecureCoreSwitch(true)
+            .clickCancel()
+            .verify { assertThatSecureCoreSwitchIsDisabled() }
+        connectionRobot.verify { isConnectedServiceHelper() }
+    }
+
+    @Test
+    @TestID(121423)
+    fun reconnectWhenEnablingSecureCore(){
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        homeRobot.verify { assertThatSecureCoreSwitchIsDisabled() }
+        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
+            .verify { isConnected() }
+        homeRobot.swipeDownToCloseConnectionInfoLayout()
+            .setStateOfSecureCoreSwitch(true)
+            .clickReconnect()
+        homeRobot.verify { assertThatSecureCoreSwitchIsEnabled() }
+        connectionRobot.verify {
+            isConnectingToSecureCoreServer()
+            isConnectedServiceHelper()
+        }
+    }
 }

@@ -20,10 +20,12 @@ package com.protonvpn.tests.connection
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.CountriesRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
@@ -32,6 +34,7 @@ import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
+import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -49,6 +52,7 @@ import org.junit.runner.RunWith
 class ConnectionTests {
 
     private val testRule = ProtonHomeActivityTestRule()
+    private val customProfileServerDomain = "ca-02.protonvpn.com"
 
     @get:Rule
     var rules = RuleChain
@@ -60,6 +64,7 @@ class ConnectionTests {
     private lateinit var countriesRobot: CountriesRobot
     private lateinit var mapRobot: MapRobot
     private lateinit var connectionRobot: ConnectionRobot
+    private lateinit var serviceTestHelper: ServiceTestHelper
 
     @Before
     fun setup() {
@@ -67,6 +72,7 @@ class ConnectionTests {
         countriesRobot = CountriesRobot()
         mapRobot = MapRobot()
         connectionRobot = ConnectionRobot()
+        serviceTestHelper = ServiceTestHelper()
     }
 
     @Test
@@ -131,5 +137,28 @@ class ConnectionTests {
         connectionRobot.verify { isNotReachableErrorDisplayed() }
         connectionRobot.clickCancelRetry()
             .verify { isDisconnected() }
+    }
+
+    @Test
+    @TestID(121429)
+    @SdkSuppress(minSdkVersion = 28)
+    fun connectAndDisconnectViaQuickConnectCustomProfile() {
+        testRule.mockStatusOnConnect(VpnState.Connected)
+        serviceTestHelper.addProfile(
+            VpnProtocol.Smart,
+            DefaultData.PROFILE_NAME,
+            customProfileServerDomain
+        )
+        homeRobot.connectThroughQuickConnect(DefaultData.PROFILE_NAME)
+            .verify { isConnected() }
+        connectionRobot.disconnectFromVPN()
+            .verify { isDisconnected() }
+    }
+
+    @Test
+    @TestID(121738)
+    fun serverInformationLegendDocumentsAllTypes(){
+        homeRobot.clickOnInformationIcon()
+            .verify { serverInfoLegendDescribesAllServerTypes() }
     }
 }

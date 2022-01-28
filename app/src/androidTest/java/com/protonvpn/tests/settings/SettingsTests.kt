@@ -20,6 +20,7 @@ package com.protonvpn.tests.settings
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.SettingsRobot
 import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
@@ -80,10 +81,38 @@ class SettingsTests {
     }
 
     @Test
+    @TestID(121737)
+    fun setValidMTU() {
+        settingsRobot.openMtuSettings()
+            .setMTU(1500)
+            .clickOnSaveMenuButton()
+            .verify { mtuSizeMatches("1500") }
+    }
+
+    @Test
+    @TestID(103970)
     fun switchSplitTunneling() {
         settingsRobot.toggleSplitTunneling()
             .verify { splitTunnelUIIsVisible() }
         settingsRobot.toggleSplitTunneling()
             .verify { splitTunnelUIIsNotVisible() }
+    }
+
+    @Test
+    @TestID(121427)
+    @SdkSuppress(minSdkVersion = 28)
+    fun alwaysOnNavigatesToSettings() {
+        settingsRobot.clickOnAlwaysOnVpnSetting()
+            .pressOpenAndroidSettings()
+            .verify { openVpnSettingsNavigatesToSettings() }
+    }
+
+    @Test
+    @TestID(121428)
+    @SdkSuppress(minSdkVersion = 28)
+    fun alwaysOnOnboarding() {
+        settingsRobot.clickOnAlwaysOnVpnSetting()
+            .pressOpenAndroidSettings()
+            .verify { alwaysOnOnboardingFlowIsCorrect() }
     }
 }

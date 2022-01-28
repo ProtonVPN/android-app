@@ -24,13 +24,14 @@ import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.ServiceTestHelper
 import junit.framework.TestCase.assertFalse
+import kotlin.test.assertTrue
 
 /**
  * [ConnectionRobot] Contains all actions and verifications for connection steps
  */
 class ConnectionRobot : BaseRobot() {
 
-    private val stateMonitor = ServerManagerHelper().vpnStateMonitor
+    private val stateMonitor get() = ServerManagerHelper().vpnStateMonitor
 
     fun clickCancelConnectionButton(): ConnectionRobot = clickElementById(R.id.buttonCancel)
 
@@ -47,17 +48,25 @@ class ConnectionRobot : BaseRobot() {
     class Verify : BaseVerify(){
 
         fun isConnected(){
-            ServiceTestHelper().checkIfConnectedToVPN()
+            isConnectedServiceHelper()
             checkIfElementIsDisplayedById(R.id.buttonDisconnect)
         }
 
         fun isDisconnected(){
-            ServiceTestHelper().checkIfDisconnectedFromVPN()
+            isDisconnectedServiceHelper()
             checkIfElementIsDisplayedById(R.id.textNotConnectedSuggestion)
         }
 
         fun isDisconnectedServiceHelper(){
             ServiceTestHelper().checkIfDisconnectedFromVPN()
+        }
+
+        fun isConnectedServiceHelper(){
+            ServiceTestHelper().checkIfConnectedToVPN()
+        }
+
+        fun isConnectingToSecureCoreServer(){
+            assertTrue(ServerManagerHelper().vpnStateMonitor.isConnectingToSecureCore)
         }
 
         fun isNotReachableErrorDisplayed() =

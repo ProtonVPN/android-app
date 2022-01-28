@@ -162,6 +162,8 @@ android {
         def testRailCredentials = System.getenv("TESTRAIL_USER")
         def ciBranchName = System.getenv("CI_COMMIT_BRANCH")
         def commitFirstLine = System.getenv("CI_COMMIT_MESSAGE")?.split('\n')?.first()?.trim()
+        def specialCharPass = System.getenv("SPECIAL_CHAR_PASSWORD")
+        buildConfigField "String", "SPECIAL_CHAR_PASSWORD",  "\"${StringEscapeUtils.escapeJava(specialCharPass)}\""
         buildConfigField "String", "TESTRAIL_CREDENTIALS",  "\"${StringEscapeUtils.escapeJava(testRailCredentials)}\""
         buildConfigField "String", "CI_BRANCH_NAME", "\"${StringEscapeUtils.escapeJava(ciBranchName)}\""
         buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${StringEscapeUtils.escapeJava(commitFirstLine)}\""
