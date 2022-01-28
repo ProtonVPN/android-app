@@ -97,7 +97,7 @@ class LogoutTests {
                 loginScreenIsNotDisplayed()
                 warningMessageIsDisplayed()
             }
-        homeRobot.cancelLogout()
+        homeRobot.clickCancel()
         homeRobot.verify { loginScreenIsNotDisplayed() }
         connectionRobot.verify { isConnected() }
     }

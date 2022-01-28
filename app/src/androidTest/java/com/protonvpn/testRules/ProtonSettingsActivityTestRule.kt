@@ -18,26 +18,34 @@
  */
 package com.protonvpn.testRules
 
+import android.app.Activity
+import android.app.Instrumentation
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.ActivityTestRule
 import com.protonvpn.android.ui.settings.SettingsActivity
+import org.hamcrest.CoreMatchers
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class ProtonSettingsActivityTestRule : TestWatcher() {
-    var activityTestRule = ActivityTestRule(
-        SettingsActivity::class.java, false, false
-    )
+
+    private val intent =
+        Intent(InstrumentationRegistry.getInstrumentation().targetContext, SettingsActivity::class.java)
 
     override fun starting(description: Description) {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("echo \"chrome --disable-fre --no-default-browser-check --no-first-run\" > /data/local/tmp/chrome-command-line")
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("am set-debug-app --persistent com.android.chrome ")
-        activityTestRule.launchActivity(null)
+        Intents.init()
+        ActivityScenario.launch<SettingsActivity>(intent)
+        //It blocks outgoing intents and won't navigate outside of app.
+        Intents.intending(CoreMatchers.not(IntentMatchers.isInternal()))
+            .respondWith(Instrumentation.ActivityResult(Activity.RESULT_OK, null))
     }
 
     override fun finished(description: Description) {
-        activityTestRule.finishActivity()
+        Intents.release()
         IdlingRegistry.getInstance().unregister()
     }
 }

@@ -104,4 +104,11 @@ class LoginTests {
             .selectSignInOption()
             .verify { userNameIsVisible(TestUser.plusUser) }
     }
+
+    @Test
+    @TestID(53)
+    fun loginWithSpecialCharsUser(){
+        loginRobot.signIn(TestUser.specialCharUser)
+            .verify { successfullyLoggedIn() }
+    }
 }

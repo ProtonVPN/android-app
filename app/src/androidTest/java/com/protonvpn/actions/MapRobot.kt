@@ -32,9 +32,6 @@ import com.protonvpn.testsHelper.ServiceTestHelper
  */
 class MapRobot : BaseRobot() {
 
-    fun swipeDownToCloseConnectionInfoLayout(): MapRobot =
-        swipeDownOnElementById(R.id.layoutBottomSheet)
-
     fun clickConnectButtonWithoutVpnHandling(): MapRobot = clickElement(connectButtonInMap())
 
     fun clickCancelConnectionButton(): MapRobot = clickElement(R.id.buttonCancel)

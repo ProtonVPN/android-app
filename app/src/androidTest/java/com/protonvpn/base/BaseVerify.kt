@@ -64,6 +64,10 @@ open class BaseVerify : BaseRobot() {
         view.withId(id)
             .checkContains(InstrumentationRegistry.getInstrumentation().targetContext.getString(resId))
 
+    fun checkIfElementIsChecked(@IdRes id: Int) = view.withId(id).checkIsChecked()
+
+    fun checkIfElementIsNotChecked(@IdRes id: Int) = view.withId(id).checkIsNotChecked()
+
     fun checkIfBrowserIsOpened(browserPackageName: String) {
         val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val currentPackage = myDevice.currentPackageName

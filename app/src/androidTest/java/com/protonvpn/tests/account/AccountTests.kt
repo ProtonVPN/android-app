@@ -64,6 +64,28 @@ class AccountTests {
             .verify { checkIfAccountButtonHasCorrectUrl() }
     }
 
+    @Test
+    @TestID(121424)
+    fun checkHamburgerAccountOptionNavigation(){
+        homeRobot.clickOnDrawerMenuAccountOption()
+            .verify { checkIfCorrectUsernameIsDisplayed(testUser) }
+    }
+
+    @Test
+    @TestID(121425)
+    fun showLogNavigation(){
+        homeRobot.clickOnDrawerMenuShowLogOption()
+            .verify { assertThatInLogsScreen() }
+        homeRobot.scrollUpToTheLogs()
+    }
+
+    @Test
+    @TestID(121426)
+    fun helpOption(){
+        homeRobot.clickOnDrawerMenuHelpOption()
+            .verify { helpOptionOpensUrl() }
+    }
+
     @After
     fun tearDown(){
         Intents.release()

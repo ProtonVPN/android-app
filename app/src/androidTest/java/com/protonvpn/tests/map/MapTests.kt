@@ -62,8 +62,8 @@ class MapTests {
         mapRobot.clickOnCountryNodeUntilConnectButtonAppears(DefaultData.TEST_COUNTRY)
             .clickConnectButton()
             .verify { isConnected() }
-        mapRobot.swipeDownToCloseConnectionInfoLayout()
-            .verify { isCountryNodeSelected(DefaultData.TEST_COUNTRY) }
+        homeRobot.swipeDownToCloseConnectionInfoLayout()
+        mapRobot.verify { isCountryNodeSelected(DefaultData.TEST_COUNTRY) }
     }
 
     @Test
