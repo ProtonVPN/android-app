@@ -97,7 +97,12 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.takeIfNotBlank
 import okhttp3.OkHttpClient
 import java.util.Random
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class WallClock
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -111,7 +116,6 @@ object AppModuleProd {
     @Provides
     fun provideNetworkPrefs(@ApplicationContext context: Context): NetworkPrefs =
         NetworkPrefsImpl(context)
-
 
     @Singleton
     @Provides
@@ -259,6 +263,10 @@ object AppModule {
     fun provideMainScope(): CoroutineScope = scope
 
     @Provides
+    @WallClock
+    fun provideWallClock(): () -> Long = System::currentTimeMillis
+
+    @Provides
     @Singleton
     fun provideExtraHeaderProvider(): ExtraHeaderProvider = ExtraHeaderProviderImpl().apply {
         BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
@@ -391,22 +399,6 @@ object AppModule {
         currentUser: CurrentUser,
     ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, currentUser,
             userPlanManager, vpnStateMonitor, notificationHelper)
-
-    @Singleton
-    @Provides
-    fun provideCertificateRepository(
-        api: ProtonApiRetroFit,
-        userPlanManager: UserPlanManager,
-        dispatcherProvider: DispatcherProvider,
-        currentUser: CurrentUser
-    ): CertificateRepository = CertificateRepository(
-        scope,
-        dispatcherProvider,
-        ProtonApplication.getAppContext(),
-        api,
-        System::currentTimeMillis,
-        userPlanManager,
-        currentUser)
 
     @Singleton
     @Provides
