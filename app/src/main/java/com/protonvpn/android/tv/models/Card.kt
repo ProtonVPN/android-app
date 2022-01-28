@@ -63,6 +63,7 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 )
 
 class LogoutCard(title: String) : IconCard(title, R.drawable.ic_sign_out_tv)
+class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_report_issue_tv)
 
 class Title(
     val text: String,

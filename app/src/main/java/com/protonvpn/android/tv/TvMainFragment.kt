@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv
 
+import android.content.Intent
 import android.graphics.Outline
 import android.os.Bundle
 import android.view.View
@@ -51,8 +52,11 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
@@ -146,6 +150,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is LogoutCard -> {
                     logout()
                 }
+                is ReportBugCard -> {
+                    startActivity(Intent(context, DynamicReportActivity::class.java))
+                }
             }
         }
     }
@@ -209,7 +216,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
             icon = R.drawable.row_more_icon,
-            cards = listOf(LogoutCard(getString(R.string.tv_signout_label))))
+            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))))
         addOrReplace(index, createRow(settingsRow, index))
         index++
     }

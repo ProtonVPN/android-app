@@ -24,7 +24,6 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -55,11 +54,17 @@ class ReportBugActivityViewModel @Inject constructor(
     private val currentUser: CurrentUser
 ) : ViewModel() {
 
+    interface DynamicInputUI {
+        fun getSubmitText() : String
+        fun setInputError(error: String)
+    }
+
     sealed class ViewState {
         data class Categories(val categoryList: List<Category>) : ViewState()
         data class Suggestions(val category: Category) : ViewState()
         data class Report(val category: Category) : ViewState()
         data class Error(val error: ApiResult.Error) : ViewState()
+        object SubmittingReport : ViewState()
         object Finish : ViewState()
     }
 
@@ -82,17 +87,12 @@ class ReportBugActivityViewModel @Inject constructor(
         _state.value = ViewState.Report(category)
     }
 
-    private fun generateReportDescription(inputMap: Map<InputField, ProtonInput>): String {
-        var description = ""
-        inputMap.forEach {
-            val inputView = it.value
+    private fun generateReportDescription(dynamicInputMap: Map<InputField, DynamicInputUI>): String =
+         dynamicInputMap.asIterable().joinToString("\n\n") {
+             it.key.submitLabel + "\n" + it.value.getSubmitText()
+         }
 
-            description += "\n" + it.key.submitLabel + "\n" + inputView.text
-        }
-        return description
-    }
-
-    private fun hasMissingFields(emailField: ProtonInput, dynamicFields: List<ProtonInput>): Boolean {
+    private fun hasMissingFields(emailField: ProtonInput, dynamicFields: List<DynamicInputUI>): Boolean {
         var missingFieldsFound = false
 
         val email = emailField.text
@@ -107,8 +107,8 @@ class ReportBugActivityViewModel @Inject constructor(
         }
 
         dynamicFields.forEach {
-            if (it.text.isNullOrEmpty()) {
-                it.setInputError(it.context.getString(R.string.dynamic_report_field_mandatory))
+            if (it.getSubmitText().isNullOrEmpty()) {
+                it.setInputError(emailField.context.getString(R.string.dynamic_report_field_mandatory))
                 missingFieldsFound = true
             }
         }
@@ -118,14 +118,14 @@ class ReportBugActivityViewModel @Inject constructor(
 
     fun prepareAndPostReport(
         emailField: ProtonInput,
-        inputMap: Map<InputField, ProtonInput>,
+        dynamicInputMap: Map<InputField, DynamicInputUI>,
         attachLog: Boolean
     ) {
         mainScope.launch {
-            if (hasMissingFields(emailField, inputMap.filter { it.key.isMandatory }.values.toList())) return@launch
-
+            if (hasMissingFields(emailField, dynamicInputMap.filter { it.key.isMandatory }.values.toList())) return@launch
+            _state.value = ViewState.SubmittingReport
             val email = emailField.text.toString().trim { it <= ' ' }
-            val userGeneratedDescription = generateReportDescription(inputMap)
+            val userGeneratedDescription = generateReportDescription(dynamicInputMap)
             val description =
                 "$userGeneratedDescription\n\nSentry user ID: ${SentryIntegration.getInstallationId()}"
 
@@ -142,7 +142,6 @@ class ReportBugActivityViewModel @Inject constructor(
                 .addFormDataPart("ISP", "Unknown")
                 .addFormDataPart("Title", "Report from Android app")
                 .addFormDataPart("Description", description)
-
 
             if (attachLog) {
                 val logFiles = try {

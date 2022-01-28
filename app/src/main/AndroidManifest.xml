@@ -52,9 +52,6 @@
         tools:replace="android:theme">
 
         <activity
-            android:name="com.protonvpn.android.ui.drawer.bugreport.FullScreenDialog"
-            android:exported="false" />
-        <activity
             android:name=".ui.onboarding.SplashActivity"
             android:launchMode="singleInstance">
             <intent-filter>
@@ -68,8 +65,7 @@
         <activity
             android:name=".tv.main.TvMainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.TV.Browse" />
-
+            android:theme="@style/AppTheme.TV.Browse"/>
         <activity
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
@@ -246,10 +242,15 @@
         <activity
             android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
-
         <activity
             android:name=".ui.drawer.bugreport.DynamicReportActivity"
             android:label="@string/drawerReportProblem" />
+        <activity
+            android:name=".ui.drawer.bugreport.FullScreenDialog"
+            android:exported="false" />
+        <activity
+            android:name=".ui.drawer.bugreport.DropdownSelectionActivity"
+            android:exported="false" />
         
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
