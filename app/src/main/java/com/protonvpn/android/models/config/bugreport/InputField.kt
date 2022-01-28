@@ -21,7 +21,9 @@ package com.protonvpn.android.models.config.bugreport
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val TYPE_SINGLELINE = "TextSingleLine"
 const val TYPE_MULTILINE = "TextMultiLine"
+const val TYPE_DROPDOWN = "Dropdown"
 
 @Serializable
 data class InputField(
@@ -29,5 +31,12 @@ data class InputField(
     @SerialName("Placeholder") val placeholder: String? = null,
     @SerialName("IsMandatory") val isMandatory: Boolean = true,
     @SerialName("SubmitLabel") val submitLabel: String,
+    @SerialName("Options") val dropdownOptions: List<DropdownField> = emptyList(),
     @SerialName("Type") val type: String
+) : java.io.Serializable
+
+@Serializable
+data class DropdownField(
+    @SerialName("Label") val label: String,
+    @SerialName("SubmitLabel") val submitLabel: String,
 ) : java.io.Serializable

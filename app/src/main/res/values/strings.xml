@@ -105,7 +105,7 @@
     <string name="drawerAccount">Account</string>
     <string name="drawerHelp">Help</string>
     <string name="drawerShowLog">Show log</string>
-    <string name="drawerReportProblem">Report problem</string>
+    <string name="drawerReportProblem">Report an issue</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
 

@@ -29,6 +29,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
+import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.ActivityDynamicReportBinding
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.ViewUtils.viewBinding
@@ -52,6 +53,14 @@ class DynamicReportActivity : BaseActivityV2() {
         viewModel.state.observe(this, Observer {
             handleStateChanges(it)
         })
+    }
+
+    override fun onBackPressed() {
+        if (binding.loadingContainer.state == NetworkFrameLayout.State.ERROR) {
+            binding.loadingContainer.switchToEmpty()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun handleStateChanges(state: ReportBugActivityViewModel.ViewState) {
