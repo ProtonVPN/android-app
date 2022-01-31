@@ -56,7 +56,7 @@ open class MainViewModel @Inject constructor(
     fun onResumed() {
         mainScope.launch {
             refreshVPNInfo()
-            certificateRepository.checkCertificateValidity()
+            certificateRepository.updateCertificateIfNeeded()
         }
     }
 
