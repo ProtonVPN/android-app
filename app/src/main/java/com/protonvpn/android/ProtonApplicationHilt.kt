@@ -19,6 +19,8 @@
 
 package com.protonvpn.android
 
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import com.protonvpn.android.auth.usecase.CoreLoginMigration
 import com.protonvpn.android.logging.CurrentStateLogger
 import com.protonvpn.android.logging.SettingChangesLogger
@@ -29,7 +31,7 @@ import me.proton.core.accountmanager.data.AccountStateHandler
 import javax.inject.Inject
 
 @HiltAndroidApp
-class ProtonApplicationHilt : ProtonApplication() {
+class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     @Inject lateinit var logcatLogCapture: LogcatLogCapture
 
@@ -38,6 +40,7 @@ class ProtonApplicationHilt : ProtonApplication() {
     @Inject lateinit var accountStateHandler: Lazy<AccountStateHandler>
     @Inject lateinit var currentStateLogger: Lazy<CurrentStateLogger>
     @Inject lateinit var settingChangesLogger: Lazy<SettingChangesLogger>
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -47,4 +50,8 @@ class ProtonApplicationHilt : ProtonApplication() {
         accountStateHandler.get().start()
         coreLoginMigration.get().migrateIfNeeded()
     }
+
+    override fun getWorkManagerConfiguration(): Configuration =
+        Configuration.Builder().setWorkerFactory(workerFactory).build()
+
 }

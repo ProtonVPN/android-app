@@ -43,6 +43,7 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -54,10 +55,8 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.di.MockApi
-import com.protonvpn.di.MockNetworkManager
-import com.protonvpn.di.MockVpnConnectionManager
 import com.protonvpn.mocks.MockVpnBackend
+import com.protonvpn.mocks.NoopCertRefreshScheduler
 import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Binds
 import dagger.Module
@@ -274,6 +273,16 @@ class MockAppModule {
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
         TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
+
+    @Module
+    @TestInstallIn(
+        components = [SingletonComponent::class],
+        replaces = [AppModuleProd.Bindings::class]
+    )
+    interface Bindings {
+        @Binds
+        fun bindCertificateRefreshSchedulers(scheduler: NoopCertRefreshScheduler): CertRefreshScheduler
+    }
 }
 
 @Module
