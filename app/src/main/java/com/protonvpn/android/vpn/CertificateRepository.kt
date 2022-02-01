@@ -68,23 +68,11 @@ data class CertInfo(
     val refreshCount: Int = 0,
 )
 
-@Singleton
-class CertificateRepository @Inject constructor(
+class CertificateStorage @Inject constructor(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
-    @ApplicationContext val appContext: Context,
-    val api: ProtonApiRetroFit,
-    @WallClock val wallClock: () -> Long,
-    val userPlanManager: UserPlanManager,
-    val currentUser: CurrentUser,
-    private val certRefreshScheduler: CertRefreshScheduler,
-    private val appInUseMonitor: AppInUseMonitor
+    @ApplicationContext val appContext: Context
 ) {
-    sealed class CertificateResult {
-        data class Error(val error: ApiResult.Error?) : CertificateResult()
-        data class Success(val certificate: String, val privateKeyPem: String) : CertificateResult()
-    }
-
     // Use getCertPrefs() to access this.
     private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
         @Suppress("BlockingMethodInNonBlockingContext")
@@ -97,9 +85,53 @@ class CertificateRepository @Inject constructor(
         )
     }
 
+    suspend fun get(sessionId: SessionId): CertInfo? =
+        getCertPrefs().getString(sessionId.id, null)?.deserialize()
+
+    suspend fun put(sessionId: SessionId, info: CertInfo) {
+        getCertPrefs().edit {
+            putString(sessionId.id, info.serialize())
+        }
+    }
+
+    suspend fun remove(sessionId: SessionId) {
+        getCertPrefs().edit {
+            remove(sessionId.id)
+        }
+    }
+
+    private suspend fun getCertPrefs() = certPreferences.await()
+}
+
+// Allows running unit tests without the go library, see VPNAND-797.
+class CertificateKeyProvider @Inject constructor() {
+    fun generateCertInfo() = with(KeyPair()) {
+        CertInfo(privateKeyPKIXPem(), publicKeyPKIXPem(), toX25519Base64())
+    }
+
+    fun generateX25519Base64(): String = KeyPair().toX25519Base64()
+}
+
+@Singleton
+class CertificateRepository @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val certificateStorage: CertificateStorage,
+    private val keyProvider: CertificateKeyProvider,
+    private val api: ProtonApiRetroFit,
+    @WallClock private val wallClock: () -> Long,
+    private val userPlanManager: UserPlanManager,
+    private val currentUser: CurrentUser,
+    private val certRefreshScheduler: CertRefreshScheduler,
+    private val appInUseMonitor: AppInUseMonitor
+) {
+    sealed class CertificateResult {
+        data class Error(val error: ApiResult.Error?) : CertificateResult()
+        data class Success(val certificate: String, val privateKeyPem: String) : CertificateResult()
+    }
+
     private val certRequests = mutableMapOf<SessionId, Deferred<CertificateResult>>()
 
-    private val guestX25519Key by lazy { KeyPair().toX25519Base64() }
+    private val guestX25519Key by lazy { keyProvider.generateX25519Base64() }
 
     init {
         mainScope.launch {
@@ -158,18 +190,11 @@ class CertificateRepository @Inject constructor(
         certRefreshScheduler.rescheduleAt(time)
     }
 
-    private suspend fun setInfo(sessionId: SessionId, info: CertInfo) {
-        getCertPrefs().edit {
-            putString(sessionId.id, info.serialize())
-        }
-    }
-
     suspend fun generateNewKey(sessionId: SessionId): CertInfo = withContext(mainScope.coroutineContext) {
-        val keyPair = KeyPair()
-        val info = CertInfo(keyPair.privateKeyPKIXPem(), keyPair.publicKeyPKIXPem(), keyPair.toX25519Base64())
+        val info = keyProvider.generateCertInfo()
 
         certRequests.remove(sessionId)?.cancel()
-        setInfo(sessionId, info)
+        certificateStorage.put(sessionId, info)
         info
     }
 
@@ -222,7 +247,7 @@ class CertificateRepository @Inject constructor(
                     certificatePem = cert.certificate,
                     refreshCount = 0
                 )
-                setInfo(sessionId, newInfo)
+                certificateStorage.put(sessionId, newInfo)
                 ProtonLogger.log(
                     UserCertNew,
                     "expires at ${ProtonLogger.formatTime(cert.expirationTimeMs)}"
@@ -242,7 +267,7 @@ class CertificateRepository @Inject constructor(
                 )
 
                 if (info.refreshCount < MAX_REFRESH_COUNT && appInUseMonitor.isInUse) {
-                    setInfo(sessionId, info.copy(refreshCount = info.refreshCount + 1))
+                    certificateStorage.put(sessionId, info.copy(refreshCount = info.refreshCount + 1))
 
                     val now = wallClock()
                     val newRefresh = ((now + info.expiresAt) / 2)
@@ -255,7 +280,7 @@ class CertificateRepository @Inject constructor(
     }
 
     private suspend fun getCertInfo(sessionId: SessionId) =
-        getCertPrefs().getString(sessionId.id, null)?.deserialize() ?: run {
+        certificateStorage.get(sessionId) ?: run {
             generateNewKey(sessionId)
         }
 
@@ -273,10 +298,6 @@ class CertificateRepository @Inject constructor(
 
     suspend fun clear(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
         certRequests.remove(sessionId)?.cancel()
-        getCertPrefs().edit {
-            remove(sessionId.id)
-        }
+        certificateStorage.remove(sessionId)
     }
-
-    private suspend fun getCertPrefs() = certPreferences.await()
 }
