@@ -170,9 +170,6 @@ class CertificateRepository @Inject constructor(
 
         certRequests.remove(sessionId)?.cancel()
         setInfo(sessionId, info)
-        mainScope.launch {
-            updateCertificate(sessionId, cancelOngoing = true)
-        }
         info
     }
 
