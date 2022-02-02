@@ -19,52 +19,34 @@
 
 package com.protonvpn.android.components
 
-import android.app.Activity
-import android.app.Application
-import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("UseDataClass")
 @Singleton
 class AppInUseMonitor @Inject constructor(
     mainScope: CoroutineScope,
-    private val app: Application,
-    private val vpnStateMonitor: VpnStateMonitor
+    foregroundActivityTracker: ForegroundActivityTracker,
+    vpnStateMonitor: VpnStateMonitor
 ) {
+    /**
+     * Indicates if the VPN app is in active use by the user.
+     *
+     * This information can be used to keep certain values up to date, e.g. by refreshing them from the backend.
+     */
+    val isInUseFlow = combine(
+        vpnStateMonitor.status,
+        foregroundActivityTracker.foregroundActivityFlow
+    ) { status, fgActivity ->
+        fgActivity != null || status.state != VpnState.Disabled
+    }.stateIn(mainScope, SharingStarted.Eagerly, false)
 
-    private val _isInUseFlow = MutableStateFlow(false)
-    val isInUseFlow: StateFlow<Boolean> get() = _isInUseFlow
     val isInUse: Boolean get() = isInUseFlow.value
-
-    init {
-        // App is in use when:
-        // - the UI is shown,
-        val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
-            override fun onActivityResumed(activity: Activity) {
-                onAppInUse()
-                app.unregisterActivityLifecycleCallbacks(this)
-            }
-        }
-        app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
-
-        // - a VPN connection is used.
-        mainScope.launch {
-            vpnStateMonitor.status.first { it.state != VpnState.Disabled }
-            onAppInUse()
-        }
-    }
-
-    private fun onAppInUse() {
-        ProtonLogger.logCustom(LogCategory.APP, "app is in use")
-        _isInUseFlow.value = true
-    }
 }

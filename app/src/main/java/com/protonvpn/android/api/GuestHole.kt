@@ -18,11 +18,8 @@
  */
 package com.protonvpn.android.api
 
-import android.app.Activity
 import android.content.Context
 import androidx.activity.ComponentActivity
-import androidx.annotation.VisibleForTesting
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
@@ -32,6 +29,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
@@ -64,7 +62,8 @@ class GuestHole @Inject constructor(
     private val vpnMonitor: VpnStateMonitor,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val notificationHelper: NotificationHelper,
-    private val currentUser: dagger.Lazy<CurrentUser>
+    private val currentUser: dagger.Lazy<CurrentUser>,
+    private val foregroundActivityTracker: ForegroundActivityTracker
 ) : ApiConnectionListener {
 
     private var lastGuestHoleServer: Server? = null
@@ -117,9 +116,6 @@ class GuestHole @Inject constructor(
         return connected
     }
 
-    @VisibleForTesting
-    fun getCurrentActivity(): Activity? = (appContext as ProtonApplication).foregroundActivity
-
     override suspend fun <T> onPotentiallyBlocked(
         path: String?,
         query: String?,
@@ -128,7 +124,7 @@ class GuestHole @Inject constructor(
         logMessage("Guesthole for call: $path with query: $query")
 
         // Do not execute guesthole for calls running in background, due to inability to call permission intent
-        val currentActivity = getCurrentActivity() as? ComponentActivity ?: return null
+        val currentActivity = foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return null
 
         if (!isEligibleForGuestHole(path, query)) {
             logMessage("Guesthole not available for this call: $path")

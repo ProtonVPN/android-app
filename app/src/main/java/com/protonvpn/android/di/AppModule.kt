@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.PowerManager
 import android.os.SystemClock
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
@@ -292,6 +293,10 @@ object AppModule {
     fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
 
     @Provides
+    fun providePowerManager(@ApplicationContext appContext: Context): PowerManager =
+        appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+
+    @Provides
     fun provideActivityManager(): ActivityManager =
         ProtonApplication.getAppContext()
             .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -397,18 +402,6 @@ object AppModule {
         currentUser,
         vpnErrorUiManager
     )
-
-    @Singleton
-    @Provides
-    fun provideVpnErrorUIManager(
-        appConfig: AppConfig,
-        userData: UserData,
-        userPlanManager: UserPlanManager,
-        vpnStateMonitor: VpnStateMonitor,
-        notificationHelper: NotificationHelper,
-        currentUser: CurrentUser,
-    ) = VpnErrorUIManager(scope, ProtonApplication.getAppContext(), appConfig, userData, currentUser,
-            userPlanManager, vpnStateMonitor, notificationHelper)
 
     @Singleton
     @Provides
@@ -519,28 +512,6 @@ object AppModule {
         connectivityMonitor
     )
 
-    @Singleton
-    @Provides
-    fun provideGuestHoleFallbackListener(
-        @ApplicationContext appContext: Context,
-        dispatcherProvider: DispatcherProvider,
-        serverManager: dagger.Lazy<ServerManager>,
-        vpnMonitor: VpnStateMonitor,
-        connectionManager: dagger.Lazy<VpnConnectionManager>,
-        notificationHelper: NotificationHelper,
-        currentUser: dagger.Lazy<CurrentUser>
-    ): ApiConnectionListener =
-        GuestHole(
-            appContext,
-            scope,
-            dispatcherProvider,
-            serverManager,
-            vpnMonitor,
-            connectionManager,
-            notificationHelper,
-            currentUser,
-        )
-
     @Provides
     @Singleton
     fun provideLogCapture(dispatcherProvider: DispatcherProvider) =
@@ -554,4 +525,11 @@ object AppModule {
     fun provideNetworkRequestOverrider(@ApplicationContext context: Context): NetworkRequestOverrider =
         NetworkRequestOverriderImpl(OkHttpClient(), context)
 
+    @Module
+    @InstallIn(SingletonComponent::class)
+    interface Bindings {
+        @Singleton
+        @Binds
+        fun provideGuestHoleFallbackListener(guestHole: GuestHole): ApiConnectionListener
+    }
 }

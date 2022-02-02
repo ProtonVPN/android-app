@@ -3,8 +3,6 @@ package com.protonvpn.android.vpn
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -15,26 +13,30 @@ import com.protonvpn.android.components.NotificationHelper.Companion.SMART_PROTO
 import com.protonvpn.android.components.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.components.NotificationHelper.ReconnectionNotification
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VpnErrorUIManager(
+class VpnErrorUIManager @Inject constructor(
     scope: CoroutineScope,
-    private val appContext: Context,
+    @ApplicationContext private val appContext: Context,
     private val appConfig: AppConfig,
     private val userData: UserData,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val stateMonitor: VpnStateMonitor,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
+    private val foregroundActivityTracker: ForegroundActivityTracker
 ) {
 
     init {
@@ -83,7 +85,7 @@ class VpnErrorUIManager(
     }
 
     private fun displayInformation(reconnectionNotification: ReconnectionNotification) {
-        val foregroundActivity = (appContext as ProtonApplication).foregroundActivity
+        val foregroundActivity = foregroundActivityTracker.foregroundActivity
         if (foregroundActivity != null && reconnectionNotification.fullScreenDialog != null) {
             foregroundActivity.launchActivity<SwitchDialogActivity>(init = {
                 putExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS, reconnectionNotification)

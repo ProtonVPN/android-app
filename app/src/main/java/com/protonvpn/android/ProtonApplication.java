@@ -23,7 +23,6 @@ import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.PowerManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -37,7 +36,6 @@ import com.protonvpn.android.logging.LogWriter;
 import com.protonvpn.android.logging.LogcatLogWriter;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
-import com.protonvpn.android.ui.ForegroundActivityTracker;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
@@ -64,13 +62,9 @@ import me.proton.core.util.kotlin.CoreLogger;
 
 public class ProtonApplication extends Application {
 
-    @Nullable
-    private ForegroundActivityTracker foregroundTracker;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        initActivityObserver();
         initPreferences();
         SentryIntegration.initSentry(this);
         initStrongSwan();
@@ -99,12 +93,6 @@ public class ProtonApplication extends Application {
         }
 
         CoreLogger.INSTANCE.set(new VpnCoreLogger());
-    }
-
-    private void initActivityObserver() {
-        foregroundTracker =
-                new ForegroundActivityTracker((PowerManager) getSystemService(Context.POWER_SERVICE));
-        registerActivityLifecycleCallbacks(foregroundTracker);
     }
 
     private void initStrongSwan() {
@@ -168,14 +156,5 @@ public class ProtonApplication extends Application {
 
     public static void setAppContextForTest(@NotNull Context context) {
         StrongSwanApplication.setContext(context);
-    }
-
-    public boolean isInForeground() {
-        return foregroundTracker != null && foregroundTracker.isInForeground();
-    }
-
-    @Nullable
-    public Activity getForegroundActivity() {
-        return foregroundTracker != null ? foregroundTracker.foregroundActivity() : null;
     }
 }
