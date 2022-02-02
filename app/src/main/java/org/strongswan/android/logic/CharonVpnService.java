@@ -833,7 +833,7 @@ public abstract class CharonVpnService extends VpnService implements Runnable, V
 			Context context = getApplicationContext();
 			Intent intent = new Intent(context, getMainActivityClass());
 			PendingIntent pending = PendingIntent.getActivity(context, 0, intent,
-															  PendingIntent.FLAG_UPDATE_CURRENT);
+					PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 			builder.setConfigureIntent(pending);
 
 			/* mark all VPN connections as unmetered (default changed for Android 10) */

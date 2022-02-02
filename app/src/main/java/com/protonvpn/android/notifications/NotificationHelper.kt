@@ -55,7 +55,6 @@ import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
@@ -207,7 +206,7 @@ class NotificationHelper(
         if (notificationInfo.fullScreenDialog != null) {
             val intent = createMainActivityIntent(appContext)
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
-            val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(pending)
             notificationBuilder.setAutoCancel(true)
         }
@@ -226,7 +225,7 @@ class NotificationHelper(
         val disconnectIntent =
             NotificationActionReceiver.createIntent(context, NotificationActionReceiver.DISCONNECT_ACTION)
         val disconnectPendingIntent = PendingIntent.getBroadcast(
-            context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val state = vpnStatus.state
 
         val notificationContentString =
@@ -259,7 +258,12 @@ class NotificationHelper(
         val intent = createMainActivityIntent(context)
         intent.putExtra("OpenStatus", true)
         val pending =
-                PendingIntent.getActivity(context, PENDING_REQUEST_STATUS, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(
+                context,
+                PENDING_REQUEST_STATUS,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         builder.setContentIntent(pending)
         return builder.build()
     }
@@ -343,7 +347,7 @@ class NotificationHelper(
                 PendingIntent.getActivity(
                     appContext, 0,
                     createMainActivityIntent(appContext),
-                    PendingIntent.FLAG_UPDATE_CURRENT))
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
 
             action?.let {
                 builder.addAction(

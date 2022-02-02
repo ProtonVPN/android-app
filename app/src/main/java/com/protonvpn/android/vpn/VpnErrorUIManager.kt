@@ -74,7 +74,7 @@ class VpnErrorUIManager @Inject constructor(
                                 appContext,
                                 Constants.NOTIFICATION_INFO_ID,
                                 actionIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
+                                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                             )
                         )
                     )
