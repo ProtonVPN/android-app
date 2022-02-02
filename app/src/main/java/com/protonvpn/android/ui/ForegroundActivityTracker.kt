@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Proton AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -20,36 +20,63 @@
 package com.protonvpn.android.ui
 
 import android.app.Activity
+import android.app.Application
 import android.os.PowerManager
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-class ForegroundActivityTracker(
-    private val powerManager: PowerManager
-) : DefaultActivityLifecycleCallbacks {
-
+class ForegroundActivityTracker @Inject constructor(
+    mainScope: CoroutineScope,
+    app: Application,
+    powerManager: PowerManager
+) {
     private val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK)
-    private var foregroundActivity: Activity? = null
 
-    fun isInForeground() = foregroundActivity != null
-    fun foregroundActivity() = foregroundActivity
+    val foregroundActivityFlow = createForegroundActivityFlow(app)
+        .stateIn(mainScope, SharingStarted.Eagerly, null)
+    val foregroundActivity: Activity? get() = foregroundActivityFlow.value
 
-    override fun onActivityResumed(activity: Activity) {
-        foregroundActivity = activity
-        val activityName = activity::class.java.simpleName
-        val date = dateFormat.format(Date())
-        ProtonLogger.logCustom(LogCategory.UI, "App in foreground: $activityName $date")
-        val batteryOptimizationsIgnored = powerManager.isIgnoringBatteryOptimizations(activity.packageName)
-        ProtonLogger.logCustom(LogCategory.APP, "Battery optimization ignored: $batteryOptimizationsIgnored")
+    init {
+        mainScope.launch {
+            foregroundActivityFlow.collect { activity ->
+                if (activity != null) {
+                    val activityName = activity::class.java.simpleName
+                    val date = dateFormat.format(Date())
+                    ProtonLogger.logCustom(LogCategory.UI, "App in foreground: $activityName $date")
+                    val batteryOptimizationsIgnored = powerManager.isIgnoringBatteryOptimizations(activity.packageName)
+                    ProtonLogger.logCustom(LogCategory.APP,"Battery optimization ignored: $batteryOptimizationsIgnored")
+                }
+            }
+        }
     }
 
-    override fun onActivityPaused(activity: Activity) {
-        foregroundActivity = null
-        ProtonLogger.logCustom(LogCategory.UI, "App in background: ${activity::class.java.simpleName}")
-    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun createForegroundActivityFlow(app: Application) = callbackFlow {
+        val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
+            override fun onActivityResumed(activity: Activity) {
+                trySend(activity)
+            }
 
+            override fun onActivityPaused(activity: Activity) {
+                trySend(null)
+            }
+        }
+        app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
+        awaitClose {
+            app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
+        }
+    }
 }

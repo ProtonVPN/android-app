@@ -77,13 +77,11 @@ import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.scopes.MissingScopeListener
 import me.proton.core.network.domain.server.ServerTimeListener
-import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserRepository
-import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -236,28 +234,6 @@ class MockAppModule {
                 config = appConfig
         )
     }
-
-    @Singleton
-    @Provides
-    fun provideGuestHoleFallbackListener(
-        @ApplicationContext appContext: Context,
-        serverManager: dagger.Lazy<ServerManager>,
-        dispatcherProvider: DispatcherProvider,
-        vpnMonitor: VpnStateMonitor,
-        connectionManager: dagger.Lazy<VpnConnectionManager>,
-        notificationHelper: NotificationHelper,
-        currentUser: dagger.Lazy<CurrentUser>
-    ): ApiConnectionListener =
-        GuestHole(
-            appContext,
-            scope,
-            dispatcherProvider,
-            serverManager,
-            vpnMonitor,
-            connectionManager,
-            notificationHelper,
-            currentUser
-        )
 
     @Singleton
     @Provides

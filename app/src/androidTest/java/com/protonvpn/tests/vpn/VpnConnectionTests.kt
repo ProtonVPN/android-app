@@ -68,6 +68,7 @@ import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.test.shared.mockVpnUser
 import kotlinx.coroutines.runBlocking
 import me.proton.core.network.domain.ApiResult
@@ -118,6 +119,9 @@ class VpnConnectionTests {
 
     @RelaxedMockK
     lateinit var vpnUser: VpnUser
+
+    @MockK
+    lateinit var foregroundActivityTracker: ForegroundActivityTracker
 
     private lateinit var mockStrongSwan: MockVpnBackend
     private lateinit var mockOpenVpn: MockVpnBackend
@@ -316,19 +320,18 @@ class VpnConnectionTests {
     @Test
     fun executeInGuestHole() = runBlocking {
         mockOpenVpn.stateOnConnect = VpnState.Connected
-        val guestHole = spyk(
-            GuestHole(
-                mockk(relaxed = true),
-                this,
-                TestDispatcherProvider,
-                dagger.Lazy { serverManager },
-                monitor,
-                dagger.Lazy { manager },
-                mockk(relaxed = true),
-                dagger.Lazy { currentUser }
-            )
+        val guestHole = GuestHole(
+            mockk(relaxed = true),
+            this,
+            TestDispatcherProvider,
+            dagger.Lazy { serverManager },
+            monitor,
+            dagger.Lazy { manager },
+            mockk(relaxed = true),
+            dagger.Lazy { currentUser },
+            foregroundActivityTracker
         )
-        every { guestHole.getCurrentActivity() } returns mockk<ComponentActivity>()
+        every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/vpn", null) {
             ApiResult.Success<Any>(mockk())
         }
@@ -341,19 +344,18 @@ class VpnConnectionTests {
         mockOpenVpn.failScanning = true
         mockOpenVpn.stateOnConnect = VpnState.Disabled
 
-        val guestHole = spyk(
-            GuestHole(
-                context,
-                this,
-                TestDispatcherProvider,
-                dagger.Lazy { serverManager },
-                monitor,
-                dagger.Lazy { manager },
-                mockk(relaxed = true),
-                dagger.Lazy { currentUser }
-            )
+        val guestHole = GuestHole(
+            context,
+            this,
+            TestDispatcherProvider,
+            dagger.Lazy { serverManager },
+            monitor,
+            dagger.Lazy { manager },
+            mockk(relaxed = true),
+            dagger.Lazy { currentUser },
+            foregroundActivityTracker
         )
-        every { guestHole.getCurrentActivity() } returns mockk()
+        every { foregroundActivityTracker.foregroundActivity } returns mockk()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/randomCall", null) {
             ApiResult.Success<Any>(mockk())
         }
