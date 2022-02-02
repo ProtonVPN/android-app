@@ -75,6 +75,7 @@ class CongratsPlanActivity : BaseActivityV2() {
                     finish()
             }
         }
+        binding.skip.onClick { finish() }
     }
 
     companion object {
