@@ -20,9 +20,12 @@
 package com.protonvpn.android.di
 
 import android.content.Context
+import android.content.Intent
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
 import dagger.Provides
@@ -38,6 +41,7 @@ import me.proton.core.auth.domain.ClientSecret
 import me.proton.core.auth.domain.repository.AuthRepository
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.AuthOrchestrator
+import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
 import me.proton.core.network.data.ApiProvider
@@ -61,6 +65,13 @@ object AuthModule {
     @Provides
     @ClientSecret
     fun provideClientSecret(): String = ""
+
+    @Provides
+    @Singleton
+    fun provideLoginBlockingHelp() : LoginActivity.BlockingHelp? =
+        LoginActivity.BlockingHelp(R.string.troubleshootButton) {
+            it.startActivity(Intent(it, TroubleshootActivity::class.java))
+        }
 
     @Provides
     @Singleton
