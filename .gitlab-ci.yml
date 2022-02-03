@@ -12,9 +12,11 @@ default:
     - md5sum app/service_account.json
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
     - git fetch origin development
+    - if [[ $USE_CORE_SNAPSHOT -eq 1 && $CI_JOB_STAGE = "build" ]]; then git submodule update --init -- proton-libs; fi
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
+  USE_CORE_SNAPSHOT: 0
 
 stages:
   - image
