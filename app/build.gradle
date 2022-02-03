@@ -501,13 +501,13 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.7'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.qozix:tileview:2.2.7'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -517,13 +517,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'com.daimajia.easing:library:2.4@aar'
     implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'io.sentry:sentry-android:5.5.2'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -545,8 +545,8 @@ dependencies {
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1'
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.airbnb.android:lottie:4.2.2'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
@@ -640,8 +640,8 @@ dependencies {
 
     testImplementation 'joda-time:joda-time:2.10.13'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.mockk:mockk:1.12.1'
-    androidTestImplementation 'io.mockk:mockk-android:1.12.1'
+    testImplementation 'io.mockk:mockk:1.12.2'
+    androidTestImplementation 'io.mockk:mockk-android:1.12.2'
     androidTestImplementation 'com.github.tmurakami:dexopener:2.0.5'
     androidTestImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2') {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
