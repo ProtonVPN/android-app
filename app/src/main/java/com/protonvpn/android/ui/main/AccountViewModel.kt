@@ -140,6 +140,10 @@ class AccountViewModel @Inject constructor(
 
     suspend fun startLogin() {
         viewModelScope.launch { api.getAvailableDomains() }
-        authOrchestrator.startAddAccountWorkflow(accountType)
+        authOrchestrator.startAddAccountWorkflow(accountType, loginUsername = Storage.getString(LAST_USER, null))
+    }
+
+    companion object {
+        const val LAST_USER = "LAST_USER"
     }
 }
