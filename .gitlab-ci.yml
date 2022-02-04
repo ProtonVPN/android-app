@@ -202,11 +202,12 @@ unit tests:
     - small
   script:
     - *firebase_authenticate_script
-    - gcloud firebase test android
+    - gcloud beta firebase test android
         run firebase-device-config.yml:${TESTS_TYPE}
         --app "$APP"
         --test "$TEST_APP"
         --use-orchestrator
+        --num-uniform-shards=3
         --num-flaky-test-attempts=2
         --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
         --directories-to-pull /sdcard
