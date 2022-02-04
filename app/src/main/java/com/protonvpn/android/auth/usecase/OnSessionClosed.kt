@@ -20,7 +20,9 @@
 package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.ui.main.AccountViewModel.Companion.LAST_USER
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnConnectionManager
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -40,6 +42,7 @@ class OnSessionClosed @Inject constructor(
     val logoutFlow = MutableSharedFlow<Account>()
 
     suspend operator fun invoke(account: Account) {
+        Storage.saveString(LAST_USER, account.username)
         vpnConnectionManager.disconnectSync("log out")
         logoutFlow.emit(account)
         accountManager.removeAccount(account.userId)
