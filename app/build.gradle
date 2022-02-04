@@ -195,6 +195,10 @@ android {
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
             buildConfigField "String", "API_DOMAIN", productionServer
         }
+        amazon {
+            buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
+            buildConfigField "String", "API_DOMAIN", productionServer
+        }
         direct {
             buildConfigField "String", "STORE_SUFFIX", "\"+apk\""
             buildConfigField "String", "API_DOMAIN", productionServer

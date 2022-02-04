@@ -50,6 +50,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import androidx.viewbinding.ViewBinding
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.TvGenericDialogActivity
 import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
@@ -91,7 +92,8 @@ object AndroidUtils {
 
     fun Context.isTV(): Boolean {
         val uiMode: Int = resources.configuration.uiMode
-        return uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION ||
+        return BuildConfig.FLAVOR == "amazon" ||
+            uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION ||
             packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION) ||
             packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK) ||
             packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f

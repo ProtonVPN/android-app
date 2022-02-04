@@ -162,6 +162,21 @@ build google play release:
     paths:
     - app/build/outputs/apk
 
+build amazon release:
+  stage: build
+  only:
+    refs:
+      - master
+  tags:
+    - large
+  script:
+    - ./gradlew openvpn:assemble
+    - ./gradlew assembleAmazonRelease -PabiSplit -PbuildUniversalApk
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
 build release (auto):
   stage: build
   only:
