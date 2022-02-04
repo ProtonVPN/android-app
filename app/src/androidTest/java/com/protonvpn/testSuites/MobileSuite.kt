@@ -29,6 +29,7 @@ import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreTests
 import com.protonvpn.tests.settings.SettingsTests
 import com.protonvpn.tests.util.LiveEventTests
+import com.protonvpn.tests.vpn.VpnConnectionTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -44,7 +45,7 @@ import org.junit.runners.Suite
     SecureCoreTests::class,
     SecureCoreSecurityTests::class,
     SettingsTests::class,
-    // VpnConnectionTests::class, // TODO: refactor and move to unit tests
+    VpnConnectionTests::class,
     LiveEventTests::class
 )
 class MobileSuite
