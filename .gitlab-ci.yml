@@ -206,6 +206,7 @@ unit tests:
         run firebase-device-config.yml:${TESTS_TYPE}
         --app "$APP"
         --test "$TEST_APP"
+        --use-orchestrator
         --num-flaky-test-attempts=2
         --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
         --directories-to-pull /sdcard
