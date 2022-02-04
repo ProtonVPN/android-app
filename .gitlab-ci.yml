@@ -139,6 +139,7 @@ build black:
   tags:
     - large
   script:
+    - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
