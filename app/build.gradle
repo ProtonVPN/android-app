@@ -641,6 +641,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.12.1'
     androidTestImplementation 'io.mockk:mockk-android:1.12.1'
+    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.5'
     androidTestImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2') {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
