@@ -153,6 +153,7 @@ android {
         versionCode helpers.getVersionCode(0)
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true' // Clear app data between tests.
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "Sentry_DSN",  "\"${StringEscapeUtils.escapeJava(sentryDsn)}\""
         buildConfigField "String", "PREF_SALT",  preferencesSalt
