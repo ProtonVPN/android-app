@@ -65,7 +65,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
                 ?: return false
         lastServer.profile.wrapper.setDeliverer(serverManager)
-        return vpnConnectionManager.onRestoreProcess(this, lastServer.profile)
+        return vpnConnectionManager.onRestoreProcess(lastServer.profile)
     }
 
     override fun onTrimMemory(level: Int) {

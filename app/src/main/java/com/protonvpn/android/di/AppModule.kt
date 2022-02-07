@@ -43,6 +43,7 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
@@ -190,6 +191,7 @@ object AppModuleProd {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
         currentUser: CurrentUser,
         certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
@@ -202,6 +204,7 @@ object AppModuleProd {
         vpnConnectionErrorHandler,
         vpnStateMonitor,
         notificationHelper,
+        vpnBackgroundUiDelegate,
         serverManager,
         scope,
         System::currentTimeMillis,

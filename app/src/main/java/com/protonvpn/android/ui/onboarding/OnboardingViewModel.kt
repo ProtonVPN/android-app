@@ -75,7 +75,7 @@ class OnboardingViewModel @Inject constructor(
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
 
     suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {
-        val intent = vpnConnectionManager.prepare(delegate.getContext())
+        val intent = vpnConnectionManager.prepare(activity)
         val profile = serverManager.defaultAvailableConnection
         return if (activity.suspendForPermissions(intent))
             connectInternal(delegate, profile)

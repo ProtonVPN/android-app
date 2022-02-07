@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.vpn
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -49,18 +48,17 @@ abstract class VpnUiActivityDelegate(
         permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
     }
 
-    override fun getContext(): Context = activity
-
     abstract fun onPermissionDenied(profile: Profile)
 
     abstract fun showPlusUpgradeDialog()
     abstract fun showMaintenanceDialog()
 
-    override fun onServerRestricted(reason: ReasonRestricted) {
+    override fun onServerRestricted(reason: ReasonRestricted): Boolean {
         when (reason) {
             ReasonRestricted.UpgradeNeeded -> showPlusUpgradeDialog()
             ReasonRestricted.Maintenance -> showMaintenanceDialog()
         }
+        return true
     }
 }
 
@@ -93,6 +91,13 @@ class VpnUiActivityDelegateMobile(
             .setTitle(R.string.restrictedMaintenanceTitle)
             .setMessage(R.string.restrictedMaintenanceDescription)
             .setNegativeButton(R.string.got_it, null)
+            .show()
+    }
+
+    override fun onProtocolNotSupported() {
+        MaterialAlertDialogBuilder(activity)
+            .setMessage(R.string.serverNoWireguardSupport)
+            .setPositiveButton(R.string.close, null)
             .show()
     }
 }

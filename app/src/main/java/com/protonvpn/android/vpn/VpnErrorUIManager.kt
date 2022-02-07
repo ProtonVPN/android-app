@@ -62,9 +62,8 @@ class VpnErrorUIManager @Inject constructor(
             stateMonitor.fallbackConnectionFlow.collect { switch ->
                 if (switch is VpnFallbackResult.Switch.SwitchServer && !switch.compatibleProtocol) {
                     notificationHelper.showInformationNotification(
-                        context = appContext,
-                        content = appContext.getString(R.string.notification_smart_protocol_disabled_content),
-                        title = appContext.getString(R.string.notification_smart_protocol_disabled_title),
+                        content = R.string.notification_smart_protocol_disabled_content,
+                        title = R.string.notification_smart_protocol_disabled_title,
                         icon = R.drawable.ic_proton_green,
                         action = ActionItem(
                             title = appContext.getString(R.string.enable),
