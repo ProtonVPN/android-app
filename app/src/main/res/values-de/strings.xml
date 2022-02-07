@@ -596,6 +596,20 @@
   <string name="onboarding_plan_congrats_description_privacy">Genieße die Welt der Privatsphäre.</string>
   <string name="onboading_connect_to_plus">Verbinde dich mit einem PLUS-Server</string>
   <string name="upgrade_use_limited_free_button">Verwende den limitierten KOSTENLOSEN Plan</string>
+  <string name="dynamic_report_suggestion_didnt_work">Hat es nicht geklappt?</string>
+  <string name="dynamic_report_contact_us">Kontaktieren uns</string>
+  <string name="dynamic_report_tips_description">Diese Tipps können helfen, dein Problem schneller zu lösen.</string>
+  <string name="dynamic_report_tips_title">Schnelle Lösungen</string>
+  <string name="dynamic_report_logs_title">Fehlerprotokolle senden</string>
+  <string name="dynamic_report_success_title">Vielen Dank für deine Rückmeldung</string>
+  <string name="dynamic_report_success_description">Wir melden uns bei dir so schnell wie möglich.</string>
+  <string name="dynamic_report_field_mandatory">Das ist ein Pflichtfeld</string>
+  <string name="dynamic_report_logs_description">Ein Protokoll ist eine Art von Datei, die uns zeigt, welche Aktionen du durchgeführt hast, die zu einem Fehler geführt haben. Wir verwenden sie nur, um unseren Ingenieuren bei der Fehlerbehebung zu helfen.</string>
+  <string name="dynamic_report_logs_missing">Fehlerprotokolle helfen uns, deinem Problem auf den Grund zu gehen. Wenn du uns diese nicht zur Verfügung stellst, können wir das Problem möglicherweise nicht vollständig untersuchen.</string>
+  <string name="dynamic_report_step1">Schritt 1 von 3</string>
+  <string name="dynamic_report_step2">Schritt 2 von 3</string>
+  <string name="dynamic_report_step3">Schritt 3 von 3</string>
+  <string name="dynamic_report_your_issue_headline">Beschreibe dein Problem</string>
   <!-- Core strings overrides -->
   <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/pricing">protonvpn.com</a> für mehr Informationen.</string>
 </resources>
