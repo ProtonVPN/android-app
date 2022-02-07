@@ -26,6 +26,8 @@ import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.Entry
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.ProfileColor.Companion.random
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -53,7 +55,7 @@ class VpnStateConnectedViewModel @Inject constructor(
         val serverLoad: Int,
         val serverLoadState: Server.LoadState,
         val exitIp: String,
-        val protocol: String
+        val protocolDisplay: String
     )
 
     data class TrafficSpeedChartData(
@@ -95,7 +97,7 @@ class VpnStateConnectedViewModel @Inject constructor(
                     upToDateServer.load.toInt(),
                     upToDateServer.loadState,
                     exitIpAddress ?: "-",
-                    requireNotNull(protocol).displayName()
+                    protocolDisplay(protocol, transmission)
                 )
             }
         } else {
@@ -128,4 +130,9 @@ class VpnStateConnectedViewModel @Inject constructor(
             (update.timestampMs - lastTimestampMs).toFloat() / MILLIS_IN_SECOND,
             getter(update).toFloat() / BYTES_IN_KBYTE
         )
+
+    companion object {
+        fun protocolDisplay(protocol: VpnProtocol?, transmission: TransmissionProtocol?): String =
+            (protocol?.displayName() ?: "") + " " + (transmission ?: "")
+    }
 }

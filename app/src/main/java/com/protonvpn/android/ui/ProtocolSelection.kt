@@ -43,8 +43,8 @@ sealed class ProtocolSelection(val protocol: VpnProtocol) : Parcelable {
     }
 
     @Parcelize
-    data class OpenVPN(val transmission: TransmissionProtocol) : ProtocolSelection(VpnProtocol.OpenVPN) {
-        override val displayName: Int = when(transmission) {
+    data class OpenVPN(val transmissionProtocol: TransmissionProtocol) : ProtocolSelection(VpnProtocol.OpenVPN) {
+        override val displayName: Int = when (transmissionProtocol) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameOpenVpnTcp
             TransmissionProtocol.UDP -> R.string.settingsProtocolNameOpenVpnUdp
         }
@@ -52,10 +52,12 @@ sealed class ProtocolSelection(val protocol: VpnProtocol) : Parcelable {
 
     abstract val displayName: Int
 
+    val transmission get() = (this as? OpenVPN)?.transmissionProtocol
+
     companion object {
         @JvmStatic
-        fun from(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?): ProtocolSelection =
-            when(protocol) {
+        fun from(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol? = null): ProtocolSelection =
+            when (protocol) {
                 VpnProtocol.Smart -> Smart
                 VpnProtocol.WireGuard -> WireGuard
                 VpnProtocol.IKEv2 -> IKEv2

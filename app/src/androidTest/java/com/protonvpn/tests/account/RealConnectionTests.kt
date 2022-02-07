@@ -25,7 +25,9 @@ import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.data.DefaultData
@@ -50,7 +52,7 @@ import javax.inject.Inject
  */
 @RunWith(Parameterized::class)
 @HiltAndroidTest
-class RealConnectionTests(private val protocol: VpnProtocol) {
+class RealConnectionTests(private val protocol: ProtocolSelection) {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -65,11 +67,12 @@ class RealConnectionTests(private val protocol: VpnProtocol) {
     companion object {
         @JvmStatic
         @Parameters(name = "{0}")
-        fun data() : List<VpnProtocol> {
+        fun data(): List<ProtocolSelection> {
             return listOf(
-                VpnProtocol.IKEv2,
-                VpnProtocol.OpenVPN,
-                VpnProtocol.WireGuard,
+                ProtocolSelection.from(VpnProtocol.IKEv2),
+                ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+                ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+                ProtocolSelection.from(VpnProtocol.WireGuard),
             )
         }
     }
@@ -84,7 +87,7 @@ class RealConnectionTests(private val protocol: VpnProtocol) {
         TestSetup.setCompletedOnboarding()
         ActivityScenario.launch(MobileMainActivity::class.java)
         ServerManagerHelper().serverManager.clearCache()
-        userDataHelper.setProtocol(protocol)
+        userDataHelper.setProtocol(protocol.protocol, protocol.transmission)
     }
 
     @Test
@@ -102,7 +105,7 @@ class RealConnectionTests(private val protocol: VpnProtocol) {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         userDataHelper.logoutUser()
         Storage.clearAllPreferences()
         TestSettings.mockedConnectionUsed = true
