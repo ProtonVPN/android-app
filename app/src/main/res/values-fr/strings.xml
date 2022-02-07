@@ -596,6 +596,20 @@
   <string name="onboarding_plan_congrats_description_privacy">Profitez d’un monde plus confidentiel.</string>
   <string name="onboading_connect_to_plus">Connectez-vous à un serveur PLUS</string>
   <string name="upgrade_use_limited_free_button">Utilisez une offre FREE limitée</string>
+  <string name="dynamic_report_suggestion_didnt_work">Cela n\'a pas fonctionné ?</string>
+  <string name="dynamic_report_contact_us">Contactez-nous</string>
+  <string name="dynamic_report_tips_description">Ces conseils pourraient vous aider à résoudre votre problème plus rapidement.</string>
+  <string name="dynamic_report_tips_title">Solutions rapides</string>
+  <string name="dynamic_report_logs_title">Envoyer les journaux d\'erreurs</string>
+  <string name="dynamic_report_success_title">Merci pour vos commentaires</string>
+  <string name="dynamic_report_success_description">Nous vous répondrons dès que possible.</string>
+  <string name="dynamic_report_field_mandatory">Ce champ est obligatoire</string>
+  <string name="dynamic_report_logs_description">Un journal est un type de fichier qui nous montre les actions que vous avez effectuées et qui ont conduit à une erreur. Nous ne les utiliserons que pour aider nos ingénieurs à corriger des bugs.</string>
+  <string name="dynamic_report_logs_missing">Les journaux d\'erreurs nous aident à aller au fond de votre problème. Si vous ne les incluez pas, il se peut que nous ne soyons pas en mesure de mener une enquête approfondie.</string>
+  <string name="dynamic_report_step1">Étape 1 sur 3</string>
+  <string name="dynamic_report_step2">Étape 2 sur 3</string>
+  <string name="dynamic_report_step3">Étape 3 sur 3</string>
+  <string name="dynamic_report_your_issue_headline">Quel est votre problème</string>
   <!-- Core strings overrides -->
   <string name="plans_customizable_features">Visitez <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour obtenir plus d\'informations.</string>
 </resources>
