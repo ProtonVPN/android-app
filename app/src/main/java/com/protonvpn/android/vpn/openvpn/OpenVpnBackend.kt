@@ -99,13 +99,14 @@ class OpenVpnBackend(
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
+        val protocol = profile.getProtocol(userData)
+        val transmissionProtocol = profile.getTransmissionProtocol(userData)
         val protocolInfo = if (!scan) {
-            val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
                 openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
             listOf(ProtocolInfo(transmissionProtocol, port))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, waitForAll)
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol.takeIf { protocol != VpnProtocol.Smart }, waitForAll)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
@@ -115,30 +116,33 @@ class OpenVpnBackend(
 
     private suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
-        numberOfPorts: Int = Int.MAX_VALUE,
+        numberOfPorts: Int,
+        transmissionProtocol: TransmissionProtocol? = null,
         waitForAll: Boolean
     ): List<ProtocolInfo> {
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val result = mutableListOf<ProtocolInfo>()
         coroutineScope {
-            val udpPorts = async {
-                scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
-            }
+            val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
+                async {
+                    scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
+                } else null
 
             val tcpPingData = getPingData(tcp = true)
-            val tcpPorts = async {
-                val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
-                ProtonLogger.log(
-                    ConnConnectScan,
-                    "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: ${ports}"
-                )
-                ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                    NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
-                }
-            }
+            val tcpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.TCP)
+                async {
+                    val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
+                    ProtonLogger.log(
+                        ConnConnectScan,
+                        "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $ports"
+                    )
+                    ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
+                        NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
+                    }
+                } else null
 
-            result += udpPorts.await().map { ProtocolInfo(TransmissionProtocol.UDP, it) }
-            result += tcpPorts.await().map { ProtocolInfo(TransmissionProtocol.TCP, it) }
+            udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
+            tcpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
         }
         return result
     }

@@ -20,7 +20,7 @@ package com.protonvpn.actions
 
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.DefaultData
@@ -40,12 +40,12 @@ class RealConnectionRobot : BaseRobot() {
         return waitUntilDisplayed(R.id.buttonDisconnect)
     }
 
-    class Verify : BaseVerify(){
+    class Verify : BaseVerify() {
 
         fun checkIfDisconnected() = checkIfElementIsDisplayedById(R.id.textNotConnectedSuggestion)
 
-        fun checkProtocol(protocol: VpnProtocol) =
-            checkIfElementByIdContainsText(R.id.textProtocol, protocol.displayName())
+        fun checkProtocol(protocol: ProtocolSelection) =
+            checkIfElementByIdContainsText(R.id.textProtocol, protocol.displayName)
 
         suspend fun checkIfConnectedAndCorrectIpAddressIsDisplayed(api: ProtonApiRetroFit){
             val ipAddress = api.getLocation().valueOrNull?.ipAddress.toString()

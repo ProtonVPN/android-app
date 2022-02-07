@@ -24,6 +24,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.VPNInfo
@@ -99,8 +100,8 @@ class UserDataHelper {
             emptyList()))
     }
 
-    fun setProtocol(protocol: VpnProtocol) = runBlocking(Main) {
-        userData.setProtocols(protocol, null)
+    fun setProtocol(protocol: VpnProtocol, transmission: TransmissionProtocol? = null) = runBlocking(Main) {
+        userData.setProtocols(protocol, transmission)
     }
 
     fun logoutUser() {

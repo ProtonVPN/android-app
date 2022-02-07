@@ -131,7 +131,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
     private fun updateConnectionState(state: VpnStateConnectedViewModel.ConnectionState) {
         with(binding) {
             textServerName.text = state.serverName
-            textProtocol.text = state.protocol
+            textProtocol.text = state.protocolDisplay
             textServerIp.text = state.exitIp
             textLoad.text = getString(R.string.serverLoad, state.serverLoad.toString())
             ImageViewCompat.setImageTintList(
