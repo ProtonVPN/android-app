@@ -1,0 +1,99 @@
+.firebase_authenticate_script: &firebase_authenticate_script
+  - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+  - echo ${ARCHIVES_BASE_NAME}
+  - echo $CLOUD_PROJECT_ID
+  - gcloud config set project $CLOUD_PROJECT_ID
+  - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
+  - gcloud auth activate-service-account --key-file /tmp/service-account.json
+  - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
+  - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
+  - echo $APP
+  - echo $TEST_APP
+  - echo $PWD
+
+.tests_preparation_script:
+  stage: test
+  tags:
+    - small
+  variables:
+    NUM_SHARDS: 1
+  script:
+    - *firebase_authenticate_script
+    - gcloud beta firebase test android
+      run firebase-device-config.yml:${TESTS_TYPE}
+      --app "$APP"
+      --test "$TEST_APP"
+      --use-orchestrator
+      --num-uniform-shards=${NUM_SHARDS}
+      --num-flaky-test-attempts=2
+      --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
+      --directories-to-pull /sdcard
+      --test-targets "class $TEST_SUITE"
+    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/$COVERAGE_FILE_NAME.ec | tail -1`
+    - gsutil cp $coverageFile app/build/outputs/apk | true
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - app/build/outputs/apk
+
+firebase quick tests:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: quickTest
+    NUM_SHARDS: 3
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
+    COVERAGE_FILE_NAME: "coverageMobile.ec"
+
+firebase full tests:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: fullTest
+    NUM_SHARDS: 3
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
+    COVERAGE_FILE_NAME: "coverageMobileFull.ec"
+  when: manual
+
+firebase tv tests:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: tvTest
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
+    COVERAGE_FILE_NAME: "coverageTv.ec"
+
+firebase real connection tests:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: realConnectionTest
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
+    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
+    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
+
+firebase robo tests:
+  stage: test
+  tags:
+    - small
+  script:
+    - *firebase_authenticate_script
+    - gcloud firebase test android run
+      --type robo
+      --app "$APP"
+      --device model=Pixel3,version=30,locale=en,orientation=portrait
+      --timeout 300s
+  variables:
+    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
+    APP_TYPE: "direct-debug.apk"
