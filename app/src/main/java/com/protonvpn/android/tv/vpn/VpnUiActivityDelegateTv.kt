@@ -56,6 +56,13 @@ class VpnUiActivityDelegateTv(
             .show()
     }
 
+    override fun onProtocolNotSupported() {
+        MaterialDialog.Builder(activity).theme(Theme.DARK)
+            .content(R.string.serverNoWireguardSupport)
+            .positiveText(R.string.close)
+            .show()
+    }
+
     @TargetApi(Build.VERSION_CODES.N)
     private fun showNoVpnPermissionDialog() {
         val content = HtmlTools.fromHtml(

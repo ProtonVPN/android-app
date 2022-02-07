@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.vpn
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -28,7 +27,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.distinctUntilChanged
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -54,6 +52,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
@@ -78,9 +77,14 @@ enum class ReasonRestricted { UpgradeNeeded, Maintenance }
 
 interface VpnUiDelegate {
     fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit)
-    fun getContext(): Context
-    fun onServerRestricted(reason: ReasonRestricted)
+    /**
+     * Called when server is restricted.
+     * Returns true if the situation is handled (e.g. by informing the user).
+     * If false is returned, VpnConnectionManager uses a fallback server.
+     */
+    fun onServerRestricted(reason: ReasonRestricted): Boolean
     fun shouldSkipAccessRestrictions(): Boolean = false
+    fun onProtocolNotSupported()
 }
 
 @Singleton
@@ -92,6 +96,7 @@ open class VpnConnectionManager(
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
+    private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val serverManager: ServerManager,
     private val scope: CoroutineScope,
     private val now: () -> Long,
@@ -136,7 +141,7 @@ open class VpnConnectionManager(
             notificationHelper.cancelInformationNotification()
             ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
             userData.setProtocols(VpnProtocol.Smart, null)
-            connectInBackground(appContext, profileToSwitch, "Enable Smart protocol from notification")
+            connect(vpnBackgroundUiDelegate, profileToSwitch, "Enable Smart protocol from notification")
         }
         stateInternal.observeForever {
             if (initialized) {
@@ -252,7 +257,7 @@ open class VpnConnectionManager(
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(appContext, fallback.toProfile, fallback.log, null)
+                connectWithPermission(vpnBackgroundUiDelegate, fallback.toProfile, fallback.log)
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
                 if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
@@ -267,7 +272,7 @@ open class VpnConnectionManager(
         }
     }
 
-    private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
+    private suspend fun onServerNotAvailable(profile: Profile, server: Server?) {
         val fallback = if (server == null) {
             vpnErrorHandler.onServerNotAvailable(profile)
         } else {
@@ -278,11 +283,8 @@ open class VpnConnectionManager(
             fallbackConnect(fallback)
         } else {
             notificationHelper.showInformationNotification(
-                context,
-                context.getString(
-                    if (server == null) R.string.error_server_not_set
-                    else R.string.restrictedMaintenanceDescription
-                )
+                if (server == null) R.string.error_server_not_set
+                else R.string.restrictedMaintenanceDescription
             )
         }
     }
@@ -364,59 +366,40 @@ open class VpnConnectionManager(
         ongoingConnect = null
     }
 
-    fun onRestoreProcess(context: Context, profile: Profile): Boolean {
+    fun onRestoreProcess(profile: Profile): Boolean {
         val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
         if (state == VpnState.Disabled && stateKey == VpnState.Connected.name) {
-            connectInBackground(context, profile, "Process restore")
+            connect(vpnBackgroundUiDelegate, profile, "Process restore")
             return true
         }
         return false
     }
 
-    fun connect(
-        uiDelegate: VpnUiDelegate,
-        profile: Profile,
-        triggerAction: String
-    ) {
-        connect(uiDelegate.getContext(), profile, triggerAction, uiDelegate)
-    }
-
-    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String) {
-        connect(context, profile, connectionCauseLog, null)
-    }
-
-    private fun connect(
-        context: Context,
-        profile: Profile,
-        triggerAction: String,
-        uiDelegate: VpnUiDelegate?,
-    ) {
-        val intent = prepare(context)
+    fun connect(uiDelegate: VpnUiDelegate, profile: Profile, triggerAction: String) {
+        val intent = prepare(appContext) // TODO: can this be appContext?
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
-            if (uiDelegate != null) {
-                uiDelegate.askForPermissions(intent, profile) {
-                    connectWithPermission(uiDelegate.getContext(), profile, triggerAction, uiDelegate)
-                }
-            } else {
-                showInsufficientPermissionNotification(context)
+            uiDelegate.askForPermissions(intent, profile) {
+                connectWithPermission(uiDelegate, profile, triggerAction)
             }
         } else {
-            connectWithPermission(context, profile, triggerAction, uiDelegate)
+            connectWithPermission(uiDelegate, profile, triggerAction)
         }
     }
 
+    fun connectInBackground(profile: Profile, triggerAction: String) =
+        connect(vpnBackgroundUiDelegate, profile, triggerAction)
+
     private fun connectWithPermission(
-        context: Context,
+        delegate: VpnUiDelegate,
         profile: Profile,
-        triggerAction: String,
-        delegate: VpnUiDelegate?
+        triggerAction: String
     ) {
         ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
         val vpnUser = currentUser.vpnUserCached()
         if (server?.online == true &&
-            (delegate?.shouldSkipAccessRestrictions() == true || vpnUser.hasAccessToServer(server))
+            (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
                 clearOngoingConnection()
@@ -425,43 +408,21 @@ open class VpnConnectionManager(
                     ongoingConnect = null
                 }
             } else {
-                protocolNotSupportedDialog(context)
+                delegate.onProtocolNotSupported()
             }
         } else {
-            if (delegate != null && server != null) {
-                delegate.onServerRestricted(if (!server.online)
-                    ReasonRestricted.Maintenance else ReasonRestricted.UpgradeNeeded)
-            } else {
+            val needsFallback = server == null ||
+                delegate.onServerRestricted(
+                    if (!server.online) ReasonRestricted.Maintenance
+                    else ReasonRestricted.UpgradeNeeded
+                ).not()
+            if (needsFallback) {
                 ongoingFallback = scope.launch {
-                    onServerNotAvailable(context, profile, server)
+                    onServerNotAvailable(profile, server)
                     ongoingFallback = null
                 }
             }
         }
-    }
-
-    private fun protocolNotSupportedDialog(context: Context) {
-        if (context is Activity) {
-            MaterialAlertDialogBuilder(context)
-                .setMessage(R.string.serverNoWireguardSupport)
-                .setPositiveButton(R.string.close, null)
-                .show()
-        } else {
-            notificationHelper.showInformationNotification(
-                context,
-                context.getString(R.string.serverNoWireguardSupport),
-                icon = R.drawable.ic_notification_disconnected
-            )
-        }
-    }
-
-    private fun showInsufficientPermissionNotification(context: Context) {
-        notificationHelper.showInformationNotification(
-            context,
-            context.getString(R.string.insufficientPermissionsDetails),
-            context.getString(R.string.insufficientPermissionsTitle),
-            icon = R.drawable.ic_notification_disconnected
-        )
     }
 
     open fun prepare(context: Context): Intent? = VpnService.prepare(context)

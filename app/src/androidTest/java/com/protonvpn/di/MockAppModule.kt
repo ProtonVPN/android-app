@@ -41,6 +41,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertRefreshScheduler
@@ -167,6 +168,7 @@ class MockAppModule {
         vpnConnectionErrorHandler: VpnConnectionErrorHandler,
         vpnStateMonitor: VpnStateMonitor,
         notificationHelper: NotificationHelper,
+        vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
         currentUser: CurrentUser,
         certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
@@ -174,30 +176,32 @@ class MockAppModule {
     ): VpnConnectionManager =
             if (TestSettings.mockedConnectionUsed) {
                 MockVpnConnectionManager(
-                        userData,
-                        backendManager,
-                        networkManager,
-                        vpnConnectionErrorHandler,
-                        vpnStateMonitor,
-                        notificationHelper,
-                        serverManager,
-                        scope,
-                        System::currentTimeMillis,
-                        currentUser
+                    userData,
+                    backendManager,
+                    networkManager,
+                    vpnConnectionErrorHandler,
+                    vpnStateMonitor,
+                    notificationHelper,
+                    vpnBackgroundUiDelegate,
+                    serverManager,
+                    scope,
+                    System::currentTimeMillis,
+                    currentUser
                 )
             } else {
                 VpnConnectionManager(
-                        ProtonApplication.getAppContext(),
-                        userData,
-                        backendManager,
-                        networkManager,
-                        vpnConnectionErrorHandler,
-                        vpnStateMonitor,
-                        notificationHelper,
-                        serverManager,
-                        scope,
-                        System::currentTimeMillis,
-                        currentUser
+                    ProtonApplication.getAppContext(),
+                    userData,
+                    backendManager,
+                    networkManager,
+                    vpnConnectionErrorHandler,
+                    vpnStateMonitor,
+                    notificationHelper,
+                    vpnBackgroundUiDelegate,
+                    serverManager,
+                    scope,
+                    System::currentTimeMillis,
+                    currentUser
                 )
             }
 

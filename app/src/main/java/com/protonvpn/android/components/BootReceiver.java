@@ -45,7 +45,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (userData.getConnectOnBoot() && currentVpnUser.isLoggedInCached()) {
             Profile defaultProfile = manager.getDefaultConnection();
             if (defaultProfile != null) {
-                vpnConnectionManager.connectInBackground(context, defaultProfile, "legacy always-on");
+                vpnConnectionManager.connectInBackground(defaultProfile, "legacy always-on");
             }
         }
     }

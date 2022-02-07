@@ -30,6 +30,7 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -312,28 +313,27 @@ class NotificationHelper(
     }
 
     fun showInformationNotification(
-        context: Context,
-        content: String,
-        title: String? = null,
+        @StringRes content: Int,
+        @StringRes title: Int? = null,
         @DrawableRes icon: Int = R.drawable.ic_info,
         action: ActionItem? = null,
         notificationId: Int = Constants.NOTIFICATION_INFO_ID
     ) {
-        with(NotificationManagerCompat.from(context)) {
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        with(NotificationManagerCompat.from(appContext)) {
+            val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(icon)
-                .setContentText(content)
-                .setColor(context.getThemeColor(R.attr.colorAccent))
+                .setContentText(appContext.getString(content))
+                .setColor(appContext.getThemeColor(R.attr.colorAccent))
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
             if (title != null)
-                builder.setContentTitle(title)
+                builder.setContentTitle(appContext.getString(title))
 
             builder.setContentIntent(
                 PendingIntent.getActivity(
-                    context, 0,
-                    createMainActivityIntent(context),
+                    appContext, 0,
+                    createMainActivityIntent(appContext),
                     PendingIntent.FLAG_UPDATE_CURRENT))
 
             action?.let {

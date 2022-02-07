@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.api
 
-import android.content.Context
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -38,7 +37,6 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -55,7 +53,6 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class GuestHole @Inject constructor(
-    @ApplicationContext val appContext: Context,
     private val scope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val serverManager: dagger.Lazy<ServerManager>,
@@ -131,7 +128,7 @@ class GuestHole @Inject constructor(
             return null
         }
         val delegate = GuestHoleVpnUiDelegate(currentActivity)
-        val intent = vpnConnectionManager.get().prepare(delegate.getContext())
+        val intent = vpnConnectionManager.get().prepare(currentActivity)
 
         // Ask for permissions and if granted execute original method and return it back to core
         return if (currentActivity.suspendForPermissions(intent)) {
@@ -150,8 +147,7 @@ class GuestHole @Inject constructor(
         var result: ApiResult<T>? = null
         try {
             notificationHelper.showInformationNotification(
-                appContext,
-                appContext.getString(R.string.guestHoleNotificationContent),
+                R.string.guestHoleNotificationContent,
                 notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
             )
             logMessage("Establishing hole for call: $path")
@@ -222,4 +218,5 @@ class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegat
     override fun showPlusUpgradeDialog() {}
     override fun showMaintenanceDialog() {}
     override fun shouldSkipAccessRestrictions() = true
+    override fun onProtocolNotSupported() {}
 }

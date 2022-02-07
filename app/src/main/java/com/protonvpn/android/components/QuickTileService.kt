@@ -83,9 +83,7 @@ class QuickTileService : TileService() {
                 if (qsTile.state == Tile.STATE_INACTIVE) {
                     if (currentUser.isLoggedIn()) {
                         ProtonLogger.log(UiConnect, "quick tile")
-                        vpnConnectionManager.connectInBackground(
-                            this@QuickTileService, manager.defaultConnection, "Quick tile service"
-                        )
+                        vpnConnectionManager.connectInBackground(manager.defaultConnection, "Quick tile service")
                     } else {
                         startActivity(NotificationHelper.createMainActivityIntent(applicationContext))
                     }

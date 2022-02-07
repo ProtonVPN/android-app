@@ -112,13 +112,13 @@ class ProtonCharonVpnService : CharonVpnService() {
             stopSelf()
         else {
             lastServer.profile.wrapper.setDeliverer(manager)
-            if (!vpnConnectionManager.onRestoreProcess(this, lastServer.profile))
+            if (!vpnConnectionManager.onRestoreProcess(lastServer.profile))
                 stopSelf()
         }
     }
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connectInBackground(this, manager.defaultAvailableConnection, "always-on")
+        vpnConnectionManager.connectInBackground(manager.defaultAvailableConnection, "always-on")
     }
 }
