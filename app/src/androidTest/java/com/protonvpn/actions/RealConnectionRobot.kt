@@ -19,7 +19,6 @@
 package com.protonvpn.actions
 
 import com.protonvpn.android.R
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -47,10 +46,9 @@ class RealConnectionRobot : BaseRobot() {
         fun checkProtocol(protocol: ProtocolSelection) =
             checkIfElementByIdContainsText(R.id.textProtocol, protocol.displayName)
 
-        suspend fun checkIfConnectedAndCorrectIpAddressIsDisplayed(api: ProtonApiRetroFit){
-            val ipAddress = api.getLocation().valueOrNull?.ipAddress.toString()
+        fun checkIfConnectedAndCorrectIpAddressIsDisplayed(expectedId: String) {
             checkIfElementIsDisplayedById(R.id.buttonDisconnect)
-            checkIfElementByIdContainsText(R.id.textServerIp, ipAddress)
+            checkIfElementByIdContainsText(R.id.textServerIp, expectedId)
         }
     }
 
