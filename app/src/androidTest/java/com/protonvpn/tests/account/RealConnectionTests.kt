@@ -24,12 +24,12 @@ import com.protonvpn.TestSettings
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.ServerManagerHelper
@@ -57,7 +57,7 @@ class RealConnectionTests(private val protocol: ProtocolSelection) {
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var api: ProtonApiRetroFit
+    lateinit var vpnStateMonitor: VpnStateMonitor
 
     private val loginRobot = LoginRobot()
     private val connectionRobot = RealConnectionRobot()
@@ -97,7 +97,7 @@ class RealConnectionTests(private val protocol: ProtocolSelection) {
         loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
         connectionRobot.connectThroughQuickConnectRealConnection()
             .verify {
-                runBlocking { checkIfConnectedAndCorrectIpAddressIsDisplayed(api) }
+                runBlocking { checkIfConnectedAndCorrectIpAddressIsDisplayed(vpnStateMonitor.exitIP!!) }
                 checkProtocol(protocol)
             }
         connectionRobot.disconnectFromVPN()
