@@ -83,7 +83,7 @@ class DynamicReportActivity : BaseActivityV2() {
         val intent = Intent(baseContext, FullScreenDialog::class.java)
         intent.putExtra(FullScreenDialog.EXTRA_TITLE, getString(R.string.dynamic_report_success_title))
         intent.putExtra(FullScreenDialog.EXTRA_DESCRIPTION, getString(R.string.dynamic_report_success_description))
-        intent.putExtra(FullScreenDialog.EXTRA_ICON_RES, R.drawable.dynamic_report_success)
+        intent.putExtra(FullScreenDialog.EXTRA_ICON_RES, R.drawable.ic_dynamic_report_success)
         startActivity(intent)
     }
 
