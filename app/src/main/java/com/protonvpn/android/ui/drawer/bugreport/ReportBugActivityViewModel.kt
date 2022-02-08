@@ -55,7 +55,7 @@ class ReportBugActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     interface DynamicInputUI {
-        fun getSubmitText() : String
+        fun getSubmitText() : String?
         fun setInputError(error: String)
     }
 
