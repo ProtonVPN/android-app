@@ -137,8 +137,8 @@ class ReportFragment : Fragment(R.layout.fragment_report) {
 
         binding.dynamicContent.addView(input)
         inputMap[inputField] = object : ReportBugActivityViewModel.DynamicInputUI {
-            override fun getSubmitText(): String {
-                return inputField.dropdownOptions.first { it.label == input.text.toString() }.submitLabel
+            override fun getSubmitText(): String? {
+                return inputField.dropdownOptions.firstOrNull { it.label == input.text.toString() }?.submitLabel
             }
 
             override fun setInputError(error: String) {
