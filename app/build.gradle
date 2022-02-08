@@ -224,6 +224,7 @@ android {
     }
 
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         animationsDisabled true
         unitTests {
             includeAndroidResources = true
@@ -669,6 +670,7 @@ dependencies {
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
 
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
