@@ -42,17 +42,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
 import javax.inject.Inject
 
 /**
  * [RealConnectionTests] Contains tests related to real VPN connection.
  */
-@RunWith(Parameterized::class)
 @HiltAndroidTest
-class RealConnectionTests(private val protocol: ProtocolSelection) {
+class RealConnectionTests {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -64,21 +60,8 @@ class RealConnectionTests(private val protocol: ProtocolSelection) {
     private val addAccountRobot = AddAccountRobot()
     private lateinit var userDataHelper: UserDataHelper
 
-    companion object {
-        @JvmStatic
-        @Parameters(name = "{0}")
-        fun data(): List<ProtocolSelection> {
-            return listOf(
-                ProtocolSelection.from(VpnProtocol.IKEv2),
-                ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-                ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-                ProtocolSelection.from(VpnProtocol.WireGuard),
-            )
-        }
-    }
-
     @Before
-    fun setUp(){
+    fun setUp() {
         TestSettings.mockedConnectionUsed = false
         TestSettings.mockedServersUsed = false
         userDataHelper = UserDataHelper()
@@ -87,12 +70,30 @@ class RealConnectionTests(private val protocol: ProtocolSelection) {
         TestSetup.setCompletedOnboarding()
         ActivityScenario.launch(MobileMainActivity::class.java)
         ServerManagerHelper().serverManager.clearCache()
-        userDataHelper.setProtocol(protocol.protocol, protocol.transmission)
     }
 
     @Test
-    //Don't run this test case individually, Junit has a bug https://github.com/android/android-test/issues/960
-    fun realConnection() {
+    fun realConnectionIKEv2() {
+        realConnection(ProtocolSelection.from(VpnProtocol.IKEv2))
+    }
+
+    @Test
+    fun realConnectionOpenVpnUDP() {
+        realConnection(ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
+    }
+
+    @Test
+    fun realConnectionOpenVpnTCP() {
+        realConnection(ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
+    }
+
+    @Test
+    fun realConnectionWireguard() {
+        realConnection(ProtocolSelection.from(VpnProtocol.WireGuard))
+    }
+
+    private fun realConnection(protocol: ProtocolSelection) {
+        userDataHelper.setProtocol(protocol.protocol, protocol.transmission)
         addAccountRobot.selectSignInOption()
         loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
         connectionRobot.connectThroughQuickConnectRealConnection()
