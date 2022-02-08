@@ -37,7 +37,9 @@ import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ForegroundActivityTracker @Inject constructor(
     mainScope: CoroutineScope,
     app: Application,
