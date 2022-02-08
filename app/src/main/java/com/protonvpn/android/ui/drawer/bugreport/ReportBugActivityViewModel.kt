@@ -117,6 +117,7 @@ class ReportBugActivityViewModel @Inject constructor(
     }
 
     fun prepareAndPostReport(
+        isTV: Boolean,
         emailField: ProtonInput,
         dynamicInputMap: Map<InputField, DynamicInputUI>,
         attachLog: Boolean
@@ -128,9 +129,9 @@ class ReportBugActivityViewModel @Inject constructor(
             val userGeneratedDescription = generateReportDescription(dynamicInputMap)
             val description =
                 "$userGeneratedDescription\n\nSentry user ID: ${SentryIntegration.getInstallationId()}"
-
+            val client = if (isTV) "Android TV app" else "Android app"
             val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("Client", "Android app")
+                .addFormDataPart("Client", client)
                 .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
                 .addFormDataPart("Username", currentUser.user()?.displayName ?: "unknown")
                 .addFormDataPart("Email", email)
@@ -140,7 +141,7 @@ class ReportBugActivityViewModel @Inject constructor(
                 .addFormDataPart("ClientType", "2")
                 .addFormDataPart("Country", "Unknown")
                 .addFormDataPart("ISP", "Unknown")
-                .addFormDataPart("Title", "Report from Android app")
+                .addFormDataPart("Title", "Report from $client")
                 .addFormDataPart("Description", description)
 
             if (attachLog) {
