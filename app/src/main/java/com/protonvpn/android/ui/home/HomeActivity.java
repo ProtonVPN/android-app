@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,7 +93,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -121,6 +119,7 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 public class HomeActivity extends PoolingActivity {
 
     private static final String PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG";
+    private static final String PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG";
 
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabs) TabLayout tabs;
@@ -244,26 +243,35 @@ public class HomeActivity extends PoolingActivity {
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 showSecureCoreUpgradeDialog();
-                return true;
-            } else if (vpnStateMonitor.isConnected()
-                && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
-                CommonDialogsKt.showGenericReconnectDialog(
+            } else if (!switchView.isChecked()) {
+                showSecureCoreSpeedInfoDialog(this::toggleSecureCore);
+            } else {
+                toggleSecureCore();
+            }
+            return true;
+        });
+    }
+
+    private void toggleSecureCore() {
+        if (vpnStateMonitor.isConnected()
+                && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
+            CommonDialogsKt.showGenericReconnectDialog(
                     getContext(),
                     R.string.settingsReconnectToChangeDialogContent,
                     PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG,
                     () -> {
-                        switchView.toggle();
-                        postSecureCoreSwitched(switchView);
+                        switchSecureCore.toggle();
+                        postSecureCoreSwitched(switchSecureCore);
                         viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
                             onConnect(newProfile, "Secure Core switch");
                             return Unit.INSTANCE;
                         });
                         return Unit.INSTANCE;
                     });
-                return true;
-            }
-            return false;
-        });
+        } else {
+            switchSecureCore.toggle();
+            postSecureCoreSwitched(switchSecureCore);
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -653,7 +661,12 @@ public class HomeActivity extends PoolingActivity {
         if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
             showSecureCoreUpgradeDialog();
         } else if (secureCoreServer != secureCoreOn) {
-            showSecureCoreChangeDialog(profile, connectionCauseLog);
+            showSecureCoreChangeDialog(profile,
+                    () -> showSecureCoreSpeedInfoDialog(() -> {
+                        LogExtensionsKt.logUiSettingChange(
+                                ProtonLogger.INSTANCE, Setting.SECURE_CORE, "connecting to profile");
+                        super.onConnect(profile, connectionCauseLog);
+                    }));
         } else {
             super.onConnect(profile, connectionCauseLog);
         }
@@ -664,8 +677,7 @@ public class HomeActivity extends PoolingActivity {
         vpnConnectionManager.disconnect("user via " + uiElement);
     }
 
-    private void showSecureCoreChangeDialog(
-            @NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
+    private void showSecureCoreChangeDialog(@NonNull Profile profileToConnect, @NonNull Runnable onAccepted) {
         String disconnect =
             vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : "";
         boolean isSecureCoreServer = profileToConnect.isSecureCore();
@@ -675,20 +687,24 @@ public class HomeActivity extends PoolingActivity {
                 getString(isSecureCoreServer ? R.string.secureCoreSwitchOn : R.string.secureCoreSwitchOff,
                     disconnect))
             .setCancelable(false)
-            .setPositiveButton(R.string.secureCoreSwitchConnect,
-                (dialog, which) -> {
-                    LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "connecting to profile");
-                    super.onConnect(profileToConnect, connectionCauseLog);
-                })
+            .setPositiveButton(R.string.secureCoreSwitchConnect, (dialog, which) -> onAccepted.run())
             .setNegativeButton(R.string.cancel, null)
             .show();
     }
 
-    @ColorRes
-    private int getThemeColorId(@NonNull View view, @AttrRes int attr) {
-        TypedValue value = new TypedValue();
-        view.getContext().getTheme().resolveAttribute(attr, value, true);
-        return value.resourceId;
+    private void showSecureCoreSpeedInfoDialog(@NonNull Runnable onAccepted) {
+        CommonDialogsKt.showDialogWithDontShowAgain(
+                getContext(),
+                0,
+                R.string.secureCoreSwitchSpeedInfo,
+                R.string.dialogContinue,
+                R.string.cancel,
+                PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG,
+                Constants.SECURE_CORE_INFO_URL,
+                () -> {
+                    onAccepted.run();
+                    return Unit.INSTANCE;
+                });
     }
 
     @NonNull
