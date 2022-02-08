@@ -58,14 +58,14 @@ class ProfileTests {
 
     private lateinit var homeRobot: HomeRobot
     private lateinit var profilesRobot: ProfilesRobot
-    private lateinit var connecionRobot: ConnectionRobot
+    private lateinit var connectionRobot: ConnectionRobot
     private lateinit var userDataHelper: UserDataHelper
 
     @Before
     fun setup() {
         homeRobot = HomeRobot()
         profilesRobot = ProfilesRobot()
-        connecionRobot = ConnectionRobot()
+        connectionRobot = ConnectionRobot()
         userDataHelper = UserDataHelper()
     }
 
@@ -157,7 +157,7 @@ class ProfileTests {
             }
         profilesRobot.clickOnConnectButtonUntilConnected(DefaultData.PROFILE_NAME)
             .verify { isConnected() }
-        connecionRobot.disconnectFromVPN()
+        connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
     }
 
@@ -247,8 +247,10 @@ class ProfileTests {
             .verify { isDisconnectedServiceHelper() }
         profilesRobot.verify { connectingToSecureCoreWarningIsDisplayed() }
         profilesRobot.clickScConnectButton()
-            .verify { isConnected() }
-        connecionRobot.disconnectFromVPN()
+            .verify { connectingToSecureCoreSpeedInfoIsDisplayed() }
+        profilesRobot.clickScSpeedInfoDialogContinue()
+        connectionRobot.verify { isConnected() }
+        connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
     }
 

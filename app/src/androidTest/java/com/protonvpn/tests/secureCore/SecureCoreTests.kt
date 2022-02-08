@@ -68,10 +68,26 @@ class SecureCoreTests {
     }
 
     @Test
+    @TestID(123438)
+    fun secureCoreSpeedInfoDialogShown() {
+        homeRobot.setStateOfSecureCoreSwitch(true)
+            .verify {
+                dialogSpeedInfoVisible()
+            }
+        homeRobot.acceptSecureCoreInfoDialog()
+
+        homeRobot.setStateOfSecureCoreSwitch(false)
+            .verify {
+                dialogSpeedInfoNotVisible()
+            }
+    }
+
+    @Test
     @TestID(78)
     fun connectAndDisconnectFromSecureCoreThroughMap() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)
+            .acceptSecureCoreInfoDialog()
             .swipeLeftToOpenMap()
         mapRobot.clickOnCountryNode("Sweden")
             .verify { isCountryNodeSelected("Sweden") }
@@ -87,6 +103,7 @@ class SecureCoreTests {
     fun connectAndDisconnectFromSecureCoreThroughQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)
+            .acceptSecureCoreInfoDialog()
             .connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
             .verify { isConnected() }
         connectionRobot.disconnectFromVPN()
@@ -98,6 +115,7 @@ class SecureCoreTests {
     fun connectAndDisconnectFromSecureCoreThroughCountryList() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.setStateOfSecureCoreSwitch(true)
+            .acceptSecureCoreInfoDialog()
         countriesRobot.selectCountry("Finland")
             .clickConnectButton("via Sweden")
             .verify { isConnected() }
@@ -107,7 +125,7 @@ class SecureCoreTests {
 
     @Test
     @TestID(121422)
-    fun cancelSecureCoreReconnection(){
+    fun cancelSecureCoreReconnection() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.verify { assertThatSecureCoreSwitchIsDisabled() }
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
@@ -121,13 +139,14 @@ class SecureCoreTests {
 
     @Test
     @TestID(121423)
-    fun reconnectWhenEnablingSecureCore(){
+    fun reconnectWhenEnablingSecureCore() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.verify { assertThatSecureCoreSwitchIsDisabled() }
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
             .verify { isConnected() }
         homeRobot.swipeDownToCloseConnectionInfoLayout()
             .setStateOfSecureCoreSwitch(true)
+            .acceptSecureCoreInfoDialog()
             .clickReconnect()
         homeRobot.verify { assertThatSecureCoreSwitchIsEnabled() }
         connectionRobot.verify {

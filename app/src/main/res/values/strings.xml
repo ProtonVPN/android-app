@@ -62,6 +62,7 @@
          NOTE: use \u0020 for space at the beginning or end if needed. -->
     <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
     <string name="secureCoreSwitchConnect">Yes, connect</string>
+    <string name="secureCoreSwitchSpeedInfo">Secure Core improves your security but can impact the speed of your connection.</string>
     <string name="logoutConfirmDialogTitle">Log out?</string>
     <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Log out</string>
@@ -71,6 +72,7 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="dialogContinue">Continue</string>
+    <string name="dialogLearnMore">Learn more</string>
 
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Connected</string>

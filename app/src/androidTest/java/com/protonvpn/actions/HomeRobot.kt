@@ -80,8 +80,11 @@ class HomeRobot : BaseRobot() {
     fun setStateOfSecureCoreSwitch(state: Boolean): HomeRobot {
         if (state != ServiceTestHelper().isSecureCoreEnabled)
             clickElementById<HomeRobot>(R.id.switchSecureCore)
-        return this;
+        return this
     }
+
+    fun acceptSecureCoreInfoDialog(): HomeRobot =
+        clickElementByText(R.string.dialogContinue)
 
     fun swipeLeftToOpenProfiles(): ProfilesRobot {
         view.waitForCondition {
@@ -135,6 +138,14 @@ class HomeRobot : BaseRobot() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_message)
             checkIfElementByIdContainsText(R.id.buttonUpgrade, R.string.upgrade)
             checkIfElementByIdContainsText(R.id.buttonOther, R.string.upgrade_not_now_button)
+        }
+
+        fun dialogSpeedInfoVisible() {
+            checkIfElementIsDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
+        }
+
+        fun dialogSpeedInfoNotVisible() {
+            checkIfElementIsNotDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
         }
 
         fun isSecureCoreDisabled() {

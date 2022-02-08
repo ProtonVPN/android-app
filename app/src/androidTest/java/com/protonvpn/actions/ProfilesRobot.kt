@@ -46,8 +46,11 @@ class ProfilesRobot : BaseRobot() {
 
     fun clickDiscardButton(): ProfilesRobot = clickElementByText(R.string.discard)
 
-    fun clickScConnectButton(): ConnectionRobot =
+    fun clickScConnectButton(): ProfilesRobot =
         clickElementByText(R.string.secureCoreSwitchConnect)
+
+    fun clickScSpeedInfoDialogContinue(): ProfilesRobot =
+        clickElementByText(R.string.dialogContinue)
 
     fun selectColorIndex(index: Int): ProfilesRobot =
         clickElementByIndexInParent(R.id.layoutPalette, index)
@@ -194,6 +197,9 @@ class ProfilesRobot : BaseRobot() {
                     R.string.secureCoreSwitchOn, ""
                 )
             )
+
+        fun connectingToSecureCoreSpeedInfoIsDisplayed() =
+            checkIfElementIsDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
