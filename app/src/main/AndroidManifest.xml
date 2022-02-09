@@ -258,6 +258,9 @@
         <activity android:name=".ui.planupgrade.UpgradePlusOnboardingDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSafeModeDialogActivity" />
         <activity
+            android:name=".ui.planupgrade.EmptyUpgradeDialogActivity"
+            android:theme="@style/ProtonTheme.Vpn.Transparent"/>
+        <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>
 

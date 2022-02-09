@@ -15,7 +15,7 @@ import com.protonvpn.android.components.NotificationHelper.ReconnectionNotificat
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -155,7 +155,7 @@ class VpnErrorUIManager @Inject constructor(
     private fun getPendingIntentForDashboard(): PendingIntent = PendingIntent.getActivity(
         appContext,
         Constants.NOTIFICATION_INFO_ID,
-        Intent(appContext, UpgradePlusCountriesDialogActivity::class.java),
+        Intent(appContext, EmptyUpgradeDialogActivity::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
