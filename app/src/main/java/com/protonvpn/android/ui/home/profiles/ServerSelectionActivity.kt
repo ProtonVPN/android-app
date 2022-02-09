@@ -122,7 +122,13 @@ class ServerSelectionActivity : BaseActivityV2() {
 
     private abstract class ServerItemViewHolderBase(
         val selection: ServerIdSelection
-    ) : BindableItem<ItemServerSelectionBinding>()
+    ) : BindableItem<ItemServerSelectionBinding>() {
+        // Subclasses use the same layout but they bind differently. This makes sure they are treated as different types
+        // so reused ViewHolders don't get improperly bound.
+        override fun getViewType(): Int = this::class.hashCode()
+
+        override fun getLayout(): Int = R.layout.item_server_selection
+    }
 
     private class RecommendedServerViewHolder(
         @StringRes val label: Int,
@@ -136,8 +142,6 @@ class ServerSelectionActivity : BaseActivityV2() {
                 imageIcon.setImageResource(icon)
             }
         }
-
-        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     private class ServerItemViewHolder(
@@ -160,8 +164,6 @@ class ServerSelectionActivity : BaseActivityV2() {
                 root.isEnabled = server.accessible
             }
         }
-
-        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     @Parcelize

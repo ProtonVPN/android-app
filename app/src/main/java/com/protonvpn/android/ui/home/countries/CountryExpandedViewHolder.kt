@@ -37,7 +37,7 @@ import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlin.math.ceil
 
-open class CountryExpandedViewHolder(
+class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
     private val server: Server,
     private val parentLifeCycle: LifecycleOwner,
