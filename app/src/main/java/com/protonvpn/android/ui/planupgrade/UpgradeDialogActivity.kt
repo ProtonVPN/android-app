@@ -25,6 +25,7 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
@@ -67,6 +68,26 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
     }
 
     protected abstract fun setViews(binding: ActivityUpgradeDialogBinding)
+}
+
+// Directly navigates to plan upgrade workflow
+@AndroidEntryPoint
+class EmptyUpgradeDialogActivity : AppCompatActivity() {
+
+    val viewModel by viewModels<UpgradeDialogViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setupOrchestrators(this)
+        viewModel.upgradeResult.asLiveData().observe(this, Observer { result ->
+            if (result != null && result.billingResult.subscriptionCreated)
+                startActivity(CongratsPlanActivity.create(this))
+            finish()
+        })
+        lifecycleScope.launch {
+            viewModel.planUpgrade()
+        }
+    }
 }
 
 @AndroidEntryPoint

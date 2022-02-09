@@ -21,9 +21,11 @@ package com.protonvpn.android.ui.planupgrade
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.UpgradeResult
@@ -37,14 +39,16 @@ class UpgradeDialogViewModel @Inject constructor(
     private val plansOrchestrator: PlansOrchestrator,
 ) : ViewModel() {
 
-    val upgradeResult = MutableStateFlow<UpgradeResult?>(null)
+    val upgradeResult = MutableSharedFlow<UpgradeResult?>()
 
     fun setupOrchestrators(activity: ComponentActivity) {
         authOrchestrator.register(activity)
         plansOrchestrator.register(activity)
 
         plansOrchestrator.onUpgradeResult { result ->
-            upgradeResult.value = result
+            viewModelScope.launch {
+                upgradeResult.emit(result)
+            }
         }
     }
 
