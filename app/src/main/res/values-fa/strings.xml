@@ -589,8 +589,7 @@
   <string name="onboarding_connection_info">ما شما را به سریع‌ترین و پایدارترین سرور برای موقعیت شما، متصل می‌کنیم.</string>
   <string name="onboading_connect_now">اتصال</string>
   <string name="onboading_connecting_now">در حال اتصال</string>
-  <string name="onboarding_access_plus">دسترسی به تمام کشورها با نسخه Plus</string>
-  <string name="onboarding_congrats_description">اتصال شما محافظت شده است و آماده برای مرور وب هستید. \n\n با امنیت.</string>
+    <string name="onboarding_congrats_description">اتصال شما محافظت شده است و آماده برای مرور وب هستید. \n\n با امنیت.</string>
   <string name="onboarding_congrats_title">تبریک!</string>
   <string name="onboarding_plan_congrats_description_privacy">از دنیای حریم خصوصی لذت ببرید.</string>
   <string name="onboading_connect_to_plus">اتصال به یک سرور Plus</string>

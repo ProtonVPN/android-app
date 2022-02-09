@@ -615,8 +615,7 @@
   <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
   <string name="onboading_connect_now">Подключить сейчас</string>
   <string name="onboading_connecting_now">Подключается сейчас</string>
-  <string name="onboarding_access_plus">Доступ ко всем странам на тарифе PLUS</string>
-  <string name="onboarding_congrats_description">Ваше подключение защищено, и вы готовы к работе в Интернете.\n\nБезопасно.</string>
+    <string name="onboarding_congrats_description">Ваше подключение защищено, и вы готовы к работе в Интернете.\n\nБезопасно.</string>
   <string name="onboarding_congrats_title">Поздравляем!</string>
   <string name="onboarding_plan_congrats_description_privacy">Пользуйтесь миром конфиденциальности.</string>
   <string name="onboading_connect_to_plus">Подключитесь к серверу PLUS</string>

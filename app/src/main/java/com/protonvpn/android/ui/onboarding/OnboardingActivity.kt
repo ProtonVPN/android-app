@@ -185,15 +185,10 @@ class OnboardingActivity : BaseActivityV2() {
                     next.isVisible = !step.showConnect
 
                     connect.isVisible = step.showConnect
-                    getPlus.isVisible = step.showConnect
                 }
             })
             connect.onClick {
                 onConnect()
-            }
-            getPlus.onClick {
-                startActivity(Intent(this@OnboardingActivity, UpgradePlusOnboardingDialogActivity::class.java))
-                finish()
             }
         }
     }

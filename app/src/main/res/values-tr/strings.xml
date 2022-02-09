@@ -589,8 +589,7 @@
   <string name="onboarding_connection_info">Sizi konumunuz için en hızlı ve en kararlı sunucuya bağlayacağız.</string>
   <string name="onboading_connect_now">Bağlan</string>
   <string name="onboading_connecting_now">Bağlanıyor</string>
-  <string name="onboarding_access_plus">Plus tarifesi ile ülkelere erişin</string>
-  <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve web üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
+    <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve web üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
   <string name="onboarding_congrats_title">Tebrikler!</string>
   <string name="onboarding_plan_congrats_description_privacy">Kişisel gizlilik dünyasının tadını çıkarın.</string>
   <string name="onboading_connect_to_plus">Bir Plus sunucusuna bağlanın</string>

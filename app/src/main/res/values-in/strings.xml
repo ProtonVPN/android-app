@@ -576,8 +576,7 @@
   <string name="onboarding_connection_info">Kami akan menghubungkan Anda ke server yang tercepat dan terstabil untuk lokasi Anda.</string>
   <string name="onboading_connect_now">Hubungkan sekarang</string>
   <string name="onboading_connecting_now">Sedang menghubungkan</string>
-  <string name="onboarding_access_plus">Akses seluruh negara dengan PLUS</string>
-  <string name="onboarding_congrats_description">Koneksi Anda telah terlindung dan Anda kini dapat menjelajah internet secara bebas dan aman.\n\nTanpa harus khawatir.</string>
+    <string name="onboarding_congrats_description">Koneksi Anda telah terlindung dan Anda kini dapat menjelajah internet secara bebas dan aman.\n\nTanpa harus khawatir.</string>
   <string name="onboarding_congrats_title">Selamat!</string>
   <string name="onboarding_plan_congrats_description_privacy">Nikmati dunia yang mengedepankan privasi.</string>
   <string name="onboading_connect_to_plus">Hubungkan ke server PLUS</string>
