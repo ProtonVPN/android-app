@@ -44,17 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/onboading_connect_now"
-            android:layout_marginHorizontal="16dp"
-            android:visibility="gone"/>
-
-        <me.proton.core.presentation.ui.view.ProtonButton
-            android:id="@+id/getPlus"
-            style="@style/ProtonButton.Borderless.Text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/onboarding_access_plus"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="4dp"
             android:layout_marginHorizontal="16dp"
             android:visibility="gone"/>
     </LinearLayout>

@@ -589,8 +589,7 @@
   <string name="onboarding_connection_info">We verbinden u met de snelste en meest stabiele server voor uw locatie.</string>
   <string name="onboading_connect_now">Nu verbinden</string>
   <string name="onboading_connecting_now">Verbinden</string>
-  <string name="onboarding_access_plus">Toegang tot alle landen met Plus</string>
-  <string name="onboarding_congrats_description">Uw verbinding is beveiligd en u bent klaar om op het web te browsen.\n\nBeveiligd.</string>
+    <string name="onboarding_congrats_description">Uw verbinding is beveiligd en u bent klaar om op het web te browsen.\n\nBeveiligd.</string>
   <string name="onboarding_congrats_title">Gefeliciteerd!</string>
   <string name="onboarding_plan_congrats_description_privacy">Geniet van de wereld van privacy.</string>
   <string name="onboading_connect_to_plus">Verbind met een Plus server</string>

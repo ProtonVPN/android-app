@@ -615,8 +615,7 @@
   <string name="onboarding_connection_info">Połączenie zostanie nawiązane z najszybszym i najbardziej stabilnym serwerem dla Twojej lokalizacji.</string>
   <string name="onboading_connect_now">Połącz</string>
   <string name="onboading_connecting_now">Łączenie</string>
-  <string name="onboarding_access_plus">Dostęp do wszystkich krajów z planem PLUS</string>
-  <string name="onboarding_congrats_description">Twoje połączenie jest chronione i możesz przeglądać Internet.\n\nBezpiecznie.</string>
+    <string name="onboarding_congrats_description">Twoje połączenie jest chronione i możesz przeglądać Internet.\n\nBezpiecznie.</string>
   <string name="onboarding_congrats_title">Gratulacje!</string>
   <string name="onboarding_plan_congrats_description_privacy">Ciesz się prywatnością.</string>
   <string name="onboading_connect_to_plus">Połącz się z serwerem planu PLUS</string>

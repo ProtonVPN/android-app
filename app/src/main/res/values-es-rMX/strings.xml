@@ -589,8 +589,7 @@
   <string name="onboarding_connection_info">Le conectaremos al servidor más rápido y estable para su ubicación.</string>
   <string name="onboading_connect_now">Conectar ahora</string>
   <string name="onboading_connecting_now">Conectando ahora</string>
-  <string name="onboarding_access_plus">Acceda a todos los países con PLUS</string>
-  <string name="onboarding_congrats_description">Su conexión está protegida y está listo para navegar por la web.\n\nDe forma segura.</string>
+    <string name="onboarding_congrats_description">Su conexión está protegida y está listo para navegar por la web.\n\nDe forma segura.</string>
   <string name="onboarding_congrats_title">¡Felicitaciones!</string>
   <string name="onboarding_plan_congrats_description_privacy">Disfrute del mundo de la privacidad.</string>
   <string name="onboading_connect_to_plus">Conéctese a un servidor PLUS</string>
