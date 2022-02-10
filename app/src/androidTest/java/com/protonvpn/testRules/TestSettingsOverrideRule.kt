@@ -23,7 +23,7 @@ import com.protonvpn.TestSettings
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class TestSettingsRule(
+class TestSettingsOverrideRule(
     private val useMockConnections: Boolean
 ) : TestWatcher() {
 

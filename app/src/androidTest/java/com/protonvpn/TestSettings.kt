@@ -23,7 +23,7 @@ package com.protonvpn
  * Settings for UI tests.
  *
  * Some settings may impact what dependencies are built by Hilt. They need to be set before Hilt components are created.
- * Use TestSettingsRule around ProtonHiltAndroidRule to achieve this.
+ * Use TestSettingsOverrideRule around ProtonHiltAndroidRule to achieve this.
  */
 object TestSettings {
     @JvmStatic var mockedConnectionUsed = true
