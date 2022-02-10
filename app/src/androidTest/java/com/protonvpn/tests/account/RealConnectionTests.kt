@@ -32,7 +32,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.TestSettingsRule
+import com.protonvpn.testRules.TestSettingsOverrideRule
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.TestSetup
 import com.protonvpn.testsHelper.UserDataHelper
@@ -55,7 +55,7 @@ class RealConnectionTests {
 
     @get:Rule
     val rules = RuleChain
-        .outerRule(TestSettingsRule(false))
+        .outerRule(TestSettingsOverrideRule(false))
         .around(hiltRule)
 
     @Inject

@@ -26,7 +26,9 @@ import android.content.Context;
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
+import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
 import com.protonvpn.android.logging.FileLogWriter;
 import com.protonvpn.android.logging.GlobalSentryLogWriter;
@@ -35,12 +37,14 @@ import com.protonvpn.android.logging.LogWriter;
 import com.protonvpn.android.logging.LogcatLogWriter;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
+import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
+import com.protonvpn.android.vpn.LogcatLogCapture;
 import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
@@ -62,6 +66,7 @@ import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import leakcanary.AppWatcher;
+import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
 /**
@@ -77,8 +82,13 @@ public class ProtonApplication extends Application {
     @EntryPoint
     @InstallIn(SingletonComponent.class)
     interface DependencyEntryPoints {
-        MaintenanceTracker getMaintenanceTracker();
+        AccountStateHandler getAccountStateHandler();
         CertificateRepository getCertificateRepository();
+        CoreLoginMigration getCoreLoginMigration();
+        CurrentStateLogger getCurrentStateLogger();
+        LogcatLogCapture getLogcatLogCapture();
+        MaintenanceTracker getMaintenanceTracker();
+        SettingChangesLogger getSettingChangesLogger();
     }
 
     @Override
@@ -117,8 +127,17 @@ public class ProtonApplication extends Application {
     public void initDependencies() {
         DependencyEntryPoints dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints.class);
 
-        dependencies.getMaintenanceTracker();
+        // Migrate before anything else that uses the AccountManager.
+        dependencies.getCoreLoginMigration().migrateIfNeeded();
+
+        // Logging
+        dependencies.getCurrentStateLogger().logCurrentState();
+        dependencies.getLogcatLogCapture();
+        dependencies.getSettingChangesLogger();
+
+        dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
+        dependencies.getMaintenanceTracker();
     }
 
     private void initStrongSwan() {

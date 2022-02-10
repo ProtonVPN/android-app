@@ -32,7 +32,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SettingChangesLogger @Inject constructor(
     private val mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
@@ -40,7 +42,7 @@ class SettingChangesLogger @Inject constructor(
     private val userData: UserData,
     private val appConfig: AppConfig
 ) {
-    fun startLoggingSettingsChanges() {
+    init {
         mainScope.launch {
             val currentVpnUser = currentUser.vpnUserFlow.stateIn(mainScope)
             userData.settingChangeEvent.collect { setting ->

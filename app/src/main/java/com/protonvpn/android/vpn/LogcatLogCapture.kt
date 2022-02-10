@@ -45,7 +45,7 @@ class LogcatLogCapture(
     val monoClock: () -> Long
 ) {
 
-    fun startCapture() {
+    init {
         mainScope.launch(dispatcherProvider.Io) {
             captureCharonWireguardLogs()
         }
