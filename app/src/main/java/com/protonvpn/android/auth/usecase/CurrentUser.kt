@@ -20,38 +20,32 @@
 package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.auth.data.VpnUserDao
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.domain.arch.DataResult
 import me.proton.core.domain.entity.SessionUserId
 import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.entity.User
-import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
 // Class allowing to access user-related data synchronously - current VPN code requires broad refactoring to deal
 // with async access to user.
+@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class CurrentUser @Inject constructor(
     mainScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
     private val accountManager: AccountManager,
     vpnUserDao: VpnUserDao,
     private val userManager: UserManager,
-    private val userData: UserData
 ) {
     val vpnUserFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
         userId?.let { vpnUserDao.getByUserId(it) } ?: flowOf(null)
@@ -72,12 +66,6 @@ class CurrentUser @Inject constructor(
     suspend fun user() = userFlow.first()
     suspend fun sessionId() = accountManager.getPrimaryAccount().first()?.sessionId
     suspend fun isLoggedIn() = accountManager.getPrimaryAccount().first() != null
-
-    init {
-        mainScope.launch {
-            vpnUserFlow.flowOn(dispatcherProvider.Main).collect { userData.onVpnUserUpdated(it) }
-        }
-    }
 
     @Deprecated("use suspending version of this fun")
     private fun accountCached() = accountState.value

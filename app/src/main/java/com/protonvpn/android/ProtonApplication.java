@@ -45,6 +45,7 @@ import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
+import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
@@ -89,6 +90,7 @@ public class ProtonApplication extends Application {
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         SettingChangesLogger getSettingChangesLogger();
+        UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
     }
 
     @Override
@@ -138,6 +140,7 @@ public class ProtonApplication extends Application {
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getMaintenanceTracker();
+        dependencies.getUpdateSettingsOnVpnUserChange();
     }
 
     private void initStrongSwan() {
