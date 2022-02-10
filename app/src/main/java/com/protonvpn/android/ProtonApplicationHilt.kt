@@ -49,6 +49,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
         logcatLogCapture.startCapture()
         accountStateHandler.get().start()
         coreLoginMigration.get().migrateIfNeeded()
+        initDependencies()
     }
 
     override fun getWorkManagerConfiguration(): Configuration =

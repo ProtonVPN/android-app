@@ -27,9 +27,9 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.annotations.TestID
+import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Ignore
@@ -53,7 +53,7 @@ class LoginTests {
 
     @get:Rule
     val rules = RuleChain
-        .outerRule(HiltAndroidRule(this))
+        .outerRule(ProtonHiltAndroidRule(this))
         .around(activityRule)
 
     @Before

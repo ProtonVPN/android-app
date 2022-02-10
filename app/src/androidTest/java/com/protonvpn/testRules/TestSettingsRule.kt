@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021 Proton AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,15 +17,24 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn
+package com.protonvpn.testRules
 
-/**
- * Settings for UI tests.
- *
- * Some settings may impact what dependencies are built by Hilt. They need to be set before Hilt components are created.
- * Use TestSettingsRule around ProtonHiltAndroidRule to achieve this.
- */
-object TestSettings {
-    @JvmStatic var mockedConnectionUsed = true
-    @JvmStatic var testRailReportingUsed = true
+import com.protonvpn.TestSettings
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
+
+class TestSettingsRule(
+    private val useMockConnections: Boolean
+) : TestWatcher() {
+
+    private var previousUseMockConnections: Boolean = false
+
+    override fun starting(description: Description?) {
+        previousUseMockConnections = TestSettings.mockedConnectionUsed
+        TestSettings.mockedConnectionUsed = useMockConnections
+    }
+
+    override fun finished(description: Description?) {
+        TestSettings.mockedConnectionUsed = previousUseMockConnections
+    }
 }

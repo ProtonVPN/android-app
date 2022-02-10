@@ -46,7 +46,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -170,9 +169,7 @@ class MockAppModule {
         notificationHelper: NotificationHelper,
         vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
-        currentUser: CurrentUser,
-        certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
-        maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
+        currentUser: CurrentUser
     ): VpnConnectionManager =
             if (TestSettings.mockedConnectionUsed) {
                 MockVpnConnectionManager(
