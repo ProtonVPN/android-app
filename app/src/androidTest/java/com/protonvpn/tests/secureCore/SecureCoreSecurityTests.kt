@@ -21,7 +21,6 @@ package com.protonvpn.tests.secureCore
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.ProfilesRobot
@@ -46,8 +45,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-//There is occasional OOM crash on API 23. Remove this annotation when it's fixed
-@SdkSuppress(minSdkVersion = 28)
 class SecureCoreSecurityTests {
 
     private val testRule = ProtonHomeActivityTestRule()
