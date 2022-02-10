@@ -89,7 +89,6 @@ class UserPlanManagerTests {
         val userSlot = slot<VpnUser>()
         coEvery { vpnUserDao.insertOrUpdate(capture(userSlot)) } answers {
             vpnUser = userSlot.captured
-            userData.onVpnUserUpdated(vpnUser)
         }
         nowMs = 0L
         manager = UserPlanManager(apiRetroFit, vpnStateMonitor, currentUser, vpnUserDao, { nowMs })
@@ -119,20 +118,6 @@ class UserPlanManagerTests {
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"), planChange)
         }
         changePlan(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
-    }
-
-    @Test
-    fun planDowngradeDisablesSecureCore() = runBlockingTest {
-        userData.secureCoreEnabled = true
-        changePlan(TestUser.plusUser.vpnUser, TestUser.basicUser.vpnInfoResponse)
-        Assert.assertFalse(userData.secureCoreEnabled)
-    }
-
-    @Test
-    fun planDowngradeDisablesNetshield() = runBlockingTest {
-        userData.setNetShieldProtocol(NetShieldProtocol.ENABLED)
-        changePlan(TestUser.basicUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
-        Assert.assertEquals(NetShieldProtocol.DISABLED, userData.getNetShieldProtocol(currentUser.vpnUser()))
     }
 
     @Test
