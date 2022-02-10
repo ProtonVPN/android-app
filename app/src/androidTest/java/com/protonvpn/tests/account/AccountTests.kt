@@ -15,8 +15,8 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetUserPreferencesRule
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -43,7 +43,7 @@ class AccountTests {
 
     @get:Rule
     var rules = RuleChain
-        .outerRule(HiltAndroidRule(this))
+        .outerRule(ProtonHiltAndroidRule(this))
         .around(SetUserPreferencesRule(TestUser.plusUser))
 
     @Before

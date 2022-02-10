@@ -23,22 +23,21 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import com.protonvpn.testsHelper.UserDataHelper
-import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 import com.protonvpn.testsTv.actions.TvCountryListRobot
+import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import com.protonvpn.testsTv.actions.TvServerListRobot
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.After
 import org.junit.rules.RuleChain
-
 import org.junit.runner.RunWith
 
 /**
@@ -51,7 +50,7 @@ class ConnectionTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
     @get:Rule val rules = RuleChain
-        .outerRule(HiltAndroidRule(this))
+        .outerRule(ProtonHiltAndroidRule(this))
         .around(activityRule)
 
     private val homeRobot = TvCountryListRobot()

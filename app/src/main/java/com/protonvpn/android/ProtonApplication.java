@@ -20,7 +20,6 @@ package com.protonvpn.android;
 
 import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
@@ -41,6 +40,8 @@ import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
+import com.protonvpn.android.vpn.CertificateRepository;
+import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -48,19 +49,37 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import leakcanary.AppWatcher;
 import me.proton.core.util.kotlin.CoreLogger;
 
+/**
+ * Base Application for both the real application and application for use in instrumented tests.
+ *
+ * It introduces initDependencies() method that can access Hilt dependencies via EntryPoints.
+ *
+ * The method is either called by the subclass for the real application or, in tests, by
+ * ProtonHiltAndroidRule (which replaces HiltAndroidRule).
+ */
 public class ProtonApplication extends Application {
+
+    @EntryPoint
+    @InstallIn(SingletonComponent.class)
+    interface DependencyEntryPoints {
+        MaintenanceTracker getMaintenanceTracker();
+        CertificateRepository getCertificateRepository();
+    }
 
     @Override
     public void onCreate() {
@@ -93,6 +112,13 @@ public class ProtonApplication extends Application {
         }
 
         CoreLogger.INSTANCE.set(new VpnCoreLogger());
+    }
+
+    public void initDependencies() {
+        DependencyEntryPoints dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints.class);
+
+        dependencies.getMaintenanceTracker();
+        dependencies.getCertificateRepository();
     }
 
     private void initStrongSwan() {

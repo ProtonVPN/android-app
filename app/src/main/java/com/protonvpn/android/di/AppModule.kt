@@ -194,8 +194,6 @@ object AppModuleProd {
         vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
         serverManager: ServerManager,
         currentUser: CurrentUser,
-        certificateRepository: CertificateRepository, // Make sure that CertificateRepository instance is created
-        maintenanceTracker: MaintenanceTracker, // Make sure that MaintenanceTracker instance is created
     ) = VpnConnectionManager(
         ProtonApplication.getAppContext(),
         userData,

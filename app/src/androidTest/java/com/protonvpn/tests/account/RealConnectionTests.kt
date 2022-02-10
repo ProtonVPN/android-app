@@ -20,7 +20,6 @@
 package com.protonvpn.tests.account
 
 import androidx.test.core.app.ActivityScenario
-import com.protonvpn.TestSettings
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
@@ -32,16 +31,18 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.TestSettingsRule
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.TestSetup
 import com.protonvpn.testsHelper.UserDataHelper
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import javax.inject.Inject
 
 /**
@@ -49,8 +50,13 @@ import javax.inject.Inject
  */
 @HiltAndroidTest
 class RealConnectionTests {
+
+    private val hiltRule = ProtonHiltAndroidRule(this)
+
     @get:Rule
-    val hiltRule = HiltAndroidRule(this)
+    val rules = RuleChain
+        .outerRule(TestSettingsRule(false))
+        .around(hiltRule)
 
     @Inject
     lateinit var vpnStateMonitor: VpnStateMonitor
@@ -62,8 +68,6 @@ class RealConnectionTests {
 
     @Before
     fun setUp() {
-        TestSettings.mockedConnectionUsed = false
-        TestSettings.mockedServersUsed = false
         userDataHelper = UserDataHelper()
         userDataHelper.logoutUser()
         hiltRule.inject()
@@ -109,8 +113,6 @@ class RealConnectionTests {
     fun tearDown() {
         userDataHelper.logoutUser()
         Storage.clearAllPreferencesSync()
-        TestSettings.mockedConnectionUsed = true
-        TestSettings.mockedServersUsed = true
         userDataHelper.setProtocol(DefaultData.DEFAULT_PROTOCOL)
     }
 }

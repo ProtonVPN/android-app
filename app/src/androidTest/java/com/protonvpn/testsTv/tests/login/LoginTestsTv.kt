@@ -26,9 +26,9 @@ import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.di.MockApi
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -50,7 +50,7 @@ import javax.inject.Inject
 class LoginTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
-    private val hiltRule = HiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this)
     @get:Rule val rules = RuleChain
         .outerRule(hiltRule)
         .around(activityRule)
