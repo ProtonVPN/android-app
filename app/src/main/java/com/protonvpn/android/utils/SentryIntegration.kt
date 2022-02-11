@@ -60,6 +60,7 @@ object SentryIntegration {
             options.dsn = sentryDsn
             options.release = BuildConfig.VERSION_NAME
             options.distinctId = getInstallationId()
+            options.isEnableAutoSessionTracking = false
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.setBeforeSend { event, _ ->
                 SentryFingerprints.setFingerprints(event)
