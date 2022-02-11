@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -103,27 +103,9 @@ multi_get_create_instance_udp(struct multi_context *m, bool *floated)
                     mi = multi_create_instance(m, &real);
                     if (mi)
                     {
-                        int i;
-
                         hash_add_fast(hash, bucket, &mi->real, hv, mi);
                         mi->did_real_hash = true;
-
-                        /* max_clients must be less then max peer-id value */
-                        ASSERT(m->max_clients < MAX_PEER_ID);
-
-                        for (i = 0; i < m->max_clients; ++i)
-                        {
-                            if (!m->instances[i])
-                            {
-                                mi->context.c2.tls_multi->peer_id = i;
-                                m->instances[i] = mi;
-                                break;
-                            }
-                        }
-
-                        /* should not really end up here, since multi_create_instance returns null
-                         * if amount of clients exceeds max_clients */
-                        ASSERT(i < m->max_clients);
+                        multi_assign_peer_id(m, mi);
                     }
                 }
                 else
@@ -195,12 +177,10 @@ multi_process_io_udp(struct multi_context *m)
     {
         strcat(buf, "TW/");
     }
-#ifdef ENABLE_ASYNC_PUSH
     else if (status & FILE_CLOSED)
     {
         strcat(buf, "FC/");
     }
-#endif
     printf("IO %s\n", buf);
 #endif /* ifdef MULTI_DEBUG_EVENT_LOOP */
 
@@ -286,19 +266,8 @@ p2mp_iow_flags(const struct multi_context *m)
 }
 
 
-/**************************************************************************/
-/**
- * Main event loop for OpenVPN in UDP server mode.
- * @ingroup eventloop
- *
- * This function implements OpenVPN's main event loop for UDP server mode.
- *  At this time, OpenVPN does not yet support multithreading.  This
- * function's name is therefore slightly misleading.
- *
- * @param top - Top-level context structure.
- */
-static void
-tunnel_server_udp_single_threaded(struct context *top)
+void
+tunnel_server_udp(struct context *top)
 {
     struct multi_context multi;
 
@@ -313,7 +282,7 @@ tunnel_server_udp_single_threaded(struct context *top)
     }
 
     /* initialize global multi_context object */
-    multi_init(&multi, top, false, MC_SINGLE_THREADED);
+    multi_init(&multi, top, false);
 
     /* initialize our cloned top object */
     multi_top_init(&multi, top);
@@ -374,11 +343,5 @@ tunnel_server_udp_single_threaded(struct context *top)
     multi_uninit(&multi);
     multi_top_free(&multi);
     close_instance(top);
-}
-
-void
-tunnel_server_udp(struct context *top)
-{
-    tunnel_server_udp_single_threaded(top);
 }
 

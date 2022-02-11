@@ -1,15 +1,15 @@
 /*
- * Copyright 2008-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2008-2021 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the OpenSSL license (the "License").  You may not use
+ * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
  */
 
-#include <openssl/crypto.h>
-#include "modes_local.h"
 #include <string.h>
+#include <openssl/crypto.h>
+#include "crypto/modes.h"
 
 #if !defined(STRICT_ALIGNMENT) && !defined(PEDANTIC)
 # define STRICT_ALIGNMENT 0
@@ -69,7 +69,8 @@ void CRYPTO_cbc128_encrypt(const unsigned char *in, unsigned char *out,
         in += 16;
         out += 16;
     }
-    memcpy(ivec, iv, 16);
+    if (ivec != iv)
+        memcpy(ivec, iv, 16);
 }
 
 void CRYPTO_cbc128_decrypt(const unsigned char *in, unsigned char *out,
@@ -114,7 +115,8 @@ void CRYPTO_cbc128_decrypt(const unsigned char *in, unsigned char *out,
                 out += 16;
             }
         }
-        memcpy(ivec, iv, 16);
+        if (ivec != iv)
+            memcpy(ivec, iv, 16);
     } else {
         if (STRICT_ALIGNMENT &&
             ((size_t)in | (size_t)out | (size_t)ivec) % sizeof(size_t) != 0) {

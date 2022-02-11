@@ -2,7 +2,7 @@
 // buffer.hpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -50,11 +50,13 @@
 
 #if defined(ASIO_HAS_BOOST_WORKAROUND)
 # include <boost/detail/workaround.hpp>
-# if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582)) \
-    || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
+# if !defined(__clang__)
+#  if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+#   define ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND
+#  endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+# elif BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 #  define ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND
-# endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
-        // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
+# endif // BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 #endif // defined(ASIO_HAS_BOOST_WORKAROUND)
 
 #if defined(ASIO_ENABLE_ARRAY_BUFFER_WORKAROUND)
@@ -384,9 +386,9 @@ private:
 /// Get an iterator to the first element in a buffer sequence.
 template <typename MutableBuffer>
 inline const mutable_buffer* buffer_sequence_begin(const MutableBuffer& b,
-    typename enable_if<
+    typename constraint<
       is_convertible<const MutableBuffer*, const mutable_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return static_cast<const mutable_buffer*>(detail::addressof(b));
 }
@@ -394,9 +396,9 @@ inline const mutable_buffer* buffer_sequence_begin(const MutableBuffer& b,
 /// Get an iterator to the first element in a buffer sequence.
 template <typename ConstBuffer>
 inline const const_buffer* buffer_sequence_begin(const ConstBuffer& b,
-    typename enable_if<
+    typename constraint<
       is_convertible<const ConstBuffer*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return static_cast<const const_buffer*>(detail::addressof(b));
 }
@@ -406,10 +408,10 @@ inline const const_buffer* buffer_sequence_begin(const ConstBuffer& b,
 /// Get an iterator to the first element in a buffer sequence.
 template <typename C>
 inline auto buffer_sequence_begin(C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT -> decltype(c.begin())
+    >::type = 0) ASIO_NOEXCEPT -> decltype(c.begin())
 {
   return c.begin();
 }
@@ -417,10 +419,10 @@ inline auto buffer_sequence_begin(C& c,
 /// Get an iterator to the first element in a buffer sequence.
 template <typename C>
 inline auto buffer_sequence_begin(const C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT -> decltype(c.begin())
+    >::type = 0) ASIO_NOEXCEPT -> decltype(c.begin())
 {
   return c.begin();
 }
@@ -429,20 +431,20 @@ inline auto buffer_sequence_begin(const C& c,
 
 template <typename C>
 inline typename C::iterator buffer_sequence_begin(C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return c.begin();
 }
 
 template <typename C>
 inline typename C::const_iterator buffer_sequence_begin(const C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return c.begin();
 }
@@ -461,9 +463,9 @@ inline typename C::const_iterator buffer_sequence_begin(const C& c,
 /// Get an iterator to one past the end element in a buffer sequence.
 template <typename MutableBuffer>
 inline const mutable_buffer* buffer_sequence_end(const MutableBuffer& b,
-    typename enable_if<
+    typename constraint<
       is_convertible<const MutableBuffer*, const mutable_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return static_cast<const mutable_buffer*>(detail::addressof(b)) + 1;
 }
@@ -471,9 +473,9 @@ inline const mutable_buffer* buffer_sequence_end(const MutableBuffer& b,
 /// Get an iterator to one past the end element in a buffer sequence.
 template <typename ConstBuffer>
 inline const const_buffer* buffer_sequence_end(const ConstBuffer& b,
-    typename enable_if<
+    typename constraint<
       is_convertible<const ConstBuffer*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return static_cast<const const_buffer*>(detail::addressof(b)) + 1;
 }
@@ -483,10 +485,10 @@ inline const const_buffer* buffer_sequence_end(const ConstBuffer& b,
 /// Get an iterator to one past the end element in a buffer sequence.
 template <typename C>
 inline auto buffer_sequence_end(C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT -> decltype(c.end())
+    >::type = 0) ASIO_NOEXCEPT -> decltype(c.end())
 {
   return c.end();
 }
@@ -494,10 +496,10 @@ inline auto buffer_sequence_end(C& c,
 /// Get an iterator to one past the end element in a buffer sequence.
 template <typename C>
 inline auto buffer_sequence_end(const C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT -> decltype(c.end())
+    >::type = 0) ASIO_NOEXCEPT -> decltype(c.end())
 {
   return c.end();
 }
@@ -506,20 +508,20 @@ inline auto buffer_sequence_end(const C& c,
 
 template <typename C>
 inline typename C::iterator buffer_sequence_end(C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return c.end();
 }
 
 template <typename C>
 inline typename C::const_iterator buffer_sequence_end(const C& c,
-    typename enable_if<
+    typename constraint<
       !is_convertible<const C*, const mutable_buffer*>::value
         && !is_convertible<const C*, const const_buffer*>::value
-    >::type* = 0) ASIO_NOEXCEPT
+    >::type = 0) ASIO_NOEXCEPT
 {
   return c.end();
 }

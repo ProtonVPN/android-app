@@ -6,10 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!-- Used to show all apps in the allowed Apps selection -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <!-- Used to show all apps in the allowed Apps selection,
+         this app needs the list the app in the allow/deny apps over the VPN -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+            tools:ignore="QueryAllPackagesPermission" />
 
 
 <!--    <queries>-->
@@ -21,11 +24,17 @@
 <!--        </intent>-->
 <!--    </queries>-->
 
-<!--
-    <application
-        android:supportsRtl="true"
-        tools:ignore="UnusedAttribute">
 
+    <application
+        android:name=".core.ICSOpenVPNApplication"
+        android:allowBackup="true"
+        android:appCategory="productivity"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app"
+        android:supportsRtl="true"
+        android:theme="@style/blinkt"
+        tools:ignore="UnusedAttribute">
         <meta-data
             android:name="android.content.APP_RESTRICTIONS"
             android:resource="@xml/app_restrictions" />
@@ -41,7 +50,9 @@
 
         <service
             android:name=".core.OpenVPNService"
+            android:exported="true"
             android:permission="android.permission.BIND_VPN_SERVICE"
+            android:foregroundServiceType="connectedDevice"
             android:process=":openvpn">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -50,7 +61,8 @@
         <service
             android:name=".api.ExternalOpenVPNService"
             android:process=":openvpn"
-            tools:ignore="ExportedService">
+            android:exported="true"
+                tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="de.blinkt.openvpn.api.IOpenVPNAPIService" />
             </intent-filter>
@@ -60,18 +72,21 @@
             android:exported="false"
             android:process=":openvpn" />
 
-        <activity android:name=".api.GrantPermissionsActivity">
+        <activity android:name=".api.GrantPermissionsActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".api.ConfirmDialog">
+        <activity android:name=".api.ConfirmDialog"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".OnBootReceiver">
+        <receiver android:name=".OnBootReceiver"
+                android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
@@ -86,20 +101,21 @@
             android:label="@string/vpn_launch_title"
             android:taskAffinity=".LaunchVPN"
             android:theme="@style/blinkt.dialog"
-            tools:ignore="ExportedActivity">
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        <!--
         <receiver android:name="core.GetRestrictionReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.GET_RESTRICTION_ENTRIES" />
             </intent-filter>
         </receiver>
-
+        -->
         <activity android:name=".api.RemoteAction" />
 
         <activity-alias
@@ -111,6 +127,5 @@
             android:exported="true"
             android:targetActivity=".api.RemoteAction" />
     </application>
--->
 
 </manifest>

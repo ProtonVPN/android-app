@@ -104,6 +104,15 @@ DEFINE_GUID(
   0xa1, 0x81, 0x00, 0x1e, 0x8c, 0x6e, 0x04, 0xa2
 );
 
+/* b235ae9a-1d64-49b8-a44c-5ff3d9095045 */
+DEFINE_GUID(
+   FWPM_CONDITION_IP_REMOTE_ADDRESS,
+   0xb235ae9a,
+   0x1d64,
+   0x49b8,
+   0xa4, 0x4c, 0x5f, 0xf3, 0xd9, 0x09, 0x50, 0x45
+);
+
 #endif
 
 namespace openvpn {
@@ -121,6 +130,7 @@ namespace openvpn {
       // Derived from https://github.com/ValdikSS/openvpn-with-patches/commit/3bd4d503d21aa34636e4f97b3e32ae0acca407f0
       void block_dns(const std::wstring& openvpn_app_path,
 		     const NET_IFINDEX tap_index,
+		     const bool allow_local_dns_resolvers,
 		     std::ostream& log)
       {
 	// WFP filter/conditions
@@ -156,7 +166,40 @@ namespace openvpn {
 	filter.weight.uint8 = 0xF;
 	filter.filterCondition = condition;
 
-	// Filter #1 -- permit IPv4 DNS requests from OpenVPN app
+	if (allow_local_dns_resolvers)
+	  {
+	    // Filter #1 -- permit IPv4 DNS requests to 127.0.0.1
+	    filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
+	    filter.action.type = FWP_ACTION_PERMIT;
+	    filter.numFilterConditions = 2;
+
+	    condition[0].fieldKey = FWPM_CONDITION_IP_REMOTE_PORT;
+	    condition[0].matchType = FWP_MATCH_EQUAL;
+	    condition[0].conditionValue.type = FWP_UINT16;
+	    condition[0].conditionValue.uint16 = 53;
+
+	    UINT8 localhost[4] = {1, 0, 0, 127};
+
+	    condition[1].fieldKey = FWPM_CONDITION_IP_REMOTE_ADDRESS;
+	    condition[1].matchType = FWP_MATCH_EQUAL;
+	    condition[1].conditionValue.type = FWP_UINT32;
+	    condition[1].conditionValue.uint32 = *(UINT32 *)localhost;
+
+	    add_filter(&filter, NULL, &filterid);
+	    log << "permit IPv4 DNS requests to 127.0.0.1" << std::endl;
+
+	    // Filter #2 -- permit IPv6 DNS requests to ::1
+	    filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
+	    UINT8 localhostv6[16] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+	    condition[1].conditionValue.type = FWP_BYTE_ARRAY16_TYPE;
+	    condition[1].conditionValue.byteArray16 = (FWP_BYTE_ARRAY16*)localhostv6;
+
+	    add_filter(&filter, NULL, &filterid);
+	    log << "permit IPv6 DNS requests to ::1" << std::endl;
+	  }
+
+	// Filter #3 -- permit IPv4 DNS requests from OpenVPN app
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
 	filter.action.type = FWP_ACTION_PERMIT;
 	filter.numFilterConditions = 2;
@@ -174,13 +217,13 @@ namespace openvpn {
 	add_filter(&filter, NULL, &filterid);
 	log << "permit IPv4 DNS requests from OpenVPN app" << std::endl;
 
-	// Filter #2 -- permit IPv6 DNS requests from OpenVPN app
+	// Filter #4 -- permit IPv6 DNS requests from OpenVPN app
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
 
 	add_filter(&filter, NULL, &filterid);
 	log << "permit IPv6 DNS requests from OpenVPN app" << std::endl;
 
-	// Filter #3 -- block IPv4 DNS requests from other apps
+	// Filter #5 -- block IPv4 DNS requests from other apps
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
 	filter.action.type = FWP_ACTION_BLOCK;
 	filter.weight.type = FWP_EMPTY;
@@ -189,13 +232,13 @@ namespace openvpn {
 	add_filter(&filter, NULL, &filterid);
 	log << "block IPv4 DNS requests from other apps" << std::endl;
 
-	// Filter #4 -- block IPv6 DNS requests from other apps
+	// Filter #6 -- block IPv6 DNS requests from other apps
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
 
 	add_filter(&filter, NULL, &filterid);
 	log << "block IPv6 DNS requests from other apps" << std::endl;
 
-	// Filter #5 -- allow IPv4 traffic from TAP
+	// Filter #7 -- allow IPv4 traffic from TAP
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
 	filter.action.type = FWP_ACTION_PERMIT;
 	filter.numFilterConditions = 2;
@@ -208,7 +251,7 @@ namespace openvpn {
 	add_filter(&filter, NULL, &filterid);
 	log << "allow IPv4 traffic from TAP" << std::endl;
 
-	// Filter #6 -- allow IPv6 traffic from TAP
+	// Filter #8 -- allow IPv6 traffic from TAP
 	filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
 
 	add_filter(&filter, NULL, &filterid);
@@ -326,11 +369,12 @@ namespace openvpn {
 
       void block(const std::wstring& openvpn_app_path,
 		 const NET_IFINDEX tap_index,
+		 const bool allow_local_dns_resolvers,
 		 std::ostream& log)
       {
 	unblock(log);
 	wfp.reset(new WFP());
-	wfp->block_dns(openvpn_app_path, tap_index, log);
+	wfp->block_dns(openvpn_app_path, tap_index, allow_local_dns_resolvers, log);
       }
 
       void unblock(std::ostream& log)
@@ -351,11 +395,13 @@ namespace openvpn {
       ActionWFP(const std::wstring& openvpn_app_path_arg,
 		const NET_IFINDEX tap_index_arg,
 		const bool enable_arg,
+		const bool allow_local_dns_resolvers_arg,
 		const WFPContext::Ptr& wfp_arg)
 	: openvpn_app_path(openvpn_app_path_arg),
 	  tap_index(tap_index_arg),
 	  enable(enable_arg),
-	  wfp(wfp_arg)
+	  wfp(wfp_arg),
+	  allow_local_dns_resolvers(allow_local_dns_resolvers_arg)
       {
       }
 
@@ -363,7 +409,7 @@ namespace openvpn {
       {
 	log << to_string() << std::endl;
 	if (enable)
-	  wfp->block(openvpn_app_path, tap_index, log);
+	  wfp->block(openvpn_app_path, tap_index, allow_local_dns_resolvers, log);
 	else
 	  wfp->unblock(log);
       }
@@ -378,6 +424,7 @@ namespace openvpn {
       const NET_IFINDEX tap_index;
       const bool enable;
       WFPContext::Ptr wfp;
+      const bool allow_local_dns_resolvers;
     };
   }
 }

@@ -71,6 +71,7 @@ namespace openvpn {
   class Option
   {
   public:
+    OPENVPN_UNTAGGED_EXCEPTION(RejectedException);
     enum {
       MULTILINE = 0x8000000,
     };
@@ -136,7 +137,7 @@ namespace openvpn {
     {
       const size_t s = data.size();
       if (s < n)
-	OPENVPN_THROW(option_error, err_ref() << " must have at least " << n << " arguments");
+	OPENVPN_THROW(option_error, err_ref() << " must have at least " << (n - 1) << " arguments");
     }
 
     void exact_args(const size_t n) const
@@ -215,7 +216,7 @@ namespace openvpn {
     T get_num(const size_t idx) const
     {
       typedef typename std::remove_const<T>::type T_nonconst;
-      T_nonconst n;
+      T_nonconst n(0); // we shouldn't need to initialize here, but some compilers complain "may be used uninitialized in this function"
       const std::string& numstr = get(idx, 64);
       if (numstr.length() >= 2 && numstr[0] == '0' && numstr[1] == 'x')
 	{
@@ -366,6 +367,11 @@ namespace openvpn {
     void from_list(const char *arg)
     {
       push_back(std::string(arg));
+    }
+
+    void from_list(std::vector<std::string> arg)
+    {
+        data.insert(data.end(), arg.begin(), arg.end());
     }
 
     template<typename T, typename... Args>

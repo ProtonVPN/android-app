@@ -27,11 +27,15 @@
 
 #include <openvpn/io/io.hpp>
 
+#ifndef OPENVPN_LEGACY_TITLE_ABSTRACTION
 #include <openvpn/common/stringtempl2.hpp>
+#endif
 
 namespace openvpn {
   namespace IP {
     namespace internal {
+
+#ifndef OPENVPN_LEGACY_TITLE_ABSTRACTION
 
       template <typename TITLE>
       inline std::string format_error(const std::string& ipstr,
@@ -67,6 +71,47 @@ namespace openvpn {
 	return format_error(ipstr, title, ipver, ec.message());
       }
 
+#else
+
+      inline std::string format_error(const std::string& ipstr, const char *title, const char *ipver, const openvpn_io::error_code& ec)
+      {
+	std::string err = "error parsing";
+	if (title)
+	  {
+	    err += ' ';
+	    err += title;
+	  }
+	err += " IP";
+	err += ipver;
+	err += " address '";
+	err += ipstr;
+	err += "' : ";
+	err += ec.message();
+	return err;
+      }
+
+      inline std::string format_error(const std::string& ipstr, const char *title, const char *ipver, const char *message)
+      {
+	std::string err = "error parsing";
+	if (title)
+	  {
+	    err += ' ';
+	    err += title;
+	  }
+	err += " IP";
+	err += ipver;
+	err += " address '";
+	err += ipstr;
+	err += '\'';
+	if (message)
+	  {
+	    err += " : ";
+	    err += message;
+	  }
+	return err;
+      }
+
+#endif
     }
   }
 }

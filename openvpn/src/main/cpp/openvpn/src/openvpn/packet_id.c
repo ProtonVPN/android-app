@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -103,10 +103,7 @@ packet_id_free(struct packet_id *p)
     if (p)
     {
         dmsg(D_PID_DEBUG, "PID packet_id_free");
-        if (p->rec.seq_list)
-        {
-            free(p->rec.seq_list);
-        }
+        free(p->rec.seq_list);
         CLEAR(*p);
     }
 }

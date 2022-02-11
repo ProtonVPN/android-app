@@ -40,12 +40,14 @@ namespace openvpn {
   public:
     typedef RCPtr<CryptoDCSelect> Ptr;
 
-    CryptoDCSelect(const Frame::Ptr& frame_arg,
+    CryptoDCSelect(SSLLib::Ctx libctx_arg,
+				   const Frame::Ptr& frame_arg,
 		   const SessionStats::Ptr& stats_arg,
 		   const RandomAPI::Ptr& prng_arg)
       : frame(frame_arg),
 	stats(stats_arg),
-	prng(prng_arg)
+	prng(prng_arg),
+	libctx(libctx_arg)
     {
     }
 
@@ -55,9 +57,9 @@ namespace openvpn {
     {
       const CryptoAlgs::Alg& alg = CryptoAlgs::get(cipher);
       if (alg.flags() & CryptoAlgs::CBC_HMAC)
-	return new CryptoContextCHM<CRYPTO_API>(cipher, digest, method, frame, stats, prng);
+	return new CryptoContextCHM<CRYPTO_API>(libctx, cipher, digest, method, frame, stats, prng);
       else if (alg.flags() & CryptoAlgs::AEAD)
-	return new AEAD::CryptoContext<CRYPTO_API>(cipher, method, frame, stats);
+	return new AEAD::CryptoContext<CRYPTO_API>(libctx, cipher, method, frame, stats);
       else
 	OPENVPN_THROW(crypto_dc_select, alg.name() << ": only CBC/HMAC and AEAD cipher modes supported");
     }
@@ -66,6 +68,7 @@ namespace openvpn {
     Frame::Ptr frame;
     SessionStats::Ptr stats;
     RandomAPI::Ptr prng;
+	SSLLib::Ctx libctx;
   };
 
 }

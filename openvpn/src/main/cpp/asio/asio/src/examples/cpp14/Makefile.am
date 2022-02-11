@@ -10,6 +10,13 @@ LDADD = libasio.a
 endif
 
 noinst_PROGRAMS = \
+	deferred/deferred_1 \
+	deferred/deferred_2 \
+	deferred/deferred_3 \
+	deferred/deferred_4 \
+	deferred/deferred_5 \
+	deferred/deferred_6 \
+	deferred/deferred_7 \
 	echo/async_tcp_echo_server \
 	echo/async_udp_echo_server \
 	echo/blocking_tcp_echo_client \
@@ -32,10 +39,22 @@ noinst_PROGRAMS = \
 	operations/composed_5 \
 	operations/composed_6 \
 	operations/composed_7 \
-	operations/composed_8
+	operations/composed_8 \
+  parallel_group/parallel_sort \
+  parallel_group/wait_for_all \
+  parallel_group/wait_for_one \
+  parallel_group/wait_for_one_error \
+  parallel_group/wait_for_one_success
 
 AM_CXXFLAGS = -I$(srcdir)/../../../include
 
+deferred_deferred_1_SOURCES = deferred/deferred_1.cpp
+deferred_deferred_2_SOURCES = deferred/deferred_2.cpp
+deferred_deferred_3_SOURCES = deferred/deferred_3.cpp
+deferred_deferred_4_SOURCES = deferred/deferred_4.cpp
+deferred_deferred_5_SOURCES = deferred/deferred_5.cpp
+deferred_deferred_6_SOURCES = deferred/deferred_6.cpp
+deferred_deferred_7_SOURCES = deferred/deferred_7.cpp
 echo_async_tcp_echo_server_SOURCES = echo/async_tcp_echo_server.cpp
 echo_async_udp_echo_server_SOURCES = echo/async_udp_echo_server.cpp
 echo_blocking_tcp_echo_client_SOURCES = echo/blocking_tcp_echo_client.cpp
@@ -59,6 +78,11 @@ operations_composed_5_SOURCES = operations/composed_5.cpp
 operations_composed_6_SOURCES = operations/composed_6.cpp
 operations_composed_7_SOURCES = operations/composed_7.cpp
 operations_composed_8_SOURCES = operations/composed_8.cpp
+parallel_group_parallel_sort_SOURCES = parallel_group/parallel_sort.cpp
+parallel_group_wait_for_all_SOURCES = parallel_group/wait_for_all.cpp
+parallel_group_wait_for_one_SOURCES = parallel_group/wait_for_one.cpp
+parallel_group_wait_for_one_error_SOURCES = parallel_group/wait_for_one_error.cpp
+parallel_group_wait_for_one_success_SOURCES = parallel_group/wait_for_one_success.cpp
 
 MAINTAINERCLEANFILES = \
 	$(srcdir)/Makefile.in

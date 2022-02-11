@@ -79,8 +79,8 @@ Run also the tests that are normally disabled
 ## Writing unit tetss ##
 
 Each new test suite should be a new a file called `test_suitename.cpp` and added to the
-`CMAKELists.txt` file. Eah test includes an `#include test_common.h` at the top to setup
-common openvpn3 library parameter and to set the `OPENVPN_EXTERN` define to `extern`. This
+`CMakeLists.txt` file. Each test includes an `#include test_common.h` at the top to setup
+common openvpn3 library parameters and to set the `OPENVPN_EXTERN` define to `extern`. This
 is done so header files that define globals can be included multiple times. The only file that
 includes headers without the `OPENVPN_EXTERN` being set is the `core_tests.cpp` file. All
 global includes should be done in this file.

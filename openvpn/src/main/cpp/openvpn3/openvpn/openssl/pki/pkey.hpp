@@ -33,6 +33,8 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/openssl/util/error.hpp>
 #include <openvpn/pki/pktype.hpp>
+#include <openvpn/crypto/definitions.hpp>
+#include <openvpn/openssl/compat.hpp>
 
 namespace openvpn {
   namespace OpenSSLPKI {
@@ -45,10 +47,10 @@ namespace openvpn {
       {
       }
 
-      PKey(const std::string& pkey_txt, const std::string& title)
+      PKey(const std::string& pkey_txt, const std::string& title, SSLLib::Ctx ctx)
 	: pkey_(nullptr)
       {
-	parse_pem(pkey_txt, title);
+	parse_pem(pkey_txt, title, ctx);
       }
 
       PKey(const PKey& other)
@@ -127,13 +129,13 @@ namespace openvpn {
 	priv_key_pwd = pwd;
       }
 
-      void parse_pem(const std::string& pkey_txt, const std::string& title)
+      void parse_pem(const std::string& pkey_txt, const std::string& title, SSLLib::Ctx libctx)
       {
 	BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(pkey_txt.c_str()), pkey_txt.length());
 	if (!bio)
 	  throw OpenSSLException();
 
-	::EVP_PKEY *pkey = ::PEM_read_bio_PrivateKey(bio, nullptr, pem_password_callback, this);
+	::EVP_PKEY *pkey = ::PEM_read_bio_PrivateKey_ex(bio, nullptr, pem_password_callback, this, libctx, nullptr);
 	::BIO_free(bio);
 	if (!pkey)
 	  throw OpenSSLException(std::string("PKey::parse_pem: error in ") + title + std::string(":"));
@@ -156,7 +158,7 @@ namespace openvpn {
 
 	    {
 	      char *temp;
-	      const int buf_len = ::BIO_get_mem_data(bio, &temp);
+	      const size_t buf_len = ::BIO_get_mem_data(bio, &temp);
 	      std::string ret = std::string(temp, buf_len);
 	      ::BIO_free(bio);
 	      return ret;
@@ -190,6 +192,7 @@ namespace openvpn {
 	  ::EVP_PKEY_free(pkey_);
       }
 
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
       static ::EVP_PKEY *dup(const ::EVP_PKEY *pkey)
       {
 	// No OpenSSL EVP_PKEY_dup method so we roll our own 
@@ -206,6 +209,15 @@ namespace openvpn {
 	else
 	  return nullptr;
       }
+#else
+      static ::EVP_PKEY *dup(const ::EVP_PKEY *pkey)
+      {
+	if (pkey)
+	  return EVP_PKEY_dup(const_cast<EVP_PKEY*>(pkey));
+	else
+	  return nullptr;
+      }
+#endif
 
       ::EVP_PKEY *pkey_;
       std::string priv_key_pwd;

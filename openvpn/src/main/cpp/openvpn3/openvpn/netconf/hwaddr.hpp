@@ -41,7 +41,7 @@ namespace openvpn {
   inline std::string get_hwaddr()
   {
 #if defined(OPENVPN_PLATFORM_WIN) && !defined(OPENVPN_PLATFORM_UWP)
-    const TunWin::Util::DefaultGateway dg;
+    const TunWin::Util::BestGateway dg;
     if (dg.defined())
       {
 	const TunWin::Util::IPAdaptersInfo ai_list;

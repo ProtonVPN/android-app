@@ -141,7 +141,7 @@ On alice:
    ping 10.4.0.1
 
 Note: This example use a elliptic curve (`secp384`), which allows
-``--dh`` and to ``none``.
+``--dh`` to be set to ``none``.
 
 Example 3: A tunnel with full PKI and TLS-based security
 --------------------------------------------------------

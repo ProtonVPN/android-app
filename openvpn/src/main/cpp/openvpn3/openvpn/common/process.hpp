@@ -55,7 +55,14 @@ namespace openvpn {
     auto fn = cmd.c_str();
     auto av = argv_wrap.c_argv();
     auto ev = env_wrap ? env_wrap->c_argv() : ::environ;
+
+#if defined(__APPLE__)
+    /* macOS vfork is deprecated and behaves identical to fork() */
+    const pid_t pid = ::fork();
+#else
     const pid_t pid = (redir || sigmask) ? ::fork() : ::vfork();
+#endif
+
     if (pid == pid_t(0)) /* child side */
       {
 	// Only Async-signal-safe functions as specified by

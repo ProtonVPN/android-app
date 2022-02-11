@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -95,9 +95,6 @@ fragment_init(struct frame *frame)
     /* code that initializes other parts of
      * fragment_master assume an initial CLEAR */
     ALLOC_OBJ_CLEAR(ret, struct fragment_master);
-
-    /* add in the size of our contribution to the expanded frame size */
-    frame_add_to_extra_frame(frame, sizeof(fragment_header_type));
 
     /*
      * Outgoing sequence ID is randomized to reduce
@@ -214,7 +211,7 @@ fragment_incoming(struct fragment_master *f, struct buffer *buf,
                 frag->defined = true;
                 frag->max_frag_size = size;
                 frag->map = 0;
-                ASSERT(buf_init(&frag->buf, FRAME_HEADROOM_ADJ(frame, FRAME_HEADROOM_MARKER_FRAGMENT)));
+                ASSERT(buf_init(&frag->buf, FRAME_HEADROOM(frame)));
             }
 
             /* copy the data to fragment buffer */
@@ -335,12 +332,12 @@ fragment_outgoing(struct fragment_master *f, struct buffer *buf,
             msg(D_FRAG_ERRORS, "FRAG: outgoing buffer is not empty, len=[%d,%d]",
                 buf->len, f->outgoing.len);
         }
-        if (buf->len > PAYLOAD_SIZE_DYNAMIC(frame)) /* should we fragment? */
+        if (buf->len > frame->max_fragment_size) /* should we fragment? */
         {
             /*
              * Send the datagram as a series of 2 or more fragments.
              */
-            f->outgoing_frag_size = optimal_fragment_size(buf->len, PAYLOAD_SIZE_DYNAMIC(frame));
+            f->outgoing_frag_size = optimal_fragment_size(buf->len, frame->max_fragment_size);
             if (buf->len > f->outgoing_frag_size * MAX_FRAGS)
             {
                 FRAG_ERR("too many fragments would be required to send datagram");
@@ -435,11 +432,5 @@ fragment_wakeup(struct fragment_master *f, struct frame *frame)
 {
     /* delete fragments with expired TTLs */
     fragment_ttl_reap(f);
-}
-
-#else  /* ifdef ENABLE_FRAGMENT */
-static void
-dummy(void)
-{
 }
 #endif /* ifdef ENABLE_FRAGMENT */

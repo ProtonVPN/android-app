@@ -42,6 +42,7 @@
 #include <openvpn/tun/proxy.hpp>
 #include <openvpn/tun/win/tunutil.hpp>
 #include <openvpn/tun/win/winproxy.hpp>
+#include <openvpn/tun/win/tunutil.hpp>
 #include <openvpn/tun/win/client/setupbase.hpp>
 #include <openvpn/win/scoped_handle.hpp>
 #include <openvpn/win/cmd.hpp>
@@ -53,6 +54,13 @@
 
 #include <versionhelpers.h>
 
+// use IP Helper on Windows by default
+#ifdef OPENVPN_USE_NETSH
+#define TUNWINDOWS Util::TunNETSH
+#else
+#define TUNWINDOWS Util::TunIPHELPER
+#endif
+
 namespace openvpn {
   namespace TunWin {
     class Setup : public SetupBase
@@ -60,9 +68,41 @@ namespace openvpn {
     public:
       typedef RCPtr<Setup> Ptr;
 
-      Setup(openvpn_io::io_context& io_context_arg, bool wintun_arg=false)
+      Setup(openvpn_io::io_context& io_context_arg, const Type tun_type, bool allow_local_dns_resolvers_arg)
 	: delete_route_timer(io_context_arg),
-	  wintun(wintun_arg) {}
+	  tun_type_(tun_type),
+      allow_local_dns_resolvers(allow_local_dns_resolvers_arg) {}
+
+      HANDLE get_handle(std::ostream& os) override
+      {
+	if (tap_.index_defined())
+	  // tap has already been opened
+	  return INVALID_HANDLE_VALUE;
+
+	// enumerate available TAP adapters
+	Util::TapNameGuidPairList guids(tun_type_);
+	os << "TAP ADAPTERS:" << std::endl
+	   << guids.to_string() << std::endl;
+
+	// open TAP device handle
+	std::string path_opened;
+	Win::ScopedHANDLE th(Util::tap_open(tun_type_, guids, path_opened, tap_));
+	os << "Open TAP device \"" + tap_.name + "\" PATH=\"" + path_opened + '\"';
+	if (!th.defined())
+	  {
+	    os << " FAILED" << std::endl;
+	    throw ErrorCode(Error::TUN_IFACE_CREATE, true, "cannot acquire TAP handle");
+	  }
+
+	os << " SUCCEEDED" << std::endl;
+	if (tun_type_ == TapWindows6)
+	  {
+	    Util::TAPDriverVersion version(th());
+	    os << version.to_string() << std::endl;
+	  }
+
+	return th.release();
+      }
 
       // Set up the TAP device
       virtual HANDLE establish(const TunBuilderCapture& pull,
@@ -74,28 +114,8 @@ namespace openvpn {
 	// close out old remove cmds, if they exist
 	destroy(os);
 
-	// enumerate available TAP adapters
-	Util::TapNameGuidPairList guids(wintun);
-	os << "TAP ADAPTERS:" << std::endl << guids.to_string() << std::endl;
-
-	// open TAP device handle
-	std::string path_opened;
-	Util::TapNameGuidPair tap;
-	Win::ScopedHANDLE th(Util::tap_open(guids, path_opened, tap, wintun));
-	const std::string msg = "Open TAP device \"" + tap.name + "\" PATH=\"" + path_opened + '\"';
-
-	if (!th.defined())
-	  {
-	    os << msg << " FAILED" << std::endl;
-	    throw ErrorCode(Error::TUN_IFACE_CREATE, true, "cannot acquire TAP handle");
-	  }
-
-	os << msg << " SUCCEEDED" << std::endl;
-	if (!wintun)
-	  {
-	    Util::TAPDriverVersion version(th());
-	    os << version.to_string() << std::endl;
-	  }
+	Win::ScopedHANDLE th(get_handle(os));
+	vpn_interface_index_ = tap_.index;
 
 	// create ActionLists for setting up and removing adapter properties
 	ActionList::Ptr add_cmds(new ActionList());
@@ -105,10 +125,10 @@ namespace openvpn {
 	switch (pull.layer())
 	  {
 	  case Layer::OSI_LAYER_3:
-	    adapter_config(th(), openvpn_app_path, tap, pull, false, *add_cmds, *remove_cmds, os);
+	    adapter_config(th(), openvpn_app_path, tap_, pull, false, *add_cmds, *remove_cmds, os);
 	    break;
 	  case Layer::OSI_LAYER_2:
-	    adapter_config_l2(th(), openvpn_app_path, tap, pull, *add_cmds, *remove_cmds, os);
+	    adapter_config_l2(th(), openvpn_app_path, tap_, pull, *add_cmds, *remove_cmds, os);
 	    break;
 	  default:
 	    throw tun_win_setup("layer undefined");
@@ -122,10 +142,13 @@ namespace openvpn {
 
 	// if layer 2, save state
 	if (pull.layer() == Layer::OSI_LAYER_2)
-	  l2_state.reset(new L2State(tap, openvpn_app_path));
+	  l2_state.reset(new L2State(tap_, openvpn_app_path));
 
 	if (ring_buffer)
 	  register_rings(th(), ring_buffer);
+
+	if (tun_type_ == Type::TapWindows6 && tap_.index_defined())
+	  Util::flush_arp(tap_.index, os);
 
 	return th.release();
       }
@@ -196,6 +219,8 @@ namespace openvpn {
 	  }
 
 	delete_route_timer.cancel();
+
+	vpn_interface_index_ = DWORD(-1);
       }
 
       virtual ~Setup()
@@ -204,17 +229,28 @@ namespace openvpn {
 	destroy(os);
       }
 
-      static void add_bypass_route(const std::string& route,
+      DWORD vpn_interface_index() const
+      {
+	return vpn_interface_index_;
+      }
+
+      static void add_bypass_route(const Util::BestGateway& gw,
+				   const std::string& route,
 				   bool ipv6,
 				   ActionList& add_cmds,
 				   ActionList& remove_cmds_bypass_gw)
       {
-	const Util::DefaultGateway gw;
-
 	if (!ipv6)
 	  {
-	    add_cmds.add(new WinCmd("netsh interface ip add route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
-	    remove_cmds_bypass_gw.add(new WinCmd("netsh interface ip delete route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+	    if (!gw.local_route())
+	      {
+		add_cmds.add(new WinCmd("netsh interface ip add route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+		remove_cmds_bypass_gw.add(new WinCmd("netsh interface ip delete route " + route + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+	      }
+	    else
+	      {
+		OPENVPN_LOG("Skip bypass route to " << route << ", route is local");
+	      }
 	  }
       }
 
@@ -311,9 +347,6 @@ namespace openvpn {
 	// special IPv6 next-hop recognized by TAP driver (magic)
 	const std::string ipv6_next_hop = "fe80::8";
 
-	// get default gateway
-	const Util::DefaultGateway gw;
-
 	// set local4 and local6 to point to IPv4/6 route configurations
 	const TunBuilderCapture::RouteAddress* local4 = pull.vpn_ipv4();
 	const TunBuilderCapture::RouteAddress* local6 = pull.vpn_ipv6();
@@ -321,7 +354,7 @@ namespace openvpn {
 	if (!l2_post)
 	  {
 	    // set TAP media status to CONNECTED
-	    if (!wintun)
+	    if (tun_type_ == TapWindows6)
 	      Util::tap_set_media_status(th, true);
 
 	    // try to delete any stale routes on interface left over from previous session
@@ -352,7 +385,7 @@ namespace openvpn {
 		const std::string netmask = IPv4::Addr::netmask_from_prefix_len(local4->prefix_length).to_string();
 		const IP::Addr localaddr = IP::Addr::from_string(local4->address);
 		const IP::Addr remoteaddr = IP::Addr::from_string(local4->gateway);
-		if (!wintun)
+		if (tun_type_ == TapWindows6)
 		  {
 		    if (local4->net30)
 		      Util::tap_configure_topology_net30(th, localaddr, remoteaddr);
@@ -435,11 +468,11 @@ namespace openvpn {
 	{
 	  for (auto &route : pull.add_routes)
 	    {
-	      const std::string metric = route_metric_opt(pull, route, MT_NETSH);
 	      if (route.ipv6)
 		{
 		  if (!pull.block_ipv6)
 		    {
+		      const std::string metric = route_metric_opt(pull, route, MT_NETSH);
 		      create.add(new WinCmd("netsh interface ipv6 add route " + route.address + '/' + to_string(route.prefix_length) + ' ' + tap_index_name + ' ' + ipv6_next_hop + metric + " store=active"));
 		      destroy.add(new WinCmd("netsh interface ipv6 delete route " + route.address + '/' + to_string(route.prefix_length) + ' ' + tap_index_name + ' ' + ipv6_next_hop + " store=active"));
 		    }
@@ -448,8 +481,11 @@ namespace openvpn {
 		{
 		  if (local4)
 		    {
-		      create.add(new WinCmd("netsh interface ip add route " + route.address + '/' + to_string(route.prefix_length) + ' ' + tap_index_name + ' ' + local4->gateway + metric + " store=active"));
-		      destroy.add(new WinCmd("netsh interface ip delete route " + route.address + '/' + to_string(route.prefix_length) + ' ' + tap_index_name + ' ' + local4->gateway + " store=active"));
+		      int metric = pull.route_metric_default;
+		      if (route.metric >= 0)
+			metric = route.metric;
+		      create.add(new TUNWINDOWS::AddRoute4Cmd(route.address, route.prefix_length, tap,  local4->gateway, metric, true));
+		      destroy.add(new TUNWINDOWS::AddRoute4Cmd(route.address, route.prefix_length, tap, local4->gateway, metric, false));
 		    }
 		  else
 		    throw tun_win_setup("IPv4 routes pushed without IPv4 ifconfig");
@@ -460,6 +496,7 @@ namespace openvpn {
 	// Process exclude routes
 	if (!pull.exclude_routes.empty())
 	  {
+	    const Util::BestGateway gw;
 	    if (gw.defined())
 	      {
 		bool ipv6_error = false;
@@ -486,17 +523,20 @@ namespace openvpn {
 	// Process IPv4 redirect-gateway
 	if (pull.reroute_gw.ipv4)
 	  {
-	    // add server bypass route
-	    if (gw.defined())
+	    // get default gateway
+	    const Util::BestGateway gw{ pull.remote_address.address, tap.index };
+
+	    if (!gw.local_route())
 	      {
-		if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+		// add server bypass route
+		if (gw.defined())
 		  {
-		    create.add(new WinCmd("netsh interface ip add route " + pull.remote_address.address + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
-		    destroy.add(new WinCmd("netsh interface ip delete route " + pull.remote_address.address + "/32 " + to_string(gw.interface_index()) + ' ' + gw.gateway_address() + " store=active"));
+		    if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+		      add_bypass_route(gw, pull.remote_address.address, false, create, destroy);
 		  }
+		else
+		  throw tun_win_setup("redirect-gateway error: cannot find gateway for bypass route");
 	      }
-	    else
-	      throw tun_win_setup("redirect-gateway error: cannot detect default gateway");
 
 	    create.add(new WinCmd("netsh interface ip add route 0.0.0.0/1 " + tap_index_name + ' ' + local4->gateway + " store=active"));
 	    create.add(new WinCmd("netsh interface ip add route 128.0.0.0/1 " + tap_index_name + ' ' + local4->gateway + " store=active"));
@@ -607,7 +647,7 @@ namespace openvpn {
 			}
 		    }
 		}
-	      if (dsfx.empty())
+	      if (dsfx.empty() && !allow_local_dns_resolvers)
 		dsfx.emplace_back(".");
 
 	      // DNS server list
@@ -624,8 +664,8 @@ namespace openvpn {
 	  // the TAP adapter.
 	  if (use_wfp && !split_dns && !openvpn_app_path.empty() && (dns.ipv4() || dns.ipv6()))
 	    {
-	      create.add(new ActionWFP(openvpn_app_path, tap.index, true, wfp));
-	      destroy.add(new ActionWFP(openvpn_app_path, tap.index, false, wfp));
+	      create.add(new ActionWFP(openvpn_app_path, tap.index, true, allow_local_dns_resolvers ,wfp));
+	      destroy.add(new ActionWFP(openvpn_app_path, tap.index, false, allow_local_dns_resolvers, wfp));
 	    }
 	}
 
@@ -724,7 +764,7 @@ namespace openvpn {
 	    }
 
 	    // set TAP media status to CONNECTED
-	    if (!wintun)
+	    if (tun_type_ == TapWindows6)
 	      Util::tap_set_media_status(th, true);
 
 	    // ARP
@@ -910,11 +950,14 @@ namespace openvpn {
       std::unique_ptr<std::thread> l2_thread;
       std::unique_ptr<L2State> l2_state;
 
+      DWORD vpn_interface_index_ = DWORD(-1);
       ActionList::Ptr remove_cmds;
 
       AsioTimer delete_route_timer;
 
-      bool wintun = false;
+      const Type tun_type_;
+      Util::TapNameGuidPair tap_;
+      bool allow_local_dns_resolvers = false;
     };
   }
 }

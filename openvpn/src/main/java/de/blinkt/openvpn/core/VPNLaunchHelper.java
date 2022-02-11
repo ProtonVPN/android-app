@@ -21,10 +21,8 @@ import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VpnProfile;
 
 public class VPNLaunchHelper {
-    private static final String MININONPIEVPN = "nopie_openvpn";
     private static final String MINIPIEVPN = "pie_openvpn";
     private static final String OVPNCONFIGFILE = "android.conf";
-
 
     private static String writeMiniVPN(Context context) {
         String nativeAPI = NativeUtils.getNativeAPI();
@@ -45,31 +43,18 @@ public class VPNLaunchHelper {
 
         for (String abi : abis) {
 
-            File vpnExecutable = new File(context.getCacheDir(), "c_" + getMiniVPNExecutableName() + "." + abi);
+            File vpnExecutable = new File(context.getCacheDir(), "c_" + MINIPIEVPN + "." + abi);
             if ((vpnExecutable.exists() && vpnExecutable.canExecute()) || writeMiniVPNBinary(context, abi, vpnExecutable)) {
                 return vpnExecutable.getPath();
             }
         }
 
-        throw new RuntimeException("Cannot find any execulte for this device's ABIs " + abis.toString());
+        throw new RuntimeException("Cannot find any executable for this device's ABIs " + Arrays.toString(abis));
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static String[] getSupportedABIsLollipop() {
         return Build.SUPPORTED_ABIS;
-    }
-
-    private static String getMiniVPNExecutableName() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            return MINIPIEVPN;
-        else
-            return MININONPIEVPN;
-    }
-
-
-    public static String[] replacePieWithNoPie(String[] mArgv) {
-        mArgv[0] = mArgv[0].replace(MINIPIEVPN, MININONPIEVPN);
-        return mArgv;
     }
 
 
@@ -79,17 +64,13 @@ public class VPNLaunchHelper {
         String binaryName = writeMiniVPN(c);
         // Add fixed paramenters
         //args.add("/data/data/de.blinkt.openvpn/lib/openvpn");
-        if (binaryName == null) {
-            VpnStatus.logError("Error writing minivpn binary");
-            return null;
-        }
 
         args.add(binaryName);
 
         args.add("--config");
         args.add(getConfigFilePath(c));
 
-        return args.toArray(new String[args.size()]);
+        return args.toArray(new String[0]);
     }
 
     private static boolean writeMiniVPNBinary(Context context, String abi, File mvpnout) {
@@ -97,16 +78,16 @@ public class VPNLaunchHelper {
             InputStream mvpn;
 
             try {
-                mvpn = context.getAssets().open(getMiniVPNExecutableName() + "." + abi);
+                mvpn = context.getAssets().open(MINIPIEVPN + "." + abi);
             } catch (IOException errabi) {
-                VpnStatus.logInfo("Failed getting assets for archicture " + abi);
+                VpnStatus.logInfo("Failed getting assets for architecture " + abi);
                 return false;
             }
 
 
             FileOutputStream fout = new FileOutputStream(mvpnout);
 
-            byte buf[] = new byte[4096];
+            byte[] buf = new byte[4096];
 
             int lenread = mvpn.read(buf);
             while (lenread > 0) {

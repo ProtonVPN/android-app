@@ -129,9 +129,6 @@
     <ClCompile Include="perf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ping.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -207,6 +204,9 @@
     <ClCompile Include="win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="win32-util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="comp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -241,6 +241,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ssl_ncp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ssl_util.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -386,9 +389,6 @@
     <ClInclude Include="perf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -507,6 +507,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ssl_ncp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ssl_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="win32-util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

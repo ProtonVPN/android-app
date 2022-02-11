@@ -433,10 +433,12 @@ namespace openvpn {
 	std::string server_override;
 	std::string port_override;
 	Protocol proto_override;
-	IPv6Setting ipv6;
+	IP::Addr::Version proto_version_override;
+	TriStateSetting allowUnusedAddrFamilies;
 	int conn_timeout = 0;
 	bool tun_persist = false;
 	bool wintun = false;
+	bool allow_local_dns_resolvers = false;
 	bool google_dns_fallback = false;
 	bool synchronous_dns_lookup = false;
 	bool autologin_sessions = false;
@@ -450,9 +452,11 @@ namespace openvpn {
 	std::string tls_cert_profile_override;
 	std::string tls_cipher_list;
 	std::string tls_ciphersuite_list;
+	bool enable_legacy_algorithms = false;
+	bool enable_nonpreferred_dcalgs = false;
 	std::string gui_version;
 	std::string sso_methods;
-	bool allow_local_lan_access;
+	bool allow_local_lan_access = false;
 	std::string hw_addr_override;
 	std::string platform_version;
 	ProtoContextOptions::Ptr proto_context_options;
@@ -463,7 +467,7 @@ namespace openvpn {
 	Gremlin::Config::Ptr gremlin_config;
 #endif
 	bool alt_proxy = false;
-	bool dco = false;
+	bool dco = true;
 	bool echo = false;
 	bool info = false;
 
@@ -618,7 +622,7 @@ namespace openvpn {
       state->proto_context_options.reset(new ProtoContextOptions());
     }
 
-    OPENVPN_CLIENT_EXPORT void OpenVPNClient::parse_config(const Config& config, EvalConfig& eval, OptionList& options)
+    OPENVPN_CLIENT_EXPORT void OpenVPNClientHelper::parse_config(const Config& config, EvalConfig& eval, OptionList& options)
     {
       try {
 	// validate proto_override
@@ -626,8 +630,8 @@ namespace openvpn {
 	  Protocol::parse(config.protoOverride, Protocol::NO_SUFFIX);
 
 	// validate IPv6 setting
-	if (!config.ipv6.empty())
-	  IPv6Setting::parse(config.ipv6);
+	if (!config.allowUnusedAddrFamilies.empty())
+	  TriStateSetting::parse(config.allowUnusedAddrFamilies);
 
 	// parse config
 	OptionList::KeyValueList kvl;
@@ -682,6 +686,7 @@ namespace openvpn {
 	state->conn_timeout = config.connTimeout;
 	state->tun_persist = config.tunPersist;
 	state->wintun = config.wintun;
+	state->allow_local_dns_resolvers = config.allowLocalDnsResolvers;
 	state->google_dns_fallback = config.googleDnsFallback;
 	state->synchronous_dns_lookup = config.synchronousDnsLookup;
 	state->autologin_sessions = config.autologinSessions;
@@ -689,8 +694,12 @@ namespace openvpn {
 	state->private_key_password = config.privateKeyPassword;
 	if (!config.protoOverride.empty())
 	  state->proto_override = Protocol::parse(config.protoOverride, Protocol::NO_SUFFIX);
-	if (!config.ipv6.empty())
-	  state->ipv6 = IPv6Setting::parse(config.ipv6);
+	if (config.protoVersionOverride == 4)
+	  state->proto_version_override = IP::Addr::Version::V4;
+	else if (config.protoVersionOverride == 6)
+	  state->proto_version_override = IP::Addr::Version::V6;
+	if (!config.allowUnusedAddrFamilies.empty())
+	  state->allowUnusedAddrFamilies = TriStateSetting::parse(config.allowUnusedAddrFamilies);
 	if (!config.compressionMode.empty())
 	  state->proto_context_options->parse_compression_mode(config.compressionMode);
 	if (eval.externalPki)
@@ -702,6 +711,8 @@ namespace openvpn {
 	state->tls_cert_profile_override = config.tlsCertProfileOverride;
 	state->tls_cipher_list = config.tlsCipherList;
 	state->tls_ciphersuite_list = config.tlsCiphersuitesList;
+	state->enable_legacy_algorithms = config.enableLegacyAlgorithms;
+	state->enable_nonpreferred_dcalgs = config.enableNonPreferredDCAlgorithms;
 	state->allow_local_lan_access = config.allowLocalLanAccess;
 	state->gui_version = config.guiVersion;
 	state->sso_methods = config.ssoMethods;
@@ -738,27 +749,37 @@ namespace openvpn {
 	}
     }
 
-    OPENVPN_CLIENT_EXPORT long OpenVPNClient::max_profile_size()
+    OpenVPNClientHelper::OpenVPNClientHelper() : init(new InitProcess::Init())
+    {
+
+    }
+
+    OpenVPNClientHelper::~OpenVPNClientHelper()
+    {
+       delete init;
+    }
+
+    OPENVPN_CLIENT_EXPORT long OpenVPNClientHelper::max_profile_size()
     {
       return ProfileParseLimits::MAX_PROFILE_SIZE;
     }
 
-    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClient::merge_config_static(const std::string& path,
-									 bool follow_references)
+    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClientHelper::merge_config(const std::string& path,
+									bool follow_references)
     {
       ProfileMerge pm(path, "ovpn", "", follow_references ? ProfileMerge::FOLLOW_PARTIAL : ProfileMerge::FOLLOW_NONE,
 		      ProfileParseLimits::MAX_LINE_SIZE, ProfileParseLimits::MAX_PROFILE_SIZE);
       return build_merge_config(pm);
     }
 
-    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClient::merge_config_string_static(const std::string& config_content)
+    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClientHelper::merge_config_string(const std::string& config_content)
     {
       ProfileMergeFromString pm(config_content, "", ProfileMerge::FOLLOW_NONE,
 				ProfileParseLimits::MAX_LINE_SIZE, ProfileParseLimits::MAX_PROFILE_SIZE);
       return build_merge_config(pm);
     }
 
-    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClient::build_merge_config(const ProfileMerge& pm)
+    OPENVPN_CLIENT_EXPORT MergeConfig OpenVPNClientHelper::build_merge_config(const ProfileMerge& pm)
     {
       MergeConfig ret;
       ret.status = pm.status_string();
@@ -775,7 +796,7 @@ namespace openvpn {
       return ret;
     }
 
-    OPENVPN_CLIENT_EXPORT EvalConfig OpenVPNClient::eval_config_static(const Config& config)
+    OPENVPN_CLIENT_EXPORT EvalConfig OpenVPNClientHelper::eval_config(const Config& config)
     {
       EvalConfig eval;
       OptionList options;
@@ -788,7 +809,7 @@ namespace openvpn {
     {
       // parse and validate configuration file
       EvalConfig eval;
-      parse_config(config, eval, state->options);
+      OpenVPNClientHelper::parse_config(config, eval, state->options);
       if (eval.error)
 	return eval;
 
@@ -805,6 +826,8 @@ namespace openvpn {
 	ClientCreds::Ptr cc = new ClientCreds();
 	cc->set_username(creds.username);
 	cc->set_password(creds.password);
+	cc->set_http_proxy_username(creds.http_proxy_user);
+	cc->set_http_proxy_password(creds.http_proxy_pass);
 	cc->set_response(creds.response);
 	cc->set_dynamic_challenge_cookie(creds.dynamicChallengeCookie, creds.username);
 	cc->set_replace_password_with_session_id(creds.replacePasswordWithSessionID);
@@ -824,7 +847,7 @@ namespace openvpn {
       return true;
     }
 
-    OPENVPN_CLIENT_EXPORT bool OpenVPNClient::parse_dynamic_challenge(const std::string& cookie, DynamicChallenge& dc)
+    OPENVPN_CLIENT_EXPORT bool OpenVPNClientHelper::parse_dynamic_challenge(const std::string& cookie, DynamicChallenge& dc)
     {
       try {
 	ChallengeResponse cr(cookie);
@@ -886,7 +909,7 @@ namespace openvpn {
       Log::Context log_context(this);
 #endif
 
-      OPENVPN_LOG(ClientAPI::OpenVPNClient::platform());
+      OPENVPN_LOG(ClientAPI::OpenVPNClientHelper::platform());
 
       return do_connect();
     }
@@ -960,10 +983,12 @@ namespace openvpn {
       cc.server_override = state->server_override;
       cc.port_override = state->port_override;
       cc.proto_override = state->proto_override;
-      cc.ipv6 = state->ipv6;
+      cc.proto_version_override = state->proto_version_override;
+      cc.allowUnusedAddrFamilies = state->allowUnusedAddrFamilies;
       cc.conn_timeout = state->conn_timeout;
       cc.tun_persist = state->tun_persist;
       cc.wintun = state->wintun;
+      cc.allow_local_dns_resolvers = state->allow_local_dns_resolvers;
       cc.google_dns_fallback = state->google_dns_fallback;
       cc.synchronous_dns_lookup = state->synchronous_dns_lookup;
       cc.autologin_sessions = state->autologin_sessions;
@@ -985,6 +1010,8 @@ namespace openvpn {
       cc.tls_cert_profile_override = state->tls_cert_profile_override;
       cc.tls_cipher_list = state->tls_cipher_list;
       cc.tls_ciphersuite_list = state->tls_ciphersuite_list;
+	  cc.enable_legacy_algorithms = state->enable_legacy_algorithms;
+      cc.enable_nonpreferred_dcalgs = state->enable_nonpreferred_dcalgs;
       cc.gui_version = state->gui_version;
       cc.sso_methods = state->sso_methods;
       cc.hw_addr_override = state->hw_addr_override;
@@ -1068,9 +1095,6 @@ namespace openvpn {
 	  state->clock_tick.reset(new MyClockTick(*state->io_context(), this, state->clock_tick_ms));
 	  state->clock_tick->schedule();
 	}
-
-      // raise an exception if app has expired
-      check_app_expired();
 
       // start VPN
       state->session->start(); // queue reads on socket/tun
@@ -1260,6 +1284,7 @@ namespace openvpn {
 	  // data.  Vice versa for TUN_*_IN.
 	  if (stats)
 	    {
+	      stats->dco_update();
 	      ret.bytesOut = stats->stat_count(SessionStats::TUN_BYTES_IN);
 	      ret.bytesIn = stats->stat_count(SessionStats::TUN_BYTES_OUT);
 	      ret.packetsOut = stats->stat_count(SessionStats::TUN_PACKETS_IN);
@@ -1372,34 +1397,17 @@ namespace openvpn {
       state->on_disconnect();
     }
 
-    OPENVPN_CLIENT_EXPORT std::string OpenVPNClient::crypto_self_test()
+    OPENVPN_CLIENT_EXPORT std::string OpenVPNClientHelper::crypto_self_test()
     {
       return SelfTest::crypto_self_test();
     }
 
-    OPENVPN_CLIENT_EXPORT int OpenVPNClient::app_expire()
-    {
-#ifdef APP_EXPIRE_TIME
-      return APP_EXPIRE_TIME;
-#else
-      return 0;
-#endif
-    }
-
-    OPENVPN_CLIENT_EXPORT void OpenVPNClient::check_app_expired()
-    {
-#ifdef APP_EXPIRE_TIME
-      if (Time::now().seconds_since_epoch() >= APP_EXPIRE_TIME)
-	throw app_expired();
-#endif
-    }
-
-    OPENVPN_CLIENT_EXPORT std::string OpenVPNClient::copyright()
+    OPENVPN_CLIENT_EXPORT std::string OpenVPNClientHelper::copyright()
     {
       return openvpn_copyright;
     }
 
-    OPENVPN_CLIENT_EXPORT std::string OpenVPNClient::platform()
+    OPENVPN_CLIENT_EXPORT std::string OpenVPNClientHelper::platform()
     {
       std::string ret = platform_string();
 #ifdef PRIVATE_TUNNEL_PROXY
@@ -1407,7 +1415,7 @@ namespace openvpn {
 #endif
 #ifdef ENABLE_KOVPN
       ret += " KOVPN";
-#elif ENABLE_OVPNDCO
+#elif defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)
       ret += " OVPN-DCO";
 #endif
 #ifdef OPENVPN_GREMLIN

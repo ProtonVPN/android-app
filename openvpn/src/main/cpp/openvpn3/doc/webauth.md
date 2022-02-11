@@ -25,13 +25,13 @@ the server needs to send the url to the client. The details are documented in
 https://github.com/OpenVPN/openvpn/blob/master/doc/management-notes.txt
 and are outside the scope of this document.
 
-Receiving a OPEN_URL request
-----------------------------
+Receiving a WEB_AUTH/OPEN_URL request
+------------------------------------
 
-When the client receives an `OPEN_URL` request to continue the authentication via web based
-authentication the client should directly open the web page or prompt the user to open
-the web page. This can be either can in an internal browser windows/webview or open the
-web page in an external browser. A web based login should be able to handle both cases.
+When the client receives an `WEB_AUTH` or `OPEN_URL` (deprecated) request to continue the 
+authentication via web based authentication the client should directly open the web page or 
+prompt the user to open the web page. This can be either can in an internal browser windows/webview 
+or open the web page in an external browser. A web based login should be able to handle both cases.
 
 There is a special "initially hidden" mode that is explained in the internal webview section.
 
@@ -59,22 +59,25 @@ allows tighter integration of the login. The application should append a
 is made from an internal webview. The server may choose to serve a web page that 
 integrates better into the flow of an app or ignore the parameter. 
 
+If an internal webview is used, the app should clearly indicate that the user is interacting 
+with an external website rather than with the app itself to avoid phishing attacks.
+
 Initial hiding of a webview
 ---------------------------
 
 There are situations where initially hiding the webview is desirable. Mainly when relying
 on persistent storage/cookies on the client webview to determine if user input is required
 or not. Starting all web auth hidden would break web login pages that are not specifically
-designed to work with OpenVPN. Therefore this feature must be implemented strictly as opt-in.
-To enable this mode the url should have the parameter `OVPN_WEBVIEW_HIDDEN=1` as parameter in
+designed to work with OpenVPN. Therefore, this feature must be implemented strictly as opt-in.
+To enable this mode the flags of WEB_AUTH need to contain `hidden`. 
 the url. When a client implements this mode it must also implement the State API to allow 
 the web page to show the webview. A web login must not depend on the feature being present. 
 
 State API
 ---------
 This API is optional on both server and client side. Neither should the client side assume
-that this API will be used during login process (unless `OVPN_WEBVIEW_HIDDEN=1` is used) 
-nor should the server side assume that this API is present. 
+that this API will be used during login process nor should the server side assume 
+that this API is present. 
 
 The reason to make this API optional on the client side is that client are allowed to open
 the URL in the default browser of the user that has no specific OpenVPN support. On the server
@@ -122,7 +125,7 @@ it when present.
    
 Certificate checks
 ------------------
-A client must implement certificate checks. It is recommended to implement a a user dialog 
+A client must implement certificate checks. It is recommended to implement a user dialog 
 step where the user is presented the subject information of an unknown certificate, which
 the user can choose to accept or reject.
 
@@ -169,9 +172,11 @@ The header `Ovpn-WebAuth` has the following format:
 
     Ovpn-WebAuth: providername,flags
    
-The flags are also comma separated values. Currently the only flag that is defined is
+The flags are also comma separated values. Currently, the followings flag that are defined:
     
-    * hidden-webview   Starts the webview in hidden mode. See the web auth section for more details 
+    * hidden-webview   Starts the webview in hidden mode. See the web auth section for more details
+    * external         Indicates that an internal webivew should NOT be used but instead a normal
+                       browser is to be used.
 
 In general websites should also report ovpn-webauth without `embedded=true` parameter to allow
 clients without internal browser support to craft a url to open in an external browser that
@@ -222,7 +227,28 @@ events.
 
     The implementation of `vpn-session-token` and `vpn-session-user` is optional but strongly
     recommended to improve user experience.
-   
+
+
+
+openvpn://import-profile URL
+============================
+To trigger a direct import of a profile in an OpenVPN app an openvpn://import-profile/
+link can be used. The syntax of the link is
+
+    openvpn://import-profile/https://server/path/to/profile
+
+The client will try to fetch the profile specified in the https:// URL and offer
+the user the option to import the profile. The URL MUST NOT require any additional
+authentication or require user interaction, e.g. by embedding a session ID or a one
+time use token. The client MUST check certificates on a HTTPS connection and offer
+a user a choice to accept or deny the connection if a self-signed certificate is
+encountered.
+
+The API MUST provide an openvpn profile with the MIME-type of `application/x-openvpn-profile`.
+Any other response is invalid. The response MAY contain the  `VPN-Session-User` and
+`VPN-Session-Token` headers as described in the Basic API section.
+
+  
 REST profile download API
 =========================
 REST is a simple and more lightweight interface to download profiles.

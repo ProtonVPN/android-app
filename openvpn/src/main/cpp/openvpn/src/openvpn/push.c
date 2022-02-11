@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -37,8 +37,7 @@
 #include "manage.h"
 
 #include "memdbg.h"
-
-#if P2MP
+#include "ssl_util.h"
 
 static char push_reply_cmd[] = "PUSH_REPLY";
 
@@ -219,16 +218,90 @@ receive_cr_response(struct context *c, const struct buffer *buffer)
     {
         m = BSTR(&buf);
     }
-#ifdef MANAGEMENT_DEF_AUTH
+#ifdef ENABLE_MANAGEMENT
     struct tls_session *session = &c->c2.tls_multi->session[TM_ACTIVE];
     struct man_def_auth_context *mda = session->opt->mda_context;
     struct env_set *es = session->opt->es;
-    int key_id = session->key[KS_PRIMARY].key_id;
+    int key_id = get_primary_key(c->c2.tls_multi)->key_id;
 
 
     management_notify_client_cr_response(key_id, mda, es, m);
 #endif
     msg(D_PUSH, "CR response was sent by client ('%s')", m);
+}
+
+/**
+ * Parse the keyword for the AUTH_PENDING request
+ * @param buffer                buffer containing the keywords, the buffer's
+ *                              content will be modified by this function
+ * @param server_timeout        timeout pushed by the server or unchanged
+ *                              if the server does not push a timeout
+ */
+static void
+parse_auth_pending_keywords(const struct buffer *buffer,
+                            unsigned int *server_timeout)
+{
+    struct buffer buf = *buffer;
+
+    /* does the buffer start with "AUTH_PENDING," ? */
+    if (!buf_advance(&buf, strlen("AUTH_PENDING"))
+        || !(buf_read_u8(&buf) == ',') || !BLEN(&buf))
+    {
+#ifdef ENABLE_MANAGEMENT
+        if (management)
+        {
+            management_set_state(management, OPENVPN_STATE_AUTH_PENDING,
+                                 "", NULL, NULL, NULL, NULL);
+        }
+#endif
+
+        return;
+    }
+
+    /* parse the keywords in the same way that push options are parsed */
+    char line[OPTION_LINE_SIZE];
+
+#ifdef ENABLE_MANAGEMENT
+    /* Need to do the management notification with the keywords before
+     * buf_parse is called, as it will insert \0 bytes into the buffer */
+    if (management)
+    {
+        management_set_state(management, OPENVPN_STATE_AUTH_PENDING,
+                             BSTR(&buf), NULL, NULL, NULL, NULL);
+    }
+#endif
+
+    while (buf_parse(&buf, ',', line, sizeof(line)))
+    {
+        if (sscanf(line, "timeout %u", server_timeout) != 1)
+        {
+            msg(D_PUSH, "ignoring AUTH_PENDING parameter: %s", line);
+        }
+    }
+}
+
+void
+receive_auth_pending(struct context *c, const struct buffer *buffer)
+{
+    if (!c->options.pull)
+        return;
+
+    /* Cap the increase at the maximum time we are willing stay in the
+     * pending authentication state */
+    unsigned int max_timeout = max_uint(c->options.renegotiate_seconds/2,
+                               c->options.handshake_window);
+
+    /* try to parse parameter keywords, default to hand-winow timeout if the
+     * server does not supply a timeout */
+    unsigned int server_timeout = c->options.handshake_window;
+    parse_auth_pending_keywords(buffer, &server_timeout);
+
+    msg(D_PUSH, "AUTH_PENDING received, extending handshake timeout from %us "
+                "to %us", c->options.handshake_window,
+                min_uint(max_timeout, server_timeout));
+
+    const struct key_state *ks = get_primary_key(c->c2.tls_multi);
+    c->c2.push_request_timeout = ks->established + min_uint(max_timeout, server_timeout);
 }
 
 /**
@@ -258,10 +331,18 @@ __attribute__ ((format(__printf__, 4, 5)))
 
 /*
  * Send auth failed message from server to client.
+ *
+ * Does nothing if an exit is already scheduled
  */
 void
 send_auth_failed(struct context *c, const char *client_reason)
 {
+    if (event_timeout_defined(&c->c2.scheduled_exit))
+    {
+        msg(D_TLS_DEBUG, "exit already scheduled for context");
+        return;
+    }
+
     struct gc_arena gc = gc_new();
     static const char auth_failed[] = "AUTH_FAILED";
     size_t len;
@@ -287,25 +368,55 @@ send_auth_failed(struct context *c, const char *client_reason)
     gc_free(&gc);
 }
 
+
 bool
-send_auth_pending_messages(struct context *c, const char *extra)
+send_auth_pending_messages(struct tls_multi *tls_multi, const char *extra,
+                           unsigned int timeout)
 {
-    send_control_channel_string(c, "AUTH_PENDING", D_PUSH);
+    struct key_state *ks = get_key_scan(tls_multi, 0);
 
     static const char info_pre[] = "INFO_PRE,";
 
+    const char *const peer_info = tls_multi->peer_info;
+    unsigned int proto = extract_iv_proto(peer_info);
 
-    size_t len = strlen(extra)+1 + sizeof(info_pre);
+
+    /* Calculate the maximum timeout and subtract the time we already waited */
+    unsigned int max_timeout = max_uint(tls_multi->opt.renegotiate_seconds/2,
+                                        tls_multi->opt.handshake_window);
+    max_timeout = max_timeout - (now - ks->initial);
+    timeout = min_uint(max_timeout, timeout);
+
+    struct gc_arena gc = gc_new();
+    if ((proto & IV_PROTO_AUTH_PENDING_KW) == 0)
+    {
+        send_control_channel_string_dowork(tls_multi, "AUTH_PENDING", D_PUSH);
+    }
+    else
+    {
+        static const char auth_pre[] = "AUTH_PENDING,timeout ";
+        // Assume a worst case of 8 byte uint64 in decimal which
+        // needs 20 bytes
+        size_t len = 20 + 1 + sizeof(auth_pre);
+        struct buffer buf = alloc_buf_gc(len, &gc);
+        buf_printf(&buf, auth_pre);
+        buf_printf(&buf, "%u", timeout);
+        send_control_channel_string_dowork(tls_multi, BSTR(&buf), D_PUSH);
+    }
+
+    size_t len = strlen(extra) + 1 + sizeof(info_pre);
     if (len > PUSH_BUNDLE_SIZE)
     {
+        gc_free(&gc);
         return false;
     }
-    struct gc_arena gc = gc_new();
 
     struct buffer buf = alloc_buf_gc(len, &gc);
     buf_printf(&buf, info_pre);
     buf_printf(&buf, "%s", extra);
-    send_control_channel_string(c, BSTR(&buf), D_PUSH);
+    send_control_channel_string_dowork(tls_multi, BSTR(&buf), D_PUSH);
+
+    ks->auth_deferred_expire = now + timeout;
 
     gc_free(&gc);
     return true;
@@ -369,14 +480,26 @@ cleanup:
 bool
 send_push_request(struct context *c)
 {
-    const int max_push_requests = c->options.handshake_window / PUSH_REQUEST_INTERVAL;
-    if (++c->c2.n_sent_push_requests <= max_push_requests)
+    const struct key_state *ks = get_primary_key(c->c2.tls_multi);
+
+    /* We timeout here under two conditions:
+     * a) we reached the hard limit of push_request_timeout
+     * b) we have not seen anything from the server in hand_window time
+     *
+     * for non auth-pending scenario, push_request_timeout is the same as
+     * hand_window timeout. For b) every PUSH_REQUEST is a acknowledged by
+     * the server by a P_ACK_V1 packet that reset the keepalive timer
+     */
+
+    if (c->c2.push_request_timeout > now
+        && (now - ks->peer_last_packet) < c->options.handshake_window)
     {
         return send_control_channel_string(c, "PUSH_REQUEST", D_PUSH);
     }
     else
     {
-        msg(D_STREAM_ERRORS, "No reply from server after sending %d push requests", max_push_requests);
+        msg(D_STREAM_ERRORS, "No reply from server to push requests in %ds",
+            (int)(now - ks->established));
         c->sig->signal_received = SIGUSR1; /* SOFT-SIGUSR1 -- server-pushed connection reset */
         c->sig->signal_text = "no-push-reply";
         return false;
@@ -404,14 +527,6 @@ prepare_auth_token_push_reply(struct tls_multi *tls_multi, struct gc_arena *gc,
         push_option_fmt(gc, push_list, M_USAGE,
                         "auth-token %s",
                         tls_multi->auth_token);
-        if (!tls_multi->auth_token_initial)
-        {
-            /*
-             * Save the initial auth token for clients that ignore
-             * the updates to the token
-             */
-            tls_multi->auth_token_initial = strdup(tls_multi->auth_token);
-        }
     }
 }
 
@@ -479,7 +594,7 @@ prepare_push_reply(struct context *c, struct gc_arena *gc,
     {
         push_option_fmt(gc, push_list, M_USAGE, "cipher %s", o->ciphername);
     }
-    if (o->data_channel_use_ekm)
+    if (o->data_channel_crypto_flags & CO_USE_TLS_KEY_MATERIAL_EXPORT)
     {
         push_option_fmt(gc, push_list, M_USAGE, "key-derivation tls-ekm");
     }
@@ -741,13 +856,16 @@ process_incoming_push_request(struct context *c)
     }
 
 
-    if (tls_authentication_status(c->c2.tls_multi, 0) == TLS_AUTHENTICATION_FAILED || c->c2.context_auth == CAS_FAILED)
+
+    if (tls_authentication_status(c->c2.tls_multi) == TLS_AUTHENTICATION_FAILED
+        || c->c2.tls_multi->multi_state == CAS_FAILED)
     {
         const char *client_reason = tls_client_reason(c->c2.tls_multi);
         send_auth_failed(c, client_reason);
         return PUSH_MSG_AUTH_FAILURE;
     }
-    else if (c->c2.context_auth == CAS_SUCCEEDED)
+    else if (tls_authentication_status(c->c2.tls_multi) == TLS_AUTHENTICATION_SUCCEEDED
+             && c->c2.tls_multi->multi_state >= CAS_CONNECT_DONE)
     {
         time_t now;
 
@@ -811,13 +929,8 @@ process_incoming_push_reply(struct context *c,
         if (!c->c2.pulled_options_digest_init_done)
         {
             c->c2.pulled_options_state = md_ctx_new();
-            md_ctx_init(c->c2.pulled_options_state, md_kt_get("SHA256"));
+            md_ctx_init(c->c2.pulled_options_state, "SHA256");
             c->c2.pulled_options_digest_init_done = true;
-        }
-        if (!c->c2.did_pre_pull_restore)
-        {
-            pre_pull_restore(&c->options, &c->c2.gc);
-            c->c2.did_pre_pull_restore = true;
         }
         if (apply_push_options(&c->options,
                                buf,
@@ -942,5 +1055,3 @@ remove_iroutes_from_push_route_list(struct options *o)
         gc_free(&gc);
     }
 }
-
-#endif /* if P2MP */

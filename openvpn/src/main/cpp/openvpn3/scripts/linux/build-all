@@ -9,12 +9,12 @@ cd $DEP_DIR
 rm -rf asio* boost* lz4* lzo* minicrypto openssl* polarssl* snappy*
 echo "******* ASIO"
 $O3/core/deps/asio/build-asio
+echo "******* xxHash"
+$O3/core/deps/xxHash/build-xxHash
 echo "******* MBEDTLS"
 $O3/core/scripts/linux/build-mbedtls
 echo "******* LZ4"
 $O3/core/scripts/linux/build-lz4
-echo "******* CITYHASH"
-$O3/core/scripts/linux/build-cityhash
 
 #$O3/core/scripts/linux/build-openssl x64
 #$O3/core/scripts/linux/build-lzo

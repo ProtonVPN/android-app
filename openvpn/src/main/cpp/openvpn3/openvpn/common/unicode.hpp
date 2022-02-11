@@ -246,7 +246,7 @@ namespace openvpn {
 	unsigned char data[4];
 	bool valid;
 
-	const bool is_valid() const
+	bool is_valid() const
 	{
 	  return valid && len >= 1 && len <= sizeof(data);
 	}

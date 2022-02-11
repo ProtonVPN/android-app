@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -52,6 +52,10 @@
                                  *   the reliability layer for one VPN
                                  *   tunnel in one direction can store. */
 
+#define N_ACK_RETRANSMIT 3      /**< We retry sending a packet early if
+                                 *   this many later packets have been
+                                 *   ACKed. */
+
 /**
  * The acknowledgment structure in which packet IDs are stored for later
  * acknowledgment.
@@ -61,6 +65,9 @@ struct reliable_ack
     int len;
     packet_id_type packet_id[RELIABLE_ACK_SIZE];
 };
+
+/* The size of the ACK header */
+#define ACK_SIZE(n) (sizeof(uint8_t) + ((n) ? SID_SIZE : 0) + sizeof(packet_id_type) * (n))
 
 /**
  * The structure in which the reliability layer stores a single incoming
@@ -72,6 +79,9 @@ struct reliable_entry
     interval_t timeout;
     time_t next_try;
     packet_id_type packet_id;
+    size_t n_acks;  /* Number of acks received for packets with higher PID.
+                     * Used for fast retransmission when there were at least
+                     * N_ACK_RETRANSMIT. */
     int opcode;
     struct buffer buf;
 };
@@ -192,14 +202,13 @@ bool reliable_ack_write(struct reliable_ack *ack,
 void reliable_init(struct reliable *rel, int buf_size, int offset, int array_size, bool hold);
 
 /**
- * Free allocated memory associated with a reliable structure.
+ * Free allocated memory associated with a reliable structure and the pointer
+ * itself.
+ * Does nothing if rel is NULL.
  *
  * @param rel The reliable structured to clean up.
  */
 void reliable_free(struct reliable *rel);
-
-/* add to extra_frame the maximum number of bytes we will need for reliable_ack_write */
-void reliable_ack_adjust_frame_parameters(struct frame *frame, int max);
 
 /** @} name Functions for initialization and cleanup */
 

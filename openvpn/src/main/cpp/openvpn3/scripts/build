@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 set -e
+if [ "$XTRACE" = 1 ]; then
+   set -x
+fi
 
 if [ -z "$O3" ]; then
     echo O3 var must point to ovpn3 tree
@@ -25,7 +28,6 @@ if [ -z "$1" ]; then
     echo ' OUTBIN=name -- write binary to name'
     echo " STRIP=1 -- strip binary"
     echo " STRICT=1 -- more warnings"
-    echo " LTO=1 -- build with LTO"
     echo " GPROF=1 -- build for gprof profiling"
     echo " PGEN=1 -- generate data for profile-guided optimization"
     echo " PUSE=1 -- use data from previous run of PGEN=1 build"
@@ -50,11 +52,13 @@ if [ -z "$1" ]; then
     echo " LZ4_SYS=1 -- build with system LZ4 compression library"
     echo " SNAP=1 -- build with Snappy compression library"
     echo " CITY=1 -- build with Cityhash hash library"
+    echo " XXHASH=1 -- build with XXHash hash library"
     echo " CAP=1 -- build with libcap"
-    echo " VAL=1 -- build with valgrind run-time extensions"
     echo " JAVA=1 -- build with JVM"
     echo ' EXTRA_CPP="foo1.cpp foo2.cpp" -- add extra .cpp files'
     echo " GTEST_DIR=<dir> -- specify googletest tree, required for building unit tests"
+    echo " VAL=1 -- (optional) build with valgrind run-time extensions"
+    echo " ASAN=1 -- (optional) enable ASAN run-time checks"
     echo " PCRE=1 -- build with PCRE library"
     for s in $(enum_build_extras) ; do
 	. $s args
@@ -277,6 +281,12 @@ if [ "$CITY" = "1" ]; then
     CPPFLAGS="$CPPFLAGS -DHAVE_CITYHASH"
 fi
 
+# XXHash
+if [ "$XXHASH" = "1" ] || [ "$XXHASH_DIR" ]; then
+    [ -z "$XXHASH_DIR" ] && XXHASH_DIR="$DEP_DIR/xxHash"
+    CPPFLAGS="$CPPFLAGS -DHAVE_XXHASH -I$XXHASH_DIR"
+fi
+
 # libcap
 if [ "$CAP" = "1" ]; then
     LIBS="$LIBS -lcap"
@@ -288,8 +298,15 @@ if [ "$PCRE" = "1" ]; then
     LIBS="$LIBS -lpcre"
 fi
 
-# Valgrind
-if [ "$VAL" = "1" ]; then
+# ASAN requested -- ensure higher-fidelity stacks
+if [ "$ASAN" = "1" ]; then
+    FLAGS+=" -ggdb3 -fno-omit-frame-pointer -fsanitize=address"
+else
+    ASAN=
+fi
+
+# Valgrind -- but only if ASAN is not enabled
+if [ "$ASAN" = "" -a "$VAL" = "1" ]; then
     CPPFLAGS="$CPPFLAGS -DHAVE_VALGRIND"
 fi
 
@@ -375,7 +392,7 @@ if [ "$DEBUG" = "1" ]; then
     fi
 else
     # release build
-    [ "$LTO" = "1" ] && [ "$CLANG" != "1" ] && FLAGS="$FLAGS -flto=4 -Wl,--no-as-needed"
+    [ "$CLANG" != "1" ] && FLAGS="$FLAGS -flto=4 -Wl,--no-as-needed"
     [ "$GPROF" = "1" ] && FLAGS="$FLAGS -pg"
 fi
 

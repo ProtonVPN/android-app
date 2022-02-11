@@ -22,6 +22,7 @@
 #include "test_common.h"
 
 #include <iostream>
+#include <memory>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/base64.hpp>
@@ -95,17 +96,15 @@ void b64_test_binary(const Base64& b64, const char* data, unsigned int len)
 {
     auto enc = b64.encode(data, len);
 
-    char* decdata = new char[len];
-    size_t decode_len = b64.decode(decdata, len, enc);
+    std::unique_ptr<char[]> decdata(new char[len]);
+    size_t decode_len = b64.decode(decdata.get(), len, enc);
     std::string libenc = ssllib_b64enc(data, len);
 
     EXPECT_EQ(enc, libenc) << "Encode differs from Crypto lib result";
 
     ASSERT_EQ(decode_len, len) << "Encode/decode length differs";
-    ASSERT_EQ(std::vector<uint8_t>(decdata, decdata + decode_len),
+    ASSERT_EQ(std::vector<uint8_t>(decdata.get(), decdata.get() + decode_len),
 	      std::vector<uint8_t>(data, data + len)) << "Encode/Decode results differ";
-
-    delete[] decdata;
 }
 
 TEST(Base64, tooshortdest)

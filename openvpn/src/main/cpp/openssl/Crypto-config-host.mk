@@ -641,7 +641,8 @@ arm64_exclude_files := \
 x86_clang_asflags :=
 
 x86_cflags := \
-  -DAESNI_ASM \
+  -DAES_ASM \
+  -DDES_ASM \
   -DECP_NISTZ256_ASM \
   -DGHASH_ASM \
   -DMD5_ASM \
@@ -652,8 +653,6 @@ x86_cflags := \
   -DOPENSSL_IA32_SSE2 \
   -DOPENSSL_PIC \
   -DPOLY1305_ASM \
-  -DRC4_ASM \
-  -DRMD160_ASM \
   -DSHA1_ASM \
   -DSHA256_ASM \
   -DSHA512_ASM \
@@ -691,7 +690,8 @@ x86_exclude_files := \
 x86_64_clang_asflags :=
 
 x86_64_cflags := \
-  -DAESNI_ASM \
+  -DAES_ASM \
+  -DBSAES_ASM \
   -DECP_NISTZ256_ASM \
   -DGHASH_ASM \
   -DKECCAK1600_ASM \
@@ -703,7 +703,6 @@ x86_64_cflags := \
   -DOPENSSL_IA32_SSE2 \
   -DOPENSSL_PIC \
   -DPOLY1305_ASM \
-  -DRC4_ASM \
   -DSHA1_ASM \
   -DSHA256_ASM \
   -DSHA512_ASM \

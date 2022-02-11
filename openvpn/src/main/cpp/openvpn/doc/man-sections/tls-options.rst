@@ -200,6 +200,9 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
   will still use our expiring key for up to ``--tran-window`` seconds to
   maintain continuity of transmission of tunnel data.
 
+  The ``--hand-window`` parameter also controls the amount of time that
+  the OpenVPN client repeats the pull request until it times out.
+
 --key file
   Local peer's private key in .pem format. Use the private key which was
   generated when you built your peer's certificate (see ``--cert file``
@@ -370,6 +373,9 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
 
   The following profiles are supported:
 
+  :code:`insecure`
+      Identical for mbed TLS to `legacy`
+
   :code:`legacy` (default)
       SHA1 and newer, RSA 2048-bit+, any elliptic curve.
 
@@ -381,6 +387,9 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
 
   This option is only fully supported for mbed TLS builds. OpenSSL builds
   use the following approximation:
+
+  :code:`insecure`
+      sets "security level 0"
 
   :code:`legacy` (default)
       sets "security level 1"
@@ -423,12 +432,12 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
   :code:`DEFAULT:!EXP:!LOW:!MEDIUM:!kDH:!kECDH:!DSS:!PSK:!SRP:!kRSA` when
   using OpenSSL.
 
-  The default for `--tls-ciphersuites` is to use the crypto library's
-  default.
-
 --tls-ciphersuites l
   Same as ``--tls-cipher`` but for TLS 1.3 and up. mbed TLS has no
   TLS 1.3 support yet and only the ``--tls-cipher`` setting is used.
+
+  The default for `--tls-ciphersuites` is to use the crypto library's
+  default.
 
 --tls-client
   Enable TLS and assume client role during TLS handshake.
@@ -542,8 +551,8 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
   them.
 
 --tls-version-min args
-  Sets the minimum TLS version we will accept from the peer (default is
-  "1.0").
+  Sets the minimum TLS version we will accept from the peer (default in
+  2.6.0 and later is "1.2").
 
   Valid syntax:
   ::
@@ -561,7 +570,7 @@ certificates and keys: https://github.com/OpenVPN/easy-rsa
   :code:`1.2`.
 
 --verify-hash args
-  Specify SHA1 or SHA256 fingerprint for level-1 cert.
+  **DEPRECATED** Specify SHA1 or SHA256 fingerprint for level-1 cert.
 
   Valid syntax:
   ::
@@ -666,20 +675,23 @@ If the option is inlined, ``algo`` is always :code:`SHA256`.
   options can be defined to track multiple attributes.
 
 --x509-username-field args
-  Field in the X.509 certificate subject to be used as the username
-  (default :code:`CN`).
+  Fields in the X.509 certificate subject to be used as the username
+  (default :code:`CN`). If multiple fields are specified their values
+  will be concatenated into the one username using :code:`_` symbol
+  as a separator.
 
   Valid syntax:
   ::
 
-     x509-username-field [ext:]fieldname
+     x509-username-field [ext:]fieldname [[ext:]fieldname...]
 
-  Typically, this option is specified with **fieldname** as
+  Typically, this option is specified with **fieldname** arguments as
   either of the following:
   ::
 
      x509-username-field emailAddress
      x509-username-field ext:subjectAltName
+     x509-username-field CN serialNumber
 
   The first example uses the value of the :code:`emailAddress` attribute
   in the certificate's Subject field as the username. The second example
@@ -687,16 +699,22 @@ If the option is inlined, ``algo`` is always :code:`SHA256`.
   ``fieldname`` :code:`subjectAltName` be searched for an rfc822Name
   (email) field to be used as the username. In cases where there are
   multiple email addresses in :code:`ext:fieldname`, the last occurrence
-  is chosen.
+  is chosen. The last example uses the value of the :code:`CN` attribute
+  in the Subject field, combined with the :code:`_` separator and the
+  hexadecimal representation of the certificate's :code:`serialNumber`.
 
   When this option is used, the ``--verify-x509-name`` option will match
   against the chosen ``fieldname`` instead of the Common Name.
 
   Only the :code:`subjectAltName` and :code:`issuerAltName` X.509
-  extensions are supported.
+  extensions and :code:`serialNumber` X.509 attribute are supported.
 
   **Please note:** This option has a feature which will convert an
   all-lowercase ``fieldname`` to uppercase characters, e.g.,
   :code:`ou` -> :code:`OU`. A mixed-case ``fieldname`` or one having the
   :code:`ext:` prefix will be left as-is. This automatic upcasing feature is
   deprecated and will be removed in a future release.
+
+  Non-compliant symbols are being replaced with the :code:`_` symbol, same as
+  the field separator, so concatenating multiple fields with such or :code:`_`
+  symbols can potentially lead to username collisions.

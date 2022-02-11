@@ -75,7 +75,7 @@
 
 void log_version()
 {
-  OPENVPN_LOG("OpenVPN Agent " HTTP_SERVER_VERSION " [" SSL_LIB_NAME "] built on " __DATE__ " " __TIME__);
+  OPENVPN_LOG("OpenVPN Agent " HTTP_SERVER_VERSION " [" SSL_LIB_NAME "]");
 }
 
 using namespace openvpn;
@@ -135,15 +135,29 @@ public:
   {
   }
 
+  Win::ScopedHANDLE tun_get_handle(std::ostream& os,
+				   const TunWin::Type tun_type, bool allow_local_dns_resolvers)
+  {
+    if (!tun)
+      tun.reset(new TunWin::Setup(io_context_, tun_type, allow_local_dns_resolvers));
+    return Win::ScopedHANDLE(tun->get_handle(os));
+  }
+
   Win::ScopedHANDLE establish_tun(const TunBuilderCapture& tbc,
 				  const std::wstring& openvpn_app_path,
 				  Stop* stop,
 				  std::ostream& os,
-				  bool wintun)
+				  TunWin::Type tun_type,
+                  bool allow_local_dns_resolvers)
   {
     if (!tun)
-      tun.reset(new TunWin::Setup(io_context_, wintun));
-    return Win::ScopedHANDLE(tun->establish(tbc, openvpn_app_path, stop, os, ring_buffer));
+      tun.reset(new TunWin::Setup(io_context_, tun_type, allow_local_dns_resolvers));
+
+    auto th = tun->establish(tbc, openvpn_app_path, stop, os, ring_buffer);
+    // store VPN interface index to be able to exclude it
+    // when next time adding bypass route
+    vpn_interface_index = tun->vpn_interface_index();
+    return Win::ScopedHANDLE(th);
   }
 
   // return true if we did any work
@@ -205,6 +219,7 @@ public:
       {
 	os << "destroy_tun: exception in cleanup: " << e.what() << std::endl;
       }
+    vpn_interface_index = DWORD(-1);
     return ret;
   }
 
@@ -228,7 +243,6 @@ public:
 	      std::ostringstream os;
 	      self->remove_cmds_bypass_hosts.execute(os);
 	      self->remove_cmds_bypass_hosts.clear();
-	      self->bypass_host.clear();
 	      OPENVPN_LOG_NTNL("remove bypass route (failsafe)\n" << os.str());
 	    }
 
@@ -337,7 +351,6 @@ public:
 	      std::ostringstream os;
 	      self->remove_cmds_bypass_hosts.execute(os);
 	      self->remove_cmds_bypass_hosts.clear();
-	      self->bypass_host.clear();
 	      OPENVPN_LOG_NTNL("remove bypass route (event)\n" << os.str());
 	    }
 
@@ -375,20 +388,18 @@ public:
 
   void add_bypass_route(const std::string& host, bool ipv6)
   {
-    if (host != bypass_host)
-      {
-	bypass_host = host;
+    std::ostringstream os;
+    remove_cmds_bypass_hosts.execute(os);
+    remove_cmds_bypass_hosts.clear();
 
-	std::ostringstream os;
-	remove_cmds_bypass_hosts.execute(os);
-	remove_cmds_bypass_hosts.clear();
+    ActionList add_cmds;
+    // we might have broken VPN connection up, so we must
+    // exclude VPN interface whe searching for the best gateway
+    const TunWin::Util::BestGateway gw { host, vpn_interface_index };
+    TunWin::Setup::add_bypass_route(gw, host, ipv6, add_cmds, remove_cmds_bypass_hosts);
+    add_cmds.execute(os);
 
-	ActionList add_cmds;
-	TunWin::Setup::add_bypass_route(host, ipv6, add_cmds, remove_cmds_bypass_hosts);
-	add_cmds.execute(os);
-
-	OPENVPN_LOG(os.str());
-      }
+    OPENVPN_LOG(os.str());
   }
 
 #ifdef OPENVPN_AGENT_START_PROCESS
@@ -477,7 +488,6 @@ public:
 
   const MyConfig& config;
   ActionList remove_cmds_bypass_hosts;
-  std::string bypass_host;
 
   TunWin::RingBuffer::Ptr ring_buffer;
 
@@ -509,6 +519,11 @@ private:
   openvpn_io::windows::object_handle client_destroy_event;
   std::string remote_tap_handle_hex;
   openvpn_io::io_context& io_context_;
+
+  // with persist tunnel and redirect-gw we must exclude
+  // VPN interface when searching for best gateway when
+  // adding bypass route for the next remote
+  DWORD vpn_interface_index = DWORD(-1);
 };
 
 class MyClientInstance : public WS::Server::Listener::Client
@@ -566,23 +581,73 @@ private:
 	  if (!root.isObject())
 	    throw Exception("json parse error: top level json object is not a dictionary");
 
-	  if (req.uri == "/tun-setup")
+	  if (req.uri == "/tun-open")
+	    {
+	      // destroy previous instance
+	      if (parent()->destroy_tun(os))
+		{
+		  os << "Destroyed previous TAP instance" << std::endl;
+		  ::Sleep(1000);
+		}
+
+	      {
+		// remember the client process that sent the request
+		ULONG pid = json::get_uint_optional(root, "pid", 0);
+		const std::string confirm_event_hex = json::get_string(root, "confirm_event");
+		const std::string destroy_event_hex = json::get_string(root, "destroy_event");
+
+		Win::NamedPipeImpersonate impersonate(client_pipe);
+
+		parent()->set_client_process(get_client_process(client_pipe, pid));
+		parent()->set_client_confirm_event(confirm_event_hex);
+		parent()->set_client_destroy_event(destroy_event_hex);
+	      }
+
+		  bool allow_local_dns_resolvers = json::get_bool_optional(root, "allow_local_dns_resolvers");
+	      Win::ScopedHANDLE th(parent()->tun_get_handle(os, TunWin::OvpnDco, allow_local_dns_resolvers));
+
+	      {
+		// duplicate the TAP handle into the client process
+		Win::NamedPipeImpersonate impersonate(client_pipe);
+		parent()->set_remote_tap_handle_hex(th());
+	      }
+
+	      // build JSON return dictionary
+	      const std::string log_txt = string::remove_blanks(os.str());
+	      Json::Value jout(Json::objectValue);
+	      jout["log_txt"] = log_txt;
+	      jout["tap_handle_hex"] = parent()->get_remote_tap_handle_hex();
+	      OPENVPN_LOG_NTNL("TUN SETUP\n" << log_txt);
+
+	      generate_reply(jout);
+	    }
+	  else if (req.uri == "/tun-setup")
 	    {
 	      // get PID
 	      ULONG pid = json::get_uint_optional(root, "pid", 0);
 
-	      bool wintun = json::get_bool_optional(root, "wintun");
+	      TunWin::Type tun_type;
+	      switch (json::get_int_optional(root, "tun_type", TunWin::TapWindows6))
+		{
+		case TunWin::Wintun:
+		  tun_type = TunWin::Wintun;
+		  break;
+		case TunWin::OvpnDco:
+		  tun_type = TunWin::OvpnDco;
+		  break;
+		case TunWin::TapWindows6:
+		default:
+		  tun_type = TunWin::TapWindows6;
+		  break;
+		}
 
-	      // get remote event handles for tun object confirmation/destruction
-	      const std::string confirm_event_hex = json::get_string(root, "confirm_event");
-	      const std::string destroy_event_hex = json::get_string(root, "destroy_event");
-
+          bool allow_local_dns_resolvers = json::get_bool_optional(root, "allow_local_dns_resolvers");
 	      // parse JSON data into a TunBuilderCapture object
 	      TunBuilderCapture::Ptr tbc = TunBuilderCapture::from_json(json::get_dict(root, "tun", false));
 	      tbc->validate();
 
 	      // destroy previous instance
-	      if (parent()->destroy_tun(os))
+	      if (tun_type != TunWin::OvpnDco && parent()->destroy_tun(os))
 		{
 		  os << "Destroyed previous TAP instance" << std::endl;
 		  ::Sleep(1000);
@@ -595,12 +660,19 @@ private:
 		// remember the client process that sent the request
 		parent()->set_client_process(get_client_process(client_pipe, pid));
 
-		// save the confirm/destroy events
-		parent()->set_client_destroy_event(destroy_event_hex);
-		parent()->set_client_confirm_event(confirm_event_hex);
+		if (tun_type != TunWin::OvpnDco)
+		  {
+		    // get remote event handles for tun object confirmation/destruction
+		    const std::string confirm_event_hex = json::get_string(root, "confirm_event");
+		    const std::string destroy_event_hex = json::get_string(root, "destroy_event");
+
+		    // save the confirm/destroy events
+		    parent()->set_client_destroy_event(destroy_event_hex);
+		    parent()->set_client_confirm_event(confirm_event_hex);
+		  }
 	      }
 
-	      if (wintun)
+	      if (tun_type == TunWin::Wintun)
 		{
 		  parent()->assign_ring_buffer(new TunWin::RingBuffer(io_context,
 					       parent()->get_client_process(),
@@ -611,7 +683,7 @@ private:
 		}
 
 	      // establish the tun setup object
-	      Win::ScopedHANDLE tap_handle(parent()->establish_tun(*tbc, client_exe, nullptr, os, wintun));
+	      Win::ScopedHANDLE tap_handle(parent()->establish_tun(*tbc, client_exe, nullptr, os, tun_type, allow_local_dns_resolvers));
 
 	      // post-establish impersonation
 	      {
@@ -668,19 +740,19 @@ private:
 
 	      Json::Value jout(Json::objectValue);
 	      generate_reply(jout);
-	  }
+	    }
 #endif
-	else
-	  {
-	    OPENVPN_LOG("PAGE NOT FOUND");
-	    out = buf_from_string("page not found\n");
-	    WS::Server::ContentInfo ci;
-	    ci.http_status = HTTP::Status::NotFound;
-	    ci.type = "text/plain";
-	    ci.length = out->size();
-	    generate_reply_headers(ci);
-	  }
-        }
+	  else
+	    {
+	      OPENVPN_LOG("PAGE NOT FOUND");
+	      out = buf_from_string("page not found\n");
+	      WS::Server::ContentInfo ci;
+	      ci.http_status = HTTP::Status::NotFound;
+	      ci.type = "text/plain";
+	      ci.length = out->size();
+	      generate_reply_headers(ci);
+	    }
+	}
     }
     catch (const std::exception& e)
       {

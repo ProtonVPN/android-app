@@ -27,7 +27,7 @@
 
 namespace openvpn {
 
-  class LogSetup : public RC<thread_unsafe_refcount>
+  class LogSetup : public RC<thread_safe_refcount>
   {
   public:
     typedef RCPtr<LogSetup> Ptr;

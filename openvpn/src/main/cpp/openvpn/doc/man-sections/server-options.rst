@@ -35,7 +35,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   token is reached or after not being renewed for more than 2 \*
   ``reneg-sec`` seconds. Clients will be sent renewed tokens on every TLS
   renogiation to keep the client's token updated. This is done to
-  invalidate a token if a client is disconnected for a sufficently long
+  invalidate a token if a client is disconnected for a sufficiently long
   time, while at the same time permitting much longer token lifetimes for
   active clients.
 
@@ -46,7 +46,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   When the :code:`external-auth` keyword is present the normal
   authentication method will always be called even if auth-token succeeds.
   Normally other authentications method are skipped if auth-token
-  verification suceeds or fails.
+  verification succeeds or fails.
 
   This option postpones this decision to the external authentication
   methods and checks the validity of the account and do other checks.
@@ -286,37 +286,6 @@ fast hardware. SSL/TLS authentication must be used in this mode.
 
      ifconfig-ipv6-push ipv6addr/bits ipv6remote
 
---inetd args
-  Valid syntaxes:
-  ::
-
-     inetd
-     inetd wait
-     inetd nowait
-     inetd wait progname
-
-  Use this option when OpenVPN is being run from the inetd or ``xinetd``\(8)
-  server.
-
-  The :code:`wait` and :code:`nowait` option must match what is specified
-  in the inetd/xinetd config file. The :code:`nowait` mode can only be used
-  with ``--proto tcp-server`` The default is :code:`wait`.  The
-  :code:`nowait` mode can be used to instantiate the OpenVPN daemon as a
-  classic TCP server, where client connection requests are serviced on a
-  single port number. For additional information on this kind of
-  configuration, see the OpenVPN FAQ:
-  https://community.openvpn.net/openvpn/wiki/325-openvpn-as-a--forking-tcp-server-which-can-service-multiple-clients-over-a-single-tcp-port
-
-  This option precludes the use of ``--daemon``, ``--local`` or
-  ``--remote``.  Note that this option causes message and error output to
-  be handled in the same way as the ``--daemon`` option. The optional
-  ``progname`` parameter is also handled exactly as in ``--daemon``.
-
-  Also note that in ``wait`` mode, each OpenVPN tunnel requires a separate
-  TCP/UDP port and a separate inetd or xinetd entry. See the OpenVPN 1.x
-  HOWTO for an example on using OpenVPN with xinetd:
-  https://openvpn.net/community-resources/1xhowto/
-
 --multihome
   Configure a multi-homed UDP server. This option needs to be used when a
   server has more than one IP address (e.g. multiple interfaces, or
@@ -448,61 +417,6 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   ``--setenv``, ``--auth-token``, ``--persist-key``, ``--persist-tun``,
   ``--echo``, ``--comp-lzo``, ``--socket-flags``, ``--sndbuf``,
   ``--rcvbuf``
-
---push-peer-info
-  Push additional information about the client to server. The following
-  data is always pushed to the server:
-
-  :code:`IV_VER=<version>`
-        The client OpenVPN version
-
-  :code:`IV_PLAT=[linux|solaris|openbsd|mac|netbsd|freebsd|win]`
-        The client OS platform
-
-  :code:`IV_LZO_STUB=1`
-        If client was built with LZO stub capability
-
-  :code:`IV_LZ4=1`
-        If the client supports LZ4 compressions.
-
-  :code:`IV_PROTO`
-    Details about protocol extensions that the peer supports. The
-    variable is a bitfield and the bits are defined as follows
-    (starting a bit 0 for the first (unused) bit:
-
-    - bit 1: The peer supports peer-id floating mechanism
-    - bit 2: The client expects a push-reply and the server may
-      send this reply without waiting for a push-request first.
-
-  :code:`IV_NCP=2`
-        Negotiable ciphers, client supports ``--cipher`` pushed by
-        the server, a value of 2 or greater indicates client supports
-        *AES-GCM-128* and *AES-GCM-256*.
-
-  :code:`IV_CIPHERS=<ncp-ciphers>`
-        The client announces the list of supported ciphers configured with the
-        ``--data-ciphers`` option to the server.
-
-  :code:`IV_GUI_VER=<gui_id> <version>`
-        The UI version of a UI if one is running, for example
-        :code:`de.blinkt.openvpn 0.5.47` for the Android app.
-
-  When ``--push-peer-info`` is enabled the additional information consists
-  of the following data:
-
-  :code:`IV_HWADDR=<mac address>`
-        The MAC address of clients default gateway
-
-  :code:`IV_SSL=<version string>`
-        The ssl version used by the client, e.g.
-        :code:`OpenSSL 1.0.2f 28 Jan 2016`.
-
-  :code:`IV_PLAT_VER=x.y`
-        The version of the operating system, e.g. 6.1 for Windows 7.
-
-  :code:`UV_<name>=<value>`
-        Client environment variables whose names start with
-        :code:`UV_`
 
 --push-remove opt
   Selectively remove all ``--push`` options matching "opt" from the option
@@ -668,9 +582,15 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   ``--max-routes-per-client``
 
 --username-as-common-name
-  For ``--auth-user-pass-verify`` authentication, use the authenticated
-  username as the common name, rather than the common name from the client
-  cert.
+  Use the authenticated username as the common-name, rather than the
+  common-name from the client certificate. Requires that some form of
+  ``--auth-user-pass`` verification is in effect. As the replacement happens
+  after ``--auth-user-pass`` verification, the verification script or
+  plugin will still receive the common-name from the certificate.
+
+  The common_name environment variable passed to scripts and plugins invoked
+  after authentication (e.g, client-connect script) and file names parsed in
+  client-config directory will match the username.
 
 --verify-client-cert mode
   Specify whether the client is required to supply a valid certificate.

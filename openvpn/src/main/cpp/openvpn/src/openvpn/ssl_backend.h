@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2010-2018 Fox Crypto B.V. <openvpn@fox-it.com>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -390,7 +390,7 @@ void backend_tls_ctx_reload_crl(struct tls_root_ctx *ssl_ctx,
                                 const char *crl_file, bool crl_inline);
 
 #define EXPORT_KEY_DATA_LABEL       "EXPORTER-OpenVPN-datakeys"
-#define EXPORT_KEY_DATA_EKM_SIZE    (2 * (MAX_CIPHER_KEY_LENGTH + MAX_HMAC_KEY_LENGTH))
+#define EXPORT_P2P_PEERID_LABEL     "EXPORTER-OpenVPN-p2p-peerid"
 /**
  * Keying Material Exporters [RFC 5705] allows additional keying material to be
  * derived from existing TLS channel. This exported keying material can then be
@@ -399,18 +399,14 @@ void backend_tls_ctx_reload_crl(struct tls_root_ctx *ssl_ctx,
  * @param session      The session associated with the given key_state
  * @param label        The label to use when exporting the key
  * @param label_size   The size of the label to use when exporting the key
- * @param ekm_size     THe size of the exported/returned key material
- * @param gc           gc_arena that might be used to allocate the string
- *                     returned
- * @returns            The exported key material, the caller may zero the
- *                     string but should not free it
+ * @param ekm          Buffer to return the exported key material in
+ * @param ekm_size     The size of ekm, in bytes
+ * @returns            true if exporting succeeded, false otherwise
  */
-
-unsigned char*
+bool
 key_state_export_keying_material(struct tls_session *session,
                                  const char* label, size_t label_size,
-                                 size_t ekm_size,
-                                 struct gc_arena *gc) __attribute__((nonnull));
+                                 void *ekm, size_t ekm_size);
 
 /**************************************************************************/
 /** @addtogroup control_tls

@@ -34,7 +34,6 @@
 # endif // defined(__cplusplus_winrt)
 #elif defined(__APPLE__)
 # include "TargetConditionals.h"
-# define OPENVPN_PLATFORM_TYPE_APPLE
 # if TARGET_OS_IPHONE // includes iPad
 #  define OPENVPN_PLATFORM_IPHONE
 #  define OPENVPN_PLATFORM_IPHONE_DEVICE

@@ -36,4 +36,16 @@
         <item>Disconnect, keep password</item>
         <item>Ignore, retry</item>
     </string-array>
+    <string-array name="compat_mode">
+        <item>Modern defaults</item>
+        <item>OpenVPN 2.5.x peers</item>
+        <item>OpenVPN 2.4.x peers</item>
+        <item>OpenVPN 2.3.x and older peers</item>
+    </string-array>
+    <string-array name="tls_profile_entries">
+        <item>insecure (not recommend, allows insecure crypto)</item>
+        <item>legacy (default)</item>
+        <item>preferred (recommended but limited compabbility)</item>
+        <item>Suite B (only NIST approved elliptic curves)</item>
+    </string-array>
 </resources>

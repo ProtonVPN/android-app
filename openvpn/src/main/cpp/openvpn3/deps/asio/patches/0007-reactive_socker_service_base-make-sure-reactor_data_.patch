@@ -1,0 +1,62 @@
+From f54cab5d37d9ee604d42c9d1b056c7a6efc2bd4a Mon Sep 17 00:00:00 2001
+From: Frank Lichtenheld <frank@lichtenheld.com>
+Date: Mon, 20 Dec 2021 13:36:01 +0100
+Subject: [PATCH] reactive_socket_service_base: add constructor for
+ basic_implementation_type
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Otherwise we see compiler warnings with gcc 10 or newer:
+asio/detail/impl/epoll_reactor.ipp:228:28: error:
+‘<unnamed>.asio::basic_stream_socket<asio::ip::tcp, asio::any_io_executor>::<unnamed>.asio::basic_socket<asio::ip::tcp, asio::any_io_executor>::impl_.asio::detail::io_object_impl<asio::detail::reactive_socket_service<asio::ip::tcp>, asio::any_io_executor>::implementation_.asio::detail::reactive_socket_service<asio::ip::tcp>::implementation_type::<unnamed>.asio::detail::reactive_socket_service_base::base_implementation_type::reactor_data_’
+may be used uninitialized [-Werror=maybe-uninitialized]
+  228 |   target_descriptor_data = source_descriptor_data;
+      |                            ^~~~~~~~~~~~~~~~~~~~~~
+
+Since reactor_data_ can be either a pointer or a empty struct
+use the default initializer which does the right thing either
+way.
+
+Signed-off-by: Frank Lichtenheld <frank@lichtenheld.com>
+---
+ asio/include/asio/detail/reactive_socket_service.hpp      | 3 ++-
+ asio/include/asio/detail/reactive_socket_service_base.hpp | 8 ++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/asio/include/asio/detail/reactive_socket_service.hpp b/asio/include/asio/detail/reactive_socket_service.hpp
+index 185810e8..6023945b 100644
+--- a/asio/include/asio/detail/reactive_socket_service.hpp
++++ b/asio/include/asio/detail/reactive_socket_service.hpp
+@@ -65,7 +65,8 @@ public:
+   {
+     // Default constructor.
+     implementation_type()
+-      : protocol_(endpoint_type().protocol())
++      : base_implementation_type{},
++        protocol_(endpoint_type().protocol())
+     {
+     }
+ 
+diff --git a/asio/include/asio/detail/reactive_socket_service_base.hpp b/asio/include/asio/detail/reactive_socket_service_base.hpp
+index c67297fc..3b8d7f60 100644
+--- a/asio/include/asio/detail/reactive_socket_service_base.hpp
++++ b/asio/include/asio/detail/reactive_socket_service_base.hpp
+@@ -54,6 +54,14 @@ public:
+   // The implementation type of the socket.
+   struct base_implementation_type
+   {
++    // default constructor
++    base_implementation_type()
++      : socket_(invalid_socket),
++        state_(0),
++        reactor_data_{}
++    {
++    }
++
+     // The native socket representation.
+     socket_type socket_;
+ 
+-- 
+2.30.2
+

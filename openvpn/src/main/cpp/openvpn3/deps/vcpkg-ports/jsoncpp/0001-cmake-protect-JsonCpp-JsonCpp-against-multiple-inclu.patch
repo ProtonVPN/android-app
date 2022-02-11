@@ -1,0 +1,33 @@
+From 05b0128123e9c1e81522864ba5321ebc62e4c9b8 Mon Sep 17 00:00:00 2001
+From: Frank Lichtenheld <frank@lichtenheld.com>
+Date: Wed, 17 Nov 2021 17:13:29 +0100
+Subject: [PATCH] cmake: protect JsonCpp::JsonCpp against multiple includes
+
+Similar to what we have in jsoncpp-targets.cmake
+
+Signed-off-by: Frank Lichtenheld <frank@lichtenheld.com>
+---
+ jsoncpp-namespaced-targets.cmake | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/jsoncpp-namespaced-targets.cmake b/jsoncpp-namespaced-targets.cmake
+index ac1504e..5339403 100644
+--- a/jsoncpp-namespaced-targets.cmake
++++ b/jsoncpp-namespaced-targets.cmake
+@@ -1,7 +1,11 @@
++if (TARGET JsonCpp::JsonCpp)
++  return()
++endif()
++
+ if (TARGET jsoncpp_static)
+     add_library(JsonCpp::JsonCpp INTERFACE IMPORTED)
+     set_target_properties(JsonCpp::JsonCpp PROPERTIES INTERFACE_LINK_LIBRARIES "jsoncpp_static")
+ elseif (TARGET jsoncpp_lib)
+     add_library(JsonCpp::JsonCpp INTERFACE IMPORTED)
+     set_target_properties(JsonCpp::JsonCpp PROPERTIES INTERFACE_LINK_LIBRARIES "jsoncpp_lib")
+-endif ()
+\ No newline at end of file
++endif ()
+-- 
+2.30.2
+

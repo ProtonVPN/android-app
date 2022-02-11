@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2016-2018 Fox Crypto B.V. <openvpn@fox-it.com>
+ *  Copyright (C) 2016-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -122,11 +122,6 @@ void tls_crypt_init_key(struct key_ctx_bi *key, const char *key_file,
  * tls_crypt_wrap().
  */
 int tls_crypt_buf_overhead(void);
-
-/**
- * Adjust frame parameters for --tls-crypt overhead.
- */
-void tls_crypt_adjust_frame_parameters(struct frame *frame);
 
 /**
  * Wrap a control channel packet (both authenticates and encrypts the data).

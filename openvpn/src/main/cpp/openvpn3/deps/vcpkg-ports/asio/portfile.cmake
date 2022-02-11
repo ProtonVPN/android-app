@@ -4,10 +4,10 @@ include(vcpkg_common_functions)
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO chriskohlhoff/asio
-    REF asio-1-14-0
-    SHA512 056ef5b0fe7def4fb5c8b176a1469658150b38110cc40825f2b07a7dd4c7b1800445e438c06a753d6a006aef6045789134b0ab32b1b74643fb287ee5a8f85fb9
+    REF asio-1-18-1
+    SHA512 c84e6fca448ed419a976756840f3f4543291a5a7d4f62d4de7c06945b2cd9ececca6633049ad5e36367d60f67a4f2735be017445514ae9fa9497d4af2a4d48f8
     HEAD_REF master
-        PATCHES
+    PATCHES
         ..\\..\\asio\\patches\\0001-Added-Apple-NAT64-support-when-both-ASIO_HAS_GETADDR.patch
         ..\\..\\asio\\patches\\0002-Added-randomize-method-to-asio-ip-tcp-resolver-resul.patch
         ..\\..\\asio\\patches\\0003-Added-user-code-hook-async_connect_post_open-to-be-c.patch

@@ -25,7 +25,9 @@
 #include <openvpn/openssl/crypto/cipher.hpp>
 #include <openvpn/openssl/crypto/cipheraead.hpp>
 #include <openvpn/openssl/crypto/digest.hpp>
-#include <openvpn/openssl/crypto/hmac.hpp>
+#include <openvpn/openssl/crypto/mac.hpp>
+#include <openvpn/openssl/crypto/tls1prf.hpp>
+#include "tls1prf.hpp"
 
 namespace openvpn {
 
@@ -40,6 +42,9 @@ namespace openvpn {
 
     // HMAC
     typedef OpenSSLCrypto::HMACContext HMACContext;
+
+    // TLS 1.0/1.1 PRF function
+    using TLS1PRF = OpenSSLCrypto::TLS1PRF;
   };
 }
 

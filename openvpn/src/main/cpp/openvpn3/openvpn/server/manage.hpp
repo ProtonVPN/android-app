@@ -93,6 +93,10 @@ namespace openvpn {
 
       // create, update, or delete a DOMA ACL
       virtual Json::Value doma_acl(const Json::Value& root) = 0;
+
+      // override keepalive parameters
+      virtual void keepalive_override(unsigned int& keepalive_ping,
+				      unsigned int& keepalive_timeout) = 0;
     };
 
     // Base class for the client instance receiver.  Note that all

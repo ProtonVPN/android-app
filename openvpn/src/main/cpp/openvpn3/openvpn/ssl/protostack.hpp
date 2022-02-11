@@ -56,6 +56,9 @@ namespace openvpn {
   // Constructor for BufferPtr:
   //   explicit PACKET(const BufferPtr& buf)
   //
+  // Return cloned packet, including cloned buffer content:
+  //   PACKET clone() const
+  //
   // Test if defined:
   //   operator bool() const
   //
@@ -196,7 +199,19 @@ namespace openvpn {
 	      typename ReliableSend::Message& m = rel_send.ref_by_id(i);
 	      if (m.ready_retransmit(*now))
 		{
-		  parent().net_send(m.packet, NET_SEND_RETRANSMIT);
+		  // preserve original packet non-encapsulated
+		  PACKET pkt = m.packet.clone();
+
+		  // encapsulate packet
+		  try {
+		    parent().encapsulate(m.id(), pkt);
+		  }
+		  catch (...)
+		    {
+		      error(Error::ENCAPSULATION_ERROR);
+		      throw;
+		    }
+		  parent().net_send(pkt, NET_SEND_RETRANSMIT);
 		  m.reset_retransmit(*now, tls_timeout);
 		}
 	    }
@@ -343,9 +358,12 @@ namespace openvpn {
 	      typename ReliableSend::Message& m = rel_send.send(*now, tls_timeout);
 	      m.packet = PACKET(ssl_->read_ciphertext());
 
+	      // encapsulate and send cloned packet, preserve original one for retransmit
+	      PACKET pkt = m.packet.clone();
+
 	      // encapsulate packet
 	      try {
-		parent().encapsulate(m.id(), m.packet);
+		parent().encapsulate(m.id(), pkt);
 	      }
 	      catch (...)
 		{
@@ -354,7 +372,7 @@ namespace openvpn {
 		}
 
 	      // transmit it
-	      parent().net_send(m.packet, NET_SEND_SSL);
+	      parent().net_send(pkt, NET_SEND_SSL);
 	    }
 	}
     }
@@ -368,9 +386,11 @@ namespace openvpn {
 	  m.packet = raw_write_queue.front();
 	  raw_write_queue.pop_front();
 
+	  PACKET pkt = m.packet.clone();
+
 	  // encapsulate packet
 	  try {
-	    parent().encapsulate(m.id(), m.packet);
+	    parent().encapsulate(m.id(), pkt);
 	  }
 	  catch (...)
 	    {
@@ -379,7 +399,7 @@ namespace openvpn {
 	    }
 
 	  // transmit it
-	  parent().net_send(m.packet, NET_SEND_RAW);
+	  parent().net_send(pkt, NET_SEND_RAW);
 	}
     }
 

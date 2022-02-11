@@ -2,6 +2,7 @@
 .type	_KeccakF1600,@function
 .align	16
 _KeccakF1600:
+.byte	243,15,30,251
 	movq	60(%esi),%mm0
 	movq	68(%esi),%mm1
 	movq	76(%esi),%mm2
@@ -320,6 +321,7 @@ _KeccakF1600:
 .align	16
 KeccakF1600:
 .L_KeccakF1600_begin:
+.byte	243,15,30,251
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -348,6 +350,7 @@ KeccakF1600:
 .align	16
 SHA3_absorb:
 .L_SHA3_absorb_begin:
+.byte	243,15,30,251
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -404,6 +407,7 @@ SHA3_absorb:
 .align	16
 SHA3_squeeze:
 .L_SHA3_squeeze_begin:
+.byte	243,15,30,251
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -488,3 +492,20 @@ SHA3_squeeze:
 .byte	111,114,32,77,77,88,44,32,67,82,89,80,84,79,71,65
 .byte	77,83,32,98,121,32,60,97,112,112,114,111,64,111,112,101
 .byte	110,115,115,108,46,111,114,103,62,0
+
+	.section ".note.gnu.property", "a"
+	.p2align 2
+	.long 1f - 0f
+	.long 4f - 1f
+	.long 5
+0:
+	.asciz "GNU"
+1:
+	.p2align 2
+	.long 0xc0000002
+	.long 3f - 2f
+2:
+	.long 3
+3:
+	.p2align 2
+4:

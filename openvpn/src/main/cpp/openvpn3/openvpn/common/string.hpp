@@ -582,7 +582,7 @@ namespace openvpn {
     inline std::string to_upper_copy(const std::string& str)
     {
       std::string ret;
-      ret.reserve(str.length()+1);
+      ret.reserve(str.length());
       for (const auto &c : str)
 	ret.push_back(std::toupper(static_cast<unsigned char>(c)));
       return ret;
@@ -591,7 +591,7 @@ namespace openvpn {
     inline std::string to_lower_copy(const std::string& str)
     {
       std::string ret;
-      ret.reserve(str.length()+1);
+      ret.reserve(str.length());
       for (const auto &c : str)
 	ret.push_back(std::tolower(static_cast<unsigned char>(c)));
       return ret;

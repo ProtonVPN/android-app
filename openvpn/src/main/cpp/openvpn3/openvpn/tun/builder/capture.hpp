@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2021 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -580,9 +580,12 @@ namespace openvpn {
       return true;
     }
 
-    virtual bool tun_builder_set_block_ipv6(bool value) override
+    virtual bool tun_builder_set_allow_family(int af, bool value) override
     {
-      block_ipv6 = value;
+      if (af == AF_INET)
+	block_ipv4 = !value;
+      else if (af == AF_INET6)
+      	block_ipv6 = !value;
       return true;
     }
 
@@ -655,6 +658,7 @@ namespace openvpn {
       os << "Remote Address: " << remote_address.to_string() << std::endl;
       render_list(os, "Tunnel Addresses", tunnel_addresses);
       os << "Reroute Gateway: " << reroute_gw.to_string() << std::endl;
+      os << "Block IPv4: " << (block_ipv4 ? "yes" : "no") << std::endl;
       os << "Block IPv6: " << (block_ipv6 ? "yes" : "no") << std::endl;
       if (route_metric_default >= 0)
 	os << "Route Metric Default: " << route_metric_default << std::endl;
@@ -748,6 +752,7 @@ namespace openvpn {
     int tunnel_address_index_ipv4 = -1;    // index into tunnel_addresses for IPv4 entry (or -1 if undef)
     int tunnel_address_index_ipv6 = -1;    // index into tunnel_addresses for IPv6 entry (or -1 if undef)
     RerouteGW reroute_gw;                  // redirect-gateway info
+    bool block_ipv4 = false;               // block IPv4 traffic while VPN is active
     bool block_ipv6 = false;               // block IPv6 traffic while VPN is active
     int route_metric_default = -1;         // route-metric directive
     std::vector<Route> add_routes;         // routes that should be added to tunnel

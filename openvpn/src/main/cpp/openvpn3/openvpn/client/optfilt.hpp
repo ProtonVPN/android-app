@@ -22,81 +22,172 @@
 #ifndef OPENVPN_CLIENT_OPTFILT_H
 #define OPENVPN_CLIENT_OPTFILT_H
 
-#include <openvpn/common/options.hpp>
+#include <vector>
 
-// Options filters
+#include <openvpn/common/options.hpp>
+#include <openvpn/common/string.hpp>
+
+// Options filters, consumes the route-nopull and pull-filter client options
 
 namespace openvpn {
 
   class PushedOptionsFilter : public OptionList::FilterBase
   {
   public:
-    PushedOptionsFilter(const bool route_nopull)
-      : route_nopull_(route_nopull) {}
+    PushedOptionsFilter(const OptionList& opt)
+      : route_nopull_(opt.exists("route-nopull"))
+    {
+      if (!opt.exists("pull-filter"))
+	return;
+
+      for (auto i : opt.get_index("pull-filter"))
+	{
+	  FilterAction action = None;
+	  auto o = opt[i];
+	  o.exact_args(3);
+	  o.touch();
+
+	  auto action_str = o.get(1, -1);
+	  if (action_str == "accept")
+	    action = Accept;
+	  else if (action_str == "ignore")
+	    action = Ignore;
+	  else if (action_str == "reject")
+	    action = Reject;
+	  else
+	    throw option_error("invalid pull-filter action: " + action_str);
+
+	  Option match = OptionList::parse_option_from_line(o.get(2, -1), nullptr);
+	  pull_filter_list_.push_back({ action, match });
+	}
+    }
 
     virtual bool filter(const Option& opt)
     {
-      const bool ret = filt(opt);
-      if (!ret)
-	OPENVPN_LOG("Ignored due to route-nopull: " << opt.render(Option::RENDER_TRUNC_64|Option::RENDER_BRACKET));
-      return ret;
+      return filter_(opt) == Accept ? true : false;
     }
 
   private:
-    // return false if pushed option should be ignored due to route-nopull directive.
-    bool filt(const Option& opt)
+    enum FilterAction
     {
-      if (route_nopull_)
+      None,
+      Accept,
+      Ignore,
+      Reject
+    };
+
+    struct PullFilter {
+      FilterAction action;
+      Option match;
+    };
+
+    FilterAction filter_(const Option& opt)
+    {
+      FilterAction action = pull_filter_(opt);
+      if (action == None)
 	{
-	  if (opt.size() >= 1)
-	    {
-	      const std::string& directive = opt.ref(0);
-	      if (directive.length() >= 1)
-		{
-		  switch (directive[0])
-		    {
-		    case 'b':
-		      if (directive == "block-ipv6")
-			return false;
-		      break;
-		    case 'c':
-		      if (directive == "client-nat")
-			return false;
-		      break;
-		    case 'd':
-		      if (directive == "dhcp-option" ||
-			  directive == "dhcp-renew" ||
-			  directive == "dhcp-pre-release" ||
-			  directive == "dhcp-release")
-			return false;
-		      break;
-		    case 'i':
-		      if (directive == "ip-win32")
-			return false;
-		      break;
-		    case 'r':
-		      if (directive == "route" ||
-			  directive == "route-ipv6" ||
-			  directive == "route-metric" ||
-			  directive == "redirect-gateway" ||
-			  directive == "redirect-private" ||
-			  directive == "register-dns" ||
-			  directive == "route-delay" ||
-			  directive == "route-method")
-			return false;
-		      break;
-		    case 't':
-		      if (directive == "tap-sleep")
-			return false;
-		      break;
-		    }
-		}
-	    }
+	  if (route_nopull_)
+	    action = route_nopull_filter_(opt);
+	  else
+	    action = Accept;
 	}
+      return action;
+    }
+
+    // Return an action if a pull-filter directive matches the pushed option
+    FilterAction pull_filter_(const Option& pushed)
+    {
+      for (const auto& pull_filter : pull_filter_list_)
+	{
+	  if (!pull_filter_matches_(pushed, pull_filter.match))
+	    continue;
+
+	  if (pull_filter.action != Accept)
+	    {
+	      OPENVPN_LOG((pull_filter.action == Ignore ? "Ignored" : "Rejected")
+			  << " due to pull-filter: "
+			  << pushed.render(Option::RENDER_TRUNC_64|Option::RENDER_BRACKET));
+	      if (pull_filter.action == Reject)
+		throw Option::RejectedException(pushed.escape(false));
+	    }
+	  return pull_filter.action;
+	}
+      return None;
+    }
+
+    bool pull_filter_matches_(const Option& pushed, const Option& match)
+    {
+      if (pushed.size() < match.size())
+	return false;
+
+      int i = match.size() - 1;
+      if (!string::starts_with(pushed.get(i, -1), match.get(i, -1)))
+	return false;
+
+      while (--i >= 0)
+	{
+	  if (pushed.get(i, -1) != match.get(i, -1))
+	    return false;
+	}
+
       return true;
     }
 
+    // return action if pushed option should be ignored due to route-nopull directive.
+    FilterAction route_nopull_filter_(const Option& opt)
+    {
+      FilterAction action = Accept;
+      if (opt.size() >= 1)
+	{
+	  const std::string& directive = opt.ref(0);
+	  if (directive.length() >= 1)
+	    {
+	      switch (directive[0])
+		{
+		case 'b':
+		  if (directive == "block-ipv6")
+		    action = Ignore;
+		  break;
+		case 'c':
+		  if (directive == "client-nat")
+		    action = Ignore;
+		  break;
+		case 'd':
+		  if (directive == "dhcp-option" ||
+		      directive == "dhcp-renew" ||
+		      directive == "dhcp-pre-release" ||
+		      directive == "dhcp-release")
+		    action = Ignore;
+		  break;
+		case 'i':
+		  if (directive == "ip-win32")
+		    action = Ignore;
+		  break;
+		case 'r':
+		  if (directive == "route" ||
+		      directive == "route-ipv6" ||
+		      directive == "route-metric" ||
+		      directive == "redirect-gateway" ||
+		      directive == "redirect-private" ||
+		      directive == "register-dns" ||
+		      directive == "route-delay" ||
+		      directive == "route-method")
+		    action = Ignore;
+		  break;
+		case 't':
+		  if (directive == "tap-sleep")
+		    action = Ignore;
+		  break;
+		}
+	      if (action == Ignore)
+		OPENVPN_LOG("Ignored due to route-nopull: " << opt.render(Option::RENDER_TRUNC_64|Option::RENDER_BRACKET));
+	    }
+	}
+      return action;
+    }
+
     bool route_nopull_;
+    std::vector<PullFilter> pull_filter_list_;
   };
 
 }

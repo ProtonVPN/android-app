@@ -130,25 +130,20 @@ public class ProfileManager {
     public static void setTemporaryProfile(Context c, VpnProfile tmp) {
         tmp.mTemporaryProfile = true;
         ProfileManager.tmpprofile = tmp;
-        saveProfile(c, tmp, true, true);
+        saveProfile(c, tmp);
     }
 
     public static boolean isTempProfile() {
         return mLastConnectedVpn != null && mLastConnectedVpn  == tmpprofile;
     }
 
-    public void saveProfile(Context context, VpnProfile profile) {
-        saveProfile(context, profile, true, false);
-    }
+    public static void saveProfile(Context context, VpnProfile profile) {
 
-    private static void saveProfile(Context context, VpnProfile profile, boolean updateVersion, boolean isTemporary) {
-
-        if (updateVersion)
-            profile.mVersion += 1;
+        profile.mVersion += 1;
         ObjectOutputStream vpnFile;
 
         String filename = profile.getUUID().toString() + ".vp";
-        if (isTemporary)
+        if (profile.mTemporaryProfile)
             filename = TEMPORARY_PROFILE_FILENAME + ".vp";
 
         try {
@@ -261,7 +256,7 @@ public class ProfileManager {
     public static void updateLRU(Context c, VpnProfile profile) {
         profile.mLastUsed = System.currentTimeMillis();
         // LRU does not change the profile, no need for the service to refresh
-        if (profile!=tmpprofile)
-            saveProfile(c, profile, false, false);
+        if (profile != tmpprofile)
+            saveProfile(c, profile);
     }
 }

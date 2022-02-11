@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2013-2018 Gert Doering <gert@greenie.muc.de>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2013-2021 Gert Doering <gert@greenie.muc.de>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -31,12 +31,7 @@
 #include "syshead.h"
 
 #if defined(ENABLE_LZ4)
-
-#if defined(NEED_COMPAT_LZ4)
-#include "compat-lz4.h"
-#else
 #include <lz4.h>
-#endif
 
 #include "comp.h"
 #include "error.h"
@@ -218,7 +213,7 @@ lz4_decompress(struct buffer *buf, struct buffer work,
                struct compress_context *compctx,
                const struct frame *frame)
 {
-    size_t zlen_max = EXPANDED_SIZE(frame);
+    size_t zlen_max = frame->buf.payload_size;
     uint8_t c;          /* flag indicating whether or not our peer compressed */
 
     if (buf->len <= 0)
@@ -255,7 +250,7 @@ lz4v2_decompress(struct buffer *buf, struct buffer work,
                  struct compress_context *compctx,
                  const struct frame *frame)
 {
-    size_t zlen_max = EXPANDED_SIZE(frame);
+    size_t zlen_max = frame->buf.payload_size;
     uint8_t c;          /* flag indicating whether or not our peer compressed */
 
     if (buf->len <= 0)
@@ -314,10 +309,4 @@ const struct compress_alg lz4v2_alg = {
     lz4v2_compress,
     lz4v2_decompress
 };
-
-#else  /* if defined(ENABLE_LZ4) */
-static void
-dummy(void)
-{
-}
 #endif /* ENABLE_LZ4 */

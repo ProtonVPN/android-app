@@ -30,6 +30,7 @@
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/function.hpp>
 #include <openvpn/buffer/buffer.hpp>
+#include <openvpn/addr/ip.hpp>
 #include <openvpn/server/servhalt.hpp>
 
 namespace openvpn {

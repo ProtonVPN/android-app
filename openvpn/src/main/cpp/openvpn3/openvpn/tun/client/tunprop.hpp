@@ -123,7 +123,7 @@ namespace openvpn {
       add_route_metric_default(tb, opt, quiet);
 
       // add remote bypass routes
-      if (config.remote_list && config.remote_bypass)
+      if (config.remote_list && config.remote_bypass && server_addr.defined())
 	add_remote_bypass_routes(tb, *config.remote_list, server_addr, eer.get(), quiet);
 
       // add routes
@@ -150,7 +150,7 @@ namespace openvpn {
 	}
 
 
-      if (eer)
+      if (eer && server_addr.defined())
 	{
 	  // Route emulation needs to know if default routes are included
 	  // from redirect-gateway
@@ -168,8 +168,9 @@ namespace openvpn {
       // add DNS servers and domain prefixes
       const unsigned int dhcp_option_flags = add_dhcp_options(tb, opt, quiet);
 
-      // Block IPv6?
-      tb->tun_builder_set_block_ipv6(opt.exists("block-ipv6"));
+      // Allow protocols unless explicitly blocked
+      tb->tun_builder_set_allow_family(AF_INET, !opt.exists("block-ipv4"));
+      tb->tun_builder_set_allow_family(AF_INET6, !opt.exists("block-ipv6"));
 
       // DNS fallback
       if (ipv.rgv4() && !(dhcp_option_flags & F_ADD_DNS))
@@ -185,8 +186,8 @@ namespace openvpn {
 	}
 
       // set remote server address
-      if (!tb->tun_builder_set_remote_address(server_addr.to_string(),
-					      server_addr.version() == IP::Addr::V6))
+      if (server_addr.defined() && !tb->tun_builder_set_remote_address(server_addr.to_string(),
+								       server_addr.version() == IP::Addr::V6))
 	throw tun_prop_error("tun_builder_set_remote_address failed");
 
       // set layer
@@ -523,7 +524,7 @@ namespace openvpn {
 		      throw tun_prop_dhcp_option_error("tun_builder_add_dns_server failed");
 		    flags |= F_ADD_DNS;
 		  }
-		else if (type == "DOMAIN")
+		else if (type == "DOMAIN" || type == "DOMAIN-SEARCH")
 		  {
 		    o.min_args(3);
 		    for (size_t j = 2; j < o.size(); ++j)

@@ -398,10 +398,12 @@ namespace openvpn {
 							   TunClientParent& parent,
 							   TransportClient* transcli)
     {
-      if (wintun)
+      if (tun_type == TunWin::Wintun)
 	return TunClient::Ptr(new WintunClient(io_context, this, parent));
-      else
+      else if (tun_type == TunWin::TapWindows6)
 	return TunClient::Ptr(new Client(io_context, this, parent));
+      else
+	throw tun_win_error("unsupported tun driver");
     }
 
   }

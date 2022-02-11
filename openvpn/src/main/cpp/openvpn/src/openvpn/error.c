@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -66,7 +66,7 @@ static int mute_category;   /* GLOBAL */
  * Output mode priorities are as follows:
  *
  *  (1) --log-x overrides everything
- *  (2) syslog is used if --daemon or --inetd is defined and not --log-x
+ *  (2) syslog is used if --daemon is defined and not --log-x
  *  (3) if OPENVPN_DEBUG_COMMAND_LINE is defined, output
  *      to constant logfile name.
  *  (4) Output to stdout.
@@ -240,26 +240,22 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
 
     void usage_small(void);
 
-#ifndef HAVE_VARARG_MACROS
     /* the macro has checked this otherwise */
     if (!msg_test(flags))
     {
         return;
     }
-#endif
 
     e = openvpn_errno();
 
     /*
      * Apply muting filter.
      */
-#ifndef HAVE_VARARG_MACROS
     /* the macro has checked this otherwise */
     if (!dont_mute(flags))
     {
         return;
     }
-#endif
 
     gc_init(&gc);
 
@@ -490,7 +486,7 @@ open_syslog(const char *pgmname, bool stdio_to_null)
         }
     }
 #else  /* if SYSLOG_CAPABILITY */
-    msg(M_WARN, "Warning on use of --daemon/--inetd: this operating system lacks daemon logging features, therefore when I become a daemon, I won't be able to log status or error messages");
+    msg(M_WARN, "Warning on use of --daemon: this operating system lacks daemon logging features, therefore when I become a daemon, I won't be able to log status or error messages");
 #endif
 }
 
@@ -502,32 +498,19 @@ close_syslog(void)
     {
         closelog();
         use_syslog = false;
-        if (pgmname_syslog)
-        {
-            free(pgmname_syslog);
-            pgmname_syslog = NULL;
-        }
+        free(pgmname_syslog);
+        pgmname_syslog = NULL;
     }
 #endif
 }
 
 #ifdef _WIN32
+static int orig_stderr;
 
-static HANDLE orig_stderr;
-
-HANDLE
-get_orig_stderr(void)
+int get_orig_stderr()
 {
-    if (orig_stderr)
-    {
-        return orig_stderr;
-    }
-    else
-    {
-        return GetStdHandle(STD_ERROR_HANDLE);
-    }
+    return orig_stderr ? orig_stderr : _fileno(stderr);
 }
-
 #endif
 
 void
@@ -571,16 +554,12 @@ redirect_stdout_stderr(const char *file, bool append)
         }
 
         /* save original stderr for password prompts */
-        orig_stderr = GetStdHandle(STD_ERROR_HANDLE);
-
-#if 0 /* seems not be necessary with stdout/stderr redirection below*/
-        /* set up for redirection */
-        if (!SetStdHandle(STD_OUTPUT_HANDLE, log_handle)
-            || !SetStdHandle(STD_ERROR_HANDLE, log_handle))
+        orig_stderr = _dup(_fileno(stderr));
+        if (orig_stderr == -1)
         {
-            msg(M_ERR, "Error: cannot redirect stdout/stderr to --log file: %s", file);
+            msg(M_WARN | M_ERRNO, "Warning: cannot duplicate stderr, password prompts will appear in log file instead of console.");
+            orig_stderr = _fileno(stderr);
         }
-#endif
 
         /* direct stdout/stderr to point to log_handle */
         log_fd = _open_osfhandle((intptr_t)log_handle, _O_TEXT);
@@ -711,15 +690,15 @@ x_check_status(int status,
         {
             if (extended_msg)
             {
-                msg(x_cs_info_level, "%s %s [%s]: %s (code=%d)", description,
+                msg(x_cs_info_level, "%s %s [%s]: %s (fd=%d,code=%d)", description,
                     sock ? proto2ascii(sock->info.proto, sock->info.af, true) : "",
-                    extended_msg, strerror(my_errno), my_errno);
+                    extended_msg, strerror(my_errno), sock ? sock->sd : -1, my_errno);
             }
             else
             {
-                msg(x_cs_info_level, "%s %s: %s (code=%d)", description,
+                msg(x_cs_info_level, "%s %s: %s (fd=%d,code=%d)", description,
                     sock ? proto2ascii(sock->info.proto, sock->info.af, true) : "",
-                    strerror(my_errno), my_errno);
+                    strerror(my_errno), sock ? sock->sd : -1, my_errno);
             }
 
             if (x_cs_err_delay_ms)

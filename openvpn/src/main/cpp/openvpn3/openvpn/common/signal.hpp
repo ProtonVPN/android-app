@@ -57,7 +57,7 @@ namespace openvpn {
       sigconf(sa, flags_ = flags);
     }
 
-    ~Signal()
+    ~Signal() noexcept(false)
     {
       reset_to_defaults(flags_);
     }

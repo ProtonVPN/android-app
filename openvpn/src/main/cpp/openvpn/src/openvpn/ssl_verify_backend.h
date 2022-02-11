@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2010-2018 Fox Crypto B.V. <openvpn@fox-it.com>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -267,12 +267,5 @@ result_t x509_write_pem(FILE *peercert_file, openvpn_x509_cert_t *peercert);
  * updated and reloaded during runtime.)
  */
 bool tls_verify_crl_missing(const struct tls_options *opt);
-
-/**
- * Return true iff {host} was found in {cert} Subject Alternative Names DNS or IP entries.
- * If {has_alt_names} != NULL it'll return true iff Subject Alternative Names were defined
- * for {cert}.
- */
-bool x509v3_is_host_in_alternative_names(openvpn_x509_cert_t *cert, const char *host, bool *has_alt_names);
 
 #endif /* SSL_VERIFY_BACKEND_H_ */

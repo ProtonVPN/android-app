@@ -26,6 +26,16 @@ _codelite_lz4/
 bin/
 *.zip
 
+# analyzers
+infer-out
+
 # Mac
 .DS_Store
 *.dSYM
+
+# Windows / Msys
+nul
+ld.exe*
+
+# test files
+*.lz4

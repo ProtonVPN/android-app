@@ -45,3 +45,14 @@ function apply_patches()
   done
   popd
 }
+
+function lto_flags()
+{
+  local seed=$1
+  if [ "$TARGET" == "linux" ]; then
+    echo -n " -flto=4 -Wl,--no-as-needed "
+    if [ -n "$seed" ]; then
+      echo -n " -frandom-seed=$seed "
+    fi
+  fi
+}

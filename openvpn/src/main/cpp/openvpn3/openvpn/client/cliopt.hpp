@@ -41,7 +41,7 @@
 #include <openvpn/crypto/cryptodcsel.hpp>
 #include <openvpn/ssl/mssparms.hpp>
 #include <openvpn/tun/tunmtu.hpp>
-#include <openvpn/tun/ipv6_setting.hpp>
+#include <openvpn/tun/tristate_setting.hpp>
 #include <openvpn/netconf/hwaddr.hpp>
 
 #include <openvpn/transport/socket_protect.hpp>
@@ -100,7 +100,7 @@
 #include <openvpn/pt/ptproxy.hpp>
 #endif
 
-#if defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO)
+#if defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)
 #include <openvpn/dco/dcocli.hpp>
 #endif
 
@@ -126,18 +126,20 @@ namespace openvpn {
       std::string hw_addr_override;
       std::string platform_version;
       Protocol proto_override;
-      IPv6Setting ipv6;
+      IP::Addr::Version proto_version_override = IP::Addr::Version::UNSPEC;
+      TriStateSetting allowUnusedAddrFamilies;
       int conn_timeout = 0;
       SessionStats::Ptr cli_stats;
       ClientEvent::Queue::Ptr cli_events;
       ProtoContextOptions::Ptr proto_context_options;
       HTTPProxyTransport::Options::Ptr http_proxy_options;
       bool alt_proxy = false;
-      bool dco = false;
+      bool dco = true;
       bool echo = false;
       bool info = false;
       bool tun_persist = false;
       bool wintun = false;
+      bool allow_local_dns_resolvers = false;
       bool google_dns_fallback = false;
       bool synchronous_dns_lookup = false;
       std::string private_key_password;
@@ -147,10 +149,13 @@ namespace openvpn {
       bool autologin_sessions = false;
       bool retry_on_auth_failed = false;
       bool allow_local_lan_access = false;
+	  bool preferred_security = true;
       std::string tls_version_min_override;
       std::string tls_cert_profile_override;
       std::string tls_cipher_list;
       std::string tls_ciphersuite_list;
+	  bool enable_legacy_algorithms = false;
+      bool enable_nonpreferred_dcalgs;
       PeerInfo::Set::Ptr extra_peer_info;
 #ifdef OPENVPN_GREMLIN
       Gremlin::Config::Ptr gremlin_config;
@@ -206,6 +211,15 @@ namespace openvpn {
 	,extern_transport_factory(config.extern_transport_factory)
 #endif
     {
+#if (defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)) && !defined(OPENVPN_FORCE_TUN_NULL) && !defined(OPENVPN_EXTERNAL_TUN_FACTORY)
+      if (config.dco)
+#if defined(USE_TUN_BUILDER)
+	dco = DCOTransport::new_controller(config.builder);
+#else
+	dco = DCOTransport::new_controller(nullptr);
+#endif
+#endif
+
       // parse general client options
       const ParseClientConfig pcc(opt);
 
@@ -221,14 +235,6 @@ namespace openvpn {
       rng.reset(new SSLLib::RandomAPI(false));
       prng.reset(new SSLLib::RandomAPI(true));
 
-#if (defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO)) && !defined(OPENVPN_FORCE_TUN_NULL) && !defined(OPENVPN_EXTERNAL_TUN_FACTORY)
-      if (config.dco)
-	dco = DCOTransport::new_controller();
-#else
-      if (config.dco)
-	throw option_error("DCO not enabled in this build");
-#endif
-
       // frame
       const unsigned int tun_mtu = parse_tun_mtu(opt, 0); // get tun-mtu parameter from config
       const MSSCtrlParms mc(opt);
@@ -238,12 +244,17 @@ namespace openvpn {
       tcp_queue_limit = opt.get_num<decltype(tcp_queue_limit)>("tcp-queue-limit", 1, tcp_queue_limit, 1, 65536);
 
       // route-nopull
-      pushed_options_filter.reset(new PushedOptionsFilter(opt.exists("route-nopull")));
+      pushed_options_filter.reset(new PushedOptionsFilter(opt));
 
       // OpenVPN Protocol context (including SSL)
       cp_main = proto_config(opt, config, pcc, false);
       cp_relay = proto_config(opt, config, pcc, true); // may be null
-      layer = cp_main->layer;
+
+      CryptoAlgs::allow_default_dc_algs<SSLLib::CryptoAPI>(cp_main->ssl_factory->libctx(),
+							   !config.enable_nonpreferred_dcalgs,
+							   config.enable_legacy_algorithms);
+
+	  layer = cp_main->layer;
 
 #ifdef PRIVATE_TUNNEL_PROXY
       if (config.alt_proxy && !dco)
@@ -256,23 +267,24 @@ namespace openvpn {
 
       // load remote list
       if (config.remote_override)
+	{
 	  remote_list.reset(new RemoteList(config.remote_override));
-	else
-	  remote_list.reset(new RemoteList(opt, "", RemoteList::WARN_UNSUPPORTED, nullptr));
+	  remote_list->set_random(prng);
+	}
+      else
+	remote_list.reset(new RemoteList(opt, "", RemoteList::WARN_UNSUPPORTED, nullptr, prng));
       if (!remote_list->defined())
 	throw option_error("no remote option specified");
-
-      // Set remote list prng
-      remote_list->set_random(prng);
 
       // If running in tun_persist mode, we need to do basic DNS caching so that
       // we can avoid emitting DNS requests while the tunnel is blocked during
       // reconnections.
       remote_list->set_enable_cache(config.tun_persist);
 
-      // process server/port overrides
+      // process server/port/family overrides
       remote_list->set_server_override(config.server_override);
       remote_list->set_port_override(config.port_override);
+      remote_list->set_proto_version_override(config.proto_version_override);
 
       // process protocol override, should be called after set_enable_cache
       remote_list->handle_proto_override(config.proto_override,
@@ -326,8 +338,8 @@ namespace openvpn {
       if (dco)
 	{
 	  DCO::TunConfig tunconf;
-#if defined(USE_TUN_BUILDER)
-	  dco->builder = config.builder;
+#if defined(OPENVPN_COMMAND_AGENT) && defined(OPENVPN_PLATFORM_WIN)
+	  tunconf.setup_factory = WinCommandAgent::new_agent(opt);
 #endif
 	  tunconf.tun_prop.layer = layer;
 	  tunconf.tun_prop.session_name = session_name;
@@ -441,7 +453,7 @@ namespace openvpn {
 	    tunconf->frame = frame;
 	    tunconf->stats = cli_stats;
 	    tunconf->stop = config.stop;
-	    tunconf->wintun = config.wintun;
+	    tunconf->tun_type = config.wintun ? TunWin::Wintun : TunWin::TapWindows6;
 	    if (config.tun_persist)
 	      {
 		tunconf->tun_persist.reset(new TunWin::TunPersist(true, false, nullptr));
@@ -523,9 +535,18 @@ namespace openvpn {
 
 	// IPv6
 	{
-	  const unsigned int n = push_base->singleton.extend(opt, "block-ipv6");
-	  if (!n && config.ipv6() == IPv6Setting::No)
-	    push_base->singleton.emplace_back("block-ipv6");
+	  const unsigned int n6 = push_base->singleton.extend(opt, "block-ipv6");
+	  const unsigned int n4 = push_base->singleton.extend(opt, "block-ipv4");
+
+	  if (!n6 && config.allowUnusedAddrFamilies() == TriStateSetting::No)
+	    {
+	      push_base->singleton.emplace_back("block-ipv6");
+	    }
+	  if (!n4 && config.allowUnusedAddrFamilies() == TriStateSetting::No)
+	    {
+	      push_base->singleton.emplace_back("block-ipv4");
+	    }
+
 	}
       }
 
@@ -536,12 +557,6 @@ namespace openvpn {
     static PeerInfo::Set::Ptr build_peer_info(const Config& config, const ParseClientConfig& pcc, const bool autologin_sessions)
     {
       PeerInfo::Set::Ptr pi(new PeerInfo::Set);
-
-      // IPv6
-      if (config.ipv6() == IPv6Setting::No)
-	pi->emplace_back("IV_IPv6", "0");
-      else if (config.ipv6() == IPv6Setting::Yes)
-	pi->emplace_back("IV_IPv6", "1");
 
       // autologin sessions
       if (autologin_sessions)
@@ -636,7 +651,16 @@ namespace openvpn {
 
     void submit_creds(const ClientCreds::Ptr& creds_arg)
     {
-      if (creds_arg && !creds_locked)
+      if (!creds_arg)
+	return;
+
+      // Override HTTP proxy credentials if provided dynamically
+      if (http_proxy_options && creds_arg->http_proxy_username_defined())
+	http_proxy_options->username = creds_arg->get_http_proxy_username();
+      if (http_proxy_options && creds_arg->http_proxy_password_defined())
+	http_proxy_options->password = creds_arg->get_http_proxy_password();
+
+      if (!creds_locked)
 	{
 	  // if no username is defined in creds and userlocked_username is defined
 	  // in profile, set the creds username to be the userlocked_username
@@ -717,9 +741,6 @@ namespace openvpn {
       if (relay_mode)
 	lflags |= SSLConfigAPI::LF_RELAY_MODE;
 
-      if (opt.exists("allow-name-constraints"))
-	lflags |= SSLConfigAPI::LF_ALLOW_NAME_CONSTRAINTS;
-
       // client SSL config
       SSLLib::SSLAPI::Config::Ptr cc(new SSLLib::SSLAPI::Config());
       cc->set_external_pki_callback(config.external_pki);
@@ -728,6 +749,8 @@ namespace openvpn {
       cc->set_debug_level(config.ssl_debug_level);
       cc->set_rng(rng);
       cc->set_local_cert_enabled(pcc.clientCertEnabled() && !config.disable_client_cert);
+      /* load depends on private key password and legacy algorithms */
+      cc->enable_legacy_algorithms(config.enable_legacy_algorithms);
       cc->set_private_key_password(config.private_key_password);
       cc->load(opt, lflags);
       cc->set_tls_version_min_override(config.tls_version_min_override);
@@ -739,14 +762,14 @@ namespace openvpn {
 
       // client ProtoContext config
       Client::ProtoConfig::Ptr cp(new Client::ProtoConfig());
-      cp->relay_mode = relay_mode;
-      cp->dc.set_factory(new CryptoDCSelect<SSLLib::CryptoAPI>(frame, cli_stats, prng));
+	  cp->ssl_factory = cc->new_factory();
+	  cp->relay_mode = relay_mode;
+      cp->dc.set_factory(new CryptoDCSelect<SSLLib::CryptoAPI>(cp->ssl_factory->libctx(), frame, cli_stats, prng));
       cp->dc_deferred = true; // defer data channel setup until after options pull
       cp->tls_auth_factory.reset(new CryptoOvpnHMACFactory<SSLLib::CryptoAPI>());
       cp->tls_crypt_factory.reset(new CryptoTLSCryptFactory<SSLLib::CryptoAPI>());
       cp->tls_crypt_metadata_factory.reset(new CryptoTLSCryptMetadataFactory());
       cp->tlsprf_factory.reset(new CryptoTLSPRFFactory<SSLLib::CryptoAPI>());
-      cp->ssl_factory = cc->new_factory();
       cp->load(opt, *proto_context_options, config.default_key_direction, false);
       cp->set_xmit_creds(!autologin || pcc.hasEmbeddedPassword() || autologin_sessions);
       cp->extra_peer_info = build_peer_info(config, pcc, autologin_sessions);

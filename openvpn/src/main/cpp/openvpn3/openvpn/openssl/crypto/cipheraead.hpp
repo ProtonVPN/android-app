@@ -39,6 +39,16 @@ namespace openvpn {
   namespace OpenSSLCrypto {
     class CipherContextAEAD
     {
+      /* In OpenSSL 3.0 the method that returns EVP_CIPHER, the cipher needs to be
+ * freed afterwards, thus needing a non-const type. In contrast, OpenSSL 1.1.1
+ * and lower returns a const type, needing a const type */
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
+    using evp_cipher_type = const EVP_CIPHER;
+#else
+    using evp_cipher_type = EVP_CIPHER;
+#endif
+      using CIPHER_unique_ptr = std::unique_ptr<evp_cipher_type, decltype(&::EVP_CIPHER_free)>;
+
     public:
       CipherContextAEAD(const CipherContextAEAD&) = delete;
       CipherContextAEAD& operator=(const CipherContextAEAD&) = delete;
@@ -63,16 +73,17 @@ namespace openvpn {
 
       ~CipherContextAEAD() { free_cipher_context(); }
 
-      void init(const CryptoAlgs::Type alg,
+      void init(SSLLib::Ctx libctx,
+		  const CryptoAlgs::Type alg,
 		const unsigned char *key,
 		const unsigned int keysize,
 		const int mode)
       {
 	free_cipher_context();
 	unsigned int ckeysz = 0;
-	const EVP_CIPHER *ciph = cipher_type(alg, ckeysz);
+	CIPHER_unique_ptr ciph(cipher_type(libctx, alg, ckeysz), EVP_CIPHER_free);
 
-	if (ciph == nullptr)
+	if (!ciph)
 	  OPENVPN_THROW(openssl_gcm_error, CryptoAlgs::name(alg) << ": not usable");
 
 	if (ckeysz > keysize)
@@ -82,7 +93,7 @@ namespace openvpn {
 	switch (mode)
 	  {
 	  case ENCRYPT:
-	    if (!EVP_EncryptInit_ex(ctx, ciph, nullptr, key, nullptr))
+	    if (!EVP_EncryptInit_ex(ctx, ciph.get(), nullptr, key, nullptr))
 	      {
 		openssl_clear_error_stack();
 		free_cipher_context();
@@ -90,7 +101,7 @@ namespace openvpn {
 	      }
 	    break;
 	  case DECRYPT:
-	    if (!EVP_DecryptInit_ex(ctx, ciph, nullptr, key, nullptr))
+	    if (!EVP_DecryptInit_ex(ctx, ciph.get(), nullptr, key, nullptr))
 	      {
 		openssl_clear_error_stack();
 		free_cipher_context();
@@ -201,33 +212,44 @@ namespace openvpn {
 
       bool is_initialized() const { return ctx != nullptr; }
 
-      static bool is_supported(const CryptoAlgs::Type alg)
+      static bool is_supported(SSLLib::Ctx libctx, const CryptoAlgs::Type alg)
       {
-	unsigned int keysize;
-	return (cipher_type(alg, keysize) != nullptr);
+	unsigned int keysize = 0;
+	CIPHER_unique_ptr cipher(cipher_type(libctx, alg, keysize), EVP_CIPHER_free);
+	return (bool)cipher;
       }
 
 
     private:
-      static const EVP_CIPHER *cipher_type(const CryptoAlgs::Type alg,
+      static evp_cipher_type *cipher_type(SSLLib::Ctx libctx, const CryptoAlgs::Type alg,
 					   unsigned int& keysize)
       {
 	switch (alg)
-	  {
+	{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+	case CryptoAlgs::AES_128_GCM:
+	  keysize = 16;
+	  return EVP_CIPHER_fetch(libctx, "id-aes128-GCM", nullptr);
+	case CryptoAlgs::AES_192_GCM:
+	  keysize = 24;
+	  return EVP_CIPHER_fetch(libctx, "id-aes192-GCM", nullptr);
+	case CryptoAlgs::AES_256_GCM:
+	  keysize = 32;
+	  return EVP_CIPHER_fetch(libctx, "id-aes256-GCM", nullptr);
+#else
 	  case CryptoAlgs::AES_128_GCM:
 	    keysize = 16;
-	    return EVP_aes_128_gcm();
+	    return EVP_CIPHER_fetch(libctx, "AES-128-GCM", nullptr);
 	  case CryptoAlgs::AES_192_GCM:
 	    keysize = 24;
-	    return EVP_aes_192_gcm();
+	    return EVP_CIPHER_fetch(libctx, "AES-192-GCM", nullptr);
 	  case CryptoAlgs::AES_256_GCM:
-	      keysize = 32;
-	    return EVP_aes_256_gcm();
-#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(OPENSSL_NO_POLY1305) && !defined(OPENSSL_NO_CHACHA)
+	    keysize = 32;
+	    return EVP_CIPHER_fetch(libctx, "AES-256-GCM", nullptr);
+#endif
 	  case CryptoAlgs::CHACHA20_POLY1305:
 	      keysize = 32;
-	      return EVP_chacha20_poly1305();
-#endif
+	      return EVP_CIPHER_fetch(libctx, "CHACHA20-POLY1305", nullptr);
 	  default:
 	       keysize = 0;
 	       return nullptr;

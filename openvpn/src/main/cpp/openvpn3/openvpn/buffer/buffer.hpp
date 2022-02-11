@@ -789,7 +789,7 @@ namespace openvpn {
     void move(BufferAllocatedType<T_, R_>& other)
     {
       if (data_)
-	delete_(data_, capacity_, flags_);
+	delete_();
       move_(other);
     }
 
@@ -841,7 +841,7 @@ namespace openvpn {
     ~BufferAllocatedType()
     {
       if (data_)
-	delete_(data_, capacity_, flags_);
+	delete_();
     }
 
   protected:
@@ -869,7 +869,7 @@ namespace openvpn {
       T* data = new T[newcap];
       if (size_)
 	std::memcpy(data + offset_, data_ + offset_, size_ * sizeof(T));
-      delete_(data_, capacity_, flags_);
+      delete_();
       data_ = data;
       //std::cout << "*** RESIZE " << capacity_ << " -> " << newcap << std::endl; // fixme
       capacity_ = newcap;
@@ -892,17 +892,17 @@ namespace openvpn {
     {
       if (data_)
 	{
-	  delete_(data_, capacity_, flags_);
+	  delete_();
 	  data_ = nullptr;
 	}
       capacity_ = 0;
     }
 
-    static void delete_(T* data, const size_t size, const unsigned int flags)
+    void delete_()
     {
-      if (size && (flags & DESTRUCT_ZERO))
-	std::memset(data, 0, size * sizeof(T));
-      delete [] data;
+      if (size_ && (flags_ & DESTRUCT_ZERO))
+	std::memset(data_, 0, capacity_ * sizeof(T));
+      delete [] data_;
     }
 
     unsigned int flags_;

@@ -59,6 +59,7 @@
 #include <openvpn/client/clicreds.hpp>
 #include <openvpn/client/cliconstants.hpp>
 #include <openvpn/client/clihalt.hpp>
+#include <openvpn/client/optfilt.hpp>
 #include <openvpn/time/asiotimer.hpp>
 #include <openvpn/time/coarsetime.hpp>
 #include <openvpn/time/durhelper.hpp>
@@ -78,6 +79,8 @@ namespace openvpn {
     struct NotifyCallback {
       virtual void client_proto_terminate() = 0;
       virtual void client_proto_connected() {}
+      virtual void client_proto_auth_pending_timeout(int timeout) {}
+      virtual void client_proto_renegotiated() {}
     };
 
     class Session : ProtoContext,
@@ -265,13 +268,13 @@ namespace openvpn {
       }
 
     private:
-      virtual bool transport_is_openvpn_protocol()
+      bool transport_is_openvpn_protocol() override
       {
 	return true;
       }
 
       // transport obj calls here with incoming packets
-      virtual void transport_recv(BufferAllocated& buf)
+      void transport_recv(BufferAllocated& buf) override
       {
 	try {
 	  OPENVPN_LOG_CLIPROTO("Transport RECV " << server_endpoint_render() << ' ' << Base::dump_packet(buf));
@@ -346,12 +349,12 @@ namespace openvpn {
 	  }
       }
 
-      virtual void transport_needs_send()
+      void transport_needs_send() override
       {
       }
 
       // tun i/o driver calls here with incoming packets
-      virtual void tun_recv(BufferAllocated& buf)
+      void tun_recv(BufferAllocated& buf) override
       {
 	try {
 	  OPENVPN_LOG_CLIPROTO("TUN recv, size=" << buf.size());
@@ -411,20 +414,20 @@ namespace openvpn {
       }
 
       // Return true if keepalive parameter(s) are enabled.
-      virtual bool is_keepalive_enabled() const
+      bool is_keepalive_enabled() const override
       {
 	return Base::is_keepalive_enabled();
       }
 
       // Disable keepalive for rest of session, but fetch
       // the keepalive parameters (in seconds).
-      virtual void disable_keepalive(unsigned int& keepalive_ping,
-				     unsigned int& keepalive_timeout)
+      void disable_keepalive(unsigned int& keepalive_ping,
+			     unsigned int& keepalive_timeout) override
       {
 	Base::disable_keepalive(keepalive_ping, keepalive_timeout);
       }
 
-      virtual void transport_pre_resolve()
+      void transport_pre_resolve() override
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::Resolve();
 	cli_events->add_event(std::move(ev));
@@ -439,19 +442,19 @@ namespace openvpn {
 	return out.str();
       }
 
-      virtual void transport_wait_proxy()
+      void transport_wait_proxy() override
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::WaitProxy();
 	cli_events->add_event(std::move(ev));
       }
 
-      virtual void transport_wait()
+      void transport_wait() override
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::Wait();
 	cli_events->add_event(std::move(ev));
       }
 
-      virtual void transport_connecting()
+      void transport_connecting() override
       {
 	try {
 	  OPENVPN_LOG("Connecting to " << server_endpoint_render());
@@ -466,7 +469,7 @@ namespace openvpn {
 	  }
       }
 
-      virtual void transport_error(const Error::Type fatal_err, const std::string& err_text)
+      void transport_error(const Error::Type fatal_err, const std::string& err_text) override
       {
 	if (fatal_err != Error::UNDEF)
 	  {
@@ -482,7 +485,7 @@ namespace openvpn {
 	  throw transport_exception(err_text);
       }
 
-      virtual void proxy_error(const Error::Type fatal_err, const std::string& err_text)
+      void proxy_error(const Error::Type fatal_err, const std::string& err_text) override
       {
 	if (fatal_err != Error::UNDEF)
 	  {
@@ -525,6 +528,9 @@ namespace openvpn {
 #else
 		  OPENVPN_LOG("Session token: [redacted]");
 #endif
+		  autologin_sessions = true;
+		  conf().set_xmit_creds(true);
+		  creds->set_replace_password_with_session_id(true);
 		  creds->set_session_id(username, sess_id);
 		}
 	    }
@@ -532,7 +538,7 @@ namespace openvpn {
       }
 
       // proto base class calls here for control channel network sends
-      virtual void control_net_send(const Buffer& net_buf)
+      void control_net_send(const Buffer& net_buf) override
       {
 	OPENVPN_LOG_CLIPROTO("Transport SEND " << server_endpoint_render() << ' ' << Base::dump_packet(net_buf));
 	if (transport->transport_send_const(net_buf))
@@ -540,7 +546,7 @@ namespace openvpn {
       }
 
       // proto base class calls here for app-level control-channel messages received
-      virtual void control_recv(BufferPtr&& app_bp)
+      void control_recv(BufferPtr&& app_bp) override
       {
 	const std::string msg = Unicode::utf8_printable(Base::template read_control_string<std::string>(*app_bp),
 							Unicode::UTF8_FILTER|Unicode::UTF8_PASS_FMT);
@@ -550,8 +556,16 @@ namespace openvpn {
 	if (!received_options.complete() && string::starts_with(msg, "PUSH_REPLY,"))
 	  {
 	    // parse the received options
-	    received_options.add(OptionList::parse_from_csv_static(msg.substr(11), &pushed_options_limit),
-				 pushed_options_filter.get());
+	    auto pushed_options_list = OptionList::parse_from_csv_static(msg.substr(11), &pushed_options_limit);
+	    try
+	      {
+		received_options.add(pushed_options_list, pushed_options_filter.get());
+	      }
+	    catch (const Option::RejectedException& e)
+	      {
+		ClientHalt ch("RESTART,rejected pushed option: " + e.err(), true);
+		process_halt_restart(ch);
+	      }
 	    if (received_options.complete())
 	      {
 		// show options
@@ -570,6 +584,9 @@ namespace openvpn {
 
 		// process auth-token
 		extract_auth_token(received_options);
+
+		// process pushed transport options
+		transport_factory->process_push(received_options);
 
 		// modify proto config (cipher, auth, key-derivation and compression methods)
 		Base::process_push(received_options, *proto_context_options);
@@ -602,19 +619,8 @@ namespace openvpn {
 		// send the Connected event
 		cli_events->add_event(connected_);
 
-		// Issue an event if compression is enabled
-		CompressContext::Type comp_type = Base::conf().comp_ctx.type();
-		if (comp_type != CompressContext::NONE
-		    && !CompressContext::is_any_stub(comp_type))
-		{
-		  std::ostringstream msg;
-		  msg << (proto_context_options->is_comp_asym()
-			  ? "Asymmetric compression enabled.  Server may send compressed data."
-			  : "Compression enabled.");
-		  msg << "  This may be a potential security issue.";
-		  ClientEvent::Base::Ptr ev = new ClientEvent::CompressionEnabled(msg.str());
-		  cli_events->add_event(std::move(ev));
-		}
+		// check for proto options
+		check_proto_warnings();
 	      }
 	    else
 	      OPENVPN_LOG("Options continuation...");
@@ -638,9 +644,11 @@ namespace openvpn {
 	    // If session token problem (such as expiration), and we have a cached
 	    // password, retry with it.  Otherwise, fail without retry.
 	    if (string::starts_with(reason, "SESSION:")
-		&& (autologin_sessions
-		    || (creds && creds->can_retry_auth_with_cached_password())))
+		&& ((creds && creds->reset_to_cached_password())
+		    || autologin_sessions))
 	      {
+		if (creds && creds->session_id_defined())
+		  creds->purge_session_id();
 		log_reason = "SESSION_AUTH_FAILED";
 	      }
 	    else
@@ -681,14 +689,45 @@ namespace openvpn {
 	    ClientEvent::Base::Ptr ev = new ClientEvent::Info(msg.substr(9));
 	    cli_events->add_event(std::move(ev));
 	  }
-	else if (msg == "AUTH_PENDING")
+	else if (msg == "AUTH_PENDING" || string::starts_with(msg, "AUTH_PENDING,"))
 	  {
 	    // AUTH_PENDING indicates an out-of-band authentication step must
 	    // be performed before the server will send the PUSH_REPLY message.
 	    if (!auth_pending)
 	      {
 		auth_pending = true;
-		ClientEvent::Base::Ptr ev = new ClientEvent::AuthPending();
+		std::string key_words;
+
+		unsigned int timeout = 0;
+
+		if (string::starts_with(msg, "AUTH_PENDING,"))
+		  {
+		    key_words = msg.substr(::strlen("AUTH_PENDING,"));
+		    auto opts = OptionList::parse_from_csv_static(key_words, nullptr);
+		    std::string timeout_str = opts.get_optional("timeout", 1, 20);
+		    if (timeout_str != "")
+		      {
+			try
+			  {
+			    timeout = std::stoul(timeout_str);
+			    // Cap the timeout to end well before renegotiation starts
+			    timeout = std::min(timeout, static_cast<decltype(timeout)>(conf().renegotiate.to_seconds() / 2));
+			  }
+			catch (const std::logic_error& e)
+			  {
+			    OPENVPN_LOG("could not parse AUTH_PENDING timeout: " << timeout_str);
+			  }
+		      }
+		  }
+
+
+
+		if (notify_callback && timeout > 0)
+		  {
+		    notify_callback->client_proto_auth_pending_timeout(timeout);
+		  }
+
+		ClientEvent::Base::Ptr ev = new ClientEvent::AuthPending(timeout, key_words);
 		cli_events->add_event(std::move(ev));
 	      }
 	  }
@@ -714,19 +753,19 @@ namespace openvpn {
 	  }
       }
 
-      virtual void tun_pre_tun_config()
+      void tun_pre_tun_config() override
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::AssignIP();
 	cli_events->add_event(std::move(ev));
       }
 
-      virtual void tun_pre_route_config()
+      void tun_pre_route_config() override
       {
 	ClientEvent::Base::Ptr ev = new ClientEvent::AddRoutes();
 	cli_events->add_event(std::move(ev));
       }
 
-      virtual void tun_connected()
+      void tun_connected() override
       {
 	OPENVPN_LOG("Connected via " + tun->tun_name());
 
@@ -751,7 +790,7 @@ namespace openvpn {
 	connected_ = std::move(ev);
       }
 
-      virtual void tun_error(const Error::Type fatal_err, const std::string& err_text)
+      void tun_error(const Error::Type fatal_err, const std::string& err_text) override
       {
 	if (fatal_err == Error::TUN_HALT)
 	  send_explicit_exit_notify();
@@ -770,14 +809,24 @@ namespace openvpn {
       }
 
       // proto base class calls here to get auth credentials
-      virtual void client_auth(Buffer& buf)
+      void client_auth(Buffer& buf) override
       {
 	// we never send creds to a relay server
 	if (creds && !Base::conf().relay_mode)
 	  {
 	    OPENVPN_LOG("Creds: " << creds->auth_info());
 	    Base::write_auth_string(creds->get_username(), buf);
-	    Base::write_auth_string(creds->get_password(), buf);
+#ifdef OPENVPN_DISABLE_AUTH_TOKEN // debugging only
+	    if (creds->session_id_defined())
+	      {
+		OPENVPN_LOG("NOTE: not sending auth-token");
+		Base::write_empty_string(buf);
+	      }
+	    else
+#endif
+	      {
+		Base::write_auth_string(creds->get_password(), buf);
+	      }
 	  }
 	else
 	  {
@@ -855,19 +904,47 @@ namespace openvpn {
 	    cli_events->add_event(std::move(ev));
 	  }
 
-	if (tls_warnings & SSLAPI::TLS_WARN_NAME_CONSTRAINTS)
+	if (tls_warnings & SSLAPI::TLS_WARN_SIG_SHA1)
 	  {
-	    ClientEvent::Base::Ptr ev = new ClientEvent::Warn("TLS: Your CA contains a 'x509v3 Name Constraints' extension, but its validation is not supported. This might be a security breach, please contact your administrator.");
+	    ClientEvent::Base::Ptr ev = new ClientEvent::Warn("TLS: received certificate signed with SHA1. Please inform your admin to upgrade to a stronger algorithm. Support for SHA1 signatures will be dropped in the future");
 	    cli_events->add_event(std::move(ev));
 	  }
       }
 
-      // base class calls here when primary session transitions to ACTIVE state
-      virtual void active()
+      void check_proto_warnings()
       {
-	OPENVPN_LOG("Session is ACTIVE");
-	check_tls_warnings();
-	schedule_push_request_callback(Time::Duration::seconds(0));
+	if (uses_bs64_cipher())
+	  {
+	    ClientEvent::Base::Ptr ev = new ClientEvent::Warn("Proto: Using a 64-bit block cipher that is vulnerable to the SWEET32 attack. Please inform your admin to upgrade to a stronger algorithm. Support for 64-bit block cipher will be dropped in the future.");
+	    cli_events->add_event(std::move(ev));
+	  }
+
+	// Issue an event if compression is enabled
+	CompressContext::Type comp_type = Base::conf().comp_ctx.type();
+	if (comp_type != CompressContext::NONE
+	  && !CompressContext::is_any_stub(comp_type))
+	  {
+	    std::ostringstream msg;
+	    msg << (proto_context_options->is_comp_asym()
+		    ? "Asymmetric compression enabled.  Server may send compressed data."
+		    : "Compression enabled.");
+	    msg << "  This may be a potential security issue.";
+	    ClientEvent::Base::Ptr ev = new ClientEvent::CompressionEnabled(msg.str());
+	    cli_events->add_event(std::move(ev));
+	  }
+      }
+
+      // base class calls here when session transitions to ACTIVE state
+      void active(bool primary) override
+      {
+	if (primary)
+	  {
+	    OPENVPN_LOG("Session is ACTIVE");
+	    check_tls_warnings();
+	    schedule_push_request_callback(Time::Duration::seconds(0));
+	  }
+	else if (notify_callback)
+	  notify_callback->client_proto_renegotiated();
       }
 
       void housekeeping_callback(const openvpn_io::error_code& e)

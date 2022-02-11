@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -128,9 +128,13 @@ struct tuntap_options {
 
     struct in6_addr dns6[N_DHCP_ADDR];
     int dns6_len;
+#if defined(TARGET_ANDROID)
+    const char *http_proxy;
+    int http_proxy_port;
+#endif
 };
 
-#elif TARGET_LINUX
+#elif defined(TARGET_LINUX)
 
 struct tuntap_options {
     int txqueuelen;
@@ -164,9 +168,6 @@ struct tuntap
     struct tuntap_options options; /* options set on command line */
 
     char *actual_name; /* actual name of TUN/TAP dev, usually including unit number */
-
-    /* number of TX buffers */
-    int txqueuelen;
 
     /* ifconfig parameters */
     in_addr_t local;
@@ -213,10 +214,6 @@ struct tuntap
 #endif
     /* used for printing status info only */
     unsigned int rwflags_debug;
-
-    /* Some TUN/TAP drivers like to be ioctled for mtu
-     * after open */
-    int post_open_mtu;
 };
 
 static inline bool
@@ -316,16 +313,6 @@ void check_subnet_conflict(const in_addr_t ip,
 void warn_on_use_of_common_subnets(openvpn_net_ctx_t *ctx);
 
 /*
- * Inline functions
- */
-
-static inline void
-tun_adjust_frame_parameters(struct frame *frame, int size)
-{
-    frame_add_to_extra_tun(frame, size);
-}
-
-/*
  * Should ifconfig be called before or after
  * tun dev open?
  */
@@ -390,7 +377,7 @@ struct panel_reg
 
 struct device_instance_id_interface
 {
-    const char *net_cfg_instance_id;
+    LPBYTE net_cfg_instance_id;
     const char *device_interface_list;
     struct device_instance_id_interface *next;
 };

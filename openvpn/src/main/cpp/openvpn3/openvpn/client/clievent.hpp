@@ -216,11 +216,6 @@ namespace openvpn {
       Reconnecting() : Base(RECONNECTING) {}
     };
 
-    struct AuthPending : public Base
-    {
-      AuthPending() : Base(AUTH_PENDING) {}
-    };
-
     struct GetConfig : public Base
     {
       GetConfig() : Base(GET_CONFIG) {}
@@ -438,6 +433,12 @@ namespace openvpn {
     struct Info : public ReasonBase
     {
       Info(std::string value) : ReasonBase(INFO, std::move(value)) {}
+    };
+
+    struct AuthPending : public ReasonBase
+    {
+      int timeout;
+      AuthPending(int timeout, std::string value): ReasonBase(AUTH_PENDING, std::move(value)), timeout(timeout) {}
     };
 
     struct Warn : public ReasonBase

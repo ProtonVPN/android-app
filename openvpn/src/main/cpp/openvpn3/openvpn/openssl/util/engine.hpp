@@ -26,6 +26,10 @@
 
 #include <string>
 
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+#define OPENSSL_NO_ENGINE
+#endif
+
 #ifndef OPENSSL_NO_ENGINE
 #include <openssl/engine.h>
 #endif

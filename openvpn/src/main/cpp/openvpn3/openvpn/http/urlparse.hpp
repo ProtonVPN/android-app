@@ -195,9 +195,19 @@ namespace openvpn {
 	return (scheme == "http" && port == "80") || (scheme == "https" && port == "443");
       }
 
+      bool is_bracketed_host() const
+      {
+	return host.find_first_of(":/\\") != std::string::npos;
+      }
+
+      std::string bracketed_host() const
+      {
+	return '[' + host + ']';
+      }
+
       std::string to_string() const
       {
-	const bool bracket_host = (host.find_first_of(":/\\") != std::string::npos);
+	const bool bracket_host = is_bracketed_host();
 
 	std::string ret;
 	ret.reserve(256);

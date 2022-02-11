@@ -35,12 +35,12 @@ download
 
 CC=cc
 LD=ld
-AR=ar
+AR="ar rc"
 RANLIB=ranlib
 [ "$GCC_CMD" ] && CC=$GCC_CMD
 [ "$LD_CMD" ] && LD=$LD_CMD
-[ "$AR_CMD" ] && AR=$AR_CMD
-[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
+[ "$AR_CMD" ] && AR="$AR_CMD"
+[ "$RANLIB_CMD" ] && RANLIB="$RANLIB_CMD"
 
 if [ "$NO_WIPE" != "1" ]; then
     rm -rf $LZ4_VERSION
@@ -57,10 +57,10 @@ rm -rf $DIST
 mkdir -p $DIST/include
 mkdir $DIST/lib
 cd $LZ4_VERSION/lib
-CMD="$CC $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c lz4.c"
+CMD="$CC $PLATFORM_FLAGS $(lto_flags lz4.c) $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c lz4.c"
 echo $CMD
 $CMD
-$AR rc $DIST/lib/liblz4.a lz4.o
+$AR $DIST/lib/liblz4.a lz4.o
 $RANLIB $DIST/lib/liblz4.a
 cp lz4.h $DIST/include/
 exit 0

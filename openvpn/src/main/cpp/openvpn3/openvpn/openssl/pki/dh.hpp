@@ -25,34 +25,20 @@
 
 #include <string>
 
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/dh.h>
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
-// workaround for bug in DHparams_dup macro on OpenSSL 0.9.8 and lower
-#if SSLEAY_VERSION_NUMBER <= 0x00908000L
-#undef CHECKED_PTR_OF
-#define CHECKED_PTR_OF(type, p) ((char*) (1 ? p : (type*)0))
-#endif
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
+#include <openvpn/openssl/pki/dh-compat.hpp>
+#else
+
 
 namespace openvpn {
   namespace OpenSSLPKI {
 
-    namespace DH_private {
-      // defined outside of DH class to avoid symbol collision in way
-      // that DHparams_dup macro is defined
-      inline ::DH *dup(const ::DH *dh)
-      {
-	if (dh)
-	  return DHparams_dup(const_cast< ::DH * >(dh));
-	else
-	  return nullptr;
-      }
-    }
+
 
     class DH
     {
@@ -100,7 +86,19 @@ namespace openvpn {
       }
 
       bool defined() const { return dh_ != nullptr; }
-      ::DH* obj() const { return dh_; }
+      ::EVP_PKEY* obj() const { return dh_; }
+
+      /**
+       * Returns the object and also releases it, so this class will no longer
+       * reference it. E.g. for using it with a set0 method for OpenSSL
+       * @return
+       */
+      ::EVP_PKEY *obj_release()
+      {
+	auto dh = dh_;
+	dh_ = nullptr;
+	return dh;
+      }
 
       void parse_pem(const std::string& dh_txt)
       {
@@ -108,7 +106,7 @@ namespace openvpn {
 	if (!bio)
 	  throw OpenSSLException();
 
-	::DH *dh = ::PEM_read_bio_DHparams(bio, nullptr, nullptr, nullptr);
+	::EVP_PKEY *dh = ::PEM_read_bio_Parameters_ex(bio, nullptr, nullptr, nullptr);
 	::BIO_free(bio);
 	if (!dh)
 	  throw OpenSSLException("DH::parse_pem");
@@ -122,7 +120,7 @@ namespace openvpn {
 	if (dh_)
 	  {
 	    BIO *bio = ::BIO_new(BIO_s_mem());
-	    const int ret = ::PEM_write_bio_DHparams(bio, dh_);
+	    const int ret = ::PEM_write_bio_Parameters(bio, dh_);
 	    if (ret == 0)
 	      {
 		::BIO_free(bio);
@@ -131,7 +129,7 @@ namespace openvpn {
 
 	    {
 	      char *temp;
-	      const int buf_len = ::BIO_get_mem_data(bio, &temp);
+	      const size_t buf_len = ::BIO_get_mem_data(bio, &temp);
 	      std::string ret = std::string(temp, buf_len);
 	      ::BIO_free(bio);
 	      return ret;
@@ -150,15 +148,19 @@ namespace openvpn {
       void erase()
       {
 	if (dh_)
-	  ::DH_free(dh_);
+	  ::EVP_PKEY_free(dh_);
       }
 
-      void dup(const ::DH *dh)
+      void dup(const ::EVP_PKEY *dh)
       {
-	dh_ = DH_private::dup(dh);
+	if (dh)
+	    dh_ = EVP_PKEY_dup(const_cast<EVP_PKEY *>(dh));
+	else
+	  dh_ = nullptr;
       }
 
-      ::DH *dh_;
+      ::EVP_PKEY *dh_;
     };
   }
 }
+#endif

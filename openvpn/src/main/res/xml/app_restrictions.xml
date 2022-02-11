@@ -61,4 +61,11 @@
             -->
         </restriction>
     </restriction>
+    <restriction
+
+            android:key="defaultprofile"
+            android:title="@string/apprest_defprof"
+            android:restrictionType="string"
+            android:defaultValue=""
+            />
 </restrictions>

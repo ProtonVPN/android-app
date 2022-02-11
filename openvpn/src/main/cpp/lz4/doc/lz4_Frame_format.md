@@ -16,7 +16,7 @@ Distribution of this document is unlimited.
 
 ### Version
 
-1.6.0 (08/08/2017)
+1.6.2 (12/08/2020)
 
 
 Introduction
@@ -72,24 +72,26 @@ Value : 0x184D2204
 
 __Frame Descriptor__
 
-3 to 15 Bytes, to be detailed in the next part.
-Most important part of the spec.
+3 to 15 Bytes, to be detailed in its own paragraph,
+as it is the most important part of the spec.
+
+The combined _Magic_Number_ and _Frame_Descriptor_ fields are sometimes
+called ___LZ4 Frame Header___. Its size varies between 7 and 19 bytes.
 
 __Data Blocks__
 
-To be detailed later on.
+To be detailed in its own paragraph.
 That’s where compressed data is stored.
 
 __EndMark__
 
-The flow of blocks ends when the last data block has a size of “0”.
-The size is expressed as a 32-bits value.
+The flow of blocks ends when the last data block is followed by
+the 32-bit value `0x00000000`.
 
 __Content Checksum__
 
-Content Checksum verify that the full content has been decoded correctly.
-The content checksum is the result
-of [xxh32() hash function](https://github.com/Cyan4973/xxHash)
+_Content_Checksum_ verify that the full content has been decoded correctly.
+The content checksum is the result of [xxHash-32 algorithm]
 digesting the original (decoded) data as input, and a seed of zero.
 Content checksum is only present when its associated flag
 is set in the frame descriptor.
@@ -97,6 +99,9 @@ Content Checksum validates the result,
 that all blocks were fully transmitted in the correct order and without error,
 and also that the encoding/decoding process itself generated no distortion.
 Its usage is recommended.
+
+The combined _EndMark_ and _Content_Checksum_ fields might sometimes be
+referred to as ___LZ4 Frame Footer___. Its size varies between 4 and 8 bytes.
 
 __Frame Concatenation__
 
@@ -207,7 +212,7 @@ __Content Size__
 
 This is the original (uncompressed) size.
 This information is optional, and only present if the associated flag is set.
-Content size is provided using unsigned 8 Bytes, for a maximum of 16 HexaBytes.
+Content size is provided using unsigned 8 Bytes, for a maximum of 16 Exabytes.
 Format is Little endian.
 This value is informational, typically for display or memory allocation.
 It can be skipped by a decoder, or used to validate content correctness.
@@ -255,35 +260,48 @@ __Block Size__
 
 This field uses 4-bytes, format is little-endian.
 
-The highest bit is “1” if data in the block is uncompressed.
+If the highest bit is set (`1`), the block is uncompressed.
 
-The highest bit is “0” if data in the block is compressed by LZ4.
+If the highest bit is not set (`0`), the block is LZ4-compressed,
+using the [LZ4 block format specification](https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md).
 
-All other bits give the size, in bytes, of the following data block
-(the size does not include the block checksum if present).
+All other bits give the size, in bytes, of the data section.
+The size does not include the block checksum if present.
 
-Block Size shall never be larger than Block Maximum Size.
-Such a thing could happen for incompressible source data.
-In such case, such a data block shall be passed in uncompressed format.
+_Block_Size_ shall never be larger than _Block_Maximum_Size_.
+Such an outcome could potentially happen for non-compressible sources.
+In such a case, such data block must be passed using uncompressed format.
+
+A value of `0x00000000` is invalid, and signifies an _EndMark_ instead.
+Note that this is different from a value of `0x80000000` (highest bit set),
+which is an uncompressed block of size 0 (empty),
+which is valid, and therefore doesn't end a frame.
+Note that, if _Block_checksum_ is enabled,
+even an empty block must be followed by a 32-bit block checksum.
 
 __Data__
 
 Where the actual data to decode stands.
 It might be compressed or not, depending on previous field indications.
-Uncompressed size of Data can be any size, up to “block maximum size”.
-Note that data block is not necessarily full :
-an arbitrary “flush” may happen anytime. Any block can be “partially filled”.
+
+When compressed, the data must respect the [LZ4 block format specification](https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md).
+
+Note that a block is not necessarily full.
+Uncompressed size of data can be any size __up to__ _Block_Maximum_Size_,
+so it may contain less data than the maximum block size.
 
 __Block checksum__
 
 Only present if the associated flag is set.
 This is a 4-bytes checksum value, in little endian format,
-calculated by using the xxHash-32 algorithm on the raw (undecoded) data block,
+calculated by using the [xxHash-32 algorithm] on the __raw__ (undecoded) data block,
 and a seed of zero.
 The intention is to detect data corruption (storage or transmission errors)
 before decoding.
 
-Block checksum is cumulative with Content checksum.
+_Block_checksum_ can be cumulative with _Content_checksum_.
+
+[xxHash-32 algorithm]: https://github.com/Cyan4973/xxHash/blob/release/doc/xxhash_spec.md
 
 
 Skippable Frames
@@ -379,6 +397,10 @@ and trigger an error if it does not fit within acceptable range.
 
 Version changes
 ---------------
+
+1.6.2 : clarifies specification of _EndMark_
+
+1.6.1 : introduced terms "LZ4 Frame Header" and "LZ4 Frame Footer"
 
 1.6.0 : restored Dictionary ID field in Frame header
 

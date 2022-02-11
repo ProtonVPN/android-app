@@ -28,7 +28,7 @@
 
 #include <openvpn/common/platform.hpp>
 
-#if defined(OPENVPN_PLATFORM_TYPE_APPLE)
+#if defined(__APPLE__)
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #elif defined(OPENVPN_PLATFORM_LINUX)
@@ -47,7 +47,7 @@ namespace openvpn {
     if (count > 0)
       return count;
 
-#if defined(OPENVPN_PLATFORM_TYPE_APPLE)
+#if defined(__APPLE__)
     size_t count_len = sizeof(count);
     if (::sysctlbyname("hw.logicalcpu", &count, &count_len, NULL, 0) != 0)
       count = 1;
@@ -62,7 +62,7 @@ namespace openvpn {
     ::GetSystemInfo(&si);
     return si.dwNumberOfProcessors;
 #else
-#error no implementation for n_cores()
+    return 1;
 #endif
   }
 

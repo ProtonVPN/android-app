@@ -2,7 +2,7 @@
 // basic_serial_port.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2008 Rep Invariant Systems, Inc. (info@repinvariant.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -22,6 +22,7 @@
   || defined(GENERATING_DOCUMENTATION)
 
 #include <string>
+#include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/io_object_impl.hpp"
@@ -30,12 +31,11 @@
 #include "asio/detail/type_traits.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
-#include "asio/executor.hpp"
 #include "asio/serial_port_base.hpp"
 #if defined(ASIO_HAS_IOCP)
 # include "asio/detail/win_iocp_serial_port_service.hpp"
 #else
-# include "asio/detail/reactive_serial_port_service.hpp"
+# include "asio/detail/posix_serial_port_service.hpp"
 #endif
 
 #if defined(ASIO_HAS_MOVE)
@@ -55,7 +55,7 @@ namespace asio {
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Unsafe.
  */
-template <typename Executor = executor>
+template <typename Executor = any_io_executor>
 class basic_serial_port
   : public serial_port_base
 {
@@ -78,7 +78,7 @@ public:
   typedef detail::win_iocp_serial_port_service::native_handle_type
     native_handle_type;
 #else
-  typedef detail::reactive_serial_port_service::native_handle_type
+  typedef detail::posix_serial_port_service::native_handle_type
     native_handle_type;
 #endif
 
@@ -94,7 +94,7 @@ public:
    * serial port.
    */
   explicit basic_serial_port(const executor_type& ex)
-    : impl_(ex)
+    : impl_(0, ex)
   {
   }
 
@@ -108,11 +108,11 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_serial_port(ExecutionContext& context,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value,
-        basic_serial_port
-      >::type* = 0)
-    : impl_(context)
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(0, 0, context)
   {
   }
 
@@ -129,7 +129,7 @@ public:
    * port.
    */
   basic_serial_port(const executor_type& ex, const char* device)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().open(impl_.get_implementation(), device, ec);
@@ -150,10 +150,10 @@ public:
    */
   template <typename ExecutionContext>
   basic_serial_port(ExecutionContext& context, const char* device,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().open(impl_.get_implementation(), device, ec);
@@ -173,7 +173,7 @@ public:
    * port.
    */
   basic_serial_port(const executor_type& ex, const std::string& device)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().open(impl_.get_implementation(), device, ec);
@@ -194,10 +194,10 @@ public:
    */
   template <typename ExecutionContext>
   basic_serial_port(ExecutionContext& context, const std::string& device,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().open(impl_.get_implementation(), device, ec);
@@ -219,7 +219,7 @@ public:
    */
   basic_serial_port(const executor_type& ex,
       const native_handle_type& native_serial_port)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().assign(impl_.get_implementation(),
@@ -243,10 +243,10 @@ public:
   template <typename ExecutionContext>
   basic_serial_port(ExecutionContext& context,
       const native_handle_type& native_serial_port,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().assign(impl_.get_implementation(),
@@ -849,8 +849,8 @@ private:
 
       detail::non_const_lvalue<WriteHandler> handler2(handler);
       self_->impl_.get_service().async_write_some(
-          self_->impl_.get_implementation(), buffers, handler2.value,
-          self_->impl_.get_implementation_executor());
+          self_->impl_.get_implementation(), buffers,
+          handler2.value, self_->impl_.get_executor());
     }
 
   private:
@@ -882,8 +882,8 @@ private:
 
       detail::non_const_lvalue<ReadHandler> handler2(handler);
       self_->impl_.get_service().async_read_some(
-          self_->impl_.get_implementation(), buffers, handler2.value,
-          self_->impl_.get_implementation_executor());
+          self_->impl_.get_implementation(), buffers,
+          handler2.value, self_->impl_.get_executor());
     }
 
   private:
@@ -893,7 +893,7 @@ private:
 #if defined(ASIO_HAS_IOCP)
   detail::io_object_impl<detail::win_iocp_serial_port_service, Executor> impl_;
 #else
-  detail::io_object_impl<detail::reactive_serial_port_service, Executor> impl_;
+  detail::io_object_impl<detail::posix_serial_port_service, Executor> impl_;
 #endif
 };
 

@@ -1,7 +1,7 @@
 /*
  *  Simplified Interface To NetLink
  *
- *  Copyright (C) 2016-2018 Antonio Quartulli <a@unstable.cc>
+ *  Copyright (C) 2016-2021 Antonio Quartulli <a@unstable.cc>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -30,6 +30,7 @@
 
 #include "errlevel.h"
 #include "buffer.h"
+#include "misc.h"
 #include "networking.h"
 
 #include <errno.h>
@@ -426,6 +427,7 @@ typedef struct {
     inet_address_t gw;
     char iface[IFNAMSIZ];
     bool default_only;
+    unsigned int table;
 } route_res_t;
 
 static int
@@ -435,13 +437,17 @@ sitnl_route_save(struct nlmsghdr *n, void *arg)
     struct rtmsg *r = NLMSG_DATA(n);
     struct rtattr *rta = RTM_RTA(r);
     int len = n->nlmsg_len - NLMSG_LENGTH(sizeof(*r));
-    unsigned int ifindex = 0;
+    unsigned int table, ifindex = 0;
+    void *gw = NULL;
 
     /* filter-out non-zero dst prefixes */
     if (res->default_only && r->rtm_dst_len != 0)
     {
         return 1;
     }
+
+    /* route table, ignored with RTA_TABLE */
+    table = r->rtm_table;
 
     while (RTA_OK(rta, len))
     {
@@ -458,11 +464,22 @@ sitnl_route_save(struct nlmsghdr *n, void *arg)
 
             /* GW for the route */
             case RTA_GATEWAY:
-                memcpy(&res->gw, RTA_DATA(rta), res->addr_size);
+                gw = RTA_DATA(rta);
+                break;
+
+            /* route table */
+            case RTA_TABLE:
+                table = *(unsigned int *)RTA_DATA(rta);
                 break;
         }
 
         rta = RTA_NEXT(rta, len);
+    }
+
+    /* filter out any route not coming from the selected table */
+    if (res->table && res->table != table)
+    {
+        return 1;
     }
 
     if (!if_indextoname(ifindex, res->iface))
@@ -470,6 +487,11 @@ sitnl_route_save(struct nlmsghdr *n, void *arg)
         msg(M_WARN | M_ERRNO, "%s: rtnl: can't get ifname for index %d",
             __func__, ifindex);
         return -1;
+    }
+
+    if (gw)
+    {
+        memcpy(&res->gw, gw, res->addr_size);
     }
 
     return 0;
@@ -507,6 +529,7 @@ sitnl_route_best_gw(sa_family_t af_family, const inet_address_t *dst,
             {
                 req.n.nlmsg_flags |= NLM_F_DUMP;
                 res.default_only = true;
+                res.table = RT_TABLE_MAIN;
             }
             else
             {
@@ -695,6 +718,40 @@ net_iface_mtu_set(openvpn_net_ctx_t *ctx, const char *iface,
     SITNL_ADDATTR(&req.n, sizeof(req), IFLA_MTU, &mtu, 4);
 
     msg(M_INFO, "%s: mtu %u for %s", __func__, mtu, iface);
+
+    ret = sitnl_send(&req.n, 0, 0, NULL, NULL);
+err:
+    return ret;
+}
+
+int
+net_addr_ll_set(openvpn_net_ctx_t *ctx, const openvpn_net_iface_t *iface,
+                uint8_t *addr)
+{
+    struct sitnl_link_req req;
+    int ifindex, ret = -1;
+
+    CLEAR(req);
+
+    ifindex = if_nametoindex(iface);
+    if (ifindex == 0)
+    {
+        msg(M_WARN | M_ERRNO, "%s: rtnl: cannot get ifindex for %s", __func__,
+            iface);
+        return -1;
+    }
+
+    req.n.nlmsg_len = NLMSG_LENGTH(sizeof(req.i));
+    req.n.nlmsg_flags = NLM_F_REQUEST;
+    req.n.nlmsg_type = RTM_NEWLINK;
+
+    req.i.ifi_family = AF_PACKET;
+    req.i.ifi_index = ifindex;
+
+    SITNL_ADDATTR(&req.n, sizeof(req), IFLA_ADDRESS, addr, ETH_ALEN);
+
+    msg(M_INFO, "%s: lladdr " MAC_FMT " for %s", __func__, MAC_PRINT_ARG(addr),
+        iface);
 
     ret = sitnl_send(&req.n, 0, 0, NULL, NULL);
 err:

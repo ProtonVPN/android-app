@@ -21,14 +21,23 @@
 #pragma once
 
 #include <openvpn/log/logbase.hpp>
+#include <openvpn/io/io.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/hexstr.hpp>
+#include <openvpn/common/format.hpp>
 #include <openvpn/random/mtrandapi.hpp>
 
 #include <iostream>
 #include <gtest/gtest.h>
 #include <fstream>
 #include <mutex>
+
+// does <regex> work?
+#if defined(__clang__) || !defined(__GNUC__) || __GNUC__ >= 5
+#define REGEX_WORKS 1
+#else
+#define REGEX_WORKS 0
+#endif
 
 namespace openvpn {
   class LogOutputCollector : public LogBase
@@ -109,13 +118,41 @@ namespace openvpn {
       return getOutput();
     }
 
+    const Log::Context::Wrapper& log_wrapper()
+    {
+      return log_wrap;
+    }
+
   private:
     bool output_log = true;
     bool collect_log = false;
     std::stringstream out;
     std::mutex mutex{};
     Log::Context log_context;
+    Log::Context::Wrapper log_wrap; // must be constructed after log_context
   };
+
+  // When a test steps on Log::global_log, save and restore previous
+  // Log::global_log so as not to mess up other tests when running a
+  // multiple-compilation-unit build.
+  class SaveCurrentLogObject
+  {
+  public:
+    SaveCurrentLogObject()
+    {
+      saved_log = Log::global_log;
+      Log::global_log = nullptr;
+    }
+
+    ~SaveCurrentLogObject()
+    {
+      Log::global_log = saved_log;
+    }
+
+  private:
+    OPENVPN_LOG_CLASS *saved_log;
+  };
+
 }
 
 extern openvpn::LogOutputCollector* testLog;
@@ -175,6 +212,20 @@ inline std::string getTempDirPath(const std::string& fn)
 #endif
 
 /**
+ * Returns a string joined with the delimiter
+ * @param r the array to join
+ * @param delim the delimiter to use
+ * @return A string joined by delim from the vector r
+ */
+template<class T>
+inline std::string getJoinedString(const std::vector<T>& r, const std::string& delim = "|")
+{
+  std::stringstream s;
+  std::copy(r.begin(), r.end(), std::ostream_iterator<std::string>(s, delim.c_str()));
+  return s.str();
+}
+
+/**
  * Returns a sorted string join with the delimiter
  * This function modifes the input
  * @param r the array to join
@@ -185,9 +236,7 @@ template<class T>
 inline std::string getSortedJoinedString(std::vector<T>& r, const std::string& delim = "|")
 {
   std::sort(r.begin(), r.end());
-  std::stringstream s;
-  std::copy(r.begin(), r.end(), std::ostream_iterator<std::string>(s, delim.c_str()));
-  return s.str();
+  return getJoinedString(r, delim);
 }
 
 namespace detail {
@@ -227,8 +276,68 @@ inline std::string getSortedString(const std::string& output)
 }
 
 /**
+ * Fake DNS resolver.
+ * Inherits from tested class and overrides async_resolve_name().
+ * Returns error if host/service pair has not been added with set_results() before.
+ */
+template<typename RESOLVABLE, typename... CTOR_ARGS>
+class FakeAsyncResolvable : public RESOLVABLE
+{
+public:
+  using Result = std::pair<const std::string, const unsigned short>;
+  using ResultList = std::vector<Result>;
+
+  using ResultsType = typename RESOLVABLE::results_type;
+  using EndpointType = typename RESOLVABLE::resolver_type::endpoint_type;
+  using EndpointList = std::vector<EndpointType>;
+
+  std::map<const std::string, EndpointList> results_;
+
+  EndpointType init_endpoint() const
+  {
+    return EndpointType();
+  }
+
+  void set_results(const std::string& host, const std::string& service, const ResultList&& results)
+  {
+    EndpointList endpoints;
+    for (const auto& result : results)
+      {
+	EndpointType ep(openvpn_io::ip::make_address(result.first), result.second);
+	endpoints.push_back(ep);
+      }
+    results_[host +":"+ service] = endpoints;
+  }
+
+  FakeAsyncResolvable(CTOR_ARGS... args) : RESOLVABLE(args...) {}
+
+  void async_resolve_name(const std::string& host, const std::string& service) override
+  {
+    const std::string key(host +":"+ service);
+    openvpn_io::error_code error =  openvpn_io::error::host_not_found;
+    ResultsType results;
+
+    if (results_.count(key))
+      {
+	const EndpointList& ep = results_[key];
+	if (ep.size())
+	  {
+	    error = openvpn_io::error_code();
+	    results = ResultsType::create(ep.cbegin(), ep.cend(), host, service);
+	  }
+      }
+
+    this->resolve_callback(error, results);
+  }
+};
+
+/**
  * Predictable RNG that claims to be secure to be used in reproducable unit
  * tests
+ *
+ * Note: this is not fit to be used as UniformRandomBitGenerator since
+ * its maximum range is [0x03020100, 0xfffefdfc]. Especially the lower
+ * bound makes the std::shuffle implementation in libc++ loop endlessly.
  */
 class FakeSecureRand : public openvpn::RandomAPI
 {
@@ -289,25 +398,40 @@ catch (const expected_exception& e) \
 // or non-void-returning functions, so implement workaround here
 
 #define JY_ASSERT_TRUE(value) \
-{ \
+do { \
   if (!(value)) \
     OPENVPN_THROW_EXCEPTION("JY_ASSERT_TRUE: failure at " << __FILE__ << ':' << __LINE__); \
-}
+} while (0)
 
 #define JY_ASSERT_FALSE(value) \
-{ \
+do { \
   if (value) \
     OPENVPN_THROW_EXCEPTION("JY_ASSERT_FALSE: failure at " << __FILE__ << ':' << __LINE__); \
-}
+} while (0)
 
 #define JY_ASSERT_EQ(v1, v2) \
-{ \
+do { \
   if ((v1) != (v2)) \
     OPENVPN_THROW_EXCEPTION("JY_ASSERT_EQ: failure at " << __FILE__ << ':' << __LINE__); \
-}
+} while (0)
 
 #define JY_ASSERT_NE(v1, v2) \
-{ \
+do { \
   if ((v1) == (v2)) \
     OPENVPN_THROW_EXCEPTION("JY_ASSERT_NE: failure at " << __FILE__ << ':' << __LINE__); \
-}
+} while (0)
+
+#define JY_ASSERT_LE(v1, v2) \
+do { \
+  if ((v1) > (v2)) \
+    OPENVPN_THROW_EXCEPTION("JY_ASSERT_LE: failure at " << __FILE__ << ':' << __LINE__); \
+} while (0)
+
+#define JY_ASSERT_GE(v1, v2) \
+do { \
+  if ((v1) < (v2)) \
+    OPENVPN_THROW_EXCEPTION("JY_ASSERT_GE: failure at " << __FILE__ << ':' << __LINE__); \
+} while (0)
+
+// Convenience macro for throwing exceptions
+#define THROW_FMT(...) throw Exception(printfmt(__VA_ARGS__))

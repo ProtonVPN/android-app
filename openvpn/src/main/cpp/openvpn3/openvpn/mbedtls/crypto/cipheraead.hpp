@@ -64,7 +64,7 @@ namespace openvpn {
 
       ~CipherContextAEAD() { erase() ; }
 
-      void init(const CryptoAlgs::Type alg,
+      void init(SSLLib::Ctx libctx, const CryptoAlgs::Type alg,
 		const unsigned char *key,
 		const unsigned int keysize,
 		const int mode)
@@ -129,7 +129,7 @@ namespace openvpn {
 
       bool is_initialized() const { return initialized; }
 
-      static bool is_supported(const CryptoAlgs::Type alg)
+      static bool is_supported(void *libctx, const CryptoAlgs::Type alg)
       {
         unsigned int keysize;
        	return (cipher_type(alg, keysize) != MBEDTLS_CIPHER_NONE);

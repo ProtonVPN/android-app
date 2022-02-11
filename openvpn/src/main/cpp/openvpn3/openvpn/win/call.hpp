@@ -32,14 +32,12 @@
 
 #include <openvpn/common/uniqueptr.hpp>
 #include <openvpn/win/scoped_handle.hpp>
+#include <openvpn/win/unicode.hpp>
 
 namespace openvpn {
   namespace Win {
 
     OPENVPN_EXCEPTION(win_call);
-
-    // console codepage, used to decode output
-    int console_cp = ::GetOEMCP();
 
     inline std::string call(const std::string& cmd)
     {
@@ -150,7 +148,8 @@ namespace openvpn {
 	}
 
       // decode output using console codepage, convert to utf16
-      UTF16 utf16output(Win::utf16(out, console_cp));
+      // console codepage, used to decode output
+      UTF16 utf16output(Win::utf16(out, ::GetOEMCP()));
 
       // re-encode utf16 to utf8
       UTF8 utf8output(Win::utf8(utf16output.get()));

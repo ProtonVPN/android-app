@@ -175,11 +175,7 @@ TEST(continuation, test1)
   RandomAPI::Ptr prng(new MTRand);
 
   // Note: this code runs ~100x slower with valgrind
-#ifdef HAVE_VALGRIND
   const int n = 100;
-#else
-  const int n = 10000;
-#endif
 
   for (int i = 0; i < n; ++i)
     {

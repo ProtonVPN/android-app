@@ -46,9 +46,9 @@ namespace openvpn {
       UnixStream,   // unix domain socket (stream)
       UnixDGram,    // unix domain socket (datagram)
       NamedPipe,    // named pipe (Windows only)
-      UDP=UDPv4,
-      TCP=TCPv4,
-      TLS=TLSv4,
+      UDP,
+      TCP,
+      TLS,
     };
 
     enum AllowSuffix {
@@ -65,10 +65,11 @@ namespace openvpn {
 
     void reset() { type_ = NONE; }
 
-    bool is_udp() const { return type_ == UDPv4 || type_ == UDPv6; }
-    bool is_tcp() const { return type_ == TCPv4 || type_ == TCPv6; }
-    bool is_tls() const { return type_ == TLSv4 || type_ == TLSv6; }
+    bool is_udp() const { return type_ == UDP || type_ == UDPv4 || type_ == UDPv6; }
+    bool is_tcp() const { return type_ == TCP || type_ == TCPv4 || type_ == TCPv6; }
+    bool is_tls() const { return type_ == TLS || type_ == TLSv4 || type_ == TLSv6; }
     bool is_reliable() const { return is_tcp() || is_tls(); }
+    bool is_ipv4() const { return type_ == UDPv4 || type_ == TCPv4 || type_ == TLSv4; }
     bool is_ipv6() const { return type_ == UDPv6 || type_ == TCPv6 || type_ == TLSv6; }
     bool is_unix() const { return type_ == UnixStream || type_ == UnixDGram; }
     bool is_named_pipe() const { return type_ == NamedPipe; }
@@ -94,9 +95,9 @@ namespace openvpn {
       return (is_tcp() || is_tls()) ? sizeof(std::uint16_t) : 0;
     }
 
-    void mod_addr_version(const IP::Addr& addr)
+    void mod_addr_version(const IP::Addr::Version ip_version)
     {
-      switch (addr.version())
+      switch (ip_version)
 	{
 	case IP::Addr::UNSPEC:
 	  break;
@@ -151,12 +152,12 @@ namespace openvpn {
     {
       switch (type_)
 	{
+	case UDP:
 	case UDPv4:
-	  return 0;
-	case TCPv4:
-	  return 1;
 	case UDPv6:
 	  return 0;
+	case TCP:
+	case TCPv4:
 	case TCPv6:
 	  return 1;
 	case UnixDGram:
@@ -165,6 +166,7 @@ namespace openvpn {
 	  return 3;
 	case NamedPipe:
 	  return 4;
+	case TLS:
 	case TLSv4:
 	case TLSv6:
 	  return 5;
@@ -177,14 +179,20 @@ namespace openvpn {
     {
       switch (type_)
 	{
+	case UDP:
+	  return "UDP";
 	case UDPv4:
 	  return "UDPv4";
-	case TCPv4:
-	  return "TCPv4";
 	case UDPv6:
 	  return "UDPv6";
+	case TCP:
+	  return "TCP";
+	case TCPv4:
+	  return "TCPv4";
 	case TCPv6:
 	  return "TCPv6";
+	case TLS:
+	  return "TLS/TCP";
 	case TLSv4:
 	  return "TLS/TCPv4";
 	case TLSv6:
@@ -206,14 +214,20 @@ namespace openvpn {
     {
       switch (type_)
 	{
+	case UDP:
+	  return "udp";
 	case UDPv4:
 	  return "udp4";
-	case TCPv4:
-	  return "tcp4";
 	case UDPv6:
 	  return "udp6";
+	case TCP:
+	  return "tcp";
+	case TCPv4:
+	  return "tcp4";
 	case TCPv6:
 	  return "tcp6";
+	case TLS:
+	  return "tls";
 	case TLSv4:
 	  return "tls4";
 	case TLSv6:
@@ -231,22 +245,24 @@ namespace openvpn {
 	}
     }
 
-    const char *str_client(const bool force_ipv4) const
+    // OpenVPN has always sent UDPv4, TCPv4_* over the wire.
+    // Keep all strings v4 for backward compatibility.
+    const char *occ_str(const bool server) const
     {
       switch (type_)
 	{
+	case UDP:
 	case UDPv4:
-	  return "UDPv4";
-	case TCPv4:
-	  return "TCPv4_CLIENT";
 	case UDPv6:
-	  return force_ipv4 ? "UDPv4" : "UDPv6";
+	  return "UDPv4";
+	case TCP:
+	case TCPv4:
 	case TCPv6:
-	  return force_ipv4 ? "TCPv4_CLIENT" : "TCPv6_CLIENT";
+	  return server ? "TCPv4_SERVER" : "TCPv4_CLIENT";
+	case TLS:
 	case TLSv4:
-	  return "TLSv4";
 	case TLSv6:
-	  return force_ipv4 ? "TLSv4" : "TLSv6";
+	  return "TLSv4";
 	default:
 	  return "UNDEF_PROTO";
 	}
@@ -281,11 +297,20 @@ namespace openvpn {
 	}
       else if (s == "named-pipe")         // Windows named pipe
 	ret = NamedPipe;
-      else if (s.length() >= 3) // udp/tcp
+      else if (s.length() >= 3) // udp/tcp/tls
 	{
 	  const std::string s1 = s.substr(0, 3);
 	  const std::string s2 = s.substr(3);
-	  if (s2 == "" || s2 == "4" || s2 == "v4")
+	  if (s2 == "")
+	    {
+	      if (s1 == "udp")
+		ret = UDP;
+	      else if (s1 == "tcp")
+		ret = TCP;
+	      else if (s1 == "tls")
+		ret = TLS;
+	    }
+	  else if (s2 == "4" || s2 == "v4")
 	    {
 	      if (s1 == "udp")
 		ret = UDPv4;

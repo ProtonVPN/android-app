@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2010-2018 Fox Crypto B.V. <openvpn@fox-it.com>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -138,10 +138,8 @@ struct sha256_digest {
  */
 struct key_type
 {
-    uint8_t cipher_length;      /**< Cipher length, in bytes */
-    uint8_t hmac_length;        /**< HMAC length, in bytes */
-    const cipher_kt_t *cipher;  /**< Cipher static parameters */
-    const md_kt_t *digest;      /**< Message digest static parameters */
+    const char *cipher;         /**< const name of the cipher */
+    const char *digest;         /**< Message digest static parameters */
 };
 
 /**
@@ -255,7 +253,7 @@ struct crypto_options
     /**< Bit-flag indicating not to display
      *   replay warnings. */
 #define CO_USE_TLS_KEY_MATERIAL_EXPORT  (1<<3)
-    /**< Bit-flag indicating that key derivation
+    /**< Bit-flag indicating that data channel key derivation
      * is done using TLS keying material export [RFC5705]
      */
     unsigned int flags;         /**< Bit-flags determining behavior of
@@ -288,8 +286,6 @@ void check_replay_consistency(const struct key_type *kt, bool packet_id);
 
 bool check_key(struct key *key, const struct key_type *kt);
 
-void fixup_key(struct key *key, const struct key_type *kt);
-
 bool write_key(const struct key *key, const struct key_type *kt,
                struct buffer *buf);
 
@@ -301,14 +297,12 @@ int read_key(struct key *key, const struct key_type *kt, struct buffer *buf);
  * @param kt          The struct key_type to initialize
  * @param ciphername  The name of the cipher to use
  * @param authname    The name of the HMAC digest to use
- * @param keysize     The length of the cipher key to use, in bytes.  Only valid
- *                    for ciphers that support variable length keys.
  * @param tls_mode    Specifies whether we are running in TLS mode, which allows
  *                    more ciphers than static key mode.
  * @param warn        Print warnings when null cipher / auth is used.
  */
 void init_key_type(struct key_type *kt, const char *ciphername,
-                   const char *authname, int keysize, bool tls_mode, bool warn);
+                   const char *authname, bool tls_mode, bool warn);
 
 /*
  * Key context functions
@@ -421,6 +415,24 @@ void crypto_adjust_frame_parameters(struct frame *frame,
                                     bool packet_id,
                                     bool packet_id_long_form);
 
+/** Calculate the maximum overhead that our encryption has
+ * on a packet. This does not include needed additional buffer size
+ *
+ * This does NOT include the padding and rounding of CBC size
+ * as the users (mssfix/fragment) of this function need to adjust for
+ * this and add it themselves.
+ *
+ * @param kt            Struct with the crypto algorithm to use
+ * @param packet_id_size Size of the packet id, can be 0 if no-replay is used
+ * @param occ           if true calculates the overhead for crypto in the same
+ *                      incorrect way as all previous OpenVPN versions did, to
+ *                      end up with identical numbers for OCC compatibility
+ */
+unsigned int
+calculate_crypto_overhead(const struct key_type *kt,
+                          unsigned int pkt_id_size,
+                          bool occ);
+
 /** Return the worst-case OpenVPN crypto overhead (in bytes) */
 unsigned int crypto_max_overhead(void);
 
@@ -458,24 +470,6 @@ bool
 read_pem_key_file(struct buffer *key, const char *pem_name,
                   const char *key_file, bool key_inline);
 
-/* Minimum length of the nonce used by the PRNG */
-#define NONCE_SECRET_LEN_MIN 16
-
-/* Maximum length of the nonce used by the PRNG */
-#define NONCE_SECRET_LEN_MAX 64
-
-/** Number of bytes of random to allow before resetting the nonce */
-#define PRNG_NONCE_RESET_BYTES 1024
-
-/**
- * Pseudo-random number generator initialisation.
- * (see \c prng_rand_bytes())
- *
- * @param md_name                       Name of the message digest to use
- * @param nonce_secret_len_param        Length of the nonce to use
- */
-void prng_init(const char *md_name, const int nonce_secret_len_parm);
-
 /*
  * Message digest-based pseudo random number generator.
  *
@@ -493,13 +487,11 @@ void prng_init(const char *md_name, const int nonce_secret_len_parm);
  */
 void prng_bytes(uint8_t *output, int len);
 
-void prng_uninit(void);
-
 /* an analogue to the random() function, but use prng_bytes */
 long int get_random(void);
 
 /** Print a cipher list entry */
-void print_cipher(const cipher_kt_t *cipher);
+void print_cipher(const char *cipher);
 
 void test_crypto(struct crypto_options *co, struct frame *f);
 

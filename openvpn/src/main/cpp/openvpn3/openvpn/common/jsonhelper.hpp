@@ -109,7 +109,7 @@ namespace openvpn {
       return value;
     }
 
-    template <typename NAME, typename TITLE>
+    template <typename NAME>
     inline const Json::Value& cast(const Json::ValueType target_type,
 				   const Json::Value& value,
 				   const NAME& name,
