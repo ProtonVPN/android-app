@@ -62,6 +62,8 @@ namespace openvpn {
       {
       }
 
+#ifndef OPENVPN_LEGACY_TITLE_ABSTRACTION
+
       template <typename TITLE>
       RouteType(const std::string& rtstr, const TITLE& title)
 	: RouteType(RouteType::from_string(rtstr, title))
@@ -96,6 +98,38 @@ namespace openvpn {
       {
 	return from_string(rtstr, nullptr);
       }
+
+#else
+
+      RouteType(const std::string& rtstr, const char *title = nullptr)
+	: RouteType(RouteType::from_string(rtstr, title))
+      {
+      }
+
+      RouteType(const std::string& rtstr, const std::string& title)
+	: RouteType(RouteType::from_string(rtstr, title.c_str()))
+      {
+      }
+
+      static RouteType from_string(const std::string& rtstr, const char *title = nullptr)
+      {
+	RouteType r;
+	std::vector<std::string> pair;
+	pair.reserve(2);
+	Split::by_char_void<std::vector<std::string>, NullLex, Split::NullLimit>(pair, rtstr, '/', 0, 1);
+	r.addr = ADDR::from_string(pair[0], title);
+	if (pair.size() >= 2)
+	  {
+	    r.prefix_len = parse_number_throw<unsigned int>(pair[1], "prefix length");
+	    if (r.prefix_len > r.addr.size())
+	      OPENVPN_THROW(route_error, (title ? title : "route") << " : bad prefix length : " << rtstr);
+	  }
+	else
+	  r.prefix_len = r.addr.size();
+	return r;
+      }
+
+#endif
 
       bool defined() const
       {
@@ -230,10 +264,10 @@ namespace openvpn {
 	h(prefix_len);
       }
 
-#ifdef HAVE_CITYHASH
+#ifdef USE_OPENVPN_HASH
       std::size_t hash_value() const
       {
-	HashSizeT h;
+	Hash64 h;
 	hash(h);
 	return h.value();
       }
@@ -326,6 +360,8 @@ namespace openvpn {
     OPENVPN_OSTREAM(Route4List, to_string);
     OPENVPN_OSTREAM(Route6List, to_string);
 
+#ifndef OPENVPN_LEGACY_TITLE_ABSTRACTION
+
     template <typename TITLE>
     inline Route route_from_string_prefix(const std::string& addrstr,
 					  const unsigned int prefix_len,
@@ -350,10 +386,36 @@ namespace openvpn {
       return r;
     }
 
+#else
+
+    inline Route route_from_string_prefix(const std::string& addrstr,
+					  const unsigned int prefix_len,
+					  const std::string& title,
+					  const IP::Addr::Version required_version = IP::Addr::UNSPEC)
+      {
+	Route r;
+	r.addr = IP::Addr(addrstr, title, required_version);
+	r.prefix_len = prefix_len;
+	if (r.prefix_len > r.addr.size())
+	  OPENVPN_THROW(Route::route_error, title << " : bad prefix length : " << addrstr);
+	return r;
+      }
+
+    inline Route route_from_string(const std::string& rtstr,
+				   const std::string& title,
+				   const IP::Addr::Version required_version = IP::Addr::UNSPEC)
+    {
+      Route r(rtstr, title);
+      r.addr.validate_version(title, required_version);
+      return r;
+    }
+
+#endif
+
   }
 }
 
-#ifdef HAVE_CITYHASH
+#ifdef USE_OPENVPN_HASH
 OPENVPN_HASH_METHOD(openvpn::IP::Route, hash_value);
 OPENVPN_HASH_METHOD(openvpn::IP::Route4, hash_value);
 OPENVPN_HASH_METHOD(openvpn::IP::Route6, hash_value);

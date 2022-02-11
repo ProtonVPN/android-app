@@ -44,6 +44,7 @@
 #include <openvpn/tun/builder/setup.hpp>
 #include <openvpn/tun/client/tunbase.hpp>
 #include <openvpn/tun/client/tunprop.hpp>
+#include <openvpn/tun/client/tunconfigflags.hpp>
 #include <openvpn/netconf/linux/gw.hpp>
 
 namespace openvpn {
@@ -158,7 +159,12 @@ namespace openvpn {
 	ActionList::Ptr remove_cmds_new = new ActionListReversed();
 
 	// configure tun properties
-	TUNMETHODS::tun_config(tun_iface_name, pull, nullptr, *add_cmds, *remove_cmds_new, conf->add_bypass_routes_on_establish);
+	TUNMETHODS::tun_config(tun_iface_name,
+			       pull,
+			       nullptr,
+			       *add_cmds,
+			       *remove_cmds_new,
+			       (conf->add_bypass_routes_on_establish ? TunConfigFlags::ADD_BYPASS_ROUTES : 0));
 
 	// execute commands to bring up interface
 	add_cmds->execute(os);

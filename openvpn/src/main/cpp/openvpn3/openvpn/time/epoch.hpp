@@ -19,11 +19,9 @@
 //    along with this program in the COPYING file.
 //    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_TIME_EPOCH_H
-#define OPENVPN_TIME_EPOCH_H
+#pragma once
 
-#include <time.h>
-#include <cstdint> // for std::uint64_t
+#include <openvpn/time/timespec.hpp>
 
 namespace openvpn {
 
@@ -34,8 +32,7 @@ namespace openvpn {
     struct timespec ts;
     if (::clock_gettime(CLOCK_REALTIME, &ts))
       return 0;
-    return std::uint64_t(ts.tv_sec)  * std::uint64_t(1000)
-         + std::uint64_t(ts.tv_nsec) / std::uint64_t(1000000);
+    return TimeSpec::milliseconds_since_epoch(ts);
   }
 
   inline nanotime_t nanoseconds_since_epoch()
@@ -43,10 +40,7 @@ namespace openvpn {
     struct timespec ts;
     if (::clock_gettime(CLOCK_REALTIME, &ts))
       return 0;
-    return std::uint64_t(ts.tv_sec)  * std::uint64_t(1000000000)
-         + std::uint64_t(ts.tv_nsec);
+    return TimeSpec::nanoseconds_since_epoch(ts);
   }
 
 }
-
-#endif

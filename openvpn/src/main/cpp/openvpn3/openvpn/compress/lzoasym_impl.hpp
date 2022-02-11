@@ -264,7 +264,6 @@ namespace openvpn {
 
 		  const size_t len = z + 2;
 		  incremental_copy(output_ptr, match_ptr, len);
-		  match_ptr += len;
 		  output_ptr += len;
 		}
 

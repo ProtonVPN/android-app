@@ -7,22 +7,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="de.blinkt.openvpn">
 
-    <!--
     <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+                android:exported="true"
             android:name=".activities.NotImplemented"
             tools:ignore="ExportedActivity" />
 
         <activity-alias
+                android:exported="true"
                 android:name=".activities.LogWindow"
                 android:targetActivity=".activities.NotImplemented"
             />
 
         <activity-alias
+                android:exported="true"
                 android:name=".activities.Req"
                 android:targetActivity=".activities.NotImplemented"
                 />
 
     </application>
-    -->
+
 </manifest>

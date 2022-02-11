@@ -104,6 +104,9 @@ namespace openvpn {
     typename ResolveThread::Ptr resolve_thread;
 
   public:
+    using resolver_type = RESOLVER_TYPE;
+    using results_type = typename RESOLVER_TYPE::results_type;
+
     AsyncResolvable(openvpn_io::io_context& io_context_arg)
       : io_context(io_context_arg)
     {
@@ -115,7 +118,7 @@ namespace openvpn {
     }
 
     virtual void resolve_callback(const openvpn_io::error_code& error,
-				  typename RESOLVER_TYPE::results_type results) = 0;
+				  results_type results) = 0;
 
     // mimic the asynchronous DNS resolution by performing a
     // synchronous one in a detached thread.
@@ -130,7 +133,7 @@ namespace openvpn {
     // that here we have control over the resolving thread and we
     // can easily detach it. Deatching the internal thread created
     // by ASIO would not be feasible as it is not exposed.
-    void async_resolve_name(const std::string& host, const std::string& port)
+    virtual void async_resolve_name(const std::string& host, const std::string& port)
     {
       resolve_thread.reset(new ResolveThread(io_context, this, host, port));
     }

@@ -118,7 +118,7 @@ namespace openvpn {
 	else if (configured(opt, "ifconfig"))
 	  return VPNServerNetblock(opt, "ifconfig", false, 0);
 	else
-	  throw vpn_serv_pool_error("one of 'server' or 'ifconfig' directives is required");
+	  return VPNServerNetblock();
       }
 
       static bool configured(const OptionList& opt,

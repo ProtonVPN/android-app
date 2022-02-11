@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -100,19 +100,14 @@ man_help(void)
     msg(M_CLIENT, "pkcs11-id-count        : Get number of available PKCS#11 identities.");
     msg(M_CLIENT, "pkcs11-id-get index    : Get PKCS#11 identity at index.");
 #endif
-#ifdef MANAGEMENT_DEF_AUTH
     msg(M_CLIENT, "client-auth CID KID    : Authenticate client-id/key-id CID/KID (MULTILINE)");
     msg(M_CLIENT, "client-auth-nt CID KID : Authenticate client-id/key-id CID/KID");
     msg(M_CLIENT, "client-deny CID KID R [CR] : Deny auth client-id/key-id CID/KID with log reason");
     msg(M_CLIENT, "                             text R and optional client reason text CR");
-    msg(M_CLIENT, "client-pending-auth CID MSG : Instruct OpenVPN to send AUTH_PENDING and INFO_PRE msg"
-        "                          to the client and wait for a final client-auth/client-deny");
+    msg(M_CLIENT, "client-pending-auth CID MSG timeout : Instruct OpenVPN to send AUTH_PENDING and INFO_PRE msg");
+    msg(M_CLIENT, "                                      to the client and wait for a final client-auth/client-deny");
     msg(M_CLIENT, "client-kill CID [M]    : Kill client instance CID with message M (def=RESTART)");
     msg(M_CLIENT, "env-filter [level]     : Set env-var filter level");
-#ifdef MANAGEMENT_PF
-    msg(M_CLIENT, "client-pf CID          : Define packet filter for client CID (MULTILINE)");
-#endif
-#endif
     msg(M_CLIENT, "rsa-sig                : Enter a signature in response to >RSA_SIGN challenge");
     msg(M_CLIENT, "                         Enter signature base64 on subsequent lines followed by END");
     msg(M_CLIENT, "pk-sig                 : Enter a signature in response to >PK_SIGN challenge");
@@ -170,6 +165,9 @@ man_state_name(const int state)
 
         case OPENVPN_STATE_TCP_CONNECT:
             return "TCP_CONNECT";
+
+        case OPENVPN_STATE_AUTH_PENDING:
+            return "AUTH_PENDING";
 
         default:
             return "?";
@@ -483,8 +481,6 @@ man_bytecount_output_client(struct management *man)
     man->connection.bytecount_last_update = now;
 }
 
-#ifdef MANAGEMENT_DEF_AUTH
-
 void
 man_bytecount_output_server(struct management *man,
                             const counter_type *bytes_in_total,
@@ -499,8 +495,6 @@ man_bytecount_output_server(struct management *man,
     msg(M_CLIENT, ">BYTECOUNT_CLI:%lu,%s,%s", mdac->cid, in, out);
     mdac->bytecount_last_update = now;
 }
-
-#endif
 
 static void
 man_kill(struct management *man, const char *victim)
@@ -826,14 +820,8 @@ man_pkcs11_id_get(struct management *man, const int index)
         msg(M_CLIENT, ">PKCS11ID-ENTRY:'%d'", index);
     }
 
-    if (id != NULL)
-    {
-        free(id);
-    }
-    if (base64 != NULL)
-    {
-        free(base64);
-    }
+    free(id);
+    free(base64);
 }
 
 #endif /* ifdef ENABLE_PKCS11 */
@@ -880,10 +868,8 @@ in_extra_reset(struct man_connection *mc, const int mode)
         if (mode != IER_NEW)
         {
             mc->in_extra_cmd = IEC_UNDEF;
-#ifdef MANAGEMENT_DEF_AUTH
             mc->in_extra_cid = 0;
             mc->in_extra_kid = 0;
-#endif
         }
         if (mc->in_extra)
         {
@@ -892,7 +878,7 @@ in_extra_reset(struct man_connection *mc, const int mode)
         }
         if (mode == IER_NEW)
         {
-            mc->in_extra = buffer_list_new(0);
+            mc->in_extra = buffer_list_new();
         }
     }
 }
@@ -902,7 +888,6 @@ in_extra_dispatch(struct management *man)
 {
     switch (man->connection.in_extra_cmd)
     {
-#ifdef MANAGEMENT_DEF_AUTH
         case IEC_CLIENT_AUTH:
             if (man->persist.callback.client_auth)
             {
@@ -930,32 +915,6 @@ in_extra_dispatch(struct management *man)
             }
             break;
 
-#endif /* ifdef MANAGEMENT_DEF_AUTH */
-#ifdef MANAGEMENT_PF
-        case IEC_CLIENT_PF:
-            if (man->persist.callback.client_pf)
-            {
-                const bool status = (*man->persist.callback.client_pf)
-                                        (man->persist.callback.arg,
-                                        man->connection.in_extra_cid,
-                                        man->connection.in_extra);
-                man->connection.in_extra = NULL;
-                if (status)
-                {
-                    msg(M_CLIENT, "SUCCESS: client-pf command succeeded");
-                }
-                else
-                {
-                    msg(M_CLIENT, "ERROR: client-pf command failed");
-                }
-            }
-            else
-            {
-                msg(M_CLIENT, "ERROR: The client-pf command is not supported by the current daemon mode");
-            }
-            break;
-
-#endif /* ifdef MANAGEMENT_PF */
         case IEC_PK_SIGN:
             man->connection.ext_key_state = EKS_READY;
             buffer_list_free(man->connection.ext_key_input);
@@ -973,8 +932,6 @@ in_extra_dispatch(struct management *man)
     in_extra_reset(&man->connection, IER_RESET);
 }
 
-#ifdef MANAGEMENT_DEF_AUTH
-
 static bool
 parse_cid(const char *str, unsigned long *cid)
 {
@@ -990,15 +947,15 @@ parse_cid(const char *str, unsigned long *cid)
 }
 
 static bool
-parse_kid(const char *str, unsigned int *kid)
+parse_uint(const char *str, const char* what, unsigned int *uint)
 {
-    if (sscanf(str, "%u", kid) == 1)
+    if (sscanf(str, "%u", uint) == 1)
     {
         return true;
     }
     else
     {
-        msg(M_CLIENT, "ERROR: cannot parse KID");
+        msg(M_CLIENT, "ERROR: cannot parse %s", what);
         return false;
     }
 }
@@ -1013,15 +970,18 @@ parse_kid(const char *str, unsigned int *kid)
  *                      the information of the additional steps
  */
 static void
-man_client_pending_auth(struct management *man, const char *cid_str, const char *extra)
+man_client_pending_auth(struct management *man, const char *cid_str,
+                        const char *extra, const char *timeout_str)
 {
     unsigned long cid = 0;
-    if (parse_cid(cid_str, &cid))
+    unsigned int timeout = 0;
+    if (parse_cid(cid_str, &cid)
+        && parse_uint(timeout_str, "TIMEOUT", &timeout))
     {
         if (man->persist.callback.client_pending_auth)
         {
             bool ret = (*man->persist.callback.client_pending_auth)
-                           (man->persist.callback.arg, cid, extra);
+                           (man->persist.callback.arg, cid, extra, timeout);
 
             if (ret)
             {
@@ -1047,7 +1007,7 @@ man_client_auth(struct management *man, const char *cid_str, const char *kid_str
     mc->in_extra_cid = 0;
     mc->in_extra_kid = 0;
     if (parse_cid(cid_str, &mc->in_extra_cid)
-        && parse_kid(kid_str, &mc->in_extra_kid))
+        && parse_uint(kid_str, "KID", &mc->in_extra_kid))
     {
         mc->in_extra_cmd = IEC_CLIENT_AUTH;
         in_extra_reset(mc, IER_NEW);
@@ -1063,7 +1023,7 @@ man_client_deny(struct management *man, const char *cid_str, const char *kid_str
 {
     unsigned long cid = 0;
     unsigned int kid = 0;
-    if (parse_cid(cid_str, &cid) && parse_kid(kid_str, &kid))
+    if (parse_cid(cid_str, &cid) && parse_uint(kid_str, "KID", &kid))
     {
         if (man->persist.callback.client_auth)
         {
@@ -1137,23 +1097,6 @@ man_env_filter(struct management *man, const int level)
     msg(M_CLIENT, "SUCCESS: env_filter_level=%d", level);
 }
 
-#ifdef MANAGEMENT_PF
-
-static void
-man_client_pf(struct management *man, const char *cid_str)
-{
-    struct man_connection *mc = &man->connection;
-    mc->in_extra_cid = 0;
-    mc->in_extra_kid = 0;
-    if (parse_cid(cid_str, &mc->in_extra_cid))
-    {
-        mc->in_extra_cmd = IEC_CLIENT_PF;
-        in_extra_reset(mc, IER_NEW);
-    }
-}
-
-#endif /* MANAGEMENT_PF */
-#endif /* MANAGEMENT_DEF_AUTH */
 
 static void
 man_pk_sig(struct management *man, const char *cmd_name)
@@ -1337,7 +1280,6 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
     {
         msg(M_CLIENT, "SUCCESS: pid=%d", platform_getpid());
     }
-#ifdef MANAGEMENT_DEF_AUTH
     else if (streq(p[0], "nclients"))
     {
         man_client_n_clients(man);
@@ -1351,7 +1293,6 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
         }
         man_env_filter(man, level);
     }
-#endif
     else if (streq(p[0], "signal"))
     {
         if (man_need(man, p, 1, 0))
@@ -1431,7 +1372,6 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
     }
     else if (streq(p[0], "auth-retry"))
     {
-#if P2MP
         if (p[1])
         {
             if (auth_retry_set(M_CLIENT, p[1]))
@@ -1447,9 +1387,6 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
         {
             msg(M_CLIENT, "SUCCESS: auth-retry=%s", auth_retry_print());
         }
-#else  /* if P2MP */
-        msg(M_CLIENT, "ERROR: auth-retry feature is unavailable");
-#endif
     }
     else if (streq(p[0], "state"))
     {
@@ -1551,7 +1488,6 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
             man_bytecount(man, atoi(p[1]));
         }
     }
-#ifdef MANAGEMENT_DEF_AUTH
     else if (streq(p[0], "client-kill"))
     {
         if (man_need(man, p, 1, MN_AT_LEAST))
@@ -1582,21 +1518,11 @@ man_dispatch_command(struct management *man, struct status_output *so, const cha
     }
     else if (streq(p[0], "client-pending-auth"))
     {
-        if (man_need(man, p, 2, 0))
+        if (man_need(man, p, 3, 0))
         {
-            man_client_pending_auth(man, p[1], p[2]);
+            man_client_pending_auth(man, p[1], p[2], p[3]);
         }
     }
-#ifdef MANAGEMENT_PF
-    else if (streq(p[0], "client-pf"))
-    {
-        if (man_need(man, p, 1, 0))
-        {
-            man_client_pf(man, p[1]);
-        }
-    }
-#endif
-#endif /* ifdef MANAGEMENT_DEF_AUTH */
     else if (streq(p[0], "rsa-sig"))
     {
         man_pk_sig(man, "rsa-sig");
@@ -2102,7 +2028,7 @@ man_io_error(struct management *man, const char *prefix)
 static ssize_t
 man_send_with_fd(int fd, void *ptr, size_t nbytes, int flags, int sendfd)
 {
-    struct msghdr msg;
+    struct msghdr msg = { 0 };
     struct iovec iov[1];
 
     union {
@@ -2134,7 +2060,7 @@ man_send_with_fd(int fd, void *ptr, size_t nbytes, int flags, int sendfd)
 static ssize_t
 man_recv_with_fd(int fd, void *ptr, size_t nbytes, int flags, int *recvfd)
 {
-    struct msghdr msghdr;
+    struct msghdr msghdr = { 0 };
     struct iovec iov[1];
     ssize_t n;
 
@@ -2581,7 +2507,7 @@ man_connection_init(struct management *man)
          * command output from/to the socket.
          */
         man->connection.in = command_line_new(1024);
-        man->connection.out = buffer_list_new(0);
+        man->connection.out = buffer_list_new();
 
         /*
          * Initialize event set for standalone usage, when we are
@@ -2613,10 +2539,7 @@ man_connection_close(struct management *man)
 {
     struct man_connection *mc = &man->connection;
 
-    if (mc->es)
-    {
-        event_free(mc->es);
-    }
+    event_free(mc->es);
 #ifdef _WIN32
     net_event_win32_close(&mc->ne32);
 #endif
@@ -2629,14 +2552,10 @@ man_connection_close(struct management *man)
     {
         man_close_socket(man, mc->sd_cli);
     }
-    if (mc->in)
-    {
-        command_line_free(mc->in);
-    }
-    if (mc->out)
-    {
-        buffer_list_free(mc->out);
-    }
+
+    command_line_free(mc->in);
+    buffer_list_free(mc->out);
+
     in_extra_reset(&man->connection, IER_RESET);
     buffer_list_free(mc->ext_key_input);
     man_connection_clear(mc);
@@ -2905,8 +2824,6 @@ management_notify_generic(struct management *man, const char *str)
     msg(M_CLIENT, "%s", str);
 }
 
-#ifdef MANAGEMENT_DEF_AUTH
-
 static void
 man_output_peer_info_env(struct management *man, const struct man_def_auth_context *mdac)
 {
@@ -3024,8 +2941,6 @@ management_learn_addr(struct management *management,
     }
     gc_free(&gc);
 }
-
-#endif /* MANAGEMENT_DEF_AUTH */
 
 void
 management_echo(struct management *man, const char *string, const bool pull)
@@ -3310,12 +3225,17 @@ man_block(struct management *man, volatile int *signal_received, const time_t ex
 
     if (man_standalone_ok(man))
     {
+        /* expire time can be already overdue, for this case init zero
+         * timeout to avoid waiting first time and exit loop early with
+         * either obtained event or timeout.
+         */
+        tv.tv_usec = 0;
+        tv.tv_sec = 0;
+
         while (true)
         {
             event_reset(man->connection.es);
             management_socket_set(man, man->connection.es, NULL, NULL);
-            tv.tv_usec = 0;
-            tv.tv_sec = 1;
             if (man_check_for_signals(signal_received))
             {
                 status = -1;
@@ -3343,6 +3263,10 @@ man_block(struct management *man, volatile int *signal_received, const time_t ex
                 }
                 break;
             }
+
+            /* wait one second more */
+            tv.tv_sec = 1;
+            tv.tv_usec = 0;
         }
     }
     return status;
@@ -3444,7 +3368,7 @@ management_event_loop_n_seconds(struct management *man, int sec)
 
         /* set expire time */
         update_time();
-        if (sec)
+        if (sec >= 0)
         {
             expire = now + sec;
         }
@@ -3474,7 +3398,7 @@ management_event_loop_n_seconds(struct management *man, int sec)
         /* revert state */
         man->persist.standalone_disabled = standalone_disabled_save;
     }
-    else
+    else if (sec > 0)
     {
         sleep(sec);
     }
@@ -3604,7 +3528,6 @@ management_query_user_pass(struct management *man,
         {
             /* preserve caller's settings */
             man->connection.up_query.nocache = up->nocache;
-            man->connection.up_query.wait_for_push = up->wait_for_push;
             *up = man->connection.up_query;
         }
         secure_memzero(&man->connection.up_query, sizeof(man->connection.up_query));
@@ -3887,6 +3810,10 @@ command_line_reset(struct command_line *cl)
 void
 command_line_free(struct command_line *cl)
 {
+    if (!cl)
+    {
+        return;
+    }
     command_line_reset(cl);
     free_buf(&cl->buf);
     free_buf(&cl->residual);
@@ -4006,10 +3933,8 @@ log_entry_print(const struct log_entry *e, unsigned int flags, struct gc_arena *
 static void
 log_entry_free_contents(struct log_entry *e)
 {
-    if (e->string)
-    {
-        free((char *)e->string);
-    }
+    /* Cast away constness of const char* */
+    free((char *)e->string);
     CLEAR(*e);
 }
 
@@ -4117,11 +4042,15 @@ log_history_ref(const struct log_history *h, const int index)
 void
 management_sleep(const int n)
 {
-    if (management)
+    if (n < 0)
+    {
+        return;
+    }
+    else if (management)
     {
         management_event_loop_n_seconds(management, n);
     }
-    else
+    else if (n > 0)
     {
         sleep(n);
     }
@@ -4132,7 +4061,10 @@ management_sleep(const int n)
 void
 management_sleep(const int n)
 {
-    sleep(n);
+    if (n > 0)
+    {
+        sleep(n);
+    }
 }
 
 #endif /* ENABLE_MANAGEMENT */

@@ -2,7 +2,7 @@
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
  *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
- *  Copyright (C) 2018-2020 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2021 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -59,6 +59,7 @@
 
 #define MSICA_ADAPTER_TICK_SIZE (16*1024) /** Amount of tick space to reserve for one TAP/TUN adapter creation/deletition. */
 
+#define FILE_NEED_REBOOT        L".ovpn_need_reboot"
 
 /**
  * Joins an argument sequence and sets it to the MSI property.
@@ -101,13 +102,14 @@ setup_sequence(
  *                        title.
  */
 static void
-_debug_popup(_In_z_ LPCTSTR szFunctionName)
+_debug_popup(_In_z_ LPCSTR szFunctionName)
 {
     TCHAR szTitle[0x100], szMessage[0x100+MAX_PATH], szProcessPath[MAX_PATH];
 
     /* Compose pop-up title. The dialog title will contain function name to ease the process
      * locating. Mind that Visual Studio displays window titles on the process list. */
-    _stprintf_s(szTitle, _countof(szTitle), TEXT("%s v%s"), szFunctionName, TEXT(PACKAGE_VERSION));
+    _stprintf_s(szTitle, _countof(szTitle), TEXT("%hs v%") TEXT(PRIsLPTSTR),
+                szFunctionName, TEXT(PACKAGE_VERSION));
 
     /* Get process name. */
     GetModuleFileName(NULL, szProcessPath, _countof(szProcessPath));
@@ -117,7 +119,8 @@ _debug_popup(_In_z_ LPCTSTR szFunctionName)
     /* Compose the pop-up message. */
     _stprintf_s(
         szMessage, _countof(szMessage),
-        TEXT("The %s process (PID: %u) has started to execute the %s custom action.\r\n")
+        TEXT("The %") TEXT(PRIsLPTSTR) TEXT(" process (PID: %u) has started to execute the %hs")
+        TEXT(" custom action.\r\n")
         TEXT("\r\n")
         TEXT("If you would like to debug the custom action, attach a debugger to this process and set breakpoints before dismissing this dialog.\r\n")
         TEXT("\r\n")
@@ -248,7 +251,7 @@ cleanup_OpenSCManager:
 }
 
 
-static UINT
+static void
 find_adapters(
     _In_ MSIHANDLE hInstall,
     _In_z_ LPCTSTR szzHardwareIDs,
@@ -262,12 +265,12 @@ find_adapters(
     uiResult = tap_list_adapters(NULL, szzHardwareIDs, &pAdapterList);
     if (uiResult != ERROR_SUCCESS)
     {
-        return uiResult;
+        return;
     }
     else if (pAdapterList == NULL)
     {
         /* No adapters - no fun. */
-        return ERROR_SUCCESS;
+        return;
     }
 
     /* Get IPv4/v6 info for all network adapters. Actually, we're interested in link status only: up/down? */
@@ -394,7 +397,6 @@ cleanup_pAdapterAdresses:
     free(pAdapterAdresses);
 cleanup_pAdapterList:
     tap_free_adapter_list(pAdapterList);
-    return uiResult;
 }
 
 
@@ -405,7 +407,7 @@ FindSystemInfo(_In_ MSIHANDLE hInstall)
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
-    debug_popup(TEXT(__FUNCTION__));
+    debug_popup(__FUNCTION__);
 
     BOOL bIsCoInitialized = SUCCEEDED(CoInitialize(NULL));
 
@@ -439,7 +441,7 @@ CloseOpenVPNGUI(_In_ MSIHANDLE hInstall)
 #endif
     UNREFERENCED_PARAMETER(hInstall); /* This CA is does not interact with MSI session (report errors, access properties, tables, etc.). */
 
-    debug_popup(TEXT(__FUNCTION__));
+    debug_popup(__FUNCTION__);
 
     /* Find OpenVPN GUI window. */
     HWND hWnd = FindWindow(TEXT("OpenVPN-GUI"), NULL);
@@ -461,7 +463,7 @@ StartOpenVPNGUI(_In_ MSIHANDLE hInstall)
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
-    debug_popup(TEXT(__FUNCTION__));
+    debug_popup(__FUNCTION__);
 
     UINT uiResult;
     BOOL bIsCoInitialized = SUCCEEDED(CoInitialize(NULL));
@@ -734,7 +736,7 @@ EvaluateTUNTAPAdapters(_In_ MSIHANDLE hInstall)
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
-    debug_popup(TEXT(__FUNCTION__));
+    debug_popup(__FUNCTION__);
 
     UINT uiResult;
     BOOL bIsCoInitialized = SUCCEEDED(CoInitialize(NULL));
@@ -957,6 +959,19 @@ cleanup_hRecord:
         }
     }
 
+    /* save path to user's temp dir to be used later by deferred actions */
+    TCHAR tmpDir[MAX_PATH];
+    GetTempPath(MAX_PATH, tmpDir);
+
+    TCHAR str[MAX_PATH + 7];
+    _stprintf_s(str, _countof(str), TEXT("tmpdir=%") TEXT(PRIsLPTSTR), tmpDir);
+    msica_arg_seq_add_tail(&seqInstall, str);
+    msica_arg_seq_add_tail(&seqInstallCommit, str);
+    msica_arg_seq_add_tail(&seqInstallRollback, str);
+    msica_arg_seq_add_tail(&seqUninstall, str);
+    msica_arg_seq_add_tail(&seqUninstallCommit, str);
+    msica_arg_seq_add_tail(&seqUninstallRollback, str);
+
     /* Store deferred custom action parameters. */
     if ((uiResult = setup_sequence(hInstall, TEXT("InstallTUNTAPAdapters"          ), &seqInstall          )) != ERROR_SUCCESS
         || (uiResult = setup_sequence(hInstall, TEXT("InstallTUNTAPAdaptersCommit"    ), &seqInstallCommit    )) != ERROR_SUCCESS
@@ -1016,6 +1031,33 @@ parse_guid(
 }
 
 
+/**
+ * Create empty file in user's temp directory. The existence of this file
+ * is checked in the end of installation by ScheduleReboot immediate custom action
+ * which schedules reboot.
+ *
+ * @param szTmpDir path to user's temp dirctory
+ *
+ */
+static void
+CreateRebootFile(_In_z_ LPCWSTR szTmpDir)
+{
+    TCHAR path[MAX_PATH];
+    swprintf_s(path, _countof(path), L"%s%s", szTmpDir, FILE_NEED_REBOOT);
+
+    msg(M_WARN, "%s: Reboot required, create reboot indication file \"%" PRIsLPTSTR "\"", __FUNCTION__, path);
+
+    HANDLE file = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (file == INVALID_HANDLE_VALUE)
+    {
+        msg(M_NONFATAL | M_ERRNO, "%s: CreateFile(\"%" PRIsLPTSTR "\") failed", __FUNCTION__, path);
+    }
+    else
+    {
+        CloseHandle(file);
+    }
+}
+
 UINT __stdcall
 ProcessDeferredAction(_In_ MSIHANDLE hInstall)
 {
@@ -1023,10 +1065,11 @@ ProcessDeferredAction(_In_ MSIHANDLE hInstall)
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
-    debug_popup(TEXT(__FUNCTION__));
+    debug_popup(__FUNCTION__);
 
     UINT uiResult;
     BOOL bIsCoInitialized = SUCCEEDED(CoInitialize(NULL));
+    WCHAR tmpDir[MAX_PATH] = {0};
 
     OPENVPNMSICA_SAVE_MSI_SESSION(hInstall);
 
@@ -1169,6 +1212,10 @@ ProcessDeferredAction(_In_ MSIHANDLE hInstall)
             }
             dwResult = tap_enable_adapter(NULL, &guid, FALSE, &bRebootRequired);
         }
+        else if (wcsncmp(szArg[i], L"tmpdir=", 7) == 0)
+        {
+            wcscpy_s(tmpDir, _countof(tmpDir), szArg[i] + 7);
+        }
         else
         {
             goto invalid_argument;
@@ -1195,9 +1242,9 @@ invalid_argument:
     }
 
 cleanup:
-    if (bRebootRequired)
+    if (bRebootRequired && wcslen(tmpDir) > 0)
     {
-        MsiSetMode(hInstall, MSIRUNMODE_REBOOTATEND, TRUE);
+        CreateRebootFile(tmpDir);
     }
     MsiCloseHandle(hRecordProg);
     LocalFree(szArg);
@@ -1209,4 +1256,44 @@ cleanup_CoInitialize:
         CoUninitialize();
     }
     return uiResult;
+}
+
+UINT __stdcall
+CheckAndScheduleReboot(_In_ MSIHANDLE hInstall)
+{
+#ifdef _MSC_VER
+#pragma comment(linker, DLLEXP_EXPORT)
+#endif
+
+    debug_popup(__FUNCTION__);
+
+    UINT ret = ERROR_SUCCESS;
+    BOOL bIsCoInitialized = SUCCEEDED(CoInitialize(NULL));
+
+    OPENVPNMSICA_SAVE_MSI_SESSION(hInstall);
+
+    /* get user-specific temp path, to where we create reboot indication file */
+    TCHAR tempPath[MAX_PATH];
+    GetTempPath(MAX_PATH, tempPath);
+
+    /* check if reboot file exists */
+    TCHAR path[MAX_PATH];
+    _stprintf_s(path, _countof(path), L"%s%s", tempPath, FILE_NEED_REBOOT);
+    WIN32_FIND_DATA data = { 0 };
+    HANDLE searchHandle = FindFirstFile(path, &data);
+    if (searchHandle != INVALID_HANDLE_VALUE)
+    {
+        msg(M_WARN, "%s: Reboot file exists, schedule reboot", __FUNCTION__);
+
+        FindClose(searchHandle);
+        DeleteFile(path);
+
+        MsiSetMode(hInstall, MSIRUNMODE_REBOOTATEND, TRUE);
+    }
+
+    if (bIsCoInitialized)
+    {
+        CoUninitialize();
+    }
+    return ret;
 }

@@ -41,6 +41,7 @@
 #include <openvpn/tun/client/tunbase.hpp>
 #include <openvpn/tun/client/tunprop.hpp>
 #include <openvpn/tun/client/tunprop.hpp>
+#include <openvpn/tun/client/tunconfigflags.hpp>
 #include <openvpn/tun/linux/client/tunsetup.hpp>
 #include <openvpn/netconf/linux/gw.hpp>
 
@@ -254,7 +255,7 @@ namespace openvpn {
 			     std::vector<IP::Route>* rtvec,
 			     ActionList& create,
 			     ActionList& destroy,
-			     bool add_bypass_routes = true)
+			     const unsigned int flags) // TunConfigFlags
       {
 	const LinuxGW46 gw(true);
 
@@ -263,7 +264,8 @@ namespace openvpn {
 	const TunBuilderCapture::RouteAddress* local6 = pull.vpn_ipv6();
 
 	// configure interface
-	iface_up(iface_name, pull.mtu, create, destroy);
+	if (!(flags & TunConfigFlags::DISABLE_IFACE_UP))
+	  iface_up(iface_name, pull.mtu, create, destroy);
 	iface_config(iface_name, -1, pull, rtvec, create, destroy);
 
 	// Process Routes
@@ -304,25 +306,28 @@ namespace openvpn {
 	}
 
 	// Process IPv4 redirect-gateway
-	if (pull.reroute_gw.ipv4)
+	if (!(flags & TunConfigFlags::DISABLE_REROUTE_GW))
 	  {
-	    // add bypass route
-	    if (add_bypass_routes && !pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL) && gw.v4.defined())
-	      add_del_route(pull.remote_address.address, 32, gw.v4.addr().to_string(), gw.v4.dev(), R_ADD_SYS, rtvec, create, destroy);
+	    if (pull.reroute_gw.ipv4)
+	      {
+		// add bypass route
+		if ((flags & TunConfigFlags::ADD_BYPASS_ROUTES) && !pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL) && gw.v4.defined())
+		  add_del_route(pull.remote_address.address, 32, gw.v4.addr().to_string(), gw.v4.dev(), R_ADD_SYS, rtvec, create, destroy);
 
-	    add_del_route("0.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
-	    add_del_route("128.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
-	  }
+		add_del_route("0.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+		add_del_route("128.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+	      }
 
-	// Process IPv6 redirect-gateway
-	if (pull.reroute_gw.ipv6 && !pull.block_ipv6)
-	  {
-	    // add bypass route
-	    if (add_bypass_routes && pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL) && gw.v4.defined())
-	      add_del_route(pull.remote_address.address, 128, gw.v6.addr().to_string(), gw.v6.dev(), R_ADD_SYS|R_IPv6, rtvec, create, destroy);
+	    // Process IPv6 redirect-gateway
+	    if (pull.reroute_gw.ipv6 && !pull.block_ipv6)
+	      {
+		// add bypass route
+		if ((flags & TunConfigFlags::ADD_BYPASS_ROUTES) && pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL) && gw.v4.defined())
+		  add_del_route(pull.remote_address.address, 128, gw.v6.addr().to_string(), gw.v6.dev(), R_ADD_SYS|R_IPv6, rtvec, create, destroy);
 
-	    add_del_route("0000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
-	    add_del_route("8000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+		add_del_route("0000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+		add_del_route("8000::", 1, local6->gateway, iface_name, R_ADD_ALL|R_IPv6, rtvec, create, destroy);
+	      }
 	  }
 
 	// fixme -- Process block-ipv6

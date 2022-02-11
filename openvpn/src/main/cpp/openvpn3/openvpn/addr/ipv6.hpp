@@ -56,6 +56,11 @@ namespace openvpn {
     public:
       enum { SIZE=128 };
 
+      static constexpr int ip_version()
+      {
+	return 6;
+      }
+
       bool defined() const
       {
 	return true;
@@ -100,6 +105,8 @@ namespace openvpn {
 	return ret;
       }
 
+#ifndef OPENVPN_LEGACY_TITLE_ABSTRACTION
+
       template <typename TITLE>
       static Addr from_string(const std::string& ipstr, const TITLE& title)
       {
@@ -114,6 +121,19 @@ namespace openvpn {
       {
 	return from_string(ipstr, nullptr);
       }
+
+#else
+
+      static Addr from_string(const std::string& ipstr, const char *title = nullptr)
+      {
+	openvpn_io::error_code ec;
+	openvpn_io::ip::address_v6 a = openvpn_io::ip::make_address_v6(ipstr, ec);
+	if (ec)
+	  throw ipv6_exception(IP::internal::format_error(ipstr, title, "v6", ec));
+	return from_asio(a);
+      }
+
+#endif
 
       std::string to_string() const
       {
@@ -556,10 +576,10 @@ namespace openvpn {
 	h(u.bytes, sizeof(u.bytes));
       }
 
-#ifdef HAVE_CITYHASH
+#ifdef USE_OPENVPN_HASH
       std::size_t hashval() const
       {
-	HashSizeT h;
+	Hash64 h;
 	hash(h);
 	return h.value();
       }
@@ -850,7 +870,7 @@ namespace openvpn {
   }
 }
 
-#ifdef HAVE_CITYHASH
+#ifdef USE_OPENVPN_HASH
 OPENVPN_HASH_METHOD(openvpn::IPv6::Addr, hashval);
 #endif
 

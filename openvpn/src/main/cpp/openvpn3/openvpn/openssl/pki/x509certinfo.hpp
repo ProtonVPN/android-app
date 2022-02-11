@@ -32,6 +32,7 @@
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 #include <openssl/x509v3.h>
+#include <openssl/x509.h>
 
 #include "openvpn/common/hexstr.hpp"
 #include "openvpn/common/uniqueptr.hpp"
@@ -91,6 +92,24 @@ static std::string x509_get_subject(::X509 *cert, bool new_format = false) {
   BIO_get_mem_ptr(subject_bio.get(), &subject_mem);
   return std::string(subject_mem->data,
                      subject_mem->data + subject_mem->length);
+}
+
+/**
+ * Retrives the algorithm used to sign a X509 certificate
+ * @param cert 	OpenSSL certificate
+ * @return
+ */
+static const std::string x509_get_signature_algorithm(const ::X509* cert)
+{
+  int nid = X509_get_signature_nid(cert);
+  const char *sig = OBJ_nid2sn(nid);
+
+  if (sig)
+    {
+      return sig;
+    }
+  else
+    return "(error getting signature algorithm)";
 }
 
 /**
@@ -183,6 +202,27 @@ static std::string x509_get_serial(::X509 *cert) {
 static std::string x509_get_serial_hex(::X509 *cert) {
   const ASN1_INTEGER *asn1_i = X509_get_serialNumber(cert);
   return render_hex_sep(asn1_i->data, asn1_i->length, ':', false);
+}
+
+/**
+ *  Retrieves the X.509 certificate SHA256 fingerprint as binary
+ *
+ * @param cert     Pointer to a native OpenSSL X509 object containing the
+ *                 certificate
+ *
+ * @return Returns a uint8_t std:vector containing the binary representation
+ *         of the certificate's SHA256 fingerprint.
+ */
+static std::size_t x509_fingerprint_size() { return EVP_MD_size(EVP_sha256()); }
+static std::vector<uint8_t> x509_get_fingerprint(const ::X509 *cert)
+{
+  std::vector<uint8_t> fingerprint;
+  fingerprint.resize(x509_fingerprint_size());
+
+  if (::X509_digest(cert, EVP_sha256(), fingerprint.data(), NULL) != 1)
+    throw OpenSSLException("OpenSSL error while calling X509_digest()");
+
+  return fingerprint;
 }
 
 }  // namespace OpenSSLPKI

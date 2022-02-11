@@ -88,18 +88,11 @@ namespace openvpn {
     {
       typedef RCPtr<Config> Ptr;
 
-      Config()
-      {
-	npserv = Agent::named_pipe_path();
-	client_exe = Win::module_name_utf8();
-	debug_level = 1;
-	wintun = false;
-      }
-
-      std::string npserv;     // server pipe
-      std::string client_exe; // for validation
-      int debug_level;
-      bool wintun;
+      std::string npserv = Agent::named_pipe_path();    // server pipe
+      std::string client_exe = Win::module_name_utf8(); // for validation
+      int debug_level = 1;
+      TunWin::Type tun_type = TunWin::TapWindows6;
+      bool allow_local_dns_resolvers = false;
     };
 
     class SetupClient : public TunWin::SetupBase
@@ -156,6 +149,46 @@ namespace openvpn {
       }
 
     private:
+      HANDLE get_handle(std::ostream& os) override
+      {
+	// Build JSON request
+	Json::Value jreq(Json::objectValue);
+#if _WIN32_WINNT < 0x0600 // pre-Vista needs us to explicitly communicate our PID
+	jreq["pid"] = Json::Value((Json::UInt)::GetProcessId(::GetCurrentProcess()));
+#endif
+	jreq["confirm_event"] = confirm_event.duplicate_local();
+	jreq["destroy_event"] = destroy_event.duplicate_local();
+	const std::string jtxt = jreq.toStyledString();
+	os << jtxt; // dump it
+
+	WS::ClientSet::TransactionSet::Ptr ts = new_transaction_set(
+	  config->npserv, config->debug_level, config->client_exe,
+	  [this](HANDLE handle) {
+	    if (!service_process.is_open())
+	      service_process.assign(handle);
+	  }
+	);
+
+	jreq["allow_local_dns_resolvers"] = config->allow_local_dns_resolvers;
+	make_transaction("tun-open", jtxt, ts);
+
+	// Execute transaction
+	WS::ClientSet::new_request_synchronous(ts, NULL);
+
+	// Get result
+	const Json::Value jres = get_json_result(os, *ts);
+
+	// Dump log
+	const std::string log_txt = json::get_string(jres, "log_txt");
+	os << log_txt;
+
+	// Parse TAP handle
+	const std::string tap_handle_hex = json::get_string(jres, "tap_handle_hex");
+	os << "TAP handle: " << tap_handle_hex << std::endl;
+	const HANDLE tap = BufHex::parse<HANDLE>(tap_handle_hex, "TAP handle");
+	return tap;
+      }
+
       virtual HANDLE establish(const TunBuilderCapture& pull,
 			       const std::wstring& openvpn_app_path,
 			       Stop* stop,
@@ -173,16 +206,22 @@ namespace openvpn {
 	if (ring_buffer)
 	  ring_buffer->serialize(jreq);
 
-	jreq["wintun"] = config->wintun;
-	jreq["confirm_event"] = confirm_event.duplicate_local();
-	jreq["destroy_event"] = destroy_event.duplicate_local();
+	if (config->tun_type != TunWin::OvpnDco)
+	  {
+	    jreq["confirm_event"] = confirm_event.duplicate_local();
+	    jreq["destroy_event"] = destroy_event.duplicate_local();
+	  }
+
+    jreq["allow_local_dns_resolvers"] = config->allow_local_dns_resolvers;
+	jreq["tun_type"] = config->tun_type;
 	jreq["tun"] = pull.to_json(); // convert TunBuilderCapture to JSON
 	const std::string jtxt = jreq.toStyledString();
 	os << jtxt; // dump it
 
 	// Create HTTP transaction container
 	WS::ClientSet::TransactionSet::Ptr ts = new_transaction_set(config->npserv, config->debug_level, config->client_exe, [this](HANDLE handle) {
-	  service_process.assign(handle);
+	    if (!service_process.is_open())
+	      service_process.assign(handle);
 	});
 
 	make_transaction("tun-setup", jtxt, ts);
@@ -221,7 +260,7 @@ namespace openvpn {
 	confirm_event.signal_event();
       }
 
-      virtual void set_service_fail_handler(std::function<void()>&& handler)
+      void set_service_fail_handler(std::function<void()>&& handler) override
       {
 	if (service_process.is_open())
 	  {
@@ -294,15 +333,16 @@ namespace openvpn {
       Win::DestroyEvent destroy_event;
     };
 
-    virtual TunWin::SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context, bool wintun) override
+    virtual TunWin::SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context, TunWin::Type tun_type, bool allow_local_dns_resolvers) override
     {
       if (config)
 	{
-	  config->wintun = wintun;
+	  config->tun_type = tun_type;
+      config->allow_local_dns_resolvers = allow_local_dns_resolvers;
 	  return new SetupClient(io_context, config);
 	}
       else
-	return new TunWin::Setup(io_context, wintun);
+	return new TunWin::Setup(io_context, tun_type, allow_local_dns_resolvers);
     }
 
     WinCommandAgent(const OptionList& opt_parent)

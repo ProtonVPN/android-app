@@ -10,10 +10,18 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 
 import android.os.StrictMode;
+import android.os.strictmode.Violation;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import java.util.concurrent.Executors;
+
 import de.blinkt.openvpn.BuildConfig;
 import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.api.AppRestrictions;
@@ -23,10 +31,15 @@ public class ICSOpenVPNApplication extends Application {
 
     @Override
     public void onCreate() {
+        if (BuildConfig.BUILD_TYPE.equals("debug"))
+            enableStrictModes();
+
         if("robolectric".equals(Build.FINGERPRINT))
             return;
 
+        LocaleHelper.setDesiredLocale(this);
         super.onCreate();
+
         PRNGFixes.apply();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -34,22 +47,55 @@ public class ICSOpenVPNApplication extends Application {
         mStatus = new StatusListener();
         mStatus.init(getApplicationContext());
 
-        if (BuildConfig.BUILD_TYPE.equals("debug"))
-            enableStrictModes();
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AppRestrictions.getInstance(this).checkRestrictions(this);
         }
+
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.updateResources(base));
     }
 
     private void enableStrictModes() {
-        StrictMode.VmPolicy policy = new StrictMode.VmPolicy.Builder()
+        StrictMode.ThreadPolicy.Builder tpbuilder = new StrictMode.ThreadPolicy.Builder()
                 .detectAll()
-                .penaltyLog()
-                .penaltyDeath()
-                .build();
+                .penaltyLog();
+
+
+
+        StrictMode.VmPolicy.Builder vpbuilder = new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            tpbuilder.penaltyListener(Executors.newSingleThreadExecutor(), this::logViolation);
+            vpbuilder.penaltyListener(Executors.newSingleThreadExecutor(), this::logViolation);
+
+        }
+        //tpbuilder.penaltyDeath();
+        //vpbuilder.penaltyDeath();
+
+        StrictMode.VmPolicy policy = vpbuilder.build();
         StrictMode.setVmPolicy(policy);
 
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleHelper.onConfigurationChange(this);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public void logViolation(Violation v) {
+        String name = Application.getProcessName();
+        System.err.println("------------------------- Violation detected in " + name + " ------" + v.getCause() + "---------------------------");
+        VpnStatus.logException(VpnStatus.LogLevel.DEBUG, null, v);
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -90,4 +136,5 @@ public class ICSOpenVPNApplication extends Application {
         mChannel.setLightColor(Color.CYAN);
         mNotificationManager.createNotificationChannel(mChannel);
     }
+
 }

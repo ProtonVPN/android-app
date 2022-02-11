@@ -121,4 +121,22 @@ TEST(OpenSSL_X509_get_field, basic_checks) {
   ASSERT_EQ(OpenSSLPKI::x509_get_field(x509crt.obj(), NID_countryName), "US");
 }
 
+TEST(OpenSSL_X509_get_field, signature) {
+    OpenSSLPKI::X509 x509crt(test_cert, "Embedded Test Server Cert");
+
+    ASSERT_EQ(OpenSSLPKI::x509_get_signature_algorithm(x509crt.obj()), "RSA-SHA256");
+}
+
+TEST(x509_get_fingerprint, output) {
+  OpenSSLPKI::X509 x509crt(test_cert, "Embedded Test Server Cert");
+  const std::vector<uint8_t> fingerprint = {
+    0x44, 0xF5, 0xA6, 0x4D, 0x4A, 0xCB, 0x65, 0xE1,
+    0x8A, 0x9F, 0x55, 0x89, 0x7F, 0x77, 0xA0, 0x79,
+    0xAA, 0xFB, 0xCC, 0xA1, 0x37, 0x2F, 0xD8, 0xB3,
+    0x47, 0xAA, 0x9D, 0xE3, 0xD0, 0x76, 0xB1, 0x44
+  };
+  ASSERT_EQ(OpenSSLPKI::x509_get_fingerprint(x509crt.obj()), fingerprint);
+}
+
+
 }  // namespace unittests

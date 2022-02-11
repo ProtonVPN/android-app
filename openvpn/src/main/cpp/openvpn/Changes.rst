@@ -15,20 +15,125 @@ Compatibility with OpenSSL in FIPS mode
     requirements/recommendation of FIPS 140-2. This just allows OpenVPN
     to be run on a system that be configured OpenSSL in FIPS mode.
 
-Overview of changes in 2.5
-==========================
-New features in 2.5.1
----------------------
+``mlock`` will now check if enough memlock-able memory has been reserved,
+    and if less than 100MB RAM are available, use setrlimit() to upgrade
+    the limit.  See Trac #1390.  Not available on OpenSolaris.
+
 Certificate pinning/verify peer fingerprint
-    The ``--peer-fingerprint`` option has been introduced to give users a
+    The ``--peer-fingerprint`` option has been introduced to give users an
     easy to use alternative to the ``tls-verify`` for matching the
-    fingerprint of the peer. The option has use a number of
-    SHA256 fingerprints.
+    fingerprint of the peer. The option takes use a number of allowed
+    SHA256 certificate fingerprints.
+
+    See the man page section "Small OpenVPN setup with peer-fingerprint"
+    for a tutorial on how to use this feature. This is also available online
+    under https://github.com/openvpn/openvpn/blob/master/doc/man-sections/example-fingerprint.rst
 
 TLS mode with self-signed certificates
     When ``--peer-fingerprint`` is used, the ``--ca`` and ``--capath`` option
     become optional. This allows for small OpenVPN setups without setting up
     a PKI with Easy-RSA or similar software.
+
+Deferred auth support for scripts
+    The ``--auth-user-pass-verify`` script supports now deferred authentication.
+
+Pending auth support for plugins and scripts
+    Both auth plugin and script can now signal pending authentication to
+    the client when using deferred authentication. The new ``client-crresponse``
+    script option and ``OPENVPN_PLUGIN_CLIENT_CRRESPONSE`` plugin function can
+    be used to parse a client response to a ``CR_TEXT`` two factor challenge.
+
+    See ``sample/sample-scripts/totpauth.py`` for an example.
+
+Compatibility mode (``--compat-mode``)
+    The modernisation of defaults can impact the compatibility of OpenVPN 2.6.0
+    with older peers. The options ``--compat-mode`` allows UIs to provide users
+    with an easy way to still connect to older servers.
+
+OpenSSL 3.0 support
+    OpenSSL 3.0 has been added. Most of OpenSSL 3.0 changes are not user visible but
+    improve general compatibility with OpenSSL 3.0. ``--tls-cert-profile insecure``
+    has been added to allow selecting the lowest OpenSSL security level (not
+    recommended, use only if you must). OpenSSL 3.0 no longer supports the Blowfish
+    (and other deprecated) algorithm by default and the new option ``--providers``
+    allows loading the legacy provider to renable these algorithms.
+
+Optional ciphers in ``--data-ciphers``
+    Ciphers in ``--data-ciphers`` can now be prefixed with a ``?`` to mark
+    those as optional and only use them if the SSL library supports them.
+
+
+Improved ``--mssfix`` and ``--fragment`` calculation
+    The ``--mssfix`` and ``--fragment`` options now allow an optional :code:`mtu`
+    parameter to specify that different overhead for IPv4/IPv6 should taken into
+    account and the resulting size is specified as the total size of the VPN packets
+    including IP and UDP headers.
+
+Deprecated features
+-------------------
+``inetd`` has been removed
+    This was a very limited and not-well-tested way to run OpenVPN, on TCP
+    and TAP mode only.
+
+``verify-hash`` has been deprecated
+    This option has very limited usefulness and should be replaced by either
+    a better ``--ca`` configuration or with a ``--tls-verify`` script.
+
+``secret`` has been deprecated
+    static key mode (non-TLS) is no longer considered "good and secure enough"
+    for today's requirements.  Use TLS mode instead.  If deploying a PKI CA
+    is considered "too complicated", using ``--peer-fingerprint`` makes
+    TLS mode about as easy as using ``--secret``.
+
+``ncp-disable`` has been removed
+    This option mainly served a role as debug option when NCP was first
+    introduced. It should now no longer be necessary.
+
+TLS 1.0 and 1.1 are deprecated
+    ``tls-version-min`` is set to 1.2 by default.  OpenVPN 2.6.0 defaults
+    to a minimum TLS version of 1.2 as TLS 1.0 and 1.1 should be generally
+    avoided. Note that OpenVPN versions older than 2.3.7 use TLS 1.0 only.
+
+``--cipher`` argument is no longer appended to ``--data-ciphers``
+    by default. Data cipher negotiation has been introduced in 2.4.0
+    and been significantly improved in 2.5.0. The implicit fallback
+    to the cipher specified in ``--cipher`` has been removed.
+    Effectively, ``--cipher`` is a no-op in TLS mode now, and will
+    only have an effect in pre-shared-key mode (``--secret``).
+    From now on ``--cipher`` should not be used in new configurations
+    for TLS mode.
+    Should backwards compatibility with older OpenVPN peers be
+    required, please see the ``--compat-mode`` instead.
+
+``--prng`` has beeen removed
+    OpenVPN used to implement its own PRNG based on a hash. However implementing
+    a PRNG is better left to a crypto library. So we use the PRNG
+    mbed TLS or OpenSSL now.
+
+
+Compression no longer enabled by default
+    Unless an explicit compression option is specified in the configuration,
+    ``--allow-compression`` defaults to ``no`` in OpeNVPN 2.6.0.
+    By default, OpenVPN 2.5 still allowed a server to enable compression by
+    pushing compression related options.
+
+PF (Packet Filtering) support has been removed
+   The built-in PF functionality has been removed from the code base. This
+   feature wasn't really easy to use and was long unmaintained.
+   This implies that also ``--management-client-pf`` and any other compile
+   time or run time related option do not exist any longer.
+
+
+User-visible Changes
+--------------------
+- CHACHA20-POLY1305 is included in the default of ``--data-ciphers`` when available.
+- Option ``--prng`` is ignored as we rely on the SSL library random number generator.
+- Option ``--nobind`` is default when ``--client`` or ``--pull`` is used in the configuration
+- :code:`link_mtu` parameter is removed from environment or replaced with 0 when scripts are
+  called with parameters. This parameter is unreliable and no longer internally calculated.
+
+Overview of changes in 2.5
+==========================
 
 New features
 ------------

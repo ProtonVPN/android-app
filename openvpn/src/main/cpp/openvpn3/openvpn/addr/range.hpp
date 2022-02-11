@@ -73,7 +73,7 @@ namespace openvpn {
 
       Iterator iterator() const { return Iterator(*this); }
 
-      const bool defined() const { return extent_ > 0; }
+      bool defined() const { return extent_ > 0; }
       const ADDR& start() const { return start_; }
       size_t extent() const { return extent_; }
 

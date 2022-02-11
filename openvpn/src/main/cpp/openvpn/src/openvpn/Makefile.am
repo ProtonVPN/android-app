@@ -5,7 +5,7 @@
 #             packet encryption, packet authentication, and
 #             packet compression.
 #
-#  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+#  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
 #  Copyright (C) 2006-2012 Alon Bar-Lev <alon.barlev@gmail.com>
 #
 
@@ -97,7 +97,6 @@ openvpn_SOURCES = \
 	otime.c otime.h \
 	packet_id.c packet_id.h \
 	perf.c perf.h \
-	pf.c pf.h \
 	ping.c ping.h \
 	plugin.c plugin.h \
 	pool.c pool.h \
@@ -119,6 +118,7 @@ openvpn_SOURCES = \
 	ssl_openssl.c ssl_openssl.h \
 	ssl_mbedtls.c ssl_mbedtls.h \
 	ssl_ncp.c ssl_ncp.h \
+	ssl_util.c ssl_util.h \
 	ssl_common.h \
 	ssl_verify.c ssl_verify.h ssl_verify_backend.h \
 	ssl_verify_openssl.c ssl_verify_openssl.h \
@@ -128,7 +128,10 @@ openvpn_SOURCES = \
 	tls_crypt.c tls_crypt.h \
 	tun.c tun.h \
 	vlan.c vlan.h \
+	xkey_provider.c xkey_common.h \
+	xkey_helper.c \
 	win32.h win32.c \
+	win32-util.h win32-util.c \
 	cryptoapi.h cryptoapi.c
 openvpn_LDADD = \
 	$(top_builddir)/src/compat/libcompat.la \

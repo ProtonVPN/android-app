@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2008-2013 David Sommerseth <dazo@users.sourceforge.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2008-2021 David Sommerseth <dazo@eurephia.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -60,6 +60,8 @@
 #include "forward.h"
 #include "ssl_verify.h"
 #include "platform.h"
+#include "xkey_common.h"
+
 #include <ctype.h>
 
 #include "memdbg.h"
@@ -324,8 +326,6 @@ static const char usage_message[] =
     "                  as the program name to the system logger.\n"
     "--syslog [name] : Output to syslog, but do not become a daemon.\n"
     "                  See --daemon above for a description of the 'name' parm.\n"
-    "--inetd [name] ['wait'|'nowait'] : Run as an inetd or xinetd server.\n"
-    "                  See --daemon above for a description of the 'name' parm.\n"
     "--log file      : Output log to file which is created/truncated on open.\n"
     "--log-append file : Append log to file, or create file if nonexistent.\n"
     "--suppress-timestamps : Don't log timestamps to stdout/stderr.\n"
@@ -390,15 +390,9 @@ static const char usage_message[] =
     "--management-client-group g : When management interface is a unix socket, only\n"
     "                              allow connections from group g.\n"
 #endif
-#ifdef MANAGEMENT_DEF_AUTH
     "--management-client-auth : gives management interface client the responsibility\n"
     "                           to authenticate clients after their client certificate\n"
     "			      has been verified.\n"
-#endif
-#ifdef MANAGEMENT_PF
-    "--management-client-pf : management interface clients must specify a packet\n"
-    "                         filter file for each connecting client.\n"
-#endif
 #endif /* ifdef ENABLE_MANAGEMENT */
 #ifdef ENABLE_PLUGIN
     "--plugin m [str]: Load plug-in module m passing str as an argument\n"
@@ -407,7 +401,6 @@ static const char usage_message[] =
     "--vlan-tagging  : Enable 802.1Q-based VLAN tagging.\n"
     "--vlan-accept tagged|untagged|all : Set VLAN tagging mode. Default is 'all'.\n"
     "--vlan-pvid v   : Sets the Port VLAN Identifier. Defaults to 1.\n"
-#if P2MP
     "\n"
     "Multi-Client Server options (when --mode server is used):\n"
     "--server network netmask : Helper option to easily configure server mode.\n"
@@ -418,6 +411,8 @@ static const char usage_message[] =
     "                  execution.  Peer must specify --pull in its config file.\n"
     "--push-reset    : Don't inherit global push list for specific\n"
     "                  client instance.\n"
+    "--push-remove opt : Remove options matching 'opt' from the push list for\n"
+    "                  a specific client instance.\n"
     "--ifconfig-pool start-IP end-IP [netmask] : Set aside a pool of subnets\n"
     "                  to be dynamically allocated to connecting clients.\n"
     "--ifconfig-pool-persist file [seconds] : Persist/unpersist ifconfig-pool\n"
@@ -512,13 +507,12 @@ static const char usage_message[] =
     "                  waiting for a response before trying the next server.\n"
     "--allow-recursive-routing : When this option is set, OpenVPN will not drop\n"
     "                  incoming tun packets with same destination as host.\n"
-#endif /* if P2MP */
     "--explicit-exit-notify [n] : On exit/restart, send exit signal to\n"
     "                  server/remote. n = # of retries, default=1.\n"
     "\n"
     "Data Channel Encryption Options (must be compatible between peers):\n"
     "(These options are meaningful for both Static Key & TLS-mode)\n"
-    "--secret f [d]  : Enable Static Key encryption mode (non-TLS).\n"
+    "--secret f [d]  : (DEPRECATED) Enable Static Key encryption mode (non-TLS).\n"
     "                  Use shared secret file f, generate with --genkey.\n"
     "                  The optional d parameter controls key directionality.\n"
     "                  If d is specified, use separate keys for each\n"
@@ -532,13 +526,6 @@ static const char usage_message[] =
     "                  (default=%s).\n"
     "                  Set alg=none to disable encryption.\n"
     "--data-ciphers list : List of ciphers that are allowed to be negotiated.\n"
-    "--ncp-disable   : (DEPRECATED) Disable cipher negotiation.\n"
-    "--prng alg [nsl] : For PRNG, use digest algorithm alg, and\n"
-    "                   nonce_secret_len=nsl.  Set alg=none to disable PRNG.\n"
-#ifdef HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH
-    "--keysize n     : (DEPRECATED) Size of cipher key in bits (optional).\n"
-    "                  If unspecified, defaults to cipher-specific default.\n"
-#endif
 #ifndef ENABLE_CRYPTO_MBEDTLS
     "--engine [name] : Enable OpenSSL hardware crypto engine functionality.\n"
 #endif
@@ -598,6 +585,7 @@ static const char usage_message[] =
     "                : Use --show-tls to see a list of supported TLS ciphers (suites).\n"
     "--tls-cert-profile p : Set the allowed certificate crypto algorithm profile\n"
     "                  (default=legacy).\n"
+    "--providers l   : A list l of OpenSSL providers to load.\n"
     "--tls-timeout n : Packet retransmit timeout on TLS control channel\n"
     "                  if no ACK from remote within n seconds (default=%d).\n"
     "--reneg-bytes n : Renegotiate data chan. key after n bytes sent and recvd.\n"
@@ -625,7 +613,7 @@ static const char usage_message[] =
     "                  see --secret option for more info.\n"
     "--tls-crypt-v2 key : For clients: use key as a client-specific tls-crypt key.\n"
     "                  For servers: use key to decrypt client-specific keys.  For\n"
-    "                  key generation (--tls-crypt-v2-genkey): use key to\n"
+    "                  key generation (--genkey tls-crypt-v2-client): use key to\n"
     "                  encrypt generated client-specific key.  (See --tls-crypt.)\n"
     "--genkey tls-crypt-v2-client [keyfile] [base64 metadata]: Generate a\n"
     "                  fresh tls-crypt-v2 client key, and store to\n"
@@ -816,7 +804,9 @@ init_options(struct options *o, const bool init_gc)
     o->ce.tun_mtu = TUN_MTU_DEFAULT;
     o->ce.link_mtu = LINK_MTU_DEFAULT;
     o->ce.mtu_discover_type = -1;
-    o->ce.mssfix = MSSFIX_DEFAULT;
+    o->ce.mssfix = 0;
+    o->ce.mssfix_default = true;
+    o->ce.mssfix_encap = true;
     o->route_delay_window = 30;
     o->resolve_retry_seconds = RESOLV_RETRY_INFINITE;
     o->resolve_in_advance = false;
@@ -852,14 +842,8 @@ init_options(struct options *o, const bool init_gc)
     o->max_routes_per_client = 256;
     o->stale_routes_check_interval = 0;
     o->ifconfig_pool_persist_refresh_freq = 600;
-#if P2MP
     o->scheduled_exit_interval = 5;
-#endif
-    o->ncp_enabled = true;
-    o->ncp_ciphers = "AES-256-GCM:AES-128-GCM";
     o->authname = "SHA1";
-    o->prng_hash = "SHA1";
-    o->prng_nonce_secret_len = 16;
     o->replay = true;
     o->replay_window = DEFAULT_SEQ_BACKTRACK;
     o->replay_time = DEFAULT_TIME_BACKTRACK;
@@ -876,7 +860,7 @@ init_options(struct options *o, const bool init_gc)
     o->tls_cert_profile = NULL;
     o->ecdh_curve = NULL;
 #ifdef ENABLE_X509ALTUSERNAME
-    o->x509_username_field = X509_USERNAME_FIELD_DEFAULT;
+    o->x509_username_field[0] = X509_USERNAME_FIELD_DEFAULT;
 #endif
 #ifdef ENABLE_PKCS11
     o->pkcs11_pin_cache_period = -1;
@@ -1084,68 +1068,66 @@ string_substitute(const char *src, int from, int to, struct gc_arena *gc)
 
 /**
  * Parses a hexstring and checks if the string has the correct length. Return
- * a verify_hash_list of the parsed string.
+ * a verify_hash_list containing the parsed hash string.
  *
  * @param   str         String to check/parse
  * @param   nbytes      Number of bytes expected in the hexstr (e.g. 20 for SHA1)
  * @param   msglevel    message level to use when printing warnings/errors
- * @param   gc          The returned string will be allocated in this gc.
+ * @param   gc          The returned object will be allocated in this gc
  */
 static struct verify_hash_list *
 parse_hash_fingerprint(const char *str, int nbytes, int msglevel, struct gc_arena *gc)
 {
-    int i;
+    int i = 0;
     const char *cp = str;
 
     struct verify_hash_list *ret;
     ALLOC_OBJ_CLEAR_GC(ret, struct verify_hash_list, gc);
 
-    char term = 1;
+    char term = 0;
     int byte;
-    char bs[3];
 
-    for (i = 0; i < nbytes; ++i)
+    while (*cp && i < nbytes)
     {
-        if (strlen(cp) < 2)
+        /* valid segments consist of exactly two hex digits, then ':' or EOS */
+        if (!isxdigit(cp[0])
+            || !isxdigit(cp[1])
+            || (cp[2] != ':' && cp[2] != '\0')
+            || sscanf(cp, "%x", &byte) != 1)
         {
             msg(msglevel, "format error in hash fingerprint: %s", str);
+            break;
         }
-        bs[0] = *cp++;
-        bs[1] = *cp++;
-        bs[2] = 0;
-        byte = 0;
-        if (sscanf(bs, "%x", &byte) != 1)
-        {
-            msg(msglevel, "format error in hash fingerprint hex byte: %s", str);
-        }
-        ret->hash[i] = (uint8_t)byte;
-        term = *cp++;
-        if (term != ':' && term != 0)
-        {
-            msg(msglevel, "format error in hash fingerprint delimiter: %s", str);
-        }
-        if (term == 0)
+
+        ret->hash[i++] = (uint8_t)byte;
+
+        term = cp[2];
+        if (term == '\0')
         {
             break;
         }
+        cp += 3;
     }
-    if (term != 0 || i != nbytes-1)
+    if (i < nbytes)
     {
-        msg(msglevel, "hash fingerprint is different length than expected (%d bytes): %s", nbytes, str);
-        return NULL;
+        msg(msglevel, "hash fingerprint is wrong length - expected %d bytes, got %d: %s", nbytes, i, str);
+    }
+    else if (term != '\0')
+    {
+        msg(msglevel, "hash fingerprint too long - expected only %d bytes: %s", nbytes, str);
     }
     return ret;
 }
 
 /**
  * Parses a string consisting of multiple lines of hexstrings and checks if each
- * string has the correct length. Lines that are empty are ignored. Returns
- * a verify_hash_list.
+ * string has the correct length. Empty lines are ignored. Returns
+ * a linked list of (possibly) multiple verify_hash_list objects.
  *
  * @param   str         String to check/parse
- * @param   nbytes      Number of bytes expected in the hexstr (e.g. 20 for SHA1)
+ * @param   nbytes      Number of bytes expected in the hexstring (e.g. 20 for SHA1)
  * @param   msglevel    message level to use when printing warnings/errors
- * @param   gc          The returned string will be allocated in this gc.
+ * @param   gc          The returned list items will be allocated in this gc
  */
 static struct verify_hash_list *
 parse_hash_fingerprint_multiline(const char *str, int nbytes, int msglevel,
@@ -1159,8 +1141,13 @@ parse_hash_fingerprint_multiline(const char *str, int nbytes, int msglevel,
     const char *line;
     while ((line = strsep(&lines, "\n")))
     {
-        /* skip empty lines */
-        if (strlen(line) == 0)
+        /* ignore leading whitespace */
+        while(isspace(*line))
+        {
+            line++;
+        }
+        /* skip empty lines and comment lines */
+        if (strlen(line) == 0 || *line == '#' || *line == ';')
         {
             continue;
         }
@@ -1170,6 +1157,7 @@ parse_hash_fingerprint_multiline(const char *str, int nbytes, int msglevel,
 
         if (!hash)
         {
+            gc_free(&gc_temp);
             return NULL;
         }
 
@@ -1296,8 +1284,6 @@ print_vlan_accept(enum vlan_acceptable_frames mode)
     }
     return NULL;
 }
-
-#if P2MP
 
 #ifndef ENABLE_SMALL
 
@@ -1426,7 +1412,6 @@ option_iroute_ipv6(struct options *o,
     ir->next = o->iroutes_ipv6;
     o->iroutes_ipv6 = ir;
 }
-#endif /* P2MP */
 
 #ifndef ENABLE_SMALL
 static void
@@ -1528,6 +1513,7 @@ show_connection_entry(const struct connection_entry *o)
     SHOW_INT(fragment);
 #endif
     SHOW_INT(mssfix);
+    SHOW_BOOL(mssfix_encap);
 
     SHOW_INT(explicit_exit_notification);
 
@@ -1620,9 +1606,7 @@ show_settings(const struct options *o)
     SHOW_INT(ifconfig_ipv6_netbits);
     SHOW_STR(ifconfig_ipv6_remote);
 
-#ifdef ENABLE_FEATURE_SHAPER
     SHOW_INT(shaper);
-#endif
     SHOW_INT(mtu_test);
 
     SHOW_BOOL(mlock);
@@ -1661,7 +1645,6 @@ show_settings(const struct options *o)
     SHOW_BOOL(up_restart);
     SHOW_BOOL(up_delay);
     SHOW_BOOL(daemon);
-    SHOW_INT(inetd);
     SHOW_BOOL(log);
     SHOW_BOOL(suppress_timestamps);
     SHOW_BOOL(machine_readable_output);
@@ -1733,12 +1716,8 @@ show_settings(const struct options *o)
     SHOW_STR_INLINE(shared_secret_file);
     SHOW_PARM(key_direction, keydirection2ascii(o->key_direction, false, true), "%s");
     SHOW_STR(ciphername);
-    SHOW_BOOL(ncp_enabled);
     SHOW_STR(ncp_ciphers);
     SHOW_STR(authname);
-    SHOW_STR(prng_hash);
-    SHOW_INT(prng_nonce_secret_len);
-    SHOW_INT(keysize);
 #ifndef ENABLE_CRYPTO_MBEDTLS
     SHOW_BOOL(engine);
 #endif /* ENABLE_CRYPTO_MBEDTLS */
@@ -1756,7 +1735,7 @@ show_settings(const struct options *o)
     SHOW_BOOL(tls_client);
     SHOW_STR_INLINE(ca_file);
     SHOW_STR(ca_path);
-    SHOW_STR(dh_file);
+    SHOW_STR_INLINE(dh_file);
 #ifdef ENABLE_MANAGEMENT
     if ((o->management_flags & MF_EXTERNAL_CERT))
     {
@@ -1798,6 +1777,23 @@ show_settings(const struct options *o)
         }
     }
     SHOW_STR(remote_cert_eku);
+    if (o->verify_hash)
+    {
+        SHOW_INT(verify_hash_algo);
+        SHOW_INT(verify_hash_depth);
+        struct gc_arena gc = gc_new();
+        struct verify_hash_list *hl = o->verify_hash;
+        int digest_len = (o->verify_hash_algo == MD_SHA1) ? SHA_DIGEST_LENGTH :
+                         SHA256_DIGEST_LENGTH;
+        while (hl)
+        {
+            char *s = format_hex_ex(hl->hash, digest_len, 0,
+                                    1, ":", &gc);
+            SHOW_PARM(verify_hash, s, "%s");
+            hl = hl->next;
+        }
+        gc_free(&gc);
+    }
     SHOW_INT(ssl_flags);
 
     SHOW_INT(tls_timeout);
@@ -1849,9 +1845,7 @@ show_settings(const struct options *o)
     SHOW_BOOL(pkcs11_id_management);
 #endif                  /* ENABLE_PKCS11 */
 
-#if P2MP
     show_p2mp_parms(o);
-#endif
 
 #ifdef _WIN32
     SHOW_BOOL(show_net_up);
@@ -2039,7 +2033,47 @@ connection_entry_load_re(struct connection_entry *ce, const struct remote_entry 
 }
 
 static void
-options_postprocess_verify_ce(const struct options *options, const struct connection_entry *ce)
+connection_entry_preload_key(const char **key_file, bool *key_inline,
+                             struct gc_arena *gc)
+{
+    if (key_file && *key_file && !(*key_inline))
+    {
+        struct buffer in = buffer_read_from_file(*key_file, gc);
+        if (!buf_valid(&in))
+        {
+            msg(M_FATAL, "Cannot pre-load keyfile (%s)", *key_file);
+        }
+
+        *key_file = (const char *) in.data;
+        *key_inline = true;
+    }
+}
+
+static void
+check_ca_required(const struct options *options)
+{
+    if (options->verify_hash_no_ca
+        || options->pkcs12_file
+        || options->ca_file
+#ifndef ENABLE_CRYPTO_MBEDTLS
+        || options->ca_path
+#endif
+       )
+    {
+        return;
+    }
+
+    const char* const str = "You must define CA file (--ca)"
+#ifndef ENABLE_CRYPTO_MBEDTLS
+        " or CA path (--capath)"
+#endif
+        " and/or peer fingerprint verification (--peer-fingerprint)";
+    msg(M_USAGE, str);
+}
+
+static void
+options_postprocess_verify_ce(const struct options *options,
+                              const struct connection_entry *ce)
 {
     struct options defaults;
     int dev = DEV_TYPE_UNDEF;
@@ -2067,48 +2101,9 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
      */
     if (ce->proto == PROTO_TCP)
     {
-        msg(M_USAGE, "--proto tcp is ambiguous in this context.  Please specify --proto tcp-server or --proto tcp-client");
-    }
-
-    /*
-     * Sanity check on daemon/inetd modes
-     */
-
-    if (options->daemon && options->inetd)
-    {
-        msg(M_USAGE, "only one of --daemon or --inetd may be specified");
-    }
-
-    if (options->inetd && (ce->local || ce->remote))
-    {
-        msg(M_USAGE, "--local or --remote cannot be used with --inetd");
-    }
-
-    if (options->inetd && ce->proto == PROTO_TCP_CLIENT)
-    {
-        msg(M_USAGE, "--proto tcp-client cannot be used with --inetd");
-    }
-
-    if (options->inetd == INETD_NOWAIT && ce->proto != PROTO_TCP_SERVER)
-    {
-        msg(M_USAGE, "--inetd nowait can only be used with --proto tcp-server");
-    }
-
-    if (options->inetd == INETD_NOWAIT
-        && !(options->tls_server || options->tls_client))
-    {
-        msg(M_USAGE, "--inetd nowait can only be used in TLS mode");
-    }
-
-    if (options->inetd == INETD_NOWAIT && dev != DEV_TYPE_TAP)
-    {
-        msg(M_USAGE, "--inetd nowait only makes sense in --dev tap mode");
-    }
-
-    if (options->inetd)
-    {
-        msg(M_WARN, "DEPRECATED OPTION: --inetd mode is deprecated "
-            "and will be removed in OpenVPN 2.6");
+        msg(M_USAGE,
+            "--proto tcp is ambiguous in this context. Please specify "
+            "--proto tcp-server or --proto tcp-client");
     }
 
     if (options->lladdr && dev != DEV_TYPE_TAP)
@@ -2121,7 +2116,7 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
      */
     if (options->ce.tun_mtu_defined && options->ce.link_mtu_defined)
     {
-        msg(M_USAGE, "only one of --tun-mtu or --link-mtu may be defined (note that --ifconfig implies --link-mtu %d)", LINK_MTU_DEFAULT);
+        msg(M_USAGE, "only one of --tun-mtu or --link-mtu may be defined");
     }
 
     if (!proto_is_udp(ce->proto) && options->mtu_test)
@@ -2130,9 +2125,7 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
     }
 
     /* will we be pulling options from server? */
-#if P2MP
     pull = options->pull;
-#endif
 
     /*
      * Sanity check on --local, --remote, and --ifconfig
@@ -2148,18 +2141,23 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
     if (string_defined_equal(ce->remote, options->ifconfig_local)
         || string_defined_equal(ce->remote, options->ifconfig_remote_netmask))
     {
-        msg(M_USAGE, "--local and --remote addresses must be distinct from --ifconfig addresses");
+        msg(M_USAGE,
+            "--local and --remote addresses must be distinct from --ifconfig "
+            "addresses");
     }
 
     if (string_defined_equal(ce->local, options->ifconfig_local)
         || string_defined_equal(ce->local, options->ifconfig_remote_netmask))
     {
-        msg(M_USAGE, "--local addresses must be distinct from --ifconfig addresses");
+        msg(M_USAGE,
+            "--local addresses must be distinct from --ifconfig addresses");
     }
 
-    if (string_defined_equal(options->ifconfig_local, options->ifconfig_remote_netmask))
+    if (string_defined_equal(options->ifconfig_local,
+                             options->ifconfig_remote_netmask))
     {
-        msg(M_USAGE, "local and remote/netmask --ifconfig addresses must be different");
+        msg(M_USAGE,
+            "local and remote/netmask --ifconfig addresses must be different");
     }
 
     if (ce->bind_defined && !ce->bind_local)
@@ -2169,12 +2167,14 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 
     if (ce->local && !ce->bind_local)
     {
-        msg(M_USAGE, "--local and --nobind don't make sense when used together");
+        msg(M_USAGE,
+            "--local and --nobind don't make sense when used together");
     }
 
     if (ce->local_port_defined && !ce->bind_local)
     {
-        msg(M_USAGE, "--lport and --nobind don't make sense when used together");
+        msg(M_USAGE,
+            "--lport and --nobind don't make sense when used together");
     }
 
     if (!ce->remote && !ce->bind_local)
@@ -2210,14 +2210,14 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 
 #endif /* ifdef ENABLE_MANAGEMENT */
 
-#if  defined(ENABLE_MANAGEMENT)
+#if defined(ENABLE_MANAGEMENT) && !defined(HAVE_XKEY_PROVIDER)
     if ((tls_version_max() >= TLS_VER_1_3)
         && (options->management_flags & MF_EXTERNAL_KEY)
         && !(options->management_flags & (MF_EXTERNAL_KEY_NOPADDING))
         )
     {
-        msg(M_ERR, "management-external-key with OpenSSL 1.1.1 requires "
-            "the nopadding argument/support");
+        msg(M_FATAL, "management-external-key with TLS 1.3 or later requires "
+            "nopadding argument/support");
     }
 #endif
     /*
@@ -2261,11 +2261,6 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
     }
 #endif
 
-    if (!proto_is_udp(ce->proto) && ce->explicit_exit_notification)
-    {
-        msg(M_USAGE, "--explicit-exit-notify can only be used with --proto udp");
-    }
-
     if (!ce->remote && ce->proto == PROTO_TCP_CLIENT)
     {
         msg(M_USAGE, "--remote MUST be used in TCP Client mode");
@@ -2273,16 +2268,21 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 
     if ((ce->http_proxy_options) && ce->proto != PROTO_TCP_CLIENT)
     {
-        msg(M_USAGE, "--http-proxy MUST be used in TCP Client mode (i.e. --proto tcp-client)");
+        msg(M_USAGE,
+            "--http-proxy MUST be used in TCP Client mode (i.e. --proto "
+            "tcp-client)");
     }
+
     if ((ce->http_proxy_options) && !ce->http_proxy_options->server)
     {
-        msg(M_USAGE, "--http-proxy not specified but other http proxy options present");
+        msg(M_USAGE,
+            "--http-proxy not specified but other http proxy options present");
     }
 
     if (ce->http_proxy_options && ce->socks_proxy_server)
     {
-        msg(M_USAGE, "--http-proxy can not be used together with --socks-proxy");
+        msg(M_USAGE,
+            "--http-proxy can not be used together with --socks-proxy");
     }
 
     if (ce->socks_proxy_server && ce->proto == PROTO_TCP_SERVER)
@@ -2348,8 +2348,9 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
         {
             msg(M_USAGE, "--socks-proxy cannot be used with --mode server");
         }
-        /* <connection> blocks force to have a remote embedded, so we check for the
-         * --remote and bail out if it  is present */
+        /* <connection> blocks force to have a remote embedded, so we check
+         * for the --remote and bail out if it is present
+         */
         if (options->connection_list->len >1
             || options->connection_list->array[0]->remote)
         {
@@ -2360,18 +2361,17 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
         {
             msg(M_USAGE, "--shaper cannot be used with --mode server");
         }
-        if (options->inetd)
-        {
-            msg(M_USAGE, "--inetd cannot be used with --mode server");
-        }
         if (options->ipchange)
         {
-            msg(M_USAGE, "--ipchange cannot be used with --mode server (use --client-connect instead)");
+            msg(M_USAGE,
+                "--ipchange cannot be used with --mode server (use "
+                "--client-connect instead)");
         }
         if (!(proto_is_dgram(ce->proto) || ce->proto == PROTO_TCP_SERVER))
         {
-            msg(M_USAGE, "--mode server currently only supports "
-                "--proto udp or --proto tcp-server or --proto tcp6-server");
+            msg(M_USAGE,
+                "--mode server currently only supports --proto udp or --proto "
+                "tcp-server or --proto tcp6-server");
         }
         if (!proto_is_udp(ce->proto) && (options->cf_max || options->cf_per))
         {
@@ -2551,11 +2551,6 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
         }
     }
 
-    if (options->keysize)
-    {
-        msg(M_WARN, "WARNING: --keysize is DEPRECATED and will be removed in OpenVPN 2.6");
-    }
-
     /*
      * Check consistency of replay options
      */
@@ -2573,6 +2568,15 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
         +(options->shared_secret_file != NULL) > 1)
     {
         msg(M_USAGE, "specify only one of --tls-server, --tls-client, or --secret");
+    }
+
+    if (!options->tls_server && !options->tls_client)
+    {
+        msg(M_INFO, "DEPRECATION: No tls-client or tls-server option in "
+                    "configuration detected. OpenVPN 2.7 will remove the "
+                    "functionality to run a VPN without TLS. "
+                    "See the examples section in the manual page for "
+                    "examples of a similar quick setup with peer-fingerprint.");
     }
 
     if (options->ssl_flags & (SSLF_CLIENT_CERT_NOT_REQUIRED|SSLF_CLIENT_CERT_OPTIONAL))
@@ -2596,11 +2600,10 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 
     if (options->tls_server || options->tls_client)
     {
+        check_ca_required(options);
 #ifdef ENABLE_PKCS11
         if (options->pkcs11_providers[0])
         {
-            notnull(options->ca_file, "CA file (--ca)");
-
             if (options->pkcs11_id_management && options->pkcs11_id != NULL)
             {
                 msg(M_USAGE, "Parameter --pkcs11-id cannot be used when --pkcs11-id-management is also specified.");
@@ -2661,10 +2664,6 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 #ifdef ENABLE_CRYPTOAPI
         if (options->cryptoapi_cert)
         {
-            if ((!(options->ca_file)) && (!(options->ca_path)))
-            {
-                msg(M_USAGE, "You must define CA file (--ca) or CA path (--capath)");
-            }
             if (options->cert_file)
             {
                 msg(M_USAGE, "Parameter --cert cannot be used when --cryptoapicert is also specified.");
@@ -2722,25 +2721,11 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
         else
         {
 #ifdef ENABLE_CRYPTO_MBEDTLS
-            if (!(options->ca_file || options->verify_hash_no_ca))
-            {
-                msg(M_USAGE, "You must define CA file (--ca) and/or "
-                    "peer fingeprint verification "
-                    "(--peer-fingerprint)");
-            }
             if (options->ca_path)
             {
                 msg(M_USAGE, "Parameter --capath cannot be used with the mbed TLS version version of OpenVPN.");
             }
-#else  /* ifdef ENABLE_CRYPTO_MBEDTLS */
-            if ((!(options->ca_file)) && (!(options->ca_path))
-                && (!(options->verify_hash_no_ca)))
-            {
-                msg(M_USAGE, "You must define CA file (--ca) or CA path "
-                    "(--capath) and/or peer fingeprint verification "
-                    "(--peer-fingerprint)");
-            }
-#endif
+#endif  /* ifdef ENABLE_CRYPTO_MBEDTLS */
             if (pull)
             {
 
@@ -2754,11 +2739,13 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
 
                 if (sum == 0)
                 {
-#if P2MP
                     if (!options->auth_user_pass_file)
-#endif
-                    msg(M_USAGE, "No client-side authentication method is specified.  You must use either --cert/--key,"
-                        " --pkcs12, or --auth-user-pass");
+                    {
+                        msg(M_USAGE, "No client-side authentication method is "
+                                     "specified.  You must use either "
+                                     "--cert/--key, --pkcs12, or "
+                                     "--auth-user-pass");
+                    }
                 }
                 else if (sum == 2)
                 {
@@ -2846,12 +2833,10 @@ options_postprocess_verify_ce(const struct options *options, const struct connec
     }
 #undef MUST_BE_UNDEF
 
-#if P2MP
     if (options->auth_user_pass_file && !options->pull)
     {
         msg(M_USAGE, "--auth-user-pass requires --pull");
     }
-#endif
 
     uninit_options(&defaults);
 }
@@ -2869,7 +2854,6 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
         }
     }
 
-#if P2MP
     if (o->client)
     {
         if (ce->proto == PROTO_TCP)
@@ -2877,14 +2861,17 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
             ce->proto = PROTO_TCP_CLIENT;
         }
     }
-#endif
 
-    if (ce->proto == PROTO_TCP_CLIENT && !ce->local && !ce->local_port_defined && !ce->bind_defined)
-    {
-        ce->bind_local = false;
-    }
+    /* an option is present that requires local bind to enabled */
+    bool need_bind = ce->local || ce->local_port_defined || ce->bind_defined;
 
-    if (ce->proto == PROTO_UDP && ce->socks_proxy_server && !ce->local && !ce->local_port_defined && !ce->bind_defined)
+    /* socks proxy is enabled */
+    bool uses_socks = ce->proto == PROTO_UDP && ce->socks_proxy_server;
+
+    /* If binding is not forced by an explicit option and we have (at least)
+     * one of --tcp-client, --pull (or --client), or socks we do not bind
+     * locally to have "normal" IP client behaviour of a random source port */
+    if (!need_bind && (ce->proto == PROTO_TCP_CLIENT || uses_socks || o->pull))
     {
         ce->bind_local = false;
     }
@@ -2894,26 +2881,12 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
         ce->local_port = NULL;
     }
 
-    /* if protocol forcing is enabled, disable all protocols except for the forced one */
+    /* if protocol forcing is enabled, disable all protocols
+     * except for the forced one
+     */
     if (o->proto_force >= 0 && o->proto_force != ce->proto)
     {
         ce->flags |= CE_DISABLED;
-    }
-
-    /*
-     * If --mssfix is supplied without a parameter, default
-     * it to --fragment value, if --fragment is specified.
-     */
-    if (o->ce.mssfix_default)
-    {
-#ifdef ENABLE_FRAGMENT
-        if (ce->fragment)
-        {
-            ce->mssfix = ce->fragment;
-        }
-#else
-        msg(M_USAGE, "--mssfix must specify a parameter");
-#endif
     }
 
     /* our socks code is not fully IPv6 enabled yet (TCP works, UDP not)
@@ -2950,6 +2923,36 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
     }
 
     /*
+     * If --mssfix is supplied without a parameter or not specified at all,
+     * default it to --fragment value, if --fragment is specified and otherwise
+     * to the default if tun-mtu is 1500
+     */
+    if (o->ce.mssfix_default)
+    {
+#ifdef ENABLE_FRAGMENT
+        if (ce->fragment)
+        {
+            ce->mssfix = ce->fragment;
+        }
+        else
+#endif
+        if (ce->tun_mtu_defined && o->ce.tun_mtu == TUN_MTU_DEFAULT)
+        {
+            /* We want to only set mssfix default value if we use a default
+             * MTU Size, otherwise the different size of tun should either
+             * already solve the problem or mssfix might artifically make the
+             * payload packets smaller without mssfix 0 */
+            ce->mssfix = MSSFIX_DEFAULT;
+            ce->mssfix_encap = true;
+        }
+        else
+        {
+            msg(D_MTU_INFO, "Note: not enabling mssfix for non-default value "
+                            "of --tun-mtu");
+        }
+    }
+
+    /*
      * Set per-connection block tls-auth/crypt/crypto-v2 fields if undefined.
      *
      * At the end only one of these will be really set because the parser
@@ -2968,37 +2971,25 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
         ce->tls_crypt_v2_file_inline = o->tls_crypt_v2_file_inline;
     }
 
-    /* pre-cache tls-auth/crypt key file if persist-key was specified and keys
-     * were not already embedded in the config file
+    /* Pre-cache tls-auth/crypt(-v2) key file if persist-key was specified and
+     * keys were not already embedded in the config file.
      */
     if (o->persist_key)
     {
-        if (ce->tls_auth_file && !ce->tls_auth_file_inline)
-        {
-            struct buffer in = buffer_read_from_file(ce->tls_auth_file, &o->gc);
-            if (!buf_valid(&in))
-            {
-                msg(M_FATAL, "Cannot pre-load tls-auth keyfile (%s)",
-                    ce->tls_auth_file);
-            }
-
-            ce->tls_auth_file = (char *)in.data;
-            ce->tls_auth_file_inline = true;
-        }
-
-        if (ce->tls_crypt_file && !ce->tls_crypt_file_inline)
-        {
-            struct buffer in = buffer_read_from_file(ce->tls_crypt_file, &o->gc);
-            if (!buf_valid(&in))
-            {
-                msg(M_FATAL, "Cannot pre-load tls-crypt keyfile (%s)",
-                    ce->tls_crypt_file);
-            }
-
-            ce->tls_crypt_file = (char *)in.data;
-            ce->tls_crypt_file_inline = true;
-        }
+        connection_entry_preload_key(&ce->tls_auth_file,
+                                     &ce->tls_auth_file_inline, &o->gc);
+        connection_entry_preload_key(&ce->tls_crypt_file,
+                                     &ce->tls_crypt_file_inline, &o->gc);
+        connection_entry_preload_key(&ce->tls_crypt_v2_file,
+                                     &ce->tls_crypt_v2_file_inline, &o->gc);
     }
+
+    if (!proto_is_udp(ce->proto) && ce->explicit_exit_notification)
+    {
+        msg(M_WARN, "NOTICE: --explicit-exit-notify ignored for --proto tcp");
+        ce->explicit_exit_notification = 0;
+    }
+
 }
 
 #ifdef _WIN32
@@ -3022,18 +3013,7 @@ options_postprocess_mutate_invariant(struct options *options)
 {
 #ifdef _WIN32
     const int dev = dev_type_enum(options->dev, options->dev_type);
-#endif
 
-    /*
-     * In forking TCP server mode, you don't need to ifconfig
-     * the tap device (the assumption is that it will be bridged).
-     */
-    if (options->inetd == INETD_NOWAIT)
-    {
-        options->ifconfig_noexec = true;
-    }
-
-#ifdef _WIN32
     /* when using wintun, kernel doesn't send DHCP requests, so don't use it */
     if (options->windows_driver == WINDOWS_DRIVER_WINTUN
         && (options->tuntap_options.ip_win32_type == IPW32_SET_DHCP_MASQ || options->tuntap_options.ip_win32_type == IPW32_SET_ADAPTIVE))
@@ -3108,16 +3088,34 @@ options_postprocess_verify(const struct options *o)
     }
 }
 
+/**
+ * Checks for availibility of Chacha20-Poly1305 and sets
+ * the ncp_cipher to either AES-256-GCM:AES-128-GCM or
+ * AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305.
+ */
+static void
+options_postprocess_setdefault_ncpciphers(struct options *o)
+{
+    if (o->ncp_ciphers)
+    {
+        /* custom --data-ciphers set, keep list */
+        return;
+    }
+    else if (cipher_valid("CHACHA20-POLY1305"))
+    {
+        o->ncp_ciphers = "AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305";
+    }
+    else
+    {
+        o->ncp_ciphers = "AES-256-GCM:AES-128-GCM";
+    }
+}
+
 static void
 options_postprocess_cipher(struct options *o)
 {
     if (!o->pull && !(o->mode == MODE_SERVER))
     {
-        /* we are in the classic P2P mode */
-        o->ncp_enabled = false;
-        msg( M_WARN, "Cipher negotiation is disabled since neither "
-             "P2MP client nor server mode is enabled");
-
         /* If the cipher is not set, use the old default of BF-CBC. We will
          * warn that this is deprecated on cipher initialisation, no need
          * to warn here as well */
@@ -3125,30 +3123,124 @@ options_postprocess_cipher(struct options *o)
         {
             o->ciphername = "BF-CBC";
         }
+        else
+        {
+            o->enable_ncp_fallback = true;
+        }
         return;
     }
 
     /* pull or P2MP mode */
     if (!o->ciphername)
     {
-        if (!o->ncp_enabled)
-        {
-            msg(M_USAGE, "--ncp-disable needs an explicit --cipher or "
-                         "--data-ciphers-fallback config option");
-        }
-
         /* We still need to set the ciphername to BF-CBC since various other
          * parts of OpenVPN assert that the ciphername is set */
         o->ciphername = "BF-CBC";
+
+        msg(M_INFO, "Note: --cipher is not set. OpenVPN versions before 2.5 "
+                    "defaulted to BF-CBC as fallback when cipher negotiation "
+                    "failed in this case. If you need this fallback please add "
+                    "'--data-ciphers-fallback 'BF-CBC' to your configuration "
+                    "and/or add BF-CBC to --data-ciphers.");
     }
     else if (!o->enable_ncp_fallback
              && !tls_item_in_cipher_list(o->ciphername, o->ncp_ciphers))
     {
-        msg(M_WARN, "Note: --cipher set to '%s' but missing in"
-            " --data-ciphers (%s). OpenVPN 2.6+ ignores --cipher for "
-            "cipher negiotiation.",
+        msg(M_WARN, "DEPRECATED OPTION: --cipher set to '%s' but missing in "
+            "--data-ciphers (%s). OpenVPN ignores --cipher for cipher "
+            "negotiations. ",
             o->ciphername, o->ncp_ciphers);
     }
+}
+
+/**
+ * The option --compat-mode is used to set up default settings to values 
+ * used on the specified openvpn version and earlier.
+ *
+ * This function is used in various "default option" paths to test if the
+ * user requested compatibility with a version before the one specified
+ * as argument. This way some default settings can be automatically 
+ * altered to guarantee compatibility with the version specified by the 
+ * user via --compat-mode.
+ *
+ * @param version   need compatibility with openvpn versions before the
+ *                  one specified (20401 = before 2.4.1)
+ * @return          whether compatibility should be enabled
+ */
+static bool
+need_compatibility_before(const struct options *o, unsigned int version)
+{
+    return o->backwards_compatible != 0 && o->backwards_compatible < version;
+}
+
+/**
+ * Changes default values so that OpenVPN can be compatible with the user
+ * specified version
+ */
+static void
+options_set_backwards_compatible_options(struct options *o)
+{
+    /* TLS min version is not set */
+    int tls_ver_min = (o->ssl_flags >> SSLF_TLS_VERSION_MIN_SHIFT)
+                          & SSLF_TLS_VERSION_MIN_MASK;
+    if (tls_ver_min == 0)
+    {
+        int tls_ver_max = (o->ssl_flags >> SSLF_TLS_VERSION_MAX_SHIFT)
+                          & SSLF_TLS_VERSION_MAX_MASK;
+        if (need_compatibility_before(o, 20307))
+        {
+            /* 2.3.6 and earlier have TLS 1.0 only, set minimum to TLS 1.0 */
+            o->ssl_flags |= (TLS_VER_1_0 << SSLF_TLS_VERSION_MIN_SHIFT);
+        }
+        else if (tls_ver_max == 0 || tls_ver_max >= TLS_VER_1_2)
+        {
+            /* Use TLS 1.2 as proper default */
+            o->ssl_flags |= (TLS_VER_1_2 << SSLF_TLS_VERSION_MIN_SHIFT);
+        }
+        else
+        {
+            /* Maximize the minimum version */
+            o->ssl_flags |= (tls_ver_max << SSLF_TLS_VERSION_MIN_SHIFT);
+        }
+    }
+
+    if (need_compatibility_before(o, 20400))
+    {
+        if (!o->ciphername)
+        {
+            /* If ciphername is not set default to BF-CBC when targeting these
+             * old versions that do not have NCP */
+            o->ciphername = "BF-CBC";
+        }
+        /* Versions < 2.4.0 additionally might be compiled with --enable-small and
+         * not have OCC strings required for "poor man's NCP" */
+        o->enable_ncp_fallback = true;
+    }
+
+    /* Versions < 2.5.0 do need --cipher in the list of accepted ciphers.
+     * Version 2.4 might probably does not need it but NCP was not so
+     * good with 2.4 and ncp-disable might be more common on 2.4 peers.
+     * Only do this iif --cipher is not explicitly (BF-CBC). This is not
+     * 100% correct backwards compatible behaviour but 2.5 already behaved like
+     * this */
+    if (o->ciphername && need_compatibility_before(o, 20500)
+        && !tls_item_in_cipher_list(o->ciphername, o->ncp_ciphers))
+    {
+        append_cipher_to_ncp_list(o, o->ciphername);
+    }
+
+#ifdef USE_COMP
+    /* Compression is deprecated and we do not want to announce support for it
+     * by default anymore, additionally DCO breaks with compression.
+     *
+     * Disable compression by default starting with 2.6.0 if no other
+     * compression related option has been explicitly set */
+    if (!comp_non_stub_enabled(&o->comp) && !need_compatibility_before(o, 20600)
+        && (o->comp.flags == 0))
+    {
+        o->comp.flags = COMP_F_ALLOW_STUB_ONLY|COMP_F_ADVERTISE_STUBS_ONLY;
+    }
+#endif
 }
 
 static void
@@ -3163,16 +3255,16 @@ options_postprocess_mutate(struct options *o)
     helper_keepalive(o);
     helper_tcp_nodelay(o);
 
+    options_postprocess_setdefault_ncpciphers(o);
+    options_set_backwards_compatible_options(o);
+
     options_postprocess_cipher(o);
     options_postprocess_mutate_invariant(o);
 
-    if (o->ncp_enabled)
+    o->ncp_ciphers = mutate_ncp_cipher_list(o->ncp_ciphers, &o->gc);
+    if (o->ncp_ciphers == NULL)
     {
-        o->ncp_ciphers = mutate_ncp_cipher_list(o->ncp_ciphers, &o->gc);
-        if (o->ncp_ciphers == NULL)
-        {
-            msg(M_USAGE, "NCP cipher list contains unsupported ciphers or is too long.");
-        }
+        msg(M_USAGE, "--data-ciphers list contains unsupported ciphers or is too long.");
     }
 
     if (o->remote_list && !o->connection_list)
@@ -3238,12 +3330,11 @@ options_postprocess_mutate(struct options *o)
         o->verify_hash_no_ca = true;
     }
 
-#if P2MP
     /*
-     * Save certain parms before modifying options via --pull
+     * Save certain parms before modifying options during connect, especially
+     * when using --pull
      */
-    pre_pull_save(o);
-#endif
+    pre_connect_save(o);
 }
 
 /*
@@ -3354,14 +3445,8 @@ check_file_access_chroot(const char *chroot, const int type, const char *file, c
     {
         struct gc_arena gc = gc_new();
         struct buffer chroot_file;
-        int len = 0;
 
-        /* Build up a new full path including chroot directory */
-        len = strlen(chroot) + strlen(PATH_SEPARATOR_STR) + strlen(file) + 1;
-        chroot_file = alloc_buf_gc(len, &gc);
-        buf_printf(&chroot_file, "%s%s%s", chroot, PATH_SEPARATOR_STR, file);
-        ASSERT(chroot_file.len > 0);
-
+        chroot_file = prepend_dir(chroot, file, &gc);
         ret = check_file_access(type, BSTR(&chroot_file), mode, opt);
         gc_free(&gc);
     }
@@ -3550,12 +3635,9 @@ options_postprocess_filechecks(struct options *options)
                               options->management_user_pass, R_OK,
                               "--management user/password file");
 #endif /* ENABLE_MANAGEMENT */
-#if P2MP
     errs |= check_file_access(CHKACC_FILE|CHKACC_ACPTSTDIN|CHKACC_PRIVATE,
                               options->auth_user_pass_file, R_OK,
                               "--auth-user-pass");
-#endif /* P2MP */
-
     /* ** System related ** */
     errs |= check_file_access(CHKACC_FILE, options->chroot_dir,
                               R_OK|X_OK, "--chroot directory");
@@ -3596,43 +3678,56 @@ options_postprocess(struct options *options)
 #endif /* !ENABLE_SMALL */
 }
 
-#if P2MP
-
 /*
  * Save/Restore certain option defaults before --pull is applied.
  */
 
 void
-pre_pull_save(struct options *o)
+pre_connect_save(struct options *o)
 {
-    if (o->pull)
+    ALLOC_OBJ_CLEAR_GC(o->pre_connect, struct options_pre_connect, &o->gc);
+    o->pre_connect->tuntap_options = o->tuntap_options;
+    o->pre_connect->tuntap_options_defined = true;
+    o->pre_connect->foreign_option_index = o->foreign_option_index;
+
+    if (o->routes)
     {
-        ALLOC_OBJ_CLEAR_GC(o->pre_pull, struct options_pre_pull, &o->gc);
-        o->pre_pull->tuntap_options = o->tuntap_options;
-        o->pre_pull->tuntap_options_defined = true;
-        o->pre_pull->foreign_option_index = o->foreign_option_index;
-        if (o->routes)
-        {
-            o->pre_pull->routes = clone_route_option_list(o->routes, &o->gc);
-            o->pre_pull->routes_defined = true;
-        }
-        if (o->routes_ipv6)
-        {
-            o->pre_pull->routes_ipv6 = clone_route_ipv6_option_list(o->routes_ipv6, &o->gc);
-            o->pre_pull->routes_ipv6_defined = true;
-        }
-        if (o->client_nat)
-        {
-            o->pre_pull->client_nat = clone_client_nat_option_list(o->client_nat, &o->gc);
-            o->pre_pull->client_nat_defined = true;
-        }
+        o->pre_connect->routes = clone_route_option_list(o->routes, &o->gc);
+        o->pre_connect->routes_defined = true;
     }
+    if (o->routes_ipv6)
+    {
+        o->pre_connect->routes_ipv6 = clone_route_ipv6_option_list(o->routes_ipv6, &o->gc);
+        o->pre_connect->routes_ipv6_defined = true;
+    }
+    if (o->client_nat)
+    {
+        o->pre_connect->client_nat = clone_client_nat_option_list(o->client_nat, &o->gc);
+        o->pre_connect->client_nat_defined = true;
+    }
+
+    o->pre_connect->route_default_gateway = o->route_default_gateway;
+    o->pre_connect->route_ipv6_default_gateway = o->route_ipv6_default_gateway;
+
+    /* NCP related options that can be overwritten by a push */
+    o->pre_connect->ciphername = o->ciphername;
+    o->pre_connect->authname = o->authname;
+
+    /* Ping related options should be reset to the config values on reconnect */
+    o->pre_connect->ping_rec_timeout = o->ping_rec_timeout;
+    o->pre_connect->ping_rec_timeout_action = o->ping_rec_timeout_action;
+    o->pre_connect->ping_send_timeout = o->ping_send_timeout;
+
+    /* Miscellaneous Options */
+#ifdef USE_COMP
+    o->pre_connect->comp = o->comp;
+#endif
 }
 
 void
-pre_pull_restore(struct options *o, struct gc_arena *gc)
+pre_connect_restore(struct options *o, struct gc_arena *gc)
 {
-    const struct options_pre_pull *pp = o->pre_pull;
+    const struct options_pre_connect *pp = o->pre_connect;
     if (pp)
     {
         CLEAR(o->tuntap_options);
@@ -3661,6 +3756,9 @@ pre_pull_restore(struct options *o, struct gc_arena *gc)
             o->routes_ipv6 = NULL;
         }
 
+        o->route_default_gateway = pp->route_default_gateway;
+        o->route_ipv6_default_gateway = pp->route_ipv6_default_gateway;
+
         if (pp->client_nat_defined)
         {
             cnol_check_alloc(o);
@@ -3672,63 +3770,25 @@ pre_pull_restore(struct options *o, struct gc_arena *gc)
         }
 
         o->foreign_option_index = pp->foreign_option_index;
+
+        o->ciphername = pp->ciphername;
+        o->authname = pp->authname;
+
+        o->ping_rec_timeout = pp->ping_rec_timeout;
+        o->ping_rec_timeout_action = pp->ping_rec_timeout_action;
+        o->ping_send_timeout = pp->ping_send_timeout;
+
+        /* Miscellaneous Options */
+#ifdef USE_COMP
+        o->comp = pp->comp;
+#endif
     }
 
     o->push_continuation = 0;
     o->push_option_types_found = 0;
+    o->data_channel_crypto_flags = 0;
 }
 
-#endif /* if P2MP */
-/**
- * Calculate the link-mtu to advertise to our peer.  The actual value is not
- * relevant, because we will possibly perform data channel cipher negotiation
- * after this, but older clients will log warnings if we do not supply them the
- * value they expect.  This assumes that the traditional cipher/auth directives
- * in the config match the config of the peer.
- */
-static size_t
-calc_options_string_link_mtu(const struct options *o, const struct frame *frame)
-{
-    size_t link_mtu = EXPANDED_SIZE(frame);
-
-    if (o->pull || o->mode == MODE_SERVER)
-    {
-        struct frame fake_frame = *frame;
-        struct key_type fake_kt;
-
-        frame_remove_from_extra_frame(&fake_frame, crypto_max_overhead());
-
-        /* o->ciphername can be still BF-CBC and our SSL library might not like
-         * like it, workaround this important corner case in the name of
-         * compatibility and not stopping openvpn on our default configuration
-         */
-        if ((strcmp(o->ciphername, "BF-CBC") == 0)
-            && cipher_kt_get(o->ciphername) == NULL)
-        {
-            init_key_type(&fake_kt, "none", o->authname, o->keysize, true,
-                          false);
-
-            crypto_adjust_frame_parameters(&fake_frame, &fake_kt, o->replay,
-                                           cipher_kt_mode_ofb_cfb(fake_kt.cipher));
-            /* 64 bit block size, 64 bit IV size */
-            frame_add_to_extra_frame(&fake_frame, 64/8 + 64/8);
-        }
-        else
-        {
-            init_key_type(&fake_kt, o->ciphername, o->authname, o->keysize, true,
-                          false);
-
-            crypto_adjust_frame_parameters(&fake_frame, &fake_kt, o->replay,
-                                           cipher_kt_mode_ofb_cfb(fake_kt.cipher));
-        }
-        frame_finalize(&fake_frame, o->ce.link_mtu_defined, o->ce.link_mtu,
-                       o->ce.tun_mtu_defined, o->ce.tun_mtu);
-        msg(D_MTU_DEBUG, "%s: link-mtu %u -> %d", __func__, (unsigned int) link_mtu,
-            EXPANDED_SIZE(&fake_frame));
-        link_mtu = EXPANDED_SIZE(&fake_frame);
-    }
-    return link_mtu;
-}
 /*
  * Build an options string to represent data channel encryption options.
  * This string must match exactly between peers.  The keysize is checked
@@ -3797,7 +3857,7 @@ options_string(const struct options *o,
     buf_printf(&out, ",link-mtu %u",
                (unsigned int) calc_options_string_link_mtu(o, frame));
 
-    buf_printf(&out, ",tun-mtu %d", PAYLOAD_SIZE(frame));
+    buf_printf(&out, ",tun-mtu %d", frame->tun_mtu);
     buf_printf(&out, ",proto %s",  proto_remote(o->ce.proto, remote));
 
     bool p2p_nopull = o->mode == MODE_POINT_TO_POINT && !PULL_DEFINED(o);
@@ -3891,24 +3951,25 @@ options_string(const struct options *o,
         /* Skip resolving BF-CBC to allow SSL libraries without BF-CBC
          * to work here in the default configuration */
         const char *ciphername = o->ciphername;
-        int keysize;
+        int keysize = 0;
 
-        if (strcmp(o->ciphername, "BF-CBC") == 0) {
-            init_key_type(&kt, "none", o->authname, o->keysize, true,
-                          false);
-            ciphername = cipher_kt_name(kt.cipher);
+        if (strcmp(o->ciphername, "BF-CBC") == 0)
+        {
+            init_key_type(&kt, "none", o->authname, true, false);
             keysize = 128;
         }
         else
         {
-            init_key_type(&kt, o->ciphername, o->authname, o->keysize, true,
-                          false);
-            keysize = kt.cipher_length * 8;
+            init_key_type(&kt, o->ciphername, o->authname, true, false);
+            ciphername = cipher_kt_name(kt.cipher);
+            if (cipher_defined(o->ciphername))
+            {
+                keysize = cipher_kt_key_size(kt.cipher) * 8;
+            }
         }
         /* Only announce the cipher to our peer if we are willing to
          * support it */
-        if (p2p_nopull || !o->ncp_enabled
-            || tls_item_in_cipher_list(ciphername, o->ncp_ciphers))
+        if (p2p_nopull || tls_item_in_cipher_list(ciphername, o->ncp_ciphers))
         {
             buf_printf(&out, ",cipher %s", ciphername);
         }
@@ -4028,7 +4089,7 @@ options_warning_safe_scan2(const int msglevel,
     if (strprefix(p1, "key-method ")
         || strprefix(p1, "keydir ")
         || strprefix(p1, "proto ")
-        || strprefix(p1, "tls-auth ")
+        || streq(p1, "tls-auth")
         || strprefix(p1, "tun-ipv6")
         || strprefix(p1, "cipher "))
     {
@@ -4307,8 +4368,6 @@ print_topology(const int topology)
     }
 }
 
-#if P2MP
-
 /*
  * Manage auth-retry variable
  */
@@ -4362,8 +4421,6 @@ auth_retry_print(void)
             return "???";
     }
 }
-
-#endif /* if P2MP */
 
 /*
  * Print the help message.
@@ -4441,7 +4498,7 @@ usage_version(void)
     show_windows_version( M_INFO|M_NOPREFIX );
 #endif
     msg(M_INFO|M_NOPREFIX, "Originally developed by James Yonan");
-    msg(M_INFO|M_NOPREFIX, "Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>");
+    msg(M_INFO|M_NOPREFIX, "Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>");
 #ifndef ENABLE_SMALL
 #ifdef CONFIGURE_DEFINES
     msg(M_INFO|M_NOPREFIX, "Compile time defines: %s", CONFIGURE_DEFINES);
@@ -4723,7 +4780,8 @@ in_src_get(const struct in_src *is, char *line, const int size)
 }
 
 static char *
-read_inline_file(struct in_src *is, const char *close_tag, struct gc_arena *gc)
+read_inline_file(struct in_src *is, const char *close_tag,
+                 int *num_lines, struct gc_arena *gc)
 {
     char line[OPTION_LINE_SIZE];
     struct buffer buf = alloc_buf(8*OPTION_LINE_SIZE);
@@ -4732,6 +4790,7 @@ read_inline_file(struct in_src *is, const char *close_tag, struct gc_arena *gc)
 
     while (in_src_get(is, line, sizeof(line)))
     {
+        (*num_lines)++;
         char *line_ptr = line;
         /* Remove leading spaces */
         while (isspace(*line_ptr))
@@ -4765,10 +4824,10 @@ read_inline_file(struct in_src *is, const char *close_tag, struct gc_arena *gc)
     return ret;
 }
 
-static bool
+static int
 check_inline_file(struct in_src *is, char *p[], struct gc_arena *gc)
 {
-    bool is_inline = false;
+    int num_inline_lines = 0;
 
     if (p[0] && !p[1])
     {
@@ -4781,16 +4840,15 @@ check_inline_file(struct in_src *is, char *p[], struct gc_arena *gc)
             p[0] = string_alloc(arg + 1, gc);
             close_tag = alloc_buf(strlen(p[0]) + 4);
             buf_printf(&close_tag, "</%s>", p[0]);
-            p[1] = read_inline_file(is, BSTR(&close_tag), gc);
+            p[1] = read_inline_file(is, BSTR(&close_tag), &num_inline_lines, gc);
             p[2] = NULL;
             free_buf(&close_tag);
-            is_inline = true;
         }
     }
-    return is_inline;
+    return num_inline_lines;
 }
 
-static bool
+static int
 check_inline_file_via_fp(FILE *fp, char *p[], struct gc_arena *gc)
 {
     struct in_src is;
@@ -4799,7 +4857,7 @@ check_inline_file_via_fp(FILE *fp, char *p[], struct gc_arena *gc)
     return check_inline_file(&is, p, gc);
 }
 
-static bool
+static int
 check_inline_file_via_buf(struct buffer *multiline, char *p[],
                           struct gc_arena *gc)
 {
@@ -4870,13 +4928,12 @@ read_config_file(struct options *options,
                 }
                 if (parse_line(line + offset, p, SIZE(p)-1, file, line_num, msglevel, &options->gc))
                 {
-                    bool is_inline;
-
                     bypass_doubledash(&p[0]);
-                    is_inline = check_inline_file_via_fp(fp, p, &options->gc);
-                    add_option(options, p, is_inline, file, line_num, level,
+                    int lines_inline = check_inline_file_via_fp(fp, p, &options->gc);
+                    add_option(options, p, lines_inline, file, line_num, level,
                                msglevel, permission_mask, option_types_found,
                                es);
+                    line_num += lines_inline;
                 }
             }
             if (fp != stdin)
@@ -4919,12 +4976,11 @@ read_config_string(const char *prefix,
         ++line_num;
         if (parse_line(line, p, SIZE(p)-1, prefix, line_num, msglevel, &options->gc))
         {
-            bool is_inline;
-
             bypass_doubledash(&p[0]);
-            is_inline = check_inline_file_via_buf(&multiline, p, &options->gc);
-            add_option(options, p, is_inline, prefix, line_num, 0, msglevel,
+            int lines_inline = check_inline_file_via_buf(&multiline, p, &options->gc);
+            add_option(options, p, lines_inline, prefix, line_num, 0, msglevel,
                        permission_mask, option_types_found, es);
+            line_num += lines_inline;
         }
         CLEAR(p);
     }
@@ -5100,8 +5156,6 @@ options_string_import(struct options *options,
     read_config_string("[CONFIG-STRING]", options, config, msglevel, permission_mask, option_types_found, es);
 }
 
-#if P2MP
-
 #define VERIFY_PERMISSION(mask) {                                            \
         if (!verify_permission(p[0], file, line, (mask), permission_mask,        \
                                option_types_found, msglevel, options, is_inline)) \
@@ -5162,12 +5216,6 @@ verify_permission(const char *name,
 #endif
     return true;
 }
-
-#else  /* if P2MP */
-
-#define VERIFY_PERMISSION(mask)
-
-#endif /* if P2MP */
 
 /*
  * Check that an option doesn't have too
@@ -5260,6 +5308,22 @@ show_compression_warning(struct compress_options *info)
     }
 }
 #endif
+
+bool key_is_external(const struct options *options)
+{
+    bool ret = false;
+#ifdef ENABLE_MANAGEMENT
+    ret = ret || (options->management_flags & MF_EXTERNAL_KEY);
+#endif
+#ifdef ENABLE_PKCS11
+    ret = ret || (options->pkcs11_providers[0] != NULL);
+#endif
+#ifdef ENABLE_CRYPTOAPI
+    ret = ret || options->cryptoapi_cert;
+#endif
+
+    return ret;
+}
 
 static void
 add_option(struct options *options,
@@ -5373,13 +5437,14 @@ add_option(struct options *options,
         }
         if (good)
         {
-#if 0
-            /* removed for now since ECHO can potentially include
-             * security-sensitive strings */
-            msg(M_INFO, "%s:%s",
-                pull_mode ? "ECHO-PULL" : "ECHO",
-                BSTR(&string));
-#endif
+            /* only message-related ECHO are logged, since other ECHOs
+             * can potentially include security-sensitive strings */
+            if (p[1] && strncmp(p[1], "msg", 3) == 0)
+            {
+                msg(M_INFO, "%s:%s",
+                    pull_mode ? "ECHO-PULL" : "ECHO",
+                    BSTR(&string));
+            }
 #ifdef ENABLE_MANAGEMENT
             if (management)
             {
@@ -5478,6 +5543,14 @@ add_option(struct options *options,
             {
                 options->management_flags |= MF_EXTERNAL_KEY_PKCS1PAD;
             }
+            else if (streq(p[j], "pss"))
+            {
+                options->management_flags |= MF_EXTERNAL_KEY_PSSPAD;
+            }
+            else if (streq(p[j], "digest"))
+            {
+                options->management_flags |= MF_EXTERNAL_KEY_DIGEST;
+            }
             else
             {
                 msg(msglevel, "Unknown management-external-key flag: %s", p[j]);
@@ -5500,21 +5573,12 @@ add_option(struct options *options,
         options->management_flags |= MF_EXTERNAL_CERT;
         options->management_certificate = p[1];
     }
-#endif /* ifdef ENABLE_MANAGEMENT */
-#ifdef MANAGEMENT_DEF_AUTH
     else if (streq(p[0], "management-client-auth") && !p[1])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL);
         options->management_flags |= MF_CLIENT_AUTH;
     }
-#endif
-#ifdef MANAGEMENT_PF
-    else if (streq(p[0], "management-client-pf") && !p[1])
-    {
-        VERIFY_PERMISSION(OPT_P_GENERAL);
-        options->management_flags |= (MF_CLIENT_PF | MF_CLIENT_AUTH);
-    }
-#endif
+#endif /* ifdef ENABLE_MANAGEMENT */
     else if (streq(p[0], "management-log-cache") && p[1] && !p[2])
     {
         int cache;
@@ -5779,7 +5843,9 @@ add_option(struct options *options,
                 const sa_family_t af = ascii2af(p[3]);
                 if (proto < 0)
                 {
-                    msg(msglevel, "remote: bad protocol associated with host %s: '%s'", p[1], p[3]);
+                    msg(msglevel,
+                        "remote: bad protocol associated with host %s: '%s'",
+                        p[1], p[3]);
                     goto err;
                 }
                 re.proto = proto;
@@ -5962,67 +6028,6 @@ add_option(struct options *options,
             }
         }
     }
-    else if (streq(p[0], "inetd") && !p[3])
-    {
-        VERIFY_PERMISSION(OPT_P_GENERAL);
-        if (!options->inetd)
-        {
-            int z;
-            const char *name = NULL;
-            const char *opterr = "when --inetd is used with two parameters, one of them must be 'wait' or 'nowait' and the other must be a daemon name to use for system logging";
-
-            options->inetd = -1;
-
-            for (z = 1; z <= 2; ++z)
-            {
-                if (p[z])
-                {
-                    if (streq(p[z], "wait"))
-                    {
-                        if (options->inetd != -1)
-                        {
-                            msg(msglevel, "%s", opterr);
-                            goto err;
-                        }
-                        else
-                        {
-                            options->inetd = INETD_WAIT;
-                        }
-                    }
-                    else if (streq(p[z], "nowait"))
-                    {
-                        if (options->inetd != -1)
-                        {
-                            msg(msglevel, "%s", opterr);
-                            goto err;
-                        }
-                        else
-                        {
-                            options->inetd = INETD_NOWAIT;
-                        }
-                    }
-                    else
-                    {
-                        if (name != NULL)
-                        {
-                            msg(msglevel, "%s", opterr);
-                            goto err;
-                        }
-                        name = p[z];
-                    }
-                }
-            }
-
-            /* default */
-            if (options->inetd == -1)
-            {
-                options->inetd = INETD_WAIT;
-            }
-
-            save_inetd_socket_descriptor();
-            open_syslog(name, true);
-        }
-    }
     else if (streq(p[0], "log") && p[1] && !p[2])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL);
@@ -6070,6 +6075,12 @@ add_option(struct options *options,
     {
         VERIFY_PERMISSION(OPT_P_MESSAGES);
         options->verbosity = positive_atoi(p[1]);
+        if (options->verbosity >= (D_TLS_DEBUG_MED & M_DEBUG_LEVEL))
+        {
+            /* We pass this flag to the SSL library to avoid
+             * mbed TLS always generating debug level logging */
+            options->ssl_flags |= SSLF_TLS_DEBUG_ENABLED;
+        }
 #if !defined(ENABLE_DEBUG) && !defined(ENABLE_SMALL)
         /* Warn when a debug verbosity is supplied when built without debug support */
         if (options->verbosity >= 7)
@@ -6153,11 +6164,19 @@ add_option(struct options *options,
         msg(msglevel, "--mtu-dynamic has been replaced by --fragment");
         goto err;
     }
-    else if (streq(p[0], "fragment") && p[1] && !p[2])
+    else if (streq(p[0], "fragment") && p[1] && !p[3])
     {
-/*      VERIFY_PERMISSION (OPT_P_MTU); */
         VERIFY_PERMISSION(OPT_P_MTU|OPT_P_CONNECTION);
         options->ce.fragment = positive_atoi(p[1]);
+
+        if (p[2] && streq(p[2], "mtu"))
+        {
+            options->ce.fragment_encap = true;
+        }
+        else if (p[2])
+        {
+            msg(msglevel, "Unknown parameter to --fragment: %s", p[2]);
+        }
     }
 #endif
     else if (streq(p[0], "mtu-disc") && p[1] && !p[2])
@@ -6227,7 +6246,6 @@ add_option(struct options *options,
     }
     else if (streq(p[0], "shaper") && p[1] && !p[2])
     {
-#ifdef ENABLE_FEATURE_SHAPER
         int shaper;
 
         VERIFY_PERMISSION(OPT_P_SHAPER);
@@ -6239,11 +6257,6 @@ add_option(struct options *options,
             goto err;
         }
         options->shaper = shaper;
-#else /* ENABLE_FEATURE_SHAPER */
-        VERIFY_PERMISSION(OPT_P_GENERAL);
-        msg(msglevel, "--shaper requires the gettimeofday() function which is missing");
-        goto err;
-#endif /* ENABLE_FEATURE_SHAPER */
     }
     else if (streq(p[0], "port") && p[1] && !p[2])
     {
@@ -6299,7 +6312,8 @@ add_option(struct options *options,
         af = ascii2af(p[1]);
         if (proto < 0)
         {
-            msg(msglevel, "Bad protocol: '%s'.  Allowed protocols with --proto option: %s",
+            msg(msglevel,
+                "Bad protocol: '%s'. Allowed protocols with --proto option: %s",
                 p[1],
                 proto2ascii_all(&gc));
             goto err;
@@ -6792,6 +6806,18 @@ add_option(struct options *options,
             setenv_str(es, p[1], p[2] ? p[2] : "");
         }
     }
+    else if (streq(p[0], "compat-mode") && p[1] && !p[3])
+    {
+        unsigned int major, minor, patch;
+        if (!(sscanf(p[1], "%u.%u.%u", &major, &minor, &patch) == 3))
+        {
+            msg(msglevel, "cannot parse version number for --compat-mode: %s",
+                p[1]);
+            goto err;
+        }
+
+        options->backwards_compatible = major * 10000 + minor * 100 + patch;
+    }
     else if (streq(p[0], "setenv-safe") && p[1] && !p[3])
     {
         VERIFY_PERMISSION(OPT_P_SETENV);
@@ -6802,25 +6828,38 @@ add_option(struct options *options,
         VERIFY_PERMISSION(OPT_P_GENERAL);
         script_security_set(atoi(p[1]));
     }
-    else if (streq(p[0], "mssfix") && !p[2])
+    else if (streq(p[0], "mssfix") && !p[3])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL|OPT_P_CONNECTION);
         if (p[1])
         {
+            /* value specified, assume encapsulation is not
+             * included unles "mtu" follows later */
             options->ce.mssfix = positive_atoi(p[1]);
+            options->ce.mssfix_encap = false;
+            options->ce.mssfix_default = false;
         }
         else
         {
+            /* Set MTU to default values */
             options->ce.mssfix_default = true;
+            options->ce.mssfix_encap = true;
         }
 
+        if (p[2] && streq(p[2], "mtu"))
+        {
+            options->ce.mssfix_encap = true;
+        }
+        else if (p[2])
+        {
+            msg(msglevel, "Unknown parameter to --mssfix: %s", p[2]);
+        }
     }
     else if (streq(p[0], "disable-occ") && !p[1])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL);
         options->occ = false;
     }
-#if P2MP
     else if (streq(p[0], "server") && p[1] && p[2] && !p[4])
     {
         const int lev = M_WARN;
@@ -6852,7 +6891,7 @@ add_option(struct options *options,
             }
         }
     }
-    else if (streq(p[0], "server-ipv6") && p[1] && !p[3])
+    else if (streq(p[0], "server-ipv6") && p[1] && !p[2])
     {
         const int lev = M_WARN;
         struct in6_addr network;
@@ -6875,12 +6914,6 @@ add_option(struct options *options,
         options->server_ipv6_defined = true;
         options->server_network_ipv6 = network;
         options->server_netbits_ipv6 = netbits;
-
-        if (p[2])       /* no "nopool" options or similar for IPv6 */
-        {
-            msg(msglevel, "error parsing --server-ipv6: %s is not a recognized flag", p[3]);
-            goto err;
-        }
     }
     else if (streq(p[0], "server-bridge") && p[1] && p[2] && p[3] && p[4] && !p[5])
     {
@@ -7410,7 +7443,6 @@ add_option(struct options *options,
         }
     }
 #endif
-#endif /* if P2MP */
     else if (streq(p[0], "msg-channel") && p[1])
     {
 #ifdef _WIN32
@@ -7523,21 +7555,22 @@ add_option(struct options *options,
     }
 #endif /* ifdef _WIN32 */
 #if defined(_WIN32) || defined(TARGET_ANDROID)
-    else if (streq(p[0], "dhcp-option") && p[1] && !p[3])
+    else if (streq(p[0], "dhcp-option") && p[1])
     {
         struct tuntap_options *o = &options->tuntap_options;
         VERIFY_PERMISSION(OPT_P_IPWIN32);
         bool ipv6dns = false;
 
-        if (streq(p[1], "DOMAIN") && p[2])
+        if ((streq(p[1], "DOMAIN") || streq(p[1], "ADAPTER_DOMAIN_SUFFIX"))
+            && p[2] && !p[3])
         {
             o->domain = p[2];
         }
-        else if (streq(p[1], "NBS") && p[2])
+        else if (streq(p[1], "NBS") && p[2] && !p[3])
         {
             o->netbios_scope = p[2];
         }
-        else if (streq(p[1], "NBT") && p[2])
+        else if (streq(p[1], "NBT") && p[2] && !p[3])
         {
             int t;
             t = atoi(p[2]);
@@ -7548,7 +7581,8 @@ add_option(struct options *options,
             }
             o->netbios_node_type = t;
         }
-        else if ((streq(p[1], "DNS") || streq(p[1], "DNS6")) && p[2] && (!strstr(p[2], ":") || ipv6_addr_safe(p[2])))
+        else if ((streq(p[1], "DNS") || streq(p[1], "DNS6")) && p[2] && !p[3]
+                && (!strstr(p[2], ":") || ipv6_addr_safe(p[2])))
         {
             if (strstr(p[2], ":"))
             {
@@ -7561,19 +7595,19 @@ add_option(struct options *options,
                 dhcp_option_address_parse("DNS", p[2], o->dns, &o->dns_len, msglevel);
             }
         }
-        else if (streq(p[1], "WINS") && p[2])
+        else if (streq(p[1], "WINS") && p[2] && !p[3])
         {
             dhcp_option_address_parse("WINS", p[2], o->wins, &o->wins_len, msglevel);
         }
-        else if (streq(p[1], "NTP") && p[2])
+        else if (streq(p[1], "NTP") && p[2] && !p[3])
         {
             dhcp_option_address_parse("NTP", p[2], o->ntp, &o->ntp_len, msglevel);
         }
-        else if (streq(p[1], "NBDD") && p[2])
+        else if (streq(p[1], "NBDD") && p[2] && !p[3])
         {
             dhcp_option_address_parse("NBDD", p[2], o->nbdd, &o->nbdd_len, msglevel);
         }
-        else if (streq(p[1], "DOMAIN-SEARCH") && p[2])
+        else if (streq(p[1], "DOMAIN-SEARCH") && p[2] && !p[3])
         {
             if (o->domain_search_list_len < N_SEARCH_LIST_LEN)
             {
@@ -7589,6 +7623,13 @@ add_option(struct options *options,
         {
             o->disable_nbt = 1;
         }
+#if defined(TARGET_ANDROID)
+        else if (streq(p[1], "PROXY_HTTP") && p[3] && !p[4])
+        {
+            o->http_proxy_port = atoi(p[3]);
+            o->http_proxy = p[2];
+        }
+#endif
         else
         {
             msg(msglevel, "--dhcp-option: unknown option type '%s' or missing or unknown parameter", p[1]);
@@ -7782,6 +7823,7 @@ add_option(struct options *options,
         else if (streq(p[1], "asym"))
         {
             options->comp.flags &= ~COMP_F_ALLOW_COMPRESS;
+            options->comp.flags |= COMP_F_ALLOW_ASYM;
         }
         else if (streq(p[1], "yes"))
         {
@@ -7871,6 +7913,12 @@ add_option(struct options *options,
                 options->comp.alg = COMP_ALGV2_UNCOMPRESSED;
                 options->comp.flags |= COMP_F_ADVERTISE_STUBS_ONLY;
             }
+            else if (streq(p[1], "migrate"))
+            {
+                options->comp.alg = COMP_ALG_UNDEF;
+                options->comp.flags = COMP_F_MIGRATE;
+
+            }
             else if (options->comp.flags & COMP_F_ALLOW_STUB_ONLY)
             {
                 /* Also printed on a push to hint at configuration problems */
@@ -7950,6 +7998,7 @@ add_option(struct options *options,
     }
     else if (streq(p[0], "secret") && p[1] && !p[3])
     {
+        msg(M_WARN, "DEPRECATED OPTION: The option --secret is deprecated.");
         VERIFY_PERMISSION(OPT_P_GENERAL|OPT_P_INLINE);
         options->shared_secret_file = p[1];
         options->shared_secret_file_inline = is_inline;
@@ -8048,7 +8097,7 @@ add_option(struct options *options,
 #ifdef HAVE_EXPORT_KEYING_MATERIAL
         if (streq(p[1], "tls-ekm"))
         {
-            options->data_channel_use_ekm = true;
+            options->data_channel_crypto_flags |= CO_USE_TLS_KEY_MATERIAL_EXPORT;
         }
         else
 #endif
@@ -8056,39 +8105,9 @@ add_option(struct options *options,
             msg(msglevel, "Unknown key-derivation method %s", p[1]);
         }
     }
-    else if (streq(p[0], "ncp-disable") && !p[1])
-    {
-        VERIFY_PERMISSION(OPT_P_GENERAL|OPT_P_INSTANCE);
-        options->ncp_enabled = false;
-        msg(M_WARN, "DEPRECATED OPTION: ncp-disable. Disabling "
-            "cipher negotiation is a deprecated debug feature that "
-            "will be removed in OpenVPN 2.6");
-    }
     else if (streq(p[0], "prng") && p[1] && !p[3])
     {
-        VERIFY_PERMISSION(OPT_P_GENERAL);
-        if (streq(p[1], "none"))
-        {
-            options->prng_hash = NULL;
-        }
-        else
-        {
-            options->prng_hash = p[1];
-        }
-        if (p[2])
-        {
-            const int sl = atoi(p[2]);
-            if (sl >= NONCE_SECRET_LEN_MIN && sl <= NONCE_SECRET_LEN_MAX)
-            {
-                options->prng_nonce_secret_len = sl;
-            }
-            else
-            {
-                msg(msglevel, "prng parameter nonce_secret_len must be between %d and %d",
-                    NONCE_SECRET_LEN_MIN, NONCE_SECRET_LEN_MAX);
-                goto err;
-            }
-        }
+        msg(M_WARN, "NOTICE: --prng option ignored (SSL library PRNG is used)");
     }
     else if (streq(p[0], "no-replay") && !p[1])
     {
@@ -8164,21 +8183,13 @@ add_option(struct options *options,
         }
     }
 #endif /* ENABLE_CRYPTO_MBEDTLS */
-#ifdef HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH
-    else if (streq(p[0], "keysize") && p[1] && !p[2])
+    else if (streq(p[0], "providers") && p[1])
     {
-        int keysize;
-
-        VERIFY_PERMISSION(OPT_P_NCP);
-        keysize = atoi(p[1]) / 8;
-        if (keysize < 0 || keysize > MAX_CIPHER_KEY_LENGTH)
+        for (size_t j = 1; j < MAX_PARMS && p[j] != NULL;j++)
         {
-            msg(msglevel, "Bad keysize: %s", p[1]);
-            goto err;
+            options->providers.names[j] = p[j];
         }
-        options->keysize = keysize;
     }
-#endif
 #ifdef ENABLE_PREDICTION_RESISTANCE
     else if (streq(p[0], "use-prediction-resistance") && !p[1])
     {
@@ -8250,52 +8261,62 @@ add_option(struct options *options,
     {
         VERIFY_PERMISSION(OPT_P_GENERAL|OPT_P_INLINE);
 
-        options->verify_hash_depth = 0;
+        int verify_hash_depth = 0;
+        if (streq(p[0], "verify-hash"))
+        {
+            msg(M_WARN, "DEPRECATED OPTION: The option --verify-hash is deprecated. "
+            "You should switch to the either use the level 1 certificate as "
+            "--ca option, use --tls-verify or use --peer-fingerprint");
+            /* verify level 1 cert, i.e. the CA that signed the leaf cert */
+            verify_hash_depth = 1;
+        }
+
         options->verify_hash_algo = MD_SHA256;
 
         int digest_len = SHA256_DIGEST_LENGTH;
 
-        if (options->verify_hash)
+        if (options->verify_hash && options->verify_hash_depth != verify_hash_depth)
         {
-            msg(msglevel, "ERROR: Setting %s not allowed. Option to verify "
-                "fingerprint of certificate of peer certificate "
-                "(--verify-hash or --peer-fingerprint) already set.",
-                p[0]);
+            msg(msglevel, "ERROR: Setting %s not allowed. --verify-hash and"
+                          " --peer-fingerprint are mutually exclusive", p[0]);
             goto err;
         }
 
         if (streq(p[0], "verify-hash"))
         {
-            /* verify level 1 cert, i.e. the CA that signed the leaf cert */
-            options->verify_hash_depth = 1;
-
-            if (!p[2] || (p[2] && streq(p[2], "SHA1")))
+            if ((!p[2] && !is_inline) || (p[2] && streq(p[2], "SHA1")))
             {
                 options->verify_hash_algo = MD_SHA1;
-                msg(M_WARN, "DEPRECATED FEATURE: Usage of SHA1 fingerprints for "
-                    "verify-hash is deprecated. You should switch to the "
-                    "SHA256.");
-                options->verify_hash_algo = SHA_DIGEST_LENGTH;
                 digest_len = SHA_DIGEST_LENGTH;
             }
             else if (p[2] && !streq(p[2], "SHA256"))
             {
-                msg(msglevel, "invalid or unsupported hashing algorithm: %s  (only SHA1 and SHA256 are valid)", p[2]);
+                msg(msglevel, "invalid or unsupported hashing algorithm: %s "
+                              "(only SHA1 and SHA256 are supported)", p[2]);
                 goto err;
             }
         }
 
-        if (is_inline)
+        struct verify_hash_list *newlist;
+        newlist = parse_hash_fingerprint_multiline(p[1], digest_len,
+                                                   msglevel, &options->gc);
+
+        /* Append the new list to the end of our current list */
+        if (!options->verify_hash)
         {
-            /* We do not have a inline flag in options struct as it is either
-             * a one line or multiline string */
-            options->verify_hash = parse_hash_fingerprint_multiline(p[1], digest_len, msglevel,
-                                                                    &options->gc);
+            options->verify_hash = newlist;
+            options->verify_hash_depth = verify_hash_depth;
         }
         else
         {
-            options->verify_hash = parse_hash_fingerprint(p[1], digest_len, msglevel,
-                                                          &options->gc);
+            /* since both the old and new list can have multiple entries
+             * we need to go to the end of one of them to concatenate them  */
+            struct verify_hash_list *listend = options->verify_hash;
+            while (listend->next)
+            {
+                listend = listend->next;
+            }
+            listend->next = newlist;
         }
     }
 #ifdef ENABLE_CRYPTOAPI
@@ -8374,6 +8395,11 @@ add_option(struct options *options,
             management_auth_token(management, p[1]);
         }
 #endif
+    }
+    else if (streq(p[0], "auth-token-user") && p[1] && !p[2])
+    {
+        VERIFY_PERMISSION(OPT_P_ECHO);
+        ssl_set_auth_token_user(p[1]);
     }
     else if (streq(p[0], "single-session") && !p[1])
     {
@@ -8470,10 +8496,6 @@ add_option(struct options *options,
             else if (streq(p[2], "name-prefix"))
             {
                 type = VERIFY_X509_SUBJECT_RDN_PREFIX;
-            }
-            else if (streq(p[2], "subject-alt-name"))
-            {
-                type = VERIFY_X509_SAN;
             }
             else
             {
@@ -8653,41 +8675,44 @@ add_option(struct options *options,
         x509_track_add(&options->x509_track, p[1], msglevel, &options->gc);
     }
 #ifdef ENABLE_X509ALTUSERNAME
-    else if (streq(p[0], "x509-username-field") && p[1] && !p[2])
+    else if (streq(p[0], "x509-username-field") && p[1])
     {
-        /* This option used to automatically upcase the fieldname passed as the
-         * option argument, e.g., "ou" became "OU". Now, this "helpfulness" is
+        /* This option used to automatically upcase the fieldnames passed as the
+         * option arguments, e.g., "ou" became "OU". Now, this "helpfulness" is
          * fine-tuned by only upcasing Subject field attribute names which consist
          * of all lower-case characters. Mixed-case attributes such as
          * "emailAddress" are left as-is. An option parameter having the "ext:"
          * prefix for matching X.509v3 extended fields will also remain unchanged.
          */
-        char *s = p[1];
-
         VERIFY_PERMISSION(OPT_P_GENERAL);
-        if (strncmp("ext:", s, 4) != 0)
+        for (size_t j = 1; j < MAX_PARMS && p[j] != NULL; ++j)
         {
-            size_t i = 0;
-            while (s[i] && !isupper(s[i]))
+            char *s = p[j];
+
+            if (strncmp("ext:", s, 4) != 0)
             {
-                i++;
-            }
-            if (strlen(s) == i)
-            {
-                while ((*s = toupper(*s)) != '\0')
+                size_t i = 0;
+                while (s[i] && !isupper(s[i]))
                 {
-                    s++;
+                    i++;
                 }
-                msg(M_WARN, "DEPRECATED FEATURE: automatically upcased the "
-                    "--x509-username-field parameter to '%s'; please update your"
-                    "configuration", p[1]);
+                if (strlen(s) == i)
+                {
+                    while ((*s = toupper(*s)) != '\0')
+                    {
+                        s++;
+                    }
+                    msg(M_WARN, "DEPRECATED FEATURE: automatically upcased the "
+                        "--x509-username-field parameter to '%s'; please update your"
+                        "configuration", p[j]);
+                }
             }
+            else if (!x509_username_field_ext_supported(s+4))
+            {
+                msg(msglevel, "Unsupported x509-username-field extension: %s", s);
+            }
+            options->x509_username_field[j-1] = p[j];
         }
-        else if (!x509_username_field_ext_supported(s+4))
-        {
-            msg(msglevel, "Unsupported x509-username-field extension: %s", s);
-        }
-        options->x509_username_field = p[1];
     }
 #endif /* ENABLE_X509ALTUSERNAME */
 #ifdef ENABLE_PKCS11
@@ -8817,6 +8842,11 @@ add_option(struct options *options,
             msg(msglevel, "Keying material exporter label must begin with "
                 "\"EXPORTER\"");
             goto err;
+        }
+        if (streq(p[1], EXPORT_KEY_DATA_LABEL))
+        {
+            msg(msglevel, "Keying material exporter label must not be '"
+                EXPORT_KEY_DATA_LABEL "'.");
         }
         if (ekm_length < 16 || ekm_length > 4095)
         {

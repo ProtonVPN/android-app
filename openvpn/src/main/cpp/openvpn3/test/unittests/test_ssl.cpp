@@ -113,3 +113,26 @@ TEST(ssl, translate_ciphers_openssl)
   testLog->setPrintOutput(previousLogOutput);
 }
 #endif
+
+#if defined(USE_OPENSSL) && OPENSSL_VERSION_NUMBER >= 0x30000000L
+TEST(ssl, enablelegacyProvider)
+{
+  RandomAPI::Ptr rng(new FakeSecureRand);
+
+  SSLLib::SSLAPI::Config::Ptr sslcfg(new SSLLib::SSLAPI::Config);
+  sslcfg->set_local_cert_enabled(false);
+  sslcfg->set_flags(SSLConst::NO_VERIFY_PEER);
+  sslcfg->set_rng(rng);
+
+  auto f_nolegacy = sslcfg->new_factory();
+
+  sslcfg->enable_legacy_algorithms(true);
+
+  /* Should not throw an error */
+  auto f_legacy = sslcfg->new_factory();
+
+  EXPECT_EQ(SSLLib::CryptoAPI::CipherContext::is_supported(f_nolegacy->libctx(), openvpn::CryptoAlgs::BF_CBC), false);
+
+  EXPECT_EQ(SSLLib::CryptoAPI::CipherContext::is_supported(f_legacy->libctx(), openvpn::CryptoAlgs::BF_CBC), true);
+}
+#endif

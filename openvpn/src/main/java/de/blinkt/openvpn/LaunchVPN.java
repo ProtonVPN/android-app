@@ -209,6 +209,8 @@ public class LaunchVPN extends Activity {
                                 mSelectedProfile.mPassword = null;
                                 mTransientAuthPW = pw;
                             }
+                            ProfileManager.saveProfile( LaunchVPN.this, mSelectedProfile);
+
                         } else {
                             mTransientCertOrPCKS12PW = entry.getText().toString();
                         }

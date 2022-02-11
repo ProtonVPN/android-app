@@ -29,7 +29,7 @@ public class ExternalAppDatabase {
 		mContext =c;
 	}
 
-	private final String PREFERENCES_KEY = "allowed_apps";
+	private final static String PREFERENCES_KEY = "allowed_apps";
 
 	boolean isAllowed(String packagename) {
 		Set<String> allowedapps = getExtAppList();

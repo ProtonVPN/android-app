@@ -38,6 +38,9 @@ namespace openvpn {
     RESOLVER_TYPE resolver;
 
   public:
+    using resolver_type = RESOLVER_TYPE;
+    using results_type = typename RESOLVER_TYPE::results_type;
+
     AsyncResolvable(openvpn_io::io_context& io_context_arg)
       : io_context(io_context_arg),
         resolver(io_context_arg)
@@ -45,7 +48,7 @@ namespace openvpn {
     }
 
     virtual void resolve_callback(const openvpn_io::error_code& error,
-				  typename RESOLVER_TYPE::results_type results) = 0;
+				  results_type results) = 0;
 
     // This implementation assumes that the i/o reactor provides an asynchronous
     // DNS resolution routine using its own primitives and that doesn't require
@@ -54,10 +57,10 @@ namespace openvpn {
     //
     // For example, iOS implements aync_resolve using GCD and CFHost. This
     // implementation satisfies the constraints mentioned above
-    void async_resolve_name(const std::string& host, const std::string& port)
+    virtual void async_resolve_name(const std::string& host, const std::string& port)
     {
 	resolver.async_resolve(host, port, [self=Ptr(this)](const openvpn_io::error_code& error,
-							    typename RESOLVER_TYPE::results_type results)
+							    results_type results)
 	{
 	  OPENVPN_ASYNC_HANDLER;
 	  self->resolve_callback(error, results);

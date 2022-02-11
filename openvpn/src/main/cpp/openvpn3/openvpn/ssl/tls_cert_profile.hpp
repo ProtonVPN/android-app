@@ -34,7 +34,7 @@ namespace openvpn {
   namespace TLSCertProfile {
     enum Type {
       UNDEF=0,
-#ifdef OPENVPN_USE_TLS_MD5
+#ifdef OPENVPN_ALLOW_INSECURE_CERTPROFILE
       INSECURE,
 #endif
       LEGACY,
@@ -56,7 +56,7 @@ namespace openvpn {
 	{
 	case UNDEF:
 	  return "UNDEF";
-#ifdef OPENVPN_USE_TLS_MD5
+#ifdef OPENVPN_ALLOW_INSECURE_CERTPROFILE
 	case INSECURE:
 	  return "INSECURE";
 #endif
@@ -73,7 +73,7 @@ namespace openvpn {
 
     inline Type parse_tls_cert_profile(const std::string& profile_name)
     {
-#ifdef OPENVPN_USE_TLS_MD5
+#ifdef OPENVPN_ALLOW_INSECURE_CERTPROFILE
       if (profile_name == "insecure")
 	return INSECURE;
       else
@@ -108,7 +108,7 @@ namespace openvpn {
       const Type orig = type;
       if (override.empty() || override == "default")
 	;
-#ifdef OPENVPN_USE_TLS_MD5
+#ifdef OPENVPN_ALLOW_INSECURE_CERTPROFILE
       else if (override == "insecure-default")
         {
 	  if (orig == UNDEF)
@@ -125,7 +125,7 @@ namespace openvpn {
 	  if (orig == UNDEF)
 	    type = PREFERRED;
 	}
-#ifdef OPENVPN_USE_TLS_MD5
+#ifdef OPENVPN_ALLOW_INSECURE_CERTPROFILE
       else if (override == "insecure")
 	type = INSECURE;
 #endif

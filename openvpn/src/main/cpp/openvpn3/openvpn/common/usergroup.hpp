@@ -76,6 +76,8 @@ namespace openvpn {
 	}
     }
 
+    virtual ~SetUserGroup() {}
+
     const std::string& user() const
     {
       return user_name;
@@ -86,38 +88,19 @@ namespace openvpn {
       return group_name;
     }
 
-    void activate() const
+    virtual void pre_thread() const
     {
-      if (gr)
-	{
-	  if (::setgid(gr->gr_gid))
-	    {
-	      const int eno = errno;
-	      OPENVPN_THROW(user_group_err, "setgid failed for group '" << group_name << "': " << strerror_str(eno));
-	    }
-	  gid_t gr_list[1];
-	  gr_list[0] = gr->gr_gid;
-	  if (::setgroups(1, gr_list))
-	    {
-	      const int eno = errno;
-	      OPENVPN_THROW(user_group_err, "setgroups failed for group '" << group_name << "': " << strerror_str(eno));
-	    }
-	  OPENVPN_LOG("GID set to '" << group_name << '\'');
-	}
-      if (pw)
-	{
-	  if (::setuid(pw->pw_uid))
-	    {
-	      const int eno = errno;
-	      OPENVPN_THROW(user_group_err, "setuid failed for user '" << user_name << "': " << strerror_str(eno));
-	    }
-	  OPENVPN_LOG("UID set to '" << user_name << '\'');
-	}
-#ifdef OPENVPN_PLATFORM_LINUX
-      // retain core dumpability after setgid/setuid
-      if (gr || pw)
-	::prctl(PR_SET_DUMPABLE, 1);
-#endif
+    }
+
+    virtual void post_thread() const
+    {
+    }
+
+    virtual void activate() const
+    {
+      do_setgid_setgroups();
+      do_setuid();
+      retain_core_dumps();
     }
 
     void chown(const std::string& fn) const
@@ -183,7 +166,55 @@ namespace openvpn {
       return uid_defined() && gid_defined();
     }
 
-  private:
+  protected:
+    void do_setgid_setgroups() const
+    {
+      if (gr)
+	{
+	  if (::setgid(gr->gr_gid))
+	    {
+	      const int eno = errno;
+	      OPENVPN_THROW(user_group_err, "setgid failed for group '" << group_name << "': " << strerror_str(eno));
+	    }
+	  gid_t gr_list[1];
+	  gr_list[0] = gr->gr_gid;
+	  if (::setgroups(1, gr_list))
+	    {
+	      const int eno = errno;
+	      OPENVPN_THROW(user_group_err, "setgroups failed for group '" << group_name << "': " << strerror_str(eno));
+	    }
+	  OPENVPN_LOG("GID set to '" << group_name << '\'');
+	}
+    }
+
+    void do_setuid() const
+    {
+      if (pw)
+	{
+	  if (::setuid(pw->pw_uid))
+	    {
+	      const int eno = errno;
+	      OPENVPN_THROW(user_group_err, "setuid failed for user '" << user_name << "': " << strerror_str(eno));
+	    }
+	  OPENVPN_LOG("UID set to '" << user_name << '\'');
+	}
+    }
+
+    void retain_core_dumps() const
+    {
+#ifdef OPENVPN_PLATFORM_LINUX
+      // retain core dumpability after setgid/setuid
+      if (gr || pw)
+	{
+	  if (::prctl(PR_SET_DUMPABLE, 1))
+	    {
+	      const int eno = errno;
+	      OPENVPN_THROW(user_group_err, "SetUserGroup prctl PR_SET_DUMPABLE fail: " << strerror_str(eno));
+	    }
+	}
+#endif
+    }
+
     std::string user_name;
     std::string group_name;
 

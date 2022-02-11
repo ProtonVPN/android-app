@@ -73,7 +73,7 @@ namespace openvpn {
 	tailroom_ = 0;
 	buffer_flags_ = 0;
 	align_adjust_ = 0;
-
+	align_block_ = sizeof(std::size_t);
 	adj_headroom_ = 0;
 	adj_capacity_ = 0;
       }
@@ -112,6 +112,14 @@ namespace openvpn {
 	buf.reset(capacity(), buffer_flags());
 	buf.init_headroom(actual_headroom(buf.c_data_raw()));
 	return payload();
+      }
+
+      // Allocated a new prepared buffer
+      BufferAllocated alloc() const
+      {
+	BufferAllocated buf;
+	prepare(buf);
+	return buf;
       }
 
       // Realign a buffer to headroom

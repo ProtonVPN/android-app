@@ -1,12 +1,13 @@
 #include "arm_arch.h"
 
-.text
 #if defined(__thumb2__)
 .syntax	unified
 .thumb
 #else
 .code	32
 #endif
+
+.text
 .type	mul_1x1_ialu,%function
 .align	5
 mul_1x1_ialu:
@@ -99,11 +100,13 @@ bn_GF2m_mul_2x2:
 #if __ARM_MAX_ARCH__>=7
 	stmdb	sp!,{r10,lr}
 	ldr	r12,.LOPENSSL_armcap
+# if !defined(_WIN32)
 	adr	r10,.LOPENSSL_armcap
 	ldr	r12,[r12,r10]
-#ifdef	__APPLE__
+# endif
+# if defined(__APPLE__) || defined(_WIN32)
 	ldr	r12,[r12]
-#endif
+# endif
 	tst	r12,#ARMV7_NEON
 	itt	ne
 	ldrne	r10,[sp],#8
@@ -217,7 +220,11 @@ bn_GF2m_mul_2x2:
 #if __ARM_MAX_ARCH__>=7
 .align	5
 .LOPENSSL_armcap:
+# ifdef	_WIN32
+.word	OPENSSL_armcap_P
+# else
 .word	OPENSSL_armcap_P-.
+# endif
 #endif
 .asciz	"GF(2^m) Multiplication for ARMv4/NEON, CRYPTOGAMS by <appro@openssl.org>"
 .align	5

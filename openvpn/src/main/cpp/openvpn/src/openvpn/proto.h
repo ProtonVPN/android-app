@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -246,17 +246,6 @@ struct ip_tcp_udp_hdr {
         acc -= (u32) & 0xffff; \
         acc -= (u32) >> 16;    \
 }
-
-/*
- * We are in a "liberal" position with respect to MSS,
- * i.e. we assume that MSS can be calculated from MTU
- * by subtracting out only the IP and TCP header sizes
- * without options.
- *
- * (RFC 879, section 7).
- */
-#define MTU_TO_MSS(mtu) (mtu - sizeof(struct openvpn_iphdr) \
-                         - sizeof(struct openvpn_tcphdr))
 
 /*
  * This returns an ip protocol version of packet inside tun

@@ -131,6 +131,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             } catch (IOException e) {
                 // wait 300 ms before retrying
                 try {
+                    //noinspection BusyWait
                     Thread.sleep(300);
                 } catch (InterruptedException ignored) {
                 }
@@ -216,8 +217,6 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
                 pendingInput += input;
 
                 pendingInput = processInput(pendingInput);
-
-
             }
         } catch (IOException e) {
             if (!e.getMessage().equals("socket closed") && !e.getMessage().equals("Connection reset by peer"))
@@ -341,7 +340,8 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
 
     private void processInfoMessage(String info)
     {
-        if (info.startsWith("OPEN_URL:") || info.startsWith("CR_TEXT:"))
+        if (info.startsWith("OPEN_URL:") || info.startsWith("CR_TEXT:")
+            || info.startsWith("WEB_AUTH:"))
         {
             mOpenVPNService.trigger_sso(info);
         }
@@ -452,7 +452,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
         String proxyname = null;
         boolean proxyUseAuth = false;
 
-        if (mProfile.mConnections.length > connectionEntryNumber) {
+        if (mProfile != null && mProfile.mConnections != null && mProfile.mConnections.length > connectionEntryNumber) {
             Connection connection = mProfile.mConnections[connectionEntryNumber];
             proxyType = connection.mProxyType;
             proxyname = connection.mProxyName;
@@ -467,7 +467,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
         }
 
         // atuo detection of proxy
-        if (proxyType == Connection.ProxyType.NONE) {
+        if (proxyType == Connection.ProxyType.NONE && mProfile != null) {
             SocketAddress proxyaddr = ProxyDetection.detectProxy(mProfile);
             if (proxyaddr instanceof InetSocketAddress) {
                 InetSocketAddress isa = (InetSocketAddress) proxyaddr;
@@ -475,10 +475,8 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
                 proxyname = isa.getHostName();
                 proxyport = String.valueOf(isa.getPort());
                 proxyUseAuth = false;
-
             }
         }
-
 
         if (args.length >= 2 && proxyType == Connection.ProxyType.HTTP) {
             String proto = args[1];
@@ -488,18 +486,16 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             }
         }
 
-
         if (proxyType == Connection.ProxyType.ORBOT) {
             VpnStatus.updateStateString("WAIT_ORBOT", "Waiting for Orbot to start", R.string.state_waitorbot, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET);
             OrbotHelper orbotHelper = OrbotHelper.get(mOpenVPNService);
-            if (!orbotHelper.checkTorReceier(mOpenVPNService))
+            if (!OrbotHelper.checkTorReceier(mOpenVPNService))
                 VpnStatus.logError("Orbot does not seem to be installed!");
 
             mResumeHandler.postDelayed(orbotStatusTimeOutRunnable, ORBOT_TIMEOUT_MS);
             orbotHelper.addStatusCallback(mOpenVPNService, statusCallback);
 
             orbotHelper.sendOrbotStartAndStatusBroadcast();
-
         } else {
             sendProxyCMD(proxyType, proxyname, proxyport, proxyUseAuth);
         }
@@ -612,6 +608,14 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
                 // This not nice or anything but setFileDescriptors accepts only FilDescriptor class :(
 
                 break;
+            case "HTTPPROXY":
+                String[] httpproxy = extra.split(" ");
+                if (httpproxy.length == 2) {
+                    mOpenVPNService.addHttpProxy(httpproxy[0], Integer.parseInt(httpproxy[1]));
+                } else {
+                    VpnStatus.logError("Unrecognized HTTPPROXY cmd: " + Arrays.toString(httpproxy) + " | " + argument);
+                }
+                break;
             default:
                 Log.e(TAG, "Unknown needok command " + argument);
                 return;
@@ -690,17 +694,21 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
         String pw = null;
         String username = null;
 
-        if (needed.equals("Private Key")) {
-            pw = mProfile.getPasswordPrivateKey();
-        } else if (needed.equals("Auth")) {
-            pw = mProfile.getPasswordAuth();
-            username = mProfile.mUsername;
+        switch (needed) {
+            case "Private Key":
+                pw = mProfile.getPasswordPrivateKey();
+                break;
+            case "Auth":
+                pw = mProfile.getPasswordAuth();
+                username = mProfile.mUsername;
 
-        } else if (needed.equals("HTTP Proxy")) {
-            if( mCurrentProxyConnection != null) {
-                pw = mCurrentProxyConnection.mProxyAuthPassword;
-                username = mCurrentProxyConnection.mProxyAuthUser;
-            }
+                break;
+            case "HTTP Proxy":
+                if (mCurrentProxyConnection != null) {
+                    pw = mCurrentProxyConnection.mProxyAuthPassword;
+                    username = mCurrentProxyConnection.mProxyAuthUser;
+                }
+                break;
         }
         if (pw != null) {
             if (username !=null) {
@@ -760,8 +768,29 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
 
         String[] arguments = argument.split(",");
 
-        boolean pkcs1padding = arguments[1].equals("RSA_PKCS1_PADDING");
-        String signed_string = mProfile.getSignedData(mOpenVPNService, arguments[0], pkcs1padding);
+        // NC9t8IkYrjAQcCzc85zN0H5TvwfAUDwYkR4j2ga6fGw=,RSA_PKCS1_PSS_PADDING,hashalg=SHA256,saltlen=digest
+
+
+        SignaturePadding padding = SignaturePadding.NO_PADDING;
+        String saltlen="";
+        String hashalg="";
+        boolean needsDigest = false;
+
+        for (int i=1;i < arguments.length;i++) {
+            String arg = arguments[i];
+            if(arg.equals("RSA_PKCS1_PADDING"))
+                padding = SignaturePadding.RSA_PKCS1_PADDING;
+            else if (arg.equals("RSA_PKCS1_PSS_PADDING"))
+                padding = SignaturePadding.RSA_PKCS1_PSS_PADDING;
+            else if (arg.startsWith("saltlen="))
+                saltlen= arg.substring(8);
+            else if (arg.startsWith("hashalg="))
+                hashalg = arg.substring(8);
+            else if (arg.equals("data=message"))
+                needsDigest = true;
+        }
+
+        String signed_string = mProfile.getSignedData(mOpenVPNService, arguments[0], padding, saltlen, hashalg, needsDigest);
 
         if (signed_string == null) {
             managmentCommand("pk-sig\n");

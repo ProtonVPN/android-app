@@ -41,6 +41,17 @@ namespace openvpn {
   namespace OpenSSLCrypto {
     class CipherContext
     {
+      /* In OpenSSL 3.0 the method that returns EVP_CIPHER, the cipher needs to be
+       * freed afterwards, thus needing a non-const type. In contrast, OpenSSL 1.1.1
+       * and lower returns a const type, needing a const type */
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
+    using evp_cipher_type = const EVP_CIPHER;
+#else
+    using evp_cipher_type = EVP_CIPHER;
+#endif
+
+      using CIPHER_unique_ptr = std::unique_ptr<evp_cipher_type , decltype(&::EVP_CIPHER_free)>;
+
       CipherContext(const CipherContext&) = delete;
       CipherContext& operator=(const CipherContext&) = delete;
 
@@ -66,7 +77,13 @@ namespace openvpn {
 
       ~CipherContext() { free_cipher_context() ; }
 
-      void init(const CryptoAlgs::Type alg, const unsigned char *key, const int mode)
+      static bool is_supported(SSLLib::Ctx libctx, const CryptoAlgs::Type alg)
+      {
+	CIPHER_unique_ptr cipher(cipher_type(libctx, alg), EVP_CIPHER_free);
+	return (bool)(cipher);
+      }
+
+      void init(SSLLib::Ctx libctx, const CryptoAlgs::Type alg, const unsigned char *key, const int mode)
       {
 	// check that mode is valid
 	if (!(mode == ENCRYPT || mode == DECRYPT))
@@ -74,7 +91,12 @@ namespace openvpn {
 	free_cipher_context();
 	ctx = EVP_CIPHER_CTX_new();
 	EVP_CIPHER_CTX_reset (ctx);
-	if (!EVP_CipherInit_ex (ctx, cipher_type(alg), nullptr, key, nullptr, mode))
+	CIPHER_unique_ptr cipher(cipher_type(libctx, alg), EVP_CIPHER_free);
+
+	if (!cipher)
+		OPENVPN_THROW(openssl_cipher_error, CryptoAlgs::name(alg) << ": not usable");
+
+	if (!EVP_CipherInit_ex (ctx, cipher.get(), nullptr, key, nullptr, mode))
 	  {
 	    openssl_clear_error_stack();
 	    free_cipher_context();
@@ -148,28 +170,28 @@ namespace openvpn {
       }
 
     private:
-      static const EVP_CIPHER *cipher_type(const CryptoAlgs::Type alg)
+      static evp_cipher_type *cipher_type(SSLLib::Ctx libctx, const CryptoAlgs::Type alg)
       {
 	switch (alg)
 	  {
 	  case CryptoAlgs::AES_128_CBC:
-	    return EVP_aes_128_cbc();
+	    return EVP_CIPHER_fetch(libctx, "AES-128-CBC", nullptr);
 	  case CryptoAlgs::AES_192_CBC:
-	    return EVP_aes_192_cbc();
+	    return EVP_CIPHER_fetch(libctx, "AES-192-CBC", nullptr);
 	  case CryptoAlgs::AES_256_CBC:
-	    return EVP_aes_256_cbc();
+	    return EVP_CIPHER_fetch(libctx, "AES-256-CBC", nullptr);
 	  case CryptoAlgs::AES_256_CTR:
-	    return EVP_aes_256_ctr();
+	    return EVP_CIPHER_fetch(libctx, "AES-256-CTR", nullptr);
 	  case CryptoAlgs::DES_CBC:
-	    return EVP_des_cbc();
+	    return EVP_CIPHER_fetch(libctx, "DES-CBC", nullptr);
 	  case CryptoAlgs::DES_EDE3_CBC:
-	    return EVP_des_ede3_cbc();
+	    return EVP_CIPHER_fetch(libctx, "DES-EDE-CBC", nullptr);
 	  case CryptoAlgs::BF_CBC:
-	    return EVP_bf_cbc();
+	    return EVP_CIPHER_fetch(libctx, "BF-CBC", nullptr);
 	  default:
-	    OPENVPN_THROW(openssl_cipher_error, CryptoAlgs::name(alg) << ": not usable");
+	    return nullptr;
 	  }
-      }
+     }
 
       void free_cipher_context()
       {

@@ -52,6 +52,27 @@ which mode OpenVPN is configured as.
   BSDs implement a getrandom() or getentropy() syscall that removes the
   need for /dev/urandom to be available.
 
+--compat-mode version
+  This option provides a way to alter the default of OpenVPN to be more
+  compatible with the version ``version`` specified. All of the changes
+  this option does can also be achieved using individual configuration
+  options.
+
+  Note: Using this option reverts defaults to no longer recommended
+  values and should be avoided if possible.
+
+  The following table details what defaults are changed depending on the
+  version specified.
+
+  - 2.5.x or lower: ``--allow-compression asym`` is automatically added
+    to the configuration if no other compression options are present.
+  - 2.4.x or lower: The cipher in ``--cipher`` is appended to
+    ``--data-ciphers``
+  - 2.3.x or lower: ``--data-cipher-fallback`` is automatically added with
+    the same cipher as ``--cipher``
+  - 2.3.6 or lower: ``--tls-version-min 1.0`` is added to the configuration
+    when ``--tls-version-min`` is not explicitly set.
+
 --config file
   Load additional config options from ``file`` where each line corresponds
   to one command line option, but with the leading '--' removed.
@@ -237,6 +258,13 @@ which mode OpenVPN is configured as.
   likely fail. The limit can be increased using ulimit or systemd
   directives depending on how OpenVPN is started.
 
+  If the platform has the getrlimit(2) system call, OpenVPN will check
+  for the amount of mlock-able memory before calling mlockall(2), and
+  tries to increase the limit to 100 MB if less than this is configured.
+  100 Mb is somewhat arbitrary - it is enough for a moderately-sized
+  OpenVPN deployment, but the memory usage might go beyond that if the
+  number of concurrent clients is high.
+
 --nice n
   Change process priority after initialization (``n`` greater than 0 is
   lower priority, ``n`` less than zero is higher priority).
@@ -251,6 +279,18 @@ which mode OpenVPN is configured as.
 
   This option solves the problem by persisting keys across :code:`SIGUSR1`
   resets, so they don't need to be re-read.
+
+--providers providers
+  Load the list of (OpenSSL) providers. This is mainly useful for using an
+  external provider for key management like tpm2-openssl or to load the
+  legacy provider with
+
+  ::
+
+      --providers legacy default
+
+  Behaviour of changing this option between SIGHUP might not be well behaving.
+  If you need to change/add/remove this option, fully restart OpenVPN.
 
 --remap-usr1 signal
   Control whether internally or externally generated :code:`SIGUSR1` signals
@@ -409,10 +449,7 @@ which mode OpenVPN is configured as.
 
   * :code:`OPENVPN_PLUGIN_AUTH_USER_PASS_VERIFY` plug-in hooks returns
     success/failure via :code:`auth_control_file` when using deferred auth
-    method
-
-  * :code:`OPENVPN_PLUGIN_ENABLE_PF` plugin hook to pass filtering rules
-    via ``pf_file``
+    method and pending authentification via :code:`pending_auth_file`.
 
 --use-prediction-resistance
   Enable prediction resistance on mbed TLS's RNG.

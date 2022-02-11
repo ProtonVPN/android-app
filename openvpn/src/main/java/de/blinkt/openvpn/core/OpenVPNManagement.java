@@ -16,6 +16,12 @@ public interface OpenVPNManagement {
         screenOff,
     }
 
+    enum SignaturePadding {
+        RSA_PKCS1_PSS_PADDING,
+        RSA_PKCS1_PADDING,
+        NO_PADDING
+    }
+
     int mBytecountInterval = 2;
 
     void reconnect();

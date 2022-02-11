@@ -537,7 +537,7 @@ namespace openvpn {
       NotifyBase() noexcept {}
       virtual void call() noexcept = 0;
       virtual ~NotifyBase() {}
-      NotifyBase* next;
+      NotifyBase* next = nullptr;
 
     private:
       NotifyBase(const NotifyBase&) = delete;

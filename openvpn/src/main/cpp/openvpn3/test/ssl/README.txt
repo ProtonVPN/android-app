@@ -1,70 +1,42 @@
-Building proto.cpp sample:
 
-On Mac
+The proto test utility can be tweaked with build time options changing
+the behaviour.  These are set via CMake variables.
 
-  Build with MbedTLS client and server (no minicrypto ASM algs for MbedTLS):
+* TEST_PROTO_NTHREADS - Running test threads (default 1)
+  The number of test client/server pairs running in parallel.
 
-    MTLS=1 build proto
+  $ cd $O3/core/build && cmake -DTEST_PROTO_NTHREADS=4 ..
+  $ cmake --build . -- test/ssl/proto
 
-  Build with MbedTLS client and server using 4 concurrent threads (no minicrypto ASM algs for MbedTLS):
-
-    -DN_THREADS=4" MTLS=1 build proto
-
-  Build with MbedTLS client and OpenSSL server (no minicrypto ASM algs for MbedTLS):
-
-    MTLS=1 OSSL=1 OPENSSL_SYS=1 build proto
-
-  Build with OpenSSL client and server:
-
-    OSSL=1 OPENSSL_SYS=1 build proto
-
-  Build with AppleSSL client and OpenSSL server:
-
-    SSL_BOTH=1 OPENSSL_SYS=1 build proto
-
-  Build with MbedTLS client and server + minicrypto lib:
-
-    MTLS=1 MINI=1 build proto
-
-  Build with MbedTLS client and server (no minicrypto ASM algs for MbedTLS),
-  except substitute AppleSSL crypto algs for the client side:
-
-    HYBRID=1 build proto
-
-On Linux:
-
-  Build with MbedTLS client and server (no ASM crypto algs):
-
-    MTLS=1 NOSSL=1 build proto
-
-  Build with OpenSSL client and server:
-
-    OSSL=1 build proto
-
-  Build with MbedTLS client and OpenSSL server:
-
-    MTLS=1 OSSL=1 build proto
-
-  Build with MbedTLS client and server (no ASM crypto algs)
-  using Profile-Guided Optimization:
-
-    PGEN=1 MTLS=1 NOSSL=1 build proto && ./proto && PUSE=1 MTLS=1 NOSSL=1 build proto
-
-Variations:
-
+* TEST_PROTO_RENEG - Rengotiation (default 900)
   To simulate less data-channel activity and more SSL renegotiations
-  (RENEG default is 900):
 
-  GCC_EXTRA="-DRENEG=90" build proto
+  $ cd $O3/core/build && cmake -DTEST_PROTO_RENEG=90 ..
+  $ cmake --build . -- test/ssl/proto
 
+* TEST_PROTO_ITER - Iterations (default 1000000)
   For verbose output, lower the number of xmit/recv iterations by defining
-  ITER to be 10000 or less, e.g.
+  TEST_PROTO_ITER to be 10000 or less, e.g.
 
-    GCC_EXTRA="-DITER=1000" build proto
+  $ cd $O3/core/build && cmake -DTEST_PROTO_ITER=1000 ..
+  $ cmake --build . -- test/ssl/proto
 
-  Crypto self-test (MbedTLS must be built with DEBUG_BUILD=1 or SELF_TEST=1):
+* TEST_PROTO_SITER - High-level Session Iterations (default 1)
 
-    ./proto test
+  $ cd $O3/core/build && cmake -DTEST_PROTO_SITER=2 ..
+  $ cmake --build . -- test/ssl/proto
+
+* TEST_PROTO_VERBOSE - Verbose log output (off)
+  This will dump details of the protocol traffic as the test runs.  This
+  is a boolean flag.
+
+  $ cd $O3/core/build && cmake -DTEST_PROTO_VERBOSE=ON ..
+  $ cmake --build . -- test/ssl/proto
+
+
+* Mbed TLS specific - run the crypto library self-test
+
+  $ cd $O3/core/build/test/ssl && ./proto test
 
 Caveats:
 
@@ -73,6 +45,7 @@ Caveats:
 
 Typical output:
 
+  $ cd $O3/core/test/ssl
   $ time ./proto
   *** app bytes=73301015 net_bytes=146383320 data_bytes=36327640 prog=0000218807/0000218806 D=12600/600/12600/800 N=1982/1982 SH=17800/17800 HE=3/6
   real	0m11.003s

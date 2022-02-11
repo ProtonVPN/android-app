@@ -2,7 +2,7 @@
 // basic_signal_set.hpp
 // ~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
+#include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/io_object_impl.hpp"
@@ -26,7 +27,8 @@
 #include "asio/detail/type_traits.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
-#include "asio/executor.hpp"
+
+#include "asio/detail/push_options.hpp"
 
 namespace asio {
 
@@ -90,7 +92,7 @@ namespace asio {
  * that any signals registered using signal_set objects are unblocked in at
  * least one thread.
  */
-template <typename Executor = executor>
+template <typename Executor = any_io_executor>
 class basic_signal_set
 {
 public:
@@ -114,7 +116,7 @@ public:
    * signal set.
    */
   explicit basic_signal_set(const executor_type& ex)
-    : impl_(ex)
+    : impl_(0, ex)
   {
   }
 
@@ -128,10 +130,11 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_signal_set(ExecutionContext& context,
-      typename enable_if<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      typename constraint<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(0, 0, context)
   {
   }
 
@@ -150,7 +153,7 @@ public:
    * signals.add(signal_number_1); @endcode
    */
   basic_signal_set(const executor_type& ex, int signal_number_1)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -173,10 +176,11 @@ public:
    */
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
-      typename enable_if<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      typename constraint<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -202,7 +206,7 @@ public:
    */
   basic_signal_set(const executor_type& ex, int signal_number_1,
       int signal_number_2)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -231,10 +235,11 @@ public:
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
       int signal_number_2,
-      typename enable_if<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      typename constraint<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -265,7 +270,7 @@ public:
    */
   basic_signal_set(const executor_type& ex, int signal_number_1,
       int signal_number_2, int signal_number_3)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -299,10 +304,11 @@ public:
   template <typename ExecutionContext>
   basic_signal_set(ExecutionContext& context, int signal_number_1,
       int signal_number_2, int signal_number_3,
-      typename enable_if<
-        is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      typename constraint<
+        is_convertible<ExecutionContext&, execution_context&>::value,
+        defaulted_constraint
+      >::type = defaulted_constraint())
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().add(impl_.get_implementation(), signal_number_1, ec);
@@ -552,8 +558,8 @@ private:
 
       detail::non_const_lvalue<SignalHandler> handler2(handler);
       self_->impl_.get_service().async_wait(
-          self_->impl_.get_implementation(), handler2.value,
-          self_->impl_.get_implementation_executor());
+          self_->impl_.get_implementation(),
+          handler2.value, self_->impl_.get_executor());
     }
 
   private:
@@ -564,5 +570,7 @@ private:
 };
 
 } // namespace asio
+
+#include "asio/detail/pop_options.hpp"
 
 #endif // ASIO_BASIC_SIGNAL_SET_HPP

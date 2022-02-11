@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2010-2018 Fox Crypto B.V. <openvpn@fox-it.com>
+ *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -79,7 +79,7 @@
  *    server's random material.
  *
  * %Key method 2 %key expansion is performed by the \c
- * generate_key_expansion_oepnvpn_prf() function.  Please refer to its source
+ * generate_key_expansion_openvpn_prf() function.  Please refer to its source
  * code for details of the %key expansion process.
  *
  * When the client sends the IV_PROTO_TLS_KEY_EXPORT flag and the server replies

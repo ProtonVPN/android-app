@@ -15,6 +15,9 @@ include(mypragmaonce)
 
 my_pragma_once()
 
+if(NOT OVPN_GTEST_VERSION)
+    set(OVPN_GTEST_VERSION release-1.11.0)
+endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

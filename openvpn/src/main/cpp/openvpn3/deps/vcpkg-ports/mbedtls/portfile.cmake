@@ -10,8 +10,6 @@ vcpkg_from_github(
     HEAD_REF master
     PATCHES
         ..\\..\\mbedtls\\patches\\0001-relax-x509-date-format-check.patch
-        ..\\..\\mbedtls\\patches\\0002-Enable-allowing-unsupported-critical-extensions-in-r.patch
-        ..\\..\\mbedtls\\patches\\0003-fix-gcc-android-build.patch
 )
 
 vcpkg_configure_cmake(

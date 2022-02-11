@@ -65,7 +65,19 @@ namespace openvpn {
       if (!complete_)
 	{
 	  partial_ = true;
-	  extend(other, filt);
+          try
+	    {
+	      // throws if pull-filter rejects
+	      extend(other, filt);
+	    }
+	  catch (const Option::RejectedException& e)
+	    {
+	      // remove all server pushed options on reject
+	      clear();
+	      if (push_base)
+		extend(push_base->multi, nullptr);
+	      throw;
+	    }
 	  if (!continuation(other))
 	    {
 	      if (push_base)

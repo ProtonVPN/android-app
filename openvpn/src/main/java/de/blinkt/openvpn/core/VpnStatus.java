@@ -5,7 +5,6 @@
 
 package de.blinkt.openvpn.core;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -48,7 +47,7 @@ public class VpnStatus {
     public static TrafficHistory trafficHistory;
 
 
-    public static void logException(LogLevel ll, String context, Exception e) {
+    public static void logException(LogLevel ll, String context, Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         LogItem li;
@@ -60,11 +59,11 @@ public class VpnStatus {
         newLogItem(li);
     }
 
-    public static void logException(Exception e) {
+    public static void logException(Throwable e) {
         logException(LogLevel.ERROR, null, e);
     }
 
-    public static void logException(String context, Exception e) {
+    public static void logException(String context, Throwable e) {
         logException(LogLevel.ERROR, context, e);
     }
 
@@ -135,7 +134,7 @@ public class VpnStatus {
             mLogFileHandler.sendEmptyMessage(LogFileHandler.FLUSH_TO_DISK);
     }
 
-    public static void setConnectedVPNProfile(String uuid) {
+    public synchronized static void setConnectedVPNProfile(String uuid) {
         mLastConnectedVPNUUID = uuid;
         for (StateListener sl: stateListener)
             sl.setConnectedVPN(uuid);
@@ -470,10 +469,19 @@ public class VpnStatus {
     }
 
     public static void logMessageOpenVPN(LogLevel level, int ovpnlevel, String message) {
+        /* Check for the weak md whe we have a message from OpenVPN */
         newLogItem(new LogItem(level, ovpnlevel, message));
-
     }
 
+
+    public static void addExtraHints(String msg) {
+        if ((msg.endsWith("md too weak") && msg.startsWith("OpenSSL: error")) || msg.contains("error:140AB18E")
+                || msg.contains("SSL_CA_MD_TOO_WEAK") || (msg.contains("ca md too weak")))
+            logError("OpenSSL reported a certificate with a weak hash, please see the in app FAQ about weak hashes.");
+        if ((msg.contains("digital envelope routines::unsupported")))
+            logError("The encryption method of your private keys/pkcs12 might be outdated and you probably need to enable " +
+                    "the OpenSSL legacy provider to be able to use this profile.");
+    }
 
     public static synchronized void updateByteCount(long in, long out) {
         TrafficHistory.LastDiff diff = trafficHistory.add(in, out);

@@ -53,8 +53,8 @@ namespace openvpn {
 
       // In raw mode, data is sent and received without any special encapsulation.
       // In non-raw mode, data is packetized by prepending a 16-bit length word
-      // onto each packet.  The OpenVPN protocol runs in non-raw mode, while other
-      // TCP protocols such as HTTP or HTTPS would run in raw mode.
+      // onto each packet.  The OpenVPN and DNS protocols run in non-raw mode,
+      // while other TCP protocols such as HTTP or HTTPS would run in raw mode.
       // This method is a no-op if RAW_MODE_ONLY is true.
       void set_raw_mode(const bool mode)
       {
@@ -212,7 +212,6 @@ namespace openvpn {
 		 const Frame::Context& frame_context_arg,
 		 const SessionStats::Ptr& stats_arg)
 	: socket(socket_arg),
-	  halt(false),
 	  read_handler(read_handler_arg),
 	  frame_context(frame_context_arg),
 	  stats(stats_arg),
@@ -430,7 +429,6 @@ namespace openvpn {
       }
 
       typename Protocol::socket& socket;
-      bool halt;
       ReadHandler read_handler;
       Frame::Context frame_context;
       SessionStats::Ptr stats;
@@ -442,6 +440,7 @@ namespace openvpn {
       TransportMutateStream::Ptr mutate;
       bool raw_mode_read;
       bool raw_mode_write;
+      bool halt = false;
 
 #ifdef OPENVPN_GREMLIN
       std::unique_ptr<Gremlin::SendRecvQueue> gremlin;

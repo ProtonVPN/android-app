@@ -2,7 +2,7 @@
 // basic_waitable_timer.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 
 #include "asio/detail/config.hpp"
 #include <cstddef>
+#include "asio/any_io_executor.hpp"
 #include "asio/detail/chrono_time_traits.hpp"
 #include "asio/detail/deadline_timer_service.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
@@ -24,7 +25,6 @@
 #include "asio/detail/non_const_lvalue.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/error.hpp"
-#include "asio/executor.hpp"
 #include "asio/wait_traits.hpp"
 
 #if defined(ASIO_HAS_MOVE)
@@ -41,7 +41,7 @@ namespace asio {
 // Forward declaration with defaulted arguments.
 template <typename Clock,
     typename WaitTraits = asio::wait_traits<Clock>,
-    typename Executor = executor>
+    typename Executor = any_io_executor>
 class basic_waitable_timer;
 
 #endif // !defined(ASIO_BASIC_WAITABLE_TIMER_FWD_DECL)
@@ -175,7 +175,7 @@ public:
    * dispatch handlers for any asynchronous operations performed on the timer.
    */
   explicit basic_waitable_timer(const executor_type& ex)
-    : impl_(ex)
+    : impl_(0, ex)
   {
   }
 
@@ -191,10 +191,10 @@ public:
    */
   template <typename ExecutionContext>
   explicit basic_waitable_timer(ExecutionContext& context,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
   }
 
@@ -209,7 +209,7 @@ public:
    * as an absolute time.
    */
   basic_waitable_timer(const executor_type& ex, const time_point& expiry_time)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().expires_at(impl_.get_implementation(), expiry_time, ec);
@@ -230,10 +230,10 @@ public:
   template <typename ExecutionContext>
   explicit basic_waitable_timer(ExecutionContext& context,
       const time_point& expiry_time,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().expires_at(impl_.get_implementation(), expiry_time, ec);
@@ -251,7 +251,7 @@ public:
    * now.
    */
   basic_waitable_timer(const executor_type& ex, const duration& expiry_time)
-    : impl_(ex)
+    : impl_(0, ex)
   {
     asio::error_code ec;
     impl_.get_service().expires_after(
@@ -273,10 +273,10 @@ public:
   template <typename ExecutionContext>
   explicit basic_waitable_timer(ExecutionContext& context,
       const duration& expiry_time,
-      typename enable_if<
+      typename constraint<
         is_convertible<ExecutionContext&, execution_context&>::value
-      >::type* = 0)
-    : impl_(context)
+      >::type = 0)
+    : impl_(0, 0, context)
   {
     asio::error_code ec;
     impl_.get_service().expires_after(
@@ -316,6 +316,54 @@ public:
   basic_waitable_timer& operator=(basic_waitable_timer&& other)
   {
     impl_ = std::move(other.impl_);
+    return *this;
+  }
+
+  // All timers have access to each other's implementations.
+  template <typename Clock1, typename WaitTraits1, typename Executor1>
+  friend class basic_waitable_timer;
+
+  /// Move-construct a basic_waitable_timer from another.
+  /**
+   * This constructor moves a timer from one object to another.
+   *
+   * @param other The other basic_waitable_timer object from which the move will
+   * occur.
+   *
+   * @note Following the move, the moved-from object is in the same state as if
+   * constructed using the @c basic_waitable_timer(const executor_type&)
+   * constructor.
+   */
+  template <typename Executor1>
+  basic_waitable_timer(
+      basic_waitable_timer<Clock, WaitTraits, Executor1>&& other,
+      typename constraint<
+          is_convertible<Executor1, Executor>::value
+      >::type = 0)
+    : impl_(std::move(other.impl_))
+  {
+  }
+
+  /// Move-assign a basic_waitable_timer from another.
+  /**
+   * This assignment operator moves a timer from one object to another. Cancels
+   * any outstanding asynchronous operations associated with the target object.
+   *
+   * @param other The other basic_waitable_timer object from which the move will
+   * occur.
+   *
+   * @note Following the move, the moved-from object is in the same state as if
+   * constructed using the @c basic_waitable_timer(const executor_type&)
+   * constructor.
+   */
+  template <typename Executor1>
+  typename constraint<
+    is_convertible<Executor1, Executor>::value,
+    basic_waitable_timer&
+  >::type operator=(basic_waitable_timer<Clock, WaitTraits, Executor1>&& other)
+  {
+    basic_waitable_timer tmp(std::move(other));
+    impl_ = std::move(tmp.impl_);
     return *this;
   }
 #endif // defined(ASIO_HAS_MOVE) || defined(GENERATING_DOCUMENTATION)
@@ -698,6 +746,16 @@ public:
    * not, the handler will not be invoked from within this function. On
    * immediate completion, invocation of the handler will be performed in a
    * manner equivalent to using asio::post().
+   *
+   * @par Per-Operation Cancellation
+   * This asynchronous operation supports cancellation for the following
+   * asio::cancellation_type values:
+   *
+   * @li @c cancellation_type::terminal
+   *
+   * @li @c cancellation_type::partial
+   *
+   * @li @c cancellation_type::total
    */
   template <
       ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code))
@@ -742,8 +800,8 @@ private:
 
       detail::non_const_lvalue<WaitHandler> handler2(handler);
       self_->impl_.get_service().async_wait(
-          self_->impl_.get_implementation(), handler2.value,
-          self_->impl_.get_implementation_executor());
+          self_->impl_.get_implementation(),
+          handler2.value, self_->impl_.get_executor());
     }
 
   private:

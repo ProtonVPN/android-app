@@ -42,7 +42,7 @@ namespace openvpn {
     const openvpn_io::const_buffer* begin() const { return buf; }
     const openvpn_io::const_buffer* end() const { return buf + 2; }
 
-    const size_t size() const
+    size_t size() const
     {
       return openvpn_io::buffer_size(buf[0])
 	   + openvpn_io::buffer_size(buf[1]);

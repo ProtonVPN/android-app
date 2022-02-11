@@ -33,7 +33,7 @@
     <string name="ipv4_address">IPv4 Address</string>
     <string name="ipv6_address">IPv6 Address</string>
     <string name="custom_option_warning">Enter custom OpenVPN options. Use with caution. Also note that many of the tun related OpenVPN settings cannot be supported by design of the VPNSettings. If you think an important option is missing contact the author</string>
-    <string name="auth_username">Username</string>
+    <string name="auth_username">Username (leave empty for no auth)</string>
     <string name="auth_pwquery">Password</string>
     <string name="static_keys_info">For the static configuration the TLS Auth Keys will be used as static keys</string>
     <string name="configure_the_vpn">Configure the VPN</string>
@@ -42,7 +42,7 @@
     <string name="duplicate_profile_name">Please enter a unique Profile Name</string>
     <string name="profilename">Profile Name</string>
     <string name="no_keystore_cert_selected">You must select a User certificate</string>
-    <string name="no_ca_cert_selected">You must select a CA certificate</string>
+    <string name="no_ca_cert_selected">You must select a CA certificate or enable peer fingerprint check</string>
     <string name="no_error_found">No error found</string>
     <string name="config_error_found">Error in Configuration</string>
     <string name="ipv4_format_error">Error parsing the IPv4 address</string>
@@ -126,7 +126,7 @@
     <string name="no_vpn_support_image">Your image does not support the VPNService API, sorry :(</string>
     <string name="encryption">Encryption</string>
     <string name="cipher_dialog_title">Enter data encryption methods</string>
-    <string name="chipher_dialog_message">Enter the data encryption cipher algorithms used by OpenVPN separated by : (--data-ciphers). Leave empty to use the default of AES-256-GCM:AES-128-GCM.</string>
+    <string name="chipher_dialog_message">Enter the data encryption cipher algorithms used by OpenVPN separated by : (--data-ciphers). Leave empty to use the default of AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305.</string>
     <string name="auth_dialog_message">Enter the authentication digest used for OpenVPN. Leave empty to use default digest.</string>
     <string name="settings_auth">Authentication/Encryption</string>
     <string name="file_explorer_tab">File Explorer</string>
@@ -393,7 +393,6 @@
     <string name="query_permissions_sdcard">OpenVPN for Android can try to discover the missing file(s) on the sdcard automatically. Tap this message start the permission request.</string>
     <string name="protocol">Protocol</string>
     <string name="enabled_connection_entry">Enabled</string>
-    <string name="abi_mismatch">Preferred native ABI precedence of this device (%1$s) and ABI reported by native libraries (%2$s) mismatch</string>
     <string name="permission_revoked">VPN permission revoked by OS (e.g. other VPN program started), stopping VPN</string>
     <string name="pushpeerinfo">Push Peer info</string>
     <string name="pushpeerinfosummary">Send extra information to the server, e.g. SSL version and Android version</string>
@@ -403,7 +402,6 @@
     <string name="export_config_chooser_title">Export configuration file</string>
     <string name="missing_tlsauth">tls-auth file is missing</string>
     <string name="missing_certificates">Missing user certificate or user certifcate key file</string>
-    <string name="missing_ca_certificate">Missing CA certificate</string>
     <string name="crl_title">Certifcate Revoke List (optional)</string>
     <string name="reread_log">Reread (%d) log items from log cache file</string>
     <string name="samsung_broken">Even though Samsung phones are among the most selling Android phones, Samsung\'s firmware are also among the most buggy Android firmwares. The bugs are not limited to the VPN operation on these devices but many of them can be workarounded. In the following some of these bugs are described.\n\nDNS does not work unless the DNS server in the VPN range.\n\nOn many Samsung 5.x devices the allowed/disallowed apps feature does not work.\nOn Samsung 6.x VPN is reported not to work unless the VPN app is exempted from Powersave features.</string>
@@ -440,15 +438,10 @@
     <string name="mbits_per_second">%.1f Mbit/s</string>
     <string name="gbits_per_second">%.1f Gbit/s</string>
     <string name="weakmd">&lt;p>Starting with OpenSSL version 1.1, OpenSSL rejects weak signatures in certificates like
-        MD5.&lt;/p>&lt;p>&lt;b>MD5 signatures are completely insecure and should not be used anymore.&lt;/b> MD5
-        collisions can be created in &lt;a
-        href="https://natmchugh.blogspot.de/2015/02/create-your-own-md5-collisions.html">few hours at a minimal cost.&lt;/a>.
-        You should update the VPN certificates as soon as possible.&lt;/p>&lt;p>Unfortunately, older easy-rsa
-        distributions included the config option "default_md md5". If you are using an old easy-rsa version, update to
-        the &lt;a href="https://github.com/OpenVPN/easy-rsa/releases">latest version&lt;/a>) or change md5 to sha256 and
-        regenerate your certificates.&lt;/p>&lt;p>If you really want to use old and broken certificates use the custom
-        configuration option tls-cipher "DEFAULT:@SECLEVEL=0" under advanced configuration or as additional line in your
-        imported configuration&lt;/p>
+        MD5. Additionally with the OpenSSL 3.0 signatures with SHA1 are also rejected.&lt;/p>&lt;p>
+        You should update the VPN certificates as soon as possible as SHA1 will also no longer work on other platforms in the
+        near future.&lt;/p>
+        &lt;p>If you really want to use old and broken certificates select "insecure" for the TLS security profile under Authentication/Encryption of the profile&lt;/p>
     </string>
     <string name="volume_byte">%.0f B</string>
     <string name="volume_kbyte">%.1f kB</string>
@@ -494,11 +487,24 @@
     <string name="title_block_address_families">Block IPv6 (or IPv4) if not used by the VPN</string>
     <string name="install_keychain">Install new certificate</string>
     <string name="as_servername">AS servername</string>
+    <string name="server_url">Server URL</string>
     <string name="request_autologin">Request autologin profile</string>
-    <string name="import_from_as">Import Profile from Access Server</string>
+    <string name="import_from_as">Import Profile from Remote Server</string>
     <string name="no_default_vpn_set">Default VPN not set. Please set the Default VPN before enabling this option.</string>
     <string name="internal_web_view">Internal WebView</string>
-    <string name="faq_title_ncp">Failed to negotiate cipher with server</string>
-    <string name="faq_ncp">There are some variation of this message depending on the exact situation. They all have in common that server and client could not agree on a common cipher. The main reasons are: &lt;ul>&lt;li> You are still relying on the fact that OpenVPN 2.4 and older allowed BF-CBC in the default configuration (if no --cipher was set). OpenVPN 2.5 does not allow it per default anymore since it is a &lt;a href="https://community.openvpn.net/openvpn/wiki/SWEET32">broken/outdated cipher&lt;/a>.&lt;/li>&lt;li>The server runs OpenVPN 2.3 (or even older) with --enable-small (at least 4-5 year old OpenVPN)&lt;/li>&lt;li>Broken configuration (e.g., mismatching data-ciphers on client and server)&lt;/li> &lt;p> The &lt;a href=\"https://github.com/OpenVPN/openvpn/blob/master/doc/man-sections/cipher-negotiation.rst\">OpenVPN manual section on cipher negotiation&lt;/a> explains the different scenarios of cipher negotiation very well and what to do in these situation.&lt;p>TP-Link devices use a at least 5 year old OpenVPN 2.3.x version (possibly older) on their devices, even in the 2019/2020 models.&lt;p>Last but not least, there is a popular VPN provider that has a broken server that always says it is using \'BF-CBC\' because its developer thought it would be a good idea to create a proprietary cipher negotiation patch that is incompatible with standard OpenVPN.&lt;p>In summary: all sane configurations should not get these errors. But (apart from the broken VPN provider\'s server) the client can be persuaded to still connect (fixing the sympton and not the real problem).</string>
+    <string name="faq_ncp">There are some variation of this message depending on the exact situation. They all have in common that server and client could not agree on a common cipher. The main reasons are: &lt;ul>&lt;li> You are still relying on the fact that OpenVPN 2.4 and older allowed BF-CBC in the default configuration (if no --cipher was set). OpenVPN 2.5 does not allow it per default anymore since it is a &lt;a href="https://community.openvpn.net/openvpn/wiki/SWEET32">broken/outdated cipher&lt;/a>.&lt;/li>&lt;li>The server runs OpenVPN 2.3 (or even older) with --enable-small (at least 4-5 year old OpenVPN)&lt;/li>&lt;li>&lt;/ul>Broken configuration (e.g., mismatching data-ciphers on client and server)&lt;/li> &lt;p> The &lt;a href=\"https://github.com/OpenVPN/openvpn/blob/master/doc/man-sections/cipher-negotiation.rst\">OpenVPN manual section on cipher negotiation&lt;/a> explains the different scenarios of cipher negotiation very well and what to do in these situation.&lt;p>TP-Link devices use a at least 5 year old OpenVPN 2.3.x version (possibly older) on their devices, even in the 2019/2020 models.&lt;p>Last but not least, there is a popular VPN provider that has a broken server that always says it is using \'BF-CBC\' because its developer thought it would be a good idea to create a proprietary cipher negotiation patch that is incompatible with standard OpenVPN.&lt;p>In summary: all sane configurations should not get these errors. But (apart from the broken VPN provider\'s server) the client can be persuaded to still connect (fixing the sympton and not the real problem). When connecting to older servers the comaptiblity mode option in the basic settings of a VPN should be able to address most of the common compatiblity problems.</string>
+    <string name="check_peer_fingerprint">Check peer certificate fingerprint</string>
+    <string name="fingerprint">(Enter the SHA256 fingerprint of the server certificate(s))</string>
+    <string name="proxy_info">HTTP Proxy: %1$s %2$d</string>
+    <string name="use_alwayson_vpn">Please use the Always-On Feature of Android to enable VPN at boot time.</string>
+    <string name="open_vpn_settings">Open VPN Settings</string>
+    <string name="trigger_pending_auth_dialog">Press here open a window to enter additional required authentication</string>
+    <string name="compatmode">Compatibility Mode</string>
+    <string name="compat_mode_label">Compatibility mode</string>
+    <string name="loadossllegacy">Load OpenSSL legacy provider</string>
+    <string name="bf_cbc_requires_legacy">Profiles uses BF-CBC which depends on OpenSSL legacy provider (not enabled).</string>
+    <string name="allow_translations_title">Allow community contributed translations</string>
+    <string name="allow_translations_summary">Allows the app to be translated with translations contributed by the community. Requires a restart of the app to activate.</string>
+    <string name="tls_profile">TLS Security Profile</string>
 
 </resources>

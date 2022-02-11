@@ -38,6 +38,10 @@ namespace openvpn {
   class ProfileMerge;
   class Stop;
 
+  namespace InitProcess {
+    class Init;
+  };
+
   namespace ClientAPI {
     // Represents an OpenVPN server and its friendly name
     // (client reads)
@@ -102,6 +106,9 @@ namespace openvpn {
     {
       std::string username;
       std::string password;
+
+      std::string http_proxy_user;
+      std::string http_proxy_pass;
 
       // response to challenge
       std::string response;
@@ -174,7 +181,8 @@ namespace openvpn {
 
       // Set to a comma seperated list of supported SSO mechanisms that may
       // be signalled via INFO_PRE to the client.
-      // "openurl" is to continue authentication by opening an url in a browser
+      // "openurl"   deprecated version of webauth
+      // "webauth" to continue authentication by opening an url in a browser
       // "crtext" gives a challenge response in text format that needs to
       // responded via control channel. (
       // Passed to the server as IV_SSO
@@ -198,11 +206,15 @@ namespace openvpn {
       // Should be tcp, udp, or adaptive.
       std::string protoOverride;
 
-      // IPv6 preference
-      //  no      -- disable IPv6, so tunnel will be IPv4-only
-      //  yes     -- request combined IPv4/IPv6 tunnel
-      //  default (or empty string) -- leave decision to server
-      std::string ipv6;
+      // Force transport protocol IP version
+      // Should be 4 for IPv4 or 6 for IPv6.
+      int protoVersionOverride = 0;
+
+      // allowUnusedAddrFamilies preference
+      //  no      -- disable IPv6/IPv4, so tunnel will be IPv4 or IPv6 only if not dualstack
+      //  yes     -- Allow continuing using native IPv4/IPv6 connectivity for single IP family tunnel
+      //  default (or empty string) -- leave decision to server/config
+      std::string allowUnusedAddrFamilies;
 
       // Connection timeout in seconds, or 0 to retry indefinitely
       int connTimeout = 0;
@@ -249,13 +261,6 @@ namespace openvpn {
       // for compatibility with 2.x branch
       int defaultKeyDirection = -1;
 
-      // If true, force ciphersuite to be one of:
-      // 1. TLS_DHE_RSA_WITH_AES_256_CBC_SHA, or
-      // 2. TLS_DHE_RSA_WITH_AES_128_CBC_SHA
-      // and disable setting TLS minimum version.
-      // This is intended for compatibility with legacy systems.
-      bool forceAesCbcCiphersuites = false;
-
       // Override the minimum TLS version:
       //   disabled -- don't specify a minimum, and disable any minimum
       //               specified in profile
@@ -297,8 +302,8 @@ namespace openvpn {
       // Custom proxy implementation
       bool altProxy = false;
 
-      // Custom Data Channel Offload implementation
-      bool dco = false;
+      // Enable automatic Data Channel Offload
+      bool dco = true;
 
       // pass through pushed "echo" directives via "ECHO" event
       bool echo = false;
@@ -320,6 +325,21 @@ namespace openvpn {
 
       // Use wintun instead of tap-windows6 on Windows
       bool wintun = false;
+
+      // On Windows allow DNS resolvers on localhost, such as Umbrella Roaming Client
+      // This disables adding NRPT rule for "." zone and permits DNS requests to localhost
+      bool allowLocalDnsResolvers = false;
+
+      // Allow usage of legacy (cipher) algorithm that are no longer considered safe
+      // This includes BF-CBC, single DES and RC2 private key encryption.
+      // With OpenSSL 3.0 this also instructs OpenSSL to load the legacy provider.
+      bool enableLegacyAlgorithms = false;
+
+      // By default modern OpenVPN version (OpenVPN 2.6 and OpenVPN core 3.7) will only allow
+      // preferred algorithms (AES-GCM, Chacha20-Poly1305) that also work with the newer DCO
+      // implementations. If this enable, we fall back to allowing all algorithms (if these are
+      // supported by the crypto library)
+      bool enableNonPreferredDCAlgorithms;
     };
 
     // used to communicate VPN events such as connect, disconnect, etc.
@@ -457,6 +477,60 @@ namespace openvpn {
       class ClientState;
     };
 
+    /**
+     * Helper class for OpenVPN clients. Provider helper method to be used with
+     * the \sa OpenVPNClient class.
+     */
+    class OpenVPNClientHelper {
+      /* To call parse_config */
+      friend class OpenVPNClient;
+    public:
+      OpenVPNClientHelper();
+
+      ~OpenVPNClientHelper();
+
+      OpenVPNClientHelper(OpenVPNClientHelper &) = delete;
+
+      // Read an OpenVPN profile that might contain external
+      // file references, returning a unified profile.
+      MergeConfig merge_config(const std::string& path, bool follow_references);
+
+      // Read an OpenVPN profile that might contain external
+      // file references, returning a unified profile.
+      MergeConfig merge_config_string(const std::string& config_content);
+
+      // Parse profile and determine needed credentials statically.
+      EvalConfig eval_config(const Config& config);
+
+      // Maximum size of profile that should be allowed
+      static long max_profile_size();
+
+      // Parse a dynamic challenge cookie, placing the result in dc.
+      // Return true on success or false if parse error.
+      static bool parse_dynamic_challenge(const std::string& cookie, DynamicChallenge& dc);
+
+      // Do a crypto library self test
+      std::string crypto_self_test();
+
+      // Returns platform description string
+      static std::string platform();
+
+      // Returns core copyright
+      static std::string copyright();
+    private:
+      static MergeConfig build_merge_config(const ProfileMerge&);
+
+      static void parse_config(const Config&, EvalConfig&, OptionList&);
+
+      /* including initprocess.hpp here break since it pulls in logging
+       * (OPENVPN_LOG) which not setup when including this header, so break that
+       * cycle here with a pointer instead a normal member, std::unique_ptr
+       * and std::unique_ptr because they still need to have the initprocess.hpp
+       * included in the same compilation unit which breaks in the swig wrapped
+       * class, so we use a plain pointer and new/delete in constructor/destructor */
+      InitProcess::Init* init;
+    };
+
     // Top-level OpenVPN client class.
     class OpenVPNClient : public TunBuilderBase,            // expose tun builder virtual methods
 			  public LogReceiver,               // log message notification
@@ -467,24 +541,6 @@ namespace openvpn {
     public:
       OpenVPNClient();
       virtual ~OpenVPNClient();
-
-      // Read an OpenVPN profile that might contain external
-      // file references, returning a unified profile.
-      static MergeConfig merge_config_static(const std::string& path, bool follow_references);
-
-      // Read an OpenVPN profile that might contain external
-      // file references, returning a unified profile.
-      static MergeConfig merge_config_string_static(const std::string& config_content);
-
-      // Parse profile and determine needed credentials statically.
-      static EvalConfig eval_config_static(const Config& config);
-
-      // Maximum size of profile that should be allowed
-      static long max_profile_size();
-
-      // Parse a dynamic challenge cookie, placing the result in dc.
-      // Return true on success or false if parse error.
-      static bool parse_dynamic_challenge(const std::string& cookie, DynamicChallenge& dc);
 
       // Parse OpenVPN configuration file.
       EvalConfig eval_config(const Config&);
@@ -580,18 +636,6 @@ namespace openvpn {
       // Periodic convenience clock tick, controlled by Config::clockTickMS
       virtual void clock_tick();
 
-      // Do a crypto library self test
-      static std::string crypto_self_test();
-
-      // Returns date/time of app expiration as a unix time value
-      static int app_expire();
-
-      // Returns platform description string
-      static std::string platform();
-
-      // Returns core copyright
-      static std::string copyright();
-
       // Hide protected methods/data from SWIG
 #ifdef SWIGJAVA
     private:
@@ -614,12 +658,9 @@ namespace openvpn {
       void connect_setup(Status&, bool&);
       void do_connect_async();
       static Status status_from_exception(const std::exception&);
-      static void parse_config(const Config&, EvalConfig&, OptionList&);
       void parse_extras(const Config&, EvalConfig&);
       void external_pki_error(const ExternalPKIRequestBase&, const size_t);
       void process_epki_cert_chain(const ExternalPKICertRequest&);
-      void check_app_expired();
-      static MergeConfig build_merge_config(const ProfileMerge&);
 
       friend class MyClientEvents;
       void on_disconnect();

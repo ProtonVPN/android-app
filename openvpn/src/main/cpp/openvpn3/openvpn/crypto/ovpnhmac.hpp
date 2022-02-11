@@ -207,7 +207,7 @@ namespace openvpn {
   {
   public:
     CryptoOvpnHMACContext(const CryptoAlgs::Type digest_type)
-      : digest(CryptoAlgs::legal_dc_digest(digest_type))
+      : digest(digest_type)
     {
     }
 

@@ -1,6 +1,8 @@
 /*
  * Copyright (c) 2012-2016 Arne Schwabe
- * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+ * This file is used for implementing the external API and this file like the AIDL and is exempted
+ * from the GPLv2. 
+ *
  */
 
 package de.blinkt.openvpn.api;

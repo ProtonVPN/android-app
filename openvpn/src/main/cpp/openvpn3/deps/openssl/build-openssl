@@ -44,10 +44,10 @@ CSUM=${OPENSSL_CSUM}
 
 download
 
-AR=ar
+AR="ar rc"
 RANLIB=ranlib
-[ "$AR_CMD" ] && AR=$AR_CMD
-[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
+[ "$AR_CMD" ] && AR="$AR_CMD"
+[ "$RANLIB_CMD" ] && RANLIB="$RANLIB_CMD"
 
 # special hack because OpenSSL build system doesn't use rc options for ar
 [ "$AR" = "gcc-ar" ] && AR="gcc-ar rc"
@@ -60,18 +60,19 @@ rm -rf $OPENSSL $DIST
 mkdir -p $DIST
 tar xfz $DL/$FNAME
 pushd $OPENSSL
+export SOURCE_DATE_EPOCH=$(date -r CHANGES +%s)
 CMD="./Configure $OPENSSL_TARGET $LINK_MODE threads no-idea no-mdc2 no-rc5 --prefix=$DIST"
 echo $CMD
 $CMD
 $mysed -e "s|-O3|$LIB_OPT_LEVEL $MIN_DEPLOY_TARGET $OTHER_COMPILER_FLAGS $LIB_FPIC|" Makefile
 #$mysed -e "s|ERR_load_COMP_strings()|//ERR_load_COMP_strings()|" crypto/err/err_all.c
 make depend
-make CC="$GCC_CMD" AR="$AR" RANLIB="$RANLIB" -j ${MAKE_JOBS:-1} build_libs
+make CC="$GCC_CMD" AR="$AR" ARFLAGS="" RANLIB="$RANLIB" -j ${MAKE_JOBS:-1} build_libs
 touch apps/openssl
 touch openssl.pc
 touch libcrypto.pc
 touch libssl.pc
-make install_sw
+make RANLIB="$RANLIB" install_sw
 popd
 
 exit 0

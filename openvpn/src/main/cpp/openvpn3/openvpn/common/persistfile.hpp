@@ -62,7 +62,7 @@ namespace openvpn {
       const ssize_t len = write_retry(fd(), buf, count);
       if (len < 0)
 	syserr("write");
-      if (len != count || len != ::lseek(fd(), 0, SEEK_CUR))
+      if (static_cast<size_t>(len) != count || len != ::lseek(fd(), 0, SEEK_CUR))
 	err("incomplete write");
       if (::ftruncate(fd(), len) < 0)
 	syserr("truncate");

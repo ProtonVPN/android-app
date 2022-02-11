@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -332,13 +332,13 @@ buf_set_write(struct buffer *buf, uint8_t *data, int size)
 }
 
 static inline void
-buf_set_read(struct buffer *buf, const uint8_t *data, int size)
+buf_set_read(struct buffer *buf, const uint8_t *data, size_t size)
 {
     if (!buf_size_valid(size))
     {
         buf_size_error(size);
     }
-    buf->len = buf->capacity = size;
+    buf->len = buf->capacity = (int)size;
     buf->offset = 0;
     buf->data = (uint8_t *)data;
 }
@@ -449,22 +449,6 @@ __attribute__ ((format(__printf__, 3, 4)))
 ;
 
 
-#ifdef _WIN32
-/*
- * Like swprintf but guarantees null termination for size > 0
- *
- * This is under #ifdef because only Windows-specific code in tun.c
- * uses this function and its implementation breaks OpenBSD <= 4.9
- */
-bool
-openvpn_swprintf(wchar_t *const str, const size_t size, const wchar_t *const format, ...);
-
-/*
- * Unlike in openvpn_snprintf, we cannot use format attributes since
- * GCC doesn't support wprintf as archetype.
- */
-#endif
-
 /*
  * remove/add trailing characters
  */
@@ -538,10 +522,10 @@ struct buffer buf_sub(struct buffer *buf, int size, bool prepend);
  */
 
 static inline bool
-buf_safe(const struct buffer *buf, int len)
+buf_safe(const struct buffer *buf, size_t len)
 {
     return buf_valid(buf) && buf_size_valid(len)
-           && buf->offset + buf->len + len <= buf->capacity;
+           && buf->offset + buf->len + (int)len <= buf->capacity;
 }
 
 static inline bool
@@ -549,7 +533,7 @@ buf_safe_bidir(const struct buffer *buf, int len)
 {
     if (buf_valid(buf) && buf_size_valid_signed(len))
     {
-        const int newlen = buf->len + len;
+        int newlen = buf->len + len;
         return newlen >= 0 && buf->offset + newlen <= buf->capacity;
     }
     else
@@ -653,7 +637,7 @@ buf_advance(struct buffer *buf, int size)
  */
 
 static inline uint8_t *
-buf_write_alloc(struct buffer *buf, int size)
+buf_write_alloc(struct buffer *buf, size_t size)
 {
     uint8_t *ret;
     if (!buf_safe(buf, size))
@@ -661,7 +645,7 @@ buf_write_alloc(struct buffer *buf, int size)
         return NULL;
     }
     ret = BPTR(buf) + buf->len;
-    buf->len += size;
+    buf->len += (int)size;
     return ret;
 }
 
@@ -686,7 +670,7 @@ buf_read_alloc(struct buffer *buf, int size)
 }
 
 static inline bool
-buf_write(struct buffer *dest, const void *src, int size)
+buf_write(struct buffer *dest, const void *src, size_t size)
 {
     uint8_t *cp = buf_write_alloc(dest, size);
     if (!cp)
@@ -1118,11 +1102,9 @@ struct buffer_list
 /**
  * Allocate an empty buffer list of capacity \c max_size.
  *
- * @param max_size  the capacity of the list to allocate
- *
  * @return the new list
  */
-struct buffer_list *buffer_list_new(const int max_size);
+struct buffer_list *buffer_list_new(void);
 
 /**
  * Frees a buffer list and all the buffers in it.

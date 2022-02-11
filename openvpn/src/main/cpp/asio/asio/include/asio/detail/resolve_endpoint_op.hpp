@@ -2,7 +2,7 @@
 // detail/resolve_endpoint_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,15 +16,16 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include "asio/error.hpp"
-#include "asio/ip/basic_resolver_results.hpp"
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/fenced_block.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
+#include "asio/detail/handler_work.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/resolve_op.hpp"
 #include "asio/detail/socket_ops.hpp"
+#include "asio/error.hpp"
+#include "asio/ip/basic_resolver_results.hpp"
 
 #if defined(ASIO_HAS_IOCP)
 # include "asio/detail/win_iocp_io_context.hpp"
@@ -60,9 +61,8 @@ public:
       endpoint_(endpoint),
       scheduler_(sched),
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
-      io_executor_(io_ex)
+      work_(handler_, io_ex)
   {
-    handler_work<Handler, IoExecutor>::start(handler_, io_executor_);
   }
 
   static void do_complete(void* owner, operation* base,
@@ -79,8 +79,8 @@ public:
       // the resolver operation.
     
       // Perform the blocking endpoint resolution operation.
-      char host_name[NI_MAXHOST];
-      char service_name[NI_MAXSERV];
+      char host_name[NI_MAXHOST] = "";
+      char service_name[NI_MAXSERV] = "";
       socket_ops::background_getnameinfo(o->cancel_token_, o->endpoint_.data(),
           o->endpoint_.size(), host_name, NI_MAXHOST, service_name, NI_MAXSERV,
           o->endpoint_.protocol().type(), o->ec_);
@@ -95,10 +95,12 @@ public:
       // The operation has been returned to the main io_context. The completion
       // handler is ready to be delivered.
 
-      // Take ownership of the operation's outstanding work.
-      handler_work<Handler, IoExecutor> w(o->handler_, o->io_executor_);
-
       ASIO_HANDLER_COMPLETION((*o));
+
+      // Take ownership of the operation's outstanding work.
+      handler_work<Handler, IoExecutor> w(
+          ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
+            o->work_));
 
       // Make a copy of the handler so that the memory can be deallocated
       // before the upcall is made. Even if we're not about to make an upcall,
@@ -126,7 +128,7 @@ private:
   endpoint_type endpoint_;
   scheduler_impl& scheduler_;
   Handler handler_;
-  IoExecutor io_executor_;
+  handler_work<Handler, IoExecutor> work_;
   results_type results_;
 };
 

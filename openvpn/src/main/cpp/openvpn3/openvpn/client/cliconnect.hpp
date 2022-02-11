@@ -67,7 +67,7 @@ namespace openvpn {
   // list rotation.  Only gives up on auth failure or other fatal errors that
   // cannot be remedied by retrying.
   class ClientConnect : ClientProto::NotifyCallback,
-			RemoteList::PreResolve::NotifyCallback,
+			RemoteList::BulkResolve::NotifyCallback,
 			ClientLifeCycle::NotifyCallback,
 			public RC<thread_unsafe_refcount>
   {
@@ -103,15 +103,15 @@ namespace openvpn {
 	    throw ErrorCode(Error::NETWORK_UNAVAILABLE, true, "Network Unavailable");
 
 	  RemoteList::Ptr remote_list = client_options->remote_list_precache();
-	  RemoteList::PreResolve::Ptr preres(new RemoteList::PreResolve(io_context,
-									remote_list,
-									client_options->stats_ptr()));
-	  if (preres->work_available())
+	  RemoteList::BulkResolve::Ptr bulkres(new RemoteList::BulkResolve(io_context,
+									   remote_list,
+									   client_options->stats_ptr()));
+	  if (bulkres->work_available())
 	    {
 	      ClientEvent::Base::Ptr ev = new ClientEvent::Resolve();
 	      client_options->events().add_event(std::move(ev));
-	      pre_resolve = preres;
-	      pre_resolve->start(this); // asynchronous -- will call back to pre_resolve_done
+	      bulk_resolve = bulkres;
+	      bulk_resolve->start(this); // asynchronous -- will call back to bulk_resolve_done
 	    }
 	  else
 	    new_client();
@@ -136,8 +136,8 @@ namespace openvpn {
       if (!halt)
 	{
 	  halt = true;
-	  if (pre_resolve)
-	    pre_resolve->cancel();
+	  if (bulk_resolve)
+	    bulk_resolve->cancel();
 	  if (client)
 	    {
 	      client->tun_set_disconnect();
@@ -294,9 +294,9 @@ namespace openvpn {
 	}
     }
 
-    virtual void pre_resolve_done()
+    virtual void bulk_resolve_done() override
     {
-      if (!halt)
+      if (!halt && generation == 0)
 	new_client();
     }
 
@@ -351,11 +351,11 @@ namespace openvpn {
 	}
     }
 
-    void conn_timer_start()
+    void conn_timer_start(int timeout)
     {
-      if (!conn_timer_pending && conn_timeout > 0)
+      if (!conn_timer_pending && timeout > 0)
 	{
-	  conn_timer.expires_after(Time::Duration::seconds(conn_timeout));
+	  conn_timer.expires_after(Time::Duration::seconds(timeout));
 	  conn_timer.async_wait([self=Ptr(this), gen=generation](const openvpn_io::error_code& error)
                                 {
                                   OPENVPN_ASYNC_HANDLER;
@@ -376,7 +376,7 @@ namespace openvpn {
       return true;
     }
 
-    virtual void client_proto_connected()
+    virtual void client_proto_connected() override
     {
       conn_timer.cancel();
       conn_timer_pending = false;
@@ -398,6 +398,13 @@ namespace openvpn {
 	}
     }
 
+    void client_proto_renegotiated() override
+    {
+      // Try to re-lookup potentially outdated RemoteList::Items
+      if (bulk_resolve)
+	bulk_resolve->start(this);
+    }
+
     void queue_restart(const unsigned int delay_ms = 2000)
     {
       OPENVPN_LOG("Client terminated, restarting in " << delay_ms << " ms...");
@@ -412,7 +419,22 @@ namespace openvpn {
                                     });
     }
 
-    virtual void client_proto_terminate()
+    virtual void client_proto_auth_pending_timeout(int timeout) override
+    {
+      if (conn_timer_pending)
+	{
+	  auto timer_left = std::chrono::duration_cast<std::chrono::seconds>(conn_timer.expiry() - AsioTimer::clock_type::now()).count();
+	  if(timer_left < timeout)
+	    {
+	      OPENVPN_LOG("Extending connection timeout from " << timer_left  << " to " << timeout << " for pending authentification");
+	      conn_timer.cancel();
+	      conn_timer_pending = false;
+	      conn_timer_start(timeout);
+	    }
+	}
+    }
+
+    virtual void client_proto_terminate() override
     {
       if (!halt)
 	{
@@ -593,7 +615,10 @@ namespace openvpn {
 
     void new_client()
     {
-      ++generation;
+      // Make sure generation is > 0 in case of overflow
+      if (++generation == 0)
+	++generation;
+
       if (client_options->asio_work_always_on())
 	asio_work.reset(new AsioWork(io_context));
       else
@@ -634,28 +659,28 @@ namespace openvpn {
                                          self->server_poll_callback(gen, error);
                                        });
 	}
-      conn_timer_start();
+      conn_timer_start(conn_timeout);
       client->start();
     }
 
     // ClientLifeCycle::NotifyCallback callbacks
 
-    virtual void cln_stop()
+    virtual void cln_stop() override
     {
       thread_safe_stop();
     }
 
-    virtual void cln_pause(const std::string& reason)
+    virtual void cln_pause(const std::string& reason) override
     {
       thread_safe_pause(reason);
     }
 
-    virtual void cln_resume()
+    virtual void cln_resume() override
     {
       thread_safe_resume();
     }
 
-    virtual void cln_reconnect(int seconds)
+    virtual void cln_reconnect(int seconds) override
     {
       thread_safe_reconnect(seconds);
     }
@@ -676,7 +701,7 @@ namespace openvpn {
     AsioTimer conn_timer;
     bool conn_timer_pending;
     std::unique_ptr<AsioWork> asio_work;
-    RemoteList::PreResolve::Ptr pre_resolve;
+    RemoteList::BulkResolve::Ptr bulk_resolve;
   };
 
 }

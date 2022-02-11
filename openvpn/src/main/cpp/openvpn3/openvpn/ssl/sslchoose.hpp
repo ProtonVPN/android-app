@@ -22,6 +22,8 @@
 #ifndef OPENVPN_SSL_SSLCHOOSE_H
 #define OPENVPN_SSL_SSLCHOOSE_H
 
+#include <openvpn/crypto/definitions.hpp>
+
 #ifdef USE_OPENSSL
 #include <openvpn/openssl/crypto/api.hpp>
 #include <openvpn/openssl/ssl/sslctx.hpp>
@@ -41,9 +43,6 @@
 #include <openvpn/mbedtls/crypto/api.hpp>
 #include <openvpn/mbedtls/ssl/sslctx.hpp>
 #include <openvpn/mbedtls/util/rand.hpp>
-#if defined(HAVE_OPENVPN_COMMON) && !defined(MBEDTLS_DISABLE_NAME_CONSTRAINTS)
-#include <openvpn/mbedtls/ssl/sslctxnc.hpp>
-#endif
 #ifdef OPENVPN_PLATFORM_UWP
 #include <openvpn/mbedtls/util/uwprand.hpp>
 #endif
@@ -61,11 +60,7 @@ namespace openvpn {
 #if defined(USE_MBEDTLS)
 #define SSL_LIB_NAME "MbedTLS"
     typedef MbedTLSCryptoAPI CryptoAPI;
-    #if defined(HAVE_OPENVPN_COMMON) && !defined(MBEDTLS_DISABLE_NAME_CONSTRAINTS)
-      typedef MbedTLSContextNameConstraints SSLAPI;
-    #else
-      typedef MbedTLSContext SSLAPI;
-    #endif
+    typedef MbedTLSContext SSLAPI;
 #if defined OPENVPN_PLATFORM_UWP
     typedef MbedTLSRandomWithUWPEntropy RandomAPI;
 #else

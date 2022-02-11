@@ -55,6 +55,12 @@ namespace openvpn {
     virtual unsigned int transport_send_queue_size() = 0;
     virtual void reset_align_adjust(const size_t align_adjust) = 0;
     virtual IP::Addr server_endpoint_addr() const = 0;
+    virtual unsigned short server_endpoint_port() const {
+      return 0;
+    }
+    virtual int native_handle() {
+      return 0;
+    }
     virtual void server_endpoint_info(std::string& host, std::string& port, std::string& proto, std::string& ip_addr) const = 0;
     virtual Protocol transport_protocol() const = 0;
     virtual void transport_reparent(TransportClientParent* parent) = 0;
@@ -98,6 +104,7 @@ namespace openvpn {
     virtual TransportClient::Ptr new_transport_client_obj(openvpn_io::io_context& io_context,
 							  TransportClientParent* parent) = 0;
     virtual bool is_relay() { return false; }
+    virtual void process_push(const OptionList&) { return; }
   };
 
 } // namespace openvpn

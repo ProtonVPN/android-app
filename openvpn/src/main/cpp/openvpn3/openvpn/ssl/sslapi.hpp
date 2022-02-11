@@ -36,6 +36,7 @@
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/frame/frame.hpp>
 #include <openvpn/auth/authcert.hpp>
+#include <openvpn/crypto/definitions.hpp>
 #include <openvpn/pki/epkibase.hpp>
 #include <openvpn/pki/pktype.hpp>
 #include <openvpn/ssl/kuparse.hpp>
@@ -57,8 +58,9 @@ namespace openvpn {
   public:
 
     enum TLSWarnings {
+      TLS_WARN_NONE = 0,
       TLS_WARN_SIG_MD5 = (1 << 0),
-      TLS_WARN_NAME_CONSTRAINTS = (1 << 1)
+      TLS_WARN_SIG_SHA1 = (1 << 1)
     };
 
     typedef RCPtr<SSLAPI> Ptr;
@@ -97,6 +99,9 @@ namespace openvpn {
     // create a new SSLAPI instance
     virtual SSLAPI::Ptr ssl() = 0;
 
+	// get the library context that is used with this SSLAPI instance
+	virtual SSLLib::Ctx libctx() = 0;
+
     // like ssl() above but optionally verify hostname against cert CommonName and/or
     // SubjectAltName, and optionally set/lookup a cache key for this session.
     virtual SSLAPI::Ptr ssl(const std::string* hostname, const std::string* cache_key) = 0;
@@ -114,7 +119,6 @@ namespace openvpn {
       LF_PARSE_MODE                     = (1<<0),
       LF_ALLOW_CLIENT_CERT_NOT_REQUIRED = (1<<1),
       LF_RELAY_MODE                     = (1<<2), // look for "relay-ca" instead of "ca" directive
-      LF_ALLOW_NAME_CONSTRAINTS         = (1<<3)  // do not fail on Name Constraints ext and drop a warning to UI
     };
 
     std::string private_key_type_string() const
@@ -144,6 +148,7 @@ namespace openvpn {
     virtual void set_external_pki_callback(ExternalPKIBase* external_pki_arg) = 0; // private key alternative
     virtual void set_session_ticket_handler(TLSSessionTicketBase* session_ticket_handler) = 0; // server side
     virtual void set_client_session_tickets(const bool v) = 0; // client side
+    virtual void enable_legacy_algorithms(const bool v) = 0;  // loads legacy+default provider in OpenSSL 3
     virtual void set_sni_handler(SNI::HandlerBase* sni_handler) = 0; // server side
     virtual void set_sni_name(const std::string& sni_name_arg) = 0; // client side
     virtual void set_private_key_password(const std::string& pwd) = 0;

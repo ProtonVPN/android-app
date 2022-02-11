@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2021 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -43,12 +43,12 @@ namespace openvpn {
     inline std::uint64_t rev64(const std::uint64_t value)
     {
 #ifdef OPENVPN_LITTLE_ENDIAN
-#ifdef __clang__
-      return __builtin_bswap64(value);
-#elif _MSC_VER
+#if defined(_MSC_VER)
       return _byteswap_uint64(value);
-#elif __MINGW32__
+#elif defined(__MINGW32__)
       return mingw_bswap64(value);
+#elif defined(__clang__) || !defined(__GLIBC__)
+      return __builtin_bswap64(value);
 #else
       return __bswap_constant_64(value);
 #endif /* _MSC_VER */

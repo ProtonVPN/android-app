@@ -55,7 +55,7 @@ using namespace openvpn;
 std::string log_version()
 {
   return platform_string("OpenVPN Management Interface", OMI_VERSION)
-    + " [" SSL_LIB_NAME "] built on " __DATE__ " " __TIME__;
+    + " [" SSL_LIB_NAME "] - server starting";
 }
 
 class OMI;

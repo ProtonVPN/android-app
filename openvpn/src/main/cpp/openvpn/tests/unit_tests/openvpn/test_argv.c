@@ -2,7 +2,6 @@
 #include "syshead.h"
 
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -267,6 +266,7 @@ main(void)
         cmocka_unit_test(argv_str__empty_argv__empty_output),
         cmocka_unit_test(argv_str__multiple_argv__correct_output),
         cmocka_unit_test(argv_insert_head__non_empty_argv__head_added),
+        cmocka_unit_test(argv_insert_head__empty_argv__head_only),
     };
 
     return cmocka_run_group_tests_name("argv", tests, NULL, NULL);

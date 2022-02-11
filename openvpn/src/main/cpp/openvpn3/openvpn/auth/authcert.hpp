@@ -141,8 +141,12 @@ namespace openvpn {
 
       AuthCert()
       {
-	std::memset(issuer_fp, 0, sizeof(issuer_fp));
-	sn = -1;
+      }
+
+      AuthCert(std::string cn_arg, const std::int64_t sn_arg)
+	: cn(std::move(cn_arg)),
+	  sn(sn_arg)
+      {
       }
 
       bool defined() const
@@ -275,8 +279,10 @@ namespace openvpn {
 #endif
       std::string sni;               // SNI (server name indication)
       std::string cn;                // common name
-      std::int64_t sn;               // serial number
-      unsigned char issuer_fp[20];   // issuer cert fingerprint
+      std::int64_t sn = -1;          // serial number
+
+      // issuer cert fingerprint
+      unsigned char issuer_fp[20] = {};
 
       std::unique_ptr<Fail> fail;
       std::unique_ptr<X509Track::Set> x509_track;

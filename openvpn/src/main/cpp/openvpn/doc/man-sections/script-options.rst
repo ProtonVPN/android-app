@@ -90,7 +90,19 @@ SCRIPT HOOKS
 
   The script should examine the username and password, returning a success
   exit code (:code:`0`) if the client's authentication request is to be
-  accepted, or a failure code (:code:`1`) to reject the client.
+  accepted, a failure code (:code:`1`) to reject the client, or a that
+  the authentication is deferred (:code:`2`). If the authentication is
+  deferred, the script must fork/start a background or another non-blocking
+  operation to continue the authentication in the background. When finshing
+  the authentication, a :code:`1` or :code:`0` must be written to the
+  file specified by the :code:`auth_control_file`.
+
+  When deferred authentication is in use, the script can also request
+  pending authentication by writing to the file specified by the
+  :code:`auth_pending_file`. The first line must be the timeout in
+  seconds, the required method on the second line (e.g. crtext) and
+  third line must be the EXTRA as documented in the
+  ``client-pending-auth`` section of `doc/management.txt`.
 
   This directive is designed to enable a plugin-style interface for
   extending OpenVPN's authentication capabilities.
@@ -709,10 +721,10 @@ instances.
     A set of variables which define each IPv6 route to be added, and are
     set prior to **--up** script execution.
 
-    ``parm`` will be one of :code:`network` or :code:`gateway`
-    (:code:`netmask` is contained as :code:`/nnn` in the
-    ``route_ipv6_network_{n}``, unlike IPv4 where it is passed in a
-    separate environment variable).
+    ``parm`` will be one of :code:`network`, :code:`gateway` or
+    :code:`metric`. ``route_ipv6_network_{n}`` contains :code:`netmask`
+    as :code:`/nnn`, unlike IPv4 where it is passed in a separate environment
+    variable.
 
     ``n`` is the OpenVPN route number, starting from 1.
 

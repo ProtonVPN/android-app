@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$TARGET" ]; then
+    echo TARGET var must be defined
+    exit 1
+fi
+
+[ -z "$DL" ] && DL=~/Downloads
+
+# source vars
+. $O3/core/vars/vars-${TARGET}
+. $O3/core/deps/lib-versions
+
+# source helper functions
+. $O3/core/deps/functions.sh
+
+GPP=g++
+LD=ld
+AR="ar rc"
+RANLIB=ranlib
+[ "$GPP_CMD" ] && GPP=$GPP_CMD
+[ "$LD_CMD" ] && LD=$LD_CMD
+[ "$AR_CMD" ] && AR="$AR_CMD"
+[ "$RANLIB_CMD" ] && RANLIB="$RANLIB_CMD"
+
+case $PLATFORM in
+android*)
+  echo PLATFORM android
+  host="x86_64-apple-darwin"
+  target=arm
+  ;;
+ios*)
+  echo PLATFORM ios
+  host="x86_64-apple-darwin"
+  target=arm
+  ;;
+*)
+  host=""
+  target=""
+  ;;
+esac
+
+if [ "$target" ]; then
+    targ_opt="--target=$target"
+fi
+
+if [ "$host" ]; then
+    host_opt="--host=$host"
+fi
+
+FNAME=jsoncpp-${JSONCPP_VERSION}.tar.gz
+URL=https://github.com/open-source-parsers/jsoncpp/archive/refs/tags/${JSONCPP_VERSION}.tar.gz
+CSUM=${JSONCPP_CSUM}
+
+download
+
+DIST=$(pwd)/jsoncpp/jsoncpp-$PLATFORM
+rm -rf $DIST
+mkdir -p $DIST/include
+mkdir $DIST/lib
+
+tar xfz $DL/$FNAME
+
+cd jsoncpp-$JSONCPP_VERSION
+python amalgamate.py
+cd dist
+CMD="$GPP -I. $PLATFORM_FLAGS $CXX_COMPILER_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c jsoncpp.cpp"
+echo $CMD
+$CMD
+$AR $DIST/lib/libjsoncpp.a jsoncpp.o
+$RANLIB $DIST/lib/libjsoncpp.a
+cp -a json $DIST/include/
+exit 0

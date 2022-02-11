@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(omicli)
-set(CMAKE_CXX_STANDARD 14)
-
-include(findcoredeps)
-
 add_executable(omicliagent openvpn.cpp)
 add_core_dependencies(omicliagent)
 add_json_library(omicliagent)

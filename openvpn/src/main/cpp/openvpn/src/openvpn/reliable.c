@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2018 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -205,8 +205,6 @@ error:
     return false;
 }
 
-#define ACK_SIZE(n) (sizeof(uint8_t) + ((n) ? SID_SIZE : 0) + sizeof(packet_id_type) * (n))
-
 /* write a packet ID acknowledgement record to buf, */
 /* removing all acknowledged entries from ack */
 bool
@@ -251,13 +249,6 @@ reliable_ack_write(struct reliable_ack *ack,
 
 error:
     return false;
-}
-
-/* add to extra_frame the maximum number of bytes we will need for reliable_ack_write */
-void
-reliable_ack_adjust_frame_parameters(struct frame *frame, int max)
-{
-    frame_add_to_extra_frame(frame, ACK_SIZE(max));
 }
 
 /* print a reliable ACK record coming off the wire */
@@ -326,12 +317,17 @@ reliable_init(struct reliable *rel, int buf_size, int offset, int array_size, bo
 void
 reliable_free(struct reliable *rel)
 {
+    if (!rel)
+    {
+        return;
+    }
     int i;
     for (i = 0; i < rel->size; ++i)
     {
         struct reliable_entry *e = &rel->array[i];
         free_buf(&e->buf);
     }
+    free(rel);
 }
 
 /* no active buffers? */
@@ -377,7 +373,14 @@ reliable_send_purge(struct reliable *rel, const struct reliable_ack *ack)
                 }
 #endif
                 e->active = false;
-                break;
+            }
+            else if (e->active && e->packet_id < pid)
+            {
+                /* We have received an ACK for a packet with a higher PID. Either
+                 * we have received ACKs out of or order or the packet has been
+                 * lost. We count the number of ACKs to determine if we should
+                 * resend it early. */
+                e->n_acks++;
             }
         }
     }
@@ -550,7 +553,7 @@ reliable_can_send(const struct reliable *rel)
         if (e->active)
         {
             ++n_active;
-            if (now >= e->next_try)
+            if (now >= e->next_try || e->n_acks >= N_ACK_RETRANSMIT)
             {
                 ++n_current;
             }
@@ -576,7 +579,12 @@ reliable_send(struct reliable *rel, int *opcode)
     for (i = 0; i < rel->size; ++i)
     {
         struct reliable_entry *e = &rel->array[i];
-        if (e->active && local_now >= e->next_try)
+
+        /* If N_ACK_RETRANSMIT later packets have received ACKs, we assume
+         * that the packet was lost and resend it even if the timeout has
+         * not expired yet. */
+        if (e->active
+            && (e->n_acks >= N_ACK_RETRANSMIT || local_now >= e->next_try))
         {
             if (!best || reliable_pid_min(e->packet_id, best->packet_id))
             {
@@ -594,6 +602,7 @@ reliable_send(struct reliable *rel, int *opcode)
         /* constant timeout, no backoff */
         best->next_try = local_now + best->timeout;
 #endif
+        best->n_acks = 0;
         *opcode = best->opcode;
         dmsg(D_REL_DEBUG, "ACK reliable_send ID " packet_id_format " (size=%d to=%d)",
              (packet_id_print_type)best->packet_id, best->buf.len,
@@ -681,6 +690,7 @@ reliable_mark_active_incoming(struct reliable *rel, struct buffer *buf,
             e->opcode = opcode;
             e->next_try = 0;
             e->timeout = 0;
+            e->n_acks = 0;
             dmsg(D_REL_DEBUG, "ACK mark active incoming ID " packet_id_format, (packet_id_print_type)e->packet_id);
             return;
         }

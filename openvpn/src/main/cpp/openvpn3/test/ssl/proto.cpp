@@ -125,6 +125,11 @@
 #define SITER 1
 #endif
 
+// number of retries for failed test
+#ifndef N_RETRIES
+#define N_RETRIES 5
+#endif
+
 // abort if we reach this limit
 //#define DROUGHT_LIMIT 100000
 
@@ -475,6 +480,16 @@ public:
       throw session_invalidated(Error::name(Base::invalidation_reason()));
   }
 
+  bool is_state_client_wait_reset_ack() const
+  {
+    return primary_state() == C_WAIT_RESET_ACK;
+  }
+
+  void disable_xmit()
+  {
+    disable_xmit_ = true;
+  }
+
   std::deque<BufferPtr> net_out;
 
   DroughtMeasure control_drought;
@@ -483,6 +498,8 @@ public:
 private:
   virtual void control_net_send(const Buffer& net_buf)
   {
+    if (disable_xmit_)
+      return;
     net_bytes_ += net_buf.size();
     net_out.push_back(BufferPtr(new BufferAllocated(net_buf, 0)));
   }
@@ -551,6 +568,7 @@ private:
   BufferPtr templ;
   size_t iteration = 0;
   char progress_[11];
+  bool disable_xmit_ = false;
 };
 
 class TestProtoClient : public TestProto
@@ -697,6 +715,17 @@ public:
 #endif
 	    b.stat().error(Error::KEY_STATE_ERROR);
 	  }
+
+#ifdef SIMULATE_UDP_AMPLIFY_ATTACK
+	if (b.is_state_client_wait_reset_ack())
+	  {
+	    b.disable_xmit();
+#ifdef VERBOSE
+	    std::cout << now->raw() << " " << title << " SIMULATE_UDP_AMPLIFY_ATTACK disable client xmit" << std::endl;
+#endif
+	  }
+#endif
+
       }
     b.flush(true);
   }
@@ -863,7 +892,8 @@ int test(const int thread_num)
     typedef ProtoContext ClientProtoContext;
     ClientProtoContext::Config::Ptr cp(new ClientProtoContext::Config);
     cp->ssl_factory = cc->new_factory();
-    cp->dc.set_factory(new CryptoDCSelect<ClientCryptoAPI>(frame, cli_stats, prng_cli));
+	CryptoAlgs::allow_default_dc_algs<ClientCryptoAPI>(cp->ssl_factory->libctx(), false, false);
+	cp->dc.set_factory(new CryptoDCSelect<ClientCryptoAPI>(cp->ssl_factory->libctx(), frame, cli_stats, prng_cli));
     cp->tlsprf_factory.reset(new CryptoTLSPRFFactory<ClientCryptoAPI>());
     cp->frame = frame;
     cp->now = &time;
@@ -924,6 +954,7 @@ int test(const int thread_num)
     cp->expire = cp->renegotiate + cp->renegotiate;
     cp->keepalive_ping = Time::Duration::seconds(5);
     cp->keepalive_timeout = Time::Duration::seconds(60);
+    cp->keepalive_timeout_early = cp->keepalive_timeout;
 
 #ifdef VERBOSE
     std::cout << "CLIENT OPTIONS: " << cp->options_string() << std::endl;
@@ -949,7 +980,7 @@ int test(const int thread_num)
     typedef ProtoContext ServerProtoContext;
     ServerProtoContext::Config::Ptr sp(new ServerProtoContext::Config);
     sp->ssl_factory = sc->new_factory();
-    sp->dc.set_factory(new CryptoDCSelect<ServerCryptoAPI>(frame, serv_stats, prng_serv));
+    sp->dc.set_factory(new CryptoDCSelect<ServerCryptoAPI>(sp->ssl_factory->libctx(), frame, serv_stats, prng_serv));
     sp->tlsprf_factory.reset(new CryptoTLSPRFFactory<ServerCryptoAPI>());
     sp->frame = frame;
     sp->now = &time;
@@ -1016,6 +1047,7 @@ int test(const int thread_num)
     sp->expire = sp->renegotiate + sp->renegotiate;
     sp->keepalive_ping = Time::Duration::seconds(5);
     sp->keepalive_timeout = Time::Duration::seconds(60);
+    sp->keepalive_timeout_early = Time::Duration::seconds(10);
 
 #ifdef VERBOSE
     std::cout << "SERVER OPTIONS: " << sp->options_string() << std::endl;
@@ -1102,6 +1134,21 @@ int test(const int thread_num)
   return 0;
 }
 
+int test_retry(const int thread_num)
+{
+  const int n_retries = N_RETRIES;
+  int ret = 1;
+  for (int i = 0; i < n_retries; ++i)
+    {
+      ret = test(thread_num);
+      if (!ret)
+	return 0;
+      std::cout << "Retry " << (i+1) << '/' << n_retries << std::endl;
+    }
+  std::cout << "Failed" << std::endl;
+  return ret;
+}
+
 int main(int argc, char* argv[])
 {
   int ret = 0;
@@ -1126,7 +1173,7 @@ int main(int argc, char* argv[])
   for (i = 0; i < N_THREADS; ++i)
     {
       threads[i] = new std::thread([i]() {
-	  test(i);
+	  test_retry(i);
 	});
     }
   for (i = 0; i < N_THREADS; ++i)
@@ -1135,7 +1182,7 @@ int main(int argc, char* argv[])
       delete threads[i];
     }
 #else
-  ret = test(1);
+  ret = test_retry(1);
 #endif
 
 out:

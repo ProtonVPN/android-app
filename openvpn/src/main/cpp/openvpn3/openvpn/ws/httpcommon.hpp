@@ -121,7 +121,7 @@ namespace openvpn {
 	return rr_obj.headers;
       }
 
-      const olong content_length() const {
+      olong content_length() const {
 	return rr_content_length;
       }
 

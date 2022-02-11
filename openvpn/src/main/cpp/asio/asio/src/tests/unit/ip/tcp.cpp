@@ -2,7 +2,7 @@
 // tcp.cpp
 // ~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -70,6 +70,11 @@ void test()
     (void)static_cast<bool>(no_delay1);
     (void)static_cast<bool>(!no_delay1);
     (void)static_cast<bool>(no_delay1.value());
+
+#if defined(ASIO_HAS_STD_HASH)
+    ip::tcp::endpoint ep;
+    (void)static_cast<std::size_t>(std::hash<ip::tcp::endpoint>()(ep));
+#endif // defined(ASIO_HAS_STD_HASH)
   }
   catch (std::exception&)
   {
@@ -1315,7 +1320,7 @@ void test()
 
   ios1.expires_at(tp);
 
-  ip::tcp::iostream::duration d;
+  ip::tcp::iostream::duration d = ip::tcp::iostream::duration();
   ios1.expires_after(d);
 
   // iostream operators.

@@ -45,6 +45,8 @@ namespace openvpn {
 
       OPENVPN_EXCEPTION(tun_win_setup);
 
+      virtual HANDLE get_handle(std::ostream& os) = 0;
+
       virtual HANDLE establish(const TunBuilderCapture& pull,
 			       const std::wstring& openvpn_app_path,
 			       Stop* stop,
@@ -70,7 +72,8 @@ namespace openvpn {
     {
       typedef RCPtr<SetupFactory> Ptr;
 
-      virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context, bool wintun) = 0;
+      virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context,
+					   const TunWin::Type tun_type, bool allow_local_dns_resolvers) = 0;
     };
   }
 }

@@ -69,8 +69,11 @@ namespace openvpn {
       // [server only] Send a list of client CAs to the client
       SEND_CLIENT_CA_LIST=(1<<7),
 
+      // Verify peer by fingerprint, makes CA optional
+      VERIFY_PEER_FINGERPRINT=(1<<8),
+
       // last flag marker
-      LAST=(1<<8)
+      LAST=(1<<9)
     };
 
     // filter all but SSL flags

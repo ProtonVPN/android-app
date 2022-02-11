@@ -24,6 +24,7 @@
 #ifndef OPENVPN_CRYPTO_CRYPTOALGS_H
 #define OPENVPN_CRYPTO_CRYPTOALGS_H
 
+#include <functional>
 #include <string>
 
 #include <openvpn/common/size.hpp>
@@ -31,6 +32,7 @@
 #include <openvpn/common/string.hpp>
 #include <openvpn/common/likely.hpp>
 #include <openvpn/common/arraysize.hpp>
+#include <openvpn/crypto/definitions.hpp>
 
 namespace openvpn {
   namespace CryptoAlgs {
@@ -101,8 +103,7 @@ namespace openvpn {
     enum AlgFlags {       // bits below must start after Mode bits
       F_CIPHER=(1<<2),    // alg is a cipher
       F_DIGEST=(1<<3),    // alg is a digest
-      F_ALLOW_DC=(1<<4),  // alg may be used in OpenVPN data channel
-      F_NO_CIPHER_DIGEST=(1<<5), // cipher alg does not depend on any additional digest
+      F_ALLOW_DC=(1<<4)  // alg may be used in OpenVPN data channel
     };
 
     // size in bytes of AEAD "nonce tail" normally taken from
@@ -135,6 +136,13 @@ namespace openvpn {
       size_t key_length() const { return size_; }        // cipher key length
       size_t iv_length() const { return iv_length_; }    // cipher only
       size_t block_size() const { return block_size_; }  // cipher only
+      bool dc_cipher() const { return (flags_ & F_CIPHER) && (flags_ & F_ALLOW_DC); }
+      bool dc_digest() const { return (flags_ & F_DIGEST) && (flags_ & F_ALLOW_DC); }
+
+	  void allow_dc(bool allow) {
+	if (allow) flags_ |= F_ALLOW_DC;
+	else       flags_ &= ~F_ALLOW_DC;
+      }
 
     private:
       const char *name_;
@@ -144,26 +152,26 @@ namespace openvpn {
       unsigned int block_size_;
     };
 
-    constexpr Alg algs[] = { // NOTE: MUST be indexed by CryptoAlgs::Type (CONST GLOBAL)
-      { "NONE",         F_CIPHER|F_DIGEST|F_ALLOW_DC|CBC_HMAC,  0,  0,  0 },
-      { "AES-128-CBC",  F_CIPHER|F_ALLOW_DC|CBC_HMAC,          16, 16, 16 },
-      { "AES-192-CBC",  F_CIPHER|F_ALLOW_DC|CBC_HMAC,          24, 16, 16 },
-      { "AES-256-CBC",  F_CIPHER|F_ALLOW_DC|CBC_HMAC,          32, 16, 16 },
-      { "DES-CBC",      F_CIPHER|F_ALLOW_DC|CBC_HMAC,           8,  8,  8 },
-      { "DES-EDE3-CBC", F_CIPHER|F_ALLOW_DC|CBC_HMAC,          24,  8,  8 },
-      { "BF-CBC",       F_CIPHER|F_ALLOW_DC|CBC_HMAC,          16,  8,  8 },
-      { "AES-256-CTR",  F_CIPHER,                              32, 16, 16 },
-      { "AES-128-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  16, 12, 16 },
-      { "AES-192-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  24, 12, 16 },
-      { "AES-256-GCM",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  32, 12, 16 },
-      { "CHACHA20-POLY1305",  F_CIPHER|F_ALLOW_DC|AEAD|F_NO_CIPHER_DIGEST,  32, 12, 16 },
-      { "MD4",          F_DIGEST,                              16,  0,  0 },
-      { "MD5",          F_DIGEST|F_ALLOW_DC,                   16,  0,  0 },
-      { "SHA1",         F_DIGEST|F_ALLOW_DC,                   20,  0,  0 },
-      { "SHA224",       F_DIGEST|F_ALLOW_DC,                   28,  0,  0 },
-      { "SHA256",       F_DIGEST|F_ALLOW_DC,                   32,  0,  0 },
-      { "SHA384",       F_DIGEST|F_ALLOW_DC,                   48,  0,  0 },
-      { "SHA512",       F_DIGEST|F_ALLOW_DC,                   64,  0,  0 },
+    static std::array<Alg, Type::SIZE> algs = {
+      Alg {"NONE",               F_CIPHER|F_DIGEST|CBC_HMAC,   0,  0,  0 },
+      Alg {"AES-128-CBC",        F_CIPHER|CBC_HMAC,           16, 16, 16 },
+      Alg {"AES-192-CBC",        F_CIPHER|CBC_HMAC,           24, 16, 16 },
+      Alg {"AES-256-CBC",        F_CIPHER|CBC_HMAC,           32, 16, 16 },
+      Alg {"DES-CBC",            F_CIPHER|CBC_HMAC,            8,  8,  8 },
+      Alg {"DES-EDE3-CBC",       F_CIPHER|CBC_HMAC,           24,  8,  8 },
+      Alg {"BF-CBC",             F_CIPHER|CBC_HMAC,           16,  8,  8 },
+      Alg {"AES-256-CTR",        F_CIPHER,                    32, 16, 16 },
+      Alg {"AES-128-GCM",        F_CIPHER|AEAD,               16, 12, 16 },
+      Alg {"AES-192-GCM",        F_CIPHER|AEAD,               24, 12, 16 },
+      Alg {"AES-256-GCM",        F_CIPHER|AEAD,               32, 12, 16 },
+      Alg {"CHACHA20-POLY1305",  F_CIPHER|AEAD,               32, 12, 16 },
+      Alg {"MD4",                F_DIGEST,                    16,  0,  0 },
+      Alg {"MD5",                F_DIGEST,                    16,  0,  0 },
+      Alg {"SHA1",               F_DIGEST,                    20,  0,  0 },
+      Alg {"SHA224",             F_DIGEST,                    28,  0,  0 },
+      Alg {"SHA256",             F_DIGEST,                    32,  0,  0 },
+      Alg {"SHA384",             F_DIGEST,                    48,  0,  0 },
+      Alg {"SHA512",             F_DIGEST,                    64,  0,  0 }
     };
 
     inline bool defined(const Type type)
@@ -171,22 +179,17 @@ namespace openvpn {
       return type != NONE;
     }
 
-    inline const Alg* get_index_ptr(const size_t i)
-    {
-      static_assert(SIZE == array_size(algs), "algs array inconsistency");
-      if (unlikely(i >= SIZE))
-	throw crypto_alg_index();
-      return &algs[i];
-    }
-
     inline const Alg& get_index(const size_t i)
     {
-      return *get_index_ptr(i);
+      if (unlikely(i >= algs.size()))
+	throw crypto_alg_index();
+      return algs[i];
     }
 
     inline const Alg* get_ptr(const Type type)
     {
-      return get_index_ptr(static_cast<size_t>(type));
+      const Alg& alg_ref = get_index(static_cast<size_t>(type));
+      return &alg_ref;
     }
 
     inline const Alg& get(const Type type)
@@ -194,25 +197,28 @@ namespace openvpn {
       return get_index(static_cast<size_t>(type));
     }
 
+    inline std::size_t for_each(std::function<bool (Type, const Alg&)> fn)
+    {
+      std::size_t count = 0;
+      for (std::size_t i = 0; i < algs.size(); ++i)
+	if (fn(static_cast<Type>(i), algs[i]))
+	  count++;
+      return count;
+    }
+
     inline Type lookup(const std::string& name)
     {
-      for (size_t i = 0; i < SIZE; ++i)
+      for (size_t i = 0; i < algs.size(); ++i)
 	{
-	  const Alg& alg = algs[i];
-	  if (string::strcasecmp(name, alg.name()) == 0)
+	  if (string::strcasecmp(name, algs[i].name()) == 0)
 	    return static_cast<Type>(i);
 	}
       OPENVPN_THROW(crypto_alg, name << ": not found");
     }
 
-    inline const char *name(const Type type)
+    inline const char *name(const Type type, const char *default_name = nullptr)
     {
-      return get(type).name();
-    }
-
-    inline const char *name(const Type type, const char *default_name)
-    {
-      if (type == NONE)
+      if (type == NONE && default_name)
 	return default_name;
       else
 	return get(type).name();
@@ -251,7 +257,7 @@ namespace openvpn {
     inline Type legal_dc_cipher(const Type type)
     {
       const Alg& alg = get(type);
-      if ((alg.flags() & (F_CIPHER|F_ALLOW_DC)) != (F_CIPHER|F_ALLOW_DC))
+      if (!alg.dc_cipher())
 	OPENVPN_THROW(crypto_alg, alg.name() << ": bad cipher for data channel use");
       return type;
     }
@@ -259,9 +265,79 @@ namespace openvpn {
     inline Type legal_dc_digest(const Type type)
     {
       const Alg& alg = get(type);
-      if ((alg.flags() & (F_DIGEST|F_ALLOW_DC)) != (F_DIGEST|F_ALLOW_DC))
+      if (!alg.dc_digest())
 	OPENVPN_THROW(crypto_alg, alg.name() << ": bad digest for data channel use");
       return type;
+    }
+
+    inline Type dc_cbc_cipher(const Type type)
+    {
+      const Alg& alg = get(type);
+      if (!(alg.flags() & CBC_HMAC))
+	OPENVPN_THROW(crypto_alg, alg.name() << ": bad cipher for data channel use");
+      return type;
+    }
+
+    inline Type dc_cbc_hash(const Type type)
+    {
+      const Alg& alg = get(type);
+      if (!(alg.flags() & F_DIGEST))
+	OPENVPN_THROW(crypto_alg, alg.name() << ": bad digest for data channel use");
+      return type;
+    }
+
+
+    inline void allow_dc_algs(const std::initializer_list<Type> types)
+    {
+      for (auto& alg : algs)
+	alg.allow_dc(false);
+      for (auto& type : types)
+	algs.at(type).allow_dc(true);
+    }
+
+	/**
+	 * Allows the default algorithms but only those which are available with
+	 * the library context.
+	 * @param libctx 		Library context to use
+	 * @param preferred 	Allow only the preferred algorithms, also disabling
+	 * 						legacy (only AEAD)
+	 * @param legacy	Allow also legacy algorithm that are vulnerable to SWEET32
+	 * 			no effect if preferred is true
+	 */
+  	template  <typename CRYPTO_API>
+    inline void allow_default_dc_algs(SSLLib::Ctx libctx, bool preferred=false, bool legacy=false)
+    {
+	  /* Disable all and reenable the ones actually allowed later */
+	  for (auto& alg : algs)
+		alg.allow_dc(false);
+
+	  CryptoAlgs::for_each([preferred, libctx, legacy](CryptoAlgs::Type type, const CryptoAlgs::Alg& alg) -> bool {
+		/* Defined in the algorithm but not actually related to data channel */
+		if (type == MD4 || type == AES_256_CTR)
+		  return false;
+
+		if (preferred && alg.mode() != AEAD)
+		  return false;
+
+		if (alg.mode() == AEAD && !CRYPTO_API::CipherContextAEAD::is_supported(libctx, type))
+		  return false;
+
+		/* 64 bit block ciphers vulnerable to SWEET32 */
+		if (alg.flags() & F_CIPHER && !legacy && alg.block_size() <= 8)
+		  return false;
+
+		/* This excludes MD4 */
+		if (alg.flags() & F_DIGEST && !legacy && alg.size() < 20)
+		  return false;
+
+		if ((alg.flags() & F_CIPHER && alg.mode() != AEAD && type != NONE)
+			&& !CRYPTO_API::CipherContext::is_supported(libctx, type))
+		  return false;
+
+		/* This algorithm has passed all checks, enable it for DC */
+		algs.at(type).allow_dc(true);
+		return true;
+	  });
     }
 
     /**
@@ -270,13 +346,12 @@ namespace openvpn {
      * @param type CryptoAlgs::Type to check
      *
      * @return Returns true if the queried algorithm depends on a digest,
-     * 	       otherwise false.  The check is done strictly against the
-     * 	       CryptoAlgs::AlgFlags F_NO_CIPHER_DIGEST flag.
+     *         otherwise false.
      */
     inline bool use_cipher_digest(const Type type)
     {
       const Alg& alg = get(type);
-      return !(alg.flags() & F_NO_CIPHER_DIGEST);
+      return alg.mode() != AEAD;
     }
   }
 }

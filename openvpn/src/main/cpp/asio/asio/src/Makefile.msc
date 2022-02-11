@@ -5,7 +5,7 @@ BOOSTDIR = ../../boost_1_34_1
 COMMON_CXXFLAGS = -nologo -EHac -GR -I. -I../include
 
 !ifdef CXXLATEST
-STD_CXXFLAGS = -std:c++latest
+STD_CXXFLAGS = -std:c++latest -permissive-
 !endif
 
 !ifdef WARNINGS
@@ -116,30 +116,43 @@ PERFORMANCE_TEST_EXES = \
 
 UNIT_TEST_EXES = \
 	tests\unit\associated_allocator.exe \
+	tests\unit\associated_cancellation_slot.exe \
 	tests\unit\associated_executor.exe \
+	tests\unit\associator.exe \
 	tests\unit\async_result.exe \
 	tests\unit\awaitable.exe \
 	tests\unit\basic_datagram_socket.exe \
 	tests\unit\basic_deadline_timer.exe \
+	tests\unit\basic_file.exe \
+	tests\unit\basic_random_access_file.exe \
 	tests\unit\basic_raw_socket.exe \
+	tests\unit\basic_readable_pipe.exe \
 	tests\unit\basic_seq_packet_socket.exe \
 	tests\unit\basic_serial_port.exe \
 	tests\unit\basic_signal_set.exe \
 	tests\unit\basic_socket.exe \
 	tests\unit\basic_socket_acceptor.exe \
+	tests\unit\basic_stream_file.exe \
 	tests\unit\basic_stream_socket.exe \
 	tests\unit\basic_streambuf.exe \
 	tests\unit\basic_waitable_timer.exe \
+	tests\unit\basic_writable_pipe.exe \
+	tests\unit\bind_cancellation_slot.exe \
 	tests\unit\bind_executor.exe \
 	tests\unit\buffered_read_stream.exe \
 	tests\unit\buffered_stream.exe \
 	tests\unit\buffered_write_stream.exe \
 	tests\unit\buffer.exe \
+	tests\unit\buffer_registration.exe \
 	tests\unit\buffers_iterator.exe \
+	tests\unit\cancellation_signal.exe \
+	tests\unit\cancellation_state.exe \
+	tests\unit\cancellation_type.exe \
 	tests\unit\co_spawn.exe \
 	tests\unit\completion_condition.exe \
 	tests\unit\compose.exe \
 	tests\unit\connect.exe \
+	tests\unit\connect_pipe.exe \
 	tests\unit\coroutine.exe \
 	tests\unit\deadline_timer.exe \
 	tests\unit\defer.exe \
@@ -147,8 +160,33 @@ UNIT_TEST_EXES = \
 	tests\unit\dispatch.exe \
 	tests\unit\error.exe \
 	tests\unit\execution_context.exe \
+	tests\unit\execution\any_executor.exe \
+	tests\unit\execution\blocking.exe \
+	tests\unit\execution\blocking_adaptation.exe \
+	tests\unit\execution\bulk_execute.exe \
+	tests\unit\execution\bulk_guarantee.exe \
+	tests\unit\execution\connect.exe \
+	tests\unit\execution\context_as.exe \
+	tests\unit\execution\execute.exe \
+	tests\unit\execution\executor.exe \
+	tests\unit\execution\invocable_archetype.exe \
+	tests\unit\execution\mapping.exe \
+	tests\unit\execution\operation_state.exe \
+	tests\unit\execution\outstanding_work.exe \
+	tests\unit\execution\prefer_only.exe \
+	tests\unit\execution\receiver.exe \
+	tests\unit\execution\relationship.exe \
+	tests\unit\execution\schedule.exe \
+	tests\unit\execution\scheduler.exe \
+	tests\unit\execution\sender.exe \
+	tests\unit\execution\set_done.exe \
+	tests\unit\execution\set_error.exe \
+	tests\unit\execution\set_value.exe \
+	tests\unit\execution\start.exe \
+	tests\unit\execution\submit.exe \
 	tests\unit\executor.exe \
 	tests\unit\executor_work_guard.exe \
+	tests\unit\file_base.exe \
 	tests\unit\generic\basic_endpoint.exe \
 	tests\unit\generic\datagram_protocol.exe \
 	tests\unit\generic\raw_protocol.exe \
@@ -179,27 +217,37 @@ UNIT_TEST_EXES = \
 	tests\unit\ip\udp.exe \
 	tests\unit\ip\unicast.exe \
 	tests\unit\ip\v6_only.exe \
+	tests\unit\local\basic_endpoint.exe \
+	tests\unit\local\connect_pair.exe \
+	tests\unit\local\datagram_protocol.exe \
+	tests\unit\local\stream_protocol.exe \
 	tests\unit\is_read_buffered.exe \
 	tests\unit\is_write_buffered.exe \
 	tests\unit\packaged_task.exe \
 	tests\unit\placeholders.exe \
 	tests\unit\post.exe \
+	tests\unit\random_access_file.exe \
 	tests\unit\read.exe \
 	tests\unit\read_at.exe \
 	tests\unit\read_until.exe \
+	tests\unit\readable_pipe.exe \
 	tests\unit\redirect_error.exe \
+	tests\unit\registered_buffer.exe \
 	tests\unit\serial_port.exe \
 	tests\unit\serial_port_base.exe \
 	tests\unit\signal_set.exe \
 	tests\unit\socket_base.exe \
+	tests\unit\static_thread_pool.exe \
 	tests\unit\steady_timer.exe \
 	tests\unit\strand.exe \
+	tests\unit\stream_file.exe \
 	tests\unit\streambuf.exe \
 	tests\unit\system_context.exe \
 	tests\unit\system_executor.exe \
 	tests\unit\system_timer.exe \
 	tests\unit\this_coro.exe \
 	tests\unit\thread.exe \
+	tests\unit\thread_pool.exe \
 	tests\unit\time_traits.exe \
 	tests\unit\ts\buffer.exe \
 	tests\unit\ts\executor.exe \
@@ -222,6 +270,7 @@ UNIT_TEST_EXES = \
 	tests\unit\windows\overlapped_ptr.exe \
 	tests\unit\windows\random_access_handle.exe \
 	tests\unit\windows\stream_handle.exe \
+	tests\unit\writable_pipe.exe \
 	tests\unit\write.exe \
 	tests\unit\write_at.exe
 
@@ -325,10 +374,16 @@ tests\unit\unit_test.obj: tests\unit\unit_test.cpp
 {tests\unit}.cpp{tests\unit}.exe:
 	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
 
+{tests\unit\execution}.cpp{tests\unit\execution}.exe:
+	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
+
 {tests\unit\generic}.cpp{tests\unit\generic}.exe:
 	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
 
 {tests\unit\ip}.cpp{tests\unit\ip}.exe:
+	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
+
+{tests\unit\local}.cpp{tests\unit\local}.exe:
 	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
 
 {tests\unit\ssl}.cpp{tests\unit\ssl}.exe:

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2021 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -21,8 +21,9 @@
 
 // Low level tun device I/O class for all platforms (Unix and Windows)
 
-#ifndef OPENVPN_TUN_TUNIO_H
-#define OPENVPN_TUN_TUNIO_H
+#pragma once
+
+#include <utility>
 
 #include <openvpn/io/io.hpp>
 
@@ -47,16 +48,20 @@ namespace openvpn {
 	  const Frame::Ptr& frame_arg,
 	  const SessionStats::Ptr& stats_arg,
 	  const size_t frame_context_type=Frame::READ_TUN)
-      : stream(nullptr),
-	retain_stream(false),
-	tun_prefix(false),
-	halt(false),
-	read_handler(read_handler_arg),
-	frame(frame_arg),
+      : read_handler(read_handler_arg),
 	frame_context((*frame_arg)[frame_context_type]),
 	stats(stats_arg)
-      {
-      }
+    {
+    }
+
+    TunIO(ReadHandler read_handler_arg,
+	  const Frame::Context& frame_context_arg,
+	  const SessionStats::Ptr& stats_arg)
+      : read_handler(read_handler_arg),
+	frame_context(frame_context_arg),
+	stats(stats_arg)
+    {
+    }
 
     virtual ~TunIO()
     {
@@ -265,16 +270,14 @@ namespace openvpn {
 
     // should be set by derived class constructor
     std::string name_;
-    STREAM *stream;
-    bool retain_stream;  // don't close tun stream
-    bool tun_prefix;
+    STREAM *stream = nullptr;
+    bool retain_stream = false;  // don't close tun stream
+    bool tun_prefix = false;
 
-    bool halt;
     ReadHandler read_handler;
-    const Frame::Ptr frame;
-    const Frame::Context& frame_context;
+    const Frame::Context frame_context;
     SessionStats::Ptr stats;
+
+    bool halt = false;
   };
 }
-
-#endif

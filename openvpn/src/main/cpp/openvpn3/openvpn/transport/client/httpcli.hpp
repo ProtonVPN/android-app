@@ -58,6 +58,14 @@
 namespace openvpn {
   namespace HTTPProxyTransport {
 
+    enum AuthMethod {
+      None,
+      Basic,
+      Digest,
+      Ntlm,
+      Any
+    };
+
     class Options : public RC<thread_safe_refcount>
     {
     public:
@@ -75,12 +83,11 @@ namespace openvpn {
 
       typedef RCPtr<Options> Ptr;
 
-      Options() : allow_cleartext_auth(false) {}
-
       RemoteList::Ptr proxy_server;
       std::string username;
       std::string password;
-      bool allow_cleartext_auth;
+      AuthMethod auth_method = Any;
+      bool allow_cleartext_auth = false;
 
       std::string http_version;
       std::string user_agent;
@@ -135,8 +142,43 @@ namespace openvpn {
 		}
 	    }
 
-	    // allow cleartext auth?
-	    allow_cleartext_auth = (hp->get_optional(3, 16) != "auto-nct");
+	    const std::string auth = hp->get_optional(3, 16);
+	    if (!auth.empty())
+	      {
+		if (auth == "auto")
+		  {
+		    allow_cleartext_auth = true;
+		    auth_method = Any;
+		  }
+		else if (auth == "auto-nct")
+		  {
+		    allow_cleartext_auth = false;
+		    auth_method = Any;
+		  }
+		else if (auth == "basic")
+		  {
+		    allow_cleartext_auth = true;
+		    auth_method = Basic;
+		  }
+		else if (auth == "digest")
+		  {
+		    allow_cleartext_auth = false;
+		    auth_method = Digest;
+		  }
+		else if (auth == "ntlm")
+		  {
+		    allow_cleartext_auth = false;
+		    auth_method = Ntlm;
+		  }
+		else if (auth == "none")
+		  {
+		    auth_method = None;
+		  }
+		else
+		  {
+		    throw Exception("Unsupported HTTP proxy auth method: " + auth);
+		  }
+	      }
 
 	    // get options
 	    const OptionList::IndexList* hpo = opt.get_index_ptr("http-proxy-option");
@@ -576,53 +618,56 @@ namespace openvpn {
 	  {
 	    if (http_reply.status_code == HTTP::Status::ProxyAuthenticationRequired)
 	      {
-		if (n_transactions <= 1)
+		if (config->http_proxy_options->auth_method == None)
+		  throw Exception("HTTP proxy authentication is disabled");
+		if (n_transactions > 1)
 		  {
-		    //OPENVPN_LOG("*** PROXY AUTHENTICATION REQUIRED");
+		    proxy_error(Error::PROXY_NEED_CREDS, "HTTP proxy credentials were not accepted");
+		    return;
+		  }
+		if (config->http_proxy_options->username.empty())
+		  {
+		    proxy_error(Error::PROXY_NEED_CREDS, "HTTP proxy requires credentials");
+		    return;
+		  }
 
-		    if (config->http_proxy_options->username.empty())
-		      {
-			proxy_error(Error::PROXY_NEED_CREDS, "HTTP proxy requires credentials");
-			return;
-		      }
+		HTTPProxy::ProxyAuthenticate::Ptr pa;
+		const AuthMethod method(config->http_proxy_options->auth_method);
 
-		    HTTPProxy::ProxyAuthenticate::Ptr pa;
-
-		    // NTLM
+		if (method == Any || method == Ntlm)
+		  {
 		    pa = get_proxy_authenticate_header("ntlm");
 		    if (pa)
 		      {
 			ntlm_auth_phase_1(*pa);
 			return;
 		      }
+		  }
 
-		    // Digest
+		if (method == Any || method == Digest)
+		  {
 		    pa = get_proxy_authenticate_header("digest");
 		    if (pa)
 		      {
 			digest_auth(*pa);
 			return;
 		      }
+		  }
 
-		    // Basic
+		if (method == Any || method == Basic)
+		  {
 		    pa = get_proxy_authenticate_header("basic");
 		    if (pa)
 		      {
-			if (config->http_proxy_options->allow_cleartext_auth)
-			  {
-			    basic_auth(*pa);
-			    return;
-			  }
-			else
-			  throw Exception("HTTP proxy Basic authentication not allowed by user preference");
+			if (!config->http_proxy_options->allow_cleartext_auth)
+			  throw Exception("HTTP proxy basic authentication not allowed by user preference");
+
+			basic_auth(*pa);
+			return;
 		      }
-		    throw Exception("HTTP proxy-authenticate method must be Basic, Digest, or NTLM");
 		  }
-		else
-		  {
-		    proxy_error(Error::PROXY_NEED_CREDS, "HTTP proxy credentials were not accepted");
-		    return;
-		  }
+
+		throw Exception("HTTP proxy-authenticate method not allowed / supported");
 	      }
 	    else if (http_reply.status_code == HTTP::Status::ProxyError
 		     || http_reply.status_code == HTTP::Status::NotFound
@@ -719,7 +764,7 @@ namespace openvpn {
 	}
 	catch (const std::exception& e)
 	  {
-	    proxy_error(Error::PROXY_NEED_CREDS, std::string("Digest Auth: ") + e.what());
+	    proxy_error(Error::PROXY_ERROR, std::string("Digest Auth: ") + e.what());
 	  }
       }
 
@@ -804,7 +849,7 @@ namespace openvpn {
 	}
 	catch (const std::exception& e)
 	  {
-	    proxy_error(Error::PROXY_NEED_CREDS, std::string("NTLM Auth: ") + e.what());
+	    proxy_error(Error::PROXY_ERROR, std::string("NTLM Auth: ") + e.what());
 	  }
       }
 
@@ -861,7 +906,7 @@ namespace openvpn {
 
       // do DNS resolve
       void resolve_callback(const openvpn_io::error_code& error,
-		            openvpn_io::ip::tcp::resolver::results_type results) override
+		            results_type results) override
       {
 	// release resolver allocated resources
 	async_resolve_cancel();

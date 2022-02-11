@@ -27,8 +27,6 @@ import de.blinkt.openvpn.R;
 public class OpenVPNThread implements Runnable {
     private static final String DUMP_PATH_STRING = "Dump path: ";
     @SuppressLint("SdCardPath")
-    private static final String BROKEN_PIE_SUPPORT = "/data/data/de.blinkt.openvpn/cache/pievpn";
-    private final static String BROKEN_PIE_SUPPORT2 = "syntax error";
     private static final String TAG = "OpenVPN";
     // 1380308330.240114 18000002 Send to HTTP proxy: 'X-Online-Host: bla.blabla.com'
     private static final Pattern LOG_PATTERN = Pattern.compile("(\\d+).(\\d+) ([0-9a-f])+ (.*)");
@@ -42,7 +40,6 @@ public class OpenVPNThread implements Runnable {
     private String mTmpDir;
     private OpenVPNService mService;
     private String mDumpPath;
-    private boolean mBrokenPie = false;
     private boolean mNoProcessExitStatus = false;
 
     public OpenVPNThread(OpenVPNService service, String[] argv, String nativelibdir, String tmpdir) {
@@ -82,19 +79,6 @@ public class OpenVPNThread implements Runnable {
             }
             if (exitvalue != 0) {
                 VpnStatus.logError("Process exited with exit value " + exitvalue);
-                if (mBrokenPie) {
-                    /* This will probably fail since the NoPIE binary is probably not written */
-                    String[] noPieArgv = VPNLaunchHelper.replacePieWithNoPie(mArgv);
-
-                    // We are already noPIE, nothing to gain
-                    if (!noPieArgv.equals(mArgv)) {
-                        mArgv = noPieArgv;
-                        VpnStatus.logInfo("PIE Version could not be executed. Trying no PIE version");
-                        run();
-                    }
-
-                }
-
             }
 
             if (!mNoProcessExitStatus)
@@ -150,11 +134,7 @@ public class OpenVPNThread implements Runnable {
                 if (logline.startsWith(DUMP_PATH_STRING))
                     mDumpPath = logline.substring(DUMP_PATH_STRING.length());
 
-                if (logline.startsWith(BROKEN_PIE_SUPPORT) || logline.contains(BROKEN_PIE_SUPPORT2))
-                    mBrokenPie = true;
-
                 Matcher m = LOG_PATTERN.matcher(logline);
-                int logerror = 0;
                 if (m.matches()) {
                     int flags = Integer.parseInt(m.group(3), 16);
                     String msg = m.group(4);
@@ -174,13 +154,8 @@ public class OpenVPNThread implements Runnable {
                     if (msg.startsWith("MANAGEMENT: CMD"))
                         logLevel = Math.max(4, logLevel);
 
-                    if ((msg.endsWith("md too weak") && msg.startsWith("OpenSSL: error")) || msg.contains("error:140AB18E"))
-                        logerror = 1;
-
                     VpnStatus.logMessageOpenVPN(logStatus, logLevel, msg);
-                    if (logerror==1)
-                        VpnStatus.logError("OpenSSL reported a certificate with a weak hash, please the in app FAQ about weak hashes");
-
+                    VpnStatus.addExtraHints(msg);
                 } else {
                     VpnStatus.logInfo("P:" + logline);
                 }

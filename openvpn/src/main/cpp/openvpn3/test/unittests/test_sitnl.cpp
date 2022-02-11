@@ -19,6 +19,7 @@
 //    along with this program in the COPYING file.
 
 #include <fstream>
+#include <sys/capability.h>
 #include "test_common.h"
 
 #include "openvpn/common/argv.hpp"
@@ -81,16 +82,25 @@ namespace unittests
 	ASSERT_FALSE(path_to_ip.empty()) << "unable to find ip tool";
       }
 
+      static bool haveCapNetAdmin()
+      {
+        cap_t cap = cap_get_proc();
+        cap_flag_value_t v = CAP_CLEAR;
+        cap_get_flag(cap, CAP_NET_ADMIN, CAP_EFFECTIVE, &v);
+        cap_free(cap);
+        return v == CAP_SET;
+      }
+
       void SetUp() override
       {
-	if (geteuid() != 0)
-	  GTEST_SKIP() << "Need root to run this test";
+	if (!haveCapNetAdmin())
+	  GTEST_SKIP() << "Need CAP_NET_ADMIN to run this test";
 
 	add_device(dev);
 	add_device(dev2);
       }
 
-      virtual void TearDown()
+      void TearDown() override
       {
 	remove_device(dev);
 	remove_device(dev2);
@@ -196,7 +206,7 @@ namespace unittests
       ASSERT_EQ(SITNL::net_iface_mtu_set(dev, mtu), 0);
 
       ip_a_show_dev([this](std::vector<std::string>& v, const std::string& out, bool& called) {
-	if (dev + ":" == v[1])
+	if ((v.size() > 1) && (v[1] == dev + ":"))
 	{
 	  called = true;
 	  ASSERT_EQ(v[4], std::to_string(mtu)) << out;

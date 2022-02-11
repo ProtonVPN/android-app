@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -e
+if [ -z "$O3" ]; then
+    echo O3 var must point to ovpn3 tree
+    exit 1
+fi
+if [ -z "$DEP_DIR" ]; then
+    echo DEP_DIR var must point to dependency build folder
+    exit 1
+fi
+if [ -z "$DL" ]; then
+    echo DL var must point to the download folder
+    exit 1
+fi
+
+. $O3/core/deps/lib-versions
+
+# source helper functions
+. $O3/core/deps/functions.sh
+
+# https://github.com/Cyan4973/xxHash/archive/v0.8.0.tar.gz
+
+PACKAGE=${XXHASH_VERSION}
+FNAME=xxHash-${XXHASH_VERSION}.tar.gz
+URL=https://github.com/Cyan4973/xxHash/archive/v${XXHASH_VERSION}.tar.gz
+CSUM=${XXHASH_CSUM}
+DIST=xxHash
+
+download
+
+if [ "$NO_WIPE" = "1" ]; then
+    echo RETAIN existing source
+else
+    echo WIPE and reunzip source
+    cd $DEP_DIR
+    rm -rf $DIST xxHash-${XXHASH_VERSION}
+    tar xfz $DL/$FNAME
+    cd xxHash-${XXHASH_VERSION}
+
+    cd ..
+
+    cp -a xxHash-${XXHASH_VERSION} $DIST
+fi

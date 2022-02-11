@@ -1,7 +1,7 @@
 /*
  *  Generic interface to platform specific networking code
  *
- *  Copyright (C) 2016-2018 Antonio Quartulli <a@unstable.cc>
+ *  Copyright (C) 2016-2021 Antonio Quartulli <a@unstable.cc>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -102,6 +102,18 @@ int net_iface_up(openvpn_net_ctx_t *ctx, const openvpn_net_iface_t *iface,
  */
 int net_iface_mtu_set(openvpn_net_ctx_t *ctx,
                       const openvpn_net_iface_t *iface, uint32_t mtu);
+
+/**
+ * Set the Link Layer (Ethernet) address of the TAP interface
+ *
+ * @param ctx       the implementation specific context
+ * @param iface     the interface to modify
+ * @param addr      the new address to set (expected ETH_ALEN bytes (6))
+ *
+ * @return          0 on success, a negative error code otherwise
+ */
+int net_addr_ll_set(openvpn_net_ctx_t *ctx, const openvpn_net_iface_t *iface,
+                    uint8_t *addr);
 
 /**
  * Add an IPv4 address to an interface

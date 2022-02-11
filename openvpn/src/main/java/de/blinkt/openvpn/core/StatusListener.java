@@ -28,7 +28,7 @@ import java.io.IOException;
 public class StatusListener implements VpnStatus.LogListener {
     private File mCacheDir;
     private Context mContext;
-    private IStatusCallbacks mCallback = new IStatusCallbacks.Stub() {
+    private final IStatusCallbacks mCallback = new IStatusCallbacks.Stub() {
         @Override
         public void newLogItem(LogItem item) throws RemoteException {
             VpnStatus.newLogItem(item);
@@ -50,7 +50,7 @@ public class StatusListener implements VpnStatus.LogListener {
             VpnStatus.setConnectedVPNProfile(uuid);
         }
     };
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
 
 
         @Override
@@ -76,6 +76,7 @@ public class StatusListener implements VpnStatus.LogListener {
                         len = fd.readShort();
                     }
                     fd.close();
+                    pfd.close();
 
 
                 } else {

@@ -139,6 +139,7 @@ public class ConfirmDialog extends Activity implements
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         setResult(RESULT_CANCELED);
         finish();
     }

@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 
 public class VariantConfig {
-    static Intent getOpenUrlIntent(Context c) {
+    static Intent getOpenUrlIntent(Context c, boolean external) {
         return new Intent(Intent.ACTION_VIEW);
     }
 

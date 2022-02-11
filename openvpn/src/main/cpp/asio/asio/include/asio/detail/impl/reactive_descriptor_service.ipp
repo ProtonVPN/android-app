@@ -2,7 +2,7 @@
 // detail/impl/reactive_descriptor_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,7 +19,8 @@
 
 #if !defined(ASIO_WINDOWS) \
   && !defined(ASIO_WINDOWS_RUNTIME) \
-  && !defined(__CYGWIN__)
+  && !defined(__CYGWIN__) \
+  && !defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 
 #include "asio/error.hpp"
 #include "asio/detail/reactive_descriptor_service.hpp"
@@ -219,5 +220,6 @@ void reactive_descriptor_service::start_op(
 #endif // !defined(ASIO_WINDOWS)
        //   && !defined(ASIO_WINDOWS_RUNTIME)
        //   && !defined(__CYGWIN__)
+       //   && !defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 
 #endif // ASIO_DETAIL_IMPL_REACTIVE_DESCRIPTOR_SERVICE_IPP

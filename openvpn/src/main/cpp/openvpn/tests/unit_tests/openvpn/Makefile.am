@@ -6,10 +6,12 @@ if HAVE_LD_WRAP_SUPPORT
 test_binaries += argv_testdriver buffer_testdriver
 endif
 
-test_binaries += crypto_testdriver packet_id_testdriver auth_token_testdriver ncp_testdriver
+test_binaries += crypto_testdriver packet_id_testdriver auth_token_testdriver ncp_testdriver misc_testdriver
 if HAVE_LD_WRAP_SUPPORT
 test_binaries += tls_crypt_testdriver
 endif
+
+test_binaries += provider_testdriver
 
 TESTS = $(test_binaries)
 check_PROGRAMS = $(test_binaries)
@@ -46,7 +48,9 @@ crypto_testdriver_SOURCES = test_crypto.c mock_msg.c mock_msg.h \
 	$(openvpn_srcdir)/crypto_openssl.c \
 	$(openvpn_srcdir)/otime.c \
 	$(openvpn_srcdir)/packet_id.c \
-	$(openvpn_srcdir)/platform.c
+	$(openvpn_srcdir)/platform.c \
+	$(openvpn_srcdir)/mtu.c \
+	$(openvpn_srcdir)/mss.c
 
 packet_id_testdriver_CFLAGS  = @TEST_CFLAGS@ \
 	-I$(openvpn_includedir) -I$(compat_srcdir) -I$(openvpn_srcdir)
@@ -95,6 +99,20 @@ networking_testdriver_SOURCES = test_networking.c mock_msg.c \
 	$(openvpn_srcdir)/platform.c
 endif
 
+provider_testdriver_CFLAGS  = @TEST_CFLAGS@ \
+	-I$(openvpn_includedir) -I$(compat_srcdir) -I$(openvpn_srcdir) \
+	$(OPTIONAL_CRYPTO_CFLAGS)
+provider_testdriver_LDFLAGS = @TEST_LDFLAGS@ \
+	$(OPTIONAL_CRYPTO_LIBS)
+
+provider_testdriver_SOURCES = test_provider.c mock_msg.c \
+	$(openvpn_srcdir)/xkey_helper.c \
+	$(openvpn_srcdir)/xkey_provider.c \
+	$(openvpn_srcdir)/buffer.c \
+	$(openvpn_srcdir)/base64.c \
+	mock_get_random.c \
+	$(openvpn_srcdir)/platform.c
+
 auth_token_testdriver_CFLAGS  = @TEST_CFLAGS@ \
 	-I$(openvpn_includedir) -I$(compat_srcdir) -I$(openvpn_srcdir) \
 	$(OPTIONAL_CRYPTO_CFLAGS)
@@ -125,4 +143,16 @@ ncp_testdriver_SOURCES = test_ncp.c mock_msg.c \
 	$(openvpn_srcdir)/crypto_openssl.c \
 	$(openvpn_srcdir)/otime.c \
 	$(openvpn_srcdir)/packet_id.c \
+	$(openvpn_srcdir)/platform.c \
+	$(openvpn_srcdir)/ssl_util.c
+
+misc_testdriver_CFLAGS  = @TEST_CFLAGS@ \
+	-I$(openvpn_includedir) -I$(compat_srcdir) -I$(openvpn_srcdir)
+
+misc_testdriver_LDFLAGS = @TEST_LDFLAGS@
+
+misc_testdriver_SOURCES = test_misc.c mock_msg.c \
+    mock_get_random.c \
+	$(openvpn_srcdir)/buffer.c \
+	$(openvpn_srcdir)/ssl_util.c \
 	$(openvpn_srcdir)/platform.c

@@ -23,9 +23,9 @@ public class TrafficHistory implements Parcelable {
     public static final long PERIODS_TO_KEEP = 5;
     public static final int TIME_PERIOD_MINTUES = 60 * 1000;
     public static final int TIME_PERIOD_HOURS = 3600 * 1000;
-    private LinkedList<TrafficDatapoint> trafficHistorySeconds = new LinkedList<>();
-    private LinkedList<TrafficDatapoint> trafficHistoryMinutes = new LinkedList<>();
-    private LinkedList<TrafficDatapoint> trafficHistoryHours = new LinkedList<>();
+    private final LinkedList<TrafficDatapoint> trafficHistorySeconds = new LinkedList<>();
+    private final LinkedList<TrafficDatapoint> trafficHistoryMinutes = new LinkedList<>();
+    private final LinkedList<TrafficDatapoint> trafficHistoryHours = new LinkedList<>();
 
     private TrafficDatapoint lastSecondUsedForMinute;
     private TrafficDatapoint lastMinuteUsedForHours;
@@ -93,16 +93,16 @@ public class TrafficHistory implements Parcelable {
 
     }
 
-    public LinkedList<TrafficDatapoint> getHours() {
-        return trafficHistoryHours;
+    public synchronized LinkedList<TrafficDatapoint> getHours() {
+        return new LinkedList<>(trafficHistoryHours);
     }
 
-    public LinkedList<TrafficDatapoint> getMinutes() {
-        return trafficHistoryMinutes;
+    public synchronized LinkedList<TrafficDatapoint> getMinutes() {
+        return new LinkedList<>(trafficHistoryMinutes);
     }
 
-    public LinkedList<TrafficDatapoint> getSeconds() {
-        return trafficHistorySeconds;
+    public synchronized LinkedList<TrafficDatapoint> getSeconds() {
+        return new LinkedList<>(trafficHistorySeconds);
     }
 
     public static LinkedList<TrafficDatapoint> getDummyList() {
@@ -162,7 +162,7 @@ public class TrafficHistory implements Parcelable {
         return diff;
     }
 
-    private void addDataPoint(TrafficDatapoint tdp) {
+    private synchronized void addDataPoint(TrafficDatapoint tdp) {
         trafficHistorySeconds.add(tdp);
 
         if (lastSecondUsedForMinute == null) {

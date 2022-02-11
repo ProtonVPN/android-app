@@ -72,12 +72,12 @@ echo BUILDING
 # compiler vars
 CC=cc
 LD=ld
-AR=ar
+AR="ar rc"
 RANLIB=ranlib
 [ "$GCC_CMD" ] && CC=$GCC_CMD
 [ "$LD_CMD" ] && LD=$LD_CMD
-[ "$AR_CMD" ] && AR=$AR_CMD
-[ "$RANLIB_CMD" ] && RANLIB=$RANLIB_CMD
+[ "$AR_CMD" ] && AR="$AR_CMD"
+[ "$RANLIB_CMD" ] && RANLIB="$RANLIB_CMD"
 
 # build it
 SRC=$(pwd)
@@ -85,7 +85,7 @@ cd library
 rm -f *.o
 for c in *.c ; do
     CMD="$CC -I../include -DMBEDTLS_RELAXED_X509_DATE \
-         $PLATFORM_FLAGS $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c $c"
+         $PLATFORM_FLAGS $(lto_flags $c) $OTHER_COMPILER_FLAGS $LIB_OPT_LEVEL $LIB_FPIC -c $c"
     echo $CMD
     $CMD
 done
@@ -93,7 +93,7 @@ done
 # create archive
 cd $DIST
 mkdir library
-$AR rc library/libmbedtls.a $SRC/library/*.o
+$AR library/libmbedtls.a $SRC/library/*.o
 $RANLIB library/libmbedtls.a 2>&1 | grep -v "has no symbols" || true
 
 # copy headers

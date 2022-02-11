@@ -63,4 +63,8 @@ interface IOpenVPNAPIService {
 
     /** Use a profile with all certificates etc. embedded */
     APIVpnProfile addNewVPNProfile (String name, boolean userEditable, String config);
+
+    /** Same as startVPN(String), but also takes a Bundle with extra parameters,
+    * which will be applied to the created VPNProfile (e.g. allow vpn bypass). */
+    void startVPNwithExtras(in String inlineconfig, in Bundle extras);
 }

@@ -191,12 +191,13 @@ namespace openvpn {
 	    }
 	}
 
-	// validate remote list
-	remoteList.reset(new RemoteList(options, "", 0, nullptr));
+	// validate remote list - don't randomize it at this point
+	RandomAPI::Ptr no_rng;
+	remoteList.reset(new RemoteList(options, "", 0, nullptr, no_rng));
 	{
-	  const RemoteList::Item* ri = remoteList->first_item();
-	  if (ri)
+	  if (remoteList->defined())
 	    {
+	      const RemoteList::Item::Ptr ri = remoteList->get_item(0);
 	      firstRemoteListItem_.host = ri->server_host;
 	      firstRemoteListItem_.port = ri->server_port;
 	      if (ri->transport_protocol.is_udp())
@@ -237,7 +238,7 @@ namespace openvpn {
 	  else
 	    {
 	      if (remoteList)
-		profileName_ = remoteList->first_server_host();
+		profileName_ = remoteList->get_item(0)->server_host;
 	    }
 
 	  // windows-driver
@@ -302,9 +303,6 @@ namespace openvpn {
 	}
 
 	unsigned int lflags = SSLConfigAPI::LF_PARSE_MODE;
-
-	if (options.exists("allow-name-constraints"))
-	  lflags |= SSLConfigAPI::LF_ALLOW_NAME_CONSTRAINTS;
 
 	// ssl lib configuration
 	try {
@@ -471,10 +469,10 @@ namespace openvpn {
       os << "dev-type " << protoConfig->layer.dev_type() << std::endl;
       for (size_t i = 0; i < remoteList->size(); i++)
       {
-	const RemoteList::Item& item = remoteList->get_item(i);
+	const RemoteList::Item::Ptr item = remoteList->get_item(i);
 
-	os << "remote " << item.server_host << " " << item.server_port;
-	const char *proto = item.transport_protocol.protocol_to_string();
+	os << "remote " << item->server_host << " " << item->server_port;
+	const char *proto = item->transport_protocol.protocol_to_string();
 	if (proto)
 	  os << " " << proto;
 	os << std::endl;
@@ -540,15 +538,15 @@ namespace openvpn {
       root["remotes"] = Json::Value(Json::arrayValue);
       for (size_t i = 0; i < remoteList->size(); i++)
       {
-	const RemoteList::Item& item = remoteList->get_item(i);
+	const RemoteList::Item::Ptr item = remoteList->get_item(i);
 
 	Json::Value el = Json::Value(Json::objectValue);
-	el["address"] = Json::Value(item.server_host);
-	el["port"] = Json::Value((Json::UInt)std::stoi(item.server_port));
-	if (item.transport_protocol() == Protocol::NONE)
+	el["address"] = Json::Value(item->server_host);
+	el["port"] = Json::Value((Json::UInt)std::stoi(item->server_port));
+	if (item->transport_protocol() == Protocol::NONE)
 	  el["proto"] = Json::Value("adaptive");
 	else
-	  el["proto"] = Json::Value(item.transport_protocol.str());
+	  el["proto"] = Json::Value(item->transport_protocol.str());
 
 	root["remotes"].append(el);
       }
