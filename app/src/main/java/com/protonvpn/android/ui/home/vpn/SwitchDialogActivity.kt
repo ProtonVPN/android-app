@@ -69,7 +69,12 @@ class SwitchDialogActivity : BaseActivityV2() {
         layoutUpsell.textManyCountries.text = getManyServersInManyCountriesText()
         reconnectionNotification.action?.let { actionItem ->
             buttonUpgrade.text = actionItem.title
-            buttonUpgrade.setOnClickListener { actionItem.pendingIntent.send() }
+            buttonUpgrade.setOnClickListener {
+                when (actionItem) {
+                    is NotificationHelper.ActionItem.Activity -> startActivity(actionItem.activityIntent)
+                    is NotificationHelper.ActionItem.BgAction -> actionItem.pendingIntent.send()
+                }
+            }
         } ?: run {
             buttonBack.isVisible = false
             buttonUpgrade.text = getString(R.string.got_it)

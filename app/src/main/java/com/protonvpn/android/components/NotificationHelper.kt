@@ -129,8 +129,15 @@ class NotificationHelper(
         val cancelToastMessage: String? = null
     ) : Parcelable
 
-    @Parcelize
-    data class ActionItem(val title: String, val pendingIntent: PendingIntent) : Parcelable
+    sealed class ActionItem : Parcelable {
+        abstract val title: String
+
+        @Parcelize
+        class Activity(override val title: String, val activityIntent: Intent) : ActionItem()
+
+        @Parcelize
+        class BgAction(override val title: String, val pendingIntent: PendingIntent) : ActionItem()
+    }
 
     fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
         val notificationBuilder =
@@ -192,7 +199,7 @@ class NotificationHelper(
 
         notificationInfo.action?.let {
             notificationBuilder.addAction(
-                NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
+                NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
             )
         }
 
@@ -338,12 +345,23 @@ class NotificationHelper(
 
             action?.let {
                 builder.addAction(
-                    NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
+                    NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
                 )
             }
             notify(notificationId, builder.build())
         }
     }
+
+    private fun getPendingIntent(action: ActionItem) = when (action) {
+        is ActionItem.Activity -> PendingIntent.getActivity(
+            appContext,
+            Constants.NOTIFICATION_INFO_ID,
+            action.activityIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        is ActionItem.BgAction -> action.pendingIntent
+    }
+
 
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
