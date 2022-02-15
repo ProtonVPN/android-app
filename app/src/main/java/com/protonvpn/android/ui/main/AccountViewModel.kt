@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import me.proton.core.account.domain.entity.AccountState
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
@@ -98,7 +99,7 @@ class AccountViewModel @Inject constructor(
             .flowWithLifecycle(activity.lifecycle)
             .onEach { accounts ->
                 when {
-                    accounts.isEmpty() || accounts.all { it.isDisabled() } ->
+                    accounts.isEmpty() || accounts.all { it.isDisabled() || it.state == AccountState.Removed } ->
                         _state.emit(State.LoginNeeded)
                     accounts.any { it.isReady() } ->
                         _state.emit(State.Ready)
