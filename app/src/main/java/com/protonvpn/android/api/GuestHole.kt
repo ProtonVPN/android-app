@@ -20,7 +20,6 @@ package com.protonvpn.android.api
 
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
@@ -59,11 +58,11 @@ class GuestHole @Inject constructor(
     private val vpnMonitor: VpnStateMonitor,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val notificationHelper: NotificationHelper,
-    private val currentUser: dagger.Lazy<CurrentUser>,
     private val foregroundActivityTracker: ForegroundActivityTracker
 ) : ApiConnectionListener {
 
     private var lastGuestHoleServer: Server? = null
+    var isInLoginProcess: Boolean = false
 
     private fun getGuestHoleServers(): List<Server> {
         lastGuestHoleServer?.let {
@@ -176,7 +175,7 @@ class GuestHole @Inject constructor(
         if (path == ONE_TIME_LOGICAL_CALL && !serverManager.get().isDownloadedAtLeastOnce) return true
 
         // Do not run guesthole calls if user is already logged in
-        return CORE_GUESTHOLE_CALLS.contains(path) && !currentUser.get().isLoggedIn()
+        return CORE_GUESTHOLE_CALLS.contains(path) && isInLoginProcess
     }
 
     private fun logMessage(message: String) {

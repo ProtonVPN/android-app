@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.VpnUserCheck
@@ -74,7 +75,8 @@ class AccountViewModel @Inject constructor(
     val vpnApiClient: VpnApiClient,
     val onSessionClosed: OnSessionClosed,
     val certificateRepository: CertificateRepository,
-    val vpnUserCheck: VpnUserCheck
+    val vpnUserCheck: VpnUserCheck,
+    val guestHole: dagger.Lazy<GuestHole>
 ) : ViewModel() {
 
     sealed class State {
@@ -114,6 +116,7 @@ class AccountViewModel @Inject constructor(
 
         with(authOrchestrator) {
             onAddAccountResult { result ->
+                guestHole.get().isInLoginProcess = false
                 if (result == null)
                     onAddAccountClosed?.invoke()
                 else if (result.workflow == AddAccountWorkflow.SignUp)
@@ -140,6 +143,7 @@ class AccountViewModel @Inject constructor(
     }
 
     suspend fun startLogin() {
+        guestHole.get().isInLoginProcess = true
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(accountType, loginUsername = Storage.getString(LAST_USER, null))
     }

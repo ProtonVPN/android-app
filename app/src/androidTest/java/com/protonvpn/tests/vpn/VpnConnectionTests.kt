@@ -332,9 +332,9 @@ class VpnConnectionTests {
             monitor,
             dagger.Lazy { manager },
             mockk(relaxed = true),
-            dagger.Lazy { currentUser },
             foregroundActivityTracker
         )
+        guestHole.isInLoginProcess = true
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/vpn", null) {
             ApiResult.Success<Any>(mockk())
@@ -355,9 +355,9 @@ class VpnConnectionTests {
             monitor,
             dagger.Lazy { manager },
             mockk(relaxed = true),
-            dagger.Lazy { currentUser },
             foregroundActivityTracker
         )
+        guestHole.isInLoginProcess = true
         every { foregroundActivityTracker.foregroundActivity } returns mockk()
         val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/randomCall", null) {
             ApiResult.Success<Any>(mockk())
