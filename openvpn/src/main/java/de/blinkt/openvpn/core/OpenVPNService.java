@@ -144,6 +144,8 @@ public abstract class OpenVPNService extends VpnService implements StateListener
     private HandlerThread mCommandHandlerThread;
     private Handler mCommandHandler;
 
+    private volatile boolean shouldRollbackConnection = false;
+
     public abstract VpnProfile getProfile();
 
     // Returns if service should keep running
@@ -490,10 +492,18 @@ public abstract class OpenVPNService extends VpnService implements StateListener
         }
 
         if (intent != null && PAUSE_VPN.equals(intent.getAction())) {
-            if (mDeviceStateReceiver != null)
-                mDeviceStateReceiver.userPause(true);
+            // This value will be picked up by any ongoing startOpenVPN execution in background
+            // thread so that it can be properly rolled back.
+            shouldRollbackConnection = true;
+            try {
+                stopVPN(false);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             return START_NOT_STICKY;
         }
+
+        shouldRollbackConnection = false;
 
         if (intent != null && RESUME_VPN.equals(intent.getAction())) {
             if (mDeviceStateReceiver != null)
@@ -514,11 +524,23 @@ public abstract class OpenVPNService extends VpnService implements StateListener
         showNotification(VpnStatus.getLastCleanLogMessage(this),
                 VpnStatus.getLastCleanLogMessage(this), NOTIFICATION_CHANNEL_NEWSTATUS_ID, 0, ConnectionStatus.LEVEL_START, null);
 
-
+        shouldRollbackConnection = false;
         /* start the OpenVPN process itself in a background thread */
         mCommandHandler.post(() -> startOpenVPN(intent, startId));
 
         return START_STICKY;
+    }
+
+    private void rollbackConnection() {
+        VpnStatus.updateStateString("NOPROCESS", "", 0, ConnectionStatus.LEVEL_NOTCONNECTED);
+        guiHandler.post(() -> {
+            try {
+                stopVPN(false);
+                endVpnService();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -577,6 +599,11 @@ public abstract class OpenVPNService extends VpnService implements StateListener
     }
 
     private void startOpenVPN(Intent intent, int startId) {
+        if (shouldRollbackConnection) {
+            rollbackConnection();
+            return;
+        }
+
         VpnProfile vp = fetchVPNProfile(intent);
         if (vp == null) {
             stopSelf(startId);
@@ -606,6 +633,11 @@ public abstract class OpenVPNService extends VpnService implements StateListener
         stopOldOpenVPNProcess();
         // An old running VPN should now be exited
         mStarting = false;
+
+        if (shouldRollbackConnection) {
+            rollbackConnection();
+            return;
+        }
 
         // Start a new session by creating a new thread.
         boolean useOpenVPN3 = VpnProfile.doUseOpenVPN3(this);
