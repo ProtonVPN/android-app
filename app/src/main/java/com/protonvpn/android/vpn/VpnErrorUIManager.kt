@@ -48,10 +48,7 @@ class VpnErrorUIManager @Inject constructor(
                             title = appContext.getString(R.string.notification_subscription_expired_title),
                             content = appContext.getString(R.string.notification_subscription_expired_no_reconnection_content),
                             reconnectionInformation = null,
-                            action = ActionItem(
-                                title = appContext.getString(R.string.upgrade),
-                                pendingIntent = getPendingIntentForDashboard()
-                            ),
+                            action = createPlanUpgradeAction(),
                             fullScreenDialog = FullScreenDialog(null, true, null)
                         )
                     )
@@ -65,7 +62,7 @@ class VpnErrorUIManager @Inject constructor(
                         content = R.string.notification_smart_protocol_disabled_content,
                         title = R.string.notification_smart_protocol_disabled_title,
                         icon = R.drawable.ic_proton_green,
-                        action = ActionItem(
+                        action = ActionItem.BgAction(
                             title = appContext.getString(R.string.enable),
                             pendingIntent = PendingIntent.getBroadcast(
                                 appContext,
@@ -111,10 +108,9 @@ class VpnErrorUIManager @Inject constructor(
                         title = notificationHelper.getContentTitle(it),
                         content = notificationHelper.getContentString(it),
                         reconnectionInformation = buildReconnectionInfo(switch),
-                        action = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent) ActionItem(
-                            title = appContext.getString(R.string.upgrade),
-                            pendingIntent = getPendingIntentForDashboard()
-                        ) else null,
+                        action = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
+                            createPlanUpgradeAction()
+                        else null,
                         fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
                             FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(it))
                         else
@@ -137,9 +133,7 @@ class VpnErrorUIManager @Inject constructor(
                     ReconnectionNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
-                        action = if (!isUserPlusOrAbove) ActionItem(
-                            appContext.getString(R.string.upgrade), getPendingIntentForDashboard()
-                        ) else null,
+                        action = if (!isUserPlusOrAbove) createPlanUpgradeAction() else null,
                         fullScreenDialog = FullScreenDialog(
                             fullScreenIcon = if (isUserPlusOrAbove)
                                 R.drawable.ic_exclamation_tunnel_illustration
@@ -152,11 +146,9 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun getPendingIntentForDashboard(): PendingIntent = PendingIntent.getActivity(
-        appContext,
-        Constants.NOTIFICATION_INFO_ID,
-        Intent(appContext, EmptyUpgradeDialogActivity::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT
+    private fun createPlanUpgradeAction(): ActionItem = ActionItem.Activity(
+        appContext.getString(R.string.upgrade),
+        Intent(appContext, EmptyUpgradeDialogActivity::class.java)
     )
 
     private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {
