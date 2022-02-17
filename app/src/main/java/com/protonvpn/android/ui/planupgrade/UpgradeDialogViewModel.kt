@@ -24,11 +24,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
-import me.proton.core.plan.presentation.entity.UpgradeResult
 import me.proton.core.plan.presentation.onUpgradeResult
 import javax.inject.Inject
 
@@ -39,7 +38,8 @@ class UpgradeDialogViewModel @Inject constructor(
     private val plansOrchestrator: PlansOrchestrator,
 ) : ViewModel() {
 
-    val upgradeResult = MutableSharedFlow<UpgradeResult?>()
+    enum class State { Init, Fail, Success }
+    val state = MutableStateFlow(State.Init)
 
     fun setupOrchestrators(activity: ComponentActivity) {
         authOrchestrator.register(activity)
@@ -47,7 +47,8 @@ class UpgradeDialogViewModel @Inject constructor(
 
         plansOrchestrator.onUpgradeResult { result ->
             viewModelScope.launch {
-                upgradeResult.emit(result)
+                state.value = if (result != null && result.billingResult.subscriptionCreated)
+                    State.Success else State.Fail
             }
         }
     }

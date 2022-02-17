@@ -49,10 +49,9 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
         super.onCreate(savedInstanceState)
         val binding = setContentViewBinding(ActivityUpgradeDialogBinding::inflate)
         viewModel.setupOrchestrators(this)
-        viewModel.upgradeResult.asLiveData().observe(this, Observer { result ->
-            if (result != null) {
-                if (result.billingResult.subscriptionCreated)
-                    startActivity(CongratsPlanActivity.create(this))
+        viewModel.state.asLiveData().observe(this, Observer { state ->
+            if (state == UpgradeDialogViewModel.State.Success) {
+                startActivity(CongratsPlanActivity.create(this))
                 finish()
             }
         })
@@ -79,10 +78,11 @@ class EmptyUpgradeDialogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupOrchestrators(this)
-        viewModel.upgradeResult.asLiveData().observe(this, Observer { result ->
-            if (result != null && result.billingResult.subscriptionCreated)
+        viewModel.state.asLiveData().observe(this, Observer { state ->
+            if (state == UpgradeDialogViewModel.State.Success)
                 startActivity(CongratsPlanActivity.create(this))
-            finish()
+            if (state != UpgradeDialogViewModel.State.Init)
+                finish()
         })
         lifecycleScope.launch {
             viewModel.planUpgrade()
