@@ -49,8 +49,10 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.serverconnection.ApiConnectionListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 
+@Singleton
 class GuestHole @Inject constructor(
     private val scope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
