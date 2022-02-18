@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Trennen</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Warnung</string>
-    <string name="secureCoreSwitchOnTitle">Verbindung zum „Secure Core”-Server herstellen?</string>
-    <string name="secureCoreSwitchOffTitle">Verbindung zu einem Nicht-„Secure Core”-Server herstellen?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Sie versuchen sich mit einem „Secure Core”‐Server zu verbinden. Dies wird Secure Core aktivieren%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Sie versuchen sich mit einem Server zu verbinden, der kein „Secure Core”‐Server ist. Dies wird Secure Core deaktivieren%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020und setzen Sie Ihre Verbindung zurück</string>
-    <string name="secureCoreSwitchConnect">Ja, jetzt verbinden</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core improves your security but can impact the speed of your connection.</string>
     <string name="logoutConfirmDialogTitle">Abmelden?</string>
     <string name="logoutConfirmDialogMessage">Das Abmelden wird Ihr Gerät vom VPN trennen.</string>
     <string name="logoutConfirmDialogButton">Abmelden</string>

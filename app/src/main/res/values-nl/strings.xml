@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Verbreken</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Waarschuwing</string>
-    <string name="secureCoreSwitchOnTitle">Verbinding maken met Secure Core server?</string>
-    <string name="secureCoreSwitchOffTitle">Verbinding maken met een niet-Secure Core server?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">U probeert verbinding te maken met een Secure Core server. Dit zal de Secure Core modus%1$s inschakelen.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">U probeert verbinding te maken met een niet-Secure Core server. Dit zal de Secure Core modus%1$s uitschakelen.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020en reset uw verbinding</string>
-    <string name="secureCoreSwitchConnect">Ja, verbind</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core verbetert uw veiligheid, maar kan een impact hebben op de snelheid van uw verbinding.</string>
     <string name="logoutConfirmDialogTitle">Uitloggen?</string>
     <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN verbreken.</string>
     <string name="logoutConfirmDialogButton">Afmelden</string>

@@ -244,11 +244,6 @@ class ProfileTests {
                 profileIsVisible(DefaultData.PROFILE_NAME)
             }
         profilesRobot.clickOnConnectButton(DefaultData.PROFILE_NAME)
-            .verify { isDisconnectedServiceHelper() }
-        profilesRobot.verify { connectingToSecureCoreWarningIsDisplayed() }
-        profilesRobot.clickScConnectButton()
-            .verify { connectingToSecureCoreSpeedInfoIsDisplayed() }
-        profilesRobot.clickScSpeedInfoDialogContinue()
         connectionRobot.verify { isConnected() }
         connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }

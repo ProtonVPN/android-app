@@ -22,7 +22,6 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -46,11 +45,8 @@ class ProfilesRobot : BaseRobot() {
 
     fun clickDiscardButton(): ProfilesRobot = clickElementByText(R.string.discard)
 
-    fun clickScConnectButton(): ProfilesRobot =
-        clickElementByText(R.string.secureCoreSwitchConnect)
-
-    fun clickScSpeedInfoDialogContinue(): ProfilesRobot =
-        clickElementByText(R.string.dialogContinue)
+    fun clickScSpeedInfoDialogActivate(): ProfilesRobot =
+        clickElementByText(R.string.secureCoreActivateDialogButton)
 
     fun selectColorIndex(index: Int): ProfilesRobot =
         clickElementByIndexInParent(R.id.layoutPalette, index)
@@ -191,15 +187,8 @@ class ProfilesRobot : BaseRobot() {
             view.withId(R.id.textServer).withText(profileName).checkDisplayed()
         }
 
-        fun connectingToSecureCoreWarningIsDisplayed() =
-            checkIfElementIsDisplayedByText(
-                InstrumentationRegistry.getInstrumentation().targetContext.getString(
-                    R.string.secureCoreSwitchOn, ""
-                )
-            )
-
         fun connectingToSecureCoreSpeedInfoIsDisplayed() =
-            checkIfElementIsDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
+            checkIfElementIsDisplayedByStringId(R.string.secureCoreSpeedInfoTitle)
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

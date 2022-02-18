@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advertencia</string>
-    <string name="secureCoreSwitchOnTitle">¿Conectar con el servidor Secure Core?</string>
-    <string name="secureCoreSwitchOffTitle">¿Conectarse a un servidor que no sea de Secure Core?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Está intentando conectarse a un servidor Secure Core. Esto habilitará el modo Secure Core%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Está intentando conectarse a un servidor que no es de Secure Core. Esto desactivará el modo Secure Core%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020y restablecer su conexión</string>
-    <string name="secureCoreSwitchConnect">Sí, conectarse</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core improves your security but can impact the speed of your connection.</string>
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
     <string name="logoutConfirmDialogMessage">Al cerrar la sesión, su dispositivo se desconectará de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>

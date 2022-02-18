@@ -251,6 +251,9 @@
         <activity
             android:name=".ui.drawer.bugreport.DropdownSelectionActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.home.SecureCoreSpeedInfoActivity"
+            android:exported="false" />
         
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
