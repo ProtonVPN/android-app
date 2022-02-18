@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Ausgangsland darf nicht leer sein</string>
     <string name="onboardingDialogMapView">Nutzen Sie die Kartenansicht, um sich mit einem VPN‐Server, der grafisch auf der Karte angezeigt wird, zu verbinden.</string>
     <string name="onboardingDialogProfiles">Erstellen Sie Profile für Ihre Lieblingsserver und haben Sie so einfachen Zugriff auf sie. Langes Halten auf das ProtonVPN‐Symbol am unterem Bildschirmrand wird Ihnen außerdem alle Profile anzeigen. Durch das Tippen auf ein Profil wird Sie mit diesem verbinden.</string>
-    <string name="onboardingDialogSecureCoreDescription">Nutzen Sie diese bezahlte Funktion, um sich mit den sichersten Servern auf dem Planeten zu verbinden. Sie können diese in beiden Länder‐Tabs und in der Kartenansicht sehen.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
     <string name="onboardingNetshield">Schützt Sie vor Schadprogrammen, Werbung und Trackern.\nHinweis: Wenn einige Webseiten nicht geladen werden, versuchen Sie, NetShield zu deaktivieren. </string>
     <string name="onboardingFAB">Schnellverbindung/Profile</string>
     <string name="onboardingFABDescription">Tippen Sie auf diese Schaltfläche, um sich schnell zu verbinden</string>

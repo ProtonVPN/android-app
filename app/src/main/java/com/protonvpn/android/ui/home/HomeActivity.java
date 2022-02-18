@@ -591,10 +591,6 @@ public class HomeActivity extends PoolingActivity {
     }
 
     private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
-        OnboardingDialogs.showDialogOnView(tooltipManager, switchCompat, switchCompat,
-            getString(R.string.onboardingDialogSecureCoreTitle),
-            getString(R.string.onboardingDialogSecureCoreDescription),
-            OnboardingPreferences.SECURECORE_DIALOG);
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
