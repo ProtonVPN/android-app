@@ -145,8 +145,6 @@
 
     <string name="onboardingDialogMapView">Use the Map View to connect and virtually see where the VPN server is.</string>
     <string name="onboardingDialogProfiles">Create profiles for your favourite servers and have an easy access to them. Also, a long tap on ProtonVPN icon at the bottom screen will show you all your profiles. A tap on one of profiles will connect you to VPN.</string>
-    <string name="onboardingDialogSecureCoreDescription">Use this paid feature and connect to the most secure servers on the planet. You can see them in both Countries tab and Map View.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure core</string>
     <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield. </string>
     <string name="onboardingFAB">Quick connect / Profiles</string>
     <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>

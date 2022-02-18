@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Het uitgaande land veld mag niet leeg zijn</string>
     <string name="onboardingDialogMapView">Gebruik de Kaartweergave om te verbinden en virtueel te zien waar de VPN-server zich bevindt.</string>
     <string name="onboardingDialogProfiles">Maak profielen van uw favoriete servers en heb gemakkelijke toegang tot ze. Een lange tik op ProtonVPN-pictogram op het onderkant scherm zal al uw profielen tonen. Een tik op een van de profielen zal u verbinden met de VPN.</string>
-    <string name="onboardingDialogSecureCoreDescription">Gebruik deze betaalde functie en verbind met de meest beveiligde servers op de planeet. U kunt ze zien in zowel het tabblad Land als de Kaartweergave.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
     <string name="onboardingNetshield">Houdt u beschermd tegen malware, advertenties en trackers.\nOpmerking: als sommige sites niet laden, probeer NetShield uit te schakelen. </string>
     <string name="onboardingFAB">Snel verbinden / Profielen</string>
     <string name="onboardingFABDescription">Druk op deze knop voor de snelste manier om te verbinden</string>

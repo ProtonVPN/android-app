@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
     <string name="onboardingDialogMapView">Bağlantının ve VPN sunucusunun nerede olduğunu görmek için garita görünümünü kullanın.</string>
     <string name="onboardingDialogProfiles">Favori sunucularınız için profiller oluşturarak bunlara kolayca erişin. Ayrıca, alt ekrandaki ProtonVPN simgesine uzunca dokunarak tüm profillerinizi görebilirsiniz. Profillerden birine dokunarak VPN bağlantısı kurabilirsiniz.</string>
-    <string name="onboardingDialogSecureCoreDescription">Bu ücretli özelliği kullanın ve gezegendeki en güvenli sunuculara bağlanın. Bunları hem ülkeler sekmesinde hem de harita görünümünde görebilirsiniz.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure Core</string>
     <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve etkinlik izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield korumasını devre dışı bırakmayı deneyin. </string>
     <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
     <string name="onboardingFABDescription">En hızlı şekilde bağlanmak için bu düğmeye tıklayın</string>

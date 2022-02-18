@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Поле \"Страна выхода\" не может быть пустым</string>
     <string name="onboardingDialogMapView">Используйте \"Просмотр карты\", чтобы подключиться и фактически увидеть, где находится VPN-сервер.</string>
     <string name="onboardingDialogProfiles">Создавайте профили для ваших любимых серверов и получайте к ним легкий доступ. Кроме того, долгое нажатие на значок ProtonVPN в нижней части экрана покажет вам все ваши профили. Нажатие на один из профилей соединит вас с VPN.</string>
-    <string name="onboardingDialogSecureCoreDescription">Используйте эту платную функцию и подключайтесь к самым безопасным серверам на планете. Вы можете увидеть их на вкладке \"Страны\" и \"Просмотр карты\".</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure core</string>
     <string name="onboardingNetshield">Защищает вас от вредоносных программ, рекламы и трекеров.\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield. </string>
     <string name="onboardingFAB">Быстрое подключение / Профили</string>
     <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>

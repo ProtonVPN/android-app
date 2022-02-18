@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Polje države izlaska ne može biti prazno</string>
     <string name="onboardingDialogMapView">Koristite opciju Karta za povezivanje i virtualno vidite gdje se nalazi VPN poslužitelj.</string>
     <string name="onboardingDialogProfiles">Stvorite profile za svoje omiljene poslužitelje i imajte lagan pristup do njih. Također, duže pritisnite na ikonu ProtonVPN-a u donjem dijelu zaslona i prikazat će vam se svi vaši profili. Pritiskom na jedan od profila povezivat će te se s VPN-om.</string>
-    <string name="onboardingDialogSecureCoreDescription">Iskoristite ovu plaćenu značajku i povežite se sa najsigurnijim poslužiteljima na planeti. Možete ih vidjeti u kartici Države i prikazu Karte.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure core</string>
     <string name="onboardingNetshield">Štiti vas od zlonamjernog softvera, oglasa i pratitelja.\nNapomena: ako se neke web stranice ne učitaju, pokušajte onemogućiti NetShield. </string>
     <string name="onboardingFAB">Brzo povezivanje / Profili</string>
     <string name="onboardingFABDescription">Dodirnite ovo dugme za najbrži način povezivanja</string>

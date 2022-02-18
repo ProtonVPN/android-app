@@ -129,8 +129,6 @@
     <string name="errorEmptyExitCountry">Bidang keluaran negara tidak boleh kosong</string>
     <string name="onboardingDialogMapView">Gunakan Tampilan Peta untuk menyambungkan dan melihat secara virtual di mana server VPN berada.</string>
     <string name="onboardingDialogProfiles">Buat profil untuk server kesukaan Anda dan mengaksesnya dengan mudah. Sentuh lama lambang ProtonVPN di bagian bawah layar juga memperlihatkan semua profil Anda. Satu sentuhan di salah satu profil menyambungkan Anda ke VPN.</string>
-    <string name="onboardingDialogSecureCoreDescription">Gunakan fitur berbayar ini dan tersambunglah ke server-server teraman di dunia. Anda dapat melihatnya di tab Negara dan Tilik Peta.</string>
-    <string name="onboardingDialogSecureCoreTitle">Secure core</string>
     <string name="onboardingNetshield">Mengamankan Anda dari malware, iklan, dan pelacak.\nCatatan: jika beberapa situs tidak termuat, coba nonaktifkan NetShield. </string>
     <string name="onboardingFAB">Sambung cepat / Profil</string>
     <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
