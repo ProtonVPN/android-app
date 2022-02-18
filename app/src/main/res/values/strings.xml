@@ -45,24 +45,9 @@
 
     <string name="warning">Warning</string>
 
-
-    <string name="secureCoreSwitchOnTitle">Connect to Secure Core server?</string>
-    <string name="secureCoreSwitchOffTitle">Connect to non-Secure Core server?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">You are trying to connect to a Secure Core server. This will enable Secure Core mode%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">You are trying to connect to a non-Secure Core server. This will disable Secure Core mode%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020and reset your connection</string>
-    <string name="secureCoreSwitchConnect">Yes, connect</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core improves your security but can impact the speed of your connection.</string>
+    <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
     <string name="logoutConfirmDialogTitle">Log out?</string>
     <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Log out</string>

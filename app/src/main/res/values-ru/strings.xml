@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Отключиться</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Внимание</string>
-    <string name="secureCoreSwitchOnTitle">Подключиться к серверу Secure Core?</string>
-    <string name="secureCoreSwitchOffTitle">Подключиться к серверу без Secure Core?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Вы пытаетесь подключиться к серверу Secure Core. Будет включен режим Secure Core%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Вы пытаетесь подключиться к серверу без Secure Core. Режим Secure Core будет выключен%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020и сбросить Ваше подключение</string>
-    <string name="secureCoreSwitchConnect">Да, подключиться</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core повышает вашу безопасность, но может повлиять на скорость вашего подключения.</string>
     <string name="logoutConfirmDialogTitle">Выйти?</string>
     <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
     <string name="logoutConfirmDialogButton">Bыйти</string>

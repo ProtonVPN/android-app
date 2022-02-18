@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
-    <string name="secureCoreSwitchOnTitle">Secure Core sunucusuna bağlanılsın mı?</string>
-    <string name="secureCoreSwitchOffTitle">Secure Core olmayan sunucuya bağlanılsın mı?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Bir Secure Core sunucusuna bağlanmaya çalışıyorsunuz. Bu işlem Secure Core kipini etkinleştirecek%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Bir Secure Core olmayan sunucuya bağlanmayı çalışıyorsunuz. Bu işlem Secure Core kipini devre dışı bırakacak%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020ve bağlantınızı sıfırlayın</string>
-    <string name="secureCoreSwitchConnect">Evet, bağlan</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core kullanmak güvenliğinizi artırır ancak bağlantı hızınızı düşürebilir.</string>
     <string name="logoutConfirmDialogTitle">Oturum kapatılsın mı?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
     <string name="logoutConfirmDialogButton">Oturumu kapat</string>

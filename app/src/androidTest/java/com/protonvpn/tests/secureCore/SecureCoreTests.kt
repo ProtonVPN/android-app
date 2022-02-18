@@ -74,9 +74,28 @@ class SecureCoreTests {
             .verify {
                 dialogSpeedInfoVisible()
             }
-        homeRobot.acceptSecureCoreInfoDialog()
+        homeRobot
+            .disableDontShowAgain()
+            .acceptSecureCoreInfoDialog()
 
         homeRobot.setStateOfSecureCoreSwitch(false)
+            .verify {
+                dialogSpeedInfoNotVisible()
+            }
+    }
+
+    @Test
+    fun secureCoreSpeedInfoDialogDontShowAgainWhenCancelled() {
+        homeRobot.setStateOfSecureCoreSwitch(true)
+            .verify {
+                dialogSpeedInfoVisible()
+            }
+        homeRobot.clickCancel()
+            .verify {
+                assertThatSecureCoreSwitchIsDisabled()
+            }
+
+        homeRobot.setStateOfSecureCoreSwitch(true)
             .verify {
                 dialogSpeedInfoNotVisible()
             }
@@ -147,7 +166,6 @@ class SecureCoreTests {
         homeRobot.swipeDownToCloseConnectionInfoLayout()
             .setStateOfSecureCoreSwitch(true)
             .acceptSecureCoreInfoDialog()
-            .clickReconnect()
         homeRobot.verify { assertThatSecureCoreSwitchIsEnabled() }
         connectionRobot.verify {
             isConnectingToSecureCoreServer()

@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Disconnetti</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Attenzione</string>
-    <string name="secureCoreSwitchOnTitle">Connettersi al server Secure Core?</string>
-    <string name="secureCoreSwitchOffTitle">Connettersi ad un server non Secure Core?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Stai cercando di connetterti al server Secure Core. Questo abiliterà la modalità Secure Core%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Stai tentando di connetterti a un server non Secure Core. Questo disabiliterà la modalità Secure Core%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020e ripristina la connessione</string>
-    <string name="secureCoreSwitchConnect">Sì, connetti</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core migliora la tua sicurezza ma può influire sulla velocità della tua connessione.</string>
     <string name="logoutConfirmDialogTitle">Uscire?</string>
     <string name="logoutConfirmDialogMessage">La disconnessione disconnetterà il dispositivo dalla VPN.</string>
     <string name="logoutConfirmDialogButton">Esci</string>

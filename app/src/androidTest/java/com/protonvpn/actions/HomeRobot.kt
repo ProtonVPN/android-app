@@ -25,7 +25,6 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
@@ -34,10 +33,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.matchers.ProtonMatcher
 import com.protonvpn.matchers.ProtonMatcher.lastChild
 import com.protonvpn.testsHelper.ServiceTestHelper
-import io.mockk.InternalPlatformDsl.toArray
 import org.hamcrest.Matchers
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -67,8 +64,6 @@ class HomeRobot : BaseRobot() {
 
     fun clickCancel(): HomeRobot = clickElementByText(R.string.cancel)
 
-    fun clickReconnect(): ConnectionRobot = clickElementByText(R.string.reconnect)
-
     fun swipeDownToCloseConnectionInfoLayout(): HomeRobot =
         swipeDownOnElementById(R.id.layoutBottomSheet)
 
@@ -83,8 +78,13 @@ class HomeRobot : BaseRobot() {
         return this
     }
 
+    fun disableDontShowAgain(): HomeRobot {
+        view.withText(R.string.dialogDontShowAgain).isChecked().click()
+        return this
+    }
+
     fun acceptSecureCoreInfoDialog(): HomeRobot =
-        clickElementByText(R.string.dialogContinue)
+        clickElementByText(R.string.secureCoreActivateDialogButton)
 
     fun swipeLeftToOpenProfiles(): ProfilesRobot {
         view.waitForCondition {
@@ -116,7 +116,7 @@ class HomeRobot : BaseRobot() {
     }
 
     fun scrollUpToTheLogs() {
-        for (i in 1..3) {
+        repeat(3) {
             swipeDownOnElementById<HomeRobot>(R.id.log_frag)
         }
     }
@@ -141,11 +141,11 @@ class HomeRobot : BaseRobot() {
         }
 
         fun dialogSpeedInfoVisible() {
-            checkIfElementIsDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
+            checkIfElementIsDisplayedByStringId(R.string.secureCoreSpeedInfoTitle)
         }
 
         fun dialogSpeedInfoNotVisible() {
-            checkIfElementIsNotDisplayedByStringId(R.string.secureCoreSwitchSpeedInfo)
+            checkIfElementIsNotDisplayedByStringId(R.string.secureCoreSpeedInfoTitle)
         }
 
         fun isSecureCoreDisabled() {

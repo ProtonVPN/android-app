@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Rozłącz</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Ostrzeżenie</string>
-    <string name="secureCoreSwitchOnTitle">Połączyć się z serwerem Secure Core?</string>
-    <string name="secureCoreSwitchOffTitle">Połączyć się z serwerem bez funkcji Secure Core?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Próbujesz połączyć się z serwerem Secure Core. To spowoduje włączeniu trybu Secure Core%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Próbujesz połączyć się z serwerem bez funkcji Secure Core. To spowoduje wyłączenie trybu Secure Core%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020i zresetowanie połączenia</string>
-    <string name="secureCoreSwitchConnect">Tak, połącz się</string>
-    <string name="secureCoreSwitchSpeedInfo">Funkcja Secure Core zwiększa bezpieczeństwo, ale może mieć wpływ na prędkość połączenia.</string>
     <string name="logoutConfirmDialogTitle">Wylogować się?</string>
     <string name="logoutConfirmDialogMessage">Wylogowanie spowoduje rozłączenie połączenia VPN.</string>
     <string name="logoutConfirmDialogButton">Wyloguj</string>

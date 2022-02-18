@@ -93,6 +93,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -118,9 +119,6 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 @ContentLayout(R.layout.activity_home)
 public class HomeActivity extends PoolingActivity {
 
-    private static final String PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG";
-    private static final String PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG";
-
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.fabQuickConnect) ProtonActionMenu fabQuickConnect;
@@ -143,6 +141,11 @@ public class HomeActivity extends PoolingActivity {
     private HomeViewModel viewModel;
 
     private final TooltipManager tooltipManager = new TooltipManager(this);
+
+    private final ActivityResultLauncher<Unit> secureCoreSpeedInfoDialog =
+            registerForActivityResult(
+                    SecureCoreSpeedInfoActivity.createContract(),
+                    this::onSecureCoreSpeedInfoDialogResult);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,7 +247,7 @@ public class HomeActivity extends PoolingActivity {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 showSecureCoreUpgradeDialog();
             } else if (!switchView.isChecked()) {
-                showSecureCoreSpeedInfoDialog(this::toggleSecureCore);
+                secureCoreSpeedInfoDialog.launch(Unit.INSTANCE);
             } else {
                 toggleSecureCore();
             }
@@ -253,21 +256,15 @@ public class HomeActivity extends PoolingActivity {
     }
 
     private void toggleSecureCore() {
+        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         if (vpnStateMonitor.isConnected()
                 && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
-            CommonDialogsKt.showGenericReconnectDialog(
-                    getContext(),
-                    R.string.settingsReconnectToChangeDialogContent,
-                    PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG,
-                    () -> {
-                        switchSecureCore.toggle();
-                        postSecureCoreSwitched(switchSecureCore);
-                        viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
-                            onConnect(newProfile, "Secure Core switch");
-                            return Unit.INSTANCE;
-                        });
-                        return Unit.INSTANCE;
-                    });
+            switchSecureCore.toggle();
+            postSecureCoreSwitched(switchSecureCore);
+            viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
+                onConnect(newProfile, "Secure Core switch");
+                return Unit.INSTANCE;
+            });
         } else {
             switchSecureCore.toggle();
             postSecureCoreSwitched(switchSecureCore);
@@ -582,6 +579,7 @@ public class HomeActivity extends PoolingActivity {
 
     @OnCheckedChanged(R.id.switchSecureCore)
     public void switchSecureCore(final SwitchCompat switchCompat, final boolean isChecked) {
+        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         postSecureCoreSwitched(switchCompat);
     }
 
@@ -597,7 +595,6 @@ public class HomeActivity extends PoolingActivity {
             getString(R.string.onboardingDialogSecureCoreTitle),
             getString(R.string.onboardingDialogSecureCoreDescription),
             OnboardingPreferences.SECURECORE_DIALOG);
-        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
@@ -657,16 +654,8 @@ public class HomeActivity extends PoolingActivity {
     @Override
     public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
-        boolean secureCoreOn = userData.getSecureCoreEnabled();
         if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
             showSecureCoreUpgradeDialog();
-        } else if (secureCoreServer != secureCoreOn) {
-            showSecureCoreChangeDialog(profile,
-                    () -> showSecureCoreSpeedInfoDialog(() -> {
-                        LogExtensionsKt.logUiSettingChange(
-                                ProtonLogger.INSTANCE, Setting.SECURE_CORE, "connecting to profile");
-                        super.onConnect(profile, connectionCauseLog);
-                    }));
         } else {
             super.onConnect(profile, connectionCauseLog);
         }
@@ -677,34 +666,8 @@ public class HomeActivity extends PoolingActivity {
         vpnConnectionManager.disconnect("user via " + uiElement);
     }
 
-    private void showSecureCoreChangeDialog(@NonNull Profile profileToConnect, @NonNull Runnable onAccepted) {
-        String disconnect =
-            vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : "";
-        boolean isSecureCoreServer = profileToConnect.isSecureCore();
-        new MaterialAlertDialogBuilder(this)
-            .setTitle(isSecureCoreServer ? R.string.secureCoreSwitchOnTitle : R.string.secureCoreSwitchOffTitle)
-            .setMessage(
-                getString(isSecureCoreServer ? R.string.secureCoreSwitchOn : R.string.secureCoreSwitchOff,
-                    disconnect))
-            .setCancelable(false)
-            .setPositiveButton(R.string.secureCoreSwitchConnect, (dialog, which) -> onAccepted.run())
-            .setNegativeButton(R.string.cancel, null)
-            .show();
-    }
-
-    private void showSecureCoreSpeedInfoDialog(@NonNull Runnable onAccepted) {
-        CommonDialogsKt.showDialogWithDontShowAgain(
-                getContext(),
-                0,
-                R.string.secureCoreSwitchSpeedInfo,
-                R.string.dialogContinue,
-                R.string.cancel,
-                PREF_SHOW_SECURE_CORE_SWITCH_INFO_DIALOG,
-                Constants.SECURE_CORE_INFO_URL,
-                () -> {
-                    onAccepted.run();
-                    return Unit.INSTANCE;
-                });
+    private void onSecureCoreSpeedInfoDialogResult(boolean activateSc) {
+        if (activateSc) toggleSecureCore();
     }
 
     @NonNull

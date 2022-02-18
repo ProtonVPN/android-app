@@ -40,23 +40,6 @@
     <string name="mapCalloutDisconnect">Se déconnecter</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Attention</string>
-    <string name="secureCoreSwitchOnTitle">Se connecter au serveur Secure Core ?</string>
-    <string name="secureCoreSwitchOffTitle">Se connecter au serveur non-Secure Core ?</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode."
-         "You are trying to connect to a Secure Core server. This will enable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOn">Vous essayez de vous connecter à un serveur Secure Core. Ceci activera le mode Secure Core%1$s.</string>
-    <!-- The %1$s parameter is either empty or replaced with the "currentConnectionWillBeLost" text.
-         Examples:
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode."
-         "You are trying to connect to a non-Secure Core server. This will disable Secure Core mode and reset your connection." -->
-    <string name="secureCoreSwitchOff">Vous essayez de vous connecter à un serveur non-Secure Core. Ceci désactivera le mode Secure Core%1$s.</string>
-    <!-- The phrase inserted in secureCoreSwitchOff and secureCoreSwitchOn when the connection needs to be reset.
-         NOTE: use \u0020 for space at the beginning or end if needed. -->
-    <string name="currentConnectionWillBeLost">\u0020et réinitialisera votre connexion</string>
-    <string name="secureCoreSwitchConnect">Oui, se connecter</string>
-    <string name="secureCoreSwitchSpeedInfo">Secure Core améliore votre sécurité, mais peut impacter la vitesse de votre connexion.</string>
     <string name="logoutConfirmDialogTitle">Se déconnecter ?</string>
     <string name="logoutConfirmDialogMessage">La fermeture de la session déconnectera votre appareil du VPN.</string>
     <string name="logoutConfirmDialogButton">Se déconnecter</string>

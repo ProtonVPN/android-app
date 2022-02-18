@@ -28,7 +28,6 @@ class TestSetup {
             //set flag to slide show to be visible
             Storage.saveBoolean(OnboardingPreferences.MAPVIEW_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.PROFILES_DIALOG, true)
-            Storage.saveBoolean(OnboardingPreferences.SECURECORE_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true)
             Storage.saveBoolean(OnboardingPreferences.NETSHIELD_DIALOG, true)
