@@ -19,7 +19,11 @@
 package com.protonvpn.android.ui.home.vpn
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
@@ -33,6 +37,11 @@ import me.proton.core.presentation.utils.SnackType
 
 @AndroidEntryPoint
 class SwitchDialogActivity : BaseActivityV2() {
+
+    class CloseOnSuccessContract(val intent: Intent) : ActivityResultContract<Unit, Boolean>() {
+        override fun createIntent(context: Context, input: Unit) = intent
+        override fun parseResult(resultCode: Int, result: Intent?) = resultCode == Activity.RESULT_OK
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +77,7 @@ class SwitchDialogActivity : BaseActivityV2() {
         layoutUpsell.root.isVisible = reconnectionNotification.fullScreenDialog?.hasUpsellLayout == true
         layoutUpsell.textManyCountries.text = getManyServersInManyCountriesText()
         reconnectionNotification.action?.let { actionItem ->
-            buttonUpgrade.text = actionItem.title
-            buttonUpgrade.setOnClickListener {
-                when (actionItem) {
-                    is NotificationHelper.ActionItem.Activity -> startActivity(actionItem.activityIntent)
-                    is NotificationHelper.ActionItem.BgAction -> actionItem.pendingIntent.send()
-                }
-            }
+            initActionButton(binding, actionItem)
         } ?: run {
             buttonBack.isVisible = false
             buttonUpgrade.text = getString(R.string.got_it)
@@ -83,6 +86,29 @@ class SwitchDialogActivity : BaseActivityV2() {
             }
         }
     }
+
+    private fun initActionButton(binding: ActivitySwitchDialogBinding, actionItem: NotificationHelper.ActionItem) =
+        with(binding) {
+            buttonUpgrade.text = actionItem.title
+            when (actionItem) {
+                is NotificationHelper.ActionItem.Activity -> {
+                    val launcher = if (actionItem.closeAfterSuccess)
+                        registerForActivityResult(CloseOnSuccessContract(actionItem.activityIntent)) {
+                            if (it) finish()
+                        } else null
+                    buttonUpgrade.setOnClickListener {
+                        if (launcher != null)
+                            launcher.launch(Unit)
+                        else
+                            startActivity(actionItem.activityIntent)
+                    }
+                }
+                is NotificationHelper.ActionItem.BgAction ->
+                    buttonUpgrade.setOnClickListener {
+                        actionItem.pendingIntent.send()
+                    }
+            }
+        }
 
     private fun initReconnectionUI(
         binding: ActivitySwitchDialogBinding,

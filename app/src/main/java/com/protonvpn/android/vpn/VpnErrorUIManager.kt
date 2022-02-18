@@ -148,7 +148,8 @@ class VpnErrorUIManager @Inject constructor(
 
     private fun createPlanUpgradeAction(): ActionItem = ActionItem.Activity(
         appContext.getString(R.string.upgrade),
-        Intent(appContext, EmptyUpgradeDialogActivity::class.java)
+        Intent(appContext, EmptyUpgradeDialogActivity::class.java),
+        true
     )
 
     private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {

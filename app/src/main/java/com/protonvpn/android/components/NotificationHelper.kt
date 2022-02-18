@@ -133,7 +133,11 @@ class NotificationHelper(
         abstract val title: String
 
         @Parcelize
-        class Activity(override val title: String, val activityIntent: Intent) : ActionItem()
+        class Activity(
+            override val title: String,
+            val activityIntent: Intent,
+            val closeAfterSuccess: Boolean
+        ) : ActionItem()
 
         @Parcelize
         class BgAction(override val title: String, val pendingIntent: PendingIntent) : ActionItem()
