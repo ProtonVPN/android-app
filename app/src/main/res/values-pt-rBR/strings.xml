@@ -615,6 +615,8 @@
     <string name="dynamic_report_step2">Etapa 2 de 3</string>
     <string name="dynamic_report_step3">Etapa 3 de 3</string>
     <string name="dynamic_report_your_issue_headline">What is your issue</string>
+    <string name="update_screen_title">Atualizar ProtonVPN</string>
+    <string name="update_screen_description">You’re more likely to have issues on older versions of ProtonVPN.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>

@@ -641,6 +641,8 @@
     <string name="dynamic_report_step2">Krok 2 z 3</string>
     <string name="dynamic_report_step3">Krok 3 z 3</string>
     <string name="dynamic_report_your_issue_headline">Co jest Twoim problemem</string>
+    <string name="update_screen_title">Zaktualizuj aplikację ProtonVPN</string>
+    <string name="update_screen_description">Problemy są bardziej prawdopodobne w starszych wersjach aplikacji ProtonVPN.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Odwiedź <a href="https://protonvpn.com/pricing">protonvpn.com</a>, aby uzyskać więcej informacji.</string>
 </resources>

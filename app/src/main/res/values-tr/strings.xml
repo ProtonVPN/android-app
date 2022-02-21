@@ -615,6 +615,8 @@
     <string name="dynamic_report_step2">2/3. adım</string>
     <string name="dynamic_report_step3">3/3. adım</string>
     <string name="dynamic_report_your_issue_headline">Sorununuz nedir</string>
+    <string name="update_screen_title">ProtonVPN uygulamasını güncelle</string>
+    <string name="update_screen_description">Eski ProtonVPN sürümlerinde sorun yaşamanız daha olasıdır.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
 </resources>

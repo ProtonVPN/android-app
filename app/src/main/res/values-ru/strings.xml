@@ -274,7 +274,7 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Это отправляет локальные журналы ошибок (мы не регистрируем активность), чтобы помочь нам устранить вашу проблему</string>
     <string name="profileFastest">Быстрейший</string>
     <string name="profileRandom">Случайный</string>
-    <string name="settingsSplitTunnelingDescription">Разделение туннелирования позволяет исключить некоторые приложения или IP-адреса из VPN трафика.</string>
+    <string name="settingsSplitTunnelingDescription">Раздельное туннелирование позволяет исключить некоторые приложения или IP-адреса из трафика VPN.</string>
     <string name="settingsSplitTunnelingTitle">Раздельное туннелирование</string>
     <string name="loaderAuthenticatingUser">Аутентификация пользователя…</string>
     <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
@@ -641,6 +641,8 @@
     <string name="dynamic_report_step2">Шаг 2 из 3</string>
     <string name="dynamic_report_step3">Шаг 3 из 3</string>
     <string name="dynamic_report_your_issue_headline">В чем ваша проблема</string>
+    <string name="update_screen_title">Обновить ProtonVPN</string>
+    <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях ProtonVPN.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>
