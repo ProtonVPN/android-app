@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingPlanCongratsBinding
+import com.protonvpn.android.models.profiles.Profile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
@@ -69,13 +70,18 @@ class CongratsPlanActivity : BaseActivityV2() {
         )
         binding.description.text = getString(R.string.onboarding_plan_congrats_description, servers)
 
-        binding.connect.onClick {
-            lifecycleScope.launch {
-                if (viewModel.connectPlus(this@CongratsPlanActivity, getVpnUiDelegate()))
-                    finish()
-            }
-        }
+        binding.connect.onClick { connect() }
         binding.skip.onClick { finish() }
+    }
+
+    private fun connect() =
+        lifecycleScope.launch {
+            if (viewModel.connectPlus(this@CongratsPlanActivity, getVpnUiDelegate()))
+                finish()
+        }
+
+    override fun retryConnection(profile: Profile) {
+        connect()
     }
 
     companion object {
