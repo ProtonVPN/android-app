@@ -56,7 +56,7 @@ class SettingsRobot : BaseRobot() {
     fun toggleSplitTunneling(): SettingsRobot {
         ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithTextAppears(
             R.id.scrollView,
-            R.string.settingsSplitTunnelingDescription
+            R.string.settingsSplitTunnelingTitle
         )
         return clickElementByText(R.string.settingsSplitTunnelingTitle)
     }

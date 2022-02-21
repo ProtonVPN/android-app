@@ -47,7 +47,8 @@ open class ConnectionParams(
         val safeMode = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
         if (safeMode != null)
             username += if (safeMode) "+sm" else "+nsm"
-
+        if (!userData.randomizedNatEnabled)
+            username += "+nr"
         bouncing?.let { username += "+b:$it" }
         return username
     }

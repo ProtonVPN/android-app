@@ -47,6 +47,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
                     if (!vpnUser.isUserBasicOrAbove) {
                         userData.setNetShieldProtocol(null)
                         userData.safeModeEnabled = true
+                        userData.randomizedNatEnabled = true
                     }
                     if (!vpnUser.isUserPlusOrAbove) {
                         userData.secureCoreEnabled = false

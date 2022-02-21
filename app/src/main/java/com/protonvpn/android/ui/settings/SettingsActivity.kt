@@ -39,6 +39,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
@@ -51,6 +52,7 @@ import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.utils.ColorUtils.combineArgb
@@ -75,6 +77,7 @@ private const val PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_
 private const val PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG"
 private const val PREF_SHOW_PROTOCOL_RECONNECT_DIALOG = "PREF_SHOW_PROTOCOL_RECONNECT_DIALOG"
 private const val PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG = "PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG"
+private const val PREF_SHOW_NAT_MODE_RECONNECT_DIALOG = "PREF_SHOW_NAT_MODE_RECONNECT_DIALOG"
 private const val PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG = "PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG"
 
 @AndroidEntryPoint
@@ -130,7 +133,9 @@ class SettingsActivity : BaseActivityV2() {
         initSendCrashReportsToggle()
 
         lifecycleScope.launch {
-            initNonStandardPortsToggle()
+            val user = currentUser.vpnUserFlow.firstOrNull()
+            initNonStandardPortsToggle(user)
+            initModerateNatToggle(user)
             onUiReady()
         }
         with(binding.contentSettings) {
@@ -238,11 +243,26 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
-    private suspend fun initNonStandardPortsToggle() = with(binding.contentSettings) {
+    private fun initModerateNatToggle(user: VpnUser?) = with(binding.contentSettings) {
+        val info = getString(R.string.settingsModerateNatDescription, Constants.MODERATE_NAT_INFO_URL)
+        switchModerateNat.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+        if (user?.isUserBasicOrAbove == true) {
+            switchModerateNat.switchClickInterceptor = {
+                tryToggleNatMode()
+                true
+            }
+        } else {
+            switchModerateNat.switchClickInterceptor = {
+                navigateTo(UpgradeModerateNatDialogActivity::class.java)
+                true
+            }
+        }
+    }
+
+    private fun initNonStandardPortsToggle(user: VpnUser?) = with(binding.contentSettings) {
         val flags = appConfig.getFeatureFlags()
         switchNonStandardPorts.isVisible = flags.safeMode
         if (flags.safeMode) {
-            val user = currentUser.vpnUserFlow.firstOrNull()
             val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
             switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
             if (user?.isUserBasicOrAbove == true) {
@@ -288,6 +308,7 @@ class SettingsActivity : BaseActivityV2() {
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
         switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
         switchNonStandardPorts.isChecked = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
+        switchModerateNat.isChecked = !userPrefs.randomizedNatEnabled
 
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
@@ -353,6 +374,17 @@ class SettingsActivity : BaseActivityV2() {
         ) {
             logUiEvent(Setting.LAN_CONNECTIONS)
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
+        }
+    }
+
+    private fun tryToggleNatMode() {
+        tryToggleSwitch(
+            PREF_SHOW_NAT_MODE_RECONNECT_DIALOG,
+            "Moderate NAT toggle",
+            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+        ) {
+            logUiEvent(Setting.RESTRICTED_NAT)
+            userPrefs.randomizedNatEnabled = !userPrefs.randomizedNatEnabled
         }
     }
 

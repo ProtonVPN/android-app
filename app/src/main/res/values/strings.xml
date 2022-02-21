@@ -132,6 +132,8 @@
     <string name="settingsDefaultConnectionDescription">Quick connect button connects you to the selected profile</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsModerateNatTitle">Moderate NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
 
     <string name="restrictedMaintenanceTitle">Under maintenance</string>
     <string name="restrictedMaintenanceDescription">Server you are currently trying to connect is under maintenance. Please try another server.</string>
@@ -576,6 +578,10 @@
 
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
+
+    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
+    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as Nat Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
 
     <string name="upgrade_see_plans_button">See plans and pricing</string>
     <string name="upgrade_not_now_button">Not now</string>

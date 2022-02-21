@@ -75,6 +75,7 @@ class ConnectionParamsTests {
         currentUser.mockVpnUser { vpnUser }
         every { userData.isVpnAcceleratorEnabled(any()) } returns true
         every { userData.isSafeModeEnabled(any()) } returns null
+        every { userData.randomizedNatEnabled } returns true
         every { profile.getNetShieldProtocol(any(), any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
@@ -140,6 +141,16 @@ class ConnectionParamsTests {
 
         Assert.assertEquals(
             setOf("user", "f2", "pa", "b:label", "nsm"),
+            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
+        )
+    }
+
+    @Test
+    fun testRandomizedNatDisabled() {
+        every { userData.randomizedNatEnabled } returns false
+
+        Assert.assertEquals(
+            setOf("user", "f2", "pa", "b:label", "nr"),
             params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
         )
     }
