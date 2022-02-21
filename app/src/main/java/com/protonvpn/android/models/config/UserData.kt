@@ -45,6 +45,7 @@ enum class Setting(val logName: String) {
     SPLIT_TUNNEL_IPS("Split Tunneling excluded IPs"),
     DEFAULT_MTU("Default MTU"),
     SAFE_MODE("Safe Mode"),
+    RESTRICTED_NAT("Restricted NAT"),
     VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
     VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
     API_DOH("Use DoH for API"),
@@ -103,6 +104,13 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.SAFE_MODE)
         }
 
+    var randomizedNatEnabled: Boolean = true
+        set(value) {
+            field = value
+            randomizedNatLiveData.value = value
+            commitUpdate(Setting.RESTRICTED_NAT)
+        }
+
     private var trialDialogShownAt: DateTime? = null
 
     var selectedProtocol: VpnProtocol = VpnProtocol.Smart
@@ -117,6 +125,7 @@ class UserData private constructor() : Serializable {
     @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
     @Transient val selectedProtocolLiveData = MutableLiveData<VpnProtocol>()
     @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
+    @Transient val randomizedNatLiveData = MutableLiveData<Boolean>()
     @Transient val updateEvent = LiveEvent()
     // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
     // when observer resumes.

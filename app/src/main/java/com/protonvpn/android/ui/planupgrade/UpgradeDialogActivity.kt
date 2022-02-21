@@ -26,6 +26,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
@@ -64,6 +65,12 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
         }
 
         setViews(binding)
+    }
+
+    protected fun showToolbar(toolbar: Toolbar) {
+        initToolbarWithUpEnabled(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        toolbar.isVisible = true
     }
 
     protected abstract fun setViews(binding: ActivityUpgradeDialogBinding)
@@ -178,9 +185,7 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         with(binding) {
-            initToolbarWithUpEnabled(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-            toolbar.isVisible = true
+            showToolbar(toolbar)
 
             imagePicture.setImageResource(R.drawable.upgrade_safemode)
             textTitle.setText(R.string.upgrade_safe_mode_title)
@@ -190,5 +195,21 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
             buttonOther.setOnClickListener { openProtonUrl(Constants.SAFE_MODE_INFO_URL) }
         }
     }
+}
 
+@AndroidEntryPoint
+class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
+
+    override fun setViews(binding: ActivityUpgradeDialogBinding) {
+        with(binding) {
+            showToolbar(toolbar)
+
+            imagePicture.setImageResource(R.drawable.upgrade_moderate_nat)
+            textTitle.setText(R.string.upgrade_moderate_nat_title)
+            textMessage.setText(R.string.upgrade_moderate_nat_message)
+
+            buttonOther.setText(R.string.upgrade_moderate_nat_learn_more)
+            buttonOther.setOnClickListener { openProtonUrl(Constants.MODERATE_NAT_INFO_URL) }
+        }
+    }
 }

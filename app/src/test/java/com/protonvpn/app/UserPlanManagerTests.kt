@@ -121,6 +121,7 @@ class UserPlanManagerTests {
     }
 
     @Test
+
     fun trialStartFiresVpnInfo() = runBlockingTest {
         launch {
             val planChange = manager.planChangeFlow.first()

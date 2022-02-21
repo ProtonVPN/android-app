@@ -187,6 +187,13 @@
             app:infoText="@string/settingsAllowNonStandardPortsDescription"
             app:title="@string/settingsAllowNonStandardPortsTitle" />
 
+        <com.protonvpn.android.ui.settings.SettingsSwitch
+            android:id="@+id/switchModerateNat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:infoText="@string/settingsModerateNatDescription"
+            app:title="@string/settingsModerateNatTitle" />
+
         <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonLicenses"
             android:layout_width="match_parent"

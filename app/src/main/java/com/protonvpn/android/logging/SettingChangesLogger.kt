@@ -70,6 +70,7 @@ class SettingChangesLogger @Inject constructor(
         Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.toLog()
         Setting.DEFAULT_MTU -> userData.mtuSize
         Setting.SAFE_MODE -> userData.safeModeEnabled ?: "default: " + appConfig.getFeatureFlags().safeMode
+        Setting.RESTRICTED_NAT -> userData.randomizedNatEnabled
         Setting.API_DOH -> userData.apiUseDoH
         Setting.VPN_ACCELERATOR_ENABLED -> userData.vpnAcceleratorEnabled
         Setting.VPN_ACCELERATOR_NOTIFICATIONS -> userData.showVpnAcceleratorNotifications
