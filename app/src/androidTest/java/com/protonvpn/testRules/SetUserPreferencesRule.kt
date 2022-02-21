@@ -32,6 +32,6 @@ class SetUserPreferencesRule(var user: TestUser) : TestWatcher() {
     }
 
     override fun finished(description: Description) {
-        Storage.clearAllPreferences()
+        Storage.clearAllPreferencesSync()
     }
 }

@@ -44,7 +44,7 @@ class UserDataTests {
 
     @After
     fun teardown() {
-        Storage.clearAllPreferences()
+        Storage.clearAllPreferencesSync()
     }
 
     @Test
