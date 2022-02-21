@@ -108,7 +108,7 @@ class RealConnectionTests {
     @After
     fun tearDown() {
         userDataHelper.logoutUser()
-        Storage.clearAllPreferences()
+        Storage.clearAllPreferencesSync()
         TestSettings.mockedConnectionUsed = true
         TestSettings.mockedServersUsed = true
         userDataHelper.setProtocol(DefaultData.DEFAULT_PROTOCOL)

@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
@@ -33,6 +34,8 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 import kotlin.jvm.functions.Function0;
 import me.proton.core.network.domain.client.ClientId;
 
@@ -172,9 +175,10 @@ public final class Storage {
         return value;
     }
 
-    public static void clearAllPreferences() {
-
-        preferences.edit().clear().apply();
+    @SuppressLint("ApplySharedPref")
+    @VisibleForTesting
+    public static void clearAllPreferencesSync() {
+        preferences.edit().clear().commit();
     }
 
 }
