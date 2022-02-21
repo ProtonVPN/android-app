@@ -133,7 +133,7 @@
     <string name="settingsMtuRangeInvalid">La valeur du MTU doit être comprise entre 1280 et 1500</string>
     <string name="settingsDefaultConnectionTitle">Connexion rapide</string>
     <string name="settingsDefaultConnectionDescription">Le bouton connexion rapide vous connecte au profil sélectionné</string>
-    <string name="settingsAllowNonStandardPortsTitle">Ports non-standards</string>
+    <string name="settingsAllowNonStandardPortsTitle">Ports non standards</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez ProtonVPN pour tout besoin particulier en autorisant le trafic vers les ports non-standards à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="restrictedMaintenanceTitle">En maintenance</string>
     <string name="restrictedMaintenanceDescription">Le serveur auquel vous essayez de vous connecter est en cours de maintenance. Veuillez essayer un autre serveur.</string>
@@ -615,6 +615,8 @@
     <string name="dynamic_report_step2">Étape 2 sur 3</string>
     <string name="dynamic_report_step3">Étape 3 sur 3</string>
     <string name="dynamic_report_your_issue_headline">Quel est votre problème</string>
+    <string name="update_screen_title">Mettre à jour ProtonVPN</string>
+    <string name="update_screen_description">Vous avez plus de chance d\'avoir des problèmes sur les anciennes versions de ProtonVPN.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visitez <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour obtenir plus d\'informations.</string>
 </resources>

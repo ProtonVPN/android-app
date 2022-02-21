@@ -602,6 +602,8 @@
     <string name="dynamic_report_step2">Langkah 2 dari 3</string>
     <string name="dynamic_report_step3">Langkah 3 dari 3</string>
     <string name="dynamic_report_your_issue_headline">Masalah apa yang Anda hadapi</string>
+    <string name="update_screen_title">Perbarui ProtonVPN</string>
+    <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan ProtonVPN versi lama.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
 </resources>
