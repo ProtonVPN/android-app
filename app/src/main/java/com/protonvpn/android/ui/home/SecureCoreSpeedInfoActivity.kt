@@ -27,7 +27,9 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.databinding.ActivitySecureCoreSpeedInfoDialogBinding
 import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.openProtonUrl
 
 class SecureCoreSpeedInfoActivity : AppCompatActivity() {
 
@@ -36,6 +38,8 @@ class SecureCoreSpeedInfoActivity : AppCompatActivity() {
         val bindings = setContentViewBinding { ActivitySecureCoreSpeedInfoDialogBinding.inflate(it) }
 
         with(bindings) {
+            textLearnMore.setOnClickListener { openProtonUrl(Constants.SECURE_CORE_INFO_URL) }
+
             buttonActivate.setOnClickListener {
                 dontShowAgain(checkboxDontShowAgain.isChecked)
                 onActivateSecureCore()
