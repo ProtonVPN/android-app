@@ -17,6 +17,9 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 import com.android.build.OutputFile
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+
 buildscript {
     repositories {
         mavenCentral()
@@ -26,7 +29,7 @@ buildscript {
 plugins {
     id 'com.android.application'
     id 'com.github.triplet.play' version '3.7.0'
-    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 apply plugin: 'com.android.application'
@@ -36,6 +39,7 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'jacoco'
 apply plugin: 'com.jaredsburrows.license'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 jacoco {
     toolVersion = '0.8.7'
@@ -287,6 +291,73 @@ play {
     releaseName.set(Helpers.fullVersionName)
 }
 
+// The config file is downloaded by the downloadDetektConfig task.
+def detektConfigPath = "${rootProject.projectDir}/config/detekt/config.yml"
+detekt {
+    failFast = false
+    config = files(detektConfigPath)
+    reports {
+        html.required.set(false)
+        xml.required.set(false)
+        txt.required.set(false)
+        sarif.required.set(false)
+        custom {
+            reportId = "outputreport.GitlabQualityOutputReport"
+            outputLocation.set(file("build/reports/detekt/detekt.jsno"))
+        }
+    }
+}
+
+tasks.withType(Detekt).configureEach {
+    dependsOn "downloadDetektConfig"
+    dependsOn ":detekt-gitlab-output-plugin:assemble"
+
+    basePath = rootProject.projectDir.absolutePath
+    reports {
+        html.required.set(false)
+        xml.required.set(false)
+        txt.required.set(false)
+        sarif.required.set(false)
+        custom {
+            reportId = "GitlabQualityOutputReport"
+            outputLocation.set(file("build/reports/detekt/detekt.json"))
+        }
+    }
+}
+
+task downloadDetektConfig {
+    doLast {
+        def srcConfigFilePath = "config/detekt/config.yml"
+        def dstConfigFile = file(detektConfigPath)
+
+        def dir = dstConfigFile.parentFile
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw FilePermissionException("Cannot create directory ${dir.canonicalPath}")
+        }
+
+        println("Detekt rule-set file: $dstConfigFile")
+        def fileModificationDate = new Date(dstConfigFile.lastModified())
+        if (fileModificationDate.plus(1) > new Date()) {
+            println("Detekt rule-set is less than a day old, skipping download.")
+            return
+        }
+
+        def url = "https://raw.githubusercontent.com/ProtonMail/protoncore_android/master/$srcConfigFilePath"
+        println("Fetching Detekt rule-set from $url")
+        try {
+            def content = new URL(url).getText()
+            // Checking start of the file is enough, if some part is missing we would not be able to decode it
+            assert(content.startsWith("# Integrity check *")) : "Integrity check not passed"
+
+            dstConfigFile.text = content
+
+        } catch (Throwable t) {
+            println("Cannot download Detekt configuration: ${t.message}")
+            throw t
+        }
+    }
+}
+
 task publishGenerateReleaseNotes {
     doLast {
         File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
@@ -510,6 +581,9 @@ dependencies {
 
     implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
+    detektPlugins project(":detekt-gitlab-output-plugin")
 
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
