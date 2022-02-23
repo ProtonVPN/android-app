@@ -20,6 +20,7 @@ package com.protonvpn
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import androidx.test.runner.AndroidJUnitRunner
 import com.github.tmurakami.dexopener.DexOpener
 import com.protonvpn.testsHelper.TestApplication_Application
@@ -30,7 +31,11 @@ class TestsRunner : AndroidJUnitRunner() {
         // Mocking final classes causes crashes on 32bit Android emulator (including Firebase Testlab virtual devices),
         // see VPNAND-797.
         // Opening classes with DexOpener mitigates the issue.
-        DexOpener.install(this)
+        // Use it only for newer APIs because its use causes crashes on Android 6 in
+        // ProtonApplication.initDependencies().
+        if (Build.VERSION.SDK_INT >= 28) {
+            DexOpener.install(this)
+        }
         return super.newApplication(cl, TestApplication_Application::class.java.name, context)
     }
 }
