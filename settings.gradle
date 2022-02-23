@@ -1,4 +1,7 @@
-include ':app', ':strongswan-android-complete', ':openvpn'
+include ':app'
+include ':detekt-gitlab-output-plugin'
+include ':openvpn'
+include ':strongswan-android-complete'
 
 // Define or comment condition to use proton-libs (core libs) for the git submodule, using gradle
 // included build. See https://docs.gradle.org/current/userguide/composite_builds.html.

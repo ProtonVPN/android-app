@@ -100,13 +100,13 @@ detekt analysis:
       paths:
         - .gradle
   tags:
-    - small
+    - medium
   script:
-    - ./gradlew multiModuleDetekt
+    - ./gradlew :app:detekt
   artifacts:
     expire_in: 4 weeks
     reports:
-      codequality: config/detekt/reports/mergedReport.json
+      codequality: app/build/reports/detekt/detekt.json
 
 build debug:
   stage: build

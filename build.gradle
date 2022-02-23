@@ -22,6 +22,7 @@
 buildscript {
     ext.kotlin_version = '1.5.30'
     ext.hilt_version = '2.40.5'
+    ext.detekt_version = '1.19.0'
     repositories {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
@@ -34,8 +35,9 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:0.8.7"
         classpath 'org.owasp:dependency-check-gradle:6.2.2'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
-        classpath 'me.proton.core.gradle-plugins.detekt:me.proton.core.gradle-plugins.detekt.gradle.plugin:1.0.0-alpha03'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -58,4 +60,3 @@ task clean(type: Delete) {
 }
 
 apply plugin: 'org.owasp.dependencycheck'
-apply plugin: 'me.proton.core.gradle-plugins.detekt'
