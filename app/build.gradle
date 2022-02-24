@@ -593,6 +593,7 @@ dependencies {
 
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.qozix:tileview:2.2.7'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
