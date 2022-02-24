@@ -20,9 +20,13 @@
 package outputreport
 
 import io.gitlab.arturbosch.detekt.api.Detektion
+import io.gitlab.arturbosch.detekt.api.Location
 import io.gitlab.arturbosch.detekt.api.OutputReport
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.io.File
+
+private const val CONTEXT_SIZE = 10
 
 class GitlabQualityOutputReport : OutputReport() {
 
@@ -33,17 +37,36 @@ class GitlabQualityOutputReport : OutputReport() {
     override fun render(detektion: Detektion): String {
         val findings = detektion.findings.values.flatten()
         val reports = findings.map {
-            val location = with(it.entity.location) {
+            val location = with(it.location) {
                 GitlabQualityReport.Location(
                     GitlabQualityReport.Location.Lines(source.line, source.line),
                     (filePath.relativePath ?: filePath.absolutePath).toString()
                 )
             }
-            val fingerprint = it.issue.id + " - " + it.signature
+            val fingerprintSignature = if (isFilePosition(it.signature, it.location))
+                with(it.location) { getTextContext(filePath.absolutePath.toString(), text.start, text.end) }
+            else
+                it.signature
+
+            val fingerprint = it.issue.id + " - " + fingerprintSignature
             // Detekt severity doesn't map well to GitLab severity.
             val severity = "info"
             GitlabQualityReport(it.messageOrDescription(), fingerprint, location, severity)
         }
         return json.encodeToString(reports)
+    }
+
+    private fun isFilePosition(signature: String, location: Location): Boolean = with(location) {
+        signature.endsWith("${filePath.absolutePath.fileName}:${source.line}")
+    }
+
+    private fun getTextContext(filePath: String, startOffset: Int, endOffset: Int): String {
+        val contents = File(filePath).readText().replace("\r\n", "\n")
+        val selection = contents.slice(startOffset until endOffset)
+        return selection.ifBlank {
+            val preceding = contents.slice((startOffset - CONTEXT_SIZE).coerceAtLeast(0) until startOffset)
+            val following = contents.slice(endOffset until (endOffset + CONTEXT_SIZE).coerceAtMost(contents.length))
+            preceding + following
+        }
     }
 }
