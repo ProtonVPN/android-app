@@ -107,9 +107,6 @@ class CountryListViewModel @Inject constructor(
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
 
-    fun shouldShowSmartRouting(vpnCountry: VpnCountry) =
-        vpnCountry.serverList.all { !it.hostCountry.isNullOrBlank() && it.hostCountry != it.entryCountry }
-
     fun hasAccessToServer(server: Server) =
         currentUser.vpnUserCached().hasAccessToServer(server)
 

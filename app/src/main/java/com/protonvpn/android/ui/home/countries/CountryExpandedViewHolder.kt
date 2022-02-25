@@ -122,23 +122,10 @@ class CountryExpandedViewHolder(
     }
 
     private fun initFeatureIcons(isServerAvailable: Boolean) = with(binding) {
-        val color = root.getThemeColor(
+        featureIcons.color = root.getThemeColor(
             if (isServerAvailable) R.attr.proton_icon_hint else R.attr.proton_icon_disabled
         )
-        featureIcons.isVisible = server.keywords.isNotEmpty()
-        if (featureIcons.isVisible) {
-            featureIcons.children.forEach { it.isVisible = false }
-            server.keywords.forEach {
-                val iconView = when (it) {
-                    Server.Keyword.P2P -> iconP2P
-                    Server.Keyword.TOR -> iconTor
-                    Server.Keyword.STREAMING -> iconStreaming
-                    Server.Keyword.SMART_ROUTING -> iconSmartRouting
-                }
-                iconView.isVisible = true
-                iconView.setColorFilter(color)
-            }
-        }
+        featureIcons.keywords = server.keywords
     }
 
     private fun updateButtons() {
