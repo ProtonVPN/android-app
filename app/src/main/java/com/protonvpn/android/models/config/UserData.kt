@@ -96,7 +96,7 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.VPN_ACCELERATOR_ENABLED)
         }
 
-    var safeModeEnabled: Boolean? = null
+    var safeModeEnabled: Boolean = true
         set(value) {
             field = value
             safeModeLiveData.value = value
@@ -158,8 +158,8 @@ class UserData private constructor() : Serializable {
     fun isVpnAcceleratorEnabled(featureFlags: FeatureFlags) =
         !featureFlags.vpnAccelerator || vpnAcceleratorEnabled
 
-    fun isSafeModeEnabled(featureFlags: FeatureFlags): Boolean =
-        safeModeEnabled ?: featureFlags.safeMode
+    fun isSafeModeEnabled(featureFlags: FeatureFlags): Boolean? =
+        safeModeEnabled.takeIf { featureFlags.safeMode }
 
     fun setProtocols(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?) {
         if (transmissionProtocol != null) {

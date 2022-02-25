@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Storage
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -68,26 +69,19 @@ class UserDataTests {
     }
 
     @Test
-    fun testIsSafeModeFeatureDisabled() {
-        val featureFlags = FeatureFlags(safeMode = false)
-
-        userData.safeModeEnabled = null
-        assertFalse(userData.isSafeModeEnabled(featureFlags))
-        userData.safeModeEnabled = true
-        assertTrue(userData.isSafeModeEnabled(featureFlags))
-        userData.safeModeEnabled = false
-        assertFalse(userData.isSafeModeEnabled(featureFlags))
+    fun safeModeUndefined_when_featureDisabled() {
+        testSafeMode(expected = null, featureEnabled = false, setting = false)
     }
 
     @Test
-    fun testIsSafeModeFeatureEnabled() {
-        val featureFlags = FeatureFlags(safeMode = true)
+    fun safeModeSameAsSetting_when_featureEnabled() {
+        testSafeMode(expected = false, featureEnabled = true, setting = false)
+        testSafeMode(expected = true, featureEnabled = true, setting = true)
+    }
 
-        userData.safeModeEnabled = null
-        assertTrue(userData.isSafeModeEnabled(featureFlags))
-        userData.safeModeEnabled = true
-        assertTrue(userData.isSafeModeEnabled(featureFlags))
-        userData.safeModeEnabled = false
-        assertFalse(userData.isSafeModeEnabled(featureFlags))
+    private fun testSafeMode(expected: Boolean?, featureEnabled: Boolean, setting: Boolean) {
+        userData.safeModeEnabled = setting
+        val effectiveSafeMode = userData.isSafeModeEnabled(FeatureFlags(safeMode = featureEnabled))
+        assertEquals(expected, effectiveSafeMode)
     }
 }

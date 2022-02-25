@@ -44,10 +44,10 @@ open class ConnectionParams(
             Constants.VPN_USERNAME_PRODUCT_SUFFIX
         if (!userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags()))
             username += "+nst"
-        if (userData.isSafeModeEnabled(appConfig.getFeatureFlags()))
-            username += "+sm"
-        else
-            username += "+nsm"
+        val safeMode = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
+        if (safeMode != null)
+            username += if (safeMode) "+sm" else "+nsm"
+
         bouncing?.let { username += "+b:$it" }
         return username
     }
