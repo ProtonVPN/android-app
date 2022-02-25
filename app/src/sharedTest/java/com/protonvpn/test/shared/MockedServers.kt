@@ -51,6 +51,7 @@ object MockedServers {
           {
             "bestScore": false,
             "city": "Toronto",
+            "region": "Ontario",
             "connectingDomains": [
               {
                 "entryDomain": "ca-01.protonvpn.com",
@@ -211,6 +212,9 @@ object MockedServers {
           {
             "bestScore": false,
             "city": "Paris",
+            "translations": {
+              "City": "Paryż"
+            },
             "connectingDomains": [
               {
                 "entryDomain": "fr-01.protonvpn.com",
