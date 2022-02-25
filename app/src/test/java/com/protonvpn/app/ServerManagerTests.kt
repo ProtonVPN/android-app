@@ -54,7 +54,7 @@ class ServerManagerTests {
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        manager.setServers(list)
+        manager.setServers(list, null)
     }
 
     @Test

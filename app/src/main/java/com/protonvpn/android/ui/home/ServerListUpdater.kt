@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import org.joda.time.DateTime
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class ServerListUpdater(
@@ -191,9 +192,10 @@ class ServerListUpdater(
             serverManager.setStreamingServices(it)
         }
 
-        val result = api.getServerList(null, ipAddress.value)
+        val lang = Locale.getDefault().language
+        val result = api.getServerList(null, ipAddress.value, lang)
         if (result is ApiResult.Success) {
-            serverManager.setServers(result.value.serverList)
+            serverManager.setServers(result.value.serverList, lang)
         }
         loaderUI?.switchToEmpty()
         return result

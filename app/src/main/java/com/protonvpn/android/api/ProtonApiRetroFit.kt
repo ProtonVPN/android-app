@@ -55,8 +55,8 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
         params: RequestBody,
     ) = manager { postBugReport(params) }
 
-    open suspend fun getServerList(loader: LoaderUI?, ip: String?) =
-        makeCall(loader) { it.getServers(createNetZoneHeaders(ip)) }
+    open suspend fun getServerList(loader: LoaderUI?, ip: String?, lang: String) =
+        makeCall(loader) { it.getServers(createNetZoneHeaders(ip), lang) }
 
     open suspend fun getLoads(ip: String?) =
         manager { getLoads(createNetZoneHeaders(ip)) }

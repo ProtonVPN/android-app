@@ -29,6 +29,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.test.assertTrue
 
@@ -48,7 +49,7 @@ class SearchTests {
     @Before
     fun setup() {
         hiltRule.inject()
-        serverManager.setServers(MockedServers.serverList)
+        serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
     }
 
     @Test

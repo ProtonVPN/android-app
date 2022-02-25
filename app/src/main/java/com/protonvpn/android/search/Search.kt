@@ -23,6 +23,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.ServerManager
 import org.apache.commons.lang3.StringUtils
+import java.util.Locale
 import javax.inject.Inject
 
 class Search @Inject constructor(
@@ -66,15 +67,24 @@ class Search @Inject constructor(
     private fun Char.isSeparator() = isWhitespace() || this in SEPARATORS
 
     private fun searchCities(term: String, countries: List<VpnCountry>): List<Match<List<Server>>> {
+        val lang = Locale.getDefault().language
         val results = linkedMapOf<TextMatch, MutableList<Server>>()
         countries.forEach { country ->
             val cityMatches = country.serverList.asSequence().map { it.city }.filterNotNull().distinct().mapNotNull {
                 find(term, it, true)
             }.associateBy { it.text }
+            val translatedCityMatches = if (serverManager.translationsLang == lang) {
+                country.serverList.asSequence().map { it.getCityTranslation() }.filterNotNull().distinct().mapNotNull {
+                    find(term, it, true)
+                }.associateBy { it.text }
+            } else
+                null
             val regionMatches = country.serverList.asSequence().map { it.region }.filterNotNull().distinct()
                 .mapNotNull { find(term, it, true) }.associateBy { it.text }
             country.serverList.forEach { server ->
-                cityMatches[server.city]?.let { match ->
+                translatedCityMatches?.get(server.getCityTranslation())?.let { match ->
+                    results.getOrPut(match) { mutableListOf() } += server
+                } ?: cityMatches[server.city]?.let { match ->
                     results.getOrPut(match) { mutableListOf() } += server
                 }
                 regionMatches[server.region]?.let { match ->

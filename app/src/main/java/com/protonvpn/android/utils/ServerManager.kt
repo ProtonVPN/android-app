@@ -66,6 +66,9 @@ class ServerManager(
     var updatedAt: DateTime? = null
         private set
 
+    var translationsLang: String? = null
+        private set
+
     @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(appContext, this))
@@ -120,6 +123,7 @@ class ServerManager(
             streamingServices = oldManager.streamingServices
             updatedAt = oldManager.updatedAt
             serverListAppVersionCode = oldManager.serverListAppVersionCode
+            translationsLang = oldManager.translationsLang
         }
         reInitProfiles()
 
@@ -182,11 +186,11 @@ class ServerManager(
     }
 
     fun setGuestHoleServers(serverList: List<Server>) {
-        setServers(serverList)
+        setServers(serverList, null)
         updatedAt = null
     }
 
-    fun setServers(serverList: List<Server>) {
+    fun setServers(serverList: List<Server>, language: String?) {
         vpnCountries.clear()
         secureCoreEntryCountries.clear()
         secureCoreExitCountries.clear()
@@ -214,6 +218,7 @@ class ServerManager(
         }
         updatedAt = DateTime()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
+        translationsLang = language
         Storage.save(this)
         onServersUpdate()
     }

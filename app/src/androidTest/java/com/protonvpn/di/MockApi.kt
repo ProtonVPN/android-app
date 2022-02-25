@@ -126,7 +126,7 @@ class MockApi(
     override suspend fun logout() =
         ApiResult.Success(GenericResponse(1000))
 
-    override suspend fun getServerList(loader: LoaderUI?, ip: String?) =
+    override suspend fun getServerList(loader: LoaderUI?, ip: String?, lang: String) =
         ApiResult.Success(ServerList(MockedServers.serverList))
 
     override suspend fun getVPNInfo(sessionId: SessionId?): ApiResult<VpnInfoResponse> =
