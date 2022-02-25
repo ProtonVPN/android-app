@@ -44,6 +44,7 @@ data class Server(
     @SerialName(value = "City") val city: String?,
     @SerialName(value = "Features") val features: Int,
     @SerialName(value = "Location") private val location: Location,
+    @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
 
     @SerialName(value = "Score") var score: Float,
 
@@ -99,6 +100,8 @@ data class Server(
 
     val isSecureCoreServer: Boolean
         get() = features and 1 == 1
+
+    fun getCityTranslation() = translations?.get("City")
 
     val serverNumber: Int
         get() {
