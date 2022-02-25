@@ -30,7 +30,7 @@ data class LoginResponse(
     @SerialName(value = "Scope") val scope: String,
     @SerialName(value = "Uid") val uid: String,
     @SerialName(value = "RefreshToken") val refreshToken: String,
-    @SerialName(value = "UserID") val userId: String,
+    @SerialName(value = "UserID") val userId: String?,
 ) {
     val sessionId get() = SessionId(uid)
 }

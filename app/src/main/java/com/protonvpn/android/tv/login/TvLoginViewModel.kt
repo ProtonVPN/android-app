@@ -136,7 +136,7 @@ class TvLoginViewModel @Inject constructor(
                 // We don't have access token yet as forked session don't return it, use
                 // invalid access token so it's refreshed by the core network module.
                 val loginResponse = result.value.toLoginResponse("invalid")
-                val userId = UserId(loginResponse.userId)
+                val userId = UserId(requireNotNull(loginResponse.userId))
                 onSessionActive(userId, loginResponse)
             }
         }
