@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/server_list_flag_margin"
             android:layout_marginStart="16dp"
-            tools:src="@drawable/de"/>
+            tools:src="@drawable/flag_de"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -70,41 +70,11 @@
                 tools:text="Berlin" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.protonvpn.android.components.ServerFeaturesView
             android:id="@+id/featureIcons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iconP2P"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_p2p"
-                android:layout_marginEnd="4dp"/>
-
-            <ImageView
-                android:id="@+id/iconTor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_tor"
-                android:layout_marginEnd="4dp"/>
-
-            <ImageView
-                android:id="@+id/iconStreaming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_streaming"
-                android:layout_marginEnd="4dp"/>
-
-            <ImageView
-                android:id="@+id/iconSmartRouting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_smart_routing"
-                android:layout_marginEnd="4dp"/>
-        </LinearLayout>
+            android:layout_marginEnd="12dp" />
 
         <ImageView
             android:id="@+id/serverLoadColor"

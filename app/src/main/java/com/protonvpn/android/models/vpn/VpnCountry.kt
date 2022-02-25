@@ -39,8 +39,6 @@ class VpnCountry(
     val countryName: String
         get() = CountryTools.getFullName(flag)
 
-    val keywords get() = serverList.flatMap { it.keywords }.distinct()
-
     init {
         this.serverList = sortServers(serverList)
         this.deliverer = deliverer

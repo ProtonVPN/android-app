@@ -24,7 +24,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
@@ -80,10 +79,7 @@ abstract class CountryViewHolder(
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.secureCoreEnabled
-            val keywords = vpnCountry.keywords
-            iconP2P.isVisible = keywords.contains(Server.Keyword.P2P)
-            iconTor.isVisible = keywords.contains(Server.Keyword.TOR)
-            iconSmartRouting.isVisible = viewModel.shouldShowSmartRouting(vpnCountry)
+            features.keywords = vpnCountry.getDisplayKeywords()
 
             root.setOnClickListener {
                 if (!vpnCountry.isUnderMaintenance()) {

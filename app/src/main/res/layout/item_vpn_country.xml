@@ -74,29 +74,10 @@
                 style="@style/TextView.Connected"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/iconP2P"
+            <com.protonvpn.android.components.ServerFeaturesView
+                android:id="@+id/features"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_p2p"
-                app:tint="?attr/proton_icon_hint"
-                android:layout_marginEnd="4dp"/>
-
-            <ImageView
-                android:id="@+id/iconTor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_tor"
-                app:tint="?attr/proton_icon_hint"
-                android:layout_marginEnd="4dp"/>
-
-            <ImageView
-                android:id="@+id/iconSmartRouting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_smart_routing"
-                app:tint="?attr/proton_icon_hint"
-                android:layout_marginEnd="4dp"/>
+                android:layout_height="wrap_content" />
 
             <me.proton.core.presentation.ui.view.ProtonButton
                 android:id="@+id/buttonUpgrade"
