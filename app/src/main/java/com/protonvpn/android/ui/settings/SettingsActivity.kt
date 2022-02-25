@@ -240,20 +240,21 @@ class SettingsActivity : BaseActivityV2() {
 
     private suspend fun initNonStandardPortsToggle() = with(binding.contentSettings) {
         val flags = appConfig.getFeatureFlags()
-        val user = currentUser.vpnUserFlow.firstOrNull()
-        val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
-        switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
-        if (user?.isUserBasicOrAbove == true) {
-            switchNonStandardPorts.isVisible = true
-            switchNonStandardPorts.switchClickInterceptor = {
-                tryToggleSafeMode()
-                true
-            }
-        } else {
-            switchNonStandardPorts.isVisible = flags.safeMode
-            switchNonStandardPorts.switchClickInterceptor = {
-                navigateTo(UpgradeSafeModeDialogActivity::class.java)
-                true
+        switchNonStandardPorts.isVisible = flags.safeMode
+        if (flags.safeMode) {
+            val user = currentUser.vpnUserFlow.firstOrNull()
+            val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
+            switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+            if (user?.isUserBasicOrAbove == true) {
+                switchNonStandardPorts.switchClickInterceptor = {
+                    tryToggleSafeMode()
+                    true
+                }
+            } else {
+                switchNonStandardPorts.switchClickInterceptor = {
+                    navigateTo(UpgradeSafeModeDialogActivity::class.java)
+                    true
+                }
             }
         }
     }
@@ -286,7 +287,7 @@ class SettingsActivity : BaseActivityV2() {
         switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
         switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
-        switchNonStandardPorts.isChecked = !userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags())
+        switchNonStandardPorts.isChecked = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
 
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
@@ -362,7 +363,7 @@ class SettingsActivity : BaseActivityV2() {
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
             logUiEvent(Setting.SAFE_MODE)
-            userPrefs.safeModeEnabled = !userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags())
+            userPrefs.safeModeEnabled = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
         }
     }
 

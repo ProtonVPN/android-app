@@ -265,7 +265,7 @@ abstract class VpnBackend(
             setInt(FEATURES_NETSHIELD, userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong())
         }
         observeFeature(userData.safeModeLiveData) {
-            setBool(FEATURES_SAFE_MODE, safeModeValue)
+            safeModeValue?.let { setBool(FEATURES_SAFE_MODE, it) } ?: remove(FEATURES_SAFE_MODE)
         }
         observeFeature(userData.vpnAcceleratorLiveData) {
             setBool(FEATURES_SPLIT_TCP, splitTcpValue)
@@ -290,7 +290,7 @@ abstract class VpnBackend(
     }
 
     private fun prepareFeaturesForAgentConnection() {
-        features.setBool(FEATURES_SAFE_MODE, safeModeValue)
+        safeModeValue?.let { features.setBool(FEATURES_SAFE_MODE, it) } ?: features.remove(FEATURES_SAFE_MODE)
         features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
         val bouncing = lastConnectionParams?.bouncing
         if (bouncing == null)

@@ -109,12 +109,12 @@ class UpdateSettingsOnVpnUserChangeTests {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         userData.secureCoreEnabled = true
         userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)
-        userData.safeModeEnabled = true
+        userData.safeModeEnabled = false
 
         vpnUserFlow.value = TestUser.freeUser.vpnUser
 
         assertFalse(userData.secureCoreEnabled)
-        assertNull(userData.safeModeEnabled)
+        assertTrue(userData.safeModeEnabled)
         assertEquals(NetShieldProtocol.DISABLED, userData.getNetShieldProtocol(vpnUserFlow.value))
     }
 
@@ -145,7 +145,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         userData.secureCoreEnabled = true
         userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)
-        userData.safeModeEnabled = true
+        userData.safeModeEnabled = false
         userData.defaultConnection = mockDefaultProfile
         every { mockDefaultServer.tier } returns 1
 
@@ -153,7 +153,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
 
         assertTrue(userData.secureCoreEnabled)
-        assertEquals(true, userData.safeModeEnabled)
+        assertEquals(false, userData.safeModeEnabled)
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, userData.getNetShieldProtocol(vpnUserFlow.value))
         assertEquals(mockDefaultProfile, userData.defaultConnection)
     }
