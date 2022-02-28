@@ -17,12 +17,14 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.models.config
+package com.protonvpn.app.models.config
 
+import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.app.mocks.MockSharedPreference
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -37,9 +39,12 @@ class UserDataTests {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var userData: UserData
+    private lateinit var fakePrefernces: SharedPreferences
 
     @Before
     fun setup() {
+        fakePrefernces = MockSharedPreference()
+        Storage.setPreferences(fakePrefernces)
         userData = UserData.create()
     }
 
