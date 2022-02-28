@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nama Pengguna</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Putuskan</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Peringatan</string>
+    <string name="secureCoreSpeedInfoTitle">Secarik catatan mengenai kecepatan…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core menawarkan tingkat keamanan dan privasi tertinggi, namun dapat menurunkan kecepatan internet Anda. Apabila Anda membutuhkan performa yang lebih, Anda dapat menonaktifkan Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Aktifkan Secure Core</string>
     <string name="logoutConfirmDialogTitle">Keluar?</string>
     <string name="logoutConfirmDialogMessage">Keluar akan memutus perangkat Anda dari VPN.</string>
     <string name="logoutConfirmDialogButton">Keluar</string>
@@ -161,7 +146,7 @@
     <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Kegagalan tidak jelas saat menyambungkan.</string>
     <string name="error_generic_with_reason">ProtonVPN tidak dapat membuat sambungan VPN. Mohon coba lagi dalam beberapa detik.<br/>
-        <br/> Detail: %1$s</string>
+        <br/> Rincian: %1$s</string>
     <string name="reconnect">Menyambung kembali</string>
     <string name="reconnect_now">Hubungkan ulang sekarang</string>
     <string name="try_reconnecting">Cobalah untuk menghubungkan ulang</string>

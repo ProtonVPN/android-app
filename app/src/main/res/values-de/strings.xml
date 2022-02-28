@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Benutzername</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Trennen</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Warnung</string>
+    <string name="secureCoreSpeedInfoTitle">Ein Hinweis betr. Geschwindigkeit…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core bietet ein Höchstmaß an Sicherheit und Datenschutz, kann aber deine Internetgeschwindigkeit verringern. Wenn du mehr Leistung benötigst, kannst du Secure Core deaktivieren.</string>
+    <string name="secureCoreActivateDialogButton">Secure Core aktivieren</string>
     <string name="logoutConfirmDialogTitle">Abmelden?</string>
     <string name="logoutConfirmDialogMessage">Das Abmelden wird Ihr Gerät vom VPN trennen.</string>
     <string name="logoutConfirmDialogButton">Abmelden</string>
@@ -52,7 +37,7 @@
     <string name="secureCoreConnectVia">über %1$s</string>
     <string name="connected">Verbunden</string>
     <string name="buttonConnect">Verbinden</string>
-    <string name="loaderInitializing">Initialisiere Verbindung …</string>
+    <string name="loaderInitializing">Verbindung wird initialisiert…</string>
     <string name="loaderConnectingTo">Mit %1$s verbinden</string>
     <string name="loaderConnectingToLabel">Verbindet mit …</string>
     <string name="loaderNotConnected">Nicht verbunden (ungeschützt)</string>
@@ -151,16 +136,16 @@
     <string name="tabsProfiles">Profile</string>
     <string name="log_title">Protokoll</string>
     <string name="disconnect">Trennen</string>
-    <string name="state_connecting">Verbindung wird hergestellt &amp;#8230</string>
+    <string name="state_connecting">Verbindung wird hergestellt…</string>
     <string name="state_connected">Verbunden</string>
-    <string name="state_disconnecting">Verbindung wird getrennt …</string>
+    <string name="state_disconnecting">Verbindung wird getrennt…</string>
     <string name="state_error">Fehler</string>
     <string name="error_server_unreachable">Verbindung zum VPN fehlgeschlagen. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
     <string name="error_assessment_failed">Security Assessment fehlgeschlagen.</string>
     <string name="error_generic">Unbekannter Fehler beim Verbinden.</string>
-    <string name="error_generic_with_reason">ProtonVPN konnte keine VPN-Verbindung aufbauen. Bitte versuchen Sie es in einigen Sekunden erneut.<br/>
+    <string name="error_generic_with_reason">ProtonVPN konnte keine VPN-Verbindung aufbauen. Bitte versuche es in einigen Sekunden erneut.<br/>
         <br/> Details: %1$s</string>
     <string name="reconnect">Erneut verbinden</string>
     <string name="reconnect_now">Jetzt neu verbinden</string>

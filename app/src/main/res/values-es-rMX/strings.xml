@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nombre de usuario</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advertencia</string>
+    <string name="secureCoreSpeedInfoTitle">Una nota acerca de la velocidad…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el más alto nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesita más rendimiento, puede deshabilitar Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Habilitar Secure Core</string>
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
     <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará su dispositivo de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>
@@ -52,7 +37,7 @@
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
-    <string name="loaderInitializing">Inicializando conexión…</string>
+    <string name="loaderInitializing">Inicializando la conexión…</string>
     <string name="loaderConnectingTo">Conectando a %1$s</string>
     <string name="loaderConnectingToLabel">Conectando a…</string>
     <string name="loaderNotConnected">No conectado (no protegido)</string>
@@ -161,7 +146,7 @@
     <string name="error_assessment_failed">Falló la evaluación de seguridad.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
     <string name="error_generic_with_reason">ProtonVPN no pudo establecer una conexión VPN. Intente otra vez en unos segundos.<br/>
-        <br/> Detalles: %1$s</string>
+        <br/>Detalles: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar ahora</string>
     <string name="try_reconnecting">Intentar la reconexión</string>

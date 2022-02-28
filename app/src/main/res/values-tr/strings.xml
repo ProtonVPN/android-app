@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Kullanıcı adı</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
+    <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve kişisel gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini devre dışı bırakabilirsiniz.</string>
+    <string name="secureCoreActivateDialogButton">Secure Core kullanılsın</string>
     <string name="logoutConfirmDialogTitle">Oturum kapatılsın mı?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
     <string name="logoutConfirmDialogButton">Oturumu kapat</string>
@@ -52,7 +37,7 @@
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
-    <string name="loaderInitializing">Bağlantı kuruluyor…</string>
+    <string name="loaderInitializing">Bağlantı başlatılıyor…</string>
     <string name="loaderConnectingTo">%1$s sunucusuna bağlanılıyor</string>
     <string name="loaderConnectingToLabel">Sunucuya bağlanılıyor…</string>
     <string name="loaderNotConnected">Bağlı değil (korunmuyor)</string>

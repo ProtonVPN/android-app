@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">نام کاربری</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">قطع اتصال</string>
     <string name="mapSwitchSecureCore">Secure core</string>
     <string name="warning">هشدار</string>
+    <string name="secureCoreSpeedInfoTitle">نکته‌ای دربارهٔ سرعت...</string>
+    <string name="secureCoreSpeedInfoMessage">فناوری Secure Core بالاترین سطح امنیت و حریم خصوصی را ارائه می‌دهد، اما ممکن است سرعت اینترنت شما را کاهش دهد. اگر به کارایی بیشتری احتیاج دارید، می‌توانید Secure Core را غیرفعال کنید.</string>
+    <string name="secureCoreActivateDialogButton">فعال کردن Secure Core</string>
     <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
     <string name="logoutConfirmDialogMessage">خارج شدن، اتصال VPN دستگاه شما را قطع می‌کند.</string>
     <string name="logoutConfirmDialogButton">خروج از حساب</string>
@@ -52,7 +37,7 @@
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">راه‌اندازی اتصال…</string>
+    <string name="loaderInitializing">در حال راه‌اندازی اتصال...</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
     <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
@@ -79,7 +64,7 @@
     <string name="drawerAccount">حساب کاربری</string>
     <string name="drawerHelp">راهنمایی</string>
     <string name="drawerShowLog">نمایش گزارش</string>
-    <string name="drawerReportProblem">Report an issue</string>
+    <string name="drawerReportProblem">گزارش یک اشکال</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">جزئیات حساب کاربری</string>
@@ -116,8 +101,8 @@
     <string name="settingsMtuRangeInvalid">مقدار MTU باید در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ باشد</string>
     <string name="settingsDefaultConnectionTitle">اتصال سریع</string>
     <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
-    <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowNonStandardPortsTitle">درگاه‌های غیر-استاندارد</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از ProtonVPN برای هر گونه کاربری خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
@@ -151,16 +136,16 @@
     <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
-    <string name="state_connecting">در حال اتصال به…</string>
+    <string name="state_connecting">در حال اتصال...</string>
     <string name="state_connected">متصل</string>
-    <string name="state_disconnecting">در حال قطع اتصال از…</string>
+    <string name="state_disconnecting">در حال قطع اتصال...</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">احراز هویت موفق نبود.</string>
     <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
     <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
-    <string name="error_generic_with_reason">ProtonVPN نمی‌توانست یک اتصال VPN برقرار کند. لطفاً، پس از چند ثانیه دوباره تلاش کنید. <br/>
+    <string name="error_generic_with_reason">ProtonVPN نتوانست یک اتصال VPN برقرار کند. لطفاً، بعد از چند ثانیه دوباره امتحان کنید.<br/>
         <br/> جزئیات: %1$s</string>
     <string name="reconnect">اتصال مجدد</string>
     <string name="reconnect_now">حالا مجددا متصل شوید</string>

@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nazwa użytkownika</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Rozłącz</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Ostrzeżenie</string>
+    <string name="secureCoreSpeedInfoTitle">Uwaga dotycząca prędkości…</string>
+    <string name="secureCoreSpeedInfoMessage">Funkcja Secure Core oferuje najwyższy poziom bezpieczeństwa i prywatności, ale może zmniejszyć prędkość połączenia. Jeśli potrzebujesz większej wydajności, wyłącz funkcję Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Aktywuj funkcję Secure Core</string>
     <string name="logoutConfirmDialogTitle">Wylogować się?</string>
     <string name="logoutConfirmDialogMessage">Wylogowanie spowoduje rozłączenie połączenia VPN.</string>
     <string name="logoutConfirmDialogButton">Wyloguj</string>
@@ -161,7 +146,7 @@
     <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>
     <string name="error_generic">Wystąpił nieokreślony błąd podczas łączenia.</string>
     <string name="error_generic_with_reason">Aplikacja ProtonVPN nie mogła nawiązać połączenia VPN. Spróbuj ponownie za kilka sekund.<br/>
-        <br/> Szczegóły: %1$s</string>
+        <br/>Szczegóły: %1$s</string>
     <string name="reconnect">Połącz ponownie</string>
     <string name="reconnect_now">Połącz ponownie</string>
     <string name="try_reconnecting">Try reconnecting</string>
