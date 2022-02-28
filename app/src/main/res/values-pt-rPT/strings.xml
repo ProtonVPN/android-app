@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Utilizador</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Desligar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Aviso</string>
+    <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
     <string name="logoutConfirmDialogTitle">Log out?</string>
     <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Log out</string>

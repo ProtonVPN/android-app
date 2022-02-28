@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Имя пользователя</string>
@@ -40,6 +22,9 @@
     <string name="mapCalloutDisconnect">Отключиться</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Внимание</string>
+    <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
     <string name="logoutConfirmDialogTitle">Выйти?</string>
     <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
     <string name="logoutConfirmDialogButton">Bыйти</string>
@@ -160,8 +145,8 @@
     <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
     <string name="error_assessment_failed">Сбой проверки безопасности.</string>
     <string name="error_generic">Неизвестный сбой при подключении.</string>
-    <string name="error_generic_with_reason">ProtonVPN не смог установить подключение к VPN. Пожалуйста, повторите попытку через несколько секунд.<br/>
-        <br/> Подробнее: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/>
+        <br/> Details: %1$s</string>
     <string name="reconnect">Переподключиться</string>
     <string name="reconnect_now">Переподключиться</string>
     <string name="try_reconnecting">Try reconnecting</string>

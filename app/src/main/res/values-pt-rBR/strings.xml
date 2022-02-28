@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (c) 2017 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nome de usuário</string>
@@ -35,11 +17,14 @@
     <string name="connectionAllocationHelpDescription1">Para iniciar sua jornada no ProtonVPN, atribua conexões VPN à sua conta ou a qualquer outra subconta.</string>
     <string name="connectionAllocationHelpDescription2">Esta etapa levará apenas alguns minutos. Depois disso, você poderá fazer login e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Atribuir conexões VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Entrar novamente</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Seguro Core</string>
     <string name="warning">Aviso</string>
+    <string name="secureCoreSpeedInfoTitle">Uma nota sobre velocidade…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <string name="logoutConfirmDialogTitle">Encerrar sessão?</string>
     <string name="logoutConfirmDialogMessage">Encerrar a sessão irá desconectar o seu dispositivo do servidor VPN.</string>
     <string name="logoutConfirmDialogButton">Encerrar sessão</string>
@@ -107,7 +92,7 @@
     <string name="settingsSectionAdvanced">Avançado</string>
     <string name="settingsAutoStartTitle">Iniciar com o Android</string>
     <string name="settingsAutoStartDescription">O ProtonVPN irá iniciar automaticamente a cada inicialização do sistema</string>
-    <string name="settingsBypassLocalTitle">LAN connections</string>
+    <string name="settingsBypassLocalTitle">Conexões LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Proteção de vazamento DNS</string>
     <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>
     <string name="settingsDefaultMtu">1375</string>
@@ -137,13 +122,13 @@
     <string name="onboardingNext">Próximo</string>
     <string name="offerTooltipShowOffer">Veja a oferta</string>
     <string name="listItemMaintenance">Em manutenção</string>
-    <string name="listAllCountries">All Locations (%1$d)</string>
-    <string name="listFreeCountries">FREE Locations (%1$d)</string>
+    <string name="listAllCountries">Todas as localizações (%1$d)</string>
+    <string name="listFreeCountries">Localizações FREE (%1$d)</string>
     <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores FREE (%1$d)</string>
-    <string name="listBasicServers">BASIC Servers (%1$d)</string>
-    <string name="listPlusServers">PLUS Servers (%1$d)</string>
+    <string name="listBasicServers">Servidores BASIC (%1$d)</string>
+    <string name="listPlusServers">Servidores PLUS (%1$d)</string>
     <string name="insufficientPermissionsTitle">Ação do usuário necessária</string>
     <string name="insufficientPermissionsDetails">Não foi possível estabelecer uma conexão automaticamente com a VPN. Por favor, efetue a conexão manualmente para conceder as permissões.</string>
     <string name="tabsCountries">Países</string>
@@ -161,7 +146,7 @@
     <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
     <string name="error_generic">Falha desconhecida durante a conexão.</string>
     <string name="error_generic_with_reason">O ProtonVPN não pôde estabelecer uma conexão. Por favor, tente novamente em alguns segundos.<br/>
-        <br/> Detalhes: %1$s</string>
+        <br/>Detalhes: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar agora</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -263,7 +248,7 @@
     <string name="inputIpAddressHint">Gravar endereço IP</string>
     <string name="inputIpAddressErrorInvalid">Endereço de IP inválido</string>
     <string name="settingsExcludedIPAddresses">Endereços IP excluídos</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
     <string name="settingsExcludedAppsEmpty">Adicione aplicativos a serem excluídos do tráfego VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
@@ -438,11 +423,11 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Você foi reconectado para o servidor mais rápido similar ao que você selecionou.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">You have reached your device limit</string>
+    <string name="notification_max_sessions_title">Você atingiu o número de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Disconnect a device to connect this one or upgrade to Plus to connect %1$d device.</item>
-        <item quantity="other">Disconnect a device to connect this one or upgrade to Plus to connect up to %1$d devices.</item>
+        <item quantity="one">Desconecte um dispositivo para conectar este ou atualize para o Plus para conectar %1$d dispositivo.</item>
+        <item quantity="other">Desconecte um dispositivo para conectar este ou atualize para o Plus para conectar até %1$d dispositivos.</item>
     </plurals>
     <string name="notification_max_sessions_content">Por favor, desconecte outro dispositivo para conectar esse.</string>
     <string name="notification_cancel_to_free">Você está em um plano GRATUITO. Servidores e recursos GRATUITOS estão disponíveis.</string>
@@ -456,7 +441,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está desativado</string>
     <string name="notification_smart_protocol_disabled_content">O ProtonVPN detectou que sua rede atual está impedindo a conexão com a VPN. Ativar o Smart Protocol pode ignorar essas limitações.</string>
     <string name="upsell_advanced_features">Recursos avançados: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
+    <string name="upsell_streaming_services">Acesse serviços de streaming (Netflix, Disney+, etc) em qualquer lugar do mundo</string>
     <!-- Number of servers available in the service. This phrase will be combined with
          "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -541,9 +526,9 @@
     <!-- Information activity -->
     <string name="activity_information_title">Informação</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s- servidores Plus</string>
+    <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
     <string name="info_features">Recursos</string>
-    <string name="smart_routing_title">Roteamento Inteligente</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Essa tecnologia permite que o ProtonVPN forneça maior velocidade e segurança em países de difícil atendimento.</string>
     <string name="streaming_title">Transmissão</string>
     <string name="streaming_description">Os servidores PLUS suportam streaming (Netflix, Disney+, etc) de qualquer lugar do mundo.</string>
@@ -595,9 +580,9 @@
     <string name="dynamic_report_step1">Etapa 1 de 3</string>
     <string name="dynamic_report_step2">Etapa 2 de 3</string>
     <string name="dynamic_report_step3">Etapa 3 de 3</string>
-    <string name="dynamic_report_your_issue_headline">What is your issue</string>
+    <string name="dynamic_report_your_issue_headline">Reportar problema</string>
     <string name="update_screen_title">Atualizar ProtonVPN</string>
-    <string name="update_screen_description">You’re more likely to have issues on older versions of ProtonVPN.</string>
+    <string name="update_screen_description">É mais provável você ter problemas em versões mais antigas do ProtonVPN.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>
