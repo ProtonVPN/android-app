@@ -28,6 +28,7 @@ import me.proton.core.plan.data.repository.PlansRepositoryImpl
 import me.proton.core.plan.domain.SupportedSignupPaidPlans
 import me.proton.core.plan.domain.SupportedUpgradePaidPlans
 import me.proton.core.plan.domain.repository.PlansRepository
+import me.proton.core.plan.presentation.entity.SupportedPlan
 import javax.inject.Singleton
 
 @Module
@@ -37,12 +38,12 @@ object PlansModule {
     // For signup we don't want plan selection, we define them below for "upgrade"
     @Provides
     @SupportedSignupPaidPlans
-    fun provideClientSupportedPaidPlanIds(): List<String> = emptyList()
+    fun provideClientSupportedPaidPlanIds(): List<SupportedPlan> = emptyList()
 
     @Provides
     @SupportedUpgradePaidPlans
-    fun provideClientUpgradeSupportedPaidPlanIds(): List<String> =
-        listOf("vpnplus")
+    fun provideClientUpgradeSupportedPaidPlanIds(): List<SupportedPlan> =
+        listOf(SupportedPlan("vpnplus"))
 
     @Provides
     @Singleton
