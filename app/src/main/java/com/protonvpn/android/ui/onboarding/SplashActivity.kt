@@ -21,6 +21,8 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
@@ -29,6 +31,9 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
+            true
+        })
 
         val nextActivity = if (isTV())
             TvMainActivity::class.java
