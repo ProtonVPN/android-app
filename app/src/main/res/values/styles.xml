@@ -236,6 +236,12 @@
         <item name="serverInMaintenance">#989DA9</item>
     </style>
 
+    <!-- Force dark splash screen even if system uses light mode -->
+    <style name="ProtonTheme.Splash.Vpn.Dark">
+        <!-- baltic_sea corresponds to shade_0 in dark mode -->
+        <item name="windowSplashScreenBackground">@color/baltic_sea</item>
+    </style>
+
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
     <style name="ThemeOverlay.ProtonButton.Neutral" parent="">
         <item name="colorPrimary">?attr/proton_interaction_strong</item>

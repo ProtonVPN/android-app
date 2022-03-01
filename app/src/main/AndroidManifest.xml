@@ -56,7 +56,8 @@
 
         <activity
             android:name=".ui.onboarding.SplashActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:theme="@style/ProtonTheme.Splash.Vpn.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -107,7 +108,7 @@
         <activity
             android:name=".ui.main.MobileMainActivity"
             android:label="@string/app_name"
-            android:theme="@style/ProtonTheme.Splash.Vpn"
+            android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
             android:screenOrientation="portrait" />
 
         <activity

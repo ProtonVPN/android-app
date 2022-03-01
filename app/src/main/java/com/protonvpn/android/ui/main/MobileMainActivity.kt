@@ -28,6 +28,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +56,9 @@ class MobileMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
+            true
+        })
         helper.onCreate(accountViewModel)
         mainLauncher = registerForActivityResult(createHomeContract()) {
             if (it.resultCode == Activity.RESULT_CANCELED)
