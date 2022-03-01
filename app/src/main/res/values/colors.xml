@@ -54,18 +54,6 @@
     <color name="notificationArrow">@color/black</color>
     <color name="notificationDisabled">#9CA0AA</color>
 
-    <!-- Profile color names -->
-    <color name="purple_base">#7272A7</color>
-    <color name="strawberry_base">#CF5858</color>
-    <color name="pink_base">#C26CC7</color>
-    <color name="slateblue_base">#7569D1</color>
-    <color name="pacific_base">#69A9D1</color>
-    <color name="reef_base">#79C4B7</color>
-    <color name="fern_base">#72BB75</color>
-    <color name="olive_base">#C6CD97</color>
-    <color name="sahara_base">#E7D292</color>
-    <color name="carrot_base">#E6984C</color>
-
     <color name="brightCyan">#32b3dd</color>
     <color name="blackOverlay">#80000000</color>
     <color name="white70">#B3FFFFFF</color>
