@@ -580,7 +580,7 @@
     <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
 
     <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
-    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as Nat Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
     <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
 
     <string name="upgrade_see_plans_button">See plans and pricing</string>
