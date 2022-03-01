@@ -58,6 +58,7 @@ import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.auth.presentation.onSecondFactorResult
+import me.proton.core.domain.entity.Product
 import me.proton.core.humanverification.domain.HumanVerificationManager
 import me.proton.core.humanverification.presentation.HumanVerificationOrchestrator
 import me.proton.core.humanverification.presentation.observe
@@ -76,7 +77,8 @@ class AccountViewModel @Inject constructor(
     val onSessionClosed: OnSessionClosed,
     val certificateRepository: CertificateRepository,
     val vpnUserCheck: VpnUserCheck,
-    val guestHole: dagger.Lazy<GuestHole>
+    val guestHole: dagger.Lazy<GuestHole>,
+    val product: Product
 ) : ViewModel() {
 
     sealed class State {
@@ -145,7 +147,9 @@ class AccountViewModel @Inject constructor(
     suspend fun startLogin() {
         guestHole.get().isInLoginProcess = true
         viewModelScope.launch { api.getAvailableDomains() }
-        authOrchestrator.startAddAccountWorkflow(accountType, loginUsername = Storage.getString(LAST_USER, null))
+        authOrchestrator.startAddAccountWorkflow(
+            accountType, product, loginUsername = Storage.getString(LAST_USER, null)
+        )
     }
 
     companion object {

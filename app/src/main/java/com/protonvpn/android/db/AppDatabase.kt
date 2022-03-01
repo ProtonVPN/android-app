@@ -32,6 +32,8 @@ import me.proton.core.account.data.entity.SessionEntity
 import me.proton.core.crypto.android.keystore.CryptoConverters
 import me.proton.core.data.room.db.BaseDatabase
 import me.proton.core.data.room.db.CommonConverters
+import me.proton.core.featureflag.data.db.FeatureFlagDatabase
+import me.proton.core.featureflag.data.entity.FeatureFlagEntity
 import me.proton.core.humanverification.data.db.HumanVerificationConverters
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.humanverification.data.entity.HumanVerificationEntity
@@ -63,6 +65,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         UserKeyEntity::class,
         AddressEntity::class,
         AddressKeyEntity::class,
+        // feature flags
+        FeatureFlagEntity::class,
         // key-data
         KeySaltEntity::class,
         // human-verification
@@ -92,6 +96,7 @@ abstract class AppDatabase :
     AccountDatabase,
     UserDatabase,
     AddressDatabase,
+    FeatureFlagDatabase,
     KeySaltDatabase,
     HumanVerificationDatabase,
     UserSettingsDatabase,
@@ -99,10 +104,11 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 2
+        const val version = 3
 
         private val migrations = listOf(
-            DatabaseMigrations.MIGRATION_1_2
+            DatabaseMigrations.MIGRATION_1_2,
+            DatabaseMigrations.MIGRATION_2_3
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
