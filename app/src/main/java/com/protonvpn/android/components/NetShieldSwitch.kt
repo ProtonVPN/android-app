@@ -65,6 +65,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var netshieldFreeMode: Boolean = true
     private val toggleDrawables: Array<Drawable>
     private var isInitialStateSet = false
+    private lateinit var onChangedCallback: () -> Unit
     val currentState: NetShieldProtocol
         get() {
             return if (isSwitchedOn) {
@@ -95,7 +96,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
     fun setNetShieldValue(newProtocol: NetShieldProtocol) {
+        // Disable the change listener to not propagate the programmatically set value back to UserData.
+        binding.switchNetshield.setOnCheckedChangeListener(null)
         onStateChange(newProtocol)
+        binding.switchNetshield.setOnCheckedChangeListener { _, _ -> onChangedCallback() }
     }
 
     private fun onStateChange(newProtocol: NetShieldProtocol) {
@@ -180,13 +184,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (netshieldFreeMode) {
             initUserTier()
         } else {
-            val checkedChangeListener = {
+            onChangedCallback = {
                 onStateChange(currentState)
                 changeCallback(currentState)
                 reconnectDialogDelegate.reconnectIfNeeded()
             }
-            radioGroupSettings.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
-            switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+            radioGroupSettings.setOnCheckedChangeListener { _, _ -> onChangedCallback.invoke() }
+            switchNetshield.setOnCheckedChangeListener { _, _ -> onChangedCallback.invoke() }
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
                 val needsNoteOnAdBlocking = when {
