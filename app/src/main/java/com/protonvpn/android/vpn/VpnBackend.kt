@@ -293,6 +293,10 @@ abstract class VpnBackend(
     }
 
     private fun prepareFeaturesForAgentConnection() {
+        if (appConfig.getFeatureFlags().netShieldEnabled) {
+            val netShieldValue = userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong()
+            features.setInt(FEATURES_NETSHIELD, netShieldValue)
+        }
         features.setBool(FEATURES_RANDOMIZED_NAT, userData.randomizedNatEnabled)
         safeModeValue?.let { features.setBool(FEATURES_SAFE_MODE, it) } ?: features.remove(FEATURES_SAFE_MODE)
         features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
