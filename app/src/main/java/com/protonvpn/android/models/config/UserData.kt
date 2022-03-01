@@ -145,8 +145,6 @@ class UserData private constructor() : Serializable {
 
     fun onLogout() {
         setTrialDialogShownAt(null)
-        defaultConnection = null
-        setNetShieldProtocol(null)
     }
 
     fun wasTrialDialogRecentlyShowed() =
