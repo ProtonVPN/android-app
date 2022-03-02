@@ -74,7 +74,7 @@ class VpnStateConnectedViewModel @Inject constructor(
     fun saveToProfile() {
         stateMonitor.connectionProfile?.server?.let { currentServer ->
             for (profile in serverManager.getSavedProfiles()) {
-                if (profile.server?.domain == currentServer.domain) {
+                if (profile.server?.serverId == currentServer.serverId) {
                     val notification =
                         SnackbarNotification(R.string.saveProfileAlreadySaved, SnackType.Norm)
                     eventNotification.tryEmit(notification)
