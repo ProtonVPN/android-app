@@ -105,6 +105,8 @@ detekt analysis:
     - ./gradlew :app:detekt
   artifacts:
     expire_in: 4 weeks
+    paths:
+      - app/build/reports/detekt/
     reports:
       codequality: app/build/reports/detekt/detekt.json
 
