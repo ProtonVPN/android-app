@@ -700,8 +700,6 @@ dependencies {
         }
     }
 
-    implementation 'net.gotev:cookie-store:1.4.0'
-
     // TV
     def leanback_version = "1.1.0-rc01"
     implementation "androidx.leanback:leanback:$leanback_version"
