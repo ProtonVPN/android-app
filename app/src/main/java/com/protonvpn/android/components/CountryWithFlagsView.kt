@@ -26,6 +26,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ConnectionFlagsViewBinding
@@ -54,10 +55,23 @@ class CountryWithFlagsView : LinearLayout {
 
     private fun initAttrs(attrs: AttributeSet?) {
         context.withStyledAttributes(attrs, R.styleable.CountryWithFlagsView) {
-            TextViewCompat.setTextAppearance(
-                binding.textCountry,
-                getResourceId(R.styleable.CountryWithFlagsView_android_textAppearance, -1)
-            )
+            with(binding) {
+                TextViewCompat.setTextAppearance(
+                    textCountry,
+                    getResourceId(R.styleable.CountryWithFlagsView_android_textAppearance, -1)
+                )
+                val flagWidth = getDimensionPixelSize(R.styleable.CountryWithFlagsView_flagWidth, -1)
+                if (flagWidth != -1) {
+                    imageEntryCountry.layoutParams.width = flagWidth
+                    imageExitCountry.layoutParams.width = flagWidth
+                }
+                val flagMarginEnd = getDimensionPixelSize(R.styleable.CountryWithFlagsView_flagMarginEnd, -1)
+                if (flagMarginEnd != -1) {
+                    arrayOf(imageEntryCountry, imageExitCountry, imageSCArrow).forEach {
+                        it.updateLayoutParams<MarginLayoutParams> { marginEnd = flagMarginEnd }
+                    }
+                }
+            }
         }
     }
 
