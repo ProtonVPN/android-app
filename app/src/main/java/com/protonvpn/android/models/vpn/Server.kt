@@ -146,7 +146,7 @@ data class Server(
 
     val onlineConnectingDomains get() = connectingDomains.filter(ConnectingDomain::isOnline)
 
-    fun getRandomConnectingDomain() = onlineConnectingDomains.random()
+    fun getRandomConnectingDomain() = onlineConnectingDomains.randomOrNull() ?: connectingDomains.random()
 
     override fun toString() = "$domain $entryCountry"
 
