@@ -41,7 +41,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
+import javax.inject.Singleton
 
+@Singleton
 class ServerManager(
     @Transient private val appContext: Context,
     @Transient val userData: UserData,
