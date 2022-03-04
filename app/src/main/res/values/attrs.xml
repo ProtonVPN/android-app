@@ -27,6 +27,8 @@
 
     <declare-styleable name="CountryWithFlagsView">
         <attr name="android:textAppearance" />
+        <attr name="flagWidth" format="dimension" />
+        <attr name="flagMarginEnd" format="dimension" />
     </declare-styleable>
     <declare-styleable name="ItemServerSwitch">
         <attr name="serverSwitchArrowDrawable" format="reference" />
