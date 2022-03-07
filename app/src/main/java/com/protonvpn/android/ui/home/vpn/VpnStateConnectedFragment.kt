@@ -133,10 +133,10 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             textServerName.text = state.serverName
             textProtocol.text = state.protocolDisplay
             textServerIp.text = state.exitIp
-            textLoad.text = getString(R.string.serverLoad, state.serverLoad.toString())
+            textLoad.text = getString(R.string.serverLoad, state.serverLoad.toInt().toString())
             ImageViewCompat.setImageTintList(
                 imageLoad,
-                ColorStateList.valueOf(getColor(imageLoad, state.serverLoadState))
+                ColorStateList.valueOf(getColor(imageLoad, state.serverLoad))
             )
         }
     }

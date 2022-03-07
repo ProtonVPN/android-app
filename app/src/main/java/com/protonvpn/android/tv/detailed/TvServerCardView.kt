@@ -57,8 +57,8 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
 
         serverLoadLabel.alpha = alpha
         serverLoadLabel.text = server.stateText(context)
-        serverLoadColor.setColorFilter(ServerLoadColor.getColor(serverLoadColor, server.loadState))
-        serverMaintenanceIcon.isVisible = server.loadState == Server.LoadState.MAINTENANCE
+        serverLoadColor.setColorFilter(ServerLoadColor.getColor(serverLoadColor, server.load, server.online))
+        serverMaintenanceIcon.isVisible = !server.online
 
         debugAssert { actionStateObserver == null }
         val observer = Observer<TvServerListViewModel.ServerActionState> { updateState(it) }

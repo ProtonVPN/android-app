@@ -24,21 +24,22 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.protonvpn.android.R
-import com.protonvpn.android.models.vpn.Server
 
 object ServerLoadColor {
 
     @JvmStatic
     @ColorRes
-    fun getColorId(loadState: Server.LoadState): Int = when (loadState) {
-        Server.LoadState.MAINTENANCE -> R.color.inMaintenance
-        Server.LoadState.LOW_LOAD -> R.color.serverLoadLow
-        Server.LoadState.MEDIUM_LOAD -> R.color.serverLoadMedium
-        Server.LoadState.HIGH_LOAD -> R.color.serverLoadHigh
-    }
+    fun getColorId(serverLoad: Float, isOnline: Boolean = true): Int =
+        if (isOnline) when {
+            serverLoad <= 75f -> R.color.serverLoadLow
+            serverLoad <= 90f -> R.color.serverLoadMedium
+            else -> R.color.serverLoadHigh
+        } else {
+            R.color.inMaintenance
+        }
 
     @JvmStatic
     @ColorInt
-    fun getColor(view: View, loadState: Server.LoadState): Int =
-        ContextCompat.getColor(view.context, getColorId(loadState))
+    fun getColor(view: View, serverLoad: Float, isOnline: Boolean = true): Int =
+        ContextCompat.getColor(view.context, getColorId(serverLoad, isOnline))
 }

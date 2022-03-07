@@ -130,7 +130,7 @@ class TvServerListViewModel @Inject constructor(
         val name get() = server.serverName
         val locked get() = !serverManager.hasAccessToServer(server)
         val load get() = server.load
-        val loadState get() = server.loadState
+        val online get() = server.online
 
         val actionStateObservable = vpnStateMonitor.status.map {
             actionState
@@ -152,7 +152,7 @@ class TvServerListViewModel @Inject constructor(
         fun planDrawable(context: Context) = if (server.isPlusServer)
             ContextCompat.getDrawable(context, R.drawable.ic_plus_label) else null
 
-        fun stateText(context: Context) = if (server.loadState == Server.LoadState.MAINTENANCE)
+        fun stateText(context: Context) = if (!online)
             context.getString(R.string.listItemMaintenance)
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())

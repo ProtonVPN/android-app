@@ -61,10 +61,6 @@ data class Server(
         P2P, TOR, STREAMING, SMART_ROUTING
     }
 
-    enum class LoadState {
-        MAINTENANCE, LOW_LOAD, MEDIUM_LOAD, HIGH_LOAD
-    }
-
     val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
         if (features and 4 == 4)
             add(Keyword.P2P)
@@ -100,13 +96,6 @@ data class Server(
 
     val isPMTeamServer: Boolean
         get() = tier == 3
-
-    val loadState get() = when {
-        !online -> LoadState.MAINTENANCE
-        load <= 75f -> LoadState.LOW_LOAD
-        load <= 90f -> LoadState.MEDIUM_LOAD
-        else -> LoadState.HIGH_LOAD
-    }
 
     val isSecureCoreServer: Boolean
         get() = features and 1 == 1

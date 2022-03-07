@@ -52,8 +52,7 @@ class VpnStateConnectedViewModel @Inject constructor(
 
     data class ConnectionState(
         val serverName: String,
-        val serverLoad: Int,
-        val serverLoadState: Server.LoadState,
+        val serverLoad: Float,
         val exitIp: String,
         val protocolDisplay: String
     )
@@ -94,14 +93,13 @@ class VpnStateConnectedViewModel @Inject constructor(
                 val upToDateServer = serverManager.getServerById(server.serverId) ?: server
                 ConnectionState(
                     upToDateServer.serverName,
-                    upToDateServer.load.toInt(),
-                    upToDateServer.loadState,
+                    upToDateServer.load,
                     exitIpAddress ?: "-",
                     protocolDisplay(protocol, transmission)
                 )
             }
         } else {
-            ConnectionState("-", 0, Server.LoadState.LOW_LOAD, "-", "-")
+            ConnectionState("-", 0f, "-", "-")
         }
 
     private fun speedHistoryToChartData(
