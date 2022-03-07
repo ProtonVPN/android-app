@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Kullanıcı adı</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">Hızlı Bağlan düğmesi sizi seçilmiş profile bağlar</string>
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan kapı numaraları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsModerateNatTitle">Ilımlı NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntrılı bilgi alın</a>]]></string>
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm ödenmemiş faturaları ödeyin]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Kullanıcı kimliği doğrulanamadı.</string>
     <string name="error_assessment_failed">Güvenlik değerlendirmesi yapılamadı.</string>
     <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir hata oluştu.</string>
-    <string name="error_generic_with_reason">ProtonVPN bir VPN bağlantısı kuramadı. Lütfen birkaç saniye sonra yeniden deneyin.<br/>
-        <br/> Ayrıntılar: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN bir VPN bağlantısı kuramadı. Lütfen birkaç saniye sonra yeniden deneyin.<br/><br/> Ayrıntılar: %1$s</string>
     <string name="reconnect">Yeniden bağlan</string>
     <string name="reconnect_now">Şimdi yeniden bağlan</string>
     <string name="try_reconnecting">Yeniden bağlanmayı deneyin</string>
@@ -520,6 +539,9 @@
     <string name="upgrade_plus_countries_speeds">En yüksek hızlar (10Gb/sn hıza kadar)</string>
     <string name="upgrade_safe_mode_title">Standart olmayan kapı numaralarından trafik akabilsin</string>
     <string name="upgrade_safe_mode_message">VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. Plus tarifesine geçerek bu ve diğer özellikleri kullanabilirsiniz.</string>
+    <string name="upgrade_moderate_nat_title">Ilımlı NAT özelliğini etkinleştirebilirsiniz</string>
+    <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrimiçi video oyunlarıyla ilgili çevrimiçi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
+    <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>
     <string name="upgrade_see_plans_button">Tarifelere ve ücretlere bakın</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
     <string name="upgrade_learn_more">Ayrıntılı bilgi alın</string>

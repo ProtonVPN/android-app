@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nama Pengguna</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">Tombol sambung cepat menyambungkan Anda ke profil terpilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
+    <string name="settingsModerateNatTitle">NAT Moderat</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Pengaturan NAT moderat akan menonaktifkan pengacakan alamat IP lokal, yang dapat membuat Anda lebih rentan namun memungkinkan Anda untuk dapat terhubung langsung dengan para pengguna lainnya pada berbagai aplikasi dan permainan online. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="restrictedMaintenanceTitle">Sedang dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Saat ini akun Anda memiliki tagihan tertunda. Mohon membayar semua tagihan yang belum dibayar pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Otentikasi pengguna gagal.</string>
     <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Kegagalan tidak jelas saat menyambungkan.</string>
-    <string name="error_generic_with_reason">ProtonVPN tidak dapat membuat sambungan VPN. Mohon coba lagi dalam beberapa detik.<br/>
-        <br/> Rincian: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN tidak dapat membuat sambungan VPN. Silakan coba beberapa saat lagi.<br/><br/>Detail: %1$s</string>
     <string name="reconnect">Menyambung kembali</string>
     <string name="reconnect_now">Hubungkan ulang sekarang</string>
     <string name="try_reconnecting">Cobalah untuk menghubungkan ulang</string>
@@ -507,6 +526,9 @@
     <string name="upgrade_plus_countries_speeds">Kecepatan tertinggi (hingga 10Gbps)</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
     <string name="upgrade_safe_mode_message">Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. Dapatkan fitur ini dan berbagai fitur lainnya dengan paket Plus.</string>
+    <string name="upgrade_moderate_nat_title">Aktifkan NAT Moderat</string>
+    <string name="upgrade_moderate_nat_message">NAT Moderat, yang juga dikenal sebagai NAT Type 2, merupakan sebuah fitur yang dapat memperkaya pengalaman online Anda dalam berbagai aplikasi dan permainan online.Nikmati fitur ini dan berbagai fitur lainnya dengan akun Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Apa itu NAT Moderat?</string>
     <string name="upgrade_see_plans_button">Lihat daftar paket dan harga</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
     <string name="upgrade_learn_more">Pelajari lebih lanjut</string>

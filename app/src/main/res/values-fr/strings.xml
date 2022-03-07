@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nom d\'utilisateur</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">Le bouton connexion rapide vous connecte au profil sélectionné</string>
     <string name="settingsAllowNonStandardPortsTitle">Ports non standards</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez ProtonVPN pour tout besoin particulier en autorisant le trafic vers les ports non-standards à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="settingsModerateNatTitle">NAT modéré</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Le NAT modéré désactive la distribution aléatoire des adresses locales, ce qui peut réduire légèrement votre sécurité, mais permet des utilisations telles que les connexions directes pour des applications comme les jeux en ligne. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="restrictedMaintenanceTitle">En maintenance</string>
     <string name="restrictedMaintenanceDescription">Le serveur auquel vous essayez de vous connecter est en cours de maintenance. Veuillez essayer un autre serveur.</string>
     <string name="errorUserDelinquent"><![CDATA[Votre compte possède actuellement une facture en attente. Veuillez régler toutes les factures impayées sur &#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Échec d\'authentification de l\'utilisateur.</string>
     <string name="error_assessment_failed">Échec de l\'évaluation de sécurité.</string>
     <string name="error_generic">Échec indéterminé lors de la connexion.</string>
-    <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/>
-        <br/> Détails : %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
     <string name="reconnect">Nouvelle connexion</string>
     <string name="reconnect_now">Se reconnecter maintenant</string>
     <string name="try_reconnecting">Essayez de vous reconnecter</string>
@@ -520,6 +539,9 @@
     <string name="upgrade_plus_countries_speeds">Vitesses maximales (jusqu’à 10 Gbit/s)</string>
     <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non-standards</string>
     <string name="upgrade_safe_mode_message">Utilisez ProtonVPN pour tout besoin particulier en autorisant le trafic vers les ports non-standards à travers le réseau VPN. Débloquez cette fonctionnalité et d\'autres avec le forfait Plus.</string>
+    <string name="upgrade_moderate_nat_title">Activer le NAT modéré</string>
+    <string name="upgrade_moderate_nat_message">Le NAT modéré, aussi connu comme NAT Type 2, peut améliorer votre expérience en ligne avec différentes applications et jeux vidéos en ligne. Déverrouillez cette fonctionnalité et d\'autres avec un abonnement Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Qu\'est-ce que le NAT modéré ?</string>
     <string name="upgrade_see_plans_button">Voir les abonnements et les tarifs</string>
     <string name="upgrade_not_now_button">Pas maintenant</string>
     <string name="upgrade_learn_more">En savoir plus</string>

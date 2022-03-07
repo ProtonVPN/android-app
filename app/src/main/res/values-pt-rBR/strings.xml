@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nome de usuário</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">O botão de conexão rápida conecta você ao perfil selecionado</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsModerateNatTitle">Moderate NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Por favor, tente outro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Falha na autenticação do usuário.</string>
     <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
     <string name="error_generic">Falha desconhecida durante a conexão.</string>
-    <string name="error_generic_with_reason">O ProtonVPN não pôde estabelecer uma conexão. Por favor, tente novamente em alguns segundos.<br/>
-        <br/>Detalhes: %1$s</string>
+    <string name="error_generic_with_reason">O ProtonVPN não pôde estabelecer uma conexão. Por favor, tente novamente em alguns segundos.<br/><br/> Detalhes: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar agora</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -367,8 +386,8 @@
     <string name="tv_upgrade_url_details"><![CDATA[Visite <font color="%1$s">%2$s</font> para atualizar agora para o ProtonVPN Plus.]]></string>
     <string name="tv_upgrade_description">Obtenha um plano ProtonVPN Plus para acessar mais de 500 servidores em todo o mundo e opções de streaming otimizadas para Netflix, Amazon Prime Video, Disney + e muitos mais.</string>
     <string name="tv_vpn_error_dialog_title">Falha na conexão VPN</string>
-    <string name="tv_signout_label">Sair</string>
-    <string name="tv_signout_dialog_title">Você tem certeza que deseja sair?</string>
+    <string name="tv_signout_label">Encerrar sessão</string>
+    <string name="tv_signout_dialog_title">Você tem certeza que deseja encerrar a sessão?</string>
     <string name="tv_signout_dialog_description_connected">Isso desconectará sua TV de qualquer servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Sair</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
@@ -520,6 +539,9 @@
     <string name="upgrade_plus_countries_speeds">Velocidades mais altas (até 10 Gbps)</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego para portas não padrão</string>
     <string name="upgrade_safe_mode_message">Use o ProtonVPN para qualquer necessidade especial, permitindo o tráfego para portas não padrão através da rede VPN. Desbloqueie este e outros recursos com um plano Plus.</string>
+    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
+    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
     <string name="upgrade_see_plans_button">Veja planos e preços</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
@@ -530,7 +552,7 @@
     <string name="info_features">Recursos</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Essa tecnologia permite que o ProtonVPN forneça maior velocidade e segurança em países de difícil atendimento.</string>
-    <string name="streaming_title">Transmissão</string>
+    <string name="streaming_title">Streaming</string>
     <string name="streaming_description">Os servidores PLUS suportam streaming (Netflix, Disney+, etc) de qualquer lugar do mundo.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Esses servidores oferecem o melhor desempenho para BitTorrent e compartilhamento de arquivos.</string>
@@ -539,7 +561,7 @@
     <string name="info_performance">Desempenho</string>
     <string name="server_load_title">Carregar Servidor</string>
     <string name="server_load_description">Servidores com alta carga são mais lentos do que servidores com baixo carregamento.</string>
-    <string name="streaming_title_with_country">Transmissão - %1$s</string>
+    <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Conecte-se a um servidor Plus neste país para iniciar o streaming. \n\nDica: Limpe o cache dos aplicativos de transmissão para garantir que o novo conteúdo apareça.</string>
     <string name="activity_information_learn_more">Saiba mais</string>
     <string name="server_load_low">Baixo</string>
@@ -552,7 +574,7 @@
     <string name="onboarding_welcome_action">Comece</string>
     <string name="onboarding_available_on_plus">Disponível com o plano PLUS</string>
     <string name="onboarding_streaming_title">Desbloquear streaming</string>
-    <string name="onboarding_streaming_description">Acesse com segurança qualquer conteúdo, mesmo viajando para outros países. Agora também na Android TV.</string>
+    <string name="onboarding_streaming_description">Acesse com segurança qualquer conteúdo, mesmo viajando para outros países. Agora também no AndroidTV.</string>
     <string name="onboarding_protection_title">Esteja protegido em todos os lugares</string>
     <string name="onboarding_protection_description">O ProtonVPN suporta todos os dispositivos, incluindo Windows, macOS e muitos outros.</string>
     <string name="onboarding_netshield_title">Bloqueie anúncios e muito mais</string>
