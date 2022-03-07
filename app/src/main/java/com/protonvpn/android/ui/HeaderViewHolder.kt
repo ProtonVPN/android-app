@@ -49,4 +49,6 @@ data class HeaderViewHolder(
     override fun initializeViewBinding(view: View): ItemHeaderBinding = ItemHeaderBinding.bind(view)
 
     override fun getLayout(): Int = R.layout.item_header
+
+    override fun isClickable(): Boolean = false
 }

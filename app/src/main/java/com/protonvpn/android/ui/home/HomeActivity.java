@@ -59,7 +59,8 @@ import com.protonvpn.android.models.config.Setting;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
-import com.protonvpn.android.ui.CommonDialogsKt;
+import com.protonvpn.android.search.SearchResultsFragment;
+import com.protonvpn.android.search.SearchViewModel;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
@@ -101,10 +102,12 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -131,6 +134,7 @@ public class HomeActivity extends VpnActivity {
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.imageNotification) ImageView imageNotification;
     @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
+    private MenuItem searchMenuItem;
 
     VpnStateFragment fragment;
     @Inject ServerManager serverManager;
@@ -140,6 +144,7 @@ public class HomeActivity extends VpnActivity {
     @Inject NotificationHelper notificationHelper;
 
     private HomeViewModel viewModel;
+    private SearchViewModel searchViewModel;
 
     private final TooltipManager tooltipManager = new TooltipManager(this);
 
@@ -155,6 +160,7 @@ public class HomeActivity extends VpnActivity {
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         getLifecycle().addObserver(viewModel);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(HtmlTools.fromHtml(getString(R.string.toolbar_app_title)));
@@ -201,6 +207,8 @@ public class HomeActivity extends VpnActivity {
         new PromoOfferNotificationHelper(this, imageNotification,
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
+        searchViewModel.getEventCloseLiveData().observe(this, isOpen -> searchMenuItem.collapseActionView());
+
         serverListUpdater.startSchedule(getLifecycle(), this);
     }
 
@@ -214,6 +222,7 @@ public class HomeActivity extends VpnActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
+        initSearchView(menu.findItem(R.id.action_search));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -354,6 +363,45 @@ public class HomeActivity extends VpnActivity {
         };
         fabQuickConnect.getViewTreeObserver().addOnGlobalLayoutListener(listener);
         listener.onGlobalLayout();
+    }
+
+    private void initSearchView(@NonNull MenuItem menuItem) {
+        searchMenuItem = menuItem;
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.server_search_hint));
+        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragmentSearchResults, new SearchResultsFragment())
+                        .commitNow();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Fragment searchFragment =
+                        getSupportFragmentManager().findFragmentById(R.id.fragmentSearchResults);
+                if (searchFragment != null)
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(searchFragment)
+                            .commitNow();
+                return true;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Nothing, respond only to text change.
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                searchViewModel.setQuery(query);
+                return true;
+            }
+        });
     }
 
     @OnClick(R.id.layoutUserInfo)

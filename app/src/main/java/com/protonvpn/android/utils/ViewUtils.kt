@@ -19,6 +19,7 @@
 package com.protonvpn.android.utils
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
@@ -170,6 +171,11 @@ fun View.setMinSizeTouchDelegate() {
             (parent as View).touchDelegate = TouchDelegate(rect, this)
         }
     }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun View.preventClickTrough() {
+    setOnTouchListener { _, _ -> /* capture all events */ true }
 }
 
 private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {

@@ -31,6 +31,7 @@ import androidx.core.widget.TextViewCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ConnectionFlagsViewBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.CountryTools
 
@@ -76,31 +77,19 @@ class CountryWithFlagsView : LinearLayout {
     }
 
     fun setCountry(markable: Markable) {
-        with(binding) {
-            val entryCountryCode = markable.markerEntryCountryCode
-            val isSecureCore = entryCountryCode != null
-            imageSCArrow.isVisible = isSecureCore
-            imageEntryCountry.isVisible = isSecureCore
-            if (entryCountryCode != null) {
-                imageEntryCountry.setFlag(entryCountryCode)
-            }
-
-            imageExitCountry.setFlag(markable.markerCountryCode)
-            textCountry.text = CountryTools.getFullName(markable.markerCountryCode)
+        with(markable) {
+            update(markerCountryCode, markerEntryCountryCode)
         }
     }
 
-    fun setCountry(server: Server) {
-        with(binding) {
-            val isSecureCore = server.isSecureCoreServer
-            imageSCArrow.isVisible = isSecureCore
-            imageEntryCountry.isVisible = isSecureCore
-            if (isSecureCore) {
-                imageEntryCountry.setFlag(server.entryCountry)
-            }
-            imageExitCountry.setFlag(server.flag)
-            textCountry.text = CountryTools.getFullName(server.flag)
+    fun setCountry(server: Server, text: CharSequence? = null) {
+        with(server) {
+            update(flag, entryCountry.takeIf { isSecureCoreServer }, text)
         }
+    }
+
+    fun setCountry(vpnCountry: VpnCountry, text: CharSequence? = null) {
+        update(vpnCountry.flag, null, text)
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -110,6 +99,19 @@ class CountryWithFlagsView : LinearLayout {
             textCountry.isEnabled = enabled
             imageEntryCountry.alpha = flagAlpha
             imageExitCountry.alpha = flagAlpha
+        }
+    }
+
+    private fun update(exitCountryCode: String, entryCountryCode: String?, text: CharSequence? = null) {
+        with(binding) {
+            val isSecureCore = entryCountryCode != null
+            imageEntryCountry.isVisible = isSecureCore
+            imageSCArrow.isVisible = isSecureCore
+            if (entryCountryCode != null) {
+                imageEntryCountry.setFlag(entryCountryCode)
+            }
+            imageExitCountry.setFlag(exitCountryCode)
+            textCountry.text = text ?: CountryTools.getFullName(exitCountryCode)
         }
     }
 

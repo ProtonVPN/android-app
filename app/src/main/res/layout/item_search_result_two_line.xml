@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2022. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageFlag"
+        android:layout_width="@dimen/server_list_flag_size"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_padding_horizontal"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textTitle"
+        tools:src="@drawable/flag_it" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        style="@style/Proton.Text.Default.Weak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/server_list_flag_margin"
+        android:layout_marginTop="8dp"
+        android:textAlignment="viewStart"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/featuresAndButtons"
+        app:layout_constraintStart_toEndOf="@id/imageFlag"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="@dimen/screen_padding_horizontal"
+        tools:text="Milan" />
+
+    <TextView
+        android:id="@+id/textSubtitle"
+        style="@style/Proton.Text.DefaultSmall.Weak"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toStartOf="@id/featuresAndButtons"
+        app:layout_constraintStart_toStartOf="@id/textTitle"
+        app:layout_constraintTop_toBottomOf="@id/textTitle"
+        tools:text="Italy" />
+
+
+    <com.protonvpn.android.components.ServerRowFeaturesAndButtonsView
+        android:id="@+id/featuresAndButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/screen_padding_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        style="@style/Divider.Small"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
