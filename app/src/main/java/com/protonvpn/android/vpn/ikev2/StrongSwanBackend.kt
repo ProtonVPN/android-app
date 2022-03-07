@@ -127,11 +127,13 @@ class StrongSwanBackend(
     private fun bindCharonMonitor() = mainScope.launch {
         val context = ProtonApplication.getAppContext()
         context.bindService(Intent(context, VpnStateService::class.java), object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                vpnService = (service as VpnStateService.LocalBinder).service.apply {
-                    registerListener(this@StrongSwanBackend)
-                    mainScope.launch {
-                        serviceProvider.send(this@apply)
+            override fun onServiceConnected(name: ComponentName, binder: IBinder) {
+                if (binder is VpnStateService.LocalBinder) {
+                    vpnService = binder.service.apply {
+                        registerListener(this@StrongSwanBackend)
+                        mainScope.launch {
+                            serviceProvider.send(this@apply)
+                        }
                     }
                 }
             }
