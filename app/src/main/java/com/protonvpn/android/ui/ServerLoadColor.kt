@@ -22,8 +22,6 @@ package com.protonvpn.android.ui
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 
