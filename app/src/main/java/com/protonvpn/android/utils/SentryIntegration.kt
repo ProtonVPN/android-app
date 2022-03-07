@@ -21,7 +21,9 @@ package com.protonvpn.android.utils
 
 import android.app.Application
 import com.protonvpn.android.BuildConfig
+import io.sentry.Sentry
 import io.sentry.android.core.SentryAndroid
+import io.sentry.protocol.User
 import java.util.UUID
 
 object SentryIntegration {
@@ -59,7 +61,6 @@ object SentryIntegration {
         SentryAndroid.init(application) { options ->
             options.dsn = sentryDsn
             options.release = BuildConfig.VERSION_NAME
-            options.distinctId = getInstallationId()
             options.isEnableAutoSessionTracking = false
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.isAnrEnabled = false
@@ -67,5 +68,6 @@ object SentryIntegration {
                 SentryFingerprints.setFingerprints(event)
             }
         }
+        Sentry.setUser(User().apply { id = getInstallationId() })
     }
 }
