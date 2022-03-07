@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">نام کاربری</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
     <string name="settingsAllowNonStandardPortsTitle">درگاه‌های غیر-استاندارد</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از ProtonVPN برای هر گونه کاربری خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
+    <string name="settingsModerateNatTitle">Moderate NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">احراز هویت موفق نبود.</string>
     <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
     <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
-    <string name="error_generic_with_reason">ProtonVPN نتوانست یک اتصال VPN برقرار کند. لطفاً، بعد از چند ثانیه دوباره امتحان کنید.<br/>
-        <br/> جزئیات: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">اتصال مجدد</string>
     <string name="reconnect_now">حالا مجددا متصل شوید</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -520,6 +539,9 @@
     <string name="upgrade_plus_countries_speeds">بالاترین سرعت‌ها (تا 10Gbps)</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
+    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
     <string name="upgrade_see_plans_button">طرح‌ها و قیمت‌ها را ببینید</string>
     <string name="upgrade_not_now_button">الان نه</string>
     <string name="upgrade_learn_more">بیشتر بدانید</string>

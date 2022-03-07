@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nazwa użytkownika</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">Przycisk szybkiego połączenia połączy Cię z wybranym profilem</string>
     <string name="settingsAllowNonStandardPortsTitle">Niestandardowe porty</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Używaj aplikacji ProtonVPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. <a href="%1$s">Dowiedz się więcej</a>]]></string>
+    <string name="settingsModerateNatTitle">Umiarkowany NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Umiarkowany NAT wyłącza losowe mapowanie adresów lokalnych, co może nieco zmniejszyć bezpieczeństwo, ale umożliwia stosowanie technik takich, jak bezpośrednie połączenia aplikacji, np. gier online. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
     <string name="restrictedMaintenanceDescription">Serwer, z którym próbujesz się połączyć, jest w trakcie przerwy technicznej. Wybierz inny serwer.</string>
     <string name="errorUserDelinquent"><![CDATA[Twoje konto posiada obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
     <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>
     <string name="error_generic">Wystąpił nieokreślony błąd podczas łączenia.</string>
-    <string name="error_generic_with_reason">Aplikacja ProtonVPN nie mogła nawiązać połączenia VPN. Spróbuj ponownie za kilka sekund.<br/>
-        <br/>Szczegóły: %1$s</string>
+    <string name="error_generic_with_reason">Aplikacja ProtonVPN nie mogła nawiązać połączenia VPN. Spróbuj ponownie za kilka sekund.<br/><br/> Szczegóły: %1$s</string>
     <string name="reconnect">Połącz ponownie</string>
     <string name="reconnect_now">Połącz ponownie</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -546,6 +565,9 @@
     <string name="upgrade_plus_countries_speeds">Najwyższa prędkość (do 10 Gb/s)</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
     <string name="upgrade_safe_mode_message">Używaj aplikacji ProtonVPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. Odblokuj tę i inne funkcje dzięki planowi Plus.</string>
+    <string name="upgrade_moderate_nat_title">Włącz umiarkowany NAT</string>
+    <string name="upgrade_moderate_nat_message">Umiarkowany NAT (znany również jako NAT typ 2) może poprawić jakość korzystania z Internetu w różnych aplikacjach i grach online. Odblokuj tę i inne funkcje dzięki planowi Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Co to jest umiarkowany NAT?</string>
     <string name="upgrade_see_plans_button">Zobacz plany i cennik</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
     <string name="upgrade_learn_more">Dowiedz się więcej</string>

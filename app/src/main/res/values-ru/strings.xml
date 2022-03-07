@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Имя пользователя</string>
@@ -22,9 +40,9 @@
     <string name="mapCalloutDisconnect">Отключиться</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Внимание</string>
-    <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
+    <string name="secureCoreSpeedInfoTitle">Замечание о скорости…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core обеспечивает наивысший уровень безопасности и конфиденциальности, но может снизить скорость вашего Интернета. Если вам нужна более высокая производительность, вы можете отключить Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Активировать Secure Core</string>
     <string name="logoutConfirmDialogTitle">Выйти?</string>
     <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
     <string name="logoutConfirmDialogButton">Bыйти</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">Кнопка «Быстрое подключение» подключит вас к выбранному профилю</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте ProtonVPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsModerateNatTitle">Умеренное NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
     <string name="error_assessment_failed">Сбой проверки безопасности.</string>
     <string name="error_generic">Неизвестный сбой при подключении.</string>
-    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/>
-        <br/> Details: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN не смог установить подключение к VPN. Пожалуйста, повторите попытку через несколько секунд.<br/><br/> Подробнее: %1$s</string>
     <string name="reconnect">Переподключиться</string>
     <string name="reconnect_now">Переподключиться</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -546,6 +565,9 @@
     <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">Используйте ProtonVPN для любых особых нужд, разрешая трафик через VPN на нестандартные порты. Разблокируйте эту и другие возможности с помощью тарифа Plus.</string>
+    <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
+    <string name="upgrade_moderate_nat_message">Умеренное NAT, также известное как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
     <string name="upgrade_learn_more">Узнать больше</string>

@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Utilizador</string>
@@ -103,6 +121,8 @@
     <string name="settingsDefaultConnectionDescription">O botão Ligação rápida liga-o ao perfil seleccionado</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsModerateNatTitle">Moderate NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Por favor, tente outro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem actualmente uma factura por pagar. Por favor liquide as suas dívidas em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -145,8 +165,7 @@
     <string name="error_auth_failed">Falha ao autenticar o utilizador.</string>
     <string name="error_assessment_failed">Falha ao avaliar a segurança.</string>
     <string name="error_generic">Falha não especificada ao ligar.</string>
-    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/>
-        <br/> Details: %1$s</string>
+    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Religar</string>
     <string name="reconnect_now">Reconnect now</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -520,6 +539,9 @@
     <string name="upgrade_plus_countries_speeds">Highest speeds (up to 10Gbps)</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
+    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
     <string name="upgrade_see_plans_button">See plans and pricing</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
