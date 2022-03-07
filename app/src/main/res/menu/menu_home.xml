@@ -25,4 +25,10 @@
         android:icon="@drawable/ic_info_circle_24"
         app:showAsAction="always"
         android:title="@string/activity_information_title" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/server_search_menu_title"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

@@ -630,6 +630,20 @@
     <string name="update_screen_title">Update ProtonVPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of ProtonVPN.</string>
 
+    <string name="server_search_menu_title">Search</string>
+    <string name="server_search_hint">Country, City, Server</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Secure Core Countries (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Servers (%1$d)</string>
 
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>

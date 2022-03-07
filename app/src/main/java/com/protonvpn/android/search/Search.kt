@@ -30,7 +30,7 @@ class Search @Inject constructor(
     private val serverManager: ServerManager,
 ) {
     data class TextMatch(val text: String, val index: Int)
-    data class Match<T>(private val textMatch: TextMatch, val value: T) {
+    data class Match<T>(val textMatch: TextMatch, val value: T) {
         val text get() = textMatch.text
         val index get() = textMatch.index
     }

@@ -123,4 +123,10 @@
         app:menu_labels_margin="8dp"
         app:menu_labels_style="@style/FabMenuLabelStyle" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp" />
+
 </com.protonvpn.android.components.NetworkFrameLayout>
