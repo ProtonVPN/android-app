@@ -1,5 +1,4 @@
 .firebase_authenticate_script: &firebase_authenticate_script
-  - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
   - echo ${ARCHIVES_BASE_NAME}
   - echo $CLOUD_PROJECT_ID
   - gcloud config set project $CLOUD_PROJECT_ID
@@ -16,10 +15,11 @@
   tags:
     - small
   variables:
+    CHECKOUT_CORE_SUBMODULE: "true"
     NUM_SHARDS: 1
   script:
     - *firebase_authenticate_script
-    - gcloud beta firebase test android
+    - gcloud --quiet beta firebase test android
       run firebase-device-config.yml:${TESTS_TYPE}
       --app "$APP"
       --test "$TEST_APP"
@@ -97,3 +97,4 @@ firebase robo tests:
   variables:
     APP_LOCATION: "app/build/outputs/apk/direct/debug/"
     APP_TYPE: "direct-debug.apk"
+    CHECKOUT_CORE_SUBMODULE: "true"

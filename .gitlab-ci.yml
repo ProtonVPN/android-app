@@ -1,6 +1,5 @@
 default:
   image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.0
-
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -10,12 +9,12 @@ default:
     - md5sum app/service_account.json
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
     - git fetch origin development
-    - if [[ $USE_CORE_SNAPSHOT -eq 1 && $CI_JOB_STAGE = "build" ]]; then git submodule update --init -- proton-libs; fi
+    - !reference [.checkout-core-submodule, before_script]
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
-  USE_CORE_SNAPSHOT: 0
+  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
 stages:
   - image
@@ -28,7 +27,9 @@ stages:
   - mirror
   - publish
 
-
+.gradle-job:
+  variables:
+    CHECKOUT_CORE_SUBMODULE: "true"
 
 ########## Manage the Image ##########
 .common-image:
@@ -93,6 +94,7 @@ cache:
 
 detekt analysis:
   stage: analyze
+  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
@@ -111,6 +113,7 @@ detekt analysis:
 
 build debug:
   stage: build
+  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull
@@ -121,9 +124,8 @@ build debug:
       policy: push
       paths:
         - '**/build/tmp/'
-
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
@@ -140,7 +142,8 @@ build debug:
 build black:
   stage: build
   tags:
-    - large
+    - xlarge-k8s
+  extends: .gradle-job
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - ./gradlew assembleBlackDebug
@@ -152,10 +155,11 @@ build black:
 
 build google play release:
   stage: build
+  extends: .gradle-job
   except:
     - master
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
@@ -167,11 +171,12 @@ build google play release:
 
 build amazon release:
   stage: build
+  extends: .gradle-job
   only:
     refs:
       - master
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleAmazonRelease -PabiSplit -PbuildUniversalApk
@@ -182,11 +187,12 @@ build amazon release:
 
 build release (auto):
   stage: build
+  extends: .gradle-job
   only:
     refs:
       - master
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleDirectRelease -PabiSplit -PbuildUniversalApk
@@ -197,6 +203,7 @@ build release (auto):
 
 unit tests:
   stage: test
+  extends: .gradle-job
   tags:
     - large
   script:
@@ -204,6 +211,7 @@ unit tests:
 
 coverage report:
   stage: report
+  extends: .gradle-job
   tags:
     - large
   script:
@@ -220,6 +228,7 @@ coverage report:
 
 owasp check:
   stage: report
+  extends: .gradle-job
   tags:
     - large
   script:
@@ -250,6 +259,7 @@ publish-apk-internal:
   stage: publish
   tags:
     - large
+  extends: .gradle-job
   only:
     refs:
       - development
@@ -279,6 +289,10 @@ include:
   - project: 'agarroux/publish-github'
     ref: master
     file: '/jobs/release.gitlab-ci.yml'
+
+  - project: 'proton/mobile/android/proton-libs'
+    ref: feat/cp-3404-vpn-magic-button # TODO change to main branch
+    file: '/ci/templates/checkout-core.gitlab-ci.yml'
 
   - local: '/appetize-integration.yml'
 

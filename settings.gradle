@@ -3,8 +3,9 @@ include ':detekt-gitlab-output-plugin'
 include ':openvpn'
 include ':strongswan-android-complete'
 
-// Define or comment condition to use proton-libs (core libs) for the git submodule, using gradle
-// included build. See https://docs.gradle.org/current/userguide/composite_builds.html.
-if (System.getenv("USE_CORE_SNAPSHOT") == "1") {
-    includeBuild("proton-libs")
-}
+// Use core libs from maven artifacts or from git submodule using Gradle's included build:
+// - to enable/disable locally: gradle.properties > useCoreGitSubmodule
+// - to enable/disable on CI: .gitlab-ci.yml > ORG_GRADLE_PROJECT_useCoreGitSubmodule
+def coreSubmoduleDir = new File(rootDir, "proton-libs")
+ext.setProperty("coreSubmoduleDir", coreSubmoduleDir)
+apply(from: "${coreSubmoduleDir.path}/gradle/include-core-libs.gradle.kts")
