@@ -41,7 +41,8 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     protected val item: SearchViewModel.ResultItem<Value>,
     private val matchLength: Int,
     private val onConnect: (SearchViewModel.ResultItem<Value>) -> Unit,
-    private val onDisconnect: () -> Unit
+    private val onDisconnect: () -> Unit,
+    private val onUpgrade: () -> Unit
 ) : BindableItem<Binding>(item.match.value.hashCode().toLong()) {
 
     protected fun bindFeaturesAndButtons(
@@ -61,6 +62,7 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
                 else onDisconnect()
             }
             setPowerButtonListener(powerButtonListener)
+            setUpgradeButtonListener(View.OnClickListener { onUpgrade() })
         }
     }
 
@@ -87,9 +89,10 @@ class CountryResultBinding(
     item: SearchViewModel.ResultItem<VpnCountry>,
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<VpnCountry>) -> Unit,
-    onDisconnect: () -> Unit
+    onDisconnect: () -> Unit,
+    onUpgrade: () -> Unit
 ) : SearchResultBinding<VpnCountry, ItemSearchResultCountryBinding>(
-    R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect
+    R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
 
     override fun bind(binding: ItemSearchResultCountryBinding, position: Int) {
@@ -111,9 +114,10 @@ class CityResultBinding(
     item: SearchViewModel.ResultItem<List<Server>>,
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<List<Server>>) -> Unit,
-    onDisconnect: () -> Unit
+    onDisconnect: () -> Unit,
+    onUpgrade: () -> Unit
 ) : SearchResultBinding<List<Server>, ItemSearchResultTwoLineBinding>(
-    R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect
+    R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
 
     override fun bind(binding: ItemSearchResultTwoLineBinding, position: Int) {
@@ -139,9 +143,10 @@ class ServerResultBinding(
     item: SearchViewModel.ResultItem<Server>,
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<Server>) -> Unit,
-    onDisconnect: () -> Unit
+    onDisconnect: () -> Unit,
+    onUpgrade: () -> Unit
 ) : SearchResultBinding<Server, ItemSearchResultTwoLineBinding>(
-    R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect
+    R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
     override fun bind(binding: ItemSearchResultTwoLineBinding, position: Int) {
         with(binding) {
@@ -163,9 +168,10 @@ class SecureCoreServerResultBinding(
     item: SearchViewModel.ResultItem<Server>,
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<Server>) -> Unit,
-    onDisconnect: () -> Unit
+    onDisconnect: () -> Unit,
+    onUpgrade: () -> Unit
 ) : SearchResultBinding<Server, ItemSearchResultCountryBinding>(
-    R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect
+    R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
     override fun bind(binding: ItemSearchResultCountryBinding, position: Int) {
         with(binding) {
