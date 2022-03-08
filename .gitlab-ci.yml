@@ -7,7 +7,8 @@ default:
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
     - md5sum app/protonkey.jks
     - md5sum app/service_account.json
-    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
+    - echo "" >> gradle.properties # ensure a new line
+    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
     - git fetch origin development
     - !reference [.checkout-core-submodule, before_script]
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
@@ -26,6 +27,15 @@ stages:
   - bot
   - mirror
   - publish
+
+.gradle-build-cache: &gradle-build-cache
+  key:
+    prefix: gradle-build-cache
+    files:
+      - gradle/wrapper/gradle-wrapper.properties
+  paths:
+    - ${CI_PROJECT_DIR}/build/gradle-build-cache
+  policy: pull
 
 .gradle-job:
   variables:
@@ -92,6 +102,8 @@ cache:
     paths:
       - '**/build/tmp/'
 
+  - <<: *gradle-build-cache
+
 detekt analysis:
   stage: analyze
   extends: .gradle-job
@@ -124,6 +136,9 @@ build debug:
       policy: push
       paths:
         - '**/build/tmp/'
+
+    - <<: *gradle-build-cache
+      policy: pull-push
   tags:
     - xlarge-k8s
   script:
