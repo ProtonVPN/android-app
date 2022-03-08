@@ -51,6 +51,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
     init {
         orientation = HORIZONTAL
         setVerticalGravity(TEXT_ALIGNMENT_CENTER)
+        if (isInEditMode) keywords = listOf(Server.Keyword.P2P, Server.Keyword.TOR)
         update()
     }
 
