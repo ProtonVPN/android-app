@@ -9,3 +9,12 @@ include ':strongswan-android-complete'
 def coreSubmoduleDir = new File(rootDir, "proton-libs")
 ext.setProperty("coreSubmoduleDir", coreSubmoduleDir)
 apply(from: "${coreSubmoduleDir.path}/gradle/include-core-libs.gradle.kts")
+
+buildCache {
+    local {
+        if (System.getenv("CI") == "true") {
+            directory = file("build/gradle-build-cache")
+        }
+        removeUnusedEntriesAfterDays = 3
+    }
+}
