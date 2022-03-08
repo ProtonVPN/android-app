@@ -428,7 +428,7 @@
     <string name="tv_server_list_action_unavailable">Kullanılamıyor</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator, VPN hızlarını %400 oranında artırabilen benzersiz başarım iyileştirme teknolojileri sunar.. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator, VPN hızlarını %%400 oranında artırabilen benzersiz başarım iyileştirme teknolojileri sunar.. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator bildirimleri</string>
     <string name="settingsSmartReconnectNotificationsDescription">VPN Accelerator sizi daha hızlı bir sunucuya yönlendirdiğinde bildirim alın</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Yeni ayarlar kurulan bir sonraki bağlantıya uygulanacak.</string>
