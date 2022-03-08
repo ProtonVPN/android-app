@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Strings related to login -->
+    <string name="hintUsername">Ім\'я користувача</string>
+    <string name="hintPassword">Пароль</string>
+    <string name="splitTunnellingSwitch">Перемикач розділеного тунелювання</string>
+    <string name="login">Увійти</string>
+    <string name="hamburgerMenu">Гамбургер-меню</string>
+    <string name="error_field_required">Це поле обов\'язкове</string>
+    <string name="title_activity_home">@string/app_name</string>
+    <string name="menuActionSignOut">Вийти</string>
+    <string name="loginSlogan">Безпечний інтернет будь-де</string>
+    <string name="loginStartWithDevice">Запускати під час увімкнення пристрою</string>
+    <string name="loginCreateAccount">Створити новий обліковий запис</string>
+    <string name="loginNeedHelp">Потрібна допомога?</string>
+    <string name="connectionAllocationHelpTitle">Дякуємо за передплату\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpDescription1">Щоб почати свою подорож у ProtonVPN, призначте з\'єднання VPN для свого облікового запису або будь-якого іншого підлеглого облікового запису.</string>
+    <string name="connectionAllocationHelpDescription2">Цей крок займе всього кілька хвилин. Після цього ви зможете увійти в систему і захистити всі свої пристрої.</string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Призначити VPN-з\'єднання</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Увійти знову</string>
+    <string name="mapCalloutConnect">З\'єднатися</string>
+    <string name="mapCalloutDisconnect">Від\'єднати</string>
+    <string name="mapSwitchSecureCore">Secure Core</string>
+    <string name="warning">Попередження</string>
+    <string name="secureCoreSpeedInfoTitle">Примітка про швидкість…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core пропонує найвищий рівень безпеки та приватності, але це може знизити швидкість роботи інтернету. Якщо вам потрібна додаткова швидкодія, ви можете вимкнути Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Активувати Secure Core</string>
+    <string name="logoutConfirmDialogTitle">Вийти?</string>
+    <string name="logoutConfirmDialogMessage">Вихід від\'єднає ваш пристрій від VPN.</string>
+    <string name="logoutConfirmDialogButton">Вийти</string>
+    <string name="showAllProfiles">Показати всі профілі</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="ok">Гаразд</string>
+    <string name="dialogContinue">Продовжити</string>
+    <string name="dialogLearnMore">Докладніше</string>
+    <string name="secureCoreConnectVia">через %1$s</string>
+    <string name="connected">Під\'єднано</string>
+    <string name="buttonConnect">З’єднатись</string>
+    <string name="loaderInitializing">Ініціалізація з\'єднання…</string>
+    <string name="loaderConnectingTo">З\'єднання з %1$s</string>
+    <string name="loaderConnectingToLabel">З\'єднання з…</string>
+    <string name="loaderNotConnected">Не з\'єднано (не захищено)</string>
+    <string name="loaderNotConnectedSuggestion">Торкніться кнопки швидкого з\'єднання</string>
+    <string name="loaderConnectedTo">З\'єднано з %1$s</string>
+    <string name="loaderConnectedToLabel">З\'єднано з:</string>
+    <string name="loaderDisconnecting">Роз\'єднання</string>
+    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
+    <string name="loaderReconnecting">Повторне з\'єднання</string>
+    <string name="loaderReconnectingSuggestion">Або торкніться \"Повторити\" для повторного з\'єднання вручну</string>
+    <string name="loaderReconnectNoNetwork">Очікування доступної мережі</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Будь ласка, перевірте вашу мережу</string>
+    <string name="loaderCheckingAvailability">Перевірка доступності сервера</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Будь ласка, зачекайте кілька секунд</string>
+    <string name="loaderCancel">Скасувати з\'єднання</string>
+    <string name="quickConnect">Швидке з\'єднання</string>
+    <string name="notConnectedCurrentIp">Поточний IP: %1$s</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Скасувати</string>
+    <string name="close">Закрити</string>
+    <string name="drawerSettings">Налаштування</string>
+    <string name="drawerAccount">Обліковий запис</string>
+    <string name="drawerHelp">Допомога</string>
+    <string name="drawerShowLog">Показати журнал</string>
+    <string name="drawerReportProblem">Повідомити про проблему</string>
+    <string name="drawerSignOut">@string/menuActionSignOut</string>
+    <string name="drawerAppVersion">v%1$s</string>
+    <string name="accountDetails">Подробиці облікового запису</string>
+    <string name="accountSubscription">Передплата</string>
+    <string name="accountUser">Користувач:</string>
+    <string name="accountType">Тип облікового запису:</string>
+    <string name="accountTier">Чинна передплата:</string>
+    <string name="accountTrialExpires"><![CDATA[Ваш пробний період завершується <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
+    <string name="accountVersion">Версія:</string>
+    <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
+    <string name="accountButtonManage">Керувати обліковим записом</string>
+    <string name="accountTrial">ProtonVPN Plus Trial</string>
+    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountBasic">ProtonVPN Basic</string>
+    <string name="accountPlus">ProtonVPN Plus</string>
+    <string name="accountVisionary">Proton Visionary</string>
+    <string name="freeTrialExpired">"Ваші 7 днів безплатного користування ProtonVPN Plus завершились. Ви можете й надалі використовувати ProtonVPN Free, але якщо бажаєте підтримати проєкт й отримати вищу швидкість та більше можливостей, передплатіть тарифний план."</string>
+    <string name="freeTVTrialExpired"><![CDATA[Ваш 7-денний безплатний пробний період ProtonVPN Plus завершився<br> Ви можете продовжувати користуватися ProtonVPN Free, або насолоджуватися всіма потоковими послугами, які ми надаємо, перейшовши на Plus.<br> Відвідайте <font color="%1$s">%2$s</font> для керування передплатою.]]></string>
+    <string name="activityProfileTitle">Профіль</string>
+    <string name="activityAccountTitle">Обліковий запис</string>
+    <string name="activitySettingsTitle">Налаштування</string>
+    <string name="settingsSectionQuickConnect">Швидке з\'єднання</string>
+    <string name="settingsSectionConnection">З\'єднання</string>
+    <string name="settingsSectionSecurity">Безпека</string>
+    <string name="settingsSectionAdvanced">Додатково</string>
+    <string name="settingsAutoStartTitle">Запускати з Android</string>
+    <string name="settingsAutoStartDescription">ProtonVPN автоматично запускатиметься при запуску системи</string>
+    <string name="settingsBypassLocalTitle">LAN-з’єднання</string>
+    <string name="settingsDnsLeakProtectionTitle">Захист від витоку DNS</string>
+    <string name="settingsDnsLeakDescription">Запобігання витоку даних DNS-запитів (завжди увімкнено)</string>
+    <string name="settingsDefaultMtu">1375</string>
+    <string name="settingsMtuSizeTitle">Розмір MTU</string>
+    <string name="settingsMtuDescription">Якщо типове значення не підходить для певної мережі, введіть значення в діапазоні 1280-1500. Змінюйте його тільки якщо ви впевнені в своїх діях.</string>
+    <string name="settingsMtuRangeInvalid">Значення MTU має бути в діапазоні 1280–1500</string>
+    <string name="settingsDefaultConnectionTitle">Швидке з\'єднання</string>
+    <string name="settingsDefaultConnectionDescription">Кнопка Швидке з\'єднання пі\'єднає вас до вибраного профілю</string>
+    <string name="settingsAllowNonStandardPortsTitle">Нестандартні порти</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
+    <string name="settingsModerateNatTitle">Помірна NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Помірна NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дозволяє використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Дізнатися більше</a>]]></string>
+    <string name="restrictedMaintenanceTitle">Обслуговується</string>
+    <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
+    <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Ви досягли обмеження кількості одночасних з\'єднань для вашого облікового запису. Щоб отримати більше з\'єднань, передплатіть тарифний план ProtonVPN вищого рівня.</string>
+    <string name="errorEmptyName">Поле з назвою профілю не може бути порожнім</string>
+    <string name="errorEmptyCountry">Необхідно заповнити поле країни</string>
+    <string name="errorEmptyServer">Необхідно заповнити поле сервера</string>
+    <string name="errorEmptyEntryCountry">Необхідно заповнити поле країни входу</string>
+    <string name="errorEmptyExitCountry">Необхідно заповнити поле країни виходу</string>
+    <string name="onboardingDialogMapView">Користуйтеся вкладкою \"Карта\" для з\'єднання та віртуального огляду розташування сервера VPN.</string>
+    <string name="onboardingDialogProfiles">Створіть профілі для ваших улюблених серверів та отримайте до них простий доступ. Крім того, тривалий дотик до піктограми ProtonVPN у нижній частині екрана покаже всі ваші профілі. Дотик до одного з профілів з\'єднає вас з VPN.</string>
+    <string name="onboardingNetshield">Захищає вас від зловмисних програм, реклами та стеження.\nПримітка: якщо деякі сайти не завантажуються, спробуйте вимкнути NetShіeld. </string>
+    <string name="onboardingFAB">Швидке з\'єднання / Профілі</string>
+    <string name="onboardingFABDescription">Натисніть на цю кнопку для швидкого під\'єднання</string>
+    <string name="onboardingSignup">Зареєструватися</string>
+    <string name="onboardingSkip">Пропустити</string>
+    <string name="onboardingNext">Далі</string>
+    <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
+    <string name="listItemMaintenance">Обслуговується</string>
+    <string name="listAllCountries">Усі розташування (%1$d)</string>
+    <string name="listFreeCountries">Розташування FREE (%1$d)</string>
+    <string name="listPremiumCountries">Розташування BASIC і PLUS (%1$d)</string>
+    <string name="listFastestServer">Найшвидший сервер</string>
+    <string name="listFreeServers">Сервери FREE (%1$d)</string>
+    <string name="listBasicServers">Сервери BASIC (%1$d)</string>
+    <string name="listPlusServers">Сервери PLUS (%1$d)</string>
+    <string name="insufficientPermissionsTitle">Потрібна дія користувача</string>
+    <string name="insufficientPermissionsDetails">Не вдалося автоматично встановити VPN-з\'єднання. Під\'єднайтеся вручну один раз, щоб надати дозволи.</string>
+    <string name="tabsCountries">Країни</string>
+    <string name="tabsMap">Карта</string>
+    <string name="tabsProfiles">Профілі</string>
+    <string name="log_title">Журнал</string>
+    <string name="disconnect">Від\'єднати</string>
+    <string name="state_connecting">З\'єднання…</string>
+    <string name="state_connected">Під\'єднано</string>
+    <string name="state_disconnecting">Від\'єднання…</string>
+    <string name="state_error">Помилка</string>
+    <string name="error_server_unreachable">Не вдалося під\'єднатися до VPN. Перевірте з’єднання та повторіть спробу.</string>
+    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
+    <string name="error_auth_failed">Помилка автентифікації користувача.</string>
+    <string name="error_assessment_failed">Не вдалося перевірити безпеку.</string>
+    <string name="error_generic">Невідома помилка під час з\'єднання.</string>
+    <string name="error_generic_with_reason">ProtonVPN не зміг встановити VPN-з\'єднання. Будь ласка, повторіть спробу через кілька секунд.<br/><br/> Докладніше: %1$s</string>
+    <string name="reconnect">Повторно з\'єднатись</string>
+    <string name="reconnect_now">Повторно з\'єднатися</string>
+    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="connect">З\'єднатися</string>
+    <string name="upgrade">Покращити</string>
+    <string name="retry">Повторити спробу</string>
+    <plurals name="retry_in">
+        <item quantity="one">Повторне з\'єднання через %1$d секунду</item>
+        <item quantity="few">Повторне з\'єднання через %1$d секунди</item>
+        <item quantity="many">Повторне з\'єднання через %1$d секунд</item>
+        <item quantity="other">Повторне з\'єднання за %1$d секунд</item>
+    </plurals>
+    <string name="connection_failed">Помилка з’єднання</string>
+    <string name="create_new_profile">Новий профіль</string>
+    <string name="excludeAppsTitle">Винятки</string>
+    <string name="excludeAppsDescription">Додайте програми, які ви хочете виключити з вашого трафіку VPN.</string>
+    <string name="profile_name">Назва профілю</string>
+    <string name="profile_name_hint">Напишіть назву профілю</string>
+    <string name="profile_color">Колір профілю</string>
+    <string name="secure_core">Secure Core</string>
+    <string name="attachments">Вкладення</string>
+    <string name="report_message">Поскаржитися</string>
+    <string name="report_bug_email_label">Адреса вашої е-пошти</string>
+    <string name="report_bug_email_hint">Введіть адресу своєї е-пошти</string>
+    <string name="report_bug_message_label">Повідомлення</string>
+    <string name="report_bug_message_hint">Будь ласка, опишіть помилку та як і де ви її знайшли</string>
+    <string name="send_report">Надіслати звіт</string>
+    <string name="excludeIpTitle">Виключити IP-адреси</string>
+    <string name="discardChanges">Відхилити незбережені зміни?</string>
+    <string name="discard">Відхилити</string>
+    <string name="selectedProfileColor">Виберіть колір для свого профілю</string>
+    <string name="excludeIpDescription">Додайте IP-адреси, які ви хочете виключити з трафіку VPN.</string>
+    <string name="done">ВИКОНАНО</string>
+    <string name="add">ДОДАТИ</string>
+    <string name="copy_to_clipboard">Копіювати</string>
+    <string name="the_list_is_empty">Список порожній</string>
+    <string name="got_it">Зрозуміло</string>
+    <string name="onboardingWelcome">Ласкаво просимо</string>
+    <string name="proton_log">Журнал Proton</string>
+    <string name="something_went_wrong">Виникла проблема</string>
+    <string name="try_again">Повторити спробу</string>
+    <string name="manage">Керувати</string>
+    <string name="delete">Видалити</string>
+    <string name="remove">Вилучити</string>
+    <string name="deleteProfileButton">Видалити профіль</string>
+    <string name="deleteProfile">Видалити профіль?</string>
+    <string name="doneButton">Виконано</string>
+    <string name="saveButton">Зберегти</string>
+    <string name="recommendedHeader">Рекомендовано</string>
+    <string name="countryServersHeader">Країни серверів</string>
+    <string name="secureCoreCountriesHeader">Країни Secure Core</string>
+    <string name="recommendedProfilesHeader">Рекомендовані профілі</string>
+    <string name="yourProfilesHeader">Ваші профілі</string>
+    <string name="exitCountry">Країна виходу</string>
+    <string name="entryCountry">Країна входу</string>
+    <string name="country">Країна</string>
+    <string name="selectCountry">Виберіть країну</string>
+    <string name="serverSelection">Сервер</string>
+    <string name="selectServer">Виберіть сервер</string>
+    <string name="protocolLabel">Протокол</string>
+    <string name="selectProtocol">Виберіть протокол</string>
+    <string name="protocol">Протокол:</string>
+    <string name="ip">IP-адреса:</string>
+    <string name="ipWithPlaceholder">IP-адреса: %1$s</string>
+    <string name="server">Сервер:</string>
+    <string name="session_time">Тривалість сеансу:</string>
+    <string name="download_volume">Обсяг:</string>
+    <string name="download_speed">Швидкість:</string>
+    <string name="save_to_profile">Зберегти до профілю</string>
+    <string name="notConnected">Ви не під\'єднані \n до сервера</string>
+    <string name="activityLicensesTitle">Ліцензії третіх сторін</string>
+    <string name="stateFragmentUnknownIp">Невідомо</string>
+    <string name="noVpnPermissionMainTitle">Дії, необхідні для з\'єднання з VPN</string>
+    <string name="noVpnPermissionMainMessage">Щоб з\'єднатися з ProtonVPN, виконайте такі дії:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Надати дозвіл VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Androіd вимагає вашого дозволу для з\'єднання з ProtonVPN. Надайте дозвіл, натиснувши \"OK\", коли з\'явиться вікно \"Запит з\'єднання\" від Androіd.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Вимкніть функцію \"Постійна VPN\" для інших додатків</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Androіd не підтримує кілька додатків VPN. Вимкніть функцію \"Постійна VPN\" для будь-якого додатка VPN, крім ProtonVPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Додаток ProtonVpn</string>
+    <string name="noVpnPermissionOtherAppLabel">Інші додатки VPN</string>
+    <string name="noVpnPermissionOpenSettings">Відкрити налаштування Android VPN</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Будь ласка, вимкніть Постійну VPN для всіх інших додатків VPN у системних налаштуваннях Androіd VPN, тому що це не дозволяє ProtonVPN встановити VPN-з\'єднання. Також дозвольте VPN, якщо з\'явиться діалогове вікно із запитом на дозвіл VPN. Також може знадобитися видалити інші додатки VPN, щоб уникнути конфліктів. Після цього, повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
+    <string name="error_prepare_vpn_settings">Перейти до налаштувань VPN Android</string>
+    <string name="error_prepare_vpn_title">Помилка: Проблема з дозволами VPN</string>
+    <string name="error_server_not_set">Сервер більше не доступний</string>
+    <string name="bugReportThankYouToast">Дякуємо за ваш звіт</string>
+    <string name="bugReportErrorEmptyEmail">Поле для електронної адреси не може бути порожнім</string>
+    <string name="bugReportErrorInvalidEmail">Неприпустима адреса е-пошти</string>
+    <string name="bugReportErrorEmptyDescription">Напишіть нам те, що відбувається</string>
+    <string name="bugReportLabelVpnLogsTitle">Включити журнали помилок</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Це відправляє локальні журнали помилок (ми не реєструємо активність), щоб допомогти нам усунути вашу проблему</string>
+    <string name="profileFastest">Найшвидший</string>
+    <string name="profileRandom">Випадковий</string>
+    <string name="settingsSplitTunnelingDescription">Роздільне тунелювання дозволяє виключити певні додатки або ІP-адреси з VPN-трафіку.</string>
+    <string name="settingsSplitTunnelingTitle">Роздільне тунелювання</string>
+    <string name="loaderAuthenticatingUser">Автентифікація користувача…</string>
+    <string name="loaderErrorNoInternet">Немає з’єднання з інтернетом</string>
+    <string name="loaderErrorGeneric">Щось пішло не так</string>
+    <string name="loaderLoadingServers">Завантаження серверів…</string>
+    <string name="inputIpAddressLabel">IP-адреса</string>
+    <string name="inputIpAddressHint">Напишіть IP-адресу</string>
+    <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
+    <string name="settingsExcludedIPAddresses">Виключені IP-адреси</string>
+    <string name="settingsExcludedIPAddressesListHeader">Виключені IP-адреси (%1$d)</string>
+    <string name="settingsExcludedApps">Виключені застосунки</string>
+    <string name="settingsExcludedAppsEmpty">Додайте застосунки, які потрібно виключити з вашого трафіку VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Виключені застосунки (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Дозволені звичайні застосунки (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Дозволені системні застосунки (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Показати системні застосунки</string>
+    <string name="listNoItems">Немає</string>
+    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+    <plurals name="listFewItemsAndMore">
+        <item quantity="one">%1$s і ще %2$d</item>
+        <item quantity="few">%1$s і ще %2$d</item>
+        <item quantity="many">%1$s і ще %2$d</item>
+        <item quantity="other">%1$s і ще %2$d</item>
+    </plurals>
+    <string name="settingsCannotChangeWhileConnected">Це не можна змінити при активному з\'єднанні</string>
+    <string name="excludeAlreadyExcluded">Уже виключено</string>
+    <string name="removeExcludedIpDialogDescription">Вилучити IP-адресу зі списку?</string>
+    <string name="loaderFetchingServers">Отримання переліку серверів…</string>
+    <string name="toastProfileSaved">Збережено</string>
+    <string name="freeTrialExpiredTitle">Термін дії ProtonVPN Plus Trial завершився</string>
+    <string name="tileConnected">Під\'єднано: %1$s</string>
+    <string name="dialogTitleAttention">Увага</string>
+    <string name="saveProfileAlreadySaved">Вже збережено</string>
+    <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
+    <string name="welcomeDialogTitle">Дякуємо за приєднання до спільноти ProtonVPN.</string>
+    <string name="welcomeDialogDescription">Скористайтеся своїми нещодавно створеними обліковими даними для входу.</string>
+    <string name="welcomeDialogTitleTrial">Як подяка, ми даруємо вам безплатну 7-денну пробну версію тарифного плану Plus. Він дає змогу користуватися розширеними функціями та серверами Plus. Після завершення пробного періоду ви повернетеся на тарифний план Free і матимете доступ тільки до серверів Free.</string>
+    <string name="toastLoginAuthVersionError">Неможливо увійти в систему через непідтримувану версію авторизації. Будь ласка, зверніться до служби підтримки.</string>
+    <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>
+    <string name="troubleshootButton">Усунення проблем</string>
+    <string name="activityTroubleshootTitle">Усунення проблем</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Можливі рішення</string>
+    <string name="troubleshootNoInternetDescription">Переконайтеся, що ваше з\'єднання з Інтернетом працює.</string>
+    <string name="troubleshootNoInternetTitle">Немає з’єднання з інтернетом</string>
+    <string name="troubleshootIspProblemTitle">Проблема постачальника послуг Інтернету (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Спробуйте під\'єднатися до Proton з іншої мережі (або скористайтеся <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Перешкоджання антивіруса</string>
+    <string name="troubleshootAntivirusProblemDescription">Тимчасово вимкніть чи вилучіть свою антивірусну програму.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Взаємодія з проксі та мережевим екраном</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Вимкніть будь-які проксі чи мережеві екрани, або зверніться до свого мережевого адміністратора.</string>
+    <string name="troubleshootProtonDownTitle">Proton зараз недоступний</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Перевірте <a href=\"%1$s\">Стан Proton</a>, щоб дізнатися про стан нашої системи.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Досі потребуєте допомоги? Зв\'яжіться з нами безпосередньо</string>
+    <string name="troubleshootCustomerSupport">Клієнтська підтримка</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Альтернативна маршрутизація</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У випадку якщо Proton заблокований, дозвольте застосунку спробувати альтернативні шляхи для з\'єднання з серверами Proton. <a href="%1$s">Докладніше</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Блокування урядом</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша країна може блокувати доступ до Proton. Спробуйте скористатися <a href=\'%1$s\'>Tor</a> для доступу до Proton.]]></string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Постійна VPN та Kill Switch</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Налаштуйте поведінку ProtonVPN у випадку розриву з\'єднання</string>
+    <string name="settingsAlwaysOnWindowHeader">Як увімкнути постійну VPN та Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Відкрийте <b>Налаштування</b> вашого пристрою, торкнувшись кнопки нижче]]></string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsAlwaysOnWindowStep2">2. Знайдіть ProtonVPN і торкніться %1$s</string>
+    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Торкніться перемикача поруч із <b>Постійна VPN</b> для увімкнення]]></string>
+    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+         Android settings.
+         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone's settings. -->
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Торкніться перемикача поруч із <b>Блокувати з\'єднання без VPN</b>, щоб увімкнути Kіll Swіtch]]></string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Відкрити налаштування Android</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Увімкнення Аварійного стопу вимкне роздільне тунелювання, оскільки Аварійний стоп блокує усі з\'єднання поза тунелем VPN</string>
+    <string name="settingsSmartProtocolDescription">Автоматично застосовувати протокол і порт для найкращого підключення.</string>
+    <string name="settingsSendCrashReportsTitle">Анонімні звіти про збої</string>
+    <string name="settingsSendCrashReportsDescription">Якщо застосунок аварійно завершує роботу або неочікувано закривається, нашим інженерам надсилатиметься звіт, який міститиме інформацію про можливі причини помилки. Ми використовуємо ці дані лише для поліпшення застосунку.</string>
+    <string name="netShieldEnabledWarning">Майте на увазі, що деякі сайти можуть не працювати належним чином через блокування вмісту.</string>
+    <string name="netShieldDescription">Блокувати рекламу, стеження і зловмисні програми </string>
+    <string name="netshield">NetShield</string>
+    <string name="netShieldBlockMalwareOnly">Блокувати лише зловмисні програми</string>
+    <string name="netShieldFullBlock">Блокувати зловмисні програми, стеження, оголошення</string>
+    <string name="dialogDontShowAgain">Не показувати знову</string>
+    <string name="paidFeature">Платна функція</string>
+    <string name="guestHoleActivated">Доступ до ProtonVPN може бути обмежено у вашому регіоні, тому це триватиме довше, ніж зазвичай. Будь ласка, зачекайте, доки ми не виправимо цю проблему.</string>
+    <string name="guestHoleNotificationContent">Спроба обійти проблеми з мережею. Це допоможе вам одержати доступ до ProtonVPN.</string>
+    <string name="onMaintenanceDetected">VPN-сервер, до якого ви були під\'єднані, перебуває на технічному обслуговуванні. Ми автоматично перепідключили вас до найшвидшого з доступних серверів.</string>
+    <string name="errorTunMultiUserPermission">Не вдалося ініціалізувати VPN-з\'єднання через конфлікт між подвійним додатком (наприклад, Dual Messenger) та роздільним тунелюванням. Від\'єднайте один з них і перезавантажте пристрій.</string>
+    <string name="errorTorrentNotAllowed">P2P не дозволено на цьому сервері</string>
+    <string name="errorWireguardWithPlaceholder">Помилка WireGuard %1$s</string>
+    <string name="serverNoWireguardSupport">Сервер цього профілю ще не підтримує WireGuard. Щоб з\'єднатися, спробуйте інший протокол чи сервер, який підтримує WireGuard.</string>
+    <string name="stateConnectedTo">З\'єднано з %1$s</string>
+    <string name="stateNotConnected">Ви не під\'єднані</string>
+    <string name="recents">Нещодавні</string>
+    <string name="tvQuickConnectDescription">Країни поблизу</string>
+    <string name="tvQuickConnectSubDescription">Сервер трансляцій</string>
+    <string name="nameEurope">Європа</string>
+    <string name="nameAmerica">Америка</string>
+    <string name="nameAsia">Азія</string>
+    <string name="nameAfricaAndMiddleEast">Африка та Близький Схід</string>
+    <string name="nameOceania">Океанія</string>
+    <string name="tvRowMore">Ще</string>
+    <string name="tv_detail_default_connection_checkbox">Моя улюблена країна</string>
+    <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
+    <string name="tv_detail_connect_streaming">Потокове відео з Plus</string>
+    <string name="tv_detail_connect">З\'єднатися</string>
+    <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості додатків з тарифним планом ProtonVPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Переглядайте більше улюблених матеріалів з тарифним планом ProtonVPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Ця країна недоступна. Отримайте більше можливостей потокової трансляції з тарифним планом ProtonVPN Plus.</string>
+    <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі в своїх додатках.</string>
+    <string name="tv_login_title_signin">Увійти до ProtonVPN</string>
+    <string name="tv_login_title_welcome">Переглядайте свої улюблені відеоматеріали</string>
+    <string name="tv_login_welcome_description">Дивіться відеоматеріали з понад 50 країн, включно з YouTube і Twіtch. Транслюйте Netflіx, Amazon Prіme і Hulu з ProtonVPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Отримайте свій обліковий запис ProtonVPN на <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Увійти</string>
+    <string name="tv_login_step1_description"><![CDATA[Перейдіть на <b>%1$s</b> на своєму мобільному пристрої чи комп\'ютері]]></string>
+    <string name="tv_login_step2_description">Увійти до ProtonVPN</string>
+    <string name="tv_login_step3_description">Введіть код:</string>
+    <string name="tv_login_timer_label">Цей код чинний до:</string>
+    <string name="tv_login_refresh">Оновити</string>
+    <string name="tv_login_title_loading">Завантаження…</string>
+    <string name="tv_login_title_refresh">Термін дії вашого сеансу. Натисніть «Оновити», щоб почати знову.</string>
+    <string name="tv_upgrade_title">Розпочніть перегляд з Plus</string>
+    <string name="back">Назад</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Перейдіть до <font color="%1$s">%2$s</font>, щоб покращити до ProtonVPN Plus вже зараз.]]></string>
+    <string name="tv_upgrade_description">Отримайте тарифний план ProtonVPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами для потокового передавання відео з Netflix, Amazon Prime Video, Disney+ тощо.</string>
+    <string name="tv_vpn_error_dialog_title">Не вдалося під\'єднатися до VPN</string>
+    <string name="tv_signout_label">Вийти</string>
+    <string name="tv_signout_dialog_title">Ви дійсно хочете вийти?</string>
+    <string name="tv_signout_dialog_description_connected">Це від\'єднає ваше ТБ від усіх VPN-серверів.</string>
+    <string name="tv_signout_dialog_ok">Вийти</string>
+    <string name="tv_quick_connect_recommened">Рекомендовано</string>
+    <string name="tv_quick_connect_favourite">Улюблене</string>
+    <string name="tv_trial_counter_label">Пробна версія</string>
+    <string name="tv_trial_title">7 днів необмеженої трансляції</string>
+    <string name="tv_trial_summary"><![CDATA[Як привітальний подарунок, отримайте доступ до всіх серверів ProtonVPN зі службами потокової трансляції протягом перших 7 днів із пробною версією плану <b>Plus</b>.<br>Потім ваш план зміниться на <b>Free</b>, а ваш доступ до деяких сервісів може бути обмежений.]]></string>
+    <string name="tv_trial_ends_in">Завершення пробного періоду через</string>
+    <plurals name="counter_days">
+        <item quantity="one">%1$s день</item>
+        <item quantity="few">%1$s дні</item>
+        <item quantity="many">%1$s днів</item>
+        <item quantity="other">%1$s днів</item>
+    </plurals>
+    <plurals name="counter_hours">
+        <item quantity="one">%1$s година</item>
+        <item quantity="few">%1$s години</item>
+        <item quantity="many">%1$s годин</item>
+        <item quantity="other">%1$s годин</item>
+    </plurals>
+    <plurals name="counter_minutes">
+        <item quantity="one">%1$s хвилина</item>
+        <item quantity="few">%1$s хвилини</item>
+        <item quantity="many">%1$s хвилин</item>
+        <item quantity="other">%1$s хвилин</item>
+    </plurals>
+    <plurals name="counter_seconds">
+        <item quantity="one">%1$s секунда</item>
+        <item quantity="few">%1$s секунди</item>
+        <item quantity="many">%1$s секунд</item>
+        <item quantity="other">%1$s секунд</item>
+    </plurals>
+    <string name="tv_country_maintenance_dialog_title">Країна недоступна</string>
+    <string name="tv_country_maintenance_dialog_description">Будь ласка, повторіть спробу пізніше або оберіть іншу країну.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% Server Load -->
+    <string name="tv_server_list_load">%1$s%% завантаження сервера</string>
+    <string name="tv_recently_used_servers">Недавно використані сервери (%1$d)</string>
+    <string name="tv_available_servers">Доступні сервери (%1$d)</string>
+    <string name="tv_locked_servers">Заблоковані сервери (%1$d)</string>
+    <string name="tv_other_servers">Інші сервери (%1$d)</string>
+    <string name="tv_server_under_maintenance">Обслуговується</string>
+    <string name="tv_server_list">Список серверів</string>
+    <string name="tv_server_list_action_unavailable">Недоступно</string>
+    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator пропонує набір унікальних технологій поліпшення швидкодії, які можуть пришвидшити роботу VPN до 400%%. <a href="%1$s">Докладніше</a>.]]></string>
+    <string name="settingsSmartReconnectNotificationsTitle">Сповіщення VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsDescription">Отримувати сповіщення коли VPN Accelerator перемикає вас на швидший сервер</string>
+    <string name="settingsReconnectToApplySettingsDialogContent">Нові налаштування застосуються при наступному з\'єднанні.</string>
+    <string name="settingsReconnectToChangeDialogContent">Це перезапустить ваше з\'єднання.</string>
+    <string name="reconnectToEnableNetshield">Це перезапустить ваше з\'єднання.\n\nПримітка: Деякі сайти можуть не завантажуватися з увімкненим NetShіeld.</string>
+    <string name="notification_subscription_expired_title">Ваша передплата тарифного плану ProtonVPN завершилася</string>
+    <string name="notification_subscription_expired_content">Нам довелося понизити ваш тарифний план, але ми знову з\'єднуємо вас із найшвидшим сервером, доступним в цьому тарифному плані.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Вашу передплату було змінено на нижчий рівень. </string>
+    <string name="notification_delinquent_title">У вашому обліковому записі ProtonVPN є несплачені рахунки</string>
+    <string name="notification_delinquent_content">Знайдіть хвилинку та оновіть платіжні дані, щоб вашу передплата залишалася активною.</string>
+    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
+    <string name="notification_server_unreachable_content">Вас під\'єднано до швидшого сервера, який схожий на обраний вами.</string>
+    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
+    <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристрою.</item>
+        <item quantity="few">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
+        <item quantity="many">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
+        <item quantity="other">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Від’єднайте інший пристрій, щоб під\'єднати цей.</string>
+    <string name="notification_cancel_to_free">У вас зараз тарифний план FREE. Доступні лише сервери і функції FREE.</string>
+    <string name="notification_cancel_to_basic">У вас зараз тарифний план BASIC. Доступні лише сервери і функції FREE.</string>
+    <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміум-функцій після сплати рахунків.</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
+    <string name="reconnect_from_server">Із сервера: </string>
+    <string name="reconnect_to_server">До сервера: </string>
+    <string name="no_thanks">Ні, дякую</string>
+    <string name="enable">Увімкнути</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
+    <string name="notification_smart_protocol_disabled_content">ProtonVPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
+    <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Доступ до потокових сервісів (Netflіx, Dіsney+ та ін.) будь-де у світі</string>
+    <!-- Number of servers available in the service. This phrase will be combined with
+         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$d сервер</item>
+        <item quantity="few">%1$d сервери</item>
+        <item quantity="many">%1$d серверів</item>
+        <item quantity="other">%1$d серверів</item>
+    </plurals>
+    <!-- Number of countries available in the service. This phrase will be combined with
+         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$d країна</item>
+        <item quantity="few">%1$d країни</item>
+        <item quantity="many">%1$d країн</item>
+        <item quantity="other">%1$d країн</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
+    <string name="upgrade_netshield_title">Розблокувати NetShіeld</string>
+    <string name="upgrade_secure_core_title">Розблокувати Secure Core</string>
+    <string name="upgrade_netshield_message">Блокуйте зловмисні програми, рекламу і стеження в браузерах і програмах. Доступно в будь-якому платному тарифному плані.</string>
+    <string name="upgrade_secure_core_message">Спрямовуйте передачу своїх найвразливіших даних через наші найзахищеніші сервери в країнах, що цінують приватність.</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200+ servers
+         -->
+    <plurals name="upgrade_plus_servers">
+        <item quantity="one">%d сервер</item>
+        <item quantity="few">%d сервери</item>
+        <item quantity="many">%d серверів</item>
+        <item quantity="other">%d серверів</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ secure servers
+     -->
+    <plurals name="upgrade_plus_secure_servers">
+        <item quantity="one">%d захищений сервер</item>
+        <item quantity="few">%d захищені сервери</item>
+        <item quantity="many">%d захищених серверів</item>
+        <item quantity="other">%d захищені сервери</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d країна</item>
+        <item quantity="few">%d країни</item>
+        <item quantity="many">%d країн</item>
+        <item quantity="other">%d країн</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access all 1300+ servers in 61 countries with PLUS
+     -->
+    <string name="upgrade_plus_countries_title">Отримайте доступ до всіх %1$s в %2$s з PLUS</string>
+    <string name="upgrade_plus_countries_message">Скористайтеся розширеними функціями прямо зараз!</string>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_secure_servers"
+
+     Example:
+     You now have access to 1300+ secure servers and other premium features.
+     -->
+    <string name="onboarding_plan_congrats_description">Тепер у вас є доступ до %1$s та інших функцій преміум.</string>
+    <string name="upgrade_plus_countries_streaming">Доступ до сервісів трансляції по всьому світу</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="upgrade_plus_countries_many_devices">
+        <item quantity="one">Під\'єднайте %d пристрій</item>
+        <item quantity="few">Під\'єднайте %d пристрої одночасно</item>
+        <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
+        <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
+    </plurals>
+    <string name="upgrade_plus_countries_netshield">Вбудований блокувальник реклами (NetShield)</string>
+    <string name="upgrade_plus_countries_speeds">Найвища швидкість (до 10Гбіт/с)</string>
+    <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
+    <string name="upgrade_safe_mode_message">Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. Розблокуйте цю та інші функції передплативши тарифний план Plus.</string>
+    <string name="upgrade_moderate_nat_title">Увімкнути помірну NAT</string>
+    <string name="upgrade_moderate_nat_message">Помірна NAT або NAT 2 типу може покращити ваш досвід онлайн-роботи з різними програмами та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Що таке помірна NAT?</string>
+    <string name="upgrade_see_plans_button">Перегляньте тарифні плани та ціни</string>
+    <string name="upgrade_not_now_button">Не зараз</string>
+    <string name="upgrade_learn_more">Докладніше</string>
+    <!-- Information activity -->
+    <string name="activity_information_title">Відомості</string>
+    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+    <string name="activity_information_plus_title">%1$s — сервери Plus</string>
+    <string name="info_features">Можливості</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Ця технологія дозволяє ProtonVPN забезпечити вищу швидкість та безпеку у країнах з ускладненим обслуговуванням.</string>
+    <string name="streaming_title">Потокове передавання</string>
+    <string name="streaming_description">PLUS сервери підтримують потокове передавання (Netflix, Disney+ тощо) звідусіль у світі.</string>
+    <string name="p2p_title">P2P/BitTorrent</string>
+    <string name="p2p_description">Ці сервери забезпечують найкращу швидкодію для BitTorrent та обміну файлами.</string>
+    <string name="tor_title">Tor</string>
+    <string name="tor_description">Спрямовуйте свій Інтернет-трафік через мережу Tor. Повільніше, але приватніше.</string>
+    <string name="info_performance">Швидкодія</string>
+    <string name="server_load_title">Завантаження сервера</string>
+    <string name="server_load_description">Високозавантажені сервери повільніші за малонавантажені сервери.</string>
+    <string name="streaming_title_with_country">Потокове передавання: %1$s</string>
+    <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб почати потокову трансляцію.\n\nПідказка: Очистіть кеш додатків трансляції, щоб забезпечити появу нових матеріалів.</string>
+    <string name="activity_information_learn_more">Докладніше</string>
+    <string name="server_load_low">Низьке</string>
+    <string name="server_load_medium">Середнє</string>
+    <string name="server_load_high">Високе</string>
+    <!-- Override Human verification links from core -->
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Ласкаво просимо у ProtonVPN</string>
+    <string name="onboarding_welcome_description">Довідайтеся, як одержати максимум від ProtonVPN всього за кілька секунд.</string>
+    <string name="onboarding_welcome_action">Розпочнімо</string>
+    <string name="onboarding_available_on_plus">Доступно з PLUS</string>
+    <string name="onboarding_streaming_title">Розблокувати трансляції</string>
+    <string name="onboarding_streaming_description">Захищений доступ до будь-якого вмісту навіть під час подорожей в інші країни. Тепер і на AndroіdTV.</string>
+    <string name="onboarding_protection_title">Будьте захищені всюди</string>
+    <string name="onboarding_protection_description">ProtonVPN підтримує всі пристрої, включно з Windows, macOS і багатьма іншими.</string>
+    <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
+    <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та в усіх застосунках.</string>
+    <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
+    <string name="onboarding_connection_description">Тарифний план FREE пропонує %1$d серверів у %2$d країнах</string>
+    <string name="onboarding_connection_info">Ми під\'єднаємо вас до найшвидшого і найстабільнішого сервера для вашого розташування.</string>
+    <string name="onboading_connect_now">З\'єднатися зараз</string>
+    <string name="onboading_connecting_now">Триває з\'єднання</string>
+    <string name="onboarding_congrats_description">Ваше з\'єднання захищене, і ви готові до роботи в Інтернеті.\n\nБезпечно.</string>
+    <string name="onboarding_congrats_title">Вітаємо!</string>
+    <string name="onboarding_plan_congrats_description_privacy">Оцініть переваги світу приватності.</string>
+    <string name="onboading_connect_to_plus">З\'єднатися з сервером PLUS</string>
+    <string name="upgrade_use_limited_free_button">Використовуйте обмежений тарифний план FREE</string>
+    <string name="dynamic_report_suggestion_didnt_work">Не працює?</string>
+    <string name="dynamic_report_contact_us">Зв\'язатися з нами</string>
+    <string name="dynamic_report_tips_description">Ці поради можуть допомогти швидше розвʼязати вашу проблему.</string>
+    <string name="dynamic_report_tips_title">Швидкі виправлення</string>
+    <string name="dynamic_report_logs_title">Надіслати журнали помилок</string>
+    <string name="dynamic_report_success_title">Дякуємо за відгук</string>
+    <string name="dynamic_report_success_description">Ми зв\'яжемося з вами, як тільки зможемо.</string>
+    <string name="dynamic_report_field_mandatory">Це обов\'язкове поле</string>
+    <string name="dynamic_report_logs_description">Журнал — це тип файлу, який показує виконані дії, після яких сталася помилка. Ми використовуємо його лише щоб допомогти нашим інженерам виправити помилки.</string>
+    <string name="dynamic_report_logs_missing">Журнали помилок допомагають нам розібратися в суті вашої проблеми. Якщо ви не включите їх, ми не зможемо якісно дослідити проблему.</string>
+    <string name="dynamic_report_step1">Крок 1 з 3</string>
+    <string name="dynamic_report_step2">Крок 2 з 3</string>
+    <string name="dynamic_report_step3">Крок 3 з 3</string>
+    <string name="dynamic_report_your_issue_headline">У чому ваша проблема</string>
+    <string name="update_screen_title">Оновити ProtonVPN</string>
+    <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією ProtonVPN.</string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Відвідайте <a href="https://protonvpn.com/prіcіng">protonvpn.com</a> для докладнішої інформації.</string>
+</resources>
