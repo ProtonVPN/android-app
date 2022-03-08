@@ -62,6 +62,10 @@ firebase full tests:
   when: manual
 
 firebase tv tests:
+  # TEMPORARY: Allow TV tests to fail until Firebase Test Lab fixes the TV device.
+  allow_failure: true
+  timeout: 20m
+
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: tvTest
