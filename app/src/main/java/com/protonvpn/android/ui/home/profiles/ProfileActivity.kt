@@ -71,7 +71,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val profile = intent.getSerializableExtra(IntentExtras.EXTRA_PROFILE) as Profile?
-        viewModel.initWithProfile(profile)
+        viewModel.initWithProfile(this, profile)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         initProfileName(profile)
         initPalette()
@@ -93,7 +93,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
     }
 
     private fun initProfileName(profile: Profile?) = with(binding.contentProfile) {
-        if (profile != null) inputName.text = profile.name
+        if (profile != null) inputName.text = profile.getDisplayName(this@ProfileActivity)
         inputName.addTextChangedListener(object : TextWatcherAdapter() {
             override fun afterTextChanged(s: Editable) {
                 viewModel.onProfileNameTextChanged(s.toString())

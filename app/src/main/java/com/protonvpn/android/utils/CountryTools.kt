@@ -62,7 +62,8 @@ object CountryTools {
         return flagResId.takeIf { it > 0 } ?: getFlagResource(context, flag)
     }
 
-    fun getPreferredLocale(context: Context): Locale {
+    fun getPreferredLocale(): Locale {
+        val context = ProtonApplication.getAppContext()
         val configuration = context.resources.configuration
         val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             configuration.locales[0] else configuration.locale
@@ -71,8 +72,7 @@ object CountryTools {
 
     fun getFullName(country: String?): String {
         val locale = Locale("", country)
-        val localized = locale.getDisplayCountry(
-                getPreferredLocale(ProtonApplication.getAppContext()))
+        val localized = locale.getDisplayCountry(getPreferredLocale())
         return if (localized.length < MAX_LOCALIZED_LENGTH)
             localized
         else

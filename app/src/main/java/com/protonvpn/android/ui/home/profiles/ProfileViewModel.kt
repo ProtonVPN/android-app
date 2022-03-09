@@ -1,5 +1,6 @@
 package com.protonvpn.android.ui.home.profiles
 
+import android.content.Context
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -95,11 +96,11 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    fun initWithProfile(profile: Profile?) {
+    fun initWithProfile(context: Context, profile: Profile?) {
         if (profile != null) {
             profile.wrapper.setDeliverer(serverManager)
             editedProfile = profile
-            profileNameInput = profile.name
+            profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
             secureCore.value = profile.isSecureCore
             server.value = getServerSelection(profile)

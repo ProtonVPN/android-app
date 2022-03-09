@@ -38,12 +38,12 @@ public class SavedProfilesV3 implements Serializable {
         return profileList;
     }
 
-    public static SavedProfilesV3 defaultProfiles(Context context, ServerDeliver deliver) {
+    public static SavedProfilesV3 defaultProfiles(ServerDeliver deliver) {
         SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<>());
         defaultProfiles.getProfileList()
-            .add(new Profile(context.getString(R.string.profileFastest), null, ServerWrapper.makePreBakedFastest(deliver), null));
+            .add(new Profile("fastest", null, ServerWrapper.makePreBakedFastest(deliver), null));
         defaultProfiles.getProfileList()
-            .add(new Profile(context.getString(R.string.profileRandom), null,
+            .add(new Profile("random", null,
                 ServerWrapper.makePreBakedRandom(deliver), null));
         return defaultProfiles;
     }
