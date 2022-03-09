@@ -310,7 +310,7 @@ class SettingsActivity : BaseActivityV2() {
         switchNonStandardPorts.isChecked = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
         switchModerateNat.isChecked = !userPrefs.randomizedNatEnabled
 
-        buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
+        buttonDefaultProfile.setValue(serverManager.defaultConnection.getDisplayName(this@SettingsActivity))
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
         buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
         buttonMtuSize.setValue(userPrefs.mtuSize.toString())

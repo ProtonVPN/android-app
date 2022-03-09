@@ -1,8 +1,6 @@
 package com.protonvpn.app
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -16,7 +14,6 @@ import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.builtins.ListSerializer
@@ -44,13 +41,11 @@ class ServerManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
-        val contextMock = mockk<Context>(relaxed = true)
         mockkObject(CountryTools)
-        ProtonApplication.setAppContextForTest(contextMock)
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
-        every { CountryTools.getPreferredLocale(any()) } returns Locale.US
-        manager = ServerManager(contextMock, userData, currentUser)
+        every { CountryTools.getPreferredLocale() } returns Locale.US
+        manager = ServerManager(userData, currentUser)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

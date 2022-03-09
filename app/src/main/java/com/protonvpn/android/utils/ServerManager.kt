@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.utils
 
-import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
@@ -41,11 +40,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ServerManager(
-    @Transient private val appContext: Context,
+class ServerManager @Inject constructor(
     @Transient val userData: UserData,
     @Transient val currentUser: CurrentUser,
 ) : Serializable, ServerDeliver {
@@ -71,7 +70,7 @@ class ServerManager(
 
     @Transient
     private val savedProfiles: SavedProfilesV3 =
-        Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(appContext, this))
+        Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(this))
             .migrateColors()
 
     // Expose a version number of the server list so that it can be used in flow operators like
@@ -296,8 +295,7 @@ class ServerManager(
         savedProfiles.profileList
 
     fun deleteSavedProfiles() {
-        val defaultProfiles =
-            SavedProfilesV3.defaultProfiles(appContext, this).profileList
+        val defaultProfiles = SavedProfilesV3.defaultProfiles(this).profileList
         for (profile in getSavedProfiles().toList()) {
             if (profile !in defaultProfiles) {
                 deleteProfile(profile)

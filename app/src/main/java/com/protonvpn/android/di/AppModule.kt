@@ -304,11 +304,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideServerManager(userData: UserData, currentUser: CurrentUser) =
-        ServerManager(ProtonApplication.getAppContext(), userData, currentUser)
-
-    @Singleton
-    @Provides
     fun provideServerListUpdater(
         api: ProtonApiRetroFit,
         serverManager: ServerManager,
