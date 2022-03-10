@@ -18,7 +18,6 @@
  */
 package com.protonvpn.app.search
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -31,7 +30,6 @@ import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import org.junit.Before
 import org.junit.Rule
