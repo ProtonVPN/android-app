@@ -90,13 +90,10 @@
     <string name="accountUser">Kullanıcı:</string>
     <string name="accountType">Hesap türü:</string>
     <string name="accountTier">Etkin abonelik:</string>
-    <string name="accountTrialExpires"><![CDATA[Deneme süreniz sona eriyor<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Sürüm:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> web panosuna gitmelisiniz.]]></string>
     <string name="accountButtonManage">Hesap yönetimi</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="freeTrialExpired">"7 günlük ücretsiz ProtonVPN Plus deneme süresi doldu. Ücretsiz ProtonVPN hizmetini kullanmaya devam edebilirsiniz. Ancak projeyi destekleyerek daha yüksek hızlara ve daha fazla özelliğe sahip olmak istiyorsanız, lütfen ücretli bir tarifeye geçin."</string>
-    <string name="freeTVTrialExpired"><![CDATA[7 günlük ücretsiz ProtonVPN Plus deneme süresi doldu.<br>Ücretsiz ProtonVPN hizmetinikullanmaya devam edebilir ya da Plus tarifesine yükselterek desteklediğimiz yayın akışı hizmetlerinin tadını çıkarabilirsiniz.<br>Aboneliğiinizi yönetmek için <font color="%1$s">%2$s</font> adresine gidin.]]></string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Hesap</string>
     <string name="activitySettingsTitle">Ayarlar</string>
@@ -283,14 +280,10 @@
     <string name="removeExcludedIpDialogDescription">IP adresi listeden kaldırılsın mı?</string>
     <string name="loaderFetchingServers">Sunucular alınıyor…</string>
     <string name="toastProfileSaved">Kaydedildi</string>
-    <string name="freeTrialExpiredTitle">ProtonVPN Plus deneme süresi doldu</string>
     <string name="tileConnected">Bağlandı: %1$s</string>
     <string name="dialogTitleAttention">Uyarı</string>
     <string name="saveProfileAlreadySaved">Zaten kaydedilmiş</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir web tarayıcısı algılanamadı.</string>
-    <string name="welcomeDialogTitle">Sürekli büyüyen ProtonVPN topluluğuna katıldığınız için teşekkürler.</string>
-    <string name="welcomeDialogDescription">Oturum açmak için yeni oluşturulan hesap kimlik doğrulama bilgilerinizi kullanın.</string>
-    <string name="welcomeDialogTitleTrial">Size teşekkür etmek için, Plus tarifemizi ücretsiz olarak 7 gün deneme olanağı veriyoruz. Bu deneme ile gelişmiş özellikleri ve Plus sunucularını kullanabilirsiniz. Deneme süresinin sonunda, Ücretsiz tarifeye geri dönecek ve yalnızca Free sunucularına erişebileceksiniz.</string>
     <string name="toastLoginAuthVersionError">Desteklenmeyen kimlik doğrulama sürümü nedeniyle oturum açılamadı. Lütfen destek ekibiyle görüşün.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
     <string name="troubleshootButton">Sorun gider</string>
@@ -388,26 +381,6 @@
     <string name="tv_signout_dialog_ok">Oturumu kapat</string>
     <string name="tv_quick_connect_recommened">Önerilen</string>
     <string name="tv_quick_connect_favourite">Beğenilenlere ekle</string>
-    <string name="tv_trial_counter_label">Deneme</string>
-    <string name="tv_trial_title">7 günlük yayın akışı erişimi</string>
-    <string name="tv_trial_summary"><![CDATA[Hoş geldiniz hediyesi olarak ilk 7 gün boyunca, tüm ProtonVPN sunucularına ve yayın akışı hizmetlerine <b>Plus tarifesi</b> ile erişin.<br>/ günün sonunda tarifeniz <b>Ücretsiz</b> olarak değiştirilip bazı hizmetlere erişiminiz sınırlandırabilir.]]></string>
-    <string name="tv_trial_ends_in">Kalan deneme süreniz:</string>
-    <plurals name="counter_days">
-        <item quantity="one">%1$s gün</item>
-        <item quantity="other">%1$s gün</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="one">%1$s saat</item>
-        <item quantity="other">%1$s saat</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="one">%1$s dakika</item>
-        <item quantity="other">%1$s dakika</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="one">%1$s saniye</item>
-        <item quantity="other">%1$s saniye</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">Ülke kullanılamıyor</string>
     <string name="tv_country_maintenance_dialog_description">Lütfen bir süre sonra yeniden deneyin ya da başka bir ülke seçin.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

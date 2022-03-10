@@ -90,13 +90,10 @@
     <string name="accountUser">Gebruiker:</string>
     <string name="accountType">Accounttype:</string>
     <string name="accountTier">Actief abonnement:</string>
-    <string name="accountTrialExpires"><![CDATA[Uw proefperiode eindigt in<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Versie:</string>
     <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> dashboard.]]></string>
     <string name="accountButtonManage">Account beheren</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="freeTrialExpired">"Uw 7 dagen gratis proefperiode van ProtonVPN Plus is verlopen. U kunt ProtonVPN Free blijven gebruiken, maar als u het project wilt steunen en hogere snelheden en meer functies wilt krijgen, upgrade dan naar een betaald abonnement."</string>
-    <string name="freeTVTrialExpired"><![CDATA[Uw 7 dagen gratis ProtonVPN Plus proefperiode is verlopen.<br>U kunt doorgaan met ProtonVPN te gebruiken, of u kunt genieten van alle streaming-diensten die we aanbieden door te upgraden naar Plus.<br>Bezoek <font color="%1$s">%2$s</font> voor het beheren van uw abonnement.]]></string>
     <string name="activityProfileTitle">Profiel</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Instellingen</string>
@@ -283,14 +280,10 @@
     <string name="removeExcludedIpDialogDescription">IP-adres uit de lijst verwijderen?</string>
     <string name="loaderFetchingServers">Servers ophalen…</string>
     <string name="toastProfileSaved">Opgeslagen</string>
-    <string name="freeTrialExpiredTitle">ProtonVPN Plus proefperiode verlopen</string>
     <string name="tileConnected">Verbonden: %1$s</string>
     <string name="dialogTitleAttention">Attentie</string>
     <string name="saveProfileAlreadySaved">Reeds opgeslagen</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
-    <string name="welcomeDialogTitle">Bedankt voor het lid worden van een steeds groter wordende ProtonVPN gemeenschap.</string>
-    <string name="welcomeDialogDescription">Gebruik uw nieuwe accountgegevens om in te loggen.</string>
-    <string name="welcomeDialogTitleTrial">Als dank geven we u een gratis 7-daagse proefversie van ons Plus abonnement. Het stelt u in staat om geavanceerde functies en Plus servers te proberen. Aan het einde van de proefperiode keert u terug naar een gratis abonnement en heeft u alleen toegang tot de gratis servers.</string>
     <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
     <string name="troubleshootButton">Probleemoplossing</string>
@@ -388,26 +381,6 @@
     <string name="tv_signout_dialog_ok">Uitloggen</string>
     <string name="tv_quick_connect_recommened">Aanbevolen</string>
     <string name="tv_quick_connect_favourite">Favoriet</string>
-    <string name="tv_trial_counter_label">Proefperiode</string>
-    <string name="tv_trial_title">7 dagen volledig streamen</string>
-    <string name="tv_trial_summary"><![CDATA[Als welkomstgeschenk, krijg toegang tot alle ProtonVPN servers en streamingdiensten gedurende de eerste 7 dagen met een <b>proef Plus abonnement</b>.<br>Uw plan zal veranderen in <b>Gratis</b> en uw toegang tot bepaalde diensten kan beperkt zijn.]]></string>
-    <string name="tv_trial_ends_in">Uw proefperiode loopt af in</string>
-    <plurals name="counter_days">
-        <item quantity="one">%1$s dag</item>
-        <item quantity="other">%1$s dagen</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="one">%1$s uur</item>
-        <item quantity="other">%1$s uren</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="one">%1$s minuut</item>
-        <item quantity="other">%1$s minuten</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="one">%1$s seconde</item>
-        <item quantity="other">%1$s seconden</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">Land is niet beschikbaar</string>
     <string name="tv_country_maintenance_dialog_description">Probeer het later opnieuw of selecteer een ander land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

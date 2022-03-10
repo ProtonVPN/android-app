@@ -368,15 +368,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideUserPlanManager(
-        api: ProtonApiRetroFit,
-        vpnUserDao: VpnUserDao,
-        currentUser: CurrentUser,
-        vpnStateMonitor: VpnStateMonitor,
-    ): UserPlanManager = UserPlanManager(api, vpnStateMonitor, currentUser, vpnUserDao, System::currentTimeMillis)
-
-    @Singleton
-    @Provides
     fun provideVpnConnectionErrorHandler(
         api: ProtonApiRetroFit,
         appConfig: AppConfig,

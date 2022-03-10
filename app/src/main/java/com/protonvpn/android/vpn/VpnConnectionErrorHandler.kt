@@ -51,7 +51,6 @@ import java.io.Serializable
 sealed class SwitchServerReason : Serializable {
 
     data class Downgrade(val fromTier: String, val toTier: String) : SwitchServerReason()
-    object TrialEnded : SwitchServerReason()
     object UserBecameDelinquent : SwitchServerReason()
     object ServerInMaintenance : SwitchServerReason()
     object ServerUnreachable : SwitchServerReason()
@@ -136,12 +135,6 @@ class VpnConnectionErrorHandler(
         changes: List<UserPlanManager.InfoChange>
     ): VpnFallbackResult.Switch? {
         for (change in changes) when (change) {
-            PlanChange.TrialEnded ->
-                return VpnFallbackResult.Switch.SwitchProfile(
-                    currentServer,
-                    serverManager.defaultFallbackConnection,
-                    SwitchServerReason.TrialEnded
-                )
             is PlanChange.Downgrade -> {
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,

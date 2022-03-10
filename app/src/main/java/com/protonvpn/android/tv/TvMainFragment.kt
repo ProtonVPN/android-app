@@ -56,9 +56,7 @@ import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,9 +71,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (viewModel.shouldShowTrialDialog())
-            requireActivity().launchActivity<TvTrialDialogActivity>()
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
             if (item != null) {

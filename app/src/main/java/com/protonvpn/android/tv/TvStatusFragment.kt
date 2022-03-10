@@ -24,28 +24,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.AndroidUtils.launchTvDialog
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.getThemeColorId
-import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import me.proton.core.util.kotlin.exhaustive
 import javax.inject.Inject
 
@@ -63,45 +56,10 @@ class TvStatusFragment : Fragment() {
     ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(TvMainViewModel::class.java)
-        lifecycleScope.launchWhenResumed {
-            viewModel.userPlanChangeEvent.collect { infoChange ->
-                if (infoChange is PlanChange.TrialEnded) {
-                    showTrialExpiredDialog()
-                }
-                initTrial()
-            }
-        }
-        initTrial()
-        if (viewModel.shouldShowExpirationDialog()) {
-            showTrialExpiredDialog()
-        }
-
         viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
             updateState(it)
         })
         return binding.root
-    }
-
-    private fun showTrialExpiredDialog() {
-        requireContext().launchTvDialog(
-            titleRes = getString(R.string.freeTrialExpiredTitle),
-            descriptionRes = getString(
-                R.string.freeTVTrialExpired,
-                requireContext().getThemeColorId(R.attr.colorAccent).toStringHtmlColorNoAlpha(),
-                Constants.TV_UPGRADE_LINK),
-            iconRes = R.drawable.ic_proton_green
-        )
-        viewModel.setExpirationDialogAsShown()
-    }
-
-    private fun initTrial() = with(binding) {
-        textTrialTitle.isVisible = viewModel.isTrialUser()
-        textTrialPeriod.isVisible = viewModel.isTrialUser()
-        if (viewModel.isTrialUser()) {
-            lifecycleScope.launchWhenResumed {
-                viewModel.getTrialPeriodFlow(requireContext()).collect { textTrialPeriod.text = it }
-            }
-        }
     }
 
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {

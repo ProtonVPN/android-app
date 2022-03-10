@@ -51,7 +51,8 @@ class LoginTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
     private val hiltRule = ProtonHiltAndroidRule(this)
-    @get:Rule val rules = RuleChain
+    @get:Rule
+    val rules = RuleChain
         .outerRule(hiltRule)
         .around(activityRule)
 
@@ -88,12 +89,5 @@ class LoginTestsTv {
         loginRobot.signIn()
             .waitUntilLoginCodeIsDisplayed()
             .verify { loginCodeViewIsDisplayed() }
-    }
-
-    @After
-    fun tearDown() {
-        runBlocking(Dispatchers.Main) {
-            userDataHelper.userData.onLogout()
-        }
     }
 }

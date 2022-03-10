@@ -90,13 +90,10 @@
     <string name="accountUser">Korisnik:</string>
     <string name="accountType">Vrsta računa:</string>
     <string name="accountTier">Aktivna pretplata:</string>
-    <string name="accountTrialExpires"><![CDATA[Vaš probni period završava za<br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Verzija:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
     <string name="accountButtonManage">Upravljanje korisničkim računom</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="freeTrialExpired">"Isteklo je vaše 7-dnevno besplatno probno razdoblje ProtonVPN Plusa. Možete i dalje koristiti ProtonVPN Free, ali ako želite podržati projekt i imati veće brzine i više značajki, nadogradite na plaćeni plan."</string>
-    <string name="freeTVTrialExpired"><![CDATA[Isteklo je vaše 7-dnevno besplatno probno razdoblje za ProtonVPN Plus.<br>Možete i dalje koristiti ProtonVPN Free ili možete uživati u svim uslugama streaminga koje nudimo nadogradnjom na Plus.<br>Posjetite<font color="%1$s">%2$s</font> za upravljanje pretplatom.]]></string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Korisnički račun</string>
     <string name="activitySettingsTitle">Postavke</string>
@@ -285,14 +282,10 @@
     <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
     <string name="loaderFetchingServers">Dohvaćanje poslužitelja…</string>
     <string name="toastProfileSaved">Spremljeno</string>
-    <string name="freeTrialExpiredTitle">ProtonVPN Plus probni period je istekao</string>
     <string name="tileConnected">Povezan: %1$s</string>
     <string name="dialogTitleAttention">Pažnja</string>
     <string name="saveProfileAlreadySaved">Već spremljeno</string>
     <string name="openUrlError">%1$s se ne može otvoriti. Web preglednik nije otkriven na vašem uređaju.</string>
-    <string name="welcomeDialogTitle">Hvala vam što ste se pridružili sve većoj ProtonVPN zajednici.</string>
-    <string name="welcomeDialogDescription">Koristite novostvorene pristupne podatke za prijavu.</string>
-    <string name="welcomeDialogTitleTrial">Kao zahvala, poklanjamo vam besplatno 7-dnevno probno razdoblje našeg Plus plana. Omogućuje vam upotrebu naprednih značajki i Plus poslužitelja. Na kraju probnog perioda biti će te vraćeni na Besplatni plan i imat ćete samo pristup besplatnim poslužitelji.</string>
     <string name="toastLoginAuthVersionError">Ne mogu se prijaviti zbog nepodržane auth verzije. Molimo kontaktirajte podršku.</string>
     <string name="loaderErrorTimeout">Veza je istekla. Molimo pokušajte ponovno.</string>
     <string name="troubleshootButton">Rješavanje problema</string>
@@ -390,30 +383,6 @@
     <string name="tv_signout_dialog_ok">Odjava</string>
     <string name="tv_quick_connect_recommened">Preporučeno</string>
     <string name="tv_quick_connect_favourite">Omiljeno</string>
-    <string name="tv_trial_counter_label">Probni period</string>
-    <string name="tv_trial_title">7 dana punog streaminga</string>
-    <string name="tv_trial_summary"><![CDATA[Kao poklon dobrodošlice, pristupite svim ProtonVPN poslužiteljima i streaming uslugama tijekom prvih 7 dana pomoću <b>Plus probnog paketa</b>.<br>Vaš će se plan tada promijeniti u <b>Free</b> i vaš pristup za određene usluge može biti ograničen.]]></string>
-    <string name="tv_trial_ends_in">Vaš probni period istječe za</string>
-    <plurals name="counter_days">
-        <item quantity="one">%1$s dan</item>
-        <item quantity="few">%1$s dana</item>
-        <item quantity="other">%1$s dana</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="one">%1$s sat</item>
-        <item quantity="few">%1$s sata</item>
-        <item quantity="other">%1$s sati</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="one">%1$s minuta</item>
-        <item quantity="few">%1$s minute</item>
-        <item quantity="other">%1$s minuta</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="one">%1$s sekunda</item>
-        <item quantity="few">%1$s sekunde</item>
-        <item quantity="other">%1$s sekundi</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">Država nije dostupna</string>
     <string name="tv_country_maintenance_dialog_description">Pokušajte ponovno kasnije ili odaberite drugu državu.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

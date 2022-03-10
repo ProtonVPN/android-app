@@ -90,13 +90,10 @@
     <string name="accountUser">Usuario:</string>
     <string name="accountType">Tipo de cuenta:</string>
     <string name="accountTier">Suscripción activa:</string>
-    <string name="accountTrialExpires"><![CDATA[Su prueba termina en <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Versión:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gestionar su suscripción, vaya al panel de control en <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestionar cuenta</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="freeTrialExpired">"Su prueba gratuita de 7 días de ProtonVPN Plus ha expirado. Puede continuar usando ProtonVPN Free, pero si desea apoyar el proyecto y tener velocidades mayores y funciones, mejore a un plan de pago."</string>
-    <string name="freeTVTrialExpired"><![CDATA[Su prueba gratuita de 7 días de ProtonVPN Plus ha expirado.<br>Puede continuar usando ProtonVPN Free, o puede disfrutar de todos los servicios de streaming que proporcionamos actualizando a Plus.<br>Visite <font color="%1$s">%2$s</font> para gestionar su suscripción.]]></string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Cuenta</string>
     <string name="activitySettingsTitle">Ajustes</string>
@@ -283,14 +280,10 @@
     <string name="removeExcludedIpDialogDescription">¿Eliminar la dirección IP de la lista?</string>
     <string name="loaderFetchingServers">Cargando servidores…</string>
     <string name="toastProfileSaved">Guardado</string>
-    <string name="freeTrialExpiredTitle">Prueba de ProtonVPN Plus expirada</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="dialogTitleAttention">Atención</string>
     <string name="saveProfileAlreadySaved">Ya guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
-    <string name="welcomeDialogTitle">Gracias por unirse a la comunidad creciente de ProtonVPN.</string>
-    <string name="welcomeDialogDescription">Utilice las credenciales de su cuenta recién creada para iniciar sesión.</string>
-    <string name="welcomeDialogTitleTrial">Para agradecerle, le damos una prueba gratuita de 7 días de nuestro plan Plus. Esto le permite usar características avanzadas y los servidores Plus. Al final de la prueba, volverá a un plan gratuito y sólo tendrá acceso a los servidores gratuitos.</string>
     <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no soportada. Por favor, contacte al soporte.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Por favor, inténtelo de nuevo.</string>
     <string name="troubleshootButton">Solución de problemas</string>
@@ -388,26 +381,6 @@
     <string name="tv_signout_dialog_ok">Cerrar sesión</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
     <string name="tv_quick_connect_favourite">Favorito</string>
-    <string name="tv_trial_counter_label">Prueba</string>
-    <string name="tv_trial_title">7 días de transmisión completa</string>
-    <string name="tv_trial_summary"><![CDATA[Como regalo de bienvenida, acceda a todos los servidores de ProtonVPN y servicios de streaming durante los primeros 7 días con una <b>prueba del plan Plus</b>.<br>Su plan cambiará entonces a <b>Free</b> y su acceso a ciertos servicios podría ser limitado.]]></string>
-    <string name="tv_trial_ends_in">Su prueba termina en</string>
-    <plurals name="counter_days">
-        <item quantity="one">%1$s día</item>
-        <item quantity="other">%1$s días</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="one">%1$s hora</item>
-        <item quantity="other">%1$s horas</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="one">%1$s minuto</item>
-        <item quantity="other">%1$s minutos</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="one">%1$s segundo</item>
-        <item quantity="other">%1$s segundos</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">País no disponible</string>
     <string name="tv_country_maintenance_dialog_description">Intente de nuevo más tarde o seleccione un país diferente.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

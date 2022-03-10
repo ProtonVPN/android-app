@@ -87,7 +87,6 @@ class NotificationHelper(
             SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_title
             SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_title
             SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_title
-            SwitchServerReason.TrialEnded -> R.string.freeTrialExpiredTitle
             SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_title
         }
     )
@@ -98,7 +97,6 @@ class NotificationHelper(
             SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_content
             SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
             SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_content
-            SwitchServerReason.TrialEnded -> R.string.freeTrialExpired
             SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_content
         }
     )

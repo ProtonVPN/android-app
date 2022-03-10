@@ -86,7 +86,6 @@ class TvMainViewModel @Inject constructor(
     certificateRepository: CertificateRepository,
 ) : MainViewModel(
         mainScope,
-        userData,
         userPlanManager,
         certificateRepository,
         logoutUseCase,

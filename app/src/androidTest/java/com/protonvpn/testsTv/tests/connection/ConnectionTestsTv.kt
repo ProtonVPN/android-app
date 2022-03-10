@@ -134,7 +134,6 @@ class ConnectionTestsTv {
     fun tearDown() {
         runBlocking(Dispatchers.Main) {
             serviceTestHelper.connectionManager.disconnect("test tear down")
-            userDataHelper.userData.onLogout()
         }
     }
 }
