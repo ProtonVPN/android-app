@@ -108,6 +108,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -134,6 +135,7 @@ public class HomeActivity extends VpnActivity {
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.imageNotification) ImageView imageNotification;
     @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
+    @BindView(R.id.fragmentSearchResults) FragmentContainerView fragmentSearchResults;
     private MenuItem searchMenuItem;
 
     VpnStateFragment fragment;
@@ -220,7 +222,7 @@ public class HomeActivity extends VpnActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
         initSearchView(menu.findItem(R.id.action_search));
         return super.onCreateOptionsMenu(menu);
@@ -369,6 +371,14 @@ public class HomeActivity extends VpnActivity {
         searchMenuItem = menuItem;
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint(getString(R.string.server_search_hint));
+
+        // Restore searchView state after Activity recreated.
+        if (fragmentSearchResults.getFragment() != null) {
+            menuItem.expandActionView();
+            searchView.setIconified(false);
+            searchView.setQuery(searchViewModel.getCurrentQuery(), false);
+        }
+
         searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {

@@ -83,6 +83,7 @@ class SearchViewModel @Inject constructor(
             .thenBy(collator, Search.Match<*>::text)
 
     private val query = savedStateHandle.getLiveData("search_query", "")
+    val currentQuery = query.value
 
     val viewState: Flow<ViewState> =
         combine(query.asFlow(), currentUser.vpnUserFlow, vpnStateMonitor.status) { query, vpnUser, vpnStatus ->
