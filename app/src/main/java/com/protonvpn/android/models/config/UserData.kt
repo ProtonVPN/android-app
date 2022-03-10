@@ -30,8 +30,6 @@ import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.flow.MutableSharedFlow
-import org.joda.time.DateTime
-import org.joda.time.Minutes
 import java.io.Serializable
 
 enum class Setting(val logName: String) {
@@ -111,8 +109,6 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.RESTRICTED_NAT)
         }
 
-    private var trialDialogShownAt: DateTime? = null
-
     var selectedProtocol: VpnProtocol = VpnProtocol.Smart
         private set
 
@@ -140,19 +136,6 @@ class UserData private constructor() : Serializable {
     private fun commitUpdate(setting: Setting) {
         Storage.save(this)
         settingChangeEvent.tryEmit(setting)
-        updateEvent.emit()
-    }
-
-    fun onLogout() {
-        setTrialDialogShownAt(null)
-    }
-
-    fun wasTrialDialogRecentlyShowed() =
-        trialDialogShownAt != null && Minutes.minutesBetween(trialDialogShownAt, DateTime()).minutes < 360
-
-    fun setTrialDialogShownAt(trialDialogShownAt: DateTime?) {
-        this.trialDialogShownAt = trialDialogShownAt
-        Storage.save(this)
         updateEvent.emit()
     }
 

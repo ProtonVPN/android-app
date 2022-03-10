@@ -148,14 +148,6 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorTrialEnd() = runBlockingTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.PlanChange.TrialEnded)
-        assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(directConnectionParams.server, defaultFallbackConnection, SwitchServerReason.TrialEnded),
-            handler.onAuthError(directConnectionParams))
-    }
-
-    @Test
     fun testAuthErrorDelinquent() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
         assertEquals(
@@ -349,11 +341,6 @@ class VpnConnectionErrorHandlerTests {
         every { vpnStateMonitor.isEstablishingOrConnected } returns true
         every { vpnStateMonitor.connectionParams } returns directConnectionParams
         val mockedServer: Server = mockk()
-
-        testTrackingVpnInfoChanges(
-            listOf(UserPlanManager.InfoChange.PlanChange.TrialEnded),
-            VpnFallbackResult.Switch.SwitchProfile(mockedServer, defaultFallbackConnection, SwitchServerReason.TrialEnded)
-        )
 
         every { vpnUser.isFreeUser } returns true
         every { vpnUser.isBasicUser } returns false

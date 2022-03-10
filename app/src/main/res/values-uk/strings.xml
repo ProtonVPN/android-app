@@ -90,13 +90,10 @@
     <string name="accountUser">Користувач:</string>
     <string name="accountType">Тип облікового запису:</string>
     <string name="accountTier">Чинна передплата:</string>
-    <string name="accountTrialExpires"><![CDATA[Ваш пробний період завершується <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Версія:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Керувати обліковим записом</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="freeTrialExpired">"Ваші 7 днів безплатного користування ProtonVPN Plus завершились. Ви можете й надалі використовувати ProtonVPN Free, але якщо бажаєте підтримати проєкт й отримати вищу швидкість та більше можливостей, передплатіть тарифний план."</string>
-    <string name="freeTVTrialExpired"><![CDATA[Ваш 7-денний безплатний пробний період ProtonVPN Plus завершився<br> Ви можете продовжувати користуватися ProtonVPN Free, або насолоджуватися всіма потоковими послугами, які ми надаємо, перейшовши на Plus.<br> Відвідайте <font color="%1$s">%2$s</font> для керування передплатою.]]></string>
     <string name="activityProfileTitle">Профіль</string>
     <string name="activityAccountTitle">Обліковий запис</string>
     <string name="activitySettingsTitle">Налаштування</string>
@@ -287,14 +284,10 @@
     <string name="removeExcludedIpDialogDescription">Вилучити IP-адресу зі списку?</string>
     <string name="loaderFetchingServers">Отримання переліку серверів…</string>
     <string name="toastProfileSaved">Збережено</string>
-    <string name="freeTrialExpiredTitle">Термін дії ProtonVPN Plus Trial завершився</string>
     <string name="tileConnected">Під\'єднано: %1$s</string>
     <string name="dialogTitleAttention">Увага</string>
     <string name="saveProfileAlreadySaved">Вже збережено</string>
     <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
-    <string name="welcomeDialogTitle">Дякуємо за приєднання до спільноти ProtonVPN.</string>
-    <string name="welcomeDialogDescription">Скористайтеся своїми нещодавно створеними обліковими даними для входу.</string>
-    <string name="welcomeDialogTitleTrial">Як подяка, ми даруємо вам безплатну 7-денну пробну версію тарифного плану Plus. Він дає змогу користуватися розширеними функціями та серверами Plus. Після завершення пробного періоду ви повернетеся на тарифний план Free і матимете доступ тільки до серверів Free.</string>
     <string name="toastLoginAuthVersionError">Неможливо увійти в систему через непідтримувану версію авторизації. Будь ласка, зверніться до служби підтримки.</string>
     <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>
     <string name="troubleshootButton">Усунення проблем</string>
@@ -392,34 +385,6 @@
     <string name="tv_signout_dialog_ok">Вийти</string>
     <string name="tv_quick_connect_recommened">Рекомендовано</string>
     <string name="tv_quick_connect_favourite">Улюблене</string>
-    <string name="tv_trial_counter_label">Пробна версія</string>
-    <string name="tv_trial_title">7 днів необмеженої трансляції</string>
-    <string name="tv_trial_summary"><![CDATA[Як привітальний подарунок, отримайте доступ до всіх серверів ProtonVPN зі службами потокової трансляції протягом перших 7 днів із пробною версією плану <b>Plus</b>.<br>Потім ваш план зміниться на <b>Free</b>, а ваш доступ до деяких сервісів може бути обмежений.]]></string>
-    <string name="tv_trial_ends_in">Завершення пробного періоду через</string>
-    <plurals name="counter_days">
-        <item quantity="one">%1$s день</item>
-        <item quantity="few">%1$s дні</item>
-        <item quantity="many">%1$s днів</item>
-        <item quantity="other">%1$s днів</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="one">%1$s година</item>
-        <item quantity="few">%1$s години</item>
-        <item quantity="many">%1$s годин</item>
-        <item quantity="other">%1$s годин</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="one">%1$s хвилина</item>
-        <item quantity="few">%1$s хвилини</item>
-        <item quantity="many">%1$s хвилин</item>
-        <item quantity="other">%1$s хвилин</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="one">%1$s секунда</item>
-        <item quantity="few">%1$s секунди</item>
-        <item quantity="many">%1$s секунд</item>
-        <item quantity="other">%1$s секунд</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">Країна недоступна</string>
     <string name="tv_country_maintenance_dialog_description">Будь ласка, повторіть спробу пізніше або оберіть іншу країну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

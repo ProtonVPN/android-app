@@ -27,11 +27,6 @@ import com.protonvpn.android.models.vpn.Server
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
-import org.joda.time.DateTime
-import org.joda.time.Days
-import org.joda.time.Interval
-import org.joda.time.Period
-import java.util.concurrent.TimeUnit
 
 @Entity(
     primaryKeys = ["userId"],
@@ -68,7 +63,6 @@ data class VpnUser(
         "ProtonVPN Account" else "ProtonMail Account"
 
     val isFreeUser get() = maxTier == 0
-    val isTrialUser get() = planName == "trial"
     val isBasicUser get() = userTier == 1
     val isUserBasicOrAbove get() = userTier > 0
     val isUserPlusOrAbove get() = userTier > 1
@@ -76,22 +70,6 @@ data class VpnUser(
 
     val userTier: Int get() = maxTier ?: 0
     val userTierName: String get() = planName ?: "free"
-
-    val expirationTimeMs: Long get() = TimeUnit.SECONDS.toMillis(expirationTime.toLong())
-    val isRemainingTimeAccessible: Boolean
-        get() = expirationTime != 0
-
-    fun isTrialExpired(nowMs: Long): Boolean = expirationTimeMs < nowMs
-
-    fun trialRemainingTime(nowMs: Long): Period =
-        if (!isRemainingTimeAccessible)
-            Days.days(7).toPeriod()
-        else try {
-            val interval = Interval(DateTime(nowMs), DateTime(expirationTimeMs))
-            interval.toPeriod()
-        } catch (e: IllegalArgumentException) {
-            Period(0, 0, 0, 0)
-        }
 }
 
 fun VpnUser?.hasAccessToServer(server: Server?) =

@@ -26,22 +26,19 @@ import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
-import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserPlanManager(
+@Singleton
+class UserPlanManager @Inject constructor(
     private val api: ProtonApiRetroFit,
-    private val vpnStateMonitor: VpnStateMonitor,
     private val currentUser: CurrentUser,
     private val vpnUserDao: VpnUserDao,
-    private val wallClock: () -> Long
 ) {
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
-            object TrialEnded : PlanChange()
             data class Downgrade(val fromPlan: String, val toPlan: String) : PlanChange()
             object Upgrade : PlanChange()
         }
@@ -50,8 +47,6 @@ class UserPlanManager(
 
         override fun toString(): String = this.javaClass.simpleName
     }
-
-    fun isTrialUser() = currentUser.vpnUserCached()?.isTrialUser == true
 
     val infoChangeFlow = MutableSharedFlow<List<InfoChange>>()
 
@@ -73,12 +68,8 @@ class UserPlanManager(
                     changes += InfoChange.UserBecameDelinquent
                 when {
                     newUserInfo.userTier < currentUserInfo.userTier -> {
-                        changes += if (currentUserInfo.isTrialUser) {
-                            Storage.saveBoolean(PREF_EXPIRATION_DIALOG_DUE, true)
-                            InfoChange.PlanChange.TrialEnded
-                        } else {
+                        changes +=
                             InfoChange.PlanChange.Downgrade(currentUserInfo.userTierName, newUserInfo.userTierName)
-                        }
                     }
                     newUserInfo.userTier > currentUserInfo.userTier ->
                         changes += InfoChange.PlanChange.Upgrade
@@ -93,28 +84,5 @@ class UserPlanManager(
             infoChangeFlow.emit(it)
         }
         return changes
-    }
-
-    fun getTrialPeriodFlow() = flow {
-        do {
-            val user = currentUser.vpnUser()
-            if (user == null || !user.isTrialUser)
-                break
-
-            if (user.isRemainingTimeAccessible && user.isTrialExpired(wallClock())) {
-                refreshVpnInfo()
-                break
-            }
-            if (!user.isRemainingTimeAccessible && vpnStateMonitor.isConnected)
-                refreshVpnInfo()
-
-            currentUser.vpnUser()?.let { emit(it.trialRemainingTime(wallClock())) }
-            delay(TRIAL_UPDATE_DELAY_MILLIS)
-        } while (true)
-    }
-
-    companion object {
-        private const val TRIAL_UPDATE_DELAY_MILLIS: Long = 1000
-        const val PREF_EXPIRATION_DIALOG_DUE = "ProtonApplication.EXPIRATION_DIALOG_DUE"
     }
 }

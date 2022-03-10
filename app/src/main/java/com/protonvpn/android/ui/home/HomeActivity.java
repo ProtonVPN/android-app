@@ -68,6 +68,7 @@ import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
+import com.protonvpn.android.ui.home.vpn.VpnActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
@@ -117,7 +118,7 @@ import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
-public class HomeActivity extends PoolingActivity {
+public class HomeActivity extends VpnActivity {
 
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabs) TabLayout tabs;
@@ -585,8 +586,6 @@ public class HomeActivity extends PoolingActivity {
 
     private void onPlanChanged(UserPlanManager.InfoChange.PlanChange change) {
         switchSecureCore.setChecked(userData.getSecureCoreEnabled());
-        if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
-            showExpiredDialog();
         EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
     }
 

@@ -90,13 +90,10 @@
     <string name="accountUser">Pengguna:</string>
     <string name="accountType">Tipe akun:</string>
     <string name="accountTier">Paket berlangganan yang aktif:</string>
-    <string name="accountTrialExpires"><![CDATA[Masa percobaan Anda akan berakhir dalam <br/><font color=#FFFFFF> %1$s </font> <br/>]]></string>
     <string name="accountVersion">Versi:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, Anda harus menuju ke panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Kelola akun</string>
     <string name="accountFree">ProtonVPN Gratis</string>
-    <string name="freeTrialExpired">"Masa uji coba gratis 7 hari ProtonVPN Plus Anda telah kadaluarsa. Anda dapat terus memakai ProtonVPN Gratis, tapi jika Anda ingin mendukung proyek ini serta memperoleh kecepatan dan lebih banyak fitur, mohon tingkatkan ke paket berbayar."</string>
-    <string name="freeTVTrialExpired"><![CDATA[Masa uji coba ProtonVPN Plus gratis 7 hari Anda telah berakhir.<br>Anda dapat terus menggunakan ProtonVPN versi Gratis, atau Anda dapat menikmati seluruh layanan streaming yang kami sediakan dengan meningkatkan jenis akun Anda ke Plus.<br>Kunjungi<font color="%1$s">%2$s</font> untuk mengelola langganan Anda.]]></string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
     <string name="activitySettingsTitle">Pengaturan</string>
@@ -281,14 +278,10 @@
     <string name="removeExcludedIpDialogDescription">Hapus alamat IP dari daftar?</string>
     <string name="loaderFetchingServers">Mengambil server…</string>
     <string name="toastProfileSaved">Disimpan</string>
-    <string name="freeTrialExpiredTitle">Uji coba ProtonVPN Plus kedaluwarsa</string>
     <string name="tileConnected">Tersambung: %1$s</string>
     <string name="dialogTitleAttention">Perhatian</string>
     <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Peramban web tidak dapat dideteksi pada perangkat Anda.</string>
-    <string name="welcomeDialogTitle">Terima kasih telah bergabung dengan komunitas ProtonVPN yang terus berkembang.</string>
-    <string name="welcomeDialogDescription">Gunakan kredensial akun Anda yang baru dibuat untuk masuk.</string>
-    <string name="welcomeDialogTitleTrial">Sebagai ucapan terima kasih, kami memberikan Anda secara gratis 7 hari uji coba paket Plus kami. Paket ini mengizinkan Anda mengakses fitur lanjutan dan server plus. Pada masa akhir periode uji coba, Anda akan kembali ke paket Free dan hanya dapat mengakses server gratis.</string>
     <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Mohon menghubungi kontak bantuan.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon ulangi lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
@@ -386,22 +379,6 @@
     <string name="tv_signout_dialog_ok">Keluar</string>
     <string name="tv_quick_connect_recommened">Direkomendasikan</string>
     <string name="tv_quick_connect_favourite">Favorit</string>
-    <string name="tv_trial_counter_label">Percobaan</string>
-    <string name="tv_trial_title">7 hari menonton penuh</string>
-    <string name="tv_trial_summary"><![CDATA[Sebagai hadiah selamat datang, akses semua peladen dan layanan aliran ProtonVPN selama 7 hari pertama dengan <b>uji coba paket Plus</b>.<br>Paket Anda akan berubah menjadi <b>Free</b> dan akses Anda ke sejumlah layanan dapat teratas.]]></string>
-    <string name="tv_trial_ends_in">Masa uji coba Anda berakhir dalam</string>
-    <plurals name="counter_days">
-        <item quantity="other">%1$s hari</item>
-    </plurals>
-    <plurals name="counter_hours">
-        <item quantity="other">%1$s jam</item>
-    </plurals>
-    <plurals name="counter_minutes">
-        <item quantity="other">%1$s menit</item>
-    </plurals>
-    <plurals name="counter_seconds">
-        <item quantity="other">%1$s detik</item>
-    </plurals>
     <string name="tv_country_maintenance_dialog_title">Negara tidak tersedia</string>
     <string name="tv_country_maintenance_dialog_description">Silakan coba lagi nanti atau pilih negara berbeda.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.

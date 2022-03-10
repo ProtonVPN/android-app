@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed
-) : MainViewModel(mainScope, userData, userPlanManager, certificateRepository, logoutUseCase, currentUser) {
+) : MainViewModel(mainScope, userPlanManager, certificateRepository, logoutUseCase, currentUser) {
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {

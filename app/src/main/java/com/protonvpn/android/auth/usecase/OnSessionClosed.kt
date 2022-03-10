@@ -47,7 +47,6 @@ class OnSessionClosed @Inject constructor(
         logoutFlow.emit(account)
         accountManager.removeAccount(account.userId)
         account.sessionId?.let { certificateRepository.clear(it) }
-        userData.onLogout()
         serverManager.clearCache()
     }
 }

@@ -18,32 +18,25 @@
  */
 package com.protonvpn.android.tv.main
 
-import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
-import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.Minutes
-import org.joda.time.Period
 import javax.inject.Inject
 
 @HiltViewModel
 open class MainViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val userData: UserData,
     private val userPlanManager: UserPlanManager,
     private val certificateRepository: CertificateRepository,
     private val logoutUseCase: Logout,
@@ -60,20 +53,6 @@ open class MainViewModel @Inject constructor(
         }
     }
 
-    fun isTrialUser() = userPlanManager.isTrialUser()
-
-    fun shouldShowTrialDialog(): Boolean {
-        if (isTrialUser() && !userData.wasTrialDialogRecentlyShowed()) {
-            userData.setTrialDialogShownAt(DateTime())
-            return true
-        }
-        return false
-    }
-
-    fun shouldShowExpirationDialog() = Storage.getBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE)
-
-    fun setExpirationDialogAsShown() = Storage.saveBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE, false)
-
     private suspend fun refreshVPNInfo() {
         currentUser.vpnUser()?.let { user ->
             val ageMinutes = Minutes.minutesBetween(DateTime(user.updateTime), DateTime()).minutes
@@ -82,23 +61,10 @@ open class MainViewModel @Inject constructor(
         }
     }
 
-    fun getTrialPeriodFlow(context: Context) = userPlanManager.getTrialPeriodFlow().map { period ->
-        trialRemainingTimeString(context, period)
-    }
-
     fun hasAccessToSecureCore() =
         currentUser.vpnUserCached()?.isUserPlusOrAbove == true
 
     fun logout() = mainScope.launch {
         logoutUseCase()
     }
-}
-
-fun trialRemainingTimeString(context: Context, period: Period): String {
-    val resources = context.resources
-    val days = resources.getQuantityString(R.plurals.counter_days, period.days, period.days)
-    val hours = resources.getQuantityString(R.plurals.counter_hours, period.hours, period.hours)
-    val minutes = resources.getQuantityString(R.plurals.counter_minutes, period.minutes, period.minutes)
-    val seconds = resources.getQuantityString(R.plurals.counter_seconds, period.seconds, period.seconds)
-    return "$days $hours $minutes $seconds"
 }
