@@ -33,6 +33,7 @@ object MockedServers {
     val serverList by lazy<List<Server>> {
         Json {
             isLenient = true
+            ignoreUnknownKeys = true
         }.decodeFromString(serverListJson)
     }
 
@@ -312,7 +313,106 @@ object MockedServers {
     },
     "Score": 3.434756,
     "Status": 0
-  }
+  },
+  {
+    "Name": "HK#1",
+    "EntryCountry": "HK",
+    "ExitCountry": "HK",
+    "Domain": "hk-01.protonvpn.net",
+    "Tier": 1,
+    "Features": 4,
+    "Region": null,
+    "City": "Hong Kong",
+    "Score": 2.5216639000000001,
+    "HostCountry": null,
+    "ID": "j_hMLdlh76xys5eR2S3OM9vlAgYylGQBiEzDeXLw1H-huHy2jwjwVqcKAPcdd6z2cXoklLuQTegkr3gnJXCB9w==",
+    "Location": {
+      "Lat": 22.280000000000001,
+      "Long": 114.14
+    },
+    "Status": 1,
+    "Servers": [
+      {
+        "EntryIP": "209.58.185.231",
+        "ExitIP": "209.58.185.231",
+        "Domain": "hk-01.protonvpn.net",
+        "ID": "j_hMLdlh76xys5eR2S3OM9vlAgYylGQBiEzDeXLw1H-huHy2jwjwVqcKAPcdd6z2cXoklLuQTegkr3gnJXCB9w==",
+        "Label": "0",
+        "X25519PublicKey": "nzkzjzhYV96YhWXVdhECFTymFb56q0VoTp9jSLuufng=",
+        "Generation": 0,
+        "Status": 1,
+        "ServicesDown": 0,
+        "ServicesDownReason": null
+      }
+    ],
+    "Load": 43
+  },
+  {
+    "Name": "UA#9",
+    "EntryCountry": "UA",
+    "ExitCountry": "UA",
+    "Domain": "ua-09.protonvpn.net",
+    "Tier": 1,
+    "Features": 0,
+    "Region": null,
+    "City": "Kyiv",
+    "Score": 2.2122074299999999,
+    "HostCountry": null,
+    "ID": "GWPFZO6TPCOsObEFVKv42FiXNxO-2WRBhzd-76Mcs7gn1IypC1-zhcf_4BkJcSIOAucz9-EUR8-tgfng32dzJA==",
+    "Location": {
+      "Lat": 50.450000000000003,
+      "Long": 30.52
+    },
+    "Status": 1,
+    "Servers": [
+      {
+        "EntryIP": "156.146.50.1",
+        "ExitIP": "156.146.50.1",
+        "Domain": "ua-09.protonvpn.net",
+        "ID": "AoG2GRy5in0JrHq2eyb_SUDjwG_iGm8K7TrRWStg3i1BCfQ9AV4bL4SPzQVQ-2w8S3NK21bpGpI0OBwuCoOcAQ==",
+        "Label": "0",
+        "X25519PublicKey": "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=",
+        "Generation": 0,
+        "Status": 1,
+        "ServicesDown": 0,
+        "ServicesDownReason": null
+      }
+    ],
+    "Load": 23
+  },
+  {
+      "Name": "EG#1",
+      "EntryCountry": "EG",
+      "ExitCountry": "EG",
+      "Domain": "node-eg-01.protonvpn.net",
+      "Tier": 2,
+      "Features": 0,
+      "Region": null,
+      "City": "Cairo",
+      "Score": 1.28381163,
+      "HostCountry": "RO",
+      "ID": "HSOB9ERcsgQ4zRb7nLM7Fo-xTbeIEkrIrw-BTMcJAo-u6P9Zgfq7HhZdECRvhEFiXg4TXgAbdANRDNWFf_NHlg==",
+      "Location": {
+        "Lat": 30.039999999999999,
+        "Long": 31.23
+      },
+      "Status": 1,
+      "Servers": [
+        {
+          "EntryIP": "188.214.122.82",
+          "ExitIP": "188.214.122.83",
+          "Domain": "node-eg-01.protonvpn.net",
+          "ID": "AhMR__eJY-NbWniGOcW3V8ihBpBjvCc59DFj2IZy4bLe3K0aRrIQXN9jlND-Wcl4Rb5fxPbqE82d06tMlIPXlw==",
+          "Label": "0",
+          "X25519PublicKey": "DUtOX4QuHcmlBk7bI5eoCSp8RLqV7NPIU8pywn1w0k0=",
+          "Generation": 0,
+          "Status": 1,
+          "ServicesDown": 0,
+          "ServicesDownReason": null
+        }
+      ],
+      "Load": 36
+    }
 ]
     """.trimIndent()
 }
