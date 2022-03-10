@@ -18,22 +18,22 @@
  */
 package com.protonvpn.test.shared
 
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 object MockedServers {
 
-    private val gson = GsonBuilder().setPrettyPrinting().create()
-    private val serverListType = object : TypeToken<List<Server>>() {}.type
-
+    @Suppress("JSON_FORMAT_REDUNDANT")
     val serverList by lazy<List<Server>> {
-        gson.fromJson(serverListJson, serverListType)
+        Json {
+            isLenient = true
+        }.decodeFromString(serverListJson)
     }
 
     val server by lazy { serverList.first() }
@@ -46,404 +46,273 @@ object MockedServers {
             setProtocol(protocol)
         }
 
+    @Suppress("ClassOrdering")
     private val serverListJson = """
-        [
-          {
-            "bestScore": false,
-            "city": "Toronto",
-            "region": "Ontario",
-            "connectingDomains": [
-              {
-                "entryDomain": "ca-01.protonvpn.com",
-                "entryIp": "127.0.0.1",
-                "exitIp": "127.0.0.1",
-                "id": "1",
-                "isOnline": true,
-                "publicKeyX25519": "fake-key"
-              }
-            ],
-            "domain": "ca-01.protonvpn.com",
-            "entryCountry": "CA",
-            "entryCountryCoordinates": {
-              "positionX": 875.0,
-              "positionY": 400.0
-            },
-            "exitCountry": "CA",
-            "features": 0,
-            "isOnline": true,
-            "keywords": [],
-            "load": "22",
-            "location": {
-              "latitude": "43.6328999999999999999",
-              "longitude": "-79.36109999999999993"
-            },
-            "score": 1.434756,
-            "selectedAsFastest": false,
-            "serverId": "1",
-            "serverName": "CA#1",
-            "tier": 1,
-            "translatedCoordinates": {
-              "positionX": 875.0,
-              "positionY": 400.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "2a764ed2-bd32-431a-9a35-162332e3957c"
-          },
-          {
-            "bestScore": false,
-            "city": "Toronto",
-            "connectingDomains": [
-              {
-                "entryDomain": "ca-02.protonvpn.com",
-                "entryIp": "127.0.0.2",
-                "exitIp": "127.0.0.2",
-                "isOnline": true
-              }
-            ],
-            "domain": "ca-02.protonvpn.com",
-            "entryCountry": "CA",
-            "entryCountryCoordinates": {
-              "positionX": 875.0,
-              "positionY": 400.0
-            },
-            "exitCountry": "CA",
-            "features": 0,
-            "isOnline": true,
-            "keywords": [],
-            "load": "22",
-            "location": {
-              "latitude": "43.6328999999999999999",
-              "longitude": "-79.36109999999999993"
-            },
-            "score": 1.434756,
-            "selectedAsFastest": false,
-            "serverId": "2",
-            "serverName": "CA#2",
-            "tier": 1,
-            "translatedCoordinates": {
-              "positionX": 875.0,
-              "positionY": 400.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "0911841d-86eb-4727-afa1-594bd0267e5f"
-          },
-          {
-            "bestScore": false,
-            "city": "New York City",
-            "connectingDomains": [
-              {
-                "entryDomain": "us-ny-01.protonvpn.com",
-                "entryIp": "127.0.0.3",
-                "exitIp": "127.0.0.3",
-                "isOnline": true
-              }
-            ],
-            "domain": "us-ny-01.protonvpn.com",
-            "entryCountry": "US",
-            "entryCountryCoordinates": {
-              "positionX": 760.0,
-              "positionY": 700.0
-            },
-            "exitCountry": "US",
-            "features": 0,
-            "isOnline": true,
-            "keywords": [],
-            "load": "22",
-            "location": {
-              "latitude": "40.729999999999997",
-              "longitude": "-73.935000000000002"
-            },
-            "score": 1.434756,
-            "selectedAsFastest": false,
-            "serverId": "3",
-            "serverName": "US-NY#1",
-            "tier": 1,
-            "translatedCoordinates": {
-              "positionX": 760.0,
-              "positionY": 700.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "9097fd70-82de-445b-b8c6-b2579b3f4afa"
-          },
-          {
-            "bestScore": false,
-            "city": "Stockholm",
-            "connectingDomains": [
-              {
-                "entryDomain": "se-01.protonvpn.com",
-                "entryIp": "127.0.0.4",
-                "exitIp": "127.0.0.4",
-                "isOnline": true
-              }
-            ],
-            "domain": "se-01.protonvpn.com",
-            "entryCountry": "SE",
-            "entryCountryCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "exitCountry": "SE",
-            "features": 4,
-            "isOnline": true,
-            "keywords": [
-              "p2p"
-            ],
-            "load": "10",
-            "location": {
-              "latitude": "59.329999999999998",
-              "longitude": "18.059999999999999"
-            },
-            "score": 3.434756,
-            "selectedAsFastest": false,
-            "serverId": "4",
-            "serverName": "SE#1",
-            "tier": 1,
-            "translatedCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "6f0d1f35-0969-4745-8066-061f2caf539c"
-          },
-          {
-            "bestScore": false,
-            "city": "Paris",
-            "translations": {
-              "City": "Paryż"
-            },
-            "connectingDomains": [
-              {
-                "entryDomain": "fr-01.protonvpn.com",
-                "entryIp": "127.0.0.5",
-                "exitIp": "127.0.0.5",
-                "isOnline": true
-              }
-            ],
-            "domain": "fr-01.protonvpn.com",
-            "entryCountry": "FR",
-            "entryCountryCoordinates": {
-              "positionX": 2310.0,
-              "positionY": 567.0
-            },
-            "exitCountry": "FR",
-            "features": 0,
-            "isOnline": true,
-            "keywords": [],
-            "load": "10",
-            "location": {
-              "latitude": "48.859999999999999",
-              "longitude": "2.3500000000000001"
-            },
-            "score": 3.434756,
-            "selectedAsFastest": false,
-            "serverId": "5",
-            "serverName": "FR#1",
-            "tier": 2,
-            "translatedCoordinates": {
-              "positionX": 2310.0,
-              "positionY": 567.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "78e1617b-8b85-4772-ac97-c1a0a56ba1e6"
-          },
-          {
-            "bestScore": false,
-            "connectingDomains": [
-              {
-                "entryDomain": "se-fr-01.protonvpn.com",
-                "entryIp": "127.0.0.6",
-                "exitIp": "127.0.0.6",
-                "isOnline": true
-              }
-            ],
-            "domain": "se-fr-01.protonvpn.com",
-            "entryCountry": "SE",
-            "entryCountryCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "exitCountry": "FR",
-            "features": 1,
-            "isOnline": true,
-            "keywords": [],
-            "load": "10",
-            "location": {
-              "latitude": "48.859999999999999",
-              "longitude": "2.3500000000000001"
-            },
-            "score": 4.434756,
-            "selectedAsFastest": false,
-            "serverId": "6",
-            "serverName": "SE-FR#1",
-            "tier": 2,
-            "translatedCoordinates": {
-              "positionX": 2310.0,
-              "positionY": 567.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "3be99579-8324-45f3-bf23-d0949c0a2f27"
-          },
-          {
-            "bestScore": false,
-            "connectingDomains": [
-              {
-                "entryDomain": "se-fi-01.protonvpn.com",
-                "entryIp": "127.0.0.7",
-                "exitIp": "127.0.0.7",
-                "isOnline": true
-              }
-            ],
-            "domain": "se-fi-01.protonvpn.com",
-            "entryCountry": "SE",
-            "entryCountryCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "exitCountry": "FI",
-            "features": 1,
-            "isOnline": true,
-            "keywords": [],
-            "load": "10",
-            "location": {
-              "latitude": "60.174999999999997",
-              "longitude": "24.940999999999999"
-            },
-            "score": 4.434756,
-            "selectedAsFastest": false,
-            "serverId": "9",
-            "serverName": "SE-FI#1",
-            "tier": 2,
-            "translatedCoordinates": {
-              "positionX": 2615.0,
-              "positionY": 295.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "5356c959-c904-48c1-b112-01dd713de36c"
-          },
-          {
-            "bestScore": false,
-            "connectingDomains": [
-              {
-                "entryDomain": "fr-fi-01.protonvpn.com",
-                "entryIp": "127.0.0.8",
-                "exitIp": "127.0.0.8",
-                "isOnline": true
-              }
-            ],
-            "domain": "fr-fi-01.protonvpn.com",
-            "entryCountry": "FR",
-            "entryCountryCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "exitCountry": "FI",
-            "features": 1,
-            "isOnline": true,
-            "keywords": [],
-            "load": "10",
-            "location": {
-              "latitude": "60.174999999999997",
-              "longitude": "24.940999999999999"
-            },
-            "score": 4.434756,
-            "selectedAsFastest": false,
-            "serverId": "10",
-            "serverName": "FR-FI#1",
-            "tier": 2,
-            "translatedCoordinates": {
-              "positionX": 2615.0,
-              "positionY": 295.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "5356c959-c904-48c1-b112-01dd713de36c"
-          },
-          {
-            "bestScore": false,
-            "connectingDomains": [
-              {
-                "entryDomain": "fi-01.protonvpn.com",
-                "entryIp": "127.0.0.9",
-                "exitIp": "127.0.0.9",
-                "isOnline": true
-              }
-            ],
-            "domain": "fi-01.protonvpn.com",
-            "entryCountry": "FI",
-            "entryCountryCoordinates": {
-              "positionX": 2615.0,
-              "positionY": 295.0
-            },
-            "exitCountry": "FI",
-            "features": 0,
-            "isOnline": true,
-            "keywords": [],
-            "load": "10",
-            "location": {
-              "latitude": "60.174999999999997",
-              "longitude": "24.940999999999999"
-            },
-            "score": 2.434756,
-            "selectedAsFastest": false,
-            "serverId": "12",
-            "serverName": "FI#1",
-            "tier": 1,
-            "translatedCoordinates": {
-              "positionX": 2615.0,
-              "positionY": 295.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "673a3f4a-1cf9-41a9-a9ef-a55c63b15492"
-          },
-          {
-            "bestScore": false,
-            "city": "Stockholm",
-            "connectingDomains": [
-              {
-                "entryDomain": "se-03.protonvpn.com",
-                "entryIp": "127.0.0.10",
-                "exitIp": "127.0.0.10",
-                "isOnline": true
-              }
-            ],
-            "domain": "se-03.protonvpn.com",
-            "entryCountry": "SE",
-            "entryCountryCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "exitCountry": "SE",
-            "features": 4,
-            "isOnline": false,
-            "keywords": [
-              "p2p"
-            ],
-            "load": "10",
-            "location": {
-              "latitude": "59.329999999999998",
-              "longitude": "18.059999999999999"
-            },
-            "score": 3.434756,
-            "selectedAsFastest": false,
-            "serverId": "13",
-            "serverName": "SE#3",
-            "tier": 0,
-            "translatedCoordinates": {
-              "positionX": 2485.0,
-              "positionY": 300.0
-            },
-            "mId": -1,
-            "mSelectedAppsHandling": "SELECTED_APPS_DISABLE",
-            "mUUID": "6f0d1f35-0969-4745-8066-061f2caf539c"
-          }
-        ]
+[
+  {
+    "ID": "1",
+    "EntryCountry": "CA",
+    "ExitCountry": "CA",
+    "Name": "CA#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.1",
+        "Domain": "ca-01.protonvpn.com",
+        "ExitIP": "127.0.0.1",
+        "ID": "1",
+        "X25519PublicKey": "fake-key"
+      }
+    ],
+    "Domain": "ca-01.protonvpn.com",
+    "Load": 22.0,
+    "Tier": 1,
+    "Region": "Ontario",
+    "City": "Toronto",
+    "Features": 0,
+    "Location": {
+      "Lat": "43.6328999999999999999",
+      "Long": "-79.36109999999999993"
+    },
+    "Score": 1.434756,
+    "Status": 1
+  },
+  {
+    "ID": "2",
+    "EntryCountry": "CA",
+    "ExitCountry": "CA",
+    "Name": "CA#2",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.2",
+        "Domain": "ca-02.protonvpn.com",
+        "ExitIP": "127.0.0.2",
+        "ID": null
+      }
+    ],
+    "Domain": "ca-02.protonvpn.com",
+    "Load": 22.0,
+    "Tier": 1,
+    "Region": null,
+    "City": "Toronto",
+    "Features": 0,
+    "Location": {
+      "Lat": "43.6328999999999999999",
+      "Long": "-79.36109999999999993"
+    },
+    "Score": 1.434756,
+    "Status": 1
+  },
+  {
+    "ID": "3",
+    "EntryCountry": "US",
+    "ExitCountry": "US",
+    "Name": "US-NY#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.3",
+        "Domain": "us-ny-01.protonvpn.com",
+        "ExitIP": "127.0.0.3",
+        "ID": null
+      }
+    ],
+    "Domain": "us-ny-01.protonvpn.com",
+    "Load": 22.0,
+    "Tier": 1,
+    "Region": null,
+    "City": "New York City",
+    "Features": 0,
+    "Location": {
+      "Lat": "40.729999999999997",
+      "Long": "-73.935000000000002"
+    },
+    "Score": 1.434756,
+    "Status": 1
+  },
+  {
+    "ID": "4",
+    "EntryCountry": "SE",
+    "ExitCountry": "SE",
+    "Name": "SE#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.4",
+        "Domain": "se-01.protonvpn.com",
+        "ExitIP": "127.0.0.4",
+        "ID": null
+      }
+    ],
+    "Domain": "se-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 1,
+    "Region": null,
+    "City": "Stockholm",
+    "Features": 4,
+    "Location": {
+      "Lat": "59.329999999999998",
+      "Long": "18.059999999999999"
+    },
+    "Score": 3.434756,
+    "Status": 1
+  },
+  {
+    "ID": "5",
+    "EntryCountry": "FR",
+    "ExitCountry": "FR",
+    "Name": "FR#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.5",
+        "Domain": "fr-01.protonvpn.com",
+        "ExitIP": "127.0.0.5",
+        "ID": null
+      }
+    ],
+    "Domain": "fr-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 2,
+    "Region": null,
+    "City": "Paris",
+    "Features": 0,
+    "Location": {
+      "Lat": "48.859999999999999",
+      "Long": "2.3500000000000001"
+    },
+    "Translations": {
+      "City": "Paryż"
+    },
+    "Score": 3.434756,
+    "Status": 1
+  },
+  {
+    "ID": "6",
+    "EntryCountry": "SE",
+    "ExitCountry": "FR",
+    "Name": "SE-FR#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.6",
+        "Domain": "se-fr-01.protonvpn.com",
+        "ExitIP": "127.0.0.6",
+        "ID": null
+      }
+    ],
+    "Domain": "se-fr-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 2,
+    "Region": null,
+    "City": null,
+    "Features": 1,
+    "Location": {
+      "Lat": "48.859999999999999",
+      "Long": "2.3500000000000001"
+    },
+    "Score": 4.434756,
+    "Status": 1
+  },
+  {
+    "ID": "9",
+    "EntryCountry": "SE",
+    "ExitCountry": "FI",
+    "Name": "SE-FI#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.7",
+        "Domain": "se-fi-01.protonvpn.com",
+        "ExitIP": "127.0.0.7",
+        "ID": null
+      }
+    ],
+    "Domain": "se-fi-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 2,
+    "Region": null,
+    "City": null,
+    "Features": 1,
+    "Location": {
+      "Lat": "60.174999999999997",
+      "Long": "24.940999999999999"
+    },
+    "Score": 4.434756,
+    "Status": 1
+  },
+  {
+    "ID": "10",
+    "EntryCountry": "FR",
+    "ExitCountry": "FI",
+    "Name": "FR-FI#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.8",
+        "Domain": "fr-fi-01.protonvpn.com",
+        "ExitIP": "127.0.0.8",
+        "ID": null
+      }
+    ],
+    "Domain": "fr-fi-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 2,
+    "Region": null,
+    "City": null,
+    "Features": 1,
+    "Location": {
+      "Lat": "60.174999999999997",
+      "Long": "24.940999999999999"
+    },
+    "Score": 4.434756,
+    "Status": 1
+  },
+  {
+    "ID": "12",
+    "EntryCountry": "FI",
+    "ExitCountry": "FI",
+    "Name": "FI#1",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.9",
+        "Domain": "fi-01.protonvpn.com",
+        "ExitIP": "127.0.0.9",
+        "ID": null
+      }
+    ],
+    "Domain": "fi-01.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 1,
+    "Region": null,
+    "City": null,
+    "Features": 0,
+    "Location": {
+      "Lat": "60.174999999999997",
+      "Long": "24.940999999999999"
+    },
+    "Score": 2.434756,
+    "Status": 1
+  },
+  {
+    "ID": "13",
+    "EntryCountry": "SE",
+    "ExitCountry": "SE",
+    "Name": "SE#3",
+    "Servers": [
+      {
+        "EntryIP": "127.0.0.10",
+        "Domain": "se-03.protonvpn.com",
+        "ExitIP": "127.0.0.10",
+        "ID": null
+      }
+    ],
+    "Domain": "se-03.protonvpn.com",
+    "Load": 10.0,
+    "Tier": 0,
+    "Region": null,
+    "City": "Stockholm",
+    "Features": 4,
+    "Location": {
+      "Lat": "59.329999999999998",
+      "Long": "18.059999999999999"
+    },
+    "Score": 3.434756,
+    "Status": 0
+  }
+]
     """.trimIndent()
 }
