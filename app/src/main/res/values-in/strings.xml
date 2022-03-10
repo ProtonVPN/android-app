@@ -94,11 +94,7 @@
     <string name="accountVersion">Versi:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, Anda harus menuju ke panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Kelola akun</string>
-    <string name="accountTrial">Uji coba ProtonVPN Plus</string>
     <string name="accountFree">ProtonVPN Gratis</string>
-    <string name="accountBasic">ProtonVPN Basic</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Masa uji coba gratis 7 hari ProtonVPN Plus Anda telah kadaluarsa. Anda dapat terus memakai ProtonVPN Gratis, tapi jika Anda ingin mendukung proyek ini serta memperoleh kecepatan dan lebih banyak fitur, mohon tingkatkan ke paket berbayar."</string>
     <string name="freeTVTrialExpired"><![CDATA[Masa uji coba ProtonVPN Plus gratis 7 hari Anda telah berakhir.<br>Anda dapat terus menggunakan ProtonVPN versi Gratis, atau Anda dapat menikmati seluruh layanan streaming yang kami sediakan dengan meningkatkan jenis akun Anda ke Plus.<br>Kunjungi<font color="%1$s">%2$s</font> untuk mengelola langganan Anda.]]></string>
     <string name="activityProfileTitle">Profil</string>

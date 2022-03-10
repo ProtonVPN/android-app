@@ -36,12 +36,13 @@ class TestUser private constructor(
     val password: String,
     val openVpnPassword: String,
     val planName: String,
+    val planDisplayName: String,
     val maxTier: Int,
     val maxConnect: Int
 ) {
     val vpnInfoResponse: VpnInfoResponse
         get() {
-            val info = VPNInfo(1, 0, planName, maxTier, maxConnect, email, "16",
+            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16",
                 openVpnPassword)
             return VpnInfoResponse(1000, info, 4, 4, 0)
         }
@@ -50,15 +51,15 @@ class TestUser private constructor(
 
     companion object {
         @JvmStatic val freeUser: TestUser
-            get() = TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", 0, 1)
+            get() = TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free",0, 1)
         val basicUser: TestUser
-            get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", 1, 2)
+            get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
-            get() = TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", 2, 5)
+            get() = TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
         val badUser: TestUser
-            get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", 2, 5)
+            get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
         @JvmStatic val specialCharUser: TestUser
-            get() = TestUser("specialChars", BuildConfig.SPECIAL_CHAR_PASSWORD, "testas", "free", 0, 1)
+            get() = TestUser("specialChars", BuildConfig.SPECIAL_CHAR_PASSWORD, "testas", "free", "free",0, 1)
 
         val forkedSessionResponse: ForkedSessionResponse
             get() = ForkedSessionResponse(

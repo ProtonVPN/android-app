@@ -100,7 +100,7 @@ class TvLoginViewModelTests : CoroutinesTest {
     )
     private val noConnectionsVpnInfoResponse = VpnInfoResponse(
         1000,
-        VPNInfo(1, 0, null, null, 1, "user", "group-id", "pass"),
+        VPNInfo(1, 0, null, null, null, 1, "user", "group-id", "pass"),
         1,
         1,
         0)

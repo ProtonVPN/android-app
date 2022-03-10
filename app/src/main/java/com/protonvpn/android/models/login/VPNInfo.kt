@@ -26,6 +26,7 @@ data class VPNInfo(
     @SerialName(value = "Status") val status: Int,
     @SerialName(value = "ExpirationTime") val expirationTime: Int,
     @SerialName(value = "PlanName") val tierName: String?,
+    @SerialName(value = "PlanTitle") val planDisplayName: String?,
     @SerialName(value = "MaxTier") val maxTier: Int?,
     @SerialName(value = "MaxConnect") val maxConnect: Int,
     @SerialName(value = "Name") val name: String,

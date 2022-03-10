@@ -94,11 +94,7 @@
     <string name="accountVersion">Версія:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Керувати обліковим записом</string>
-    <string name="accountTrial">ProtonVPN Plus Trial</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="accountBasic">ProtonVPN Basic</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Ваші 7 днів безплатного користування ProtonVPN Plus завершились. Ви можете й надалі використовувати ProtonVPN Free, але якщо бажаєте підтримати проєкт й отримати вищу швидкість та більше можливостей, передплатіть тарифний план."</string>
     <string name="freeTVTrialExpired"><![CDATA[Ваш 7-денний безплатний пробний період ProtonVPN Plus завершився<br> Ви можете продовжувати користуватися ProtonVPN Free, або насолоджуватися всіма потоковими послугами, які ми надаємо, перейшовши на Plus.<br> Відвідайте <font color="%1$s">%2$s</font> для керування передплатою.]]></string>
     <string name="activityProfileTitle">Профіль</string>
