@@ -55,6 +55,7 @@ data class VpnUser(
     val status: Int,
     val expirationTime: Int,
     val planName: String?,
+    val planDisplayName: String?,
     val maxTier: Int?,
     val maxConnect: Int,
     val name: String,

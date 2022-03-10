@@ -94,11 +94,7 @@
     <string name="accountVersion">Version:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Um dein Abonnement zu verwalten, öffne bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
     <string name="accountButtonManage">Konto verwalten</string>
-    <string name="accountTrial">ProtonVPN‐Plus‐Probephase</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="accountBasic">ProtonVPN Basic</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Ihre 7‐tägige, kostenlose Probephase von ProtonVPN Plus ist abgelaufen. Sie können ProtonVPN Free allerdings weiterhin nutzen. Um jedoch das Projekt zu unterstützen und höhere Geschwindigkeiten und mehr Funktionen zu erhalten, upgraden Sie bitte Ihr Abonnement."</string>
     <string name="freeTVTrialExpired"><![CDATA[Ihre 7-tägige kostenlose ProtonVPN Plus Testversion ist abgelaufen.<br>Sie können ProtonVPN Free weiterhin nutzen, oder Sie können alle von uns angebotenen Streaming-Dienste nutzen, indem Sie auf ProtonVPN Plus umsteigen.<br>Besuchen Sie <font color="%1$s">%2$s</font>, um Ihr Abonnement zu verwalten.]]></string>
     <string name="activityProfileTitle">Profil</string>

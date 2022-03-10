@@ -175,7 +175,7 @@ class UserPlanManagerTests {
 
     private fun mockVpnTrialUser(time: Int? = null): VpnUser {
         val mockVpnInfo = VPNInfo(
-            1, time ?: 0, "trial", 3, 2, "username", "16", ""
+            1, time ?: 0, "trial", "trial" , 3, 2, "username", "16", ""
         )
         return VpnInfoResponse(0, mockVpnInfo, 4, 4, 0)
             .toVpnUserEntity(UserId("userId"), SessionId("sessionId"))

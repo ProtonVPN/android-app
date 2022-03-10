@@ -94,11 +94,7 @@
     <string name="accountVersion">نسخه:</string>
     <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
     <string name="accountButtonManage">مدیریت حساب کاربری</string>
-    <string name="accountTrial">طرح ProtonVPN Plus آزمایشی</string>
     <string name="accountFree">طرح ProtonVPN رایگان</string>
-    <string name="accountBasic">ProtonVPN پایه</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"طرح آزمایشی ۷ روزۀ ProtonVPN Plus شما به پایان رسید. شما می‌توانید به استفاده از طرح ProtonVPN رایگان ادامه دهید، اما اگر مایل هستید تا از پروژه حمایت کنید و سرعت و امکانات بیشتری داشته باشید، لطفاً اشتراک خود را به یک طرح غیررایگان ارتقا دهید."</string>
     <string name="freeTVTrialExpired"><![CDATA[دورهٔ ۷ روزهٔ آزمایشی رایگان شما به پایان رسید.<br>می‌توانید به استفاده از ProtonVPN به صورت رایگان ادامه دهید، یا می‌توانید از تمامی سرویس‌های پخش آنلاینی که ما ارائه می‌دهیم با ارتقا به طرح Plus لذت ببرید.<br>از <font color="%1$s">%2$s</font> جهت مدیریت اشتراک خود بازدید نمایید.]]></string>
     <string name="activityProfileTitle">پروفایل</string>

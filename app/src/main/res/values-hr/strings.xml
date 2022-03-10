@@ -94,11 +94,7 @@
     <string name="accountVersion">Verzija:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
     <string name="accountButtonManage">Upravljanje korisničkim računom</string>
-    <string name="accountTrial">ProtonVPN Plus probni period</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="accountBasic">ProtonVPN Basic</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"Isteklo je vaše 7-dnevno besplatno probno razdoblje ProtonVPN Plusa. Možete i dalje koristiti ProtonVPN Free, ali ako želite podržati projekt i imati veće brzine i više značajki, nadogradite na plaćeni plan."</string>
     <string name="freeTVTrialExpired"><![CDATA[Isteklo je vaše 7-dnevno besplatno probno razdoblje za ProtonVPN Plus.<br>Možete i dalje koristiti ProtonVPN Free ili možete uživati u svim uslugama streaminga koje nudimo nadogradnjom na Plus.<br>Posjetite<font color="%1$s">%2$s</font> za upravljanje pretplatom.]]></string>
     <string name="activityProfileTitle">Profil</string>

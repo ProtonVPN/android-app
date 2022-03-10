@@ -54,5 +54,5 @@ class VPNInfoTests {
     }
 
     private fun vpnInfoWithTierSettings(tierName: String?, maxTier: Int?, maxConnect: Int) =
-        VPNInfo(1000, 10, tierName, maxTier, maxConnect, "user", "groupId", "pass")
+        VPNInfo(1000, 10, tierName, tierName, maxTier, maxConnect, "user", "groupId", "pass")
 }

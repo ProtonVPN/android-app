@@ -19,8 +19,10 @@
 
 package com.protonvpn.android.db
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.account.data.db.AccountConverters
@@ -80,6 +82,12 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         // vpn
         VpnUser::class
     ],
+    autoMigrations = [
+        AutoMigration (
+            from = 3,
+            to = 4
+        )
+    ],
     version = AppDatabase.version,
     exportSchema = true
 )
@@ -104,7 +112,7 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 3
+        const val version = 4
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,

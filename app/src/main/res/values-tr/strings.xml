@@ -94,11 +94,7 @@
     <string name="accountVersion">Sürüm:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> web panosuna gitmelisiniz.]]></string>
     <string name="accountButtonManage">Hesap yönetimi</string>
-    <string name="accountTrial">ProtonVPN Plus deneme</string>
     <string name="accountFree">ProtonVPN Free</string>
-    <string name="accountBasic">ProtonVPN Basic</string>
-    <string name="accountPlus">ProtonVPN Plus</string>
-    <string name="accountVisionary">Proton Visionary</string>
     <string name="freeTrialExpired">"7 günlük ücretsiz ProtonVPN Plus deneme süresi doldu. Ücretsiz ProtonVPN hizmetini kullanmaya devam edebilirsiniz. Ancak projeyi destekleyerek daha yüksek hızlara ve daha fazla özelliğe sahip olmak istiyorsanız, lütfen ücretli bir tarifeye geçin."</string>
     <string name="freeTVTrialExpired"><![CDATA[7 günlük ücretsiz ProtonVPN Plus deneme süresi doldu.<br>Ücretsiz ProtonVPN hizmetinikullanmaya devam edebilir ya da Plus tarifesine yükselterek desteklediğimiz yayın akışı hizmetlerinin tadını çıkarabilirsiniz.<br>Aboneliğiinizi yönetmek için <font color="%1$s">%2$s</font> adresine gidin.]]></string>
     <string name="activityProfileTitle">Profil</string>

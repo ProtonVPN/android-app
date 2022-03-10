@@ -46,7 +46,7 @@ class AccountActivity : BaseActivityV2() {
 
         lifecycleScope.launch {
             with(binding.content) {
-                textAccountTier.text = viewModel.accountTier(this@AccountActivity)
+                textAccountTier.text = viewModel.accountTier() ?: getString(R.string.accountFree)
 
                 textUser.text = viewModel.displayName()
                 textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
