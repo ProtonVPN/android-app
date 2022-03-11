@@ -50,9 +50,11 @@ class TvUpgradeActivity : BaseTvActivity() {
         textUpgradeDetails.text = HtmlTools.fromHtml(htmlDescription)
         textUpgradeDetails.isVisible = viewModel.purchaseEnabled()
 
-        streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))
-        streamingDisney.addStreamingView("Disney+", getIcon(R.drawable.ic_streaming_disney))
-        streamingPrime.addStreamingView("Prime", getIcon(R.drawable.ic_streaming_prime))
+        with(streamIcons) {
+            streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))
+            streamingDisney.addStreamingView("Disney+", getIcon(R.drawable.ic_streaming_disney))
+            streamingPrime.addStreamingView("Prime", getIcon(R.drawable.ic_streaming_prime))
+        }
     }
 
     private fun getIcon(@DrawableRes iconRes: Int) =

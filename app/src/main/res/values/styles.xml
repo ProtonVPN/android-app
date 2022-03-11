@@ -18,33 +18,18 @@
 -->
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mobilePrimary</item>
-        <item name="colorPrimaryDark">@color/bgStatusBar</item>
-        <item name="colorAccent">@color/mobileAccent</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
+    <!-- TV themes -->
     <style name="AppTheme.TV.Leanback" parent="Theme.AppCompat.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@drawable/tv_background</item>
+        <item name="android:windowBackground">@color/tvBackground</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:colorPrimary">#4B4B57</item>
-        <item name="android:colorBackground">@color/dimmedGrey</item>
         <item name="guidedActionsBackground">@color/tvGuidedActionsBackground</item>
         <item name="guidedActionsBackgroundDark">@color/tvGuidedActionsBackgroundDark</item>
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:colorControlActivated">?colorAccent</item>
-        <item name="android:colorForeground">#4B4B57</item>
         <item name="android:textSize">16sp</item>
         <item name="serverLoadLow">@color/tvServerLoadLow</item>
         <item name="serverLoadMedium">@color/tvServerLoadMedium</item>
@@ -53,8 +38,7 @@
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.AppCompat.Leanback.Browse">
-        <item name="android:windowBackground">@drawable/tv_background</item>
-        <item name="defaultBrandColor">@color/grey</item>
+        <item name="android:windowBackground">@color/tvBackground</item>
         <item name="defaultSearchColor">?colorAccent</item>
         <item name="defaultSearchIconColor">@color/white</item>
         <item name="defaultSearchBrightColor">?colorAccent</item>

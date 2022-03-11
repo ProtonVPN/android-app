@@ -119,7 +119,7 @@
             android:elevation="2dp"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="@color/tvAccent"
+            android:textColor="@color/tvAccentLighten"
             android:background="@drawable/tv_server_list_connected_indicator_background"
             android:text="@string/connected"
             android:gravity="center"

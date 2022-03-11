@@ -24,7 +24,7 @@
     android:layout_height="@dimen/tv_item_size_height"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    android:background="@color/tvGradientDark">
+    android:background="@color/tvCardBackground">
 
     <ImageView
         android:id="@+id/icon"

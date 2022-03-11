@@ -21,10 +21,6 @@
     <color name="mobilePrimary">#4B4B57</color>
     <color name="mobileAccent">#59B268</color>
 
-    <color name="tvAccent">#4da358</color>
-    <color name="tvAlert">#ec5858</color>
-    <color name="tvButtonBg">@color/tvGradientDark</color>
-
     <color name="white">#FFFFFF</color>
     <color name="transparentWhite">#55FFFFFF</color>
     <color name="black">#000000</color>
@@ -47,8 +43,6 @@
     <color name="transparent">#00000000</color>
     <color name="bgDrawer">@color/grey</color>
     <color name="accountTitles">#4b4b56</color>
-    <color name="tvDisconnectButtonTint">#AA2e2e34</color>
-    <color name="tvGridItemOverlay">#774b4b56</color>
 
     <color name="notificationDetailsStroke">#EAECF1</color>
     <color name="notificationArrow">@color/black</color>
@@ -61,18 +55,25 @@
     <color name="white30">#4dFFFFFF</color>
 
     <!-- TV -->
-    <color name="tvMapSelected">#5f6575</color>
-    <color name="tvMapCountry">#3c414e</color>
-    <color name="tvMapConnected">#4da358</color>
-    <color name="tvGradientDark">#262a33</color>
-    <color name="tvGradientLight">#3c414e</color>
-    <color name="tvMapBorder">@color/tvGradientDark</color>
-    <color name="tvInMaintenance">#989DA9</color>
-    <color name="tvServerLoadLow">#4DA358</color>
-    <color name="tvServerLoadMedium">#FBC531</color>
+    <color name="tvAccent">#6D4AFF</color>
+    <color name="tvAccentLighten">#8A6EFF</color>
+    <color name="tvAlert">#DC3251</color>
+    <color name="tvButtonBg">#6D697D</color>
+    <color name="tvCardBackground">#292733</color>
+
+    <color name="tvMapSelected">#6D697D</color>
+    <color name="tvMapCountry">#3F3B4C</color>
+    <color name="tvMapConnected">@color/tvAccent</color>
+    <color name="tvBackground">#1C1B24</color>
+    <color name="tvMapBorder">@color/tvBackground</color>
+    <color name="tvInMaintenance">#A7A4B5</color>
+    <color name="tvServerLoadLow">#1EA885</color>
+    <color name="tvServerLoadMedium">#FF9900</color>
     <color name="tvServerLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
     <color name="tvGuidedActionsBackground">#E01623</color>
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
+    <color name="tvDisconnectButtonTint">#AA2e2e34</color>
+    <color name="tvGridItemOverlay">#774b4b56</color>
 
 </resources>
