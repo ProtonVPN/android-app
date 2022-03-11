@@ -23,7 +23,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/tvBackground"
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"

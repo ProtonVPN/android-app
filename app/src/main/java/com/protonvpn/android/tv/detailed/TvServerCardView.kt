@@ -89,7 +89,7 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
             }
             TvServerListViewModel.ServerActionState.UNAVAILABLE -> {
                 actionButton.setText(R.string.tv_server_list_action_unavailable)
-                R.color.tvInMaintenance
+                R.color.tvButtonBg
             }
         }
         actionButton.background = actionButton.background.mutate().apply {

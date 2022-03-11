@@ -66,7 +66,7 @@ class TvStatusFragment : Fragment() {
     private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
         val state = status.state
         val statusColor = when (state) {
-            VpnState.Connected -> textStatus.getThemeColorId(R.attr.colorAccent)
+            VpnState.Connected -> R.color.tvAccentLighten
             is VpnState.Error -> R.color.tvAlert
             else -> R.color.white
         }
