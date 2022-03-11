@@ -48,9 +48,11 @@ class TvUpgradeActivity : BaseTvActivity() {
         val htmlDescription = getString(R.string.tv_upgrade_url_details, Constants.TV_UPGRADE_LINK)
         textUpgradeDetails.text = HtmlTools.fromHtml(htmlDescription)
 
-        streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))
-        streamingDisney.addStreamingView("Disney+", getIcon(R.drawable.ic_streaming_disney))
-        streamingPrime.addStreamingView("Prime", getIcon(R.drawable.ic_streaming_prime))
+        with(streamIcons) {
+            streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))
+            streamingDisney.addStreamingView("Disney+", getIcon(R.drawable.ic_streaming_disney))
+            streamingPrime.addStreamingView("Prime", getIcon(R.drawable.ic_streaming_prime))
+        }
     }
 
     private fun getIcon(@DrawableRes iconRes: Int) =
