@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
         viewModel.state.asLiveData().observe(this, Observer { state ->
             if (state == UpgradeDialogViewModel.State.Success) {
                 startActivity(CongratsPlanActivity.create(this))
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         })
@@ -86,8 +88,10 @@ class EmptyUpgradeDialogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this, Observer { state ->
-            if (state == UpgradeDialogViewModel.State.Success)
+            if (state == UpgradeDialogViewModel.State.Success) {
                 startActivity(CongratsPlanActivity.create(this))
+                setResult(Activity.RESULT_OK)
+            }
             if (state != UpgradeDialogViewModel.State.Init)
                 finish()
         })
