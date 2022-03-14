@@ -73,13 +73,30 @@
                     android:gravity="center_horizontal" />
 
                 <LinearLayout
-                    android:id="@+id/layoutFeatureItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="26dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" />
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/layoutFeatureItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="26dp"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/upgradeCountriesMoreCaption"
+                        style="@style/Proton.Text.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:textColor="@color/text_weak"
+                        android:text="@string/upgrade_plus_countries_more"
+                        android:visibility="gone"/>
+                </LinearLayout>
             </LinearLayout>
 
         </FrameLayout>

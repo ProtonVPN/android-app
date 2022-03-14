@@ -444,19 +444,7 @@
         <item quantity="other">%1$d negara</item>
     </plurals>
     <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
-    <string name="upgrade_netshield_title">Dapatkan fitur NetShield</string>
-    <string name="upgrade_secure_core_title">Dapatkan fitur Secure Core</string>
-    <string name="upgrade_netshield_message">Blokir malware, iklan, dan pelacak di peramban dan di aplikasi. Tersedia di semua paket berbayar.</string>
-    <string name="upgrade_secure_core_message">Alihkan data-data Anda yang paling sensitif melalui server-server teraman kami yang terletak di negara-negara yang ramah privasi.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="other">%d server</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -482,7 +470,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">Akses seluruh %1$s yang tersebar di %2$s dengan PLUS</string>
-    <string name="upgrade_plus_countries_message">Nikmati berbagai fitur mutakhir sekarang juga!</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 

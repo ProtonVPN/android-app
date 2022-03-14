@@ -91,7 +91,7 @@ class ProfilesRobot : BaseRobot() {
     fun clickOnUpgradeButton(contentDescription: String): ConnectionRobot {
         view.waitForCondition {
             clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
-            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
+            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title_new))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
         return ConnectionRobot()

@@ -135,7 +135,7 @@ class HomeRobot : BaseRobot() {
         fun successfullyLoggedIn() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
 
         fun dialogUpgradeVisible() {
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_message)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_title_new)
             checkIfElementByIdContainsText(R.id.buttonUpgrade, R.string.upgrade)
             checkIfElementByIdContainsText(R.id.buttonOther, R.string.upgrade_not_now_button)
         }

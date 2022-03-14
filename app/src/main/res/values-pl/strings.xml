@@ -459,22 +459,7 @@
         <item quantity="other">%1$d krajów</item>
     </plurals>
     <string name="upsell_upgrade_again">Ulepsz plan ponownie, aby korzystać z funkcji:</string>
-    <string name="upgrade_netshield_title">Odblokuj funkcję NetShield</string>
-    <string name="upgrade_secure_core_title">Odblokuj serwery Secure Core</string>
-    <string name="upgrade_netshield_message">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach. Dostępne w płatnych planach.</string>
-    <string name="upgrade_secure_core_message">Przekieruj swoje najbardziej poufne dane przez nasze najbezpieczniejsze serwery ulokowane w krajach szanujących prywatność.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d serwera</item>
-        <item quantity="few">ponad %d serwerów</item>
-        <item quantity="many">ponad %d serwerów</item>
-        <item quantity="other">ponad %d serwerów</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -506,7 +491,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">Dostęp do %1$s w %2$s z planem PLUS</string>
-    <string name="upgrade_plus_countries_message">Skorzystaj z zaawansowanych funkcji!</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 

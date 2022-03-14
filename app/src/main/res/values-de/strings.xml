@@ -449,20 +449,7 @@
         <item quantity="other">%1$d Länder</item>
     </plurals>
     <string name="upsell_upgrade_again">Erneut aufwerten, um alle Funktionen nutzen zu können:</string>
-    <string name="upgrade_netshield_title">NetShield freischalten</string>
-    <string name="upgrade_secure_core_title">Secure Core freischalten</string>
-    <string name="upgrade_netshield_message">Sperrt Malware, Werbung und Tracker in Browsern und Anwendungen. Verfügbar mit jedem kostenpflichtigen Abonnement.</string>
-    <string name="upgrade_secure_core_message">Leite deine sensibelsten Daten über unsere sichersten Server in datenschutzfreundlichen Ländern weiter.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d Server</item>
-        <item quantity="other">Mehr als %d Server</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -490,7 +477,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">Greife mit PLUS auf alle %1$s in %2$s zu</string>
-    <string name="upgrade_plus_countries_message">Profitiere jetzt von den erweiterten Funktionen!</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
