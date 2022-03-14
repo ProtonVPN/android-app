@@ -449,20 +449,7 @@
         <item quantity="other">%1$d ülke</item>
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
-    <string name="upgrade_netshield_title">NetShield özelliğini kullanın</string>
-    <string name="upgrade_secure_core_title">Secure Core özelliğini kullanın</string>
-    <string name="upgrade_netshield_message">Web tarayıcılarında ve uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin. Herhangi bir ücretli tarife ile kullanılabilir.</string>
-    <string name="upgrade_secure_core_message">En hassas verilerinizi kişisel gizlilik dostu ülkelerdeki en güvenli sunucularımız üzerinden geçirin.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d sunucu</item>
-        <item quantity="other">%d+ sunucu</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -490,7 +477,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">Plus tarifesi ile %2$s ülkedeki %1$s sunucunun tamamına erişin</string>
-    <string name="upgrade_plus_countries_message">Ek özelliklerden faydalanmaya başlayın.</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 

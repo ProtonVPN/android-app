@@ -449,20 +449,7 @@
         <item quantity="other">%1$d کشور</item>
     </plurals>
     <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
-    <string name="upgrade_netshield_title">باز کردن NetShield</string>
-    <string name="upgrade_secure_core_title">باز کردن Secure Core</string>
-    <string name="upgrade_netshield_message">بدافزار، آگهی‌ها، و ردیاب‌ها را در مرورگرها و در برنامه‌ها مسدود کنید. قابل دسترس در همهٔ طرح‌های پرداختی.</string>
-    <string name="upgrade_secure_core_message">حساس‌ترین داده‌های خود را از طریق امن‌ترین سرورهای ما در کشورهای دوستدار حریم خصوصی مسیرگذاری کنید.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d سرور</item>
-        <item quantity="other">%d+ سرور</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -490,7 +477,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">دسترسی به تمام %1$s در %2$s با PLUS</string>
-    <string name="upgrade_plus_countries_message">همین حالا از امکانات پیشرفته بهره ببرید!</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 

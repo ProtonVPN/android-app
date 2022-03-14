@@ -76,6 +76,16 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
     }
 
     protected abstract fun setViews(binding: ActivityUpgradeDialogBinding)
+
+    protected fun ViewGroup.addFeature(@StringRes textRes: Int, @DrawableRes iconRes: Int) {
+        addFeature(getString(textRes), iconRes)
+    }
+
+    protected fun ViewGroup.addFeature(text: String, @DrawableRes iconRes: Int) {
+        val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
+        views.text.text = text
+        views.text.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+    }
 }
 
 // Directly navigates to plan upgrade workflow
@@ -106,8 +116,14 @@ class UpgradeNetShieldDialogActivity : UpgradeDialogActivity() {
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {
         imagePicture.setImageResource(R.drawable.upgrade_netshield)
-        textTitle.setText(R.string.upgrade_netshield_title)
-        textMessage.setText(R.string.upgrade_netshield_message)
+        textTitle.setText(R.string.upgrade_netshield_title_new)
+        textMessage.setText(R.string.upgrade_plus_subtitle)
+        with(layoutFeatureItems) {
+            addFeature(R.string.upgrade_netshield_block_ads, R.drawable.ic_unavailable_circle)
+            addFeature(R.string.upgrade_netshield_block_malware, R.drawable.ic_shield)
+            addFeature(R.string.upgrade_netshield_speed, R.drawable.ic_rocket)
+            isVisible = true
+        }
     }
 }
 
@@ -116,8 +132,14 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {
         imagePicture.setImageResource(R.drawable.upgrade_secure_core)
-        textTitle.setText(R.string.upgrade_secure_core_title)
-        textMessage.setText(R.string.upgrade_secure_core_message)
+        textTitle.setText(R.string.upgrade_secure_core_title_new)
+        textMessage.setText(R.string.upgrade_plus_subtitle)
+        with(layoutFeatureItems) {
+            addFeature(R.string.upgrade_secure_core_countries, R.drawable.ic_imap_smtp)
+            addFeature(R.string.upgrade_secure_core_encryption, R.drawable.ic_lock)
+            addFeature(R.string.upgrade_secure_core_protect, R.drawable.ic_alias)
+            isVisible = true
+        }
     }
 }
 
@@ -129,7 +151,7 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
         textTitle.text = createTitle()
         // No margin between the image and title, the image fades out at the bottom.
         textTitle.updateLayoutParams<ViewGroup.MarginLayoutParams> { topMargin = 0 }
-        textMessage.setText(R.string.upgrade_plus_countries_message)
+        textMessage.setText(R.string.upgrade_plus_subtitle)
 
         with(layoutFeatureItems) {
             val manyDevices = resources.getQuantityString(
@@ -143,6 +165,7 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
             addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_rocket)
             isVisible = true
         }
+        upgradeCountriesMoreCaption.isVisible = true
     }
 
     private fun createTitle(): String {
@@ -151,7 +174,7 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
 
         val roundedServerCount = serverCount / 100 * 100
         val servers = resources.getQuantityString(
-            R.plurals.upgrade_plus_servers,
+            R.plurals.upgrade_plus_servers_new,
             roundedServerCount,
             roundedServerCount
         )
@@ -160,17 +183,7 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
             countryCount,
             countryCount
         )
-        return getString(R.string.upgrade_plus_countries_title, servers, countries)
-    }
-
-    private fun ViewGroup.addFeature(@StringRes textRes: Int, @DrawableRes iconRes: Int) {
-        addFeature(getString(textRes), iconRes)
-    }
-
-    private fun ViewGroup.addFeature(text: String, @DrawableRes iconRes: Int) {
-        val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
-        views.text.text = text
-        views.text.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+        return getString(R.string.upgrade_plus_countries_title_new, servers, countries)
     }
 }
 

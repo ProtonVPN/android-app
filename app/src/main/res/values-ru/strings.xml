@@ -459,22 +459,7 @@
         <item quantity="other">%1$d стран</item>
     </plurals>
     <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
-    <string name="upgrade_netshield_title">Разблокировать NetShield</string>
-    <string name="upgrade_secure_core_title">Разблокировать Secure Core</string>
-    <string name="upgrade_netshield_message">Блокируйте вредоносные программы, рекламу и трекеры в браузерах и приложениях. Доступно на любом платном тарифе.</string>
-    <string name="upgrade_secure_core_message">Направляйте свои самые чувствительные данные через наши самые безопасные серверы в дружелюбных по отношению к конфиденциальности странах.</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
-         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-         Example:
-         1200+ servers
-         -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d сервер</item>
-        <item quantity="few">%d+ сервера</item>
-        <item quantity="many">%d+ серверов</item>
-        <item quantity="other">%d+ серверов</item>
-    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -506,7 +491,6 @@
      Access all 1300+ servers in 61 countries with PLUS
      -->
     <string name="upgrade_plus_countries_title">Доступ ко всем %1$s в %2$s с PLUS</string>
-    <string name="upgrade_plus_countries_message">Воспользуйтесь расширенными возможностями прямо сейчас!</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
