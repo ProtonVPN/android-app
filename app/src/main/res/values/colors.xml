@@ -66,7 +66,6 @@
     <color name="sahara_base">#E7D292</color>
     <color name="carrot_base">#E6984C</color>
 
-
     <color name="brightCyan">#32b3dd</color>
     <color name="blackOverlay">#80000000</color>
     <color name="white70">#B3FFFFFF</color>
@@ -80,10 +79,10 @@
     <color name="tvGradientDark">#262a33</color>
     <color name="tvGradientLight">#3c414e</color>
     <color name="tvMapBorder">@color/tvGradientDark</color>
-    <color name="inMaintenance">#989DA9</color>
-    <color name="serverLoadLow">#4DA358</color>
-    <color name="serverLoadMedium">#EAC819</color>
-    <color name="serverLoadHigh">@color/tvAlert</color>
+    <color name="tvInMaintenance">#989DA9</color>
+    <color name="tvServerLoadLow">#4DA358</color>
+    <color name="tvServerLoadMedium">#FBC531</color>
+    <color name="tvServerLoadHigh">@color/tvAlert</color>
     <color name="tvDisconnect">@color/tvAlert</color>
     <color name="tvGuidedActionsBackground">#E01623</color>
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>

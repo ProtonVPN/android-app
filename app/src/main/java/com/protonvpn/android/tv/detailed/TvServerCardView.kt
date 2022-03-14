@@ -28,7 +28,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvServerCardBinding
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 
@@ -90,7 +89,7 @@ class TvServerCardView(context: Context, val lifecycleOwner: LifecycleOwner) :
             }
             TvServerListViewModel.ServerActionState.UNAVAILABLE -> {
                 actionButton.setText(R.string.tv_server_list_action_unavailable)
-                R.color.inMaintenance
+                R.color.tvInMaintenance
             }
         }
         actionButton.background = actionButton.background.mutate().apply {

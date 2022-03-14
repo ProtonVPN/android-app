@@ -84,7 +84,7 @@ class CountryExpandedViewHolder(
                 !server.online -> View.INVISIBLE
                 else -> View.VISIBLE
             }
-            serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.load))
+            serverLoadColor.setColorTint(ServerLoadColor.getColor(serverLoadColor, server.load))
 
             imageCountry.isVisible = secureCoreEnabled
             if (secureCoreEnabled) {

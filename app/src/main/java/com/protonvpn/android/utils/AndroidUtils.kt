@@ -41,6 +41,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -205,11 +206,8 @@ fun Activity.openVpnSettings() =
         }
     )
 
-fun ImageView.setColorTint(@ColorRes colorRes: Int) {
-    this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-        ContextCompat.getColor(context, colorRes),
-        BlendModeCompat.SRC_OVER
-    )
+fun ImageView.setColorTint(@ColorInt colorValue: Int) {
+    this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(colorValue, BlendModeCompat.SRC_OVER)
 }
 
 fun Button.setStartDrawable(@DrawableRes id: Int = 0) {
