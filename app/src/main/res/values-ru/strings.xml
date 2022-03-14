@@ -26,7 +26,7 @@
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Это обязательное поле</string>
     <string name="title_activity_home">@string/app_name</string>
-    <string name="menuActionSignOut">Выйти</string>
+    <string name="menuActionSignOut">Выйти из учетной записи</string>
     <string name="loginSlogan">Безопасный Интернет где угодно</string>
     <string name="loginStartWithDevice">Запуск при включении устройства</string>
     <string name="loginCreateAccount">Создать новый аккаунт</string>
@@ -115,7 +115,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте ProtonVPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренное NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умеренный NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать технологии подобные прямому подключению приложений, таких как сетевые игры. <a href="%1$s">Подробнее</a>]]></string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
