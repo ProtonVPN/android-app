@@ -20,26 +20,28 @@
 package com.protonvpn.android.ui
 
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 
 object ServerLoadColor {
 
     @JvmStatic
-    @ColorRes
-    fun getColorId(serverLoad: Float, isOnline: Boolean = true): Int =
+    @AttrRes
+    private fun getColorAttr(serverLoad: Float, isOnline: Boolean = true): Int =
         if (isOnline) when {
-            serverLoad <= 75f -> R.color.serverLoadLow
-            serverLoad <= 90f -> R.color.serverLoadMedium
-            else -> R.color.serverLoadHigh
+            serverLoad <= 75f -> R.attr.serverLoadLow
+            serverLoad <= 90f -> R.attr.serverLoadMedium
+            else -> R.attr.serverLoadHigh
         } else {
-            R.color.inMaintenance
+            R.attr.serverInMaintenance
         }
 
     @JvmStatic
     @ColorInt
     fun getColor(view: View, serverLoad: Float, isOnline: Boolean = true): Int =
-        ContextCompat.getColor(view.context, getColorId(serverLoad, isOnline))
+        MaterialColors.getColor(view, getColorAttr(serverLoad, isOnline))
 }

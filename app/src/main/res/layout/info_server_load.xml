@@ -31,7 +31,7 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadLow" />
+        app:tint="?attr/serverLoadLow" />
 
     <TextView
         style="@style/Proton.Text.Caption"
@@ -46,7 +46,7 @@
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadMedium" />
+        app:tint="?attr/serverLoadMedium" />
 
    <TextView
         style="@style/Proton.Text.Caption"
@@ -61,7 +61,7 @@
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadHigh" />
+        app:tint="?attr/serverLoadHigh" />
 
     <TextView
         style="@style/Proton.Text.Caption"

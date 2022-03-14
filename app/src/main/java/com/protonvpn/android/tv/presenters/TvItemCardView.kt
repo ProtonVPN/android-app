@@ -20,6 +20,7 @@ package com.protonvpn.android.tv.presenters
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseCardView
 import com.protonvpn.android.R
@@ -54,7 +55,7 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
 
         card.backgroundImage?.let { drawableImage ->
             drawableImage.tint?.let {
-                imageBackground.setColorTint(it)
+                imageBackground.setColorTint(ContextCompat.getColor(context, it))
             }
 
             imageBackground.setImageResource(drawableImage.resId)
