@@ -23,6 +23,6 @@ realConnectionTest:
 tvTest:
   timeout: 30m
   device:
-  - model: AmatiTvEmulator
+  - model: GoogleTvEmulator
     orientation: landscape
-    version: 29
+    version: 30
