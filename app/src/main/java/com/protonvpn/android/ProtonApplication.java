@@ -38,6 +38,7 @@ import com.protonvpn.android.logging.LogcatLogWriter;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
+import com.protonvpn.android.search.UpdateServersOnLocaleChange;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
@@ -91,6 +92,7 @@ public class ProtonApplication extends Application {
         MaintenanceTracker getMaintenanceTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
+        UpdateServersOnLocaleChange getUpdateServersOnLocaleChange();
     }
 
     @Override
@@ -141,6 +143,7 @@ public class ProtonApplication extends Application {
         dependencies.getCertificateRepository();
         dependencies.getMaintenanceTracker();
         dependencies.getUpdateSettingsOnVpnUserChange();
+        dependencies.getUpdateServersOnLocaleChange();
     }
 
     private void initStrongSwan() {
