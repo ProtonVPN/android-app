@@ -1,5 +1,141 @@
 dependencies = [
   {
+    "project": "account",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account:7.1.2"
+  },
+  {
+    "project": "account-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-data:7.1.2"
+  },
+  {
+    "project": "account-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-domain:7.1.2"
+  },
+  {
+    "project": "account-manager",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-manager:7.1.2"
+  },
+  {
+    "project": "account-manager-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-manager-dagger:7.1.2"
+  },
+  {
+    "project": "account-manager-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-manager-data:7.1.2"
+  },
+  {
+    "project": "account-manager-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-manager-domain:7.1.2"
+  },
+  {
+    "project": "account-manager-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-manager-presentation:7.1.2"
+  },
+  {
     "project": "Activity",
     "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
     "version": "1.4.0",
@@ -170,13 +306,47 @@ dependencies = [
     "dependency": "androidx.constraintlayout:constraintlayout-core:1.0.3"
   },
   {
-    "project": "Android DB",
-    "description": "Android DB",
-    "version": "2.1.0",
+    "project": "Android DataStore",
+    "description": "Android DataStore - contains the underlying store used by each serialization method along with components that require an Android dependency",
+    "version": "1.0.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/datastore#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.datastore:datastore:1.0.0"
+  },
+  {
+    "project": "Android DataStore Core",
+    "description": "Android DataStore Core - contains the underlying store used by each serialization method",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/datastore#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.datastore:datastore-core:1.0.0"
+  },
+  {
+    "project": "Android DB",
+    "description": "Android DB",
+    "version": "2.2.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.2.0",
     "year": "2017",
     "licenses": [
       {
@@ -184,7 +354,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.sqlite:sqlite:2.1.0"
+    "dependency": "androidx.sqlite:sqlite:2.2.0"
   },
   {
     "project": "Android Lifecycle Extensions",
@@ -257,11 +427,11 @@ dependencies = [
   {
     "project": "Android Lifecycle Process",
     "description": "Android Lifecycle Process",
-    "version": "2.2.0",
+    "version": "2.4.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.0",
     "year": "2018",
     "licenses": [
       {
@@ -269,7 +439,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-process:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-process:2.4.0"
   },
   {
     "project": "Android Lifecycle Runtime",
@@ -355,6 +525,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
+  },
+  {
+    "project": "Android Lifecycle WorkManager Hilt Extension",
+    "description": "Android Lifecycle WorkManager Hilt Extension",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.hilt:hilt-work:1.0.0"
   },
   {
     "project": "Android Lifecycle-Common",
@@ -444,11 +631,11 @@ dependencies = [
   {
     "project": "Android Room Kotlin Extensions",
     "description": "Android Room Kotlin Extensions",
-    "version": "2.3.0",
+    "version": "2.4.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.3.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.2",
     "year": "2019",
     "licenses": [
       {
@@ -456,16 +643,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.room:room-ktx:2.3.0"
+    "dependency": "androidx.room:room-ktx:2.4.2"
   },
   {
     "project": "Android Room-Common",
     "description": "Android Room-Common",
-    "version": "2.3.0",
+    "version": "2.4.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.3.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.2",
     "year": "2017",
     "licenses": [
       {
@@ -473,16 +660,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.room:room-common:2.3.0"
+    "dependency": "androidx.room:room-common:2.4.2"
   },
   {
     "project": "Android Room-Runtime",
     "description": "Android Room-Runtime",
-    "version": "2.3.0",
+    "version": "2.4.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.3.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.2",
     "year": "2017",
     "licenses": [
       {
@@ -490,7 +677,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.room:room-runtime:2.3.0"
+    "dependency": "androidx.room:room-runtime:2.4.2"
   },
   {
     "project": "Android State",
@@ -971,11 +1158,11 @@ dependencies = [
   {
     "project": "Android Support SQLite - Framework Implementation",
     "description": "The implementation of Support SQLite library using the framework code.",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.2.0",
     "year": "2017",
     "licenses": [
       {
@@ -983,7 +1170,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.sqlite:sqlite-framework:2.1.0"
+    "dependency": "androidx.sqlite:sqlite-framework:2.2.0"
   },
   {
     "project": "Android Support VectorDrawable",
@@ -1037,6 +1224,23 @@ dependencies = [
     "dependency": "androidx.transition:transition:1.4.1"
   },
   {
+    "project": "Android WorkManager Kotlin Extensions",
+    "description": "Android WorkManager Kotlin Extensions",
+    "version": "2.7.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.7.1",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.work:work-runtime-ktx:2.7.1"
+  },
+  {
     "project": "Android WorkManager Runtime",
     "description": "Android WorkManager runtime library",
     "version": "2.7.1",
@@ -1052,23 +1256,6 @@ dependencies = [
       }
     ],
     "dependency": "androidx.work:work-runtime:2.7.1"
-  },
-  {
-    "project": "android-cookie-store",
-    "description": "Android InMemory and persistent Cookie Store for HttpURLConnection and OkHttp, with extensions to easily sync cookies in Android WebViews.",
-    "version": "1.4.0",
-    "developers": [
-      "Aleksandar Gotev"
-    ],
-    "url": "https://github.com/gotev/android-cookie-store",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache-2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "net.gotev:cookie-store:1.4.0"
   },
   {
     "project": "AndroidEasingFunctions Library",
@@ -1120,6 +1307,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.concurrent:concurrent-futures:1.0.0"
+  },
+  {
+    "project": "AndroidX Hilt Extension Annotations",
+    "description": "AndroidX Hilt Extension Annotations",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.hilt:hilt-common:1.0.0"
   },
   {
     "project": "AndroidX Leanback Preference",
@@ -1207,23 +1411,6 @@ dependencies = [
     "dependency": "androidx.viewpager2:viewpager2:1.1.0-beta01"
   },
   {
-    "project": "androidx.databinding.databinding-common",
-    "description": "Shared library between Data Binding runtime lib and compiler",
-    "version": "7.0.4",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "http://tools.android.com/",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.databinding:databinding-common:7.0.4"
-  },
-  {
     "project": "Apache Commons Codec",
     "description": "The Apache Commons Codec package contains simple encoder and decoders for\n     various formats such as Base64 and Hexadecimal.  In addition to these\n     widely used encoders and decoders, the codec package also maintains a\n     collection of phonetic encoding utilities.",
     "version": "1.15",
@@ -1249,6 +1436,89 @@ dependencies = [
       }
     ],
     "dependency": "commons-codec:commons-codec:1.15"
+  },
+  {
+    "project": "auth",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:auth:7.1.2"
+  },
+  {
+    "project": "auth-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:auth-data:7.1.2"
+  },
+  {
+    "project": "auth-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:auth-domain:7.1.2"
+  },
+  {
+    "project": "auth-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:auth-presentation:7.1.2"
+  },
+  {
+    "project": "BCrypt Password Hashing Function",
+    "description": "Bcrypt is a password hashing function designed by Niels Provos and David Mazières, based on the\n        Blowfish cipher. The core of this implementation is based on jBcrypt, but heavily refactored, modernized and\n        with a lot of updates and enhancements.",
+    "version": "0.9.0",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "at.favre.lib:bcrypt:0.9.0"
   },
   {
     "project": "Butterknife",
@@ -1302,6 +1572,23 @@ dependencies = [
     "dependency": "com.jakewharton:butterknife-runtime:10.2.3"
   },
   {
+    "project": "Bytes Utility Library",
+    "description": "Bytes is a utility library that makes it easy to create, parse, transform, validate and convert byte\n        arrays in Java. It supports endianness as well as immutability and mutability, so the caller may decide to favor\n        performance.",
+    "version": "1.3.0",
+    "developers": [
+      "Patrick Favre-Bulle"
+    ],
+    "url": "https://github.com/patrickfav/bytes-java",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "Apache License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "at.favre.lib:bytes:1.3.0"
+  },
+  {
     "project": "circleindicator",
     "description": null,
     "version": "2.1.6",
@@ -1329,6 +1616,57 @@ dependencies = [
     "dependency": "androidx.collection:collection-ktx:1.1.0"
   },
   {
+    "project": "com.dropbox.mobile.store",
+    "description": "Store4 is built with Kotlin Coroutines",
+    "version": "4.0.4-KT15",
+    "developers": [
+      "Dropbox"
+    ],
+    "url": "https://github.com/dropbox/Store/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      }
+    ],
+    "dependency": "com.dropbox.mobile.store:store4:4.0.4-KT15"
+  },
+  {
+    "project": "com.dropbox.mobile.store",
+    "description": "Store4 is built with Kotlin Coroutines",
+    "version": "4.0.4-KT15",
+    "developers": [
+      "Dropbox"
+    ],
+    "url": "https://github.com/dropbox/Store/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      }
+    ],
+    "dependency": "com.dropbox.mobile.store:multicast:4.0.4-KT15"
+  },
+  {
+    "project": "com.nytimes.android",
+    "description": "Store3 is built with RxJava2",
+    "version": "3.1.1",
+    "developers": [
+      "New York Times"
+    ],
+    "url": "https://github.com/nytimes/Store/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License",
+        "license_url": "http://www.apache.org/licenses/"
+      }
+    ],
+    "dependency": "com.nytimes.android:cache3:3.1.1"
+  },
+  {
     "project": "core",
     "description": null,
     "version": "0.9.6.0",
@@ -1337,6 +1675,21 @@ dependencies = [
     "year": null,
     "licenses": [],
     "dependency": "com.afollestad.material-dialogs:core:0.9.6.0"
+  },
+  {
+    "project": "core",
+    "description": null,
+    "version": "1.10.3",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Play Core Software Development Kit Terms of Service",
+        "license_url": "https://developer.android.com/guide/playcore/license"
+      }
+    ],
+    "dependency": "com.google.android.play:core:1.10.3"
   },
   {
     "project": "Core Kotlin Extensions",
@@ -1354,6 +1707,140 @@ dependencies = [
       }
     ],
     "dependency": "androidx.core:core-ktx:1.7.0"
+  },
+  {
+    "project": "core-ktx",
+    "description": null,
+    "version": "1.8.1",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Android Software Development Kit License",
+        "license_url": "https://developer.android.com/studio/terms.html"
+      }
+    ],
+    "dependency": "com.google.android.play:core-ktx:1.8.1"
+  },
+  {
+    "project": "country",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:country:7.1.2"
+  },
+  {
+    "project": "country-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:country-data:7.1.2"
+  },
+  {
+    "project": "country-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:country-domain:7.1.2"
+  },
+  {
+    "project": "country-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:country-presentation:7.1.2"
+  },
+  {
+    "project": "crypto",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:crypto:7.1.2"
+  },
+  {
+    "project": "crypto-android",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:crypto-android:7.1.2"
+  },
+  {
+    "project": "crypto-common",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:crypto-common:7.1.2"
   },
   {
     "project": "Curtains",
@@ -1403,49 +1890,72 @@ dependencies = [
     "dependency": "com.google.dagger:dagger-lint-aar:2.40.5"
   },
   {
-    "project": "databinding-adapters",
-    "description": null,
-    "version": "7.0.4",
-    "developers": [],
-    "url": null,
+    "project": "data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
     "year": null,
     "licenses": [
       {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "androidx.databinding:databinding-adapters:7.0.4"
+    "dependency": "me.proton.core:data:7.1.2"
   },
   {
-    "project": "databinding-ktx",
-    "description": null,
-    "version": "7.0.4",
-    "developers": [],
-    "url": null,
+    "project": "data-room",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
     "year": null,
     "licenses": [
       {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "androidx.databinding:databinding-ktx:7.0.4"
+    "dependency": "me.proton.core:data-room:7.1.2"
   },
   {
-    "project": "databinding-runtime",
-    "description": null,
-    "version": "7.0.4",
-    "developers": [],
-    "url": null,
+    "project": "domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
     "year": null,
     "licenses": [
       {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "androidx.databinding:databinding-runtime:7.0.4"
+    "dependency": "me.proton.core:domain:7.1.2"
+  },
+  {
+    "project": "event-manager-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:event-manager-domain:7.1.2"
   },
   {
     "project": "Experimental annotation",
@@ -1463,6 +1973,74 @@ dependencies = [
       }
     ],
     "dependency": "androidx.annotation:annotation-experimental:1.1.0"
+  },
+  {
+    "project": "feature-flag",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:feature-flag:7.1.2"
+  },
+  {
+    "project": "feature-flag-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:feature-flag-dagger:7.1.2"
+  },
+  {
+    "project": "feature-flag-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:feature-flag-data:7.1.2"
+  },
+  {
+    "project": "feature-flag-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:feature-flag-domain:7.1.2"
   },
   {
     "project": "FindBugs-jsr305",
@@ -1685,6 +2263,74 @@ dependencies = [
     "dependency": "com.google.dagger:hilt-core:2.40.5"
   },
   {
+    "project": "human-verification",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification:7.1.2"
+  },
+  {
+    "project": "human-verification-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-data:7.1.2"
+  },
+  {
+    "project": "human-verification-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-domain:7.1.2"
+  },
+  {
+    "project": "human-verification-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-presentation:7.1.2"
+  },
+  {
     "project": "IntelliJ IDEA Annotations",
     "description": "A set of annotations used for code inspection support and code documentation.",
     "version": "13.0",
@@ -1769,6 +2415,57 @@ dependencies = [
     "dependency": "net.danlew:android.joda:2.10.12.2"
   },
   {
+    "project": "key",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:key:7.1.2"
+  },
+  {
+    "project": "key-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:key-data:7.1.2"
+  },
+  {
+    "project": "key-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:key-domain:7.1.2"
+  },
+  {
     "project": "keyboardvisibilityevent",
     "description": null,
     "version": "2.3.0",
@@ -1777,6 +2474,40 @@ dependencies = [
     "year": null,
     "licenses": [],
     "dependency": "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
+  },
+  {
+    "project": "Kotlin Android Extensions Runtime",
+    "description": "Kotlin Android Extensions Runtime",
+    "version": "1.6.10",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.6.10"
+  },
+  {
+    "project": "Kotlin Reflect",
+    "description": "Kotlin Full Reflection Library",
+    "version": "1.6.10",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
   },
   {
     "project": "Kotlin Stdlib",
@@ -1815,7 +2546,7 @@ dependencies = [
   {
     "project": "Kotlin Stdlib Jdk7",
     "description": "Kotlin Standard Library JDK 7 extension",
-    "version": "1.5.31",
+    "version": "1.6.10",
     "developers": [
       "Kotlin Team"
     ],
@@ -1827,12 +2558,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
   },
   {
     "project": "Kotlin Stdlib Jdk8",
     "description": "Kotlin Standard Library JDK 8 extension",
-    "version": "1.5.30",
+    "version": "1.6.10",
     "developers": [
       "Kotlin Team"
     ],
@@ -1844,7 +2575,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
   },
   {
     "project": "kotlinx-coroutines-android",
@@ -2014,7 +2745,7 @@ dependencies = [
         "license_url": "https://api.github.com/licenses/mit"
       }
     ],
-    "dependency": "com.github.lisawray.groupie:groupie-databinding:2.10.0"
+    "dependency": "com.github.lisawray.groupie:groupie-viewbinding:2.10.0"
   },
   {
     "project": "LiveData Core Kotlin Extensions",
@@ -2085,6 +2816,57 @@ dependencies = [
     "dependency": "com.airbnb.android:lottie:4.2.2"
   },
   {
+    "project": "mail-settings",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:mail-settings:7.1.2"
+  },
+  {
+    "project": "mail-settings-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:mail-settings-data:7.1.2"
+  },
+  {
+    "project": "mail-settings-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:mail-settings-domain:7.1.2"
+  },
+  {
     "project": "Material Components for Android",
     "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
     "version": "1.5.0",
@@ -2121,7 +2903,7 @@ dependencies = [
   {
     "project": "me.proton.vpn:go-vpn-lib",
     "description": "Go library with shared code for ProtonVPN clients",
-    "version": "0.1.7",
+    "version": "0.1.10",
     "developers": [
       "Open Source Proton"
     ],
@@ -2133,7 +2915,97 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.vpn:go-vpn-lib:0.1.7"
+    "dependency": "me.proton.vpn:go-vpn-lib:0.1.10"
+  },
+  {
+    "project": "minidns",
+    "description": "A DNS library for Java and Android systems",
+    "version": "1.0.0",
+    "developers": [
+      "Rene Treffer",
+      "Florian Schmaus"
+    ],
+    "url": "https://github.com/minidns/minidns",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.minidns:minidns-hla:1.0.0"
+  },
+  {
+    "project": "minidns",
+    "description": "A DNS library for Java and Android systems",
+    "version": "1.0.0",
+    "developers": [
+      "Rene Treffer",
+      "Florian Schmaus"
+    ],
+    "url": "https://github.com/minidns/minidns",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.minidns:minidns-dnssec:1.0.0"
+  },
+  {
+    "project": "minidns",
+    "description": "A DNS library for Java and Android systems",
+    "version": "1.0.0",
+    "developers": [
+      "Rene Treffer",
+      "Florian Schmaus"
+    ],
+    "url": "https://github.com/minidns/minidns",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.minidns:minidns-iterative-resolver:1.0.0"
+  },
+  {
+    "project": "minidns",
+    "description": "A DNS library for Java and Android systems",
+    "version": "1.0.0",
+    "developers": [
+      "Rene Treffer",
+      "Florian Schmaus"
+    ],
+    "url": "https://github.com/minidns/minidns",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.minidns:minidns-client:1.0.0"
+  },
+  {
+    "project": "minidns",
+    "description": "A DNS library for Java and Android systems",
+    "version": "1.0.0",
+    "developers": [
+      "Rene Treffer",
+      "Florian Schmaus"
+    ],
+    "url": "https://github.com/minidns/minidns",
+    "year": "2014",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.minidns:minidns-core:1.0.0"
   },
   {
     "project": "MPAndroidChart",
@@ -2146,34 +3018,106 @@ dependencies = [
     "dependency": "com.github.PhilJay:MPAndroidChart:v3.1.0"
   },
   {
-    "project": "OkHttp",
-    "description": null,
-    "version": "3.14.9",
-    "developers": [],
-    "url": null,
+    "project": "network",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
     "year": null,
     "licenses": [
       {
-        "license": "Apache 2.0",
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:network:7.1.2"
+  },
+  {
+    "project": "network-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:network-data:7.1.2"
+  },
+  {
+    "project": "network-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:network-domain:7.1.2"
+  },
+  {
+    "project": "okhttp",
+    "description": "Square’s meticulous HTTP client for Java and Kotlin.",
+    "version": "4.9.1",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://square.github.io/okhttp/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okhttp3:okhttp:3.14.9"
+    "dependency": "com.squareup.okhttp3:okhttp:4.9.1"
+  },
+  {
+    "project": "okhttp-logging-interceptor",
+    "description": "Square’s meticulous HTTP client for Java and Kotlin.",
+    "version": "4.9.1",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://square.github.io/okhttp/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.squareup.okhttp3:logging-interceptor:4.9.1"
   },
   {
     "project": "Okio",
-    "description": null,
-    "version": "1.17.4",
-    "developers": [],
-    "url": null,
+    "description": "A modern I/O API for Java",
+    "version": "2.8.0",
+    "developers": [
+      "Square, Inc."
+    ],
+    "url": "https://github.com/square/okio/",
     "year": null,
     "licenses": [
       {
-        "license": "Apache 2.0",
+        "license": "The Apache Software License, Version 2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okio:okio:1.17.4"
+    "dependency": "com.squareup.okio:okio:2.8.0"
   },
   {
     "project": "Otto",
@@ -2189,6 +3133,176 @@ dependencies = [
       }
     ],
     "dependency": "com.squareup:otto:1.3.8"
+  },
+  {
+    "project": "Parcelize Runtime",
+    "description": "Runtime library for the Parcelize compiler plugin",
+    "version": "1.6.10",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.6.10"
+  },
+  {
+    "project": "payment",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment:7.1.2"
+  },
+  {
+    "project": "payment-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-data:7.1.2"
+  },
+  {
+    "project": "payment-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-domain:7.1.2"
+  },
+  {
+    "project": "payment-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-presentation:7.1.2"
+  },
+  {
+    "project": "plan",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:plan:7.1.2"
+  },
+  {
+    "project": "plan-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:plan-data:7.1.2"
+  },
+  {
+    "project": "plan-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:plan-domain:7.1.2"
+  },
+  {
+    "project": "plan-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:plan-presentation:7.1.2"
+  },
+  {
+    "project": "presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:presentation:7.1.2"
   },
   {
     "project": "ReLinker",
@@ -2223,6 +3337,23 @@ dependencies = [
       }
     ],
     "dependency": "com.squareup.retrofit2:retrofit:2.9.0"
+  },
+  {
+    "project": "Retrofit 2 Kotlin Serialization Converter",
+    "description": "A Converter.Factory for Kotlin\u0027s serialization support.",
+    "version": "0.8.0",
+    "developers": [
+      "Jake Wharton"
+    ],
+    "url": "https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
   },
   {
     "project": "SavedState Kotlin Extensions",
@@ -2354,7 +3485,7 @@ dependencies = [
   {
     "project": "Tink Cryptography API for Android",
     "description": "Tink is a small cryptographic library that provides a safe, simple, agile and fast way to accomplish some common cryptographic tasks.",
-    "version": "1.5.0",
+    "version": "1.6.1",
     "developers": [
       ""
     ],
@@ -2366,7 +3497,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.crypto.tink:tink-android:1.5.0"
+    "dependency": "com.google.crypto.tink:tink-android:1.6.1"
   },
   {
     "project": "trustkit",
@@ -2385,6 +3516,159 @@ dependencies = [
       }
     ],
     "dependency": "com.datatheorem.android.trustkit:trustkit:1.1.5"
+  },
+  {
+    "project": "user",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user:7.1.2"
+  },
+  {
+    "project": "user-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-data:7.1.2"
+  },
+  {
+    "project": "user-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-domain:7.1.2"
+  },
+  {
+    "project": "user-settings",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-settings:7.1.2"
+  },
+  {
+    "project": "user-settings-data",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-settings-data:7.1.2"
+  },
+  {
+    "project": "user-settings-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-settings-domain:7.1.2"
+  },
+  {
+    "project": "user-settings-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:user-settings-presentation:7.1.2"
+  },
+  {
+    "project": "util-android-shared-preferences",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:util-android-shared-preferences:7.1.2"
+  },
+  {
+    "project": "util-kotlin",
+    "description": "Proton Core libraries for Android",
+    "version": "7.1.2",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:util-kotlin:7.1.2"
   },
   {
     "project": "VersionedParcelable",
