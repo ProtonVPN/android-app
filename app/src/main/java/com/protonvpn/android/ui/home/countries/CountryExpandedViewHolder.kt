@@ -60,8 +60,8 @@ class CountryExpandedViewHolder(
             textServer.isVisible = true
             textServer.isEnabled = haveAccess && server.online
 
-            textCity.isVisible = server.city != null && !secureCoreEnabled
-            textCity.text = if (server.isFreeServer) "" else server.city
+            textCity.isVisible = server.displayCity != null && !secureCoreEnabled
+            textCity.text = if (server.isFreeServer) "" else server.displayCity
             textCity.isEnabled = haveAccess && server.online
 
             with(featuresAndButtons) {

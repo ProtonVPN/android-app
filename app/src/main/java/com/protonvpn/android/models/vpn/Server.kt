@@ -102,6 +102,7 @@ data class Server(
         get() = features and 1 == 1
 
     fun getCityTranslation() = translations?.get("City")
+    val displayCity get() = getCityTranslation() ?: city
 
     val serverNumber: Int
         get() {

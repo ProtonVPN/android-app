@@ -86,7 +86,7 @@ class TvServerListViewModel @Inject constructor(
         val vpnUser = currentUser.vpnUser()
         val serversVM = linkedMapOf<ServerGroup, List<ServerViewModel>>()
         if (vpnUser?.isUserPlusOrAbove == true) {
-            val cities = vpnCountry.serverList.groupBy { it.city }
+            val cities = vpnCountry.serverList.groupBy { it.displayCity }
                 .toSortedMap(Comparator { o1, o2 ->
                     // Put servers without city at the end
                     if (o1 == null || o2 == null)

@@ -155,7 +155,7 @@ class ServerResultBinding(
 
             val context = root.context
             textTitle.text = getMatchTextWithHighlight(context)
-            textSubtitle.text = server.city // TODO: translate city name (we should translate city names everywhere)
+            textSubtitle.text = server.displayCity
         }
     }
 
