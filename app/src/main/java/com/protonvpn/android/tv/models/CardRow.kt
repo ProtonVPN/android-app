@@ -21,4 +21,9 @@ package com.protonvpn.android.tv.models
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
-class CardRow(@StringRes val title: Int, @DrawableRes val icon: Int, val cards: List<Card>)
+class CardRow(
+    @StringRes val title: Int,
+    @DrawableRes val icon: Int,
+    val cards: List<Card>,
+    val tintIcon: Boolean = false
+)

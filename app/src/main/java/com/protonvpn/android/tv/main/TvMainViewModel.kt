@@ -20,6 +20,7 @@ package com.protonvpn.android.tv.main
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
@@ -161,10 +162,10 @@ class TvMainViewModel @Inject constructor(
     }
 
     private fun countryListItemIcon(country: VpnCountry) = when {
-        country.isUnderMaintenance() -> R.drawable.ic_wrench
+        country.isUnderMaintenance() -> R.drawable.ic_proton_wrench
         currentUser.vpnUserCached()?.isFreeUser != true -> null
         country.hasAccessibleServer(currentUser.vpnUserCached()) -> R.drawable.ic_free
-        else -> R.drawable.ic_lock
+        else -> R.drawable.ic_proton_lock_filled
     }
 
     fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
@@ -221,32 +222,43 @@ class TvMainViewModel @Inject constructor(
                         profile = it
                     )
                 )
-        }
+            }
         return recentsList
     }
 
-    private fun profileCardTitleIcon(profile: Profile) =
-        if (!currentUser.vpnUserCached().hasAccessToServer(profile.server))
-            R.drawable.ic_lock
-        else
-            if (profile.server?.online == true) R.drawable.ic_thunder else R.drawable.ic_wrench
+    @DrawableRes
+    private fun profileCardTitleIcon(profile: Profile): Int {
+        val defaultConnection = serverManager.defaultConnection
+        return when {
+            !currentUser.vpnUserCached().hasAccessToServer(profile.server) -> R.drawable.ic_proton_lock_filled
+            profile.server?.online == true && profile.isPreBakedProfile -> R.drawable.ic_proton_bolt
+            profile.server?.online == true && profile.server == defaultConnection.server -> R.drawable.ic_proton_star
+            profile.server?.online == true -> R.drawable.ic_proton_clock_rotate_left
+            else -> R.drawable.ic_proton_wrench
+        }
+    }
 
-    private fun quickConnectTitleIcon() = when {
-        isConnected() || isEstablishingConnection() -> R.drawable.ic_notification_disconnected
-        serverManager.defaultConnection.server?.online == true -> R.drawable.ic_thunder
-        else -> R.drawable.ic_wrench
+    @DrawableRes
+    private fun quickConnectTitleIcon(): Int {
+        val defaultConnection = serverManager.defaultConnection
+        return when {
+            isConnected() || isEstablishingConnection() -> 0
+            defaultConnection.server?.online == true ->
+                if (defaultConnection.isPreBakedProfile) R.drawable.ic_proton_bolt else R.drawable.ic_proton_star
+            else -> R.drawable.ic_proton_wrench
+        }
     }
 
     private fun constructQuickConnect(context: Context): Card {
-        val label = context.getString(when {
+        val labelRes = when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
             serverManager.defaultConnection.isPreBakedProfile -> R.string.tv_quick_connect_recommened
             else -> R.string.tv_quick_connect_favourite
-        })
+        }
         return QuickConnectCard(
             title = Title(
-                text = label,
+                text = context.getString(labelRes),
                 resId = quickConnectTitleIcon(),
                 backgroundColorRes = if (isConnected() || isEstablishingConnection())
                     R.color.tvAlert else R.color.tvGridItemOverlay
@@ -254,7 +266,8 @@ class TvMainViewModel @Inject constructor(
             backgroundImage = DrawableImage(
                 resId = quickConnectBackground(context),
                 tint = if (isConnected() || isEstablishingConnection())
-                    R.color.tvDisconnectButtonTint else R.color.transparent)
+                    R.color.tvDisconnectButtonTint else R.color.transparent
+            )
         )
     }
 

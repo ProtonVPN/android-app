@@ -61,6 +61,7 @@
     <color name="tvButtonBg">#6D697D</color>
     <color name="tvCardBackground">#292733</color>
 
+    <color name="tvCardRowIconColor">#5D616B</color>
     <color name="tvMapSelected">#6D697D</color>
     <color name="tvMapCountry">#3F3B4C</color>
     <color name="tvMapConnected">@color/tvAccent</color>

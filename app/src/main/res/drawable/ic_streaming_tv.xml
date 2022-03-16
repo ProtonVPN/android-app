@@ -1,27 +1,12 @@
-<!--
- Copyright (c) 2020 Proton Technologies AG
-
- This file is part of ProtonVPN.
-
- ProtonVPN is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- ProtonVPN is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
--->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="512"
-    android:viewportHeight="512">
-    <path
-        android:fillColor="#F0dde6ec"
-        android:pathData="M256,0C114.833,0 0,114.844 0,256s114.833,256 256,256s256,-114.844 256,-256S397.167,0 256,0zM357.771,264.969l-149.333,96c-1.75,1.135 -3.771,1.698 -5.771,1.698c-1.75,0 -3.521,-0.438 -5.104,-1.302C194.125,359.49 192,355.906 192,352V160c0,-3.906 2.125,-7.49 5.563,-9.365c3.375,-1.854 7.604,-1.74 10.875,0.396l149.333,96c3.042,1.958 4.896,5.344 4.896,8.969S360.813,263.01 357.771,264.969z" />
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <path
+      android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"
+      android:fillColor="#ffffff"/>
+  <path
+      android:pathData="M13.0239,9.6516L13.4462,9.0318V9.0318L13.0239,9.6516ZM21.4989,15.4257L21.9212,14.8059L21.9211,14.8059L21.4989,15.4257ZM21.4989,16.5743L21.0766,15.9545L21.4989,16.5743ZM13.0239,22.3484L12.6016,21.7286H12.6016L13.0239,22.3484ZM11.707,10.2259L10.957,10.2259L11.707,10.2259ZM11.707,21.7741H12.457H11.707ZM12.6016,10.2714L21.0766,16.0455L21.9211,14.8059L13.4462,9.0318L12.6016,10.2714ZM21.0766,15.9545L12.6016,21.7286L13.4462,22.9682L21.9212,17.1941L21.0766,15.9545ZM10.957,10.2259L10.957,21.7741H12.457L12.457,10.2259L10.957,10.2259ZM12.6016,21.7286C12.568,21.7515 12.5151,21.7591 12.4635,21.7367C12.4407,21.7267 12.4365,21.718 12.4412,21.7245C12.449,21.7351 12.457,21.7553 12.457,21.7741H10.957C10.957,22.4355 11.3908,22.9053 11.8639,23.1116C12.3363,23.3176 12.9417,23.3119 13.4462,22.9682L12.6016,21.7286ZM21.0766,16.0455C21.0876,16.053 21.0842,16.0539 21.0783,16.0429C21.0727,16.0325 21.0681,16.0175 21.0681,16C21.0681,15.9825 21.0727,15.9675 21.0783,15.9571C21.0842,15.9461 21.0876,15.947 21.0766,15.9545L21.9212,17.1941C22.7838,16.6064 22.7838,15.3936 21.9212,14.8059L21.0766,16.0455ZM13.4462,9.0318C12.9417,8.6881 12.3363,8.6824 11.8639,8.8884C11.3908,9.0947 10.957,9.5645 10.957,10.2259L12.457,10.2259C12.457,10.2447 12.449,10.2649 12.4412,10.2755C12.4365,10.282 12.4407,10.2733 12.4635,10.2633C12.5151,10.2409 12.568,10.2485 12.6016,10.2714L13.4462,9.0318Z"
+      android:fillColor="#1C1B24"/>
 </vector>
