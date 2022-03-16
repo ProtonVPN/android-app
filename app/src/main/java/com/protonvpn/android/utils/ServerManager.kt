@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -87,7 +88,8 @@ class ServerManager @Inject constructor(
     val isOutdated: Boolean
         get() = updatedAt == null || vpnCountries.isEmpty() ||
             DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
-            !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE
+            !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
+            translationsLang != Locale.getDefault().language
 
     private val allServers get() =
         sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
