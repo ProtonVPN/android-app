@@ -64,6 +64,7 @@ class SearchViewModel @Inject constructor(
     )
     sealed class ViewState {
         object Empty : ViewState()
+        object EmptyResult : ViewState()
         class SearchHistory(val queries: List<String>) : ViewState()
         class SearchResults(
             val query: String,
@@ -94,6 +95,8 @@ class SearchViewModel @Inject constructor(
     private val eventCloseFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventCloseLiveData = eventCloseFlow.asLiveData() // Expose flow once HomeActivity is converted to kotlin.
 
+    val secureCore get() = userData.secureCoreEnabled
+
     fun setQuery(newQuery: String) {
         query.value = newQuery
     }
@@ -121,36 +124,41 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun mapState(query: String, vpnUser: VpnUser?, connectedServer: Server?): ViewState {
-        val secureCore = userData.secureCoreEnabled
         val result = search(query, secureCore)
-        return if (result.isEmpty) {
-            // TODO: add search history
-            ViewState.Empty
-        } else {
-            with(result) {
-                if (!secureCore) {
-                    ViewState.SearchResults(
-                        query,
-                        countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer) },
-                        cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
-                        servers.map {
-                            ResultItem(it, it.value == connectedServer, vpnUser.hasAccessToServer(it.value), it.value.online)
-                        }
-                    )
-                } else {
-                    ViewState.ScSearchResults(
-                        query,
-                        countries.flatMap { countryMatch ->
-                            countryMatch.value.serverList.map {
-                                ResultItem(
-                                    Search.Match(countryMatch.textMatch, it),
-                                    it == connectedServer,
-                                    vpnUser.hasAccessToServer(it),
-                                    it.online
-                                )
+        return when {
+            query.isBlank() -> {
+                // TODO: add search history
+                ViewState.Empty
+            }
+            result.isEmpty -> {
+                ViewState.EmptyResult
+            }
+            else -> {
+                with(result) {
+                    if (!secureCore) {
+                        ViewState.SearchResults(
+                            query,
+                            countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer) },
+                            cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
+                            servers.map {
+                                ResultItem(it, it.value == connectedServer, vpnUser.hasAccessToServer(it.value), it.value.online)
                             }
-                        }
-                    )
+                        )
+                    } else {
+                        ViewState.ScSearchResults(
+                            query,
+                            countries.flatMap { countryMatch ->
+                                countryMatch.value.serverList.map {
+                                    ResultItem(
+                                        Search.Match(countryMatch.textMatch, it),
+                                        it == connectedServer,
+                                        vpnUser.hasAccessToServer(it),
+                                        it.online
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
