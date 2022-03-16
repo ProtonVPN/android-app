@@ -98,7 +98,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginEnd="4dp"
-            app:srcCompat="@drawable/ic_arrow_down"
+            app:srcCompat="@drawable/ic_proton_arrow_down"
             app:tint="?attr/proton_notification_success" />
 
         <TextView
@@ -111,7 +111,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginEnd="4dp"
-            app:srcCompat="@drawable/ic_arrow_up"
+            app:srcCompat="@drawable/ic_proton_arrow_up"
             app:tint="?attr/proton_notification_error" />
 
         <TextView

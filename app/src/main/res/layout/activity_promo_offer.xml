@@ -30,7 +30,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close" />
+        app:navigationIcon="@drawable/ic_proton_cross" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

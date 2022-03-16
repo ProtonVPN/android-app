@@ -44,7 +44,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             app:tint="?attr/proton_icon_hint"
-            app:srcCompat="@drawable/ic_info_circle_24" />
+            app:srcCompat="@drawable/ic_proton_info_circle" />
 
         <LinearLayout
             android:layout_width="match_parent"

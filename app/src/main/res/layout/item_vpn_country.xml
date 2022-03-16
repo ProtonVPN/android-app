@@ -53,7 +53,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/server_list_flag_margin"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_secure_core_arrow_color" />
+                app:srcCompat="@drawable/ic_proton_chevrons_right_16"
+                app:tint="?attr/proton_icon_accent" />
 
             <TextView
                 android:id="@+id/textCountry"
@@ -97,14 +98,14 @@
                 android:rotation="180"
                 android:scaleType="center"
                 android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/ic_chevron_up" />
+                app:srcCompat="@drawable/ic_proton_chevron_up" />
 
             <ImageView
                 android:id="@+id/iconUnderMaintenance"
                 android:layout_width="28dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/listItemMaintenance"
-                app:srcCompat="@drawable/ic_wrench_icon"
+                app:srcCompat="@drawable/ic_proton_wrench"
                 app:tint="?proton_icon_hint"/>
         </LinearLayout>
 

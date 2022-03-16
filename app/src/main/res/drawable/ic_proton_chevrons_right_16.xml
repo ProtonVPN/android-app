@@ -1,5 +1,5 @@
-<!--
-  Copyright (c) 2021. Proton Technologies AG
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2022. Proton AG
 
   This file is part of ProtonVPN.
 
@@ -16,17 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:autoMirrored="true"
-    android:viewportWidth="16"
-    android:viewportHeight="16">
-    <path
-        android:fillColor="?attr/proton_icon_norm"
-        android:fillType="evenOdd"
-        android:pathData="M6.71,8H10V2H1V8H3V11.71L6.71,8ZM2,7V3H9V7H6.29L4,9.29V7H2Z" />
-    <path
-        android:fillColor="?attr/proton_icon_norm"
-        android:pathData="M11,6V5H15V11H13V14.71L9.29,11H6V9H7V10H9.71L12,12.29V10.01H13V10H14V6H11Z" />
-</vector>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="16dp" android:height="16dp" android:drawable="@drawable/ic_proton_chevrons_right"/>
+</layer-list>

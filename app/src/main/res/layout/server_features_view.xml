@@ -23,29 +23,29 @@
 
     <ImageView
         android:id="@+id/iconP2P"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_p2p"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:srcCompat="@drawable/ic_proton_arrows_switch"
         android:layout_marginEnd="4dp"/>
 
     <ImageView
         android:id="@+id/iconTor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_tor"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:srcCompat="@drawable/ic_proton_brand_tor"
         android:layout_marginEnd="4dp"/>
 
     <ImageView
         android:id="@+id/iconStreaming"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_streaming"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:srcCompat="@drawable/ic_proton_play"
         android:layout_marginEnd="4dp"/>
 
     <ImageView
         android:id="@+id/iconSmartRouting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_smart_routing"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:srcCompat="@drawable/ic_proton_globe"
         android:layout_marginEnd="4dp"/>
 </merge>

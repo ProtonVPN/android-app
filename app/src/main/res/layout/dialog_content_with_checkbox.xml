@@ -43,7 +43,8 @@
         android:text="@string/dialogLearnMore"
         android:textColor="?attr/brand_norm"
         android:visibility="gone"
-        app:drawableEndCompat="@drawable/ic_external_link_brand" />
+        app:drawableEndCompat="@drawable/ic_proton_arrow_out_square_20"
+        app:drawableTint="?attr/proton_icon_accent" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkboxDontShowAgain"

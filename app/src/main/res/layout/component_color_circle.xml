@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:alpha="0.0"
-        app:srcCompat="@drawable/ic_check" />
+        app:srcCompat="@drawable/ic_proton_checkmark" />
 
 </FrameLayout>

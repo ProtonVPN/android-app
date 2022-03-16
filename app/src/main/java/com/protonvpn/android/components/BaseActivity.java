@@ -110,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public void initDrawer() {
-        toolbar.setNavigationIcon(R.drawable.ic_hamburger_with_margin);
+        toolbar.setNavigationIcon(R.drawable.ic_proton_hamburger);
         toolbar.setNavigationContentDescription(R.string.hamburgerMenu);
         toolbar.setNavigationOnClickListener(view -> toggleDrawer());
         setDrawerState(true, navigationDrawer);

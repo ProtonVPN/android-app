@@ -45,7 +45,8 @@
         android:duplicateParentState="true"
         android:ellipsize="end"
         android:paddingVertical="12dp"
-        android:singleLine="true" />
+        android:singleLine="true"
+        app:drawableTint="?attr/proton_icon_accent" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonUpgrade"
@@ -61,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/listItemMaintenance"
-        app:srcCompat="@drawable/ic_wrench_icon"
+        app:srcCompat="@drawable/ic_proton_wrench"
         app:tint="?attr/proton_icon_weak"
         android:visibility="gone"/>
 </LinearLayout>

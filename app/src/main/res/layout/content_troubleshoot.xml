@@ -110,7 +110,7 @@
             android:background="?attr/selectableItemBackground"
             android:drawablePadding="20dp"
             android:text="@string/troubleshootCustomerSupport"
-            app:drawableStartCompat="@drawable/ic_comments" />
+            app:drawableStartCompat="@drawable/ic_proton_speech_bubble" />
 
     </LinearLayout>
 

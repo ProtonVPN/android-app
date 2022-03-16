@@ -108,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginEnd="@dimen/gap_medium"
-            app:srcCompat="@drawable/ic_info_circle_24" />
+            app:srcCompat="@drawable/ic_proton_info_circle"
+            app:tint="?attr/proton_icon_weak" />
 
         <TextView
             android:id="@+id/subscriptionDetails"

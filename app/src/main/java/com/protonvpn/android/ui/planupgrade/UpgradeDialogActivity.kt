@@ -98,7 +98,7 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
     protected fun ViewGroup.addFeature(text: String, @DrawableRes iconRes: Int) {
         val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
         views.text.text = text
-        views.text.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+        views.icon.setImageResource(iconRes)
     }
 }
 
@@ -133,9 +133,9 @@ class UpgradeNetShieldDialogActivity : UpgradeDialogActivity() {
         textTitle.setText(R.string.upgrade_netshield_title_new)
         textMessage.setText(R.string.upgrade_plus_subtitle)
         with(layoutFeatureItems) {
-            addFeature(R.string.upgrade_netshield_block_ads, R.drawable.ic_unavailable_circle)
-            addFeature(R.string.upgrade_netshield_block_malware, R.drawable.ic_shield)
-            addFeature(R.string.upgrade_netshield_speed, R.drawable.ic_rocket)
+            addFeature(R.string.upgrade_netshield_block_ads, R.drawable.ic_proton_circle_slash)
+            addFeature(R.string.upgrade_netshield_block_malware, R.drawable.ic_proton_shield)
+            addFeature(R.string.upgrade_netshield_speed, R.drawable.ic_proton_rocket)
             isVisible = true
         }
     }
@@ -149,9 +149,9 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
         textTitle.setText(R.string.upgrade_secure_core_title_new)
         textMessage.setText(R.string.upgrade_plus_subtitle)
         with(layoutFeatureItems) {
-            addFeature(R.string.upgrade_secure_core_countries, R.drawable.ic_imap_smtp)
-            addFeature(R.string.upgrade_secure_core_encryption, R.drawable.ic_lock)
-            addFeature(R.string.upgrade_secure_core_protect, R.drawable.ic_alias)
+            addFeature(R.string.upgrade_secure_core_countries, R.drawable.ic_proton_servers)
+            addFeature(R.string.upgrade_secure_core_encryption, R.drawable.ic_proton_lock)
+            addFeature(R.string.upgrade_secure_core_protect, R.drawable.ic_proton_alias)
             isVisible = true
         }
     }
@@ -173,10 +173,10 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
                 Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
                 Constants.MAX_CONNECTIONS_IN_PLUS_PLAN
             )
-            addFeature(R.string.upgrade_plus_countries_streaming, R.drawable.ic_play)
-            addFeature(manyDevices, R.drawable.ic_mobile_add)
-            addFeature(R.string.upgrade_plus_countries_netshield, R.drawable.ic_shield)
-            addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_rocket)
+            addFeature(R.string.upgrade_plus_countries_streaming, R.drawable.ic_proton_play)
+            addFeature(manyDevices, R.drawable.ic_proton_power_off)
+            addFeature(R.string.upgrade_plus_countries_netshield, R.drawable.ic_proton_shield)
+            addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_proton_rocket)
             isVisible = true
         }
         upgradeCountriesMoreCaption.isVisible = true
