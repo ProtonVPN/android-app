@@ -20,9 +20,13 @@
 package com.protonvpn.android.search
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,11 +37,15 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentSearchResultsBinding
+import com.protonvpn.android.databinding.SearchEmptyHintBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.preventClickTrough
+import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -66,11 +74,34 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
             viewLifecycleOwner,
             Observer { updateState(it) }
         )
+
+        with(binding.emptyStateHints) {
+            if (viewModel.secureCore) {
+                addEmptyHint(R.string.search_empty_hint_countries_secure_core)
+            } else {
+                addEmptyHint(R.string.search_empty_hint_countries)
+                addEmptyHint(R.string.search_empty_hint_cities)
+                addEmptyHint(R.string.search_empty_hint_usa_regions)
+                addEmptyHint(R.string.search_empty_hint_servers)
+            }
+        }
+    }
+
+    private fun LinearLayout.addEmptyHint(@StringRes textRes: Int) {
+        val textView = SearchEmptyHintBinding.inflate(layoutInflater).root
+        val icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_search, null)!!.mutate().apply {
+            bounds = Rect(0, 0, HINT_SEARCH_ICON_DP.toPx(), HINT_SEARCH_ICON_DP.toPx())
+        }
+        textView.setCompoundDrawablesRelative(icon, null, null, null)
+        textView.text = HtmlTools.fromHtml(
+            getString(textRes, ContextCompat.getColor(context, R.color.text_hint).toStringHtmlColorNoAlpha()))
+        addView(textView)
     }
 
     private fun updateState(viewState: SearchViewModel.ViewState) {
         with(binding) {
             layoutEmptyState.isVisible = false
+            layoutEmptyResult.isVisible = false
             layoutResultsState.isVisible = false
             when (viewState) {
                 is SearchViewModel.ViewState.SearchHistory -> {
@@ -78,6 +109,10 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
                 }
                 is SearchViewModel.ViewState.Empty -> {
                     layoutEmptyState.isVisible = true
+                    resultsAdapter.clear()
+                }
+                is SearchViewModel.ViewState.EmptyResult -> {
+                    layoutEmptyResult.isVisible = true
                     resultsAdapter.clear()
                 }
                 is SearchViewModel.ViewState.SearchResults -> {
@@ -143,5 +178,9 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
     private fun showUpgrade() {
         startActivity(Intent(requireContext(), UpgradePlusCountriesDialogActivity::class.java));
+    }
+
+    companion object {
+        private const val HINT_SEARCH_ICON_DP = 16
     }
 }
