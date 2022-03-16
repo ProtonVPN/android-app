@@ -21,12 +21,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:background="#17181C">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textUpgradeFeaturesHedline"
-        style="@style/Proton.Text.Default"
+        style="@style/Proton.Text.DefaultSmall.Weak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -41,11 +40,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
             android:paddingTop="2dp"
-            app:srcCompat="@drawable/ic_check_circle_filled" />
+            app:srcCompat="@drawable/ic_proton_check_circle_full"
+            app:tint="?attr/proton_icon_accent" />
 
         <TextView
             android:id="@+id/textManyCountries"
@@ -63,11 +63,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
             android:paddingTop="2dp"
-            app:srcCompat="@drawable/ic_check_circle_filled" />
+            app:srcCompat="@drawable/ic_proton_check_circle_full"
+            app:tint="?attr/proton_icon_accent" />
 
         <TextView
             style="@style/Proton.Text.DefaultSmall"
@@ -84,11 +85,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
             android:paddingTop="2dp"
-            app:srcCompat="@drawable/ic_check_circle_filled" />
+            app:srcCompat="@drawable/ic_proton_check_circle_full"
+            app:tint="?attr/proton_icon_accent" />
 
         <TextView
             style="@style/Proton.Text.DefaultSmall"

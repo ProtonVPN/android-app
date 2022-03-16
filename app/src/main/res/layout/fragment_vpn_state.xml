@@ -45,7 +45,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textNotConnectedStatus"
                 app:layout_constraintBottom_toBottomOf="@id/textNotConnectedStatus"
-                app:srcCompat="@drawable/ic_chevron_up" />
+                app:srcCompat="@drawable/ic_proton_chevron_up"
+                app:tint="?attr/proton_icon_weak" />
 
             <TextView
                 android:id="@+id/textNotConnectedStatus"

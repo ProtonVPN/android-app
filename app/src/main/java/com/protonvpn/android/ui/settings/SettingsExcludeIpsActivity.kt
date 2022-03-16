@@ -85,7 +85,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
                     getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
 
                 val section = Section(HeaderViewHolder(text = headerText), excludedIps.map {
-                    LabeledItemActionViewHolder(it, R.drawable.ic_clear, removeAction)
+                    LabeledItemActionViewHolder(it, R.drawable.ic_proton_cross, removeAction)
                 })
                 listOf(section)
             } else {

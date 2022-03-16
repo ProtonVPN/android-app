@@ -63,7 +63,7 @@
         android:layout_marginVertical="10dp"
         android:contentDescription="@string/listItemMaintenance"
         android:scaleType="center"
-        app:srcCompat="@drawable/ic_wrench_icon"
+        app:srcCompat="@drawable/ic_proton_wrench"
         app:tint="?attr/proton_icon_weak" />
 
     <me.proton.core.presentation.ui.view.ProtonButton

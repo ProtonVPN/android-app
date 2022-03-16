@@ -127,7 +127,7 @@ class SettingsAlwaysOnActivity : BaseActivityV2() {
 
             val iconSize = binding.textStep2.textSize * ICON_SIZE_RATIO
             val step2Text = SpannableString(getCaption(R.string.settingsAlwaysOnWindowStep2))
-            step2Text.insertDrawable("%1\$s", R.drawable.ic_cog_wheel, iconSize)
+            step2Text.insertDrawable("%1\$s", R.drawable.ic_proton_cog_wheel, iconSize)
             binding.textStep2.text = step2Text
 
             binding.textStep3.text = getCaption(R.string.settingsAlwaysOnWindowStep3)

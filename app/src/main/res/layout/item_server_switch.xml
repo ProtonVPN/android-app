@@ -19,6 +19,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -129,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:visibility="gone"
-                    tools:src="@drawable/se" />
+                    tools:src="@drawable/flag_se" />
 
                 <ImageView
                     android:id="@+id/arrowToSc"
@@ -137,7 +138,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_secure_core_arrow_color"
+                    app:srcCompat="@drawable/ic_proton_chevrons_right_16"
+                    app:tint="?attr/proton_icon_accent"
                     android:visibility="gone" />
 
                 <ImageView
@@ -145,7 +147,7 @@
                     android:layout_width="16dp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    tools:src="@drawable/de" />
+                    tools:src="@drawable/flag_de" />
 
                 <TextView
                     android:id="@+id/textToServer"
