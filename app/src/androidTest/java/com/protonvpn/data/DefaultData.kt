@@ -9,4 +9,5 @@ object DefaultData {
     const val PROFILE_NAME = "Test Profile"
     const val ANDROID_TESTRAIL_ID = "2"
     const val TESTRAIL_PROJECT_URL = "https://proton.testrail.io/index.php?/api/v2/"
+    const val ATLAS_VERIFICATION_CODE = "666666"
 }

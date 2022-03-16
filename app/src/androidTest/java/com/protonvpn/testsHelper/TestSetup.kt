@@ -19,8 +19,10 @@
 
 package com.protonvpn.testsHelper
 
+import com.protonvpn.android.test.BuildConfig
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.testRail.ApiClient
 
 class TestSetup {
     companion object {
@@ -31,6 +33,11 @@ class TestSetup {
             Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true)
             Storage.saveBoolean(OnboardingPreferences.NETSHIELD_DIALOG, true)
+        }
+
+        fun clearJails(){
+            val apiClient = ApiClient(BuildConfig.API_DOMAIN)
+            apiClient.sendGet("/internal/quark/jail:unban")
         }
     }
 }

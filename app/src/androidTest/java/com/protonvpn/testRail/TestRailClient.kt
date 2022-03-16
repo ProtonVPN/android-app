@@ -29,20 +29,22 @@ class TestRailClient {
 
     private val data = HashMap<Any?, Any?>()
     private lateinit var client: ApiClient
+    private lateinit var apiKey: String
+    private lateinit var email: String
 
     fun createTestRun(): String {
         data["name"] =
             "${BuildConfig.CI_BRANCH_NAME} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) " + DateTime.now()
         data["suite_id"] = DefaultData.ANDROID_TESTRAIL_ID
         data["description"] = BuildConfig.CI_COMMIT_MESSAGE
-        val newRun = client.sendPost("add_run/" + DefaultData.ANDROID_TESTRAIL_ID, data)
+        val newRun = client.sendPostToTestrail("add_run/" + DefaultData.ANDROID_TESTRAIL_ID, data, email, apiKey)
         return newRun["id"].toString()
     }
 
     fun addResultForTestCase(testCaseId: Long, status: Int, comment: String, testRunId: String?) {
         data["status_id"] = status
         data["comment"] = comment
-        client.sendPost("add_result_for_case/$testRunId/$testCaseId", data)
+        client.sendPostToTestrail("add_result_for_case/$testRunId/$testCaseId", data, email, apiKey)
     }
 
     fun shouldReport(): Boolean {
@@ -56,9 +58,9 @@ class TestRailClient {
 
     init {
         if(shouldReport()){
-            val email = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[0]
-            val apiKey = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[1]
-            client = ApiClient(DefaultData.TESTRAIL_PROJECT_URL, email, apiKey)
+            email = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[0]
+            apiKey = BuildConfig.TESTRAIL_CREDENTIALS.split(":")[1]
+            client = ApiClient(DefaultData.TESTRAIL_PROJECT_URL)
         }
     }
 }

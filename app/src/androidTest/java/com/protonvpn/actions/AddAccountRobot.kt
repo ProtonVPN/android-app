@@ -30,6 +30,8 @@ import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
 class AddAccountRobot : BaseRobot() {
     fun selectSignInOption() : LoginRobot = clickElementById(R.id.sign_in)
 
+    fun selectSignupOption() : SignupRobot = clickElementById(R.id.sign_up)
+
     class Verify : BaseVerify(){
         fun successfullyLoggedOut() {
             checkIfElementIsDisplayedById(R.id.sign_in)
