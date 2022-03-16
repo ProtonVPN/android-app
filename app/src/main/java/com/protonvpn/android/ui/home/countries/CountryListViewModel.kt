@@ -63,8 +63,8 @@ class CountryListViewModel @Inject constructor(
 
     private fun getMappedServersForClassicView(country: VpnCountry): List<ServersGroup> {
         val countryServers = country.connectableServers
-            .sortedBy { it.city }
-            .sortedBy { it.city == null } // null cities go to the end of the list
+            .sortedBy { it.displayCity }
+            .sortedBy { it.displayCity == null } // null cities go to the end of the list
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
