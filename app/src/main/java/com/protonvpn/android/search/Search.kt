@@ -21,8 +21,8 @@ package com.protonvpn.android.search
 
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.ServerManager
-import org.apache.commons.lang3.StringUtils
 import java.util.Locale
 import javax.inject.Inject
 
@@ -111,7 +111,7 @@ class Search @Inject constructor(
         }.toList()
     }
 
-    private fun normalize(text: String) = StringUtils.stripAccents(text).lowercase()
+    private fun normalize(text: String) = ApacheStringUtils.stripAccents(text).lowercase()
 
     companion object {
         val SEPARATORS = arrayOf('-', '#')
