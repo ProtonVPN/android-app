@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/gr" />
+        tools:src="@drawable/flag_gr" />
 
     <LinearLayout
         android:id="@+id/titleLayout"
@@ -79,6 +79,7 @@
             lb:layout_constraintStart_toStartOf="parent"
             lb:layout_constraintTop_toTopOf="@+id/imageBackground"
             lb:layout_viewType="main"
+            lb:tint="@color/white"
             tools:src="@drawable/ic_free" />
 
         <TextView

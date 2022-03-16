@@ -100,8 +100,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
         }
 
         connectStreaming.initLolipopButtonFocus()
-        connectStreaming.setStartDrawable(
-            if (viewModel.isPlusUser()) R.drawable.connect_streaming_drawable else R.drawable.ic_lock)
+        connectStreaming.setStartDrawable(if (viewModel.isPlusUser()) 0 else R.drawable.ic_proton_lock_filled)
         connectStreaming.setOnClickListener {
             if (viewModel.isPlusUser()) {
                 viewModel.connect(requireActivity() as BaseTvActivity, card)
