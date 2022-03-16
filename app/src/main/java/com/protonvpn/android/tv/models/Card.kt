@@ -45,7 +45,7 @@ class CountryCard(
 
 class ProfileCard(
     title: String = "",
-    @DrawableRes titleDrawable: Int = R.drawable.ic_thunder,
+    @DrawableRes titleDrawable: Int = R.drawable.ic_proton_bolt,
     @DrawableRes backgroundImage: Int,
     val profile: Profile
 ) : Card(
@@ -62,8 +62,8 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
     title = Title(title), backgroundImage = DrawableImage(image)
 )
 
-class LogoutCard(title: String) : IconCard(title, R.drawable.ic_sign_out_tv)
-class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_report_issue_tv)
+class LogoutCard(title: String) : IconCard(title, R.drawable.ic_proton_arrow_out_from_rectangle)
+class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_proton_bug)
 
 class Title(
     val text: String,

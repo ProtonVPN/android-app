@@ -60,8 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:layout_marginStart="4dp"
-                android:tint="?android:attr/textColorPrimary"
-                android:src="@drawable/ic_lock"/>
+                app:srcCompat="@drawable/ic_proton_lock_filled"
+                app:tint="?android:attr/textColorPrimary" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +89,8 @@
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_wrench_icon"/>
+                    app:srcCompat="@drawable/ic_proton_wrench"
+                    app:tint="@color/tvBackground" />
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView

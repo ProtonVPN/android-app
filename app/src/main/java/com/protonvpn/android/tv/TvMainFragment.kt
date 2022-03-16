@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -180,9 +181,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     private fun ArrayObjectAdapter.updateRecentsRow() {
         val recentsRow = CardRow(
-            title = R.string.recents,
-            icon = R.drawable.ic_recent,
-            cards = viewModel.getRecentCardList(requireContext())
+            title = R.string.quickConnect,
+            icon = R.drawable.ic_proton_power_off_32,
+            cards = viewModel.getRecentCardList(requireContext()),
+            tintIcon = true
         )
         addOrReplace(0, createRow(recentsRow, 0))
     }
@@ -210,8 +212,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
-            icon = R.drawable.row_more_icon,
-            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))))
+            icon = R.drawable.ic_proton_three_dots_horizontal_32,
+            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))),
+            tintIcon = true
+        )
         addOrReplace(index, createRow(settingsRow, index))
         index++
     }
@@ -271,6 +275,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
             with(holder as RowViewHolder) {
                 binding.icon.setImageResource(row.icon)
                 binding.label.setText(row.title)
+                if (row.tintIcon) {
+                    binding.icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.tvCardRowIconColor))
+                } else {
+                    binding.icon.colorFilter = null
+                }
             }
         }
 

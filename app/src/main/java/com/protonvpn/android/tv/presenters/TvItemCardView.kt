@@ -54,8 +54,10 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         imageTitle.isVisible = card.title?.resId != null
 
         card.backgroundImage?.let { drawableImage ->
-            drawableImage.tint?.let {
-                imageBackground.setColorTint(ContextCompat.getColor(context, it))
+            if (drawableImage.tint != null) {
+                imageBackground.setColorTint(ContextCompat.getColor(context, drawableImage.tint))
+            } else {
+                imageBackground.colorFilter = null
             }
 
             imageBackground.setImageResource(drawableImage.resId)
