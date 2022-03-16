@@ -211,9 +211,6 @@
     </style>
 
     <style name="ProtonTheme.Vpn.Mobile">
-        <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
-             for now. -->
-        <item name="proton_text_disabled">?attr/proton_text_hint</item>
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
         <item name="serverLoadLow">?attr/proton_notification_success</item>
         <item name="serverLoadMedium">?attr/proton_notification_warning</item>
