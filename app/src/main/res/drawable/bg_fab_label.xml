@@ -18,6 +18,6 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="4dp" />
+    <corners android:radius="8dp" />
     <solid android:color="@color/white" />
 </shape>
