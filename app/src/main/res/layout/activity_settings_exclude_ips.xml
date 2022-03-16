@@ -56,7 +56,7 @@
             android:background="@drawable/round_selectable_item_bg"
             android:contentDescription="@string/add"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_plus"
+            app:srcCompat="@drawable/ic_proton_plus"
             app:tint="@color/icon_norm_selector" />
 
     </LinearLayout>

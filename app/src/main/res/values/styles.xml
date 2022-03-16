@@ -89,6 +89,7 @@
         <item name="android:paddingBottom">14dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+        <item name="drawableTint">?attr/proton_icon_weak</item>
     </style>
 
     <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
@@ -156,7 +157,7 @@
       Notifications should not use the application styles.
       -->
     <style name="ThemeOverlay.ProtonItemServerSwitch" parent="">
-        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward</item>
+        <item name="serverSwitchArrowDrawable">@drawable/ic_proton_arrow_right</item>
         <item name="serverSwitchLabelTextStyle">@style/Proton.Text.Caption</item>
         <item name="serverSwitchServerTextStyle">@style/Proton.Text.DefaultSmall</item>
     </style>
@@ -193,7 +194,7 @@
         <item name="android:minHeight">40dp</item>
         <item name="backgroundTint">@color/power_button_bg</item>
         <item name="android:padding">8dp</item>
-        <item name="icon">@drawable/ic_power_off</item>
+        <item name="icon">@drawable/ic_proton_power_off</item>
         <item name="iconTint">?attr/proton_icon_norm</item>
         <item name="rippleColor">@color/power_button_ripple</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Oval</item>

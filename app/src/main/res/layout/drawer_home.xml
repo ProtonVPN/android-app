@@ -55,37 +55,37 @@
                     style="@style/TextView.Drawer"
                     android:layout_marginTop="32dp"
                     android:text="@string/drawerSettings"
-                    app:drawableStartCompat="@drawable/ic_cog_wheel" />
+                    app:drawableStartCompat="@drawable/ic_proton_cog_wheel" />
 
                 <TextView
                     android:id="@+id/drawerButtonAccount"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerAccount"
-                    app:drawableStartCompat="@drawable/ic_user" />
+                    app:drawableStartCompat="@drawable/ic_proton_user" />
 
                 <TextView
                     android:id="@+id/drawerButtonShowLog"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerShowLog"
-                    app:drawableStartCompat="@drawable/ic_eye" />
+                    app:drawableStartCompat="@drawable/ic_proton_eye" />
 
                 <TextView
                     android:id="@+id/drawerButtonReportBug"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerReportProblem"
-                    app:drawableStartCompat="@drawable/ic_bug" />
+                    app:drawableStartCompat="@drawable/ic_proton_bug" />
 
                 <TextView
                     android:id="@+id/drawerButtonHelp"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerHelp"
-                    app:drawableStartCompat="@drawable/ic_life_ring" />
+                    app:drawableStartCompat="@drawable/ic_proton_life_ring" />
 
                 <TextView
                     android:id="@+id/drawerButtonLogout"
                     style="@style/TextView.Drawer"
                     android:text="@string/drawerSignOut"
-                    app:drawableStartCompat="@drawable/ic_sign_out_right" />
+                    app:drawableStartCompat="@drawable/ic_proton_arrow_out_from_rectangle" />
 
             </LinearLayout>
 

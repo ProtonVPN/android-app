@@ -90,7 +90,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
     private fun LinearLayout.addEmptyHint(@StringRes textRes: Int) {
         val textView = SearchEmptyHintBinding.inflate(layoutInflater).root
-        val icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_search, null)!!.mutate().apply {
+        val icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_proton_magnifier, null)!!.mutate().apply {
             bounds = Rect(0, 0, HINT_SEARCH_ICON_DP.toPx(), HINT_SEARCH_ICON_DP.toPx())
         }
         textView.setCompoundDrawablesRelative(icon, null, null, null)

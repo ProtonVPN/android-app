@@ -36,7 +36,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_lightbulp" />
+            app:srcCompat="@drawable/ic_proton_lightbulb"
+            app:tint="?attr/proton_notification_warning" />
 
         <TextView
             android:id="@+id/content"
@@ -50,9 +51,10 @@
 
         <ImageView
             android:id="@+id/imageLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_external_link_weak" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_proton_arrow_out_square"
+            app:tint="?attr/proton_icon_weak" />
 
     </LinearLayout>
 

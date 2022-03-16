@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawableEnd="@drawable/ic_chevron_selector"
+        android:drawableEnd="@drawable/ic_proton_chevron_selector"
         android:drawablePadding="4dp"
         android:text="@string/netshield"
         app:layout_constraintStart_toStartOf="parent"

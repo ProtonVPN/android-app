@@ -70,8 +70,8 @@ data class Profile @JvmOverloads constructor(
     fun isGuestHoleProfile() = guestHoleConnection
 
     @get:DrawableRes val profileSpecialIcon: Int? get() = when {
-        wrapper.isPreBakedFastest -> R.drawable.ic_fast
-        wrapper.isPreBakedRandom -> R.drawable.ic_arrows
+        wrapper.isPreBakedFastest -> R.drawable.ic_proton_bolt
+        wrapper.isPreBakedRandom -> R.drawable.ic_proton_arrows_swap_right
         else -> null
     }
 

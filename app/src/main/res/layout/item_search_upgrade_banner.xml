@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textTitle"
-        app:srcCompat="@drawable/ic_globe"
+        app:srcCompat="@drawable/ic_proton_globe"
         app:tint="?attr/proton_icon_weak" />
 
     <ImageView
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textTitle"
-        app:srcCompat="@drawable/ic_chevron_right"
+        app:srcCompat="@drawable/ic_proton_chevron_right"
         app:tint="?attr/proton_icon_hint" />
 
     <TextView

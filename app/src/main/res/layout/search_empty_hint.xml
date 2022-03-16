@@ -22,7 +22,7 @@
     style="@style/Proton.Text.DefaultSmall"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:drawableStartCompat="@drawable/ic_search"
+    app:drawableStartCompat="@drawable/ic_proton_magnifier"
     app:drawableTint="?brand_norm"
     android:drawablePadding="4dp"
     android:ellipsize="end"

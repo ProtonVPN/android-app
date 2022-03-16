@@ -93,7 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    app:srcCompat="@drawable/ic_info" />
+                    app:srcCompat="@drawable/ic_proton_info_circle"
+                    app:tint="?attr/proton_icon_weak" />
 
                 <TextView
                     style="@style/Proton.Text.Caption.Weak"

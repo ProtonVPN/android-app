@@ -553,7 +553,7 @@ public class HomeActivity extends VpnActivity {
 
         if (serverManager.getSavedProfiles().size() >= 6) {
             addActionButtonToFab(fabQuickConnect, null, null,
-                getString(R.string.showAllProfiles), R.drawable.ic_zoom_out, v -> {
+                getString(R.string.showAllProfiles), R.drawable.ic_proton_three_dots_horizontal, v -> {
                     viewPager.setCurrentItem(2);
                     fabQuickConnect.close(true);
                 });
@@ -582,7 +582,7 @@ public class HomeActivity extends VpnActivity {
                 MaterialColors.getColor(fabQuickConnect, R.attr.proton_notification_error),
                 MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
                 getString(R.string.disconnect),
-                R.drawable.ic_power_off,
+                R.drawable.ic_proton_power_off,
                 v -> {
                     disconnect("quick connect menu");
                     fabQuickConnect.close(true);
@@ -593,7 +593,7 @@ public class HomeActivity extends VpnActivity {
                 MaterialColors.getColor(fabQuickConnect, R.attr.brand_norm),
                 MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
                 getString(R.string.quickConnect),
-                R.drawable.ic_power_off,
+                R.drawable.ic_proton_power_off,
                 v -> {
                     connectToDefaultProfile();
                     fabQuickConnect.close(true);
