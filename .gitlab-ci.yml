@@ -163,7 +163,7 @@ build black:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - echo "Black url ${BLACK_DOMAIN}"
     - ./gradlew assembleBlackDebug
-  when: manual
+    - ./gradlew assembleBlackDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:

@@ -26,3 +26,8 @@ tvTest:
   - model: GoogleTvEmulator
     orientation: landscape
     version: 30
+signupTest:
+  timeout: 30m
+  device:
+    - model: Pixel2
+      version: 28
