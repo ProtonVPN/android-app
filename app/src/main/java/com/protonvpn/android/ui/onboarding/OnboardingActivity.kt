@@ -118,12 +118,12 @@ class OnboardingActivity : BaseActivityV2() {
         }
         val dottedSteps = listOf(
             bundleOf(
-                OnboardingStep.IMAGE to R.drawable.onboarding_protection_image,
+                OnboardingStep.IMAGE to R.drawable.onboarding_be_protected_everywhere,
                 OnboardingStep.TITLE to R.string.onboarding_protection_title,
                 OnboardingStep.DESC to R.string.onboarding_protection_description,
             ),
             bundleOf(
-                OnboardingStep.IMAGE to R.drawable.onboarding_streaming_image,
+                OnboardingStep.IMAGE to R.drawable.onboarding_unblock_streaming,
                 OnboardingStep.TITLE to R.string.onboarding_streaming_title,
                 OnboardingStep.DESC to R.string.onboarding_streaming_description,
                 OnboardingStep.PLUS to true,
