@@ -25,25 +25,34 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.plan.data.repository.PlansRepositoryImpl
-import me.proton.core.plan.domain.SupportedSignupPaidPlans
-import me.proton.core.plan.domain.SupportedUpgradePaidPlans
+import me.proton.core.plan.domain.ClientPlanFilter
+import me.proton.core.plan.domain.ProductOnlyPaidPlans
+import me.proton.core.plan.domain.SupportSignupPaidPlans
+import me.proton.core.plan.domain.SupportUpgradePaidPlans
+import me.proton.core.plan.domain.entity.Plan
 import me.proton.core.plan.domain.repository.PlansRepository
-import me.proton.core.plan.presentation.entity.SupportedPlan
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object PlansModule {
 
-    // For signup we don't want plan selection, we define them below for "upgrade"
     @Provides
-    @SupportedSignupPaidPlans
-    fun provideClientSupportedPaidPlanIds(): List<SupportedPlan> = emptyList()
+    @SupportSignupPaidPlans
+    fun provideSupportSignupPaidPlans() = false
 
     @Provides
-    @SupportedUpgradePaidPlans
-    fun provideClientUpgradeSupportedPaidPlanIds(): List<SupportedPlan> =
-        listOf(SupportedPlan("vpnplus"))
+    @SupportUpgradePaidPlans
+    fun provideSupportUpgradePaidPlans() = true
+
+    @Provides
+    @ProductOnlyPaidPlans
+    fun provideProductOnlyPaidPlans() = true
+
+    @Provides
+    fun provideClientPlanFilter() = object : ClientPlanFilter {
+        override fun filter(): (Plan) -> Boolean = { plan -> plan.maxTier ?: 0 >= 2 }
+    }
 
     @Provides
     @Singleton
