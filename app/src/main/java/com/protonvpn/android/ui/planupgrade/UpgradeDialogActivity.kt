@@ -220,7 +220,7 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
         with(binding) {
             showToolbar(toolbar)
 
-            imagePicture.setImageResource(R.drawable.upgrade_safemode)
+            imagePicture.setImageResource(R.drawable.upgrade_non_standard_ports)
             textTitle.setText(R.string.upgrade_safe_mode_title)
             textMessage.setText(R.string.upgrade_safe_mode_message)
 
@@ -244,7 +244,7 @@ class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
             textMessage.setText(R.string.upgrade_moderate_nat_message)
 
             buttonOther.setText(R.string.upgrade_moderate_nat_learn_more)
-            buttonOther.setOnClickListener { openProtonUrl(Constants.MODERATE_NAT_INFO_URL) }
+            buttonOther.setOnClickListener { openProtonUrl(com.protonvpn.android.utils.Constants.MODERATE_NAT_INFO_URL) }
         }
     }
 }

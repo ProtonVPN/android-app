@@ -136,9 +136,9 @@ class VpnErrorUIManager @Inject constructor(
                         action = if (!isUserPlusOrAbove) createPlanUpgradeAction() else null,
                         fullScreenDialog = FullScreenDialog(
                             fullScreenIcon = if (isUserPlusOrAbove)
-                                R.drawable.ic_exclamation_tunnel_illustration
+                                R.drawable.maximum_device_limit_warning
                             else
-                                R.drawable.ic_upsell_tunnel_illustration
+                                R.drawable.maximum_device_limit_upsell
                         )
                     )
                 } else null

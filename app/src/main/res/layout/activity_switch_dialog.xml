@@ -37,10 +37,10 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                tools:srcCompat="@drawable/ic_exclamation_tunnel_illustration" />
+                tools:srcCompat="@drawable/maximum_device_limit_upsell" />
 
             <TextView
                 android:id="@+id/textTitle"

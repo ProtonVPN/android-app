@@ -1,12 +1,79 @@
+<!--
+  Copyright (c) 2022. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="32dp"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="33dp"
     android:height="32dp"
-    android:viewportWidth="32"
+    android:viewportWidth="33"
     android:viewportHeight="32">
-  <path
-      android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"
-      android:fillColor="#4DA358"/>
-  <path
-      android:pathData="M24,8.2562C24,7.9599 23.943,7.6665 23.8324,7.3927C23.7217,7.119 23.5595,6.8702 23.355,6.6607C23.1505,6.4512 22.9077,6.285 22.6405,6.1717C22.3733,6.0583 22.087,6 21.7978,6C21.2138,6 20.6537,6.2377 20.2408,6.6608C19.8279,7.084 19.5959,7.6578 19.5959,8.2562V8.3276L10.0184,11.4602C9.6871,10.9695 9.1801,10.6325 8.6077,10.5225C8.0353,10.4125 7.4437,10.5385 6.9614,10.8729C6.725,11.035 6.5221,11.2432 6.3642,11.4856C6.2064,11.728 6.0966,11.9999 6.0413,12.2858C5.986,12.5716 5.9862,12.8659 6.0419,13.1517C6.0976,13.4374 6.2077,13.7092 6.3658,13.9514C6.3708,13.9593 6.3761,13.9673 6.3813,13.9749C6.5888,14.2831 6.868,14.5334 7.1936,14.7031C7.5193,14.8729 7.8811,14.9567 8.2463,14.9471C8.4741,14.946 8.7,14.906 8.9149,14.8287L15.2097,22.8929C14.9834,23.4352 14.9765,24.0474 15.1907,24.5949C15.4048,25.1424 15.8224,25.5803 16.3516,25.8123L16.3705,25.8205C16.905,26.0529 17.5075,26.0599 18.047,25.84C18.5866,25.6201 19.0198,25.191 19.2526,24.646C19.4346,24.209 19.4749,23.7237 19.3676,23.2616C19.2603,22.7994 19.011,22.3847 18.6565,22.0785L22.0003,10.4756C22.543,10.4279 23.0484,10.1732 23.4165,9.7618C23.7845,9.3504 23.9884,8.8123 23.9875,8.2542L24,8.2562ZM17.197,21.4929C16.858,21.4978 16.5247,21.5822 16.2225,21.7395L10.0748,13.8428C10.2451,13.5614 10.3512,13.2442 10.3852,12.9149L20.1718,9.7451C20.2762,9.8589 20.3891,9.9643 20.5093,10.0603L17.2056,21.4881H17.1951L17.197,21.4929Z"
-      android:fillColor="#ffffff"/>
+  <group>
+    <clip-path
+        android:pathData="M0.5,0h32v32h-32z"/>
+    <path
+        android:pathData="M16.5,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M14.7822,25.1033C15.4949,26.3945 17.325,26.4644 18.1341,25.2314L25.6786,13.734C26.4787,12.5148 25.7132,10.8801 24.2644,10.7139L9.4354,9.0135C7.8545,8.8322 6.7288,10.5123 7.4978,11.9055L14.7822,25.1033Z"
+        android:fillType="evenOdd">
+      <aapt:attr name="android:fillColor">
+        <gradient 
+            android:startY="-1.37326"
+            android:startX="17.553"
+            android:endY="20.3196"
+            android:endX="18.1911"
+            android:type="linear">
+          <item android:offset="0.988738" android:color="#FF6D4AFF"/>
+          <item android:offset="1" android:color="#FF6D4AFF"/>
+        </gradient>
+      </aapt:attr>
+    </path>
+    <path
+        android:pathData="M14.7822,25.1033C15.4949,26.3945 17.325,26.4644 18.1341,25.2314L25.6786,13.734C26.4787,12.5148 25.7132,10.8801 24.2644,10.7139L9.4354,9.0135C7.8545,8.8322 6.7288,10.5123 7.4978,11.9055L14.7822,25.1033Z"
+        android:fillType="evenOdd">
+      <aapt:attr name="android:fillColor">
+        <gradient 
+            android:startY="1.62981"
+            android:startX="17.6777"
+            android:endY="24.4581"
+            android:endX="12.3756"
+            android:type="linear">
+          <item android:offset="0.47989" android:color="#0024ECC6"/>
+          <item android:offset="0.994421" android:color="#FF24ECC6"/>
+        </gradient>
+      </aapt:attr>
+    </path>
+    <path
+        android:pathData="M15.8766,22.8927L15.2071,23.8991C14.9358,24.3069 14.3287,24.2818 14.092,23.853L14.7822,25.1034C14.9053,25.3264 15.0616,25.5129 15.2403,25.6626L15.2404,25.6625C16.0965,26.3797 17.4647,26.2514 18.1341,25.2313L25.6786,13.734C26.4787,12.5148 25.7132,10.8801 24.2644,10.714L9.4354,9.0135C7.8545,8.8322 6.7288,10.5123 7.4978,11.9055L7.5563,12.0116L20.1783,13.472C20.9828,13.5651 21.4072,14.4732 20.9626,15.1501L15.8766,22.8927Z"
+        android:fillType="evenOdd">
+      <aapt:attr name="android:fillColor">
+        <gradient 
+            android:startY="26.9593"
+            android:startX="19.4315"
+            android:endY="6.85556"
+            android:endX="7.67558"
+            android:type="linear">
+          <item android:offset="0.0660125" android:color="#FFABFFEF"/>
+          <item android:offset="0.44988" android:color="#FFCAC9FF"/>
+          <item android:offset="1" android:color="#FF6D4AFF"/>
+        </gradient>
+      </aapt:attr>
+    </path>
+  </group>
 </vector>

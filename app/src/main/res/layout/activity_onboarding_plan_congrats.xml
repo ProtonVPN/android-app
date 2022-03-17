@@ -47,7 +47,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_plan_congrats"/>
+            app:srcCompat="@drawable/onboarding_congratulations_after_payment"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Proton.Text.Hero"
