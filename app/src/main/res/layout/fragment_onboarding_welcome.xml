@@ -31,12 +31,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_welcome_to_protonvpn"/>
+            app:srcCompat="@drawable/onboarding_welcome_to_protonvpn"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/Proton.Text.Hero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/onboarding_welcome_title"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

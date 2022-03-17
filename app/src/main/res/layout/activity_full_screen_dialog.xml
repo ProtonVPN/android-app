@@ -26,14 +26,15 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.31"
-        app:srcCompat="@drawable/ic_proton" />
+        app:srcCompat="@drawable/ic_proton"
+        tools:srcCompat="@drawable/success_report_an_issue"/>
 
     <TextView
         android:id="@+id/textTitle"
