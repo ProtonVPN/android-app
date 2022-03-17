@@ -12,8 +12,8 @@ plugins {
 
 android {
     compileSdk = 31
-
-    //ndkVersion = "23.0.7599858"
+    buildToolsVersion = "31.0.0"
+    ndkVersion = "23.1.7779620"
 
     defaultConfig {
         minSdk = 16
@@ -25,6 +25,7 @@ android {
 
         externalNativeBuild {
             cmake {
+                version = "3.18.1"
             }
         }
     }
@@ -33,6 +34,7 @@ android {
 
     externalNativeBuild {
         cmake {
+            version = "3.18.1"
             path = File("${projectDir}/src/main/cpp/CMakeLists.txt")
         }
     }
