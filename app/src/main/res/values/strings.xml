@@ -632,6 +632,7 @@
 
     <string name="server_search_menu_title">Search</string>
     <string name="server_search_hint">Country, City, Server</string>
+    <string name="server_search_hint_secure_core">Country</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Countries (%1$d)</string>
