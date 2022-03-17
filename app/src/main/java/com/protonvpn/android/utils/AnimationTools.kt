@@ -22,7 +22,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.res.Resources
 import android.view.animation.OvershootInterpolator
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -62,8 +61,4 @@ object AnimationTools {
         set.interpolator = OvershootInterpolator(2f)
         menu.iconToggleAnimatorSet = set
     }
-
-    fun convertDpToPixel(dp: Int): Int = (dp * Resources.getSystem().displayMetrics.density).toInt()
-
-    fun convertPixelsToDp(px: Int): Int = (px / Resources.getSystem().displayMetrics.density).toInt()
 }
