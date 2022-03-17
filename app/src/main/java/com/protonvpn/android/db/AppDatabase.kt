@@ -92,11 +92,11 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     exportSchema = true
 )
 @TypeConverters(
-    CommonConverters::class,
     AccountConverters::class,
-    UserConverters::class,
+    CommonConverters::class,
     CryptoConverters::class,
     HumanVerificationConverters::class,
+    UserConverters::class,
     UserSettingsConverters::class
 )
 abstract class AppDatabase :
