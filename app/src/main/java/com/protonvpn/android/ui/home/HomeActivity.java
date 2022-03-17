@@ -372,6 +372,13 @@ public class HomeActivity extends VpnActivity {
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint(getString(R.string.server_search_hint));
 
+        searchView.setOnSearchClickListener((view) -> {
+            int searchHintRes = userData.getSecureCoreEnabled() ?
+                R.string.server_search_hint_secure_core :
+                R.string.server_search_hint;
+            searchView.setQueryHint(getString(searchHintRes));
+        });
+
         // Restore searchView state after Activity recreated.
         if (fragmentSearchResults.getFragment() != null) {
             menuItem.expandActionView();
