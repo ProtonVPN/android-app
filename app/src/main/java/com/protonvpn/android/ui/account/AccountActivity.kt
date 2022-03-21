@@ -55,7 +55,7 @@ class AccountActivity : BaseActivityV2() {
                 textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
                 val subscriptionDetailsHtml = getString(
                     R.string.accountSubscriptionDetails,
-                    subscriptionDetails.getThemeColor(R.attr.colorAccent).toStringHtmlColorNoAlpha()
+                    subscriptionDetails.getThemeColor(R.attr.proton_text_accent).toStringHtmlColorNoAlpha()
                 )
                 subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
 

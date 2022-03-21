@@ -186,7 +186,7 @@
     </style>
 
     <style name="SectionHeadlineText.Brand">
-        <item name="android:textColor">?attr/brand_norm</item>
+        <item name="android:textColor">?attr/proton_text_accent</item>
     </style>
 
     <style name="PowerButton" parent="">
@@ -232,5 +232,4 @@
     <style name="ThemeOverlay.ProtonButton.Warning" parent="">
         <item name="colorPrimary">?attr/proton_notification_error</item>
     </style>
-
 </resources>

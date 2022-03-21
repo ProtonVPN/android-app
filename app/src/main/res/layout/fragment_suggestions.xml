@@ -48,7 +48,7 @@
             android:paddingTop="8dp"
             android:paddingStart="16dp"
             android:text="@string/dynamic_report_step2"
-            android:textColor="?attr/brand_norm" />
+            android:textColor="?attr/proton_text_accent" />
 
         <LinearLayout
             android:layout_width="match_parent"
