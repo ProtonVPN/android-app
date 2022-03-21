@@ -38,7 +38,7 @@ class VpnBackgroundUiDelegate @Inject constructor (
         notificationHelper.showInformationNotification(
             R.string.insufficientPermissionsDetails,
             R.string.insufficientPermissionsTitle,
-            icon = R.drawable.ic_notification_disconnected
+            icon = R.drawable.ic_vpn_status_disconnected
         )
     }
 
@@ -47,7 +47,7 @@ class VpnBackgroundUiDelegate @Inject constructor (
     override fun onProtocolNotSupported() {
         notificationHelper.showInformationNotification(
             R.string.serverNoWireguardSupport,
-            icon = R.drawable.ic_notification_disconnected
+            icon = R.drawable.ic_vpn_status_disconnected
         )
     }
 }

@@ -61,7 +61,7 @@ class VpnErrorUIManager @Inject constructor(
                     notificationHelper.showInformationNotification(
                         content = R.string.notification_smart_protocol_disabled_content,
                         title = R.string.notification_smart_protocol_disabled_title,
-                        icon = R.drawable.ic_proton_green,
+                        icon = R.drawable.ic_vpn_status_information,
                         action = ActionItem.BgAction(
                             title = appContext.getString(R.string.enable),
                             pendingIntent = PendingIntent.getBroadcast(

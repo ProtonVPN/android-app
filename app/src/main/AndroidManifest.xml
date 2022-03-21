@@ -157,7 +157,7 @@
         </service>
         <service
             android:name=".components.QuickTileService"
-            android:icon="@drawable/ic_proton"
+            android:icon="@drawable/ic_vpn_status_information"
             android:label="Quick connect"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
