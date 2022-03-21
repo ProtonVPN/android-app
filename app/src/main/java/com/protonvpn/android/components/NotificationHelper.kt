@@ -144,7 +144,7 @@ class NotificationHelper(
     fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
         val notificationBuilder =
             NotificationCompat.Builder(appContext, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_proton)
+                .setSmallIcon(R.drawable.ic_vpn_status_information)
                 .setColor(appContext.getThemeColor(R.attr.colorAccent))
 
         // Build complex notification with custom UI for reconnection information
@@ -201,7 +201,7 @@ class NotificationHelper(
 
         notificationInfo.action?.let {
             notificationBuilder.addAction(
-                NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
+                NotificationCompat.Action(R.drawable.ic_vpn_status_information, it.title, getPendingIntent(it))
             )
         }
 
@@ -246,14 +246,15 @@ class NotificationHelper(
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
 
         when (vpnStatus.state) {
-            Disabled, CheckingAvailability, ScanningPorts, WaitingForNetwork, Reconnecting, Disconnecting ->
-                builder.color = ContextCompat.getColor(context, R.color.orange)
             Connecting, Connected -> {
-                builder.color = context.getThemeColor(R.attr.colorAccent)
-                builder.addAction(NotificationCompat.Action(R.drawable.ic_clear,
-                        context.getString(R.string.disconnect), disconnectPendingIntent))
+                val disconnectAction = NotificationCompat.Action(
+                    R.drawable.ic_proton_cross,
+                    context.getString(R.string.disconnect),
+                    disconnectPendingIntent
+                )
+                builder.addAction(disconnectAction)
             }
-            else -> builder.color = ContextCompat.getColor(context, R.color.red)
+            else -> { /* Nothing */ }
         }
 
         val intent = createMainActivityIntent(context)
@@ -285,10 +286,10 @@ class NotificationHelper(
 
     private fun getIconForState(state: VpnState): Int {
         return when (state) {
-            Disabled, is Error -> R.drawable.ic_notification_disconnected
+            Disabled, is Error -> R.drawable.ic_vpn_status_disconnected
             Connecting, WaitingForNetwork, Disconnecting, CheckingAvailability, ScanningPorts, Reconnecting ->
-                R.drawable.ic_notification_warning
-            Connected -> R.drawable.ic_notification
+                R.drawable.ic_vpn_status_connecting
+            Connected -> R.drawable.ic_vpn_status_connected
         }
     }
 
@@ -324,7 +325,7 @@ class NotificationHelper(
     fun showInformationNotification(
         @StringRes content: Int,
         @StringRes title: Int? = null,
-        @DrawableRes icon: Int = R.drawable.ic_info,
+        @DrawableRes icon: Int = R.drawable.ic_vpn_status_information,
         action: ActionItem? = null,
         notificationId: Int = Constants.NOTIFICATION_INFO_ID
     ) {
@@ -347,7 +348,7 @@ class NotificationHelper(
 
             action?.let {
                 builder.addAction(
-                    NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
+                    NotificationCompat.Action(R.drawable.ic_vpn_status_information, it.title, getPendingIntent(it))
                 )
             }
             notify(notificationId, builder.build())
