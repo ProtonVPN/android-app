@@ -96,8 +96,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -323,7 +321,6 @@ public class HomeActivity extends VpnActivity {
             }
         });
 
-        AnimationTools.addScaleAnimationToMenuIcon(fabQuickConnect);
         initStatusBar();
         fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
@@ -511,9 +508,13 @@ public class HomeActivity extends VpnActivity {
 
     private void initQuickConnectFab() {
         fabQuickConnect.removeAllMenuButtons();
-        ImageView menuIcon = fabQuickConnect.getMenuIconView();
-        menuIcon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_proton));
-        updateFabColors(fabQuickConnect, vpnStateMonitor.isConnected());
+        fabQuickConnect.setMenuButtonColorNormal(ContextCompat.getColor(this, R.color.shade_100));
+        fabQuickConnect.setMenuButtonColorPressed(ContextCompat.getColor(this, R.color.shade_100));
+        fabQuickConnect.setMenuButtonColorRipple(ContextCompat.getColor(this, R.color.fab_ripple));
+        @DrawableRes
+        int iconRes = vpnStateMonitor.isConnected() ? R.drawable.ic_vpn_icon_colorful : R.drawable.ic_vpn_icon_grayscale;
+        fabQuickConnect.getMenuIconView().setImageDrawable(AppCompatResources.getDrawable(this, iconRes));
+        AnimationTools.setScaleAnimationToMenuIcon(fabQuickConnect, () -> vpnStateMonitor.isConnected());
         fabQuickConnect.setOnMenuButtonClickListener(view -> {
             if (fabQuickConnect.isOpened()) {
                 fabQuickConnect.close(true);
@@ -537,17 +538,6 @@ public class HomeActivity extends VpnActivity {
                 fabQuickConnect.open(true);
             }
             return true;
-        });
-        fabQuickConnect.setOpenListener(new ProtonActionMenu.Listener() {
-            @Override
-            public void onOpening() {
-                updateFabColors(fabQuickConnect, false);
-            }
-
-            @Override
-            public void onClosing() {
-                updateFabColors(fabQuickConnect, vpnStateMonitor.isConnected());
-            }
         });
         fabQuickConnect.setClosedOnTouchOutside(true);
 
@@ -580,7 +570,7 @@ public class HomeActivity extends VpnActivity {
             addActionButtonToFab(
                 fabQuickConnect,
                 MaterialColors.getColor(fabQuickConnect, R.attr.proton_notification_error),
-                MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
+                null,
                 getString(R.string.disconnect),
                 R.drawable.ic_proton_power_off,
                 v -> {
@@ -590,8 +580,8 @@ public class HomeActivity extends VpnActivity {
         } else {
             addActionButtonToFab(
                 fabQuickConnect,
-                MaterialColors.getColor(fabQuickConnect, R.attr.brand_norm),
-                MaterialColors.getColor(fabQuickConnect, R.attr.colorOnPrimary),
+                null,
+                null,
                 getString(R.string.quickConnect),
                 R.drawable.ic_proton_power_off,
                 v -> {
@@ -632,20 +622,6 @@ public class HomeActivity extends VpnActivity {
     private void connectToDefaultProfile() {
         Profile profile = serverManager.getDefaultConnection();
         onConnectToProfile(new ConnectToProfile("quick connect", profile));
-    }
-
-    private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {
-        @ColorInt
-        int bgColor = accented
-            ? MaterialColors.getColor(fab, R.attr.brand_norm)
-            : ContextCompat.getColor(this, R.color.shade_100);
-        @ColorRes
-        int rippleColorRes = accented ? R.color.mtrl_btn_ripple_color : R.color.fab_disconnected_ripple;
-        int iconColorAttr = accented ? R.attr.colorOnPrimary : R.attr.proton_icon_inverted;
-        fab.setMenuButtonColorNormal(bgColor);
-        fab.setMenuButtonColorPressed(bgColor);
-        fab.setMenuButtonColorRipple(ContextCompat.getColor(this, rippleColorRes));
-        fab.getMenuIconView().setColorFilter(MaterialColors.getColor(fab, iconColorAttr));
     }
 
     @OnCheckedChanged(R.id.switchSecureCore)
