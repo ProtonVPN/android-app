@@ -25,7 +25,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.protonvpn.android.utils.AnimationTools
+import com.protonvpn.android.utils.ViewUtils.toPx
 
 class SmoothScrollManager(private val context: Context) : LinearLayoutManager(context) {
 
@@ -52,7 +52,7 @@ class SmoothScrollManager(private val context: Context) : LinearLayoutManager(co
                 val start = layoutManager.paddingTop
                 val end = layoutManager.height - layoutManager.paddingBottom
                 var pixelsToAnimate = calculateDtToFit(top, bottom, start, end, snapPreference)
-                val overlap = AnimationTools.convertDpToPixel(26)
+                val overlap = 26.toPx()
                 if (pixelsToAnimate != 0) {
                     pixelsToAnimate -= overlap
                 }
