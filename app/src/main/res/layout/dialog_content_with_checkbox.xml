@@ -41,7 +41,7 @@
         android:layout_marginTop="4dp"
         android:drawablePadding="8dp"
         android:text="@string/dialogLearnMore"
-        android:textColor="?attr/brand_norm"
+        android:textColor="?attr/proton_text_accent"
         android:visibility="gone"
         app:drawableEndCompat="@drawable/ic_proton_arrow_out_square_20"
         app:drawableTint="?attr/proton_icon_accent" />

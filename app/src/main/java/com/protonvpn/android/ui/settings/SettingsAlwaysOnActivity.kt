@@ -58,7 +58,7 @@ class SettingsAlwaysOnActivity : BaseActivityV2() {
 
         with(binding.content) {
             indicator.tintIndicator(
-                getThemeColor(R.attr.brand_norm),
+                getThemeColor(R.attr.proton_icon_accent),
                 getThemeColor(R.attr.proton_interaction_weak)
             )
 
