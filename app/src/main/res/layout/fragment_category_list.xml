@@ -38,7 +38,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:text="@string/dynamic_report_step1"
-        android:textColor="?attr/brand_norm" />
+        android:textColor="?attr/proton_text_accent" />
 
     <TextView
         android:id="@+id/textIssueTitle"

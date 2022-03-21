@@ -59,7 +59,7 @@ class OnboardingStep : Fragment(R.layout.fragment_onboarding_step) {
         val descriptionRes = arguments?.getInt(DESC)!!
         val imageRes = arguments?.getInt(IMAGE)!!
         with(binding) {
-            val brand = root.getThemeColor(R.attr.brand_norm)
+            val brand = root.getThemeColor(R.attr.proton_icon_accent)
             repeat(count) { i ->
                 val dot = OnboardingStepDotBinding.inflate(layoutInflater, indicator, true)
                 if (i == index)
