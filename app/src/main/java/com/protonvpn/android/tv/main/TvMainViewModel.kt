@@ -173,7 +173,7 @@ class TvMainViewModel @Inject constructor(
             CountryCard(
                 countryName = country.countryName,
                 hasStreamingService = streamingServices(country.flag).isNotEmpty(),
-                backgroundImage = DrawableImage(CountryTools.getFlagResource(context, country.flag)),
+                backgroundImage = DrawableImage(CountryTools.getLargeFlagResource(context, country.flag)),
                 bottomTitleResId = countryListItemIcon(country),
                 vpnCountry = country
             )
@@ -202,7 +202,7 @@ class TvMainViewModel @Inject constructor(
                             R.string.tv_quick_connect_favourite
                     ),
                     titleDrawable = profileCardTitleIcon(defaultConnection),
-                    backgroundImage = CountryTools.getFlagResource(context, defaultConnection.connectCountry),
+                    backgroundImage = CountryTools.getLargeFlagResource(context, defaultConnection.connectCountry),
                     profile = defaultConnection
                 )
             )
@@ -214,7 +214,7 @@ class TvMainViewModel @Inject constructor(
                     ProfileCard(
                         title = it.name.ifEmpty { it.server?.displayName ?: "" },
                         titleDrawable = profileCardTitleIcon(it),
-                        backgroundImage = CountryTools.getFlagResource(context, it.connectCountry),
+                        backgroundImage = CountryTools.getLargeFlagResource(context, it.connectCountry),
                         profile = it
                     )
                 )
@@ -289,7 +289,7 @@ class TvMainViewModel @Inject constructor(
         serverManager.defaultConnection.connectCountry
 
     private fun quickConnectBackground(context: Context) =
-        CountryTools.getFlagResource(context, quickConnectFlag)
+        CountryTools.getLargeFlagResource(context, quickConnectFlag)
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {

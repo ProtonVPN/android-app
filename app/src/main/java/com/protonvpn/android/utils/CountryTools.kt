@@ -31,14 +31,26 @@ object CountryTools {
     @JvmStatic
     fun getFlagResource(context: Context, flag: String?): Int {
         val desiredFlag = flag?.let {
-            val flagCode =
-                if (it.lowercase(Locale.ROOT) == "uk") "gb" else it.lowercase(Locale.ROOT)
-            context.resources.getIdentifier("flag_$flagCode", "drawable", context.packageName)
+            val flagResName = "flag_${flagCode(it)}"
+            context.resources.getIdentifier(flagResName, "drawable", context.packageName)
         } ?: 0
         return if (desiredFlag > 0)
             desiredFlag
         else
             context.resources.getIdentifier("zz", "drawable", context.packageName)
+    }
+
+    /**
+     * Returns a large and detailed flag resource.
+     * Falls back to getFlagResource which returns drawables of a different size so don't rely on the intrinsic size of
+     * the returned drawable.
+     */
+    fun getLargeFlagResource(context: Context, flag: String?): Int {
+        val flagResId = if (flag != null) {
+            val flagResName = "flag_large_${flagCode(flag)}"
+            context.resources.getIdentifier(flagResName, "drawable", context.packageName)
+        } else 0
+        return flagResId.takeIf { it > 0 } ?: getFlagResource(context, flag)
     }
 
     fun getPreferredLocale(context: Context): Locale {
@@ -67,6 +79,9 @@ object CountryTools {
     }
 
     data class CountryData(val x: Double, val y: Double, val continent: Continent)
+
+    private fun flagCode(flag: String) =
+        if (flag.lowercase(Locale.ROOT) == "uk") "gb" else flag.lowercase(Locale.ROOT)
 
     val locationMap = mapOf(
         "FR" to CountryData(2310.0, 567.0, Continent.Europe),
