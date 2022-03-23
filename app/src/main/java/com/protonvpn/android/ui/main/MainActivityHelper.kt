@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.launchAndCollectIn
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -33,7 +34,10 @@ import me.proton.core.presentation.ui.alert.ForceUpdateActivity
 
 abstract class MainActivityHelper(val activity: FragmentActivity) {
 
-    fun onCreate(accountViewModel: AccountViewModel) {
+    private lateinit var newLookDialogProvider: NewLookDialogProvider
+
+    fun onCreate(accountViewModel: AccountViewModel, newLookDialogProvider: NewLookDialogProvider) {
+        this.newLookDialogProvider = newLookDialogProvider
         with(accountViewModel) {
             init(activity)
 
@@ -65,8 +69,10 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
     abstract fun onAssignConnectionNeeded()
 
     private suspend fun onStateChange(state: AccountViewModel.State) = when (state) {
-        AccountViewModel.State.LoginNeeded ->
+        AccountViewModel.State.LoginNeeded -> {
+            newLookDialogProvider.noNewLookDialogNeeded()
             onLoginNeeded()
+        }
         AccountViewModel.State.Ready ->
             onReady()
         AccountViewModel.State.Initial -> {}

@@ -21,7 +21,6 @@ package com.protonvpn.android.tv.main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -33,16 +32,22 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvMainActivity : BaseTvActivity() {
 
     private val viewModel: TvMainViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
+
+    @Inject
+    lateinit var newLookDialogProvider: NewLookDialogProvider
+
     private val helper = object : MainActivityHelper(this) {
 
         override suspend fun onLoginNeeded() {
@@ -62,18 +67,16 @@ class TvMainActivity : BaseTvActivity() {
         }
     }
 
-    private lateinit var loginLauncher: ActivityResultLauncher<Unit>
+    private val loginLauncher = registerForActivityResult(TvLoginActivity.createContract()) {
+        if (it.resultCode == Activity.RESULT_CANCELED)
+            finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityTvMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        helper.onCreate(accountViewModel)
-
-        loginLauncher = registerForActivityResult(TvLoginActivity.createContract()) {
-            if (it.resultCode == Activity.RESULT_CANCELED)
-                finish()
-        }
+        helper.onCreate(accountViewModel, newLookDialogProvider)
 
         viewModel.highlightedCountryFlag.observe(this, Observer {
             updateMapSelection(binding)

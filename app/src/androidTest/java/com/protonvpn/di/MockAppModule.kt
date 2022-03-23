@@ -41,6 +41,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
@@ -258,6 +259,13 @@ class MockAppModule {
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
         TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
+
+    @Provides
+    fun provideNewLookDialogProvider(): NewLookDialogProvider = object : NewLookDialogProvider() {
+        override fun show(context: Context, tv: Boolean) {
+            // Don't show the dialog in tests
+        }
+    }
 
     @Module
     @TestInstallIn(
