@@ -18,11 +18,11 @@
  */
 package com.protonvpn.android.components
 
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.tv.vpn.VpnUiActivityDelegateTv
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 
-abstract class BaseTvActivity : FragmentActivity(), VpnUiDelegateProvider {
+abstract class BaseTvActivity : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Suppress("LeakingThis")
     private val vpnUiDelegate = VpnUiActivityDelegateTv(this)
