@@ -31,7 +31,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.TV.Leanback" parent="Theme.Leanback">
+    <style name="AppTheme.TV.Leanback" parent="Theme.AppCompat.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/tv_background</item>
@@ -52,7 +52,7 @@
         <item name="serverInMaintenance">@color/tvInMaintenance</item>
     </style>
 
-    <style name="AppTheme.TV.Browse" parent="Theme.Leanback.Browse">
+    <style name="AppTheme.TV.Browse" parent="Theme.AppCompat.Leanback.Browse">
         <item name="android:windowBackground">@drawable/tv_background</item>
         <item name="defaultBrandColor">@color/grey</item>
         <item name="defaultSearchColor">?colorAccent</item>
