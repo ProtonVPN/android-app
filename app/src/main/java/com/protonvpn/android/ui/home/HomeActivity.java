@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.ui.home;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -29,6 +31,21 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -61,6 +78,7 @@ import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.search.SearchResultsFragment;
 import com.protonvpn.android.search.SearchViewModel;
+import com.protonvpn.android.ui.NewLookDialogProvider;
 import com.protonvpn.android.ui.account.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
@@ -95,28 +113,11 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
-
 import kotlin.Unit;
-
-import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
@@ -142,6 +143,7 @@ public class HomeActivity extends VpnActivity {
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
     @Inject NotificationHelper notificationHelper;
+    @Inject NewLookDialogProvider newLookDialogProvider;
 
     private HomeViewModel viewModel;
     private SearchViewModel searchViewModel;
@@ -325,6 +327,8 @@ public class HomeActivity extends VpnActivity {
         fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
         initFullScreenNotification(getIntent());
+
+        newLookDialogProvider.show(this, false);
     }
 
     private void initFullScreenNotification(Intent newIntent) {

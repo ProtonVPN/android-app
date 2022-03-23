@@ -56,12 +56,14 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -69,6 +71,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private val viewModel by activityViewModels<TvMainViewModel>()
 
     private var rowsAdapter: ArrayObjectAdapter? = null
+
+    @Inject
+    lateinit var newLookDialogProvider: NewLookDialogProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,6 +104,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 setupRowAdapter()
             }
         }
+        newLookDialogProvider.show(requireContext(), true)
     }
 
     override fun onResume() {
