@@ -24,21 +24,29 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MobileMainActivity : AppCompatActivity() {
 
-    private lateinit var mainLauncher: ActivityResultLauncher<Unit>
+    private val mainLauncher = registerForActivityResult(createHomeContract()) {
+        if (it.resultCode == Activity.RESULT_CANCELED)
+            finish()
+    }
     private val accountViewModel: AccountViewModel by viewModels()
+
+    @Inject
+    lateinit var newLookDialogProvider: NewLookDialogProvider
+
     private val helper = object : MainActivityHelper(this) {
 
         override suspend fun onLoginNeeded() {
@@ -59,11 +67,7 @@ class MobileMainActivity : AppCompatActivity() {
         installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
             true
         })
-        helper.onCreate(accountViewModel)
-        mainLauncher = registerForActivityResult(createHomeContract()) {
-            if (it.resultCode == Activity.RESULT_CANCELED)
-                finish()
-        }
+        helper.onCreate(accountViewModel, newLookDialogProvider)
     }
 
     override fun onNewIntent(intent: Intent?) {
