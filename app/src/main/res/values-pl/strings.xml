@@ -326,7 +326,7 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Kliknij przycisk <b>Blokuj połączenia bez VPN</b>, aby włączyć funkcję Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Włączenie funkcji Kill Switch, która blokuje wszystkie płączenia poza tunelem VPN, spowoduje wyłączenie funkcji Split Tunneling</string>
-    <string name="settingsSmartProtocolDescription">Skorzystaj z inteligentnego protokołu i portu, które oferują najlepsze połączenie.</string>
+    <string name="settingsSmartProtocolDescription">Skorzystaj z protokołu i portu, które oferują najlepsze połączenie.</string>
     <string name="settingsSendCrashReportsTitle">Anonimowe raporty o awariach</string>
     <string name="settingsSendCrashReportsDescription">Jeśli aplikacja ulegnie awarii lub wyłączy się niespodziewanie, raport z informacjami o błędach zostanie wysłany do naszych inżynierów. Będziemy używać tych danych tylko do ulepszenia aplikacji.</string>
     <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
@@ -418,10 +418,10 @@
     <string name="notification_max_sessions_title">Wykorzystano limit liczby podłączonych urządzeń</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Rozłącz inne urządzenie, aby połączyć to lub ulepsz plan do wersji Plus, aby połączyć %1$d urządzenie.</item>
-        <item quantity="few">Rozłącz inne urządzenie, aby połączyć to lub ulepsz plan do wersji Plus, aby połączyć do %1$d urządzeń.</item>
-        <item quantity="many">Rozłącz inne urządzenie, aby połączyć to lub ulepsz plan do wersji Plus, aby połączyć do %1$d urządzeń.</item>
-        <item quantity="other">Rozłącz inne urządzenie, aby połączyć to lub ulepsz plan do wersji Plus, aby połączyć do %1$d urządzeń.</item>
+        <item quantity="one">Aby połączyć się, rozłącz inne urządzenie lub ulepsz konto do planu Plus w celu połączenia %1$d urządzenia jednocześnie.</item>
+        <item quantity="few">Aby połączyć się, rozłącz inne urządzenie lub ulepsz konto do planu Plus w celu połączenia %1$d urządzeń jednocześnie.</item>
+        <item quantity="many">Aby połączyć się, rozłącz inne urządzenie lub ulepsz konto do planu Plus w celu połączenia %1$d urządzeń jednocześnie.</item>
+        <item quantity="other">Aby połączyć się, rozłącz inne urządzenie lub ulepsz konto do planu Plus w celu połączenia %1$d urządzeń jednocześnie.</item>
     </plurals>
     <string name="notification_max_sessions_content">Aby połączyć się, rozłącz inne urządzenie.</string>
     <string name="notification_cancel_to_free">Posiadasz plan FREE. Masz dostęp do serwerów i funkcji planu FREE.</string>
@@ -459,7 +459,29 @@
         <item quantity="other">%1$d krajów</item>
     </plurals>
     <string name="upsell_upgrade_again">Ulepsz plan ponownie, aby korzystać z funkcji:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Po ulepszeniu planu do wersji Plus</string>
+    <string name="upgrade_netshield_title_new">Ciesz się przeglądaniem bez reklam dzięki funkcji NetShield</string>
+    <string name="upgrade_secure_core_title_new">Podwójne szyfrowanie dzięki funkcji Secure Core</string>
+    <string name="upgrade_secure_core_countries">Przekieruj ruch przez ultra bezpieczne serwery w Szwajcarii, Szwecji i Islandii</string>
+    <string name="upgrade_secure_core_encryption">Dodatkowa warstwa szyfrowania połączenia VPN</string>
+    <string name="upgrade_secure_core_protect">Chroń siebie przed atakami sieciowymi</string>
+    <string name="upgrade_netshield_block_ads">Zablokuj reklamy i skrypty śledzące</string>
+    <string name="upgrade_netshield_block_malware">Chroń swoje urządzenie przed złośliwym oprogramowaniem</string>
+    <string name="upgrade_netshield_speed">Przeglądaj Internet z najwyższą prędkością</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d bezpiecznego serwera</item>
+        <item quantity="few">%d bezpiecznych serwerów</item>
+        <item quantity="many">%d bezpiecznych serwerów</item>
+        <item quantity="other">%d bezpiecznych serwerów</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -484,13 +506,13 @@
         <item quantity="other">%d krajach</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Dostęp do %1$s w %2$s z planem PLUS</string>
+    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -498,7 +520,7 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Otrzymujesz dostęp do %1$s i innych funkcji premium.</string>
-    <string name="upgrade_plus_countries_streaming">Dostęp do usług streamingu na całym świecie</string>
+    <string name="upgrade_plus_countries_streaming">Dostęp do globalnych usług streamingu</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Połącz %d urządzenie</item>
@@ -506,8 +528,9 @@
         <item quantity="many">Połącz %d urządzeń jednocześnie</item>
         <item quantity="other">Połącz %d urządzeń jednocześnie</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Wbudowana blokada reklam (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Najwyższa prędkość (do 10 Gb/s)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Przeglądaj Internet z najwyższą prędkością (10 Gb/s)</string>
+    <string name="upgrade_plus_countries_more">I wiele więcej funkcji premium</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
     <string name="upgrade_safe_mode_message">Używaj aplikacji ProtonVPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. Odblokuj tę i inne funkcje dzięki planowi Plus.</string>
     <string name="upgrade_moderate_nat_title">Włącz umiarkowany NAT</string>

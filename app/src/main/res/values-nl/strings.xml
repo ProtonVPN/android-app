@@ -411,11 +411,11 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">U hebt uw maximumaantal apparaten bereikt</string>
+    <string name="notification_max_sessions_title">U hebt uw maximum apparaat limiet bereikt</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Koppel een apparaat los om dit aan te sluiten of upgrade naar Plus om %1$d apparaat aan te sluiten.</item>
-        <item quantity="other">Koppel een apparaat los om dit aan te sluiten of upgrade naar Plus om tot %1$d apparaten aan te sluiten.</item>
+        <item quantity="one">Koppel een ander toestel los om dit toestel te verbinden of upgrade naar Plus om tot %1$d toestel te verbinden tegelijkertijd.</item>
+        <item quantity="other">Koppel een ander toestel los om dit toestel te verbinden of upgrade naar Plus om tot %1$d toestellen te verbinden tegelijkertijd.</item>
     </plurals>
     <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
     <string name="notification_cancel_to_free">U hebt een GRATIS abonnement. GRATIS servers en functies zijn beschikbaar.</string>
@@ -449,7 +449,27 @@
         <item quantity="other">%1$d landen</item>
     </plurals>
     <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Wanneer u upgrade naar Plus</string>
+    <string name="upgrade_netshield_title_new">Geniet van advertentie-vrij browsen met NetShield</string>
+    <string name="upgrade_secure_core_title_new">Verdubbel de encryptie met Secure Core</string>
+    <string name="upgrade_secure_core_countries">Routeer via ultra beveiligde servers in Zwitserland, Zweden en IJsland</string>
+    <string name="upgrade_secure_core_encryption">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
+    <string name="upgrade_secure_core_protect">Bescherm uzelf van netwerkaanvallen</string>
+    <string name="upgrade_netshield_block_ads">Blokkeer advertenties en trackers</string>
+    <string name="upgrade_netshield_block_malware">Bescherm uw apparaat tegen malware</string>
+    <string name="upgrade_netshield_speed">Browse aan de hoogste snelheden</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d beveiligde server</item>
+        <item quantity="other">%d beveiligde servers</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -470,13 +490,13 @@
         <item quantity="other">%d landen</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Verkrijg toegang tot alle %1$s in %2$s met Plus</string>
+    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -484,14 +504,15 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">U heeft nu toegang tot %1$s en alle andere premium functies.</string>
-    <string name="upgrade_plus_countries_streaming">Wereldwijde toegang tot streamingdiensten</string>
+    <string name="upgrade_plus_countries_streaming">Krijg toegang tot wereldwijde streamingdiensten</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">%d apparaat aansluiten</item>
         <item quantity="other">Sluit %d apparaten tegelijk aan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Ingebouwde adblocker (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Hoogste snelheden (tot 10Gbps)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Browse aan de hoogste snelheden (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">En veel meer premium functies</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>
     <string name="upgrade_safe_mode_message">Gebruiken Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. Ontgrendel deze en andere functies met een Plus-abonnement.</string>
     <string name="upgrade_moderate_nat_title">Schakel Gemiddelde NAT in</string>
@@ -508,7 +529,7 @@
     <string name="smart_routing_title">Slimme routering</string>
     <string name="smart_routing_description">Met deze technologie kan ProtonVPN hogere snelheid en beveiliging bieden in moeilijkheids-tot-dienstlanden.</string>
     <string name="streaming_title">Streamen</string>
-    <string name="streaming_description">PLUS servers ondersteunen streaming (Netflix, Disney+, enz.) van overal in de wereld.</string>
+    <string name="streaming_description">PLUS-servers ondersteunen streaming (Netflix, Disney+, enz.) wereldwijd.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Deze servers geven de beste prestaties voor BitTorrent en het delen van bestanden.</string>
     <string name="tor_title">Tor</string>

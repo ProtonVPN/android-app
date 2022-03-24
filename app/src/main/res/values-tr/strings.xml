@@ -411,11 +411,11 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Seçtiğinize benzer daha hızlı bir sunucuya geçtiniz.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">Kullanabileceğiniz en fazla aygıt sınırına ulaştınız</string>
+    <string name="notification_max_sessions_title">En fazla aygıt sınırınıza ulaştınız</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Bu aygıtı bağlamak için başka bir aygıtın bağlantısını kesin ya da aynı anda %1$d aygıtı bağlayabilek için Plus tarifesine geçin.</item>
-        <item quantity="other">Bu aygıtı bağlamak için başka bir aygıtın bağlantısını kesin ya da aynı anda %1$d aygıtı bağlayabilek için Plus tarifesine geçin.</item>
+        <item quantity="one">Bu aygıt ile bağlantı kurmak için lütfen başka bir aygıtın bağlantısını kesin ya da aynı anda %1$d aygıta kadar bağlantı kurmak için Plus tarifesine yükseltin.</item>
+        <item quantity="other">Bu aygıt ile bağlantı kurmak için lütfen başka bir aygıtın bağlantısını kesin ya da aynı anda %1$d aygıta kadar bağlantı kurmak için Plus tarifesine yükseltin.</item>
     </plurals>
     <string name="notification_max_sessions_content">Lütfen bu aygıtı bağlayabilmek için başka bir aygıtın bağlantısını kesin.</string>
     <string name="notification_cancel_to_free">Free tarifesindesiniz. Free sunucuları ve özelliklerini kullanabilirsiniz.</string>
@@ -449,7 +449,27 @@
         <item quantity="other">%1$d ülke</item>
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Plus tarifesine yükselttiğinizde</string>
+    <string name="upgrade_netshield_title_new">NetShield ile reklamlar olmadan gezinebilirsiniz</string>
+    <string name="upgrade_secure_core_title_new">Secure Core ile şifrelemeyi iki katına çıkarabilirsiniz</string>
+    <string name="upgrade_secure_core_countries">İsviçre, İsveç ve İzlanda\'daki çok yüksek güvenlikli sunucuları kullanabilirsiniz</string>
+    <string name="upgrade_secure_core_encryption">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
+    <string name="upgrade_secure_core_protect">Kendinizi ağ saldırılarından koruyabilirsiniz</string>
+    <string name="upgrade_netshield_block_ads">Reklam ve etkinlik izleyicileri engelleyebilirsiniz</string>
+    <string name="upgrade_netshield_block_malware">Aygıtınızı kötü amaçlı yazılımlardan koruyabilirsiniz</string>
+    <string name="upgrade_netshield_speed">En yüksek hızlarda gezinebilirsiniz</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d güvenli sunucu</item>
+        <item quantity="other">%d güvenli sunucu</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -470,13 +490,13 @@
         <item quantity="other">%d ülke</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Plus tarifesi ile %2$s ülkedeki %1$s sunucunun tamamına erişin</string>
+    <string name="upgrade_plus_countries_title_new">%1$s ile %2$s erişim</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -484,14 +504,15 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Artık %1$s ve diğer ek özelliklere erişebilirsiniz.</string>
-    <string name="upgrade_plus_countries_streaming">Tüm dünyadaki yayın akışı hizmetlerine erişin</string>
+    <string name="upgrade_plus_countries_streaming">Tüm dünyaradaki yayın akışı hizmetlerine erişin</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">%d aygıt bağlayın</item>
         <item quantity="other">Aynı anda %d aygıt bağlayın</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Yerleşik reklam engelleyici (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">En yüksek hızlar (10Gb/sn hıza kadar)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">En yüksek hızlarda gezinin (10 Gb/sn)</string>
+    <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellikler</string>
     <string name="upgrade_safe_mode_title">Standart olmayan kapı numaralarından trafik akabilsin</string>
     <string name="upgrade_safe_mode_message">VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. Plus tarifesine geçerek bu ve diğer özellikleri kullanabilirsiniz.</string>
     <string name="upgrade_moderate_nat_title">Ilımlı NAT özelliğini etkinleştirebilirsiniz</string>

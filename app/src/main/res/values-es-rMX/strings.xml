@@ -411,11 +411,11 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Ha sido cambiado a un servidor más rápido similar al que ha seleccionado.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">Ha alcanzado el limite de su dispositivo</string>
+    <string name="notification_max_sessions_title">Ha alcanzado el límite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Desconecte un dispositivo para conectar este o actualice a Plus para conectar %1$d dispositivo.</item>
-        <item quantity="other">Desconecte un dispositivo para conectar este o actualice a Plus para conectar hasta %1$d dispositivos.</item>
+        <item quantity="one">Desconecte otro dispositivo para conectar éste o actualice a un plan Plus para conectar hasta %1$d dispositivo al mismo tiempo.</item>
+        <item quantity="other">Desconecte otro dispositivo para conectar éste o actualice a un plan Plus para conectar hasta %1$d dispositivos al mismo tiempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Desconecte otro dispositivo para conectar éste.</string>
     <string name="notification_cancel_to_free">Está en el plan gratuito. Los servidores y funciones gratuitos están disponibles.</string>
@@ -449,7 +449,27 @@
         <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Actualice de nuevo para disfrutar de todas las funciones:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Cuando actualice a Plus</string>
+    <string name="upgrade_netshield_title_new">Disfrute la navegación sin anuncios con NetShield</string>
+    <string name="upgrade_secure_core_title_new">Duplique el cifrado con Secure Core</string>
+    <string name="upgrade_secure_core_countries">Enrute a través de servidores ultra seguros en Suiza, Suecia e Islandia</string>
+    <string name="upgrade_secure_core_encryption">Añada otra capa de cifrado a su conexión VPN</string>
+    <string name="upgrade_secure_core_protect">Protéjase de los ataques de red</string>
+    <string name="upgrade_netshield_block_ads">Bloquear anuncios y rastreadores</string>
+    <string name="upgrade_netshield_block_malware">Proteja su dispositivo de malware</string>
+    <string name="upgrade_netshield_speed">Navegue a las velocidades máximas</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d servidor seguro</item>
+        <item quantity="other">%d servidores seguros</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -470,13 +490,13 @@
         <item quantity="other">%d países</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Acceda a %1$s en %2$s con PLUS</string>
+    <string name="upgrade_plus_countries_title_new">Acceso a más de %1$s en %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -484,14 +504,15 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Ahora tiene acceso a %1$s y otras funciones premium.</string>
-    <string name="upgrade_plus_countries_streaming">Acceda a servicios de streaming globales</string>
+    <string name="upgrade_plus_countries_streaming">Acceda a servicios de transmisión global</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Conecte %d dispositivo</item>
         <item quantity="other">Conecte %d dispositivos simultáneamente</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Bloqueador de anuncios integrado (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Velocidad máxima (hasta 10 Gbps)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Navegue a las velocidades máximas (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">Y mucho más funciones premium</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
     <string name="upgrade_safe_mode_message">Use ProtonVPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. Desbloquee ésta y otras funciones con un plan Plus.</string>
     <string name="upgrade_moderate_nat_title">Habilitar NAT moderada</string>

@@ -206,7 +206,7 @@
     <string name="saveButton">Simpan</string>
     <string name="recommendedHeader">Disarankan</string>
     <string name="countryServersHeader">Server-server negara</string>
-    <string name="secureCoreCountriesHeader">Negara-negara dengan server Secure Core</string>
+    <string name="secureCoreCountriesHeader">Negara dengan server Secure Core</string>
     <string name="recommendedProfilesHeader">Profil-profil yang disarankan</string>
     <string name="yourProfilesHeader">Profil-profil Anda</string>
     <string name="exitCountry">Keluar dari negara</string>
@@ -409,10 +409,10 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Anda telah pindah ke server yang lebih cepat yang mirip seperti yang tadi dipilih.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat yang diizinkan</string>
+    <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="other">Putuskan perangkat lain untuk menyambungkan perangkat ini atau tingkatkan ke Plus untuk menyambungkan %1$d perangkat.</item>
+        <item quantity="other">Mohon putuskan sambungan yang telah ada agar perangkat ini dapat tersambung atau tingkatkan akun Anda ke Plus untuk dapat menyambungkan hingga %1$d perangkat dalam satu waktu.</item>
     </plurals>
     <string name="notification_max_sessions_content">Silakan putuskan perangkat lain untuk menyambung ke sini.</string>
     <string name="notification_cancel_to_free">Anda sedang berada di paket GRATIS. Server dan fitur GRATIS tersedia.</string>
@@ -444,7 +444,26 @@
         <item quantity="other">%1$d negara</item>
     </plurals>
     <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Pada saat Anda meningkatkan akun Anda ke Plus</string>
+    <string name="upgrade_netshield_title_new">Nikmati penjelajahan tanpa iklan dengan NetShield</string>
+    <string name="upgrade_secure_core_title_new">Enkripsi berganda dengan Secure Core</string>
+    <string name="upgrade_secure_core_countries">Alihkan lalu lintas jaringan Anda melalui server-server super aman di Swiss, Swedia, dan Islandia</string>
+    <string name="upgrade_secure_core_encryption">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
+    <string name="upgrade_secure_core_protect">Lindungi diri Anda dari serangan berbasis jaringan</string>
+    <string name="upgrade_netshield_block_ads">Blokir iklan dan program pelacak</string>
+    <string name="upgrade_netshield_block_malware">Lindungi perangkat Anda dari malware</string>
+    <string name="upgrade_netshield_speed">Jelajahi internet pada kecepatan tertinggi</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="other">%d server aman</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -463,13 +482,13 @@
         <item quantity="other">%d negara</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Akses seluruh %1$s yang tersebar di %2$s dengan PLUS</string>
+    <string name="upgrade_plus_countries_title_new">Akses lebih dari %1$s di %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -477,13 +496,14 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Anda kini memiliki akses ke %1$s dan berbagai fitur premium lainnya.</string>
-    <string name="upgrade_plus_countries_streaming">Akses berbagai layanan streaming di manapun Anda berada</string>
+    <string name="upgrade_plus_countries_streaming">Akses berbagai layanan streaming global</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="other">Hubungkan %d perangkat secara bersamaan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Adblocker yang tersedia secara bawaan (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Kecepatan tertinggi (hingga 10Gbps)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Jelajahi internet pada kecepatan tertinggi (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">Dan berbagai fitur premium lainnya</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
     <string name="upgrade_safe_mode_message">Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. Dapatkan fitur ini dan berbagai fitur lainnya dengan paket Plus.</string>
     <string name="upgrade_moderate_nat_title">Aktifkan NAT Moderat</string>
