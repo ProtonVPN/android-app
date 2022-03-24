@@ -114,8 +114,8 @@
     <string name="settingsDefaultConnectionDescription">Кнопка Швидке з\'єднання пі\'єднає вас до вибраного профілю</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартні порти</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
-    <string name="settingsModerateNatTitle">Помірна NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Помірна NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дозволяє використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Дізнатися більше</a>]]></string>
+    <string name="settingsModerateNatTitle">Помірне NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Помірне NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дозволяє використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Дізнатися більше</a>]]></string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
     <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -418,10 +418,10 @@
     <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристрою.</item>
-        <item quantity="few">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
-        <item quantity="many">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
-        <item quantity="other">Від\'єднайте інший пристрій для підключення цього пристрою, або перейдіть на передплату Plus для підключення %1$d пристроїв.</item>
+        <item quantity="one">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристрою.</item>
+        <item quantity="few">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
+        <item quantity="many">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
+        <item quantity="other">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
     </plurals>
     <string name="notification_max_sessions_content">Від’єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план FREE. Доступні лише сервери і функції FREE.</string>
@@ -459,21 +459,28 @@
         <item quantity="other">%1$d країн</item>
     </plurals>
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
-    <string name="upgrade_netshield_title">Розблокувати NetShіeld</string>
-    <string name="upgrade_secure_core_title">Розблокувати Secure Core</string>
-    <string name="upgrade_netshield_message">Блокуйте зловмисні програми, рекламу і стеження в браузерах і програмах. Доступно в будь-якому платному тарифному плані.</string>
-    <string name="upgrade_secure_core_message">Спрямовуйте передачу своїх найвразливіших даних через наші найзахищеніші сервери в країнах, що цінують приватність.</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">У разі оновлення до тарифного плану Plus</string>
+    <string name="upgrade_netshield_title_new">Насолоджуйтесь переглядом контенту без реклами за допомогою NetShield</string>
+    <string name="upgrade_secure_core_title_new">Подвійне шифрування за допомогою Secure Core</string>
+    <string name="upgrade_secure_core_countries">Спрямовуйте передачу даних через найзахищеніші сервери у Швейцарії, Швеції та Ісландії</string>
+    <string name="upgrade_secure_core_encryption">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
+    <string name="upgrade_secure_core_protect">Захистіть себе від мережевих атак</string>
+    <string name="upgrade_netshield_block_ads">Блокування реклами та стеження</string>
+    <string name="upgrade_netshield_block_malware">Захистіть свій пристрій від зловмисних програм</string>
+    <string name="upgrade_netshield_speed">Переглядайте контент на найвищій швидкості</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
-         1200+ servers
+         1200 secure servers
          -->
-    <plurals name="upgrade_plus_servers">
-        <item quantity="one">%d сервер</item>
-        <item quantity="few">%d сервери</item>
-        <item quantity="many">%d серверів</item>
-        <item quantity="other">%d серверів</item>
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d захищений сервер</item>
+        <item quantity="few">%d захищені сервери</item>
+        <item quantity="many">%d захищених серверів</item>
+        <item quantity="other">%d захищених серверів</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -499,14 +506,13 @@
         <item quantity="other">%d країн</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Отримайте доступ до всіх %1$s в %2$s з PLUS</string>
-    <string name="upgrade_plus_countries_message">Скористайтеся розширеними функціями прямо зараз!</string>
+    <string name="upgrade_plus_countries_title_new">Доступ через %1$s у %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -514,7 +520,7 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Тепер у вас є доступ до %1$s та інших функцій преміум.</string>
-    <string name="upgrade_plus_countries_streaming">Доступ до сервісів трансляції по всьому світу</string>
+    <string name="upgrade_plus_countries_streaming">Отримайте доступ до глобальних сервісів трансляції</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Під\'єднайте %d пристрій</item>
@@ -522,13 +528,14 @@
         <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
         <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Вбудований блокувальник реклами (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Найвища швидкість (до 10Гбіт/с)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
+    <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
     <string name="upgrade_safe_mode_message">Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. Розблокуйте цю та інші функції передплативши тарифний план Plus.</string>
-    <string name="upgrade_moderate_nat_title">Увімкнути помірну NAT</string>
-    <string name="upgrade_moderate_nat_message">Помірна NAT або NAT 2 типу може покращити ваш досвід онлайн-роботи з різними програмами та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">Що таке помірна NAT?</string>
+    <string name="upgrade_moderate_nat_title">Увімкнути помірне NAT</string>
+    <string name="upgrade_moderate_nat_message">Помірне NAT або NAT 2 типу може покращити ваш досвід онлайн-роботи з різними програмами та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Що таке помірне NAT?</string>
     <string name="upgrade_see_plans_button">Перегляньте тарифні плани та ціни</string>
     <string name="upgrade_not_now_button">Не зараз</string>
     <string name="upgrade_learn_more">Докладніше</string>

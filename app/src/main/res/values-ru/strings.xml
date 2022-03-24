@@ -136,7 +136,7 @@
     <string name="offerTooltipShowOffer">Посмотрите предложение</string>
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
-    <string name="listFreeCountries">Страны FREE (%1$d)</string>
+    <string name="listFreeCountries">Местоположения FREE (%1$d)</string>
     <string name="listPremiumCountries">BASIC &amp; PLUS Страны (%1$d)</string>
     <string name="listFastestServer">Самый быстрый сервер</string>
     <string name="listFreeServers">Серверы FREE (%1$d)</string>
@@ -235,7 +235,7 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к ProtonVPN, выполните следующие действия:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к ProtonVPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключить Always-on для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN в других приложениях</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN для всех остальных приложений VPN, кроме ProtonVPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
@@ -309,16 +309,16 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия ProtonVPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить постоянный VPN и Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите ProtonVPN и нажмите %1$s</string>
     <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Нажмите переключатель рядом с пунктом <b>Постоянная VPN</b>, чтобы включить его]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Нажмите переключатель рядом с пунктом <b>Постоянный VPN</b>, чтобы включить его]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
@@ -342,7 +342,7 @@
     <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
     <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>
     <string name="errorWireguardWithPlaceholder">Ошибка WireGuard %1$s</string>
-    <string name="serverNoWireguardSupport">Сервер этого профиля еще не поддерживает WireGuard. Чтобы подключиться, попробуйте использовать другой протокол или сервер, поддерживающий WireGuard.</string>
+    <string name="serverNoWireguardSupport">Сервер этого профиля еще не поддерживает WireGuard. Для подключения попробуйте использовать другой протокол или сервер, поддерживающий WireGuard.</string>
     <string name="stateConnectedTo">Подключение к %1$s</string>
     <string name="stateNotConnected">Вы не подключены</string>
     <string name="recents">Недавние</string>
@@ -415,13 +415,13 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">Вы достигли лимита на количество устройств</string>
+    <string name="notification_max_sessions_title">Вы достигли максимального лимита устройств</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройства.</item>
-        <item quantity="few">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
-        <item quantity="many">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
-        <item quantity="other">Для подключения этого устройства, отключите другое, либо перейдите на версию Plus для подключения %1$d устройств.</item>
+        <item quantity="one">Пожалуйста, отключите другое устройство, чтобы подключить это, или улучшите до версии Plus, чтобы одновременно подключить до %1$d устройства.</item>
+        <item quantity="few">Пожалуйста, отключите другое устройство, чтобы подключить это, или улучшите до версии Plus, чтобы одновременно подключить до %1$d устройств.</item>
+        <item quantity="many">Пожалуйста, отключите другое устройство, чтобы подключить это, или улучшите до версии Plus, чтобы одновременно подключить до %1$d устройств.</item>
+        <item quantity="other">Пожалуйста, отключите другое устройство, чтобы подключить это, или улучшите до версии Plus, чтобы одновременно подключить до %1$d устройств.</item>
     </plurals>
     <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить это.</string>
     <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифом. Доступны бесплатные серверы и функции.</string>
@@ -435,7 +435,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
     <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Доступ к стриминговым сервисам (Netflix, Disney+ и т. д.) в любой точке мира</string>
+    <string name="upsell_streaming_services">Доступ к потоковым сервисам (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service. This phrase will be combined with
          "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -459,7 +459,29 @@
         <item quantity="other">%1$d стран</item>
     </plurals>
     <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Когда вы улучшите до Plus</string>
+    <string name="upgrade_netshield_title_new">Воспользуйтесь просмотром веб-страниц без рекламы с помощью NetShield</string>
+    <string name="upgrade_secure_core_title_new">Двойное шифрование с Secure Core</string>
+    <string name="upgrade_secure_core_countries">Направляйте свой трафик через сверхзащищенные серверы в Швейцарии, Швеции и Исландии</string>
+    <string name="upgrade_secure_core_encryption">Добавьте еще один уровень шифрования к вашему подключению VPN</string>
+    <string name="upgrade_secure_core_protect">Защитите себя от сетевых атак</string>
+    <string name="upgrade_netshield_block_ads">Блокируйте рекламу и трекеры</string>
+    <string name="upgrade_netshield_block_malware">Защитите свое устройство от вредоносных программ</string>
+    <string name="upgrade_netshield_speed">Просматривайте сайты на самых высоких скоростях</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d защищенный сервер</item>
+        <item quantity="few">%d защищенных сервера</item>
+        <item quantity="many">%d защищенных серверов</item>
+        <item quantity="other">%d защищенного сервера</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -467,10 +489,10 @@
      1200+ secure servers
      -->
     <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">%d безопасный сервер</item>
-        <item quantity="few">%d безопасных сервера</item>
-        <item quantity="many">%d безопасных серверов</item>
-        <item quantity="other">%d безопасных серверов</item>
+        <item quantity="one">%d защищенный сервер</item>
+        <item quantity="few">%d защищенных сервера</item>
+        <item quantity="many">%d защищенных серверов</item>
+        <item quantity="other">%d защищенного сервера</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
@@ -484,13 +506,13 @@
         <item quantity="other">%d+ стран</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Доступ ко всем %1$s в %2$s с PLUS</string>
+    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -498,7 +520,7 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим премиум-функциям.</string>
-    <string name="upgrade_plus_countries_streaming">Доступ к службам трансляции по всему миру</string>
+    <string name="upgrade_plus_countries_streaming">Получите доступ к глобальным службам трансляции</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Подключайте %d устройство</item>
@@ -506,8 +528,9 @@
         <item quantity="many">Подключайте %d устройств одновременно</item>
         <item quantity="other">Подключайте %d устройств одновременно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Встроенный блокировщик рекламы (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Наивысшая скорость (до 10Гбит/с)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">Используйте ProtonVPN для любых особых нужд, разрешая трафик через VPN на нестандартные порты. Разблокируйте эту и другие возможности с помощью тарифа Plus.</string>
     <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>

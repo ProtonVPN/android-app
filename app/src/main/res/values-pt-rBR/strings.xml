@@ -41,7 +41,7 @@
     <string name="mapSwitchSecureCore">Seguro Core</string>
     <string name="warning">Aviso</string>
     <string name="secureCoreSpeedInfoTitle">Uma nota sobre velocidade…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
+    <string name="secureCoreSpeedInfoMessage">O Secure Core oferece o mais alto nível de segurança e privacidade, mas pode reduzir a velocidade da sua internet. Se precisar de mais desempenho, você pode desabilitar o Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <string name="logoutConfirmDialogTitle">Encerrar sessão?</string>
     <string name="logoutConfirmDialogMessage">Encerrar a sessão irá desconectar o seu dispositivo do servidor VPN.</string>
@@ -93,7 +93,7 @@
     <string name="accountVersion">Versão:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
     <string name="accountButtonManage">Gerenciar conta</string>
-    <string name="accountFree">ProtonVPN Gratuito</string>
+    <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Conta</string>
     <string name="activitySettingsTitle">Configurações</string>
@@ -112,10 +112,10 @@
     <string name="settingsMtuRangeInvalid">O valor MTU deve estar entre 1280-1500</string>
     <string name="settingsDefaultConnectionTitle">Conexão rápida</string>
     <string name="settingsDefaultConnectionDescription">O botão de conexão rápida conecta você ao perfil selecionado</string>
-    <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
-    <string name="settingsModerateNatTitle">Moderate NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowNonStandardPortsTitle">Portas não padrão</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use o ProtonVPN para qualquer necessidade especial ao permitir o tráfego para portas não padrão através da rede VPN. <a href="%1$s">Saiba mais</a>]]></string>
+    <string name="settingsModerateNatTitle">NAT moderado</string>
+    <string name="settingsModerateNatDescription"><![CDATA[O NAT moderado desabilita a randomização do mapeamento de endereços locais, o que pode reduzir um pouco sua segurança, mas permite técnicas como conexões diretas para aplicativos como jogos online. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Por favor, tente outro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -137,7 +137,7 @@
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
     <string name="listFreeCountries">Localizações FREE (%1$d)</string>
-    <string name="listPremiumCountries">BASIC &amp; PLUS Locations (%1$d)</string>
+    <string name="listPremiumCountries">Locais BÁSICOS &amp; PLUS (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores FREE (%1$d)</string>
     <string name="listBasicServers">Servidores BASIC (%1$d)</string>
@@ -207,7 +207,7 @@
     <string name="saveButton">Salvar</string>
     <string name="recommendedHeader">Recomendado</string>
     <string name="countryServersHeader">Servidores do país</string>
-    <string name="secureCoreCountriesHeader">Secure Core countries</string>
+    <string name="secureCoreCountriesHeader">Países do Secure Core</string>
     <string name="recommendedProfilesHeader">Perfis recomendados</string>
     <string name="yourProfilesHeader">Seus perfis</string>
     <string name="exitCountry">País de saída</string>
@@ -264,15 +264,15 @@
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
     <string name="settingsExcludedAppsEmpty">Adicione aplicativos a serem excluídos do tráfego VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Apps Comuns Permitidos (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Apps do Sistema Permitidos (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
     <string name="listNoItems">Nada</string>
     <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
     <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s and %2$d more</item>
+        <item quantity="one">%1$s e mais %2$d</item>
         <item quantity="other">%1$s and %2$d more</item>
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Não é possível alterar isto enquanto estiver conectado</string>
@@ -411,11 +411,11 @@
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Você foi reconectado para o servidor mais rápido similar ao que você selecionou.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
-    <string name="notification_max_sessions_title">Você atingiu o número de dispositivos</string>
+    <string name="notification_max_sessions_title">Você atingiu o número máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Desconecte um dispositivo para conectar este ou atualize para o Plus para conectar %1$d dispositivo.</item>
-        <item quantity="other">Desconecte um dispositivo para conectar este ou atualize para o Plus para conectar até %1$d dispositivos.</item>
+        <item quantity="one">Por favor, desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivo ao mesmo tempo.</item>
+        <item quantity="other">Por favor, desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivos ao mesmo tempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Por favor, desconecte outro dispositivo para conectar esse.</string>
     <string name="notification_cancel_to_free">Você está em um plano GRATUITO. Servidores e recursos GRATUITOS estão disponíveis.</string>
@@ -449,7 +449,27 @@
         <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Faça o Upgrade novamente para aproveitar todos os recursos:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_netshield_title_new">Enjoy ad-free browsing with NetShield</string>
+    <string name="upgrade_secure_core_title_new">Double the encryption with Secure Core</string>
+    <string name="upgrade_secure_core_countries">Route through ultra secure servers in Switzerland, Sweden, and Iceland</string>
+    <string name="upgrade_secure_core_encryption">Add another layer of encryption to your VPN connection</string>
+    <string name="upgrade_secure_core_protect">Protect yourself from network attacks</string>
+    <string name="upgrade_netshield_block_ads">Block ads and trackers</string>
+    <string name="upgrade_netshield_block_malware">Protect your device from malware</string>
+    <string name="upgrade_netshield_speed">Browse at the highest speeds</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d servidor seguro</item>
+        <item quantity="other">%d servidores seguros</item>
+    </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -457,8 +477,8 @@
      1200+ secure servers
      -->
     <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">%d secure server</item>
-        <item quantity="other">%d+ secure servers</item>
+        <item quantity="one">%d servidor seguro</item>
+        <item quantity="other">%d servidores seguros</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
 
@@ -470,13 +490,13 @@
         <item quantity="other">%d países</item>
     </plurals>
     <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers"
+     %1$s - replaced with "upgrade_plus_servers_new"
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access all 1300+ servers in 61 countries with PLUS
+     Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title">Access all %1$s in %2$s with PLUS</string>
+    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -484,19 +504,20 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Agora você tem acesso a %1$s e outros recursos premium.</string>
-    <string name="upgrade_plus_countries_streaming">Acesse serviços de streaming globalmente</string>
+    <string name="upgrade_plus_countries_streaming">Acesse os serviços de streaming globais</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Conecte %d dispositivo</item>
         <item quantity="other">Conecte %d dispositivos simultaneamente</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Bloqueador de anúncios integrado (NetShield)</string>
-    <string name="upgrade_plus_countries_speeds">Velocidades mais altas (até 10 Gbps)</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Navegue com velocidade máxima (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">And many more premium features</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego para portas não padrão</string>
     <string name="upgrade_safe_mode_message">Use o ProtonVPN para qualquer necessidade especial, permitindo o tráfego para portas não padrão através da rede VPN. Desbloqueie este e outros recursos com um plano Plus.</string>
-    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
-    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
-    <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
+    <string name="upgrade_moderate_nat_title">Ativar NAT moderado</string>
+    <string name="upgrade_moderate_nat_message">NAT moderado, também conhecido como NAT Tipo 2, pode melhorar sua experiência online com várias aplicações e videogames online. Desbloqueie esse e outros recursos com um plano Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">O que é NAT moderado?</string>
     <string name="upgrade_see_plans_button">Veja planos e preços</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
