@@ -31,7 +31,6 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.airbnb.lottie.LottieDrawable
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvLoginBinding
@@ -42,7 +41,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.viewBinding
-import com.protonvpn.android.utils.onAnimationEnd
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.openBrowserLink
@@ -149,8 +147,7 @@ class TvLoginActivity : BaseTvActivity() {
                 setResult(Activity.RESULT_OK)
                 if (loadingView.isAnimating)
                     finishLoadingAnimation()
-                else
-                    finishLogin()
+                finishLogin()
             }
             TvLoginViewState.ConnectionAllocationPrompt -> {}
         }.exhaustive
@@ -167,20 +164,11 @@ class TvLoginActivity : BaseTvActivity() {
     }
 
     private fun startLoadingAnimation() = with(binding.loadingView) {
-        setAnimation(R.raw.loading_animation)
-        setMinAndMaxFrame(0, LOADING_ANIMATION_LOOP_END_FRAME)
-        repeatCount = LottieDrawable.INFINITE
-        repeatMode = LottieDrawable.RESTART
-        playAnimation()
+        isVisible = true
     }
 
     private fun finishLoadingAnimation() = with(binding.loadingView) {
-        setMinAndMaxFrame(frame, LOADING_ANIMATION_FRAME_COUNT)
-        repeatCount = 0
-        playAnimation()
-        onAnimationEnd {
-            finishLogin()
-        }
+        isVisible = false
     }
 
     private fun finishLogin() {
@@ -196,8 +184,5 @@ class TvLoginActivity : BaseTvActivity() {
                 }
             override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
         }
-
-        const val LOADING_ANIMATION_LOOP_END_FRAME = 92
-        const val LOADING_ANIMATION_FRAME_COUNT = 180
     }
 }

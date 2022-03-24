@@ -256,9 +256,15 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/tvBackground"
-        android:visibility="gone"/>
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/vpn_pulsing_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
