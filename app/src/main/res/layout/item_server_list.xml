@@ -38,7 +38,6 @@
             android:layout_width="@dimen/server_list_flag_size"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/server_list_flag_margin"
-            android:layout_marginStart="16dp"
             tools:src="@drawable/flag_de"/>
 
         <LinearLayout
