@@ -306,7 +306,7 @@ include:
     file: '/jobs/release.gitlab-ci.yml'
 
   - project: 'proton/mobile/android/proton-libs'
-    ref: feat/cp-3404-vpn-magic-button # TODO change to main branch
+    ref: main
     file: '/ci/templates/checkout-core.gitlab-ci.yml'
 
   - local: '/appetize-integration.yml'
