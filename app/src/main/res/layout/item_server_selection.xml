@@ -33,20 +33,27 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:adjustViewBounds="true"
-        tools:src="@drawable/de" />
+        tools:src="@drawable/flag_de" />
 
-    <TextView
-        android:id="@+id/textLabel"
-        style="@style/Proton.Text.Default"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawablePadding="4dp"
-        android:duplicateParentState="true"
-        android:ellipsize="end"
-        android:paddingVertical="12dp"
-        android:singleLine="true"
-        app:drawableTint="?attr/proton_icon_accent" />
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textLabel"
+            style="@style/Proton.Text.Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:drawablePadding="4dp"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            android:textAlignment="viewStart"
+            app:drawableTint="?attr/proton_icon_accent" />
+    </FrameLayout>
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonUpgrade"
