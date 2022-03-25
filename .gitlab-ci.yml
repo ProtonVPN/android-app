@@ -1,8 +1,6 @@
 default:
-  image:
-    # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
-    #name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
-    name: $CI_REGISTRY_IMAGE:branch-compose
+  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.0
+
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -13,6 +11,7 @@ default:
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
     - git fetch origin development
     - if [[ $USE_CORE_SNAPSHOT -eq 1 && $CI_JOB_STAGE = "build" ]]; then git submodule update --init -- proton-libs; fi
+    - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
