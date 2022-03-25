@@ -40,13 +40,6 @@
             android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/imageCountry"
-                android:layout_width="@dimen/server_list_flag_size"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/server_list_flag_margin" />
-
-            <ImageView
                 android:id="@+id/imageDoubleArrows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,6 +48,13 @@
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_proton_chevrons_right_16"
                 app:tint="?attr/proton_icon_accent" />
+
+            <ImageView
+                android:id="@+id/imageCountry"
+                android:layout_width="@dimen/server_list_flag_size"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/server_list_flag_margin" />
 
             <TextView
                 android:id="@+id/textCountry"
