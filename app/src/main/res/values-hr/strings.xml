@@ -374,7 +374,6 @@
     <string name="tv_login_title_refresh">Vaša sesija je istekla. Pritisnite osvježi da biste započeli ispočetka.</string>
     <string name="tv_upgrade_title">Započnite streamanje s Plusom</string>
     <string name="back">Natrag</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Posjetite <font color="%1$s">%2$s</font> za nadogradnju na ProtonVPN Plus.]]></string>
     <string name="tv_upgrade_description">Nabavite ProtonVPN Plus plan za pristup više od 500 poslužitelja širom svijeta i optimizirane mogućnosti streaminga za Netflix, Amazon Prime Video, Disney+ i mnoge druge.</string>
     <string name="tv_vpn_error_dialog_title">VPN veza je neuspješna</string>
     <string name="tv_signout_label">Odjava</string>
