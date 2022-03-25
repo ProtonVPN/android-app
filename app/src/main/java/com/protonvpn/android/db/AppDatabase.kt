@@ -22,7 +22,6 @@ package com.protonvpn.android.db
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.TypeConverters
-import androidx.room.migration.AutoMigrationSpec
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.account.data.db.AccountConverters
@@ -31,6 +30,9 @@ import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.account.data.entity.AccountMetadataEntity
 import me.proton.core.account.data.entity.SessionDetailsEntity
 import me.proton.core.account.data.entity.SessionEntity
+import me.proton.core.challenge.data.db.ChallengeConverters
+import me.proton.core.challenge.data.db.ChallengeDatabase
+import me.proton.core.challenge.data.entity.ChallengeFrameEntity
 import me.proton.core.crypto.android.keystore.CryptoConverters
 import me.proton.core.data.room.db.BaseDatabase
 import me.proton.core.data.room.db.CommonConverters
@@ -62,6 +64,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AccountMetadataEntity::class,
         SessionEntity::class,
         SessionDetailsEntity::class,
+        // challenge
+        ChallengeFrameEntity::class,
         // user-data
         UserEntity::class,
         UserKeyEntity::class,
@@ -83,7 +87,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         VpnUser::class
     ],
     autoMigrations = [
-        AutoMigration (
+        AutoMigration(
             from = 3,
             to = 4
         )
@@ -93,6 +97,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
 )
 @TypeConverters(
     AccountConverters::class,
+    ChallengeConverters::class,
     CommonConverters::class,
     CryptoConverters::class,
     HumanVerificationConverters::class,
@@ -102,6 +107,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
 abstract class AppDatabase :
     BaseDatabase(),
     AccountDatabase,
+    ChallengeDatabase,
     UserDatabase,
     AddressDatabase,
     FeatureFlagDatabase,
@@ -112,11 +118,12 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 4
+        const val version = 5
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
-            DatabaseMigrations.MIGRATION_2_3
+            DatabaseMigrations.MIGRATION_2_3,
+            DatabaseMigrations.MIGRATION_4_5
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {

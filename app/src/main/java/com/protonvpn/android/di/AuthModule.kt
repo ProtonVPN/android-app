@@ -40,6 +40,7 @@ import me.proton.core.auth.data.repository.AuthRepositoryImpl
 import me.proton.core.auth.domain.ClientSecret
 import me.proton.core.auth.domain.repository.AuthRepository
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
+import me.proton.core.auth.domain.usecase.signup.SignupChallengeConfig
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
@@ -65,6 +66,10 @@ object AuthModule {
     @Provides
     @ClientSecret
     fun provideClientSecret(): String = ""
+
+    @Provides
+    @Singleton
+    fun provideChallengeConfig(): SignupChallengeConfig = SignupChallengeConfig()
 
     @Provides
     @Singleton
