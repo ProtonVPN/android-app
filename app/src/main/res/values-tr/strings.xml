@@ -372,7 +372,6 @@
     <string name="tv_login_title_refresh">Oturumunuzun süresi dolmuş. Yeniden başlamak için yenile üzerine tıklayın.</string>
     <string name="tv_upgrade_title">Plus ile yayın akışı izlemeye başlayın</string>
     <string name="back">Geri</string>
-    <string name="tv_upgrade_url_details"><![CDATA[ProtonVPN Plus tarifesine geçmek için <font color="%1$s">%2$s</font> sayfasına gidin.]]></string>
     <string name="tv_upgrade_description">Netflix, Amazon Prime Video, Disney+ ve diğerleri gibi dünya çapında yayın akışına göre ayarlanmış 500 üzerinde sunucuya erişmek için bir ProtonVPN Plus tarifesi edinin.</string>
     <string name="tv_vpn_error_dialog_title">VPN bağlantısı kurulamadı</string>
     <string name="tv_signout_label">Oturumu kapat</string>

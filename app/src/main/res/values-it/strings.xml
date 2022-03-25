@@ -372,7 +372,6 @@
     <string name="tv_login_title_refresh">La sessione è scaduta. Clicca su Aggiorna per ricominciare.</string>
     <string name="tv_upgrade_title">Avvia lo streaming con Plus</string>
     <string name="back">Indietro</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visita <font color="%1$s">%2$s</font> per passare a ProtonVPN Plus ora.]]></string>
     <string name="tv_upgrade_description">Ottieni un piano ProtonVPN Plus per accedere a più di 500 server in tutto il mondo e avere opzioni di streaming ottimizzate per Netflix, Amazon Prime Video, Disney+ e molti altri.</string>
     <string name="tv_vpn_error_dialog_title">Connessione VPN non riuscita</string>
     <string name="tv_signout_label">Esci</string>

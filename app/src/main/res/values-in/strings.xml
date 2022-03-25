@@ -370,7 +370,6 @@
     <string name="tv_login_title_refresh">Sesi Anda telah habis. Muat ulang halaman untuk dapat kembali menonton.</string>
     <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
     <string name="back">Kembali</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <font color="%1$s">%2$s</font> untuk meningkatkan ke ProtonVPN Plus sekarang.]]></string>
     <string name="tv_upgrade_description">Dapatkan paket ProtonVPN Plus untuk mengakses 500+ server di seluruh dunia dan optimalkan opsi tontonan untuk Netflix, Amazon Prime Video, Disney+, dan lainnya.</string>
     <string name="tv_vpn_error_dialog_title">Sambungan VPN gagal</string>
     <string name="tv_signout_label">Keluar</string>

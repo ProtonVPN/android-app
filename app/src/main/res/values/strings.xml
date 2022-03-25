@@ -58,6 +58,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continue</string>
     <string name="dialogLearnMore">Learn more</string>
+    <string name="dialog_read_more">Read more</string>
 
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Connected</string>
@@ -399,7 +400,7 @@
     <string name="tv_login_title_refresh">Your session is expired. Click refresh to start over again.</string>
     <string name="tv_upgrade_title">Start streaming with Plus</string>
     <string name="back">Back</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <font color="%1$s">%2$s</font> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
     <string name="tv_upgrade_description">Get a ProtonVPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
     <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
     <string name="tv_signout_label">Sign out</string>

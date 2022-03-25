@@ -28,8 +28,6 @@ import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
-import com.protonvpn.android.utils.getThemeColor
-import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,9 +45,7 @@ class TvUpgradeActivity : BaseTvActivity() {
     private fun initUI(binding: DialogTvUpgradeBinding) = with(binding) {
         backButton.initLolipopButtonFocus()
         backButton.setOnClickListener { finish() }
-        val accentColor = binding.root.getThemeColor(R.attr.colorAccent)
-        val htmlDescription = getString(R.string.tv_upgrade_url_details,
-            accentColor.toStringHtmlColorNoAlpha(), Constants.TV_UPGRADE_LINK)
+        val htmlDescription = getString(R.string.tv_upgrade_url_details, Constants.TV_UPGRADE_LINK)
         textUpgradeDetails.text = HtmlTools.fromHtml(htmlDescription)
 
         streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))

@@ -376,7 +376,6 @@
     <string name="tv_login_title_refresh">Термін дії вашого сеансу. Натисніть «Оновити», щоб почати знову.</string>
     <string name="tv_upgrade_title">Розпочніть перегляд з Plus</string>
     <string name="back">Назад</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Перейдіть до <font color="%1$s">%2$s</font>, щоб покращити до ProtonVPN Plus вже зараз.]]></string>
     <string name="tv_upgrade_description">Отримайте тарифний план ProtonVPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами для потокового передавання відео з Netflix, Amazon Prime Video, Disney+ тощо.</string>
     <string name="tv_vpn_error_dialog_title">Не вдалося під\'єднатися до VPN</string>
     <string name="tv_signout_label">Вийти</string>
