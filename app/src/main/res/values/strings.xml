@@ -161,10 +161,11 @@
     <string name="listAllCountries">All locations (%1$d)</string>
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>
     <string name="listFastestServer">Fastest server</string>
     <string name="listFreeServers">Free servers (%1$d)</string>
     <string name="listBasicServers">Basic servers (%1$d)</string>
-    <string name="listInternalServers" translatable="false">INTERNAL servers (PMTEAM) (%1$d)</string>
+    <string name="listInternalServers" translatable="false">Internal servers (PMTEAM) (%1$d)</string>
     <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">User action required</string>
     <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>

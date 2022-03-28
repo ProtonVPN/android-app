@@ -56,7 +56,7 @@ class CountrySelectionViewModel @Inject constructor(
             .partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
         return listOf(
             CountriesGroup(R.string.listFreeCountries, free, true),
-            CountriesGroup(R.string.listPremiumCountries, premium, false)
+            CountriesGroup(R.string.listPremiumCountries_new_plans, premium, false)
         )
     }
 
