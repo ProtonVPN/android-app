@@ -55,7 +55,7 @@
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">در حال راه‌اندازی اتصال...</string>
+    <string name="loaderInitializing">در حال راه‌اندازی اتصال…</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
     <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
@@ -112,7 +112,7 @@
     <string name="settingsMtuRangeInvalid">مقدار MTU باید در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ باشد</string>
     <string name="settingsDefaultConnectionTitle">اتصال سریع</string>
     <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
-    <string name="settingsAllowNonStandardPortsTitle">درگاه‌های غیر-استاندارد</string>
+    <string name="settingsAllowNonStandardPortsTitle">پورت‌های غیر استاندارد</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از ProtonVPN برای هر گونه کاربری خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
@@ -566,11 +566,11 @@
     <string name="onboading_connect_to_plus">اتصال به یک سرور Plus</string>
     <string name="upgrade_use_limited_free_button">استفاده از طرح رایگان محدود</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
-    <string name="dynamic_report_contact_us">Contact us</string>
+    <string name="dynamic_report_contact_us">تماس با ما</string>
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
     <string name="dynamic_report_tips_title">Quick fixes</string>
     <string name="dynamic_report_logs_title">Send error logs</string>
-    <string name="dynamic_report_success_title">Thanks for your feedback</string>
+    <string name="dynamic_report_success_title">از بازخورتان شما سپاسگزاریم</string>
     <string name="dynamic_report_success_description">We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_field_mandatory">This field is mandatory</string>
     <string name="dynamic_report_logs_description">A log is a type of file that shows us the actions you took that led to an error. We’ll only ever use them to help our engineers fix bugs.</string>

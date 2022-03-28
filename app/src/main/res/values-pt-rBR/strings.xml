@@ -273,7 +273,7 @@
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
     <plurals name="listFewItemsAndMore">
         <item quantity="one">%1$s e mais %2$d</item>
-        <item quantity="other">%1$s and %2$d more</item>
+        <item quantity="other">%1$s e mais %2$d</item>
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Não é possível alterar isto enquanto estiver conectado</string>
     <string name="excludeAlreadyExcluded">Já excluído</string>
@@ -451,15 +451,15 @@
     <string name="upsell_upgrade_again">Faça o Upgrade novamente para aproveitar todos os recursos:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_netshield_title_new">Enjoy ad-free browsing with NetShield</string>
-    <string name="upgrade_secure_core_title_new">Double the encryption with Secure Core</string>
-    <string name="upgrade_secure_core_countries">Route through ultra secure servers in Switzerland, Sweden, and Iceland</string>
-    <string name="upgrade_secure_core_encryption">Add another layer of encryption to your VPN connection</string>
-    <string name="upgrade_secure_core_protect">Protect yourself from network attacks</string>
-    <string name="upgrade_netshield_block_ads">Block ads and trackers</string>
-    <string name="upgrade_netshield_block_malware">Protect your device from malware</string>
-    <string name="upgrade_netshield_speed">Browse at the highest speeds</string>
+    <string name="upgrade_plus_subtitle">Ao atualizar para o Plus</string>
+    <string name="upgrade_netshield_title_new">Desfrute de navegação sem anúncios com o NetShield</string>
+    <string name="upgrade_secure_core_title_new">Duplique a criptografia com o Secure Core</string>
+    <string name="upgrade_secure_core_countries">Roteie por servidores ultra seguros na Suíça, Suécia e Islândia</string>
+    <string name="upgrade_secure_core_encryption">Adicione outra camada de criptografia à sua conexão VPN</string>
+    <string name="upgrade_secure_core_protect">Proteja-se contra ataques de rede</string>
+    <string name="upgrade_netshield_block_ads">Bloqueie anúncios e rastreadores</string>
+    <string name="upgrade_netshield_block_malware">Proteja seu dispositivo contra malware</string>
+    <string name="upgrade_netshield_speed">Navegue nas velocidades mais altas</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -496,7 +496,7 @@
      Example:
      Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new">Acesse mais de %1$s em %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -512,7 +512,7 @@
     </plurals>
     <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
     <string name="upgrade_plus_countries_speeds">Navegue com velocidade máxima (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">And many more premium features</string>
+    <string name="upgrade_plus_countries_more">E muitos outros recursos premium</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego para portas não padrão</string>
     <string name="upgrade_safe_mode_message">Use o ProtonVPN para qualquer necessidade especial, permitindo o tráfego para portas não padrão através da rede VPN. Desbloqueie este e outros recursos com um plano Plus.</string>
     <string name="upgrade_moderate_nat_title">Ativar NAT moderado</string>
