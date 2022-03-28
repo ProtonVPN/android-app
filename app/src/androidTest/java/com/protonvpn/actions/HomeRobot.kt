@@ -117,7 +117,7 @@ class HomeRobot : BaseRobot() {
 
     fun scrollUpToTheLogs() {
         repeat(3) {
-            swipeDownOnElementById<HomeRobot>(R.id.log_frag)
+            swipeDownOnElementById<HomeRobot>(R.id.recyclerItems)
         }
     }
 
@@ -173,7 +173,7 @@ class HomeRobot : BaseRobot() {
         }
 
         fun assertThatInLogsScreen() {
-            checkIfElementIsDisplayedById(R.id.titleLog)
+            checkIfElementIsDisplayedByStringId(R.string.log_title)
         }
 
         fun helpOptionOpensUrl() {

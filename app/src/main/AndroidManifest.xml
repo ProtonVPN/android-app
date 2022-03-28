@@ -115,8 +115,7 @@
             android:resizeableActivity="true"/>
         <activity
             android:name=".ui.drawer.LogActivity"
-            android:label="@string/log_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/log_title" />
         <activity
             android:name=".ui.promooffers.PromoOfferActivity" />
         <activity

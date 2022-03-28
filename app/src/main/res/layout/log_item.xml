@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  Copyright (c) 2022. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    tools:background="@color/darkGrey"
-    android:layout_height="wrap_content">
-    <TextView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/logLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?colorAccent"
-        android:textSize="9sp"
-        android:typeface="monospace"
-        app:fontFamily="monospace"
-        tools:text="Simple test log item"/>
-</LinearLayout>
+    android:id="@+id/logLine"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="?attr/proton_text_norm"
+    android:textSize="9sp"
+    android:typeface="monospace"
+    app:fontFamily="monospace"
+    tools:text="Simple test log item" />
