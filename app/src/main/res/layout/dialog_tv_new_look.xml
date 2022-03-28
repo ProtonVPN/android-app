@@ -65,7 +65,7 @@
             android:layout_marginEnd="24dp"
             android:gravity="center_horizontal"
             android:textSize="24sp"
-            android:text="@string/new_look_dialog_title" />
+            android:text="@string/new_look_dialog_title_new_plans" />
 
         <TextView
             android:id="@+id/textMessage"
@@ -75,7 +75,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:gravity="center_horizontal"
-            android:text="@string/new_look_dialog_message" />
+            android:text="@string/new_look_dialog_message_new_plans" />
 
         <Button
             android:id="@+id/buttonGotIt"

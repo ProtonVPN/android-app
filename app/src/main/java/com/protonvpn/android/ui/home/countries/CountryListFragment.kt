@@ -124,7 +124,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         if (viewModel.isFreeUser && !viewModel.userData.secureCoreEnabled) {
             val (free, premium) = viewModel.getFreeAndPremiumCountries()
             addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
-            addCountriesGroup(newGroups, R.string.listPremiumCountries, premium, expandedCountriesIds)
+            addCountriesGroup(newGroups, R.string.listPremiumCountries_new_plans, premium, expandedCountriesIds)
         } else {
             addCountriesGroup(newGroups, null, viewModel.getCountriesForList(), expandedCountriesIds)
         }
