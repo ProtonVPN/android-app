@@ -21,10 +21,14 @@ package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.api.HumanVerificationHandler
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.Storage
+import io.sentry.Sentry
 import kotlinx.coroutines.runBlocking
 import me.proton.core.account.domain.entity.Account
 import me.proton.core.account.domain.entity.AccountDetails
@@ -50,33 +54,44 @@ class CoreLoginMigration @Inject constructor(
             val vpnInfo = userData.migrateVpnInfoResponse
             if (session != null && vpnInfo != null && session.userId != null) {
                 val userId = UserId(session.userId)
+                val vpnUserEntity = runCatching { vpnInfo.toVpnUserEntity(userId, session.sessionId) }
+                if (vpnUserEntity.isSuccess) {
+                    // Run migration as blocking to avoid race conditions with synchronous user code
+                    runBlocking {
+                        accountManager.addAccount(
+                            Account(
+                                userId,
+                                user,
+                                if ('@' in user) user else "$user@protonmail.com",
+                                AccountState.Ready,
+                                session.sessionId,
+                                SessionState.Authenticated,
+                                AccountDetails(null, null)
+                            ), Session(
+                                session.sessionId,
+                                session.accessToken,
+                                session.refreshToken,
+                                session.scope.split(" ")
+                            )
+                        )
 
-                // Run migration as blocking to avoid race conditions with synchronous user code
-                runBlocking {
-                    accountManager.addAccount(Account(
-                        userId,
-                        user,
-                        if ('@' in user) user else "$user@protonmail.com",
-                        AccountState.Ready,
-                        session.sessionId,
-                        SessionState.Authenticated,
-                        AccountDetails(null, null)
-                    ), Session(
-                        session.sessionId,
-                        session.accessToken,
-                        session.refreshToken,
-                        session.scope.split(" ")))
+                        vpnUserDao.insertOrUpdate(vpnUserEntity.getOrThrow())
 
-                    vpnUserDao.insertOrUpdate(
-                        vpnInfo.toVpnUserEntity(userId, session.sessionId)
-                    )
+                        Storage.load(HumanVerificationHandler.HumanVerificationDetailsData::class.java)?.let { data ->
+                            for ((_, details) in data.details)
+                                humanVerificationRepository.insertHumanVerificationDetails(details)
 
-                    Storage.load(HumanVerificationHandler.HumanVerificationDetailsData::class.java)?.let { data ->
-                        for ((_, details) in data.details)
-                            humanVerificationRepository.insertHumanVerificationDetails(details)
-
-                        Storage.delete(HumanVerificationHandler.HumanVerificationDetailsData::class.java)
+                            Storage.delete(HumanVerificationHandler.HumanVerificationDetailsData::class.java)
+                        }
                     }
+                } else {
+                    val exception = vpnUserEntity.exceptionOrNull()!!
+                    ProtonLogger.logCustom(
+                        LogLevel.ERROR,
+                        LogCategory.APP,
+                        "Unable to migrate user data: $exception"
+                    )
+                    Sentry.captureException(exception)
                 }
             }
             Storage.delete(LoginResponse::class.java)
