@@ -59,7 +59,7 @@
     <string name="loaderConnectingTo">Verbinden met %1$s</string>
     <string name="loaderConnectingToLabel">Verbinding maken met…</string>
     <string name="loaderNotConnected">Niet verbonden (Onbeschermd)</string>
-    <string name="loaderNotConnectedSuggestion">Tik op de snel verbinding knop</string>
+    <string name="loaderNotConnectedSuggestion">Tik op de snel verbinden knop</string>
     <string name="loaderConnectedTo">Verbonden met %1$s</string>
     <string name="loaderConnectedToLabel">Verbonden met:</string>
     <string name="loaderDisconnecting">Verbinding verbreken</string>
@@ -233,10 +233,10 @@
     <string name="noVpnPermissionMainMessage">Om verbinding te maken met ProtonVPN, gelieve het volgende te doen:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Verleen VPN toestemming</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android heeft uw toestemming nodig om verbinding te maken met ProtonVPN. Geef deze toestemming door op \"OK\" te tikken wanneer u het venster \"Verbindingsverzoek\" van Android krijgt.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Schakel Always-on uit voor andere apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Schakel Altijd-aan uit voor andere apps</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android ondersteunt geen meerdere VPN apps. Schakel Always-on uit voor elke andere VPN-app dan ProtonVPN.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
-    <string name="noVpnPermissionOtherAppLabel">Andere VPN app</string>
+    <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN instellingen openen</string>
     <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
@@ -404,7 +404,7 @@
     <string name="settingsReconnectToChangeDialogContent">Dit zal uw verbinding herstarten.</string>
     <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>
     <string name="notification_subscription_expired_title">Uw ProtonVPN abonnement is verlopen</string>
-    <string name="notification_subscription_expired_content">We moesten uw plan downgraden, maar we verbinden u opnieuw met de snelste server die beschikbaar is voor dat plan.</string>
+    <string name="notification_subscription_expired_content">We moesten uw plan degraderen, maar we verbinden u opnieuw met de snelste server die beschikbaar is voor dat plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
     <string name="notification_delinquent_title">Uw ProtonVPN-account heeft openstaande facturen</string>
     <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
@@ -420,7 +420,7 @@
     <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
     <string name="notification_cancel_to_free">U hebt een GRATIS abonnement. GRATIS servers en functies zijn beschikbaar.</string>
     <string name="notification_cancel_to_basic">U hebt het BASIC abonnement. BASIC &amp; GRATIS servers en functies zijn beschikbaar.</string>
-    <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturenbetaald zijn.</string>
+    <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturen betaald zijn.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Van server: </string>
     <string name="reconnect_to_server">Naar server: </string>
@@ -518,14 +518,14 @@
     <string name="upgrade_moderate_nat_title">Schakel Gemiddelde NAT in</string>
     <string name="upgrade_moderate_nat_message">Gemiddelde NAT (ook gekend als NAT Type 2) kan uw online ervaring met verschillende applicaties en online videogames verbeteren. Ontgrendel dit en andere functies met een Plus-abonnement.</string>
     <string name="upgrade_moderate_nat_learn_more">Wat is Gemiddelde NAT?</string>
-    <string name="upgrade_see_plans_button">Plannen en prijzen bekijken</string>
+    <string name="upgrade_see_plans_button">Abonnementen en prijzen bekijken</string>
     <string name="upgrade_not_now_button">Niet nu</string>
     <string name="upgrade_learn_more">Meer informatie</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informatie</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus servers</string>
-    <string name="info_features">Opties</string>
+    <string name="info_features">Functies</string>
     <string name="smart_routing_title">Slimme routering</string>
     <string name="smart_routing_description">Met deze technologie kan ProtonVPN hogere snelheid en beveiliging bieden in moeilijkheids-tot-dienstlanden.</string>
     <string name="streaming_title">Streamen</string>
@@ -536,7 +536,7 @@
     <string name="tor_description">Routeer uw internetverkeer via het Tor-netwerk. Langer, maar meer privé.</string>
     <string name="info_performance">Prestaties</string>
     <string name="server_load_title">Serverbelasting</string>
-    <string name="server_load_description">Servers met hoge belasting zijn langzamer dan servers met lage lading.</string>
+    <string name="server_load_description">Servers met hoge belasting zijn langzamer dan servers met lage belasting.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Maak verbinding met een Plus-server in dit land om het streamen te starten.\n\nTip: Wis de cache van de streaming-apps om ervoor te zorgen dat nieuwe inhoud wordt weergegeven.</string>
     <string name="activity_information_learn_more">Meer informatie</string>

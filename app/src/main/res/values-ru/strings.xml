@@ -512,7 +512,7 @@
      Example:
      Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new">Получите доступ к более чем %1$s в %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -534,8 +534,8 @@
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">Используйте ProtonVPN для любых особых нужд, разрешая трафик через VPN на нестандартные порты. Разблокируйте эту и другие возможности с помощью тарифа Plus.</string>
     <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренное NAT, также известное как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
+    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Что такое умеренный NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
     <string name="upgrade_learn_more">Узнать больше</string>
@@ -589,7 +589,7 @@
     <string name="dynamic_report_tips_title">Быстрые исправления</string>
     <string name="dynamic_report_logs_title">Отправить журналы ошибок</string>
     <string name="dynamic_report_success_title">Благодарим за отзыв</string>
-    <string name="dynamic_report_success_description">Мы свяжемся с вами как можно раньше.</string>
+    <string name="dynamic_report_success_description">Мы свяжемся с вами как только сможем.</string>
     <string name="dynamic_report_field_mandatory">Это поле является обязательным</string>
     <string name="dynamic_report_logs_description">Журнал - это тип файла, показывающий нам ваши действия, приведшие к появлению ошибки. Мы используем их только для того, чтобы помочь нашим инженерам исправить ошибки.</string>
     <string name="dynamic_report_logs_missing">Журналы ошибок помогают нам разобраться в сути вашей проблемы. Если вы не приложите их, мы не сможем провести полную проверку.</string>
