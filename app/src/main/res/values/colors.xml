@@ -18,60 +18,29 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="mobilePrimary">#4B4B57</color>
-    <color name="mobileAccent">#59B268</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="transparentWhite">#55FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="dimmedRed">#F06D70</color>
-    <color name="cyan">#66D2D8</color>
-    <color name="greenBright">#B2DF45</color>
-    <color name="yellow">#FFFF00</color>
-
-    <color name="slogan">#8e8e93</color>
-    <color name="backgroundLauncher">#56B366</color>
-    <color name="red">#e52424</color>
-    <color name="orange">#FF9909</color>
-    <color name="bgStatusBar">#2c2c31</color>
-    <color name="darkGrey">#27272c</color>
-    <color name="loginBackground">#2a2a2e</color>
-    <color name="grey">#2D2C32</color>
-    <color name="dimmedGrey">#2e2e34</color>
-    <color name="lightGrey">#97979a</color>
-    <color name="brightGrey">#797979</color>
-    <color name="transparent">#00000000</color>
-    <color name="bgDrawer">@color/grey</color>
-    <color name="accountTitles">#4b4b56</color>
-
     <color name="notificationDetailsStroke">#EAECF1</color>
-    <color name="notificationArrow">@color/black</color>
-    <color name="notificationDisabled">#9CA0AA</color>
-
-    <color name="brightCyan">#32b3dd</color>
+    <color name="mapPathColor">#55FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="blackOverlay">#80000000</color>
-    <color name="white70">#B3FFFFFF</color>
-    <color name="white50">#80FFFFFF</color>
-    <color name="white30">#4dFFFFFF</color>
 
     <!-- TV -->
     <color name="tvAccent">#6D4AFF</color>
     <color name="tvAccentLighten">#8A6EFF</color>
     <color name="tvAlert">#DC3251</color>
+    <color name="tvBackground">#1C1B24</color>
     <color name="tvButtonBg">#6D697D</color>
     <color name="tvCardBackground">#292733</color>
-
     <color name="tvCardRowIconColor">#5D616B</color>
+    <color name="tvDisconnect">@color/tvAlert</color>
+    <color name="tvHeaderLabelBackground">#4dFFFFFF</color>
     <color name="tvMapSelected">#6D697D</color>
     <color name="tvMapCountry">#3F3B4C</color>
     <color name="tvMapConnected">@color/tvAccent</color>
-    <color name="tvBackground">#1C1B24</color>
     <color name="tvMapBorder">@color/tvBackground</color>
     <color name="tvInMaintenance">#A7A4B5</color>
     <color name="tvServerLoadLow">#1EA885</color>
     <color name="tvServerLoadMedium">#FF9900</color>
     <color name="tvServerLoadHigh">@color/tvAlert</color>
-    <color name="tvDisconnect">@color/tvAlert</color>
     <color name="tvGuidedActionsBackground">#E01623</color>
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
     <color name="tvDisconnectButtonTint">#AA2e2e34</color>

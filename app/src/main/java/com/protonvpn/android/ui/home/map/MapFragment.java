@@ -243,7 +243,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                                                  List<T> exitCountries) {
 
         Paint paint = mapView.getDefaultPathPaint();
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.transparentWhite));
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.mapPathColor));
 
         for (Markable vpnCountry : exitCountries) {
             if (vpnCountry.getCoordinates().hasValidCoordinates()) {
