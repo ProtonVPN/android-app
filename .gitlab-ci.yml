@@ -327,6 +327,12 @@ i18n-commit-locales:
       I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-commit-locales-shared
 
+i18n-sync-crowdin-new-plans:
+  variables:
+    I18N_SYNC_BRANCH: feat/rebranding-main
+    I18N_SYNC_CROWDIN_PROJECT: 'android-vpn'
+  extends: .i18n-sync-crowdin-shared
+
 publish-github:
   stage: publish
   only:
