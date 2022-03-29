@@ -14,7 +14,7 @@ class MockSharedPreference : SharedPreferences {
     override fun getString(s: String, @Nullable s1: String?) = preferenceMap[s] as? String
 
     @Nullable
-    override fun getStringSet(s: String, @Nullable set: Set<String>?) = preferenceMap[s] as? Set<String>
+    override fun getStringSet(s: String, @Nullable set: Set<String>?) = preferenceMap[s] as? Set<String> ?: set
 
     override fun getInt(s: String, i: Int) = preferenceMap[s] as Int
 

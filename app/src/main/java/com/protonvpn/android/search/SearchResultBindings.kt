@@ -24,10 +24,13 @@ import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ServerRowFeaturesAndButtonsView
+import com.protonvpn.android.databinding.ItemHeaderSearchRecentsBinding
+import com.protonvpn.android.databinding.ItemSearchRecentBinding
 import com.protonvpn.android.databinding.ItemSearchResultCountryBinding
 import com.protonvpn.android.databinding.ItemSearchResultTwoLineBinding
 import com.protonvpn.android.models.vpn.Server
@@ -35,6 +38,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.countries.getDisplayKeywords
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.viewbinding.BindableItem
+import kotlin.reflect.KFunction1
 
 abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     @LayoutRes private val layoutId: Int,
@@ -58,7 +62,7 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
             isOnline = item.isOnline
 
             val powerButtonListener = View.OnClickListener {
-                if (item.isConnected) onConnect(item)
+                if (!item.isConnected) onConnect(item)
                 else onDisconnect()
             }
             setPowerButtonListener(powerButtonListener)
@@ -162,6 +166,45 @@ class ServerResultBinding(
     override fun initializeViewBinding(view: View) = ItemSearchResultTwoLineBinding.bind(view).apply {
         imageFlag.isVisible = false
     }
+}
+
+class RecentResultBinding(
+    private val item: String,
+    private val onClick: (String) -> Unit,
+) : BindableItem<ItemSearchRecentBinding>(item.hashCode().toLong()) {
+    override fun bind(binding: ItemSearchRecentBinding, position: Int) {
+        with(binding) {
+            title.text = item
+            root.setOnClickListener { onClick(item) }
+        }
+    }
+
+    override fun initializeViewBinding(view: View) = ItemSearchRecentBinding.bind(view)
+    override fun getLayout(): Int = R.layout.item_search_recent
+}
+
+data class RecentsHeaderViewHolder(
+    @StringRes private val textRes: Int = 0,
+    private val text: String? = null,
+    private val itemId: Long = 1,
+    private val onClear: () -> Unit
+) : BindableItem<ItemHeaderSearchRecentsBinding>(itemId) {
+
+    override fun bind(viewBinding: ItemHeaderSearchRecentsBinding, position: Int) {
+        if (text != null) {
+            viewBinding.textHeader.text = text
+        } else {
+            viewBinding.textHeader.setText(textRes)
+        }
+        viewBinding.textClear.setOnClickListener { onClear() }
+    }
+
+    override fun initializeViewBinding(view: View): ItemHeaderSearchRecentsBinding =
+        ItemHeaderSearchRecentsBinding.bind(view)
+
+    override fun getLayout(): Int = R.layout.item_header_search_recents
+
+    override fun isClickable(): Boolean = true
 }
 
 class SecureCoreServerResultBinding(

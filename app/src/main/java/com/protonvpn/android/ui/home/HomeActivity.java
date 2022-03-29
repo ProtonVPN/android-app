@@ -406,6 +406,11 @@ public class HomeActivity extends VpnActivity {
                 return true;
             }
         });
+
+        searchViewModel.getQueryFromRecents().observe(this, (recentQuery) -> {
+            searchView.setQuery(recentQuery, true);
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

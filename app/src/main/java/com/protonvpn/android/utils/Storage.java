@@ -21,6 +21,10 @@ package com.protonvpn.android.utils;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -30,11 +34,9 @@ import com.google.gson.JsonSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.util.Collections;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
+import java.util.Set;
 
 import kotlin.jvm.functions.Function0;
 import me.proton.core.network.domain.client.ClientId;
@@ -58,6 +60,14 @@ public final class Storage {
 
     public static void setPreferences(SharedPreferences preferences) {
         Storage.preferences = preferences;
+    }
+
+    public static void saveStringSet(String key, Set<String> stringSet) {
+        preferences.edit().putStringSet(key, stringSet).apply();
+    }
+
+    public static Set<String> getStringSet(String key) {
+        return preferences.getStringSet(key, Collections.emptySet());
     }
 
     public static void saveBoolean(String key, boolean value) {

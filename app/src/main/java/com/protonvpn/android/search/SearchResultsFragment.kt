@@ -34,6 +34,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentSearchResultsBinding
@@ -42,6 +43,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.showDialogWithDontShowAgain
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.preventClickTrough
@@ -94,7 +96,8 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         }
         textView.setCompoundDrawablesRelative(icon, null, null, null)
         textView.text = HtmlTools.fromHtml(
-            getString(textRes, ContextCompat.getColor(context, R.color.text_hint).toStringHtmlColorNoAlpha()))
+            getString(textRes, MaterialColors.getColor(textView, R.attr.proton_text_hint).toStringHtmlColorNoAlpha())
+        )
         addView(textView)
     }
 
@@ -105,7 +108,8 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
             layoutResultsState.isVisible = false
             when (viewState) {
                 is SearchViewModel.ViewState.SearchHistory -> {
-                    // TODO: implement
+                    layoutResultsState.isVisible = true
+                    setSearchRecentResults(viewState)
                 }
                 is SearchViewModel.ViewState.Empty -> {
                     layoutEmptyState.isVisible = true
@@ -151,6 +155,35 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         resultsAdapter.update(sections)
     }
 
+    private fun setSearchRecentResults(state: SearchViewModel.ViewState.SearchHistory) {
+        val sections = mutableListOf<Section>()
+        sections.add(
+            Section(RecentsHeaderViewHolder(text = getString(
+                R.string.search_recents_header_title,
+                state.queries.size
+            ),
+                onClear = {
+                    showDialogWithDontShowAgain(
+                        context = requireContext(),
+                        title = null,
+                        message = getString(R.string.search_clear_history_dialog),
+                        positiveButtonRes = R.string.dialogContinue,
+                        negativeButtonRes = R.string.cancel,
+                        showDialogPrefsKey = PREF_DONT_SHOW_CLEAR_HISTORY,
+                        learnMoreUrl = null,
+                        onAccepted = { viewModel.clearRecentHistory() }
+                    )
+                }),
+                state.queries.map {
+                    RecentResultBinding(
+                        item = it,
+                        onClick = viewModel::setQueryFromRecents
+                    )
+                })
+        )
+        resultsAdapter.update(sections)
+    }
+
     private fun <T> addSection(
         sections: MutableList<Section>,
         @StringRes title: Int,
@@ -182,5 +215,6 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
     companion object {
         private const val HINT_SEARCH_ICON_DP = 16
+        private const val PREF_DONT_SHOW_CLEAR_HISTORY = "PREF_CLEAR_HISTORY"
     }
 }
