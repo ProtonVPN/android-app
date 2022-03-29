@@ -19,10 +19,13 @@
 
 package com.protonvpn.android.search
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToAnyServer
 import com.protonvpn.android.auth.data.hasAccessToServer
@@ -33,14 +36,18 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.Locale
 import javax.inject.Inject
@@ -86,6 +93,10 @@ class SearchViewModel @Inject constructor(
     private val query = savedStateHandle.getLiveData("search_query", "")
     val currentQuery = query.value
 
+    private var recentsAddJob : Job? = null
+    private val _queryFromRecents = MutableLiveData<String>()
+    val queryFromRecents: LiveData<String> = _queryFromRecents
+
     val viewState: Flow<ViewState> =
         combine(query.asFlow(), currentUser.vpnUserFlow, vpnStateMonitor.status) { query, vpnUser, vpnStatus ->
             val isConnectedOrConnecting =
@@ -99,6 +110,30 @@ class SearchViewModel @Inject constructor(
 
     fun setQuery(newQuery: String) {
         query.value = newQuery
+        recentsAddJob?.cancel()
+        recentsAddJob = viewModelScope.launch {
+            delay(ADD_TO_RECENTS_DELAY_MS)
+            saveSearchQuery(newQuery)
+        }
+    }
+
+    fun setQueryFromRecents(recentQuery: String) {
+        _queryFromRecents.value = recentQuery
+    }
+
+    fun clearRecentHistory() {
+        // Save empty set and set whitespace query to trigger state refresh
+        Storage.saveStringSet(PREF_SEARCH_RECENT_SET, setOf())
+        setQuery("")
+    }
+
+    private fun getSearchRecents() = Storage.getStringSet(PREF_SEARCH_RECENT_SET).toSortedSet()
+
+    private fun saveSearchQuery(query: String) {
+        if (query.isBlank()) return
+        val searchHistory = getSearchRecents()
+        searchHistory.add(query)
+        Storage.saveStringSet(PREF_SEARCH_RECENT_SET, searchHistory)
     }
 
     fun disconnect() {
@@ -127,8 +162,11 @@ class SearchViewModel @Inject constructor(
         val result = search(query, secureCore)
         return when {
             query.isBlank() -> {
-                // TODO: add search history
-                ViewState.Empty
+                val searchHistory = getSearchRecents().toList()
+                if (searchHistory.isEmpty())
+                    ViewState.Empty
+                else
+                    ViewState.SearchHistory(searchHistory)
             }
             result.isEmpty -> {
                 ViewState.EmptyResult
@@ -178,4 +216,9 @@ class SearchViewModel @Inject constructor(
                 servers.any { it.online }
             )
         }
+
+    companion object {
+        private const val ADD_TO_RECENTS_DELAY_MS = 3000L
+        private const val PREF_SEARCH_RECENT_SET = "PREF_DONT_SHOW_CLEAR_HISTORY"
+    }
 }

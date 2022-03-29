@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2022. Proton Technologies AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="8dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/screen_padding_horizontal">
+
+    <TextView
+        android:id="@+id/textHeader"
+        style="@style/Proton.Text.DefaultSmall.Weak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="Recent searches (6)" />
+
+    <TextView
+        android:id="@+id/textClear"
+        style="@style/Proton.Text.DefaultSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/search_clear_history"
+        android:textColor="?attr/proton_text_accent" />
+</LinearLayout>

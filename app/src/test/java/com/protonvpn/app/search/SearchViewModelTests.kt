@@ -43,6 +43,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import me.proton.core.test.kotlin.CoroutinesTest
@@ -176,5 +177,29 @@ class SearchViewModelTests : CoroutinesTest {
 
         assertIs<SearchViewModel.ViewState.SearchResults>(state)
         assertEquals(listOf("Sweden", "Hong Kong SAR China", "United States"), state.countries.map { it.match.text })
+    }
+
+    @Test
+    fun `when query is typed fast only the end result is added to recents`() = coroutinesTest {
+        searchViewModel.setQuery("s")
+        searchViewModel.setQuery("sw")
+        searchViewModel.setQuery("swi")
+        searchViewModel.setQuery("swis")
+        searchViewModel.setQuery("swiss")
+        delay(3100)
+        searchViewModel.setQuery("")
+        val state = searchViewModel.viewState.first()
+        assertIs<SearchViewModel.ViewState.SearchHistory>(state)
+        assertEquals(listOf("swiss"), state.queries)
+    }
+
+    @Test
+    fun `when recents are cleared state is empty`() = coroutinesTest {
+        searchViewModel.setQuery("swiss")
+        delay(3100)
+        searchViewModel.setQuery("")
+        assertIs<SearchViewModel.ViewState.SearchHistory>(searchViewModel.viewState.first())
+        searchViewModel.clearRecentHistory()
+        assertIs<SearchViewModel.ViewState.Empty>(searchViewModel.viewState.first())
     }
 }
