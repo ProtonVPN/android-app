@@ -22,6 +22,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import java.util.Locale
@@ -57,7 +58,7 @@ object CountryTools {
         val configuration = context.resources.configuration
         val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             configuration.locales[0] else configuration.locale
-        return if (locale.language in Constants.AVAILABLE_LOCALES) locale else Locale.US
+        return if (locale.language in BuildConfig.SUPPORTED_LOCALES) locale else Locale.US
     }
 
     fun getFullName(country: String?): String {

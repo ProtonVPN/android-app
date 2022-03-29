@@ -129,6 +129,7 @@ def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
+def supportedLocales = ["de", "en", "es", "fa", "fr", "hr", "in", "it", "nl", "pl", "pt", "ru", "tr", "uk"]
 
 android {
     def helpers = new Helpers()
@@ -159,6 +160,11 @@ android {
         testInstrumentationRunner "com.protonvpn.TestsRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true' // Clear app data between tests.
         vectorDrawables.useSupportLibrary = true
+
+        resConfigs supportedLocales
+        def availableLocalesJava = supportedLocales.collect { "\"$it\"" }.join(", ")
+        buildConfigField "String[]", "SUPPORTED_LOCALES", "{$availableLocalesJava}"
+
         buildConfigField "String", "Sentry_DSN",  "\"${StringEscapeUtils.escapeJava(sentryDsn)}\""
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
