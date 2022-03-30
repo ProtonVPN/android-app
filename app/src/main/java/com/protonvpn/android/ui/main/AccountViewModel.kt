@@ -118,7 +118,6 @@ class AccountViewModel @Inject constructor(
 
         with(authOrchestrator) {
             onAddAccountResult { result ->
-                guestHole.get().isInLoginProcess = false
                 if (result == null)
                     onAddAccountClosed?.invoke()
                 else if (result.workflow == AddAccountWorkflow.SignUp)
@@ -145,7 +144,6 @@ class AccountViewModel @Inject constructor(
     }
 
     suspend fun startLogin() {
-        guestHole.get().isInLoginProcess = true
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(
             accountType, product, loginUsername = Storage.getString(LAST_USER, null)

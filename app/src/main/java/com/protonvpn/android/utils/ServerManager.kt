@@ -191,6 +191,11 @@ class ServerManager @Inject constructor(
         updatedAt = null
     }
 
+    fun getServersForGuestHole(serverCount: Int) =
+        getExitCountries(false).flatMap { country ->
+            country.serverList.filter { it.online }
+        }.takeRandomStable(serverCount)
+
     fun setServers(serverList: List<Server>, language: String?) {
         vpnCountries.clear()
         secureCoreEntryCountries.clear()
