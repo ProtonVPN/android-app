@@ -29,6 +29,14 @@ import java.util.Locale
 
 object CountryTools {
 
+    private val supportedLanguages by lazy {
+        BuildConfig.SUPPORTED_LOCALES.map {
+            // Get the language for comparisons via a Locale object, see:
+            // https://developer.android.com/reference/java/util/Locale#getLanguage()
+            Locale(it.split("-r")[0]).language
+        }
+    }
+
     @JvmStatic
     fun getFlagResource(context: Context, flag: String?): Int {
         val desiredFlag = flag?.let {
@@ -58,7 +66,7 @@ object CountryTools {
         val configuration = context.resources.configuration
         val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             configuration.locales[0] else configuration.locale
-        return if (locale.language in BuildConfig.SUPPORTED_LOCALES) locale else Locale.US
+        return if (locale.language in supportedLanguages) locale else Locale.US
     }
 
     fun getFullName(country: String?): String {
