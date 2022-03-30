@@ -100,6 +100,7 @@ val UserCertRevoked = LogEventType(LogCategory.USER_CERT, "REVOKED", LogLevel.IN
 val UserCertNew = LogEventType(LogCategory.USER_CERT, "NEW", LogLevel.INFO)
 val UserCertRefreshError = LogEventType(LogCategory.USER_CERT, "REFRESH_ERROR", LogLevel.WARN)
 val UserCertScheduleRefresh = LogEventType(LogCategory.USER_CERT, "SCHEDULE_REFRESH", LogLevel.INFO)
+val UserCertStoreError = LogEventType(LogCategory.USER_CERT, "STORE_ERROR", LogLevel.ERROR)
 
 val UserPlanCurrent = LogEventType(LogCategory.USER_PLAN, "CURRENT", LogLevel.INFO)
 val UserPlanChanged = LogEventType(LogCategory.USER_PLAN, "CHANGED", LogLevel.INFO)

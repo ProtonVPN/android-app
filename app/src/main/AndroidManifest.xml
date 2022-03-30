@@ -253,7 +253,7 @@
         <activity
             android:name=".ui.home.SecureCoreSpeedInfoActivity"
             android:exported="false" />
-        
+
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeModerateNatDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
@@ -266,6 +266,10 @@
         <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>
+
+        <activity
+            android:name="me.proton.core.crypto.validator.presentation.ui.CryptoValidatorErrorDialogActivity"
+            android:theme="@style/ProtonTheme.Vpn.Transparent" />
 
         <meta-data
             android:name="android.max_aspect"
@@ -289,6 +293,11 @@
             <!-- Disable WorkManager initialization -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+            <meta-data
+                android:name="me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
