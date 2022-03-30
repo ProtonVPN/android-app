@@ -194,6 +194,7 @@ android {
 
         black {
             versionNameSuffix "+black"
+            applicationIdSuffix '.black'
             def blackToken = System.getenv("BLACK_TOKEN")
             def blackDomain = System.getenv("BLACK_DOMAIN")
             buildConfigField "String", "STORE_SUFFIX", "\"\""
