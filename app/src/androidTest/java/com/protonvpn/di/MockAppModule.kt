@@ -127,7 +127,7 @@ class MockAppModule {
             networkManager, networkPrefs, sessionProvider, sessionListener, humanVerificationProvider,
             humanVerificationListener, missingScopeListener, cookieStore, scope, certificatePins = emptyArray(),
             alternativeApiPins = emptyList(),
-            apiConnectionListener = guestHoleFallbackListener
+            dohAlternativesListener = guestHoleFallbackListener
         )
 
         val resource: IdlingResource =

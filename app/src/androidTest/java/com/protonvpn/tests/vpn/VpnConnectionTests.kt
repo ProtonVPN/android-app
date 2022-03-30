@@ -334,36 +334,12 @@ class VpnConnectionTests {
             mockk(relaxed = true),
             foregroundActivityTracker
         )
-        guestHole.isInLoginProcess = true
+
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
-        val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/vpn", null) {
-            ApiResult.Success<Any>(mockk())
+        guestHole.onAlternativesUnblock {
+            Assert.assertTrue(monitor.isConnected)
         }
         Assert.assertTrue(monitor.isDisabled)
-        Assert.assertNotNull(guestHoleResult)
-    }
-
-    @Test
-    fun guestHoleFail() = scope.runBlockingTest {
-        mockOpenVpn.failScanning = true
-        mockOpenVpn.stateOnConnect = VpnState.Disabled
-
-        val guestHole = GuestHole(
-            this,
-            TestDispatcherProvider,
-            dagger.Lazy { serverManager },
-            monitor,
-            dagger.Lazy { manager },
-            mockk(relaxed = true),
-            foregroundActivityTracker
-        )
-        guestHole.isInLoginProcess = true
-        every { foregroundActivityTracker.foregroundActivity } returns mockk()
-        val guestHoleResult: ApiResult<Any>? = guestHole.onPotentiallyBlocked("/randomCall", null) {
-            ApiResult.Success<Any>(mockk())
-        }
-        Assert.assertTrue(monitor.isDisabled)
-        Assert.assertNull(guestHoleResult)
     }
 
     @Test
