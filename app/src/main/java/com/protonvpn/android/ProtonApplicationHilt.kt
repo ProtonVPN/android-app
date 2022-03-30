@@ -20,8 +20,10 @@
 package com.protonvpn.android
 
 import androidx.hilt.work.HiltWorkerFactory
+import androidx.startup.AppInitializer
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -32,6 +34,9 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         initDependencies()
+
+        // Manual triggering of androidx.startup initializers
+        AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
     }
 
     override fun getWorkManagerConfiguration(): Configuration =
