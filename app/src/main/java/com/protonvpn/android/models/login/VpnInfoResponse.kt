@@ -36,7 +36,19 @@ data class VpnInfoResponse(
 
 fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
     VpnUser(
-        userId, subscribed, services, delinquent, vpnInfo.status, vpnInfo.expirationTime,
-        vpnInfo.tierName, vpnInfo.planDisplayName, vpnInfo.maxTier, vpnInfo.maxConnect, vpnInfo.name,
-        vpnInfo.groupId.orEmpty(), vpnInfo.password, DateTime().millis, sessionId
+        userId = userId,
+        subscribed = subscribed,
+        services = services,
+        delinquent = delinquent,
+        status = vpnInfo.status,
+        expirationTime = vpnInfo.expirationTime,
+        planName = vpnInfo.tierName,
+        planDisplayName = vpnInfo.planDisplayName,
+        maxTier = vpnInfo.maxTier,
+        maxConnect = vpnInfo.maxConnect,
+        name = vpnInfo.name,
+        groupId = vpnInfo.groupId.orEmpty(),
+        password = vpnInfo.password,
+        updateTime = DateTime().millis,
+        sessionId = sessionId
     )

@@ -18,13 +18,18 @@
  */
 package com.protonvpn.android.ui.drawer
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityAccountBinding
+import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
@@ -40,14 +45,11 @@ class AccountActivity : BaseActivityV2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityAccountBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val binding = setContentViewBinding(ActivityAccountBinding::inflate)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         lifecycleScope.launch {
             with(binding.content) {
-                textAccountTier.text = viewModel.accountTier() ?: getString(R.string.accountFree)
-
                 textUser.text = viewModel.displayName()
                 textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
                 val subscriptionDetailsHtml = getString(
@@ -59,7 +61,19 @@ class AccountActivity : BaseActivityV2() {
                 buttonManageAccount.setOnClickListener {
                     openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
                 }
+                buttonCoupon.setOnClickListener {
+                    startActivity(Intent(this@AccountActivity, UseCouponActivity::class.java))
+                }
             }
+        }
+
+        viewModel.viewState.asLiveData().observe(this, Observer { updateView(binding, it) })
+    }
+
+    private fun updateView(binding: ActivityAccountBinding, state: AccountActivityViewModel.ViewState) {
+        with(binding.content) {
+            textAccountTier.text = state.planName ?: getString(R.string.accountFree)
+            buttonCoupon.isVisible = state.showCouponButton
         }
     }
 }
