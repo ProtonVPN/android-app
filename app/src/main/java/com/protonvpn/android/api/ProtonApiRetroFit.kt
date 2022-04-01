@@ -28,9 +28,11 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
+import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.utils.NetUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
@@ -108,6 +110,9 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
             getCertificate(CertificateRequestBody(
                 clientPublicKey, "EC", Build.MODEL, "session", emptyList()))
         }
+
+    open suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
+        manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
 
     private suspend fun <T> makeCall(
         loader: LoaderUI?,
