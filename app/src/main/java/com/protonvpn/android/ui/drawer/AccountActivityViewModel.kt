@@ -19,19 +19,49 @@
 package com.protonvpn.android.ui.drawer
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
+import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.user.domain.entity.Delinquent
+import me.proton.core.user.domain.entity.User
+import me.proton.core.user.domain.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountActivityViewModel @Inject constructor(
-    val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    private val accountManager: AccountManager,
+    private val userRepository: UserRepository,
+    private val userPlanManager: UserPlanManager
 ) : ViewModel() {
+
+    data class ViewState(val planName: String?, val showCouponButton: Boolean)
+
+    val viewState = combine(currentUser.userFlow, currentUser.vpnUserFlow) { user, vpnUser ->
+        val canApplyCoupon = user != null && vpnUser != null &&
+            // TODO: "hasPaymentMethod"?
+            vpnUser.isFreeUser && user.credit == 0 && user.subscribed == 0 && !user.isDelinquent()
+        ViewState(vpnUser?.planDisplayName, canApplyCoupon)
+    }
+
+    init {
+        viewModelScope.launch {
+            // Make sure the screen displays up-to-date information.
+            val userId = accountManager.getPrimaryUserId().first()
+            if (userId != null) {
+                userRepository.getUser(userId, refresh = true)
+                userPlanManager.refreshVpnInfo()
+            }
+        }
+    }
 
     suspend fun displayName() = currentUser.user()?.uiName()
 
-    suspend fun accountType() = currentUser.vpnUser()?.accountType
-
-    suspend fun accountTier() = currentUser.vpnUser()?.planDisplayName
+    private fun User.isDelinquent() = delinquent ?: Delinquent.None != Delinquent.None
 }

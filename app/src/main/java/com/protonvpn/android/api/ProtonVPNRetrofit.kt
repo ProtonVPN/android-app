@@ -35,6 +35,7 @@ import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
+import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
@@ -50,10 +51,6 @@ import retrofit2.http.Query
 
 @Suppress("ComplexInterface")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
-
-    companion object {
-        const val HEADER_NETZONE = "x-pm-netzone"
-    }
 
     @GET("vpn/logicals")
     suspend fun getServers(
@@ -83,8 +80,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getSessionForkSelector(): SessionForkSelectorResponse
 
     @GET("auth/sessions/forks/{selector}")
-    suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String):
-            ForkedSessionResponse
+    suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String): ForkedSessionResponse
 
     @GET("vpn")
     suspend fun getVPNInfo(): VpnInfoResponse
@@ -118,4 +114,11 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("core/v4/features/{id}")
     suspend fun getFeature(@Path("id") id: String): FeatureResponse
+
+    @POST("payments/v4/promocode")
+    suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
+
+    companion object {
+        const val HEADER_NETZONE = "x-pm-netzone"
+    }
 }

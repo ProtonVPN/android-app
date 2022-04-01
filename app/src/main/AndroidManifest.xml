@@ -223,6 +223,10 @@
             android:name=".ui.drawer.AccountActivity"
             android:label="@string/activityAccountTitle" />
         <activity
+            android:name=".ui.drawer.UseCouponActivity"
+            android:label="@string/use_coupon_title"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ui.settings.OssLicensesActivity"
             android:label="@string/activityLicensesTitle" />
         <activity
