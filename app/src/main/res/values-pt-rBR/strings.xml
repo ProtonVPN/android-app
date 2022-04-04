@@ -52,6 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Saiba mais</string>
+    <string name="dialog_read_more">Read more</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
@@ -372,6 +373,7 @@
     <string name="tv_login_title_refresh">Sua sessão expirou. Clique em Atualizar para começar novamente.</string>
     <string name="tv_upgrade_title">Comece a transmitir com Plus</string>
     <string name="back">Voltar</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
     <string name="tv_upgrade_description">Obtenha um plano ProtonVPN Plus para acessar mais de 500 servidores em todo o mundo e opções de streaming otimizadas para Netflix, Amazon Prime Video, Disney + e muitos mais.</string>
     <string name="tv_vpn_error_dialog_title">Falha na conexão VPN</string>
     <string name="tv_signout_label">Encerrar sessão</string>
@@ -534,12 +536,12 @@
     <string name="tor_title">Tor</string>
     <string name="tor_description">Roteie seu tráfego de Internet pela rede Tor. Mais lento, mas mais privado.</string>
     <string name="info_performance">Desempenho</string>
-    <string name="server_load_title">Carregar Servidor</string>
+    <string name="server_load_title">Carga do servidor</string>
     <string name="server_load_description">Servidores com alta carga são mais lentos do que servidores com baixo carregamento.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Conecte-se a um servidor Plus neste país para iniciar o streaming. \n\nDica: Limpe o cache dos aplicativos de transmissão para garantir que o novo conteúdo apareça.</string>
     <string name="activity_information_learn_more">Saiba mais</string>
-    <string name="server_load_low">Baixo</string>
+    <string name="server_load_low">Baixa</string>
     <string name="server_load_medium">Média</string>
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
@@ -568,7 +570,7 @@
     <string name="dynamic_report_contact_us">Contate-nos</string>
     <string name="dynamic_report_tips_description">Essas dicas podem ajudar a resolver seu problema mais rapidamente.</string>
     <string name="dynamic_report_tips_title">Correções rápidas</string>
-    <string name="dynamic_report_logs_title">Enviar logs de erro</string>
+    <string name="dynamic_report_logs_title">Enviar registros de erro</string>
     <string name="dynamic_report_success_title">Obrigado por seu comentário</string>
     <string name="dynamic_report_success_description">Retornaremos assim que possível.</string>
     <string name="dynamic_report_field_mandatory">Este campo é obrigatório</string>
@@ -580,6 +582,32 @@
     <string name="dynamic_report_your_issue_headline">Reportar problema</string>
     <string name="update_screen_title">Atualizar ProtonVPN</string>
     <string name="update_screen_description">É mais provável você ter problemas em versões mais antigas do ProtonVPN.</string>
+    <string name="server_search_menu_title">Procurar</string>
+    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint_secure_core">País</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="search_empty_title">Pesquisar qualquer localização</string>
+    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Please try a different keyword</string>
+    <string name="search_empty_result_title">Nenhum resultado encontrado</string>
+    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
+    <string name="search_clear_history">Clear history</string>
+    <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>
