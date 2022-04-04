@@ -52,6 +52,7 @@
     <string name="ok">Гаразд</string>
     <string name="dialogContinue">Продовжити</string>
     <string name="dialogLearnMore">Докладніше</string>
+    <string name="dialog_read_more">Read more</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Під\'єднано</string>
     <string name="buttonConnect">З’єднатись</string>
@@ -376,6 +377,7 @@
     <string name="tv_login_title_refresh">Термін дії вашого сеансу. Натисніть «Оновити», щоб почати знову.</string>
     <string name="tv_upgrade_title">Розпочніть перегляд з Plus</string>
     <string name="back">Назад</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
     <string name="tv_upgrade_description">Отримайте тарифний план ProtonVPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами для потокового передавання відео з Netflix, Amazon Prime Video, Disney+ тощо.</string>
     <string name="tv_vpn_error_dialog_title">Не вдалося під\'єднатися до VPN</string>
     <string name="tv_signout_label">Вийти</string>
@@ -598,6 +600,32 @@
     <string name="dynamic_report_your_issue_headline">У чому ваша проблема</string>
     <string name="update_screen_title">Оновити ProtonVPN</string>
     <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією ProtonVPN.</string>
+    <string name="server_search_menu_title">Пошук</string>
+    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint_secure_core">Країна</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="search_empty_title">Шукайте будь-яке розташування</string>
+    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Будь ласка, спробуйте інше ключове слово</string>
+    <string name="search_empty_result_title">Результатів не знайдено</string>
+    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
+    <string name="search_clear_history">Clear history</string>
+    <string name="search_clear_history_dialog">Вашу історію пошуку буде втрачено. Продовжити?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Відвідайте <a href="https://protonvpn.com/prіcіng">protonvpn.com</a> для докладнішої інформації.</string>
 </resources>

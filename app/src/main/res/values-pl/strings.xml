@@ -52,6 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Kontynuuj</string>
     <string name="dialogLearnMore">Dowiedz się więcej</string>
+    <string name="dialog_read_more">Read more</string>
     <string name="secureCoreConnectVia">przez %1$s</string>
     <string name="connected">Połączono</string>
     <string name="buttonConnect">Połącz</string>
@@ -376,6 +377,7 @@
     <string name="tv_login_title_refresh">Sesja wygasła. Kliknij przycisk Odśwież, aby spróbować ponownie.</string>
     <string name="tv_upgrade_title">Rozpocznij streaming z planem Plus</string>
     <string name="back">Wstecz</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
     <string name="tv_upgrade_description">Ulepsz ProtonVPN do planu Plus, aby uzyskać dostęp do ponad 500 serwerów na całym świecie i wsparcie dla streamingu w serwisach takich jak Netflix, Amazon Prime Video, Disney+ i wielu innych.</string>
     <string name="tv_vpn_error_dialog_title">Połączenie VPN nie powiodło się</string>
     <string name="tv_signout_label">Wyloguj</string>
@@ -511,7 +513,7 @@
      Example:
      Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new">Dostęp do ponad %1$s w %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -598,6 +600,32 @@
     <string name="dynamic_report_your_issue_headline">Co jest Twoim problemem</string>
     <string name="update_screen_title">Zaktualizuj aplikację ProtonVPN</string>
     <string name="update_screen_description">Problemy są bardziej prawdopodobne w starszych wersjach aplikacji ProtonVPN.</string>
+    <string name="server_search_menu_title">Szukaj</string>
+    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint_secure_core">Kraj</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="search_empty_title">Szukaj lokalizacji</string>
+    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Spróbuj użyć innego słowa kluczowego</string>
+    <string name="search_empty_result_title">Nie znaleziono żadnych wyników</string>
+    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
+    <string name="search_clear_history">Clear history</string>
+    <string name="search_clear_history_dialog">Twoja historia wyszukiwania zostanie utracona. Kontynuować?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Odwiedź <a href="https://protonvpn.com/pricing">protonvpn.com</a>, aby uzyskać więcej informacji.</string>
 </resources>
