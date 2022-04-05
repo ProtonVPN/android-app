@@ -23,6 +23,7 @@ import android.animation.LayoutTransition
 import android.content.res.ColorStateList
 import android.graphics.DashPathEffect
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.widget.ImageViewCompat
@@ -34,6 +35,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.jobs.MoveViewJob
+import com.github.mikephil.charting.utils.ObjectPool
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
@@ -88,7 +90,9 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         with(binding) {
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-            buttonDisconnect.setOnClickListener { parentViewModel.disconnectAndClose() }
+            buttonDisconnect.setOnClickListener {
+                parentViewModel.disconnectAndClose("connection panel")
+            }
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
         }
 
@@ -99,8 +103,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             updateTrafficInfo(it)
         })
         viewModel.eventNotification.asLiveData().observe(viewLifecycleOwner, Observer { snack ->
-            if (snack.isSuccess) getSnackbarHelper()?.successSnack(snack.text)
-            else getSnackbarHelper()?.errorSnack(snack.text)
+            getSnackbarHelper()?.snack(snack.text, snack.type)
         })
         viewModel.trafficSpeedKbpsHistory.observe(viewLifecycleOwner, Observer {
             updateChart(it)
@@ -112,7 +115,15 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
     override fun onDestroyView() {
         // Workaround for charting library memory leak
         // https://github.com/PhilJay/MPAndroidChart/issues/2238
-        MoveViewJob.getInstance(null, 0f, 0f, null, null)
+        try {
+            val moveViewJobPool = MoveViewJob::class.java.getDeclaredField("pool")
+            moveViewJobPool.isAccessible = true
+            moveViewJobPool.set(null, ObjectPool.create(2, MoveViewJob(null, 0f, 0f, null, null)))
+        } catch (e: ReflectiveOperationException) {
+            Log.e("VpnStateConnectedFragment", "Unable to work around MoveViewJob memleak", e)
+        } catch (e: SecurityException) {
+            Log.e("VpnStateConnectedFragment", "Unable to work around MoveViewJob memleak", e)
+        }
 
         super.onDestroyView()
     }
@@ -120,12 +131,12 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
     private fun updateConnectionState(state: VpnStateConnectedViewModel.ConnectionState) {
         with(binding) {
             textServerName.text = state.serverName
-            textProtocol.text = state.protocol
+            textProtocol.text = state.protocolDisplay
             textServerIp.text = state.exitIp
-            textLoad.text = getString(R.string.serverLoad, state.serverLoad.toString())
+            textLoad.text = getString(R.string.serverLoad, state.serverLoad.toInt().toString())
             ImageViewCompat.setImageTintList(
                 imageLoad,
-                ColorStateList.valueOf(getColor(imageLoad, state.serverLoadState))
+                ColorStateList.valueOf(getColor(imageLoad, state.serverLoad))
             )
         }
     }

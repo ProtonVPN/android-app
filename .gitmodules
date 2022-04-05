@@ -1,3 +1,6 @@
 [submodule "strongswan"]
 	path = strongswan
 	url = https://github.com/strongswan/strongswan.git
+[submodule "proton-libs"]
+	path = proton-libs
+	url = ../../../proton/mobile/android/proton-libs

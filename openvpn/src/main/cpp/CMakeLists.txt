@@ -257,14 +257,14 @@ add_custom_target(makeassetdir ALL
 add_custom_command(TARGET nopie_openvpn.${ANDROID_ABI} POST_BUILD
         COMMAND
         ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_BINARY_DIR}/nopie_openvpn.${ANDROID_ABI}
+        $<TARGET_FILE:nopie_openvpn.${ANDROID_ABI}>
         ${OVPN_ASSET_DIR}
         )
 
 add_custom_command(TARGET pie_openvpn.${ANDROID_ABI} POST_BUILD
         COMMAND
         ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_BINARY_DIR}/pie_openvpn.${ANDROID_ABI}
+        $<TARGET_FILE:pie_openvpn.${ANDROID_ABI}>
         ${OVPN_ASSET_DIR}
         )
 

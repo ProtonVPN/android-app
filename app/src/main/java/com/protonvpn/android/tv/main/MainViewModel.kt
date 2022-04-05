@@ -18,58 +18,53 @@
  */
 package com.protonvpn.android.tv.main
 
-import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+import org.joda.time.Minutes
 import javax.inject.Inject
 
 @HiltViewModel
 open class MainViewModel @Inject constructor(
-    private val userData: UserData,
+    private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager,
-    private val certificateRepository: CertificateRepository
+    private val certificateRepository: CertificateRepository,
+    private val logoutUseCase: Logout,
+    protected val currentUser: CurrentUser,
 ) : ViewModel(), LifecycleObserver {
 
     val userPlanChangeEvent = userPlanManager.planChangeFlow
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResumed() {
-        refreshVPNInfo()
-        certificateRepository.checkCertificateValidity()
-    }
-
-    fun isTrialUser() = userPlanManager.isTrialUser()
-
-    fun shouldShowTrialDialog(): Boolean {
-        if (isTrialUser() && !userData.wasTrialDialogRecentlyShowed()) {
-            userData.setTrialDialogShownAt(DateTime())
-            return true
+        mainScope.launch {
+            refreshVPNInfo()
+            certificateRepository.updateCertificateIfNeeded()
         }
-        return false
     }
 
-    fun shouldShowExpirationDialog() = Storage.getBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE)
-
-    fun setExpirationDialogAsShown() = Storage.saveBoolean(UserPlanManager.PREF_EXPIRATION_DIALOG_DUE, false)
-
-    private fun refreshVPNInfo() {
-        if (!userData.wasVpnInfoRecentlyUpdated(Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES)) {
-            viewModelScope.launch {
+    private suspend fun refreshVPNInfo() {
+        currentUser.vpnUser()?.let { user ->
+            val ageMinutes = Minutes.minutesBetween(DateTime(user.updateTime), DateTime()).minutes
+            if (ageMinutes > Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES)
                 userPlanManager.refreshVpnInfo()
-            }
         }
     }
 
-    fun getTrialPeriodFlow(context: Context) = userPlanManager.getTrialPeriodFlow(context)
+    fun hasAccessToSecureCore() =
+        currentUser.vpnUserCached()?.isUserPlusOrAbove == true
+
+    fun logout() = mainScope.launch {
+        logoutUseCase()
+    }
 }

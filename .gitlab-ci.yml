@@ -1,8 +1,5 @@
 default:
-  image:
-    # You made a change inside the image, uncomment this line and comment the one with :branch-development to test your image on your branch ;):
-    #name: $CI_REGISTRY_IMAGE:branch-$CI_COMMIT_REF_SLUG
-    name: $CI_REGISTRY_IMAGE:latest
+  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.0
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -10,11 +7,15 @@ default:
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
     - md5sum app/protonkey.jks
     - md5sum app/service_account.json
-    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" > gradle.properties
+    - echo "" >> gradle.properties # ensure a new line
+    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
     - git fetch origin development
+    - !reference [.checkout-core-submodule, before_script]
+    - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
+  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "true"
 
 stages:
   - image
@@ -27,7 +28,18 @@ stages:
   - mirror
   - publish
 
+.gradle-build-cache: &gradle-build-cache
+  key:
+    prefix: gradle-build-cache
+    files:
+      - gradle/wrapper/gradle-wrapper.properties
+  paths:
+    - ${CI_PROJECT_DIR}/build/gradle-build-cache
+  policy: pull
 
+.gradle-job:
+  variables:
+    CHECKOUT_CORE_SUBMODULE: "true"
 
 ########## Manage the Image ##########
 .common-image:
@@ -90,24 +102,30 @@ cache:
     paths:
       - '**/build/tmp/'
 
+  - <<: *gradle-build-cache
+
 detekt analysis:
   stage: analyze
+  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
       paths:
         - .gradle
   tags:
-    - small
+    - medium
   script:
-    - ./gradlew detekt
+    - ./gradlew :app:detekt
   artifacts:
     expire_in: 4 weeks
+    paths:
+      - app/build/reports/detekt/
     reports:
-      codequality: app/build/reports/detekt.json
+      codequality: app/build/reports/detekt/detekt.json
 
 build debug:
   stage: build
+  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull
@@ -119,8 +137,10 @@ build debug:
       paths:
         - '**/build/tmp/'
 
+    - <<: *gradle-build-cache
+      policy: pull-push
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew assembleDirectDebug
     - ./gradlew assembleDirectDebugAndroidTest
@@ -137,8 +157,10 @@ build debug:
 build black:
   stage: build
   tags:
-    - large
+    - xlarge-k8s
+  extends: .gradle-job
   script:
+    - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
@@ -148,10 +170,11 @@ build black:
 
 build google play release:
   stage: build
+  extends: .gradle-job
   except:
     - master
   tags:
-    - large
+    - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
@@ -161,13 +184,30 @@ build google play release:
     paths:
     - app/build/outputs/apk
 
-build release (auto):
+build amazon release:
   stage: build
+  extends: .gradle-job
   only:
     refs:
       - master
   tags:
-    - large
+    - xlarge-k8s
+  script:
+    - ./gradlew openvpn:assemble
+    - ./gradlew assembleAmazonRelease -PabiSplit -PbuildUniversalApk
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
+build release (auto):
+  stage: build
+  extends: .gradle-job
+  only:
+    refs:
+      - master
+  tags:
+    - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleDirectRelease -PabiSplit -PbuildUniversalApk
@@ -178,89 +218,15 @@ build release (auto):
 
 unit tests:
   stage: test
+  extends: .gradle-job
   tags:
     - large
   script:
     - ./gradlew testDirectDebug
 
-.tests_preparation_script: &tests_preparation_script
-  stage: test
-  tags:
-    - small
-  script:
-    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-    - echo ${ARCHIVES_BASE_NAME}
-    - echo $CLOUD_PROJECT_ID
-    - gcloud config set project $CLOUD_PROJECT_ID
-    - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
-    - gcloud auth activate-service-account --key-file /tmp/service-account.json
-    - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
-    - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
-    - echo $APP
-    - echo $TEST_APP
-    - echo $PWD
-    - gcloud firebase test android
-        run firebase-device-config.yml:${TESTS_TYPE}
-        --app "$APP"
-        --test "$TEST_APP"
-        --num-flaky-test-attempts=2
-        --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
-        --directories-to-pull /sdcard
-        --test-targets "class $TEST_SUITE"
-    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/$COVERAGE_FILE_NAME.ec | tail -1`
-    - gsutil cp $coverageFile app/build/outputs/apk | true
-  artifacts:
-    expire_in: 1 week
-    paths:
-    - app/build/outputs/apk
-
-firebase quick tests:
-  <<: *tests_preparation_script
-  variables:
-    TESTS_TYPE: quickTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobile.ec"
-
-firebase full tests:
-  <<: *tests_preparation_script
-  variables:
-    TESTS_TYPE: fullTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobileFull.ec"
-  when: manual
-
-firebase tv tests:
-  <<: *tests_preparation_script
-  variables:
-    TESTS_TYPE: tvTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
-    COVERAGE_FILE_NAME: "coverageTv.ec"
-
-firebase real connection tests:
-  <<: *tests_preparation_script
-  variables:
-    TESTS_TYPE: realConnectionTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
-    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
-
 coverage report:
   stage: report
+  extends: .gradle-job
   tags:
     - large
   script:
@@ -277,6 +243,7 @@ coverage report:
 
 owasp check:
   stage: report
+  extends: .gradle-job
   tags:
     - large
   script:
@@ -307,6 +274,7 @@ publish-apk-internal:
   stage: publish
   tags:
     - large
+  extends: .gradle-job
   only:
     refs:
       - development
@@ -337,7 +305,13 @@ include:
     ref: master
     file: '/jobs/release.gitlab-ci.yml'
 
+  - project: 'proton/mobile/android/proton-libs'
+    ref: main
+    file: '/ci/templates/checkout-core.gitlab-ci.yml'
+
   - local: '/appetize-integration.yml'
+
+  - local: '/.gitlab-ci-firebase.yml'
 
 i18n-sync-crowdin:
   variables:

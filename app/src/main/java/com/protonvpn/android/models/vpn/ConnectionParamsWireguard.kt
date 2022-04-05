@@ -20,14 +20,17 @@ package com.protonvpn.android.models.vpn
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.wireguard.ConfigProxy
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
+import com.wireguard.config.Interface
+import com.wireguard.config.Peer
 import de.blinkt.openvpn.core.NetworkUtils
+import me.proton.core.network.domain.session.SessionId
 import org.strongswan.android.utils.IPRange
 import org.strongswan.android.utils.IPRangeSet
 
@@ -41,46 +44,52 @@ class ConnectionParamsWireguard(
     server,
     connectingDomain,
     VpnProtocol.WireGuard
-), java.io.Serializable {
+),
+    java.io.Serializable {
+
+    override val info get() = "${super.info} port: $port"
 
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(
         context: Context,
         userData: UserData,
+        sessionId: SessionId?,
         certificateRepository: CertificateRepository
     ): Config {
         if (connectingDomain?.publicKeyX25519 == null) {
             throw IllegalStateException("Null server public key. Cannot connect to wireguard")
         }
 
-        val config = ConfigProxy()
-
-        config.interfaceProxy.addresses = "10.2.0.2/32"
-        config.interfaceProxy.dnsServers = "10.2.0.1"
-        config.interfaceProxy.privateKey = certificateRepository.getX25519Key(userData.sessionId!!)
-
-        val peerProxy = config.addPeer()
-        peerProxy.publicKey = connectingDomain.publicKeyX25519
-        peerProxy.endpoint = connectingDomain.entryIp + ":" + port
-
         val excludedIPs = mutableListOf<String>()
+        var excludedApps: Set<String> = emptySet()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
                 excludedIPs += it
             }
-            userData.splitTunnelApps?.takeIf { it.isNotEmpty() }?.let {
-                config.interfaceProxy.excludedApplications = it.toSortedSet()
+            userData.splitTunnelApps.takeIf { it.isNotEmpty() }?.let {
+                excludedApps = it.toSortedSet()
             }
         }
         if (userData.shouldBypassLocalTraffic())
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
         val allowedIps = calculateAllowedIps(excludedIPs)
-        ProtonLogger.log("Port: $port")
-        ProtonLogger.log("Allowed IPs: $allowedIps")
-        peerProxy.allowedIps = allowedIps
+        ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIps")
 
-        return config.resolve()
+        val peer = Peer.Builder()
+            .parsePublicKey(connectingDomain.publicKeyX25519)
+            .parseEndpoint(connectingDomain.entryIp + ":" + port)
+            .parseAllowedIPs(allowedIps)
+            .build()
+
+        val iface = Interface.Builder()
+            .parseAddresses("10.2.0.2/32")
+            .excludeApplications(excludedApps)
+            .parseDnsServers("10.2.0.1")
+            .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
+            .build()
+
+        return Config.Builder().addPeer(peer).setInterface(iface).build()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

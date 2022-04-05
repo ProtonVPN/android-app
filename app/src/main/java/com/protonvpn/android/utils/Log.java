@@ -19,6 +19,9 @@
 package com.protonvpn.android.utils;
 
 import com.protonvpn.android.BuildConfig;
+import com.protonvpn.android.logging.LogCategory;
+import com.protonvpn.android.logging.LogLevel;
+import com.protonvpn.android.logging.ProtonLogger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +41,7 @@ public final class Log {
                 outChan.truncate(0);
             }
             catch (Exception e) {
-                Sentry.capture(e);
+                Sentry.captureException(e);
             }
         }
     }
@@ -91,7 +94,7 @@ public final class Log {
     }
 
     private static String withSourceInfo(String msg) {
-        ProtonLogger.INSTANCE.log(msg);
+        ProtonLogger.INSTANCE.logCustom(LogLevel.DEBUG, LogCategory.APP, msg);
         final StackTraceElement trace = Thread.currentThread().getStackTrace()[4];
         return String.format(Locale.getDefault(), "(%1$s:%2$d) %3$s", trace.getFileName(),
             trace.getLineNumber(), msg);

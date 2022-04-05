@@ -20,9 +20,10 @@ package com.protonvpn.android.vpn.wireguard
 
 import android.content.Intent
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -57,7 +58,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     private fun handleProcessRestore(): Boolean {
         Storage.load(ConnectionParams::class.java)?.profile?.let { profile ->
             profile.wrapper.setDeliverer(serverManager)
-            return connectionManager.onRestoreProcess(this, profile)
+            return connectionManager.onRestoreProcess(profile)
         }
         return false
     }
@@ -69,7 +70,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ProtonLogger.log("WirguardWrapperService: onTrimMemory level $level")
+        ProtonLogger.logCustom(LogCategory.APP, "WirguardWrapperService: onTrimMemory level $level")
     }
 
     fun close() {

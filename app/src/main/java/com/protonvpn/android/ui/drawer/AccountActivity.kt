@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.drawer
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -30,6 +31,7 @@ import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AccountActivity : BaseActivityV2() {
@@ -42,19 +44,21 @@ class AccountActivity : BaseActivityV2() {
         setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
-        with(binding.content) {
-            textAccountTier.text = viewModel.accountTier(this@AccountActivity)
+        lifecycleScope.launch {
+            with(binding.content) {
+                textAccountTier.text = viewModel.accountTier() ?: getString(R.string.accountFree)
 
-            textUser.text = viewModel.user
-            textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
-            val subscriptionDetailsHtml = getString(
-                R.string.accountSubscriptionDetails,
-                subscriptionDetails.getThemeColor(R.attr.colorAccent).toStringHtmlColorNoAlpha()
-            )
-            subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
+                textUser.text = viewModel.displayName()
+                textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
+                val subscriptionDetailsHtml = getString(
+                    R.string.accountSubscriptionDetails,
+                    subscriptionDetails.getThemeColor(R.attr.colorAccent).toStringHtmlColorNoAlpha()
+                )
+                subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
 
-            buttonManageAccount.setOnClickListener {
-                openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
+                buttonManageAccount.setOnClickListener {
+                    openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
+                }
             }
         }
     }

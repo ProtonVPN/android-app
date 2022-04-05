@@ -19,55 +19,84 @@
 
 package com.protonvpn.android.utils
 
-import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.logging.ApiLogError
+import com.protonvpn.android.logging.ApiLogRequest
+import com.protonvpn.android.logging.ApiLogResponse
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
+import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
+import me.proton.core.network.data.LogTag as NetworkLogTag
 import me.proton.core.util.kotlin.Logger
 import me.proton.core.util.kotlin.LoggerLogTag
+
+// Core logs full response body in debug, truncate it.
+private const val MAX_DEBUG_MSG_LENGTH = 500
 
 class VpnCoreLogger : Logger {
 
     override fun log(tag: LoggerLogTag, message: String) {
-        ProtonLogger.log("[${tag.name}] $message")
+        when (tag) {
+            NetworkLogTag.REFRESH_TOKEN ->
+                ProtonLogger.logCustom(LogCategory.API, message)
+            NetworkLogTag.SERVER_TIME_PARSE_ERROR ->
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.API, message)
+            NetworkLogTag.API_REQUEST ->
+                ProtonLogger.log(ApiLogRequest, message)
+            NetworkLogTag.API_RESPONSE ->
+                ProtonLogger.log(ApiLogResponse, message)
+            NetworkLogTag.API_ERROR ->
+                ProtonLogger.log(ApiLogError, message)
+            else -> {
+                DebugUtils.debugAssert("Unknown log tag. Update this mapping.") { true }
+                ProtonLogger.logCustom(LogCategory.APP, "[$tag] $message")
+            }
+        }
     }
 
     override fun e(tag: String, e: Throwable) {
-        ProtonLogger.log(e.toString())
-        if (BuildConfig.DEBUG)
-            e.printStackTrace()
+        e(tag, e, "")
     }
 
     override fun e(tag: String, e: Throwable, message: String) {
-        e(tag, e)
-        ProtonLogger.log("[$tag] $message")
+        ProtonLogger.logCustom(LogLevel.ERROR, categoryForTag(tag), messageWithError(message, e))
     }
 
     override fun i(tag: String, message: String) {
-        ProtonLogger.log("[$tag] $message")
+        ProtonLogger.logCustom(LogLevel.INFO, categoryForTag(tag), message)
     }
 
     override fun i(tag: String, e: Throwable, message: String) {
-        ProtonLogger.log("[$tag] $message")
-        if (BuildConfig.DEBUG)
-            e.printStackTrace()
+        ProtonLogger.logCustom(LogLevel.INFO, categoryForTag(tag), messageWithError(message, e))
     }
 
     override fun d(tag: String, message: String) {
-        if (BuildConfig.DEBUG)
-            ProtonLogger.log("[$tag] ${message.take(500)}")
+        ProtonLogger.logCustom(LogLevel.DEBUG, categoryForTag(tag), message.take(MAX_DEBUG_MSG_LENGTH))
     }
 
     override fun d(tag: String, e: Throwable, message: String) {
-        d(tag, message)
-        if (BuildConfig.DEBUG)
-            e.printStackTrace()
+        ProtonLogger.logCustom(LogLevel.DEBUG, categoryForTag(tag), messageWithError(message, e))
     }
 
     override fun v(tag: String, message: String) {
-        ProtonLogger.log("[$tag] $message")
+        ProtonLogger.logCustom(LogLevel.TRACE, categoryForTag(tag), message)
     }
 
     override fun v(tag: String, e: Throwable, message: String) {
-        v(tag, message)
-        if (BuildConfig.DEBUG)
-            e.printStackTrace()
+        ProtonLogger.logCustom(LogLevel.TRACE, categoryForTag(tag), messageWithError(message, e))
+    }
+
+    private fun messageWithError(message: String, e: Throwable) =
+        "$message\n${e.stackTraceToString()}"
+
+    private fun categoryForTag(tag: String) = when (tag) {
+        KeystoreLogTag.KEYSTORE_INIT, KeystoreLogTag.KEYSTORE_ENCRYPT, KeystoreLogTag.KEYSTORE_DECRYPT ->
+            LogCategory.SECURE_STORE
+        NetworkLogTag.DEFAULT ->
+            LogCategory.API
+        else -> {
+            DebugUtils.debugAssert("Unknown log tag. Update this mapping.") { true }
+            LogCategory.APP
+        }
     }
 }

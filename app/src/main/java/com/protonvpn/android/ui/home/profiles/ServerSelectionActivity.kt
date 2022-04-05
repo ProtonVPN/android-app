@@ -33,17 +33,18 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityServerSelectionBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.ProtonLogger
-import com.protonvpn.android.utils.openProtonUrl
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
 
@@ -66,7 +67,7 @@ class ServerSelectionActivity : BaseActivityV2() {
             initServerList(binding.recyclerServers, config.secureCore, servers)
         } else {
             snackbarHelper.errorSnack(R.string.something_went_wrong)
-            ProtonLogger.log("No servers for country '$config.countryCode`")
+            ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "No servers for country '$config.countryCode`")
             finish()
         }
     }
@@ -93,12 +94,14 @@ class ServerSelectionActivity : BaseActivityV2() {
                 )
             )
         )
-        val upgradeButtonListener = View.OnClickListener { openProtonUrl(Constants.DASHBOARD_URL) }
+        val upgradeButtonListener = View.OnClickListener {
+            startActivity(Intent(this, UpgradePlusCountriesDialogActivity::class.java))
+        }
         val serversHeaderString =
             if (secureCore) R.string.secureCoreCountriesHeader else R.string.countryServersHeader
         val serversSection = Section(
-                HeaderViewHolder(serversHeaderString),
-                servers.map { ServerItemViewHolder(it, secureCore, upgradeButtonListener) }
+            HeaderViewHolder(serversHeaderString),
+            servers.map { ServerItemViewHolder(it, secureCore, upgradeButtonListener) }
         )
 
         val groupAdapter = GroupAdapter<GroupieViewHolder>()
@@ -119,7 +122,14 @@ class ServerSelectionActivity : BaseActivityV2() {
 
     private abstract class ServerItemViewHolderBase(
         val selection: ServerIdSelection
-    ) : BindableItem<ItemServerSelectionBinding>()
+    ) : BindableItem<ItemServerSelectionBinding>() {
+        // Subclasses use the same layout but they bind differently. This makes sure they are treated as different types
+        // so reused ViewHolders don't get improperly bound.
+        override fun getViewType(): Int = this::class.hashCode()
+
+        override fun getLayout(): Int = R.layout.item_server_selection
+        override fun initializeViewBinding(view: View) = ItemServerSelectionBinding.bind(view)
+    }
 
     private class RecommendedServerViewHolder(
         @StringRes val label: Int,
@@ -133,8 +143,6 @@ class ServerSelectionActivity : BaseActivityV2() {
                 imageIcon.setImageResource(icon)
             }
         }
-
-        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     private class ServerItemViewHolder(
@@ -157,8 +165,6 @@ class ServerSelectionActivity : BaseActivityV2() {
                 root.isEnabled = server.accessible
             }
         }
-
-        override fun getLayout(): Int = R.layout.item_server_selection
     }
 
     @Parcelize

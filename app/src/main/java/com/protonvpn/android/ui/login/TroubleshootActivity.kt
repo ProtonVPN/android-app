@@ -30,6 +30,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTroubleshootBinding
 import com.protonvpn.android.databinding.ItemTroubleshootingInfoBinding
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +56,9 @@ class TroubleshootActivity : BaseActivityV2() {
 
         with(binding.content) {
             switchDnsOverHttps.isChecked = viewModel.userData.apiUseDoH
+            val switchDnsOverHttpsDescription =
+                getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
+            switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(switchDnsOverHttpsDescription), hasLinks = true)
             switchDnsOverHttps.setOnCheckedChangeListener { _, checked ->
                 viewModel.dnsOverHttpsEnabled = checked
             }

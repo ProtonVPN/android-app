@@ -25,13 +25,10 @@ import kotlinx.serialization.Serializable
 class StreamingServicesResponse(
     @SerialName(value = "ResourceBaseURL") val resourceBaseURL: String,
     @SerialName(value = "StreamingServices") val countryToServices: Map<String, Map<String, List<StreamingService>>>
-) {
-    infix operator fun get(country: String) =
-        countryToServices[country]?.flatMap { it.value }?.distinctBy { it.name }
-}
+)
 
 @Serializable
-class StreamingService(
+data class StreamingService(
     @SerialName(value = "Name") val name: String,
     @SerialName(value = "Icon") val iconName: String
 )

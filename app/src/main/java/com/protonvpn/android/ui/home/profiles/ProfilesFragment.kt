@@ -101,7 +101,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             }
             val connectUpgradeClickListener = View.OnClickListener {
                 val connectTo = if (item.isConnected) null else profile
-                EventBus.post(ConnectToProfile(connectTo))
+                EventBus.post(ConnectToProfile("profile power button", connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)
@@ -127,5 +127,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         }
 
         override fun getLayout(): Int = R.layout.item_profile_list
+
+        override fun initializeViewBinding(view: View) = ItemProfileListBinding.bind(view)
     }
 }

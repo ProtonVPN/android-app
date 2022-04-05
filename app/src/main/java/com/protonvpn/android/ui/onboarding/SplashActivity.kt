@@ -21,8 +21,8 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.protonvpn.android.tv.TvLoginActivity
-import com.protonvpn.android.ui.login.LoginActivity
+import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 
 class SplashActivity : AppCompatActivity() {
@@ -30,9 +30,10 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val nextActivity =
-            if (isTV()) TvLoginActivity::class.java
-            else LoginActivity::class.java
+        val nextActivity = if (isTV())
+            TvMainActivity::class.java
+        else
+            MobileMainActivity::class.java
 
         startActivity(
             Intent(this, nextActivity).apply {
@@ -42,6 +43,6 @@ class SplashActivity : AppCompatActivity() {
 
         // Remove the task to make sure the main activity has its own. See VPNAND-763.
         finishAndRemoveTask()
-        overridePendingTransition(0, 0) // Disable animation.
+        overridePendingTransition(0, 0) // Disable exit animation.
     }
 }

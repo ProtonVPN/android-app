@@ -22,6 +22,11 @@ import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnConnectScan
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -33,7 +38,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.NetUtils
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository
@@ -43,6 +47,7 @@ import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import de.blinkt.openvpn.core.ConnectionStatus
+import de.blinkt.openvpn.core.LogItem
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
@@ -65,7 +70,8 @@ class OpenVpnBackend(
     val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    currentUser: CurrentUser
 ) : VpnBackend(
     userData,
     appConfig,
@@ -73,14 +79,13 @@ class OpenVpnBackend(
     networkManager,
     VpnProtocol.OpenVPN,
     mainScope,
-    dispatcherProvider
+    dispatcherProvider,
+    currentUser
 ), VpnStatus.StateListener {
 
     init {
         VpnStatus.addStateListener(this)
-        VpnStatus.addLogListener {
-            ProtonLogger.log(it.getString(ProtonApplication.getAppContext()))
-        }
+        VpnStatus.addLogListener(this::vpnLog)
     }
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
@@ -94,13 +99,14 @@ class OpenVpnBackend(
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
+        val protocol = profile.getProtocol(userData)
+        val transmissionProtocol = profile.getTransmissionProtocol(userData)
         val protocolInfo = if (!scan) {
-            val transmissionProtocol = profile.getTransmissionProtocol(userData)
             val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
                 openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
             listOf(ProtocolInfo(transmissionProtocol, port))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, waitForAll)
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol.takeIf { protocol != VpnProtocol.Smart }, waitForAll)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
@@ -110,27 +116,33 @@ class OpenVpnBackend(
 
     private suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
-        numberOfPorts: Int = Int.MAX_VALUE,
+        numberOfPorts: Int,
+        transmissionProtocol: TransmissionProtocol? = null,
         waitForAll: Boolean
     ): List<ProtocolInfo> {
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val result = mutableListOf<ProtocolInfo>()
         coroutineScope {
-            val udpPorts = async {
-                scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
-            }
+            val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
+                async {
+                    scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
+                } else null
 
             val tcpPingData = getPingData(tcp = true)
-            val tcpPorts = async {
-                val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
-                ProtonLogger.log("${connectingDomain.entryDomain}/OpenVPN/TCP port scan: $ports")
-                ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                    NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
-                }
-            }
+            val tcpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.TCP)
+                async {
+                    val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
+                    ProtonLogger.log(
+                        ConnConnectScan,
+                        "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $ports"
+                    )
+                    ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
+                        NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
+                    }
+                } else null
 
-            result += udpPorts.await().map { ProtocolInfo(TransmissionProtocol.UDP, it) }
-            result += tcpPorts.await().map { ProtocolInfo(TransmissionProtocol.TCP, it) }
+            udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
+            tcpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
         }
         return result
     }
@@ -262,6 +274,18 @@ class OpenVpnBackend(
 
     override fun setConnectedVPN(uuid: String) {
         Log.e("set connected vpn: $uuid")
+    }
+
+    private fun vpnLog(item: LogItem) {
+        val logLevel = when(item.logLevel) {
+            VpnStatus.LogLevel.VERBOSE -> LogLevel.TRACE
+            VpnStatus.LogLevel.DEBUG -> LogLevel.DEBUG
+            VpnStatus.LogLevel.INFO -> LogLevel.INFO
+            VpnStatus.LogLevel.WARNING -> LogLevel.WARN
+            VpnStatus.LogLevel.ERROR -> LogLevel.ERROR
+            null -> LogLevel.INFO
+        }
+        ProtonLogger.logCustom(logLevel, LogCategory.PROTOCOL, item.getString(ProtonApplication.getAppContext()))
     }
 
     companion object {

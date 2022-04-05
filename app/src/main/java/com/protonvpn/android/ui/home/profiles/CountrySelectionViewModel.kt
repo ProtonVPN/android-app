@@ -22,7 +22,7 @@ package com.protonvpn.android.ui.home.profiles
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CountrySelectionViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    private val userData: UserData
+    private val currentUser: CurrentUser,
 ) : ViewModel() {
 
     data class CountriesGroup(
@@ -44,7 +44,7 @@ class CountrySelectionViewModel @Inject constructor(
 
     fun getCountryGroups(secureCore: Boolean): List<CountriesGroup> = when {
         secureCore -> listOf(allSecureCoreCountries())
-        userData.isFreeUser -> freeUserCountriesGroups()
+        currentUser.vpnUserCached()?.isFreeUser == true -> freeUserCountriesGroups()
         else -> listOf(allCountries())
     }
 
@@ -53,7 +53,7 @@ class CountrySelectionViewModel @Inject constructor(
 
     private fun freeUserCountriesGroups(): List<CountriesGroup> {
         val (free, premium) = serverManager.getVpnCountries()
-            .partition { it.hasAccessibleServer(userData) }
+            .partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
         return listOf(
             CountriesGroup(R.string.listFreeCountries, free, true),
             CountriesGroup(R.string.listPremiumCountries, premium, false)

@@ -18,47 +18,23 @@
  */
 package com.protonvpn.android.models.login
 
-import android.content.Context
-import com.protonvpn.android.R
+import com.protonvpn.android.auth.data.VpnUser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.joda.time.Days
+import me.proton.core.domain.entity.UserId
+import me.proton.core.network.domain.session.SessionId
+import org.joda.time.DateTime
 
 @Serializable
 data class VpnInfoResponse(
     @SerialName(value = "Code") val code: Int,
     @SerialName(value = "VPN") val vpnInfo: VPNInfo,
-    @SerialName(value = "Subscribed") private val subscribed: Int,
-    @SerialName(value = "Services") private val services: Int,
-    @SerialName(value = "Delinquent") private val delinquent: Int
-) : java.io.Serializable {
+    @SerialName(value = "Subscribed") val subscribed: Int,
+    @SerialName(value = "Services") val services: Int,
+    @SerialName(value = "Delinquent") val delinquent: Int
+) : java.io.Serializable
 
-    val accountType = if (services == 4)
-        "ProtonVPN Account" else "ProtonMail Account"
-
-    val password: String get() = vpnInfo.password
-    val maxSessionCount: Int get() = vpnInfo.getMaxConnect()
-    val vpnUserName: String get() = vpnInfo.name
-
-    val isUserDelinquent: Boolean
-        get() = delinquent >= 3
-
-    fun hasAccessToTier(serverTier: Int) = userTier >= serverTier
-
-    val userTierName: String get() = vpnInfo.tierName ?: "free"
-
-    val userTier: Int get() = vpnInfo.maxTier ?: 0
-
-    val isTrialExpired get() = vpnInfo.isTrialExpired()
-
-    fun getTrialRemainingTimeString(context: Context): String {
-        val period = if (vpnInfo.isRemainingTimeAccessible)
-            vpnInfo.trialRemainingTime else Days.days(7).toPeriod()
-        val resources = context.resources
-        val days = resources.getQuantityString(R.plurals.counter_days, period.days, period.days)
-        val hours = resources.getQuantityString(R.plurals.counter_hours, period.hours, period.hours)
-        val minutes = resources.getQuantityString(R.plurals.counter_minutes, period.minutes, period.minutes)
-        val seconds = resources.getQuantityString(R.plurals.counter_seconds, period.seconds, period.seconds)
-        return "$days $hours $minutes $seconds"
-    }
-}
+fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
+    VpnUser(userId, subscribed, services, delinquent, vpnInfo.status, vpnInfo.expirationTime,
+        vpnInfo.tierName, vpnInfo.planDisplayName, vpnInfo.maxTier, vpnInfo.maxConnect, vpnInfo.name, vpnInfo.groupId, vpnInfo.password,
+        DateTime().millis, sessionId)

@@ -19,17 +19,22 @@
 
 package com.protonvpn.android
 
-import com.protonvpn.android.vpn.VpnLogCapture
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class ProtonApplicationHilt : ProtonApplication() {
+class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
-    @Inject lateinit var vpnLogCapture: VpnLogCapture
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
-        vpnLogCapture.startCapture()
+        initDependencies()
     }
+
+    override fun getWorkManagerConfiguration(): Configuration =
+        Configuration.Builder().setWorkerFactory(workerFactory).build()
+
 }

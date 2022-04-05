@@ -21,10 +21,9 @@ package com.protonvpn.android.ui.snackbar
 
 import android.content.res.Resources
 import android.view.View
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
-import com.protonvpn.android.R
+import me.proton.core.presentation.utils.SnackType
 import me.proton.core.presentation.utils.snack
 
 /**
@@ -33,18 +32,18 @@ import me.proton.core.presentation.utils.snack
 open class SnackbarHelper(private val resources: Resources, private val view: View) {
     var anchorView: View? = null
 
-    fun successSnack(@StringRes messageRes: Int) = successSnack(resources.getString(messageRes))
-    fun successSnack(message: String) = showSnack(message, R.drawable.background_success)
-
     fun errorSnack(@StringRes messageRes: Int) = errorSnack(resources.getString(messageRes))
-    fun errorSnack(message: String) = showSnack(message, R.drawable.background_error)
+    fun errorSnack(message: String) = showSnack(message, SnackType.Error)
+
+    fun snack(@StringRes messageRes: Int, type: SnackType) =
+        showSnack(resources.getString(messageRes), type)
 
     protected fun showSnack(
         message: String,
-        @DrawableRes background: Int,
+        type: SnackType,
         length: Int = Snackbar.LENGTH_LONG,
         configBlock: (Snackbar.() -> Unit)? = null
-    ) = view.snack(message, background, length) {
+    ) = view.snack(message, type, length) {
         anchorView = this@SnackbarHelper.anchorView
         configBlock?.invoke(this)
     }

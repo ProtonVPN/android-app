@@ -26,6 +26,8 @@ import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.Entry
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.ProfileColor.Companion.random
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -35,6 +37,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
+import me.proton.core.presentation.utils.SnackType
 import javax.inject.Inject
 
 private const val MILLIS_IN_SECOND = 1000f
@@ -49,10 +52,9 @@ class VpnStateConnectedViewModel @Inject constructor(
 
     data class ConnectionState(
         val serverName: String,
-        val serverLoad: Int,
-        val serverLoadState: Server.LoadState,
+        val serverLoad: Float,
         val exitIp: String,
-        val protocol: String
+        val protocolDisplay: String
     )
 
     data class TrafficSpeedChartData(
@@ -60,7 +62,7 @@ class VpnStateConnectedViewModel @Inject constructor(
         val downloadKbpsHistory: List<Entry>
     )
 
-    data class SnackbarNotification(@StringRes val text: Int, val isSuccess: Boolean = true)
+    data class SnackbarNotification(@StringRes val text: Int, val type: SnackType)
 
     val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
     val connectionState = combine(stateMonitor.status, serverManager.serverListVersion) { status, _ ->
@@ -71,15 +73,15 @@ class VpnStateConnectedViewModel @Inject constructor(
     fun saveToProfile() {
         stateMonitor.connectionProfile?.server?.let { currentServer ->
             for (profile in serverManager.getSavedProfiles()) {
-                if (profile.server?.domain == currentServer.domain) {
+                if (profile.server?.serverId == currentServer.serverId) {
                     val notification =
-                        SnackbarNotification(R.string.saveProfileAlreadySaved, isSuccess = false)
+                        SnackbarNotification(R.string.saveProfileAlreadySaved, SnackType.Norm)
                     eventNotification.tryEmit(notification)
                     return
                 }
             }
             serverManager.addToProfileList(currentServer.serverName, random(), currentServer)
-            eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved))
+            eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved, SnackType.Success))
         }
     }
 
@@ -91,14 +93,13 @@ class VpnStateConnectedViewModel @Inject constructor(
                 val upToDateServer = serverManager.getServerById(server.serverId) ?: server
                 ConnectionState(
                     upToDateServer.serverName,
-                    upToDateServer.load.toInt(),
-                    upToDateServer.loadState,
+                    upToDateServer.load,
                     exitIpAddress ?: "-",
-                    requireNotNull(protocol).displayName()
+                    protocolDisplay(protocol, transmission)
                 )
             }
         } else {
-            ConnectionState("-", 0, Server.LoadState.LOW_LOAD, "-", "-")
+            ConnectionState("-", 0f, "-", "-")
         }
 
     private fun speedHistoryToChartData(
@@ -127,4 +128,9 @@ class VpnStateConnectedViewModel @Inject constructor(
             (update.timestampMs - lastTimestampMs).toFloat() / MILLIS_IN_SECOND,
             getter(update).toFloat() / BYTES_IN_KBYTE
         )
+
+    companion object {
+        fun protocolDisplay(protocol: VpnProtocol?, transmission: TransmissionProtocol?): String =
+            (protocol?.displayName() ?: "") + " " + (transmission ?: "")
+    }
 }

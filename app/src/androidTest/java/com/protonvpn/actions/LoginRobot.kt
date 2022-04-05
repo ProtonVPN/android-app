@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Proton Technologies AG
+ *  Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,46 +16,72 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.protonvpn.actions
 
+import com.google.android.material.textfield.TextInputEditText
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
-import com.protonvpn.results.LoginFormResult
-import com.protonvpn.results.LoginResult
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.TestUser
-import me.proton.core.test.android.robots.CoreRobot
 
+/**
+ * [LoginRobot] Contains all actions and verifications for login screen
+ */
 class LoginRobot : BaseRobot() {
-    fun clickOnNeedHelpButton(): LoginFormResult =
-        clickElement(view
-            .withId(R.id.buttonNeedHelp)
-            .withText(R.string.loginNeedHelp)
-        )
 
-    fun login(user: TestUser): LoginResult {
-        replaceText<LoginRobot>(R.id.inputEmail, user.email)
-        replaceText<LoginRobot>(R.id.inputPassword, user.password)
-        clickElement<LoginRobot>(view
-            .withId(R.id.buttonLogin)
-            .withText(R.string.login)
-        )
-        return LoginResult(user)
+    fun signIn(testUser: TestUser): HomeRobot {
+        enterCredentials(testUser)
+        clickElementById<HomeRobot>(R.id.signInButton)
+        return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
     }
 
-    fun loginWithWaitUntilServerListIsLoaded(user: TestUser, firstCountry: String){
-        login(user)
-        waitUntilDisplayedByContentDesc<LoginRobot>(R.string.hamburgerMenu)
-        waitUntilDisplayedByText<LoginRobot>(firstCountry)
+    fun signInAndWaitForCountryInCountryList(testUser: TestUser, country: String): RealConnectionRobot{
+        signIn(testUser)
+        return waitUntilDisplayedByText(country)
     }
 
-    fun viewUserPassword(user: TestUser): LoginFormResult {
-        replaceText<LoginRobot>(R.id.inputEmail, user.email)
-        replaceText<LoginRobot>(R.id.inputPassword, user.password)
-        clickElement<LoginRobot>(
-            view
-                .isDescendantOf(view.withId(R.id.inputPassword))
-                .withId(com.google.android.material.R.id.text_input_end_icon)
-        )
-        return LoginFormResult(user)
+    fun signInWithIncorrectCredentials(): LoginRobot {
+        enterCredentials(TestUser.badUser)
+        return clickElementById(R.id.signInButton)
     }
+
+    fun enterCredentials(testUser: TestUser): LoginRobot {
+        replaceText<LoginRobot>(R.id.usernameInput, testUser.email)
+        return replaceText(R.id.passwordInput, testUser.password)
+    }
+
+    fun viewPassword(): LoginRobot = clickElement(
+        view.isDescendantOf(view.withId(R.id.passwordInput)).withId(R.id.text_input_end_icon)
+    )
+
+    fun selectNeedHelp(): LoginRobot = clickElementById(R.id.helpButton)
+
+    class Verify : BaseVerify() {
+
+        fun passwordIsVisible(testUser: TestUser) {
+            checkIfElementIsDisplayedByText(testUser.password, TextInputEditText::class.java)
+        }
+
+        fun userNameIsVisible(testUser: TestUser) = checkIfElementByIdContainsText(
+            R.id.usernameInput, testUser.email
+        )
+
+        fun needHelpOptionsAreDisplayed() {
+            checkIfElementIsDisplayedById(R.id.helpOptionForgotUsername)
+            checkIfElementIsDisplayedById(R.id.helpOptionForgotPassword)
+            checkIfElementIsDisplayedById(R.id.helpOptionOtherIssues)
+            checkIfElementIsDisplayedById(R.id.helpOptionOtherIssues)
+        }
+
+        fun incorrectLoginCredentialsIsShown() {
+            checkIfElementByIdContainsText(
+                R.id.snackbar_text,
+                "Incorrect login credentials. Please try again"
+            )
+        }
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
+
 }

@@ -59,7 +59,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     private fun observeLiveEvents() {
         viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
             updateListData()
-            if (viewModel.userData.isFreeUser)
+            if (viewModel.isFreeUser)
                 binding.list.scrollToPosition(0)
         }
         viewModel.serverManager.serverListVersion.asLiveData().observe(viewLifecycleOwner, Observer {
@@ -91,7 +91,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
-                    if (!viewModel.userData.isSecureCoreEnabled) {
+                    if (!viewModel.userData.secureCoreEnabled) {
                         val layoutManager =
                             this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
                         layoutManager.scrollToPositionWithOffset(position, 0)
@@ -101,7 +101,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
 
             groups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
-                        country.hasAccessibleOnlineServer(viewModel.userData)
+                    viewModel.hasAccessibleOnlineServer(country)
                 viewModel.getMappedServersForCountry(country).forEach { (title, servers, infoKey) ->
                     title?.let {
                         val titleString = resources.getString(it, servers.size)
@@ -121,7 +121,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
 
         val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
-        if (viewModel.userData.isFreeUser && !viewModel.userData.isSecureCoreEnabled) {
+        if (viewModel.isFreeUser && !viewModel.userData.secureCoreEnabled) {
             val (free, premium) = viewModel.getFreeAndPremiumCountries()
             addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
             addCountriesGroup(newGroups, R.string.listPremiumCountries, premium, expandedCountriesIds)

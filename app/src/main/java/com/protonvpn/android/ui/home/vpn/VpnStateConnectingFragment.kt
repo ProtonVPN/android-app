@@ -35,6 +35,8 @@ class VpnStateConnectingFragment : Fragment(R.layout.fragment_vpn_state_connecti
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentVpnStateConnectingBinding.bind(view)
-        binding.buttonCancel.setOnClickListener { parentViewModel.disconnectAndClose() }
+        binding.buttonCancel.setOnClickListener {
+            parentViewModel.disconnectAndClose("connection panel")
+        }
     }
 }

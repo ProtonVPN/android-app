@@ -26,33 +26,17 @@ public class OnboardingPreferences implements Serializable {
 
     public static String MAPVIEW_DIALOG = "MapViewShown";
     public static String PROFILES_DIALOG = "ProfilesShown";
-    public static String SECURECORE_DIALOG = "SecureCoreShown";
     public static String NETSHIELD_DIALOG = "NetShieldShown";
     public static String FLOATINGACTION_DIALOG = "FloatingActionShown";
     public static String FLOATING_BUTTON_USED = "FloatingActionUsed";
-    public static String COUNTRY_DIALOG = "CountryDialogShown";
-    public static String SLIDES_SHOWN = "OnboardingShown";
-
-    public static void setOnboardingShown() {
-        Storage.saveBoolean(SLIDES_SHOWN, true);
-    }
-
-    public static boolean wasOnboardingShown() {
-        return Storage.getBoolean(SLIDES_SHOWN);
-    }
+    public static String ONBOARDING_USER_ID = "OnboardingUserId";
+    public static String ONBOARDING_SHOW_CONNECT = "OnboardingShowConnect";
 
     public static void clearPreferences() {
         Storage.saveBoolean(MAPVIEW_DIALOG, false);
         Storage.saveBoolean(PROFILES_DIALOG, false);
-        Storage.saveBoolean(SECURECORE_DIALOG, false);
         Storage.saveBoolean(FLOATINGACTION_DIALOG, false);
         Storage.saveBoolean(FLOATING_BUTTON_USED, false);
-        Storage.saveBoolean(COUNTRY_DIALOG, false);
-        Storage.saveBoolean(SLIDES_SHOWN, false);
-    }
-
-    public static boolean wasCountryDialogShown() {
-        return Storage.getBoolean(COUNTRY_DIALOG);
     }
 
     public static boolean wasFloatingButtonUsed() {

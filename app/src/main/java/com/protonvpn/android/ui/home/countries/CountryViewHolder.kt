@@ -62,7 +62,7 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val accessible = vpnCountry.hasAccessibleOnlineServer(viewModel.userData)
+            val accessible = viewModel.hasAccessibleOnlineServer(vpnCountry)
             countryItem.setBackgroundResource(if (accessible)
                 countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(textCountry.getThemeColor(
@@ -79,7 +79,7 @@ abstract class CountryViewHolder(
                 if (accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
-            imageDoubleArrows.isVisible = viewModel.userData.isSecureCoreEnabled
+            imageDoubleArrows.isVisible = viewModel.userData.secureCoreEnabled
             val keywords = vpnCountry.keywords
             iconP2P.isVisible = keywords.contains(Server.Keyword.P2P)
             iconTor.isVisible = keywords.contains(Server.Keyword.TOR)
@@ -110,9 +110,9 @@ abstract class CountryViewHolder(
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
-    override fun getLayout(): Int {
-        return R.layout.item_vpn_country
-    }
+    override fun getLayout(): Int = R.layout.item_vpn_country
+
+    override fun initializeViewBinding(view: View) = ItemVpnCountryBinding.bind(view)
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {
         view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat()).start()

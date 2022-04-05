@@ -37,7 +37,7 @@ import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlin.math.ceil
 
-open class CountryExpandedViewHolder(
+class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
     private val server: Server,
     private val parentLifeCycle: LifecycleOwner,
@@ -55,9 +55,9 @@ open class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val secureCoreEnabled = viewModel.userData.isSecureCoreEnabled
+        val secureCoreEnabled = viewModel.userData.secureCoreEnabled
         with(binding) {
-            val haveAccess = viewModel.userData.hasAccessToServer(server)
+            val haveAccess = viewModel.hasAccessToServer(server)
 
             textServer.isVisible = true
             textServer.isEnabled = haveAccess && server.online
@@ -84,7 +84,7 @@ open class CountryExpandedViewHolder(
                 !server.online -> View.INVISIBLE
                 else -> View.VISIBLE
             }
-            serverLoadColor.setColorTint(ServerLoadColor.getColorId(server.loadState))
+            serverLoadColor.setColorTint(ServerLoadColor.getColor(serverLoadColor, server.load))
 
             imageCountry.isVisible = secureCoreEnabled
             if (secureCoreEnabled) {
@@ -109,7 +109,7 @@ open class CountryExpandedViewHolder(
             val connectUpgradeClickListener = View.OnClickListener {
                 val connectTo =
                     if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
-                EventBus.post(ConnectToServer(connectTo))
+                EventBus.post(ConnectToServer("server list power button", connectTo))
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonConnect.setMinSizeTouchDelegate()
@@ -143,7 +143,7 @@ open class CountryExpandedViewHolder(
 
     private fun updateButtons() {
         val connected = viewModel.vpnStateMonitor.isConnectedTo(server)
-        val haveAccess = viewModel.userData.hasAccessToServer(server)
+        val haveAccess = viewModel.hasAccessToServer(server)
         with(binding) {
             buttonUpgrade.isVisible = !haveAccess
             imageWrench.isVisible = haveAccess && !server.online
@@ -153,4 +153,6 @@ open class CountryExpandedViewHolder(
     }
 
     override fun getLayout() = R.layout.item_server_list
+
+    override fun initializeViewBinding(view: View) = ItemServerListBinding.bind(view)
 }

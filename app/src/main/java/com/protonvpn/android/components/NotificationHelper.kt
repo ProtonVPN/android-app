@@ -30,6 +30,7 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -86,7 +87,6 @@ class NotificationHelper(
             SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_title
             SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_title
             SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_title
-            SwitchServerReason.TrialEnded -> R.string.freeTrialExpiredTitle
             SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_title
         }
     )
@@ -97,7 +97,6 @@ class NotificationHelper(
             SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_content
             SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
             SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_content
-            SwitchServerReason.TrialEnded -> R.string.freeTrialExpired
             SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_content
         }
     )
@@ -128,8 +127,19 @@ class NotificationHelper(
         val cancelToastMessage: String? = null
     ) : Parcelable
 
-    @Parcelize
-    data class ActionItem(val title: String, val pendingIntent: PendingIntent) : Parcelable
+    sealed class ActionItem : Parcelable {
+        abstract val title: String
+
+        @Parcelize
+        class Activity(
+            override val title: String,
+            val activityIntent: Intent,
+            val closeAfterSuccess: Boolean
+        ) : ActionItem()
+
+        @Parcelize
+        class BgAction(override val title: String, val pendingIntent: PendingIntent) : ActionItem()
+    }
 
     fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
         val notificationBuilder =
@@ -191,7 +201,7 @@ class NotificationHelper(
 
         notificationInfo.action?.let {
             notificationBuilder.addAction(
-                NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
+                NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
             )
         }
 
@@ -206,8 +216,8 @@ class NotificationHelper(
             .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
 
-    fun cancelInformationNotification() =
-        NotificationManagerCompat.from(appContext).cancel(Constants.NOTIFICATION_INFO_ID)
+    fun cancelInformationNotification(notificationId: Int = Constants.NOTIFICATION_INFO_ID) =
+        NotificationManagerCompat.from(appContext).cancel(notificationId)
 
     private fun buildStatusNotification(
         vpnStatus: VpnStateMonitor.Status,
@@ -312,37 +322,48 @@ class NotificationHelper(
     }
 
     fun showInformationNotification(
-        context: Context,
-        content: String,
-        title: String? = null,
+        @StringRes content: Int,
+        @StringRes title: Int? = null,
         @DrawableRes icon: Int = R.drawable.ic_info,
-        action: ActionItem? = null
+        action: ActionItem? = null,
+        notificationId: Int = Constants.NOTIFICATION_INFO_ID
     ) {
-        with(NotificationManagerCompat.from(context)) {
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        with(NotificationManagerCompat.from(appContext)) {
+            val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(icon)
-                .setContentText(content)
-                .setColor(context.getThemeColor(R.attr.colorAccent))
+                .setContentText(appContext.getString(content))
+                .setColor(appContext.getThemeColor(R.attr.colorAccent))
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
             if (title != null)
-                builder.setContentTitle(title)
+                builder.setContentTitle(appContext.getString(title))
 
             builder.setContentIntent(
                 PendingIntent.getActivity(
-                    context, 0,
-                    createMainActivityIntent(context),
+                    appContext, 0,
+                    createMainActivityIntent(appContext),
                     PendingIntent.FLAG_UPDATE_CURRENT))
 
             action?.let {
                 builder.addAction(
-                    NotificationCompat.Action(R.drawable.ic_proton, it.title, it.pendingIntent)
+                    NotificationCompat.Action(R.drawable.ic_proton, it.title, getPendingIntent(it))
                 )
             }
-            notify(Constants.NOTIFICATION_INFO_ID, builder.build())
+            notify(notificationId, builder.build())
         }
     }
+
+    private fun getPendingIntent(action: ActionItem) = when (action) {
+        is ActionItem.Activity -> PendingIntent.getActivity(
+            appContext,
+            Constants.NOTIFICATION_INFO_ID,
+            action.activityIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        is ActionItem.BgAction -> action.pendingIntent
+    }
+
 
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
@@ -368,6 +389,6 @@ class NotificationHelper(
 
         // Use NEW_TASK flag to bring back the existing task to foreground.
         fun createMainActivityIntent(context: Context) =
-            Intent(context, Constants.LOGIN_ACTIVITY_CLASS).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+            Intent(context, Constants.MAIN_ACTIVITY_CLASS).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
     }
 }

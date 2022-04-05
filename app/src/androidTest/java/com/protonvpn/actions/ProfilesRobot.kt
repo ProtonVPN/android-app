@@ -19,36 +19,40 @@
 package com.protonvpn.actions
 
 import androidx.annotation.IdRes
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import com.protonvpn.MockSwitch
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
-import com.protonvpn.results.ConnectionResult
-import com.protonvpn.results.ProfilesResult
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonCheckbox
 import me.proton.core.presentation.ui.view.ProtonInput
 
+/**
+ * [ProfilesRobot] Contains all actions and verifications for profiles screen
+ */
 class ProfilesRobot : BaseRobot() {
+
     private val serviceRobot = ServiceRobot()
-    val profilesResult = ProfilesResult()
+
+    fun clickOnSaveButton(): ProfilesRobot = clickElementById(R.id.action_save)
+
+    fun navigateBackFromForm(): ProfilesRobot = back()
+
+    fun clickCancelButton(): ProfilesRobot = clickElementByText(R.string.cancel)
+
+    fun clickDiscardButton(): ProfilesRobot = clickElementByText(R.string.discard)
+
+    fun clickScSpeedInfoDialogActivate(): ProfilesRobot =
+        clickElementByText(R.string.secureCoreActivateDialogButton)
 
     fun selectColorIndex(index: Int): ProfilesRobot =
         clickElementByIndexInParent(R.id.layoutPalette, index)
 
-    fun clickOnFastestOption(): ProfilesRobot = clickElementByText(R.string.profileFastest)
-
-    fun clickOnConnectButton(profileName: String): ConnectionResult {
-        clickElementByIdAndContentDescription<ProfilesRobot>(R.id.buttonConnect, profileName)
-        if (!MockSwitch.mockedConnectionUsed) {
-            HomeRobot().allowToUseVpn()
-        }
-        return ConnectionResult()
-    }
-
-    fun clickOnCreateNewProfileButton(): ProfilesRobot =
-        clickElementByText(R.string.create_new_profile)
+    fun clickOnConnectButton(profileName: String): ConnectionRobot =
+        clickElementByIdAndContentDescription(R.id.buttonConnect, profileName)
 
     fun insertTextInProfileNameField(text: String): ProfilesRobot {
         scrollTo(R.id.inputName, ProtonInput::class.java)
@@ -58,11 +62,6 @@ class ProfilesRobot : BaseRobot() {
     fun selectFirstCountry(): ProfilesRobot {
         scrollToAndClickDropDown(R.id.inputCountry)
         return clickElementByText(serviceRobot.firstCountryFromBackend)
-    }
-
-    fun selectFirstSecureCoreExitCountry(): ProfilesRobot {
-        scrollToAndClickDropDown(R.id.inputCountry)
-        return clickElementByText(serviceRobot.firstSecureCoreExitCountryFromBackend.countryName)
     }
 
     fun selectSecondSecureCoreExitCountry(): ProfilesRobot {
@@ -76,39 +75,36 @@ class ProfilesRobot : BaseRobot() {
         return clickElementByText(serviceRobot.getSecureCoreEntryCountryFromBackend(exitCountry))
     }
 
-    fun selectFirstNotAccessibleVpnCountry(): ProfilesRobot {
-        scrollToAndClickDropDown(R.id.inputCountry)
-        return clickElementByText(serviceRobot.firstNotAccessibleVpnCountryFromBackend)
-    }
-
-    fun selectRandomServer(): ProfilesResult {
+    fun selectRandomServer(): ProfilesRobot {
         scrollToAndClickDropDown(R.id.inputServer)
-        // TODO Use "Random" instead of Fastest once random profile problems are solved
-        return clickElementByText(R.string.profileFastest)
+        return clickElementByText(R.string.profileRandom)
     }
-
-    fun clickOnSaveButton(): ProfilesResult = clickElementById(R.id.action_save)
-
-    fun selectProfile(profileName: String): ProfilesRobot = clickElementByText(profileName)
-
-    fun navigateBackFromForm(): ProfilesResult = back()
-
-    fun clickCancelButton(): ProfilesResult = clickElementByText(R.string.cancel)
-
-    fun clickDiscardButton(): ProfilesResult = clickElementByText(R.string.discard)
 
     fun enableSecureCore(): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.checkboxSecureCore
         )
         return clickElement(R.id.checkboxSecureCore, ProtonCheckbox::class.java)
     }
 
-    fun clickScConnectButton(): ConnectionResult = clickElementByText(R.string.secureCoreSwitchConnect)
+    fun clickOnUpgradeButton(contentDescription: String): ConnectionRobot {
+        view.waitForCondition {
+            clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
+            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+        return ConnectionRobot()
+    }
 
-    fun clickOnUpgradeButton(contentDescription: String): ConnectionResult =
-        clickElementByIdAndContentDescription(R.id.buttonUpgrade, contentDescription)
+    fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionRobot {
+        view.waitForCondition {
+            clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
+            Espresso.onView(ViewMatchers.withId(R.id.buttonDisconnect))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+        return ConnectionRobot()
+    }
 
     fun clickEditProfile(): ProfilesRobot {
         view
@@ -118,13 +114,11 @@ class ProfilesRobot : BaseRobot() {
         return this
     }
 
-    fun updateProfileName(newProfileName: String): ProfilesRobot {
-        clearText<ProfilesRobot>(R.id.inputName)
-        return setText(R.id.inputName, newProfileName)
-    }
+    fun updateProfileName(newProfileName: String): ProfilesRobot =
+        replaceText(R.id.inputName, newProfileName)
 
     fun clickDeleteProfile(): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.buttonDelete
         )
@@ -141,7 +135,7 @@ class ProfilesRobot : BaseRobot() {
     }
 
     private fun scrollToAndClickDropDown(@IdRes id: Int): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             R.id.inputProtocol,
             ProtonAutoCompleteInput::class.java
@@ -150,11 +144,52 @@ class ProfilesRobot : BaseRobot() {
     }
 
     private fun scrollTo(@IdRes id: Int, clazz: Class<out Any>): ProfilesRobot {
-        ConditionalActionsHelper.scrollDownInViewWithIdUntilObjectWithIdAppears(
+        ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
             R.id.coordinator,
             id,
             clazz
         )
         return this
     }
+
+    fun clickOnCreateNewProfileButton(): ProfilesRobot {
+        waitUntilDisplayedByText<Any>(R.string.create_new_profile)
+        view.waitForCondition {
+            clickElementByText<Any>(R.string.create_new_profile)
+            Espresso.onView(ViewMatchers.withId(R.id.action_save))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+        return this
+    }
+
+    class Verify : BaseVerify() {
+
+        fun errorEmptyNameIsVisible() = checkIfElementIsDisplayedByStringId(R.string.errorEmptyName)
+
+        fun errorEmptyCountryIsVisible() =
+            checkIfElementIsDisplayedByStringId(R.string.errorEmptyCountry)
+
+        fun upgradeButtonIsDisplayed() = checkIfElementIsDisplayedByStringId(R.string.upgrade)
+
+        fun defaultProfileOptionsAreVisible() {
+            checkIfElementIsDisplayedByStringId(R.string.profileFastest)
+            checkIfElementIsDisplayedByStringId(R.string.profileRandom)
+        }
+
+        fun discardChangesDialogIsVisible() =
+            checkIfElementIsDisplayedByStringId(R.string.discardChanges)
+
+        fun profileIsNotVisible(profileName: String) {
+            view.withId(R.id.textServer).withText(profileName).checkDoesNotExist()
+        }
+
+        fun profileIsVisible(profileName: String) {
+            view.withId(R.id.textServer).withText(profileName).checkDisplayed()
+        }
+
+        fun connectingToSecureCoreSpeedInfoIsDisplayed() =
+            checkIfElementIsDisplayedByStringId(R.string.secureCoreSpeedInfoTitle)
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }

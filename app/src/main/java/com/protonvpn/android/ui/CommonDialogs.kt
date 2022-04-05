@@ -22,11 +22,13 @@ package com.protonvpn.android.ui
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.DialogContentWithCheckboxBinding
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.openProtonUrl
 
 @JvmOverloads
 fun showGenericReconnectDialog(
@@ -52,6 +54,7 @@ fun showDialogWithDontShowAgain(
     @StringRes positiveButtonRes: Int,
     @StringRes negativeButtonRes: Int,
     showDialogPrefsKey: String,
+    learnMoreUrl: String? = null,
     onAccepted: () -> Unit
 ) = showDialogWithDontShowAgain(
     context,
@@ -60,6 +63,7 @@ fun showDialogWithDontShowAgain(
     positiveButtonRes,
     negativeButtonRes,
     showDialogPrefsKey,
+    learnMoreUrl,
     onAccepted
 )
 
@@ -70,6 +74,7 @@ fun showDialogWithDontShowAgain(
     @StringRes positiveButtonRes: Int,
     @StringRes negativeButtonRes: Int,
     showDialogPrefsKey: String,
+    learnMoreUrl: String?,
     onAccepted: () -> Unit
 ) {
     if (!Storage.getBoolean(showDialogPrefsKey, true)) {
@@ -82,8 +87,16 @@ fun showDialogWithDontShowAgain(
     val contentBinding =
         DialogContentWithCheckboxBinding.inflate(LayoutInflater.from(dialogBuilder.context))
 
-    contentBinding.textMessage.setText(message)
-    contentBinding.checkboxDontShowAgain.setText(R.string.dialogDontShowAgain)
+    with(contentBinding) {
+        textMessage.setText(message)
+        checkboxDontShowAgain.setText(R.string.dialogDontShowAgain)
+        if (learnMoreUrl != null) {
+            textLearnMore.visibility = View.VISIBLE
+            textLearnMore.setOnClickListener {
+                context.openProtonUrl(learnMoreUrl)
+            }
+        }
+    }
 
     val positiveCallback = DialogInterface.OnClickListener { _, _ ->
         val dontShowAgain = contentBinding.checkboxDontShowAgain.isChecked

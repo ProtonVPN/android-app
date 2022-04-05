@@ -18,15 +18,16 @@
  */
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.ui.home.LogoutHandler
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.removeFirst
 import java.util.LinkedList
@@ -37,7 +38,7 @@ class RecentsManager(
     @Transient private val scope: CoroutineScope,
     @Transient private val stateMonitor: VpnStateMonitor,
     @Transient private val serverManager: ServerManager,
-    @Transient private val logoutHandler: LogoutHandler
+    @Transient private val onSessionClosed: OnSessionClosed,
 ) {
 
     private val recentConnections = LinkedList<Profile>()
@@ -68,11 +69,15 @@ class RecentsManager(
                 }
             }
         }
-        logoutHandler.logoutEvent.observeForever {
-            recentConnections.clear()
-            recentServers.clear()
-            Storage.delete(RecentsManager::class.java)
-        }
+        onSessionClosed.logoutFlow.onEach {
+            clear()
+        }.launchIn(scope)
+    }
+
+    fun clear() {
+        recentConnections.clear()
+        recentServers.clear()
+        Storage.delete(RecentsManager::class.java)
     }
 
     fun getRecentCountries(): List<Profile> = recentConnections

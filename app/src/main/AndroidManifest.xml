@@ -34,15 +34,18 @@
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
 
     <application
         android:name=".ProtonApplicationHilt"
         android:allowBackup="false"
         android:banner="@drawable/tv_banner"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:extractNativeLibs="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -51,10 +54,21 @@
         android:taskAffinity=""
         tools:replace="android:theme">
 
+        <activity
+            android:name=".ui.onboarding.SplashActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"
-            android:theme="@style/AppTheme.TV.Browse" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.TV.Browse"/>
         <activity
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
@@ -66,22 +80,36 @@
             android:theme="@style/AppTheme.TV.Browse" />
 
         <activity
-            android:name="me.proton.core.humanverification.presentation.ui.HumanVerificationActivity"
+            android:name="me.proton.core.auth.presentation.ui.AddAccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ProtonTheme.Vpn.AddAccount"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="me.proton.core.auth.presentation.ui.signup.SignupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="me.proton.core.auth.presentation.ui.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="me.proton.core.auth.presentation.ui.AuthHelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="me.proton.core.presentation.ui.alert.ForceUpdateActivity"
+            android:theme="@style/ProtonTheme.Vpn.Transparent"
+            tools:replace="android:theme" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.main.MobileMainActivity"
             android:label="@string/app_name"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:theme="@style/ProtonTheme.Splash.Vpn"
+            android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".ui.login.LoginHelpActivity"
-            android:label="@string/app_name" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|screenSize"
@@ -95,19 +123,16 @@
         <activity
             android:name=".ui.promooffers.PromoOfferActivity" />
         <activity
-            android:name=".ui.vpn.NoVpnPermissionActivity" />
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".utils.DeepLinkActivity"
-            android:theme="@android:style/Theme.NoDisplay">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="protonvpn" />
-            </intent-filter>
-        </activity>
+            android:name=".ui.onboarding.CongratsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.planupgrade.CongratsPlanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.vpn.NoVpnPermissionActivity" />
 
         <service
             android:name="org.strongswan.android.logic.VpnStateService"
@@ -200,6 +225,9 @@
             android:name=".ui.login.TroubleshootActivity"
             android:label="@string/activityTroubleshootTitle" />
         <activity
+            android:name=".ui.login.AssignVpnConnectionActivity"
+            android:label="@string/activityTroubleshootTitle" />
+        <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/activitySettingsTitle" />
         <activity
@@ -218,25 +246,30 @@
             android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity
-            android:name=".ui.drawer.ReportBugActivity"
+            android:name=".ui.drawer.bugreport.DynamicReportActivity"
             android:label="@string/drawerReportProblem" />
+        <activity
+            android:name=".ui.drawer.bugreport.FullScreenDialog"
+            android:exported="false" />
+        <activity
+            android:name=".ui.drawer.bugreport.DropdownSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.SecureCoreSpeedInfoActivity"
+            android:exported="false" />
+        
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeModerateNatDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
-        <activity android:name=".ui.onboarding.SplashActivity"
-            android:launchMode="singleInstance">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.planupgrade.UpgradePlusOnboardingDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeSafeModeDialogActivity" />
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize" />
+            android:name=".ui.planupgrade.EmptyUpgradeDialogActivity"
+            android:theme="@style/ProtonTheme.Vpn.Transparent"/>
         <activity
             android:name=".tv.TvLoginActivity"
-            android:theme="@style/AppTheme.TV.Leanback" />
+            android:theme="@style/AppTheme.TV.Leanback"/>
 
         <meta-data
             android:name="android.max_aspect"
@@ -244,6 +277,25 @@
 
         <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
 
+        <!-- Disable Sentry initialization. -->
+        <meta-data android:name="io.sentry.auto-init" android:value="false" />
+        <provider
+            android:name="io.sentry.android.core.SentryInitProvider"
+            android:authorities="${applicationId}.SentryInitProvider"
+            tools:node="remove" />
+
+        <!-- Override initializers started by androidx.startup. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- Disable WorkManager initialization -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 
 </manifest>

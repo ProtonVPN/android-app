@@ -24,7 +24,7 @@ import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import io.sentry.util.Nullable;
+import androidx.annotation.Nullable;
 
 public interface Markable {
 

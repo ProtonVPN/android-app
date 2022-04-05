@@ -29,8 +29,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseFragment
 import com.protonvpn.android.components.BaseViewHolder
 import com.protonvpn.android.components.ContentLayout
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -51,7 +51,7 @@ class LogFragment : BaseFragment() {
     override fun onViewCreated() {
         recyclerView?.adapter = logAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            ProtonLogger.getLogLines().collect { addToLog(it) }
+            ProtonLogger.getLogLinesForDisplay().collect { addToLog(it) }
         }
     }
 
@@ -65,7 +65,8 @@ class LogFragment : BaseFragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogLineViewHolder {
             return LogLineViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.log_item, parent, false))
+                LayoutInflater.from(parent.context).inflate(R.layout.log_item, parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: LogLineViewHolder, position: Int) {

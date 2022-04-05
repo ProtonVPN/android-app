@@ -20,7 +20,8 @@ package com.protonvpn.android.ui.home.profiles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
@@ -36,7 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfilesViewModel @Inject constructor(
     val serverManager: ServerManager,
-    val userData: UserData,
+    val currentUser: CurrentUser,
     val stateMonitor: VpnStateMonitor
 ) : ViewModel() {
 
@@ -66,5 +67,5 @@ class ProfilesViewModel @Inject constructor(
 
     private fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
 
-    private fun hasAccessToServer(server: Server?) = userData.hasAccessToServer(server)
+    private fun hasAccessToServer(server: Server?) = currentUser.vpnUserCached().hasAccessToServer(server)
 }

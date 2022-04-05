@@ -26,14 +26,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -48,7 +52,7 @@ class TvServerListViewModel @Inject constructor(
     val serverManager: ServerManager,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
-    val userData: UserData,
+    val currentUser: CurrentUser,
     private val recentsManager: RecentsManager
 ) : ViewModel() {
 
@@ -56,8 +60,8 @@ class TvServerListViewModel @Inject constructor(
     val recents = MutableLiveData<List<ServerViewModel>>()
 
     fun init(country: String) {
-        populateServerList(country)
         viewModelScope.launch {
+            populateServerList(country)
             planManager.planChangeFlow.collect {
                 populateServerList(country)
             }
@@ -76,11 +80,12 @@ class TvServerListViewModel @Inject constructor(
     private fun getRecents(country: String) =
         recentsManager.getRecentServers(country)?.map(::ServerViewModel)
 
-    private fun populateServerList(country: String) {
+    private suspend fun populateServerList(country: String) {
         val vpnCountry = serverManager.getVpnExitCountry(country, false) ?: return
 
+        val vpnUser = currentUser.vpnUser()
         val serversVM = linkedMapOf<ServerGroup, List<ServerViewModel>>()
-        if (userData.isUserPlusOrAbove) {
+        if (vpnUser?.isUserPlusOrAbove == true) {
             val cities = vpnCountry.serverList.groupBy { it.city }
                 .toSortedMap(Comparator { o1, o2 ->
                     // Put servers without city at the end
@@ -94,7 +99,7 @@ class TvServerListViewModel @Inject constructor(
             }
         } else {
             val groups = vpnCountry.serverList.groupBy {
-                userData.hasAccessToServer(it)
+                vpnUser.hasAccessToServer(it)
             }.mapKeys { (available, _) ->
                 if (available) ServerGroup.Available else ServerGroup.Locked
             }.mapValues { (_, list) ->
@@ -125,7 +130,7 @@ class TvServerListViewModel @Inject constructor(
         val name get() = server.serverName
         val locked get() = !serverManager.hasAccessToServer(server)
         val load get() = server.load
-        val loadState get() = server.loadState
+        val online get() = server.online
 
         val actionStateObservable = vpnStateMonitor.status.map {
             actionState
@@ -147,18 +152,21 @@ class TvServerListViewModel @Inject constructor(
         fun planDrawable(context: Context) = if (server.isPlusServer)
             ContextCompat.getDrawable(context, R.drawable.ic_plus_label) else null
 
-        fun stateText(context: Context) = if (server.loadState == Server.LoadState.MAINTENANCE)
+        fun stateText(context: Context) = if (!online)
             context.getString(R.string.listItemMaintenance)
         else
             context.getString(R.string.tv_server_list_load, server.load.roundToInt().toString())
 
-        fun click(vpnPermissionDelegate: VpnPermissionDelegate, onUpgrade: () -> Unit) = when (actionState) {
+        fun click(vpnUiDelegate: VpnUiDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server, serverManager)
-                vpnConnectionManager.connect(vpnPermissionDelegate, profile, "TV server list")
+                ProtonLogger.log(UiConnect, "server tile (TV)")
+                vpnConnectionManager.connect(vpnUiDelegate, profile, "user via server tile (TV)")
             }
-            ServerActionState.CONNECTING, ServerActionState.CONNECTED ->
-                vpnConnectionManager.disconnect()
+            ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
+                ProtonLogger.log(UiDisconnect, "server tile (TV)")
+                vpnConnectionManager.disconnect("user via server tile (TV)")
+            }
             ServerActionState.UPGRADE ->
                 onUpgrade()
             ServerActionState.UNAVAILABLE -> {}

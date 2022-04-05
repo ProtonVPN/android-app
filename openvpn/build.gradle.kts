@@ -18,8 +18,9 @@ android {
     defaultConfig {
         minSdkVersion(14)
         targetSdkVersion(30)  //'Q'.toInt()
-        versionCode = 175
-        versionName = "0.7.21"
+// In gradle 7.x versionCode and name are not available for libraries
+//        versionCode = 175
+//        versionName = "0.7.21"
 
         externalNativeBuild {
             cmake {

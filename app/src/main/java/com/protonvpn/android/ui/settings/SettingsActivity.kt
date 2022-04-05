@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.settings
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -38,27 +39,34 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.bus.StatusSettingChanged
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.ActivitySettingsBinding
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiReconnect
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -69,16 +77,18 @@ private const val PREF_SHOW_EXCLUDED_IPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_
 private const val PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG = "PREF_SHOW_EXCLUDED_APPS_RECONNECT_DIALOG"
 private const val PREF_SHOW_PROTOCOL_RECONNECT_DIALOG = "PREF_SHOW_PROTOCOL_RECONNECT_DIALOG"
 private const val PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG = "PREF_SHOW_MTU_SIZE_RECONNECT_DIALOG"
+private const val PREF_SHOW_NAT_MODE_RECONNECT_DIALOG = "PREF_SHOW_NAT_MODE_RECONNECT_DIALOG"
+private const val PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG = "PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG"
 
 @AndroidEntryPoint
 class SettingsActivity : BaseActivityV2() {
 
-    @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
+    @Inject lateinit var currentUser: CurrentUser
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
@@ -87,6 +97,7 @@ class SettingsActivity : BaseActivityV2() {
         registerForActivityResult(ProtocolSelectionActivity.createContract()) {
             if (it != null) {
                 val settingsUpdated = getProtocolSelection(userPrefs) != it
+                logUiEvent(Setting.DEFAULT_PROTOCOL)
                 userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
                 if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
@@ -118,34 +129,35 @@ class SettingsActivity : BaseActivityV2() {
     private fun initSettings() {
         initOSRelatedVisibility()
         initDnsLeakProtection()
+        initDohToggle()
+        initSendCrashReportsToggle()
+
+        lifecycleScope.launch {
+            val user = currentUser.vpnUserFlow.firstOrNull()
+            initNonStandardPortsToggle(user)
+            initModerateNatToggle(user)
+            onUiReady()
+        }
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
             switchAutoStart.isChecked = userPrefs.connectOnBoot
             switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
+                logUiEvent(Setting.CONNECT_ON_BOOT)
                 userPrefs.connectOnBoot = isChecked
             }
             netShieldSwitch.init(
-                userPrefs.netShieldProtocol,
+                userPrefs.getNetShieldProtocol(currentUser.vpnUserCached()),
                 appConfig,
                 this@SettingsActivity,
-                userPrefs,
+                currentUser.vpnUserCached()?.isFreeUser == true,
                 NetShieldSwitch.ReconnectDialogDelegate(
-                    this@SettingsActivity,
+                    getVpnUiDelegate(),
                     stateMonitor,
                     connectionManager
                 )
             ) {
-                userPrefs.netShieldProtocol = it
-            }
-            switchShowIcon.isChecked = userPrefs.shouldShowIcon()
-            switchShowIcon.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setShowIcon(isChecked)
-                EventBus.getInstance().post(StatusSettingChanged(isChecked))
-            }
-
-            switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
-            switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.apiUseDoH = isChecked
+                logUiEvent(Setting.NETSHIELD_PROTOCOL)
+                userPrefs.setNetShieldProtocol(it)
             }
 
             buttonDefaultProfile.setOnClickListener {
@@ -187,6 +199,25 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
+    private fun onUiReady() {
+        // Enable layout animations only after all UI elements have their state set, including those
+        // that require an async operation to get their state.
+        // For some reason in UI tests the UI scrolls down when animations are enabled and
+        // switchNonStandardPorts is set to visible, which breaks the tests.
+        binding.contentSettings.scrollView.layoutTransition = LayoutTransition()
+    }
+
+    private fun initDohToggle() = with(binding.contentSettings) {
+        switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
+        val info =
+            getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
+        switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+        switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
+            logUiEvent(Setting.API_DOH)
+            userPrefs.apiUseDoH = isChecked
+        }
+    }
+
     private fun initVpnAcceleratorToggles() = with(binding.contentSettings) {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             updateVpnAcceleratorToggles()
@@ -201,11 +232,10 @@ class SettingsActivity : BaseActivityV2() {
                 updateVpnAcceleratorToggles()
             }
 
-            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled
-            switchVpnAcceleratorNotifications.isChecked =
-                userPrefs.showVpnAcceleratorNotifications()
+            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
+            switchVpnAcceleratorNotifications.isChecked = userPrefs.showVpnAcceleratorNotifications
             switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.setShowVpnAcceleratorNotifications(isChecked)
+                userPrefs.showVpnAcceleratorNotifications = isChecked
             }
         } else {
             switchVpnAccelerator.isVisible = false
@@ -213,10 +243,52 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
+    private fun initModerateNatToggle(user: VpnUser?) = with(binding.contentSettings) {
+        val info = getString(R.string.settingsModerateNatDescription, Constants.MODERATE_NAT_INFO_URL)
+        switchModerateNat.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+        if (user?.isUserBasicOrAbove == true) {
+            switchModerateNat.switchClickInterceptor = {
+                tryToggleNatMode()
+                true
+            }
+        } else {
+            switchModerateNat.switchClickInterceptor = {
+                navigateTo(UpgradeModerateNatDialogActivity::class.java)
+                true
+            }
+        }
+    }
+
+    private fun initNonStandardPortsToggle(user: VpnUser?) = with(binding.contentSettings) {
+        val flags = appConfig.getFeatureFlags()
+        switchNonStandardPorts.isVisible = flags.safeMode
+        if (flags.safeMode) {
+            val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
+            switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
+            if (user?.isUserBasicOrAbove == true) {
+                switchNonStandardPorts.switchClickInterceptor = {
+                    tryToggleSafeMode()
+                    true
+                }
+            } else {
+                switchNonStandardPorts.switchClickInterceptor = {
+                    navigateTo(UpgradeSafeModeDialogActivity::class.java)
+                    true
+                }
+            }
+        }
+    }
+
+    private fun initSendCrashReportsToggle() = with(binding.contentSettings) {
+        switchSendCrashReports.isChecked = SentryIntegration.isEnabled()
+        switchSendCrashReports.setOnCheckedChangeListener { _, isChecked ->
+            SentryIntegration.setEnabled(isChecked)
+        }
+    }
+
     private fun initOSRelatedVisibility() = with(binding.contentSettings) {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
-        switchShowIcon.visibility = if (Build.VERSION.SDK_INT >= 26) GONE else VISIBLE
     }
 
     private fun initDnsLeakProtection() {
@@ -226,7 +298,7 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
-        val isEnabled = userPrefs.isVpnAcceleratorEnabled
+        val isEnabled = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
         switchVpnAccelerator.isChecked = isEnabled
         switchVpnAcceleratorNotifications.isVisible = isEnabled
     }
@@ -235,6 +307,8 @@ class SettingsActivity : BaseActivityV2() {
         switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
         switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
+        switchNonStandardPorts.isChecked = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
+        switchModerateNat.isChecked = !userPrefs.randomizedNatEnabled
 
         buttonDefaultProfile.setValue(serverManager.defaultConnection.name)
         buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
@@ -270,17 +344,20 @@ class SettingsActivity : BaseActivityV2() {
     private fun tryToggleVpnAccelerator() {
         tryToggleSwitch(
             PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
+            "VPN Accelerator toggle",
             stateMonitor.connectionProtocol?.localAgentEnabled() != true
         ) {
-            userPrefs.isVpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled
+            userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
         }
     }
 
     private fun tryToggleSplitTunneling() {
         tryToggleSwitch(
             PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
+            "split tunneling toggle",
             !userPrefs.isSplitTunnelingConfigEmpty,
         ) {
+            logUiEvent(Setting.SPLIT_TUNNEL_ENABLED)
             userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
             with(binding.contentSettings) {
                 if (switchShowSplitTunnel.isChecked) {
@@ -292,21 +369,47 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleBypassLocal() {
         tryToggleSwitch(
-            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG
+            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
+            "LAN connections toggle"
         ) {
+            logUiEvent(Setting.LAN_CONNECTIONS)
             userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
+        }
+    }
+
+    private fun tryToggleNatMode() {
+        tryToggleSwitch(
+            PREF_SHOW_NAT_MODE_RECONNECT_DIALOG,
+            "Moderate NAT toggle",
+            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+        ) {
+            logUiEvent(Setting.RESTRICTED_NAT)
+            userPrefs.randomizedNatEnabled = !userPrefs.randomizedNatEnabled
+        }
+    }
+
+    private fun tryToggleSafeMode() {
+        tryToggleSwitch(
+            PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG,
+            "safe mode toggle",
+            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+        ) {
+            logUiEvent(Setting.SAFE_MODE)
+            userPrefs.safeModeEnabled = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
         }
     }
 
     private fun tryToggleSwitch(
         showDialogPrefsKey: String,
+        uiElement: String,
         needsReconnectIfConnected: Boolean = true,
         toggle: () -> Unit
     ) {
         if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
             showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
                 toggle()
-                connectionManager.reconnect(this)
+                ProtonLogger.log(UiReconnect, uiElement)
+                connectionManager.reconnect(getVpnUiDelegate())
             }
         } else {
             toggle()
@@ -324,7 +427,8 @@ class SettingsActivity : BaseActivityV2() {
                 showReconnectDialogPrefKey,
                 R.string.reconnect_now
             ) {
-                connectionManager.fullReconnect(this)
+                ProtonLogger.log(UiReconnect, "apply new settings")
+                connectionManager.fullReconnect("user via settings change", getVpnUiDelegate())
             }
         }
     }
@@ -358,5 +462,9 @@ class SettingsActivity : BaseActivityV2() {
             mixDstOver(bg.green, thumb.green, thumbAlpha),
             mixDstOver(bg.blue, thumb.blue, thumbAlpha)
         )
+    }
+
+    private fun logUiEvent(setting: Setting) {
+        ProtonLogger.logUiSettingChange(setting, "settings screen")
     }
 }

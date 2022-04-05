@@ -26,10 +26,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
+import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,17 +44,20 @@ class VpnStateErrorFragment : Fragment(R.layout.fragment_vpn_state_error) {
 
         with(binding) {
             buttonRetry.setOnClickListener {
-                parentViewModel.reconnect(requireActivity() as VpnPermissionDelegate)
+                parentViewModel.reconnect(
+                    (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate())
             }
-            buttonCancelRetry.setOnClickListener { parentViewModel.disconnect() }
+            buttonCancelRetry.setOnClickListener {
+                parentViewModel.disconnect("cancel automatic retry")
+            }
         }
 
-        viewModel.errorMessage.asLiveData().observe(viewLifecycleOwner, Observer {
-            binding.textError.text = HtmlTools.fromHtml(it)
-        })
-        viewModel.retryInfo.asLiveData().observe(viewLifecycleOwner, Observer {
-            updateProgress(binding, it)
-        })
+        viewModel.errorMessage.asLiveData().observe(
+            viewLifecycleOwner, Observer { binding.textError.text = HtmlTools.fromHtml(it) }
+        )
+        viewModel.retryInfo.asLiveData().observe(
+            viewLifecycleOwner, Observer { updateProgress(binding, it) }
+        )
     }
 
     private fun updateProgress(binding: FragmentVpnStateErrorBinding, retryInfo: RetryInfo?) = with(binding) {

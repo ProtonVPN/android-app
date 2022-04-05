@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv
 
+import android.content.Intent
 import android.graphics.Outline
 import android.os.Bundle
 import android.view.View
@@ -34,6 +35,7 @@ import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -50,8 +52,10 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -86,7 +90,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         setupRowAdapter()
-
+        viewModel.listVersion.asLiveData().observe(viewLifecycleOwner, Observer {
+            setupRowAdapter()
+        })
         lifecycleScope.launchWhenResumed {
             viewModel.userPlanChangeEvent.collect {
                 setupRowAdapter()
@@ -138,6 +144,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 }
                 is LogoutCard -> {
                     logout()
+                }
+                is ReportBugCard -> {
+                    startActivity(Intent(context, DynamicReportActivity::class.java))
                 }
             }
         }
@@ -202,7 +211,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
             icon = R.drawable.row_more_icon,
-            cards = listOf(LogoutCard(getString(R.string.tv_signout_label))))
+            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))))
         addOrReplace(index, createRow(settingsRow, index))
         index++
     }
@@ -263,6 +272,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 binding.icon.setImageResource(row.icon)
                 binding.label.setText(row.title)
             }
+        }
+
+        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
+            super.onRowViewSelected(holder, selected)
+            val index = rowsAdapter?.indexOf(holder?.rowObject) ?: -1
+            val isLastRow = index >= 0 && index == (rowsAdapter?.size() ?: 0) - 1
+            if (isLastRow)
+                viewModel.onLastRowSelection(selected)
         }
     }
 

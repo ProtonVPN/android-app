@@ -31,10 +31,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.ForceDark" parent="AppTheme.NoActionBar">
-        <item name="android:forceDarkAllowed">true</item>
-    </style>
-
     <style name="AppTheme.TV.Leanback" parent="Theme.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -50,6 +46,10 @@
         <item name="android:colorControlActivated">?colorAccent</item>
         <item name="android:colorForeground">#4B4B57</item>
         <item name="android:textSize">16sp</item>
+        <item name="serverLoadLow">@color/tvServerLoadLow</item>
+        <item name="serverLoadMedium">@color/tvServerLoadMedium</item>
+        <item name="serverLoadHigh">@color/tvServerLoadHigh</item>
+        <item name="serverInMaintenance">@color/tvInMaintenance</item>
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.Leanback.Browse">
@@ -61,45 +61,15 @@
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="TransparentCompat" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="windowNoTitle">true</item>
+        <item name="serverLoadLow">@color/tvServerLoadLow</item>
+        <item name="serverLoadMedium">@color/tvServerLoadMedium</item>
+        <item name="serverLoadHigh">@color/tvServerLoadHigh</item>
+        <item name="serverInMaintenance">@color/tvInMaintenance</item>
     </style>
 
     <style name="OnboardingDialogStyle" parent="Base.Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">97%</item>
         <item name="android:windowMinWidthMinor">97%</item>
-    </style>
-
-    <style name="AppTheme.WhiteAccent" parent="AppTheme">
-        <item name="colorAccent">@color/white</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="SCSwitch" parent="Base.Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <item name="android:colorForeground">#646464</item>
-    </style>
-
-    <style name="SCSwitch.Green" parent="SCSwitch">
-        <item name="thumbTint">@color/white</item>
-        <item name="trackTint">@color/switch_track</item>
-    </style>
-
-    <style name="RadioButton.Branded" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">?colorAccent</item>
-        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="SettingsItem">
@@ -137,50 +107,6 @@
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
     </style>
 
-    <style name="EditText.Login" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="colorAccent">?colorAccent</item>
-    </style>
-
-    <style name="Button" />
-
-    <style name="Button.Secondary">
-        <item name="android:background">@drawable/button_secondary_bg</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">32sp</item>
-        <item name="android:elevation">0dp</item>
-    </style>
-
-    <style name="Button.Green" parent="Button">
-        <item name="android:textColor">?colorAccent</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@drawable/button_rounded_accent</item>
-        <item name="android:paddingLeft">24dp</item>
-        <item name="android:paddingRight">24dp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="Button.Green.Filled" parent="Button.Green">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/button_rounded_accent_filled</item>
-    </style>
-
-    <style name="Button.Green.Borderless" parent="Button.Green">
-        <item name="android:textColor">?colorAccent</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-    </style>
-
-    <style name="TextLabel" parent="AppTheme">
-        <item name="android:textColorHint">@color/lightGrey</item>
-        <item name="android:textSize">16sp</item>
-        <item name="colorAccent">@color/lightGrey</item>
-        <item name="colorControlNormal">@color/lightGrey</item>
-        <item name="colorControlActivated">@color/lightGrey</item>
-    </style>
-
     <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
         <item name="android:layout_width">@dimen/tv_item_size_width</item>
         <item name="android:layout_height">@dimen/tv_item_size_height</item>
@@ -193,61 +119,6 @@
     <style name="DefaultCardTheme" parent="Theme.Leanback">
         <item name="imageCardViewStyle">@style/DefaultCardStyle</item>
         <item name="imageCardViewImageStyle">@style/DefaultCardImageStyle</item>
-    </style>
-
-    <style name="SingleLineCardTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="IconCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/IconCardViewStyle</item>
-        <item name="imageCardViewTitleStyle">@style/IconCardTitleStyle</item>
-        <item name="imageCardViewImageStyle">@style/IconCardImageStyle</item>
-        <item name="imageCardViewInfoAreaStyle">@style/IconCardInfoAreaStyle</item>
-    </style>
-    <!-- Icon card style with custom focus handler. Used in cards example. -->
-    <style name="IconCardViewStyle" parent="DefaultCardStyle">
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <style name="IconCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:layout_height">96dp</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <style name="IconCardTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:maxLines">2</item>
-        <item name="android:minLines">2</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="IconCardInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:background">@null</item>
-        <item name="layout_viewType">main</item>
-    </style>
-
-    <style name="SingleLineCardInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:layout_width">124dp</item>
-        <item name="layout_viewType">main</item>
-    </style>
-
-    <style name="SingleLineCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">124dp</item>
-        <item name="android:layout_height">124dp</item>
-    </style>
-
-    <style name="SingleLineCardStyle" parent="DefaultCardStyle">
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <!-- Theme corresponding to the SingleLineCardStyle -->
-    <style name="SingleLineCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/SingleLineCardStyle</item>
-        <item name="imageCardViewTitleStyle">@style/SingleLineCardTitleStyle</item>
-        <item name="imageCardViewImageStyle">@style/SingleLineCardImageStyle</item>
-        <item name="imageCardViewInfoAreaStyle">@style/SingleLineCardInfoAreaStyle</item>
     </style>
 
     <style name="TvButton" parent="TextAppearance.AppCompat.Button">
@@ -266,22 +137,6 @@
 
     <style name="TvButtonAlert" parent="TvButton">
         <item name="android:backgroundTint">@color/tvAlert</item>
-    </style>
-
-    <style name="Body1Regular">
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="Body2Regular">
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="Body2Medium">
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="CaptionRegular">
-        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="ShapeAppearance.Oval" parent="">
@@ -312,6 +167,22 @@
         <item name="android:gravity">end</item>
     </style>
 
+    <!--
+      item_server_switch.xml is included both in regular UI and in notification.
+      Notifications should not use the application styles.
+      -->
+    <style name="ThemeOverlay.ProtonItemServerSwitch" parent="">
+        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward</item>
+        <item name="serverSwitchLabelTextStyle">@style/Proton.Text.Caption</item>
+        <item name="serverSwitchServerTextStyle">@style/Proton.Text.DefaultSmall</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonItemServerSwitch.Notification" parent="">
+        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward_grey</item>
+        <item name="serverSwitchLabelTextStyle">@style/TextAppearance.Compat.Notification.Info</item>
+        <item name="serverSwitchServerTextStyle">@style/TextAppearance.Compat.Notification</item>
+    </style>
+
     <style name="FabMenuLabelStyle">
         <item name="android:background">@drawable/bg_fab_label</item>
         <item name="android:paddingLeft">8dp</item>
@@ -336,7 +207,7 @@
     <style name="PowerButton" parent="">
         <item name="android:minWidth">40dp</item>
         <item name="android:minHeight">40dp</item>
-        <item name="android:backgroundTint">@color/power_button_bg</item>
+        <item name="backgroundTint">@color/power_button_bg</item>
         <item name="android:padding">8dp</item>
         <item name="icon">@drawable/ic_power_off</item>
         <item name="iconTint">?attr/proton_icon_norm</item>
@@ -359,7 +230,10 @@
              for now. -->
         <item name="proton_text_disabled">?attr/proton_text_hint</item>
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
-        <item name="colorControlHighlight">@color/ripple_norm</item>
+        <item name="serverLoadLow">?attr/proton_notification_success</item>
+        <item name="serverLoadMedium">?attr/proton_notification_warning</item>
+        <item name="serverLoadHigh">?attr/proton_notification_error</item>
+        <item name="serverInMaintenance">#989DA9</item>
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->

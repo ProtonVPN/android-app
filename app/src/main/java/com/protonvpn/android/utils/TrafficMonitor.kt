@@ -26,6 +26,8 @@ import android.os.PowerManager
 import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnState
@@ -70,25 +72,17 @@ class TrafficMonitor constructor(
             }
         }
         scope.launch {
-            connectivityMonitor.networkCapabilitiesFlow.collect {
-                ProtonLogger.log("Network changes")
-                ProtonLogger.log("---------------")
-                ProtonLogger.log(it.toString())
-                ProtonLogger.log("---------------")
-            }
-        }
-        scope.launch {
             vpnStateMonitor.newSessionEvent.collect {
                 resetSession()
             }
         }
 
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_OFF)) {
-            ProtonLogger.log("Screen off")
+            ProtonLogger.logCustom(LogCategory.UI, "Screen off")
             stopUpdateJob()
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_ON)) {
-            ProtonLogger.log("Screen on")
+            ProtonLogger.logCustom(LogCategory.UI, "Screen on")
             if (vpnStateMonitor.state == VpnState.Connected)
                 startUpdateJob()
         }

@@ -30,16 +30,20 @@ interface StreamingViewModelHelper {
     val displayStreamingIcons get() = appConfig.getFeatureFlags().streamingServicesLogos
 
     data class StreamingService(val name: String, val iconUrl: String?)
-    fun streamingServices(country: String): List<StreamingService>? =
-        serverManager.streamingServices?.let { response ->
-            response[country]?.map { streamingService ->
+    fun streamingServices(country: String): List<StreamingService> =
+        serverManager.streamingServicesModel?.let { streamingServices ->
+            streamingServices.getForAllTiers(country).map { streamingService ->
                 StreamingService(
                     streamingService.name,
-                    if (displayStreamingIcons)
-                        Uri.parse(response.resourceBaseURL).buildUpon().appendPath(streamingService.iconName).toString()
-                    else
+                    if (displayStreamingIcons) {
+                        Uri.parse(streamingServices.resourceBaseURL)
+                            .buildUpon()
+                            .appendPath(streamingService.iconName)
+                            .toString()
+                    } else {
                         null
+                    }
                 )
             }
-        }
+        } ?: emptyList()
 }

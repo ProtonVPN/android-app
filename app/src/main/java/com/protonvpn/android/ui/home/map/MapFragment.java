@@ -29,6 +29,9 @@ import android.widget.ImageView;
 
 import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUser;
+import com.protonvpn.android.auth.data.VpnUser;
+import com.protonvpn.android.auth.data.VpnUserKt;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.VpnStateChanged;
@@ -36,6 +39,8 @@ import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.Markable;
 import com.protonvpn.android.databinding.ItemMarkerCalloutBinding;
+import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
@@ -79,6 +84,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     @Inject VpnStateMonitor stateMonitor;
     @Inject VpnConnectionManager vpnConnectionManager;
     @Inject UserData userData;
+    @Inject CurrentUser currentVpnUser;
     private List<CompositePathView.DrawablePath> paths = new ArrayList<>();
     private ImageView secureCoreMarker = null;
 
@@ -121,9 +127,9 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     }
 
     private void initMapState() {
-        addPins(true, userData.isSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
+        addPins(true, userData.getSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
             serverManager.getVpnCountries());
-        if (userData.isSecureCoreEnabled()) {
+        if (userData.getSecureCoreEnabled()) {
             if (stateMonitor.isConnected()) {
                 addPins(false, Collections.singletonList(stateMonitor.getConnectionProfile() != null ?
                     stateMonitor.getConnectionProfile().getServer() : null));
@@ -156,12 +162,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 country.equals(selectedCountry) ? R.drawable.ic_marker_secure_core_pressed :
                     R.drawable.ic_marker_secure_core;
 
+            VpnUser user = currentVpnUser.vpnUserCached();
             int selectedMarker = stateMonitor.isConnectedToAny(country.getConnectableServers()) ?
                 R.drawable.ic_marker_colored :
-                userData.hasAccessToAnyServer(country.getConnectableServers()) ?
+                VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
 
-            if ((country.equals(selectedCountry)) && userData.isSecureCoreEnabled()
+            if ((country.equals(selectedCountry)) && userData.getSecureCoreEnabled()
                 && country.isSecureCoreMarker()) {
                 secureCoreMarker = marker;
             }
@@ -178,12 +185,12 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                     stateMonitor.isConnectedToAny(country.getConnectableServers()) || marker.isSelected()));
 
             marker.setImageResource(
-                userData.isSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
+                userData.getSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
                     selectedMarker);
 
             if (country.getCoordinates().hasValidCoordinates()) {
                 mapView.addMarker(marker, coordinates.getPositionX(), coordinates.getPositionY(), -0.5f,
-                    userData.isSecureCoreEnabled() && country.isSecureCoreMarker() ? -0.5f : -1.0f);
+                    userData.getSecureCoreEnabled() && country.isSecureCoreMarker() ? -0.5f : -1.0f);
             }
         }
     }
@@ -192,12 +199,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         List<T> modifiableList = new ArrayList<>(list);
         sort(modifiableList, (t, t1) -> t.getCoordinates().compareTo(t1.getCoordinates()));
         sort(modifiableList, (t, t1) -> {
-            if (userData.hasAccessToAnyServer(t.getConnectableServers()) && !userData.hasAccessToAnyServer(
-                t1.getConnectableServers())) {
+            VpnUser user = currentVpnUser.vpnUserCached();
+            boolean haveAccess = VpnUserKt.hasAccessToAnyServer(user, t.getConnectableServers());
+            boolean haveAccess1 = VpnUserKt.hasAccessToAnyServer(user, t1.getConnectableServers());
+            if (haveAccess && !haveAccess1) {
                 return 1;
             }
-            if (!userData.hasAccessToAnyServer(t.getConnectableServers()) && userData.hasAccessToAnyServer(
-                t1.getConnectableServers())) {
+            if (!haveAccess && haveAccess1) {
                 return -1;
             }
             return 0;
@@ -253,7 +261,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         }
         if (view.getTag() instanceof VpnCountry) {
             VpnCountry country = (VpnCountry) view.getTag();
-            if (userData.isSecureCoreEnabled() && country.isSecureCoreCountry()) {
+            if (userData.getSecureCoreEnabled() && country.isSecureCoreCountry()) {
                 removePaths();
                 initMapState();
                 addPins(false, serverManager.getSecureCoreEntryCountries(), country);
@@ -279,7 +287,8 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             ItemMarkerCalloutBinding.inflate(LayoutInflater.from(requireContext()));
 
         List<Server> countryServers = country.getConnectableServers();
-        boolean hasAccess = userData.hasAccessToAnyServer(countryServers);
+        VpnUser user = currentVpnUser.vpnUserCached();
+        boolean hasAccess = VpnUserKt.hasAccessToAnyServer(user, countryServers);
 
         binding.countryWithFlags.setCountry(country);
         binding.countryWithFlags.setEnabled(hasAccess);
@@ -287,12 +296,14 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
                 EventBus.post(
-                    new ConnectToServer(serverManager.getBestScoreServer(country.getConnectableServers())));
+                        new ConnectToServer("map marker",
+                                serverManager.getBestScoreServer(country.getConnectableServers())));
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
             binding.buttonDisconnect.setOnClickListener(v -> {
-                vpnConnectionManager.disconnect();
+                ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, "map marker");
+                vpnConnectionManager.disconnect("user via map marker");
                 initMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });

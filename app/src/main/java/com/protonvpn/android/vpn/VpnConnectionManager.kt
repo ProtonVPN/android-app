@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.vpn
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -27,26 +26,40 @@ import android.net.VpnService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.lifecycle.distinctUntilChanged
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
+import com.protonvpn.android.logging.ConnConnectConnected
+import com.protonvpn.android.logging.ConnConnectStart
+import com.protonvpn.android.logging.ConnConnectTrigger
+import com.protonvpn.android.logging.ConnDisconnectTrigger
+import com.protonvpn.android.logging.ConnServerSwitchFailed
+import com.protonvpn.android.logging.ConnStateChanged
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiDisconnect
+import com.protonvpn.android.logging.UserPlanMaxSessionsReached
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
-import io.sentry.event.EventBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -60,9 +73,18 @@ import kotlin.coroutines.coroutineContext
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
-interface VpnPermissionDelegate {
-    fun askForPermissions(intent: Intent, onPermissionGranted: () -> Unit)
-    fun getContext(): Context
+enum class ReasonRestricted { UpgradeNeeded, Maintenance }
+
+interface VpnUiDelegate {
+    fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit)
+    /**
+     * Called when server is restricted.
+     * Returns true if the situation is handled (e.g. by informing the user).
+     * If false is returned, VpnConnectionManager uses a fallback server.
+     */
+    fun onServerRestricted(reason: ReasonRestricted): Boolean
+    fun shouldSkipAccessRestrictions(): Boolean = false
+    fun onProtocolNotSupported()
 }
 
 @Singleton
@@ -74,21 +96,12 @@ open class VpnConnectionManager(
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
+    private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val serverManager: ServerManager,
     private val scope: CoroutineScope,
-    private val now: () -> Long
+    private val now: () -> Long,
+    private val currentUser: CurrentUser
 ) : VpnStateSource {
-
-    companion object {
-        private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
-
-        private val RECOVERABLE_ERRORS = listOf(
-            ErrorType.AUTH_FAILED_INTERNAL,
-            ErrorType.LOOKUP_FAILED_INTERNAL,
-            ErrorType.UNREACHABLE_INTERNAL,
-            ErrorType.POLICY_VIOLATION_LOW_PLAN
-        )
-    }
 
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
@@ -103,7 +116,8 @@ open class VpnConnectionManager(
 
     // State taken from active backend or from monitor when no active backend, value always != null
     private val stateInternal: LiveData<VpnState> = Transformations.switchMap(
-        activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable)
+        activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable
+    )
     private val state get() = stateInternal.value!!
 
     val retryInfo get() = activeBackend?.retryInfo
@@ -115,15 +129,19 @@ open class VpnConnectionManager(
 
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.DISCONNECT_ACTION)) { intent ->
             when (intent?.action) {
-                NotificationHelper.DISCONNECT_ACTION -> disconnect()
+                NotificationHelper.DISCONNECT_ACTION -> {
+                    ProtonLogger.log(UiDisconnect, "notification")
+                    disconnect("user via notification")
+                }
             }
         }
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->
             val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
             profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
+            ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
             userData.setProtocols(VpnProtocol.Smart, null)
-            connectInBackground(appContext, profileToSwitch)
+            connect(vpnBackgroundUiDelegate, profileToSwitch, "Enable Smart protocol from notification")
         }
         stateInternal.observeForever {
             if (initialized) {
@@ -150,10 +168,17 @@ open class VpnConnectionManager(
                     vpnStateMonitor.updateStatus(VpnStateMonitor.Status(newState, connectionParams))
                 }
 
-                ProtonLogger.log("VpnStateMonitor state=$newState backend=${activeBackend?.vpnProtocol}")
+                ProtonLogger.log(
+                    ConnStateChanged,
+                    "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}"
+                )
                 DebugUtils.debugAssert {
-                    (state in arrayOf(VpnState.Connecting, VpnState.Connected, VpnState.Reconnecting))
-                        .implies(connectionParams != null && activeBackend != null)
+                    val isConnectedOrConnecting = state in arrayOf(
+                        VpnState.Connecting,
+                        VpnState.Connected,
+                        VpnState.Reconnecting
+                    )
+                    isConnectedOrConnecting.implies(connectionParams != null && activeBackend != null)
                 }
 
                 when (state) {
@@ -165,6 +190,9 @@ open class VpnConnectionManager(
                     }
                 }
             }
+        }
+        stateInternal.distinctUntilChanged().observeForever {
+            if (it == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
         }
 
         scope.launch {
@@ -196,7 +224,7 @@ open class VpnConnectionManager(
     }
 
     private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
-        ProtonLogger.log("Attempting to recover from error: $errorType")
+        ProtonLogger.logCustom(LogCategory.CONN, "Attempting to recover from error: $errorType")
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.CheckingAvailability, params))
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
@@ -211,9 +239,10 @@ open class VpnConnectionManager(
                 fallbackConnect(result)
             is VpnFallbackResult.Error -> {
                 vpnStateMonitor.fallbackConnectionFlow.emit(result)
-                ProtonLogger.log("Failed to recover, entering $result")
+                ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
-                    disconnect()
+                    ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
+                    disconnect("max sessions reached")
                 } else {
                     activeBackend?.setSelfState(VpnState.Error(result.type))
                 }
@@ -222,67 +251,61 @@ open class VpnConnectionManager(
     }
 
     private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
-        fallback.notificationReason?.let {
+        if (fallback.notifyUser && fallback.reason != null) {
             vpnStateMonitor.fallbackConnectionFlow.emit(fallback)
         }
 
-        val sentryEvent = EventBuilder()
-            .withMessage("Fallback connect")
-            .withExtra("From", connectionParams?.info)
-            .withExtra("Info", fallback.log)
-            .build()
-        ProtonLogger.logSentryEvent(sentryEvent)
-        ProtonLogger.log("Fallback connect: ${fallback.log}")
-
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(appContext, fallback.toProfile)
+                connectWithPermission(vpnBackgroundUiDelegate, fallback.toProfile, fallback.log)
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
-                if (fallback.notificationReason !is SwitchServerReason.UserBecameDelinquent) {
+                if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
                     // Not compatible protocol needs to ask user permission to switch
                     // If user accepts then continue through broadcast receiver
                     if (fallback.compatibleProtocol)
                         switchServerConnect(fallback)
+                } else {
+                    ProtonLogger.log(ConnServerSwitchFailed, "User became delinquent")
                 }
             }
         }
     }
 
-    private suspend fun onServerNotAvailable(context: Context, profile: Profile, server: Server?) {
+    private suspend fun onServerNotAvailable(profile: Profile, server: Server?) {
         val fallback = if (server == null) {
-            ProtonLogger.log("Server not available. Finding alternative...")
             vpnErrorHandler.onServerNotAvailable(profile)
         } else {
-            ProtonLogger.log("Server in maintenance. Finding alternative...")
             vpnErrorHandler.onServerInMaintenance(profile, null)
         }
+
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
             notificationHelper.showInformationNotification(
-                context, context.getString(if (server == null)
-                    R.string.error_server_not_set else R.string.restrictedMaintenanceDescription))
+                if (server == null) R.string.error_server_not_set
+                else R.string.restrictedMaintenanceDescription
+            )
         }
     }
 
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection()
+        ProtonLogger.log(ConnConnectTrigger, switch.log)
         ongoingConnect = scope.launch {
             preparedConnect(switch.preparedConnection)
         }
     }
 
     private suspend fun smartConnect(profile: Profile, server: Server) {
-        ProtonLogger.log("Connect: ${server.domain}")
         connectionParams = ConnectionParams(profile, server, null, null)
 
         if (activeBackend != null) {
-            ProtonLogger.log("Disconnecting first...")
+            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
             disconnectForNewConnection()
             if (!coroutineContext.isActive)
                 return // Don't connect if the scope has been cancelled.
-            ProtonLogger.log("Disconnected, start connecting to new server.")
+            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnected, start connecting to new server.")
         }
 
         setSelfState(VpnState.ScanningPorts)
@@ -291,13 +314,19 @@ open class VpnConnectionManager(
         val hasNetwork = networkManager.isConnectedToNetwork()
         if (!hasNetwork && protocol == VpnProtocol.Smart)
             protocol = FALLBACK_PROTOCOL
-        var preparedConnection = backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
+        var preparedConnection =
+            backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
-            val fallbackProtocol = if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
-            ProtonLogger.log("No response for ${server.domain}, using fallback $fallbackProtocol")
+            val fallbackProtocol =
+                if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
+            ProtonLogger.logCustom(
+                LogCategory.CONN_CONNECT,
+                "No response for ${server.domain}, using fallback $fallbackProtocol"
+            )
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
-            preparedConnection = backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
+            preparedConnection =
+                backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
         }
 
         preparedConnect(preparedConnection)
@@ -309,10 +338,16 @@ open class VpnConnectionManager(
 
         val newBackend = preparedConnection.backend
         if (activeBackend != null && activeBackend != newBackend)
-            disconnectBlocking()
+            disconnectBlocking("new connection")
 
         connectionParams = preparedConnection.connectionParams
-        ProtonLogger.log("Connecting using ${connectionParams?.info}")
+        with(preparedConnection) {
+            val profileInfo = connectionParams.profile.toLog(userData)
+            ProtonLogger.log(
+                ConnConnectStart,
+                "backend: ${backend.vpnProtocol}, params: ${connectionParams.info}, $profileInfo"
+            )
+        }
 
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
@@ -331,51 +366,41 @@ open class VpnConnectionManager(
         ongoingConnect = null
     }
 
-    fun onRestoreProcess(context: Context, profile: Profile): Boolean {
-        if (state == VpnState.Disabled && Storage.getString(STORAGE_KEY_STATE, null) == VpnState.Connected.name) {
-            connectInBackground(context, profile, "Process restore")
+    fun onRestoreProcess(profile: Profile): Boolean {
+        val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
+        if (state == VpnState.Disabled && stateKey == VpnState.Connected.name) {
+            connect(vpnBackgroundUiDelegate, profile, "Process restore")
             return true
         }
         return false
     }
 
-    fun connect(
-        permissionDelegate: VpnPermissionDelegate,
-        profile: Profile,
-        connectionCauseLog: String? = null
-    ) {
-        connect(permissionDelegate.getContext(), profile, connectionCauseLog) { intent ->
-            permissionDelegate.askForPermissions(intent) {
-                connectWithPermission(permissionDelegate.getContext(), profile)
-            }
-        }
-    }
-
-    fun connectInBackground(context: Context, profile: Profile, connectionCauseLog: String? = null) {
-        connect(context, profile, connectionCauseLog) {
-            showInsufficientPermissionNotification(context)
-        }
-    }
-
-    private fun connect(
-        context: Context,
-        profile: Profile,
-        connectionCauseLog: String? = null,
-        onPermissionNeeded: (Intent) -> Unit
-    ) {
-        connectionCauseLog?.let { ProtonLogger.log("Connecting caused by: $it") }
-        val intent = prepare(context)
+    fun connect(uiDelegate: VpnUiDelegate, profile: Profile, triggerAction: String) {
+        val intent = prepare(appContext) // TODO: can this be appContext?
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
-            onPermissionNeeded(intent)
+            uiDelegate.askForPermissions(intent, profile) {
+                connectWithPermission(uiDelegate, profile, triggerAction)
+            }
         } else {
-            connectWithPermission(context, profile)
+            connectWithPermission(uiDelegate, profile, triggerAction)
         }
     }
 
-    private fun connectWithPermission(context: Context, profile: Profile) {
+    fun connectInBackground(profile: Profile, triggerAction: String) =
+        connect(vpnBackgroundUiDelegate, profile, triggerAction)
+
+    private fun connectWithPermission(
+        delegate: VpnUiDelegate,
+        profile: Profile,
+        triggerAction: String
+    ) {
+        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val server = profile.server
-        if (server?.online == true) {
+        val vpnUser = currentUser.vpnUserCached()
+        if (server?.online == true &&
+            (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
+        ) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
                 clearOngoingConnection()
                 ongoingConnect = scope.launch {
@@ -383,43 +408,27 @@ open class VpnConnectionManager(
                     ongoingConnect = null
                 }
             } else {
-                protocolNotSupportedDialog(context)
+                delegate.onProtocolNotSupported()
             }
         } else {
-            ongoingFallback = scope.launch {
-                onServerNotAvailable(context, profile, server)
-                ongoingFallback = null
+            val needsFallback = server == null ||
+                delegate.onServerRestricted(
+                    if (!server.online) ReasonRestricted.Maintenance
+                    else ReasonRestricted.UpgradeNeeded
+                ).not()
+            if (needsFallback) {
+                ongoingFallback = scope.launch {
+                    onServerNotAvailable(profile, server)
+                    ongoingFallback = null
+                }
             }
         }
     }
 
-    private fun protocolNotSupportedDialog(context: Context) {
-        if (context is Activity) {
-            MaterialAlertDialogBuilder(context)
-                .setMessage(R.string.serverNoWireguardSupport)
-                .setPositiveButton(R.string.close, null)
-                .show()
-        } else {
-            notificationHelper.showInformationNotification(
-                context,
-                context.getString(R.string.serverNoWireguardSupport),
-                icon = R.drawable.ic_notification_disconnected
-            )
-        }
-    }
+    open fun prepare(context: Context): Intent? = VpnService.prepare(context)
 
-    private fun showInsufficientPermissionNotification(context: Context) {
-        notificationHelper.showInformationNotification(
-            context,
-            context.getString(R.string.insufficientPermissionsDetails),
-            context.getString(R.string.insufficientPermissionsTitle),
-            icon = R.drawable.ic_notification_disconnected
-        )
-    }
-
-    protected open fun prepare(context: Context): Intent? = VpnService.prepare(context)
-
-    private suspend fun disconnectBlocking() {
+    private suspend fun disconnectBlocking(triggerAction: String) {
+        ProtonLogger.log(ConnDisconnectTrigger, "reason: $triggerAction")
         Storage.delete(ConnectionParams::class.java)
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
@@ -428,6 +437,7 @@ open class VpnConnectionManager(
     }
 
     private suspend fun disconnectForNewConnection() {
+        ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
         Storage.delete(ConnectionParams::class.java)
         // The UI relies on going through this state to properly show that a new connection is
         // being established (as opposed to reconnecting to the same server).
@@ -439,35 +449,57 @@ open class VpnConnectionManager(
         previousBackend?.disconnect()
     }
 
-    open fun disconnect() {
-        ProtonLogger.log("Manually disconnecting")
-        disconnectWithCallback()
+    open fun disconnect(triggerAction: String) {
+        disconnectWithCallback(triggerAction)
     }
 
-    suspend fun disconnectSync() {
+    suspend fun disconnectSync(triggerAction: String) {
         clearOngoingConnection()
-        disconnectBlocking()
+        disconnectBlocking(triggerAction)
     }
 
-    open fun disconnectWithCallback(afterDisconnect: (() -> Unit)? = null) {
+    open fun disconnectWithCallback(triggerAction: String, afterDisconnect: (() -> Unit)? = null) {
         clearOngoingConnection()
         scope.launch {
-            disconnectBlocking()
+            disconnectBlocking(triggerAction)
             vpnStateMonitor.onDisconnectedByUser.emit(Unit)
             afterDisconnect?.invoke()
         }
     }
 
-    fun reconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
+    fun reconnect(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection()
         if (activeBackend != null)
             activeBackend?.reconnect()
         else
-            lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+            lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
 
-    fun fullReconnect(permissionDelegate: VpnPermissionDelegate) = scope.launch {
-        disconnectBlocking()
-        lastProfile?.let { connect(permissionDelegate, it, "reconnection") }
+    fun fullReconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
+        disconnectBlocking("reconnect: $triggerAction")
+        lastProfile?.let { connect(uiDelegate, it, "reconnection") }
+    }
+
+    private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
+        VpnState.Disabled -> "Disconnected"
+        VpnState.ScanningPorts,
+        VpnState.CheckingAvailability,
+        VpnState.Connecting -> "Connecting"
+        VpnState.Connected -> "Connected"
+        VpnState.Disconnecting -> "Disconnecting"
+        is VpnState.Error -> "Disconnecting"
+        VpnState.Reconnecting -> "Connecting"
+        VpnState.WaitingForNetwork -> "Disconnected"
+    }
+
+    companion object {
+        private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
+
+        private val RECOVERABLE_ERRORS = listOf(
+            ErrorType.AUTH_FAILED_INTERNAL,
+            ErrorType.LOOKUP_FAILED_INTERNAL,
+            ErrorType.UNREACHABLE_INTERNAL,
+            ErrorType.POLICY_VIOLATION_LOW_PLAN
+        )
     }
 }

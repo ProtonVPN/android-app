@@ -20,49 +20,88 @@ package com.protonvpn.testsHelper
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.Logout
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.login.VPNInfo
+import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.TvLoginActivity
-import com.protonvpn.android.ui.home.LogoutHandler
-import com.protonvpn.android.ui.login.LoginActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.di.MockUserRepository
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.runBlocking
+import me.proton.core.account.domain.entity.Account
+import me.proton.core.account.domain.entity.AccountDetails
+import me.proton.core.account.domain.entity.AccountState
+import me.proton.core.account.domain.entity.SessionState
+import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.auth.presentation.ui.LoginActivity
+import me.proton.core.domain.entity.UserId
+import me.proton.core.network.domain.session.Session
+import me.proton.core.network.domain.session.SessionId
+import me.proton.core.user.domain.entity.Role
+import me.proton.core.user.domain.entity.User
 
 class UserDataHelper {
 
-    private lateinit var userData: UserData
-    private lateinit var logoutHandler: LogoutHandler
+    @JvmField var logoutUseCase: Logout
+    @JvmField var accountManager: AccountManager
+    @JvmField var currentUser: CurrentUser
+    @JvmField var vpnUserDao: VpnUserDao
+    @JvmField var userRepository: MockUserRepository
+    @JvmField var userData: UserData
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface UserDataHelperEntryPoint {
+        fun accountManager(): AccountManager
+        fun currentUser(): CurrentUser
+        fun vpnUserDao(): VpnUserDao
+        fun mockUserRepository(): MockUserRepository
         fun userData(): UserData
-        fun logoutHandler(): LogoutHandler
+        fun logoutUseCase(): Logout
     }
 
     init {
-        val hiltEntry = EntryPoints.get(
-            ProtonApplication.getAppContext(), UserDataHelperEntryPoint::class.java)
-        runBlocking(Dispatchers.Main.immediate) {
+        runBlocking(Main.immediate) {
+            val hiltEntry = EntryPoints.get(
+                ProtonApplication.getAppContext(), UserDataHelperEntryPoint::class.java)
+            accountManager = hiltEntry.accountManager()
+            currentUser = hiltEntry.currentUser()
+            vpnUserDao = hiltEntry.vpnUserDao()
+            userRepository = hiltEntry.mockUserRepository()
             userData = hiltEntry.userData()
-            logoutHandler = hiltEntry.logoutHandler()
+            logoutUseCase = hiltEntry.logoutUseCase()
         }
     }
 
-    fun setUserData(user: TestUser) = runBlocking(Dispatchers.Main) {
-        userData.isLoggedIn = true
-        userData.user = user.email
-        userData.vpnInfoResponse = user.vpnInfoResponse
+    fun setUserData(user: TestUser) = runBlocking(Main) {
+        val sessionId = SessionId("sessionId")
+        val userId = UserId("userId")
+        accountManager.addAccount(
+            Account(userId, user.email, user.email, AccountState.Ready, sessionId, SessionState.Authenticated,
+                AccountDetails(null, null)),
+            Session(sessionId, "accessToken", "refreshToken", emptyList()))
+
+        vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId))
+        userRepository.setMockUser(User(userId, user.email, user.email, user.email, "CHF", 0, 0,
+            1, 1, Role.NoOrganization, false, 0, 0, null,
+            emptyList()))
     }
 
-    fun setProtocol(protocol: VpnProtocol) = runBlocking(Dispatchers.Main)  {
-        userData.setProtocols(protocol, null)
+    fun setProtocol(protocol: VpnProtocol, transmission: TransmissionProtocol? = null) = runBlocking(Main) {
+        userData.setProtocols(protocol, transmission)
     }
 
     fun logoutUser() {
@@ -74,8 +113,8 @@ class UserDataHelper {
             else LoginActivity::class.java
         val monitor =
             instrumentation.addMonitor(loginActivityClass.canonicalName, null, true)
-        runBlocking(Dispatchers.Main) {
-            logoutHandler.logout(true)
+        runBlocking(Main) {
+            logoutUseCase()
         }
         // Remove the monitor so that it doesn't avoid any other tests.
         if (!instrumentation.checkMonitorHit(monitor, 1)) {
@@ -84,3 +123,6 @@ class UserDataHelper {
         }
     }
 }
+
+fun VpnUser.toVpnInfoResponse() = VpnInfoResponse(1000, VPNInfo(status, expirationTime, planName, planDisplayName, maxTier,
+    maxConnect, name, groupId, password), subscribed, services, delinquent)

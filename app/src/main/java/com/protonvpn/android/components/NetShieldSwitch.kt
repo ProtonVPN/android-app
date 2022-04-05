@@ -36,17 +36,16 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.models.config.NetShieldProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     class ReconnectDialogDelegate(
-        private val vpnPermissionDelegate: VpnPermissionDelegate,
+        private val vpnUiDelegate: VpnUiDelegate,
         private val stateMonitor: VpnStateMonitor,
         private val connectionManager: VpnConnectionManager,
     ) {
@@ -55,7 +54,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         fun reconnectIfNeeded() {
             if (needsToReconnect()) {
-                connectionManager.reconnect(vpnPermissionDelegate)
+                connectionManager.reconnect(vpnUiDelegate)
             }
         }
     }
@@ -66,6 +65,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var netshieldFreeMode: Boolean = true
     private val toggleDrawables: Array<Drawable>
     private var isInitialStateSet = false
+    private lateinit var onChangedCallback: () -> Unit
     val currentState: NetShieldProtocol
         get() {
             return if (isSwitchedOn) {
@@ -96,7 +96,10 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
     fun setNetShieldValue(newProtocol: NetShieldProtocol) {
+        // Disable the change listener to not propagate the programmatically set value back to UserData.
+        binding.switchNetshield.setOnCheckedChangeListener(null)
         onStateChange(newProtocol)
+        binding.switchNetshield.setOnCheckedChangeListener { _, _ -> onChangedCallback() }
     }
 
     private fun onStateChange(newProtocol: NetShieldProtocol) {
@@ -167,27 +170,27 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         initialValue: NetShieldProtocol,
         appConfig: AppConfig,
         lifecycleOwner: LifecycleOwner,
-        userData: UserData,
+        isFreeUser: Boolean,
         reconnectDialogDelegate: ReconnectDialogDelegate,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
             root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         })
-        netshieldFreeMode = userData.isFreeUser
+        netshieldFreeMode = isFreeUser
         onStateChange(initialValue)
         initUserTier()
 
         if (netshieldFreeMode) {
             initUserTier()
         } else {
-            val checkedChangeListener = {
+            onChangedCallback = {
                 onStateChange(currentState)
                 changeCallback(currentState)
                 reconnectDialogDelegate.reconnectIfNeeded()
             }
-            radioGroupSettings.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
-            switchNetshield.setOnCheckedChangeListener { _, _ -> checkedChangeListener.invoke() }
+            radioGroupSettings.setOnCheckedChangeListener { _, _ -> onChangedCallback.invoke() }
+            switchNetshield.setOnCheckedChangeListener { _, _ -> onChangedCallback.invoke() }
 
             val dialogInterceptor: CompoundButton.() -> Boolean = {
                 val needsNoteOnAdBlocking = when {

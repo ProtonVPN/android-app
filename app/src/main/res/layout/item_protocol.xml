@@ -17,14 +17,11 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <me.proton.core.presentation.ui.view.ProtonRadioButton
-        android:id="@+id/radioProtocol"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:paddingVertical="12dp"
-        android:textAlignment="viewStart" />
-
-</layout>
+<me.proton.core.presentation.ui.view.ProtonRadioButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radioProtocol"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+    android:paddingVertical="12dp"
+    android:textAlignment="viewStart" />

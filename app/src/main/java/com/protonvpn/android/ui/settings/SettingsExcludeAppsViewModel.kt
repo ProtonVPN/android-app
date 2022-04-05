@@ -21,6 +21,9 @@ package com.protonvpn.android.ui.settings
 
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.components.InstalledAppsProvider
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -77,7 +80,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     private val regularApps = regularAppPackages.map { packageNames ->
         loadApps(packageNames)
-    }.shareIn(viewModelScope, SharingStarted.Lazily)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private val systemAppPackages = flow {
         emit(installedAppsProvider.getInstalledInternetApps(false))
@@ -96,7 +99,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         } else {
             systemAppPackages.map { SystemAppsState.NotLoaded(it) }
         }
-    }.shareIn(viewModelScope, SharingStarted.Lazily)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     init {
         viewModelScope.launch {
@@ -149,6 +152,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     }
 
     override fun saveChanges() {
+        ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_APPS, "settings")
         userData.splitTunnelApps = selectedPackages.value.toList()
     }
 

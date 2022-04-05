@@ -18,10 +18,9 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
@@ -32,10 +31,10 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadLow" />
+        app:tint="?attr/serverLoadLow" />
 
     <TextView
-        style="@style/CaptionRegular"
+        style="@style/Proton.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -47,10 +46,10 @@
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadMedium" />
+        app:tint="?attr/serverLoadMedium" />
 
-    <TextView
-        style="@style/CaptionRegular"
+   <TextView
+        style="@style/Proton.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -62,15 +61,13 @@
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/oval"
-        app:tint="@color/serverLoadHigh" />
+        app:tint="?attr/serverLoadHigh" />
 
     <TextView
-        style="@style/CaptionRegular"
+        style="@style/Proton.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/text_weak"
         android:text="@string/server_load_high"/>
 </LinearLayout>
-
-</layout>

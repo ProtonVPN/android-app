@@ -63,11 +63,12 @@ class CountryWithFlagsView : LinearLayout {
 
     fun setCountry(markable: Markable) {
         with(binding) {
-            val isSecureCore = markable.markerEntryCountryCode != null
+            val entryCountryCode = markable.markerEntryCountryCode
+            val isSecureCore = entryCountryCode != null
             imageSCArrow.isVisible = isSecureCore
             imageEntryCountry.isVisible = isSecureCore
-            if (isSecureCore) {
-                imageEntryCountry.setFlag(markable.markerEntryCountryCode)
+            if (entryCountryCode != null) {
+                imageEntryCountry.setFlag(entryCountryCode)
             }
 
             imageExitCountry.setFlag(markable.markerCountryCode)

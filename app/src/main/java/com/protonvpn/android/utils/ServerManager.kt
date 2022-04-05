@@ -22,6 +22,8 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -39,10 +41,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
+import javax.inject.Singleton
 
+@Singleton
 class ServerManager(
     @Transient private val appContext: Context,
-    @Transient val userData: UserData
+    @Transient val userData: UserData,
+    @Transient val currentUser: CurrentUser,
 ) : Serializable, ServerDeliver {
 
     private var serverListAppVersionCode = 0
@@ -54,8 +59,9 @@ class ServerManager(
     @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
 
-    var streamingServices: StreamingServicesResponse? = null
-        private set
+    private var streamingServices: StreamingServicesResponse? = null
+    val streamingServicesModel: StreamingServicesModel?
+        get() = streamingServices?.let { StreamingServicesModel(it) }
 
     var updatedAt: DateTime? = null
         private set
@@ -78,15 +84,8 @@ class ServerManager(
 
     val isOutdated: Boolean
         get() = updatedAt == null || vpnCountries.isEmpty() ||
-                DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
-                !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE
-
-    private fun haveWireGuardSupport() =
-        vpnCountries.any { country ->
-            country.serverList.any { server ->
-                server.connectingDomains.any { it.publicKeyX25519 != null }
-            }
-        }
+            DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
+            !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE
 
     private val allServers get() =
         sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
@@ -95,7 +94,39 @@ class ServerManager(
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
 
-    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+
+    val defaultFallbackConnection = getSavedProfiles()[0]
+
+    val defaultConnection: Profile get() =
+        (userData.defaultConnection ?: getSavedProfiles().first()).also {
+            it.wrapper.setDeliverer(this)
+        }
+
+    val defaultAvailableConnection: Profile get() =
+        (listOf(userData.defaultConnection) + getSavedProfiles())
+            .filterNotNull()
+            .first {
+                it.wrapper.setDeliverer(this)
+                it.isSecureCore.implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
+            }
+
+    init {
+        val oldManager =
+            Storage.load(ServerManager::class.java)
+        if (oldManager != null) {
+            vpnCountries.addAll(oldManager.vpnCountries)
+            secureCoreExitCountries.addAll(oldManager.secureCoreExitCountries)
+            secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
+            streamingServices = oldManager.streamingServices
+            updatedAt = oldManager.updatedAt
+            serverListAppVersionCode = oldManager.serverListAppVersionCode
+        }
+        reInitProfiles()
+
+        userData.selectedProtocolLiveData.observeForever {
+            onServersUpdate()
+        }
+    }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
         filteredSecureCoreExitCountries else filteredVpnCountries
@@ -119,24 +150,6 @@ class ServerManager(
             }
         }
 
-    init {
-        val oldManager =
-                Storage.load(ServerManager::class.java)
-        if (oldManager != null) {
-            vpnCountries.addAll(oldManager.vpnCountries)
-            secureCoreExitCountries.addAll(oldManager.secureCoreExitCountries)
-            secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
-            streamingServices = oldManager.streamingServices
-            updatedAt = oldManager.updatedAt
-            serverListAppVersionCode = oldManager.serverListAppVersionCode
-        }
-        reInitProfiles()
-
-        userData.selectedProtocolLiveData.observeForever {
-            onServersUpdate()
-        }
-    }
-
     private fun onServersUpdate() {
         filterServers()
         ++serverListVersion.value
@@ -149,8 +162,8 @@ class ServerManager(
     }
 
     override fun toString() = "vpnCountries: ${vpnCountries.size} entry: ${secureCoreEntryCountries.size}" +
-            " exit: ${secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
-            "ServerManager Updated: $updatedAt "
+        " exit: ${secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
+        "ServerManager Updated: $updatedAt "
 
     // TODO Remove this logic.
     // Whole profile providing should be moved to separate class outside of ServerManager
@@ -232,23 +245,9 @@ class ServerManager(
         onServersUpdate()
     }
 
+    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+
     fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
-
-    val defaultFallbackConnection = getSavedProfiles()[0]
-
-    val defaultConnection: Profile get() =
-        (userData.defaultConnection ?: getSavedProfiles().first()).also {
-            it.wrapper.setDeliverer(this)
-        }
-
-    val defaultAvailableConnection: Profile get() =
-        (listOf(userData.defaultConnection) + getSavedProfiles())
-            .filterNotNull()
-            .first {
-                it.wrapper.setDeliverer(this)
-                it.isSecureCore.implies(userData.hasAccessToSecureCore())
-            }
-
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
@@ -261,33 +260,31 @@ class ServerManager(
     fun getBestScoreServer(secureCore: Boolean): Server? {
         val countries = getExitCountries(secureCore)
         val map = countries.asSequence()
-                .map(VpnCountry::serverList)
-                .mapNotNull(::getBestScoreServer)
-                .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minByOrNull(Server::score) }
+            .map(VpnCountry::serverList)
+            .mapNotNull(::getBestScoreServer)
+            .groupBy(::hasAccessToServer)
+            .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
     fun getBestScoreServer(serverList: List<Server>): Server? {
         val map = serverList.asSequence()
-                .filter { Server.Keyword.TOR !in it.keywords && it.online }
-                .groupBy(::hasAccessToServer)
-                .mapValues { it.value.minByOrNull(Server::score) }
+            .filter { Server.Keyword.TOR !in it.keywords && it.online }
+            .groupBy(::hasAccessToServer)
+            .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
     private fun getRandomServer(): Server? {
-        val allCountries = getExitCountries(userData.isSecureCoreEnabled)
-        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(userData) }
-        return (if (accessibleCountries.isEmpty())
-            allCountries else accessibleCountries).randomNullable()?.let(::getRandomServer)
+        val allCountries = getExitCountries(userData.secureCoreEnabled)
+        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
+        return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let(::getRandomServer)
     }
 
     private fun getRandomServer(country: VpnCountry): Server? {
         val online = country.serverList.filter(Server::online)
         val accessible = online.filter(::hasAccessToServer)
-        return (if (accessible.isEmpty())
-            online else accessible).randomNullable()
+        return accessible.ifEmpty { online }.randomNullable()
     }
 
     fun getSavedProfiles(): List<Profile> =
@@ -295,7 +292,7 @@ class ServerManager(
 
     fun deleteSavedProfiles() {
         val defaultProfiles =
-                SavedProfilesV3.defaultProfiles(appContext, this).profileList
+            SavedProfilesV3.defaultProfiles(appContext, this).profileList
         for (profile in getSavedProfiles().toList()) {
             if (profile !in defaultProfiles) {
                 deleteProfile(profile)
@@ -305,8 +302,8 @@ class ServerManager(
 
     fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
-                Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
-        newProfile.wrapper.setSecureCore(userData.isSecureCoreEnabled)
+            Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
+        newProfile.wrapper.setSecureCore(userData.secureCoreEnabled)
         addToProfileList(newProfile)
     }
 
@@ -340,7 +337,7 @@ class ServerManager(
 
     override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->
-            getBestScoreServer(userData.isSecureCoreEnabled)
+            getBestScoreServer(userData.secureCoreEnabled)
         ProfileType.RANDOM ->
             getRandomServer()
         ProfileType.RANDOM_IN_COUNTRY ->
@@ -356,7 +353,7 @@ class ServerManager(
     }
 
     override fun hasAccessToServer(server: Server): Boolean =
-        userData.hasAccessToServer(server)
+        currentUser.vpnUserCached().hasAccessToServer(server)
 
     fun setStreamingServices(value: StreamingServicesResponse) {
         streamingServices = value
@@ -369,7 +366,15 @@ class ServerManager(
             country.serverList.filter { it.online && hasAccessToServer(it) }.asSequence()
         }.sortedBy { it.score }.toList()
 
+    private fun haveWireGuardSupport() =
+        vpnCountries.any { country ->
+            country.serverList.any { server ->
+                server.connectingDomains.any { it.publicKeyX25519 != null }
+            }
+        }
+
+    @Suppress("ClassOrdering")
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
-        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(userData) }
-                ?: throw UnsupportedOperationException("Should only use this method on free tiers")
+        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
+            ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }

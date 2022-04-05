@@ -19,6 +19,7 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -35,11 +36,12 @@ class ConnectionParamsOpenVpn(
     private val port: Int
 ) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), java.io.Serializable {
 
-    override val info get() = "${super.info} $transmissionProtocol port=$port"
+    override val info get() = "${super.info} $transmissionProtocol port: $port"
     override val transmission get() = transmissionProtocol
 
     fun openVpnProfile(
         userData: UserData,
+        vpnUser: VpnUser?,
         appConfig: AppConfig
     ) = VpnProfile(server.getLabel()).apply {
         mAuthenticationType = VpnProfile.TYPE_USERPASS
@@ -48,7 +50,8 @@ class ConnectionParamsOpenVpn(
         mTLSAuthDirection = "1"
         mAuth = "SHA512"
         mCipher = "AES-256-CBC"
-        mUsername = getVpnUsername(userData, appConfig)
+        mUsername =
+            if (profile.isGuestHoleProfile() == true) "guest" else getVpnUsername(userData, vpnUser!!, appConfig)
         mUseTLSAuth = true
         mTunMtu = 1500
         mMssFix = userData.mtuSize - 40
@@ -70,7 +73,7 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-        mPassword = userData.vpnPassword
+        mPassword = if (profile.isGuestHoleProfile() == true) "guest" else vpnUser?.password
     }
 
     override fun hasSameProtocolParams(other: ConnectionParams) =

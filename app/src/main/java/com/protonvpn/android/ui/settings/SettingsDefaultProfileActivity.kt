@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.settings
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,18 +31,16 @@ import com.protonvpn.android.databinding.ItemProfileSelectionBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.utils.ServerManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsDefaultProfileActivity : BaseActivityV2() {
 
-    @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var userData: UserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,5 +100,6 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
         }
 
         override fun getLayout(): Int = R.layout.item_profile_selection
+        override fun initializeViewBinding(view: View) = ItemProfileSelectionBinding.bind(view)
     }
 }

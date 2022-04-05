@@ -119,7 +119,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
         disconnect.initLolipopButtonFocus()
         disconnect.setOnClickListener {
-            viewModel.disconnect()
+            viewModel.disconnect("country details (TV)")
         }
 
         openServerList.initLolipopButtonFocus()
@@ -131,9 +131,9 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
         val dimStreamingIcons = !viewModel.isPlusUser()
 
         val streamingServices = viewModel.streamingServices(card.vpnCountry.flag)
-        if (streamingServices.isNullOrEmpty())
+        if (streamingServices.isEmpty()) {
             streamingServicesContainer.isVisible = false
-        else {
+        } else {
             for (streamingService in streamingServices) {
                 val streamingIcon = StreamingIcon(requireContext())
                 if (dimStreamingIcons)

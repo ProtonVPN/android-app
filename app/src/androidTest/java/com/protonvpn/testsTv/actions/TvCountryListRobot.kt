@@ -25,23 +25,24 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.testsTv.matchers.UiElementMatcher
 import com.protonvpn.testsTv.verification.ConnectionVerify
-import me.proton.core.test.android.instrumented.builders.OnView
-import me.proton.core.test.android.instrumented.waits.UIWaits
 
 /**
  * [TvCountryListRobot] Contains all actions and verifications for home view
  */
 class TvCountryListRobot : BaseRobot() {
 
+    private val uiDevice: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
     fun connectToRecommendedCountry() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_recommened)
     fun disconnectFromCountry() : TvCountryListRobot = clickElementByText(R.string.disconnect)
     fun confirmSignOut() : TvLoginRobot = clickElementById(R.id.md_buttonDefaultPositive)
     fun cancelSignOut() : TvCountryListRobot = clickElementById(R.id.md_buttonDefaultNegative)
-    fun getConnectionStatus() : String = UiElementMatcher().getText(onView(withId(R.id.textStatus)))
+    fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 
     fun connectToFavouriteCountry() : TvCountryListRobot {
         pressFavourite()
@@ -51,24 +52,19 @@ class TvCountryListRobot : BaseRobot() {
     }
 
     fun openFirstCountryConnectionWindow() : TvDetailedCountryRobot {
-        view
-                .withText(R.string.tv_quick_connect_recommened)
-                .customAction(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
-                .customAction(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_CENTER))
-        return TvDetailedCountryRobot()
+        waitUntilDisplayedByText<Any>(R.string.tv_quick_connect_recommened)
+        uiDevice.pressDPadDown()
+        uiDevice.pressDPadCenter()
+        return waitUntilDisplayed(R.id.countryDescription)
     }
 
     fun signOut() : TvCountryListRobot {
-        UIWaits.performActionUntilMatcherFulfilled(
-                onView(withId(R.id.container_list)),
-                matches(isDisplayed()),
-                withText(R.string.tv_signout_label),
-                ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
-
-        view
-                .withId(R.id.container_list)
-                .customAction(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
-                .customAction(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_CENTER))
+        view.waitForCondition {
+            onView(withId(R.id.container_list)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
+            onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
+        }
+        uiDevice.pressDPadDown()
+        uiDevice.pressDPadCenter()
         return TvCountryListRobot()
     }
 

@@ -24,14 +24,16 @@ import android.content.Intent
 import android.net.VpnService
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -48,6 +50,7 @@ class ProtonCharonVpnService : CharonVpnService() {
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var currentUser: CurrentUser
 
     override fun onCreate() {
         super.onCreate()
@@ -74,18 +77,19 @@ class ProtonCharonVpnService : CharonVpnService() {
         if (intent?.action != VpnService.SERVICE_INTERFACE) {
             startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
         }
+        val user = currentUser.vpnUserCached()
         when {
             intent == null ->
                 handleRestoreState()
-            intent.action == VpnService.SERVICE_INTERFACE && userData.isLoggedIn ->
+            intent.action == VpnService.SERVICE_INTERFACE && currentUser.isLoggedInCached() ->
                 handleAlwaysOn()
             intent.action == DISCONNECT_ACTION -> {
                 Log.i("[IKEv2] disconnecting")
                 setNextProfile(null)
             }
-            else -> {
+            user != null -> {
                 val serverToConnect = Storage.load(ConnectionParams::class.java, ConnectionParamsIKEv2::class.java)
-                setNextProfile(serverToConnect?.getStrongSwanProfile(this, userData, appConfig))
+                setNextProfile(serverToConnect?.getStrongSwanProfile(this, userData, user, appConfig))
                 Log.i("[IKEv2] start next profile: " + serverToConnect?.server?.displayName)
                 return if (serverToConnect != null) {
                     START_STICKY
@@ -98,7 +102,7 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ProtonLogger.log("ProtonCharonVpnService: onTrimMemory level $level")
+        ProtonLogger.logCustom(LogCategory.APP, "ProtonCharonVpnService: onTrimMemory level $level")
     }
 
     private fun handleRestoreState() {
@@ -108,13 +112,13 @@ class ProtonCharonVpnService : CharonVpnService() {
             stopSelf()
         else {
             lastServer.profile.wrapper.setDeliverer(manager)
-            if (!vpnConnectionManager.onRestoreProcess(this, lastServer.profile))
+            if (!vpnConnectionManager.onRestoreProcess(lastServer.profile))
                 stopSelf()
         }
     }
 
     private fun handleAlwaysOn() {
         Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connectInBackground(this, manager.defaultAvailableConnection, "always-on")
+        vpnConnectionManager.connectInBackground(manager.defaultAvailableConnection, "always-on")
     }
 }

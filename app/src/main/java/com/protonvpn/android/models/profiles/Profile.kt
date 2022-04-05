@@ -22,6 +22,7 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -36,7 +37,8 @@ data class Profile @JvmOverloads constructor(
     val wrapper: ServerWrapper,
     private val colorId: Int?,
     private var protocol: String? = null,
-    private var transmissionProtocol: String? = null
+    private var transmissionProtocol: String? = null,
+    private var guestHoleConnection: Boolean? = false
 ) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
@@ -61,6 +63,12 @@ data class Profile @JvmOverloads constructor(
     else
         name
 
+    fun setGuestHole(enabled: Boolean) {
+        guestHoleConnection = enabled
+    }
+
+    fun isGuestHoleProfile() = guestHoleConnection
+
     @get:DrawableRes val profileSpecialIcon: Int? get() = when {
         wrapper.isPreBakedFastest -> R.drawable.ic_fast
         wrapper.isPreBakedRandom -> R.drawable.ic_arrows
@@ -69,6 +77,8 @@ data class Profile @JvmOverloads constructor(
 
     val isPreBakedProfile: Boolean
         get() = wrapper.isPreBakedProfile
+    val isPreBakedFastest: Boolean
+        get() = wrapper.isPreBakedFastest
 
     val server: Server? get() = wrapper.server
     val city: String? get() = wrapper.city
@@ -85,9 +95,9 @@ data class Profile @JvmOverloads constructor(
         transmissionProtocol = value
     }
 
-    fun getNetShieldProtocol(userData: UserData, appConfig: AppConfig): NetShieldProtocol {
+    fun getNetShieldProtocol(userData: UserData, vpnUser: VpnUser?, appConfig: AppConfig): NetShieldProtocol {
         return if (appConfig.getFeatureFlags().netShieldEnabled) {
-            userData.netShieldProtocol
+            userData.getNetShieldProtocol(vpnUser)
         } else {
             NetShieldProtocol.DISABLED
         }

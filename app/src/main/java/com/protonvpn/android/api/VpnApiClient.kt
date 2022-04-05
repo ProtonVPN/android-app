@@ -38,7 +38,7 @@ class VpnApiClient(
     val vpnStateMonitor: VpnStateMonitor
 ) : ApiClient {
 
-    val forceUpdateEvent = MutableSharedFlow<String>()
+    val eventForceUpdate = MutableSharedFlow<String>(replay = 1)
 
     override val appVersionHeader get() =
         "${Constants.CLIENT_ID}_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
@@ -51,7 +51,7 @@ class VpnApiClient(
 
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
-            forceUpdateEvent.emit(errorMessage)
+            eventForceUpdate.emit(errorMessage)
         }
     }
 }

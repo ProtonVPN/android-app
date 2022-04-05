@@ -18,23 +18,22 @@
 
 package com.protonvpn.testsTv.actions
 
-import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
-import com.protonvpn.data.Timeouts
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import me.proton.core.test.android.instrumented.builders.OnView
+import me.proton.core.test.android.instrumented.ui.espresso.OnView
 
 /**
  * [TvLoginRobot] Contains all actions and verifications for login view
  */
 class TvLoginRobot : BaseRobot() {
 
-    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayed(R.id.textStatus, Timeouts.MEDIUM_TIMEOUT)
+    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayedByText(R.string.recents)
     fun waitUntilLoginCodeIsDisplayed(): TvLoginRobot =
-            waitUntilDisplayedByText(R.string.tv_login_step3_description,Timeouts.MEDIUM_TIMEOUT)
+            waitUntilDisplayedByText(R.string.tv_login_step3_description)
 
     fun signIn(): TvLoginRobot {
-        waitUntilDisplayedByText<TvLoginRobot>(R.string.tv_login_welcome_button,Timeouts.MEDIUM_TIMEOUT)
+        waitUntilDisplayedByText<TvLoginRobot>(R.string.tv_login_welcome_button)
         clickElementByText<TvLoginRobot>(R.string.tv_login_welcome_button)
         return TvLoginRobot()
     }

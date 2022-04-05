@@ -20,14 +20,13 @@ package com.protonvpn.testsHelper
 
 import android.os.Handler
 import android.os.Looper
-import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.conditions.NetworkInstruction
 import com.protonvpn.test.shared.MockedServers.getProfile
 import com.protonvpn.test.shared.MockedServers.serverList
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 
 class ServiceTestHelper {
 
@@ -41,7 +40,7 @@ class ServiceTestHelper {
     @JvmField var connectionManager = helper.vpnConnectionManager
     private val mainThreadHandler = Handler(Looper.getMainLooper())
 
-    val isSecureCoreEnabled get() = userData.isSecureCoreEnabled
+    val isSecureCoreEnabled get() = userData.secureCoreEnabled
 
     fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String): Profile {
         var server: Server? = null
@@ -61,39 +60,19 @@ class ServiceTestHelper {
     fun deleteCreatedProfiles() {
         mainThreadHandler.post {
             serverManager.deleteSavedProfiles()
-            userData.setDefaultConnection(null)
+            userData.defaultConnection = null
         }
-    }
-
-    fun getExpiredTrialUserNotification(activity: HomeActivity) {
-        mainThreadHandler.post { activity.showExpiredDialog() }
     }
 
     fun checkIfConnectedToVPN() {
-        try {
-            ConditionWatcher.waitForCondition(object : NetworkInstruction() {
-                override fun checkCondition(): Boolean {
-                    return stateMonitor.isConnected
-                }
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        assertTrue("User was not connected to VPN", stateMonitor.isConnected)
     }
 
     fun enableSecureCore(state: Boolean) {
-        mainThreadHandler.postDelayed({ userData.isSecureCoreEnabled = state }, 100)
+        mainThreadHandler.postDelayed({ userData.secureCoreEnabled = state }, 100)
     }
 
     fun checkIfDisconnectedFromVPN() {
-        try {
-            ConditionWatcher.waitForCondition(object : NetworkInstruction() {
-                override fun checkCondition(): Boolean {
-                    return !stateMonitor.isConnected
-                }
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        assertFalse("User was not disconnected from VPN", stateMonitor.isConnected)
     }
 }

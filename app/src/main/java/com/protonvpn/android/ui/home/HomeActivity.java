@@ -22,8 +22,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Patterns;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,9 +35,9 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
-import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.protonvpn.android.BuildConfig;
 import com.protonvpn.android.R;
+import com.protonvpn.android.auth.usecase.CurrentUserKt;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.ConnectedToServer;
@@ -51,32 +49,37 @@ import com.protonvpn.android.components.MinimizedNetworkLayout;
 import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.components.ProtonActionMenu;
 import com.protonvpn.android.components.ReversedList;
-import com.protonvpn.android.components.SecureCoreCallback;
 import com.protonvpn.android.components.SwitchEx;
 import com.protonvpn.android.components.ViewPagerAdapter;
+import com.protonvpn.android.logging.LogCategory;
+import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.LogExtensionsKt;
+import com.protonvpn.android.logging.ProtonLogger;
+import com.protonvpn.android.models.config.Setting;
 import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.CommonDialogsKt;
 import com.protonvpn.android.ui.drawer.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
-import com.protonvpn.android.ui.drawer.ReportBugActivity;
-import com.protonvpn.android.ui.settings.SettingsActivity;
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
 import com.protonvpn.android.ui.home.map.MapFragment;
 import com.protonvpn.android.ui.home.profiles.HomeViewModel;
 import com.protonvpn.android.ui.home.profiles.ProfilesFragment;
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
+import com.protonvpn.android.ui.home.vpn.VpnActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
-import com.protonvpn.android.ui.login.LoginActivity;
+import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.TooltipManager;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
+import com.protonvpn.android.ui.settings.SettingsActivity;
 import com.protonvpn.android.utils.AnimationTools;
+import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
-import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.UserPlanManager;
@@ -91,7 +94,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import androidx.annotation.AttrRes;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -108,17 +111,14 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
-import io.sentry.Sentry;
-import io.sentry.event.UserBuilder;
+
 import kotlin.Unit;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 @AndroidEntryPoint
 @ContentLayout(R.layout.activity_home)
-public class HomeActivity extends PoolingActivity implements SecureCoreCallback {
-
-    private static final String PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG = "PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG";
+public class HomeActivity extends VpnActivity {
 
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.tabs) TabLayout tabs;
@@ -130,18 +130,23 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @BindView(R.id.textVersion) TextView textVersion;
     @BindView(R.id.minimizedLoader) MinimizedNetworkLayout minimizedLoader;
     @BindView(R.id.imageNotification) ImageView imageNotification;
+    @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
 
     VpnStateFragment fragment;
-    public @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
     @Inject VpnStateMonitor vpnStateMonitor;
     @Inject ServerListUpdater serverListUpdater;
-    @Inject LogoutHandler logoutHandler;
     @Inject NotificationHelper notificationHelper;
+
     private HomeViewModel viewModel;
 
     private final TooltipManager tooltipManager = new TooltipManager(this);
+
+    private final ActivityResultLauncher<Unit> secureCoreSpeedInfoDialog =
+            registerForActivityResult(
+                    SecureCoreSpeedInfoActivity.createContract(),
+                    this::onSecureCoreSpeedInfoDialogResult);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,8 +163,6 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
         initSecureCoreSwitch();
         initSnackbarHelper();
-        Sentry.getContext().setUser(new UserBuilder().setUsername(userData.getUser()).build());
-        checkForUpdate();
         if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
             initLayout();
         }
@@ -170,10 +173,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             initOnboarding();
         }
 
+        checkForOnboarding();
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
+            checkForOnboarding();
             if (canShowPopups()) {
                 initOnboarding();
-                EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
+                notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
+                EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
             }
             else {
                 initLayout();
@@ -182,10 +188,10 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
         serverManager.getProfilesLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
-        logoutHandler.getLogoutEvent().observe(this, () -> {
+        viewModel.getLogoutEvent().observe(this, account -> {
+            // Result CANCELLED will close MobileMainActivity
+            setResult(RESULT_OK);
             finish();
-            navigateTo(LoginActivity.class);
-            return Unit.INSTANCE;
         });
 
         viewModel.collectPlanChange(this, changes -> {
@@ -196,6 +202,13 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
         serverListUpdater.startSchedule(getLifecycle(), this);
+    }
+
+    private void checkForOnboarding() {
+        viewModel.handleUserOnboarding(() -> {
+            navigateTo(OnboardingActivity.class);
+            return Unit.INSTANCE;
+        });
     }
 
     @Override
@@ -215,12 +228,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        ProtonLogger.INSTANCE.log("HomeActivity: onTrimMemory level " + level);
-    }
-
-    private void checkForUpdate() {
-        int versionCode = Storage.getInt("VERSION_CODE");
-        Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
+        ProtonLogger.INSTANCE.logCustom(LogCategory.APP, "HomeActivity: onTrimMemory level " + level);
     }
 
     public boolean isBottomSheetExpanded() {
@@ -235,30 +243,33 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initSecureCoreSwitch() {
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
-            if (!switchView.isChecked() && !userData.hasAccessToSecureCore()) {
+            if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 showSecureCoreUpgradeDialog();
-                return true;
-            } else if (vpnStateMonitor.isConnected()
-                && vpnStateMonitor.isConnectingToSecureCore() == switchView.isChecked()) {
-                CommonDialogsKt.showGenericReconnectDialog(
-                    getContext(),
-                    R.string.settingsReconnectToChangeDialogContent,
-                    PREF_SHOW_SECURE_CORE_SWITCH_RECONNECT_DIALOG,
-                    () -> {
-                        switchView.toggle();
-                        postSecureCoreSwitched(switchView);
-                        viewModel.reconnectToSameCountry(newProfile -> {
-                            onConnect(newProfile, "Secure Core switch");
-                            return Unit.INSTANCE;
-                        });
-                        return Unit.INSTANCE;
-                    });
-                return true;
+            } else if (!switchView.isChecked()) {
+                secureCoreSpeedInfoDialog.launch(Unit.INSTANCE);
+            } else {
+                toggleSecureCore();
             }
-            return false;
+            return true;
         });
+    }
+
+    private void toggleSecureCore() {
+        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
+        if (vpnStateMonitor.isConnected()
+                && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
+            switchSecureCore.toggle();
+            postSecureCoreSwitched(switchSecureCore);
+            viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
+                onConnect(newProfile, "Secure Core switch");
+                return Unit.INSTANCE;
+            });
+        } else {
+            switchSecureCore.toggle();
+            postSecureCoreSwitched(switchSecureCore);
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -271,29 +282,33 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         viewPager.setAdapter(adapter);
 
         tabs.setupWithViewPager(viewPager);
-        RxTabLayout.selectionEvents(tabs)
-            .subscribe(tabLayoutSelectionEvent -> fragment.collapseBottomSheet());
-        RxTabLayout.selections(tabs).subscribe(tab -> {
-            if (tab.isSelected()) {
-                View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
-                if (getString(R.string.tabsMap).equals(tab.getText().toString())
-                    && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
-                        getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                fragment.collapseBottomSheet();
+                if (tab.isSelected()) {
+                    View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
+                    if (getString(R.string.tabsMap).equals(tab.getText().toString())
+                            && !isBottomSheetExpanded()) {
+                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
+                                getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
+                    }
+                    if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
+                            && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
+                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
+                                getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
+                                OnboardingPreferences.PROFILES_DIALOG);
+                    }
                 }
-                if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
-                    && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                        getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
-                        OnboardingPreferences.PROFILES_DIALOG);
-                }
-                if (getString(R.string.tabsCountries).equals(tab.getText().toString())
-                    && OnboardingPreferences.wasFloatingButtonUsed() && !vpnStateMonitor.isConnected()
-                    && !isBottomSheetExpanded()) {
-                    OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                        getString(R.string.tabsCountries), getString(R.string.onboardingListDescription),
-                        OnboardingPreferences.COUNTRY_DIALOG);
-                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                fragment.collapseBottomSheet();
             }
         });
 
@@ -318,14 +333,15 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     }
 
     private void initDrawerView() {
-        String userName = userData.getUser();
-        textUser.setText(userName);
-        textUserInitials.setText(getInitials(userName));
-        String userEmail = Patterns.EMAIL_ADDRESS.matcher(userName).matches()
-            ? userName
-            : userName + "@protonmail.com";
-        textUserEmail.setText(userEmail);
         textVersion.setText(getString(R.string.drawerAppVersion, BuildConfig.VERSION_NAME));
+        viewModel.getUserLiveData().observe(this, (user) -> {
+            if (user != null) {
+                String userName = CurrentUserKt.uiName(user);
+                textUser.setText(userName);
+                textUserInitials.setText(getInitials(userName));
+                textUserEmail.setText(user.getEmail());
+            }
+        });
     }
 
     private void initSnackbarHelper() {
@@ -360,7 +376,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @OnClick(R.id.drawerButtonReportBug)
     public void drawerButtonReportBug() {
         closeDrawer();
-        navigateTo(ReportBugActivity.class);
+        navigateTo(DynamicReportActivity.class);
     }
 
     @OnClick(R.id.drawerButtonAccount)
@@ -380,12 +396,12 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
             new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.logoutConfirmDialogTitle)
                 .setMessage(R.string.logoutConfirmDialogMessage)
-                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> logoutHandler.logout(false))
+                .setPositiveButton(R.string.logoutConfirmDialogButton, (dialog, which) -> viewModel.logout())
                 .setNegativeButton(R.string.cancel, null)
                 .show();
         }
         else {
-            logoutHandler.logout(false);
+            viewModel.logout();
         }
     }
 
@@ -401,21 +417,26 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Subscribe
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
-            vpnConnectionManager.disconnect();
-        }
-        else {
+            disconnect(connectTo.getUiElement());
+        } else {
             Server server = connectTo.getServer();
-            onConnect(Profile.Companion.getTempProfile(server, serverManager));
+            onConnect(connectTo.getUiElement(), Profile.getTempProfile(server, serverManager));
         }
     }
 
     @Subscribe
-    public void onConnectToProfile(@NotNull ConnectToProfile profile) {
-        if (profile.getProfile() == null) {
-            vpnConnectionManager.disconnect();
+    public void onConnectToProfile(@NotNull ConnectToProfile event) {
+        if (event.getProfile() == null) {
+            disconnect(event.getUiElement());
         } else {
-            onConnect(profile.getProfile());
+            onConnect(event.getUiElement(), event.getProfile());
         }
+    }
+
+    @Override
+    protected Unit retryConnection(@NonNull Profile profile) {
+        onConnect(profile, "retry after missing vpn permission");
+        return Unit.INSTANCE;
     }
 
     private void initQuickConnectFab() {
@@ -431,7 +452,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 if (!vpnStateMonitor.isConnected()) {
                     connectToDefaultProfile();
                 } else {
-                    vpnConnectionManager.disconnect();
+                    disconnect("quick connect");
                     fragment.collapseBottomSheet();
                 }
 
@@ -480,7 +501,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 profile.getDisplayName(getContext()),
                 profile.getProfileSpecialIcon() != null ? profile.getProfileSpecialIcon() : R.drawable.ic_profile_custom_fab,
                 v -> {
-                    onConnectToProfile(new ConnectToProfile(profile));
+                    onConnectToProfile(new ConnectToProfile("quick connect menu", profile));
                     fabQuickConnect.close(true);
                 });
         }
@@ -493,7 +514,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
                 getString(R.string.disconnect),
                 R.drawable.ic_power_off,
                 v -> {
-                    vpnConnectionManager.disconnect();
+                    disconnect("quick connect menu");
                     fabQuickConnect.close(true);
                 });
         } else {
@@ -540,7 +561,7 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     private void connectToDefaultProfile() {
         Profile profile = serverManager.getDefaultConnection();
-        onConnectToProfile(new ConnectToProfile(profile));
+        onConnectToProfile(new ConnectToProfile("quick connect", profile));
     }
 
     private void updateFabColors(@NonNull FloatingActionMenu fab, boolean accented) {
@@ -559,22 +580,16 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
 
     @OnCheckedChanged(R.id.switchSecureCore)
     public void switchSecureCore(final SwitchCompat switchCompat, final boolean isChecked) {
+        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         postSecureCoreSwitched(switchCompat);
     }
 
     private void onPlanChanged(UserPlanManager.InfoChange.PlanChange change) {
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
-        if (change == UserPlanManager.InfoChange.PlanChange.TrialEnded.INSTANCE)
-            showExpiredDialog();
-        initDrawerView();
-        EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
+        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
     }
 
     private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
-        OnboardingDialogs.showDialogOnView(tooltipManager, switchCompat, switchCompat,
-            getString(R.string.onboardingDialogSecureCoreTitle),
-            getString(R.string.onboardingDialogSecureCoreDescription),
-            OnboardingPreferences.SECURECORE_DIALOG);
         userData.setSecureCoreEnabled(switchCompat.isChecked());
         EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
     }
@@ -594,8 +609,8 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
         if (server.getServer() != null) {
             userData.setSecureCoreEnabled(server.getServer().isSecureCoreServer());
         }
-        EventBus.post(new VpnStateChanged(userData.isSecureCoreEnabled()));
-        switchSecureCore.setChecked(userData.isSecureCoreEnabled());
+        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
+        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         initQuickConnectFab();
     }
 
@@ -634,38 +649,20 @@ public class HomeActivity extends PoolingActivity implements SecureCoreCallback 
     @Override
     public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
         boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
-        boolean secureCoreOn = userData.isSecureCoreEnabled();
-        if (secureCoreServer && !userData.hasAccessToSecureCore()) {
+        if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
             showSecureCoreUpgradeDialog();
-        } else if (secureCoreServer != secureCoreOn) {
-            showSecureCoreChangeDialog(profile, connectionCauseLog);
         } else {
             super.onConnect(profile, connectionCauseLog);
         }
     }
 
-    private void showSecureCoreChangeDialog(
-            @NonNull Profile profileToConnect, @NonNull String connectionCauseLog) {
-        String disconnect =
-            vpnStateMonitor.isConnected() ? getString(R.string.currentConnectionWillBeLost) : "";
-        boolean isSecureCoreServer = profileToConnect.isSecureCore();
-        new MaterialAlertDialogBuilder(this)
-            .setTitle(isSecureCoreServer ? R.string.secureCoreSwitchOnTitle : R.string.secureCoreSwitchOffTitle)
-            .setMessage(
-                getString(isSecureCoreServer ? R.string.secureCoreSwitchOn : R.string.secureCoreSwitchOff,
-                    disconnect))
-            .setCancelable(false)
-            .setPositiveButton(R.string.secureCoreSwitchConnect,
-                (dialog, which) -> super.onConnect(profileToConnect, connectionCauseLog))
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+    private void disconnect(@NonNull String uiElement) {
+        ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, uiElement);
+        vpnConnectionManager.disconnect("user via " + uiElement);
     }
 
-    @ColorRes
-    private int getThemeColorId(@NonNull View view, @AttrRes int attr) {
-        TypedValue value = new TypedValue();
-        view.getContext().getTheme().resolveAttribute(attr, value, true);
-        return value.resourceId;
+    private void onSecureCoreSpeedInfoDialogResult(boolean activateSc) {
+        if (activateSc) toggleSecureCore();
     }
 
     @NonNull

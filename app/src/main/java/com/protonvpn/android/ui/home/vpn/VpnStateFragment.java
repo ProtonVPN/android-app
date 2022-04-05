@@ -253,6 +253,11 @@ public class VpnStateFragment extends BaseFragment {
         if (bottomSheetBehavior != null) {
             bottomSheetBehavior.setState(
                 expand ? BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
+            if (!layoutBottomSheet.isLaidOut() && fab != null) {
+                // The BottomSheetCallback will not be called until layout is done, set FAB
+                // visibility directly.
+                fab.setVisibility(expand ? View.GONE : View.VISIBLE);
+            }
         }
     }
 
@@ -325,7 +330,10 @@ public class VpnStateFragment extends BaseFragment {
             .setTitle(R.string.dialogTitleAttention)
             .setMessage(message)
             .setCancelable(false)
-            .setNegativeButton(R.string.close, (dialog, which) -> vpnConnectionManager.disconnect())
+            .setNegativeButton(
+                    R.string.close,
+                    (dialog, which) -> vpnConnectionManager.disconnect("user via auth error dialog")
+            )
             .show();
     }
 

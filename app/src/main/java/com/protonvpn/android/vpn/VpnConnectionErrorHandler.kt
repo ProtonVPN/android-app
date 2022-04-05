@@ -19,9 +19,15 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnServerSwitchFailed
+import com.protonvpn.android.logging.ConnServerSwitchServerSelected
+import com.protonvpn.android.logging.ConnServerSwitchTrigger
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -29,59 +35,62 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
-import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
-import io.sentry.event.EventBuilder
+import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
+import java.io.Serializable
 
-sealed class SwitchServerReason : java.io.Serializable {
+sealed class SwitchServerReason : Serializable {
 
     data class Downgrade(val fromTier: String, val toTier: String) : SwitchServerReason()
-    object TrialEnded : SwitchServerReason()
     object UserBecameDelinquent : SwitchServerReason()
     object ServerInMaintenance : SwitchServerReason()
     object ServerUnreachable : SwitchServerReason()
     object ServerUnavailable : SwitchServerReason()
     object UnknownAuthFailure : SwitchServerReason()
+
+    // Used in logging, provides readable names for the objects.
+    override fun toString() = this::class.java.simpleName
 }
 
-sealed class VpnFallbackResult : java.io.Serializable {
+sealed class VpnFallbackResult : Serializable {
 
-    sealed class Switch() : VpnFallbackResult() {
+    sealed class Switch : VpnFallbackResult() {
 
-        // null means change should be transparent for the user (no notification)
         abstract val log: String
-        abstract val notificationReason: SwitchServerReason?
+        abstract val reason: SwitchServerReason?
+        abstract val notifyUser: Boolean
         abstract val fromServer: Server?
         abstract val toProfile: Profile
 
         data class SwitchProfile(
             override val fromServer: Server?,
             override val toProfile: Profile,
-            override val notificationReason: SwitchServerReason? = null,
+            override val reason: SwitchServerReason? = null,
         ) : Switch() {
-            override val log get() = "SwitchProfile ${toProfile.name} reason=$notificationReason"
+            override val notifyUser = reason != null
+            override val log get() = "SwitchProfile ${toProfile.name} reason: $reason"
         }
 
         data class SwitchServer(
             override val fromServer: Server?,
             override val toProfile: Profile,
             val preparedConnection: PrepareResult,
-            override val notificationReason: SwitchServerReason?,
+            override val reason: SwitchServerReason,
             val compatibleProtocol: Boolean,
             val switchedSecureCore: Boolean,
+            override val notifyUser: Boolean
         ) : Switch() {
             override val log get() = "SwitchServer ${preparedConnection.connectionParams.info} " +
-                "reason=$notificationReason compatibleProtocol=$compatibleProtocol"
+                "reason: $reason compatibleProtocol: $compatibleProtocol"
         }
     }
 
@@ -92,7 +101,6 @@ data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDo
 
 class VpnConnectionErrorHandler(
     scope: CoroutineScope,
-    private val appContext: Context,
     private val api: ProtonApiRetroFit,
     private val appConfig: AppConfig,
     private val userData: UserData,
@@ -100,9 +108,10 @@ class VpnConnectionErrorHandler(
     private val serverManager: ServerManager,
     private val stateMonitor: VpnStateMonitor,
     private val serverListUpdater: ServerListUpdater,
-    private val errorUIManager: VpnErrorUIManager,
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: VpnBackendProvider,
+    private val currentUser: CurrentUser,
+    @Suppress("unused") errorUIManager: VpnErrorUIManager // Forces creation of a VpnErrorUiManager instance.
 ) {
     private var handlingAuthError = false
 
@@ -126,12 +135,6 @@ class VpnConnectionErrorHandler(
         changes: List<UserPlanManager.InfoChange>
     ): VpnFallbackResult.Switch? {
         for (change in changes) when (change) {
-            PlanChange.TrialEnded ->
-                return VpnFallbackResult.Switch.SwitchProfile(
-                    currentServer,
-                    serverManager.defaultFallbackConnection,
-                    SwitchServerReason.TrialEnded
-                )
             is PlanChange.Downgrade -> {
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,
@@ -180,12 +183,13 @@ class VpnConnectionErrorHandler(
         reason: SwitchServerReason
     ): VpnFallbackResult.Switch? {
         if (!smartReconnectEnabled) {
-            ProtonLogger.log("Smart Reconnect disabled")
+            ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Smart Reconnect disabled")
             return null
         }
 
+        ProtonLogger.log(ConnServerSwitchTrigger, "reason: $reason")
         if (!networkManager.isConnectedToNetwork()) {
-            ProtonLogger.log("No internet: aborting fallback")
+            ProtonLogger.log(ConnServerSwitchFailed, "No internet: aborting fallback")
             return null
         }
 
@@ -193,11 +197,14 @@ class VpnConnectionErrorHandler(
         val candidates = getCandidateServers(orgProfile, orgPhysicalServer, includeOriginalServer)
 
         candidates.forEach {
-            ProtonLogger.log("Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}")
+            ProtonLogger.logCustom(
+                LogCategory.CONN_SERVER_SWITCH,
+                "Fallback server: ${it.connectingDomain.entryDomain} city=${it.server.city}"
+            )
         }
 
         val pingResult = vpnBackendProvider.pingAll(candidates, orgPhysicalServer) ?: run {
-            ProtonLogger.log("No server responded")
+            ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }
 
@@ -206,22 +213,27 @@ class VpnConnectionErrorHandler(
             pingResult.physicalServer == orgPhysicalServer &&
             pingResult.responses.any { it.connectionParams.hasSameProtocolParams(orgParams) }
         ) {
-            ProtonLogger.log("Got response for current connection - don't switch VPN server")
+            ProtonLogger.log(
+                ConnServerSwitchServerSelected,
+                "Got response for current connection - don't switch VPN server"
+            )
             return null
         }
 
         val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProfile)
         val score = getServerScore(pingResult.physicalServer.server, orgProfile)
-        val secureCoreExpected = orgProfile.isSecureCore || userData.isSecureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
         val switchedSecureCore = secureCoreExpected && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
 
+        ProtonLogger.log(ConnServerSwitchServerSelected, pingResult.profile.toLog(userData))
         return VpnFallbackResult.Switch.SwitchServer(
             orgParams?.server,
             pingResult.profile,
             expectedProtocolConnection ?: pingResult.responses.first(),
-            if (isCompatible) null else reason,
+            reason,
+            notifyUser = !isCompatible,
             compatibleProtocol = expectedProtocolConnection != null,
             switchedSecureCore = switchedSecureCore
         )
@@ -258,14 +270,14 @@ class VpnConnectionErrorHandler(
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
-        val secureCoreExpected = orgProfile.isSecureCore || userData.isSecureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
         val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected)
         val scoredServers = sortServersByScore(onlineServers, orgProfile).run {
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    it.onlineConnectingDomains.any {
-                        domain -> domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
+                    it.onlineConnectingDomains.any { domain ->
+                        domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
                     }
                 }
             } else
@@ -326,14 +338,14 @@ class VpnConnectionErrorHandler(
         if (orgProfile.city.isNullOrBlank() || orgProfile.city == server.city)
             score += 1 shl CompatibilityAspect.City.ordinal
 
-        if (userData.userTier == server.tier)
+        if (currentUser.vpnUserCached()?.userTier == server.tier)
             // Prefer servers from user tier
             score += 1 shl CompatibilityAspect.Tier.ordinal
 
         if (orgProfile.directServer == null || server.features == orgProfile.directServer?.features)
             score += 1 shl CompatibilityAspect.Features.ordinal
 
-        val secureCoreExpected = orgProfile.isSecureCore || userData.isSecureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
         if (!secureCoreExpected || server.isSecureCoreServer)
             score += 1 shl CompatibilityAspect.SecureCore.ordinal
 
@@ -361,9 +373,9 @@ class VpnConnectionErrorHandler(
                     // Now that credentials are refreshed we can try reconnecting.
                     return VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, connectionParams.profile)
 
-                val vpnInfo = requireNotNull(userData.vpnInfoResponse)
+                val maxSessions = requireNotNull(currentUser.vpnUser()?.maxConnect)
                 val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-                if (vpnInfo.maxSessionCount <= sessionCount)
+                if (maxSessions <= sessionCount)
                     return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
             }
 
@@ -382,23 +394,25 @@ class VpnConnectionErrorHandler(
         if (!appConfig.isMaintenanceTrackerEnabled())
             return null
 
-        ProtonLogger.log("Checking if server is not in maintenance")
+        ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Checking if server is not in maintenance")
         val domainId = connectionParams.connectingDomain?.id ?: return null
         val result = api.getConnectingDomain(domainId)
         if (result is ApiResult.Success) {
             val connectingDomain = result.value.connectingDomain
             if (!connectingDomain.isOnline) {
-                ProtonLogger.log("Current server is in maintenance (${connectingDomain.entryDomain})")
+                ProtonLogger.logCustom(
+                    LogCategory.CONN_SERVER_SWITCH,
+                    "Current server is in maintenance (${connectingDomain.entryDomain})"
+                )
                 serverManager.updateServerDomainStatus(connectingDomain)
                 serverListUpdater.updateServerList()
-                val sentryEvent = EventBuilder()
-                    .withMessage("Maintenance detected")
-                    .withExtra("Server", result.value.connectingDomain.entryDomain)
-                    .build()
-                ProtonLogger.logSentryEvent(sentryEvent)
                 return if (smartReconnectEnabled) {
                     onServerInMaintenance(connectionParams.profile, connectionParams)
                 } else {
+                    ProtonLogger.log(
+                        ConnServerSwitchServerSelected,
+                        "Smart reconnect disabled, fall back to default connection"
+                    )
                     VpnFallbackResult.Switch.SwitchProfile(
                         connectionParams.server,
                         serverManager.defaultFallbackConnection

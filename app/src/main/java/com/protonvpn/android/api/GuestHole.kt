@@ -18,58 +18,68 @@
  */
 package com.protonvpn.android.api
 
+import androidx.activity.ComponentActivity
+import com.protonvpn.android.R
+import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.components.suspendForPermissions
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnUiDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.builtins.ListSerializer
+import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.serverconnection.ApiConnectionListener
+import me.proton.core.util.kotlin.DispatcherProvider
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 
-class GuestHole(
+@Singleton
+class GuestHole @Inject constructor(
     private val scope: CoroutineScope,
-    private val serverManager: ServerManager,
+    private val dispatcherProvider: DispatcherProvider,
+    private val serverManager: dagger.Lazy<ServerManager>,
     private val vpnMonitor: VpnStateMonitor,
-    private val vpnConnectionManager: VpnConnectionManager,
-) {
+    private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
+    private val notificationHelper: NotificationHelper,
+    private val foregroundActivityTracker: ForegroundActivityTracker
+) : ApiConnectionListener {
 
-    suspend fun <T> call(
-        vpnPermissionDelegate: VpnPermissionDelegate,
-        block: suspend () -> T
-    ): T? {
-        var result: T? = null
-        try {
-            getGuestHoleServers().any { server ->
-                executeConnected(vpnPermissionDelegate, server) {
-                    result = block()
-                }
-            }
-        } finally {
-            if (!vpnMonitor.isDisabled)
-                vpnConnectionManager.disconnectSync()
-        }
-        return result
-    }
+    private var lastGuestHoleServer: Server? = null
+    var isInLoginProcess: Boolean = false
 
     private fun getGuestHoleServers(): List<Server> {
-        val servers = FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
+        lastGuestHoleServer?.let {
+            return arrayListOf(it)
+        }
+
+        val servers =
+            FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
         val shuffledServers = servers.shuffled().take(GUEST_HOLE_SERVER_COUNT)
-        serverManager.setGuestHoleServers(shuffledServers)
+        serverManager.get().setGuestHoleServers(shuffledServers)
         return shuffledServers
     }
 
     private suspend fun <T> executeConnected(
-        vpnPermissionDelegate: VpnPermissionDelegate,
+        vpnUiDelegate: VpnUiDelegate,
         server: Server,
         block: suspend () -> T
     ): Boolean {
@@ -78,12 +88,12 @@ class GuestHole(
             val vpnStatus = vpnMonitor.status
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 suspendCancellableCoroutine<Boolean> { continuation ->
-                    val profile = Profile.getTempProfile(server, serverManager).apply {
-                        // Using OpenVPN instead of Smart due to memory corruption bug on native level
-                        // with gosrp and Strongswan
-                        setProtocol(VpnProtocol.OpenVPN)
-                    }
-                    vpnConnectionManager.connect(vpnPermissionDelegate, profile, "Guest hole")
+                    val profile = Profile.getTempProfile(server, serverManager.get())
+                        .apply {
+                            setProtocol(VpnProtocol.OpenVPN)
+                            setGuestHole(true)
+                        }
+                    vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
                     val observerJob = scope.launch {
                         vpnStatus.collect { newState ->
                             if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {
@@ -104,9 +114,110 @@ class GuestHole(
         return connected
     }
 
+    override suspend fun <T> onPotentiallyBlocked(
+        path: String?,
+        query: String?,
+        backendCall: suspend () -> ApiResult<T>
+    ): ApiResult<T>? {
+        logMessage("Guesthole for call: $path with query: $query")
+
+        // Do not execute guesthole for calls running in background, due to inability to call permission intent
+        val currentActivity = foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return null
+
+        if (!isEligibleForGuestHole(path, query)) {
+            logMessage("Guesthole not available for this call: $path")
+            return null
+        }
+        val delegate = GuestHoleVpnUiDelegate(currentActivity)
+        val intent = vpnConnectionManager.get().prepare(currentActivity)
+
+        // Ask for permissions and if granted execute original method and return it back to core
+        return if (currentActivity.suspendForPermissions(intent)) {
+            withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
+                return@withTimeoutOrNull unblockCall(path, delegate, backendCall)
+            }
+        }
+        else null
+    }
+
+    private suspend fun <T> unblockCall(
+        path: String?,
+        delegate: VpnUiActivityDelegate,
+        backendCall: suspend () -> ApiResult<T>
+    ): ApiResult<T>? {
+        var result: ApiResult<T>? = null
+        try {
+            notificationHelper.showInformationNotification(
+                R.string.guestHoleNotificationContent,
+                notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
+            )
+            logMessage("Establishing hole for call: $path")
+            getGuestHoleServers().any { server ->
+                executeConnected(delegate, server) {
+                    // Add slight delay before retrying original call to avoid network timeout right after connection
+                    delay(500)
+                    lastGuestHoleServer = server
+                    result = backendCall()
+                    logMessage("Guesthole succesful for call: $path")
+                    logMessage("Guesthole result: ${result?.valueOrNull.toString()}")
+                }
+            }
+        } finally {
+            if (!vpnMonitor.isDisabled) {
+                withContext(dispatcherProvider.Main) {
+                    vpnConnectionManager.get().disconnectSync("guest hole call completed")
+                }
+            }
+        }
+        return result
+    }
+
+    private suspend fun isEligibleForGuestHole(path: String?, query: String?): Boolean {
+        // Only trigger guesthole for server list if it hasn't been downloaded before
+        if (path == ONE_TIME_LOGICAL_CALL && !serverManager.get().isDownloadedAtLeastOnce) return true
+
+        // Do not run guesthole calls if user is already logged in
+        return CORE_GUESTHOLE_CALLS.contains(path) && isInLoginProcess
+    }
+
+    private fun logMessage(message: String) {
+        ProtonLogger.logCustom(LogCategory.CONN_GUEST_HOLE, message)
+    }
+
     companion object {
+
         private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_TIMEOUT = 10_000L
+        private const val GUEST_HOLE_ATTEMPT_TIMEOUT = 50_000L
         private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
+
+        private const val ONE_TIME_LOGICAL_CALL = "/vpn/logicals"
+        private const val ONE_TIME_VPN_CALL = "/vpn"
+
+        private val CORE_GUESTHOLE_CALLS = listOf(
+            "/auth/info",
+            "/auth/modulus",
+            "/auth/scopes",
+            "/auth",
+            "/auth/2fa",
+            "/addresses",
+            "/addresses/setup",
+            "/users",
+            "/v4/users",
+            "/keys/salts",
+
+            // VPN specific calls
+
+            ONE_TIME_VPN_CALL,
+            ONE_TIME_LOGICAL_CALL
+        )
     }
+}
+
+class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {
+    override fun onPermissionDenied(profile: Profile) {}
+    override fun showPlusUpgradeDialog() {}
+    override fun showMaintenanceDialog() {}
+    override fun shouldSkipAccessRestrictions() = true
+    override fun onProtocolNotSupported() {}
 }

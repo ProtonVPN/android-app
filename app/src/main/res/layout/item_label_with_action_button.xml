@@ -16,44 +16,42 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textLabel"
+            style="@style/Proton.Text.Default"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginVertical="18dp"
+            android:layout_weight="1"
+            android:drawablePadding="12dp"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            tools:text="10.0.0.1" />
 
-            <TextView
-                android:id="@+id/textLabel"
-                style="@style/Proton.Text.Default"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="18dp"
-                android:layout_weight="1"
-                android:drawablePadding="12dp"
-                android:ellipsize="end"
-                android:gravity="start|center_vertical"
-                android:maxLines="1"
-                android:textAlignment="viewStart"
-                tools:text="10.0.0.1" />
+        <ImageButton
+            android:id="@+id/buttonAction"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/round_selectable_item_bg" />
 
-            <ImageButton
-                android:id="@+id/buttonAction"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/round_selectable_item_bg" />
-
-        </LinearLayout>
-
-        <View style="@style/Divider.Small" />
     </LinearLayout>
 
-</layout>
+    <View style="@style/Divider.Small" />
+</LinearLayout>

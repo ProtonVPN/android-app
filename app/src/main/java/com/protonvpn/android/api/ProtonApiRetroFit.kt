@@ -32,15 +32,18 @@ import com.protonvpn.android.utils.NetUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
-import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 
 //TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
-open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: ApiManager<ProtonVPNRetrofit>) {
+open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: VpnApiManager) {
 
     open suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         manager { getAppConfig() }
+
+    open suspend fun getDynamicReportConfig() =
+        manager { getDynamicReportConfig() }
 
     open suspend fun getLocation() =
         manager { getLocation() }
@@ -64,7 +67,7 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     suspend fun postLogin(body: LoginBody) =
         manager { postLogin(body) }
 
-    suspend fun getSessionForkSelector() =
+    open suspend fun getSessionForkSelector() =
         manager { getSessionForkSelector() }
 
     open suspend fun getForkedSession(selector: String) =
@@ -76,8 +79,11 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Api
     suspend fun postLoginInfo(email: String) =
         manager { postLoginInfo(LoginInfoBody(email)) }
 
-    open suspend fun getVPNInfo() =
-        manager { getVPNInfo() }
+    suspend fun getFeature(feature: String) =
+        manager { getFeature(feature) }
+
+    open suspend fun getVPNInfo(sessionId: SessionId? = null) =
+        manager(sessionId) { getVPNInfo() }
 
     open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
         makeCall(callback) { it.getVPNInfo() }

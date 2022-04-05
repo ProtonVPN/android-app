@@ -25,9 +25,12 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ProtonLogger
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -47,6 +50,7 @@ class QuickTileService : TileService() {
     @Inject lateinit var userData: UserData
     @Inject lateinit var stateMonitor: VpnStateMonitor
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
+    @Inject lateinit var currentUser: CurrentUser
 
     private val job = Job()
     private val lifecycleScope = CoroutineScope(job)
@@ -75,47 +79,53 @@ class QuickTileService : TileService() {
 
     override fun onClick() {
         unlockAndRun {
-            if (qsTile.state == Tile.STATE_INACTIVE) {
-                if (userData.isLoggedIn) {
-                    ProtonLogger.log("Connecting via quick tile")
-                    vpnConnectionManager.connectInBackground(this, manager.defaultConnection, "Quick tile service")
+            lifecycleScope.launch {
+                if (qsTile.state == Tile.STATE_INACTIVE) {
+                    if (currentUser.isLoggedIn()) {
+                        ProtonLogger.log(UiConnect, "quick tile")
+                        vpnConnectionManager.connectInBackground(manager.defaultConnection, "Quick tile service")
+                    } else {
+                        startActivity(NotificationHelper.createMainActivityIntent(applicationContext))
+                    }
                 } else {
-                    val intent = Intent(applicationContext, Constants.LOGIN_ACTIVITY_CLASS)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
+                    ProtonLogger.log(UiDisconnect, "quick tile")
+                    vpnConnectionManager.disconnect("user via quick tile")
                 }
-            } else {
-                ProtonLogger.log("Disconnecting via quick tile")
-                vpnConnectionManager.disconnect()
             }
         }
     }
 
     private fun stateChanged(vpnStatus: VpnStateMonitor.Status) {
-        when (vpnStatus.state) {
-            VpnState.Disabled -> {
-                qsTile.label = getString(if (userData.isLoggedIn) R.string.quickConnect else R.string.login)
-                qsTile.state = Tile.STATE_INACTIVE
+        lifecycleScope.launch {
+            when (vpnStatus.state) {
+                VpnState.Disabled -> {
+                    qsTile.label = getString(if (currentUser.isLoggedIn()) R.string.quickConnect else R.string.login)
+                    qsTile.state = Tile.STATE_INACTIVE
+                }
+                VpnState.CheckingAvailability,
+                VpnState.WaitingForNetwork,
+                VpnState.ScanningPorts,
+                VpnState.Reconnecting,
+                VpnState.Connecting -> {
+                    qsTile.label = getString(R.string.state_connecting)
+                    qsTile.state = Tile.STATE_UNAVAILABLE
+                }
+                is VpnState.Error -> {
+                    qsTile.label = getString(R.string.state_error)
+                    qsTile.state = Tile.STATE_UNAVAILABLE
+                }
+                VpnState.Connected -> {
+                    val server = vpnStatus.server
+                    val serverName = server!!.serverName
+                    qsTile.label = getString(R.string.tileConnected, serverName)
+                    qsTile.state = Tile.STATE_ACTIVE
+                }
+                VpnState.Disconnecting -> {
+                    qsTile.label = getString(R.string.state_disconnecting)
+                    qsTile.state = Tile.STATE_UNAVAILABLE
+                }
             }
-            VpnState.CheckingAvailability,
-            VpnState.WaitingForNetwork,
-            VpnState.ScanningPorts,
-            VpnState.Reconnecting,
-            VpnState.Connecting -> {
-                qsTile.label = getString(R.string.state_connecting)
-                qsTile.state = Tile.STATE_UNAVAILABLE
-            }
-            VpnState.Connected -> {
-                val server = vpnStatus.server
-                val serverName = server!!.serverName
-                qsTile.label = getString(R.string.tileConnected, serverName)
-                qsTile.state = Tile.STATE_ACTIVE
-            }
-            VpnState.Disconnecting -> {
-                qsTile.label = getString(R.string.state_disconnecting)
-                qsTile.state = Tile.STATE_UNAVAILABLE
-            }
+            qsTile.updateTile()
         }
-        qsTile.updateTile()
     }
 }

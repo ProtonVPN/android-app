@@ -18,22 +18,35 @@
  */
 package com.protonvpn.android;
 
-import android.app.Activity;
+import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
+
 import android.app.Application;
 import android.content.Context;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
-import com.github.anrwatchdog.ANRWatchDog;
+import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.logging.CurrentStateLogger;
+import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
+import com.protonvpn.android.logging.FileLogWriter;
+import com.protonvpn.android.logging.GlobalSentryLogWriter;
+import com.protonvpn.android.logging.LogEventsKt;
+import com.protonvpn.android.logging.LogWriter;
+import com.protonvpn.android.logging.LogcatLogWriter;
+import com.protonvpn.android.logging.ProtonLogger;
+import com.protonvpn.android.logging.ProtonLoggerImpl;
+import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks;
-import com.protonvpn.android.utils.ProtonExceptionHandler;
-import com.protonvpn.android.utils.ProtonLogger;
 import com.protonvpn.android.utils.ProtonPreferences;
+import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
+import com.protonvpn.android.vpn.CertificateRepository;
+import com.protonvpn.android.vpn.LogcatLogCapture;
+import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
+import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -41,34 +54,59 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LifecycleObserver;
-import go.Seq;
-import io.sentry.Sentry;
-import io.sentry.android.AndroidSentryClientFactory;
-import leakcanary.AppWatcher;
-import me.proton.core.util.kotlin.CoreLogger;
-import rx_activity_result2.RxActivityResult;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.components.SingletonComponent;
+import go.Seq;
+import kotlinx.coroutines.ExecutorsKt;
+import leakcanary.AppWatcher;
+import me.proton.core.accountmanager.data.AccountStateHandler;
+import me.proton.core.util.kotlin.CoreLogger;
+
+/**
+ * Base Application for both the real application and application for use in instrumented tests.
+ *
+ * It introduces initDependencies() method that can access Hilt dependencies via EntryPoints.
+ *
+ * The method is either called by the subclass for the real application or, in tests, by
+ * ProtonHiltAndroidRule (which replaces HiltAndroidRule).
+ */
 public class ProtonApplication extends Application {
 
-    public Activity foregroundActivity;
+    @EntryPoint
+    @InstallIn(SingletonComponent.class)
+    interface DependencyEntryPoints {
+        AccountStateHandler getAccountStateHandler();
+        CertificateRepository getCertificateRepository();
+        CoreLoginMigration getCoreLoginMigration();
+        CurrentStateLogger getCurrentStateLogger();
+        LogcatLogCapture getLogcatLogCapture();
+        MaintenanceTracker getMaintenanceTracker();
+        SettingChangesLogger getSettingChangesLogger();
+        UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initActivityObserver();
-        initSentry();
+        initPreferences();
+        SentryIntegration.initSentry(this);
         initStrongSwan();
+
+        initLogger();
+        ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
+
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
-        new ANRWatchDog(15000).start();
 
-        initPreferences();
-
-        RxActivityResult.register(this);
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
         if (BuildConfig.DEBUG)
@@ -79,23 +117,30 @@ public class ProtonApplication extends Application {
         // Initialize go-libraries early to avoid crashes in StrongSwan
         Seq.touch();
 
+        boolean isUpdated = handleUpdate();
+        if (isUpdated) {
+            ProtonLogger.INSTANCE.log(
+                    LogEventsKt.AppUpdateUpdated, "new version: " + BuildConfig.VERSION_NAME);
+        }
+
         CoreLogger.INSTANCE.set(new VpnCoreLogger());
-        ProtonLogger.INSTANCE.log("--------- App start ---------");
     }
 
-    private void initActivityObserver() {
-        registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks() {
+    public void initDependencies() {
+        DependencyEntryPoints dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints.class);
 
-            @Override public void onActivityResumed(@NonNull Activity activity) {
-                foregroundActivity = activity;
-                ProtonLogger.logActivityResumed(activity);
-            }
+        // Migrate before anything else that uses the AccountManager.
+        dependencies.getCoreLoginMigration().migrateIfNeeded();
 
-            @Override public void onActivityPaused(@NonNull Activity activity) {
-                foregroundActivity = null;
-                ProtonLogger.logActivityPaused(activity);
-            }
-        });
+        // Logging
+        dependencies.getCurrentStateLogger().logCurrentState();
+        dependencies.getLogcatLogCapture();
+        dependencies.getSettingChangesLogger();
+
+        dependencies.getAccountStateHandler().start();
+        dependencies.getCertificateRepository();
+        dependencies.getMaintenanceTracker();
+        dependencies.getUpdateSettingsOnVpnUserChange();
     }
 
     private void initStrongSwan() {
@@ -113,14 +158,6 @@ public class ProtonApplication extends Application {
         Storage.setPreferences(preferences);
     }
 
-    private void initSentry() {
-        String sentryDsn = BuildConfig.DEBUG ? null : BuildConfig.Sentry_DSN;
-        Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
-
-        Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(new ProtonExceptionHandler(currentHandler));
-    }
-
     private void initLeakCanary() {
          if (AndroidUtils.INSTANCE.isTV(this)) {
             // Leanback seems to have issues with leaking fragment views
@@ -131,6 +168,35 @@ public class ProtonApplication extends Application {
         }
     }
 
+    private void initLogger() {
+        List<LogWriter> secondaryWriters = new ArrayList<>();
+        if (this instanceof ProtonApplicationHilt) {
+            // Add GlobalSentryLogWriter only in real application, it doesn't work with Hilt tests
+            // because some message are being logged already in ProtonApplication.onCreate() - Hilt
+            // dependencies are not available in tests this early.
+            secondaryWriters.add(new GlobalSentryLogWriter(this));
+        }
+        if (BuildConfig.DEBUG) {
+            secondaryWriters.add(new LogcatLogWriter());
+        }
+
+        ProtonLogger.setLogger(new ProtonLoggerImpl(
+                System::currentTimeMillis,
+                new FileLogWriter(
+                        ProtonApplication.getAppContext(),
+                        MainScope(),
+                        ExecutorsKt.from(Executors.newSingleThreadExecutor()),
+                        getApplicationInfo().dataDir + "/log",
+                        new CurrentStateLoggerGlobal(this)),
+                secondaryWriters));
+    }
+
+    private boolean handleUpdate() {
+        int versionCode = Storage.getInt("VERSION_CODE");
+        Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
+        return versionCode != BuildConfig.VERSION_CODE;
+    }
+
     @NotNull
     public static Context getAppContext() {
         return StrongSwanApplication.getContext();
@@ -138,9 +204,5 @@ public class ProtonApplication extends Application {
 
     public static void setAppContextForTest(@NotNull Context context) {
         StrongSwanApplication.setContext(context);
-    }
-
-    public boolean isInForeground() {
-        return foregroundActivity != null;
     }
 }

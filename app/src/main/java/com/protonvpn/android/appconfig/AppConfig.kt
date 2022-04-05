@@ -22,7 +22,8 @@ import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
@@ -36,12 +37,17 @@ import java.util.concurrent.TimeUnit
 
 class AppConfig(
     private val scope: CoroutineScope,
-    val api: ProtonApiRetroFit,
-    val userData: UserData,
-    val userPlanManager: UserPlanManager
+    private val api: ProtonApiRetroFit,
+    private val currentUser: CurrentUser,
+    private val userPlanManager: UserPlanManager
 ) {
 
     private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
+
+    val dynamicReportModelObservable = MutableLiveData<DynamicReportModel>(
+        Storage.load<DynamicReportModel>(
+            DynamicReportModel::class.java
+        ) { DynamicReportModel(emptyList()) })
 
     val apiNotificationsResponseObservable = MutableLiveData<ApiNotificationsResponse>(
             Storage.load<ApiNotificationsResponse>(
@@ -92,10 +98,15 @@ class AppConfig(
 
     private suspend fun updateInternal() {
         val result = api.getAppConfig()
+        val dynamicReportModel = api.getDynamicReportConfig()
+        dynamicReportModel.valueOrNull?.let {
+            Storage.save(it)
+            dynamicReportModelObservable.value = it
+        }
         result.valueOrNull?.let { config ->
             Storage.save(config)
             appConfigResponseObservable.value = config
-            if (userData.isLoggedIn) {
+            if (currentUser.isLoggedIn()) {
                 val notificationsResponse = if (config.featureFlags.pollApiNotifications)
                     api.getApiNotifications().valueOrNull
                 else
