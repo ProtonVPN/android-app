@@ -38,7 +38,6 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.countries.getDisplayKeywords
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.viewbinding.BindableItem
-import kotlin.reflect.KFunction1
 
 abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     @LayoutRes private val layoutId: Int,
