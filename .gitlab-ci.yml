@@ -333,9 +333,6 @@ publish-github:
   only:
     refs:
       - master
-  before_script:
-    - !reference [default, before_script]
-    - apt update && apt-get install -y connect-proxy
   variables:
     RELEASE_APP: android-vpn
     RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
