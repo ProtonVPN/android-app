@@ -180,6 +180,26 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
+    fun `servers sorted by number`() = coroutinesTest {
+        searchViewModel.setQuery("UA")
+        val state = searchViewModel.viewState.first()
+
+        assertIs<SearchViewModel.ViewState.SearchResults>(state)
+        assertEquals(listOf("UA#9", "UA#10"), state.servers.map { it.match.text })
+    }
+
+    @Test
+    fun `accessible servers listed first`() = coroutinesTest {
+        // UA#9 is tier 1, UA#10 is tier 0.
+        vpnUserFlow.value = TestUser.freeUser.vpnUser
+        searchViewModel.setQuery("UA")
+        val state = searchViewModel.viewState.first()
+
+        assertIs<SearchViewModel.ViewState.SearchResults>(state)
+        assertEquals(listOf("UA#10", "UA#9"), state.servers.map { it.match.text })
+    }
+
+    @Test
     fun `when query is typed fast only the end result is added to recents`() = coroutinesTest {
         searchViewModel.setQuery("s")
         searchViewModel.setQuery("sw")
