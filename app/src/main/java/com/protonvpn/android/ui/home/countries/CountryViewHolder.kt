@@ -61,41 +61,41 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val accessible = viewModel.hasAccessibleOnlineServer(vpnCountry)
-            countryItem.setBackgroundResource(if (accessible)
+            val isOnline = !vpnCountry.isUnderMaintenance()
+            val userHasAccess = viewModel.hasAccessibleServer(vpnCountry)
+            val accessibleAndOnline = userHasAccess && isOnline
+            countryItem.setBackgroundResource(if (accessibleAndOnline)
                 countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(textCountry.getThemeColor(
-                    if (accessible) R.attr.proton_text_norm else R.attr.proton_text_hint))
+                    if (accessibleAndOnline) R.attr.proton_text_norm else R.attr.proton_text_hint))
             textCountry.text = vpnCountry.countryName
 
-            buttonCross.isVisible = accessible
+            buttonCross.isVisible = accessibleAndOnline
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             adjustDivider(divider, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(
                     CountryTools.getFlagResource(context, vpnCountry.flag))
             imageCountry.alpha =
-                if (accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
+                if (accessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.userData.secureCoreEnabled
             features.keywords = vpnCountry.getDisplayKeywords()
 
             root.setOnClickListener {
-                if (!vpnCountry.isUnderMaintenance()) {
-                    if (accessible) {
-                        expandableGroup.onToggleExpanded()
-                        if (expandableGroup.isExpanded) {
-                            onExpanded(position)
-                        }
-                        adjustCross(buttonCross, expandableGroup.isExpanded, EXPAND_DURATION_MS)
-                        adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
+                if (accessibleAndOnline) {
+                    expandableGroup.onToggleExpanded()
+                    if (expandableGroup.isExpanded) {
+                        onExpanded(position)
                     }
+                    adjustCross(buttonCross, expandableGroup.isExpanded, EXPAND_DURATION_MS)
+                    adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                 }
             }
 
-            iconUnderMaintenance.isVisible = vpnCountry.isUnderMaintenance()
-            buttonUpgrade.isVisible = !vpnCountry.isUnderMaintenance() && !accessible
+            iconUnderMaintenance.isVisible = !isOnline && userHasAccess
+            buttonUpgrade.isVisible = !userHasAccess
             buttonUpgrade.setOnClickListener {
                 it.context.launchActivity<UpgradePlusCountriesDialogActivity>()
             }

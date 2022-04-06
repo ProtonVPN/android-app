@@ -110,6 +110,9 @@ class CountryListViewModel @Inject constructor(
     fun hasAccessToServer(server: Server) =
         currentUser.vpnUserCached().hasAccessToServer(server)
 
+    fun hasAccessibleServer(country: VpnCountry) =
+        country.hasAccessibleServer(currentUser.vpnUserCached())
+
     fun hasAccessibleOnlineServer(country: VpnCountry) =
         country.hasAccessibleOnlineServer(currentUser.vpnUserCached())
 }
