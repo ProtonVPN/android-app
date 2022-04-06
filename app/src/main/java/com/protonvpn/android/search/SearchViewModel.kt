@@ -93,7 +93,7 @@ class SearchViewModel @Inject constructor(
     private val query = savedStateHandle.getLiveData("search_query", "")
     val currentQuery = query.value
 
-    private var recentsAddJob : Job? = null
+    private var recentsAddJob: Job? = null
     private val _queryFromRecents = MutableLiveData<String>()
     val queryFromRecents: LiveData<String> = _queryFromRecents
 
@@ -180,7 +180,7 @@ class SearchViewModel @Inject constructor(
                             cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
                             servers.map {
                                 ResultItem(it, it.value == connectedServer, vpnUser.hasAccessToServer(it.value), it.value.online)
-                            }
+                            }.sortedByDescending { it.hasAccess }
                         )
                     } else {
                         ViewState.ScSearchResults(

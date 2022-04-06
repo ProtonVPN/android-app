@@ -381,6 +381,39 @@ object MockedServers {
     "Load": 23
   },
   {
+    "Name": "UA#10",
+    "EntryCountry": "UA",
+    "ExitCountry": "UA",
+    "Domain": "ua-09.protonvpn.net",
+    "Tier": 0,
+    "Features": 0,
+    "Region": null,
+    "City": "Kyiv",
+    "Score": 2.30711003,
+    "HostCountry": null,
+    "ID": "XlKVIOZ-vm7XssmpRY_bLudffHRryyralicwjyMfm-REsUdH4uuFIc1LbSzgnoP307GkEyywH6Iqg_zlzZ3NBg==",
+    "Location": {
+      "Lat": 50.450000000000003,
+      "Long": 30.52
+    },
+    "Status": 1,
+    "Servers": [
+      {
+        "EntryIP": "156.146.50.1",
+        "ExitIP": "156.146.50.2",
+        "Domain": "ua-09.protonvpn.net",
+        "ID": "9eVEHuzMUgE0XFhU_G-rUuFl223g202o9ekKHV2w_VO8-mecBb0fOtLTBDxKcXJj2RxhbZG2ZwUHuwhLv5B_aA==",
+        "Label": "1",
+        "X25519PublicKey": "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=",
+        "Generation": 0,
+        "Status": 1,
+        "ServicesDown": 0,
+        "ServicesDownReason": null
+      }
+    ],
+    "Load": 69
+  },
+  {
       "Name": "EG#1",
       "EntryCountry": "EG",
       "ExitCountry": "EG",
