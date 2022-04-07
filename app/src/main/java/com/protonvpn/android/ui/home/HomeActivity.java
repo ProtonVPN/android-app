@@ -79,7 +79,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.search.SearchResultsFragment;
 import com.protonvpn.android.search.SearchViewModel;
 import com.protonvpn.android.ui.NewLookDialogProvider;
-import com.protonvpn.android.ui.drawer.AccountActivity;
+import com.protonvpn.android.ui.account.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
 import com.protonvpn.android.ui.home.countries.CountryListFragment;
