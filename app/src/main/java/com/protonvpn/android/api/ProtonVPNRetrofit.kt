@@ -82,7 +82,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @GET("auth/sessions/forks/{selector}")
     suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String): ForkedSessionResponse
 
-    @GET("vpn")
+    @GET("vpn/v2")
     suspend fun getVPNInfo(): VpnInfoResponse
 
     @GET("vpn/sessions")

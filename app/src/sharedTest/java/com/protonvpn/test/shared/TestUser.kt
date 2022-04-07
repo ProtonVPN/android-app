@@ -44,7 +44,7 @@ class TestUser private constructor(
         get() {
             val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16",
                 openVpnPassword)
-            return VpnInfoResponse(1000, info, 4, 4, 0)
+            return VpnInfoResponse(1000, info, 4, 4, 0, 0, false)
         }
     val vpnUser: VpnUser
         get() = vpnInfoResponse.toVpnUserEntity(UserId("userId"), SessionId("sessionId"))
