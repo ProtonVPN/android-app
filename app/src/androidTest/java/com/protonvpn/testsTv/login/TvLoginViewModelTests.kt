@@ -103,7 +103,10 @@ class TvLoginViewModelTests : CoroutinesTest {
         VPNInfo(1, 0, null, null, null, 1, "user", "group-id", "pass"),
         1,
         1,
-        0)
+        0,
+        0,
+        false
+    )
 
     @Before
     fun setup() {

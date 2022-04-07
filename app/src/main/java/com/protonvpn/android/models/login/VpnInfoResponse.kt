@@ -22,6 +22,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.proton.core.domain.entity.UserId
+import me.proton.core.network.data.protonApi.IntToBoolSerializer
 import me.proton.core.network.domain.session.SessionId
 import org.joda.time.DateTime
 
@@ -31,7 +32,10 @@ data class VpnInfoResponse(
     @SerialName(value = "VPN") val vpnInfo: VPNInfo,
     @SerialName(value = "Subscribed") val subscribed: Int,
     @SerialName(value = "Services") val services: Int,
-    @SerialName(value = "Delinquent") val delinquent: Int
+    @SerialName(value = "Delinquent") val delinquent: Int,
+    @SerialName(value = "Credit") val credit: Int?,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "HasPaymentMethod") val hasPaymentMethod: Boolean?
 ) : java.io.Serializable
 
 fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
@@ -40,6 +44,8 @@ fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
         subscribed = subscribed,
         services = services,
         delinquent = delinquent,
+        credit = credit ?: 0,
+        hasPaymentMethod = hasPaymentMethod ?: false,
         status = vpnInfo.status,
         expirationTime = vpnInfo.expirationTime,
         planName = vpnInfo.tierName,
