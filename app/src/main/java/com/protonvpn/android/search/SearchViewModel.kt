@@ -150,6 +150,7 @@ class SearchViewModel @Inject constructor(
         connectServer(vpnUiDelegate, item.match.value)
 
     private fun connectServer(vpnUiDelegate: VpnUiDelegate, server: Server?) {
+        query.value?.let { saveSearchQuery(it) }
         if (server != null) {
             vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server, serverManager), "Search UI")
             eventCloseFlow.tryEmit(Unit)
