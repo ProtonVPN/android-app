@@ -30,15 +30,19 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import kotlin.jvm.functions.Function0;
+import kotlinx.serialization.descriptors.PrimitiveKind;
 import me.proton.core.network.domain.client.ClientId;
 
 public final class Storage {
@@ -52,6 +56,7 @@ public final class Storage {
                 ISODateTimeFormat.dateTime().parseDateTime(json.getAsString()))
             .registerTypeAdapter(ClientId.class, new ClientIdGsonSerializer())
             .create();
+    private final static Type STRING_LIST_TYPE = new TypeToken<List<String>>() {}.getType();
 
     private static SharedPreferences preferences;
 
@@ -62,12 +67,14 @@ public final class Storage {
         Storage.preferences = preferences;
     }
 
-    public static void saveStringSet(String key, Set<String> stringSet) {
-        preferences.edit().putStringSet(key, stringSet).apply();
+    public static void saveStringList(@NonNull String key, @Nullable List<String> list) {
+        preferences.edit().putString(key, GSON.toJson(list, STRING_LIST_TYPE)).apply();
     }
 
-    public static Set<String> getStringSet(String key) {
-        return preferences.getStringSet(key, Collections.emptySet());
+    @NonNull
+    public static List<String> getStringList(@NonNull String key) {
+        String valueJson = preferences.getString(key, "[]");
+        return GSON.fromJson(valueJson, STRING_LIST_TYPE);
     }
 
     public static void saveBoolean(String key, boolean value) {

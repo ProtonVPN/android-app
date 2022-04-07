@@ -119,21 +119,22 @@ class SearchViewModel @Inject constructor(
 
     fun setQueryFromRecents(recentQuery: String) {
         _queryFromRecents.value = recentQuery
+        saveSearchQuery(recentQuery) // Move to top.
     }
 
     fun clearRecentHistory() {
         // Save empty set and set whitespace query to trigger state refresh
-        Storage.saveStringSet(PREF_SEARCH_RECENT_SET, setOf())
+        Storage.saveStringList(PREF_SEARCH_RECENT_LIST, listOf())
         setQuery("")
     }
 
-    private fun getSearchRecents() = Storage.getStringSet(PREF_SEARCH_RECENT_SET).toSortedSet()
+    private fun getSearchRecents() = Storage.getStringList(PREF_SEARCH_RECENT_LIST)
 
     private fun saveSearchQuery(query: String) {
         if (query.isBlank()) return
         val searchHistory = getSearchRecents()
-        searchHistory.add(query)
-        Storage.saveStringSet(PREF_SEARCH_RECENT_SET, searchHistory)
+        val updatedHistory = (listOf(query) + (searchHistory - query)).take(RECENTS_MAX_ENTRIES)
+        Storage.saveStringList(PREF_SEARCH_RECENT_LIST, updatedHistory)
     }
 
     fun disconnect() {
@@ -163,7 +164,7 @@ class SearchViewModel @Inject constructor(
         val result = search(query, secureCore)
         return when {
             query.isBlank() -> {
-                val searchHistory = getSearchRecents().toList()
+                val searchHistory = getSearchRecents()
                 if (searchHistory.isEmpty())
                     ViewState.Empty
                 else
@@ -220,6 +221,7 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         private const val ADD_TO_RECENTS_DELAY_MS = 3000L
-        private const val PREF_SEARCH_RECENT_SET = "PREF_DONT_SHOW_CLEAR_HISTORY"
+        private const val PREF_SEARCH_RECENT_LIST = "PREF_SEARCH_RECENT_LIST"
+        private const val RECENTS_MAX_ENTRIES = 5
     }
 }

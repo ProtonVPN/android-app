@@ -222,4 +222,47 @@ class SearchViewModelTests : CoroutinesTest {
         searchViewModel.clearRecentHistory()
         assertIs<SearchViewModel.ViewState.Empty>(searchViewModel.viewState.first())
     }
+
+    @Test
+    fun `recents show most recent first`() = coroutinesTest {
+        searchViewModel.setQuery("aaa")
+        delay(3100)
+        searchViewModel.setQuery("bbb")
+        delay(3100)
+        searchViewModel.setQuery("")
+
+        val state = searchViewModel.viewState.first()
+        assertIs<SearchViewModel.ViewState.SearchHistory>(state)
+        assertEquals(listOf("bbb", "aaa"), state.queries)
+    }
+
+    @Test
+    fun `when the same query is saved in recents it moves to top`() = coroutinesTest {
+        searchViewModel.setQuery("aaa")
+        delay(3100)
+        searchViewModel.setQuery("bbb")
+        delay(3100)
+        searchViewModel.setQuery("aaa")
+        delay(3100)
+        searchViewModel.setQuery("")
+
+        val state = searchViewModel.viewState.first()
+        assertIs<SearchViewModel.ViewState.SearchHistory>(state)
+        assertEquals(listOf("aaa", "bbb"), state.queries)
+    }
+
+    @Test
+    fun `when a query from recents is selected it moves to top of recents`() = coroutinesTest {
+        searchViewModel.setQuery("aaa")
+        delay(3100)
+        searchViewModel.setQuery("bbb")
+        delay(3100)
+        searchViewModel.setQuery("")
+        searchViewModel.setQueryFromRecents("aaa")
+        searchViewModel.setQuery("")
+
+        val state = searchViewModel.viewState.first()
+        assertIs<SearchViewModel.ViewState.SearchHistory>(state)
+        assertEquals(listOf("aaa", "bbb"), state.queries)
+    }
 }
