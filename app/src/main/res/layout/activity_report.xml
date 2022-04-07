@@ -22,7 +22,7 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.protonvpn.android.ui.drawer.AccountActivity">
+    tools:context="com.protonvpn.android.ui.account.AccountActivity">
 
     <include
         android:id="@+id/layoutAppbar"
