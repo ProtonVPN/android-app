@@ -87,10 +87,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         VpnUser::class
     ],
     autoMigrations = [
-        AutoMigration(
-            from = 3,
-            to = 4
-        )
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 6, to = 7),
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -118,7 +116,7 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 6
+        const val version = 7
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,

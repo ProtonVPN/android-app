@@ -24,44 +24,31 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import me.proton.core.accountmanager.domain.AccountManager
-import me.proton.core.user.domain.entity.Delinquent
-import me.proton.core.user.domain.entity.User
-import me.proton.core.user.domain.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountActivityViewModel @Inject constructor(
     private val currentUser: CurrentUser,
-    private val accountManager: AccountManager,
-    private val userRepository: UserRepository,
     private val userPlanManager: UserPlanManager
 ) : ViewModel() {
 
     data class ViewState(val planName: String?, val showCouponButton: Boolean)
 
-    val viewState = combine(currentUser.userFlow, currentUser.vpnUserFlow) { user, vpnUser ->
-        val canApplyCoupon = user != null && vpnUser != null &&
-            // TODO: "hasPaymentMethod"?
-            vpnUser.isFreeUser && user.credit == 0 && user.subscribed == 0 && !user.isDelinquent()
+    val viewState = currentUser.vpnUserFlow.map { vpnUser ->
+        val canApplyCoupon = vpnUser != null && with(vpnUser) {
+            isFreeUser && credit == 0 && subscribed == 0 && delinquent == 0 && !hasPaymentMethod
+        }
         ViewState(vpnUser?.planDisplayName, canApplyCoupon)
     }
 
     init {
         viewModelScope.launch {
             // Make sure the screen displays up-to-date information.
-            val userId = accountManager.getPrimaryUserId().first()
-            if (userId != null) {
-                userRepository.getUser(userId, refresh = true)
-                userPlanManager.refreshVpnInfo()
-            }
+            userPlanManager.refreshVpnInfo()
         }
     }
 
     suspend fun displayName() = currentUser.user()?.uiName()
-
-    private fun User.isDelinquent() = delinquent ?: Delinquent.None != Delinquent.None
 }
