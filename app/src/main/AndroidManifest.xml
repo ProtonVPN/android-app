@@ -220,10 +220,10 @@
             android:name=".ui.ProtocolSelectionActivity"
             android:label="@string/protocolLabel"/>
         <activity
-            android:name=".ui.drawer.AccountActivity"
+            android:name=".ui.account.AccountActivity"
             android:label="@string/activityAccountTitle" />
         <activity
-            android:name=".ui.drawer.UseCouponActivity"
+            android:name=".ui.account.UseCouponActivity"
             android:label="@string/use_coupon_title"
             android:windowSoftInputMode="adjustResize" />
         <activity
