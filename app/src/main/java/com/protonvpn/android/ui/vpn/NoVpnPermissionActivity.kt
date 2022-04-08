@@ -41,8 +41,8 @@ import com.protonvpn.android.databinding.FragmentNoVpnPermissionGrantBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionMainBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity.Companion.EXTRA_RECONNECT_PROFILE
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openVpnSettings
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,9 +50,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NoVpnPermissionActivity : BaseActivityV2() {
 
+    private val binding by viewBinding(ActivityNoVpnPermissionBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityNoVpnPermissionBinding::inflate)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         if (savedInstanceState == null) {

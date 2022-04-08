@@ -37,19 +37,20 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpgradeDialogBinding
 import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 abstract class UpgradeDialogActivity : BaseActivityV2() {
 
-    val viewModel by viewModels<UpgradeDialogViewModel>()
+    private val viewModel by viewModels<UpgradeDialogViewModel>()
+    private val binding by viewBinding(ActivityUpgradeDialogBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityUpgradeDialogBinding::inflate)
+        setContentView(binding.root)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this, Observer { state ->
             if (state == UpgradeDialogViewModel.State.Success) {

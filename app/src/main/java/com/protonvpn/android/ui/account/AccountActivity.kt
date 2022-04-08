@@ -29,9 +29,9 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityAccountBinding
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
@@ -42,10 +42,11 @@ import kotlinx.coroutines.launch
 class AccountActivity : BaseActivityV2() {
 
     private val viewModel: AccountActivityViewModel by viewModels()
+    private val binding by viewBinding(ActivityAccountBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityAccountBinding::inflate)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         lifecycleScope.launch {
