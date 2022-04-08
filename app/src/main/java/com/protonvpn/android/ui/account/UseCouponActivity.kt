@@ -31,8 +31,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUseCouponBinding
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.DefaultTextWatcher
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.presentation.utils.SnackType
@@ -42,10 +42,11 @@ import me.proton.core.presentation.utils.snack
 class UseCouponActivity : BaseActivityV2() {
 
     private val viewModel by viewModels<UseCouponViewModel>()
+    private val binding by viewBinding(ActivityUseCouponBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityUseCouponBinding::inflate)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         with(binding) {

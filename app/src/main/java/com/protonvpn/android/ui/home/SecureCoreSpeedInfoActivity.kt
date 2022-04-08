@@ -26,18 +26,20 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.databinding.ActivitySecureCoreSpeedInfoDialogBinding
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openProtonUrl
 
 class SecureCoreSpeedInfoActivity : AppCompatActivity() {
 
+    private val binding by viewBinding(ActivitySecureCoreSpeedInfoDialogBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bindings = setContentViewBinding { ActivitySecureCoreSpeedInfoDialogBinding.inflate(it) }
+        setContentView(binding.root)
 
-        with(bindings) {
+        with(binding) {
             textLearnMore.setOnClickListener { openProtonUrl(Constants.SECURE_CORE_INFO_URL) }
 
             buttonActivate.setOnClickListener {
