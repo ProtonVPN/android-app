@@ -67,12 +67,6 @@ import kotlin.math.sqrt
 
 object AndroidUtils {
 
-    fun <T : ViewBinding> Activity.setContentViewBinding(inflater: (LayoutInflater) -> T): T {
-        val binding = inflater(LayoutInflater.from(this))
-        setContentView(binding.root)
-        return binding
-    }
-
     fun isPackageSignedWith(
         context: Context,
         packageName: String,
