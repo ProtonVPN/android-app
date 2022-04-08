@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -135,6 +134,9 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
     private fun setResults(query: String, state: SearchViewModel.ViewState.SearchResults) {
         val matchLength = query.length
         val sections = mutableListOf<Section>()
+        if (state.showUpgradeBanner) {
+            sections.add(Section(UpgradeBannerItem(viewModel.serverCount, viewModel.countryCount, this::showUpgrade)))
+        }
         addSection(sections, R.string.server_search_countries_header, state.countries) {
             CountryResultBinding(it, matchLength, ::connectCountry, viewModel::disconnect, this::showUpgrade)
         }

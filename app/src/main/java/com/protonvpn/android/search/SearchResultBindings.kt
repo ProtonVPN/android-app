@@ -33,6 +33,7 @@ import com.protonvpn.android.databinding.ItemHeaderSearchRecentsBinding
 import com.protonvpn.android.databinding.ItemSearchRecentBinding
 import com.protonvpn.android.databinding.ItemSearchResultCountryBinding
 import com.protonvpn.android.databinding.ItemSearchResultTwoLineBinding
+import com.protonvpn.android.databinding.ItemSearchUpgradeBannerBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.countries.getDisplayKeywords
@@ -224,4 +225,30 @@ class SecureCoreServerResultBinding(
     }
 
     override fun initializeViewBinding(view: View) = ItemSearchResultCountryBinding.bind(view)
+}
+
+class UpgradeBannerItem(
+    private val serverCount: Int,
+    private val countryCount: Int,
+    private val onClick: () -> Unit
+) : BindableItem<ItemSearchUpgradeBannerBinding>(1) {
+    override fun bind(binding: ItemSearchUpgradeBannerBinding, position: Int) = with(binding) {
+        val roundedServerCount = serverCount / 100 * 100
+        val resources = root.resources
+        val servers = resources.getQuantityString(
+            R.plurals.upgrade_plus_servers_rounded,
+            roundedServerCount,
+            roundedServerCount
+        )
+        val countries = resources.getQuantityString(
+            R.plurals.upgrade_plus_countries,
+            countryCount,
+            countryCount
+        )
+        textSubtitle.text = resources.getString(R.string.search_upgrade_banner_subtitle, servers, countries)
+        root.setOnClickListener { onClick() }
+    }
+
+    override fun getLayout(): Int = R.layout.item_search_upgrade_banner
+    override fun initializeViewBinding(view: View) = ItemSearchUpgradeBannerBinding.bind(view)
 }

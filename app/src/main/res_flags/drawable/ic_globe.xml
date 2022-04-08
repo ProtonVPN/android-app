@@ -1,0 +1,33 @@
+<!--
+  Copyright (c) 2022. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:fillType="evenOdd"
+        android:pathData="M8,14C11.3137,14 14,11.3137 14,8C14,4.6863 11.3137,2 8,2C4.6863,2 2,4.6863 2,8C2,11.3137 4.6863,14 8,14ZM8,15C11.866,15 15,11.866 15,8C15,4.134 11.866,1 8,1C4.134,1 1,4.134 1,8C1,11.866 4.134,15 8,15Z" />
+    <path
+        android:fillColor="?attr/proton_icon_norm"
+        android:fillType="evenOdd"
+        android:pathData="M5.916,1.7227L6.7676,3L7.2929,3L7.5,2.7929C7.6875,2.6054 7.9419,2.5 8.2071,2.5H8.5C9.0523,2.5 9.5,2.9477 9.5,3.5V4.191L9.9472,4.4146C10.286,4.584 10.5,4.9303 10.5,5.309V5.5C10.5,6.0523 10.0523,6.5 9.5,6.5H9.118C8.9628,6.5 8.8097,6.4639 8.6708,6.3944L7,5.559L6.3292,5.8944C6.1903,5.9639 6.0372,6 5.882,6H5.2071L4.5,6.7071V7.6615L6.3714,8.4101C6.751,8.5619 7,8.9296 7,9.3385V10.4189L7.4631,11.8082L7.809,12.5H8.6615L9.5,10.4037V9.6667C9.5,9.4503 9.5702,9.2398 9.7,9.0667L11,7.3333V6.618C11,6.4628 11.0361,6.3097 11.1056,6.1708L11.4146,5.5528C11.584,5.214 11.9302,5 12.309,5H14V6H12.309L12,6.618V7.3333C12,7.5497 11.9298,7.7602 11.8,7.9333L10.5,9.6667V10.4037C10.5,10.5309 10.4757,10.657 10.4285,10.7751L9.59,12.8714C9.4381,13.2511 9.0704,13.5 8.6615,13.5H7.809C7.4303,13.5 7.084,13.286 6.9146,12.9472L6.5687,12.2554C6.5475,12.2131 6.5294,12.1693 6.5144,12.1244L6.0513,10.7351C6.0173,10.6331 6,10.5264 6,10.4189V9.3385L4.1286,8.59C3.749,8.4381 3.5,8.0704 3.5,7.6615V6.7071C3.5,6.4419 3.6054,6.1875 3.7929,6L4.5,5.2929C4.6875,5.1054 4.9419,5 5.2071,5H5.882L6.5528,4.6646C6.8343,4.5238 7.1657,4.5238 7.4472,4.6646L9.118,5.5H9.5V5.309L9.0528,5.0854C8.714,4.916 8.5,4.5698 8.5,4.191V3.5H8.2071L8,3.7071C7.8125,3.8946 7.5581,4 7.2929,4H6.7676C6.4332,4 6.121,3.8329 5.9355,3.5547L5.084,2.2774L5.916,1.7227Z" />
+</vector>
