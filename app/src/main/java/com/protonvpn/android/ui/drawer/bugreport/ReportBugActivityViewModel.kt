@@ -133,7 +133,7 @@ class ReportBugActivityViewModel @Inject constructor(
             val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("Client", client)
                 .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
-                .addFormDataPart("Username", currentUser.user()?.displayName ?: "unknown")
+                .addFormDataPart("Username", currentUser.user()?.name ?: "unknown")
                 .addFormDataPart("Email", email)
                 .addFormDataPart("Plan", currentUser.vpnUser()?.userTierName ?: "unknown")
                 .addFormDataPart("OS", "Android")
