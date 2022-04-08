@@ -516,7 +516,15 @@
         <item quantity="other">%d+ secure servers</item>
     </plurals>
 
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of servers available in the service. Inserted in "search_upgrade_banner_subtitle"
+
+     Example: 1200+ servers -->
+    <plurals name="upgrade_plus_servers_rounded">
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d+ servers</item>
+    </plurals>
+
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title" and "search_upgrade_banner_subtitle".
 
          Example:
          55 countries
@@ -656,6 +664,16 @@
     <string name="search_recents_header_title">Recently viewed (%1$d)</string>
     <string name="search_clear_history">Clear history</string>
     <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
+    <string name="search_upgrade_banner_title">Get full access with Plus</string>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_rounded"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Connect to 1300 secure servers in 61 countries
+     -->
+    <string name="search_upgrade_banner_subtitle">Connect to %1$s in %2$s</string>
+
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
 </resources>

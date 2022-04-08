@@ -77,7 +77,8 @@ class SearchViewModel @Inject constructor(
             val query: String,
             val countries: List<ResultItem<VpnCountry>>,
             val cities: List<ResultItem<List<Server>>>,
-            val servers: List<ResultItem<Server>>
+            val servers: List<ResultItem<Server>>,
+            val showUpgradeBanner: Boolean
         ) : ViewState()
         class ScSearchResults(
             val query: String,
@@ -107,6 +108,8 @@ class SearchViewModel @Inject constructor(
     val eventCloseLiveData = eventCloseFlow.asLiveData() // Expose flow once HomeActivity is converted to kotlin.
 
     val secureCore get() = userData.secureCoreEnabled
+    val countryCount get() = serverManager.getVpnCountries().size
+    val serverCount get() = serverManager.allServerCount
 
     fun setQuery(newQuery: String) {
         query.value = newQuery
@@ -182,7 +185,8 @@ class SearchViewModel @Inject constructor(
                             cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
                             servers.map {
                                 ResultItem(it, it.value == connectedServer, vpnUser.hasAccessToServer(it.value), it.value.online)
-                            }.sortedByDescending { it.hasAccess }
+                            }.sortedByDescending { it.hasAccess },
+                            vpnUser?.isFreeUser ?: false
                         )
                     } else {
                         ViewState.ScSearchResults(
