@@ -73,6 +73,7 @@ import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkPrefs
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.client.ClientVersionValidator
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.scopes.MissingScopeListener
@@ -117,6 +118,7 @@ class MockAppModule {
         humanVerificationProvider: HumanVerificationProvider,
         humanVerificationListener: HumanVerificationListener,
         networkPrefs: NetworkPrefs,
+        clientVersionValidator: ClientVersionValidator,
         guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
@@ -127,6 +129,7 @@ class MockAppModule {
             networkManager, networkPrefs, sessionProvider, sessionListener, humanVerificationProvider,
             humanVerificationListener, missingScopeListener, cookieStore, scope, certificatePins = emptyArray(),
             alternativeApiPins = emptyList(),
+            clientVersionValidator = clientVersionValidator,
             dohAlternativesListener = guestHoleFallbackListener
         )
 

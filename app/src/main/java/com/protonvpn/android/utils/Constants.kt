@@ -67,11 +67,11 @@ object Constants {
 
     init {
         if (ProtonApplication.getAppContext().isTV()) {
-            CLIENT_ID = "AndroidTvVPN"
+            CLIENT_ID = "android-vpntv"
             VPN_USERNAME_PRODUCT_SUFFIX = "+pt"
             MAIN_ACTIVITY_CLASS = TvMainActivity::class.java
         } else {
-            CLIENT_ID = "AndroidVPN"
+            CLIENT_ID = "android-vpn"
             VPN_USERNAME_PRODUCT_SUFFIX = "+pa"
             MAIN_ACTIVITY_CLASS = MobileMainActivity::class.java
         }

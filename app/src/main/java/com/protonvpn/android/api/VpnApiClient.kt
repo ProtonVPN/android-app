@@ -41,7 +41,7 @@ class VpnApiClient(
     val eventForceUpdate = MutableSharedFlow<String>(replay = 1)
 
     override val appVersionHeader get() =
-        "${Constants.CLIENT_ID}_" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
+        "${Constants.CLIENT_ID}@" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
     override val shouldUseDoh get() = userData.apiUseDoH && vpnStateMonitor.state !in NO_DOH_STATES
 

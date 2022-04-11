@@ -31,6 +31,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.account.data.db.AccountDatabase
+import me.proton.core.challenge.data.db.ChallengeDatabase
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.key.data.db.KeySaltDatabase
@@ -73,6 +74,9 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideHumanVerificationDatabase(appDatabase: AppDatabase): HumanVerificationDatabase
+
+    @Binds
+    abstract fun provideChallengeDatabase(appDatabase: AppDatabase): ChallengeDatabase
 
     @Binds
     abstract fun provideKeySaltDatabase(appDatabase: AppDatabase): KeySaltDatabase

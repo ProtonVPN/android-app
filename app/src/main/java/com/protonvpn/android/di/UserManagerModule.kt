@@ -19,13 +19,16 @@
 
 package com.protonvpn.android.di
 
+import android.content.Context
 import com.protonvpn.android.BuildConfig
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.crypto.common.context.CryptoContext
+import me.proton.core.domain.entity.Product
 import me.proton.core.key.data.db.KeySaltDatabase
 import me.proton.core.key.data.db.PublicAddressDatabase
 import me.proton.core.key.data.repository.KeySaltRepositoryImpl
@@ -66,8 +69,9 @@ object UserManagerModule {
     fun provideUserRepositoryImpl(
         db: UserDatabase,
         provider: ApiProvider,
-        context: CryptoContext
-    ): UserRepositoryImpl = UserRepositoryImpl(db, provider, context)
+        cryptoContext: CryptoContext,
+        @ApplicationContext context: Context,
+    ): UserRepositoryImpl = UserRepositoryImpl(db, provider, context, cryptoContext, Product.Vpn)
 
     @Provides
     @Singleton

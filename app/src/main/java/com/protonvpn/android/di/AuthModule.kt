@@ -39,11 +39,14 @@ import me.proton.core.auth.data.MissingScopeListenerImpl
 import me.proton.core.auth.data.repository.AuthRepositoryImpl
 import me.proton.core.auth.domain.ClientSecret
 import me.proton.core.auth.domain.repository.AuthRepository
+import me.proton.core.auth.domain.usecase.LoginChallengeConfig
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
+import me.proton.core.auth.domain.usecase.signup.SignupChallengeConfig
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
+import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.domain.scopes.MissingScopeListener
 import me.proton.core.user.domain.UserManager
@@ -55,7 +58,11 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(apiProvider: ApiProvider): AuthRepository = AuthRepositoryImpl(apiProvider)
+    fun provideAuthRepository(apiProvider: ApiProvider, @ApplicationContext context: Context): AuthRepository = AuthRepositoryImpl(
+        apiProvider,
+        context,
+        Product.Vpn
+    )
 
     @Provides
     @Singleton
@@ -65,6 +72,14 @@ object AuthModule {
     @Provides
     @ClientSecret
     fun provideClientSecret(): String = ""
+
+    @Provides
+    @Singleton
+    fun provideChallengeConfig(): SignupChallengeConfig = SignupChallengeConfig()
+
+    @Provides
+    @Singleton
+    fun provideLoginChallengeConfig(): LoginChallengeConfig = LoginChallengeConfig()
 
     @Provides
     @Singleton
