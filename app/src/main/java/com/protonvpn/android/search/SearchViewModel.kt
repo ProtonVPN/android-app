@@ -69,6 +69,7 @@ class SearchViewModel @Inject constructor(
         val hasAccess: Boolean,
         val isOnline: Boolean
     )
+
     sealed class ViewState {
         object Empty : ViewState()
         object EmptyResult : ViewState()
@@ -80,6 +81,7 @@ class SearchViewModel @Inject constructor(
             val servers: List<ResultItem<Server>>,
             val showUpgradeBanner: Boolean
         ) : ViewState()
+
         class ScSearchResults(
             val query: String,
             val servers: List<ResultItem<Server>>
@@ -182,10 +184,10 @@ class SearchViewModel @Inject constructor(
                             query,
                             countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer) },
                             cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
-                            servers.map {
-                                ResultItem(it, it.value == connectedServer, vpnUser.hasAccessToServer(it.value), it.value.online)
-                            }.sortedByDescending { it.hasAccess },
-                            vpnUser?.isFreeUser ?: false
+                            servers
+                                .sortedWith(getServerTierComparator(vpnUser!!))
+                                .map { mapServer(it, vpnUser, connectedServer) },
+                            vpnUser.isFreeUser
                         )
                     } else {
                         ViewState.ScSearchResults(
@@ -221,6 +223,41 @@ class SearchViewModel @Inject constructor(
                 servers.any { it.online }
             )
         }
+
+    private fun mapServer(match: Search.Match<Server>, vpnUser: VpnUser?, connectedServer: Server?) =
+        ResultItem(
+            match,
+            match.value == connectedServer,
+            vpnUser.hasAccessToServer(match.value),
+            match.value.online
+        )
+
+    private fun getServerTierComparator(vpnUser: VpnUser): Comparator<Search.Match<Server>> {
+        val tierOrder: (tier: Int) -> Int = when {
+            vpnUser.isFreeUser -> { tier ->
+                when (tier) { // Order: free, plus, basic
+                    0 -> 0
+                    1 -> 2
+                    else -> 1
+                }
+            }
+            vpnUser.isBasicUser -> { tier ->
+                when (tier) { // Order: basic, plus, free
+                    1 -> 0
+                    0 -> 2
+                    else -> 1
+                }
+            }
+            else -> { tier ->
+                when (tier) { // Order: plus, basic, free
+                    0 -> 2
+                    1 -> 1
+                    else -> 0
+                }
+            }
+        }
+        return compareBy { tierOrder(it.value.tier) }
+    }
 
     companion object {
         private const val ADD_TO_RECENTS_DELAY_MS = 3000L
