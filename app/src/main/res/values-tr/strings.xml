@@ -52,7 +52,7 @@
     <string name="ok">Tamam</string>
     <string name="dialogContinue">Devam et</string>
     <string name="dialogLearnMore">Ayrıntılı bilgi alın</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Devamını oku</string>
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
@@ -373,7 +373,7 @@
     <string name="tv_login_title_refresh">Oturumunuzun süresi dolmuş. Yeniden başlamak için yenile üzerine tıklayın.</string>
     <string name="tv_upgrade_title">Plus ile yayın akışı izlemeye başlayın</string>
     <string name="back">Geri</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[ProtonVPN Plus tarifesine geçmek için <b>%1$s</b> sayfasına gidin.]]></string>
     <string name="tv_upgrade_description">Netflix, Amazon Prime Video, Disney+ ve diğerleri gibi dünya çapında yayın akışına göre ayarlanmış 500 üzerinde sunucuya erişmek için bir ProtonVPN Plus tarifesi edinin.</string>
     <string name="tv_vpn_error_dialog_title">VPN bağlantısı kurulamadı</string>
     <string name="tv_signout_label">Oturumu kapat</string>
@@ -587,26 +587,26 @@
     <string name="server_search_hint_secure_core">Ülke</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <string name="server_search_countries_header">Ülkeler (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">İller (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="server_search_servers_header">Sunucular (%1$d)</string>
     <string name="search_empty_title">Tüm konumlarda arama</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Ülkeler: <font color="%1$s">İsviçre, Birleşik Devletler, İtalya…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Ülkeler: <font color="%1$s">Fransa, Birleşik Devletler, İtalya…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[İller: <font color="%1$s">New York, Londra, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Birleşik Devletler eyaletleri: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Sunucular: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Lütfen farklı bir anahtar sözcük deneyin</string>
     <string name="search_empty_result_title">Herhangi bir sonuç bulunamadı</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
+    <string name="search_recents_header_title">Son bakılanlar (%1$d)</string>
+    <string name="search_clear_history">Geçmişi temizle</string>
     <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. Devam edilsin mi?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>

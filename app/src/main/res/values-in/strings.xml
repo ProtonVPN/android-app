@@ -52,7 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Lanjut</string>
     <string name="dialogLearnMore">Pelajari lebih lanjut</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Baca lebih lanjut</string>
     <string name="secureCoreConnectVia">lewat %1$s</string>
     <string name="connected">Terhubung</string>
     <string name="buttonConnect">Sambungkan</string>
@@ -371,7 +371,7 @@
     <string name="tv_login_title_refresh">Sesi Anda telah habis. Muat ulang halaman untuk dapat kembali menonton.</string>
     <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
     <string name="back">Kembali</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan ke ProtonVPN Plus sekarang.]]></string>
     <string name="tv_upgrade_description">Dapatkan paket ProtonVPN Plus untuk mengakses 500+ server di seluruh dunia dan optimalkan opsi tontonan untuk Netflix, Amazon Prime Video, Disney+, dan lainnya.</string>
     <string name="tv_vpn_error_dialog_title">Sambungan VPN gagal</string>
     <string name="tv_signout_label">Keluar</string>
@@ -578,27 +578,27 @@
     <string name="server_search_hint_secure_core">Negara</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <string name="server_search_countries_header">Negara (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">Kota (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="server_search_servers_header">Server (%1$d)</string>
     <string name="search_empty_title">Cari lokasi apapun</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Negara: <font color="%1$s">Swiss, Amerika Serikat, Italia...</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Negara: <font color="%1$s">Prancis, Amerika Serikat, Italia...</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Kota: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Wilayah AS: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Server: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Mohon coba kata kunci pencarian yang berbeda</string>
     <string name="search_empty_result_title">Tidak ada hasil ditemukan</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
-    <string name="search_clear_history_dialog">Riwayat pencarian Anda akan hilang. Apakah Anda tetap ingin lanjut?</string>
+    <string name="search_recents_header_title">Baru dilihat (%1$d)</string>
+    <string name="search_clear_history">Hapus riwayat</string>
+    <string name="search_clear_history_dialog">Riwayat pencarian Anda akan hilang. Lanjutkan?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
 </resources>

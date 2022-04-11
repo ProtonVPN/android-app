@@ -52,7 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continua</string>
     <string name="dialogLearnMore">Per saperne di più</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Per saperne di più</string>
     <string name="secureCoreConnectVia">tramite %1$s</string>
     <string name="connected">Connesso</string>
     <string name="buttonConnect">Connetti</string>
@@ -373,7 +373,7 @@
     <string name="tv_login_title_refresh">La sessione è scaduta. Clicca su Aggiorna per ricominciare.</string>
     <string name="tv_upgrade_title">Avvia lo streaming con Plus</string>
     <string name="back">Indietro</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visita <b>%1$s</b> per passare a ProtonVPN Plus ora.]]></string>
     <string name="tv_upgrade_description">Ottieni un piano ProtonVPN Plus per accedere a più di 500 server in tutto il mondo e avere opzioni di streaming ottimizzate per Netflix, Amazon Prime Video, Disney+ e molti altri.</string>
     <string name="tv_vpn_error_dialog_title">Connessione VPN non riuscita</string>
     <string name="tv_signout_label">Esci</string>
@@ -587,26 +587,26 @@
     <string name="server_search_hint_secure_core">Paese</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <string name="server_search_countries_header">Paesi (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">Città (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="server_search_servers_header">Server (%1$d)</string>
     <string name="search_empty_title">Cerca qualsiasi posizione</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Paesi: <font color="%1$s">Svizzera, Stati Uniti, Italia...</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Paesi: <font color="%1$s">Francia, Stati Uniti, Italia...</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Città: <font color="%1$s">New York, Londra, Tokyo...</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Regioni degli Stati Uniti: <font color="%1$s">California, Florida, Colorado...</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Server: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Prova con una parola chiave diversa</string>
     <string name="search_empty_result_title">Nessun risultato trovato</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
+    <string name="search_recents_header_title">Visualizzato recentemente (%1$d)</string>
+    <string name="search_clear_history">Cancella cronologia</string>
     <string name="search_clear_history_dialog">La tua cronologia delle ricerche andrà persa. Continuare?</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> per altre info.</string>
