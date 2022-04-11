@@ -373,7 +373,7 @@
     <string name="tv_login_title_refresh">Votre session a expiré. Cliquez sur Actualiser pour recommencer.</string>
     <string name="tv_upgrade_title">Commencez à regarder avec Plus</string>
     <string name="back">Retour</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visitez <b>%1$s</b> pour passer à ProtonVPN Plus maintenant.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visitez <b>%1$s</b> pour passer à ProtonVPN Plus dès maintenant.]]></string>
     <string name="tv_upgrade_description">Obtenez une offre ProtonVPN Plus pour accéder à plus de 500 serveurs dans le monde entier et optimiser les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
     <string name="tv_vpn_error_dialog_title">Échec de la connexion au VPN</string>
     <string name="tv_signout_label">Se déconnecter</string>
@@ -598,11 +598,11 @@
          Examples: "Servers (5)", "Servers (1)" -->
     <string name="server_search_servers_header">Serveurs (%1$d)</string>
     <string name="search_empty_title">Rechercher n\'importe quel endroit</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Pays : <font color="%1$s">Suisse, Etats-Unis, Italie…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Pays : <font color="%1$s">France, Etats-Unis, Italie…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Villes : <font color="%1$s">New York, Londres, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Régions US : <font color="%1$s">Californie, Floride, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Serveurs : <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Veuillez essayer un mot-clé différent</string>
     <string name="search_empty_result_title">Aucun résultat trouvé</string>
     <string name="search_recents_header_title">Vu récemment (%1$d)</string>
