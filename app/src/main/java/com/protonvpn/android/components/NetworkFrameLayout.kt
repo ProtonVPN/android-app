@@ -134,9 +134,9 @@ class NetworkFrameLayout : RelativeLayout, LoaderUI {
         textDescription.setOnLongClickListener {
             // Not using SnackbarHelper - this layout covers the whole screen, so there's no need
             // for anchoring the Snackbar.
-            it.errorSnack(error.debugMessage(), resources.getString(R.string.copy_to_clipboard)) {
+            it.errorSnack(error.debugMessage(), resources.getString(R.string.copy_to_clipboard), actionOnClick = {
                 copyToClipboard(context, "Debug message", error.debugMessage())
-            }
+            })
             true
         }
 

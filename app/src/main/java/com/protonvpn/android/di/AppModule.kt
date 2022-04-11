@@ -33,7 +33,6 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.components.NotificationHelper
@@ -84,12 +83,14 @@ import me.proton.core.network.data.NetworkManager
 import me.proton.core.network.data.NetworkPrefsImpl
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.client.ClientIdProviderImpl
+import me.proton.core.network.data.client.ClientVersionValidatorImpl
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
 import me.proton.core.network.data.di.Constants
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkPrefs
 import me.proton.core.network.domain.client.ClientIdProvider
+import me.proton.core.network.domain.client.ClientVersionValidator
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
@@ -137,6 +138,7 @@ object AppModuleProd {
         missingScopeListener: MissingScopeListener,
         extraHeaderProvider: ExtraHeaderProvider,
         networkPrefs: NetworkPrefs,
+        clientVersionValidator: ClientVersionValidator,
         guestHoleFallbackListener: GuestHole
     ): ApiManagerFactory {
         val serverTimeListener = object : ServerTimeListener {
@@ -165,6 +167,7 @@ object AppModuleProd {
                 certificatePins = certificatePins,
                 alternativeApiPins = alternativeCertificatePins,
                 extraHeaderProvider = extraHeaderProvider,
+                clientVersionValidator = clientVersionValidator,
                 dohAlternativesListener = guestHoleFallbackListener
             )
     }
@@ -329,11 +332,6 @@ object AppModule {
     @Provides
     fun provideVpnApiManager(apiProvider: ApiProvider, currentUser: CurrentUser) =
         VpnApiManager(apiProvider, currentUser)
-
-    @Provides
-    @Singleton
-    fun provideProtonCookieStore(): ProtonCookieStore =
-        ProtonCookieStore(ProtonApplication.getAppContext())
 
     @Provides
     @Singleton
