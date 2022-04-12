@@ -135,7 +135,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         val matchLength = query.length
         val sections = mutableListOf<Section>()
         if (state.showUpgradeBanner) {
-            sections.add(Section(UpgradeBannerItem(viewModel.serverCount, viewModel.countryCount, this::showUpgrade)))
+            sections.add(Section(UpgradeBannerItem(viewModel.countryCount, this::showUpgrade)))
         }
         addSection(sections, R.string.server_search_countries_header, state.countries) {
             CountryResultBinding(it, matchLength, ::connectCountry, viewModel::disconnect, this::showUpgrade)
