@@ -109,7 +109,6 @@ class SearchViewModel @Inject constructor(
 
     val secureCore get() = userData.secureCoreEnabled
     val countryCount get() = serverManager.getVpnCountries().size
-    val serverCount get() = serverManager.allServerCount
 
     fun setQuery(newQuery: String) {
         query.value = newQuery

@@ -228,24 +228,14 @@ class SecureCoreServerResultBinding(
 }
 
 class UpgradeBannerItem(
-    private val serverCount: Int,
     private val countryCount: Int,
     private val onClick: () -> Unit
 ) : BindableItem<ItemSearchUpgradeBannerBinding>(1) {
     override fun bind(binding: ItemSearchUpgradeBannerBinding, position: Int) = with(binding) {
-        val roundedServerCount = serverCount / 100 * 100
         val resources = root.resources
-        val servers = resources.getQuantityString(
-            R.plurals.upgrade_plus_servers_rounded,
-            roundedServerCount,
-            roundedServerCount
+        textTitle.text = resources.getQuantityString(
+            R.plurals.search_upgrade_banner_title, countryCount, countryCount
         )
-        val countries = resources.getQuantityString(
-            R.plurals.upgrade_plus_countries,
-            countryCount,
-            countryCount
-        )
-        textSubtitle.text = resources.getString(R.string.search_upgrade_banner_subtitle, servers, countries)
         root.setOnClickListener { onClick() }
     }
 
