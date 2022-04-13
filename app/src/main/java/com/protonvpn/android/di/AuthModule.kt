@@ -43,6 +43,8 @@ import me.proton.core.auth.domain.usecase.LoginChallengeConfig
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.domain.usecase.signup.SignupChallengeConfig
 import me.proton.core.auth.presentation.AuthOrchestrator
+import me.proton.core.auth.presentation.DefaultHelpOptionHandler
+import me.proton.core.auth.presentation.HelpOptionHandler
 import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
 import me.proton.core.crypto.common.srp.SrpCrypto
@@ -76,6 +78,10 @@ object AuthModule {
     @Provides
     @Singleton
     fun provideChallengeConfig(): SignupChallengeConfig = SignupChallengeConfig()
+
+    @Provides
+    @Singleton
+    fun provideHelpOptionHandler(): HelpOptionHandler = DefaultHelpOptionHandler()
 
     @Provides
     @Singleton

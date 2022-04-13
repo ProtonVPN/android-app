@@ -118,12 +118,13 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 5
+        const val version = 6
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
             DatabaseMigrations.MIGRATION_2_3,
-            DatabaseMigrations.MIGRATION_4_5
+            DatabaseMigrations.MIGRATION_4_5,
+            DatabaseMigrations.MIGRATION_5_6
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
