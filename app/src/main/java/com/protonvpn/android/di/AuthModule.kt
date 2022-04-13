@@ -26,6 +26,7 @@ import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.login.TroubleshootActivity
+import com.protonvpn.android.ui.login.VpnHelpOptionHandler
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
 import dagger.Provides
@@ -43,7 +44,6 @@ import me.proton.core.auth.domain.usecase.LoginChallengeConfig
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.domain.usecase.signup.SignupChallengeConfig
 import me.proton.core.auth.presentation.AuthOrchestrator
-import me.proton.core.auth.presentation.DefaultHelpOptionHandler
 import me.proton.core.auth.presentation.HelpOptionHandler
 import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
@@ -81,7 +81,7 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideHelpOptionHandler(): HelpOptionHandler = DefaultHelpOptionHandler()
+    fun provideHelpOptionHandler(): HelpOptionHandler = VpnHelpOptionHandler()
 
     @Provides
     @Singleton
