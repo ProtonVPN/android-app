@@ -47,7 +47,7 @@ class AppConfig(
     val dynamicReportModelObservable = MutableLiveData<DynamicReportModel>(
         Storage.load<DynamicReportModel>(
             DynamicReportModel::class.java
-        ) { DynamicReportModel(emptyList()) })
+        ) { DynamicReportModel(DynamicReportModel.defaultCategories) })
 
     val apiNotificationsResponseObservable = MutableLiveData<ApiNotificationsResponse>(
             Storage.load<ApiNotificationsResponse>(
