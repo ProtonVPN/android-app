@@ -161,6 +161,7 @@ build black:
   extends: .gradle-job
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
+    - echo "Black url ${BLACK_DOMAIN}"
     - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
