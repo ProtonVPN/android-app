@@ -212,10 +212,11 @@
 
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
-        <item name="serverLoadLow">?attr/proton_notification_success</item>
-        <item name="serverLoadMedium">?attr/proton_notification_warning</item>
-        <item name="serverLoadHigh">?attr/proton_notification_error</item>
+        <item name="serverLoadLow">@color/puerto_rico</item>
+        <item name="serverLoadMedium">@color/texas_Rose</item>
+        <item name="serverLoadHigh">@color/pomegranate</item>
         <item name="serverInMaintenance">#989DA9</item>
+        <item name="strong_red_color">@color/pomegranate</item>
     </style>
 
     <!-- Force dark splash screen even if system uses light mode -->
@@ -230,6 +231,6 @@
     </style>
 
     <style name="ThemeOverlay.ProtonButton.Warning" parent="">
-        <item name="colorPrimary">?attr/proton_notification_error</item>
+        <item name="colorPrimary">?attr/strong_red_color</item>
     </style>
 </resources>

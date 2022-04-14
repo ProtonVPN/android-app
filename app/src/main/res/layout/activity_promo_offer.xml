@@ -67,7 +67,7 @@
                 android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_rounded"
-                android:backgroundTint="?attr/proton_notification_error"
+                android:backgroundTint="?attr/strong_red_color"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:textAllCaps="true"

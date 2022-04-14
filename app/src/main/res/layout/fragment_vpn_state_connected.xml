@@ -112,7 +112,7 @@
             android:layout_height="12dp"
             android:layout_marginEnd="4dp"
             app:srcCompat="@drawable/ic_proton_arrow_up"
-            app:tint="?attr/proton_notification_error" />
+            app:tint="?attr/strong_red_color" />
 
         <TextView
             android:id="@+id/textUploadVolume"
@@ -137,7 +137,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
         android:text="@string/disconnect"
-        app:backgroundTint="?attr/proton_notification_error" />
+        android:theme="@style/ThemeOverlay.ProtonButton.Warning" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonSaveToProfile"
