@@ -73,7 +73,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_success))
     }
     private val uploadDataSet by lazy(LazyThreadSafetyMode.NONE) {
-        initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_error))
+        initDataSet(MaterialColors.getColor(requireView(), R.attr.strong_red_color))
     }
 
     private val yAxisValueFormatter = object : ValueFormatter() {
