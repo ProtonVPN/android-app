@@ -573,7 +573,7 @@ public class HomeActivity extends VpnActivity {
         if (vpnStateMonitor.isConnected()) {
             addActionButtonToFab(
                 fabQuickConnect,
-                MaterialColors.getColor(fabQuickConnect, R.attr.proton_notification_error),
+                MaterialColors.getColor(fabQuickConnect, R.attr.strong_red_color),
                 null,
                 getString(R.string.disconnect),
                 R.drawable.ic_proton_power_off,

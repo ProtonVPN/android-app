@@ -33,7 +33,7 @@ class NotificationDotDrawableWrapper(
 ) : DrawableWrapper(drawable) {
 
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getThemeColor(R.attr.proton_notification_error)
+        color = context.getThemeColor(R.attr.strong_red_color)
     }
 
     override fun draw(canvas: Canvas) {
