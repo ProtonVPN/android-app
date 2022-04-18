@@ -137,12 +137,12 @@
     <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
     <string name="listItemMaintenance">Обслуговується</string>
     <string name="listAllCountries">Усі розташування (%1$d)</string>
-    <string name="listFreeCountries">Розташування FREE (%1$d)</string>
-    <string name="listPremiumCountries">Розташування BASIC і PLUS (%1$d)</string>
+    <string name="listFreeCountries">Безплатні розташування (%1$d)</string>
+    <string name="listPremiumCountries">Розташування Basic і Plus (%1$d)</string>
     <string name="listFastestServer">Найшвидший сервер</string>
-    <string name="listFreeServers">Сервери FREE (%1$d)</string>
-    <string name="listBasicServers">Сервери BASIC (%1$d)</string>
-    <string name="listPlusServers">Сервери PLUS (%1$d)</string>
+    <string name="listFreeServers">Безплатні сервери (%1$d)</string>
+    <string name="listBasicServers">Сервери Basic (%1$d)</string>
+    <string name="listPlusServers">Сервери Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Потрібна дія користувача</string>
     <string name="insufficientPermissionsDetails">Не вдалося автоматично встановити VPN-з\'єднання. Під\'єднайтеся вручну один раз, щоб надати дозволи.</string>
     <string name="tabsCountries">Країни</string>
@@ -425,8 +425,8 @@
         <item quantity="other">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
     </plurals>
     <string name="notification_max_sessions_content">Від’єднайте інший пристрій, щоб під\'єднати цей.</string>
-    <string name="notification_cancel_to_free">У вас зараз тарифний план FREE. Доступні лише сервери і функції FREE.</string>
-    <string name="notification_cancel_to_basic">У вас зараз тарифний план BASIC. Доступні лише сервери і функції FREE.</string>
+    <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
+    <string name="notification_cancel_to_basic">У вас зараз тарифний план Basic. Доступні сервери й функції Basic і Free.</string>
     <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміум-функцій після сплати рахунків.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Із сервера: </string>
@@ -548,7 +548,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ця технологія дозволяє ProtonVPN забезпечити вищу швидкість та безпеку у країнах з ускладненим обслуговуванням.</string>
     <string name="streaming_title">Потокове передавання</string>
-    <string name="streaming_description">PLUS сервери підтримують потокове передавання (Netflix, Disney+ тощо) звідусіль у світі.</string>
+    <string name="streaming_description">Сервери Plus підтримують трансляції (Netflix, Disney+ тощо) звідусіль у світі.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Ці сервери забезпечують найкращу швидкодію для BitTorrent та обміну файлами.</string>
     <string name="tor_title">Tor</string>
@@ -567,7 +567,7 @@
     <string name="onboarding_welcome_title">Ласкаво просимо у ProtonVPN</string>
     <string name="onboarding_welcome_description">Довідайтеся, як одержати максимум від ProtonVPN всього за кілька секунд.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
-    <string name="onboarding_available_on_plus">Доступно з PLUS</string>
+    <string name="onboarding_available_on_plus">Доступно з Plus</string>
     <string name="onboarding_streaming_title">Розблокувати трансляції</string>
     <string name="onboarding_streaming_description">Захищений доступ до будь-якого вмісту навіть під час подорожей в інші країни. Тепер і на AndroіdTV.</string>
     <string name="onboarding_protection_title">Будьте захищені всюди</string>
@@ -575,15 +575,15 @@
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
     <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та в усіх застосунках.</string>
     <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
-    <string name="onboarding_connection_description">Тарифний план FREE пропонує %1$d серверів у %2$d країнах</string>
+    <string name="onboarding_connection_description">Безплатний тарифний план пропонує %1$d серверів у %2$d країнах</string>
     <string name="onboarding_connection_info">Ми під\'єднаємо вас до найшвидшого і найстабільнішого сервера для вашого розташування.</string>
     <string name="onboading_connect_now">З\'єднатися зараз</string>
     <string name="onboading_connecting_now">Триває з\'єднання</string>
     <string name="onboarding_congrats_description">Ваше з\'єднання захищене, і ви готові до роботи в Інтернеті.\n\nБезпечно.</string>
     <string name="onboarding_congrats_title">Вітаємо!</string>
     <string name="onboarding_plan_congrats_description_privacy">Оцініть переваги світу приватності.</string>
-    <string name="onboading_connect_to_plus">З\'єднатися з сервером PLUS</string>
-    <string name="upgrade_use_limited_free_button">Використовуйте обмежений тарифний план FREE</string>
+    <string name="onboading_connect_to_plus">З\'єднатися з сервером Plus</string>
+    <string name="upgrade_use_limited_free_button">Використовувати обмежений тарифний план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не працює?</string>
     <string name="dynamic_report_contact_us">Зв\'язатися з нами</string>
     <string name="dynamic_report_tips_description">Ці поради можуть допомогти швидше розвʼязати вашу проблему.</string>
@@ -626,6 +626,17 @@
     <string name="search_recents_header_title">Недавно переглянуті (%1$d)</string>
     <string name="search_clear_history">Очистити історію</string>
     <string name="search_clear_history_dialog">Вашу історію пошуку буде втрачено. Продовжити?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Доступ до %1$d країни</item>
+        <item quantity="few">Доступ до %1$d країн</item>
+        <item quantity="many">Доступ до %1$d країн</item>
+        <item quantity="other">Доступ до %1$d країн</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Більше розташувань = більше розблокованого вмісту + додаткова безпека + вища швидкість</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Відвідайте <a href="https://protonvpn.com/prіcіng">protonvpn.com</a> для докладнішої інформації.</string>
 </resources>
