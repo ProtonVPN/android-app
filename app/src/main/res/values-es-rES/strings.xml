@@ -136,13 +136,13 @@
     <string name="onboardingNext">Siguiente</string>
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
-    <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
-    <string name="listFreeCountries">Ubicaciones Gratuitas (%1$d)</string>
-    <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
-    <string name="listFastestServer">Servidor más rápido</string>
-    <string name="listFreeServers">Servidores GRATUITOS (%1$d)</string>
-    <string name="listBasicServers">Servidores BASIC (%1$d)</string>
-    <string name="listPlusServers">Servidores PLUS (%1$d)</string>
+    <string name="listAllCountries">All locations (%1$d)</string>
+    <string name="listFreeCountries">Free locations (%1$d)</string>
+    <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
+    <string name="listFastestServer">Fastest server</string>
+    <string name="listFreeServers">Free servers (%1$d)</string>
+    <string name="listBasicServers">Basic servers (%1$d)</string>
+    <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">Es necesaria la acción del usuario</string>
     <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese manualmente una vez para otorgar permisos.</string>
     <string name="tabsCountries">Países</string>
@@ -419,8 +419,8 @@
         <item quantity="other">Por favor, desconecte otro dispositivo para conectar este o actualice a Plus para tener hasta %1$d dispositivos conectados al mismo tiempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Por favor, desconecta otro dispositivo para conectar este.</string>
-    <string name="notification_cancel_to_free">Estás en el plan GRATUITO. Hay servidores y funciones GRATIS disponibles.</string>
-    <string name="notification_cancel_to_basic">Está en el plan BASIC. BASIC &amp; servidores GRATIS y funciones están disponibles.</string>
+    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
+    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
     <string name="notification_cancel_to_delinquent">Podrás acceder a las funciones premium de nuevo después de que se paguen las facturas pendientes.</string>
     <string name="vpn_accelerator">Acelerador VPN</string>
     <string name="reconnect_from_server">Del servidor: </string>
@@ -530,7 +530,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Esta tecnología permite a ProtonVPN proporcionar mayor velocidad y seguridad en países difíciles de servir.</string>
     <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Los servidores PLUS soportan streaming (Netflix, Disney+, etc) desde cualquier parte del mundo.</string>
+    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Estos servidores ofrecen el mejor rendimiento para BitTorrent y compartición de archivos.</string>
     <string name="tor_title">Tor</string>
@@ -549,7 +549,7 @@
     <string name="onboarding_welcome_title">Welcome to ProtonVPN</string>
     <string name="onboarding_welcome_description">Learn how to get the most out of ProtonVPN in just a few seconds.</string>
     <string name="onboarding_welcome_action">Comenzar</string>
-    <string name="onboarding_available_on_plus">Available with PLUS</string>
+    <string name="onboarding_available_on_plus">Available with Plus</string>
     <string name="onboarding_streaming_title">Unblock streaming</string>
     <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on AndroidTV.</string>
     <string name="onboarding_protection_title">Be protected everywhere</string>
@@ -557,15 +557,15 @@
     <string name="onboarding_netshield_title">Block ads and much more</string>
     <string name="onboarding_netshield_description">Block malware, ads, and trackers in browser and in all apps.</string>
     <string name="onboarding_connection_title">Establish your first connection</string>
-    <string name="onboarding_connection_description">FREE subscription offers %1$d servers in %2$d countries</string>
+    <string name="onboarding_connection_description">Free subscription offers %1$d servers in %2$d countries</string>
     <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
     <string name="onboading_connect_now">Conectar ahora</string>
     <string name="onboading_connecting_now">Conectando ahora</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
     <string name="onboarding_congrats_title">Congratulations!</string>
     <string name="onboarding_plan_congrats_description_privacy">Enjoy the world of privacy.</string>
-    <string name="onboading_connect_to_plus">Connect to a PLUS server</string>
-    <string name="upgrade_use_limited_free_button">Use limited FREE plan</string>
+    <string name="onboading_connect_to_plus">Connect to a Plus server</string>
+    <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
     <string name="dynamic_report_contact_us">Contact us</string>
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
@@ -608,6 +608,15 @@
     <string name="search_recents_header_title">Recently viewed (%1$d)</string>
     <string name="search_clear_history">Clear history</string>
     <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Access %1$d country</item>
+        <item quantity="other">Access all %1$d countries</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
 </resources>

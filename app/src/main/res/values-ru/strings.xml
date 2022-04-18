@@ -26,7 +26,7 @@
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Это обязательное поле</string>
     <string name="title_activity_home">@string/app_name</string>
-    <string name="menuActionSignOut">Выйти из учетной записи</string>
+    <string name="menuActionSignOut">Выйти</string>
     <string name="loginSlogan">Безопасный Интернет где угодно</string>
     <string name="loginStartWithDevice">Запуск при включении устройства</string>
     <string name="loginCreateAccount">Создать новый аккаунт</string>
@@ -137,12 +137,12 @@
     <string name="offerTooltipShowOffer">Посмотрите предложение</string>
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
-    <string name="listFreeCountries">Местоположения FREE (%1$d)</string>
-    <string name="listPremiumCountries">BASIC &amp; PLUS Страны (%1$d)</string>
+    <string name="listFreeCountries">Местоположения Free (%1$d)</string>
+    <string name="listPremiumCountries">Местоположения Basic &amp; Plus (%1$d)</string>
     <string name="listFastestServer">Самый быстрый сервер</string>
-    <string name="listFreeServers">Серверы FREE (%1$d)</string>
-    <string name="listBasicServers">Серверы BASIC (%1$d)</string>
-    <string name="listPlusServers">Серверы PLUS (%1$d)</string>
+    <string name="listFreeServers">Серверы Free (%1$d)</string>
+    <string name="listBasicServers">Серверы Basic (%1$d)</string>
+    <string name="listPlusServers">Серверы Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Требуется действие пользователя</string>
     <string name="insufficientPermissionsDetails">Не удалось установить VPN соединение автоматически. Пожалуйста, подключитесь вручную один раз, чтобы предоставить разрешения.</string>
     <string name="tabsCountries">Страны</string>
@@ -425,8 +425,8 @@
         <item quantity="other">Пожалуйста, отключите другое устройство, чтобы подключить это, или улучшите до версии Plus, чтобы одновременно подключить до %1$d устройств.</item>
     </plurals>
     <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить это.</string>
-    <string name="notification_cancel_to_free">Вы пользуетесь бесплатным тарифом. Доступны бесплатные серверы и функции.</string>
-    <string name="notification_cancel_to_basic">Вы находитесь на тарифе BASIC. Вам доступны серверы и функции BASIC &amp; FREE.</string>
+    <string name="notification_cancel_to_free">Вы используете тариф Free. Доступны серверы и функции Free.</string>
+    <string name="notification_cancel_to_basic">Вы используете тариф Basic. Вам доступны серверы и функции Basic &amp; Free.</string>
     <string name="notification_cancel_to_delinquent">Вы сможете снова получить доступ к расширенным функциям после оплаты текущих счетов.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">С сервера: </string>
@@ -548,7 +548,7 @@
     <string name="smart_routing_title">Smart маршрутизация</string>
     <string name="smart_routing_description">Эта технология позволяет ProtonVPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
     <string name="streaming_title">Стриминг</string>
-    <string name="streaming_description">Серверы PLUS поддерживают потоковое вещание (Netflix, Disney+, и т. д.) из любой точки мира.</string>
+    <string name="streaming_description">Серверы Plus поддерживают просмотр трансляций (Netflix, Disney+, и т. д.) из любой точки мира.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Эти серверы обеспечивают лучшую производительность для BitTorrent и обмена файлами.</string>
     <string name="tor_title">Tor</string>
@@ -567,7 +567,7 @@
     <string name="onboarding_welcome_title">Добро пожаловать в ProtonVPN</string>
     <string name="onboarding_welcome_description">Узнайте, как получить максимум от ProtonVPN всего за несколько секунд.</string>
     <string name="onboarding_welcome_action">Приступить к работе</string>
-    <string name="onboarding_available_on_plus">Доступно с PLUS</string>
+    <string name="onboarding_available_on_plus">Доступно с Plus</string>
     <string name="onboarding_streaming_title">Разблокируйте трансляции</string>
     <string name="onboarding_streaming_description">Защищенный доступ к любому содержимому даже во время путешествий в другие страны. Теперь и на AndroidTV.</string>
     <string name="onboarding_protection_title">Будьте защищены везде</string>
@@ -575,15 +575,15 @@
     <string name="onboarding_netshield_title">Блокируйте рекламу и многое другое</string>
     <string name="onboarding_netshield_description">Блокируйте вредоносные программы, рекламу и трекеры в браузере и во всех приложениях.</string>
     <string name="onboarding_connection_title">Установите первое подключение</string>
-    <string name="onboarding_connection_description">Подписка FREE предлагает %1$d серверов в %2$d странах</string>
+    <string name="onboarding_connection_description">Подписка Free предлагает %1$d серверов в %2$d странах</string>
     <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
     <string name="onboading_connect_now">Подключить сейчас</string>
     <string name="onboading_connecting_now">Подключается сейчас</string>
     <string name="onboarding_congrats_description">Ваше подключение защищено, и вы готовы к работе в Интернете.\n\nБезопасно.</string>
     <string name="onboarding_congrats_title">Поздравляем!</string>
     <string name="onboarding_plan_congrats_description_privacy">Пользуйтесь миром конфиденциальности.</string>
-    <string name="onboading_connect_to_plus">Подключитесь к серверу PLUS</string>
-    <string name="upgrade_use_limited_free_button">Используйте ограниченный план FREE</string>
+    <string name="onboading_connect_to_plus">Подключитесь к серверу Plus</string>
+    <string name="upgrade_use_limited_free_button">Используйте ограниченный план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не сработало?</string>
     <string name="dynamic_report_contact_us">Свяжитесь с нами</string>
     <string name="dynamic_report_tips_description">Эти советы могут помочь быстрее решить вашу проблему.</string>
@@ -626,6 +626,17 @@
     <string name="search_recents_header_title">Недавно просмотренное (%1$d)</string>
     <string name="search_clear_history">Очистить историю</string>
     <string name="search_clear_history_dialog">Ваша история поиска будет утеряна. Продолжить?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Получите доступ к %1$d стране</item>
+        <item quantity="few">Получите доступ к %1$d странам</item>
+        <item quantity="many">Получите доступ к %1$d странам</item>
+        <item quantity="other">Получите доступ к %1$d стране</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>

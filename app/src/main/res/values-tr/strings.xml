@@ -141,7 +141,7 @@
     <string name="listPremiumCountries">Basic ve Plus konumları (%1$d)</string>
     <string name="listFastestServer">En hızlı sunucu</string>
     <string name="listFreeServers">Free sunucuları (%1$d)</string>
-    <string name="listBasicServers">Basıc sunucuları (%1$d)</string>
+    <string name="listBasicServers">Basic sunucuları (%1$d)</string>
     <string name="listPlusServers">Plus sunucuları (%1$d)</string>
     <string name="insufficientPermissionsTitle">Kullanıcının işlem yapması gerekli</string>
     <string name="insufficientPermissionsDetails">VPN bağlantısı otomatik olarak kurulamadı. Lütfen izinleri vermek için bir kere el ile bağlanın.</string>
@@ -608,6 +608,15 @@
     <string name="search_recents_header_title">Son bakılanlar (%1$d)</string>
     <string name="search_clear_history">Geçmişi temizle</string>
     <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. Devam edilsin mi?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">%1$d ülkeye erişin</item>
+        <item quantity="other">%1$d ülkeye erişin</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
 </resources>

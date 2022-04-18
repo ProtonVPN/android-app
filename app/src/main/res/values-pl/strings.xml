@@ -137,12 +137,12 @@
     <string name="offerTooltipShowOffer">Zobacz ofertę</string>
     <string name="listItemMaintenance">W trakcie przerwy technicznej</string>
     <string name="listAllCountries">Wszystkie lokalizacje (%1$d)</string>
-    <string name="listFreeCountries">Lokalizacje planu FREE (%1$d)</string>
-    <string name="listPremiumCountries">Lokalizacje planu BASIC i PLUS (%1$d)</string>
+    <string name="listFreeCountries">Lokalizacje planu Free (%1$d)</string>
+    <string name="listPremiumCountries">Lokalizacje planu Basic i Plus (%1$d)</string>
     <string name="listFastestServer">Najszybszy serwer</string>
-    <string name="listFreeServers">Serwery planu FREE (%1$d)</string>
-    <string name="listBasicServers">Serwery planu BASIC (%1$d)</string>
-    <string name="listPlusServers">Serwery planu PLUS (%1$d)</string>
+    <string name="listFreeServers">Serwery planu Free (%1$d)</string>
+    <string name="listBasicServers">Serwery planu Basic (%1$d)</string>
+    <string name="listPlusServers">Serwery planu Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Działanie użytkownika jest wymagane</string>
     <string name="insufficientPermissionsDetails">Nie można ustanowić automatycznego połączenia VPN. Połącz się ręcznie, aby przyznać uprawnienia.</string>
     <string name="tabsCountries">Kraje</string>
@@ -425,8 +425,8 @@
         <item quantity="other">Aby połączyć się, rozłącz inne urządzenie lub ulepsz konto do planu Plus w celu połączenia %1$d urządzeń jednocześnie.</item>
     </plurals>
     <string name="notification_max_sessions_content">Aby połączyć się, rozłącz inne urządzenie.</string>
-    <string name="notification_cancel_to_free">Posiadasz plan FREE. Masz dostęp do serwerów i funkcji planu FREE.</string>
-    <string name="notification_cancel_to_basic">Posiadasz plan BASIC. Masz dostęp do serwerów i funkcji planu FREE i BASIC.</string>
+    <string name="notification_cancel_to_free">Posiadasz plan Free. Masz dostęp do serwerów i funkcji planu Free.</string>
+    <string name="notification_cancel_to_basic">Posiadasz plan Basic. Masz dostęp do serwerów i funkcji planu Free i Basic.</string>
     <string name="notification_cancel_to_delinquent">Po zapłaceniu faktur, ponownie uzyskasz dostęp do funkcji premium.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Z serwera: </string>
@@ -575,15 +575,15 @@
     <string name="onboarding_netshield_title">Zablokuj reklamy i wiele więcej</string>
     <string name="onboarding_netshield_description">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach.</string>
     <string name="onboarding_connection_title">Nawiąż pierwsze połączenie</string>
-    <string name="onboarding_connection_description">FREE subscription offers %1$d servers in %2$d countries</string>
+    <string name="onboarding_connection_description">Free subscription offers %1$d servers in %2$d countries</string>
     <string name="onboarding_connection_info">Połączenie zostanie nawiązane z najszybszym i najbardziej stabilnym serwerem dla Twojej lokalizacji.</string>
     <string name="onboading_connect_now">Połącz</string>
     <string name="onboading_connecting_now">Łączenie</string>
     <string name="onboarding_congrats_description">Twoje połączenie jest chronione i możesz przeglądać Internet.\n\nBezpiecznie.</string>
     <string name="onboarding_congrats_title">Gratulacje!</string>
     <string name="onboarding_plan_congrats_description_privacy">Ciesz się prywatnością.</string>
-    <string name="onboading_connect_to_plus">Połącz się z serwerem planu PLUS</string>
-    <string name="upgrade_use_limited_free_button">Wybierz ograniczony plan FREE</string>
+    <string name="onboading_connect_to_plus">Połącz się z serwerem planu Plus</string>
+    <string name="upgrade_use_limited_free_button">Wybierz ograniczony plan Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Nie działa?</string>
     <string name="dynamic_report_contact_us">Skontaktuj się z nami</string>
     <string name="dynamic_report_tips_description">Te wskazówki mogą rozwiązać problem.</string>
@@ -626,6 +626,17 @@
     <string name="search_recents_header_title">Ostatnio oglądane (%1$d)</string>
     <string name="search_clear_history">Wyczyść historię</string>
     <string name="search_clear_history_dialog">Twoja historia wyszukiwania zostanie utracona. Kontynuować?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Dostęp do %1$d kraju</item>
+        <item quantity="few">Dostęp do wszystkich %1$d krajów</item>
+        <item quantity="many">Dostęp do wszystkich %1$d krajów</item>
+        <item quantity="other">Dostęp do wszystkich %1$d krajów</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Więcej lokalizacji = więcej odblokowanych treści + dodatkowe bezpieczeństwo + większe prędkości</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Odwiedź <a href="https://protonvpn.com/pricing">protonvpn.com</a>, aby uzyskać więcej informacji.</string>
 </resources>

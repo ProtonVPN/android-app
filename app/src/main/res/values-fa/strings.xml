@@ -52,7 +52,7 @@
     <string name="ok">تأیید</string>
     <string name="dialogContinue">ادامه</string>
     <string name="dialogLearnMore">بیشتر بدانید</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">بیشتر بخوانید</string>
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
@@ -136,13 +136,13 @@
     <string name="onboardingNext">بعدی</string>
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
-    <string name="listAllCountries">همهٔ مکان‌ها (%1$d)</string>
-    <string name="listFreeCountries">مکان‌های رایگان (%1$d)</string>
-    <string name="listPremiumCountries">مکان‌های BASIC و PLUS (%1$d)</string>
-    <string name="listFastestServer">سریع‌ترین سرور</string>
-    <string name="listFreeServers">سرورهای رایگان (%1$d)</string>
-    <string name="listBasicServers">سرورهای BASIC (%1$d)</string>
-    <string name="listPlusServers">سرورهای PLUS (%1$d)</string>
+    <string name="listAllCountries">All locations (%1$d)</string>
+    <string name="listFreeCountries">Free locations (%1$d)</string>
+    <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
+    <string name="listFastestServer">Fastest server</string>
+    <string name="listFreeServers">Free servers (%1$d)</string>
+    <string name="listBasicServers">Basic servers (%1$d)</string>
+    <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">اقدام کاربر لازم است</string>
     <string name="insufficientPermissionsDetails">اتصال VPN نتوانست بطور خودکار برقرار شود. لطفاً یکبار به صورت دستی اقدام به اتصال نمایید تا اجازه اعطا شود.</string>
     <string name="tabsCountries">کشورها</string>
@@ -419,8 +419,8 @@
         <item quantity="other">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d devices connected at the same time.</item>
     </plurals>
     <string name="notification_max_sessions_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید.</string>
-    <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
-    <string name="notification_cancel_to_basic">شما در طرح BASIC هستید. سرورها و قابلیت‌های BASIC و رایگان موجود هستند.</string>
+    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
+    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
     <string name="notification_cancel_to_delinquent">شما پس از پرداخت صورت‌حساب‌های در حال انتظار دوباره قادر به دسترسی به قابلیت‌های ویژه خواهید بود.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">از سرور: </string>
@@ -530,7 +530,7 @@
     <string name="smart_routing_title">مسیریابی هوشمند</string>
     <string name="smart_routing_description">این فناوری به ProtonVPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="streaming_title">پخش آنلاین</string>
-    <string name="streaming_description">سرورهای Plus از پخش آنلاین (Netflix، Disney+ و ...) از هر جایی در جهان پشتیبانی می‌کنند.</string>
+    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">این سرورها بهترین عملکرد را برای BitTorrent و اشتراک فایل ارائه می‌دهند.</string>
     <string name="tor_title">Tor</string>
@@ -549,7 +549,7 @@
     <string name="onboarding_welcome_title">به ProtonVPN خوش آمدید</string>
     <string name="onboarding_welcome_description">تنها در چند ثانیه با ProtonVPN آشنا شوید.</string>
     <string name="onboarding_welcome_action">شروع کنید</string>
-    <string name="onboarding_available_on_plus">در نسخه Plus در دسترس است</string>
+    <string name="onboarding_available_on_plus">Available with Plus</string>
     <string name="onboarding_streaming_title">رفع انسداد پخش آنلاین</string>
     <string name="onboarding_streaming_description">دسترسی امن به هر گونه محتوا، حتی وقتی در حال سفر در کشورهای دیگر هستید. دسترسی امن در AndroidTV نیز برقرار است.</string>
     <string name="onboarding_protection_title">همه‌جا محافظت شوید</string>
@@ -557,15 +557,15 @@
     <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
     <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
     <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
-    <string name="onboarding_connection_description">اشتراک رایگان %1$d سرور را در %2$d کشور ارائه می دهد</string>
+    <string name="onboarding_connection_description">Free subscription offers %1$d servers in %2$d countries</string>
     <string name="onboarding_connection_info">ما شما را به سریع‌ترین و پایدارترین سرور برای موقعیت شما، متصل می‌کنیم.</string>
     <string name="onboading_connect_now">اتصال</string>
     <string name="onboading_connecting_now">در حال اتصال</string>
     <string name="onboarding_congrats_description">اتصال شما محافظت شده است و آماده برای مرور وب هستید. \n\n با امنیت.</string>
     <string name="onboarding_congrats_title">تبریک!</string>
     <string name="onboarding_plan_congrats_description_privacy">از دنیای حریم خصوصی لذت ببرید.</string>
-    <string name="onboading_connect_to_plus">اتصال به یک سرور Plus</string>
-    <string name="upgrade_use_limited_free_button">استفاده از طرح رایگان محدود</string>
+    <string name="onboading_connect_to_plus">Connect to a Plus server</string>
+    <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
     <string name="dynamic_report_contact_us">تماس با ما</string>
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
@@ -608,6 +608,15 @@
     <string name="search_recents_header_title">Recently viewed (%1$d)</string>
     <string name="search_clear_history">Clear history</string>
     <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Access %1$d country</item>
+        <item quantity="other">Access all %1$d countries</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
 </resources>

@@ -52,7 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Doorgaan</string>
     <string name="dialogLearnMore">Meer informatie</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Lees meer</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
@@ -137,12 +137,12 @@
     <string name="offerTooltipShowOffer">Bekijk de aanbieding</string>
     <string name="listItemMaintenance">In onderhoud</string>
     <string name="listAllCountries">Alle locaties (%1$d)</string>
-    <string name="listFreeCountries">GRATIS locaties (%1$d)</string>
-    <string name="listPremiumCountries">BASIC &amp; PLUS locaties (%1$d)</string>
+    <string name="listFreeCountries">Gratis locaties (%1$d)</string>
+    <string name="listPremiumCountries">Basic &amp; Plus locaties (%1$d)</string>
     <string name="listFastestServer">Snelste server</string>
-    <string name="listFreeServers">GRATIS servers (%1$d)</string>
-    <string name="listBasicServers">BASIC-servers (%1$d)</string>
-    <string name="listPlusServers">PLUS-servers (%1$d)</string>
+    <string name="listFreeServers">Gratis servers (%1$d)</string>
+    <string name="listBasicServers">Basic servers (%1$d)</string>
+    <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">Gebruikersactie vereist</string>
     <string name="insufficientPermissionsDetails">Kan geen automatische VPN-verbinding tot stand brengen. Maak één keer handmatig verbinding om machtigingen te verlenen.</string>
     <string name="tabsCountries">Landen</string>
@@ -373,7 +373,7 @@
     <string name="tv_login_title_refresh">Uw sessie is verlopen. Klik op vernieuwen om opnieuw te starten.</string>
     <string name="tv_upgrade_title">Start streamen met Plus</string>
     <string name="back">Vorige</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Bezoek <b>%1$s</b> om nu te upgraden naar ProtonVPN Plus.]]></string>
     <string name="tv_upgrade_description">Neem een ProtonVPN Plus-plan om wereldwijd toegang te krijgen tot 500+ servers en geoptimaliseerde streaming-opties voor Netflix, Amazon Prime Video, Disney+ en nog veel meer.</string>
     <string name="tv_vpn_error_dialog_title">VPN-verbinding mislukt</string>
     <string name="tv_signout_label">Uitloggen</string>
@@ -419,8 +419,8 @@
         <item quantity="other">Koppel een ander toestel los om dit toestel te verbinden of upgrade naar Plus om tot %1$d toestellen te verbinden tegelijkertijd.</item>
     </plurals>
     <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
-    <string name="notification_cancel_to_free">U hebt een GRATIS abonnement. GRATIS servers en functies zijn beschikbaar.</string>
-    <string name="notification_cancel_to_basic">U hebt het BASIC abonnement. BASIC &amp; GRATIS servers en functies zijn beschikbaar.</string>
+    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
+    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
     <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturen betaald zijn.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Van server: </string>
@@ -530,7 +530,7 @@
     <string name="smart_routing_title">Slimme routering</string>
     <string name="smart_routing_description">Met deze technologie kan ProtonVPN hogere snelheid en beveiliging bieden in moeilijkheids-tot-dienstlanden.</string>
     <string name="streaming_title">Streamen</string>
-    <string name="streaming_description">PLUS-servers ondersteunen streaming (Netflix, Disney+, enz.) wereldwijd.</string>
+    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Deze servers geven de beste prestaties voor BitTorrent en het delen van bestanden.</string>
     <string name="tor_title">Tor</string>
@@ -587,27 +587,36 @@
     <string name="server_search_hint_secure_core">Land</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <string name="server_search_countries_header">Landen (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">Steden (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
     <string name="server_search_servers_header">Servers (%1$d)</string>
     <string name="search_empty_title">Zoek voor elke locatie</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Landen: <font color="%1$s">Zwitserland, Verenigde Staten, Italië…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Landen: <font color="%1$s">Frankrijk, Verenigde Staten, Italië…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Steden: <font color="%1$s">New York, Londen, Tokio…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[VS-regio: <font color="%1$s">Californië, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Probeer een ander sleutelwoord</string>
     <string name="search_empty_result_title">Geen resultaten gevonden</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
+    <string name="search_recents_header_title">Recent bekeken (%1$d)</string>
+    <string name="search_clear_history">Geschiedenis wissen</string>
     <string name="search_clear_history_dialog">Uw zoekgeschiedenis zal verloren gaan. Doorgaan?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Toegang tot %1$d land</item>
+        <item quantity="other">Toegang tot alle %1$d landen</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Meer locaties = meer ongeblokkeerde inhoud + extra beveiliging + hogere snelheden</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
 </resources>
