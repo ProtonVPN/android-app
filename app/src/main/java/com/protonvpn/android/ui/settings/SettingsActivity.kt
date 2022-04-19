@@ -50,7 +50,7 @@ import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity

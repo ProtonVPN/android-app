@@ -25,7 +25,7 @@ import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor

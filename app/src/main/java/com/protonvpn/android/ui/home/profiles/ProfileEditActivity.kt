@@ -38,7 +38,7 @@ import com.protonvpn.android.components.ProtonColorCircle
 import com.protonvpn.android.databinding.ActivityProfileEditBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
