@@ -19,7 +19,7 @@
 package com.protonvpn.actions
 
 import com.protonvpn.android.R
-import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.DefaultData

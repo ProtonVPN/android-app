@@ -14,7 +14,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.ProtocolSelection
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager

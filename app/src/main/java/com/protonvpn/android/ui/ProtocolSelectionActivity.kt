@@ -30,6 +30,7 @@ import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
+import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Proton Technologies AG
+ * Copyright (c) 2022 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui
+package com.protonvpn.android.vpn
 
 import android.os.Parcelable
 
