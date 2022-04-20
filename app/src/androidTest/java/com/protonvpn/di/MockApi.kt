@@ -163,7 +163,7 @@ class MockApi(
         )
     }
 
-    override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1"))
+    override suspend fun getLocation() = ApiResult.Success(UserLocation("127.0.0.1", "US", ""))
 
     override suspend fun getStreamingServices() = ApiResult.Success(
         StreamingServicesResponse("https://protonvpn.com/download/resources/", emptyMap()))
