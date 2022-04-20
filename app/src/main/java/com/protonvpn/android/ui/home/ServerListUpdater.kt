@@ -74,6 +74,12 @@ class ServerListUpdater(
 
     val ipAddress = StorageStringObservable(KEY_IP_ADDRESS)
 
+    // Country and ISP are used by "Report an issue" form.
+    var lastKnownCountry: String? = null
+        private set
+    var lastKnownISP: String? = null
+        private set
+
     init {
         scope.launch {
             userPlanManager.planChangeFlow.collect {
@@ -169,6 +175,10 @@ class ServerListUpdater(
             if (newIp.isNotEmpty() && newIp != ipAddress.value) {
                 ipAddress.setValue(newIp)
                 ipChanged = true
+            }
+            with(result.value) {
+                lastKnownCountry = country
+                lastKnownISP = isp
             }
             lastIpCheck = now()
             Storage.saveLong(KEY_IP_ADDRESS_DATE, DateTime().millis)

@@ -19,7 +19,9 @@
 
 package com.protonvpn.android.ui.drawer.bugreport
 
+import android.content.Context
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,8 +36,10 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.login.GenericResponse
+import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
@@ -48,14 +52,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportBugActivityViewModel @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    private val serverListUpdater: ServerListUpdater
 ) : ViewModel() {
 
     interface DynamicInputUI {
-        fun getSubmitText() : String?
+        fun getSubmitText(): String?
         fun setInputError(error: String)
     }
 
@@ -139,8 +145,8 @@ class ReportBugActivityViewModel @Inject constructor(
                 .addFormDataPart("OS", "Android")
                 .addFormDataPart("OSVersion", Build.VERSION.RELEASE.toString())
                 .addFormDataPart("ClientType", "2")
-                .addFormDataPart("Country", "Unknown")
-                .addFormDataPart("ISP", "Unknown")
+                .addFormDataPart("Country", serverListUpdater.lastKnownCountry ?: "Unknown")
+                .addFormDataPart("ISP", getIspValue())
                 .addFormDataPart("Title", "Report from $client")
                 .addFormDataPart("Description", description)
 
@@ -168,6 +174,17 @@ class ReportBugActivityViewModel @Inject constructor(
 
     private fun isEmailValid(email: CharSequence): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+    private fun getIspValue(): String {
+        val lastKnownIsp = serverListUpdater.lastKnownISP ?: "Unknown"
+        val telephony: TelephonyManager? = appContext.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+        val mobileNetwork = telephony?.networkOperatorName
+        return if (mobileNetwork != null) {
+            "$lastKnownIsp, mobile network: $mobileNetwork"
+        } else {
+            lastKnownIsp
+        }
+    }
 
     private fun ApiResult<GenericResponse>.toViewState() = when (this) {
         is ApiResult.Success<GenericResponse> -> ViewState.Finish
