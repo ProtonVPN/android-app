@@ -197,7 +197,7 @@ public class ProtonApplication extends Application {
     private boolean handleUpdate() {
         int versionCode = Storage.getInt("VERSION_CODE");
         Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
-        return versionCode != BuildConfig.VERSION_CODE;
+        return versionCode != 0 && versionCode != BuildConfig.VERSION_CODE;
     }
 
     @NotNull
