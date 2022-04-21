@@ -119,7 +119,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         val selectedApps = selectedPackages.mapNotNullTo(mutableSetOf()) { packageName ->
             allAppsByPackage.getOrDefault(packageName, null)
         }
-        val availableRegularApps = regularApps.filterNot { selectedApps.contains(it) }
+        val availableRegularApps = regularApps.filterNot { selectedApps.containsWithId(it.id) }
         val availableSystemAppsState = when (systemAppsState) {
             is SystemAppsState.Loading ->
                 SystemAppsState.Loading(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
@@ -127,7 +127,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
                 SystemAppsState.NotLoaded(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
             is SystemAppsState.Content ->
                 SystemAppsState.Content(
-                    systemAppsState.apps.filterNot { selectedApps.contains(it) }
+                    systemAppsState.apps.filterNot { selectedApps.containsWithId(it.id) }
                         .sortedByLocaleAware { it.label }
                 )
         }
@@ -177,4 +177,8 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         } else {
             emptyList()
         }
+
+    private fun Iterable<LabeledItem>.containsWithId(id: String): Boolean {
+        return find { it.id == id } != null
+    }
 }
