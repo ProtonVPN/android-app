@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
@@ -34,6 +35,7 @@ import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.GroupAdapter
@@ -60,10 +62,13 @@ class CountrySelectionActivity : BaseActivityV2() {
 
     private fun initCountryList(recyclerItems: RecyclerView, secureCore: Boolean) {
         val layout = LinearLayoutManager(this)
+        val upgradeButtonListener = View.OnClickListener {
+            startActivity(Intent(this, UpgradePlusCountriesDialogActivity::class.java))
+        }
         val sections = viewModel.getCountryGroups(secureCore).mapIndexed { index, group ->
             Section(
                 HeaderViewHolder(text = getString(group.label, group.size), itemId = index.toLong()),
-                group.countries.map { CountryItemSelectionViewHolder(it, group.isAccessible) }
+                group.countries.map { CountryItemSelectionViewHolder(it, group.isAccessible, upgradeButtonListener) }
             )
         }
 
@@ -87,7 +92,8 @@ class CountrySelectionActivity : BaseActivityV2() {
 
     private class CountryItemSelectionViewHolder(
         val country: VpnCountry,
-        private val isAccessible: Boolean
+        private val isAccessible: Boolean,
+        private val upgradeButtonListener: View.OnClickListener
     ) : BindableItem<ItemServerSelectionBinding>() {
 
         override fun bind(viewBinding: ItemServerSelectionBinding, position: Int) {
@@ -96,6 +102,8 @@ class CountrySelectionActivity : BaseActivityV2() {
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, country.flag))
                 imageIcon.alpha =
                     if (isAccessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
+                buttonUpgrade.isVisible = !isAccessible
+                buttonUpgrade.setOnClickListener(upgradeButtonListener)
                 root.isEnabled = isAccessible
             }
         }
