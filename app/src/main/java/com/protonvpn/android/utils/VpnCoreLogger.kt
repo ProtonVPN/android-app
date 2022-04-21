@@ -25,6 +25,7 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import me.proton.core.humanverification.presentation.LogTag
 import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
 import me.proton.core.network.data.LogTag as NetworkLogTag
 import me.proton.core.util.kotlin.Logger
@@ -47,9 +48,11 @@ class VpnCoreLogger : Logger {
                 ProtonLogger.log(ApiLogResponse, message)
             NetworkLogTag.API_ERROR ->
                 ProtonLogger.log(ApiLogError, message)
+            LogTag.HV_REQUEST_ERROR ->
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.API, message)
             else -> {
                 DebugUtils.debugAssert("Unknown log tag. Update this mapping.") { true }
-                ProtonLogger.logCustom(LogCategory.APP, "[$tag] $message")
+                ProtonLogger.logCustom(LogCategory.APP, "[${tag.name}] $message")
             }
         }
     }
