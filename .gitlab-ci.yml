@@ -261,7 +261,9 @@ sync-app:
   only:
     refs:
       - master
-
+  before_script:
+    - !reference [ default, before_script ]
+    - apt update && apt-get install -y connect-proxy
   script:
     # Clone instead of using the current CI as it creates the error (shallow update not allowed)
     - git clone "$CI_REPOSITORY_URL" --branch master _APP_CLONE;
