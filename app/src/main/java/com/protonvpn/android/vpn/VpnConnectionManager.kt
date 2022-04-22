@@ -390,10 +390,10 @@ open class VpnConnectionManager(
         ongoingConnect = null
     }
 
-    fun onRestoreProcess(profile: Profile): Boolean {
+    fun onRestoreProcess(profile: Profile, reason: String = ""): Boolean {
         val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
         if (state == VpnState.Disabled && stateKey == VpnState.Connected.name) {
-            connect(vpnBackgroundUiDelegate, profile, "Process restore")
+            connect(vpnBackgroundUiDelegate, profile, "Process restore: $reason")
             return true
         }
         return false
