@@ -175,6 +175,14 @@
             android:process=":app_info_service" />
 
         <receiver
+            android:name=".OnUpdateReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".components.BootReceiver"
             android:enabled="true"
             android:exported="false">
