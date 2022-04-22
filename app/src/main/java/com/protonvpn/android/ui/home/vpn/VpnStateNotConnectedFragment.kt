@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.components.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
@@ -47,10 +48,10 @@ class VpnStateNotConnectedFragment :
             }
         }
 
-        viewModel.ipAddress.observe(viewLifecycleOwner, Observer { ip ->
+        viewModel.ipAddress.asLiveData().observe(viewLifecycleOwner, Observer { ip ->
             binding.textCurrentIp.text = resources.getString(
                 R.string.notConnectedCurrentIp,
-                if (ip.isEmpty()) getString(R.string.stateFragmentUnknownIp) else ip
+                ip.ifEmpty { getString(R.string.stateFragmentUnknownIp) }
             )
         })
     }
