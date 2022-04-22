@@ -162,6 +162,13 @@ open class VpnConnectionManager(
                         }
                     }
                 } else {
+                    if (errorType != null) {
+                        ongoingFallback = scope.launch {
+                            handleUnrecoverableError(errorType)
+                            ongoingFallback = null
+                        }
+                    }
+
                     // After auth failure OpenVPN will automatically enter DISABLED state, don't clear fallback to allow
                     // it to finish even when we entered DISABLED state.
                     if (state == VpnState.Connected)
@@ -249,6 +256,14 @@ open class VpnConnectionManager(
                     activeBackend?.setSelfState(VpnState.Error(result.type))
                 }
             }
+        }
+    }
+
+    private suspend fun handleUnrecoverableError(errorType: ErrorType) {
+        if (errorType == ErrorType.MAX_SESSIONS) {
+            vpnStateMonitor.fallbackConnectionFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
+            ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
+            disconnect("max sessions reached")
         }
     }
 
