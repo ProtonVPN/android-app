@@ -50,15 +50,6 @@ class ServerListUpdater(
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
 ) {
-    companion object {
-        private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
-        private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
-        val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
-        private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
-
-        private fun now() = SystemClock.elapsedRealtime()
-    }
-
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
 
@@ -74,6 +65,9 @@ class ServerListUpdater(
     val lastKnownIsp: String? get() = prefs.lastKnownIsp
 
     init {
+        lastIpCheck = dateToRealtime(prefs.ipAddressCheckTimestamp)
+        lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
+
         scope.launch {
             userPlanManager.planChangeFlow.collect {
                 updateServerList()
@@ -111,12 +105,7 @@ class ServerListUpdater(
         get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
 
     private fun dateToRealtime(date: Long) =
-            now() - (DateTime().millis - date).coerceAtLeast(0)
-
-    init {
-        lastIpCheck = dateToRealtime(prefs.ipAddressCheckTimestamp)
-        lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
-    }
+        now() - (DateTime().millis - date).coerceAtLeast(0)
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
@@ -201,5 +190,14 @@ class ServerListUpdater(
         }
         loaderUI?.switchToEmpty()
         return result
+    }
+
+    companion object {
+        private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
+        private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
+        val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
+        private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
+
+        private fun now() = SystemClock.elapsedRealtime()
     }
 }
