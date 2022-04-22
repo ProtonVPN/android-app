@@ -180,8 +180,7 @@ abstract class VpnBackend(
                 agentConstants.errorCodeMaxSessionsPro,
                 agentConstants.errorCodeMaxSessionsUnknown,
                 agentConstants.errorCodeMaxSessionsVisionary ->
-                    // FIXME: set MAX_SESSIONS directly when error handling code is prepared for that
-                    setError(ErrorType.AUTH_FAILED_INTERNAL)
+                    setError(ErrorType.MAX_SESSIONS)
 
                 agentConstants.errorCodeBadCertSignature,
                 agentConstants.errorCodeCertificateRevoked ->
@@ -230,7 +229,7 @@ abstract class VpnBackend(
             if (disconnectVPN)
                 closeVpnTunnel(withStateChange = false)
 
-            selfStateObservable.postValue(VpnState.Error(error, description))
+            selfStateObservable.setValue(VpnState.Error(error, description))
         }
     }
 
