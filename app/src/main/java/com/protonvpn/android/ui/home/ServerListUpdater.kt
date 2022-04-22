@@ -28,8 +28,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.StorageStringObservable
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -50,16 +48,13 @@ class ServerListUpdater(
     val currentUser: CurrentUser,
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
+    private val prefs: ServerListUpdaterPrefs,
 ) {
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
         private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
-
-        private const val KEY_IP_ADDRESS = "IP_ADDRESS"
-        private const val KEY_IP_ADDRESS_DATE = "IP_ADDRESS_DATE"
-        private const val KEY_LOADS_UPDATE_DATE = "LOADS_UPDATE_DATE"
 
         private fun now() = SystemClock.elapsedRealtime()
     }
@@ -72,13 +67,11 @@ class ServerListUpdater(
         dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
     private var lastLoadsUpdateInternal = Long.MIN_VALUE
 
-    val ipAddress = StorageStringObservable(KEY_IP_ADDRESS)
+    val ipAddress = prefs.ipAddressFlow
 
     // Country and ISP are used by "Report an issue" form.
-    var lastKnownCountry: String? = null
-        private set
-    var lastKnownISP: String? = null
-        private set
+    val lastKnownCountry: String? get() = prefs.lastKnownCountry
+    val lastKnownIsp: String? get() = prefs.lastKnownIsp
 
     init {
         scope.launch {
@@ -121,9 +114,8 @@ class ServerListUpdater(
             now() - (DateTime().millis - date).coerceAtLeast(0)
 
     init {
-        val lastIpCheckDate = Storage.getLong(KEY_IP_ADDRESS_DATE, 0L)
-        lastIpCheck = dateToRealtime(lastIpCheckDate)
-        lastLoadsUpdateInternal = dateToRealtime(Storage.getLong(KEY_LOADS_UPDATE_DATE, 0L))
+        lastIpCheck = dateToRealtime(prefs.ipAddressCheckTimestamp)
+        lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
     }
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
@@ -156,11 +148,11 @@ class ServerListUpdater(
     }
 
     private suspend fun updateLoads(): Boolean {
-        val result = api.getLoads(ipAddress.value)
+        val result = api.getLoads(prefs.ipAddress)
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
             lastLoadsUpdateInternal = now()
-            Storage.saveLong(KEY_LOADS_UPDATE_DATE, DateTime().millis)
+            prefs.loadsUpdateTimestamp = DateTime().millis
             return true
         }
         return false
@@ -172,16 +164,16 @@ class ServerListUpdater(
         var ipChanged = false
         if (result is ApiResult.Success) {
             val newIp = result.value.ipAddress
-            if (newIp.isNotEmpty() && newIp != ipAddress.value) {
-                ipAddress.setValue(newIp)
+            if (newIp.isNotEmpty() && newIp != prefs.ipAddress) {
+                prefs.ipAddress = newIp
                 ipChanged = true
             }
             with(result.value) {
-                lastKnownCountry = country
-                lastKnownISP = isp
+                prefs.lastKnownCountry = country
+                prefs.lastKnownIsp = isp
             }
             lastIpCheck = now()
-            Storage.saveLong(KEY_IP_ADDRESS_DATE, DateTime().millis)
+            prefs.ipAddressCheckTimestamp = DateTime().millis
         }
         return ipChanged
     }
@@ -203,7 +195,7 @@ class ServerListUpdater(
         }
 
         val lang = Locale.getDefault().language
-        val result = api.getServerList(null, ipAddress.value, lang)
+        val result = api.getServerList(null, prefs.ipAddress, lang)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList, lang)
         }

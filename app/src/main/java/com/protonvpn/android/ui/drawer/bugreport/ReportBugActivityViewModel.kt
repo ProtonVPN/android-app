@@ -176,7 +176,7 @@ class ReportBugActivityViewModel @Inject constructor(
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     private fun getIspValue(): String {
-        val lastKnownIsp = serverListUpdater.lastKnownISP ?: "Unknown"
+        val lastKnownIsp = serverListUpdater.lastKnownIsp ?: "Unknown"
         val telephony: TelephonyManager? = appContext.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
         val mobileNetwork = telephony?.networkOperatorName
         return if (mobileNetwork != null) {

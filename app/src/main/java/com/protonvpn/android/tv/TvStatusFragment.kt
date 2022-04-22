@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
@@ -71,7 +72,7 @@ class TvStatusFragment : Fragment() {
         }
         textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
 
-        serverListUpdater.ipAddress.observe(viewLifecycleOwner, Observer {
+        serverListUpdater.ipAddress.asLiveData().observe(viewLifecycleOwner, Observer {
             val ipToDisplay = when {
                 status.state == VpnState.Connected -> status.connectionParams?.exitIpAddress
                 it.isEmpty() -> getString(R.string.stateFragmentUnknownIp)

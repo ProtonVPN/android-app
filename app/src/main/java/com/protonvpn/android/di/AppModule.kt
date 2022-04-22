@@ -41,6 +41,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
@@ -83,7 +84,6 @@ import me.proton.core.network.data.NetworkManager
 import me.proton.core.network.data.NetworkPrefsImpl
 import me.proton.core.network.data.ProtonCookieStore
 import me.proton.core.network.data.client.ClientIdProviderImpl
-import me.proton.core.network.data.client.ClientVersionValidatorImpl
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
 import me.proton.core.network.data.di.Constants
 import me.proton.core.network.domain.ApiManager
@@ -314,7 +314,8 @@ object AppModule {
         currentUser: CurrentUser,
         vpnStateMonitor: VpnStateMonitor,
         userPlanManager: UserPlanManager,
-    ) = ServerListUpdater(scope, api, serverManager, currentUser, vpnStateMonitor, userPlanManager)
+        prefs: ServerListUpdaterPrefs
+    ) = ServerListUpdater(scope, api, serverManager, currentUser, vpnStateMonitor, userPlanManager, prefs)
 
     @Singleton
     @Provides
