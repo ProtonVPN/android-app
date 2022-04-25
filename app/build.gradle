@@ -585,7 +585,7 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
