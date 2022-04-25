@@ -70,11 +70,10 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.mocks.MockAgentProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.verify
-import kotlinx.coroutines.runBlocking
-import me.proton.core.network.domain.ApiResult
-import me.proton.core.test.kotlin.TestDispatcherProvider
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -91,6 +90,7 @@ class VpnConnectionTests {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
+    private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var scope: TestCoroutineScope
     private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
@@ -150,7 +150,8 @@ class VpnConnectionTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        scope = TestCoroutineScope()
+        testDispatcher = TestCoroutineDispatcher()
+        scope = TestCoroutineScope(testDispatcher)
         userData = spyk(UserData.create())
 
         coEvery { currentUser.sessionId() } returns SessionId("1")
@@ -339,7 +340,7 @@ class VpnConnectionTests {
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(
             this,
-            TestDispatcherProvider,
+            TestDispatcherProvider(testDispatcher),
             dagger.Lazy { serverManager },
             monitor,
             dagger.Lazy { manager },

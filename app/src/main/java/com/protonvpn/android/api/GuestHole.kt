@@ -19,6 +19,7 @@
 package com.protonvpn.android.api
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.WorkerThread
 import com.protonvpn.android.R
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.suspendForPermissions
@@ -116,22 +117,25 @@ class GuestHole @Inject constructor(
         return connected
     }
 
+    @WorkerThread
     override suspend fun onAlternativesUnblock(alternativesBlockCall: suspend () -> Unit) {
         logMessage("Guesthole for DOH")
 
-        // Do not execute guesthole for calls running in background, due to inability to call permission intent
-        val currentActivity = foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return
-        val delegate = GuestHoleVpnUiDelegate(currentActivity)
-        val intent = vpnConnectionManager.get().prepare(currentActivity)
+        withContext(dispatcherProvider.Main) {
+            // Do not execute guesthole for calls running in background, due to inability to call permission intent
+            val currentActivity =
+                foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return@withContext
+            val delegate = GuestHoleVpnUiDelegate(currentActivity)
+            val intent = vpnConnectionManager.get().prepare(currentActivity)
 
-        // Ask for permissions and if granted execute original method and return it back to core
-        if (currentActivity.suspendForPermissions(intent)) {
-            withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
-                unblockCall(delegate, alternativesBlockCall)
+            // Ask for permissions and if granted execute original method and return it back to core
+            if (currentActivity.suspendForPermissions(intent)) {
+                withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
+                    unblockCall(delegate, alternativesBlockCall)
+                }
+            } else {
+                logMessage("Missing permissions")
             }
-        } else {
-            logMessage("Missing permissions")
-            return
         }
     }
 
