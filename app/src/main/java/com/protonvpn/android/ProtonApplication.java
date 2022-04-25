@@ -39,7 +39,6 @@ import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.search.UpdateServersOnLocaleChange;
-import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
@@ -111,9 +110,6 @@ public class ProtonApplication extends Application {
 
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
-        if (BuildConfig.DEBUG)
-            initLeakCanary();
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         // Initialize go-libraries early to avoid crashes in StrongSwan
@@ -159,16 +155,6 @@ public class ProtonApplication extends Application {
         ProtonPreferences preferences =
             new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
         Storage.setPreferences(preferences);
-    }
-
-    private void initLeakCanary() {
-         if (AndroidUtils.INSTANCE.isTV(this)) {
-            // Leanback seems to have issues with leaking fragment views
-            AppWatcher.Config config = AppWatcher.getConfig().newBuilder()
-                .watchFragmentViews(false)
-                .build();
-            AppWatcher.setConfig(config);
-        }
     }
 
     private void initLogger() {
