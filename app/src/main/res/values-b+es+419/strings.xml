@@ -52,7 +52,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Más información</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Leer más</string>
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
@@ -136,13 +136,13 @@
     <string name="onboardingNext">Siguiente</string>
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
-    <string name="listAllCountries">All locations (%1$d)</string>
-    <string name="listFreeCountries">Free locations (%1$d)</string>
-    <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
-    <string name="listFastestServer">Fastest server</string>
-    <string name="listFreeServers">Free servers (%1$d)</string>
-    <string name="listBasicServers">Basic servers (%1$d)</string>
-    <string name="listPlusServers">Plus servers (%1$d)</string>
+    <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
+    <string name="listFreeCountries">Ubicaciones gratuitas (%1$d)</string>
+    <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
+    <string name="listFastestServer">Servidor más rápido</string>
+    <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
+    <string name="listBasicServers">Servidores Basic (%1$d)</string>
+    <string name="listPlusServers">Servidores Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Se requiere acción del usuario</string>
     <string name="insufficientPermissionsDetails">No se pudo establecer automáticamente la conexión VPN. Por favor, conéctese manualmente una vez para conceder permisos.</string>
     <string name="tabsCountries">Países</string>
@@ -167,7 +167,7 @@
     <string name="upgrade">Mejorar</string>
     <string name="retry">Reintentar</string>
     <plurals name="retry_in">
-        <item quantity="one">Reconnection in %1$d second</item>
+        <item quantity="one">Reconexión en %1$d segundo</item>
         <item quantity="other">Reconexión en %1$d segundos</item>
     </plurals>
     <string name="connection_failed">Falló la conexión</string>
@@ -273,7 +273,7 @@
          %2$d - a number of remaining items.
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
     <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s and %2$d more</item>
+        <item quantity="one">%1$s y %2$d más</item>
         <item quantity="other">%1$s y %2$d más</item>
     </plurals>
     <string name="settingsCannotChangeWhileConnected">No se puede cambiar mientras esté conectado</string>
@@ -373,7 +373,7 @@
     <string name="tv_login_title_refresh">Su sesión ha expirado. Haga clic en actualizar para empezar de nuevo.</string>
     <string name="tv_upgrade_title">Comience a transmitir con Plus</string>
     <string name="back">Atrás</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para actualizar a ProtonVPN Plus ahora.]]></string>
     <string name="tv_upgrade_description">Obtenga un plan ProtonVPN Plus para acceder a más de 500 servidores en todo el mundo y opciones optimizadas de streaming para Netflix, Amazon Prime Video, Disney+, y muchos más.</string>
     <string name="tv_vpn_error_dialog_title">Falló la conexión VPN</string>
     <string name="tv_signout_label">Cerrar sesión</string>
@@ -415,12 +415,12 @@
     <string name="notification_max_sessions_title">Ha alcanzado el límite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d device connected at the same time.</item>
+        <item quantity="one">Desconecte otro dispositivo para conectar éste o actualice a un plan Plus para conectar hasta %1$d dispositivo al mismo tiempo.</item>
         <item quantity="other">Desconecte otro dispositivo para conectar éste o actualice a un plan Plus para conectar hasta %1$d dispositivos al mismo tiempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Desconecte otro dispositivo para conectar éste.</string>
-    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
-    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
+    <string name="notification_cancel_to_free">Está en el plan Gratuito. Hay servidores y funciones gratuitos disponibles.</string>
+    <string name="notification_cancel_to_basic">Está en el plan Basic. Los servidores y funciones Basic y gratuitas están disponibles.</string>
     <string name="notification_cancel_to_delinquent">Podrá acceder a las funciones premium de nuevo después de pagar las facturas pendientes.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Del servidor: </string>
@@ -437,7 +437,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d server</item>
+        <item quantity="one">%1$d servidor</item>
         <item quantity="other">%1$d servidores</item>
     </plurals>
     <!-- Number of countries available in the service. This phrase will be combined with
@@ -446,7 +446,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d country</item>
+        <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Actualice de nuevo para disfrutar de todas las funciones:</string>
@@ -468,7 +468,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d secure server</item>
+        <item quantity="one">%d servidor seguro</item>
         <item quantity="other">%d servidores seguros</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
@@ -478,7 +478,7 @@
      1200+ secure servers
      -->
     <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">%d secure server</item>
+        <item quantity="one">%d servidor seguro</item>
         <item quantity="other">%d servidores seguros</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
@@ -487,7 +487,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d country</item>
+        <item quantity="one">%d país</item>
         <item quantity="other">%d países</item>
     </plurals>
     <!-- Parameters:
@@ -508,7 +508,7 @@
     <string name="upgrade_plus_countries_streaming">Acceda a servicios de transmisión global</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Connect %d device</item>
+        <item quantity="one">Conecte %d dispositivo</item>
         <item quantity="other">Conecte %d dispositivos simultáneamente</item>
     </plurals>
     <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
@@ -530,7 +530,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Esta tecnología permite a ProtonVPN dar mayor velocidad y seguridad en países con acceso limitado.</string>
     <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
+    <string name="streaming_description">Los servidores Plus admiten streaming (Netflix, Disney+, etc) desde cualquier parte del mundo.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Estos servidores ofrecen el mejor rendimiento para BitTorrent y compartir archivos.</string>
     <string name="tor_title">Tor</string>
@@ -549,7 +549,7 @@
     <string name="onboarding_welcome_title">Bienvenido a ProtonVPN</string>
     <string name="onboarding_welcome_description">Aprenda a aprovechar al máximo ProtonVPN en solo unos segundos.</string>
     <string name="onboarding_welcome_action">Comenzar</string>
-    <string name="onboarding_available_on_plus">Available with Plus</string>
+    <string name="onboarding_available_on_plus">Disponible con Plus</string>
     <string name="onboarding_streaming_title">Desbloquear streaming</string>
     <string name="onboarding_streaming_description">Acceda de forma segura a cualquier contenido, incluso mientras viaja a otros países. Ahora también en Android TV.</string>
     <string name="onboarding_protection_title">Esté protegido en todas partes</string>
@@ -557,15 +557,15 @@
     <string name="onboarding_netshield_title">Bloquee anuncios y más</string>
     <string name="onboarding_netshield_description">Bloquee malware, anuncios y rastreadores en el navegador y en todas las apps.</string>
     <string name="onboarding_connection_title">Establezca su primera conexión</string>
-    <string name="onboarding_connection_description">Free subscription offers %1$d servers in %2$d countries</string>
+    <string name="onboarding_connection_description">La suscripción gratuita ofrece %1$d servidores en %2$d países</string>
     <string name="onboarding_connection_info">Le conectaremos al servidor más rápido y estable para su ubicación.</string>
     <string name="onboading_connect_now">Conectar ahora</string>
     <string name="onboading_connecting_now">Conectando ahora</string>
     <string name="onboarding_congrats_description">Su conexión está protegida y está listo para navegar por la web.\n\nDe forma segura.</string>
     <string name="onboarding_congrats_title">¡Felicitaciones!</string>
     <string name="onboarding_plan_congrats_description_privacy">Disfrute del mundo de la privacidad.</string>
-    <string name="onboading_connect_to_plus">Connect to a Plus server</string>
-    <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
+    <string name="onboading_connect_to_plus">Conéctese a un servidor Plus</string>
+    <string name="upgrade_use_limited_free_button">Usar plan gratuito limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">¿No funcionó?</string>
     <string name="dynamic_report_contact_us">Contáctenos</string>
     <string name="dynamic_report_tips_description">Estos consejos podrían ayudarle a resolver su problema más rápido.</string>
@@ -587,36 +587,36 @@
     <string name="server_search_hint_secure_core">País</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Countries (%1$d)</string>
+    <string name="server_search_countries_header">Países (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">Ciudades (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
+    <string name="server_search_servers_header">Servidores (%1$d)</string>
     <string name="search_empty_title">Buscar cualquier ubicación</string>
-    <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Países: <font color="%1$s">Suiza, Estados Unidos, Italia…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Países: <font color="%1$s">Francia, Estados Unidos, Italia…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Ciudades: <font color="%1$s">Nueva York, Londres, Tokio…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Regiones de EE. UU.: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Servidores: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Intente con una contraseña diferente</string>
     <string name="search_empty_result_title">No se encontraron resultados</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
+    <string name="search_recents_header_title">Visto reciente (%1$d)</string>
+    <string name="search_clear_history">Borrar historial</string>
     <string name="search_clear_history_dialog">Se perderá su historial de búsqueda. ¿Continuar?</string>
     <!-- Parameters:
      %1$s - number of countries. It is never 1.
 
      Example: Access all 63 countries. -->
     <plurals name="search_upgrade_banner_title">
-        <item quantity="one">Access %1$d country</item>
-        <item quantity="other">Access all %1$d countries</item>
+        <item quantity="one">Acceso a %1$d país</item>
+        <item quantity="other">Acceso a %1$d países</item>
     </plurals>
-    <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
+    <string name="search_upgrade_banner_subtitle">Más ubicaciones = más contenido desbloqueado + seguridad adicional + velocidades altas</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
 </resources>
