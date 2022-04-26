@@ -44,6 +44,7 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -57,6 +58,7 @@ import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Binds
 import dagger.Module
@@ -265,6 +267,9 @@ class MockAppModule {
     interface Bindings {
         @Binds
         fun bindCertificateRefreshSchedulers(scheduler: NoopCertRefreshScheduler): CertRefreshScheduler
+
+        @Binds
+        fun bindSharedPrefsProvider(provider: MockSharedPreferencesProvider): SharedPreferencesProvider
     }
 }
 

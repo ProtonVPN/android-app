@@ -19,9 +19,8 @@
 
 package com.protonvpn.android.ui.home
 
-import android.content.Context
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.protonvpn.android.utils.SharedPreferencesProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
@@ -32,11 +31,11 @@ import me.proton.core.util.kotlin.EMPTY_STRING
 import javax.inject.Inject
 
 class ServerListUpdaterPrefs @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    private val prefsProvider: SharedPreferencesProvider
 ) : PreferencesProvider {
 
     override val preferences: SharedPreferences
-        get() = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        get() = prefsProvider.getPrefs(PREFS_NAME)
 
     val ipAddressFlow: Flow<String> = preferences.observe<String>(KEY_IP_ADDRESS).map { it ?: "" }
     var ipAddress: String by string(EMPTY_STRING, key = KEY_IP_ADDRESS)
