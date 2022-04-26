@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
@@ -30,21 +31,13 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTroubleshootBinding
 import com.protonvpn.android.databinding.ItemTroubleshootingInfoBinding
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TroubleshootActivity : BaseActivityV2() {
-
-    companion object {
-        private const val TOR_URL = "https://www.torproject.org/"
-        private const val PROTON_STATUS_URL = "https://protonstatus.com/"
-        private const val SUPPORT_URL = "https://protonvpn.com/support-form"
-        private const val MAIL_URL = "mailto:support@protonvpn.com"
-        private const val TWITTER_URL = "https://twitter.com/ProtonVPN"
-    }
 
     private val viewModel: TroubleshootViewModel by viewModels()
 
@@ -73,9 +66,14 @@ class TroubleshootActivity : BaseActivityV2() {
                     R.string.troubleshootProtonDownDescription, PROTON_STATUS_URL)))
 
             textCustomerSupport.setOnClickListener {
-                openProtonUrl(SUPPORT_URL)
+                startActivity(Intent(this@TroubleshootActivity, DynamicReportActivity::class.java))
             }
         }
+    }
+
+    companion object {
+        private const val TOR_URL = "https://www.torproject.org/"
+        private const val PROTON_STATUS_URL = "https://protonstatus.com/"
     }
 }
 
