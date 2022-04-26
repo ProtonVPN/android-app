@@ -66,7 +66,6 @@ import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
-import leakcanary.AppWatcher;
 import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
