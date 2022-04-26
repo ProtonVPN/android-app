@@ -24,7 +24,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.app.mocks.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreference
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

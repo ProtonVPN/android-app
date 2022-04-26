@@ -25,7 +25,7 @@ import com.protonvpn.android.search.Search
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.app.mocks.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.every

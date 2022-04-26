@@ -44,8 +44,10 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
+import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertRefreshScheduler
@@ -249,6 +251,9 @@ object AppModuleProd {
     interface Bindings {
         @Binds
         fun bindCertificateRefreshScheduler(scheduler: CertRefreshWorkerScheduler): CertRefreshScheduler
+
+        @Binds
+        fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider
     }
 }
 

@@ -34,7 +34,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.app.mocks.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
