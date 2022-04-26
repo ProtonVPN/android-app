@@ -8,7 +8,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.app.mocks.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreference
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
