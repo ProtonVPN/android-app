@@ -67,6 +67,7 @@ class ReportFragment : Fragment(R.layout.fragment_report) {
             viewModel.prepareAndPostReport(
                 isTV = requireContext().isTV(),
                 emailField = editEmail,
+                category = category,
                 dynamicInputMap = inputMap,
                 attachLog = checkboxIncludeLogs.isChecked
             )
