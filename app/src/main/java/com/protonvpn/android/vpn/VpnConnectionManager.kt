@@ -247,7 +247,7 @@ open class VpnConnectionManager(
             is VpnFallbackResult.Switch ->
                 fallbackConnect(result)
             is VpnFallbackResult.Error -> {
-                vpnStateMonitor.fallbackConnectionFlow.emit(result)
+                vpnStateMonitor.vpnConnectionNotificationFlow.emit(result)
                 ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
@@ -261,7 +261,7 @@ open class VpnConnectionManager(
 
     private suspend fun handleUnrecoverableError(errorType: ErrorType) {
         if (errorType == ErrorType.MAX_SESSIONS) {
-            vpnStateMonitor.fallbackConnectionFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
+            vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
             disconnect("max sessions reached")
         }
@@ -269,7 +269,7 @@ open class VpnConnectionManager(
 
     private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
         if (fallback.notifyUser && fallback.reason != null) {
-            vpnStateMonitor.fallbackConnectionFlow.emit(fallback)
+            vpnStateMonitor.vpnConnectionNotificationFlow.emit(fallback)
         }
 
         when (fallback) {
