@@ -93,10 +93,12 @@ class ReportBugActivityViewModel @Inject constructor(
         _state.value = ViewState.Report(category)
     }
 
-    private fun generateReportDescription(dynamicInputMap: Map<InputField, DynamicInputUI>): String =
-         dynamicInputMap.asIterable().joinToString("\n\n") {
-             it.key.submitLabel + "\n" + it.value.getSubmitText()
-         }
+    private fun generateReportDescription(category: Category, dynamicInputMap: Map<InputField, DynamicInputUI>): String {
+        val fields = dynamicInputMap.asIterable().joinToString("\n\n") {
+            it.key.submitLabel + "\n" + it.value.getSubmitText()
+        }
+        return "Category: ${category.submitLabel}\n\n$fields"
+    }
 
     private fun hasMissingFields(emailField: ProtonInput, dynamicFields: List<DynamicInputUI>): Boolean {
         var missingFieldsFound = false
@@ -125,6 +127,7 @@ class ReportBugActivityViewModel @Inject constructor(
     fun prepareAndPostReport(
         isTV: Boolean,
         emailField: ProtonInput,
+        category: Category,
         dynamicInputMap: Map<InputField, DynamicInputUI>,
         attachLog: Boolean
     ) {
@@ -132,7 +135,7 @@ class ReportBugActivityViewModel @Inject constructor(
             if (hasMissingFields(emailField, dynamicInputMap.filter { it.key.isMandatory }.values.toList())) return@launch
             _state.value = ViewState.SubmittingReport
             val email = emailField.text.toString().trim { it <= ' ' }
-            val userGeneratedDescription = generateReportDescription(dynamicInputMap)
+            val userGeneratedDescription = generateReportDescription(category, dynamicInputMap)
             val description =
                 "$userGeneratedDescription\n\nSentry user ID: ${SentryIntegration.getInstallationId()}"
             val client = if (isTV) "Android TV app" else "Android app"
