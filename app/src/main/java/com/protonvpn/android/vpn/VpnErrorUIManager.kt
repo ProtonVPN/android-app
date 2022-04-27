@@ -56,7 +56,7 @@ class VpnErrorUIManager @Inject constructor(
             }
         }
         scope.launch {
-            stateMonitor.fallbackConnectionFlow.collect { switch ->
+            stateMonitor.vpnConnectionNotificationFlow.collect { switch ->
                 if (switch is VpnFallbackResult.Switch.SwitchServer && !switch.compatibleProtocol) {
                     notificationHelper.showInformationNotification(
                         content = R.string.notification_smart_protocol_disabled_content,

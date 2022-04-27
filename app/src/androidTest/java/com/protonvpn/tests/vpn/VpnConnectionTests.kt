@@ -365,7 +365,7 @@ class VpnConnectionTests {
 
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
-            monitor.fallbackConnectionFlow.collect {
+            monitor.vpnConnectionNotificationFlow.collect {
                 fallbacks += it
             }
         }
@@ -393,7 +393,7 @@ class VpnConnectionTests {
 
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
-            monitor.fallbackConnectionFlow.collect {
+            monitor.vpnConnectionNotificationFlow.collect {
                 fallbacks += it
             }
         }
@@ -423,7 +423,7 @@ class VpnConnectionTests {
 
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
-            monitor.fallbackConnectionFlow.collect {
+            monitor.vpnConnectionNotificationFlow.collect {
                 fallbacks += it
             }
         }
@@ -443,7 +443,7 @@ class VpnConnectionTests {
     fun testSwitchingConnection() = scope.runBlockingTest {
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
-            monitor.fallbackConnectionFlow.collect {
+            monitor.vpnConnectionNotificationFlow.collect {
                 fallbacks += it
             }
         }
@@ -495,7 +495,7 @@ class VpnConnectionTests {
     fun testDontSwitchWhenDisconnected() = scope.runBlockingTest {
         val fallbacks = mutableListOf<VpnFallbackResult>()
         val collectJob = launch {
-            monitor.fallbackConnectionFlow.collect {
+            monitor.vpnConnectionNotificationFlow.collect {
                 fallbacks += it
             }
         }
