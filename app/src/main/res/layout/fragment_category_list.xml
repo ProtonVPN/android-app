@@ -23,9 +23,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.protonvpn.android.components.UpdateView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/item_update_view" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         style="@style/ProtonLinearProgressIndicator"
