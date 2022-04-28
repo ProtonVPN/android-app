@@ -125,6 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:visibility="gone"
         android:text="@string/accountButtonManage" />
 
     <me.proton.core.presentation.ui.view.ProtonButton

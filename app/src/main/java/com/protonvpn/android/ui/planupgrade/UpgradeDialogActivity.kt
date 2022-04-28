@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
@@ -60,15 +61,27 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
             }
         })
 
-        binding.buttonOther.setOnClickListener { finish() }
-        binding.buttonUpgrade.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.planUpgrade()
+        with(binding) {
+            buttonOther.setOnClickListener { finish() }
+            val showUpgrade = viewModel.showUpgrade()
+            buttonUpgrade.visibility = View.VISIBLE
+            buttonUpgrade.setText(if (showUpgrade) R.string.upgrade else R.string.close)
+            buttonUpgrade.setOnClickListener {
+                if (showUpgrade) {
+                    lifecycleScope.launch {
+                        viewModel.planUpgrade()
+                    }
+                } else {
+                    finish()
+                }
             }
+            buttonOther.isVisible = isOtherButtonVisible(showUpgrade)
         }
 
         setViews(binding)
     }
+
+    protected open fun isOtherButtonVisible(showUpgrade: Boolean) = showUpgrade
 
     protected fun showToolbar(toolbar: Toolbar) {
         initToolbarWithUpEnabled(toolbar)
@@ -201,6 +214,8 @@ class UpgradePlusOnboardingDialogActivity : UpgradePlusCountriesDialogActivity()
 @AndroidEntryPoint
 class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 
+    override fun isOtherButtonVisible(showUpgrade: Boolean) = true
+
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         with(binding) {
             showToolbar(toolbar)
@@ -217,6 +232,8 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 
 @AndroidEntryPoint
 class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
+
+    override fun isOtherButtonVisible(showUpgrade: Boolean) = true
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         with(binding) {

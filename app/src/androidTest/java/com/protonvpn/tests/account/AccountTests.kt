@@ -12,6 +12,7 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.HomeRobot
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
@@ -25,6 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 /**
  * [AccountTests] contains UI tests for Account view
@@ -41,13 +43,18 @@ class AccountTests {
     private val intent =
         Intent(InstrumentationRegistry.getInstrumentation().targetContext, HomeActivity::class.java)
 
+    private val hiltRule = ProtonHiltAndroidRule(this)
+
     @get:Rule
     var rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
+        .outerRule(hiltRule)
         .around(SetUserPreferencesRule(TestUser.plusUser))
+
+    @Inject lateinit var purchaseEnabled: CachedPurchaseEnabled
 
     @Before
     fun setUp() {
+        hiltRule.inject()
         Intents.init()
         ActivityScenario.launch<HomeActivity>(intent)
         //It blocks outgoing intents and won't open browser for account tests.
@@ -60,8 +67,10 @@ class AccountTests {
     fun checkIfUserNameDisplayedInAccountSection() {
         homeRobot.openAccountView()
         accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser) }
-        accountRobot.clickManageAccount()
-            .verify { checkIfAccountButtonHasCorrectUrl() }
+        if (purchaseEnabled()) {
+            accountRobot.clickManageAccount()
+                .verify { checkIfAccountButtonHasCorrectUrl() }
+        }
     }
 
     @Test

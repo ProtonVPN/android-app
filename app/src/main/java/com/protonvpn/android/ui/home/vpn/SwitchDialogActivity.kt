@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
@@ -37,6 +38,8 @@ import me.proton.core.presentation.utils.SnackType
 
 @AndroidEntryPoint
 class SwitchDialogActivity : BaseActivityV2() {
+
+    private val viewModel: SwitchDialogViewModel by viewModels()
 
     class CloseOnSuccessContract(val intent: Intent) : ActivityResultContract<Unit, Boolean>() {
         override fun createIntent(context: Context, input: Unit) = intent
@@ -96,6 +99,10 @@ class SwitchDialogActivity : BaseActivityV2() {
                         registerForActivityResult(CloseOnSuccessContract(actionItem.activityIntent)) {
                             if (it) finish()
                         } else null
+                    val showUpgrade = viewModel.showUpgrade()
+                    buttonUpgrade.isVisible = showUpgrade
+                    if (!showUpgrade)
+                        buttonBack.setText(R.string.close)
                     buttonUpgrade.setOnClickListener {
                         if (launcher != null)
                             launcher.launch(Unit)
