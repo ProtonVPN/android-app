@@ -515,7 +515,7 @@
     <string name="upgrade_plus_countries_speeds">Surfe mit höchster Geschwindigkeit (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">Sowie viele weitere Premium-Funktionen</string>
     <string name="upgrade_safe_mode_title">Datenverkehr zu nicht Standardisierten Ports zulassen</string>
-    <string name="upgrade_safe_mode_message">Nutze ProtonVPN für jeden speziellen Bedarf, indem du Datenverkehr zu nicht standardisierten Ports durch das VPN-Netzwerk erlaubst. Entsperre diese und andere Funktionen mit einem Plus-Abonnement.</string>
+    <string name="upgrade_safe_mode_message">Hast du fortgeschrittene oder professionelle Computeranforderungen, die nicht standardisierte Ports erfordern? Mit einem Upgrade auf VPN Plus erhältst du Zugang zu diesen und anderen Premium-Funktionen.</string>
     <string name="upgrade_moderate_nat_title">Moderates NAT aktivieren</string>
     <string name="upgrade_moderate_nat_message">Moderates NAT, auch bekannt als NAT Typ 2, kann dein Online-Erlebnis mit verschiedenen Anwendungen und Online-Videospielen verbessern. Schalte diese und andere Funktionen mit einem Plus-Abonnement frei.</string>
     <string name="upgrade_moderate_nat_learn_more">Was ist Moderates NAT?</string>

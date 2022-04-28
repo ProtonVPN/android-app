@@ -52,7 +52,7 @@
     <string name="ok">ОК</string>
     <string name="dialogContinue">Продолжить</string>
     <string name="dialogLearnMore">Узнать больше</string>
-    <string name="dialog_read_more">Читать дальше</string>
+    <string name="dialog_read_more">Подробнее</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Подключено</string>
     <string name="buttonConnect">Подключиться</string>
@@ -326,7 +326,7 @@
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Аварийный стоп]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация аварийного стопа отключит раздельное туннелирование, так как аварийный стоп блокирует все соединения за пределами тунеля VPN</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация Kill Switch отключит раздельное туннелирование, так как Kill Switch блокирует все соединения за пределами тунеля VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
     <string name="settingsSendCrashReportsTitle">Анонимные отчеты о сбоях</string>
     <string name="settingsSendCrashReportsDescription">Если приложение аварийно завершает работу или неожиданно выключается, нашим инженерам будет отправлен отчет, в котором будет указано, что вызвало ошибку. Мы будем использовать их только для улучшения приложения.</string>
@@ -533,7 +533,7 @@
     <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
-    <string name="upgrade_safe_mode_message">Используйте ProtonVPN для любых особых нужд, разрешая трафик через VPN на нестандартные порты. Разблокируйте эту и другие возможности с помощью тарифа Plus.</string>
+    <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
     <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
     <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Что такое умеренный NAT?</string>

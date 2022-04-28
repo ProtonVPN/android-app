@@ -533,7 +533,7 @@
     <string name="upgrade_plus_countries_speeds">Przeglądaj Internet z najwyższą prędkością (10 Gb/s)</string>
     <string name="upgrade_plus_countries_more">I wiele więcej funkcji premium</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
-    <string name="upgrade_safe_mode_message">Używaj aplikacji ProtonVPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. Odblokuj tę i inne funkcje dzięki planowi Plus.</string>
+    <string name="upgrade_safe_mode_message">Masz zaawansowane lub profesjonalne potrzeby, które wymagają niestandardowych portów? Ulepsz do planu VPN Plus, aby uzyskać dostęp do funkcji premium.</string>
     <string name="upgrade_moderate_nat_title">Włącz umiarkowany NAT</string>
     <string name="upgrade_moderate_nat_message">Umiarkowany NAT (znany również jako NAT typ 2) może poprawić jakość korzystania z Internetu w różnych aplikacjach i grach online. Odblokuj tę i inne funkcje dzięki planowi Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Co to jest umiarkowany NAT?</string>

@@ -506,7 +506,7 @@
     <string name="upgrade_plus_countries_speeds">Jelajahi internet pada kecepatan tertinggi (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">Dan berbagai fitur premium lainnya</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
-    <string name="upgrade_safe_mode_message">Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. Dapatkan fitur ini dan berbagai fitur lainnya dengan paket Plus.</string>
+    <string name="upgrade_safe_mode_message">Memiliki keperluan tertentu yang memerlukan penggunaan port non-standar? Tingkatkan akun Anda ke VPN Plus agar Anda dapat menggunakan fitur ini dan berbagai fitur premium lainnya.</string>
     <string name="upgrade_moderate_nat_title">Aktifkan NAT Moderat</string>
     <string name="upgrade_moderate_nat_message">NAT Moderat, yang juga dikenal sebagai NAT Type 2, merupakan sebuah fitur yang dapat memperkaya pengalaman online Anda dalam berbagai aplikasi dan permainan online.Nikmati fitur ini dan berbagai fitur lainnya dengan akun Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Apa itu NAT Moderat?</string>

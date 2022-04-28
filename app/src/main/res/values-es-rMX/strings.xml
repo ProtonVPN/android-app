@@ -515,7 +515,7 @@
     <string name="upgrade_plus_countries_speeds">Navegue a las velocidades máximas (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">Y mucho más funciones premium</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
-    <string name="upgrade_safe_mode_message">Use ProtonVPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. Desbloquee ésta y otras funciones con un plan Plus.</string>
+    <string name="upgrade_safe_mode_message">¿Tiene necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualice a VPN Plus para acceder a esta y otras funciones premium.</string>
     <string name="upgrade_moderate_nat_title">Habilitar NAT moderada</string>
     <string name="upgrade_moderate_nat_message">La NAT moderada, también conocida como NAT Tipo 2, puede mejorar su experiencia en línea con varias aplicaciones y videojuegos en línea. Desbloquee esta y otras funciones con un plan Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">¿Qué es NAT moderada?</string>
