@@ -515,7 +515,7 @@
     <string name="upgrade_plus_countries_speeds">Browse aan de hoogste snelheden (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">En veel meer premium functies</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>
-    <string name="upgrade_safe_mode_message">Gebruiken Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. Ontgrendel deze en andere functies met een Plus-abonnement.</string>
+    <string name="upgrade_safe_mode_message">Heeft u geavanceerde professionele IT-noden die niet-standaard poorten vereisen? Upgrade naar VPN Plus om toegang te krijgen tot deze en meer premium functies.</string>
     <string name="upgrade_moderate_nat_title">Schakel Gemiddelde NAT in</string>
     <string name="upgrade_moderate_nat_message">Gemiddelde NAT (ook gekend als NAT Type 2) kan uw online ervaring met verschillende applicaties en online videogames verbeteren. Ontgrendel dit en andere functies met een Plus-abonnement.</string>
     <string name="upgrade_moderate_nat_learn_more">Wat is Gemiddelde NAT?</string>

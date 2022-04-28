@@ -136,8 +136,8 @@
     <string name="onboardingNext">Próximo</string>
     <string name="offerTooltipShowOffer">Veja a oferta</string>
     <string name="listItemMaintenance">Em manutenção</string>
-    <string name="listAllCountries">All locations (%1$d)</string>
-    <string name="listFreeCountries">Free locations (%1$d)</string>
+    <string name="listAllCountries">Todas as localizações (%1$d)</string>
+    <string name="listFreeCountries">Localizações Free (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
@@ -515,7 +515,7 @@
     <string name="upgrade_plus_countries_speeds">Navegue com velocidade máxima (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">E muitos outros recursos premium</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego para portas não padrão</string>
-    <string name="upgrade_safe_mode_message">Use o ProtonVPN para qualquer necessidade especial, permitindo o tráfego para portas não padrão através da rede VPN. Desbloqueie este e outros recursos com um plano Plus.</string>
+    <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_moderate_nat_title">Ativar NAT moderado</string>
     <string name="upgrade_moderate_nat_message">NAT moderado, também conhecido como NAT Tipo 2, pode melhorar sua experiência online com várias aplicações e videogames online. Desbloqueie esse e outros recursos com um plano Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">O que é NAT moderado?</string>

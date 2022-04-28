@@ -533,7 +533,7 @@
     <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
     <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
-    <string name="upgrade_safe_mode_message">Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. Розблокуйте цю та інші функції передплативши тарифний план Plus.</string>
+    <string name="upgrade_safe_mode_message">Маєте додаткові чи професійні обчислювальні потреби, які потребують нестандартних портів? Перейдіть до VPN Plus, щоб отримати доступ до цієї та інших преміальних функцій.</string>
     <string name="upgrade_moderate_nat_title">Увімкнути помірне NAT</string>
     <string name="upgrade_moderate_nat_message">Помірне NAT або NAT 2 типу може покращити ваш досвід онлайн-роботи з різними програмами та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Що таке помірне NAT?</string>

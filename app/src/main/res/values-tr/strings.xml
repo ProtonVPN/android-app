@@ -515,7 +515,7 @@
     <string name="upgrade_plus_countries_speeds">En yüksek hızlarda gezinin (10 Gb/sn)</string>
     <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellikler</string>
     <string name="upgrade_safe_mode_title">Standart olmayan kapı numaralarından trafik akabilsin</string>
-    <string name="upgrade_safe_mode_message">VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. Plus tarifesine geçerek bu ve diğer özellikleri kullanabilirsiniz.</string>
+    <string name="upgrade_safe_mode_message">Standart olmayan kapı numaraları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_moderate_nat_title">Ilımlı NAT özelliğini etkinleştirebilirsiniz</string>
     <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrimiçi video oyunlarıyla ilgili çevrimiçi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
     <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>

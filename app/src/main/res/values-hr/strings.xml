@@ -524,7 +524,7 @@
     <string name="upgrade_plus_countries_speeds">Browse at the highest speeds (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">And many more premium features</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
-    <string name="upgrade_safe_mode_message">Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. Unlock this and other features with a Plus plan.</string>
+    <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
     <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
     <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
