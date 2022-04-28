@@ -63,7 +63,6 @@ object Constants {
     const val MODERATE_NAT_INFO_URL = "https://protonvpn.com/support/moderate-nat"
     const val NEW_LOOK_INFO_URL = "https://proton.me/news/updated-proton"
 
-    const val PLANS_AND_PRICING_URL = "https://protonvpn.com/pricing"
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
 
     init {

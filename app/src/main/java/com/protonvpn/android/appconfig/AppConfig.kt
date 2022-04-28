@@ -85,7 +85,8 @@ class AppConfig(
 
     fun getWireguardPorts(): DefaultPorts = getDefaultPortsConfig().getWireguardPorts()
 
-    private fun getDefaultPortsConfig() : DefaultPortsConfig = appConfigResponse.defaultPortsConfig ?: DefaultPortsConfig.defaultConfig
+    private fun getDefaultPortsConfig(): DefaultPortsConfig =
+        appConfigResponse.defaultPortsConfig ?: DefaultPortsConfig.defaultConfig
 
     fun getSmartProtocolConfig(): SmartProtocolConfig {
         val smartConfig = appConfigResponse.smartProtocolConfig

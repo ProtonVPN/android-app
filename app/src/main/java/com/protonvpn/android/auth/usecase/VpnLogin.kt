@@ -22,6 +22,7 @@ package com.protonvpn.android.auth.usecase
 import android.content.Context
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.logging.ProtonLogger
@@ -43,7 +44,8 @@ class VpnLogin @Inject constructor(
     val sessionProvider: SessionProvider,
     val vpnUserDao: VpnUserDao,
     val certificateRepository: CertificateRepository,
-    val currentUser: CurrentUser
+    val currentUser: CurrentUser,
+    val purchaseEnabled: CachedPurchaseEnabled
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -52,6 +54,7 @@ class VpnLogin @Inject constructor(
     }
 
     suspend operator fun invoke(user: User, context: Context): Result {
+        purchaseEnabled.refresh()
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)
         return when (val vpnResult = api.getVPNInfo(sessionId)) {

@@ -59,8 +59,11 @@ class AccountActivity : BaseActivityV2() {
                 )
                 subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
 
-                buttonManageAccount.setOnClickListener {
-                    openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
+                if (viewModel.purchaseEnabled()) {
+                    buttonManageAccount.isVisible = true
+                    buttonManageAccount.setOnClickListener {
+                        openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
+                    }
                 }
                 buttonCoupon.setOnClickListener {
                     startActivity(Intent(this@AccountActivity, UseCouponActivity::class.java))
