@@ -29,9 +29,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
-import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
@@ -84,12 +85,14 @@ class TvMainViewModel @Inject constructor(
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
     certificateRepository: CertificateRepository,
+    purchaseEnabled: CachedPurchaseEnabled
 ) : MainViewModel(
         mainScope,
         userPlanManager,
         certificateRepository,
         logoutUseCase,
-        currentUser),
+        currentUser,
+        purchaseEnabled),
     StreamingViewModelHelper {
 
     private val selectedCountryFlag = MutableLiveData<String?>()

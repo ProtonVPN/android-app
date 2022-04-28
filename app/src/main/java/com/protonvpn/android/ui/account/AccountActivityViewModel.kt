@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.account
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.utils.UserPlanManager
@@ -33,7 +34,8 @@ import javax.inject.Inject
 class AccountActivityViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
-    private val appConfig: AppConfig
+    private val appConfig: AppConfig,
+    val purchaseEnabled: CachedPurchaseEnabled
 ) : ViewModel() {
 
     data class ViewState(val planName: String?, val showCouponButton: Boolean)

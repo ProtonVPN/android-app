@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
@@ -58,8 +59,9 @@ class HomeViewModel @Inject constructor(
     certificateRepository: CertificateRepository,
     currentUser: CurrentUser,
     logoutUseCase: Logout,
-    onSessionClosed: OnSessionClosed
-) : MainViewModel(mainScope, userPlanManager, certificateRepository, logoutUseCase, currentUser) {
+    onSessionClosed: OnSessionClosed,
+    purchaseEnabled: CachedPurchaseEnabled
+) : MainViewModel(mainScope, userPlanManager, certificateRepository, logoutUseCase, currentUser, purchaseEnabled) {
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {

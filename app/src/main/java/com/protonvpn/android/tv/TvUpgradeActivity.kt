@@ -21,6 +21,7 @@ package com.protonvpn.android.tv
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
+import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.DialogTvUpgradeBinding
@@ -47,6 +48,7 @@ class TvUpgradeActivity : BaseTvActivity() {
         backButton.setOnClickListener { finish() }
         val htmlDescription = getString(R.string.tv_upgrade_url_details, Constants.TV_UPGRADE_LINK)
         textUpgradeDetails.text = HtmlTools.fromHtml(htmlDescription)
+        textUpgradeDetails.isVisible = viewModel.purchaseEnabled()
 
         streamingNetflix.addStreamingView("Netflix", getIcon(R.drawable.ic_streaming_netflix))
         streamingDisney.addStreamingView("Disney+", getIcon(R.drawable.ic_streaming_disney))
