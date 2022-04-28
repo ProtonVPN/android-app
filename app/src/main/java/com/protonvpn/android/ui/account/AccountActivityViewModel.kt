@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.account
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.utils.UserPlanManager
@@ -31,15 +32,17 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountActivityViewModel @Inject constructor(
     private val currentUser: CurrentUser,
-    private val userPlanManager: UserPlanManager
+    private val userPlanManager: UserPlanManager,
+    private val appConfig: AppConfig
 ) : ViewModel() {
 
     data class ViewState(val planName: String?, val showCouponButton: Boolean)
 
     val viewState = currentUser.vpnUserFlow.map { vpnUser ->
-        val canApplyCoupon = vpnUser != null && with(vpnUser) {
-            isFreeUser && credit == 0 && subscribed == 0 && delinquent == 0 && !hasPaymentMethod
-        }
+        val canApplyCoupon =
+            appConfig.getFeatureFlags().promoCodeEnabled && vpnUser != null && with(vpnUser) {
+                isFreeUser && credit == 0 && subscribed == 0 && delinquent == 0 && !hasPaymentMethod
+            }
         ViewState(vpnUser?.planDisplayName, canApplyCoupon)
     }
 
