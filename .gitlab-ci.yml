@@ -270,7 +270,8 @@ sync-app:
     - git remote add public $PUBLIC_REPO_URL
     - git push public master
     # Push the latest tag we can find
-    - git push public "$(git describe --abbrev=0)"
+    # Temporarily as force push, due to f-droid hotfix
+    - git push public "$(git describe --abbrev=0)" -f
 
 publish-apk-internal:
   stage: publish
