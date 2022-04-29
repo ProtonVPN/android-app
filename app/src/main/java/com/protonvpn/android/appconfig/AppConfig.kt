@@ -94,6 +94,8 @@ class AppConfig(
 
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
+    fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
+
     fun getLiveConfig(): LiveData<AppConfigResponse> = appConfigResponseObservable
 
     private suspend fun updateInternal() {
@@ -128,12 +130,22 @@ class AppConfig(
             openVPNEnabled = true,
             wireguardEnabled = false
         )
+
         return AppConfigResponse(
             defaultPortsConfig = defaultPorts,
             featureFlags = defaultFeatureFlags,
-            smartProtocolConfig = defaultSmartProtocolConfig
+            smartProtocolConfig = defaultSmartProtocolConfig,
+            ratingConfig = getDefaultRatingConfig()
         )
     }
+
+    private fun getDefaultRatingConfig(): RatingConfig = RatingConfig(
+        eligiblePlans = listOf("plus"),
+        successfulConnectionCount = 3,
+        daysSinceLastRatingCount = 3,
+        daysConnectedCount = 3,
+        daysFromFirstConnectionCount = 3
+    )
 
     companion object {
         private val UPDATE_DELAY = TimeUnit.DAYS.toMillis(1)

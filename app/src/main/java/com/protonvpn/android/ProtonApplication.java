@@ -23,6 +23,8 @@ import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
@@ -39,22 +41,21 @@ import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.search.UpdateServersOnLocaleChange;
+import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
-import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.MaintenanceTracker;
+import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
-
-import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class ProtonApplication extends Application {
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
         LogcatLogCapture getLogcatLogCapture();
+        ReviewTracker getReviewTracker();
         MaintenanceTracker getMaintenanceTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
@@ -134,6 +136,7 @@ public class ProtonApplication extends Application {
         dependencies.getLogcatLogCapture();
         dependencies.getSettingChangesLogger();
 
+        dependencies.getReviewTracker();
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getMaintenanceTracker();

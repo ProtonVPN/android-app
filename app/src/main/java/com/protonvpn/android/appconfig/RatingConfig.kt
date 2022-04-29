@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2022 Proton Technologies AG
  *
  * This file is part of ProtonVPN.
  *
@@ -18,16 +18,14 @@
  */
 package com.protonvpn.android.appconfig
 
-import com.protonvpn.android.utils.Constants
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class AppConfigResponse(
-    @SerialName(value = "ServerRefreshInterval")
-    val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
-    @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,
-    @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags,
-    @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?,
-    @SerialName(value = "RatingSettings") val ratingConfig: RatingConfig?
+data class RatingConfig(
+    @SerialName(value = "EligiblePlans") val eligiblePlans: List<String>,
+    @SerialName(value = "SuccessConnections") val successfulConnectionCount: Int,
+    @SerialName(value = "DaysLastReviewPassed") val daysSinceLastRatingCount: Int,
+    @SerialName(value = "DaysConnected") val daysConnectedCount: Int,
+    @SerialName(value = "DaysFromFirstConnection") val daysFromFirstConnectionCount: Int
 )
