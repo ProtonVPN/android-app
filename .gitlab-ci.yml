@@ -142,8 +142,8 @@ build debug:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleDirectDebug
-    - ./gradlew assembleDirectDebugAndroidTest
+    - ./gradlew assembleGooglePlayDebug
+    - ./gradlew assembleAndroidTest
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" > deploy.env
@@ -223,7 +223,7 @@ unit tests:
   tags:
     - large
   script:
-    - ./gradlew testDirectDebug
+    - ./gradlew testGooglePlayDebug
 
 coverage report:
   stage: report

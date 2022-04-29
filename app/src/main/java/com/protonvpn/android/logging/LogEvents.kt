@@ -22,6 +22,7 @@ package com.protonvpn.android.logging
 enum class LogCategory(private val categoryName: String) {
     API("API"),
     APP("APP"),
+    APP_REVIEW("APP.REVIEW"),
     APP_UPDATE("APP.UPDATE"),
     CONN("CONN"),
     CONN_CONNECT("CONN.CONNECT"),

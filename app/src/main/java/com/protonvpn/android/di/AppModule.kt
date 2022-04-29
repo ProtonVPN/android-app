@@ -492,7 +492,7 @@ object AppModule {
     @Provides
     fun provideTrafficMonitor(
         vpnStateMonitor: VpnStateMonitor,
-        connectivityMonitor: ConnectivityMonitor
+        connectivityMonitor: ConnectivityMonitor,
     ) = TrafficMonitor(
         ProtonApplication.getAppContext(),
         scope,
