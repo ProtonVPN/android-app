@@ -619,4 +619,8 @@
     <string name="search_upgrade_banner_subtitle">Mehr Standorte = mehr ungeblockte Inhalte + zusätzliche Sicherheit + höhere Geschwindigkeiten</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/pricing">protonvpn.com</a> für mehr Informationen.</string>
+
+    <string name="listPremiumCountries_new_plans">Plus-Standorte (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Verbessertes Proton, einheitlicher Schutz</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Proton präsentiert sein neues Design. Viele Dienste, eine Mission. Willkommen bei einem Internet, bei dem der Schutz der Privatsphäre Standard ist.<a href="%1$s">Mehr&nbsp;erfahren</a>]]></string>
 </resources>

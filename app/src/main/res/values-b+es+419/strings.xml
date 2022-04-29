@@ -619,4 +619,8 @@
     <string name="search_upgrade_banner_subtitle">Más ubicaciones = más contenido desbloqueado + seguridad adicional + velocidades altas</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
+
+    <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Nuevo diseño, protección unificada</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Proton tiene un nuevo look. Muchos servicios, una sola misión. Te damos la bienvenida a un Internet en el que prima la privacidad. <a href="%1$s">Más información</a>]]></string>
 </resources>

@@ -639,4 +639,8 @@
     <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
+
+    <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Обновленный Proton и комплексная защита</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Мы обновили внешний вид Proton. У наших сервисов общая миссия — создать Интернет, в котором конфиденциальность будет на первом месте. <a href="%1$s">Подробнее…</a>]]></string>
 </resources>

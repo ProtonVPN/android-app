@@ -619,4 +619,8 @@
     <string name="search_upgrade_banner_subtitle">Meer locaties = meer ongeblokkeerde inhoud + extra beveiliging + hogere snelheden</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
+
+    <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Vernieuwde Proton, uniforme beveiliging</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Ontdek de nieuwe look van Proton. Veel diensten, één missie. Welkom in een internetomgeving waar privacy de standaard is. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
 </resources>
