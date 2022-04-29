@@ -41,10 +41,10 @@ firebase quick tests:
   variables:
     TESTS_TYPE: quickTest
     NUM_SHARDS: 3
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
+    APP_TYPE: "googlePlay-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
+    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
     COVERAGE_FILE_NAME: "coverageMobile.ec"
 
@@ -53,10 +53,10 @@ firebase full tests:
   variables:
     TESTS_TYPE: fullTest
     NUM_SHARDS: 3
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
+    APP_TYPE: "googlePlay-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
+    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
     COVERAGE_FILE_NAME: "coverageMobileFull.ec"
   when: manual
@@ -65,10 +65,10 @@ firebase tv tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: tvTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
+    APP_TYPE: "googlePlay-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
+    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     COVERAGE_FILE_NAME: "coverageTv.ec"
 
@@ -76,10 +76,10 @@ firebase real connection tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: realConnectionTest
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/direct/debug/"
-    TEST_APP_TYPE: "direct-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
+    APP_TYPE: "googlePlay-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
+    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     COVERAGE_FILE_NAME: "coverageRealConnection.ec"
 
@@ -95,6 +95,6 @@ firebase robo tests:
       --device model=Pixel3,version=30,locale=en,orientation=portrait
       --timeout 300s
   variables:
-    APP_LOCATION: "app/build/outputs/apk/direct/debug/"
-    APP_TYPE: "direct-debug.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
+    APP_TYPE: "googlePlay-debug.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
