@@ -53,6 +53,8 @@
     <string name="dialogContinue">Devam et</string>
     <string name="dialogLearnMore">Ayrıntılı bilgi alın</string>
     <string name="dialog_read_more">Devamını oku</string>
+    <string name="dialog_apply">Uygula</string>
+    <string name="dialog_applying">Uygulanıyor</string>
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Sürüm:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> web panosuna gitmelisiniz.]]></string>
     <string name="accountButtonManage">Hesap yönetimi</string>
+    <string name="accountButtonUseCoupon">Kupon kullan</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Hesap</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntrılı bilgi alın</a>]]></string>
+    <string name="use_coupon_title">Kupon kullan</string>
+    <string name="use_coupon_code_label">Kupon kodu</string>
+    <string name="use_coupon_success">Kupon uygulandı</string>
+    <string name="use_coupon_success_no_upgrade_yet">Kupon uygulandı. Aboneliğiniz birkaç dakika içinde yükseltilecek.</string>
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm ödenmemiş faturaları ödeyin]]></string>

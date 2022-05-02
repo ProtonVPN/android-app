@@ -53,6 +53,8 @@
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Saiba mais</string>
     <string name="dialog_read_more">Ler mais</string>
+    <string name="dialog_apply">Aplicar</string>
+    <string name="dialog_applying">Aplicando</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Versão:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
     <string name="accountButtonManage">Gerenciar conta</string>
+    <string name="accountButtonUseCoupon">Usar cupom</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Conta</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use o ProtonVPN para qualquer necessidade especial ao permitir o tráfego para portas não padrão através da rede VPN. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderado</string>
     <string name="settingsModerateNatDescription"><![CDATA[O NAT moderado desabilita a randomização do mapeamento de endereços locais, o que pode reduzir um pouco sua segurança, mas permite técnicas como conexões diretas para aplicativos como jogos online. <a href="%1$s">Saiba mais</a>]]></string>
+    <string name="use_coupon_title">Usar cupom</string>
+    <string name="use_coupon_code_label">Código de cupom</string>
+    <string name="use_coupon_success">Cupom aplicado com sucesso</string>
+    <string name="use_coupon_success_no_upgrade_yet">Cupom aplicado com sucesso. Sua assinatura terá um upgrade em alguns minutos.</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Por favor, tente outro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
