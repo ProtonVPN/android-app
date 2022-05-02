@@ -53,6 +53,8 @@
     <string name="dialogContinue">Continua</string>
     <string name="dialogLearnMore">Per saperne di più</string>
     <string name="dialog_read_more">Per saperne di più</string>
+    <string name="dialog_apply">Applica</string>
+    <string name="dialog_applying">Applicazione</string>
     <string name="secureCoreConnectVia">tramite %1$s</string>
     <string name="connected">Connesso</string>
     <string name="buttonConnect">Connetti</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Versione:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Per gestire il tuo abbonamento, devi andare nel pannello web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestione Account</string>
+    <string name="accountButtonUseCoupon">Utilizza coupon</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Profilo</string>
     <string name="activityAccountTitle">Account</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Usa ProtonVPN per qualsiasi esigenza speciale consentendo il traffico verso porte non standard attraverso la rete VPN. <a href="%1$s">Per saperne di più</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderato</string>
     <string name="settingsModerateNatDescription"><![CDATA[Il NAT moderato disabilita la randomizzazione della mappatura degli indirizzi locali, che può ridurre leggermente la tua sicurezza, ma consente tecniche come le connessioni dirette per applicazioni come i giochi online. <a href="%1$s">Per saperne di più</a>]]></string>
+    <string name="use_coupon_title">Utilizza coupon</string>
+    <string name="use_coupon_code_label">Codice coupon</string>
+    <string name="use_coupon_success">Il coupon è stato applicato con successo</string>
+    <string name="use_coupon_success_no_upgrade_yet">Il coupon è stato applicato con successo. Il tuo abbonamento verrà aggiornato in pochi minuti.</string>
     <string name="restrictedMaintenanceTitle">In manutenzione</string>
     <string name="restrictedMaintenanceDescription">Il server al quale stai cercando di connetterti è in manutenzione. Per favore prova un altro server.</string>
     <string name="errorUserDelinquent"><![CDATA[Il tuo account ha attualmente una fattura scaduta. Si prega di pagare tutte le fatture non pagate a&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

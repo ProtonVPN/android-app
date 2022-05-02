@@ -53,6 +53,8 @@
     <string name="dialogContinue">ادامه</string>
     <string name="dialogLearnMore">بیشتر بدانید</string>
     <string name="dialog_read_more">بیشتر بخوانید</string>
+    <string name="dialog_apply">اعمال</string>
+    <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">نسخه:</string>
     <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
     <string name="accountButtonManage">مدیریت حساب کاربری</string>
+    <string name="accountButtonUseCoupon">Use coupon</string>
     <string name="accountFree">طرح ProtonVPN رایگان</string>
     <string name="activityProfileTitle">پروفایل</string>
     <string name="activityAccountTitle">حساب کاربری</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از ProtonVPN برای هر گونه کاربری خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
+    <string name="use_coupon_title">Use coupon</string>
+    <string name="use_coupon_code_label">Coupon code</string>
+    <string name="use_coupon_success">Coupon has been applied successfully</string>
+    <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>

@@ -53,6 +53,8 @@
     <string name="dialogContinue">Продолжить</string>
     <string name="dialogLearnMore">Узнать больше</string>
     <string name="dialog_read_more">Подробнее</string>
+    <string name="dialog_apply">Применить</string>
+    <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Подключено</string>
     <string name="buttonConnect">Подключиться</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Версия:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вы должны перейти в веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Управление аккаунтом</string>
+    <string name="accountButtonUseCoupon">Использовать купон</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Профиль</string>
     <string name="activityAccountTitle">Аккаунт</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте ProtonVPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренное NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Умеренный NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать технологии подобные прямому подключению приложений, таких как сетевые игры. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="use_coupon_title">Использовать купон</string>
+    <string name="use_coupon_code_label">Код купона</string>
+    <string name="use_coupon_success">Coupon has been applied successfully</string>
+    <string name="use_coupon_success_no_upgrade_yet">Купон был успешно использован. Ваша подписка будет улучшена в течение нескольких минут.</string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

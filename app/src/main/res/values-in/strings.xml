@@ -44,7 +44,7 @@
     <string name="secureCoreSpeedInfoMessage">Secure Core menawarkan tingkat keamanan dan privasi tertinggi, namun dapat menurunkan kecepatan internet Anda. Apabila Anda membutuhkan performa yang lebih, Anda dapat menonaktifkan Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktifkan Secure Core</string>
     <string name="logoutConfirmDialogTitle">Keluar?</string>
-    <string name="logoutConfirmDialogMessage">Keluar akan memutus perangkat Anda dari VPN.</string>
+    <string name="logoutConfirmDialogMessage">Dengan keluar, Anda akan memutus sambungan VPN dari perangkat Anda.</string>
     <string name="logoutConfirmDialogButton">Keluar</string>
     <string name="showAllProfiles">Tampilkan semua profil</string>
     <string name="yes">Ya</string>
@@ -53,6 +53,8 @@
     <string name="dialogContinue">Lanjut</string>
     <string name="dialogLearnMore">Pelajari lebih lanjut</string>
     <string name="dialog_read_more">Baca lebih lanjut</string>
+    <string name="dialog_apply">Terapkan</string>
+    <string name="dialog_applying">Menerapkan</string>
     <string name="secureCoreConnectVia">lewat %1$s</string>
     <string name="connected">Terhubung</string>
     <string name="buttonConnect">Sambungkan</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Versi:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, Anda harus menuju ke panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Kelola akun</string>
+    <string name="accountButtonUseCoupon">Gunakan kupon</string>
     <string name="accountFree">ProtonVPN Gratis</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
     <string name="settingsModerateNatDescription"><![CDATA[Pengaturan NAT moderat akan menonaktifkan pengacakan alamat IP lokal, yang dapat membuat Anda lebih rentan namun memungkinkan Anda untuk dapat terhubung langsung dengan para pengguna lainnya pada berbagai aplikasi dan permainan online. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
+    <string name="use_coupon_title">Gunakan kupon</string>
+    <string name="use_coupon_code_label">Kode kupon</string>
+    <string name="use_coupon_success">Kupon berhasil digunakan</string>
+    <string name="use_coupon_success_no_upgrade_yet">Kupon telah berhasil digunakan. Jenis akun Anda akan segera ditingkatkan dalam beberapa menit ke depan.</string>
     <string name="restrictedMaintenanceTitle">Sedang dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Saat ini akun Anda memiliki tagihan tertunda. Mohon membayar semua tagihan yang belum dibayar pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

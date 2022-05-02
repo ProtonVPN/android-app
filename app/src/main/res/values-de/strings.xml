@@ -53,6 +53,8 @@
     <string name="dialogContinue">Fortfahren</string>
     <string name="dialogLearnMore">Mehr erfahren</string>
     <string name="dialog_read_more">Mehr erfahren</string>
+    <string name="dialog_apply">Übernehmen</string>
+    <string name="dialog_applying">Anwenden</string>
     <string name="secureCoreConnectVia">über %1$s</string>
     <string name="connected">Verbunden</string>
     <string name="buttonConnect">Verbinden</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Version:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Um dein Abonnement zu verwalten, öffne bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
     <string name="accountButtonManage">Konto verwalten</string>
+    <string name="accountButtonUseCoupon">Gutschein verwenden</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Konto</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Nutze ProtonVPN für jeden speziellen Bedarf, indem du Datenverkehr zu nicht standardisierten Ports über das VPN-Netzwerk erlaubst. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="settingsModerateNatTitle">Moderates NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderates NAT deaktiviert die zufällige Zuordnung der lokalen Adressen, dies kann die Sicherheit etwas einschränken, jedoch ermöglicht dies Techniken wie direkte Verbindungen für Anwendungen wie z.B. Online-Spiele. <a href="%1$s">Mehr erfahren</a>]]></string>
+    <string name="use_coupon_title">Gutschein verwenden</string>
+    <string name="use_coupon_code_label">Gutschein-Code</string>
+    <string name="use_coupon_success">Gutschein wurde erfolgreich angewandt</string>
+    <string name="use_coupon_success_no_upgrade_yet">Gutschein wurde erfolgreich angewandt. Dein Abonnement wird innerhalb weniger Minuten aktualisiert.</string>
     <string name="restrictedMaintenanceTitle">in Wartungsarbeiten</string>
     <string name="restrictedMaintenanceDescription">Der Server, mit dem Sie sich versuchen zu verbinden, ist zurzeit in Wartungsarbeiten. Bitte versuchen Sie es mit einem anderen Server.</string>
     <string name="errorUserDelinquent"><![CDATA[Ihr Konto enthält derzeit eine überfällige Rechnung. Bitte begleichen Sie alle unbezahlten Rechnungen unter&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

@@ -53,6 +53,8 @@
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Más información</string>
     <string name="dialog_read_more">Leer más</string>
+    <string name="dialog_apply">Aplicar</string>
+    <string name="dialog_applying">Aplicando</string>
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Versión:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gestionar su suscripción, vaya al panel de control en <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestionar cuenta</string>
+    <string name="accountButtonUseCoupon">Usar cupón</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Cuenta</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
     <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada deshabilita la aleatorización del mapeo de direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como conexiones directas para aplicaciones como juegos en línea. <a href="%1$s">Más información</a>]]></string>
+    <string name="use_coupon_title">Usar cupón</string>
+    <string name="use_coupon_code_label">Código de cupón</string>
+    <string name="use_coupon_success">El cupón ha sido aplicado con éxito</string>
+    <string name="use_coupon_success_no_upgrade_yet">El cupón ha sido aplicado con éxito. Su suscripción será actualizada en unos minutos.</string>
     <string name="restrictedMaintenanceTitle">En mantenimiento</string>
     <string name="restrictedMaintenanceDescription">El servidor al que intenta conectar está en mantenimiento. Intente con otro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

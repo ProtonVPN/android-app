@@ -53,6 +53,8 @@
     <string name="dialogContinue">Doorgaan</string>
     <string name="dialogLearnMore">Meer informatie</string>
     <string name="dialog_read_more">Lees meer</string>
+    <string name="dialog_apply">Pas toe</string>
+    <string name="dialog_applying">Aan het toepassen</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Versie:</string>
     <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> dashboard.]]></string>
     <string name="accountButtonManage">Account beheren</string>
+    <string name="accountButtonUseCoupon">Gebruik kortingscode</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Profiel</string>
     <string name="activityAccountTitle">Account</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Gebruik Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. <a href="%1$s">Meer leren</a>]]></string>
     <string name="settingsModerateNatTitle">Gemiddelde NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
+    <string name="use_coupon_title">Gebruik kortingscode</string>
+    <string name="use_coupon_code_label">Kortingscode</string>
+    <string name="use_coupon_success">Kortingscode werd succesvol toegepast</string>
+    <string name="use_coupon_success_no_upgrade_yet">Kortingscode werd succesvol toegepast. Uw abonnement wordt over enkele ogenblikken geüpgraded.</string>
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
