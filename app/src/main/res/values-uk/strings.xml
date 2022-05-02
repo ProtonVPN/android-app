@@ -53,6 +53,8 @@
     <string name="dialogContinue">Продовжити</string>
     <string name="dialogLearnMore">Докладніше</string>
     <string name="dialog_read_more">Докладніше</string>
+    <string name="dialog_apply">Застосувати</string>
+    <string name="dialog_applying">Застосування</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Під\'єднано</string>
     <string name="buttonConnect">З’єднатись</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Версія:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Керувати обліковим записом</string>
+    <string name="accountButtonUseCoupon">Використати купон</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Профіль</string>
     <string name="activityAccountTitle">Обліковий запис</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте ProtonVPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
     <string name="settingsModerateNatTitle">Помірне NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Помірне NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дозволяє використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Дізнатися більше</a>]]></string>
+    <string name="use_coupon_title">Використати купон</string>
+    <string name="use_coupon_code_label">Код купону</string>
+    <string name="use_coupon_success">Купон успішно застосовано</string>
+    <string name="use_coupon_success_no_upgrade_yet">Купон успішно застосовано. Ваша передплата буде покращена протягом кількох хвилин.</string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
     <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>

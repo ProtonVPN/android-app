@@ -53,6 +53,8 @@
     <string name="dialogContinue">Nastavi</string>
     <string name="dialogLearnMore">Saznajte više</string>
     <string name="dialog_read_more">Read more</string>
+    <string name="dialog_apply">Primijeni</string>
+    <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">putem %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
@@ -94,6 +96,7 @@
     <string name="accountVersion">Verzija:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
     <string name="accountButtonManage">Upravljanje korisničkim računom</string>
+    <string name="accountButtonUseCoupon">Use coupon</string>
     <string name="accountFree">ProtonVPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Korisnički račun</string>
@@ -117,6 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
+    <string name="use_coupon_title">Use coupon</string>
+    <string name="use_coupon_code_label">Coupon code</string>
+    <string name="use_coupon_success">Coupon has been applied successfully</string>
+    <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
     <string name="restrictedMaintenanceTitle">Održavanje u tijeku</string>
     <string name="restrictedMaintenanceDescription">Poslužitelj na koji se trenutno pokušavate povezati je u procesu održavanja. Pokušajte s drugim poslužiteljem.</string>
     <string name="errorUserDelinquent"><![CDATA[Tvoj račun trenutno ima neplaćenu fakturu. Molimo platite sve neplaćene fakture na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
