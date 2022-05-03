@@ -42,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -153,6 +154,8 @@ class CertificateRepository @Inject constructor(
     private val certRequests = mutableMapOf<SessionId, Deferred<CertificateResult>>()
 
     private val guestX25519Key by lazy { keyProvider.generateX25519Base64() }
+
+    val currentCertUpdateFlow = MutableSharedFlow<CertificateResult.Success>()
 
     init {
         mainScope.launch {
@@ -269,7 +272,10 @@ class CertificateRepository @Inject constructor(
                 )
                 if (sessionId == currentUser.sessionId() && appInUseMonitor.isInUse)
                     rescheduleRefreshTo(cert.refreshTimeMs)
-                CertificateResult.Success(cert.certificate, info.privateKeyPem)
+                val result = CertificateResult.Success(cert.certificate, info.privateKeyPem)
+                if (sessionId == currentUser.sessionId())
+                    currentCertUpdateFlow.emit(result)
+                result
             }
             is ApiResult.Error -> {
                 val certString = if (info.certificatePem == null)
